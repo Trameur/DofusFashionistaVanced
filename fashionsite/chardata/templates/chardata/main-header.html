@@ -6,9 +6,9 @@
     <div style="display: table-cell; {% if is_guest or char_id and not user.is_anonymous %}width: 680px;{% else %}width: 840px;{% endif %}">
     <table style="width: 100%;" role="presentation">
       <tr>
-        <td><b>{% trans "Project Name" %}</b> {{char.name}}</td>
-        {# The translated build label, as the project list and the gallery #}
-        <td><b>{% trans "Build" %}</b> {{wrapped_char.build_string}} {{wrapped_char.class_string}}</td>
+        <td><b>{% trans "Build Name" %}</b> {{char.name}}</td>
+        {# The translated build type, as the build list and the gallery #}
+        <td><b>{% trans "Build Type" %}</b> {{wrapped_char.build_string}} {{wrapped_char.class_string}}</td>
       </tr>
       <tr>
 
@@ -23,7 +23,7 @@
     </div>
   {% if is_guest %}
   <div style="display: table-cell; vertical-align: middle; width: 200px;">
-    <a href="{% game_url 'duplicate_someones_project' encoded_char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Copy this project" %}</a>
+    <a href="{% game_url 'duplicate_someones_project' encoded_char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Copy this build" %}</a>
   </div>
   {% elif char_id %}
   <div style="display: table-cell; vertical-align: middle; width: 200px; text-align: right; padding-right: 14px;">

@@ -317,7 +317,7 @@ msgstr ""
 #: chardata/static/chardata/solution_popup.js:383
 #: staticfiles/chardata/solution_popup.js:383
 msgid ""
-"You can equip this item, but some project minimums will not be respected."
+"You can equip this item, but some build minimums will not be respected."
 msgstr ""
 
 #: chardata/static/chardata/solution_popup.js:385

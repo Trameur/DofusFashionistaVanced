@@ -12935,7 +12935,7 @@ class AnonymousProjectPerVersionTests(TestCase):
     def test_the_block_message_points_at_the_versions_still_free(self):
         self._create('', 'anon-dofus3')
         resp = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='en')
-        self.assertContains(resp, 'You already have a project on Dofus 3')
+        self.assertContains(resp, 'You already have a build on Dofus 3')
         self.assertContains(resp, 'You can still start one on another version')
         # The header selector links every version too
         body = resp.content.decode('utf-8')

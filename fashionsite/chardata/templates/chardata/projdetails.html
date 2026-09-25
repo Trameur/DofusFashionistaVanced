@@ -18,9 +18,9 @@
 
 <div align="center">
     {% if is_new_char %}
-    <h1>{% trans "Create a Project" %}</h1>
+    <h1>{% trans "Create a Build" %}</h1>
     {% else %}
-    <h1>{% trans "Project Details" %}</h1>
+    <h1>{% trans "Build Details" %}</h1>
     {% endif %}
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -29,7 +29,7 @@
         {% if is_new_char %}
         <p class='big-text'>{% trans "Get started by providing details about your character." %}</p>
         {% else %}
-        <p class='big-text'>{% trans "Modify the project and character configuration." %}</p>
+        <p class='big-text'>{% trans "Modify the build and character configuration." %}</p>
         {% endif %}
     
         <form id="main_form" action="{% game_url 'create_project' %}" method="post">
@@ -58,7 +58,7 @@
                     </td>
                   </tr>  
                   <tr class='register-line'>
-                    <td class='input-name'><label for="input-proj-name">{% trans "Project Name" %}</label></td>
+                    <td class='input-name'><label for="input-proj-name">{% trans "Build Name" %}</label></td>
                     <td align="left"><input class='input-value pretty-input change-modifies-state' id="input-proj-name" name="project" maxlength="50" required="required"/></td>
                   </tr>
                   
@@ -120,7 +120,7 @@
         <p>
             {% game_url 'login_page' as login_link %}
             {% game_url 'load_projects' as load_proj_link %}
-            {% blocktrans with version=current_game_version_label %} You already have a project on {{ version }}, and you can find it <a href="{{load_proj_link}}">here</a>. <a href="{{login_link}}">Log in</a> to keep several projects per version. {% endblocktrans %}<br>
+            {% blocktrans with version=current_game_version_label %} You already have a build on {{ version }}, and you can find it <a href="{{load_proj_link}}">here</a>. <a href="{{login_link}}">Log in</a> to keep several builds per version. {% endblocktrans %}<br>
             {% if free_versions %}
             <span class="free-versions">
                 {% blocktrans %}You can still start one on another version:{% endblocktrans %}
@@ -132,7 +132,7 @@
             {% if too_many_projects_problem %}
             <p>
             {% game_url 'load_projects' as load_proj_link %}
-                {% blocktrans %} You have reached the maximum number of projects allowed. To create a new project, please delete some old ones <a href="{{load_proj_link}}">here</a>.{% endblocktrans %}<br>
+                {% blocktrans %} You have reached the maximum number of builds allowed. To create a new build, please delete some old ones <a href="{{load_proj_link}}">here</a>.{% endblocktrans %}<br>
             </p>
             {% endif %}
         {% endif %}
@@ -396,7 +396,7 @@ $(document).ready(function() {
         $("#proj-name-link").text($("#input-proj-name").val());
     });
     if ($("#input-proj-name").val() === ""){
-        $("#proj-name-link").text('{{ _("Project Details")|escapejs }}');
+        $("#proj-name-link").text('{{ _("Build Details")|escapejs }}');
     } else {
         $("#proj-name-link").text($("#input-proj-name").val());
     }

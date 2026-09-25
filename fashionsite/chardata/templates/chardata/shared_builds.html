@@ -68,7 +68,7 @@
                 <div class="filter-group">
                     <label class="filter-label" for="filter-search">{% trans "Search" %}</label>
                     <input type="text" name="search" id="filter-search" class="filter-input pretty-input"
-                           placeholder="{% trans 'Project or character name' %}"
+                           placeholder="{% trans 'Build or character name' %}"
                            value="{{ filters.search }}">
                 </div>
                 
@@ -240,7 +240,7 @@
                         </div>
                         {% if build.build_name_translated %}
                             <div class="build-info-row">
-                                <span class="build-label">{% trans "Build" %}:</span>
+                                <span class="build-label">{% trans "Build Type" %}:</span>
                                 <span class="build-value">{{ build.build_name_translated }}</span>
                             </div>
                         {% endif %}

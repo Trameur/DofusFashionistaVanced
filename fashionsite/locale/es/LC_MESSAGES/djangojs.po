@@ -357,10 +357,10 @@ msgstr ""
 
 #: .\chardata\static\chardata\solution_popup.js:501
 msgid ""
-"You can equip this item, but some project minimums will not be respected."
+"You can equip this item, but some build minimums will not be respected."
 msgstr ""
 "Puedes equiparte este objeto, pero las preferencias mínimas elegidas para el"
-" proyecto no serán respetadas."
+" build no serán respetadas."
 
 #: .\chardata\static\chardata\solution_popup.js:503
 #, javascript-format

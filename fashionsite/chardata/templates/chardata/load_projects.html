@@ -10,11 +10,11 @@
 {% block main %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
-    <h1 align="center">{% trans "Load a Project" %}</h1>
+    <h1 align="center">{% trans "Load a Build" %}</h1>
     <br>
 
     {% if error_message %}<p class='text'><strong>{{ error_message }}</strong></p>{% endif %}
-    <span id='login-error-top' class='error-message'>{% if error_msg == 'too_many' %}{% trans "You have reached the maximum number of projects. Please delete some old projects and try again." %}{% endif %}</span>
+    <span id='login-error-top' class='error-message'>{% if error_msg == 'too_many' %}{% trans "You have reached the maximum number of builds. Please delete some old builds and try again." %}{% endif %}</span>
     {% if user %}
         {% if has_projects %}
              <table class="load-project-table">
@@ -25,12 +25,12 @@
                       <a href="" class="no-proj" id="none">{% trans "None" %}</a>
                   </th>
                   <th style="color:#FFFFFF;" align="left"></th>
-                  <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Project" %}</th>
-                  <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Char" %}</th>
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Build" %}</th>
+                  <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Char" %}</th>
+                  <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Build Type" %}</th>
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Class" %}</th>
                   <th class="load-project-header" style="color:#FFFFFF;">{% trans "Level" %}</th>
-    {# The project list is where an author sees every build's visibility #}
+    {# The build list is where an author sees every build's visibility #}
                   {% if user.is_authenticated %}
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Visibility" %}</th>
                   {% endif %}
@@ -39,7 +39,7 @@
                 {% for wrapped_char in chars %}
                     <tr class="load-project-line">
                       <td class="load-project-cell checkbox-cell" align="center"><div style="width: 20px"><input type="checkbox" name={{wrapped_char.char.id}} value={{wrapped_char.char.id}} class="project-checkbox{% if wrapped_char.char.minimal_solution %} has-solution{% endif %}"{% if compare_preselect and wrapped_char.char.id|stringformat:'s' == compare_preselect %} checked{% endif %}></div></td>
-                      <td><div style="width: 24px">{% if wrapped_char.char.minimal_solution %}<img alt="" class="button-img needle-img" title="{% trans "This project already has a solution." %}">{% endif %}</div></td>
+                      <td><div style="width: 24px">{% if wrapped_char.char.minimal_solution %}<img alt="" class="button-img needle-img" title="{% trans "This build already has a solution." %}">{% endif %}</div></td>
                       <td class="load-project-cell"><div style="width: 180px"><a href="{% game_url 'load_a_project' wrapped_char.char.id %}">{{wrapped_char.char.name}}</a></div></td>
                       <td class="load-project-cell"><div style="width: 150px" class='big-text'>{{wrapped_char.char.char_name}}</div></td>
                       <td class="load-project-cell"><div style="width: 170px" class='big-text'>{{wrapped_char.build_string}}</div></td>
@@ -85,12 +85,12 @@
        {% else %}
             <div align="center" class='text'>
             {% game_url 'setup' as create_project_link %}
-            {% blocktrans %}You don't have any projects yet. Create one <a href="{{ create_project_link }}">here</a>.{% endblocktrans %}
+            {% blocktrans %}You don't have any builds yet. Create one <a href="{{ create_project_link }}">here</a>.{% endblocktrans %}
             </div>
        {% endif %}
    {% else %}
      <div align="center" class='text'>
-       {% trans "You need to login before you can load a project." %}
+       {% trans "You need to login before you can load a build." %}
      </div>
    {% endif %}
 
@@ -143,7 +143,7 @@ function duplicateProj() {
                     $("#login-error").empty();
                     location.reload();
                 } else if (data === 'too_many') {
-                    $("#login-error").text('{% trans "You have reached the maximum number of projects. Please delete some old projects and try again." %}');
+                    $("#login-error").text('{% trans "You have reached the maximum number of builds. Please delete some old builds and try again." %}');
                 } else if (data === 'error') {
                     $("#login-error").text("{% trans 'An error has occurred' %}");
                 }

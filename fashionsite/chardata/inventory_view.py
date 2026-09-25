@@ -40,7 +40,7 @@ LOCALIZED_UI = {
     'en': {
         'title': 'My Inventory',
         'subtitle': 'The items you own, grouped in folders (one per server, or any custom label).',
-        'solver_hint': 'A project can be restricted to one folder on its Options page ("only use items I own").',
+        'solver_hint': 'A build can be restricted to one folder on its Options page ("only use items I own").',
         'folders': 'Folders',
         'folder_placeholder': 'Server or folder name',
         'folder_create': 'Create folder',
@@ -83,7 +83,7 @@ LOCALIZED_UI = {
     'fr': {
         'title': 'Mon Inventaire',
         'subtitle': 'Les objets que vous possédez, regroupés en dossiers (un par serveur, ou un nom personnalisé).',
-        'solver_hint': 'Un projet peut être restreint à un dossier depuis sa page Options (« utiliser uniquement les objets que je possède »).',
+        'solver_hint': 'Un build peut être restreint à un dossier depuis sa page Options (« utiliser uniquement les objets que je possède »).',
         'folders': 'Dossiers',
         'folder_placeholder': 'Nom du serveur ou du dossier',
         'folder_create': 'Créer le dossier',
@@ -126,7 +126,7 @@ LOCALIZED_UI = {
     'es': {
         'title': 'Mi Inventario',
         'subtitle': 'Los objetos que posees, agrupados en carpetas (una por servidor, o un nombre personalizado).',
-        'solver_hint': 'Un proyecto puede restringirse a una carpeta desde su página de Opciones («usar solo los objetos que poseo»).',
+        'solver_hint': 'Un build puede restringirse a una carpeta desde su página de Opciones («usar solo los objetos que poseo»).',
         'folders': 'Carpetas',
         'folder_placeholder': 'Nombre del servidor o de la carpeta',
         'folder_create': 'Crear carpeta',
@@ -169,7 +169,7 @@ LOCALIZED_UI = {
     'pt': {
         'title': 'Meu Inventário',
         'subtitle': 'Os itens que você possui, agrupados em pastas (uma por servidor, ou um nome personalizado).',
-        'solver_hint': 'Um projeto pode ser restrito a uma pasta na página de Opções ("usar apenas os itens que possuo").',
+        'solver_hint': 'Um build pode ser restrito a uma pasta na página de Opções ("usar apenas os itens que possuo").',
         'folders': 'Pastas',
         'folder_placeholder': 'Nome do servidor ou da pasta',
         'folder_create': 'Criar pasta',
@@ -212,7 +212,7 @@ LOCALIZED_UI = {
     'de': {
         'title': 'Mein Inventar',
         'subtitle': 'Die Gegenstände, die du besitzt, in Ordnern gruppiert (einer pro Server oder ein eigener Name).',
-        'solver_hint': 'Ein Projekt kann auf seiner Optionen-Seite auf einen Ordner beschränkt werden ("nur Gegenstände verwenden, die ich besitze").',
+        'solver_hint': 'Ein Build kann auf seiner Optionen-Seite auf einen Ordner beschränkt werden ("nur Gegenstände verwenden, die ich besitze").',
         'folders': 'Ordner',
         'folder_placeholder': 'Server- oder Ordnername',
         'folder_create': 'Ordner erstellen',

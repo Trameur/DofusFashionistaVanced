@@ -52,15 +52,15 @@ var compareTooManyBuildsError = "{{ too_many_builds_error|escapejs }}";
 {% endif %}
 
 <div class="compare-manual-title text">{% trans "Manual links" %}</div>
-<p class="text">{% blocktrans %}To compare projects that you own, type the project name or paste a link to the solution such as:{% endblocktrans %}<br>
+<p class="text">{% blocktrans %}To compare builds that you own, type the build name or paste a link to the solution such as:{% endblocktrans %}<br>
 <span class="link-text">{{ site_url }}{% game_url 'solution_2' 12345 %}</span><br><br>
-{% blocktrans %}To compare other people's projects paste the sharing link, for example:{% endblocktrans %}<br>
+{% blocktrans %}To compare other people's builds paste the sharing link, for example:{% endblocktrans %}<br>
 <span class="link-text">{{ site_url }}{% game_url 'solution_linked' 'xxLegolasxx' 'AbCdEf_' %}</span></p>
 
 <div class="compare-link-div-outer">
 {% for i in 4|get_range %}
     <div class="compare-link-div">
-    {% trans "Link to project" %} <input class="pretty-input compare-link-input" id="compare-link-input-{{i}}" 
+    {% trans "Link to build" %} <input class="pretty-input compare-link-input" id="compare-link-input-{{i}}"
     {% if i == 0 and char0 %} value="{{char0}}" {% endif %}
     {% if i == 1 and char1 %} value="{{char1}}" {% endif %}
     {% if i == 2 and char2 %} value="{{char2}}" {% endif %}

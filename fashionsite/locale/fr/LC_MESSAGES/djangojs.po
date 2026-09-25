@@ -353,9 +353,9 @@ msgstr " Pour trouver un équipement qui l’inclut, verrouillez-le <a href=\\\"
 
 #: .\chardata\static\chardata\solution_popup.js:501
 msgid ""
-"You can equip this item, but some project minimums will not be respected."
+"You can equip this item, but some build minimums will not be respected."
 msgstr ""
-"Vous pouvez équiper cet item, mais certains critères minimaux du projet ne "
+"Vous pouvez équiper cet item, mais certains critères minimaux du build ne "
 "seront pas respectés."
 
 #: .\chardata\static\chardata\solution_popup.js:503

@@ -520,7 +520,7 @@ function setItemViolations(item, violations, char_id) {
                 violationsString += "</span>";
             } else {
                 violationsString += "<span class='item-exchange-violations-warning'>";
-                violationsString += gettext("You can equip this item, but some project minimums will not be respected.");
+                violationsString += gettext("You can equip this item, but some build minimums will not be respected.");
                 if (addLink) {
                     message = gettext(' To find a set including it that fulfills these conditions, lock it <a href="/inclusions/%s/">here</a> and tailor a new set.');
                     violationsString += interpolate(message.replace('href="/', 'href="' + apiBase + '/'), [char_id]);

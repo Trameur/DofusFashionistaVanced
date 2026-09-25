@@ -61,7 +61,7 @@
     <p class="import-error">
         {% game_url 'login_page' as login_link %}
         {% game_url 'load_projects' as load_proj_link %}
-        {% blocktrans with version=current_game_version_label %} You already have a project on {{ version }}, and you can find it <a href="{{load_proj_link}}">here</a>. <a href="{{login_link}}">Log in</a> to keep several projects per version. {% endblocktrans %}
+        {% blocktrans with version=current_game_version_label %} You already have a build on {{ version }}, and you can find it <a href="{{load_proj_link}}">here</a>. <a href="{{login_link}}">Log in</a> to keep several builds per version. {% endblocktrans %}
     </p>
     {% endif %}
 

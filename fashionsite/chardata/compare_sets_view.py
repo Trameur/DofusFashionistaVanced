@@ -533,7 +533,7 @@ def _compare_picker_link(request, char):
 def choose_compare_sets_post(request):
     links_json = request.POST.get('links', None)
     if links_json is None:
-        return _get_text_error_response(_('Paste links of at least 2 projects to compare'))
+        return _get_text_error_response(_('Paste links of at least 2 builds to compare'))
     try:
         parsed_links = json.loads(links_json)
         if not isinstance(parsed_links, list):
@@ -543,11 +543,11 @@ def choose_compare_sets_post(request):
             if isinstance(link, str) and link.strip()
         ]
     except (ValueError, TypeError):
-        return _get_text_error_response(_('Paste links of at least 2 projects to compare'))
+        return _get_text_error_response(_('Paste links of at least 2 builds to compare'))
     links_digested = [_process_link(l) for l in links]
-    
+
     if len(links_digested) <= 1:
-        return _get_text_error_response(_('Paste links of at least 2 projects to compare'))
+        return _get_text_error_response(_('Paste links of at least 2 builds to compare'))
     if len(links_digested) > 4:
         return _get_text_error_response(_('Choose at most 4 builds to compare'))
 
@@ -559,20 +559,20 @@ def choose_compare_sets_post(request):
         if mystery_char_id.startswith('g') and mystery_char_id[1:].isdigit():
             generation = get_or_none(SolutionGeneration, pk=int(mystery_char_id[1:]))
             if not generation or generation.game_version != getattr(request, 'game_version', 'dofus3'):
-                return _rejected_link_error(_('%s does not refer to a valid project'),
+                return _rejected_link_error(_('%s does not refer to a valid build'),
                                             links[i])
             if not char_belongs_to_user(request, generation.char):
-                return _rejected_link_error(_('%s refers to someone else\'s project'),
+                return _rejected_link_error(_('%s refers to someone else\'s build'),
                                             links[i])
             char_ids.append(mystery_char_id)
         elif mystery_char_id.isdigit():
             char_id = int(mystery_char_id)
             char = get_or_none(Char, pk=char_id)
             if not char or char.game_version != getattr(request, 'game_version', 'dofus3'):
-                return _rejected_link_error(_('%s does not refer to a valid project'),
+                return _rejected_link_error(_('%s does not refer to a valid build'),
                                             links[i])
             if not char_belongs_to_user(request, char):
-                return _rejected_link_error(_('%s refers to someone else\'s project'),
+                return _rejected_link_error(_('%s refers to someone else\'s build'),
                                             links[i])
             char_ids.append(mystery_char_id)
         else:
@@ -584,7 +584,7 @@ def choose_compare_sets_post(request):
                 return _rejected_link_error(_('%s is not a valid share link'), links[i])
             char = get_or_none(Char, pk=char_id)
             if not char or char.game_version != getattr(request, 'game_version', 'dofus3'):
-                return _rejected_link_error(_('%s does not refer to a valid project'),
+                return _rejected_link_error(_('%s does not refer to a valid build'),
                                             links[i])
             if not char.link_shared:
                 return _rejected_link_error(_('%s is not shared'), links[i])
@@ -619,7 +619,7 @@ def get_sharing_link(request, sets_params):
         char = get_object_or_404(Char, pk=char_id)
         if char.game_version != getattr(request, 'game_version', 'dofus3'):
             return _get_text_error_response(
-                _('Project %s is not in this game version.') % char_str[:120])
+                _('Build %s is not in this game version.') % char_str[:120])
         if char_belongs_to_user(request, char):
             # Share it, if still not shared.
             if not char.link_shared:
@@ -631,7 +631,7 @@ def get_sharing_link(request, sets_params):
                 raise PermissionDenied
             if not char.link_shared:
                 return _get_text_error_response(
-                    _('Project %s is not shared.') % char_str[:120])
+                    _('Build %s is not shared.') % char_str[:120])
         char_ids.append(char_id)
 
     return HttpResponseText(_generate_share_compare_link(

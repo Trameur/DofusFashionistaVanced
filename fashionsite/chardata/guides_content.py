@@ -1302,8 +1302,8 @@ GUIDES = {
                 'desc': "You picked a class, you're staring at a wall of items with no clue which belt fits. Here's how to go from nothing to a full optimized set in minutes.",
                 'lead': "You picked a class, you're staring at a wall of items, and you have no clue which belt actually fits. That's exactly what the Fashionista is for.",
                 'body': '''
-<h2>1. Start a project</h2>
-<p>Hit <a href="/setup/">Create a project</a>, pick your class, your level and the Dofus version you play. That's the whole setup. If you'd rather not fiddle with anything, two shortcuts get you a build almost instantly:</p>
+<h2>1. Start a build</h2>
+<p>Hit <a href="/setup/">Create a build</a>, pick your class, your level and the Dofus version you play. That's the whole setup. If you'd rather not fiddle with anything, two shortcuts get you a build almost instantly:</p>
 <ul>
 <li><a href="/quickstart/">Quick start</a>: answer three quick questions and you get a set.</li>
 <li><a href="/smartbuild/">Smart build</a>: literally describe what you want in plain words ("agility Sram level 200, 11 AP, max range") and it sets things up for you.</li>
@@ -1321,7 +1321,7 @@ GUIDES = {
 </ul>
 
 <h2>4. Save it, share it, compare it</h2>
-<p>Make a free account to keep your projects. Every build gets a share link you can drop in your guild chat, and you can throw two or more builds into the <a href="/choose_compare_sets/">comparison</a> to see them side by side. Simple as that, you're done.</p>
+<p>Make a free account to keep your builds. Every build gets a share link you can drop in your guild chat, and you can throw two or more builds into the <a href="/choose_compare_sets/">comparison</a> to see them side by side. Simple as that, you're done.</p>
 
 <p><em>New here? The fastest way to learn is to just <a href="/quickstart/">make one build</a> and tweak it.</em></p>
 ''',
@@ -1331,8 +1331,8 @@ GUIDES = {
                 'desc': "T'as choisi ta classe, une montagne d'items devant les yeux, aucune idée de quoi mettre. Passer de zéro à un stuff complet et optimisé en quelques minutes.",
                 'lead': "T'as choisi ta classe, t'as une montagne d'items devant les yeux et aucune idée de quelle ceinture coller. C'est exactement à ça que sert la Fashionista.",
                 'body': '''
-<h2>1. Crée un projet</h2>
-<p>Clique sur <a href="/setup/">Créer un projet</a>, choisis ta classe, ton niveau et la version de Dofus que tu joues. C'est toute la config. Et si t'as la flemme de régler quoi que ce soit, deux raccourcis te sortent un stuff quasi instantanément :</p>
+<h2>1. Crée un build</h2>
+<p>Clique sur <a href="/setup/">Créer un build</a>, choisis ta classe, ton niveau et la version de Dofus que tu joues. C'est toute la config. Et si t'as la flemme de régler quoi que ce soit, deux raccourcis te sortent un stuff quasi instantanément :</p>
 <ul>
 <li><a href="/quickstart/">Démarrage rapide</a> : trois questions et t'as un set.</li>
 <li><a href="/smartbuild/">Build intelligent</a> : tu décris littéralement ce que tu veux en français ("Sram agi niveau 200, 11 PA, portée max") et il te prépare tout.</li>
@@ -1350,7 +1350,7 @@ GUIDES = {
 </ul>
 
 <h2>4. Sauvegarde, partage, compare</h2>
-<p>Crée un compte gratuit pour garder tes projets. Chaque build a un lien de partage que tu peux balancer dans le tchat de guilde, et tu peux mettre deux builds (ou plus) dans le <a href="/choose_compare_sets/">comparateur</a> pour les voir côte à côte. Voilà, c'est plié.</p>
+<p>Crée un compte gratuit pour garder tes builds. Chaque build a un lien de partage que tu peux balancer dans le tchat de guilde, et tu peux mettre deux builds (ou plus) dans le <a href="/choose_compare_sets/">comparateur</a> pour les voir côte à côte. Voilà, c'est plié.</p>
 
 <p><em>Nouveau ici ? Le plus rapide pour piger, c'est juste de <a href="/quickstart/">faire un build</a> et de le bidouiller.</em></p>
 ''',
@@ -1360,8 +1360,8 @@ GUIDES = {
                 'desc': "Elegiste clase, tienes un muro de ítems delante y ni idea de qué cinturón encaja. Así pasas de cero a un set completo y optimizado en unos minutos.",
                 'lead': "Elegiste clase, tienes un muro de ítems delante y ni idea de qué cinturón encaja de verdad. Para eso está la Fashionista.",
                 'body': '''
-<h2>1. Crea un proyecto</h2>
-<p>Dale a <a href="/setup/">Crear un proyecto</a>, elige tu clase, tu nivel y la versión de Dofus que juegas. Esa es toda la configuración. Y si te da pereza tocar nada, dos atajos te sacan un build casi al instante:</p>
+<h2>1. Crea un build</h2>
+<p>Dale a <a href="/setup/">Crear un build</a>, elige tu clase, tu nivel y la versión de Dofus que juegas. Esa es toda la configuración. Y si te da pereza tocar nada, dos atajos te sacan un build casi al instante:</p>
 <ul>
 <li><a href="/quickstart/">Inicio rápido</a>: tres preguntas y tienes un set.</li>
 <li><a href="/smartbuild/">Build inteligente</a>: describe lo que quieres con tus palabras ("Sram de agilidad nivel 200, 11 PA, alcance máximo") y te lo prepara solo.</li>
@@ -1379,7 +1379,7 @@ GUIDES = {
 </ul>
 
 <h2>4. Guárdalo, compártelo, compáralo</h2>
-<p>Hazte una cuenta gratis para conservar tus proyectos. Cada build tiene un enlace para compartir que puedes soltar en el chat del gremio, y puedes meter dos builds (o más) en el <a href="/choose_compare_sets/">comparador</a> para verlos lado a lado. Y ya está.</p>
+<p>Hazte una cuenta gratis para conservar tus builds. Cada build tiene un enlace para compartir que puedes soltar en el chat del gremio, y puedes meter dos builds (o más) en el <a href="/choose_compare_sets/">comparador</a> para verlos lado a lado. Y ya está.</p>
 
 <p><em>¿Primera vez? Lo más rápido para entenderlo es <a href="/quickstart/">montar un build</a> y trastear con él.</em></p>
 ''',
@@ -1389,8 +1389,8 @@ GUIDES = {
                 'desc': "Você escolheu a classe, tem uma parede de itens na frente e nenhuma ideia de qual cinto usar. Veja como sair do zero a um set completo e otimizado em minutos.",
                 'lead': "Você escolheu a classe, tem uma parede de itens na frente e nenhuma ideia de qual cinto encaixa de verdade. É exatamente para isso que a Fashionista serve.",
                 'body': '''
-<h2>1. Crie um projeto</h2>
-<p>Clique em <a href="/setup/">Criar um projeto</a>, escolha sua classe, seu nível e a versão de Dofus que você joga. É toda a configuração. E se você estiver com preguiça de ajustar qualquer coisa, dois atalhos entregam um build quase na hora:</p>
+<h2>1. Crie um build</h2>
+<p>Clique em <a href="/setup/">Criar um build</a>, escolha sua classe, seu nível e a versão de Dofus que você joga. É toda a configuração. E se você estiver com preguiça de ajustar qualquer coisa, dois atalhos entregam um build quase na hora:</p>
 <ul>
 <li><a href="/quickstart/">Início rápido</a>: três perguntas e você tem um set.</li>
 <li><a href="/smartbuild/">Build inteligente</a>: descreva o que você quer com suas palavras ("Sram de agilidade nível 200, 11 PA, alcance máximo") e ele monta tudo pra você.</li>
@@ -1408,7 +1408,7 @@ GUIDES = {
 </ul>
 
 <h2>4. Salve, compartilhe, compare</h2>
-<p>Faça uma conta grátis pra guardar seus projetos. Todo build ganha um link de compartilhamento que dá pra jogar no chat da guilda, e você pode colocar dois builds (ou mais) no <a href="/choose_compare_sets/">comparador</a> pra ver lado a lado. Pronto, é isso.</p>
+<p>Faça uma conta grátis pra guardar seus builds. Todo build ganha um link de compartilhamento que dá pra jogar no chat da guilda, e você pode colocar dois builds (ou mais) no <a href="/choose_compare_sets/">comparador</a> pra ver lado a lado. Pronto, é isso.</p>
 
 <p><em>Primeira vez? O jeito mais rápido de entender é <a href="/quickstart/">montar um build</a> e mexer nele.</em></p>
 ''',
@@ -1418,8 +1418,8 @@ GUIDES = {
                 'desc': "Klasse gewählt, eine Wand voller Items vor dir, keine Ahnung, welcher Gürtel passt. So kommst du in Minuten von null zum fertigen, optimierten Set.",
                 'lead': "Klasse gewählt, eine Wand voller Items vor dir, und keine Ahnung, welcher Gürtel eigentlich passt. Genau dafür ist die Fashionista da.",
                 'body': '''
-<h2>1. Leg ein Projekt an</h2>
-<p>Klick auf <a href="/setup/">Projekt erstellen</a>, wähl deine Klasse, dein Level und die Dofus-Version, die du spielst. Mehr Einrichtung gibt's nicht. Und wenn du gar nichts einstellen willst, bringen dich zwei Abkürzungen fast sofort zum Build:</p>
+<h2>1. Leg ein Build an</h2>
+<p>Klick auf <a href="/setup/">Build erstellen</a>, wähl deine Klasse, dein Level und die Dofus-Version, die du spielst. Mehr Einrichtung gibt's nicht. Und wenn du gar nichts einstellen willst, bringen dich zwei Abkürzungen fast sofort zum Build:</p>
 <ul>
 <li><a href="/quickstart/">Schnellstart</a>: drei Fragen, fertig ist das Set.</li>
 <li><a href="/smartbuild/">Smart Build</a>: beschreib einfach in Worten, was du willst ("Agi-Sram Level 200, 11 AP, maximale Reichweite") und es richtet alles für dich ein.</li>
@@ -1437,7 +1437,7 @@ GUIDES = {
 </ul>
 
 <h2>4. Speichern, teilen, vergleichen</h2>
-<p>Mach dir einen kostenlosen Account, um deine Projekte zu behalten. Jedes Build bekommt einen Teil-Link, den du in den Gildenchat werfen kannst, und du kannst zwei Builds (oder mehr) in den <a href="/choose_compare_sets/">Vergleich</a> packen, um sie nebeneinander zu sehen. Das war's.</p>
+<p>Mach dir einen kostenlosen Account, um deine Builds zu behalten. Jedes Build bekommt einen Teil-Link, den du in den Gildenchat werfen kannst, und du kannst zwei Builds (oder mehr) in den <a href="/choose_compare_sets/">Vergleich</a> packen, um sie nebeneinander zu sehen. Das war's.</p>
 
 <p><em>Neu hier? Am schnellsten verstehst du es, wenn du einfach <a href="/quickstart/">ein Build baust</a> und daran herumschraubst.</em></p>
 ''',
@@ -1497,7 +1497,7 @@ GUIDES = {
 <h2>Why the result sometimes surprises you</h2>
 <p>If the suggestion looks weird, it's usually telling you something: your weights are pulling against each other, or there simply isn't gear that hits everything at once. Drop a slider, raise another, forbid that one item you'll never farm, and re-run. After a couple of passes you'll have a set that's genuinely tuned to you, not a copy-paste meta build everyone else is wearing.</p>
 
-<p><em>Want to see it happen? <a href="/setup/">Start a project</a> and watch it solve.</em></p>
+<p><em>Want to see it happen? <a href="/setup/">Start a build</a> and watch it solve.</em></p>
 ''',
             },
             'fr': {
@@ -1548,7 +1548,7 @@ GUIDES = {
 <h2>Pourquoi le résultat te surprend parfois</h2>
 <p>Si la proposition a l'air bizarre, en général elle te dit quelque chose : tes poids se tirent dessus, ou il n'existe tout simplement pas de stuff qui coche tout d'un coup. Baisse un curseur, monte un autre, interdis cet item que tu farmeras jamais, et relance. Au bout de deux-trois passes, t'as un set vraiment réglé pour toi, pas un build meta copié-collé que tout le monde porte.</p>
 
-<p><em>Envie de voir ça en vrai ? <a href="/setup/">Lance un projet</a> et regarde-le résoudre.</em></p>
+<p><em>Envie de voir ça en vrai ? <a href="/setup/">Lance un build</a> et regarde-le résoudre.</em></p>
 ''',
             },
             'es': {
@@ -1599,7 +1599,7 @@ GUIDES = {
 <h2>Por qué el resultado a veces sorprende</h2>
 <p>Si la sugerencia parece rara, normalmente te está diciendo algo: tus pesos tiran unos contra otros, o simplemente no existe equipo que lo cumpla todo a la vez. Baja un deslizador, sube otro, prohíbe ese ítem que no vas a farmear nunca, y vuelve a lanzar. Tras un par de pasadas tendrás un set afinado para ti de verdad, no un build meta copiado que lleva todo el mundo.</p>
 
-<p><em>¿Quieres verlo en acción? <a href="/setup/">Empieza un proyecto</a> y míralo resolver.</em></p>
+<p><em>¿Quieres verlo en acción? <a href="/setup/">Empieza un build</a> y míralo resolver.</em></p>
 ''',
             },
             'pt': {
@@ -1650,7 +1650,7 @@ GUIDES = {
 <h2>Por que o resultado às vezes surpreende</h2>
 <p>Se a sugestão parece estranha, geralmente ela está te dizendo algo: seus pesos estão puxando um contra o outro, ou simplesmente não existe equipamento que cumpra tudo de uma vez. Abaixa um controle, sobe outro, proíbe aquele item que você nunca vai farmar, e roda de novo. Depois de duas ou três passadas você tem um set realmente ajustado pra você, não um build meta copiado que todo mundo usa.</p>
 
-<p><em>Quer ver acontecer? <a href="/setup/">Comece um projeto</a> e veja ele resolver.</em></p>
+<p><em>Quer ver acontecer? <a href="/setup/">Comece um build</a> e veja ele resolver.</em></p>
 ''',
             },
             'de': {
@@ -1701,7 +1701,7 @@ GUIDES = {
 <h2>Warum dich das Ergebnis manchmal überrascht</h2>
 <p>Wenn der Vorschlag seltsam aussieht, sagt er dir meistens etwas: Deine Gewichte ziehen gegeneinander, oder es gibt schlicht keine Ausrüstung, die alles auf einmal trifft. Regler runter, anderen hoch, das Item verbieten, das du eh nie farmst, und neu rechnen. Nach zwei, drei Durchläufen hast du ein Set, das wirklich auf dich abgestimmt ist, kein kopiertes Meta-Build, das alle anderen tragen.</p>
 
-<p><em>Willst du es live sehen? <a href="/setup/">Starte ein Projekt</a> und schau ihm beim Lösen zu.</em></p>
+<p><em>Willst du es live sehen? <a href="/setup/">Starte ein Build</a> und schau ihm beim Lösen zu.</em></p>
 ''',
             },
         },
@@ -1854,7 +1854,7 @@ GUIDES = {
                 'lead': "One thing that sets the Fashionista apart: it covers five flavors of Dofus, not just the live one. Here's the quick map so you optimize on the right data.",
                 'body': '''
 <h2>Why this even matters</h2>
-<p>Item stats, recipes and spells are different across versions. A build that's perfect on the live game can be nonsense on Retro, where half the items don't exist and the rules are old-school. So the first thing to get right is: which version are you actually playing? Pick it when you create a project, or switch any time with the version selector at the top of the page.</p>
+<p>Item stats, recipes and spells are different across versions. A build that's perfect on the live game can be nonsense on Retro, where half the items don't exist and the rules are old-school. So the first thing to get right is: which version are you actually playing? Pick it when you create a build, or switch any time with the version selector at the top of the page.</p>
 
 <h2>Dofus 3 (live)</h2>
 <p>The current game. This is the default, kept up to date with the latest patch, including the 3.6 characteristic rework and the newest items. If you just play Dofus on a regular server, this is you.</p>
@@ -1871,7 +1871,7 @@ GUIDES = {
 <h2>Touch</h2>
 <p>Dofus Touch, the mobile version, which sits on its own balance and item list (some trophies, for instance, cap set bonuses differently). Its own dataset too, so your mobile builds are accurate.</p>
 
-<p><em>On the right version? <a href="/setup/">Create your project</a> and the tool only shows what exists there.</em></p>
+<p><em>On the right version? <a href="/setup/">Create your build</a> and the tool only shows what exists there.</em></p>
 ''',
             },
             'fr': {
@@ -1880,7 +1880,7 @@ GUIDES = {
                 'lead': "Un truc qui distingue la Fashionista : elle couvre cinq versions de Dofus, pas juste la live. Voilà la carte rapide pour optimiser sur les bonnes données.",
                 'body': '''
 <h2>Pourquoi ça compte</h2>
-<p>Les stats des items, les recettes et les sorts changent d'une version à l'autre. Un build parfait sur la live peut être n'importe quoi sur Retro, où la moitié des items n'existe pas et où les règles sont à l'ancienne. Donc le premier truc à caler, c'est : tu joues à quelle version, vraiment ? Choisis-la en créant ton projet, ou change quand tu veux avec le sélecteur de version en haut de la page.</p>
+<p>Les stats des items, les recettes et les sorts changent d'une version à l'autre. Un build parfait sur la live peut être n'importe quoi sur Retro, où la moitié des items n'existe pas et où les règles sont à l'ancienne. Donc le premier truc à caler, c'est : tu joues à quelle version, vraiment ? Choisis-la en créant ton build, ou change quand tu veux avec le sélecteur de version en haut de la page.</p>
 
 <h2>Dofus 3 (live)</h2>
 <p>Le jeu actuel. C'est le défaut, tenu à jour avec le dernier patch, refonte des caracs 3.6 et derniers items inclus. Si tu joues juste à Dofus sur un serveur classique, c'est toi.</p>
@@ -1897,7 +1897,7 @@ GUIDES = {
 <h2>Touch</h2>
 <p>Dofus Touch, la version mobile, avec son propre équilibrage et sa propre liste d'items (certains trophées, par exemple, plafonnent les bonus de panoplie différemment). Son propre jeu de données aussi, pour que tes builds mobile soient justes.</p>
 
-<p><em>Sur la bonne version ? <a href="/setup/">Crée ton projet</a> et l'outil n'affiche que ce qui existe là-bas.</em></p>
+<p><em>Sur la bonne version ? <a href="/setup/">Crée ton build</a> et l'outil n'affiche que ce qui existe là-bas.</em></p>
 ''',
             },
             'es': {
@@ -1906,7 +1906,7 @@ GUIDES = {
                 'lead': "Algo que distingue a la Fashionista: cubre cinco versiones de Dofus, no solo la live. Aquí va el mapa rápido para que optimices con los datos correctos.",
                 'body': '''
 <h2>Por qué importa</h2>
-<p>Las estadísticas de los ítems, las recetas y los hechizos cambian entre versiones. Un build perfecto en la live puede ser un disparate en Retro, donde la mitad de los ítems no existe y las reglas son a la antigua. Así que lo primero que hay que acertar es: ¿en qué versión juegas de verdad? Elígela al crear el proyecto, o cámbiala cuando quieras con el selector de versión arriba.</p>
+<p>Las estadísticas de los ítems, las recetas y los hechizos cambian entre versiones. Un build perfecto en la live puede ser un disparate en Retro, donde la mitad de los ítems no existe y las reglas son a la antigua. Así que lo primero que hay que acertar es: ¿en qué versión juegas de verdad? Elígela al crear el build, o cámbiala cuando quieras con el selector de versión arriba.</p>
 
 <h2>Dofus 3 (live)</h2>
 <p>El juego actual. Es la opción por defecto, al día con el último parche, incluido el rework de características de 3.6 y los ítems más nuevos. Si juegas a Dofus en un servidor normal, esta eres tú.</p>
@@ -1923,7 +1923,7 @@ GUIDES = {
 <h2>Touch</h2>
 <p>Dofus Touch, la versión móvil, con su propio balance y lista de ítems (algunos trofeos, por ejemplo, limitan los bonus de panoplia de otra forma). También con su propio set de datos, para que tus builds de móvil sean exactos.</p>
 
-<p><em>¿En la versión correcta? <a href="/setup/">Crea tu proyecto</a> y la herramienta solo mostrará lo que existe ahí.</em></p>
+<p><em>¿En la versión correcta? <a href="/setup/">Crea tu build</a> y la herramienta solo mostrará lo que existe ahí.</em></p>
 ''',
             },
             'pt': {
@@ -1932,7 +1932,7 @@ GUIDES = {
                 'lead': "Uma coisa que diferencia a Fashionista: ela cobre cinco versões de Dofus, não só a live. Aqui vai o mapa rápido pra você otimizar com os dados certos.",
                 'body': '''
 <h2>Por que isso importa</h2>
-<p>Os atributos dos itens, as receitas e os feitiços mudam de uma versão pra outra. Um build perfeito na live pode ser uma furada no Retro, onde metade dos itens não existe e as regras são old-school. Então a primeira coisa a acertar é: em qual versão você joga de verdade? Escolha ao criar o projeto, ou troque quando quiser no seletor de versão no topo da página.</p>
+<p>Os atributos dos itens, as receitas e os feitiços mudam de uma versão pra outra. Um build perfeito na live pode ser uma furada no Retro, onde metade dos itens não existe e as regras são old-school. Então a primeira coisa a acertar é: em qual versão você joga de verdade? Escolha ao criar o build, ou troque quando quiser no seletor de versão no topo da página.</p>
 
 <h2>Dofus 3 (live)</h2>
 <p>O jogo atual. É o padrão, mantido em dia com o último patch, incluindo a reformulação de características da 3.6 e os itens mais novos. Se você joga Dofus num servidor normal, é você.</p>
@@ -1949,7 +1949,7 @@ GUIDES = {
 <h2>Touch</h2>
 <p>Dofus Touch, a versão mobile, com seu próprio balanceamento e lista de itens (alguns troféus, por exemplo, limitam os bônus de conjunto de outro jeito). Também com seu próprio conjunto de dados, pra seus builds de celular saírem certos.</p>
 
-<p><em>Na versão certa? <a href="/setup/">Crie seu projeto</a> e a ferramenta só mostra o que existe ali.</em></p>
+<p><em>Na versão certa? <a href="/setup/">Crie seu build</a> e a ferramenta só mostra o que existe ali.</em></p>
 ''',
             },
             'de': {
@@ -1958,7 +1958,7 @@ GUIDES = {
                 'lead': "Eine Sache hebt die Fashionista ab: Sie deckt fünf Spielarten von Dofus ab, nicht nur die Live-Version. Hier ist die schnelle Übersicht, damit du mit den richtigen Daten optimierst.",
                 'body': '''
 <h2>Warum das überhaupt wichtig ist</h2>
-<p>Item-Werte, Rezepte und Zauber unterscheiden sich zwischen den Versionen. Ein Build, das auf dem Live-Spiel perfekt ist, kann auf Retro Unsinn sein, wo die Hälfte der Items nicht existiert und die Regeln altmodisch sind. Das Erste, was du richtig setzen musst, ist also: Welche Version spielst du eigentlich? Wähl sie beim Anlegen eines Projekts, oder wechsle jederzeit mit der Versionsauswahl oben auf der Seite.</p>
+<p>Item-Werte, Rezepte und Zauber unterscheiden sich zwischen den Versionen. Ein Build, das auf dem Live-Spiel perfekt ist, kann auf Retro Unsinn sein, wo die Hälfte der Items nicht existiert und die Regeln altmodisch sind. Das Erste, was du richtig setzen musst, ist also: Welche Version spielst du eigentlich? Wähl sie beim Anlegen eines Builds, oder wechsle jederzeit mit der Versionsauswahl oben auf der Seite.</p>
 
 <h2>Dofus 3 (live)</h2>
 <p>Das aktuelle Spiel. Das ist die Voreinstellung, auf dem neuesten Patch gehalten, inklusive Charakterwerte-Rework der 3.6 und der neuesten Items. Wenn du einfach Dofus auf einem normalen Server spielst, bist das du.</p>
@@ -1975,7 +1975,7 @@ GUIDES = {
 <h2>Touch</h2>
 <p>Dofus Touch, die mobile Version, mit eigener Balance und Item-Liste (manche Trophäen deckeln zum Beispiel Set-Boni anders). Ebenfalls mit eigenem Datensatz, damit deine Mobile-Builds stimmen.</p>
 
-<p><em>Auf der richtigen Version? <a href="/setup/">Erstell dein Projekt</a> und das Tool zeigt nur, was es dort gibt.</em></p>
+<p><em>Auf der richtigen Version? <a href="/setup/">Erstell dein Build</a> und das Tool zeigt nur, was es dort gibt.</em></p>
 ''',
             },
         },
@@ -1994,7 +1994,7 @@ GUIDES = {
                 'lead': "The same character needs a different build depending on whether you're farming dungeons, dueling, or grinding Kolossium. Same items, different priorities: here's how to weight each.",
                 'body': '''
 <h2>Why one build isn't enough</h2>
-<p>Your gear doesn't change, but what you ask of it does. A PvM farm set wants to delete monsters before they matter; a Kolossium set wants to still be standing on turn ten. Pour the same items into both and you'll be mediocre at each. The trick isn't owning three stuffs, it's telling the optimizer what <strong>this</strong> set is for and saving it as its own project.</p>
+<p>Your gear doesn't change, but what you ask of it does. A PvM farm set wants to delete monsters before they matter; a Kolossium set wants to still be standing on turn ten. Pour the same items into both and you'll be mediocre at each. The trick isn't owning three stuffs, it's telling the optimizer what <strong>this</strong> set is for and saving it as its own build.</p>
 
 <h2>PvM: kill fast, survive enough</h2>
 <p>Against monsters you usually know the fight, so you can lean into offense. Weight your element and Power high, push flat and percent damage, and keep just enough vitality and resistance to clear the dungeon you actually run. No opponent is reading your build, so dumping defensive stats for raw damage is often correct. Lock your AP, MP and range to hit your spell combo, then let the tool pour everything else into killing power.</p>
@@ -2006,9 +2006,9 @@ GUIDES = {
 <p>Whatever the mode, AP, MP and range are targets, not sliders. Decide the breakpoints your spells need (say 11 AP, 6 MP, 4 range) and lock them. The optimizer then spends every remaining stat point on what changes between modes, instead of wasting gear hitting an AP number you never asked for.</p>
 
 <h2>Do it in the tool</h2>
-<p>Make one project per mode. Start from your PvM set, duplicate it, drag resistance and Wisdom up, drag a little damage down, and re-tailor, you've got a Kolossium variant in under a minute. Then throw both into the <a href="/choose_compare_sets/">comparison</a> to see exactly what you trade. That side-by-side is the fastest way to understand your own build.</p>
+<p>Make one build per mode. Start from your PvM set, duplicate it, drag resistance and Wisdom up, drag a little damage down, and re-tailor, you've got a Kolossium variant in under a minute. Then throw both into the <a href="/choose_compare_sets/">comparison</a> to see exactly what you trade. That side-by-side is the fastest way to understand your own build.</p>
 
-<p><em>Pick a mode and tune it: <a href="/setup/">start a project.</a></em></p>
+<p><em>Pick a mode and tune it: <a href="/setup/">start a build.</a></em></p>
 ''',
             },
             'fr': {
@@ -2017,7 +2017,7 @@ GUIDES = {
                 'lead': "Le même perso a besoin d'un build différent selon que tu farmes du donjon, que tu duelles ou que tu grind le Kolizéum. Mêmes items, priorités différentes : voilà comment pondérer chacun.",
                 'body': '''
 <h2>Pourquoi un seul build ne suffit pas</h2>
-<p>Ton stuff ne change pas, mais ce que tu lui demandes, si. Un set de farm PvM veut effacer les monstres avant qu'ils comptent ; un set Kolizéum veut être encore debout au tour dix. Mets les mêmes items dans les deux et tu seras moyen partout. L'astuce, c'est pas d'avoir trois stuffs, c'est de dire à l'optimiseur à quoi sert <strong>ce</strong> set-là et de le sauvegarder comme projet à part.</p>
+<p>Ton stuff ne change pas, mais ce que tu lui demandes, si. Un set de farm PvM veut effacer les monstres avant qu'ils comptent ; un set Kolizéum veut être encore debout au tour dix. Mets les mêmes items dans les deux et tu seras moyen partout. L'astuce, c'est pas d'avoir trois stuffs, c'est de dire à l'optimiseur à quoi sert <strong>ce</strong> set-là et de le sauvegarder comme build à part.</p>
 
 <h2>PvM : tuer vite, survivre assez</h2>
 <p>Contre les monstres tu connais souvent le combat, donc tu peux miser sur l'attaque. Pondère ton élément et la Puissance haut, pousse les dommages fixes et en %, et garde juste assez de vita et de résistance pour clean le donjon que tu fais vraiment. Personne ne lit ton build en face, donc sacrifier du défensif pour du dégât brut est souvent le bon choix. Verrouille tes PA, PM et portée pour sortir ton combo, puis laisse l'outil tout mettre dans la puissance de frappe.</p>
@@ -2029,9 +2029,9 @@ GUIDES = {
 <p>Peu importe le mode, PA, PM et portée sont des objectifs, pas des curseurs. Décide les paliers dont tes sorts ont besoin (genre 11 PA, 6 PM, 4 de portée) et verrouille-les. L'optimiseur dépense alors chaque point de stat restant sur ce qui change entre les modes, au lieu de gaspiller du stuff à atteindre un nombre de PA que t'as pas demandé.</p>
 
 <h2>Fais-le dans l'outil</h2>
-<p>Crée un projet par mode. Pars de ton set PvM, duplique-le, monte la résistance et la Sagesse, baisse un peu les dégâts, et retaille, t'as une variante Kolizéum en moins d'une minute. Puis balance les deux dans le <a href="/choose_compare_sets/">comparateur</a> pour voir exactement ce que tu échanges. Ce côte-à-côte, c'est le moyen le plus rapide de comprendre ton propre build.</p>
+<p>Crée un build par mode. Pars de ton set PvM, duplique-le, monte la résistance et la Sagesse, baisse un peu les dégâts, et retaille, t'as une variante Kolizéum en moins d'une minute. Puis balance les deux dans le <a href="/choose_compare_sets/">comparateur</a> pour voir exactement ce que tu échanges. Ce côte-à-côte, c'est le moyen le plus rapide de comprendre ton propre build.</p>
 
-<p><em>Choisis un mode et règle-le : <a href="/setup/">lance un projet.</a></em></p>
+<p><em>Choisis un mode et règle-le : <a href="/setup/">lance un build.</a></em></p>
 ''',
             },
             'es': {
@@ -2040,7 +2040,7 @@ GUIDES = {
                 'lead': "El mismo personaje necesita un build distinto según si farmeas mazmorras, dueleas o grindeas Koliseo. Mismos ítems, prioridades distintas: aquí tienes cómo ponderar cada uno.",
                 'body': '''
 <h2>Por qué un solo build no basta</h2>
-<p>Tu equipo no cambia, pero lo que le pides sí. Un set de farmeo PvM quiere borrar a los monstruos antes de que importen; un set de Koliseo quiere seguir en pie en el turno diez. Mete los mismos ítems en ambos y serás mediocre en los dos. El truco no es tener tres sets, es decirle al optimizador para qué sirve <strong>este</strong> set y guardarlo como su propio proyecto.</p>
+<p>Tu equipo no cambia, pero lo que le pides sí. Un set de farmeo PvM quiere borrar a los monstruos antes de que importen; un set de Koliseo quiere seguir en pie en el turno diez. Mete los mismos ítems en ambos y serás mediocre en los dos. El truco no es tener tres sets, es decirle al optimizador para qué sirve <strong>este</strong> set y guardarlo como su propio build.</p>
 
 <h2>PvM: matar rápido, sobrevivir lo justo</h2>
 <p>Contra monstruos sueles conocer la pelea, así que puedes apostar por el ataque. Pondera tu elemento y la Potencia alto, sube el daño fijo y en %, y guarda solo la vita y resistencia que necesites para limpiar la mazmorra que de verdad haces. Nadie lee tu build enfrente, así que sacrificar defensa por daño bruto suele ser lo correcto. Bloquea tus PA, PM y alcance para sacar tu combo, y deja que la herramienta lo meta todo en poder de daño.</p>
@@ -2052,9 +2052,9 @@ GUIDES = {
 <p>Da igual el modo, PA, PM y alcance son objetivos, no deslizadores. Decide los umbrales que tus hechizos necesitan (pongamos 11 PA, 6 PM, 4 de alcance) y bloquéalos. El optimizador gasta entonces cada punto restante en lo que cambia entre modos, en vez de malgastar equipo llegando a un número de PA que no pediste.</p>
 
 <h2>Hazlo en la herramienta</h2>
-<p>Haz un proyecto por modo. Parte de tu set PvM, duplícalo, sube resistencia y Sabiduría, baja un poco el daño, y vuelve a crear el set, tienes una variante de Koliseo en menos de un minuto. Luego mete ambos en el <a href="/choose_compare_sets/">comparador</a> para ver exactamente qué cambias. Ese lado a lado es la forma más rápida de entender tu propio build.</p>
+<p>Haz un build por modo. Parte de tu set PvM, duplícalo, sube resistencia y Sabiduría, baja un poco el daño, y vuelve a crear el set, tienes una variante de Koliseo en menos de un minuto. Luego mete ambos en el <a href="/choose_compare_sets/">comparador</a> para ver exactamente qué cambias. Ese lado a lado es la forma más rápida de entender tu propio build.</p>
 
-<p><em>Elige un modo y ajústalo: <a href="/setup/">empieza un proyecto.</a></em></p>
+<p><em>Elige un modo y ajústalo: <a href="/setup/">empieza un build.</a></em></p>
 ''',
             },
             'pt': {
@@ -2063,7 +2063,7 @@ GUIDES = {
                 'lead': "O mesmo personagem precisa de um build diferente conforme você farma masmorra, duela ou grinda Koliseu. Mesmos itens, prioridades diferentes: veja como ponderar cada um.",
                 'body': '''
 <h2>Por que um build só não basta</h2>
-<p>Seu equipamento não muda, mas o que você pede dele muda. Um set de farm PvM quer apagar os monstros antes que eles importem; um set de Koliseu quer continuar de pé no turno dez. Coloque os mesmos itens nos dois e você fica mediano em ambos. O truque não é ter três sets, é dizer ao otimizador pra que serve <strong>este</strong> set e salvá-lo como um projeto próprio.</p>
+<p>Seu equipamento não muda, mas o que você pede dele muda. Um set de farm PvM quer apagar os monstros antes que eles importem; um set de Koliseu quer continuar de pé no turno dez. Coloque os mesmos itens nos dois e você fica mediano em ambos. O truque não é ter três sets, é dizer ao otimizador pra que serve <strong>este</strong> set e salvá-lo como um build próprio.</p>
 
 <h2>PvM: matar rápido, sobreviver o suficiente</h2>
 <p>Contra monstros você costuma conhecer a luta, então dá pra apostar no ataque. Pondere seu elemento e a Potência alto, suba o dano fixo e em %, e mantenha só a vita e resistência que precisa pra limpar a masmorra que você realmente faz. Ninguém lê seu build do outro lado, então sacrificar defesa por dano bruto costuma ser o certo. Trave seus PA, PM e alcance pra sair seu combo, e deixe a ferramenta jogar todo o resto em poder de dano.</p>
@@ -2075,9 +2075,9 @@ GUIDES = {
 <p>Não importa o modo, PA, PM e alcance são metas, não controles. Decida os limiares que seus feitiços precisam (digamos 11 PA, 6 PM, 4 de alcance) e trave. O otimizador então gasta cada ponto restante no que muda entre os modos, em vez de desperdiçar equipamento batendo num número de PA que você não pediu.</p>
 
 <h2>Faça na ferramenta</h2>
-<p>Faça um projeto por modo. Comece do seu set PvM, duplique, suba resistência e Sabedoria, abaixe um pouco o dano, e refaça o set, você tem uma variante de Koliseu em menos de um minuto. Depois jogue os dois no <a href="/choose_compare_sets/">comparador</a> pra ver exatamente o que você troca. Esse lado a lado é o jeito mais rápido de entender seu próprio build.</p>
+<p>Faça um build por modo. Comece do seu set PvM, duplique, suba resistência e Sabedoria, abaixe um pouco o dano, e refaça o set, você tem uma variante de Koliseu em menos de um minuto. Depois jogue os dois no <a href="/choose_compare_sets/">comparador</a> pra ver exatamente o que você troca. Esse lado a lado é o jeito mais rápido de entender seu próprio build.</p>
 
-<p><em>Escolha um modo e ajuste: <a href="/setup/">comece um projeto.</a></em></p>
+<p><em>Escolha um modo e ajuste: <a href="/setup/">comece um build.</a></em></p>
 ''',
             },
             'de': {
@@ -2086,7 +2086,7 @@ GUIDES = {
                 'lead': "Derselbe Charakter braucht je nach dem ein anderes Build, ob du Dungeons farmst, duellierst oder Kolosseum grindest. Gleiche Items, andere Prioritäten: so gewichtest du jeden.",
                 'body': '''
 <h2>Warum ein Build nicht reicht</h2>
-<p>Deine Ausrüstung ändert sich nicht, aber was du von ihr verlangst, schon. Ein PvM-Farmset will Monster löschen, bevor sie zählen; ein Kolosseum-Set will in Runde zehn noch stehen. Steck dieselben Items in beide und du bist überall mittelmäßig. Der Trick ist nicht, drei Sets zu besitzen, sondern dem Optimierer zu sagen, wofür <strong>dieses</strong> Set ist, und es als eigenes Projekt zu speichern.</p>
+<p>Deine Ausrüstung ändert sich nicht, aber was du von ihr verlangst, schon. Ein PvM-Farmset will Monster löschen, bevor sie zählen; ein Kolosseum-Set will in Runde zehn noch stehen. Steck dieselben Items in beide und du bist überall mittelmäßig. Der Trick ist nicht, drei Sets zu besitzen, sondern dem Optimierer zu sagen, wofür <strong>dieses</strong> Set ist, und es als eigenes Build zu speichern.</p>
 
 <h2>PvM: schnell töten, genug überleben</h2>
 <p>Gegen Monster kennst du den Kampf meist, also kannst du auf Angriff setzen. Gewichte dein Element und Power hoch, drück fixen und prozentualen Schaden, und behalte nur so viel Vita und Resistenz, wie du für den Dungeon brauchst, den du wirklich läufst. Niemand liest gegenüber dein Build, also ist es oft richtig, Defensive für rohen Schaden zu opfern. Fixier deine AP, BP und Reichweite für dein Combo, und lass das Tool alles andere in Schlagkraft stecken.</p>
@@ -2098,9 +2098,9 @@ GUIDES = {
 <p>Egal welcher Modus, AP, BP und Reichweite sind Ziele, keine Regler. Leg die Schwellen fest, die deine Zauber brauchen (sagen wir 11 AP, 6 BP, 4 Reichweite) und fixier sie. Der Optimierer gibt dann jeden übrigen Statpunkt für das aus, was sich zwischen den Modi ändert, statt Ausrüstung zu verschwenden, um eine AP-Zahl zu treffen, die du nie verlangt hast.</p>
 
 <h2>Mach es im Tool</h2>
-<p>Leg pro Modus ein Projekt an. Starte von deinem PvM-Set, dupliziere es, zieh Resistenz und Weisheit hoch, etwas Schaden runter, und schneider neu, du hast in unter einer Minute eine Kolosseum-Variante. Wirf dann beide in den <a href="/choose_compare_sets/">Vergleich</a>, um genau zu sehen, was du eintauschst. Dieses Nebeneinander ist der schnellste Weg, dein eigenes Build zu verstehen.</p>
+<p>Leg pro Modus ein Build an. Starte von deinem PvM-Set, dupliziere es, zieh Resistenz und Weisheit hoch, etwas Schaden runter, und schneider neu, du hast in unter einer Minute eine Kolosseum-Variante. Wirf dann beide in den <a href="/choose_compare_sets/">Vergleich</a>, um genau zu sehen, was du eintauschst. Dieses Nebeneinander ist der schnellste Weg, dein eigenes Build zu verstehen.</p>
 
-<p><em>Wähl einen Modus und stell ihn ein: <a href="/setup/">starte ein Projekt.</a></em></p>
+<p><em>Wähl einen Modus und stell ihn ein: <a href="/setup/">starte ein Build.</a></em></p>
 ''',
             },
             },
@@ -2111,7 +2111,7 @@ GUIDES = {
                     'lead': "The same character needs a different build depending on whether you're farming dungeons or fighting other players. Same items, different priorities: here's how to weight each.",
                     'body': '''
 <h2>Why one build isn't enough</h2>
-<p>Your gear doesn't change, but what you ask of it does. A PvM farm set wants to delete monsters before they matter; a PvP set wants to still be standing on turn ten. Pour the same items into both and you'll be mediocre at each. The trick isn't owning several stuffs, it's telling the optimizer what <strong>this</strong> set is for and saving it as its own project.</p>
+<p>Your gear doesn't change, but what you ask of it does. A PvM farm set wants to delete monsters before they matter; a PvP set wants to still be standing on turn ten. Pour the same items into both and you'll be mediocre at each. The trick isn't owning several stuffs, it's telling the optimizer what <strong>this</strong> set is for and saving it as its own build.</p>
 
 <h2>PvM: kill fast, survive enough</h2>
 <p>Against monsters you usually know the fight, so you can lean into offense. Weight your element and % Damage high, push flat damage, and keep just enough vitality and resistance to clear the dungeon you actually run. No opponent is reading your build, so dumping defensive stats for raw damage is often correct. Lock your AP, MP and range to hit your spell combo, then let the tool pour everything else into killing power.</p>
@@ -2123,9 +2123,9 @@ GUIDES = {
 <p>Whatever the mode, AP, MP and range are targets, not sliders. Decide the breakpoints your spells need (say 11 AP, 6 MP, 4 range) and lock them. The optimizer then spends every remaining stat point on what changes between modes, instead of wasting gear hitting an AP number you never asked for.</p>
 
 <h2>Do it in the tool</h2>
-<p>Make one project per mode. Start from your PvM set, duplicate it, drag resistance and Wisdom up, drag a little damage down, and re-tailor, you've got a PvP variant in under a minute. Then throw both into the <a href="/choose_compare_sets/">comparison</a> to see exactly what you trade. That side-by-side is the fastest way to understand your own build.</p>
+<p>Make one build per mode. Start from your PvM set, duplicate it, drag resistance and Wisdom up, drag a little damage down, and re-tailor, you've got a PvP variant in under a minute. Then throw both into the <a href="/choose_compare_sets/">comparison</a> to see exactly what you trade. That side-by-side is the fastest way to understand your own build.</p>
 
-<p><em>Pick a mode and tune it: <a href="/setup/">start a project.</a></em></p>
+<p><em>Pick a mode and tune it: <a href="/setup/">start a build.</a></em></p>
 ''',
                 },
                 'fr': {
@@ -2134,7 +2134,7 @@ GUIDES = {
                     'lead': "Le même perso a besoin d'un build différent selon que tu farmes du donjon ou que tu affrontes d'autres joueurs. Mêmes items, priorités différentes : voilà comment pondérer chacun.",
                     'body': '''
 <h2>Pourquoi un seul build ne suffit pas</h2>
-<p>Ton stuff ne change pas, mais ce que tu lui demandes, si. Un set de farm PvM veut effacer les monstres avant qu'ils comptent ; un set PvP veut être encore debout au tour dix. Mets les mêmes items dans les deux et tu seras moyen partout. L'astuce, c'est pas d'avoir plusieurs stuffs, c'est de dire à l'optimiseur à quoi sert <strong>ce</strong> set-là et de le sauvegarder comme projet à part.</p>
+<p>Ton stuff ne change pas, mais ce que tu lui demandes, si. Un set de farm PvM veut effacer les monstres avant qu'ils comptent ; un set PvP veut être encore debout au tour dix. Mets les mêmes items dans les deux et tu seras moyen partout. L'astuce, c'est pas d'avoir plusieurs stuffs, c'est de dire à l'optimiseur à quoi sert <strong>ce</strong> set-là et de le sauvegarder comme build à part.</p>
 
 <h2>PvM : tuer vite, survivre assez</h2>
 <p>Contre les monstres tu connais souvent le combat, donc tu peux miser sur l'attaque. Pondère ton élément et le % de dommages haut, pousse les dommages fixes, et garde juste assez de vita et de résistance pour clean le donjon que tu fais vraiment. Personne ne lit ton build en face, donc sacrifier du défensif pour du dégât brut est souvent le bon choix. Verrouille tes PA, PM et portée pour sortir ton combo, puis laisse l'outil tout mettre dans la puissance de frappe.</p>
@@ -2146,9 +2146,9 @@ GUIDES = {
 <p>Peu importe le mode, PA, PM et portée sont des objectifs, pas des curseurs. Décide les paliers dont tes sorts ont besoin (genre 11 PA, 6 PM, 4 de portée) et verrouille-les. L'optimiseur dépense alors chaque point de stat restant sur ce qui change entre les modes, au lieu de gaspiller du stuff à atteindre un nombre de PA que t'as pas demandé.</p>
 
 <h2>Fais-le dans l'outil</h2>
-<p>Crée un projet par mode. Pars de ton set PvM, duplique-le, monte la résistance et la Sagesse, baisse un peu les dégâts, et retaille, t'as une variante PvP en moins d'une minute. Puis balance les deux dans le <a href="/choose_compare_sets/">comparateur</a> pour voir exactement ce que tu échanges. Ce côte-à-côte, c'est le moyen le plus rapide de comprendre ton propre build.</p>
+<p>Crée un build par mode. Pars de ton set PvM, duplique-le, monte la résistance et la Sagesse, baisse un peu les dégâts, et retaille, t'as une variante PvP en moins d'une minute. Puis balance les deux dans le <a href="/choose_compare_sets/">comparateur</a> pour voir exactement ce que tu échanges. Ce côte-à-côte, c'est le moyen le plus rapide de comprendre ton propre build.</p>
 
-<p><em>Choisis un mode et règle-le : <a href="/setup/">lance un projet.</a></em></p>
+<p><em>Choisis un mode et règle-le : <a href="/setup/">lance un build.</a></em></p>
 ''',
                 },
                 'es': {
@@ -2157,7 +2157,7 @@ GUIDES = {
                     'lead': "El mismo personaje necesita un build distinto según si farmeas mazmorras o te enfrentas a otros jugadores. Mismos ítems, prioridades distintas: aquí tienes cómo ponderar cada uno.",
                     'body': '''
 <h2>Por qué un solo build no basta</h2>
-<p>Tu equipo no cambia, pero lo que le pides sí. Un set de farmeo PvM quiere borrar a los monstruos antes de que importen; un set de PvP quiere seguir en pie en el turno diez. Mete los mismos ítems en ambos y serás mediocre en los dos. El truco no es tener varios sets, es decirle al optimizador para qué sirve <strong>este</strong> set y guardarlo como su propio proyecto.</p>
+<p>Tu equipo no cambia, pero lo que le pides sí. Un set de farmeo PvM quiere borrar a los monstruos antes de que importen; un set de PvP quiere seguir en pie en el turno diez. Mete los mismos ítems en ambos y serás mediocre en los dos. El truco no es tener varios sets, es decirle al optimizador para qué sirve <strong>este</strong> set y guardarlo como su propio build.</p>
 
 <h2>PvM: matar rápido, sobrevivir lo justo</h2>
 <p>Contra monstruos sueles conocer la pelea, así que puedes apostar por el ataque. Pondera tu elemento y el % de daños alto, sube el daño fijo, y guarda solo la vita y resistencia que necesites para limpiar la mazmorra que de verdad haces. Nadie lee tu build enfrente, así que sacrificar defensa por daño bruto suele ser lo correcto. Bloquea tus PA, PM y alcance para sacar tu combo, y deja que la herramienta lo meta todo en poder de daño.</p>
@@ -2169,9 +2169,9 @@ GUIDES = {
 <p>Da igual el modo, PA, PM y alcance son objetivos, no deslizadores. Decide los umbrales que tus hechizos necesitan (pongamos 11 PA, 6 PM, 4 de alcance) y bloquéalos. El optimizador gasta entonces cada punto restante en lo que cambia entre modos, en vez de malgastar equipo llegando a un número de PA que no pediste.</p>
 
 <h2>Hazlo en la herramienta</h2>
-<p>Haz un proyecto por modo. Parte de tu set PvM, duplícalo, sube resistencia y Sabiduría, baja un poco el daño, y vuelve a crear el set, tienes una variante de PvP en menos de un minuto. Luego mete ambos en el <a href="/choose_compare_sets/">comparador</a> para ver exactamente qué cambias. Ese lado a lado es la forma más rápida de entender tu propio build.</p>
+<p>Haz un build por modo. Parte de tu set PvM, duplícalo, sube resistencia y Sabiduría, baja un poco el daño, y vuelve a crear el set, tienes una variante de PvP en menos de un minuto. Luego mete ambos en el <a href="/choose_compare_sets/">comparador</a> para ver exactamente qué cambias. Ese lado a lado es la forma más rápida de entender tu propio build.</p>
 
-<p><em>Elige un modo y ajústalo: <a href="/setup/">empieza un proyecto.</a></em></p>
+<p><em>Elige un modo y ajústalo: <a href="/setup/">empieza un build.</a></em></p>
 ''',
                 },
                 'pt': {
@@ -2180,7 +2180,7 @@ GUIDES = {
                     'lead': "O mesmo personagem precisa de um build diferente conforme você farma masmorra ou enfrenta outros jogadores. Mesmos itens, prioridades diferentes: veja como ponderar cada um.",
                     'body': '''
 <h2>Por que um build só não basta</h2>
-<p>Seu equipamento não muda, mas o que você pede dele muda. Um set de farm PvM quer apagar os monstros antes que eles importem; um set de PvP quer continuar de pé no turno dez. Coloque os mesmos itens nos dois e você fica mediano em ambos. O truque não é ter vários sets, é dizer ao otimizador pra que serve <strong>este</strong> set e salvá-lo como um projeto próprio.</p>
+<p>Seu equipamento não muda, mas o que você pede dele muda. Um set de farm PvM quer apagar os monstros antes que eles importem; um set de PvP quer continuar de pé no turno dez. Coloque os mesmos itens nos dois e você fica mediano em ambos. O truque não é ter vários sets, é dizer ao otimizador pra que serve <strong>este</strong> set e salvá-lo como um build próprio.</p>
 
 <h2>PvM: matar rápido, sobreviver o suficiente</h2>
 <p>Contra monstros você costuma conhecer a luta, então dá pra apostar no ataque. Pondere seu elemento e o % de dano alto, suba o dano fixo, e mantenha só a vita e resistência que precisa pra limpar a masmorra que você realmente faz. Ninguém lê seu build do outro lado, então sacrificar defesa por dano bruto costuma ser o certo. Trave seus PA, PM e alcance pra sair seu combo, e deixe a ferramenta jogar todo o resto em poder de dano.</p>
@@ -2192,9 +2192,9 @@ GUIDES = {
 <p>Não importa o modo, PA, PM e alcance são metas, não controles. Decida os limiares que seus feitiços precisam (digamos 11 PA, 6 PM, 4 de alcance) e trave. O otimizador então gasta cada ponto restante no que muda entre os modos, em vez de desperdiçar equipamento batendo num número de PA que você não pediu.</p>
 
 <h2>Faça na ferramenta</h2>
-<p>Faça um projeto por modo. Comece do seu set PvM, duplique, suba resistência e Sabedoria, abaixe um pouco o dano, e refaça o set, você tem uma variante de PvP em menos de um minuto. Depois jogue os dois no <a href="/choose_compare_sets/">comparador</a> pra ver exatamente o que você troca. Esse lado a lado é o jeito mais rápido de entender seu próprio build.</p>
+<p>Faça um build por modo. Comece do seu set PvM, duplique, suba resistência e Sabedoria, abaixe um pouco o dano, e refaça o set, você tem uma variante de PvP em menos de um minuto. Depois jogue os dois no <a href="/choose_compare_sets/">comparador</a> pra ver exatamente o que você troca. Esse lado a lado é o jeito mais rápido de entender seu próprio build.</p>
 
-<p><em>Escolha um modo e ajuste: <a href="/setup/">comece um projeto.</a></em></p>
+<p><em>Escolha um modo e ajuste: <a href="/setup/">comece um build.</a></em></p>
 ''',
                 },
                 'de': {
@@ -2203,7 +2203,7 @@ GUIDES = {
                     'lead': "Derselbe Charakter braucht je nach dem ein anderes Build, ob du Dungeons farmst oder gegen andere Spieler kämpfst. Gleiche Items, andere Prioritäten: so gewichtest du jeden.",
                     'body': '''
 <h2>Warum ein Build nicht reicht</h2>
-<p>Deine Ausrüstung ändert sich nicht, aber was du von ihr verlangst, schon. Ein PvM-Farmset will Monster löschen, bevor sie zählen; ein PvP-Set will in Runde zehn noch stehen. Steck dieselben Items in beide und du bist überall mittelmäßig. Der Trick ist nicht, mehrere Sets zu besitzen, sondern dem Optimierer zu sagen, wofür <strong>dieses</strong> Set ist, und es als eigenes Projekt zu speichern.</p>
+<p>Deine Ausrüstung ändert sich nicht, aber was du von ihr verlangst, schon. Ein PvM-Farmset will Monster löschen, bevor sie zählen; ein PvP-Set will in Runde zehn noch stehen. Steck dieselben Items in beide und du bist überall mittelmäßig. Der Trick ist nicht, mehrere Sets zu besitzen, sondern dem Optimierer zu sagen, wofür <strong>dieses</strong> Set ist, und es als eigenes Build zu speichern.</p>
 
 <h2>PvM: schnell töten, genug überleben</h2>
 <p>Gegen Monster kennst du den Kampf meist, also kannst du auf Angriff setzen. Gewichte dein Element und % Schaden hoch, drück fixen Schaden, und behalte nur so viel Vita und Resistenz, wie du für den Dungeon brauchst, den du wirklich läufst. Niemand liest gegenüber dein Build, also ist es oft richtig, Defensive für rohen Schaden zu opfern. Fixier deine AP, BP und Reichweite für dein Combo, und lass das Tool alles andere in Schlagkraft stecken.</p>
@@ -2215,9 +2215,9 @@ GUIDES = {
 <p>Egal welcher Modus, AP, BP und Reichweite sind Ziele, keine Regler. Leg die Schwellen fest, die deine Zauber brauchen (sagen wir 11 AP, 6 BP, 4 Reichweite) und fixier sie. Der Optimierer gibt dann jeden übrigen Statpunkt für das aus, was sich zwischen den Modi ändert, statt Ausrüstung zu verschwenden, um eine AP-Zahl zu treffen, die du nie verlangt hast.</p>
 
 <h2>Mach es im Tool</h2>
-<p>Leg pro Modus ein Projekt an. Starte von deinem PvM-Set, dupliziere es, zieh Resistenz und Weisheit hoch, etwas Schaden runter, und schneider neu, du hast in unter einer Minute eine PvP-Variante. Wirf dann beide in den <a href="/choose_compare_sets/">Vergleich</a>, um genau zu sehen, was du eintauschst. Dieses Nebeneinander ist der schnellste Weg, dein eigenes Build zu verstehen.</p>
+<p>Leg pro Modus ein Build an. Starte von deinem PvM-Set, dupliziere es, zieh Resistenz und Weisheit hoch, etwas Schaden runter, und schneider neu, du hast in unter einer Minute eine PvP-Variante. Wirf dann beide in den <a href="/choose_compare_sets/">Vergleich</a>, um genau zu sehen, was du eintauschst. Dieses Nebeneinander ist der schnellste Weg, dein eigenes Build zu verstehen.</p>
 
-<p><em>Wähl einen Modus und stell ihn ein: <a href="/setup/">starte ein Projekt.</a></em></p>
+<p><em>Wähl einen Modus und stell ihn ein: <a href="/setup/">starte ein Build.</a></em></p>
 ''',
                 },
             },
@@ -2838,7 +2838,7 @@ GUIDES = {
 <h2>When the result looks off</h2>
 <p>A weird solution is almost always the weights talking. Too much vitality and no damage? Your vitality weight dominates. An empty slot? No item there scores positive value under your weights. Iterate: change one number, re-run, compare. The <a href="/choose_compare_sets/">comparison</a> shows exactly what your edit bought you.</p>
 
-<p><em>Ready to fine-tune? <a href="/setup/">Open a project</a> and head to the weights page.</em></p>
+<p><em>Ready to fine-tune? <a href="/setup/">Open a build</a> and head to the weights page.</em></p>
 ''',
             },
             'fr': {
@@ -2858,7 +2858,7 @@ GUIDES = {
 <h2>Quand le résultat semble bizarre</h2>
 <p>Une solution étrange, c'est presque toujours les poids qui parlent. Trop de vitalité et pas de dégâts ? Ton poids vitalité domine. Un emplacement vide ? Aucun item n'y apporte de valeur positive avec tes poids. Itère : change un chiffre, relance, compare. Le <a href="/choose_compare_sets/">comparateur</a> montre exactement ce que ta retouche t'a acheté.</p>
 
-<p><em>Prêt à affiner ? <a href="/setup/">Ouvre un projet</a> et va sur la page des poids.</em></p>
+<p><em>Prêt à affiner ? <a href="/setup/">Ouvre un build</a> et va sur la page des poids.</em></p>
 ''',
             },
             'es': {
@@ -2878,7 +2878,7 @@ GUIDES = {
 <h2>Cuando el resultado se ve raro</h2>
 <p>Una solución extraña casi siempre son los pesos hablando. ¿Mucha vitalidad y nada de daño? Tu peso de vitalidad domina. ¿Una ranura vacía? Ningún ítem aporta ahí valor positivo con tus pesos. Itera: cambia un número, relanza, compara. El <a href="/choose_compare_sets/">comparador</a> muestra exactamente qué te compró tu ajuste.</p>
 
-<p><em>¿Listo para afinar? <a href="/setup/">Abre un proyecto</a> y ve a la página de pesos.</em></p>
+<p><em>¿Listo para afinar? <a href="/setup/">Abre un build</a> y ve a la página de pesos.</em></p>
 ''',
             },
             'pt': {
@@ -2898,7 +2898,7 @@ GUIDES = {
 <h2>Quando o resultado parece estranho</h2>
 <p>Uma solução esquisita é quase sempre culpa dos pesos. Muita vitalidade e nada de dano? Seu peso de vitalidade domina. Um slot vazio? Nenhum item ali soma valor positivo com os seus pesos. Itere: mude um número, rode de novo, compare. O <a href="/choose_compare_sets/">comparador</a> mostra exatamente o que o seu ajuste comprou.</p>
 
-<p><em>Pronto para afinar? <a href="/setup/">Abra um projeto</a> e vá à página de pesos.</em></p>
+<p><em>Pronto para afinar? <a href="/setup/">Abra um build</a> e vá à página de pesos.</em></p>
 ''',
             },
             'de': {
@@ -2918,7 +2918,7 @@ GUIDES = {
 <h2>Wenn das Ergebnis komisch aussieht</h2>
 <p>Eine seltsame Lösung sind fast immer die Gewichte. Viel Vitalität, kein Schaden? Dein Vitalitätsgewicht dominiert. Ein leerer Platz? Kein Item bringt dort mit deinen Gewichten positiven Wert. Iteriere: eine Zahl ändern, neu laufen lassen, vergleichen. Der <a href="/choose_compare_sets/">Vergleich</a> zeigt genau, was dir die Änderung gebracht hat.</p>
 
-<p><em>Bereit zum Feintuning? <a href="/setup/">Öffne ein Projekt</a> und geh zur Gewichte-Seite.</em></p>
+<p><em>Bereit zum Feintuning? <a href="/setup/">Öffne ein Build</a> und geh zur Gewichte-Seite.</em></p>
 ''',
             },
         },
@@ -3198,12 +3198,12 @@ GUIDES = {
 <p>Inside one class, the real fork is the element path: a fire build and an air build of the same class gear completely differently and often play differently too. Whether to stay mono-element or split is its own topic, covered in <a href="/guides/mono-vs-multi-element/">mono vs multi element</a>. When in doubt, pick the path your version's gear actually supports at your level: that is usually the constraint that decides.</p>
 
 <h2>Let the optimizer absorb the decision</h2>
-<p>This is where the tool does the heavy lifting: when you <a href="/setup/">create a project</a>, the Fashionista weights stats for your class, your element and your exact game version, because a stat that wins fights in one version can be dead weight in another. Style presets (glass cannon, tanky, balanced) tilt those weights toward how you want to play, and <a href="/guides/tuning-your-weights/">you can retune everything</a> once you know your own priorities.</p>
+<p>This is where the tool does the heavy lifting: when you <a href="/setup/">create a build</a>, the Fashionista weights stats for your class, your element and your exact game version, because a stat that wins fights in one version can be dead weight in another. Style presets (glass cannon, tanky, balanced) tilt those weights toward how you want to play, and <a href="/guides/tuning-your-weights/">you can retune everything</a> once you know your own priorities.</p>
 
 <h2>Audition your shortlist</h2>
 <p>Builds are free and take a minute. Shortlist two or three classes, generate a build for each at the level you actually play, and <a href="/guides/comparing-builds/">compare the results side by side</a>. Seeing what each class realistically wears and reaches at your level answers the question better than any ranking written for someone else's version.</p>
 
-<p><em>Undecided? <a href="/setup/">Start a project</a> for each candidate and let the sets argue for them.</em></p>
+<p><em>Undecided? <a href="/setup/">Start a build</a> for each candidate and let the sets argue for them.</em></p>
 ''',
             },
             'fr': {
@@ -3221,12 +3221,12 @@ GUIDES = {
 <p>Au sein d'une classe, la vraie bifurcation est la voie élémentaire : un build feu et un build air de la même classe s'équipent tout autrement et se jouent souvent différemment. Rester mono-élément ou se répartir est un sujet à part entière, traité dans <a href="/guides/mono-vs-multi-element/">mono ou multi élément</a>. Dans le doute, prenez la voie que l'équipement de votre version soutient vraiment à votre niveau : c'est presque toujours la contrainte qui tranche.</p>
 
 <h2>Laissez l'optimiseur absorber la décision</h2>
-<p>C'est là que l'outil fait le gros du travail : quand vous <a href="/setup/">créez un projet</a>, le Fashionista pondère les stats pour votre classe, votre élément et votre version exacte du jeu, parce qu'une stat qui gagne des combats dans une version peut être du poids mort dans une autre. Les styles prédéfinis (glass cannon, tanky, équilibré) inclinent ces poids vers votre façon de jouer, et <a href="/guides/tuning-your-weights/">tout se réajuste</a> quand vous connaissez vos priorités.</p>
+<p>C'est là que l'outil fait le gros du travail : quand vous <a href="/setup/">créez un build</a>, le Fashionista pondère les stats pour votre classe, votre élément et votre version exacte du jeu, parce qu'une stat qui gagne des combats dans une version peut être du poids mort dans une autre. Les styles prédéfinis (glass cannon, tanky, équilibré) inclinent ces poids vers votre façon de jouer, et <a href="/guides/tuning-your-weights/">tout se réajuste</a> quand vous connaissez vos priorités.</p>
 
 <h2>Auditionnez votre short-list</h2>
 <p>Les builds sont gratuits et prennent une minute. Retenez deux ou trois classes, générez un build pour chacune au niveau que vous jouez vraiment, et <a href="/guides/comparing-builds/">comparez les résultats côte à côte</a>. Voir ce que chaque classe porte et atteint réellement à votre niveau répond mieux à la question que n'importe quel classement écrit pour la version de quelqu'un d'autre.</p>
 
-<p><em>Indécis ? <a href="/setup/">Créez un projet</a> par candidate et laissez les panoplies plaider.</em></p>
+<p><em>Indécis ? <a href="/setup/">Créez un build</a> par candidate et laissez les panoplies plaider.</em></p>
 ''',
             },
             'es': {
@@ -3244,12 +3244,12 @@ GUIDES = {
 <p>Dentro de una clase, la bifurcación real es la vía elemental: un build de fuego y uno de aire de la misma clase se equipan de forma totalmente distinta y a menudo también se juegan distinto. Quedarse mono elemento o repartirse es un tema aparte, tratado en <a href="/guides/mono-vs-multi-element/">mono o multi elemento</a>. Ante la duda, elige la vía que el equipo de tu versión realmente sostiene a tu nivel: esa suele ser la restricción que decide.</p>
 
 <h2>Deja que el optimizador absorba la decisión</h2>
-<p>Aquí es donde la herramienta hace el trabajo pesado: cuando <a href="/setup/">creas un proyecto</a>, el Fashionista pondera las características para tu clase, tu elemento y tu versión exacta del juego, porque una característica que gana combates en una versión puede ser peso muerto en otra. Los estilos predefinidos (glass cannon, tanque, equilibrado) inclinan esos pesos hacia tu forma de jugar, y <a href="/guides/tuning-your-weights/">todo se puede reajustar</a> cuando conozcas tus prioridades.</p>
+<p>Aquí es donde la herramienta hace el trabajo pesado: cuando <a href="/setup/">creas un build</a>, el Fashionista pondera las características para tu clase, tu elemento y tu versión exacta del juego, porque una característica que gana combates en una versión puede ser peso muerto en otra. Los estilos predefinidos (glass cannon, tanque, equilibrado) inclinan esos pesos hacia tu forma de jugar, y <a href="/guides/tuning-your-weights/">todo se puede reajustar</a> cuando conozcas tus prioridades.</p>
 
 <h2>Haz una audición a tu lista corta</h2>
 <p>Los builds son gratis y toman un minuto. Preselecciona dos o tres clases, genera un build para cada una al nivel que realmente juegas y <a href="/guides/comparing-builds/">compara los resultados lado a lado</a>. Ver lo que cada clase lleva y alcanza de verdad a tu nivel responde mejor la pregunta que cualquier ranking escrito para la versión de otro.</p>
 
-<p><em>¿Indeciso? <a href="/setup/">Crea un proyecto</a> por candidata y deja que los sets aboguen por ellas.</em></p>
+<p><em>¿Indeciso? <a href="/setup/">Crea un build</a> por candidata y deja que los sets aboguen por ellas.</em></p>
 ''',
             },
             'pt': {
@@ -3267,12 +3267,12 @@ GUIDES = {
 <p>Dentro de uma classe, a bifurcação real é a via elemental: um build de fogo e um de ar da mesma classe se equipam de forma totalmente diferente e muitas vezes também se jogam diferente. Ficar mono elemento ou dividir é assunto próprio, tratado em <a href="/guides/mono-vs-multi-element/">mono ou multi elemento</a>. Na dúvida, escolha a via que o equipamento da sua versão realmente sustenta no seu nível: essa costuma ser a restrição que decide.</p>
 
 <h2>Deixe o otimizador absorver a decisão</h2>
-<p>É aqui que a ferramenta faz o trabalho pesado: quando você <a href="/setup/">cria um projeto</a>, o Fashionista pondera os atributos para a sua classe, o seu elemento e a sua versão exata do jogo, porque um atributo que ganha lutas numa versão pode ser peso morto em outra. Os estilos predefinidos (glass cannon, tanque, equilibrado) inclinam esses pesos para o seu jeito de jogar, e <a href="/guides/tuning-your-weights/">tudo pode ser reajustado</a> quando você conhecer as suas prioridades.</p>
+<p>É aqui que a ferramenta faz o trabalho pesado: quando você <a href="/setup/">cria um build</a>, o Fashionista pondera os atributos para a sua classe, o seu elemento e a sua versão exata do jogo, porque um atributo que ganha lutas numa versão pode ser peso morto em outra. Os estilos predefinidos (glass cannon, tanque, equilibrado) inclinam esses pesos para o seu jeito de jogar, e <a href="/guides/tuning-your-weights/">tudo pode ser reajustado</a> quando você conhecer as suas prioridades.</p>
 
 <h2>Faça um teste com sua lista curta</h2>
 <p>Builds são grátis e levam um minuto. Selecione duas ou três classes, gere um build para cada uma no nível que você realmente joga e <a href="/guides/comparing-builds/">compare os resultados lado a lado</a>. Ver o que cada classe realmente veste e alcança no seu nível responde melhor à pergunta do que qualquer ranking escrito para a versão de outra pessoa.</p>
 
-<p><em>Indeciso? <a href="/setup/">Crie um projeto</a> por candidata e deixe os sets defenderem cada uma.</em></p>
+<p><em>Indeciso? <a href="/setup/">Crie um build</a> por candidata e deixe os sets defenderem cada uma.</em></p>
 ''',
             },
             'de': {
@@ -3290,12 +3290,12 @@ GUIDES = {
 <p>Innerhalb einer Klasse ist die echte Weggabelung der Elementarpfad: Ein Feuer-Build und ein Luft-Build derselben Klasse rüsten sich völlig anders aus und spielen sich oft auch anders. Ob mono oder verteilt, ist ein eigenes Thema und wird in <a href="/guides/mono-vs-multi-element/">Mono oder Multi Element</a> behandelt. Im Zweifel nimm den Pfad, den die Ausrüstung deiner Version auf deiner Stufe wirklich trägt: Das ist meist die Einschränkung, die entscheidet.</p>
 
 <h2>Lass den Optimierer die Entscheidung abfedern</h2>
-<p>Hier übernimmt das Werkzeug die schwere Arbeit: Wenn du <a href="/setup/">ein Projekt erstellst</a>, gewichtet der Fashionista die Werte für deine Klasse, dein Element und deine exakte Spielversion, denn ein Wert, der in einer Version Kämpfe gewinnt, kann in einer anderen totes Gewicht sein. Stil-Presets (Glaskanone, tanky, ausgewogen) neigen diese Gewichte zu deiner Spielweise, und <a href="/guides/tuning-your-weights/">alles lässt sich nachjustieren</a>, sobald du deine Prioritäten kennst.</p>
+<p>Hier übernimmt das Werkzeug die schwere Arbeit: Wenn du <a href="/setup/">ein Build erstellst</a>, gewichtet der Fashionista die Werte für deine Klasse, dein Element und deine exakte Spielversion, denn ein Wert, der in einer Version Kämpfe gewinnt, kann in einer anderen totes Gewicht sein. Stil-Presets (Glaskanone, tanky, ausgewogen) neigen diese Gewichte zu deiner Spielweise, und <a href="/guides/tuning-your-weights/">alles lässt sich nachjustieren</a>, sobald du deine Prioritäten kennst.</p>
 
 <h2>Lass deine Favoriten vorspielen</h2>
 <p>Builds sind kostenlos und dauern eine Minute. Nimm zwei oder drei Klassen in die engere Wahl, erzeuge für jede einen Build auf der Stufe, die du wirklich spielst, und <a href="/guides/comparing-builds/">vergleiche die Ergebnisse nebeneinander</a>. Zu sehen, was jede Klasse auf deiner Stufe realistisch trägt und erreicht, beantwortet die Frage besser als jedes Ranking, das für die Version von jemand anderem geschrieben wurde.</p>
 
-<p><em>Unentschlossen? <a href="/setup/">Erstell pro Kandidatin ein Projekt</a> und lass die Sets für sie sprechen.</em></p>
+<p><em>Unentschlossen? <a href="/setup/">Erstell pro Kandidatin ein Build</a> und lass die Sets für sie sprechen.</em></p>
 ''',
             },
         },
@@ -3328,7 +3328,7 @@ GUIDES = {
 <p>Dofus 3, the beta, Dofus 2, Retro and Touch are five different games. An item that is core in one may not exist in another, or exists with different stats, and the rules around scrolls and characteristics differ too. A build guide written for someone else's version is a trap in yours. Optimize in the version you actually play, and if you're unsure what runs where, see <a href="/guides/versions-explained/">versions explained</a>.</p>
 
 <h2>The setting everyone forgets: your scrolls</h2>
-<p>A new project assumes your characteristics are fully scrolled, 100 in each. If your character isn't, the tool is optimizing a slightly richer character than yours: totals, item conditions you meet and the best way to distribute your points all shift. Open your project's characteristics page and set your real scroll state, it takes ten seconds and every suggestion after that fits your actual character.</p>
+<p>A new build assumes your characteristics are fully scrolled, 100 in each. If your character isn't, the tool is optimizing a slightly richer character than yours: totals, item conditions you meet and the best way to distribute your points all shift. Open your build's characteristics page and set your real scroll state, it takes ten seconds and every suggestion after that fits your actual character.</p>
 
 <h2>What you do not have to worry about</h2>
 <p>The game's fussy legality rules are already enforced for you: item conditions are checked before an item is ever suggested, set bonuses are counted properly, and version caps like trophy limits are respected. Your job is taste and honesty about how you play. The arithmetic is covered. If you still want to read an item card like a pro, start with <a href="/guides/reading-an-item/">reading an item</a>.</p>
@@ -3360,7 +3360,7 @@ GUIDES = {
 <p>Dofus 3, la bêta, Dofus 2, Retro et Touch sont cinq jeux différents. Un item central dans l'un peut ne pas exister dans l'autre, ou exister avec d'autres stats, et les règles de parchotage et de caracs changent aussi. Un guide de build écrit pour la version de quelqu'un d'autre est un piège dans la tienne. Optimise dans la version que tu joues vraiment, et si tu ne sais plus qui joue quoi, va voir <a href="/guides/versions-explained/">les versions expliquées</a>.</p>
 
 <h2>Le réglage que tout le monde oublie : tes parchemins</h2>
-<p>Un nouveau projet suppose tes caracs parchotées à fond, 100 partout. Si ton perso ne l'est pas, l'outil optimise un personnage un peu plus riche que le tien : les totaux, les conditions d'items que tu remplis et la meilleure répartition de tes points bougent tous. Ouvre la page caractéristiques de ton projet et mets ton vrai parchotage, ça prend dix secondes et toutes les propositions suivantes collent à ton vrai perso.</p>
+<p>Un nouveau build suppose tes caracs parchotées à fond, 100 partout. Si ton perso ne l'est pas, l'outil optimise un personnage un peu plus riche que le tien : les totaux, les conditions d'items que tu remplis et la meilleure répartition de tes points bougent tous. Ouvre la page caractéristiques de ton build et mets ton vrai parchotage, ça prend dix secondes et toutes les propositions suivantes collent à ton vrai perso.</p>
 
 <h2>Ce dont tu n'as pas à te soucier</h2>
 <p>Les règles tatillonnes du jeu sont déjà appliquées pour toi : les conditions d'items sont vérifiées avant même qu'un item soit proposé, les bonus de panoplie sont comptés proprement, et les plafonds de version comme les limites de trophées sont respectés. Ton boulot, c'est le goût et l'honnêteté sur ta façon de jouer. L'arithmétique est couverte. Et si tu veux quand même lire une fiche d'item comme un pro, commence par <a href="/guides/reading-an-item/">lire un item</a>.</p>
@@ -3392,7 +3392,7 @@ GUIDES = {
 <p>Dofus 3, la beta, Dofus 2, Retro y Touch son cinco juegos distintos. Un ítem central en uno puede no existir en otro, o existir con otras stats, y las reglas de pergaminos y características también cambian. Una guía de build escrita para la versión de otro es una trampa en la tuya. Optimiza en la versión que juegas de verdad, y si no sabes qué corre dónde, mira <a href="/guides/versions-explained/">las versiones explicadas</a>.</p>
 
 <h2>El ajuste que todo el mundo olvida: tus pergaminos</h2>
-<p>Un proyecto nuevo asume tus características pergamineadas al máximo, 100 en cada una. Si tu personaje no lo está, la herramienta optimiza un personaje algo más rico que el tuyo: los totales, las condiciones de ítems que cumples y la mejor forma de repartir tus puntos se mueven. Abre la página de características de tu proyecto y pon tu estado real de pergaminos, tarda diez segundos y todas las sugerencias siguientes encajarán con tu personaje real.</p>
+<p>Un build nuevo asume tus características pergamineadas al máximo, 100 en cada una. Si tu personaje no lo está, la herramienta optimiza un personaje algo más rico que el tuyo: los totales, las condiciones de ítems que cumples y la mejor forma de repartir tus puntos se mueven. Abre la página de características de tu build y pon tu estado real de pergaminos, tarda diez segundos y todas las sugerencias siguientes encajarán con tu personaje real.</p>
 
 <h2>De qué no tienes que preocuparte</h2>
 <p>Las reglas quisquillosas del juego ya se aplican por ti: las condiciones de los ítems se comprueban antes de sugerirte nada, los bonus de panoplia se cuentan bien y los topes por versión, como los límites de trofeos, se respetan. Tu trabajo es el criterio y la honestidad sobre cómo juegas. La aritmética está cubierta. Y si aun así quieres leer una ficha de ítem como un pro, empieza por <a href="/guides/reading-an-item/">leer un ítem</a>.</p>
@@ -3424,7 +3424,7 @@ GUIDES = {
 <p>Dofus 3, o beta, Dofus 2, Retro e Touch são cinco jogos diferentes. Um item central em um pode nem existir no outro, ou existir com outras stats, e as regras de pergaminhos e características também mudam. Um guia de build escrito para a versão de outra pessoa é uma armadilha na sua. Otimize na versão que você joga de verdade, e se não souber o que roda onde, veja <a href="/guides/versions-explained/">as versões explicadas</a>.</p>
 
 <h2>O ajuste que todo mundo esquece: seus pergaminhos</h2>
-<p>Um projeto novo assume suas características totalmente pergaminhadas, 100 em cada. Se o seu personagem não está, a ferramenta otimiza um personagem um pouco mais rico que o seu: os totais, as condições de itens que você cumpre e a melhor distribuição dos seus pontos mudam. Abra a página de características do seu projeto e coloque seu estado real de pergaminhos, leva dez segundos e todas as sugestões seguintes vão servir no seu personagem de verdade.</p>
+<p>Um build novo assume suas características totalmente pergaminhadas, 100 em cada. Se o seu personagem não está, a ferramenta otimiza um personagem um pouco mais rico que o seu: os totais, as condições de itens que você cumpre e a melhor distribuição dos seus pontos mudam. Abra a página de características do seu build e coloque seu estado real de pergaminhos, leva dez segundos e todas as sugestões seguintes vão servir no seu personagem de verdade.</p>
 
 <h2>Com o que você não precisa se preocupar</h2>
 <p>As regras chatas do jogo já são aplicadas por você: as condições dos itens são verificadas antes de qualquer sugestão, os bônus de panóplia são contados direito e os tetos por versão, como os limites de troféus, são respeitados. O seu trabalho é gosto e honestidade sobre como você joga. A aritmética está coberta. E se ainda quiser ler a ficha de um item como um pro, comece por <a href="/guides/reading-an-item/">lendo um item</a>.</p>
@@ -3456,7 +3456,7 @@ GUIDES = {
 <p>Dofus 3, die Beta, Dofus 2, Retro und Touch sind fünf verschiedene Spiele. Ein Item, das in einer Version zentral ist, existiert in einer anderen vielleicht gar nicht oder mit anderen Werten, und auch die Regeln für Rollen und Charakteristiken unterscheiden sich. Ein Build-Guide für die Version von jemand anderem ist in deiner eine Falle. Optimiere in der Version, die du wirklich spielst, und wenn du nicht weißt, was wo läuft, schau in <a href="/guides/versions-explained/">die Versionen erklärt</a>.</p>
 
 <h2>Die Einstellung, die alle vergessen: deine Rollen</h2>
-<p>Ein neues Projekt nimmt an, dass deine Charakteristiken voll gerollt sind, 100 in jeder. Wenn dein Charakter das nicht ist, optimiert das Werkzeug einen etwas reicheren Charakter als deinen: Die Summen, die Item-Bedingungen, die du erfüllst, und die beste Verteilung deiner Punkte verschieben sich alle. Öffne die Charakteristiken-Seite deines Projekts und trag deinen echten Rollen-Stand ein, das dauert zehn Sekunden, und jeder Vorschlag danach passt zu deinem echten Charakter.</p>
+<p>Ein neues Build nimmt an, dass deine Charakteristiken voll gerollt sind, 100 in jeder. Wenn dein Charakter das nicht ist, optimiert das Werkzeug einen etwas reicheren Charakter als deinen: Die Summen, die Item-Bedingungen, die du erfüllst, und die beste Verteilung deiner Punkte verschieben sich alle. Öffne die Charakteristiken-Seite deines Builds und trag deinen echten Rollen-Stand ein, das dauert zehn Sekunden, und jeder Vorschlag danach passt zu deinem echten Charakter.</p>
 
 <h2>Worum du dich nicht kümmern musst</h2>
 <p>Die pingeligen Regeln des Spiels werden schon für dich durchgesetzt: Item-Bedingungen werden geprüft, bevor ein Item überhaupt vorgeschlagen wird, Set-Boni werden richtig gezählt, und Versions-Obergrenzen wie Trophäen-Limits werden eingehalten. Dein Job ist Geschmack und Ehrlichkeit darüber, wie du spielst. Das Rechnen ist abgedeckt. Und wenn du trotzdem eine Item-Karte wie ein Profi lesen willst, fang mit <a href="/guides/reading-an-item/">ein Item lesen</a> an.</p>
@@ -3473,13 +3473,13 @@ GUIDES = {
             'en': {
                 'title': 'Scrolls and characteristics: set your base stats right',
                 'desc': "Scrolls raise your base stats for good, and the optimizer assumes you are fully scrolled. How scrolling works, per Dofus version, and why it matters.",
-                'lead': "Scrolls quietly change every number the optimizer hands you, and a new project assumes you already have all of them. Getting your scroll setup right is a two-minute job that makes every suggestion fit your real character.",
+                'lead': "Scrolls quietly change every number the optimizer hands you, and a new build assumes you already have all of them. Getting your scroll setup right is a two-minute job that makes every suggestion fit your real character.",
                 'body': '''
 <h2>What a scroll actually does</h2>
 <p>A scroll (parchemin) permanently raises one base characteristic. Read a Strength scroll and you keep that Strength forever, with no points spent, once per character. Because it is free stat, most players eventually scroll their main characteristics all the way to the cap. That is exactly why the optimizer treats a fully scrolled character as the default starting point.</p>
 
 <h2>The optimizer assumes you are fully scrolled</h2>
-<p>A new project starts as if your characteristics are scrolled to the maximum. If yours are not, the tool is optimizing a slightly richer character than the one you actually play: your totals, the <a href="/guides/reading-an-item/">item conditions you meet</a>, and the best way to distribute your points all shift. Open your project's characteristics page and set your real scroll level for each stat. It takes ten seconds, and every suggestion after that fits your actual character.</p>
+<p>A new build starts as if your characteristics are scrolled to the maximum. If yours are not, the tool is optimizing a slightly richer character than the one you actually play: your totals, the <a href="/guides/reading-an-item/">item conditions you meet</a>, and the best way to distribute your points all shift. Open your build's characteristics page and set your real scroll level for each stat. It takes ten seconds, and every suggestion after that fits your actual character.</p>
 
 <h2>The version twist: each Dofus version plays by its own rules</h2>
 <p>Scrolling is one of the places the five versions genuinely differ, so a habit from one can quietly mislead you in another.</p>
@@ -3493,19 +3493,19 @@ GUIDES = {
 <h2>If you have not scrolled yet</h2>
 <p>You can still plan around it. Set your real scroll state, build, and the optimizer works with the character you have today rather than an idealized one. Later, when you scroll more, update the number and tailor again: you will often free up invested points and unlock items you could not wear before. Scrolling your main damage characteristic first is the usual advice, but weight it against the content you play, the same way you would <a href="/guides/stats-explained/">value any other stat</a>.</p>
 
-<p><em>Not sure where your character stands? <a href="/setup/">Open your project</a>, set your scrolls and tailor again to see your real build.</em></p>
+<p><em>Not sure where your character stands? <a href="/setup/">Open your build</a>, set your scrolls and tailor again to see your real build.</em></p>
 ''',
             },
             'fr': {
                 'title': 'Parchemins et caractéristiques : bien régler tes stats de base',
                 'desc': "Les parchemins montent tes stats de base à vie, et l'optimiseur te suppose parchoté à fond. Comment ça marche selon la version de Dofus, et pourquoi ça compte.",
-                'lead': "Les parchemins changent en douce chaque chiffre que l'outil te donne, et un nouveau projet suppose que tu les as déjà tous. Régler ton parchotage, c'est deux minutes qui font coller chaque proposition à ton vrai perso.",
+                'lead': "Les parchemins changent en douce chaque chiffre que l'outil te donne, et un nouveau build suppose que tu les as déjà tous. Régler ton parchotage, c'est deux minutes qui font coller chaque proposition à ton vrai perso.",
                 'body': '''
 <h2>Ce que fait vraiment un parchemin</h2>
 <p>Un parchemin monte définitivement une caractéristique de base. Tu lis un parchemin de Force et tu gardes cette Force à vie, sans dépenser de points, une fois par personnage. Comme c'est de la stat gratuite, la plupart des joueurs finissent par parchoter leurs caracs principales jusqu'au plafond. C'est exactement pour ça que l'optimiseur prend un perso parchoté à fond comme point de départ par défaut.</p>
 
 <h2>L'optimiseur te suppose parchoté à fond</h2>
-<p>Un nouveau projet démarre comme si tes caracs étaient parchotées au maximum. Si ce n'est pas le cas, l'outil optimise un perso un peu plus riche que celui que tu joues vraiment : tes totaux, les <a href="/guides/reading-an-item/">conditions d'items que tu remplis</a> et la meilleure répartition de tes points bougent tous. Ouvre la page caractéristiques de ton projet et mets ton vrai niveau de parchotage pour chaque stat. Ça prend dix secondes, et toutes les propositions suivantes collent à ton vrai perso.</p>
+<p>Un nouveau build démarre comme si tes caracs étaient parchotées au maximum. Si ce n'est pas le cas, l'outil optimise un perso un peu plus riche que celui que tu joues vraiment : tes totaux, les <a href="/guides/reading-an-item/">conditions d'items que tu remplis</a> et la meilleure répartition de tes points bougent tous. Ouvre la page caractéristiques de ton build et mets ton vrai niveau de parchotage pour chaque stat. Ça prend dix secondes, et toutes les propositions suivantes collent à ton vrai perso.</p>
 
 <h2>Le piège des versions : chaque Dofus a ses propres règles</h2>
 <p>Le parchotage est un des endroits où les cinq versions diffèrent vraiment, donc une habitude prise sur l'une peut t'induire en erreur sur une autre sans que tu t'en rendes compte.</p>
@@ -3519,19 +3519,19 @@ GUIDES = {
 <h2>Si tu n'as pas encore parchoté</h2>
 <p>Tu peux quand même t'organiser autour. Mets ton vrai parchotage, construis, et l'outil travaille avec le perso que tu as aujourd'hui plutôt qu'un perso idéalisé. Plus tard, quand tu parchotes plus, mets à jour le chiffre et retaille : tu vas souvent libérer des points investis et débloquer des items que tu ne pouvais pas porter. Parchoter d'abord ta carac de dégâts principale, c'est le conseil classique, mais pondère-le selon ton contenu, comme tu le ferais pour <a href="/guides/stats-explained/">n'importe quelle autre stat</a>.</p>
 
-<p><em>Pas sûr d'où en est ton perso ? <a href="/setup/">Ouvre ton projet</a>, mets tes parchemins et retaille pour voir ton vrai build.</em></p>
+<p><em>Pas sûr d'où en est ton perso ? <a href="/setup/">Ouvre ton build</a>, mets tes parchemins et retaille pour voir ton vrai build.</em></p>
 ''',
             },
             'es': {
                 'title': 'Pergaminos y características: ajusta bien tus stats de base',
                 'desc': "Los pergaminos suben tus stats de base para siempre, y el optimizador te supone pergamineado al máximo. Cómo funciona según la versión y por qué importa.",
-                'lead': "Los pergaminos cambian en silencio cada número que te da la herramienta, y un proyecto nuevo asume que ya los tienes todos. Ajustar tu pergamineo es cosa de dos minutos que hace que cada sugerencia encaje con tu personaje real.",
+                'lead': "Los pergaminos cambian en silencio cada número que te da la herramienta, y un build nuevo asume que ya los tienes todos. Ajustar tu pergamineo es cosa de dos minutos que hace que cada sugerencia encaje con tu personaje real.",
                 'body': '''
 <h2>Qué hace de verdad un pergamino</h2>
 <p>Un pergamino sube de forma permanente una característica de base. Lees un pergamino de Fuerza y conservas esa Fuerza para siempre, sin gastar puntos, una vez por personaje. Como es stat gratis, la mayoría de jugadores acaba pergamineando sus características principales hasta el tope. Por eso el optimizador toma un personaje pergamineado al máximo como punto de partida por defecto.</p>
 
 <h2>El optimizador te supone pergamineado al máximo</h2>
-<p>Un proyecto nuevo empieza como si tus características estuvieran pergamineadas al máximo. Si las tuyas no lo están, la herramienta optimiza un personaje algo más rico que el que juegas de verdad: tus totales, las <a href="/guides/reading-an-item/">condiciones de ítems que cumples</a> y la mejor forma de repartir tus puntos se mueven. Abre la página de características de tu proyecto y pon tu nivel real de pergamineo en cada stat. Tarda diez segundos, y todas las sugerencias siguientes encajan con tu personaje real.</p>
+<p>Un build nuevo empieza como si tus características estuvieran pergamineadas al máximo. Si las tuyas no lo están, la herramienta optimiza un personaje algo más rico que el que juegas de verdad: tus totales, las <a href="/guides/reading-an-item/">condiciones de ítems que cumples</a> y la mejor forma de repartir tus puntos se mueven. Abre la página de características de tu build y pon tu nivel real de pergamineo en cada stat. Tarda diez segundos, y todas las sugerencias siguientes encajan con tu personaje real.</p>
 
 <h2>El truco de las versiones: cada Dofus juega con sus propias reglas</h2>
 <p>El pergamineo es uno de los sitios donde las cinco versiones difieren de verdad, así que una costumbre de una puede engañarte en otra sin que te des cuenta.</p>
@@ -3545,19 +3545,19 @@ GUIDES = {
 <h2>Si aún no has pergamineado</h2>
 <p>Igual puedes planificar con ello en cuenta. Pon tu pergamineo real, construye, y la herramienta trabaja con el personaje que tienes hoy en vez de uno idealizado. Más adelante, cuando pergaminees más, actualiza el número y vuelve a optimizar: a menudo liberarás puntos invertidos y desbloquearás ítems que antes no podías llevar. Pergaminear primero tu característica de daño principal es el consejo habitual, pero pondéralo según el contenido que juegas, igual que <a href="/guides/stats-explained/">valorarías cualquier otra stat</a>.</p>
 
-<p><em>¿No sabes cómo está tu personaje? <a href="/setup/">Abre tu proyecto</a>, pon tus pergaminos y vuelve a optimizar para ver tu build real.</em></p>
+<p><em>¿No sabes cómo está tu personaje? <a href="/setup/">Abre tu build</a>, pon tus pergaminos y vuelve a optimizar para ver tu build real.</em></p>
 ''',
             },
             'pt': {
                 'title': 'Pergaminhos e características: acerte suas stats de base',
                 'desc': "Pergaminhos sobem suas stats de base para sempre, e o otimizador assume você totalmente pergaminhado. Como funciona por versão de Dofus e por que importa.",
-                'lead': "Pergaminhos mudam em silêncio cada número que a ferramenta te dá, e um projeto novo assume que você já tem todos. Acertar seu pergaminho leva dois minutos e faz cada sugestão servir no seu personagem real.",
+                'lead': "Pergaminhos mudam em silêncio cada número que a ferramenta te dá, e um build novo assume que você já tem todos. Acertar seu pergaminho leva dois minutos e faz cada sugestão servir no seu personagem real.",
                 'body': '''
 <h2>O que um pergaminho faz de verdade</h2>
 <p>Um pergaminho sobe permanentemente uma característica de base. Você lê um pergaminho de Força e mantém aquela Força para sempre, sem gastar pontos, uma vez por personagem. Como é stat de graça, a maioria dos jogadores acaba pergaminhando suas características principais até o teto. É exatamente por isso que o otimizador toma um personagem totalmente pergaminhado como ponto de partida padrão.</p>
 
 <h2>O otimizador assume você totalmente pergaminhado</h2>
-<p>Um projeto novo começa como se suas características estivessem pergaminhadas ao máximo. Se as suas não estão, a ferramenta otimiza um personagem um pouco mais rico que o que você joga de fato: seus totais, as <a href="/guides/reading-an-item/">condições de itens que você cumpre</a> e a melhor forma de distribuir seus pontos mudam. Abra a página de características do seu projeto e coloque seu nível real de pergaminho em cada stat. Leva dez segundos, e todas as sugestões seguintes vão servir no seu personagem real.</p>
+<p>Um build novo começa como se suas características estivessem pergaminhadas ao máximo. Se as suas não estão, a ferramenta otimiza um personagem um pouco mais rico que o que você joga de fato: seus totais, as <a href="/guides/reading-an-item/">condições de itens que você cumpre</a> e a melhor forma de distribuir seus pontos mudam. Abra a página de características do seu build e coloque seu nível real de pergaminho em cada stat. Leva dez segundos, e todas as sugestões seguintes vão servir no seu personagem real.</p>
 
 <h2>A pegadinha das versões: cada Dofus joga com as próprias regras</h2>
 <p>O pergaminho é um dos pontos em que as cinco versões realmente diferem, então um hábito de uma pode te enganar em outra sem você perceber.</p>
@@ -3571,19 +3571,19 @@ GUIDES = {
 <h2>Se você ainda não pergaminhou</h2>
 <p>Dá para planejar com isso em mente mesmo assim. Coloque seu pergaminho real, monte, e a ferramenta trabalha com o personagem que você tem hoje em vez de um idealizado. Depois, quando pergaminhar mais, atualize o número e otimize de novo: você costuma liberar pontos investidos e desbloquear itens que não podia usar. Pergaminhar primeiro sua característica de dano principal é o conselho de sempre, mas pondere conforme o conteúdo que você joga, do mesmo jeito que <a href="/guides/stats-explained/">avaliaria qualquer outra stat</a>.</p>
 
-<p><em>Não sabe como está seu personagem? <a href="/setup/">Abra seu projeto</a>, coloque seus pergaminhos e otimize de novo para ver seu build real.</em></p>
+<p><em>Não sabe como está seu personagem? <a href="/setup/">Abra seu build</a>, coloque seus pergaminhos e otimize de novo para ver seu build real.</em></p>
 ''',
             },
             'de': {
                 'title': 'Rollen und Charakteristiken: deine Grundwerte richtig setzen',
                 'desc': "Rollen heben deine Grundwerte dauerhaft, und der Optimierer nimmt dich als voll gerollt an. Wie das je nach Dofus-Version funktioniert und warum es zählt.",
-                'lead': "Rollen verändern leise jede Zahl, die dir das Werkzeug gibt, und ein neues Projekt nimmt an, dass du sie alle schon hast. Deinen Roll-Stand richtig zu setzen dauert zwei Minuten und lässt jeden Vorschlag zu deinem echten Charakter passen.",
+                'lead': "Rollen verändern leise jede Zahl, die dir das Werkzeug gibt, und ein neues Build nimmt an, dass du sie alle schon hast. Deinen Roll-Stand richtig zu setzen dauert zwei Minuten und lässt jeden Vorschlag zu deinem echten Charakter passen.",
                 'body': '''
 <h2>Was eine Rolle wirklich macht</h2>
 <p>Eine Rolle (Parchemin) hebt dauerhaft eine Grundcharakteristik. Du liest eine Stärke-Rolle und behältst diese Stärke für immer, ohne Punkte auszugeben, einmal pro Charakter. Weil es Gratis-Wert ist, rollen die meisten Spieler ihre Hauptcharakteristiken irgendwann bis zur Obergrenze. Genau deshalb nimmt der Optimierer einen voll gerollten Charakter als Standard-Ausgangspunkt.</p>
 
 <h2>Der Optimierer nimmt dich als voll gerollt an</h2>
-<p>Ein neues Projekt startet, als wären deine Charakteristiken auf das Maximum gerollt. Wenn deine das nicht sind, optimiert das Werkzeug einen etwas reicheren Charakter als den, den du wirklich spielst: deine Summen, die <a href="/guides/reading-an-item/">Item-Bedingungen, die du erfüllst</a>, und die beste Punkteverteilung verschieben sich alle. Öffne die Charakteristiken-Seite deines Projekts und trag deinen echten Roll-Stand für jeden Wert ein. Das dauert zehn Sekunden, und jeder Vorschlag danach passt zu deinem echten Charakter.</p>
+<p>Ein neues Build startet, als wären deine Charakteristiken auf das Maximum gerollt. Wenn deine das nicht sind, optimiert das Werkzeug einen etwas reicheren Charakter als den, den du wirklich spielst: deine Summen, die <a href="/guides/reading-an-item/">Item-Bedingungen, die du erfüllst</a>, und die beste Punkteverteilung verschieben sich alle. Öffne die Charakteristiken-Seite deines Builds und trag deinen echten Roll-Stand für jeden Wert ein. Das dauert zehn Sekunden, und jeder Vorschlag danach passt zu deinem echten Charakter.</p>
 
 <h2>Der Versions-Haken: jede Dofus-Version hat eigene Regeln</h2>
 <p>Rollen ist einer der Punkte, an denen sich die fünf Versionen wirklich unterscheiden, also kann dich eine Gewohnheit aus der einen in der anderen leise in die Irre führen.</p>
@@ -3597,7 +3597,7 @@ GUIDES = {
 <h2>Wenn du noch nicht gerollt hast</h2>
 <p>Du kannst trotzdem darum herum planen. Trag deinen echten Roll-Stand ein, bau, und das Werkzeug arbeitet mit dem Charakter, den du heute hast, statt mit einem idealisierten. Später, wenn du mehr rollst, aktualisiere die Zahl und optimiere erneut: oft werden investierte Punkte frei und du schaltest Items frei, die du vorher nicht tragen konntest. Zuerst deine Haupt-Schadenscharakteristik zu rollen ist der übliche Rat, aber gewichte ihn nach dem Inhalt, den du spielst, genauso wie du <a href="/guides/stats-explained/">jeden anderen Wert bewerten</a> würdest.</p>
 
-<p><em>Nicht sicher, wo dein Charakter steht? <a href="/setup/">Öffne dein Projekt</a>, setz deine Rollen und optimiere erneut, um dein echtes Build zu sehen.</em></p>
+<p><em>Nicht sicher, wo dein Charakter steht? <a href="/setup/">Öffne dein Build</a>, setz deine Rollen und optimiere erneut, um dein echtes Build zu sehen.</em></p>
 ''',
             },
         },
@@ -4550,7 +4550,7 @@ GUIDES = {
 <p>Every Dofus item rolls inside a range, so the encyclopedia number is a description, not your item. A hat listed at 41 to 50 Intelligence might be a 43 in your bag. Feed that in and the optimizer stops crediting your gear with points it does not have, which is the single most common reason a solved build looks better on screen than in game.</p>
 
 <h2>The three modes</h2>
-<p>Each project chooses how to use the inventory, in the options:</p>
+<p>Each build chooses how to use the inventory, in the options:</p>
 <ul>
 <li><strong>Only encyclopedia items</strong>: the inventory is ignored. Good for planning a build you have not farmed yet.</li>
 <li><strong>Encyclopedia items + my inventory</strong>: the whole catalogue stays available, but any item you own is judged on your saved rolls. This is the honest middle: it can still suggest something you do not have, and it will not lie about what you do.</li>
@@ -4563,7 +4563,7 @@ GUIDES = {
 <h2>What it cannot do</h2>
 <p>It only knows what you type in. There is no game connection and no import, so an inventory is worth exactly the care you put into it. The upside is that the solution you get back is displayed with the same rolls it was optimized with, so what you read is what the solver actually used.</p>
 
-<p><em>Start a folder on the <a href="/inventory/">inventory page</a>, then pick a mode in your project options. New here? <a href="/setup/">Solve a build first.</a></em></p>
+<p><em>Start a folder on the <a href="/inventory/">inventory page</a>, then pick a mode in your build options. New here? <a href="/setup/">Solve a build first.</a></em></p>
 ''',
             },
             'fr': {
@@ -4578,7 +4578,7 @@ GUIDES = {
 <p>Chaque objet Dofus tire dans une fourchette : le chiffre de l'encyclopédie est une description, pas ton objet. Une coiffe annoncée entre 41 et 50 Intelligence peut très bien être un 43 dans ton sac. Renseigne-le et l'optimiseur arrête de créditer ton stuff de points qu'il n'a pas, ce qui est la raison numéro un pour laquelle un build calculé a plus fière allure à l'écran qu'en jeu.</p>
 
 <h2>Les trois modes</h2>
-<p>Chaque projet choisit comment se servir de l'inventaire, dans les options :</p>
+<p>Chaque build choisit comment se servir de l'inventaire, dans les options :</p>
 <ul>
 <li><strong>Uniquement les objets de l'encyclopédie</strong> : l'inventaire est ignoré. Parfait pour préparer un build que tu n'as pas encore farmé.</li>
 <li><strong>Les objets de l'encyclopédie + mon inventaire</strong> : tout le catalogue reste disponible, mais un objet que tu possèdes est jugé sur tes jets. C'est le juste milieu honnête : il peut encore te proposer ce que tu n'as pas, et il ne mentira pas sur ce que tu as.</li>
@@ -4591,7 +4591,7 @@ GUIDES = {
 <h2>Ce qu'il ne sait pas faire</h2>
 <p>Il ne connaît que ce que tu tapes. Il n'y a aucune connexion au jeu et aucun import : un inventaire vaut exactement le soin que tu y mets. En échange, la solution qu'on te rend est affichée avec les jets qui ont servi à l'optimiser, donc ce que tu lis est bien ce que le solveur a utilisé.</p>
 
-<p><em>Crée un dossier sur la <a href="/inventory/">page inventaire</a>, puis choisis un mode dans les options de ton projet. Tu débutes ? <a href="/setup/">Calcule d'abord un build.</a></em></p>
+<p><em>Crée un dossier sur la <a href="/inventory/">page inventaire</a>, puis choisis un mode dans les options de ton build. Tu débutes ? <a href="/setup/">Calcule d'abord un build.</a></em></p>
 ''',
             },
             'es': {
@@ -4606,7 +4606,7 @@ GUIDES = {
 <p>Cada objeto de Dofus tira dentro de un rango: la cifra de la enciclopedia es una descripción, no tu objeto. Un sombrero anunciado entre 41 y 50 de Inteligencia puede ser un 43 en tu bolsa. Introdúcelo y el optimizador dejará de acreditar a tu equipo puntos que no tiene, que es la razón número uno de que una build calculada luzca mejor en pantalla que en juego.</p>
 
 <h2>Los tres modos</h2>
-<p>Cada proyecto elige cómo usar el inventario, en las opciones:</p>
+<p>Cada build elige cómo usar el inventario, en las opciones:</p>
 <ul>
 <li><strong>Solo objetos de la enciclopedia</strong>: el inventario se ignora. Ideal para preparar una build que aún no has farmeado.</li>
 <li><strong>Objetos de la enciclopedia + mi inventario</strong>: sigue disponible todo el catálogo, pero un objeto que posees se juzga por tus tiradas. Es el término medio honesto: aún puede proponerte lo que no tienes, y no mentirá sobre lo que sí.</li>
@@ -4619,7 +4619,7 @@ GUIDES = {
 <h2>Qué no puede hacer</h2>
 <p>Solo sabe lo que escribes. No hay conexión con el juego ni importación: un inventario vale exactamente el cuidado que le pongas. A cambio, la solución que recibes se muestra con las mismas tiradas con las que se optimizó, así que lo que lees es lo que el solucionador usó.</p>
 
-<p><em>Crea una carpeta en la <a href="/inventory/">página de inventario</a> y luego elige un modo en las opciones del proyecto. ¿Empiezas ahora? <a href="/setup/">Calcula antes una build.</a></em></p>
+<p><em>Crea una carpeta en la <a href="/inventory/">página de inventario</a> y luego elige un modo en las opciones del build. ¿Empiezas ahora? <a href="/setup/">Calcula antes una build.</a></em></p>
 ''',
             },
             'pt': {
@@ -4634,7 +4634,7 @@ GUIDES = {
 <p>Cada item de Dofus sai dentro de um intervalo: o número da enciclopédia é uma descrição, não o teu item. Um chapéu anunciado entre 41 e 50 de Inteligência pode ser um 43 na tua mochila. Mete lá isso e o otimizador deixa de creditar ao teu equipamento pontos que ele não tem, que é a razão número um para uma build calculada parecer melhor no ecrã do que no jogo.</p>
 
 <h2>Os três modos</h2>
-<p>Cada projeto escolhe como usar o inventário, nas opções:</p>
+<p>Cada build escolhe como usar o inventário, nas opções:</p>
 <ul>
 <li><strong>Apenas itens da enciclopédia</strong>: o inventário é ignorado. Bom para preparar uma build que ainda não farmaste.</li>
 <li><strong>Itens da enciclopédia + meu inventário</strong>: todo o catálogo continua disponível, mas um item que tens é julgado pelos teus valores. É o meio-termo honesto: ainda te pode propor o que não tens, e não mente sobre o que tens.</li>
@@ -4647,7 +4647,7 @@ GUIDES = {
 <h2>O que não consegue fazer</h2>
 <p>Só sabe aquilo que escreves. Não há ligação ao jogo nem importação: um inventário vale exatamente o cuidado que lhe deres. Em troca, a solução que recebes é mostrada com os mesmos valores com que foi otimizada, por isso o que lês é o que o solucionador usou.</p>
 
-<p><em>Cria uma pasta na <a href="/inventory/">página do inventário</a> e escolhe depois um modo nas opções do projeto. Estás a começar? <a href="/setup/">Calcula primeiro uma build.</a></em></p>
+<p><em>Cria uma pasta na <a href="/inventory/">página do inventário</a> e escolhe depois um modo nas opções do build. Estás a começar? <a href="/setup/">Calcula primeiro uma build.</a></em></p>
 ''',
             },
             'de': {
@@ -4662,7 +4662,7 @@ GUIDES = {
 <p>Jedes Dofus-Item würfelt in einer Spanne: Die Zahl in der Enzyklopädie ist eine Beschreibung, nicht dein Item. Ein Hut mit 41 bis 50 Intelligenz kann in deiner Tasche eine 43 sein. Trag das ein, und der Optimierer schreibt deiner Ausrüstung keine Punkte mehr gut, die sie nicht hat. Genau daran liegt es meistens, wenn ein gerechneter Build am Bildschirm besser aussieht als im Spiel.</p>
 
 <h2>Die drei Modi</h2>
-<p>Jedes Projekt entscheidet in den Optionen, wie es das Inventar nutzt:</p>
+<p>Jedes Build entscheidet in den Optionen, wie es das Inventar nutzt:</p>
 <ul>
 <li><strong>Nur Enzyklopädie-Gegenstände</strong>: Das Inventar wird ignoriert. Gut, um einen Build zu planen, den du noch nicht gefarmt hast.</li>
 <li><strong>Enzyklopädie-Gegenstände und mein Inventar</strong>: Der ganze Katalog bleibt verfügbar, aber ein Item, das du besitzt, wird mit deinen Werten bewertet. Das ist die ehrliche Mitte: Es darf dir weiter vorschlagen, was du nicht hast, und lügt nicht über das, was du hast.</li>
@@ -4675,7 +4675,7 @@ GUIDES = {
 <h2>Was es nicht kann</h2>
 <p>Es kennt nur, was du einträgst. Es gibt keine Verbindung zum Spiel und keinen Import: Ein Inventar ist genau so viel wert wie die Sorgfalt, die du hineinsteckst. Dafür wird die Lösung mit denselben Werten angezeigt, mit denen sie optimiert wurde, du liest also genau das, womit der Löser gerechnet hat.</p>
 
-<p><em>Leg einen Ordner auf der <a href="/inventory/">Inventarseite</a> an und wähl dann einen Modus in den Projektoptionen. Neu hier? <a href="/setup/">Rechne zuerst einen Build.</a></em></p>
+<p><em>Leg einen Ordner auf der <a href="/inventory/">Inventarseite</a> an und wähl dann einen Modus in den Build-Optionen. Neu hier? <a href="/setup/">Rechne zuerst einen Build.</a></em></p>
 ''',
             },
         },
@@ -4701,7 +4701,7 @@ GUIDES = {
 
 <h2>Mounts share the pet slot</h2>
 <p>A mount is not a separate slot: it goes where the pet goes, so every mount you consider is a pet you give up. Most of the pet-slot roster is mounts, and their stats can be significant, which is exactly why the choice deserves a moment rather than a habit.</p>
-<p>You almost certainly do not own all of them, so the Fashionista lets you switch off the families you cannot ride: Dragoturkey, Seemyool and Rhineetle each have their own toggle in the project options. Turn off what you do not have and the solution becomes something you can actually equip today.</p>
+<p>You almost certainly do not own all of them, so the Fashionista lets you switch off the families you cannot ride: Dragoturkey, Seemyool and Rhineetle each have their own toggle in the build options. Turn off what you do not have and the solution becomes something you can actually equip today.</p>
 
 <h2>Shields are a real slot</h2>
 <p>Shields are ordinary equipment here: they carry resistance, sometimes vitality or damage, and the optimizer weighs them against everything else. There is a single switch to include or exclude them, which is useful when you are building for a mode where you would rather not spend the slot.</p>
@@ -4725,7 +4725,7 @@ GUIDES = {
 
 <h2>La monture prend la place du familier</h2>
 <p>Une monture n'est pas un emplacement à part : elle va là où va le familier, donc chaque monture envisagée est un familier auquel tu renonces. La majorité des objets de cet emplacement sont des montures, et leurs stats ne sont pas anecdotiques : la question mérite une minute de réflexion plutôt qu'une habitude.</p>
-<p>Tu ne les possèdes sûrement pas toutes, alors la Fashionista te laisse couper les familles que tu ne peux pas monter : dinde, seemyool et rhineetle ont chacun leur case dans les options du projet. Décoche ce que tu n'as pas, et la solution devient quelque chose que tu peux réellement équiper aujourd'hui.</p>
+<p>Tu ne les possèdes sûrement pas toutes, alors la Fashionista te laisse couper les familles que tu ne peux pas monter : dinde, seemyool et rhineetle ont chacun leur case dans les options du build. Décoche ce que tu n'as pas, et la solution devient quelque chose que tu peux réellement équiper aujourd'hui.</p>
 
 <h2>Le bouclier est un vrai emplacement</h2>
 <p>Ici, les boucliers sont de l'équipement comme un autre : ils apportent de la résistance, parfois de la vitalité ou des dommages, et l'optimiseur les met en concurrence avec le reste. Une seule case les inclut ou les exclut, ce qui est pratique quand tu prépares un mode où tu préfères garder l'emplacement libre.</p>
@@ -4749,7 +4749,7 @@ GUIDES = {
 
 <h2>La montura ocupa la casilla de la mascota</h2>
 <p>Una montura no es una casilla aparte: va donde va la mascota, así que cada montura que consideras es una mascota a la que renuncias. La mayor parte de esa casilla son monturas, y sus estadísticas no son menores, justo por eso la elección merece un minuto y no una costumbre.</p>
-<p>Seguramente no las tienes todas, así que la Fashionista te deja apagar las familias que no puedes montar: dragopavo, seemyool y rinescarabajo tienen su propia casilla en las opciones del proyecto. Desmarca lo que no tengas y la solución pasa a ser algo que puedes equipar hoy mismo.</p>
+<p>Seguramente no las tienes todas, así que la Fashionista te deja apagar las familias que no puedes montar: dragopavo, seemyool y rinescarabajo tienen su propia casilla en las opciones del build. Desmarca lo que no tengas y la solución pasa a ser algo que puedes equipar hoy mismo.</p>
 
 <h2>El escudo es una casilla de verdad</h2>
 <p>Aquí los escudos son equipo normal: aportan resistencia, a veces vitalidad o daño, y el optimizador los compara con todo lo demás. Una sola casilla los incluye o los excluye, lo que viene bien cuando preparas un modo en el que prefieres no gastar ese hueco.</p>
@@ -4773,7 +4773,7 @@ GUIDES = {
 
 <h2>A montaria ocupa o espaço da mascote</h2>
 <p>Montaria não é um espaço separado: ela vai onde a mascote iria, então cada montaria considerada é uma mascote abandonada. A maior parte desse espaço é de montarias, e os atributos delas não são pouca coisa, e é exatamente por isso que a escolha merece um minuto em vez de virar hábito.</p>
-<p>Você provavelmente não tem todas, então a Fashionista deixa desligar as famílias que você não monta: dragoperu, seemyool e rinesouro têm cada um sua caixa nas opções do projeto. Desmarque o que não tem e a solução vira algo que dá para equipar hoje.</p>
+<p>Você provavelmente não tem todas, então a Fashionista deixa desligar as famílias que você não monta: dragoperu, seemyool e rinesouro têm cada um sua caixa nas opções do build. Desmarque o que não tem e a solução vira algo que dá para equipar hoje.</p>
 
 <h2>Escudo é um espaço de verdade</h2>
 <p>Aqui os escudos são equipamento comum: dão resistência, às vezes vitalidade ou dano, e o otimizador os compara com o resto. Uma única caixa os inclui ou exclui, o que ajuda quando você monta para um modo em que prefere não gastar o espaço.</p>
@@ -4797,7 +4797,7 @@ GUIDES = {
 
 <h2>Das Reittier belegt den Begleiterplatz</h2>
 <p>Ein Reittier ist kein eigener Platz: Es sitzt dort, wo der Begleiter säße. Jedes Reittier, das du erwägst, ist also ein Begleiter, auf den du verzichtest. Der größte Teil dieses Platzes besteht aus Reittieren, und ihre Werte sind alles andere als nebensächlich, genau deshalb verdient die Wahl eine Minute statt einer Gewohnheit.</p>
-<p>Du besitzt sicher nicht alle, deshalb kannst du in der Fashionista die Familien abschalten, die du nicht reiten kannst: Dragotruthahn, Seemyool und Rhinokäfer haben je ein eigenes Kästchen in den Projektoptionen. Schalte ab, was dir fehlt, und die Lösung wird zu etwas, das du heute anlegen kannst.</p>
+<p>Du besitzt sicher nicht alle, deshalb kannst du in der Fashionista die Familien abschalten, die du nicht reiten kannst: Dragotruthahn, Seemyool und Rhinokäfer haben je ein eigenes Kästchen in den Build-Optionen. Schalte ab, was dir fehlt, und die Lösung wird zu etwas, das du heute anlegen kannst.</p>
 
 <h2>Der Schild ist ein echter Platz</h2>
 <p>Schilde sind hier ganz normale Ausrüstung: Sie bringen Widerstand, manchmal Lebenspunkte oder Schaden, und der Optimierer wägt sie gegen alles andere ab. Ein einziges Kästchen nimmt sie hinein oder heraus, praktisch, wenn du für einen Modus baust, in dem du den Platz lieber sparst.</p>
@@ -4823,7 +4823,7 @@ GUIDES = {
 <p>Read them for what they are: a target, not a purchase. The optimizer proposing "Wabbit (+110 Agility)" means the build wants an Agility Wabbit fed all the way, not that you can buy one at that value. If the feeding is not something you will do, exclude the entry and solve again.</p>
 
 <h2>Mounts share the pet slot</h2>
-<p>A mount goes where the pet goes, so every mount you consider is a pet you give up. Touch has a real mount roster in that slot, and the Fashionista lets you switch off the families you cannot ride: Dragoturkey, Seemyool and Rhineetle each have their own toggle in the project options. Turn off what you do not have and the solution becomes something you can equip today.</p>
+<p>A mount goes where the pet goes, so every mount you consider is a pet you give up. Touch has a real mount roster in that slot, and the Fashionista lets you switch off the families you cannot ride: Dragoturkey, Seemyool and Rhineetle each have their own toggle in the build options. Turn off what you do not have and the solution becomes something you can equip today.</p>
 
 <h2>Shields are a real slot</h2>
 <p>Touch shields are ordinary equipment: resistance, sometimes vitality or damage, weighed against everything else. One switch includes or excludes them, and the values the tool uses are the ones a shield reaches when it is fed to level 100, so the same rule applies as for pets: the number assumes the work is done.</p>
@@ -4847,7 +4847,7 @@ GUIDES = {
 <p>Lis-les pour ce qu'ils sont : un objectif, pas un achat. Si l'optimiseur te propose "Wabbit (+110 Agilité)", ça veut dire que le build veut un Wabbit agi gavé à fond, pas que tu peux en acheter un à cette valeur. Si le gavage n'est pas quelque chose que tu feras, exclus l'objet et relance.</p>
 
 <h2>La monture prend la place du familier</h2>
-<p>Une monture va là où irait le familier : chaque monture envisagée est un familier auquel tu renonces. Touch a une vraie sélection de montures sur cet emplacement, et la Fashionista te laisse couper les familles que tu ne peux pas monter : dinde, seemyool et rhineetle ont chacun leur case dans les options du projet. Décoche ce que tu n'as pas, et la solution devient équipable aujourd'hui.</p>
+<p>Une monture va là où irait le familier : chaque monture envisagée est un familier auquel tu renonces. Touch a une vraie sélection de montures sur cet emplacement, et la Fashionista te laisse couper les familles que tu ne peux pas monter : dinde, seemyool et rhineetle ont chacun leur case dans les options du build. Décoche ce que tu n'as pas, et la solution devient équipable aujourd'hui.</p>
 
 <h2>Le bouclier est un vrai emplacement</h2>
 <p>Les boucliers Touch sont de l'équipement comme un autre : résistance, parfois vitalité ou dommages, mis en concurrence avec le reste. Une case les inclut ou les exclut, et les valeurs utilisées sont celles qu'un bouclier atteint une fois nourri jusqu'au niveau 100 : même règle que pour les familiers, le chiffre suppose le travail fait.</p>
@@ -4871,7 +4871,7 @@ GUIDES = {
 <p>Léelas por lo que son: un objetivo, no una compra. Que el optimizador proponga "Wabbit (+110 Agilidad)" significa que el equipo quiere un Wabbit de agilidad cebado del todo, no que puedas comprar uno con ese valor. Si no vas a hacer ese trabajo, excluye la entrada y vuelve a calcular.</p>
 
 <h2>La montura ocupa la casilla de la mascota</h2>
-<p>La montura va donde iría la mascota: cada montura que consideras es una mascota a la que renuncias. Touch tiene una selección real de monturas en esa casilla, y la Fashionista te deja apagar las familias que no puedes montar: dragopavo, seemyool y rinescarabajo tienen su propia casilla en las opciones del proyecto. Desmarca lo que no tengas y la solución pasa a ser equipable hoy.</p>
+<p>La montura va donde iría la mascota: cada montura que consideras es una mascota a la que renuncias. Touch tiene una selección real de monturas en esa casilla, y la Fashionista te deja apagar las familias que no puedes montar: dragopavo, seemyool y rinescarabajo tienen su propia casilla en las opciones del build. Desmarca lo que no tengas y la solución pasa a ser equipable hoy.</p>
 
 <h2>El escudo es una casilla de verdad</h2>
 <p>Los escudos de Touch son equipo normal: resistencia, a veces vitalidad o daño, comparados con todo lo demás. Una casilla los incluye o los excluye, y los valores que usa la herramienta son los que alcanza un escudo alimentado hasta el nivel 100: la misma regla que con las mascotas, la cifra da por hecho el trabajo hecho.</p>
@@ -4895,7 +4895,7 @@ GUIDES = {
 <p>Leia como o que são: uma meta, não uma compra. Se o otimizador propõe "Wabbit (+110 Agilidade)", isso quer dizer que a build quer um Wabbit de agilidade alimentado até o teto, não que dá para comprar um assim. Se você não vai fazer esse trabalho, exclua a entrada e calcule de novo.</p>
 
 <h2>A montaria ocupa o espaço da mascote</h2>
-<p>A montaria vai onde a mascote iria: cada montaria considerada é uma mascote abandonada. O Touch tem uma seleção real de montarias nesse espaço, e a Fashionista deixa desligar as famílias que você não monta: dragoperu, seemyool e rinesouro têm cada um sua caixa nas opções do projeto. Desmarque o que não tem e a solução vira algo equipável hoje.</p>
+<p>A montaria vai onde a mascote iria: cada montaria considerada é uma mascote abandonada. O Touch tem uma seleção real de montarias nesse espaço, e a Fashionista deixa desligar as famílias que você não monta: dragoperu, seemyool e rinesouro têm cada um sua caixa nas opções do build. Desmarque o que não tem e a solução vira algo equipável hoje.</p>
 
 <h2>Escudo é um espaço de verdade</h2>
 <p>Os escudos do Touch são equipamento comum: resistência, às vezes vitalidade ou dano, comparados com o resto. Uma caixa os inclui ou exclui, e os valores usados são os que um escudo atinge alimentado até o nível 100: mesma regra das mascotes, o número pressupõe o trabalho feito.</p>
@@ -4919,7 +4919,7 @@ GUIDES = {
 <p>Lies sie als das, was sie sind: ein Ziel, kein Kauf. Schlägt der Optimierer "Wabbit (+110 Flinkheit)" vor, will der Build ein voll gefüttertes Flinkheits-Wabbit, nicht eines, das du so kaufen kannst. Wenn du das Füttern nicht auf dich nimmst, schließ das Teil aus und rechne neu.</p>
 
 <h2>Das Reittier belegt den Begleiterplatz</h2>
-<p>Ein Reittier sitzt dort, wo der Begleiter säße: Jedes Reittier ist ein Begleiter, auf den du verzichtest. Touch hat auf diesem Platz eine echte Auswahl an Reittieren, und in der Fashionista kannst du die Familien abschalten, die du nicht reiten kannst: Dragotruthahn, Seemyool und Rhinokäfer haben je ein eigenes Kästchen in den Projektoptionen. Schalte ab, was dir fehlt, und die Lösung wird heute anlegbar.</p>
+<p>Ein Reittier sitzt dort, wo der Begleiter säße: Jedes Reittier ist ein Begleiter, auf den du verzichtest. Touch hat auf diesem Platz eine echte Auswahl an Reittieren, und in der Fashionista kannst du die Familien abschalten, die du nicht reiten kannst: Dragotruthahn, Seemyool und Rhinokäfer haben je ein eigenes Kästchen in den Build-Optionen. Schalte ab, was dir fehlt, und die Lösung wird heute anlegbar.</p>
 
 <h2>Der Schild ist ein echter Platz</h2>
 <p>Touch-Schilde sind normale Ausrüstung: Widerstand, manchmal Lebenspunkte oder Schaden, abgewogen gegen alles andere. Ein Kästchen nimmt sie hinein oder heraus, und die verwendeten Werte sind die, die ein Schild erreicht, wenn er bis Stufe 100 gefüttert wurde: dieselbe Regel wie bei Begleitern, die Zahl setzt die Arbeit voraus.</p>
@@ -4948,7 +4948,7 @@ GUIDES = {
 <p>Retro shields only do their work in player versus player, so a build made for monsters gets nothing from the slot. The Fashionista follows that rule: a Retro preset built for PvM leaves shields out by default, and a PvP one brings them back. If you are theorycrafting for the arena, make sure the switch is on, because the shield roster is large and the optimizer will use it.</p>
 
 <h2>Getting it right in the tool</h2>
-<p>Decide the two questions before you solve: which pet you are actually willing to feed, and whether this build ever fights another player. Answer them in the project options and the solution stops containing gear you cannot use.</p>
+<p>Decide the two questions before you solve: which pet you are actually willing to feed, and whether this build ever fights another player. Answer them in the build options and the solution stops containing gear you cannot use.</p>
 
 <p><em>Building for Retro? <a href="/setup/">Set the two slots and solve.</a></em></p>
 ''',
@@ -4969,7 +4969,7 @@ GUIDES = {
 <p>Les boucliers Rétro ne font leur travail qu'en joueur contre joueur : un build fait pour les monstres ne tire rien de cet emplacement. La Fashionista suit cette règle : un préréglage Rétro orienté PvM laisse les boucliers de côté par défaut, un préréglage PvP les remet. Si tu theorycraftes pour l'arène, vérifie que la case est cochée, parce que la sélection de boucliers est large et que l'optimiseur s'en servira.</p>
 
 <h2>Le régler correctement dans l'outil</h2>
-<p>Tranche deux questions avant de lancer : quel familier tu es réellement prêt à gaver, et si ce build affrontera un jour un autre joueur. Réponds-y dans les options du projet, et la solution cesse de contenir du stuff que tu ne peux pas utiliser.</p>
+<p>Tranche deux questions avant de lancer : quel familier tu es réellement prêt à gaver, et si ce build affrontera un jour un autre joueur. Réponds-y dans les options du build, et la solution cesse de contenir du stuff que tu ne peux pas utiliser.</p>
 
 <p><em>Tu construis sur Rétro ? <a href="/setup/">Règle les deux emplacements et lance.</a></em></p>
 ''',
@@ -4990,7 +4990,7 @@ GUIDES = {
 <p>Los escudos de Retro solo hacen su trabajo en jugador contra jugador, así que un equipo pensado para monstruos no saca nada de esa casilla. La Fashionista sigue esa regla: un preajuste Retro orientado a PvM deja los escudos fuera por defecto, y uno de PvP los devuelve. Si preparas la arena, comprueba que la casilla esté marcada, porque la selección de escudos es amplia y el optimizador la usará.</p>
 
 <h2>Ajustarlo bien en la herramienta</h2>
-<p>Resuelve dos preguntas antes de calcular: qué mascota estás dispuesto a cebar de verdad y si este equipo se enfrentará alguna vez a otro jugador. Contéstalas en las opciones del proyecto y la solución dejará de incluir equipo que no puedes usar.</p>
+<p>Resuelve dos preguntas antes de calcular: qué mascota estás dispuesto a cebar de verdad y si este equipo se enfrentará alguna vez a otro jugador. Contéstalas en las opciones del build y la solución dejará de incluir equipo que no puedes usar.</p>
 
 <p><em>¿Construyes en Retro? <a href="/setup/">Ajusta las dos casillas y calcula.</a></em></p>
 ''',
@@ -5011,7 +5011,7 @@ GUIDES = {
 <p>Os escudos do Retro só funcionam em jogador contra jogador, então uma build feita para monstros não tira nada desse espaço. A Fashionista segue essa regra: um preset Retro voltado ao PvM deixa os escudos de fora por padrão, e um de PvP os traz de volta. Se você planeja a arena, confira se a caixa está marcada, porque a seleção de escudos é grande e o otimizador vai usá-la.</p>
 
 <h2>Acertando isso na ferramenta</h2>
-<p>Resolva duas perguntas antes de calcular: qual mascote você está mesmo disposto a alimentar e se essa build vai enfrentar outro jogador algum dia. Responda nas opções do projeto e a solução para de trazer equipamento que você não pode usar.</p>
+<p>Resolva duas perguntas antes de calcular: qual mascote você está mesmo disposto a alimentar e se essa build vai enfrentar outro jogador algum dia. Responda nas opções do build e a solução para de trazer equipamento que você não pode usar.</p>
 
 <p><em>Construindo no Retro? <a href="/setup/">Ajuste os dois espaços e calcule.</a></em></p>
 ''',
@@ -5032,7 +5032,7 @@ GUIDES = {
 <p>Retro-Schilde wirken nur im Spieler-gegen-Spieler, ein Build gegen Monster holt aus dem Platz also nichts. Die Fashionista folgt dieser Regel: Eine Retro-Vorlage für PvM lässt Schilde standardmäßig weg, eine PvP-Vorlage bringt sie zurück. Wer für die Arena plant, sollte das Kästchen prüfen, denn die Schildauswahl ist groß und der Optimierer nutzt sie.</p>
 
 <h2>Im Werkzeug richtig einstellen</h2>
-<p>Klär zwei Fragen, bevor du rechnest: welchen Begleiter du wirklich füttern willst, und ob dieser Build je gegen einen anderen Spieler antritt. Beantworte sie in den Projektoptionen, und die Lösung enthält keine Ausrüstung mehr, die du nicht nutzen kannst.</p>
+<p>Klär zwei Fragen, bevor du rechnest: welchen Begleiter du wirklich füttern willst, und ob dieser Build je gegen einen anderen Spieler antritt. Beantworte sie in den Build-Optionen, und die Lösung enthält keine Ausrüstung mehr, die du nicht nutzen kannst.</p>
 
 <p><em>Baust du für Retro? <a href="/setup/">Stell die beiden Plätze ein und rechne.</a></em></p>
 ''',
@@ -5197,10 +5197,10 @@ GUIDES = {
 <p>A craftable piece means the recipe exists and the page lists it. It still needs the ingredients, and some of those are themselves rare drops. What craftable really buys you is <strong>certainty</strong>: you can plan it, farm the ingredients in any order, and you will get the item. A drop is a lottery ticket you buy with your evenings.</p>
 
 <h2>The rarest rate is the real price</h2>
-<p>When the data has it, the line names the rarest drop rate in the whole set. That number decides the plan more than any other: a set whose worst piece drops at 5% is a weekend, and one whose worst piece drops at 0.1% is a project. If a build hangs on a single very rare item, look at what the second-best build costs before you commit to the first.</p>
+<p>When the data has it, the line names the rarest drop rate in the whole set. That number decides the plan more than any other: a set whose worst piece drops at 5% is a weekend, and one whose worst piece drops at 0.1% is a whole endeavor. If a build hangs on a single very rare item, look at what the second-best build costs before you commit to the first.</p>
 
 <h2>Solve from what you own</h2>
-<p>The tool can build from your own inventory instead of the whole game. Fill an inventory folder, then pick a mode in the project options: everything the game has, only what you own, or a mix that fills the gaps you leave open. "Only what you own" answers a different question, and often a more useful one: what is the best set I can wear <em>tonight</em>.</p>
+<p>The tool can build from your own inventory instead of the whole game. Fill an inventory folder, then pick a mode in the build options: everything the game has, only what you own, or a mix that fills the gaps you leave open. "Only what you own" answers a different question, and often a more useful one: what is the best set I can wear <em>tonight</em>.</p>
 
 <h2>Lock what you have, exclude what you will not chase</h2>
 <p>Two switches do most of the work. Lock a piece you already own and the optimizer builds around it instead of proposing something you would have to buy. Exclude an item you will never farm and it stops coming back in every solution. A build you assemble beats a better one you never wear.</p>
@@ -5223,10 +5223,10 @@ GUIDES = {
 <p>Une pièce craftable, c'est une recette qui existe et que la page affiche. Il faut quand même les ingrédients, et certains sont eux-mêmes des drops rares. Ce que le craft t'achète vraiment, c'est la <strong>certitude</strong> : tu peux planifier, farmer les ingrédients dans l'ordre que tu veux, et tu auras l'objet. Un drop, c'est un ticket de loterie payé en soirées.</p>
 
 <h2>Le taux le plus rare est le vrai prix</h2>
-<p>Quand la donnée existe, la ligne indique le taux de drop le plus rare de toute la panoplie. Ce chiffre décide du plan plus que n'importe quel autre : une panoplie dont la pire pièce tombe à 5 %, c'est un week-end ; à 0,1 %, c'est un projet. Si un build repose sur un seul objet très rare, regarde ce que coûte le deuxième meilleur avant de t'engager sur le premier.</p>
+<p>Quand la donnée existe, la ligne indique le taux de drop le plus rare de toute la panoplie. Ce chiffre décide du plan plus que n'importe quel autre : une panoplie dont la pire pièce tombe à 5 %, c'est un week-end ; à 0,1 %, c'est un chantier. Si un build repose sur un seul objet très rare, regarde ce que coûte le deuxième meilleur avant de t'engager sur le premier.</p>
 
 <h2>Optimiser à partir de ce que tu as</h2>
-<p>L'outil peut construire depuis ton propre inventaire plutôt que depuis tout le jeu. Remplis un dossier d'inventaire, puis choisis un mode dans les options du projet : tout ce que le jeu propose, seulement ce que tu possèdes, ou un mélange qui comble les trous que tu laisses ouverts. "Seulement ce que je possède" répond à une autre question, souvent plus utile : quel est le meilleur stuff que je peux porter <em>ce soir</em>.</p>
+<p>L'outil peut construire depuis ton propre inventaire plutôt que depuis tout le jeu. Remplis un dossier d'inventaire, puis choisis un mode dans les options du build : tout ce que le jeu propose, seulement ce que tu possèdes, ou un mélange qui comble les trous que tu laisses ouverts. "Seulement ce que je possède" répond à une autre question, souvent plus utile : quel est le meilleur stuff que je peux porter <em>ce soir</em>.</p>
 
 <h2>Verrouille ce que tu as, exclus ce que tu ne chasseras pas</h2>
 <p>Deux réglages font l'essentiel. Verrouille une pièce que tu possèdes déjà et l'optimiseur construit autour au lieu de te proposer quelque chose à acheter. Exclus un objet que tu ne farmeras jamais et il cesse de revenir dans chaque solution. Un build que tu assembles vaut mieux qu'un meilleur build que tu ne portes jamais.</p>
@@ -5249,10 +5249,10 @@ GUIDES = {
 <p>Una pieza fabricable significa que la receta existe y la página la muestra. Aun así hacen falta los ingredientes, y algunos son drops raros. Lo que la fabricación te compra de verdad es <strong>certeza</strong>: puedes planificar, farmear los ingredientes en el orden que quieras, y tendrás el objeto. Un drop es un billete de lotería pagado con tus tardes.</p>
 
 <h2>El porcentaje más raro es el precio real</h2>
-<p>Cuando el dato existe, la línea nombra el drop más raro de todo el conjunto. Ese número decide el plan más que ningún otro: un conjunto cuya peor pieza cae al 5 % es un fin de semana; al 0,1 % es un proyecto. Si un equipo depende de un único objeto rarísimo, mira cuánto cuesta el segundo mejor antes de comprometerte con el primero.</p>
+<p>Cuando el dato existe, la línea nombra el drop más raro de todo el conjunto. Ese número decide el plan más que ningún otro: un conjunto cuya peor pieza cae al 5 % es un fin de semana; al 0,1 % es toda una odisea. Si un equipo depende de un único objeto rarísimo, mira cuánto cuesta el segundo mejor antes de comprometerte con el primero.</p>
 
 <h2>Optimizar con lo que ya tienes</h2>
-<p>La herramienta puede construir desde tu inventario en lugar de desde todo el juego. Rellena una carpeta de inventario y elige un modo en las opciones del proyecto: todo lo que hay en el juego, solo lo que posees, o una mezcla que rellene los huecos que dejes abiertos. "Solo lo que poseo" responde a otra pregunta, a menudo más útil: cuál es el mejor equipo que puedo llevar <em>esta noche</em>.</p>
+<p>La herramienta puede construir desde tu inventario en lugar de desde todo el juego. Rellena una carpeta de inventario y elige un modo en las opciones del build: todo lo que hay en el juego, solo lo que posees, o una mezcla que rellene los huecos que dejes abiertos. "Solo lo que poseo" responde a otra pregunta, a menudo más útil: cuál es el mejor equipo que puedo llevar <em>esta noche</em>.</p>
 
 <h2>Bloquea lo que tienes, excluye lo que no vas a perseguir</h2>
 <p>Dos ajustes hacen casi todo. Bloquea una pieza que ya tienes y el optimizador construye a su alrededor en vez de proponerte algo que habría que comprar. Excluye un objeto que nunca vas a farmear y dejará de volver en cada solución. Un equipo que montas vale más que uno mejor que nunca llevas.</p>
@@ -5275,10 +5275,10 @@ GUIDES = {
 <p>Uma peça fabricável quer dizer que a receita existe e a página mostra. Ainda faltam os ingredientes, e alguns são drops raros. O que a fabricação compra de verdade é <strong>certeza</strong>: dá para planejar, farmar os ingredientes na ordem que quiser, e o item vem. Um drop é um bilhete de loteria pago com suas noites.</p>
 
 <h2>A taxa mais rara é o preço real</h2>
-<p>Quando o dado existe, a linha aponta o drop mais raro do conjunto inteiro. Esse número decide o plano mais que qualquer outro: um conjunto cuja pior peça cai a 5% é um fim de semana; a 0,1% é um projeto. Se uma build depende de um único item raríssimo, veja quanto custa a segunda melhor antes de se comprometer com a primeira.</p>
+<p>Quando o dado existe, a linha aponta o drop mais raro do conjunto inteiro. Esse número decide o plano mais que qualquer outro: um conjunto cuja pior peça cai a 5% é um fim de semana; a 0,1% é uma empreitada. Se uma build depende de um único item raríssimo, veja quanto custa a segunda melhor antes de se comprometer com a primeira.</p>
 
 <h2>Otimizar com o que você tem</h2>
-<p>A ferramenta pode montar a partir do seu inventário em vez do jogo inteiro. Preencha uma pasta de inventário e escolha um modo nas opções do projeto: tudo o que o jogo tem, só o que você possui, ou uma mistura que preenche as lacunas que você deixar abertas. "Só o que eu tenho" responde a outra pergunta, muitas vezes mais útil: qual a melhor build que consigo vestir <em>hoje à noite</em>.</p>
+<p>A ferramenta pode montar a partir do seu inventário em vez do jogo inteiro. Preencha uma pasta de inventário e escolha um modo nas opções do build: tudo o que o jogo tem, só o que você possui, ou uma mistura que preenche as lacunas que você deixar abertas. "Só o que eu tenho" responde a outra pergunta, muitas vezes mais útil: qual a melhor build que consigo vestir <em>hoje à noite</em>.</p>
 
 <h2>Trave o que você tem, exclua o que não vai caçar</h2>
 <p>Dois ajustes fazem quase tudo. Trave uma peça que já tem e o otimizador constrói em volta dela em vez de propor algo para comprar. Exclua um item que nunca vai farmar e ele para de voltar em toda solução. Uma build que você monta vale mais que uma melhor que nunca veste.</p>
@@ -5301,10 +5301,10 @@ GUIDES = {
 <p>Herstellbar heißt, dass es ein Rezept gibt und die Seite es zeigt. Die Zutaten fehlen trotzdem, und manche davon sind selbst seltene Beute. Was das Handwerk dir wirklich kauft, ist <strong>Sicherheit</strong>: Du kannst planen, die Zutaten in beliebiger Reihenfolge farmen, und das Teil kommt. Beute ist ein Lottoschein, den du mit deinen Abenden bezahlst.</p>
 
 <h2>Die seltenste Rate ist der echte Preis</h2>
-<p>Wenn die Daten sie hergeben, nennt die Zeile die seltenste Fundrate des ganzen Sets. Diese Zahl bestimmt den Plan mehr als jede andere: Ein Set, dessen schlechtestes Teil bei 5 % fällt, ist ein Wochenende; bei 0,1 % ist es ein Projekt. Hängt ein Build an einem einzigen sehr seltenen Teil, sieh dir an, was der zweitbeste kostet, bevor du dich auf den ersten festlegst.</p>
+<p>Wenn die Daten sie hergeben, nennt die Zeile die seltenste Fundrate des ganzen Sets. Diese Zahl bestimmt den Plan mehr als jede andere: Ein Set, dessen schlechtestes Teil bei 5 % fällt, ist ein Wochenende; bei 0,1 % ist es ein Kraftakt. Hängt ein Build an einem einzigen sehr seltenen Teil, sieh dir an, was der zweitbeste kostet, bevor du dich auf den ersten festlegst.</p>
 
 <h2>Mit dem rechnen, was du hast</h2>
-<p>Das Werkzeug kann aus deinem eigenen Inventar bauen statt aus dem ganzen Spiel. Füll einen Inventarordner und wähl dann in den Projektoptionen einen Modus: alles, was es im Spiel gibt, nur was du besitzt, oder eine Mischung, die die Lücken füllt, die du offen lässt. "Nur was ich besitze" beantwortet eine andere Frage, oft die nützlichere: Was ist der beste Build, den ich <em>heute Abend</em> tragen kann.</p>
+<p>Das Werkzeug kann aus deinem eigenen Inventar bauen statt aus dem ganzen Spiel. Füll einen Inventarordner und wähl dann in den Build-Optionen einen Modus: alles, was es im Spiel gibt, nur was du besitzt, oder eine Mischung, die die Lücken füllt, die du offen lässt. "Nur was ich besitze" beantwortet eine andere Frage, oft die nützlichere: Was ist der beste Build, den ich <em>heute Abend</em> tragen kann.</p>
 
 <h2>Festlegen, was du hast, ausschließen, was du nicht jagst</h2>
 <p>Zwei Schalter machen die Arbeit. Leg ein Teil fest, das du schon besitzt, und der Optimierer baut darum herum, statt dir etwas zum Kaufen vorzuschlagen. Schließ ein Teil aus, das du nie farmen wirst, und es taucht nicht in jeder Lösung wieder auf. Ein Build, den du zusammenbekommst, schlägt einen besseren, den du nie trägst.</p>

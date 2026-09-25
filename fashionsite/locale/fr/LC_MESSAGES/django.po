@@ -120,8 +120,8 @@ msgstr "Aucun build liké pour cette version pour le moment."
 
 #: .\chardata\compare_sets_view.py:479 .\chardata\compare_sets_view.py:489
 #: .\chardata\compare_sets_view.py:493
-msgid "Paste links of at least 2 projects to compare"
-msgstr "Colle les liens d'au moins 2 projets à comparer"
+msgid "Paste links of at least 2 builds to compare"
+msgstr "Colle les liens d'au moins 2 builds à comparer"
 
 #: .\chardata\compare_sets_view.py:495
 #: .\chardata\templates\chardata\choose_compare_sets.html:81
@@ -136,13 +136,13 @@ msgstr "%s n'est pas un lien de partage valide"
 #: .\chardata\compare_sets_view.py:505 .\chardata\compare_sets_view.py:515
 #: .\chardata\compare_sets_view.py:530
 #, python-format
-msgid "%s does not refer to a valid project"
-msgstr "%s ne fait pas référence à un projet valide"
+msgid "%s does not refer to a valid build"
+msgstr "%s ne fait pas référence à un build valide"
 
 #: .\chardata\compare_sets_view.py:508 .\chardata\compare_sets_view.py:518
 #, python-format
-msgid "%s refers to someone else's project"
-msgstr "%s se réfère au projet de quelqu'un d'autre"
+msgid "%s refers to someone else's build"
+msgstr "%s se réfère au build de quelqu'un d'autre"
 
 #: .\chardata\compare_sets_view.py:533
 #, python-format
@@ -155,13 +155,13 @@ msgstr "Les solutions enregistrées ne peuvent pas être partagées directement.
 
 #: .\chardata\compare_sets_view.py:565
 #, python-format
-msgid "Project %s is not in this game version."
-msgstr "Le projet %s n'existe pas dans cette version du jeu."
+msgid "Build %s is not in this game version."
+msgstr "Le build %s n'existe pas dans cette version du jeu."
 
 #: .\chardata\compare_sets_view.py:577
 #, python-format
-msgid "Project %s is not shared."
-msgstr "Le projet %s n'est pas partagé."
+msgid "Build %s is not shared."
+msgstr "Le build %s n'est pas partagé."
 
 #: .\chardata\dynamic_translations.py:9
 #: .\chardata\templates\chardata\compare_sets.html:213
@@ -987,14 +987,14 @@ msgstr "Anonyme"
 
 #: .\chardata\home_view.py:112
 #: .\chardata\templates\chardata\projdetails.html:19
-msgid "Create a Project"
-msgstr "Créer un projet"
+msgid "Create a Build"
+msgstr "Créer un build"
 
 #: .\chardata\home_view.py:119
 #: .\chardata\templates\chardata\load_projects.html:7
 #: .\chardata\templates\chardata\load_projects.html:12
-msgid "Load a Project"
-msgstr "Ouvrir un projet"
+msgid "Load a Build"
+msgstr "Ouvrir un build"
 
 #: .\chardata\home_view.py:126 .\chardata\templates\chardata\base.html:174
 #: .\chardata\templates\chardata\login.html:8
@@ -1503,10 +1503,10 @@ msgstr "Oups..."
 
 #: .\chardata\templates\chardata\403.html:18
 msgid ""
-"It seems like the project you are trying to access is not available. It may "
+"It seems like the build you are trying to access is not available. It may "
 "have been deleted, or maybe it belongs to someone else."
 msgstr ""
-"Le projet que tu essaies d'ouvrir n'est pas disponible : il a peut-être été "
+"Le build que tu essaies d'ouvrir n'est pas disponible : il a peut-être été "
 "supprimé, ou il appartient à quelqu'un d'autre."
 
 #: .\chardata\templates\chardata\403.html:21
@@ -1526,10 +1526,10 @@ msgstr ""
 #, python-format
 msgid ""
 "Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a "
-"href=\"%(create_project_url)s\">create a project</a> of your own."
+"href=\"%(create_project_url)s\">create a build</a> of your own."
 msgstr ""
 "Ou vous pouvez retourner à la <a href=\"%(home_url)s\">page d'accueil</a> ou "
-"<a href=\"%(create_project_url)s\">créer un projet</a> de votre choix."
+"<a href=\"%(create_project_url)s\">créer un build</a> de votre choix."
 
 #: .\chardata\templates\chardata\404.html:11
 msgid "404 - Page Not Found"
@@ -1580,13 +1580,13 @@ msgstr "Le Dofus Fashionista est un site de fans consacré à <a href='https://w
 
 #: .\chardata\templates\chardata\about.html:23
 msgid ""
-"When a new project is created, the Wizard tries to figure what the character "
-"is about by reading the build and class specified. It then creates an "
+"When a new build is created, the Wizard tries to figure what the character "
+"is about by reading the build type and class specified. It then creates an "
 "initial configuration for the first run."
 msgstr ""
-"Quand un nouveau projet est créé, l’assistant commence en lisant les "
-"caractéristiques et la classe demandées par le joueur. Après cela, il crée "
-"une première composition répondant aux critères demandés."
+"Quand un nouveau build est créé, l’assistant essaie de comprendre le "
+"personnage en lisant le type de build et la classe indiqués. Il crée ensuite "
+"une configuration de départ pour le premier essai."
 
 #: .\chardata\templates\chardata\about.html:24
 msgid ""
@@ -1826,12 +1826,6 @@ msgstr "Menu"
 msgid "Guides & tips"
 msgstr "Guides & astuces"
 
-#: .\chardata\templates\chardata\base.html:195
-#: .\chardata\templates\chardata\guide.html:70
-#: .\chardata\templates\chardata\guides.html:49
-msgid "Create a project"
-msgstr "Créer un projet"
-
 #: .\chardata\templates\chardata\base.html:198
 #: .\chardata\templates\chardata\smart_build.html:6
 #: .\chardata\templates\chardata\smart_build.html:42
@@ -1839,8 +1833,8 @@ msgid "Smart Build"
 msgstr "Build intelligent"
 
 #: .\chardata\templates\chardata\base.html:201
-msgid "Load a project"
-msgstr "Ouvrir un projet"
+msgid "Load a build"
+msgstr "Ouvrir un build"
 
 #: .\chardata\templates\chardata\base.html:204
 #: .\chardata\templates\chardata\shared_builds.html:7
@@ -1984,10 +1978,10 @@ msgstr "Soutenir Fashionista"
 
 #: .\chardata\templates\chardata\base.html:438
 msgid ""
-"Since you are not logged in, this will replace your current project (if you "
+"Since you are not logged in, this will replace your current build (if you "
 "have one). Continue?"
 msgstr ""
-"Puisque vous n'êtes pas connecté, ceci va remplacer votre projet actuel (si "
+"Puisque vous n'êtes pas connecté, ceci va remplacer votre build actuel (si "
 "vous en avez un). Voulez-vous continuer ?"
 
 #: .\chardata\templates\chardata\base.html:636
@@ -3069,21 +3063,21 @@ msgstr "Liens manuels"
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:117
 msgid ""
-"To compare projects that you own, type the project name or paste a link to "
+"To compare builds that you own, type the build name or paste a link to "
 "the solution such as:"
 msgstr ""
-"Pour comparer les projets que vous possédez, tapez le nom du projet ou "
+"Pour comparer les builds que vous possédez, tapez le nom du build ou "
 "collez le lien vers la solution comme cela :"
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:119
-msgid "To compare other people's projects paste the sharing link, for example:"
+msgid "To compare other people's builds paste the sharing link, for example:"
 msgstr ""
-"Pour comparer les projets d'autres personnes collez le lien de partage, par "
+"Pour comparer les builds d'autres personnes collez le lien de partage, par "
 "exemple :"
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:125
-msgid "Link to project"
-msgstr "Lien vers le projet"
+msgid "Link to build"
+msgstr "Lien vers le build"
 
 #: .\chardata\templates\chardata\coaching.html:6
 #: .\chardata\templates\chardata\coaching.html:51
@@ -3485,8 +3479,8 @@ msgid "Do I need an account?"
 msgstr "Ai-je besoin d'un compte ?"
 
 #: .\chardata\templates\chardata\faq.html:28
-msgid "No. Building and optimizing sets works without signing in. An account adds the rest: saving your projects and sharing them with a link, your inventory, the workshop, tags, comments, votes and following other players."
-msgstr "Non. Faire et optimiser des stuffs marche sans se connecter. Un compte ajoute le reste : sauvegarder tes projets et les partager avec un lien, ton inventaire, l’atelier, les tags, les commentaires, les votes et le suivi d’autres joueurs."
+msgid "No. Building and optimizing sets works without signing in. An account adds the rest: saving your builds and sharing them with a link, your inventory, the workshop, tags, comments, votes and following other players."
+msgstr "Non. Faire et optimiser des stuffs marche sans se connecter. Un compte ajoute le reste : sauvegarder tes builds et les partager avec un lien, ton inventaire, l’atelier, les tags, les commentaires, les votes et le suivi d’autres joueurs."
 
 #: .\chardata\templates\chardata\faq.html:30
 msgid "Which Dofus version should I choose?"
@@ -4092,10 +4086,10 @@ msgstr ""
 #: .\chardata\templates\chardata\load_projects.html:16
 #: .\chardata\templates\chardata\load_projects.html:127
 msgid ""
-"You have reached the maximum number of projects. Please delete some old "
-"projects and try again."
+"You have reached the maximum number of builds. Please delete some old "
+"builds and try again."
 msgstr ""
-"Vous avez atteint le nombre maximum de projets. Effacez de vieux projets et "
+"Vous avez atteint le nombre maximum de builds. Effacez de vieux builds et "
 "réessayez."
 
 #: .\chardata\templates\chardata\load_projects.html:22
@@ -4122,8 +4116,8 @@ msgid "Build"
 msgstr "Build"
 
 #: .\chardata\templates\chardata\load_projects.html:37
-msgid "This project already has a solution."
-msgstr "Ce projet a déjà une solution."
+msgid "This build already has a solution."
+msgstr "Ce build a déjà une solution."
 
 #: .\chardata\templates\chardata\load_projects.html:50
 #: .\chardata\templates\chardata\shared_builds.html:298
@@ -4151,15 +4145,15 @@ msgstr "Dupliquer"
 #: .\chardata\templates\chardata\load_projects.html:69
 #, python-format
 msgid ""
-"You don't have any projects yet. Create one <a "
+"You don't have any builds yet. Create one <a "
 "href=\"%(create_project_link)s\">here</a>."
 msgstr ""
-"Vous n'avez aucun projet. Cliquez <a href=\"%(create_project_link)s\">ici</"
+"Vous n'avez aucun build. Cliquez <a href=\"%(create_project_link)s\">ici</"
 "a> pour en créer un."
 
 #: .\chardata\templates\chardata\load_projects.html:74
-msgid "You need to login before you can load a project."
-msgstr "Vous devez vous connecter avant de pouvoir ouvrir un projet."
+msgid "You need to login before you can load a build."
+msgstr "Vous devez vous connecter avant de pouvoir ouvrir un build."
 
 #: .\chardata\templates\chardata\load_projects.html:97
 msgid "Are you sure you want to delete?"
@@ -4196,10 +4190,10 @@ msgstr ""
 #, python-format
 msgid ""
 "<a href='%(create_project_url)s'>Create</a> or <a "
-"href='%(load_projects_url)s'>load</a> a project to get started."
+"href='%(load_projects_url)s'>load</a> a build to get started."
 msgstr ""
 "<a href='%(create_project_url)s'>Créer</a> ou <a "
-"href='%(load_projects_url)s'>charger</a> un projet pour commencer"
+"href='%(load_projects_url)s'>charger</a> un build pour commencer"
 
 #: .\chardata\templates\chardata\login.html:47
 msgid ""
@@ -4245,10 +4239,10 @@ msgstr "Se connecter avec Google"
 #: .\chardata\templates\chardata\login.html:80
 msgid ""
 "We only use your Google account to sign you in, so you can save and share "
-"your projects. Nothing is ever posted on your behalf."
+"your builds. Nothing is ever posted on your behalf."
 msgstr ""
 "On utilise seulement ton compte Google pour t'identifier, pour que tu "
-"puisses sauvegarder et partager tes projets. Rien n'est jamais publié en ton "
+"puisses sauvegarder et partager tes builds. Rien n'est jamais publié en ton "
 "nom."
 
 #: .\chardata\templates\chardata\login.html:93
@@ -4274,12 +4268,12 @@ msgstr "Inscription"
 
 #: .\chardata\templates\chardata\main-header.html:9
 #: .\chardata\templates\chardata\projdetails.html:58
-msgid "Project Name"
-msgstr "Nom du Projet"
+msgid "Build Name"
+msgstr "Nom du build"
 
 #: .\chardata\templates\chardata\main-header.html:25
-msgid "Copy this project"
-msgstr "Copier ce projet"
+msgid "Copy this build"
+msgstr "Copier ce build"
 
 #: .\chardata\templates\chardata\main-header.html:29
 msgid "Edit"
@@ -4589,14 +4583,13 @@ msgstr ""
 
 #: .\chardata\templates\chardata\privacy.html:28
 msgid ""
-"<b>Content you create.</b> The characters, projects, builds, tags, comments "
-"and shared links you make are stored so the site can provide its features "
-"and so you can return to your work."
+"<b>Content you create.</b> The characters, builds, tags, comments and "
+"shared links you make are stored so the site can provide its features and "
+"so you can return to your work."
 msgstr ""
-"<b>Contenu que vous créez.</b> Les personnages, projets, builds, tags, "
-"commentaires et liens de partage que vous créez sont stockés afin que le "
-"site puisse fournir ses fonctionnalités et que vous puissiez retrouver votre "
-"travail."
+"<b>Contenu que vous créez.</b> Les personnages, builds, tags, commentaires "
+"et liens de partage que vous créez sont stockés afin que le site puisse "
+"fournir ses fonctionnalités et que vous puissiez retrouver votre travail."
 
 #: .\chardata\templates\chardata\privacy.html:29
 msgid ""
@@ -4723,14 +4716,14 @@ msgstr "Vos droits et vos choix"
 
 #: .\chardata\templates\chardata\privacy.html:50
 msgid ""
-"You can view and edit your projects at any time while logged in, and you can "
+"You can view and edit your builds at any time while logged in, and you can "
 "request deletion of your account and associated data by contacting us. "
 "Depending on where you live, you may have rights to access, correct, delete "
 "or object to the processing of your personal data. You can also control "
 "advertising cookies through the consent message and through your Google Ad "
 "settings."
 msgstr ""
-"Vous pouvez consulter et modifier vos projets à tout moment lorsque vous "
+"Vous pouvez consulter et modifier vos builds à tout moment lorsque vous "
 "êtes connecté, et vous pouvez demander la suppression de votre compte et des "
 "données associées en nous contactant. Selon votre lieu de résidence, vous "
 "pouvez disposer de droits d'accès, de rectification, de suppression ou "
@@ -4799,16 +4792,16 @@ msgstr ""
 #: .\chardata\templates\chardata\projdetails.html:8
 #: .\chardata\templates\chardata\projdetails.html:21
 #: .\chardata\templates\chardata\projdetails.html:361
-msgid "Project Details"
-msgstr "Détails du projet"
+msgid "Build Details"
+msgstr "Détails du build"
 
 #: .\chardata\templates\chardata\projdetails.html:28
 msgid "Get started by providing details about your character."
 msgstr "Commencez en fournissant des détails sur votre personnage."
 
 #: .\chardata\templates\chardata\projdetails.html:30
-msgid "Modify the project and character configuration."
-msgstr "Modifier le projet et la configuration du personnage."
+msgid "Modify the build and character configuration."
+msgstr "Modifier le build et la configuration du personnage."
 
 #: .\chardata\templates\chardata\projdetails.html:37
 msgid "Character Name"
@@ -4854,11 +4847,11 @@ msgstr "Redémarrer l'Assistant lors de l'enregistrement"
 #: .\chardata\templates\chardata\projdetails.html:103
 #, python-format
 msgid ""
-" You already have a project on %(version)s, and you can find it <a "
+" You already have a build on %(version)s, and you can find it <a "
 "href=\"%(load_proj_link)s\">here</a>. <a href=\"%(login_link)s\">Log in</a> "
-"to keep several projects per version. "
+"to keep several builds per version. "
 msgstr ""
-"Tu as déjà un projet sur %(version)s, tu le retrouves <a "
+"Tu as déjà un build sur %(version)s, tu le retrouves <a "
 "href=\"%(load_proj_link)s\">ici</a>. <a href=\"%(login_link)s\">Connecte-"
 "toi</a> pour en avoir plusieurs par version."
 
@@ -4869,11 +4862,11 @@ msgstr "Tu peux quand même en créer un sur une autre version :"
 #: .\chardata\templates\chardata\projdetails.html:115
 #, python-format
 msgid ""
-" You have reached the maximum number of projects allowed. To create a new "
-"project, please delete some old ones <a href=\"%(load_proj_link)s\">here</a>."
+" You have reached the maximum number of builds allowed. To create a new "
+"build, please delete some old ones <a href=\"%(load_proj_link)s\">here</a>."
 msgstr ""
-" Vous avez atteint le nombre maximal de projets permis. Pour créer un "
-"nouveau projet, veuillez effacer de vieux projets <a "
+" Vous avez atteint le nombre maximal de builds permis. Pour créer un "
+"nouveau build, veuillez effacer de vieux builds <a "
 "href=\"%(load_proj_link)s\">ici</a>."
 
 #: .\chardata\templates\chardata\projdetails.html:136
@@ -5101,8 +5094,8 @@ msgid "Search & Filter"
 msgstr "Recherche et Filtres"
 
 #: .\chardata\templates\chardata\shared_builds.html:40
-msgid "Project or character name"
-msgstr "Nom du projet ou du personnage"
+msgid "Build or character name"
+msgstr "Nom du build ou du personnage"
 
 #: .\chardata\templates\chardata\shared_builds.html:45
 msgid "User"
@@ -5118,7 +5111,7 @@ msgstr "Toutes les Classes"
 
 #: .\chardata\templates\chardata\shared_builds.html:67
 msgid "Build Type"
-msgstr "Type de Build"
+msgstr "Type de build"
 
 #: .\chardata\templates\chardata\shared_builds.html:72
 msgid "Focus"
@@ -5253,7 +5246,7 @@ msgstr "Favori"
 
 #: .\chardata\templates\chardata\shared_builds.html:300
 msgid "View Build"
-msgstr "Voir le Build"
+msgstr "Voir le build"
 
 #: .\chardata\templates\chardata\shared_builds.html:310
 #: .\chardata\templates\chardata\shared_builds.html:313
@@ -5609,8 +5602,8 @@ msgid "Base"
 msgstr "Base"
 
 #: .\chardata\templates\chardata\solution.html:399
-msgid "Weighted by this project's stat values."
-msgstr "Pondéré avec les valeurs de stats de ce projet."
+msgid "Weighted by this build's stat values."
+msgstr "Pondéré avec les valeurs de stats de ce build."
 
 #: .\chardata\templates\chardata\solution.html:426
 #, python-format
@@ -7285,8 +7278,8 @@ msgid "We use the information above only to operate and improve the site, provid
 msgstr "Nous utilisons les informations ci-dessus uniquement pour exploiter et améliorer le site, fournir vos builds et votre compte enregistrés, répondre à vos messages et assurer la sécurité du site. Nous ne vendons pas vos données personnelles."
 
 #: .\chardata\templates\chardata\privacy.html
-msgid "You can view and edit your projects at any time while logged in, and you can request deletion of your account and associated data by contacting us. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data."
-msgstr "Vous pouvez consulter et modifier vos projets à tout moment lorsque vous êtes connecté, et vous pouvez demander la suppression de votre compte et des données associées en nous contactant. Selon votre lieu de résidence, vous pouvez disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de vos données personnelles."
+msgid "You can view and edit your builds at any time while logged in, and you can request deletion of your account and associated data by contacting us. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data."
+msgstr "Vous pouvez consulter et modifier vos builds à tout moment lorsque vous êtes connecté, et vous pouvez demander la suppression de votre compte et des données associées en nous contactant. Selon votre lieu de résidence, vous pouvez disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de vos données personnelles."
 
 #: .\chardata\templates\chardata\privacy.html
 msgid "How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google Analytics, and your privacy rights."

@@ -262,13 +262,13 @@
               <div class="space"></div>
           <div class="mini-menu">    
               <div>
-                <a class="menu_link menu_link_top" href="{% game_url 'setup' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 9v6"/><path d="M9 12h6"/></svg></span>{% trans "Create a project" %}</a>
+                <a class="menu_link menu_link_top" href="{% game_url 'setup' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 9v6"/><path d="M9 12h6"/></svg></span>{% trans "Create a build" %}</a>
               </div>
               <div>
                 <a class="menu_link menu_link_middle" href="{% game_url 'smart_build' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>{% trans "Smart Build" %}</a>
               </div>
               <div>
-                <a class="menu_link menu_link_middle" href="{% game_url 'load_projects' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h3.5l2 2H18a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg></span>{% trans "Load a project" %}</a>
+                <a class="menu_link menu_link_middle" href="{% game_url 'load_projects' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h3.5l2 2H18a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg></span>{% trans "Load a build" %}</a>
               </div>
               <div>
                 <a class="menu_link menu_link_middle" href="{% game_url 'shared_builds' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 20c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 6.2a3 3 0 0 1 0 5.6"/><path d="M20 20c0-2-1.1-3.7-3-4.6"/></svg></span>{% trans "Shared Builds" %}</a>
@@ -554,7 +554,7 @@
 
     function copyLinkClicked(e) {
         {% if not user or user.is_anonymous %}
-        if (!confirm('{{ _("Since you are not logged in, this will replace your current project (if you have one). Continue?")|escapejs }}')) {
+        if (!confirm('{{ _("Since you are not logged in, this will replace your current build (if you have one). Continue?")|escapejs }}')) {
             e.preventDefault();
         }
         {% endif %}
