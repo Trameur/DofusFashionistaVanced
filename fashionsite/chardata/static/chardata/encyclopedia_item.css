@@ -26,11 +26,7 @@
     flex: 0 0 auto;
 }
 
-/* L'appel a l'outil, en fin de fiche. Il reprend la geometrie et le vert des
-   boutons de guide (.fm-guide-btn), qui sont l'idiome deja etabli pour "va
-   utiliser l'outil", plutot que d'en inventer un second. Les couleurs sont
-   posees par le bloc lui-meme, donc valables en theme clair comme en sombre.
-   44px de haut au minimum : c'est le seuil utilisable au doigt. */
+/* Call to action at the end of the page, styled like the guide buttons (.fm-guide-btn). */
 .encyclopedia-cta {
     margin: 30px auto 10px;
     padding-top: 18px;
@@ -79,8 +75,7 @@
     background: rgba(128, 128, 128, 0.12);
 }
 
-/* Le compte d'usage. Il ouvre la section sur les builds, donc il porte le
-   trait de separation et la liste qui suit n'en a pas besoin. */
+/* The usage count opens the builds section and carries its separator. */
 .encyclopedia-popularity {
     margin: 26px 0 0;
     padding-top: 16px;
