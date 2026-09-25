@@ -797,6 +797,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                    and build_sites.enabled(build_sites.DOFUSBOOK)
                                    and dofusbook_export.supports(
                                        char.game_version)),
+              'fashionista_export': not is_guest and not is_generation_snapshot,
               'build_check': build_check,
               'build_score': build_score,
               'has_build_score': build_score is not None,

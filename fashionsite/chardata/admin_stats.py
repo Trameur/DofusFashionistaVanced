@@ -376,6 +376,8 @@ def pages(period, version):
 IMPORT_SOURCES_READ = ('link', 'link_failed')
 IMPORT_SOURCES = IMPORT_SOURCES_READ + ('text', 'screenshot', 'link_unknown')
 UNNAMED_SITE = 'Other addresses'
+SENT_SOURCE = 'api'
+UNNAMED_SENDER = 'No source named'
 
 
 def _percent(part, whole):
@@ -430,11 +432,21 @@ def imports(period, version):
                     .annotate(attempts_sum=Sum('attempts'))
                     .order_by('-attempts_sum', 'host')[:ROW_CAP]]
 
+    sent = _for_version(ImportSourceHit.objects.filter(
+        day__gte=period.start, day__lte=period.end, source=SENT_SOURCE), version)
+    sent_rows = [{'label': row['host'] or UNNAMED_SENDER,
+                  'attempts': row['attempts_sum'],
+                  'imported': row['imported_sum'],
+                  'rate': _percent(row['imported_sum'], row['attempts_sum'])}
+                 for row in sent.values('host').annotate(**sums)
+                 .order_by('-attempts_sum', 'host')[:ROW_CAP]]
+
     buckets = Counter()
     for row in hits.values('day').annotate(n=Sum('attempts')):
         buckets[period.bucket_of(row['day'])] += row['n']
     return {
         'rows': rows,
+        'sent': sent_rows,
         'unknown': unknown_rows,
         'unknown_not_listed': max(0, unknown_hits.values('host').distinct().count()
                                   - len(unknown_rows)),

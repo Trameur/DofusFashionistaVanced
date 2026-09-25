@@ -33,7 +33,7 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
     coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view, dofusbook_view, dofusbook_export_view, text_build_view, csp_report_view, forgemagie_view, \
-    inventory_view, guides_view, admin_tools_view, character_assets
+    inventory_view, guides_view, admin_tools_view, character_assets, fashionista_build_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -524,6 +524,7 @@ def _sitemap_pages(base_url):
         ('/quickstart/', 'monthly', '0.7'),
         ('/smartbuild/', 'monthly', '0.7'),
         ('/import/text/', 'monthly', '0.7'),
+        ('/developers/send-a-build/', 'monthly', '0.5'),
         ('/sharedbuilds/', 'daily', '0.9'),
         # /random/ only ever redirects, so it is not sitemap material.
         ('/choose_compare_sets/', 'weekly', '0.7'),
@@ -734,6 +735,13 @@ urlpatterns = [
     re_path(r'^api/v1/shared-builds/$', api_view.api_shared_builds, name='api_shared_builds'),
     re_path(r'^api/v1/shared-builds/(?P<encoded_id>[^/]+)/$', api_view.api_shared_build_detail, name='api_shared_build_detail'),
     re_path(r'^api/v1/tier-list/$', api_view.api_tier_list, name='api_tier_list'),
+    re_path(r'^api/v1/shared-builds/(?P<encoded_id>[^/]+)/fashionista-build/$',
+            fashionista_build_view.api_shared_build_export,
+            name='api_shared_build_export'),
+    re_path(r'^api/v1/import/validate/$', fashionista_build_view.api_validate,
+            name='api_import_validate'),
+    re_path(r'^api/v1/import/schema/(?P<version>[0-9]{1,3})/$', fashionista_build_view.api_schema,
+            name='api_import_schema'),
     re_path(r'^login_page/', login_view.login_page, name='login_page'),
     re_path(r'^login/$', login_view.login_page, name='login'),
     re_path(r'^local_login/', login_view.local_login, name='local_login'),
@@ -776,9 +784,15 @@ urlpatterns = [
     re_path(r'^smartbuild/$', nl_build_view.smart_build, name='smart_build'),
     re_path(r'^import/dofusbook/$', dofusbook_view.dofusbook, name='dofusbook_import'),
     re_path(r'^import/text/$', text_build_view.text_build, name='text_build_import'),
+    re_path(r'^import/build/$', fashionista_build_view.import_build, name='import_build'),
+    re_path(r'^developers/send-a-build/$', fashionista_build_view.send_a_build,
+            name='send_a_build'),
     re_path(r'^export/dofusbook/(?P<char_id>\d+)/$',
             dofusbook_export_view.dofusbook_export_page,
             name='dofusbook_export'),
+    re_path(r'^export/fashionista/(?P<char_id>\d+)/$',
+            fashionista_build_view.export_fashionista,
+            name='fashionista_export'),
     # CSP violation reports; no version prefix, a report belongs to no game
     re_path(r'^csp-report/$', csp_report_view.csp_report, name='csp_report'),
     re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),

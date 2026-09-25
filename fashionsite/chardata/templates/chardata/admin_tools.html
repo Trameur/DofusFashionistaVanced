@@ -220,6 +220,17 @@
         </table>
         {% if dash.imports.unknown_not_listed %}<p class="admin-note">{{ dash.imports.unknown_not_listed }} more sites are not listed.</p>{% endif %}
         <p class="admin-note">A site is its domain without subdomains: alice.github.io counts as github.io. Other addresses holds links with no public domain name (an IP address, a local name) and new sites past {{ dash.imports.unknown_sites_per_day }} in one day. A site we read can show up here when the link was not one of its build links, or while its reader is switched off.</p>
+
+        <h2 class="admin-section-title">Builds other sites send</h2>
+        <table class="admin-table" id="admin-imports-sent" data-more="12">
+            <tr><th>Source</th><th>Attempts</th><th>Imported</th><th>Import rate</th></tr>
+            {% for row in dash.imports.sent %}
+            <tr><td>{{ row.label }}</td><td class="admin-num">{{ row.attempts }}</td>
+                <td class="admin-num">{{ row.imported }}</td>
+                <td class="admin-num">{% if row.rate != None %}{{ row.rate|stringformat:".1f" }}%{% else %}<span class="admin-empty">-</span>{% endif %}</td></tr>
+            {% empty %}<tr><td class="admin-empty" colspan="4">none for this filter</td></tr>{% endfor %}
+        </table>
+        <p class="admin-note">Builds sent in the fashionista-build format, by link or form to /import/build/ or pasted as JSON. The source is the domain the sender declares in its source field, not checked; No source named holds builds sent without one and new sources past {{ dash.imports.unknown_sites_per_day }} in one day. These are not in the shares above.</p>
         {% else %}
         <p class="admin-empty-panel">Nothing counted yet. Import sources are recorded from the first paste after this release, and nothing earlier is backfilled.</p>
         {% endif %}

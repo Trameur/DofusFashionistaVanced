@@ -8,6 +8,7 @@ from chardata import (
     encyclopedia_view, login_view, manage_account_view, contact_view,
     comment_view, coaching_view, workshop_view, profile_view,
     tag_view, nl_build_view, dofusbook_view, dofusbook_export_view, text_build_view, forgemagie_view, inventory_view, guides_view,
+    fashionista_build_view,
 )
 
 urlpatterns = [
@@ -53,9 +54,15 @@ urlpatterns = [
     re_path(r'^smartbuild/$', nl_build_view.smart_build, name='smart_build'),
     re_path(r'^import/dofusbook/$', dofusbook_view.dofusbook, name='dofusbook_import'),
     re_path(r'^import/text/$', text_build_view.text_build, name='text_build_import'),
+    re_path(r'^import/build/$', fashionista_build_view.import_build, name='import_build'),
+    re_path(r'^developers/send-a-build/$', fashionista_build_view.send_a_build,
+            name='send_a_build'),
     re_path(r'^export/dofusbook/(?P<char_id>\d+)/$',
             dofusbook_export_view.dofusbook_export_page,
             name='dofusbook_export'),
+    re_path(r'^export/fashionista/(?P<char_id>\d+)/$',
+            fashionista_build_view.export_fashionista,
+            name='fashionista_export'),
     re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
     re_path(r'^workshop/ingredients/$', workshop_view.workshop_ingredients, name='workshop_ingredients'),
     re_path(r'^workshop/sources/$', workshop_view.workshop_sources, name='workshop_sources'),

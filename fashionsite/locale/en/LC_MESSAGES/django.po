@@ -7137,3 +7137,453 @@ msgstr "Looking for ideas?"
 #: chardata/templates/chardata/solution.html
 msgid "Priorities given to the solver:"
 msgstr "Priorities given to the solver:"
+
+#: chardata/templates/chardata/text_build.html
+#, python-format
+msgid "Build received: %(name)s (%(version)s)."
+msgstr "Build received: %(name)s (%(version)s)."
+
+#: chardata/templates/chardata/text_build.html
+#, python-format
+msgid "Build received (%(version)s)."
+msgstr "Build received (%(version)s)."
+
+#: chardata/templates/chardata/text_build.html
+#, python-format
+msgid "Imported from %(site)s"
+msgstr "Imported from %(site)s"
+
+#: chardata/templates/chardata/text_build.html
+msgid "These items belong to another version of the game and are left out:"
+msgstr "These items belong to another version of the game and are left out:"
+
+#: chardata/templates/chardata/text_build.html
+msgid "No slot is left for these pieces, so they are left out:"
+msgstr "No slot is left for these pieces, so they are left out:"
+
+#: chardata/templates/chardata/text_build.html
+msgid "These pieces are already worn as many times as the game allows, so they are left out:"
+msgstr "These pieces are already worn as many times as the game allows, so they are left out:"
+
+#: chardata/templates/chardata/text_build.html
+#, python-format
+msgid "The exos of the build become its exo options: %(stats)s."
+msgstr "The exos of the build become its exo options: %(stats)s."
+
+#: chardata/text_build_view.py
+msgid "The site that sent this build sent something we cannot read."
+msgstr "The site that sent this build sent something we cannot read."
+
+#: chardata/templates/chardata/text_build.html
+msgid "Your site? Send builds to Dofus Fashionista"
+msgstr "Your site? Send builds to Dofus Fashionista"
+
+#: chardata/templates/chardata/solution.html
+msgid "Export as JSON"
+msgstr "Export as JSON"
+
+#: chardata/fashionista_build.py
+msgid "This build is too large to be read."
+msgstr "This build is too large to be read."
+
+#: chardata/fashionista_build.py
+msgid "The data in the link is not valid base64url."
+msgstr "The data in the link is not valid base64url."
+
+#: chardata/fashionista_build.py
+msgid "This build is not valid JSON."
+msgstr "This build is not valid JSON."
+
+#: chardata/fashionista_build.py
+msgid "This build must be a JSON object."
+msgstr "This build must be a JSON object."
+
+#: chardata/fashionista_build.py
+msgid "The format field must say fashionista-build."
+msgstr "The format field must say fashionista-build."
+
+#: chardata/fashionista_build.py
+msgid "Only version 1 of the format can be read."
+msgstr "Only version 1 of the format can be read."
+
+#: chardata/fashionista_build.py
+msgid "The game field must be dofus3, beta, dofus2, touch or retro."
+msgstr "The game field must be dofus3, beta, dofus2, touch or retro."
+
+#: chardata/fashionista_build.py
+msgid "The items field must be a list of Ankama ids, or of objects with an id."
+msgstr "The items field must be a list of Ankama ids, or of objects with an id."
+
+#: chardata/fashionista_build.py
+msgid "Too many items for one build."
+msgstr "Too many items for one build."
+
+#: chardata/fashionista_build.py
+msgid "The stats of an item must be a list of lines, each with a key and a whole number."
+msgstr "The stats of an item must be a list of lines, each with a key and a whole number."
+
+#: chardata/fashionista_build.py
+msgid "The level must be a whole number from 1 to 200."
+msgstr "The level must be a whole number from 1 to 200."
+
+#: chardata/fashionista_build.py
+msgid "Characteristics and scrolls only take vitality, wisdom, strength, intelligence, chance and agility, each a whole number from 0 up."
+msgstr "Characteristics and scrolls only take vitality, wisdom, strength, intelligence, chance and agility, each a whole number from 0 up."
+
+#: chardata/fashionista_build.py
+msgid "Exos only take ap, mp and range, each true or false."
+msgstr "Exos only take ap, mp and range, each true or false."
+
+#: chardata/fashionista_build.py
+msgid "None of these items is in our catalogue for this game."
+msgstr "None of these items is in our catalogue for this game."
+
+#: chardata/fashionista_build.py
+msgid "These items belong to another version of the game. Check the game field."
+msgstr "These items belong to another version of the game. Check the game field."
+
+#: chardata/fashionista_build.py
+msgid "Too many checks from your address. Wait a few minutes."
+msgstr "Too many checks from your address. Wait a few minutes."
+
+#: chardata/fashionista_build.py
+msgid "Send the build with POST."
+msgstr "Send the build with POST."
+
+#: chardata/fashionista_build.py
+msgid "This id is not in our catalogue for this game: the piece is left out."
+msgstr "This id is not in our catalogue for this game: the piece is left out."
+
+#: chardata/fashionista_build.py
+msgid "This id only exists in another version of the game: the piece is left out."
+msgstr "This id only exists in another version of the game: the piece is left out."
+
+#: chardata/fashionista_build.py
+msgid "No slot is left for this piece: it is left out."
+msgstr "No slot is left for this piece: it is left out."
+
+#: chardata/fashionista_build.py
+msgid "This piece is already worn as many times as the game allows: it is left out."
+msgstr "This piece is already worn as many times as the game allows: it is left out."
+
+#: chardata/fashionista_build.py
+msgid "This piece is no longer in the game."
+msgstr "This piece is no longer in the game."
+
+#: chardata/fashionista_build.py
+msgid "This piece needs a higher level than the build has."
+msgstr "This piece needs a higher level than the build has."
+
+#: chardata/fashionista_build.py
+msgid "This stat key does not exist: the line is left out."
+msgstr "This stat key does not exist: the line is left out."
+
+#: chardata/fashionista_build.py
+msgid "This stat key comes more than once on the piece: the last line is kept."
+msgstr "This stat key comes more than once on the piece: the last line is kept."
+
+#: chardata/fashionista_build.py
+msgid "This value is outside what the piece can roll: it is kept as sent."
+msgstr "This value is outside what the piece can roll: it is kept as sent."
+
+#: chardata/fashionista_build.py
+msgid "Unknown class: the player picks one."
+msgstr "Unknown class: the player picks one."
+
+#: chardata/fashionista_build.py
+msgid "This class does not exist in this game: the player picks another one."
+msgstr "This class does not exist in this game: the player picks another one."
+
+#: chardata/fashionista_build.py
+msgid "A scroll above what this game allows is lowered to its cap."
+msgstr "A scroll above what this game allows is lowered to its cap."
+
+#: chardata/fashionista_build.py
+msgid "This game has no exos: they are left out."
+msgstr "This game has no exos: they are left out."
+
+#: chardata/fashionista_build.py
+msgid "The name is cut to the length build names allow."
+msgstr "The name is cut to the length build names allow."
+
+#: chardata/fashionista_build.py
+msgid "The name must be text: it is left out."
+msgstr "The name must be text: it is left out."
+
+#: chardata/fashionista_build.py
+msgid "The source field is not a domain name: it is ignored."
+msgstr "The source field is not a domain name: it is ignored."
+
+#: chardata/fashionista_build.py
+msgid "The back_url field is not an https address: it is ignored."
+msgstr "The back_url field is not an https address: it is ignored."
+
+#: chardata/fashionista_build.py
+msgid "Unknown field: it is ignored."
+msgstr "Unknown field: it is ignored."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Send a build to Dofus Fashionista"
+msgstr "Send a build to Dofus Fashionista"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Let players open a build from your site on Dofus Fashionista: a small JSON format, sent by link or by form, with a public checker."
+msgstr "Let players open a build from your site on Dofus Fashionista: a small JSON format, sent by link or by form, with a public checker."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Your site makes builds? Add a button that opens them here. The player lands on our import page with the build already read, piece by piece, checks it and confirms. Nothing is created before they do."
+msgstr "Your site makes builds? Add a button that opens them here. The player lands on our import page with the build already read, piece by piece, checks it and confirms. Nothing is created before they do."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "The format"
+msgstr "The format"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "One JSON object, version 1 of the fashionista-build format. Items are Ankama ids, the ones the game itself uses, and an id is only read in the game you name: every version is a game of its own."
+msgstr "One JSON object, version 1 of the fashionista-build format. Items are Ankama ids, the ones the game itself uses, and an id is only read in the game you name: every version is a game of its own."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "The same rules, machine-readable:"
+msgstr "The same rules, machine-readable:"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Field"
+msgstr "Field"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "What it holds"
+msgstr "What it holds"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "required"
+msgstr "required"
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "Up to %(n)s Ankama item ids, or objects with an id: see below."
+msgstr "Up to %(n)s Ankama item ids, or objects with an id: see below."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Our class key or Ankama's breed id, from the class table below. Without it, the player picks the class."
+msgstr "Our class key or Ankama's breed id, from the class table below. Without it, the player picks the class."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "From 1 to 200. Without it, 200."
+msgstr "From 1 to 200. Without it, 200."
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "The build's name, cut at %(n)s characters."
+msgstr "The build's name, cut at %(n)s characters."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "The value each characteristic gets from invested points, without scrolls or gear. A missing key counts as 0."
+msgstr "The value each characteristic gets from invested points, without scrolls or gear. A missing key counts as 0."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Scroll points, with the same six keys. Without this field, every characteristic is fully scrolled, as a new build here starts."
+msgstr "Scroll points, with the same six keys. Without this field, every characteristic is fully scrolled, as a new build here starts."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."
+msgstr "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Your domain, such as example.org. It names your site in our import statistics."
+msgstr "Your domain, such as example.org. It names your site in our import statistics."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "An https link to the build on your site. The preview links back to it."
+msgstr "An https link to the build on your site. The preview links back to it."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "An item"
+msgstr "An item"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "An id alone brings the piece at its best roll. An object can add stats: the final value of each line, with the keys listed below. A line on a stat the piece does not carry is read as an exo."
+msgstr "An id alone brings the piece at its best roll. An object can add stats: the final value of each line, with the keys listed below. A line on a stat the piece does not carry is read as an exo."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Add <code>\"type\": \"mount\"</code> when the id is a mount: Dofus Touch numbers its mounts apart from its items."
+msgstr "Add <code>\"type\": \"mount\"</code> when the id is a mount: Dofus Touch numbers its mounts apart from its items."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "A Dofus Retro or Dofus Touch pet sent with its stat lines comes in as the variant that carries exactly those stats."
+msgstr "A Dofus Retro or Dofus Touch pet sent with its stat lines comes in as the variant that carries exactly those stats."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Stat keys"
+msgstr "Stat keys"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Key"
+msgstr "Key"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Classes"
+msgstr "Classes"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Ankama id"
+msgstr "Ankama id"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Examples"
+msgstr "Examples"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Open this example on the import page"
+msgstr "Open this example on the import page"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Open it with a link"
+msgstr "Open it with a link"
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "Encode the UTF-8 JSON in base64url, padding optional, and pass it as the data parameter. Up to %(n)s characters: past that, use the form."
+msgstr "Encode the UTF-8 JSON in base64url, padding optional, and pass it as the data parameter. Up to %(n)s characters: past that, use the form."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Start the path with /fr/, /es/, /pt/ or /de/ to open the page in that language, as in /fr/import/build/; without it, the page follows the reader's browser. A build for another game than the address opens on its own game."
+msgstr "Start the path with /fr/, /es/, /pt/ or /de/ to open the page in that language, as in /fr/import/build/; without it, the page follows the reader's browser. A build for another game than the address opens on its own game."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Or with a form"
+msgstr "Or with a form"
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "For big builds, post the JSON itself in a field named data, up to %(n)s characters. The page opens the same way."
+msgstr "For big builds, post the JSON itself in a field named data, up to %(n)s characters. The page opens the same way."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Limits"
+msgstr "Limits"
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "Link: %(n)s characters in data."
+msgstr "Link: %(n)s characters in data."
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "Form and checker: %(n)s characters of JSON."
+msgstr "Form and checker: %(n)s characters of JSON."
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "%(n)s items per build, %(lines)s stat lines per item."
+msgstr "%(n)s items per build, %(lines)s stat lines per item."
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "Checker: %(n)s requests every %(minutes)s minutes per address."
+msgstr "Checker: %(n)s requests every %(minutes)s minutes per address."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Error and warning codes"
+msgstr "Error and warning codes"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "An error stops the import. A warning names one thing we changed or left out, and the rest comes in."
+msgstr "An error stops the import. A warning names one thing we changed or left out, and the rest comes in."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Errors"
+msgstr "Errors"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Warnings"
+msgstr "Warnings"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Code"
+msgstr "Code"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Meaning"
+msgstr "Meaning"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "The checker answers each one with its code, the path of the field concerned and a message in the language you ask for."
+msgstr "The checker answers each one with its code, the path of the field concerned and a message in the language you ask for."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Check a build"
+msgstr "Check a build"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Paste your JSON: the checker says what we read."
+msgstr "Paste your JSON: the checker says what we read."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Your JSON"
+msgstr "Your JSON"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Check"
+msgstr "Check"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Open the preview"
+msgstr "Open the preview"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "From your server"
+msgstr "From your server"
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "Send the same JSON as the body of a POST to %(path)s, or in a form field named data. The answer is JSON, with CORS open and no cookies: 200 when the build can be imported, 400 when it cannot, 413 when it is too large and 429 past the limit."
+msgstr "Send the same JSON as the body of a POST to %(path)s, or in a form field named data. The answer is JSON, with CORS open and no cookies: 200 when the build can be imported, 400 when it cannot, 413 when it is too large and 429 past the limit."
+
+#: chardata/templates/chardata/send_a_build.html
+#, python-format
+msgid "Past %(n)s issues with the same code, the others are only counted, in errors_omitted and warnings_omitted."
+msgstr "Past %(n)s issues with the same code, the others are only counted, in errors_omitted and warnings_omitted."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "An example answer"
+msgstr "An example answer"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Checking"
+msgstr "Checking"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "This build can be imported."
+msgstr "This build can be imported."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "This build cannot be imported."
+msgstr "This build cannot be imported."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "The checker could not be reached."
+msgstr "The checker could not be reached."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Items"
+msgstr "Items"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "not found"
+msgstr "not found"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Our own builds"
+msgstr "Our own builds"
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "Each of your own builds can be exported in this format from its page, with the Export as JSON button: a real example to compare with yours."
+msgstr "Each of your own builds can be exported in this format from its page, with the Export as JSON button: a real example to compare with yours."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "The TemporiX mode of Dofus Touch is not part of the format: its shiny pieces come back as regular pieces."
+msgstr "The TemporiX mode of Dofus Touch is not part of the format: its shiny pieces come back as regular pieces."
+
+#: chardata/templates/chardata/send_a_build.html
+msgid "A shared build is also served to other sites at:"
+msgstr "A shared build is also served to other sites at:"

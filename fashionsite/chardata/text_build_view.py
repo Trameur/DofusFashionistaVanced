@@ -15,13 +15,15 @@ from django.core.cache import cache
 from django.db import Error as DatabaseErrors, transaction
 from django.db.models import F
 from django.http import HttpResponseRedirect
+from django.middleware.csrf import get_token
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.debug import sensitive_post_parameters
 
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
-from chardata import build_link_import, dofusbook_import, dofuscreator_import
+from chardata import (build_link_import, dofusbook_import, dofuscreator_import,
+                      fashionista_build)
 from chardata.dofusbook_import import ImportError_, MAX_POINTS
 from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _preview, _solution_path)
@@ -192,7 +194,7 @@ def _add_one(day, version, source, host, field):
     plus_one = {field: F(field) + 1}
     if ImportSourceHit.objects.filter(**key).update(**plus_one):
         return
-    if (source == 'link_unknown' and host
+    if (source in ('link_unknown', 'api') and host
             and ImportSourceHit.objects.filter(day=day, source=source).count()
             >= UNKNOWN_SITES_PER_DAY):
         key['host'] = ''
@@ -220,7 +222,11 @@ def _count_import(day, version, source, field):
 def _paste_key(request, page_version, texte):
     """Visitor, page and paste, hashed; only ever a cache key."""
     visiteur = (request.COOKIES.get(settings.CSRF_COOKIE_NAME)
-                or request.session.session_key or '')
+                or request.session.session_key)
+    if not visiteur:
+        # A first visit has neither: the CSRF secret this page is about to set
+        get_token(request)
+        visiteur = request.META.get('CSRF_COOKIE') or ''
     lignes = '\n'.join(ligne.strip() for ligne in texte.splitlines() if ligne.strip())
     return hashlib.sha256('\n'.join((visiteur, page_version, lignes))
                           .encode('utf-8')).hexdigest()
@@ -292,14 +298,20 @@ def _ecrit_les_caracteristiques(char, points, parchos, complet=False):
         ligne.save()
 
 
-def _reponse(request, params):
+def _reponse(request, params, formulaire=None):
     """The page, with what every state of it shares."""
+    formulaire = request.POST if formulaire is None else formulaire
     params.setdefault('ocr_languages',
                       language_options(get_supported_language()))
     params.setdefault('partner_sites',
                       build_link_import.partner_sites(_version(request)))
     params.setdefault('used_screenshot', bool(params.get('text'))
-                      and request.POST.get('used_screenshot') == '1')
+                      and formulaire.get('used_screenshot') == '1')
+    # Only a sent build posts elsewhere; its address carries the build
+    if params.get('form_action'):
+        params.setdefault('noindex', True)
+        params.setdefault('canonical_path', params['form_action'])
+        params.setdefault('hreflang_urls', {})
     return set_response(request, 'chardata/text_build.html', params)
 
 
@@ -341,7 +353,7 @@ _EXOS = (('ap_exo', 'AP'), ('mp_exo', 'MP'), ('range_exo', 'Range'))
 def _exos_du_lien(build):
     """Build-wide exo options the link sets, in the reader's language."""
     portees = build.get('exo_options') or {}
-    return [_(mot) for option, mot in _EXOS if portees.get(option)]
+    return [_(mot) for option, mot in _EXOS if portees.get(option) is True]
 
 
 def _pose_les_exos(char, build):
@@ -352,7 +364,9 @@ def _pose_les_exos(char, build):
     options = get_options(char)
     # Off included: a new level 200 build starts with AP and MP exo on
     for option, _mot in _EXOS:
-        options[option] = bool(portees.get(option))
+        valeur = portees.get(option)
+        # 'gelano' wears Gelano (#1), whose MP is not an exo
+        options[option] = valeur if valeur == 'gelano' else bool(valeur)
     set_options(char, options)
 
 
@@ -384,38 +398,84 @@ def text_build(request):
             'version_label': get_game_version(version_page).label,
             'login_problem': is_anon_cant_create(request),
         })
+    return _lis(request, texte, version_page, request.POST)
 
-    from_screenshot = request.POST.get('used_screenshot') == '1'
-    counted = not looks_like_a_robot(request)
 
-    # 1. Links: the first readable one is read and decides the version
-    reste, lisibles, illisibles = separe_les_liens(texte)
+def sent_build(request, texte):
+    """The preview of a build another site sent; its forms post to the import page, nothing is created here."""
+    version_page = _version(request)
+    return _lis(request, texte, version_page, {},
+                action=_url_pour_version(version_page))
+
+
+def _envoi_illisible():
+    return _('The site that sent this build sent something we cannot read.')
+
+
+def sent_build_refused(request, code):
+    """The import page with the reason a sent build could not be decoded."""
+    version_page = _version(request)
+    if request.method != 'HEAD' and not looks_like_a_robot(request):
+        _count_attempt(request, version_page, code, version_page, ('api', ''))
+    return _reponse(request, {
+        'text': '',
+        'version_label': get_game_version(version_page).label,
+        'error': _envoi_illisible(),
+        'error_detail': fashionista_build.message(code),
+        'form_action': _url_pour_version(version_page),
+        'login_problem': is_anon_cant_create(request),
+    }, formulaire={})
+
+
+def _lis(request, texte, version_page, formulaire, action=None):
+    """Read a paste; formulaire holds the confirm step's fields, empty for a preview only."""
+    from_screenshot = formulaire.get('used_screenshot') == '1'
+    counted = request.method != 'HEAD' and not looks_like_a_robot(request)
+
+    # 1. A sent build, or the first readable link, decides the version
+    envoye = fashionista_build.looks_sent(texte)
     build = None
     lien_erreur = None
-    if lisibles:
+    if envoye:
+        reste, lisibles, illisibles = '', [], []
         try:
-            build = read_build(lisibles[0])
+            build = fashionista_build.read_build(texte, get_supported_language())
         except ImportError_ as erreur:
             lien_erreur = erreur
+    else:
+        reste, lisibles, illisibles = separe_les_liens(texte)
+        if lisibles:
+            try:
+                build = read_build(lisibles[0])
+            except ImportError_ as erreur:
+                lien_erreur = erreur
 
     # The confirm step posts the same text again and is not a new attempt
-    jeton = ((request.POST.get('count_token') or '')
-             if request.POST.get('confirm') else '')
-    if counted and not request.POST.get('confirm'):
+    jeton = ((formulaire.get('count_token') or '')
+             if formulaire.get('confirm') else '')
+    if counted and not formulaire.get('confirm'):
+        if envoye:
+            source = ('api', build['source_host'] if build
+                      else getattr(lien_erreur, 'source', ''))
+        else:
+            source = _import_source(lisibles, illisibles,
+                                    lien_erreur is not None, from_screenshot)
         jeton = _count_attempt(
             request, version_page, texte,
-            build['game_version'] if build else version_page,
-            _import_source(lisibles, illisibles, lien_erreur is not None,
-                           from_screenshot))
+            build['game_version'] if build else version_page, source)
 
     if lien_erreur is not None:
         raisons = _raisons_du_lien()
         return _reponse(request, {
             'text': texte,
             'version_label': get_game_version(version_page).label,
-            'error': raisons.get(lien_erreur.reason, raisons['unreadable']),
+            'error': (_envoi_illisible() if envoye
+                      else raisons.get(lien_erreur.reason, raisons['unreadable'])),
+            'error_detail': (fashionista_build.message(lien_erreur.reason)
+                             if envoye else None),
+            'form_action': action,
             'login_problem': is_anon_cant_create(request),
-        })
+        }, formulaire)
     version = build['game_version'] if build else version_page
 
     # 2. The text, in the link's version or else the page's
@@ -432,8 +492,9 @@ def text_build(request):
                         'here': get_game_version(version).label},
             'other_version_url': _url_pour_version(annoncee),
             'other_version_label': get_game_version(annoncee).label,
+            'form_action': action,
             'login_problem': is_anon_cant_create(request),
-        })
+        }, formulaire)
 
     # 3. Link items first, then text items, no duplicates
     ids_du_lien = list(build['item_ids']) if build else []
@@ -457,18 +518,19 @@ def text_build(request):
             'error': erreur,
             'ignored': laissees[:12],
             'unreadable_links': illisibles[:12],
+            'form_action': action,
             'login_problem': is_anon_cant_create(request),
-        })
+        }, formulaire)
 
     # Class and level from the text when it has them (our export's header)
-    char_class = request.POST.get('char_class') or ''
+    char_class = formulaire.get('char_class') or ''
     if not char_class and lu['char_class'] in CHARACTER_CLASSES:
         char_class = lu['char_class']
     # DofusCreator links carry a class we can read, DofusBook links do not
     if not char_class and build and build.get('char_class') in CHARACTER_CLASSES:
         char_class = build['char_class']
     niveau_lu = lu['char_level'] or (build['level'] if build else None)
-    niveau = safe_int(request.POST.get('level'), niveau_lu or NIVEAU_PAR_DEFAUT)
+    niveau = safe_int(formulaire.get('level'), niveau_lu or NIVEAU_PAR_DEFAUT)
 
     # Base stats: the link's first, the text's on top
     points = dict(build.get('base_points') or {}) if build else {}
@@ -501,7 +563,13 @@ def text_build(request):
                 'fm_weapon': bool(build.get('fm_weapon')),
                 'fm_unmapped': fm_sans_cle,
                 'exos': _exos_du_lien(build),
-                'version_differs': version != version_page}
+                'version_differs': version != version_page,
+                'sent': bool(build.get('sent')),
+                'back_url': build.get('back_url'),
+                'back_host': build.get('back_host'),
+                'wrong_game': build.get('wrong_game') or [],
+                'left_out': build.get('left_out') or [],
+                'worn_twice': build.get('worn_twice') or []}
 
     # Rolls: the link's first, the text's on top for the same piece
     overrides = {}
@@ -511,7 +579,7 @@ def text_build(request):
     refuses = refuses_du_lien + lu['refused_rolls']
     class_ok = char_class in CHARACTER_CLASSES
 
-    if not request.POST.get('confirm') or not class_ok:
+    if not formulaire.get('confirm') or not class_ok:
         return _reponse(request, {
             'text': texte,
             'confirm': True,
@@ -529,11 +597,12 @@ def text_build(request):
             'base_points': _caracteristiques_pour_apercu(caracteristiques),
             'classes': _classes_for(version),
             'class_error': (_('Choose a class before bringing this build in.')
-                            if request.POST.get('confirm') and not class_ok
+                            if formulaire.get('confirm') and not class_ok
                             else None),
             'count_token': jeton,
+            'form_action': action,
             'login_problem': is_anon_cant_create(request),
-        })
+        }, formulaire)
 
     nom = (build['name'] if build and build['name'] else _('Imported build'))
     char = create_build(request, char_class, niveau, set(), version, name=nom)

@@ -66,6 +66,9 @@
     .import-partner:focus-visible .import-partner-name { text-decoration: underline; }
     .import-partner-name { font-weight: bold; }
     .import-partner-host { font-size: 0.85em; }
+    .import-back { margin: 4px 0 10px; }
+    .import-back a { font-weight: bold; overflow-wrap: anywhere; }
+    .import-developers { margin: 14px 0 0; font-size: 0.9em; }
 </style>
 {% endblock %}
 
@@ -87,6 +90,7 @@
         {% if other_version_url %}
         <a href="{{ other_version_url }}">{% blocktrans with version=other_version_label %}Open the {{ version }} import{% endblocktrans %}</a>
         {% endif %}
+        {% if error_detail %}<br><small id="import-error-detail">{{ error_detail }}</small>{% endif %}
     </p>
     {% endif %}
 
@@ -110,20 +114,37 @@
         </div>
     </div>
 
-    <form method="post" class="import-form">
+    <form method="post" class="import-form"{% if form_action %} action="{{ form_action }}"{% endif %}>
         {% csrf_token %}
         <input type="hidden" name="used_screenshot" id="used-screenshot" value="{% if used_screenshot %}1{% else %}0{% endif %}">
         {# No item names in the placeholder: they differ per version and language #}
         <textarea name="text" class="import-area pretty-input" autofocus
-                  placeholder="{% if build_sites.links %}{% trans "One item name per line, or a build link" %}{% else %}{% trans "One item name per line" %}{% endif %}" required>{{ text }}</textarea>
+                  placeholder="{% if build_sites.links %}{% trans "One item name per line, or a build link" %}{% else %}{% trans "One item name per line" %}{% endif %}" required>{% if not link.sent %}{{ text }}{% endif %}</textarea>
         <button type="submit" class="button-generic">{% trans "Read this" %}</button>
     </form>
 
     {% if confirm %}
     <div class="import-found">
         <p><strong>{{ version_label }}</strong></p>
+        {% if link.sent %}
+        <p class="import-link-read" id="import-sent-read">{% if link.name %}{% blocktrans with name=link.name version=link.version_label %}Build received: {{ name }} ({{ version }}).{% endblocktrans %}{% else %}{% blocktrans with version=link.version_label %}Build received ({{ version }}).{% endblocktrans %}{% endif %}{% if link.version_differs %} {% trans "The build will be created in that version." %}{% endif %}</p>
+        {% if link.back_url %}
+        <p class="import-back" id="import-back"><a href="{{ link.back_url }}" target="_blank" rel="noopener" referrerpolicy="origin">{% blocktrans with site=link.back_host %}Imported from {{ site }}{% endblocktrans %}</a></p>
+        {% endif %}
+        {% if link.wrong_game %}
+        <p class="import-missing" id="import-sent-wrong-game">{% trans "These items belong to another version of the game and are left out:" %} {{ link.wrong_game|join:", " }}</p>
+        {% endif %}
+        {% if link.left_out %}
+        <p class="import-missing" id="import-sent-left-out">{% trans "No slot is left for these pieces, so they are left out:" %} {{ link.left_out|join:", " }}</p>
+        {% endif %}
+        {% if link.worn_twice %}
+        <p class="import-missing" id="import-sent-worn-twice">{% trans "These pieces are already worn as many times as the game allows, so they are left out:" %} {{ link.worn_twice|join:", " }}</p>
+        {% endif %}
+        {% endif %}
         {% if link %}
+        {% if not link.sent %}
         <p class="import-link-read" id="import-link-read">{% if link.name %}{% blocktrans with name=link.name version=link.version_label %}Read from the link: {{ name }} ({{ version }}).{% endblocktrans %}{% else %}{% blocktrans with version=link.version_label %}Read from the link ({{ version }}).{% endblocktrans %}{% endif %}{% if link.version_differs %} {% trans "The build will be created in that version." %}{% endif %}</p>
+        {% endif %}
         {% if link.missing %}
         <p class="import-missing" id="import-link-missing">{% trans "These items are not in our catalogue and will be left out:" %} {{ link.missing|join:", " }}</p>
         {% endif %}
@@ -138,7 +159,7 @@
         <p class="import-missing" id="import-link-fm-global">{% trans "These lines from the link belong to no piece and are left out:" %} {{ link.fm_global|join:", " }}</p>
         {% endif %}
         {% if link.exos %}
-        <p class="import-missing" id="import-link-exos">{% blocktrans with stats=link.exos|join:", " %}The exos from the link become the build's exo options: {{ stats }}.{% endblocktrans %}</p>
+        <p class="import-missing" id="import-link-exos">{% if link.sent %}{% blocktrans with stats=link.exos|join:", " %}The exos of the build become its exo options: {{ stats }}.{% endblocktrans %}{% else %}{% blocktrans with stats=link.exos|join:", " %}The exos from the link become the build's exo options: {{ stats }}.{% endblocktrans %}{% endif %}</p>
         {% endif %}
         {% if link.fm_unmapped %}
         <p class="import-missing" id="import-link-fm-unmapped">{% trans "These forgemagie lines could not be read and are left out:" %} {{ link.fm_unmapped|join:", " }}</p>
@@ -198,7 +219,7 @@
         <p class="import-missing">{% blocktrans with n=max_lines %}Only the first {{ n }} lines were read.{% endblocktrans %}</p>
         {% endif %}
 
-        <form method="post" class="import-form">
+        <form method="post" class="import-form"{% if form_action %} action="{{ form_action }}"{% endif %}>
             {% csrf_token %}
             <input type="hidden" name="text" value="{{ text }}">
             <input type="hidden" name="confirm" value="1">
@@ -237,6 +258,7 @@
         </ul>
     </section>
     {% endif %}
+    <p class="import-developers" id="import-developers"><a href="{% game_url 'send_a_build' %}">{% trans "Your site? Send builds to Dofus Fashionista" %}</a></p>
 </div>
 
 {% trans "Reading" as msg_shot_reading %}

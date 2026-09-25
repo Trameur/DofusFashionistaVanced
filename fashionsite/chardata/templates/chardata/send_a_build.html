@@ -1,0 +1,271 @@
+{% extends "chardata/base.html" %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}{% trans "Send a build to Dofus Fashionista" %}{% endblock %}
+{% block meta_description %}{% trans "Let players open a build from your site on Dofus Fashionista: a small JSON format, sent by link or by form, with a public checker." %}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+<style>
+    .dev-page { max-width: 820px; margin: 0 auto; padding: 8px 16px 32px; line-height: 1.6; box-sizing: border-box; }
+    .dev-page h1 { font-size: 1.7em; line-height: 1.2; margin: 0 0 12px; }
+    .dev-page h2 { font-size: 1.25em; margin: 30px 0 8px; }
+    .dev-page h3 { font-size: 1.05em; margin: 18px 0 6px; }
+    .dev-page p { margin: 0 0 12px; }
+    .dev-lead { font-size: 1.1em; }
+    .dev-page pre {
+        margin: 0 0 14px; padding: 10px 12px; overflow-x: auto;
+        background: rgba(128,128,128,0.15); border: 1px solid rgba(128,128,128,0.45);
+        border-radius: 6px; font-size: 0.85em; line-height: 1.45;
+    }
+    .dev-page pre.dev-wrap { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .dev-page code { font-family: Consolas, Menlo, "DejaVu Sans Mono", monospace; overflow-wrap: anywhere; }
+    .dev-table-wrap { overflow-x: auto; margin: 0 0 14px; }
+    .dev-table { border-collapse: collapse; width: 100%; font-size: 0.92em; }
+    .dev-table th, .dev-table td {
+        text-align: left; vertical-align: top; padding: 5px 8px;
+        border-bottom: 1px solid rgba(128,128,128,0.4);
+    }
+    .dev-page details { margin: 0 0 12px; }
+    .dev-page summary { cursor: pointer; font-weight: bold; padding: 4px 0; }
+    .dev-checker-area {
+        width: 100%; min-height: 240px; box-sizing: border-box; padding: 8px 10px;
+        font-family: Consolas, Menlo, "DejaVu Sans Mono", monospace; font-size: 0.85em;
+        resize: vertical;
+    }
+    .dev-checker-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+    .dev-result ul { margin: 4px 0 10px; padding-left: 20px; }
+    .dev-verdict { font-weight: bold; }
+</style>
+{% endblock %}
+
+{% block main %}
+<article class="dev-page">
+    <h1>{% trans "Send a build to Dofus Fashionista" %}</h1>
+    <p class="dev-lead">{% trans "Your site makes builds? Add a button that opens them here. The player lands on our import page with the build already read, piece by piece, checks it and confirms. Nothing is created before they do." %}</p>
+
+    <h2 id="format">{% trans "The format" %}</h2>
+    <p>{% trans "One JSON object, version 1 of the fashionista-build format. Items are Ankama ids, the ones the game itself uses, and an id is only read in the game you name: every version is a game of its own." %}</p>
+    <p>{% trans "The same rules, machine-readable:" %} <a href="{{ schema_path }}">JSON Schema</a></p>
+    <div class="dev-table-wrap" tabindex="0" aria-labelledby="format">
+        <table class="dev-table">
+            <thead><tr><th scope="col">{% trans "Field" %}</th><th scope="col">{% trans "What it holds" %}</th></tr></thead>
+            <tbody>
+                <tr><td><code>format</code><br><small>{% trans "required" %}</small></td><td><code>"fashionista-build"</code></td></tr>
+                <tr><td><code>version</code><br><small>{% trans "required" %}</small></td><td><code>1</code></td></tr>
+                <tr><td><code>game</code><br><small>{% trans "required" %}</small></td><td>{% for game in games %}<code>{{ game }}</code>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
+                <tr><td><code>items</code><br><small>{% trans "required" %}</small></td><td>{% blocktrans with n=limits.items %}Up to {{ n }} Ankama item ids, or objects with an id: see below.{% endblocktrans %}</td></tr>
+                <tr><td><code>class</code><br><small>{% trans "optional" %}</small></td><td>{% trans "Our class key or Ankama's breed id, from the class table below. Without it, the player picks the class." %}</td></tr>
+                <tr><td><code>level</code><br><small>{% trans "optional" %}</small></td><td>{% trans "From 1 to 200. Without it, 200." %}</td></tr>
+                <tr><td><code>name</code><br><small>{% trans "optional" %}</small></td><td>{% blocktrans with n=limits.name %}The build's name, cut at {{ n }} characters.{% endblocktrans %}</td></tr>
+                <tr><td><code>characteristics</code><br><small>{% trans "optional" %}</small></td><td>{% trans "The value each characteristic gets from invested points, without scrolls or gear. A missing key counts as 0." %} <code>vitality</code>, <code>wisdom</code>, <code>strength</code>, <code>intelligence</code>, <code>chance</code>, <code>agility</code></td></tr>
+                <tr><td><code>scrolls</code><br><small>{% trans "optional" %}</small></td><td>{% trans "Scroll points, with the same six keys. Without this field, every characteristic is fully scrolled, as a new build here starts." %}</td></tr>
+                <tr><td><code>exos</code><br><small>{% trans "optional" %}</small></td><td><code>{"ap": true, "mp": false, "range": false}</code>: {% trans "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out." %}</td></tr>
+                <tr><td><code>source</code><br><small>{% trans "optional" %}</small></td><td>{% trans "Your domain, such as example.org. It names your site in our import statistics." %}</td></tr>
+                <tr><td><code>back_url</code><br><small>{% trans "optional" %}</small></td><td>{% trans "An https link to the build on your site. The preview links back to it." %}</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 id="item">{% trans "An item" %}</h3>
+    <p>{% trans "An id alone brings the piece at its best roll. An object can add stats: the final value of each line, with the keys listed below. A line on a stat the piece does not carry is read as an exo." %}</p>
+    <pre tabindex="0" aria-labelledby="item"><code>{{ item_example }}</code></pre>
+    <p>{% blocktrans %}Add <code>"type": "mount"</code> when the id is a mount: Dofus Touch numbers its mounts apart from its items.{% endblocktrans %}</p>
+    <p>{% trans "A Dofus Retro or Dofus Touch pet sent with its stat lines comes in as the variant that carries exactly those stats." %}</p>
+
+    <details id="stat-keys">
+        <summary id="stat-keys-title">{% trans "Stat keys" %}</summary>
+        <div class="dev-table-wrap" tabindex="0" aria-labelledby="stat-keys-title">
+            <table class="dev-table">
+                <thead><tr><th scope="col">{% trans "Key" %}</th><th scope="col">{% trans "Name" %}</th></tr></thead>
+                <tbody>
+                    {% for key, name in stat_keys %}<tr><td><code>{{ key }}</code></td><td>{{ name }}</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </details>
+    <details id="classes">
+        <summary id="classes-title">{% trans "Classes" %}</summary>
+        <div class="dev-table-wrap" tabindex="0" aria-labelledby="classes-title">
+            <table class="dev-table">
+                <thead><tr><th scope="col">{% trans "Key" %}</th><th scope="col">{% trans "Ankama id" %}</th><th scope="col">{% trans "Class" %}</th></tr></thead>
+                <tbody>
+                    {% for key, breed, name in classes %}<tr><td><code>{{ key }}</code></td><td><code>{{ breed|stringformat:"d" }}</code></td><td>{{ name }}</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <h2 id="examples">{% trans "Examples" %}</h2>
+    {% for example in examples %}
+    <h3 id="example-{{ example.game }}">{{ example.label }}</h3>
+    <pre tabindex="0" aria-labelledby="example-{{ example.game }}"><code class="dev-example" data-game="{{ example.game }}">{{ example.json }}</code></pre>
+    <p><a href="{{ example.open }}">{% trans "Open this example on the import page" %}</a></p>
+    {% endfor %}
+
+    <h2 id="link">{% trans "Open it with a link" %}</h2>
+    <p>{% blocktrans with n=limits.link %}Encode the UTF-8 JSON in base64url, padding optional, and pass it as the data parameter. Up to {{ n }} characters: past that, use the form.{% endblocktrans %}</p>
+    <p>{% trans "Start the path with /fr/, /es/, /pt/ or /de/ to open the page in that language, as in /fr/import/build/; without it, the page follows the reader's browser. A build for another game than the address opens on its own game." %}</p>
+    <pre class="dev-wrap"><code>&lt;a href="{{ examples.0.link }}" target="_blank" rel="noopener"&gt;Open on Dofus Fashionista&lt;/a&gt;</code></pre>
+    <pre tabindex="0" aria-labelledby="link"><code>const bytes = new TextEncoder().encode(JSON.stringify(build));
+let binary = '';
+bytes.forEach(function (byte) { binary += String.fromCharCode(byte); });
+const data = btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const href = '{{ site_url }}/import/build/?data=' + data;</code></pre>
+
+    <h2 id="form">{% trans "Or with a form" %}</h2>
+    <p>{% blocktrans with n=limits.json %}For big builds, post the JSON itself in a field named data, up to {{ n }} characters. The page opens the same way.{% endblocktrans %}</p>
+    <pre tabindex="0" aria-labelledby="form"><code>&lt;form method="post" action="{{ site_url }}/import/build/" target="_blank"&gt;
+  &lt;input type="hidden" name="data" id="fashionista-data"&gt;
+  &lt;button type="submit"&gt;Open on Dofus Fashionista&lt;/button&gt;
+&lt;/form&gt;
+&lt;script&gt;
+  document.getElementById('fashionista-data').value = JSON.stringify(build);
+&lt;/script&gt;</code></pre>
+
+    <h2 id="limits">{% trans "Limits" %}</h2>
+    <ul>
+        <li>{% blocktrans with n=limits.link %}Link: {{ n }} characters in data.{% endblocktrans %}</li>
+        <li>{% blocktrans with n=limits.json %}Form and checker: {{ n }} characters of JSON.{% endblocktrans %}</li>
+        <li>{% blocktrans with n=limits.items lines=limits.lines %}{{ n }} items per build, {{ lines }} stat lines per item.{% endblocktrans %}</li>
+        <li>{% blocktrans with n=limits.checks minutes=limits.minutes %}Checker: {{ n }} requests every {{ minutes }} minutes per address.{% endblocktrans %}</li>
+    </ul>
+
+    <h2 id="codes">{% trans "Error and warning codes" %}</h2>
+    <p>{% trans "An error stops the import. A warning names one thing we changed or left out, and the rest comes in." %}</p>
+    <h3 id="errors">{% trans "Errors" %}</h3>
+    <div class="dev-table-wrap" tabindex="0" aria-labelledby="errors">
+        <table class="dev-table" id="error-codes">
+            <thead><tr><th scope="col">{% trans "Code" %}</th><th scope="col">{% trans "Meaning" %}</th></tr></thead>
+            <tbody>
+                {% for code, meaning in errors %}<tr><td><code>{{ code }}</code></td><td>{{ meaning }}</td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h3 id="warnings">{% trans "Warnings" %}</h3>
+    <div class="dev-table-wrap" tabindex="0" aria-labelledby="warnings">
+        <table class="dev-table" id="warning-codes">
+            <thead><tr><th scope="col">{% trans "Code" %}</th><th scope="col">{% trans "Meaning" %}</th></tr></thead>
+            <tbody>
+                {% for code, meaning in warnings %}<tr><td><code>{{ code }}</code></td><td>{{ meaning }}</td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p>{% trans "The checker answers each one with its code, the path of the field concerned and a message in the language you ask for." %}</p>
+
+    <h2 id="checker">{% trans "Check a build" %}</h2>
+    <p>{% trans "Paste your JSON: the checker says what we read." %}</p>
+    <label for="dev-json">{% trans "Your JSON" %}</label>
+    <textarea id="dev-json" class="dev-checker-area pretty-input" spellcheck="false">{{ examples.0.json }}</textarea>
+    <div class="dev-checker-actions">
+        <button type="button" class="button-generic" id="dev-check">{% trans "Check" %}</button>
+        <form method="post" action="{{ import_path }}" target="_blank" id="dev-open">
+            <input type="hidden" name="data" id="dev-open-data">
+            <button type="submit" class="button-generic">{% trans "Open the preview" %}</button>
+        </form>
+    </div>
+    <div class="dev-result" id="dev-result" aria-live="polite"></div>
+
+    <h3 id="checker-server">{% trans "From your server" %}</h3>
+    <p>{% blocktrans with path=validate_example %}Send the same JSON as the body of a POST to {{ path }}, or in a form field named data. The answer is JSON, with CORS open and no cookies: 200 when the build can be imported, 400 when it cannot, 413 when it is too large and 429 past the limit.{% endblocktrans %}</p>
+    <pre tabindex="0" aria-labelledby="checker-server"><code>curl -X POST '{{ site_url }}{{ validate_example }}' \
+  -H 'Content-Type: application/json' \
+  --data-binary @build.json</code></pre>
+    <p>{% blocktrans with n=limits.per_code %}Past {{ n }} issues with the same code, the others are only counted, in errors_omitted and warnings_omitted.{% endblocktrans %}</p>
+    <details id="answer">
+        <summary id="answer-title">{% trans "An example answer" %}</summary>
+        <pre tabindex="0" aria-labelledby="answer-title"><code>{{ answer_example }}</code></pre>
+    </details>
+
+    <h2 id="export">{% trans "Our own builds" %}</h2>
+    <p>{% trans "Each of your own builds can be exported in this format from its page, with the Export as JSON button: a real example to compare with yours." %}</p>
+    <p>{% trans "The TemporiX mode of Dofus Touch is not part of the format: its shiny pieces come back as regular pieces." %}</p>
+    <p>{% trans "A shared build is also served to other sites at:" %} <code>/api/v1/shared-builds/&lt;id&gt;/fashionista-build/</code></p>
+</article>
+
+{% trans "Checking" as msg_checking %}
+{% trans "This build can be imported." as msg_valid %}
+{% trans "This build cannot be imported." as msg_invalid %}
+{% trans "The checker could not be reached." as msg_failed %}
+{% trans "Errors" as msg_errors %}
+{% trans "Warnings" as msg_warnings %}
+{% trans "Items" as msg_items %}
+{% trans "not found" as msg_not_found %}
+<script>
+(function () {
+    var area = document.getElementById('dev-json');
+    var check = document.getElementById('dev-check');
+    var result = document.getElementById('dev-result');
+    var openForm = document.getElementById('dev-open');
+    var openData = document.getElementById('dev-open-data');
+    if (!area || !check || !result || !openForm || !openData) {
+        return;
+    }
+    var URL_CHECK = '{{ validate_path|escapejs }}?lang={{ checker_language|escapejs }}';
+    var MSG = {
+        checking: '{{ msg_checking|escapejs }}',
+        valid: '{{ msg_valid|escapejs }}',
+        invalid: '{{ msg_invalid|escapejs }}',
+        failed: '{{ msg_failed|escapejs }}',
+        errors: '{{ msg_errors|escapejs }}',
+        warnings: '{{ msg_warnings|escapejs }}',
+        items: '{{ msg_items|escapejs }}',
+        notFound: '{{ msg_not_found|escapejs }}'
+    };
+
+    function add(parent, tag, text, className) {
+        var element = document.createElement(tag);
+        if (className) {
+            element.className = className;
+        }
+        element.textContent = text;
+        parent.appendChild(element);
+        return element;
+    }
+
+    function list(title, lines) {
+        if (!lines.length) {
+            return;
+        }
+        add(result, 'p', title);
+        var ul = add(result, 'ul', '');
+        lines.forEach(function (line) {
+            add(ul, 'li', line);
+        });
+    }
+
+    function issue(entry) {
+        return entry.code + (entry.path ? ' (' + entry.path + ')' : '') + ': ' + entry.message;
+    }
+
+    check.addEventListener('click', function () {
+        result.textContent = MSG.checking;
+        fetch(URL_CHECK, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {'Content-Type': 'application/json'},
+            body: area.value
+        }).then(function (response) {
+            return response.json();
+        }).then(function (answer) {
+            result.textContent = '';
+            add(result, 'p', answer.valid ? MSG.valid : MSG.invalid, 'dev-verdict');
+            list(MSG.errors, (answer.errors || []).map(issue));
+            list(MSG.warnings, (answer.warnings || []).map(issue));
+            list(MSG.items, (answer.items || []).map(function (piece) {
+                return piece.id + ': ' + (piece.found ? piece.name : MSG.notFound);
+            }));
+        })['catch'](function () {
+            result.textContent = MSG.failed;
+        });
+    });
+
+    openForm.addEventListener('submit', function () {
+        openData.value = area.value;
+    });
+})();
+</script>
+{% endblock %}

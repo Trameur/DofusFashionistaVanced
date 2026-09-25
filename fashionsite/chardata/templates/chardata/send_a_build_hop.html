@@ -1,0 +1,19 @@
+{% load i18n %}<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dofus Fashionista</title>
+</head>
+<body>
+<form method="post" action="{{ action }}" id="sent-build">
+<input type="hidden" name="data" value="{{ data }}">
+{% if refused %}<input type="hidden" name="refused" value="{{ refused }}">{% endif %}
+<input type="hidden" name="hop" value="1">
+<button type="submit">{% trans "Open the preview" %}</button>
+</form>
+<script>document.getElementById('sent-build').submit();</script>
+</body>
+</html>

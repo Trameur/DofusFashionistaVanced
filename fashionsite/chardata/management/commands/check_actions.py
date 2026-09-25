@@ -55,6 +55,32 @@ WORKSHOP_PATHS = (
     '/workshop/setqty/99999999/', '/workshop/remove/99999999/',
     '/workshop/clear/',
 )
+# A sent build, as a form field on the import door and as the validator's body
+SENT_BUILDS = (
+    '', 'not json', '{', '[]', 'null', '{}', '[' * 5000, 'x' * 40000,
+    '{"format": "fashionista-build"}',
+    '{"format": "fashionista-build", "version": 2, "game": "dofus3", "items": [1]}',
+    '{"format": "fashionista-build", "version": 1, "game": "nope", "items": [1]}',
+    '{"format": "fashionista-build", "version": 1, "game": "dofus3", '
+    '"items": [99999999, {"id": "x"}, {"id": 1, "stats": "x"}, true, -1], '
+    '"level": -4, "class": [], "characteristics": {"vitality": -1}, '
+    '"exos": {"ap": 3}, "back_url": "javascript:alert(1)", "source": "localhost"}',
+    '{"format": "fashionista-build", "version": 1, "game": "retro", '
+    '"items": [{"id": 99999999, "type": "mount", "stats": [{"key": "nope", '
+    '"value": 1e400}]}], "name": 5, "scrolls": {"agility": 99999}}',
+    # Digits int() refuses: superscripts, circled numbers, past its digit limit
+    '{"format": "fashionista-build", "version": 1, "game": "dofus3", '
+    '"items": [99999999], "class": "\u00b2"}',
+    '{"format": "fashionista-build", "version": 1, "game": "dofus3", '
+    '"items": [99999999], "class": "\u2460"}',
+    '{"format": "fashionista-build", "version": 1, "game": "dofus3", '
+    '"items": [99999999], "class": "' + '9' * 5000 + '"}',
+    # Lone surrogate escapes: valid JSON, never valid UTF-8
+    '{"format": "fashionista-build", "version": 1, "game": "dofus3", '
+    '"items": [99999999], "name": "abc\\ud83d", "back_url": "https://example.org/\\ud800"}',
+    '{"format": "fashionista-build", "version": 1, "game": "dofus3", '
+    '"items": [{"id": 99999999, "stats": [{"key": "\\udc00", "value": 1}]}], "\\ud800": 1}',
+)
 NONSENSE = {'name': 'x' * 400, 'level': 'abc', 'char_level': '-3',
             'value': 'NaN', 'stat': 'no-such-stat', 'weights': '{',
             'gender': '7', 'colors': 'not json', 'hidden': 'maybe',
@@ -83,11 +109,14 @@ class Command(BaseCommand):
             client.force_login(user)
             prefix = '' if version == 'dofus3' else '/' + version
             try:
-                for path, payload in self._payloads(version, char.pk):
+                for entry in self._payloads(version, char.pk):
+                    path, payload = entry[0], entry[1]
                     posted += 1
                     url = '%s%s' % (prefix, path)
                     try:
-                        response = client.post(url, payload)
+                        # A third element posts the payload as a raw body of that type
+                        response = (client.post(url, payload, content_type=entry[2])
+                                    if len(entry) > 2 else client.post(url, payload))
                     except Exception as error:            # noqa: BLE001
                         findings.append((url, payload, '%s: %s'
                                          % (type(error).__name__,
@@ -212,6 +241,15 @@ class Command(BaseCommand):
             yield (path, dict(NONSENSE, item_id='abc', quantity='-5',
                               updates='not json', mode='sideways'))
             yield ('/inclusionspost/%d/' % char_id, {slot: 'x' * 400})
+
+        # A build another site sends; the validator has no version prefix
+        for raw in SENT_BUILDS:
+            yield ('/import/build/', {'data': raw})
+        yield ('/import/build/', dict(NONSENSE, confirm='1', char_class='Iop'))
+        if version == 'dofus3':
+            for raw in SENT_BUILDS:
+                yield ('/api/v1/import/validate/', raw, 'application/json')
+            yield ('/api/v1/import/validate/', dict(NONSENSE))
 
         # The turn panel posts two JSON objects for the combo simulator
         for buffs in ('{}', 'not json', '[]', '{"x": "y"}', '{"1": -5}',

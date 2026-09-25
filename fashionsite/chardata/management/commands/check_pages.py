@@ -48,6 +48,7 @@ PATHS = (
     '/', '/encyclopedia/', '/encyclopedia/sets/', '/encyclopedia/monsters/',
     '/guides/', '/forgemagie/', '/sharedbuilds/', '/quickstart/',
     '/about/', '/faq/', '/support/', '/license/', '/privacy/',
+    '/developers/send-a-build/',
 )
 
 # What a crawler sends that a form never would.
@@ -58,7 +59,7 @@ HOSTILE = (
     '?hide_invalid=maybe', '?folder=abc', '?top=abc', '?page_size=abc',
 )
 
-API = ('/api/v1/shared-builds/', '/api/v1/tier-list/')
+API = ('/api/v1/shared-builds/', '/api/v1/tier-list/', '/api/v1/import/schema/1/')
 
 # Per-build routes; the *post ones expect a POST, a 405 is fine, a 500 is not
 BUILD_PATHS = (
@@ -68,6 +69,7 @@ BUILD_PATHS = (
     '/best_combo/%s/', '/exchange/%s/', '/itemadd/%s/', '/itemexchange/%s/',
     '/loadproject/%s/', '/initbasestats/%s/',
     '/wizardgetsliders/%s/', '/workshop/solutioningredients/%s/',
+    '/export/fashionista/%s/',
     '/statspost/%s/', '/minstatspost/%s/', '/optionspost/%s/',
     '/exclusionspost/%s/', '/inclusionspost/%s/', '/wizardpost/%s/',
     '/save_char/%s/', '/saveproject/%s/', '/setcharcolors/%s/',

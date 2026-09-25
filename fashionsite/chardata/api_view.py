@@ -107,9 +107,15 @@ def api_meta(request):
         'endpoints': [
             'GET /api/v1/shared-builds/?game_version=dofus3&page=1&page_size=20',
             'GET /api/v1/shared-builds/<encoded_id>/',
+            'GET /api/v1/shared-builds/<encoded_id>/fashionista-build/',
             'GET /api/v1/tier-list/?game_version=dofus3&char_class=Iop',
+            'POST /api/v1/import/validate/?lang=en',
+            'GET /api/v1/import/schema/1/',
+            'GET /import/build/?data=<base64url of a fashionista-build>',
+            'POST /import/build/ (form field data)',
         ],
         'docs': 'https://dofusfashionista.gg/about/#api',
+        'send_a_build': SITE_URL + '/developers/send-a-build/',
     })
 
 
