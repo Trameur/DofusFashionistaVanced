@@ -40,6 +40,7 @@
         <button class="admin-tab" data-tab="versions">Game versions</button>
         <button class="admin-tab" data-tab="community">Community</button>
         <button class="admin-tab" data-tab="pages">Pages</button>
+        <button class="admin-tab" data-tab="imports">Import</button>
         <button class="admin-tab" data-tab="solver">Solver</button>
         <button class="admin-tab" data-tab="moderation">Moderation</button>
         <button class="admin-tab" data-tab="ads">Ads</button>
@@ -185,6 +186,42 @@
         </div>
         {% else %}
         <p class="admin-empty-panel">Nothing counted yet. Page reads start being recorded once this is deployed, and the figures are never backfilled.</p>
+        {% endif %}
+    </section>
+
+    <section class="admin-panel admin-panel-off" data-panel="imports">
+        {% if dash.imports.collecting_since %}
+        <p class="admin-note">Counting since {{ dash.imports.collecting_since }}. Only the site name is stored, never the link or who pasted it.</p>
+        <h2 class="admin-section-title">Import attempts {{ dash.filters.unit_word }}</h2>
+        {{ charts.imports_per_bucket|safe }}
+        <h2 class="admin-section-title">Where pasted builds come from</h2>
+        <table class="admin-table admin-table-wide">
+            <tr><th>Source</th><th>Attempts</th><th>Share</th><th>Imported</th><th>Import rate</th></tr>
+            {% if dash.imports.total %}
+            {% for row in dash.imports.rows %}
+            <tr><td>{{ row.label }}</td><td class="admin-num">{{ row.attempts }}</td>
+                <td class="admin-num">{{ row.share|stringformat:".1f" }}%</td>
+                <td class="admin-num">{% if row.imported != None %}{{ row.imported }}{% else %}<span class="admin-empty">-</span>{% endif %}</td>
+                <td class="admin-num">{% if row.rate != None %}{{ row.rate|stringformat:".1f" }}%{% else %}<span class="admin-empty">-</span>{% endif %}</td></tr>
+            {% endfor %}
+            {% else %}
+            <tr><td class="admin-empty" colspan="5">nothing counted for this filter</td></tr>
+            {% endif %}
+        </table>
+        <p class="admin-note">One attempt per paste, crawlers left out. A paste counts as its first link we can read, else its first link we cannot read, else its text or screenshot. The same paste sent again from the same browser within 30 minutes (a reload, the back button) counts once when it reaches the same server worker. Shares are of all attempts and add up to 100%. Import rate is builds created per attempt. A build made from item names pasted next to a link we cannot read is not credited to that site, so those rows show no import.</p>
+
+        <h2 class="admin-section-title">Sites we cannot read yet</h2>
+        <table class="admin-table" data-more="12">
+            <tr><th>Site</th><th>Attempts</th><th>Share</th></tr>
+            {% for row in dash.imports.unknown %}
+            <tr><td>{{ row.label }}</td><td class="admin-num">{{ row.attempts }}</td>
+                <td class="admin-num">{{ row.share|stringformat:".1f" }}%</td></tr>
+            {% empty %}<tr><td class="admin-empty" colspan="3">none for this filter</td></tr>{% endfor %}
+        </table>
+        {% if dash.imports.unknown_not_listed %}<p class="admin-note">{{ dash.imports.unknown_not_listed }} more sites are not listed.</p>{% endif %}
+        <p class="admin-note">A site is its domain without subdomains: alice.github.io counts as github.io. Other addresses holds links with no public domain name (an IP address, a local name) and new sites past {{ dash.imports.unknown_sites_per_day }} in one day. A site we read can show up here when the link was not one of its build links, or while its reader is switched off.</p>
+        {% else %}
+        <p class="admin-empty-panel">Nothing counted yet. Import sources are recorded from the first paste after this release, and nothing earlier is backfilled.</p>
         {% endif %}
     </section>
 

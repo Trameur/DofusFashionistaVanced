@@ -95,6 +95,7 @@
 
     <form method="post" class="import-form">
         {% csrf_token %}
+        <input type="hidden" name="used_screenshot" id="used-screenshot" value="{% if used_screenshot %}1{% else %}0{% endif %}">
         {# No item names in the placeholder: they differ per version and language #}
         <textarea name="text" class="import-area pretty-input" autofocus
                   placeholder="{% if link_sites %}{% trans "One item name per line, or a build link" %}{% else %}{% trans "One item name per line" %}{% endif %}" required>{{ text }}</textarea>
@@ -187,6 +188,8 @@
             {% csrf_token %}
             <input type="hidden" name="text" value="{{ text }}">
             <input type="hidden" name="confirm" value="1">
+            <input type="hidden" name="used_screenshot" value="{% if used_screenshot %}1{% else %}0{% endif %}">
+            {% if count_token %}<input type="hidden" name="count_token" value="{{ count_token }}">{% endif %}
             {# Class comes from our own export header, e.g. "My Cra - Cra lvl 200" #}
             <label>{% trans "Class" %}
                 <select name="char_class" class="pretty-input" required>
@@ -222,8 +225,24 @@
     var lang = document.getElementById('shot-lang');
     var status = document.getElementById('shot-status');
     var area = document.querySelector('textarea[name="text"]');
+    var usedScreenshot = document.getElementById('used-screenshot');
+    var shotLines = Object.create(null);
     if (!toggle || !area) {
         return;
+    }
+
+    function rememberShot(text) {
+        text.split('\n').forEach(function (line) {
+            line = line.trim();
+            if (line) {
+                shotLines[line] = true;
+            }
+        });
+    }
+
+    // Text the page sends back with the flag on came from the screenshot reader
+    if (usedScreenshot && usedScreenshot.value === '1') {
+        rememberShot(area.value);
     }
     var MSG_READING = '{{ msg_shot_reading|escapejs }}';
     var MSG_DONE = '{{ msg_shot_done|escapejs }}';
@@ -320,6 +339,10 @@
             area.value = area.value.trim()
                 ? area.value.replace(/\s+$/, '') + '\n\n' + texte
                 : texte;
+            rememberShot(texte);
+            if (usedScreenshot) {
+                usedScreenshot.value = '1';
+            }
             status.textContent = MSG_DONE;
         })['catch'](function () {
             status.textContent = MSG_FAILED;
@@ -330,10 +353,39 @@
         box.style.display = box.style.display === 'none' ? 'block' : 'none';
     });
     choose.addEventListener('click', function () { file.click(); });
+    // Still a screenshot paste while one line the reader wrote is left
+    area.addEventListener('input', function () {
+        if (usedScreenshot) {
+            usedScreenshot.value = area.value.split('\n').some(function (line) {
+                return shotLines[line.trim()] === true;
+            }) ? '1' : '0';
+        }
+    });
     file.addEventListener('change', function () {
         if (file.files && file.files.length) {
             readAll(file.files);
         }
+    });
+})();
+
+// One send per click: a second one would count the paste again or create a second build
+(function () {
+    var buttons = [];
+    Array.prototype.forEach.call(document.querySelectorAll('form.import-form'), function (form) {
+        var button = form.querySelector('button[type="submit"]');
+        if (!button) {
+            return;
+        }
+        buttons.push(button);
+        form.addEventListener('submit', function () {
+            button.disabled = true;
+        });
+    });
+    // The back button restores the page with its buttons still off
+    window.addEventListener('pageshow', function () {
+        buttons.forEach(function (button) {
+            button.disabled = false;
+        });
     });
 })();
 </script>

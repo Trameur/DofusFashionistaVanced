@@ -12,10 +12,10 @@ from django.utils import timezone
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.encoded_char_id import encode_char_id
 
-from chardata.models import (BuildComment, BuildVote, Char, PageHit,
-                             SolutionMemoryHits, UserAlias)
+from chardata.models import (BuildComment, BuildVote, Char, ImportSourceHit,
+                             PageHit, SolutionMemoryHits, UserAlias)
 
-CACHE_KEY = 'admin_dashboard_v2'
+CACHE_KEY = 'admin_dashboard_v3'
 CACHE_SECONDS = 300
 VERSIONS = [slug for slug, _label in ACTIVE_GAME_VERSIONS]
 VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
@@ -373,6 +373,79 @@ def pages(period, version):
     }
 
 
+IMPORT_SOURCES_READ = ('link', 'link_failed')
+IMPORT_SOURCES = IMPORT_SOURCES_READ + ('text', 'screenshot', 'link_unknown')
+UNNAMED_SITE = 'Other addresses'
+
+
+def _percent(part, whole):
+    """part of whole in percent to one decimal, halves rounded up; None when whole is 0."""
+    if not whole:
+        return None
+    return (part * 2000 + whole) // (2 * whole) / 10.0
+
+
+def _shares(counts):
+    """Each count's percent of their sum to one decimal, adding up to exactly 100.0 (largest remainders)."""
+    total = sum(counts)
+    if not total:
+        return [0.0] * len(counts)
+    tenths = [count * 1000 // total for count in counts]
+    by_remainder = sorted(range(len(counts)), key=lambda i: -(counts[i] * 1000 % total))
+    for i in by_remainder[:1000 - sum(tenths)]:
+        tenths[i] += 1
+    return [tenth / 10.0 for tenth in tenths]
+
+
+def imports(period, version):
+    """Where pasted builds come from: each site we read, pasted text, screenshots, sites we cannot read yet."""
+    from chardata.text_build_view import UNKNOWN_SITES_PER_DAY
+    hits = _for_version(ImportSourceHit.objects.filter(
+        day__gte=period.start, day__lte=period.end,
+        source__in=IMPORT_SOURCES), version)
+    sums = {'attempts_sum': Sum('attempts'), 'imported_sum': Sum('imported')}
+    read = (hits.filter(source__in=IMPORT_SOURCES_READ).values('host')
+            .annotate(**sums).order_by('-attempts_sum', 'host'))
+    by_source = {row['source']: row for row in hits.values('source').annotate(**sums)}
+    nothing = {'attempts_sum': 0, 'imported_sum': 0}
+    text = by_source.get('text', nothing)
+    shots = by_source.get('screenshot', nothing)
+    unknown = by_source.get('link_unknown', nothing)
+    lines = ([(row['host'], row['attempts_sum'], row['imported_sum']) for row in read]
+             + [('Pasted text', text['attempts_sum'], text['imported_sum']),
+                ('Screenshots', shots['attempts_sum'], shots['imported_sum']),
+                ('Sites we cannot read yet', unknown['attempts_sum'], None)])
+    total = sum(attempts for _label, attempts, _imported in lines)
+    rows = [{'label': label, 'attempts': attempts, 'imported': imported,
+             'share': share,
+             'rate': None if imported is None else _percent(imported, attempts)}
+            for (label, attempts, imported), share
+            in zip(lines, _shares([attempts for _l, attempts, _i in lines]))]
+
+    unknown_hits = hits.filter(source='link_unknown')
+    unknown_rows = [{'label': row['host'] or UNNAMED_SITE,
+                     'attempts': row['attempts_sum'],
+                     'share': _percent(row['attempts_sum'], total)}
+                    for row in unknown_hits.values('host')
+                    .annotate(attempts_sum=Sum('attempts'))
+                    .order_by('-attempts_sum', 'host')[:ROW_CAP]]
+
+    buckets = Counter()
+    for row in hits.values('day').annotate(n=Sum('attempts')):
+        buckets[period.bucket_of(row['day'])] += row['n']
+    return {
+        'rows': rows,
+        'unknown': unknown_rows,
+        'unknown_not_listed': max(0, unknown_hits.values('host').distinct().count()
+                                  - len(unknown_rows)),
+        'total': total,
+        'per_bucket': period.series(buckets),
+        'collecting_since': (ImportSourceHit.objects.order_by('day')
+                             .values_list('day', flat=True).first()),
+        'unknown_sites_per_day': UNKNOWN_SITES_PER_DAY,
+    }
+
+
 def solver(period, version):
     in_period = SolutionMemoryHits.objects.filter(day__gte=period.start, day__lte=period.end)
     per_bucket_hit, per_bucket_miss = Counter(), Counter()
@@ -451,6 +524,7 @@ def dashboard(refresh=False, period_key=None, version=None, start=None, end=None
             return cached
     data = {'overview': overview(period, version), 'versions': versions(period, version),
             'community': community(period, version), 'pages': pages(period, version),
+            'imports': imports(period, version),
             'solver': solver(period, version), 'filters': filters(period, version),
             'generated': timezone.localtime().strftime('%d/%m %H:%M')}
     if key:

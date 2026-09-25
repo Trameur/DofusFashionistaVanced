@@ -327,6 +327,19 @@ class PageHit(models.Model):
         unique_together = ('day', 'path', 'game_version')
 
 
+class ImportSourceHit(models.Model):
+    """Import attempts per day, source, site and version; host is a bare domain, empty for pasted text."""
+    day = models.DateField(db_index=True)
+    source = models.CharField(max_length=20)
+    host = models.CharField(max_length=190, blank=True)
+    game_version = models.CharField(max_length=20, default='dofus3')
+    attempts = models.BigIntegerField(default=0)
+    imported = models.BigIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('day', 'source', 'host', 'game_version')
+
+
 class SiteSetting(models.Model):
     """Settings changed from the admin page; gen_config.json is read at boot."""
     key = models.CharField(max_length=60, unique=True)

@@ -4204,6 +4204,9 @@ msgid ""
 "type and pages visited, for security and to keep the service running."
 msgstr ""
 
+msgid "<b>Import page.</b> When you use the import page, we count, per day and game version, where each import comes from (the website's name for a link, otherwise only whether it was pasted text or a screenshot) and whether it became a build, so we know which sites to support next. We never keep the link, the pasted text or who pasted it."
+msgstr ""
+
 #: .\chardata\templates\chardata\privacy.html:33
 msgid "Cookies and local storage"
 msgstr ""

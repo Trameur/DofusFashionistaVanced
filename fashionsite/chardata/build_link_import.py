@@ -43,6 +43,14 @@ def recognises(url):
     return any(reconnait(url) for reconnait, _lit, _hotes in _readers())
 
 
+def site_of(url):
+    """The first host the page names for the enabled reader that takes this link, or None."""
+    for reconnait, _lit, hotes in _readers():
+        if reconnait(url):
+            return hotes[0]
+    return None
+
+
 def read(url, opener=None):
     """The build behind the link; raises ImportError_, 'not_a_link' when no reader takes it."""
     for reconnait, lit, _hotes in _readers():

@@ -4580,6 +4580,9 @@ msgstr ""
 "wie IP-Adresse, Browsertyp und besuchte Seiten, zur Sicherheit und zur "
 "Aufrechterhaltung des Dienstes."
 
+msgid "<b>Import page.</b> When you use the import page, we count, per day and game version, where each import comes from (the website's name for a link, otherwise only whether it was pasted text or a screenshot) and whether it became a build, so we know which sites to support next. We never keep the link, the pasted text or who pasted it."
+msgstr "<b>Importseite.</b> Wenn Sie die Importseite nutzen, zählen wir pro Tag und Spielversion, woher jeder Import stammt (bei einem Link der Name der Website, sonst nur, ob es eingefügter Text oder ein Screenshot war) und ob daraus ein Build wurde, damit wir wissen, welche Websites wir als Nächstes unterstützen sollten. Den Link, den eingefügten Text und wer ihn eingefügt hat, speichern wir nie."
+
 #: .\chardata\templates\chardata\privacy.html:33
 msgid "Cookies and local storage"
 msgstr "Cookies und lokaler Speicher"
