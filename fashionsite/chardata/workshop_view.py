@@ -9,19 +9,21 @@
 
 import json
 import logging
+from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Q
 from django.http import JsonResponse
-from django.utils import translation
+from django.utils import timezone, translation
 from django.utils.translation import gettext as _, ngettext
 from django.views.decorators.http import require_POST
 
 from chardata.image_store import get_image_url
-from chardata.models import WorkshopItem, WorkshopStock
+from chardata.models import WorkshopItem, WorkshopStock, WorkshopUndo
 from chardata.official_site import get_item_link, get_set_link
 from chardata.recipe_util import aggregate_ingredients, workshop_breakdown
-from chardata.util import set_response
+from chardata.util import safe_int, set_response
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static
@@ -35,6 +37,9 @@ MAX_STOCK_KEYS_PER_REQUEST = 300
 MAX_STOCK_ROWS_PER_VERSION = 5000
 # WorkshopStock.ingredient_ankama_id is a signed 32-bit column in production
 MAX_ANKAMA_ID = 2_147_483_647
+MAX_CARDS_PER_VERSION = 500
+# The undo button shows for 10 s; a little cache slack covers the round trip
+UNDO_WINDOW_SECONDS = 20
 
 
 def _localized_type(type_name, language):
@@ -150,6 +155,60 @@ def _stock_map(user, game_version):
     }
 
 
+def _card_count(user, game_version):
+    return WorkshopItem.objects.filter(user=user, game_version=game_version).count()
+
+
+def _workshop_full_message():
+    return _('Workshop full for this version (limit: %(max)s items). '
+             'Remove some items before adding more.') % {'max': MAX_CARDS_PER_VERSION}
+
+
+def _workshop_full_response():
+    return JsonResponse({'error': _workshop_full_message()}, status=400)
+
+
+def _stock_rows_for_keys(user, game_version, keys, for_update=False):
+    """WorkshopStock rows matching exactly these (ankama_id, subtype) keys."""
+    keys = list(keys)
+    if not keys:
+        return WorkshopStock.objects.none()
+    query = Q()
+    for ankama_id, subtype in keys:
+        query |= Q(ingredient_ankama_id=ankama_id, ingredient_subtype=subtype)
+    rows = WorkshopStock.objects.filter(query, user=user, game_version=game_version)
+    # A fixed lock order across every caller avoids a MySQL deadlock between
+    # two transactions locking the same rows in different orders.
+    rows = rows.order_by('ingredient_ankama_id', 'ingredient_subtype')
+    return rows.select_for_update() if for_update else rows
+
+
+def _stock_row_get_or_create(user, game_version, ankama_id, subtype):
+    """The WorkshopStock row for this resource, locked; created at owned=0 if absent.
+
+    get_or_create() retries its own get() on IntegrityError, so two requests
+    racing to create the same row never raise.
+    """
+    return WorkshopStock.objects.select_for_update().get_or_create(
+        user=user, game_version=game_version,
+        ingredient_ankama_id=ankama_id, ingredient_subtype=subtype,
+        defaults={'owned': 0})
+
+
+def _per_unit_recipe_needs(item_id, game_version):
+    """{(ankama_id, subtype): quantity} for one unit of a WorkshopItem.item_id.
+
+    Goes through workshop_breakdown, so a retired id still resolves to its
+    current recipe (Structure.current_item_id).
+    """
+    breakdown = workshop_breakdown([(item_id, 1)], get_supported_language(), game_version)
+    needs = {}
+    for row in breakdown['items'].get(item_id, []):
+        key = (row['ankama_id'], row['subtype'])
+        needs[key] = needs.get(key, 0) + row['quantity']
+    return needs
+
+
 @login_required
 def workshop(request):
     game_version = getattr(request, 'game_version', 'dofus3')
@@ -202,6 +261,11 @@ def add_to_workshop(request):
         return JsonResponse({'error': _('Item not found')}, status=404)
 
     quantity_delta = _coerce_quantity(request.POST.get('quantity', 1))
+    already = WorkshopItem.objects.filter(
+        user=request.user, item_id=item_id, game_version=game_version).exists()
+    if not already and _card_count(request.user, game_version) >= MAX_CARDS_PER_VERSION:
+        return _workshop_full_response()
+
     obj, created = WorkshopItem.objects.get_or_create(
         user=request.user, item_id=item_id, game_version=game_version,
         defaults={'quantity': quantity_delta})
@@ -230,17 +294,27 @@ def set_workshop_quantity(request, workshop_item_id):
 @login_required
 @require_POST
 def remove_from_workshop(request, workshop_item_id):
-    deleted, _details = WorkshopItem.objects.filter(
-        id=workshop_item_id, user=request.user).delete()
-    return JsonResponse({'success': True, 'removed': bool(deleted)})
+    # A live undo token for this card must go with it, or a later uncraft
+    # call would resurrect a card the user explicitly removed.
+    with transaction.atomic():
+        deleted, _details = WorkshopItem.objects.filter(
+            id=workshop_item_id, user=request.user).delete()
+        if not deleted:
+            return JsonResponse({'error': _('Item not found')}, status=404)
+        WorkshopUndo.objects.filter(
+            user=request.user, workshop_item_id=workshop_item_id).delete()
+    return JsonResponse({'success': True, 'removed': True})
 
 
 @login_required
 @require_POST
 def clear_workshop(request):
     game_version = getattr(request, 'game_version', 'dofus3')
-    deleted, _details = WorkshopItem.objects.filter(
-        user=request.user, game_version=game_version).delete()
+    with transaction.atomic():
+        deleted, _details = WorkshopItem.objects.filter(
+            user=request.user, game_version=game_version).delete()
+        WorkshopUndo.objects.filter(
+            user=request.user, game_version=game_version).delete()
     return JsonResponse({'success': True, 'removed_count': deleted})
 
 
@@ -353,7 +427,12 @@ def _readable_char(request, char_id):
 @login_required
 @require_POST
 def add_solution_to_workshop(request, char_id):
-    """Bulk-add every equipped item of a solved Char to the user's workshop."""
+    """Bulk-add every equipped item of a solved Char to the user's workshop.
+
+    mode=increment (default, today's behaviour): +1 on every item, creating
+    it at quantity 1 when absent. mode=missing: only items absent from the
+    workshop are added, at quantity 1; an already-listed item is untouched.
+    """
     char = _readable_char(request, char_id)
     if char is None:
         return JsonResponse({'error': _('Build not found')}, status=404)
@@ -363,17 +442,265 @@ def add_solution_to_workshop(request, char_id):
     if item_ids is None:
         return JsonResponse({'error': _('Build has no solution yet')}, status=400)
 
+    mode = request.POST.get('mode')
+    if mode not in ('missing', 'increment'):
+        mode = 'increment'
+
+    existing = set(WorkshopItem.objects.filter(
+        user=request.user, item_id__in=item_ids, game_version=game_version
+    ).values_list('item_id', flat=True))
+
     added = 0
+    limited = False
+    count = _card_count(request.user, game_version)
     for item_id in item_ids:
-        obj, created = WorkshopItem.objects.get_or_create(
-            user=request.user, item_id=item_id, game_version=game_version,
-            defaults={'quantity': 1})
-        if not created:
+        if item_id in existing:
+            if mode == 'missing':
+                continue
+            obj = WorkshopItem.objects.get(
+                user=request.user, item_id=item_id, game_version=game_version)
             obj.quantity = min(MAX_QUANTITY, obj.quantity + 1)
             obj.save(update_fields=['quantity'])
+            added += 1
+            continue
+        if count >= MAX_CARDS_PER_VERSION:
+            limited = True
+            break
+        WorkshopItem.objects.create(
+            user=request.user, item_id=item_id, game_version=game_version, quantity=1)
+        existing.add(item_id)
+        count += 1
         added += 1
 
-    return JsonResponse({'success': True, 'added': added})
+    response = {'success': True, 'added': added, 'mode': mode}
+    if limited:
+        response['limited'] = True
+        response['message'] = _workshop_full_message()
+    return JsonResponse(response)
+
+
+@login_required
+@require_POST
+def workshop_add_set(request, set_id):
+    """Add each craftable item of a set once: quantity 1 when absent, unchanged when present."""
+    game_version = getattr(request, 'game_version', 'dofus3')
+    structure = get_structure(game_version)
+    set_id = safe_int(set_id, None)
+    item_set = structure.get_set_by_id(set_id) if set_id is not None else None
+    if item_set is None:
+        return JsonResponse({'error': _('Set not found')}, status=404)
+
+    item_ids = []
+    seen = set()
+    for raw_id in getattr(item_set, 'items', None) or []:
+        item = structure.get_item_by_id(raw_id)
+        if item is None or item.id in seen:
+            continue
+        seen.add(item.id)
+        item_ids.append(item.id)
+
+    if not item_ids:
+        return JsonResponse({'success': True, 'added': 0, 'craftable': 0})
+
+    breakdown = workshop_breakdown(
+        ((item_id, 1) for item_id in item_ids), get_supported_language(), game_version)
+    craftable_ids = [item_id for item_id in item_ids if breakdown['items'].get(item_id)]
+
+    existing = set(WorkshopItem.objects.filter(
+        user=request.user, item_id__in=craftable_ids, game_version=game_version
+    ).values_list('item_id', flat=True))
+
+    added = 0
+    limited = False
+    count = _card_count(request.user, game_version)
+    for item_id in craftable_ids:
+        if item_id in existing:
+            continue
+        if count >= MAX_CARDS_PER_VERSION:
+            limited = True
+            break
+        WorkshopItem.objects.create(
+            user=request.user, item_id=item_id, game_version=game_version, quantity=1)
+        count += 1
+        added += 1
+
+    response = {'success': True, 'added': added, 'craftable': len(craftable_ids)}
+    if limited:
+        response['limited'] = True
+        response['message'] = _workshop_full_message()
+    return JsonResponse(response)
+
+
+@login_required
+@require_POST
+def craft_workshop_item(request, workshop_item_id):
+    """Craft one unit: consumes the recipe from stock, lowers the multiplier by 1.
+
+    Only runs when every row of the card is already met for its current
+    multiplier. Keeps a short-lived undo record for uncraft_workshop_item.
+    """
+    game_version = getattr(request, 'game_version', 'dofus3')
+    with transaction.atomic():
+        try:
+            wi = WorkshopItem.objects.select_for_update().get(
+                id=workshop_item_id, user=request.user, game_version=game_version)
+        except WorkshopItem.DoesNotExist:
+            return JsonResponse({'error': _('Item not found')}, status=404)
+
+        needs = _per_unit_recipe_needs(wi.item_id, game_version)
+        if not needs:
+            return JsonResponse({'error': _('This item has no known recipe')}, status=400)
+
+        stock_by_key = {
+            (row.ingredient_ankama_id, row.ingredient_subtype): row
+            for row in _stock_rows_for_keys(
+                request.user, game_version, needs.keys(), for_update=True)
+        }
+
+        for key, per_unit in needs.items():
+            owned = stock_by_key[key].owned if key in stock_by_key else 0
+            if owned < per_unit * wi.quantity:
+                return JsonResponse(
+                    {'error': _('This item is not ready to craft yet')}, status=400)
+
+        item_id = wi.item_id
+        quantity_before = wi.quantity
+        stock_deltas = []
+        stock_result = {}
+        for key, per_unit in needs.items():
+            ankama_id, subtype = key
+            row = stock_by_key.get(key)
+            owned_before = row.owned if row is not None else 0
+            new_owned = max(0, owned_before - per_unit)
+            # The amount actually subtracted, not the pre-craft snapshot: undo
+            # must add this back onto whatever the row holds by then, since a
+            # card sharing this resource can change it before the undo click.
+            stock_deltas.append({'ankama_id': ankama_id, 'subtype': subtype,
+                                 'per_unit': per_unit})
+            if new_owned == 0:
+                if row is not None:
+                    row.delete()
+            elif row is not None:
+                row.owned = new_owned
+                row.save(update_fields=['owned'])
+            else:
+                row, _created = _stock_row_get_or_create(
+                    request.user, game_version, ankama_id, subtype)
+                row.owned = new_owned
+                row.save(update_fields=['owned'])
+            stock_result[_stock_key(ankama_id, subtype)] = new_owned
+
+        new_quantity = quantity_before - 1
+        removed = new_quantity <= 0
+        if removed:
+            wi.delete()
+        else:
+            wi.quantity = new_quantity
+            wi.save(update_fields=['quantity'])
+
+        WorkshopUndo.objects.update_or_create(
+            user=request.user, workshop_item_id=workshop_item_id,
+            defaults={
+                'game_version': game_version,
+                'item_id': item_id,
+                'stock_deltas': stock_deltas,
+                # Explicit, not auto_now_add: a re-craft of the same card
+                # resets its own undo window instead of inheriting an older one.
+                'created_time': timezone.now(),
+            })
+        WorkshopUndo.objects.filter(
+            user=request.user,
+            created_time__lt=timezone.now() - timedelta(seconds=UNDO_WINDOW_SECONDS)
+        ).delete()
+
+    return JsonResponse({'success': True, 'removed': removed,
+                         'quantity': 0 if removed else new_quantity,
+                         'stock': stock_result})
+
+
+@login_required
+@require_POST
+def uncraft_workshop_item(request, workshop_item_id):
+    """Undo the last craft on this card, within its short window.
+
+    Adds back exactly what the craft subtracted, onto whatever the card and
+    its stock rows hold right now, instead of overwriting them with a
+    pre-craft snapshot. That keeps any change made to a shared resource, or
+    to the card itself, in the meantime (another card's craft, a manual edit,
+    a reset).
+
+    Claiming the WorkshopUndo row and applying the restore happen in the same
+    transaction, so two racing uncrafts can never both apply it: whichever
+    request's delete removes zero rows treats the token as already gone.
+
+    Locks WorkshopItem before WorkshopUndo, the same order craft_workshop_item
+    uses (its update_or_create on WorkshopUndo runs last); the reverse order
+    here would let a racing craft and uncraft on the same card deadlock each
+    other on MySQL. Not exercised by the sqlite test backend, where
+    select_for_update is a no-op.
+    """
+    stock_result = {}
+    with transaction.atomic():
+        # Unlocked: only to learn which card/version the token is for, before
+        # taking the WorkshopItem lock in craft's order.
+        peek = WorkshopUndo.objects.filter(
+            user=request.user, workshop_item_id=workshop_item_id).first()
+        if peek is None:
+            return JsonResponse({'error': _('Nothing to undo')}, status=404)
+
+        game_version = peek.game_version
+        try:
+            wi = WorkshopItem.objects.select_for_update().get(
+                user=request.user, item_id=peek.item_id, game_version=game_version)
+        except WorkshopItem.DoesNotExist:
+            wi = None
+
+        # Re-locked and re-checked by pk: the peek above was unlocked, so the
+        # token may have been claimed or gone stale by now.
+        token = WorkshopUndo.objects.select_for_update().filter(
+            pk=peek.pk, user=request.user, workshop_item_id=workshop_item_id).first()
+        if token is None:
+            return JsonResponse({'error': _('Nothing to undo')}, status=404)
+
+        stale = (timezone.now() - token.created_time).total_seconds() > UNDO_WINDOW_SECONDS
+        claimed_count, _details = token.delete()
+        if stale or not claimed_count:
+            return JsonResponse({'error': _('Nothing to undo')}, status=404)
+
+        if wi is None:
+            # The card was crafted away (quantity reached 0) and nothing
+            # re-added it since: recreate it at quantity 1.
+            wi = WorkshopItem.objects.create(
+                user=request.user, item_id=token.item_id,
+                game_version=game_version, quantity=1)
+        else:
+            wi.quantity = min(MAX_QUANTITY, wi.quantity + 1)
+            wi.save(update_fields=['quantity'])
+
+        # Same fixed lock order as _stock_rows_for_keys, so a racing craft or
+        # uncraft on another card cannot deadlock against this one.
+        deltas = sorted(token.stock_deltas, key=lambda d: (d['ankama_id'], d['subtype']))
+        for delta in deltas:
+            ankama_id, subtype = delta['ankama_id'], delta['subtype']
+            per_unit = delta['per_unit']
+            row, _created = _stock_row_get_or_create(
+                request.user, game_version, ankama_id, subtype)
+            row.owned = min(MAX_STOCK_OWNED, row.owned + per_unit)
+            row.save(update_fields=['owned'])
+            stock_result[_stock_key(ankama_id, subtype)] = row.owned
+
+    return JsonResponse({'success': True, 'workshop_item_id': wi.id,
+                         'quantity': wi.quantity, 'stock': stock_result})
+
+
+@login_required
+@require_POST
+def workshop_reset_stock(request):
+    """Clear every owned count for this version; never touches WorkshopItem cards."""
+    game_version = getattr(request, 'game_version', 'dofus3')
+    deleted, _details = WorkshopStock.objects.filter(
+        user=request.user, game_version=game_version).delete()
+    return JsonResponse({'success': True, 'removed_count': deleted})
 
 
 @login_required

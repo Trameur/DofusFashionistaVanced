@@ -1379,6 +1379,13 @@ def forgemagie_items(request):
             matches.append((0, len(localized_name), item, localized_name,
                             type_name))
 
+    if request.GET.get('with_recipe') == '1':
+        from chardata.encyclopedia_view import _items_with_recipe
+        craftable = _items_with_recipe(
+            getattr(request, 'game_version', 'dofus3'),
+            [entry[2].id for entry in matches])
+        matches = [entry for entry in matches if entry[2].id in craftable]
+
     matches.sort(key=lambda entry: (entry[0], entry[1], -entry[2].level))
 
     items = []

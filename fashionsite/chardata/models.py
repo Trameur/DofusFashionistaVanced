@@ -220,6 +220,22 @@ class WorkshopStock(models.Model):
         ]
 
 
+class WorkshopUndo(models.Model):
+    """Claim ticket for the last craft on a card; one row, deleted on uncraft."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    game_version = models.CharField(max_length=20, default='dofus3')
+    workshop_item_id = models.IntegerField()
+    item_id = models.IntegerField()
+    stock_deltas = models.JSONField(default=list)
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'workshop_item_id')
+        indexes = [
+            models.Index(fields=['user', 'created_time']),
+        ]
+
+
 class InventoryFolder(models.Model):
     """Named group of owned items, per game version."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)

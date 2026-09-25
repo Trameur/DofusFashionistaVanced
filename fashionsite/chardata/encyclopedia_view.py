@@ -594,10 +594,33 @@ def _get_set_bonuses(structure, item_set, language):
     return groups
 
 
+def _items_with_recipe(game_version, item_ids):
+    """The subset of internal item ids that carry their own item_recipes rows."""
+    item_ids = sorted({item_id for item_id in item_ids if item_id is not None})
+    if not item_ids:
+        return set()
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        cursor = conn.cursor()
+        if not _db_table_exists(cursor, 'item_recipes'):
+            return set()
+        holes = ','.join('?' * len(item_ids))
+        return {row[0] for row in cursor.execute(
+            "SELECT DISTINCT item FROM item_recipes WHERE item IN (%s)" % holes,
+            item_ids)}
+    except sqlite3.Error:
+        return set()
+    finally:
+        if conn is not None:
+            conn.close()
+
+
 def _get_set_items(structure, item_set, language, game_version):
     """Item cards for the set page."""
     cards = []
     seen = set()
+    matched_items = []
     for item_id in getattr(item_set, 'items', None) or []:
         item = structure.get_item_by_id(item_id)
         if item is None or not getattr(item, 'ankama_id', None):
@@ -605,6 +628,10 @@ def _get_set_items(structure, item_set, language, game_version):
         if item.ankama_id in seen:
             continue
         seen.add(item.ankama_id)
+        matched_items.append(item)
+
+    recipe_ids = _items_with_recipe(game_version, (item.id for item in matched_items))
+    for item in matched_items:
         type_name = structure.get_type_name_by_id(item.type)
         display_name = _get_display_name_for_group(structure, [item], language)
         cards.append({
@@ -614,6 +641,7 @@ def _get_set_items(structure, item_set, language, game_version):
             'image_url': static(get_image_url(type_name, item.name, game_version)),
             'detail_url': get_item_link(item.ankama_type, item.ankama_id,
                                         display_name, game_version=game_version),
+            'has_recipe': item.id in recipe_ids,
         })
     cards.sort(key=lambda card: (-(card['level'] or 0), (card['name'] or '').lower()))
     return cards
@@ -2278,6 +2306,8 @@ def encyclopedia_set(request, set_id, slug=None):
             'set_id': item_set.id,
             'set_items': _set_items,
             'set_bonuses': _set_bonuses,
+            'workshop_add_set_url': version_reverse(
+                request, 'workshop_add_set', set_id=item_set.id),
             'seo_description': _set_seo_description(
                 set_name, _set_items, _set_bonuses),
             'other_versions': _other_versions_with_set(game_version, set_id, language),
@@ -2752,6 +2782,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'description': extra_info['description'],
             'pods': extra_info['pods'],
             'recipe': extra_info['recipe'],
+            'has_recipe': bool(extra_info['recipe']),
+            'workshop_add_url': version_reverse(request, 'workshop_add'),
             'used_in': extra_info['used_in'],
             'drops': extra_info['drops'],
             'craft_job': extra_info['craft_job'],
