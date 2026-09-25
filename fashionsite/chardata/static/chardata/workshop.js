@@ -202,6 +202,14 @@
         return String.fromCharCode(0xFEFF) + csv;
     }
 
+    function hideGatheredFromStored(stored) {
+        return stored !== '0';
+    }
+
+    function shoppingRowHidden(hideGathered, gathered, focused) {
+        return !!(hideGathered && gathered && !focused);
+    }
+
     var pure = {
         clampOwned: clampOwned,
         clampQuantity: clampQuantity,
@@ -221,7 +229,9 @@
         buildMissingListText: buildMissingListText,
         buildMissingListCsv: buildMissingListCsv,
         csvSeparatorFor: csvSeparatorFor,
-        subrecipeChildNeed: subrecipeChildNeed
+        subrecipeChildNeed: subrecipeChildNeed,
+        hideGatheredFromStored: hideGatheredFromStored,
+        shoppingRowHidden: shoppingRowHidden
     };
 
     if (typeof window === 'undefined' || !document.getElementById('ws-list')) {
@@ -253,6 +263,7 @@
         resourceTotalsByKey[keyOf(item.ankama_id, item.subtype)] = item;
     });
     var stock = jsonData('ws-stock-data') || {};
+    var hideGathered = loadHideGathered();
     var stockLimits = jsonData('ws-stock-limits-data') || {};
     var maxOwned = stockLimits.max_owned || MAX_OWNED_DEFAULT;
     var maxKeysPerRequest = stockLimits.max_keys_per_request || MAX_KEYS_PER_REQUEST_DEFAULT;
@@ -972,6 +983,7 @@
             Object.keys(entry.items).forEach(refreshCardFooter);
         }
         refreshSummary();
+        applyHideGathered(hideGathered);
     }
 
     function setStockValue(key, raw) {
@@ -1275,9 +1287,9 @@
 
     function loadHideGathered() {
         try {
-            return localStorage.getItem('wsHideGathered') === '1';
+            return hideGatheredFromStored(localStorage.getItem('wsHideGathered'));
         } catch (e) {
-            return false;
+            return true;
         }
     }
 
@@ -1288,16 +1300,18 @@
     }
 
     function applyHideGathered(hidden) {
+        hideGathered = hidden;
         var list = document.getElementById('ws-shopping-list');
         var emptyMsg = document.getElementById('ws-shopping-empty');
         if (!list) {
             return;
         }
         var visibleCount = 0;
+        var active = document.activeElement;
         Array.prototype.forEach.call(list.querySelectorAll('.ws-row'), function (row) {
             var key = row.getAttribute('data-res-key');
             var gathered = stillMissing(liveTotalNeed(key), stock[key] || 0) === 0;
-            var hide = hidden && gathered;
+            var hide = shoppingRowHidden(hidden, gathered, !!active && row.contains(active));
             row.hidden = hide;
             if (!hide) {
                 visibleCount++;
@@ -1630,6 +1644,14 @@
                 applyHideGathered(toggle.checked);
             });
         }
+        var shoppingList = document.getElementById('ws-shopping-list');
+        if (shoppingList) {
+            shoppingList.addEventListener('focusout', function () {
+                setTimeout(function () {
+                    applyHideGathered(hideGathered);
+                }, 0);
+            });
+        }
 
         wireResetStock();
         wireCardBulkButtons();
@@ -1658,7 +1680,7 @@
         refreshEverything();
         applySort();
         wireEvents();
-        applyHideGathered(loadHideGathered());
+        applyHideGathered(hideGathered);
     }
 
     if (document.readyState === 'loading') {

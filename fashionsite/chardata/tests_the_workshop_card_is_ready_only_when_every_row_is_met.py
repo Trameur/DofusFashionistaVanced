@@ -50,9 +50,23 @@ console.log(JSON.stringify(EXPR));
             ['buildCsv', 'buildMissingListCsv', 'buildMissingListText',
              'cardMatchesFilter', 'cardState', 'chunkKeys', 'clampOwned',
              'clampQuantity', 'csvField', 'csvSeparatorFor', 'filterCounts', 'format',
-             'formatDropRate', 'keyOf', 'rowState', 'sortCards', 'sourceKind',
+             'formatDropRate', 'hideGatheredFromStored', 'keyOf', 'rowState',
+             'shoppingRowHidden', 'sortCards', 'sourceKind',
              'stillMissing', 'subrecipeChildNeed'],
             sorted(self._run('Object.keys(w)')))
+
+    def test_gathered_resources_are_hidden_unless_the_reader_turned_it_off(self):
+        self.assertEqual(
+            [True, True, False, True],
+            self._run("[null, '1', '0', ''].map(w.hideGatheredFromStored)"))
+
+    def test_a_gathered_row_is_hidden_only_when_hiding_is_on_and_it_has_no_focus(self):
+        self.assertEqual(
+            [True, False, False, False],
+            self._run('[w.shoppingRowHidden(true, true, false),'
+                      ' w.shoppingRowHidden(true, true, true),'
+                      ' w.shoppingRowHidden(false, true, false),'
+                      ' w.shoppingRowHidden(true, false, false)]'))
 
     def test_a_row_is_none_at_zero_owned(self):
         self.assertEqual('none', self._run('w.rowState(0, 40)'))
