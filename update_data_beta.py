@@ -20,6 +20,7 @@ Pipeline steps:
     spells/transform    get_spells.py         -> itemscraper/transformed_spells_beta.json
     spells/duplicates   find_duplicated_damage_rows.py -> itemscraper/duplicated_damage_rows.json
     spells/reference    store_spell_reference.py -> spell_reference/beta.json
+    stats/starting      store_starting_stats.py -> starting_stats/beta.json
     spells/states       store_spell_states.py -> spell_states/beta.json
     spells/constants    generate_damage_spells.py -> dofus_constants_beta.py
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
@@ -270,6 +271,10 @@ def main() -> None:
         step("spells/reference", [
             PY, "itemscraper/store_spell_reference.py",
             "--game-version", "beta",
+        ])
+        step("stats/starting", [
+            PY, "itemscraper/store_starting_stats.py",
+            "--game-version", "beta", "--tag", version,
         ])
         # Names of the states a damage row is gated on; needs the transform
         step("spells/states", [

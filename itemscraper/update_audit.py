@@ -76,7 +76,8 @@ def shared_files():
 
 def version_files(version):
     files = {database_path(version), dump_path(version)}
-    for directory in ('spell_reference', 'spell_states', 'spell_modifiers'):
+    for directory in ('spell_reference', 'spell_states', 'spell_modifiers',
+                      'starting_stats'):
         files.add(ROOT / 'fashionsite/chardata' / directory / (version + '.json'))
     if version == 'wakfu':
         files.add(ROOT / 'itemscraper/transformed_wakfu.json')

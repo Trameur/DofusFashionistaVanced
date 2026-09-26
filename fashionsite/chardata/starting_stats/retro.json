@@ -1,0 +1,32 @@
+{
+ "all": {
+  "AP": 6,
+  "MP": 3,
+  "Prospecting": 100
+ },
+ "classes": {
+  "Enutrof": {
+   "Prospecting": 120
+  }
+ },
+ "sources": {
+  "all": {
+   "AP": [
+    "kb_fr.json KBA 16"
+   ],
+   "MP": [
+    "kb_fr.json KBA 15"
+   ],
+   "Prospecting": [
+    "kb_fr.json KBA 14"
+   ]
+  },
+  "classes": {
+   "Enutrof": {
+    "Prospecting": [
+     "kb_fr.json KBA 14"
+    ]
+   }
+  }
+ }
+}

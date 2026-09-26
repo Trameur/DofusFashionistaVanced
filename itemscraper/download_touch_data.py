@@ -25,7 +25,7 @@ USER_AGENT = "Dofus/2 CFNetwork"
 # fetched in the primary language only.
 DEFAULT_CLASSES = [
     'Items', 'ItemSets', 'ItemTypes', 'Effects', 'Recipes', 'Breeds', 'Monsters',
-    'ShieldModelsLevels',
+    'ShieldModelsLevels', 'Documents',
 ]
 
 # Languages this scraper knows how to ask for. Which of them Touch still

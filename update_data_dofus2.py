@@ -23,6 +23,7 @@ Pipeline steps:
     spells/constants    generate_damage_spells.py -> dofus_constants_dofus2.py
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
     spells/modifiers    store_spell_modifiers.py -> spell_modifiers/dofus2.json
+    stats/starting      store_starting_stats.py -> starting_stats/dofus2.json
     spell-icons         store_dofus2_spell_icons.py -> spells/dofus2/ (the renamed ones)
     resize              resize_images.py      -> 60x60 thumbnails
 """
@@ -283,6 +284,10 @@ def main() -> None:
         ])
         step("spells/modifiers", [
             PY, "-m", "itemscraper.store_spell_modifiers",
+            "--game-version", "dofus2", "--tag", version,
+        ])
+        step("stats/starting", [
+            PY, "itemscraper/store_starting_stats.py",
             "--game-version", "dofus2", "--tag", version,
         ])
         # Monster drops -> item_drops / monster_names in items_dofus2.db (encyclopedia "Dropped by").

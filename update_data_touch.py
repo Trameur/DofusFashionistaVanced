@@ -108,6 +108,10 @@ def main() -> None:
     step("data/mounts", [PY, "download_touch_mounts.py", "--dest", TOUCH_RAW_DIR],
          cwd=ITEMSCRAPER)
 
+    step("stats/starting", [
+        PY, "itemscraper/store_starting_stats.py", "--game-version", "touch",
+    ])
+
     step("items/transform", [
         PY, "get_equipments_touch.py",
         "--raw-dir", TOUCH_RAW_DIR, "--out-dir", TOUCH_WORK_DIR,

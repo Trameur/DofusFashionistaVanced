@@ -126,9 +126,13 @@ def main() -> None:
         PY, "download_retro_langs.py",
         "--lang", args.lang,
         "--categories", "items", "itemstats", "itemsets", "spells", "classes",
-        "jobs", "skills", "monsters", "effects",
+        "jobs", "skills", "monsters", "kb", "effects",
         "--dest", RETRO_RAW_DIR,
     ], cwd=ITEMSCRAPER)
+
+    step("stats/starting", [
+        PY, "itemscraper/store_starting_stats.py", "--game-version", "retro",
+    ])
 
     if not args.skip_translations:
         # Names in the other languages, plus itemstats: no lang file is complete

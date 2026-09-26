@@ -1346,6 +1346,12 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                 names = {audit.relative_name(path) for path in audit.version_files(version)}
                 self.assertIn('fashionsite/chardata/spell_modifiers/%s.json' % version, names)
 
+    def test_each_version_backs_up_its_starting_stats_file(self):
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            with self.subTest(version=version):
+                names = {audit.relative_name(path) for path in audit.version_files(version)}
+                self.assertIn('fashionsite/chardata/starting_stats/%s.json' % version, names)
+
     def test_a_restore_takes_the_spell_modifier_file_back(self):
         modifiers = self.root / 'fashionsite/chardata/spell_modifiers/dofus3.json'
         modifiers.parent.mkdir(parents=True)

@@ -73,6 +73,7 @@ def recaptcha_ok(request):
 from chardata.encoded_char_id import decode_char_id
 from chardata.model_wrappers import WrappedChar
 from chardata.models import Char, UserAlias, CharBaseStats
+from chardata.starting_stats import starting_stats
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
@@ -95,14 +96,7 @@ def get_base_stats_by_attr(request, char_id):
 
 def character_own_stats(level, char_class=None, game_version=None):
     """Base AP, MP, prospecting, pods and summons, from the level and class."""
-    return {
-        'AP': 7 if level >= 100 else 6,
-        'MP': 3,
-        'Prospecting': (120 if game_version == 'retro'
-                        and char_class == 'Enutrof' else 100),
-        'Pods': 1000,
-        'Summon': 1,
-    }
+    return starting_stats(level, char_class, game_version)
 
 
 def base_stats_by_attr_for(char):

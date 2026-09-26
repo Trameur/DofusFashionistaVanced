@@ -1,0 +1,11 @@
+{
+ "level_ap": {
+  "AP": 1,
+  "level": 100
+ },
+ "sources": {
+  "level_ap": [
+   "fr.json 880605"
+  ]
+ }
+}

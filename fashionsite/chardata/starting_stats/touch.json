@@ -1,0 +1,20 @@
+{
+ "all": {
+  "AP": 6,
+  "MP": 3,
+  "Prospecting": 100
+ },
+ "sources": {
+  "all": {
+   "AP": [
+    "Documents_fr.json 133"
+   ],
+   "MP": [
+    "Documents_fr.json 133"
+   ],
+   "Prospecting": [
+    "Documents_fr.json 133"
+   ]
+  }
+ }
+}

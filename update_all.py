@@ -101,6 +101,7 @@ STEP_TITLES = {
     'pets/scrape-bonuses': 'Reading pet bonuses',
     'pets/store-bonuses': 'Saving pet bonuses',
     'sets/bonuses': 'Set bonuses', 'descriptions/store': 'Item descriptions',
+    'stats/starting': 'Starting stats',
     'dynamic-translations': 'Data translations', 'verify/rebuild': 'Rebuild check',
 }
 
