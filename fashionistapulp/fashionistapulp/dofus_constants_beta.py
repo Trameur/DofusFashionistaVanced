@@ -2231,7 +2231,7 @@ DAMAGE_SPELLS = {
             [['26-29', '30-34'], ['8-10', '11-13']],
             [['31-35', '36-41'], ['11-13', '14-16']],
             [FIRE, FIRE],
-        ), is_linked=(2, 'Opportuneness'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13368),
+        ), is_linked=(2, 'Opportuneness'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13368, conditional={1: 'healed'}),
         Spell('Mine Fire', [130, 197], Effects(
             [['29-32', '32-36']],
             [['34-38', '38-43']],
@@ -3277,7 +3277,7 @@ DAMAGE_SPELLS = {
             [['11-14', '13-16'], ['23-26', '26-30']],
             [['15-18', '17-20'], ['27-31', '32-36']],
             [FIRE, FIRE],
-        ), is_linked=(2, 'Concentration'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [1, 1], 'crit': [5, 5]}, spell_id=13147, delayed={1: 'turn_end'}),
+        ), is_linked=(2, 'Concentration'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [1, 1], 'crit': [5, 5]}, spell_id=13147, conditional={1: 'around_the_target_at_turn_end'}, delayed={1: 'turn_end'}),
         Spell('Destructive Ring', [130, 197], Effects(
             [['22-25', '24-28']],
             [['26-30', '29-34']],
@@ -3893,7 +3893,7 @@ DAMAGE_SPELLS = {
              ['21-24', '27-31', '34-38']],
             [EARTH, EARTH, EARTH, EARTH],
             heals=[True, True, False, False],
-        ), aggregates=[('', [0])], is_linked=(1, 'Alcoshu'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1], 'crit': [10, 10, 10]}, spell_id=12811),
+        ), aggregates=[('', [0]), ('', [2])], is_linked=(1, 'Alcoshu'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1], 'crit': [10, 10, 10]}, spell_id=12811),
         Spell('Pandilongation', [25, 92, 159], Effects(
             [['18-20', '23-25', '28-31'],
              ['18-20', '23-25', '28-31'],
@@ -3905,7 +3905,7 @@ DAMAGE_SPELLS = {
              ['21-23', '27-30', '34-37']],
             [FIRE, FIRE, FIRE, FIRE],
             heals=[True, True, False, False],
-        ), aggregates=[('', [0])], is_linked=(1, 'Liqueur'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1], 'crit': [10, 10, 10]}, spell_id=12793),
+        ), aggregates=[('', [0]), ('', [2])], is_linked=(1, 'Liqueur'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1], 'crit': [10, 10, 10]}, spell_id=12793),
         Spell('Inebriation', [30, 97, 164], Effects(
             [['4-6', '6-8', '8-10'],
              ['4-6', '6-8', '8-10'],
@@ -3926,7 +3926,7 @@ DAMAGE_SPELLS = {
              ['25-28', '32-36', '40-44']],
             [AIR, AIR, AIR, AIR],
             heals=[True, True, False, False],
-        ), aggregates=[('', [0])], is_linked=(1, 'Absinthe'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1], 'crit': [10, 10, 10]}, spell_id=12788),
+        ), aggregates=[('', [0]), ('', [2])], is_linked=(1, 'Absinthe'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1], 'crit': [10, 10, 10]}, spell_id=12788),
         Spell('Brandy', [45, 112, 179], Effects(
             [['16-18', '22-24', '26-29'],
              ['16-18', '22-24', '26-29'],
@@ -3938,7 +3938,7 @@ DAMAGE_SPELLS = {
              ['20-22', '26-28', '31-35']],
             [WATER, WATER, WATER, WATER],
             heals=[True, True, False, False],
-        ), aggregates=[('', [0])], is_linked=(1, 'Filthipint'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1], 'crit': [15, 15, 15]}, spell_id=12808),
+        ), aggregates=[('', [0]), ('', [2])], is_linked=(1, 'Filthipint'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1], 'crit': [15, 15, 15]}, spell_id=12808),
         Spell('Eviction', [60, 127, 194], Effects(
             [['11-13', '13-15', '15-17'], ['11-13', '13-15', '15-17']],
             [['14-16', '16-18', '19-21'], ['14-16', '16-18', '19-21']],
@@ -4045,7 +4045,7 @@ DAMAGE_SPELLS = {
             [['29-34'], ['29-34'], ['29-34'], ['29-34'], ['29-34'], ['29-34']],
             [WATER, WATER, WATER, WATER, WATER, WATER],
             heals=[True, False, True, False, True, False],
-        ), aggregates=[('', [0])], is_linked=(2, 'Nausea'), casting={'ap': [2], 'per_turn': [1], 'crit': [15]}, spell_id=12823),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Nausea'), casting={'ap': [2], 'per_turn': [1], 'crit': [15]}, spell_id=12823),
         Spell('Pandjiu', [190], Effects(
             [['28-32']],
             [['34-38']],
@@ -4561,7 +4561,7 @@ DAMAGE_SPELLS = {
             [['25-28'], ['14-16']],
             None,
             [WATER, WATER],
-        ), is_linked=(2, 'Wild Grass'), casting={'ap': [3], 'cooldown': [2]}, spell_id=13576),
+        ), is_linked=(2, 'Wild Grass'), casting={'ap': [3], 'cooldown': [2]}, spell_id=13576, conditional={1: 'doll_dies'}),
         Spell('Ardent Thistles', [170], Effects(
             [['8']],
             None,

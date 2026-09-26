@@ -2581,11 +2581,9 @@ class AStatePayloadIsNotTurnDamageTests(SimpleTestCase):
         13353: ('ap_removal', False),
         13363: ('mp_removal', False),
         13352: ('range_removal', False),
+        13368: ('healed', False),
         14651: ('telefragged', False),
     }
-
-    # Coup de Grisou: two identical rows, nothing says which one waits
-    NOT_SETTLED = 13368
 
     def _spells(self, version):
         from chardata.spell_buffs import get_damage_spells_for_version
@@ -2625,14 +2623,6 @@ class AStatePayloadIsNotTurnDamageTests(SimpleTestCase):
                     castable = Castable(spell, level_index, crit=False)
                     self.assertEqual(2, len(castable.effects))
                     self.assertEqual(1, len(castable.hits))
-
-    def test_the_one_the_data_cannot_settle_is_left_alone(self):
-        found = self._spells('dofus3')
-        spell = found.get(self.NOT_SETTLED)
-        self.assertIsNotNone(spell, self.NOT_SETTLED)
-        self.assertEqual({}, spell.conditional,
-                         'Coup de Grisou was annotated without a signal '
-                         'saying which of its two rows waits')
 
     def test_every_rule_is_written_in_the_five_languages(self):
         from django.utils import translation
@@ -17528,7 +17518,8 @@ class CombatApTests(SimpleTestCase):
                     rows = digest.non_crit_dams[-1] if digest.non_crit_dams else []
 
                     def shape(group):
-                        return tuple((rows[i].element, rows[i].min_dam, rows[i].max_dam)
+                        return tuple((rows[i].element, rows[i].min_dam, rows[i].max_dam,
+                                      rows[i].heals, rows[i].steals)
                                      for i in group[1] if i < len(rows))
 
                     with self.subTest(version=version, spell=spell.name):
@@ -19547,7 +19538,7 @@ class SpellComboTests(SimpleTestCase):
                 'pt': 'não tiver realizado nenhum golpe',
                 'de': 'keinen kritischen treffer'},
             'healed': {'en': 'is healed', 'fr': 'est soignée',
-                       'es': 'es curado', 'pt': 'for curado',
+                       'es': 'cura', 'pt': 'for curado',
                        'de': 'geheilt wird'},
             'displaced': {'en': 'switches places',
                           'fr': 'échange de position',
@@ -19575,6 +19566,15 @@ class SpellComboTests(SimpleTestCase):
             'on_ally': {'en': 'on allies', 'fr': 'sur les alliés',
                         'es': 'en los aliados', 'pt': 'nos aliados',
                         'de': 'bei verbündeten'},
+            'doll_dies': {'en': "one of the caster's dolls dies",
+                          'fr': "mort d'une poupée du lanceur",
+                          'es': 'muerte de una muñeca',
+                          'pt': 'boneca do lançador morre',
+                          'de': 'püppchen des zaubernden stirbt'},
+            'around_the_target_at_turn_end': {
+                'en': 'around the target', 'fr': "autour d'elle",
+                'es': 'alrededor de este', 'pt': 'ao redor dele',
+                'de': 'ende der runde des ziels'},
         }
         self.assertTrue(module.CONDITIONAL_ROWS)
         declared = {trigger
@@ -20305,15 +20305,14 @@ class SpellVariantTests(TestCase):
         self.assertLess(len(calls), 50000)
 
     def test_the_constraint_costs_the_turn_only_the_illegal_cast(self):
-        # Unconstrained, the Enutrof chains Opportuneness and Firedamp Explosion
+        # Unconstrained, the Iop chains Celestial Sword and Zenith
         from fashionistapulp.structure import get_structure
         from chardata.spell_combo import best_turn, castable_spells
         from chardata.spell_variants import variant_of
 
         stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
-        stats.update({'str': 400, 'int': 400, 'cha': 400, 'agi': 400,
-                      'pow': 100, 'dam': 40})
-        spells = castable_spells('Enutrof', 200, 'dofus3')
+        stats.update({'agi': 800, 'pow': 100, 'dam': 40})
+        spells = castable_spells('Iop', 200, 'dofus3')
         by_name = {spell.name: spell for spell in spells}
 
         def clashes(order):

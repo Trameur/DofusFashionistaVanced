@@ -1209,7 +1209,7 @@ DAMAGE_SPELLS = {
             [['55'], ['55']],
             [EARTH, EARTH],
             steals=[True, False],
-        ), is_linked=(2, 'Blakjak'), casting={'ap': [5], 'per_turn': [2], 'per_target': [1], 'crit': [20]}, spell_id=12859),
+        ), is_linked=(2, 'Blakjak'), casting={'ap': [5], 'per_turn': [2], 'per_target': [1], 'crit': [20]}, spell_id=12859, conditional={1: 'critical_hit'}),
         Spell('Felintion', [85, 152], Effects(
             [['27-29', '33-36']],
             [['35', '43']],
@@ -1815,12 +1815,12 @@ DAMAGE_SPELLS = {
             [['25-28', '31-35'], ['9-11', '12-14']],
             [['30-34', '37-42'], ['12-14', '15-17']],
             [EARTH, EARTH],
-        ), is_linked=(2, 'Shovel Kiss'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13352),
+        ), is_linked=(2, 'Shovel Kiss'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13352, conditional={1: 'range_removal'}),
         Spell('Hard Cash', [95, 162], Effects(
             [['24-27', '29-33'], ['8-10', '11-13']],
             [['28-32', '35-39'], ['11-13', '14-16']],
             [AIR, AIR],
-        ), is_linked=(2, 'Coin Throwing'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13353),
+        ), is_linked=(2, 'Coin Throwing'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13353, conditional={1: 'ap_removal'}),
         Spell('Mine Fire', [130, 197], Effects(
             [['29-32', '32-36']],
             [['34-38', '38-43']],
@@ -1875,7 +1875,7 @@ DAMAGE_SPELLS = {
             [['23-26', '28-32'], ['7-9', '10-12']],
             [['27-31', '34-38'], ['10-12', '13-15']],
             [WATER, WATER],
-        ), is_linked=(2, 'Prime of Life'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13363),
+        ), is_linked=(2, 'Prime of Life'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13363, conditional={1: 'mp_removal'}),
         Spell('Tunnel', [65, 131, 198], Effects(
             [['19-22', '23-26', '26-29']],
             [['23-26', '28-31', '31-35']],
@@ -1895,7 +1895,7 @@ DAMAGE_SPELLS = {
             [['26-29', '30-34'], ['8-10', '11-13']],
             [['31-35', '36-41'], ['11-13', '14-16']],
             [FIRE, FIRE],
-        ), is_linked=(2, 'Opportuneness'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13368),
+        ), is_linked=(2, 'Opportuneness'), casting={'ap': [4, 4], 'cooldown': [3, 3], 'crit': [25, 25]}, spell_id=13368, conditional={1: 'healed'}),
         Spell('Decadence', [150], Effects(
             [['10']],
             None,
@@ -2237,7 +2237,7 @@ DAMAGE_SPELLS = {
             [['33-37'], ['13-15']],
             [['40-44'], ['16-18']],
             [AIR, AIR],
-        ), is_linked=(2, 'Turbine'), casting={'ap': [4], 'per_turn': [2], 'per_target': [1], 'crit': [15]}, spell_id=13823),
+        ), is_linked=(2, 'Turbine'), casting={'ap': [4], 'per_turn': [2], 'per_target': [1], 'crit': [15]}, spell_id=13823, conditional={1: 'pushback'}),
         Spell('Mooring', [1, 67, 133], Effects(
             [['11-13', '14-16', '18-21']],
             [['14-16', '17-20', '22-25']],
@@ -2339,7 +2339,7 @@ DAMAGE_SPELLS = {
             [['20-23'], ['23-26']],
             [['24-28'], ['28-31']],
             [AIR, AIR],
-        ), is_linked=(2, 'Middle Earth'), casting={'ap': [4], 'per_turn': [1], 'crit': [15]}, spell_id=23735),
+        ), is_linked=(2, 'Middle Earth'), casting={'ap': [4], 'per_turn': [1], 'crit': [15]}, spell_id=23735, conditional={1: 'pushback'}),
         Spell('Middle Earth', [85, 152], Effects(
             [['24-27', '30-34'], ['24-27', '30-34'], ['30', '50']],
             [['29-33', '36-41'], ['29-33', '36-41'], ['30', '50']],
@@ -3051,7 +3051,7 @@ DAMAGE_SPELLS = {
             [['11-14', '13-16'], ['23-26', '26-30']],
             [['15-18', '17-20'], ['27-31', '32-36']],
             [FIRE, FIRE],
-        ), is_linked=(2, 'Concentration'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [1, 1], 'crit': [5, 5]}, spell_id=13147),
+        ), is_linked=(2, 'Concentration'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [1, 1], 'crit': [5, 5]}, spell_id=13147, conditional={1: 'around_the_target_at_turn_end'}),
         Spell('Fit of Rage', [90, 157], Effects(
             [['23-26', '28-32']],
             [['27-31', '34-38']],
@@ -3650,7 +3650,7 @@ DAMAGE_SPELLS = {
             [['24-28'], ['24-28'], ['24-28']],
             [['29-34'], ['29-34'], ['29-34']],
             [WATER, WATER, WATER],
-        ), aggregates=[('', [0]), ('', [1, 2])], is_linked=(2, 'Nausea'), casting={'ap': [2], 'per_turn': [1], 'crit': [15]}, spell_id=12823),
+        ), aggregates=[('', [0])], is_linked=(2, 'Nausea'), casting={'ap': [2], 'per_turn': [1], 'crit': [15]}, spell_id=12823),
         Spell('Inebriation', [30, 97, 164], Effects(
             [['4-6', '6-8', '8-10'],
              ['4-6', '6-8', '8-10'],
@@ -4161,7 +4161,7 @@ DAMAGE_SPELLS = {
             [['25-28'], ['14-16']],
             None,
             [WATER, WATER],
-        ), is_linked=(2, 'Wild Grass'), casting={'ap': [3], 'cooldown': [2]}, spell_id=13576),
+        ), is_linked=(2, 'Wild Grass'), casting={'ap': [3], 'cooldown': [2]}, spell_id=13576, conditional={1: 'doll_dies'}),
         Spell('Charred Charms', [145], Effects(
             [['28-31']],
             [['34-37']],

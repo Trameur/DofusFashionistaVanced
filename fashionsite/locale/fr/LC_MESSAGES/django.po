@@ -7247,6 +7247,12 @@ msgstr "seulement si la cible est soignée"
 msgid "only on an ally, never on an enemy"
 msgstr "seulement sur un allié, jamais sur un ennemi"
 
+msgid "only when one of the caster's Dolls dies"
+msgstr "seulement à la mort d'une Poupée du lanceur"
+
+msgid "at the end of the target's turn, and only on the enemies around it, never on the target itself"
+msgstr "à la fin du tour de la cible, et seulement sur les ennemis autour d'elle, jamais sur la cible elle-même"
+
 msgid ""
 "only if the target attracts, repels, switches places or deals "
 "pushback damage"

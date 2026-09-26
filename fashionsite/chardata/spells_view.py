@@ -1063,6 +1063,10 @@ _CONDITIONAL_LABELS = {
         _lazy("at the end of the caster's next turn, and only if the "
               "target has Telefrag"),
     'on_ally': _lazy("only on an ally, never on an enemy"),
+    'doll_dies': _lazy("only when one of the caster's Dolls dies"),
+    'around_the_target_at_turn_end':
+        _lazy("at the end of the target's turn, and only on the enemies "
+              "around it, never on the target itself"),
     'trap': _lazy("only when an enemy sets off the trap"),
     'bomb': _lazy("only when the bomb explodes"),
     'glyph': _lazy("only when an enemy goes through the glyph"),

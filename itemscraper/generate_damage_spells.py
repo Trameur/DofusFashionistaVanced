@@ -134,15 +134,30 @@ _MODERN_CONDITIONAL_ROWS = {
     13353: {1: "ap_removal"},   # Enutrof, Hard Cash (row 0 has the cast's a,A mask)
     13363: {1: "mp_removal"},   # Enutrof, Placer Mining (row 0 has the cast's a,A mask)
     13352: {1: "range_removal"},   # Enutrof, Collapse (row 0 has the cast's a,A mask)
+    # Row 1 is the damage of the sub-spell the H trigger casts
+    13368: {1: "healed"},   # Enutrof, Firedamp Explosion
     14651: {1: "telefragged"},   # Xelor, Fob (row 1 has the area zone)
+    13576: {1: "doll_dies"},   # Sadida, Voodoo Curse
+    # Row 1's zone spares the centre cell: it never hits the target itself
+    13147: {1: "around_the_target_at_turn_end"},   # Iop, Sentence
 }
 
 CONDITIONAL_ROWS_BY_VERSION = {
     "dofus3": _MODERN_CONDITIONAL_ROWS,
     # beta: same client, one patch ahead
     "beta": _MODERN_CONDITIONAL_ROWS,
-    # 2.73: none checked by hand yet
-    "dofus2": {},
+    # 2.73 marks all these rows "I"
+    "dofus2": {
+        23735: {1: "pushback"},   # Forgelance, Noa
+        13823: {1: "pushback"},   # Foggernaut, Pilfer
+        12859: {1: "critical_hit"},   # Ecaflip, Fate of Ecaflip (row 0 steals HP)
+        13353: {1: "ap_removal"},   # Enutrof, Hard Cash
+        13363: {1: "mp_removal"},   # Enutrof, Placer Mining
+        13352: {1: "range_removal"},   # Enutrof, Collapse
+        13368: {1: "healed"},   # Enutrof, Firedamp Explosion
+        13576: {1: "doll_dies"},   # Sadida, Voodoo Curse
+        13147: {1: "around_the_target_at_turn_end"},   # Iop, Sentence
+    },
 }
 
 CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION["dofus3"]
@@ -193,6 +208,15 @@ ALLY_ONLY_MASKS_BY_VERSION = {
 }
 
 ALLY_ONLY_MASKS = ALLY_ONLY_MASKS_BY_VERSION["dofus3"]
+
+# The fighter the caster carries; the area rows of a throw leave it out
+CARRIED_MASK_LETTER_BY_VERSION = {
+    "dofus3": "K",
+    "beta": "K",
+    "dofus2": "K",
+}
+
+CARRIED_MASK_LETTER = CARRIED_MASK_LETTER_BY_VERSION["dofus3"]
 
 BUFF_SORT_ORDER = {
     "buff_str": 0,
@@ -1415,6 +1439,37 @@ def _rows_only_on_allies(
     return held
 
 
+def _build_thrown_hit_aggregates(
+    rows: Sequence[Mapping[str, Any]],
+    crit_rows: Sequence[Mapping[str, Any]],
+    total_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """A throw: the carried fighter takes its K row, any other target one area row of the same numbers."""
+    if not any(CARRIED_MASK_LETTER in _mask_letters_and_hit(row)[0] for row in rows):
+        return None
+    if crit_rows and len(crit_rows) != len(rows):
+        return None
+    faces: Dict[Tuple[Any, ...], List[int]] = {}
+    carried: Dict[Tuple[Any, ...], int] = {}
+    for idx, row in enumerate(rows):
+        letters, (element, steals, triggers, gates, _zone) = _mask_letters_and_hit(row)
+        crit_ranges = tuple(crit_rows[idx].get("ranges") or ()) if crit_rows else ()
+        key = (element, steals, bool(row.get("heals")), triggers, gates,
+               bool(letters & ENEMY_ONLY_MASK), tuple(row.get("ranges") or ()),
+               crit_ranges)
+        faces.setdefault(key, []).append(idx)
+        if CARRIED_MASK_LETTER in letters:
+            carried[key] = carried.get(key, 0) + 1
+    if any(carried.get(key) != 1 or len(indexes) < 2
+           for key, indexes in faces.items()):
+        return None
+    aggregates = [("", [indexes[0]]) for indexes in
+                  sorted(faces.values(), key=lambda indexes: indexes[0])]
+    for idx in range(len(rows), total_row_count):
+        aggregates.append(("", [idx]))
+    return aggregates
+
+
 def _split_the_one_state_on_its_target(
     rows: Sequence[Mapping[str, Any]],
     aggregates: Sequence[Tuple[str, Sequence[int]]],
@@ -1682,6 +1737,11 @@ def convert_spell(
     if not aggregates:
         state_aggregates = _build_state_aggregates(normal_rows, len(non_crit))
         aggregates = state_aggregates
+    thrown_aggregates = None
+    if not aggregates:
+        thrown_aggregates = _build_thrown_hit_aggregates(
+            normal_rows, crit_rows, len(non_crit))
+        aggregates = thrown_aggregates
     if not aggregates:
         aggregates = _build_situation_aggregates(normal_rows, len(non_crit))
     if not aggregates:
@@ -1691,7 +1751,9 @@ def convert_spell(
         aggregates = _build_target_condition_aggregates(normal_rows, len(non_crit))
     if not aggregates:
         aggregates = _build_summon_target_aggregates(normal_rows, len(non_crit))
-    collapsed = _collapse_identical_aggregates(aggregates, elements, non_crit)
+    # A throw's heal and hit share their numbers, the collapse would keep the heal only
+    collapsed = (thrown_aggregates if thrown_aggregates
+                 else _collapse_identical_aggregates(aggregates, elements, non_crit))
     # Name the states only when nothing collapsed
     if (state_aggregates is not None and collapsed is not None
             and len(collapsed) == len(state_aggregates)):
@@ -2038,7 +2100,7 @@ def _version_named(suffix: str) -> str:
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
-    global ALLY_ONLY_MASKS
+    global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -2049,6 +2111,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     TARGET_CONDITIONS = TARGET_CONDITIONS_BY_VERSION[args.game_version]
     SUMMON_MASK_LETTERS = SUMMON_MASK_LETTERS_BY_VERSION[args.game_version]
     ALLY_ONLY_MASKS = ALLY_ONLY_MASKS_BY_VERSION[args.game_version]
+    CARRIED_MASK_LETTER = CARRIED_MASK_LETTER_BY_VERSION[args.game_version]
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)

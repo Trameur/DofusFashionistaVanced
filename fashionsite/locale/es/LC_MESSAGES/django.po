@@ -7213,6 +7213,12 @@ msgstr "solo si el objetivo es curado"
 msgid "only on an ally, never on an enemy"
 msgstr "solo en un aliado, nunca en un enemigo"
 
+msgid "only when one of the caster's Dolls dies"
+msgstr "solo con la muerte de una muñeca del lanzador"
+
+msgid "at the end of the target's turn, and only on the enemies around it, never on the target itself"
+msgstr "al final del turno del objetivo, y solo en los enemigos alrededor de este, nunca en el propio objetivo"
+
 msgid ""
 "only if the target attracts, repels, switches places or deals "
 "pushback damage"

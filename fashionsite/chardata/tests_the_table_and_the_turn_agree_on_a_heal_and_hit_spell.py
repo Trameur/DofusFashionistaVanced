@@ -17,7 +17,7 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 _VERSIONS_TOUCHEES = {'dofus3', 'beta', 'dofus2'}
 
 # Spell/version pairs the rule reaches
-_SORTS_TOUCHES = 49
+_SORTS_TOUCHES = 39
 
 # Words of the French spell card
 _SOIGNE = re.compile(r'soigne', re.I)

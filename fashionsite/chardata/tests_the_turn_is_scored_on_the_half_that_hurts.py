@@ -20,6 +20,10 @@ _MOITIE_QUI_FRAPPE = {
 # Both halves, as the French spell card words them
 _MOTS_DU_JEU = ('soigne les alli', 'ennemis')
 
+# Throws whose heal on allies comes before the hit on enemies, Dofus 3 and beta
+_PANDAWA_THROWS = {'Stretcher', 'Pandilongation', 'Propulsion', 'Brandy',
+                   'Waterfall'}
+
 
 def _groupes(sort, rang, crit=False):
     """Lines of each aggregate group, or None when the fallback does not apply."""
@@ -95,7 +99,7 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
                         (version, classe, sort.name, rang))
         self.assertEqual([], sautes_pour_autre_chose)
 
-    def test_the_rule_moves_these_three_spells_and_no_others(self):
+    def test_the_rule_moves_the_measured_spells_and_no_others(self):
         bouges = set()
         for version, classe, sort in _tous_les_sorts():
             for rang in range(len(sort.level_req)):
@@ -111,13 +115,18 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
                 if retenu != set(digest.aggregates[0][1]):
                     bouges.add((version, classe, sort.name))
         self.assertEqual(
-            set(_MOITIE_QUI_FRAPPE), {nom for _v, _c, nom in bouges},
+            set(_MOITIE_QUI_FRAPPE) | _PANDAWA_THROWS,
+            {nom for _v, _c, nom in bouges},
             'the rule reaches spells it was not measured on: %s' % sorted(bouges))
         self.assertEqual(
-            {'Eniripsa'}, {classe for _v, classe, _n in bouges})
+            {'Eniripsa', 'Pandawa'}, {classe for _v, classe, _n in bouges})
         self.assertEqual(
             {'dofus3', 'beta', 'dofus2'}, {v for v, _c, _n in bouges},
             'Touch and Retro carried no case when this was measured')
+        self.assertEqual(
+            {'dofus3', 'beta'},
+            {v for v, classe, _n in bouges if classe == 'Pandawa'},
+            'the Dofus 2 throws carry no heal row')
 
 
 class TheGameItselfSaysTheseSpellsHurtAnEnemyTests(SimpleTestCase):
