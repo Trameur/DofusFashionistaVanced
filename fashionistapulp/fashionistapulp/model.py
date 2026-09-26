@@ -26,7 +26,8 @@ from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
                        temporix_only_item_ids)
 from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve, NON_STAT_WEIGHT_KEYS
 from .lpproblem import LpProblem2
-from .modelresult import ModelResultMinimal, wisdom_per_ap_mp_dodge_point
+from .modelresult import (ModelResultMinimal, level_prospecting,
+                          wisdom_per_ap_mp_dodge_point)
 import pulp
 from .restrictions import Restrictions
 from .structure import get_structure
@@ -1236,6 +1237,10 @@ class Model:
                         'Prospecting': [['Chance'],[0.1]],
                         'Pods': [['Strength'],[5]],
                         'HP': [['Vitality'],[1]]}
+        if getattr(self.structure, 'game_version', 'dofus3') == 'touch':
+            dependencies['Dodge'] = [['Chance'], [0.1]]
+            del dependencies['Prospecting']
+            del dependencies['Pods']
 
         for stat in self.stats_list:
             if stat.name in dependencies:
@@ -1274,10 +1279,16 @@ class Model:
             self.restrictions.advanced_minimum_stat_constraints[stat['key']] = restriction
 
     def modify_minimum_stat_constraints(self, minimum_stats, level):
+        version = getattr(getattr(self, 'structure', None), 'game_version',
+                          'dofus3')
         for stat in self.stats_list:
             if stat.name == 'HP':
                 restriction = self.restrictions.minimum_stat_constraints[stat.name]
                 restriction.changeRHS(-minimum_stats.get(stat.name, -10000) + 55 + 5*(level-1))
+            elif stat.name == 'Prospecting' and version == 'touch':
+                restriction = self.restrictions.minimum_stat_constraints[stat.name]
+                restriction.changeRHS(-minimum_stats.get(stat.name, -10000)
+                                      + level_prospecting(version, level))
             else:
                 restriction = self.restrictions.minimum_stat_constraints[stat.name]
                 restriction.changeRHS(-minimum_stats.get(stat.name, -10000))

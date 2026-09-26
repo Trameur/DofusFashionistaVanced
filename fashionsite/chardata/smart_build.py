@@ -52,6 +52,9 @@ VERSION_WEIGHT_TUNING = {
         'zero_stats': ('ref', 'trapdam', 'trapdamper',
                        'permedam', 'perrandam', 'perweadam', 'perspedam',
                        'respermee', 'resperran', 'resperwea'),
+        'dodge_from': 'cha',
+        'pp_from_cha': False,
+        'pods_from_str': False,
     },
     'retro': {
         # No 1.29 item carries these (dodge and lock came with Dofus 2.0)
@@ -961,7 +964,11 @@ def _set_weights(char, aspects, apply=True):
     w['int'] = attack_factor * b if 'int' in elements else 0
     w['agi'] = attack_factor * b if 'agi' in elements else 0
     w['cha'] = attack_factor * b if 'cha' in elements else 0
-    w['agi'] = max(w['agi'], (w['dodge'] + w['lock']) / 10)
+    if tuning.get('dodge_from', 'agi') == 'agi':
+        w['agi'] = max(w['agi'], (w['dodge'] + w['lock']) / 10)
+    else:
+        w['agi'] = max(w['agi'], w['lock'] / 10)
+        w[tuning['dodge_from']] = max(w[tuning['dodge_from']], w['dodge'] / 10)
     # Power counts for every element played
     w['pow'] = {0: 0, 1: 4, 2: 8, 3: 8, 4: 8.5}[element_count] * b
     if 'glasscannon' in aspects:
@@ -1020,8 +1027,10 @@ def _set_weights(char, aspects, apply=True):
             w['trapdamper'] = 1 * b
 
     w['pp'] = 10 * b if 'pp' in aspects else 0.2 * b if 'pvp' not in aspects else 0
-    w['cha'] = max(w['cha'], w['pp'] / 10.0)
-    w['cha'] += 0.1 * w['pp']
+    pp_from_cha = tuning.get('pp_from_cha', True)
+    if pp_from_cha:
+        w['cha'] = max(w['cha'], w['pp'] / 10.0)
+        w['cha'] += 0.1 * w['pp']
 
     w['init'] = (0.3 * b if 'duel' in aspects else
                  0.1 * b if 'pvp' in aspects else 0.03 * b)
@@ -1029,7 +1038,8 @@ def _set_weights(char, aspects, apply=True):
 
     if 'pods' in aspects:
         w['pod'] = 10 * b
-        w['str'] = max(w['str'], w['pod'] / 5.0)
+        if tuning.get('pods_from_str', True):
+            w['str'] = max(w['str'], w['pod'] / 5.0)
 
     if 'pushback' in aspects:
         w['pshdam'] = 15 * b
@@ -1116,7 +1126,7 @@ def _set_weights(char, aspects, apply=True):
             w['%sresper' % damage_type] = 0
             w['%sdam' % damage_type] = 0
         w['dam'] = 0
-        w['cha'] = w['pp'] / 10.0
+        w['cha'] = w['pp'] / 10.0 if pp_from_cha else 0
 
     if not elements and 'wis' in aspects and 'pp' not in aspects and 'pods' not in aspects:
         for zero_key in ('ap', 'mp', 'range', 'heals', 'summon',

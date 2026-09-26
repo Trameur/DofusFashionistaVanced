@@ -40,6 +40,19 @@ def wisdom_per_ap_mp_dodge_point(game_version):
     return 4 if game_version == 'retro' else 10
 
 
+def characteristic_passives(game_version):
+    """(stat, characteristic, points per step, gain) for Dodge, Lock, Prospecting, Pods."""
+    if game_version == 'touch':
+        return (('dodge', 'cha', 10, 1), ('lock', 'agi', 10, 1))
+    return (('dodge', 'agi', 10, 1), ('lock', 'agi', 10, 1),
+            ('pp', 'cha', 10, 1), ('pod', 'str', 1, 5))
+
+
+def level_prospecting(game_version, level):
+    """Prospecting from the level alone, a third of it on Touch."""
+    return level // 3 if game_version == 'touch' else 0
+
+
 class ModelResultMinimal():
 
     def __init__(self, item_per_slot, input_, stats):
@@ -289,10 +302,10 @@ class ModelResult():
             self.stats_total['mpres'] += wisdom_share
             self.stats_total['apred'] += wisdom_share
             self.stats_total['mpred'] += wisdom_share
-            self.stats_total['dodge'] += self.stats_total['agi'] // 10
-            self.stats_total['lock'] += self.stats_total['agi'] // 10
-            self.stats_total['pp'] += self.stats_total['cha'] // 10
-            self.stats_total['pod'] += self.stats_total['str'] * 5
+            for stat_key, from_key, per, gain in characteristic_passives(version):
+                self.stats_total[stat_key] += self.stats_total[from_key] // per * gain
+            self.stats_total['pp'] += level_prospecting(version,
+                                                        self.input['char_level'])
             self.stats_total['init'] += (self.stats_total['str']
                                          + self.stats_total['int']
                                          + self.stats_total['cha']

@@ -31,7 +31,9 @@ from chardata.item_sources import acquisition_summary, attach_acquisition
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE
 from fashionistapulp.fashion_util import normalize_name
-from fashionistapulp.modelresult import wisdom_per_ap_mp_dodge_point
+from fashionistapulp.modelresult import (characteristic_passives,
+                                         level_prospecting,
+                                         wisdom_per_ap_mp_dodge_point)
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.spell_tips import spell_tip_for
 from chardata.forgemagie_transcendance import rune_name
@@ -232,15 +234,17 @@ def stat_sources(model_result):
     def characteristic(key):
         return _(STAT_KEY_TO_NAME[key])
 
-    wisdom_per_point = wisdom_per_ap_mp_dodge_point(get_current_game_version())
-    for stat_key, from_key in (('apres', 'wis'), ('mpres', 'wis'),
-                               ('apred', 'wis'), ('mpred', 'wis'),
-                               ('dodge', 'agi'), ('lock', 'agi'),
-                               ('pp', 'cha')):
-        per_point = wisdom_per_point if from_key == 'wis' else 10
+    version = get_current_game_version()
+    wisdom_per_point = wisdom_per_ap_mp_dodge_point(version)
+    for stat_key in ('apres', 'mpres', 'apred', 'mpred'):
+        add(stat_key, characteristic('wis'),
+            total.get('wis', 0) // wisdom_per_point, 'derived')
+    for stat_key, from_key, per, gain in characteristic_passives(version):
         add(stat_key, characteristic(from_key),
-            total.get(from_key, 0) // per_point, 'derived')
-    add('pod', characteristic('str'), total.get('str', 0) * 5, 'derived')
+            total.get(from_key, 0) // per * gain, 'derived')
+    add('pp', _('Level'),
+        level_prospecting(version, model_input.get('char_level', 0)),
+        'derived')
     for from_key in ('str', 'int', 'cha', 'agi'):
         add('init', characteristic(from_key), total.get(from_key, 0), 'derived')
     add('hp', characteristic('vit'), total.get('vit', 0), 'derived')
