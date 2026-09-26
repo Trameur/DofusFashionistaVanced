@@ -1,0 +1,32 @@
+{
+"case_fields":["aspects","build","class","level","minimums","options","weights"],
+"cases":{
+"beta Cra 100":[[],"","Cra",100,"bf21a9e8fb","0512058dc8","3070eea575"],
+"beta Iop 200":[[],"","Iop",200,"bf21a9e8fb","88fc1f9034","111df5b2f5"],
+"dofus2 Cra 100":[[],"","Cra",100,"bf21a9e8fb","0512058dc8","3070eea575"],
+"dofus2 Iop 200":[[],"","Iop",200,"bf21a9e8fb","88fc1f9034","111df5b2f5"],
+"dofus3 Cra 100":[[],"","Cra",100,"bf21a9e8fb","0512058dc8","3070eea575"],
+"dofus3 Iop 200":[[],"","Iop",200,"bf21a9e8fb","88fc1f9034","111df5b2f5"],
+"retro Cra 100":[[],"","Cra",100,"bf21a9e8fb","0b696d8076","8ac4bd16bd"],
+"retro Iop 200":[[],"","Iop",200,"bf21a9e8fb","0b696d8076","837e7c01f7"],
+"touch Cra 100":[[],"","Cra",100,"bf21a9e8fb","0512058dc8","2a5752ac37"],
+"touch Iop 200":[[],"","Iop",200,"bf21a9e8fb","88fc1f9034","f52790e735"]
+},
+"minimums":{
+"bf21a9e8fb":{}
+},
+"options":{
+"0512058dc8":{"ap_exo":false,"dragoturkey":true,"mp_exo":false,"prysmaradite":false,"rhineetle":true,"seemyool":true,"shields":true,"turq_dofus":false},
+"0b696d8076":{"ap_exo":false,"dragoturkey":true,"mp_exo":false,"prysmaradite":false,"rhineetle":true,"seemyool":true,"shields":false,"turq_dofus":false},
+"88fc1f9034":{"ap_exo":true,"dragoturkey":true,"mp_exo":true,"prysmaradite":true,"rhineetle":true,"seemyool":true,"shields":true,"turq_dofus":true}
+},
+"weight_keys":["agi","airdam","airres","airresper","ap","apred","apres","ch","cha","cridam","crires","dam","dodge","earthdam","earthres","earthresper","firedam","fireres","fireresper","heals","hp","init","int","lock","meleeness","mp","mpred","mpres","neutdam","neutres","neutresper","permedam","perrandam","perspedam","perweadam","pow","pp","pshdam","pshres","range","respermee","resperran","resperwea","str","summon","vit","waterdam","waterres","waterresper","wis"],
+"weights":{
+"111df5b2f5":"20,0,20,240,2400,0,20,240,1,0,4,0,80,0,20,240,0,20,240,0,20,1,0,120,0,2400,24,20,0,20,240,0,0,0,0,0,4,0,2,0,360,840,360,0,0,20,0,20,240,40",
+"2a5752ac37":"20,0,20,90,1400,0,20,240,1,0,4,0,180,0,20,90,0,20,90,0,18,1,0,20,0,1400,144,20,0,20,90,0,0,0,0,0,4,40,2,1120,0,0,0,0,0,18,0,20,90,40",
+"3070eea575":"20,0,20,90,1400,0,20,240,1,0,4,0,180,0,20,90,0,20,90,0,18,1,0,20,0,1400,144,20,0,20,90,0,0,0,0,0,4,40,2,1120,90,360,90,0,0,18,0,20,90,40",
+"837e7c01f7":"20,0,20,120,2400,0,0,240,1,0,0,0,0,0,20,120,0,20,120,0,20,2,0,0,0,2400,0,0,0,20,120,0,0,0,0,0,4,0,0,0,0,0,0,0,0,20,0,20,120,80",
+"8ac4bd16bd":"20,0,20,80,1400,0,0,240,1,0,0,0,0,0,20,80,0,20,80,0,18,2,0,0,0,1400,0,0,0,20,80,0,0,0,0,0,4,0,0,1120,0,0,0,0,0,18,0,20,80,80",
+"f52790e735":"20,0,20,240,2400,0,20,240,1,0,4,0,80,0,20,240,0,20,240,0,20,1,0,120,0,2400,24,20,0,20,240,0,0,0,0,0,4,0,2,0,0,0,0,0,0,20,0,20,240,40"
+}
+}
