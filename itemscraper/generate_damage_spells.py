@@ -173,6 +173,20 @@ TARGET_CONDITIONS_BY_VERSION = {
 
 TARGET_CONDITIONS = TARGET_CONDITIONS_BY_VERSION["dofus3"]
 
+# Mask letters naming only summons, allied and enemy
+SUMMON_MASK_LETTERS_BY_VERSION = {
+    "dofus3": frozenset("jJ"),
+    "beta": frozenset("jJ"),
+    "dofus2": frozenset("jJ"),
+}
+
+SUMMON_MASK_LETTERS = SUMMON_MASK_LETTERS_BY_VERSION["dofus3"]
+
+# a and A are every ally and every enemy, summons included
+EVERY_FIGHTER_MASK_LETTERS = frozenset("aA")
+
+SUMMON_FACE_LABELS = ("Target that is not a summon", "Target that is a summon")
+
 BUFF_SORT_ORDER = {
     "buff_str": 0,
     "buff_int": 1,
@@ -1332,6 +1346,33 @@ def _build_target_condition_aggregates(
     return None
 
 
+def _build_summon_target_aggregates(
+    rows: Sequence[Mapping[str, Any]],
+    total_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """A hit with its own rows on summons: one face lands, the other targets first."""
+    faces: Dict[bool, List[int]] = {False: [], True: []}
+    rests: Set[Tuple[Tuple[str, ...], str]] = set()
+    for idx, row in enumerate(rows):
+        mask, _sep, zone = str(row.get("situation") or "").partition("|")
+        tokens = [token.strip() for token in mask.split(",") if token.strip()]
+        letters = {token for token in tokens if len(token) == 1}
+        if not letters or letters & EVERY_FIGHTER_MASK_LETTERS:
+            return None
+        summons = letters <= SUMMON_MASK_LETTERS
+        if not summons and letters & SUMMON_MASK_LETTERS:
+            return None
+        faces[summons].append(idx)
+        rests.add((tuple(sorted(token for token in tokens if len(token) != 1)), zone))
+    if not faces[False] or not faces[True] or len(rests) != 1:
+        return None
+    aggregates = [(SUMMON_FACE_LABELS[0], faces[False]),
+                  (SUMMON_FACE_LABELS[1], faces[True])]
+    for idx in range(len(rows), total_row_count):
+        aggregates.append(("", [idx]))
+    return aggregates
+
+
 def _split_the_one_state_on_its_target(
     rows: Sequence[Mapping[str, Any]],
     aggregates: Sequence[Tuple[str, Sequence[int]]],
@@ -1606,6 +1647,8 @@ def convert_spell(
             spell.get("ankama_id"), normal_rows, len(non_crit))
     if not aggregates:
         aggregates = _build_target_condition_aggregates(normal_rows, len(non_crit))
+    if not aggregates:
+        aggregates = _build_summon_target_aggregates(normal_rows, len(non_crit))
     collapsed = _collapse_identical_aggregates(aggregates, elements, non_crit)
     # Name the states only when nothing collapsed
     if (state_aggregates is not None and collapsed is not None
@@ -1950,7 +1993,7 @@ def _version_named(suffix: str) -> str:
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS
+    global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -1959,6 +2002,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION[args.game_version]
     NOT_A_SELF_BUFF = NOT_A_SELF_BUFF_BY_VERSION[args.game_version]
     TARGET_CONDITIONS = TARGET_CONDITIONS_BY_VERSION[args.game_version]
+    SUMMON_MASK_LETTERS = SUMMON_MASK_LETTERS_BY_VERSION[args.game_version]
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)

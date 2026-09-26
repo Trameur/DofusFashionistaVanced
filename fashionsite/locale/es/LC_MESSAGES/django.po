@@ -7012,6 +7012,14 @@ msgstr "Objetivo con escudo"
 msgid "Target without shield points"
 msgstr "Objetivo sin escudo"
 
+#: chardata/spells_view.py
+msgid "Target that is not a summon"
+msgstr "Objetivo que no es una invocación"
+
+#: chardata/spells_view.py
+msgid "Target that is a summon"
+msgstr "Objetivo que es una invocación"
+
 #, python-format
 msgid "Target with less than %(percent)s%% of its HP"
 msgstr "Objetivo con menos del %(percent)s%% de su vida"

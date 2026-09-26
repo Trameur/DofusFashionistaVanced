@@ -6236,6 +6236,14 @@ msgstr "Target with shield points"
 msgid "Target without shield points"
 msgstr "Target without shield points"
 
+#: chardata/spells_view.py
+msgid "Target that is not a summon"
+msgstr "Target that is not a summon"
+
+#: chardata/spells_view.py
+msgid "Target that is a summon"
+msgstr "Target that is a summon"
+
 #, python-format
 msgid "Target with less than %(percent)s%% of its HP"
 msgstr "Target with less than %(percent)s%% of its HP"

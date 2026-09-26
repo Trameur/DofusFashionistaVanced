@@ -6993,6 +6993,14 @@ msgstr "Ziel mit Schild"
 msgid "Target without shield points"
 msgstr "Ziel ohne Schild"
 
+#: chardata/spells_view.py
+msgid "Target that is not a summon"
+msgstr "Nicht beschworenes Ziel"
+
+#: chardata/spells_view.py
+msgid "Target that is a summon"
+msgstr "Beschworenes Ziel"
+
 #, python-format
 msgid "Target with less than %(percent)s%% of its HP"
 msgstr "Ziel mit weniger als %(percent)s %% seiner Lebenspunkte"

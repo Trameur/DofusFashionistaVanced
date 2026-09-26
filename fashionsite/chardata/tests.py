@@ -20001,10 +20001,10 @@ class SpellComboTests(SimpleTestCase):
 
     def test_several_hits_in_one_cast_are_added_up(self):
         # No aggregates: the rows are real hits landing together
-        spells = {spell.name: spell for spell in self._spells()}
-        concentration = spells['Concentration']
-        self.assertFalse(concentration.stacked)
-        self.assertEqual(len(concentration.hits), 2)
+        spells = {spell.name: spell for spell in self._spells('Masqueraider')}
+        shove_off = spells['Shove Off']
+        self.assertFalse(shove_off.stacked)
+        self.assertEqual(len(shove_off.hits), 4)
 
     def test_the_shared_bucket_is_not_castable(self):
         # It holds weapons, pies and Dofus effects

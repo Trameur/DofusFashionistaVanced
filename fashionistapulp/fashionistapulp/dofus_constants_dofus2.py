@@ -1785,7 +1785,7 @@ DAMAGE_SPELLS = {
             [['12-14', '16-18', '20-22'], ['14-16', '18-20', '23-25']],
             [['15-17', '19-21', '24-26'], ['17-19', '22-24', '28-30']],
             [EARTH, EARTH],
-        ), is_linked=(1, 'Mine Fire'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13335),
+        ), aggregates=[('Target that is not a summon', [0]), ('Target that is a summon', [1])], is_linked=(1, 'Mine Fire'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13335),
         Spell('Ghostly Shovel', [55, 122, 189], Effects(
             [['17-19', '23-25', '26-28']],
             [['20-22', '27-29', '31-34']],
@@ -1865,7 +1865,7 @@ DAMAGE_SPELLS = {
             [['26-30'], ['30-34']],
             [['31-36'], ['36-41']],
             [WATER, WATER],
-        ), is_linked=(2, 'Bankruptcy'), casting={'ap': [3], 'per_turn': [3], 'per_target': [2], 'crit': [10]}, spell_id=13360),
+        ), aggregates=[('Target that is not a summon', [0]), ('Target that is a summon', [1])], is_linked=(2, 'Bankruptcy'), casting={'ap': [3], 'per_turn': [3], 'per_target': [2], 'crit': [10]}, spell_id=13360),
         Spell('Miserliness', [40, 107, 174], Effects(
             [['20', '30', '50']],
             None,
@@ -1929,7 +1929,7 @@ DAMAGE_SPELLS = {
             [['26-29', '32-36', '36-40'], ['30-33', '37-41', '41-45']],
             [['31-35', '39-44', '43-48'], ['35-39', '44-49', '49-54']],
             [AIR, AIR],
-        ), is_linked=(1, 'Obsolescence'), casting={'ap': [4, 4, 4], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [15, 15, 15]}, spell_id=14278),
+        ), aggregates=[('Target that is not a summon', [0]), ('Target that is a summon', [1])], is_linked=(1, 'Obsolescence'), casting={'ap': [4, 4, 4], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [15, 15, 15]}, spell_id=14278),
         Spell('Lucky Shovel', [195], Effects(
             [['18-20'], ['18-20'], ['18-20'], ['18-20']],
             None,
@@ -2971,7 +2971,7 @@ DAMAGE_SPELLS = {
             [['13-15', '16-19', '20-24'], ['19-21', '25-28', '30-34']],
             [['16-19', '20-24', '25-30'], ['24-27', '30-34', '37-42']],
             [EARTH, EARTH],
-        ), is_linked=(1, 'Sentence'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 4], 'per_target': [2, 2, 3], 'crit': [5, 5, 5]}, spell_id=13123),
+        ), aggregates=[('Target that is not a summon', [0]), ('Target that is a summon', [1])], is_linked=(1, 'Sentence'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 4], 'per_target': [2, 2, 3], 'crit': [5, 5, 5]}, spell_id=13123),
         Spell("Iop's Wrath", [200], Effects(
             [['81-100']],
             [['97-120']],

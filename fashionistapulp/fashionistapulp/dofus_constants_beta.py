@@ -2171,7 +2171,7 @@ DAMAGE_SPELLS = {
             [['12-14', '16-18', '20-22'], ['16-18', '20-22', '25-27']],
             [['15-17', '19-21', '24-26'], ['19-21', '24-26', '30-32']],
             [EARTH, EARTH],
-        ), is_linked=(1, 'Mine Fire'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13335),
+        ), aggregates=[('Target that is not a summon', [0]), ('Target that is a summon', [1])], is_linked=(1, 'Mine Fire'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13335),
         Spell('Loafylactic', [30, 97, 164], Effects(
             [['14-16', '18-20', '23-25']],
             [['17-19', '22-24', '25-28']],
@@ -2196,7 +2196,7 @@ DAMAGE_SPELLS = {
             [['26-29', '32-36', '36-40'], ['36-39', '37-41', '47-51']],
             [['31-35', '39-44', '43-48'], ['41-45', '50-55', '55-60']],
             [AIR, AIR],
-        ), is_linked=(1, 'Shovel Throwing'), casting={'ap': [4, 4, 4], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [15, 15, 15]}, spell_id=14278),
+        ), aggregates=[('Target that is not a summon', [0]), ('Target that is a summon', [1])], is_linked=(1, 'Shovel Throwing'), casting={'ap': [4, 4, 4], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [15, 15, 15]}, spell_id=14278),
         Spell('Tunnel', [65, 131, 198], Effects(
             [['19-22', '23-26', '26-29']],
             [['23-26', '28-31', '31-35']],
@@ -2241,7 +2241,7 @@ DAMAGE_SPELLS = {
             [['26-30'], ['34-38']],
             [['31-36'], ['40-45']],
             [WATER, WATER],
-        ), is_linked=(2, 'Loafylactic'), casting={'ap': [3], 'per_turn': [3], 'per_target': [2], 'crit': [10]}, spell_id=13360),
+        ), aggregates=[('Target that is not a summon', [0]), ('Target that is a summon', [1])], is_linked=(2, 'Loafylactic'), casting={'ap': [3], 'per_turn': [3], 'per_target': [2], 'crit': [10]}, spell_id=13360),
         Spell('Decadence', [150], Effects(
             [['10']],
             None,
@@ -3181,7 +3181,7 @@ DAMAGE_SPELLS = {
             [['13-15', '16-19', '20-24'], ['19-21', '25-28', '30-34']],
             [['16-19', '20-24', '25-30'], ['24-27', '30-34', '37-42']],
             [EARTH, EARTH],
-        ), is_linked=(1, 'Sentence'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 4], 'per_target': [2, 2, 3], 'crit': [5, 5, 5]}, spell_id=13123),
+        ), aggregates=[('Target that is not a summon', [0]), ('Target that is a summon', [1])], is_linked=(1, 'Sentence'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 4], 'per_target': [2, 2, 3], 'crit': [5, 5, 5]}, spell_id=13123),
         Spell('Outpouring', [20, 87, 154], Effects(
             [['24-27', '31-34', '38-42']],
             [['29-32', '37-40', '46-50']],

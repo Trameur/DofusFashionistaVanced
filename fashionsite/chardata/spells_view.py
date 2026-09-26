@@ -907,6 +907,8 @@ _STATE_LABEL = re.compile(r'^State (!?\d+(?:,!?\d+)*)$')
 # Faces of a hit split on the target, written by the generator's TARGET_CONDITIONS
 _WITH_SHIELD = 'Target with shield points'
 _WITHOUT_SHIELD = 'Target without shield points'
+_NOT_A_SUMMON = 'Target that is not a summon'
+_A_SUMMON = 'Target that is a summon'
 _HP_UNDER_LABEL = re.compile(r'^Target with less than (\d+)% of its HP$')
 _HP_AT_LEAST_LABEL = re.compile(r'^Target with (\d+)% of its HP or more$')
 # Heads the generator writes over the rows of a thing the spell places
@@ -951,6 +953,10 @@ def _localized_aggregate_label(label, game_version=None):
         return _('Target with shield points')
     if label == _WITHOUT_SHIELD:
         return _('Target without shield points')
+    if label == _NOT_A_SUMMON:
+        return _('Target that is not a summon')
+    if label == _A_SUMMON:
+        return _('Target that is a summon')
     match = _HP_UNDER_LABEL.match(label)
     if match:
         return _('Target with less than %(percent)s%% of its HP') % {

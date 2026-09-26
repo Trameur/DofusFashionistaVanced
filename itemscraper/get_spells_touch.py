@@ -208,9 +208,41 @@ def _best_element_is_the_whole_hit(spell):
     return True
 
 
+# Mask letters naming only summons (static or not, allied or enemy)
+SUMMON_MASK_LETTERS = frozenset('iIsS')
+# a and A are every ally and every enemy, summons included
+EVERY_FIGHTER_MASK_LETTERS = frozenset('aA')
+
+
+def _mask_letters(effect):
+    return {token for token in str(effect.get('targetMask') or '').split(',')
+            if len(token) == 1}
+
+
+def _same_hit(effect):
+    """Row token, zone and mask gates (states, exclusions), shared by the faces of one hit."""
+    gates = frozenset(token for token in str(effect.get('targetMask') or '').split(',')
+                      if len(token) > 1)
+    return DAMAGE_EFFECTS[effect.get('effectId')], effect.get('rawZone'), gates
+
+
+def _summons_only(effect):
+    letters = _mask_letters(effect)
+    return bool(letters) and letters <= SUMMON_MASK_LETTERS
+
+
+def _spares_summons(effect):
+    letters = _mask_letters(effect)
+    return bool(letters) and not letters & (SUMMON_MASK_LETTERS
+                                            | EVERY_FIGHTER_MASK_LETTERS)
+
+
 def collect_damage(effect_list, best_element_rows=False):
     """One effect list -> {row token: (min, max, when)}, strongest line per token."""
     out = {}
+    # A hit with its own line on summons keeps the line the other targets take
+    spared = {_same_hit(e) for e in (effect_list or [])
+              if e.get('effectId') in DAMAGE_EFFECTS and _spares_summons(e)}
     for e in (effect_list or []):
         eid = e.get('effectId')
         if eid == BEST_ELEMENT_EFFECT and best_element_rows:
@@ -218,6 +250,9 @@ def collect_damage(effect_list, best_element_rows=False):
             tokens = BEST_ELEMENT_TOKENS
         elif eid in ROW_EFFECTS:
             tokens = (ROW_EFFECTS[eid],)
+            if (eid in DAMAGE_EFFECTS and _summons_only(e)
+                    and _same_hit(e) in spared):
+                continue
         else:
             continue
         lo = e.get('diceNum') or 0
