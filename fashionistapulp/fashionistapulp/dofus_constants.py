@@ -4214,7 +4214,7 @@ DAMAGE_SPELLS = {
             [['36-40'], ['18-20']],
             [FIRE, FIRE],
             steals=[True, True],
-        ), is_linked=(2, 'Musket'), casting={'ap': [4], 'per_turn': [2], 'crit': [15]}, spell_id=14411),
+        ), is_linked=(2, 'Musket'), casting={'ap': [4], 'per_turn': [2], 'crit': [15]}, spell_id=14411, conditional={1: 'on_ally'}),
         Spell('Sticky Bomb', [185], Effects(
             [['17-19'], ['17-19'], ['17-19'], ['17-19']],
             None,

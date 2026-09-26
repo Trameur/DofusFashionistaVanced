@@ -135,18 +135,14 @@ _MODERN_CONDITIONAL_ROWS = {
     13363: {1: "mp_removal"},   # Enutrof, Placer Mining (row 0 has the cast's a,A mask)
     13352: {1: "range_removal"},   # Enutrof, Collapse (row 0 has the cast's a,A mask)
     14651: {1: "telefragged"},   # Xelor, Fob (row 1 has the area zone)
-    # Extraction: row 1 is the steal on allies (mask 'a'), half the enemy one
-    13433: {1: "on_ally"},   # Rogue, Extraction
 }
 
 CONDITIONAL_ROWS_BY_VERSION = {
     "dofus3": _MODERN_CONDITIONAL_ROWS,
     # beta: same client, one patch ahead
     "beta": _MODERN_CONDITIONAL_ROWS,
-    # 2.73: only Extraction checked so far
-    "dofus2": {
-        13433: {1: "on_ally"},   # Rogue, Extraction
-    },
+    # 2.73: none checked by hand yet
+    "dofus2": {},
 }
 
 CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION["dofus3"]
@@ -186,6 +182,17 @@ SUMMON_MASK_LETTERS = SUMMON_MASK_LETTERS_BY_VERSION["dofus3"]
 EVERY_FIGHTER_MASK_LETTERS = frozenset("aA")
 
 SUMMON_FACE_LABELS = ("Target that is not a summon", "Target that is a summon")
+
+ENEMY_ONLY_MASK = frozenset("A")
+
+# Masks of a row that lands on allies only; g spares the caster
+ALLY_ONLY_MASKS_BY_VERSION = {
+    "dofus3": (frozenset("a"), frozenset("g")),
+    "beta": (frozenset("a"), frozenset("g")),
+    "dofus2": (frozenset("a"), frozenset("g")),
+}
+
+ALLY_ONLY_MASKS = ALLY_ONLY_MASKS_BY_VERSION["dofus3"]
 
 BUFF_SORT_ORDER = {
     "buff_str": 0,
@@ -1373,6 +1380,41 @@ def _build_summon_target_aggregates(
     return aggregates
 
 
+def _mask_letters_and_hit(row: Mapping[str, Any]) -> Tuple[frozenset, Tuple[Any, ...]]:
+    """(target letters, what else the row shares with the other targets of its hit)."""
+    mask, _sep, zone = str(row.get("situation") or "").partition("|")
+    tokens = [token.strip() for token in mask.split(",") if token.strip()]
+    letters = frozenset(token for token in tokens if len(token) == 1)
+    gates = tuple(sorted(token for token in tokens if len(token) != 1))
+    return letters, (row.get("element"), bool(row.get("steals")),
+                     row.get("triggers"), gates, zone)
+
+
+def _rows_only_on_allies(
+    normal_rows: Sequence[Mapping[str, Any]],
+    crit_rows: Sequence[Mapping[str, Any]],
+) -> Dict[int, str]:
+    """{index: "on_ally"} for a hit's row on allies whose twin row lands on enemies."""
+    on_enemies = set()
+    for row in normal_rows:
+        letters, hit = _mask_letters_and_hit(row)
+        if letters == ENEMY_ONLY_MASK and not row.get("heals"):
+            on_enemies.add(hit)
+    held: Dict[int, str] = {}
+    for idx, row in enumerate(normal_rows):
+        if row.get("heals"):
+            continue
+        letters, hit = _mask_letters_and_hit(row)
+        if letters not in ALLY_ONLY_MASKS or hit not in on_enemies:
+            continue
+        # The index is shared with the crit rows
+        if crit_rows and (idx >= len(crit_rows)
+                          or crit_rows[idx].get("situation") != row.get("situation")):
+            continue
+        held[idx] = "on_ally"
+    return held
+
+
 def _split_the_one_state_on_its_target(
     rows: Sequence[Mapping[str, Any]],
     aggregates: Sequence[Tuple[str, Sequence[int]]],
@@ -1674,6 +1716,8 @@ def convert_spell(
         delayed_crit.update(block_lands)
     holds_back = dict(_waiting_rows[1])
     holds_back.update(block_waits)
+    for idx, trigger in _rows_only_on_allies(normal_rows, crit_rows).items():
+        holds_back.setdefault(idx, trigger)
     stacks = stack_limit
     variant_link = spell.get("variant_link")
     is_linked = _convert_variant_link(variant_link)
@@ -1994,6 +2038,7 @@ def _version_named(suffix: str) -> str:
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
+    global ALLY_ONLY_MASKS
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -2003,6 +2048,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     NOT_A_SELF_BUFF = NOT_A_SELF_BUFF_BY_VERSION[args.game_version]
     TARGET_CONDITIONS = TARGET_CONDITIONS_BY_VERSION[args.game_version]
     SUMMON_MASK_LETTERS = SUMMON_MASK_LETTERS_BY_VERSION[args.game_version]
+    ALLY_ONLY_MASKS = ALLY_ONLY_MASKS_BY_VERSION[args.game_version]
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)

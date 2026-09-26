@@ -20296,7 +20296,7 @@ class SpellVariantTests(TestCase):
         self.assertLess(len(calls), 50000)
 
     def test_the_constraint_costs_the_turn_only_the_illegal_cast(self):
-        # Unconstrained, the Rogue chains Musket and Shot Pellets, one pair
+        # Unconstrained, the Enutrof chains Opportuneness and Firedamp Explosion
         from fashionistapulp.structure import get_structure
         from chardata.spell_combo import best_turn, castable_spells
         from chardata.spell_variants import variant_of
@@ -20304,7 +20304,7 @@ class SpellVariantTests(TestCase):
         stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
         stats.update({'str': 400, 'int': 400, 'cha': 400, 'agi': 400,
                       'pow': 100, 'dam': 40})
-        spells = castable_spells('Rogue', 200, 'dofus3')
+        spells = castable_spells('Enutrof', 200, 'dofus3')
         by_name = {spell.name: spell for spell in spells}
 
         def clashes(order):

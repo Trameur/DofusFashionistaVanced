@@ -191,20 +191,19 @@ class TheSpellPageSaysItTests(TestCase):
 
 class TheDofus2TurnArmsOneFaceTests(SimpleTestCase):
 
-    def test_a_rogue_turn_never_casts_both_musket_and_shot_pellets(self):
+    def test_an_eliotrope_turn_never_casts_both_insult_and_contempt(self):
         from unittest import mock
         from chardata.spell_combo import best_turn, castable_spells
         from fashionistapulp.structure import get_structure
 
         stats = {stat.key: 0
                  for stat in get_structure('dofus2').get_stats_list()}
-        stats.update({'str': 400, 'int': 400, 'cha': 400, 'agi': 400,
-                      'pow': 100, 'dam': 40})
-        spells = castable_spells('Rogue', 200, 'dofus2')
+        stats.update({'agi': 900, 'pow': 100, 'dam': 40})
+        spells = castable_spells('Eliotrope', 200, 'dofus2')
         par_nom = {spell.name: spell for spell in spells}
-        paire = {'Musket', 'Shot Pellets'}
-        self.assertEqual(variant_of('dofus2', par_nom['Musket'].spell_id),
-                         variant_of('dofus2', par_nom['Shot Pellets'].spell_id))
+        paire = {'Insult', 'Contempt'}
+        self.assertEqual(variant_of('dofus2', par_nom['Insult'].spell_id),
+                         variant_of('dofus2', par_nom['Contempt'].spell_id))
         _total, ordre = best_turn(stats, spells, 12, game_version='dofus2')
         armes = {nom for nom, _damage in ordre} & paire
         self.assertEqual(1, len(armes), ordre)

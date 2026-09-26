@@ -212,6 +212,8 @@ def _best_element_is_the_whole_hit(spell):
 SUMMON_MASK_LETTERS = frozenset('iIsS')
 # a and A are every ally and every enemy, summons included
 EVERY_FIGHTER_MASK_LETTERS = frozenset('aA')
+ENEMY_ONLY_MASK = frozenset('A')
+ALLY_ONLY_MASKS = (frozenset('a'),)
 
 
 def _mask_letters(effect):
@@ -237,14 +239,19 @@ def _spares_summons(effect):
                                             | EVERY_FIGHTER_MASK_LETTERS)
 
 
-def collect_damage(effect_list, best_element_rows=False):
+def collect_damage(effect_list, best_element_rows=False, on_ally=None):
     """One effect list -> {row token: (min, max, when)}, strongest line per token."""
     out = {}
     # A hit with its own line on summons keeps the line the other targets take
     spared = {_same_hit(e) for e in (effect_list or [])
               if e.get('effectId') in DAMAGE_EFFECTS and _spares_summons(e)}
+    # An enemy takes its own line; one that only allies take goes to on_ally
+    on_enemies = {DAMAGE_EFFECTS[e.get('effectId')] for e in (effect_list or [])
+                  if e.get('effectId') in DAMAGE_EFFECTS
+                  and _mask_letters(e) == ENEMY_ONLY_MASK}
     for e in (effect_list or []):
         eid = e.get('effectId')
+        target = out
         if eid == BEST_ELEMENT_EFFECT and best_element_rows:
             # One row per element, emit_aggregates groups them as one hit
             tokens = BEST_ELEMENT_TOKENS
@@ -253,6 +260,11 @@ def collect_damage(effect_list, best_element_rows=False):
             if (eid in DAMAGE_EFFECTS and _summons_only(e)
                     and _same_hit(e) in spared):
                 continue
+            if (eid in DAMAGE_EFFECTS and _mask_letters(e) in ALLY_ONLY_MASKS
+                    and ROW_EFFECTS[eid] in on_enemies):
+                if on_ally is None:
+                    continue
+                target = on_ally
         else:
             continue
         lo = e.get('diceNum') or 0
@@ -260,9 +272,9 @@ def collect_damage(effect_list, best_element_rows=False):
         if hi < lo:                          # diceSide==0 (or < min) => fixed hit
             hi = lo
         for elem in tokens:
-            prev = out.get(elem)
+            prev = target.get(elem)
             if prev is None or lo + hi > prev[0] + prev[1]:
-                out[elem] = (lo, hi, when_it_lands(e.get('triggers')))
+                target[elem] = (lo, hi, when_it_lands(e.get('triggers')))
     return out
 
 
@@ -453,6 +465,7 @@ def emit_aggregates(best_element, elements, spell=None):
 def decode_spell(spell, spell_levels, spells=None, bombs=None):
     """Touch spell -> damage-spell dict (buff-only spells kept), or None if no row."""
     per_nc, per_cr, levels_req, elements, stacks = [], [], [], [], []
+    ally_nc, ally_cr = [], []
     casting_levels = []
     best_element = False
     # {(effect id, child id): {rank index: grade}} of the things the spell places
@@ -472,8 +485,11 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
             placements.setdefault(key, {}).setdefault(len(per_nc), child[1])
             if STATE_IN_TARGET_MASK.findall(str(effect.get('targetMask') or '')):
                 gated.add(key)
-        nc = collect_damage(lv.get('effects'), lire_le_meilleur)
-        cr = collect_damage(lv.get('criticalEffect'), lire_le_meilleur)
+        ally_nc.append({})
+        ally_cr.append({})
+        nc = collect_damage(lv.get('effects'), lire_le_meilleur, ally_nc[-1])
+        cr = collect_damage(lv.get('criticalEffect'), lire_le_meilleur,
+                            ally_cr[-1])
         if _check_still_says(spell):
             # The buff goes to someone else, keep only the damage
             nc = {k: v for k, v in nc.items() if not k.startswith('buff_')}
@@ -537,6 +553,21 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
     if delayed_crit == delayed:
         delayed_crit = None
     conditional = {}
+    ally_tokens = []
+    for level in ally_nc + ally_cr:
+        for token in level:
+            if token not in ally_tokens:
+                ally_tokens.append(token)
+    if ally_tokens and (aggregates or blocks):
+        raise SystemExit(
+            'touch spell %s has a line only allies take beside a grouped or '
+            'placed hit; that shape has no rule yet' % spell.get('id'))
+    for token in ally_tokens:
+        nc_row, cr_row = rows_of(ally_nc, ally_cr, token)
+        non_crit.append(nc_row)
+        crit.append(cr_row)
+        elements.append(token)
+        conditional[len(elements) - 1] = 'on_ally'
     if blocks:
         # The placed things' rows after the spell's own, each block a labelled group
         aggregates = _own_groups(aggregates, elements)
