@@ -130,6 +130,9 @@ def main() -> None:
     step("spells/tooltips", [
         PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", "touch",
     ])
+    step("spells/modifiers", [
+        PY, "-m", "itemscraper.store_spell_modifiers", "--game-version", "touch",
+    ])
 
     # Pet bonuses from the encyclopedia; before drops/store or the variants get no drops
     step("pets/scrape-bonuses", [PY, "scrape_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)

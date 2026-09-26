@@ -15926,8 +15926,10 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
     SMITHMAGIC_MARK = 'SM'
     # Words that read the same in the target language
     IDENTICAL_IN_LANGUAGE = {
-        'es': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Error', 'No'},
-        'pt': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote'},
+        'es': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Error', 'No',
+               '%(item)s: %(changes)s'},
+        'pt': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote',
+               '%(item)s: %(changes)s'},
         'de': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Name', 'Neutral',
                SMITHMAGIC_MARK,
                'Hammer', 'Ring', 'optional', 'E', 'W',
@@ -15935,7 +15937,7 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                'April 2023', 'April 2026', 'August 2026', 'September 2026',
                'November 2025', 'April - September 2025',
                ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d',
-               '%(ap)s AP'},
+               '%(ap)s AP', '%(item)s: %(changes)s'},
     }
     # Dofus grid labels fall back to the item's official name
     LABELLED_FROM_GAME_DATA = {

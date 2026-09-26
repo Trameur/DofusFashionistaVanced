@@ -65,6 +65,7 @@
                     <span class="best-combo-running">{{ cast.running }}</span>
                 </div>
                 {% if cast.note %}<div class="best-combo-cast-note">{{ cast.note }}</div>{% endif %}
+                {% for item_note in cast.item_notes %}<div class="best-combo-cast-note">{{ item_note }}</div>{% endfor %}
             </li>
             {% endfor %}
         </ol>
@@ -525,6 +526,10 @@
             inner_title_cell.append(meta);
             metaCells[spell.name] = meta;
         }
+        $.each(spell.item_notes || [], function(i, note) {
+            inner_title_cell.append(
+                $("<div class='spell-meta spell-item-note'></div>").text(note));
+        });
         // A spell above the character's level says so instead of folding its block.
         if (spell.available === false && $.isArray(spell.level)) {
             inner_title_cell.append(
@@ -674,6 +679,9 @@
     function getTotalStats(spell) {
         var totalStats = $.extend({}, charStats);
         totalStats['powweap'] = 0;
+        $.each(spell.item_stats || {}, function(stat, value) {
+            totalStats[stat] = (totalStats[stat] || 0) + value;
+        });
         $.each(buffsForSpell, function(i, buffs) {
             $.each(buffs, function(j, buff) {
                 if (buff.stat == 'pow' && buff.spellCategories == 'weapon') {
@@ -1559,6 +1567,10 @@
                         $("<div class='best-combo-cast-note'></div>")
                             .text(cast.note).appendTo(item);
                     }
+                    $.each(cast.item_notes || [], function(j, note) {
+                        $("<div class='best-combo-cast-note'></div>")
+                            .text(note).appendTo(item);
+                    });
                     list.append(item);
                 });
                 var later = panel.find('.best-combo-later');

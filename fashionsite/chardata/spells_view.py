@@ -23,6 +23,9 @@ from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.spell_buffs import get_damage_spells_for_version
 from chardata.spell_localization import get_localized_spell_name
+from chardata.spell_modifiers import (base_damage_bonus, bonus_stats,
+                                      modified_cast, modified_range,
+                                      raised_row, worn_spell_modifiers)
 from chardata.spell_reference import (get_spell_reference, localized,
                                       reference_by_spell_id, state_name)
 from chardata.util import set_response, get_char_or_raise
@@ -66,21 +69,25 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
     partenaires = _variant_partner_names(
         class_spells + shared_spells, game_version,
         list(reference.values()) + list(shared_reference.values()))
+    modifiers = worn_spell_modifiers(solution, game_version)
     for spell in class_spells + shared_spells:
-        web_digest = _create_spell_web_digest(spell, game_version,
-                                              char.level)
         spell_id = getattr(spell, 'spell_id', None)
+        web_digest = _create_spell_web_digest(spell, game_version,
+                                              char.level,
+                                              modifiers.get(spell_id))
         web_digest['variant_partner'] = partenaires.get(spell_id)
         entry = reference.get(spell_id) or shared_reference.get(spell_id)
         if entry is not None:
-            web_digest['reference'] = _reference_digest(entry)
+            web_digest['reference'] = _reference_digest(
+                entry, modifiers.get(spell_id))
         digests.append(web_digest)
     # Spells that neither hurt nor buff
     shown ={getattr(spell, 'spell_id', None) for spell in class_spells}
     for spell_id, entry in reference.items():
         if spell_id not in shown:
             web_digest = _create_reference_web_digest(entry, game_version,
-                                                      char.level)
+                                                      char.level,
+                                                      modifiers.get(spell_id))
             web_digest['variant_partner'] = partenaires.get(spell_id)
             digests.append(web_digest)
     # Local import: solution_view imports _best_combo from here
@@ -146,20 +153,85 @@ def _variant_partner_names(spells, game_version, entries=()):
     return partenaires
 
 
-def _reference_digest(entry):
+def _reference_digest(entry, modifiers=None):
     """What the game says about a spell, in the reader's language."""
     language = get_supported_language()
-    return {'description': localized(entry, 'description', language),
-            'kind': localized(entry, 'kind', language),
-            'ap': entry.get('ap'),
-            'range': entry.get('range'),
-            'per_turn': entry.get('per_turn'),
-            'per_target': entry.get('per_target'),
-            'cooldown': entry.get('cooldown'),
-            'crit': entry.get('crit')}
+    digest = {'description': localized(entry, 'description', language),
+              'kind': localized(entry, 'kind', language),
+              'ap': entry.get('ap'),
+              'range': entry.get('range'),
+              'per_turn': entry.get('per_turn'),
+              'per_target': entry.get('per_target'),
+              'cooldown': entry.get('cooldown'),
+              'crit': entry.get('crit')}
+    if modifiers:
+        digest.update(_modified_ranks(digest, modifiers))
+    return digest
 
 
-def _create_reference_web_digest(entry, game_version, char_level=None):
+_CAST_KEYS = ('ap', 'per_turn', 'per_target', 'cooldown')
+
+
+def _modified_ranks(digest, modifiers):
+    """The cost, limits and range of each rank once the worn items apply."""
+    lists = [digest.get(key) for key in _CAST_KEYS]
+    out = {key: list(values) for key, values in zip(_CAST_KEYS, lists)
+           if values}
+    for rank in range(max([len(values) for values in lists if values] or [0])):
+        now = [values[min(rank, len(values) - 1)] if values else None
+               for values in lists]
+        for key, value in zip(_CAST_KEYS, modified_cast(*now, modifiers)):
+            if key in out and rank < len(out[key]):
+                out[key][rank] = value
+    if digest.get('range'):
+        out['range'] = [modified_range(span, modifiers)
+                        for span in digest['range']]
+    return out
+
+
+def _item_notes(modifiers, game_version):
+    """['Item: -1 AP, +1 per turn'], one line per worn item changing the spell."""
+    phrases = {}
+    for modifier in modifiers or ():
+        phrase = _modifier_phrase(modifier, game_version)
+        if phrase:
+            phrases.setdefault(modifier.item_name, []).append(phrase)
+    return [str(_ITEM_NOTE) % {'item': name, 'changes': ', '.join(changes)}
+            for name, changes in phrases.items()]
+
+
+def _modifier_phrase(modifier, game_version):
+    value = '%+d' % modifier.amount
+    if modifier.kind == 'ap_cost':
+        return _('%(ap)s AP') % {'ap': value}
+    if modifier.kind == 'per_turn':
+        return '%s %s' % (value, _('per turn'))
+    if modifier.kind == 'per_target':
+        return '%s %s' % (value, _('per target'))
+    if modifier.kind == 'cooldown':
+        return '%s %s' % (_('Cooldown'), value)
+    if modifier.kind == 'cooldown_set':
+        return '%s %d' % (_('Cooldown'), modifier.amount)
+    if modifier.kind == 'critical':
+        # Retro counts critical hits as the X of 1/X, not in percent
+        if game_version == 'retro':
+            return '%s %s' % (value, _('crit'))
+        return '%s%% %s' % (value, _('crit'))
+    if modifier.kind == 'damage':
+        return _('%(value)s damage') % {'value': value}
+    if modifier.kind == 'base_damage':
+        return _('%(value)s base damage') % {'value': value}
+    if modifier.kind == 'heals':
+        return '%s %s' % (value, _('Heals'))
+    if modifier.kind == 'max_range':
+        return '%s %s' % (value, _('Range'))
+    if modifier.kind == 'min_range':
+        return '%s %s' % (value, _('Minimum range'))
+    return ''
+
+
+def _create_reference_web_digest(entry, game_version, char_level=None,
+                                 modifiers=None):
     """A spell that neither hurts nor buffs, with no damage table."""
     language = get_supported_language()
     name = localized(entry, 'name', language)
@@ -179,7 +251,9 @@ def _create_reference_web_digest(entry, game_version, char_level=None):
             'is_linked': None,
             'special': None,
             'buff_scaling': None,
-            'reference': _reference_digest(entry)}
+            'reference': _reference_digest(entry, modifiers),
+            'item_notes': _item_notes(modifiers, game_version),
+            'item_stats': bonus_stats(modifiers)}
 
 
 # Retro and Touch spell icons are filed under their French names
@@ -373,7 +447,9 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     ap = combat_ap(stats.get('ap'), game_version,
                    temporix=solution_uses_temporix(solution, game_version))
     spells = castable_spells(char.char_class, char.level, game_version,
-                             levels=levels)
+                             levels=levels,
+                             modifiers=worn_spell_modifiers(solution,
+                                                            game_version))
     weapon = _weapon_castable(solution)
     if weapon is not None:
         spells = spells + [weapon]
@@ -423,6 +499,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                       'running': shown,
                       'note': _cast_note(castable, name, later,
                                          shown - before, game_version),
+                      'item_notes': _item_notes(
+                          getattr(castable, 'modifiers', None), game_version),
                       'limit_mark': limit_notes.get(index, ('', ''))[0],
                       'limit_title': limit_notes.get(index, ('', ''))[1]})
     late = []
@@ -680,7 +758,8 @@ def _names_are_english(game_version):
     return get_supported_language() in _languages_left_english(game_version)
 
 
-def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
+def _create_spell_web_digest(spell, game_version='dofus3', char_level=None,
+                             modifiers=None):
     web_digest = {}
     digest = spell.get_effects_digest()
     current_language = get_supported_language()
@@ -697,8 +776,12 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
         _spell_icon_name(spell.name, getattr(spell, 'spell_id', None),
                          game_version), game_version)
     web_digest['hit_number'] = digest.hit_number
-    web_digest['non_crit_dams'] = _convert_spell_damage(digest.non_crit_dams)
-    web_digest['crit_dams'] = _convert_spell_damage(digest.crit_dams)
+    web_digest['non_crit_dams'] = _raised_ranks(
+        _convert_spell_damage(digest.non_crit_dams), modifiers)
+    web_digest['crit_dams'] = _raised_ranks(
+        _convert_spell_damage(digest.crit_dams), modifiers)
+    web_digest['item_notes'] = _item_notes(modifiers, game_version)
+    web_digest['item_stats'] = bonus_stats(modifiers)
     web_digest['aggregates'] = convert_aggregates(
         digest.aggregates, game_version,
         digest.non_crit_dams[0] if digest.non_crit_dams else None)
@@ -791,6 +874,14 @@ def spells_linked(request, char_name, encoded_char_id):
     
     return _spells(request, char, True, char_id, encoded_char_id)
     
+def _raised_ranks(ranks, modifiers):
+    """Damage rows per rank with the worn items' base damage, as copies."""
+    amount = base_damage_bonus(modifiers)
+    if not ranks or not amount:
+        return ranks
+    return [[raised_row(row, amount) for row in rows] for rows in ranks]
+
+
 def _convert_spell_damage(base):
     if len(base[0]) == 0:
         return None
@@ -929,6 +1020,8 @@ _CRIT_FAILURE_NOTE = _lazy('Critical failure is not counted; this version is '
 
 # Castable.limit is the lowest of per turn, per target and cooldown
 _LIMIT_NOTE = _lazy('at the most one turn on one target allows')
+
+_ITEM_NOTE = _lazy('%(item)s: %(changes)s')
 
 _CAST_NOTES = {
     'buff': _lazy('no damage of its own, it raises the casts that follow'),

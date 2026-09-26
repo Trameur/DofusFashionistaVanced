@@ -21,6 +21,8 @@ Pipeline steps:
     spells/d2o-tables   download_d2o_tables.py -> raw/<version>/spell_levels.json (Ankama CDN)
     spells/transform    get_spells.py         -> itemscraper/transformed_spells_dofus2.json
     spells/constants    generate_damage_spells.py -> dofus_constants_dofus2.py
+    spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
+    spells/modifiers    store_spell_modifiers.py -> spell_modifiers/dofus2.json
     spell-icons         store_dofus2_spell_icons.py -> spells/dofus2/ (the renamed ones)
     resize              resize_images.py      -> 60x60 thumbnails
 """
@@ -223,11 +225,6 @@ def main() -> None:
             "--game-version", "dofus2",
             str(ITEMSCRAPER / "dofus2"),
         ], cwd=ITEMSCRAPER)
-        # Tooltip for the spells an item names; reads the spell text, no spell level needed
-        step("spells/tooltips", [
-            PY, "-m", "itemscraper.store_spell_tooltips",
-            "--game-version", "dofus2", "--tag", version,
-        ])
 
     if do_images:
         step("item-images", [
@@ -278,6 +275,15 @@ def main() -> None:
         step("spells/reference", [
             PY, "itemscraper/store_spell_reference.py",
             "--game-version", "dofus2",
+        ])
+        # Tooltip for the spells an item names; reads the spell text, no spell level needed
+        step("spells/tooltips", [
+            PY, "-m", "itemscraper.store_spell_tooltips",
+            "--game-version", "dofus2", "--tag", version,
+        ])
+        step("spells/modifiers", [
+            PY, "-m", "itemscraper.store_spell_modifiers",
+            "--game-version", "dofus2", "--tag", version,
         ])
         # Monster drops -> item_drops / monster_names in items_dofus2.db (encyclopedia "Dropped by").
         step("drops/transform", [

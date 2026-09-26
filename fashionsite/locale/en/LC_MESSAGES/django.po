@@ -7590,3 +7590,22 @@ msgstr "The TemporiX mode of Dofus Touch is not part of the format: its shiny pi
 #: chardata/templates/chardata/send_a_build.html
 msgid "A shared build is also served to other sites at:"
 msgstr "A shared build is also served to other sites at:"
+
+#: chardata/spells_view.py
+#, python-format
+msgid "%(item)s: %(changes)s"
+msgstr "%(item)s: %(changes)s"
+
+#: chardata/spells_view.py
+#, python-format
+msgid "%(value)s damage"
+msgstr "%(value)s damage"
+
+#: chardata/spells_view.py
+#, python-format
+msgid "%(value)s base damage"
+msgstr "%(value)s base damage"
+
+#: chardata/spells_view.py
+msgid "Minimum range"
+msgstr "Minimum range"

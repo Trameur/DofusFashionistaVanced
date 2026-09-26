@@ -23,6 +23,7 @@ Pipeline steps:
     spells/states       store_spell_states.py -> spell_states/beta.json
     spells/constants    generate_damage_spells.py -> dofus_constants_beta.py
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
+    spells/modifiers    store_spell_modifiers.py -> spell_modifiers/beta.json
     spell-images        download_spell_images.py  -> static spell icons
     resize              resize_images.py      -> 60x60 thumbnails
 """
@@ -285,6 +286,10 @@ def main() -> None:
         # Tooltips for spells named by items; needs the spells and the item db
         step("spells/tooltips", [
             PY, "-m", "itemscraper.store_spell_tooltips",
+            "--game-version", "beta", "--tag", version,
+        ])
+        step("spells/modifiers", [
+            PY, "-m", "itemscraper.store_spell_modifiers",
             "--game-version", "beta", "--tag", version,
         ])
         # Monster drops -> item_drops / monster_names in items_beta.db (encyclopedia "Dropped by").

@@ -28,6 +28,8 @@ from fashionistapulp.dofus_constants import (NEUTRAL, calculate_damage,
 from chardata.pushback import pushback_damage
 from chardata.spell_buffs import (_buff_value, _decide_spell_level,
                                   get_damage_spells_for_version)
+from chardata.spell_modifiers import (base_damage_bonus, bonus_stats,
+                                      modified_cast, raised_row)
 from chardata.spell_variants import variant_of
 
 MAX_CASTS = 8
@@ -312,14 +314,16 @@ class Castable(object):
         crit_rates = casting.get('crit') or []
         self.crit_rate = (crit_rates[level_index]
                           if level_index < len(crit_rates) else 0)
-        limits = [casting.get(key, [None] * (level_index + 1))[level_index]
-                  for key in ('per_turn', 'per_target')]
-        # A spell on a cooldown cannot come back the same turn
-        cooldown = casting.get('cooldown', [None] * (level_index + 1))[level_index]
-        if cooldown:
-            limits.append(1)
-        limits = [limit for limit in limits if limit]
-        self.limit = min(limits) if limits else None
+        self.crit = crit
+        self.per_turn, self.per_target = [
+            casting.get(key, [None] * (level_index + 1))[level_index]
+            for key in ('per_turn', 'per_target')]
+        self.cooldown = casting.get('cooldown',
+                                    [None] * (level_index + 1))[level_index]
+        self.limit = cast_limit(self.per_turn, self.per_target, self.cooldown)
+        # Filled in by castable_spells from the worn items
+        self.modifiers = []
+        self.bonus_stats = {}
         self.stacks = spell.stacks or 1
         # Drawn by the game: the turn averages the faces
         self.random_draw = _draw_is_random(digest.aggregates)
@@ -343,6 +347,63 @@ class Castable(object):
             if value:
                 deltas[stat] = deltas.get(stat, 0) + value
         return deltas
+
+
+def cast_limit(per_turn, per_target, cooldown):
+    """Casts one turn on one target allows, None when nothing caps them."""
+    limits = [per_turn, per_target]
+    # A spell on a cooldown cannot come back the same turn
+    if cooldown:
+        limits.append(1)
+    limits = [limit for limit in limits if limit]
+    return min(limits) if limits else None
+
+
+def apply_spell_modifiers(castable, modifiers):
+    """The castable once its worn items' modifiers apply, changed in place."""
+    if not modifiers:
+        return castable
+    (castable.cost, castable.per_turn, castable.per_target,
+     castable.cooldown) = modified_cast(castable.cost, castable.per_turn,
+                                        castable.per_target, castable.cooldown,
+                                        modifiers)
+    castable.limit = cast_limit(castable.per_turn, castable.per_target,
+                                castable.cooldown)
+    castable.bonus_stats = bonus_stats(modifiers)
+    castable.modifiers = list(modifiers)
+    amount = base_damage_bonus(modifiers)
+    if not amount:
+        return castable
+    # Rows are shared with the spell tables: raise copies
+    copies = {}
+
+    def raised(row):
+        if id(row) not in copies:
+            copies[id(row)] = raised_row(row, amount)
+        return copies[id(row)]
+
+    castable.plain_alternatives = [[raised(row) for row in alternative]
+                                   for alternative in castable.plain_alternatives]
+    castable.crit_alternatives = [[raised(row) for row in alternative]
+                                  for alternative in castable.crit_alternatives]
+    castable.alternatives = (castable.crit_alternatives if castable.crit
+                             else castable.plain_alternatives)
+    castable.hits = castable.alternatives[0] if castable.alternatives else []
+    for name in ('waiting_plain', 'waiting_crit', 'delayed_plain',
+                 'delayed_crit'):
+        setattr(castable, name, [(raised(row), when)
+                                 for row, when in getattr(castable, name)])
+    castable.late_by_effect = {
+        id(copies[key]) if key in copies else key: when
+        for key, when in castable.late_by_effect.items()}
+    return castable
+
+
+def _add_bonus_stats(stats, castable):
+    """Adds the stats a worn item gives this one spell."""
+    for stat, value in (getattr(castable, 'bonus_stats', None) or {}).items():
+        stats[stat] = stats.get(stat, 0) + value
+    return stats
 
 
 def _average(damages):
@@ -439,8 +500,9 @@ def _chosen_level(levels, spell, char_level):
 
 
 def castable_spells(char_class, char_level, game_version, crit=False,
-                    levels=None):
-    """Class spells only; `levels` is {spell name: rank index}."""
+                    levels=None, modifiers=None):
+    """Class spells only; `levels` is {spell name: rank index}, `modifiers`
+    {spell id: [SpellModifier]} from the worn items."""
     from chardata.spell_reference import (push_info, pushing_spell_ids,
                                           strips_pushback_resist)
     by_class = get_damage_spells_for_version(game_version)
@@ -457,6 +519,7 @@ def castable_spells(char_class, char_level, game_version, crit=False,
         castable = Castable(spell, level_index, crit)
         castable.at_highest_rank = (
             level_index == _decide_spell_level(spell.level_req, char_level))
+        apply_spell_modifiers(castable, (modifiers or {}).get(spell.spell_id))
         if not castable.cost or (not castable.hits and not castable.buffs):
             continue
         castable.pushes = spell.spell_id in pushing
@@ -541,10 +604,11 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
                 out.append((name, trigger, dealt * counts[name]))
         rows = getattr(castable, 'waiting_crit' if crit else 'waiting_plain',
                        None) or []
+        own = _add_bonus_stats(dict(buffed), castable)
         for effect, trigger in rows:
             if trigger not in triggers:
                 continue
-            gained = (_average(calculate_damage([copy.copy(effect)], buffed,
+            gained = (_average(calculate_damage([copy.copy(effect)], own,
                                                 crit, castable.is_spell))
                       * multiplier)
             if gained:
@@ -581,6 +645,7 @@ def delayed_damage(stats, spells, order, crit=False, standing=None,
                 for stat, value in other.buff_deltas(reached).items():
                     buffed[stat] = (buffed.get(stat, 0) + value
                                     - was.get(stat, 0))
+            _add_bonus_stats(buffed, castable)
             multiplier = final_multiplier(buffed)
             late = getattr(castable, 'late_by_effect', None) or {}
 
@@ -694,6 +759,7 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
             for stat, value in other.buff_deltas(reached).items():
                 gained = value - was.get(stat, 0)
                 buffed[stat] = buffed.get(stat, 0) + gained
+        _add_bonus_stats(buffed, spell)
         # Weapon Skill only lifts the weapon's Power
         if not spell.is_spell and buffed.get('powweap'):
             buffed['pow'] = buffed.get('pow', 0) + buffed['powweap']

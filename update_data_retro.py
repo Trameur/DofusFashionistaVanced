@@ -126,7 +126,7 @@ def main() -> None:
         PY, "download_retro_langs.py",
         "--lang", args.lang,
         "--categories", "items", "itemstats", "itemsets", "spells", "classes",
-        "jobs", "skills", "monsters",
+        "jobs", "skills", "monsters", "effects",
         "--dest", RETRO_RAW_DIR,
     ], cwd=ITEMSCRAPER)
 
@@ -242,6 +242,9 @@ def main() -> None:
     # Tooltips for the spells an item names
     step("spells/tooltips", [
         PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", "retro",
+    ])
+    step("spells/modifiers", [
+        PY, "-m", "itemscraper.store_spell_modifiers", "--game-version", "retro",
     ])
 
     # Manual fixes last, after the stores

@@ -92,6 +92,7 @@ STEP_TITLES = {
     'spells/duplicates': 'Duplicate damage rows', 'spells/build': 'Building spells',
     'spells/reference': 'Spell reference', 'spells/states': 'Spell states',
     'spells/constants': 'Spell statistics', 'spells/tooltips': 'Spell effects on items',
+    'spells/modifiers': 'Spell modifiers on items',
     'spells/decode': 'Decoding spells', 'spells/d2o-tables': 'Client spell tables',
     'drops/transform': 'Transforming drops', 'drops/store': 'Saving drops',
     'craftjobs/transform': 'Transforming professions', 'craftjobs/store': 'Saving professions',

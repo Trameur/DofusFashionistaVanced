@@ -23,6 +23,7 @@ Pipeline steps:
     spells/states       store_spell_states.py -> spell_states/dofus3.json
     spells/constants    generate_damage_spells.py -> dofus_constants.py
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
+    spells/modifiers    store_spell_modifiers.py -> spell_modifiers/dofus3.json
     spell-images        download_spell_images.py  -> static spell icons
     resize              resize_images.py      -> 60x60 thumbnails
 """
@@ -263,6 +264,10 @@ def main() -> None:
         # Item spell tooltips, needs the spell archive and the item db
         step("spells/tooltips", [
             PY, "-m", "itemscraper.store_spell_tooltips",
+            "--game-version", "dofus3", "--tag", version,
+        ])
+        step("spells/modifiers", [
+            PY, "-m", "itemscraper.store_spell_modifiers",
             "--game-version", "dofus3", "--tag", version,
         ])
         # Monster drops -> item_drops / monster_names tables, after items/obtainment

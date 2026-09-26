@@ -1340,6 +1340,22 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         names = {audit.relative_name(path) for path in audit.version_files('retro')}
         self.assertIn('itemscraper/retro/retro_damage_spells.json', names)
 
+    def test_each_version_backs_up_its_spell_modifier_file(self):
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            with self.subTest(version=version):
+                names = {audit.relative_name(path) for path in audit.version_files(version)}
+                self.assertIn('fashionsite/chardata/spell_modifiers/%s.json' % version, names)
+
+    def test_a_restore_takes_the_spell_modifier_file_back(self):
+        modifiers = self.root / 'fashionsite/chardata/spell_modifiers/dofus3.json'
+        modifiers.parent.mkdir(parents=True)
+        modifiers.write_text('{"data_version": "old"}', encoding='utf-8')
+        saved = self.root / 'backup'
+        manifest = audit.backup_runtime(['dofus3'], False, saved, shared=False)
+        modifiers.write_text('{"data_version": "new"}', encoding='utf-8')
+        audit.restore_runtime(manifest, saved)
+        self.assertEqual('{"data_version": "old"}', modifiers.read_text(encoding='utf-8'))
+
     def test_the_wakfu_snapshot_records_the_mirror_counts(self):
         scraper = self.root / 'itemscraper'
         (scraper / 'wakfu_raw/1.93.1.62').mkdir(parents=True)

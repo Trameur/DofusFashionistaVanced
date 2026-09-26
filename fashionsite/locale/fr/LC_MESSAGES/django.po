@@ -8627,3 +8627,22 @@ msgstr "Le mode TemporiX de Dofus Touch ne fait pas partie du format : ses pièc
 #: chardata/templates/chardata/send_a_build.html
 msgid "A shared build is also served to other sites at:"
 msgstr "Un build partagé est aussi servi aux autres sites à l’adresse :"
+
+#: chardata/spells_view.py
+#, python-format
+msgid "%(item)s: %(changes)s"
+msgstr "%(item)s : %(changes)s"
+
+#: chardata/spells_view.py
+#, python-format
+msgid "%(value)s damage"
+msgstr "%(value)s Dommages"
+
+#: chardata/spells_view.py
+#, python-format
+msgid "%(value)s base damage"
+msgstr "%(value)s dégâts de base"
+
+#: chardata/spells_view.py
+msgid "Minimum range"
+msgstr "Portée minimale"
