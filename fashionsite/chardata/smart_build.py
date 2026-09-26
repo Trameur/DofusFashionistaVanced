@@ -39,7 +39,11 @@ ALL_ASPECTS_LIST = ['str', 'int', 'cha', 'agi',
 # Per-version overrides of the weight engine (tuned for Dofus 3)
 # 1.29: wisdom is the AP/MP dodge and removal stat, % res gear is rare
 VERSION_WEIGHT_TUNING = {
-    'dofus3': {},
+    'dofus3': {
+        'ap_per_char': {1: 184, 2: 371, 3: 570, 4: 581},
+        'crit_per_char': {'Cra': {1: 7, 2: 16, 3: 20, 4: 7}, 'Iop': 10,
+                          'Masqueraider': 8, 'Sacrier': 7, 'Xelor': 8},
+    },
     'beta': {},
     'dofus2': {
         'zero_stats': ('ref',),
@@ -927,6 +931,11 @@ def _set_weights(char, aspects, apply=True):
     attack_factor = {0: 0, 1: 6, 2: 5, 3: 3, 4: 2}[element_count]
     if 'glasscannon' in aspects:
         attack_factor *= 1.5
+    ap_per_char = (tuning.get('ap_per_char', {}).get(element_count, 0)
+                   if level >= 200 else 0)
+    if ap_per_char * attack_factor * w['ap'] / 120 > w['ap']:
+        w['ap_before_floor'] = w['ap']
+        w['ap'] = ap_per_char * attack_factor * w['ap'] / 120
     dam_mult = 2 if 'dam' in aspects else 1
     if 'res_per_factor' in tuning:
         res_per_factor = tuning['res_per_factor'](level_pct)
@@ -1043,6 +1052,13 @@ def _set_weights(char, aspects, apply=True):
         w['cridam'] = 0
     else:
         w['ch'] = 12 * b
+        crit_per_char = (tuning.get('crit_per_char', {}).get(race, 0)
+                         if level >= 200 else 0)
+        if isinstance(crit_per_char, dict):
+            crit_per_char = crit_per_char.get(element_count, 0)
+        if crit_per_char * attack_factor * b > w['ch']:
+            w['ch_before_floor'] = w['ch']
+            w['ch'] = crit_per_char * attack_factor * b
         w['cridam'] = w['dam'] * pfb(race, elements, 'cridam', 'float_avg')
 
     marginal_final_damage_effect = _lerp(2, 12, level_pct)

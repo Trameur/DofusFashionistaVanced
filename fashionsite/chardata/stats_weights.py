@@ -19,7 +19,8 @@ from chardata.char_blobs import read_char_blob
 
 from chardata.smart_build import get_standard_weights
 from chardata.util import remove_cache_for_char
-from fashionistapulp.dofus_constants import STAT_KEY_TO_NAME, DEPRECATED_STATS
+from fashionistapulp.dofus_constants import (STAT_KEY_TO_NAME, DEPRECATED_STATS,
+                                             NON_STAT_WEIGHT_KEYS)
 from fashionistapulp.structure import get_structure
 
 
@@ -51,7 +52,8 @@ def get_stats_weights(char, persist=True):
         if stat_key in DEPRECATED_STATS:
             changed = True
             del weights[stat_key]
-        elif stat_key not in get_structure().get_stats_list() and stat_key != 'meleeness':
+        elif (stat_key not in get_structure().get_stats_list()
+              and stat_key not in NON_STAT_WEIGHT_KEYS):
             assert stat_key in STAT_KEY_TO_NAME, '%s is not a stat' % stat_key
 
     # Save if anything was changed
@@ -88,7 +90,7 @@ MAX_STAT_WEIGHT = 50000
 
 def set_stats_weights(char, weights):
     for stat_key in list(weights.keys()):
-        if stat_key in DEPRECATED_STATS or stat_key == 'meleeness':
+        if stat_key in DEPRECATED_STATS or stat_key in NON_STAT_WEIGHT_KEYS:
             continue
         assert stat_key in STAT_KEY_TO_NAME, '%s is not a stat' % stat_key
         stat_weight = int(weights[stat_key])

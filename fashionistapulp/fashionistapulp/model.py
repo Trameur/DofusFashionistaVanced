@@ -24,7 +24,7 @@ from copy import deepcopy
 from .game_versions import get_game_version
 from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
                        temporix_only_item_ids)
-from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve
+from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve, NON_STAT_WEIGHT_KEYS
 from .lpproblem import LpProblem2
 from .modelresult import ModelResultMinimal, wisdom_per_ap_mp_dodge_point
 import pulp
@@ -222,6 +222,10 @@ class Model:
                         'str', 'int', 'agi', 'pow', 'heals', 'trocadeur')
         if not any(objective_values.get(s, 0) for s in combat_stats):
             return
+
+        is_dofus3 = getattr(self.structure, 'game_version', 'dofus3') == 'dofus3'
+        if is_dofus3 and 'ap_before_floor' in objective_values:
+            objective_values = dict(objective_values, ap=objective_values['ap_before_floor'])
 
         #Crimson Dofus
         #Deep Crimson: When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).
@@ -498,7 +502,10 @@ class Model:
 
         #Surpryz
         #The bearer gains 100% Critical on the first turn, 35% on the second turn and 15% on the third turn.
-        surpryz_new_stat_weight = objective_values.get('ch', 0) * 20
+        surpryz_ch = objective_values.get('ch', 0)
+        if is_dofus3:
+            surpryz_ch = objective_values.get('ch_before_floor', surpryz_ch)
+        surpryz_new_stat_weight = surpryz_ch * 20
         self.problem.add_to_of('p',
                                 self.structure.get_item_by_name("Surpryz").id,
                                 surpryz_new_stat_weight)
@@ -676,7 +683,7 @@ class Model:
         self.problem.init_objective_function()
 
         for stat, value in objective_values.items():
-            if stat != 'meleeness':
+            if stat not in NON_STAT_WEIGHT_KEYS:
                 stat_obj = self.structure.get_stat_by_key(stat)
                 if stat_obj:
                     self.problem.add_to_of('stat', stat_obj.id, value)

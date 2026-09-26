@@ -19,6 +19,7 @@ import json
 from chardata.stats_weights import get_stats_weights, set_stats_weights
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson
 from django.views.decorators.http import require_POST
+from fashionistapulp.dofus_constants import NON_STAT_WEIGHT_KEYS
 from fashionistapulp.structure import get_structure
 
 
@@ -46,7 +47,8 @@ def stats_post(request, char_id):
     # A hidden row posts nothing, and reading it as 0 would quietly wipe a
     # weight the reader set before, or on another page. Keep what is stored.
     stored = get_stats_weights(char)
-    stats_weight = {}
+    stats_weight = {key: stored[key] for key in NON_STAT_WEIGHT_KEYS
+                    if key in stored}
     for stat in get_structure().get_stats_list():
         if stat.key in hidden:
             stats_weight[stat.key] = stored.get(stat.key, 0)
