@@ -4247,7 +4247,8 @@ DAMAGE_SPELLS = {
             [['31-35', '39-43'], ['39-44', '49-54']],
             None,
             [EARTH, EARTH],
-        ), aggregates=[('Trap damage', [0, 1])], is_linked=(1, 'Calamity'), casting={'ap': [3, 3], 'per_turn': [1, 2]}, spell_id=12921, conditional={0: 'trap', 1: 'trap'}),
+        ), aggregates=[('Trap damage - Target with 25% of its HP or more', [0]),
+ ('Trap damage - Target with less than 25% of its HP', [1])], is_linked=(1, 'Calamity'), casting={'ap': [3, 3], 'per_turn': [1, 2]}, spell_id=12921, conditional={0: 'trap', 1: 'trap'}),
         Spell('Jinx', [110, 177], Effects(
             [['29-32', '34-38']],
             [['35-39', '41-46']],

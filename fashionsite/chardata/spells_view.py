@@ -38,6 +38,7 @@ from fashionistapulp.translation import get_supported_language
 from fashionistapulp.dofus_constants import (DAMAGE_TYPES, NEUTRAL,
                                              NON_ELEMENTAL_HIT_TYPES)
 
+import copy
 import jsonpickle
 import re
 
@@ -606,6 +607,43 @@ def _always_land_by_rank(spell, digest):
     return sortie or None
 
 
+def _scored_faces_by_rank(spell, digest):
+    """{'non_crit': {rank: [[indices], ...]}, 'crit': {...}, 'draw': bool}, or None."""
+    if not digest.aggregates and not getattr(spell, 'conditional', None):
+        return None
+    from chardata.spell_combo import Castable
+    waiting = set(getattr(spell, 'conditional', None) or {})
+    # Copy where only the waiting rows land
+    later_spell = None
+    if waiting:
+        width = max([len(rows) for rows in
+                     list(digest.non_crit_dams) + list(digest.crit_dams)] or [0])
+        later_spell = copy.copy(spell)
+        later_spell.conditional = {index: 'now' for index in range(width)
+                                   if index not in waiting}
+    scored = {'non_crit': {}, 'crit': {}, 'draw': False}
+    for rank in range(len(spell.level_req)):
+        now = Castable(spell, rank, False)
+        later = Castable(later_spell, rank, False) if later_spell else None
+        scored['draw'] = now.random_draw
+        for key, ranks, now_faces, later_faces in (
+                ('non_crit', digest.non_crit_dams, now.plain_alternatives,
+                 later.plain_alternatives if later else []),
+                ('crit', digest.crit_dams, now.crit_alternatives,
+                 later.crit_alternatives if later else [])):
+            rows = ranks[rank] if rank < len(ranks) else []
+            position = {id(row): index for index, row in enumerate(rows)}
+            first = [[position[id(row)] for row in face]
+                     for face in now_faces] or [[]]
+            then = [[position[id(row)] for row in face]
+                    for face in later_faces] or [[]]
+            faces = [head + tail for head in first for tail in then]
+            faces = [face for face in faces if face]
+            if faces:
+                scored[key][str(rank)] = faces
+    return scored
+
+
 _NAMES_LEFT_ENGLISH = {}
 
 
@@ -666,6 +704,7 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
         digest.non_crit_dams[0] if digest.non_crit_dams else None)
     # Rows that always land, outside the aggregate groups
     web_digest['always_land'] = _always_land_by_rank(spell, digest)
+    web_digest['scored'] = _scored_faces_by_rank(spell, digest)
     web_digest['is_linked'] = (
         spell.is_linked[0],
         _localized_spell_name(spell.is_linked[1], current_language,

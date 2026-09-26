@@ -652,27 +652,59 @@ function isCompareDirectDamageHit(damageHit) {
             && !damageHit.heals);
 }
 
-function summarizeCompareHits(spell, hits, isCrit, stats) {
+function getCompareScoredFaces(spell, key, level) {
+    if (!spell.scored) {
+        return null;
+    }
+    return spell.scored[key][String(level)] || [];
+}
+
+function summarizeCompareHits(spell, hits, isCrit, stats, faces) {
     if (!hits) {
         return null;
     }
-    var minDamage = 0;
-    var maxDamage = 0;
-    var hitCount = 0;
-    $.each(hits, function(i, hit) {
-        if (!isCompareDirectDamageHit(hit)) {
-            return;
+    var groups = [hits];
+    if (faces) {
+        groups = [];
+        $.each(faces, function(i, face) {
+            var rows = [];
+            $.each(face, function(j, index) {
+                rows.push(hits[index]);
+            });
+            groups.push(rows);
+        });
+    }
+    var values = [];
+    $.each(groups, function(g, rows) {
+        var minDamage = 0;
+        var maxDamage = 0;
+        var hitCount = 0;
+        $.each(rows, function(i, hit) {
+            if (!isCompareDirectDamageHit(hit)) {
+                return;
+            }
+            var resolvedElement = resolveCompareBestElement(hit.element, stats);
+            var resolvedHit = $.extend({}, hit, {element: resolvedElement});
+            minDamage += calculateCompareDamageValue(resolvedHit, isCrit, true, spell, stats);
+            maxDamage += calculateCompareDamageValue(resolvedHit, isCrit, false, spell, stats);
+            hitCount += 1;
+        });
+        if (hitCount > 0) {
+            values.push((minDamage + maxDamage) / 2.0);
         }
-        var resolvedElement = resolveCompareBestElement(hit.element, stats);
-        var resolvedHit = $.extend({}, hit, {element: resolvedElement});
-        minDamage += calculateCompareDamageValue(resolvedHit, isCrit, true, spell, stats);
-        maxDamage += calculateCompareDamageValue(resolvedHit, isCrit, false, spell, stats);
-        hitCount += 1;
     });
-    if (hitCount == 0) {
+    if (values.length == 0) {
         return null;
     }
-    return {avg: Math.round((minDamage + maxDamage) / 2.0)};
+    var value = Math.max.apply(null, values);
+    if (spell.scored && spell.scored.draw) {
+        var sum = 0;
+        $.each(values, function(i, face) {
+            sum += face;
+        });
+        value = sum / values.length;
+    }
+    return {avg: Math.round(value)};
 }
 
 function summarizeCompareSpell(spell, stats, charLevel) {
@@ -684,9 +716,11 @@ function summarizeCompareSpell(spell, stats, charLevel) {
     }
     var level = getCompareSpellLevel(spell, charLevel);
     var normal = summarizeCompareHits(
-        spell, spell.non_crit_dams && spell.non_crit_dams[level], false, stats);
+        spell, spell.non_crit_dams && spell.non_crit_dams[level], false, stats,
+        getCompareScoredFaces(spell, 'non_crit', level));
     var critical = summarizeCompareHits(
-        spell, spell.crit_dams && spell.crit_dams[level], true, stats);
+        spell, spell.crit_dams && spell.crit_dams[level], true, stats,
+        getCompareScoredFaces(spell, 'crit', level));
     if (!normal && !critical) {
         return null;
     }
