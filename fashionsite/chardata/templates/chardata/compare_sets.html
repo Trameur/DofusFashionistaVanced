@@ -367,6 +367,7 @@ var allStatSources = {};
 var COMPARE_BUFFS = {{ buffs_by_char_json|safe }};
 var COMPARE_GEAR_KINDS = {item: 1, set: 1, exo: 1};
 var compareSpellDigests = {{ spell_preview_digests_json|safe }};
+var compareSpellDigestsByChar = {{ spell_digests_by_char_json|safe }};
 var compareWeaponDigests = {{ weapon_digests_json|safe }};
 var compareCharLevels = {{ char_levels_json|safe }};
 var compareSpellsByKey = {};
@@ -707,6 +708,14 @@ function summarizeCompareHits(spell, hits, isCrit, stats, faces) {
     return {avg: Math.round(value)};
 }
 
+function compareStatsForSpell(spell, stats) {
+    var own = $.extend({}, stats);
+    $.each(spell.item_stats || {}, function(stat, value) {
+        own[stat] = getCompareNumber(own, stat) + value;
+    });
+    return own;
+}
+
 function summarizeCompareSpell(spell, stats, charLevel) {
     if (!spell) {
         return null;
@@ -714,6 +723,7 @@ function summarizeCompareSpell(spell, stats, charLevel) {
     if (spell.type == 'spell' && spell.level && charLevel < spell.level[0]) {
         return null;
     }
+    stats = compareStatsForSpell(spell, stats);
     var level = getCompareSpellLevel(spell, charLevel);
     var normal = summarizeCompareHits(
         spell, spell.non_crit_dams && spell.non_crit_dams[level], false, stats,
@@ -761,7 +771,8 @@ function getCompareSpellForRow(rowKey, charId) {
     if (rowKey == 'weapon') {
         return compareWeaponDigests[charId.toString()];
     }
-    return compareSpellsByKey[rowKey];
+    var worn = compareSpellDigestsByChar[charId.toString()] || {};
+    return worn[rowKey] || compareSpellsByKey[rowKey];
 }
 
 function updateSpellPreview() {
@@ -779,6 +790,9 @@ function updateSpellPreview() {
             var cell = $("td[name=spell_damage_" + rowKey + "_" + charId + "]");
             cell.removeClass("compare-spell-best");
             cell.html(formatCompareSpellSummary(summary));
+            $.each((spell && spell.item_notes) || [], function(j, note) {
+                $("<div class='small-text'></div>").text(note).appendTo(cell);
+            });
             if (summary) {
                 if (summary.bestAvg > bestValue) {
                     bestValue = summary.bestAvg;

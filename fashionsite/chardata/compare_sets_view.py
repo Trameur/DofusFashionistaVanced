@@ -41,6 +41,7 @@ from chardata.solution_view import generate_link
 from chardata.smart_build import VERSION_WEIGHT_TUNING
 from chardata.spell_buffs import (compute_full_buff_stats,
                                  get_damage_spells_for_version)
+from chardata.spell_modifiers import worn_spell_modifiers
 from chardata.spells_view import (_best_combo, _create_spell_web_digest,
                                   _create_weapon_web_digest)
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
@@ -300,6 +301,7 @@ def _build_spell_preview_context(request, chars, model_results):
             'value': spell.name,
             'row': row,
             'digest': digest,
+            'spell': spell,
         })
     selected_spell_name = ''
     if requested_spell_name in {entry['value'] for entry in spell_entries}:
@@ -361,6 +363,10 @@ def _build_spell_preview_context(request, chars, model_results):
         ),
         'spell_preview_digests_json': jsonpickle.encode(
             spell_digests, unpicklable=False),
+        'spell_digests_by_char_json': jsonpickle.encode(
+            _worn_spell_digests(chars, model_results, displayed_spell_entries,
+                                game_version),
+            unpicklable=False),
         'weapon_digests_json': jsonpickle.encode(
             weapon_digests, unpicklable=False),
         'non_elemental_hits_json': jsonpickle.encode(
@@ -368,6 +374,25 @@ def _build_spell_preview_context(request, chars, model_results):
         'char_levels_json': json.dumps(
             {str(char.pk): char.level for char in chars}),
     }
+
+
+def _worn_spell_digests(chars, model_results, entries, game_version):
+    """{build: {compare key: digest}} for the spells its worn items change."""
+    out = {}
+    for char in chars:
+        worn = worn_spell_modifiers(model_results.get(char.pk), game_version)
+        own = {}
+        for entry in entries:
+            modifiers = worn.get(getattr(entry['spell'], 'spell_id', None))
+            if not modifiers:
+                continue
+            digest = _create_spell_web_digest(entry['spell'], game_version,
+                                              modifiers=modifiers)
+            digest['compare_key'] = entry['row']['key']
+            own[entry['row']['key']] = digest
+        if own:
+            out[str(char.pk)] = own
+    return out
 
 
 def _spell_has_direct_damage(spell):
