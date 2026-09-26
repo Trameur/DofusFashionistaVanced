@@ -34,7 +34,9 @@ def _repair_character_base(char, minimal_solution):
         base = entree['base_stats_by_attr'] = {}
     if 'AP' in base:
         return
-    for stat, value in character_own_stats(char.level).items():
+    for stat, value in character_own_stats(
+            char.level, char.char_class,
+            getattr(char, 'game_version', None)).items():
         base.setdefault(stat, value)
 
 

@@ -26,7 +26,7 @@ from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
                        temporix_only_item_ids)
 from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve
 from .lpproblem import LpProblem2
-from .modelresult import ModelResultMinimal
+from .modelresult import ModelResultMinimal, wisdom_per_ap_mp_dodge_point
 import pulp
 from .restrictions import Restrictions
 from .structure import get_structure
@@ -1216,12 +1216,14 @@ class Model:
         self.modify_exo_constraints(options)
 
     def create_minimum_stat_constraints(self):
+        wisdom_rate = 1.0 / wisdom_per_ap_mp_dodge_point(
+            getattr(self.structure, 'game_version', 'dofus3'))
         dependencies = {'Dodge': [['Agility'],[0.1]],
                         'Lock': [['Agility'],[0.1]],
-                        'AP Reduction': [['Wisdom'],[0.1]],
-                        'MP Reduction': [['Wisdom'],[0.1]],
-                        'AP Loss Resist': [['Wisdom'],[0.1]],
-                        'MP Loss Resist': [['Wisdom'],[0.1]],
+                        'AP Reduction': [['Wisdom'],[wisdom_rate]],
+                        'MP Reduction': [['Wisdom'],[wisdom_rate]],
+                        'AP Loss Resist': [['Wisdom'],[wisdom_rate]],
+                        'MP Loss Resist': [['Wisdom'],[wisdom_rate]],
                         'Initiative': [['Agility', 'Intelligence', 'Strength', 'Chance'],
                                        [1, 1, 1, 1]],
                         'Prospecting': [['Chance'],[0.1]],

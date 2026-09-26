@@ -19,6 +19,7 @@
 """Best order of casts in one turn: one target, no positioning."""
 
 import copy
+import math
 import re
 
 from fashionistapulp.dofus_constants import (NEUTRAL, calculate_damage,
@@ -359,9 +360,17 @@ def crit_chance(base_rate, stats, game_version):
         return 0.0
     bonus = stats.get('ch', 0) or 0
     if game_version == 'retro':
-        # Retro is 1/X, best 1/2; Agility also lowers X in game, not modelled
-        return 1.0 / max(2, base_rate - bonus)
+        return 1.0 / retro_critical_x(base_rate, bonus, stats.get('agi', 0) or 0)
     return min(100, max(1, base_rate + bonus)) / 100.0
+
+
+def retro_critical_x(base_rate, bonus, agility):
+    """The X of 1/X the Retro client shows as its current critical chance."""
+    x = base_rate - max(0, bonus)
+    agility = max(0, agility)
+    if agility:
+        x = min(x, x * math.e * 1.1 / math.log(agility + 12))
+    return math.floor(max(x, 2))
 
 
 def final_multiplier(stats):

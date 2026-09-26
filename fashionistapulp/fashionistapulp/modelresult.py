@@ -34,6 +34,12 @@ RELEVANT_INPUT = ['options', 'base_stats_by_attr', 'char_level', 'origin']
 
 logger = logging.getLogger(__name__)
 
+
+def wisdom_per_ap_mp_dodge_point(game_version):
+    """Wisdom behind one point of AP/MP dodge and of AP/MP reduction."""
+    return 4 if game_version == 'retro' else 10
+
+
 class ModelResultMinimal():
 
     def __init__(self, item_per_slot, input_, stats):
@@ -276,10 +282,13 @@ class ModelResult():
                 if stat in main_stats:
                     if hasattr(self, 'stats') and self.stats is not None:
                         self.stats_total[stat.key] += self.stats.get(stat.key, 0)
-            self.stats_total['apres'] += self.stats_total['wis'] // 10
-            self.stats_total['mpres'] += self.stats_total['wis'] // 10
-            self.stats_total['apred'] += self.stats_total['wis'] // 10
-            self.stats_total['mpred'] += self.stats_total['wis'] // 10
+            version = get_current_game_version()
+            wisdom_share = (self.stats_total['wis']
+                            // wisdom_per_ap_mp_dodge_point(version))
+            self.stats_total['apres'] += wisdom_share
+            self.stats_total['mpres'] += wisdom_share
+            self.stats_total['apred'] += wisdom_share
+            self.stats_total['mpred'] += wisdom_share
             self.stats_total['dodge'] += self.stats_total['agi'] // 10
             self.stats_total['lock'] += self.stats_total['agi'] // 10
             self.stats_total['pp'] += self.stats_total['cha'] // 10
@@ -290,7 +299,6 @@ class ModelResult():
                                          + self.stats_total['agi'])
             self.stats_total['hp'] = self.stats_total['vit'] + self.input['char_level'] * 5 + 50 + self.stats_total['hp']
             # Raw caps, Retro has no AP/MP/Range cap; the 50% resist cap is in model.py
-            version = get_current_game_version()
             for stat_name, cap in get_stat_maximum(
                     version, temporix=temporix_is_on(
                         self.input.get('options'), version)).items():

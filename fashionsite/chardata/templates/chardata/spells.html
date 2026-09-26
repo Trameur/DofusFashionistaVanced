@@ -248,14 +248,21 @@
         return list[Math.min(rank, list.length - 1)];
     }
 
+    // Same as spell_combo.retro_critical_x
+    function retroCriticalX(base, bonus, agility) {
+        var x = base - Math.max(0, bonus);
+        if (agility > 0) {
+            x = Math.min(x, x * Math.E * 1.1 / Math.log(agility + 12));
+        }
+        return Math.floor(Math.max(x, 2));
+    }
+
     function critRateLabel(base, spell) {
-        // The rate the character actually plays with: the spell's own base
-        // plus their Critical Hits, buffs included. Retro runs the 1.29
-        // system, where the gear lowers the X of 1/X and 1/2 is the ceiling;
-        // everywhere else the two add up, cap 100%, floor 1%.
-        var bonus = getTotalStats(spell)['ch'] || 0;
+        // Buffs included. Retro is 1/X, everywhere else a percentage, cap 100%, floor 1%.
+        var stats = getTotalStats(spell);
+        var bonus = stats['ch'] || 0;
         if (CRIT_IS_FRACTION) {
-            return '1/' + Math.max(2, base - bonus);
+            return '1/' + retroCriticalX(base, bonus, stats['agi'] || 0);
         }
         return Math.min(100, Math.max(1, base + bonus)) + '%';
     }

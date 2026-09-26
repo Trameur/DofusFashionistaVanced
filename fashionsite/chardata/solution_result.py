@@ -31,6 +31,7 @@ from chardata.item_sources import acquisition_summary, attach_acquisition
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE
 from fashionistapulp.fashion_util import normalize_name
+from fashionistapulp.modelresult import wisdom_per_ap_mp_dodge_point
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.spell_tips import spell_tip_for
 from chardata.forgemagie_transcendance import rune_name
@@ -231,12 +232,14 @@ def stat_sources(model_result):
     def characteristic(key):
         return _(STAT_KEY_TO_NAME[key])
 
+    wisdom_per_point = wisdom_per_ap_mp_dodge_point(get_current_game_version())
     for stat_key, from_key in (('apres', 'wis'), ('mpres', 'wis'),
                                ('apred', 'wis'), ('mpred', 'wis'),
                                ('dodge', 'agi'), ('lock', 'agi'),
                                ('pp', 'cha')):
-        add(stat_key, characteristic(from_key), total.get(from_key, 0) // 10,
-            'derived')
+        per_point = wisdom_per_point if from_key == 'wis' else 10
+        add(stat_key, characteristic(from_key),
+            total.get(from_key, 0) // per_point, 'derived')
     add('pod', characteristic('str'), total.get('str', 0) * 5, 'derived')
     for from_key in ('str', 'int', 'cha', 'agi'):
         add('init', characteristic(from_key), total.get(from_key, 0), 'derived')

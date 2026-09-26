@@ -1727,8 +1727,8 @@ msgid "Dofus Retro spell icons"
 msgstr "Zaubersymbole für Dofus Retro"
 
 #: .\chardata\templates\chardata\about.html:52
-msgid "part of the Dofus Retro pet bonuses"
-msgstr "ein Teil der Vertrauten-Boni für Dofus Retro"
+msgid "part of the Dofus Retro pet bonuses, and the AP and MP Loss Resist that Wisdom gives in Dofus Retro"
+msgstr "ein Teil der Vertrauten-Boni für Dofus Retro sowie die AP- und BP-Verlustresistenz, die Weisheit in Dofus Retro bringt"
 
 #: .\chardata\templates\chardata\about.html:55
 msgid "Website version:"

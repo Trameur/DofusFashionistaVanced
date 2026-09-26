@@ -25,6 +25,7 @@ from chardata.char_blobs import read_char_blob
 
 from chardata.options import get_options, set_options
 from fashionistapulp.dofus_constants import DAMAGE_TYPES, STAT_KEY_TO_NAME, MAIN_STATS
+from fashionistapulp.modelresult import wisdom_per_ap_mp_dodge_point
 
 
 ALL_ASPECTS_LIST = ['str', 'int', 'cha', 'agi',
@@ -36,7 +37,7 @@ ALL_ASPECTS_LIST = ['str', 'int', 'cha', 'agi',
                     'pp', 'pods']
 
 # Per-version overrides of the weight engine (tuned for Dofus 3)
-# 1.29: wisdom is the AP/MP dodge and removal stat (10 wis = 1), % res gear is rare
+# 1.29: wisdom is the AP/MP dodge and removal stat, % res gear is rare
 VERSION_WEIGHT_TUNING = {
     'dofus3': {},
     'beta': {},
@@ -979,7 +980,8 @@ def _set_weights(char, aspects, apply=True):
         w['apred'] = max(2.5 * w['apred'], minimum_red)
     if 'mprape' in aspects:
         w['mpred'] = max(2.5 * w['mpred'], minimum_red)
-    w['wis'] = max(w['wis'], (w['apred'] + w['mpred'] + w['apres'] + w['mpres']) / 10.0)
+    w['wis'] = max(w['wis'], (w['apred'] + w['mpred'] + w['apres'] + w['mpres'])
+                   / float(wisdom_per_ap_mp_dodge_point(game_version)))
     # In 1.29 wisdom is itself the AP/MP defense stat.
     if 'wis_rape_floor' in tuning and ('aprape' in aspects or 'mprape' in aspects):
         w['wis'] = max(w['wis'], tuning['wis_rape_floor'] * b)

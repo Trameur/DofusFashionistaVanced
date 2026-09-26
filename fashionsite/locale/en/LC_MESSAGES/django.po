@@ -1666,7 +1666,7 @@ msgid "Dofus Retro spell icons"
 msgstr ""
 
 #: .\chardata\templates\chardata\about.html:52
-msgid "part of the Dofus Retro pet bonuses"
+msgid "part of the Dofus Retro pet bonuses, and the AP and MP Loss Resist that Wisdom gives in Dofus Retro"
 msgstr ""
 
 #: .\chardata\templates\chardata\about.html:55

@@ -1721,8 +1721,8 @@ msgid "Dofus Retro spell icons"
 msgstr "ícones de feitiços do Dofus Retro"
 
 #: .\chardata\templates\chardata\about.html:52
-msgid "part of the Dofus Retro pet bonuses"
-msgstr "parte dos bônus de mascotes do Dofus Retro"
+msgid "part of the Dofus Retro pet bonuses, and the AP and MP Loss Resist that Wisdom gives in Dofus Retro"
+msgstr "parte dos bônus de mascotes do Dofus Retro, e a Esquiva PA e PM que a Sabedoria dá no Dofus Retro"
 
 #: .\chardata\templates\chardata\about.html:55
 msgid "Website version:"

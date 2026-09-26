@@ -93,12 +93,13 @@ def get_base_stats_by_attr(request, char_id):
     return base_stats_by_attr_for(get_char_or_raise(request, char_id))
 
 
-def character_own_stats(level):
-    """Base AP, MP, prospecting, pods and summons, from the level alone."""
+def character_own_stats(level, char_class=None, game_version=None):
+    """Base AP, MP, prospecting, pods and summons, from the level and class."""
     return {
         'AP': 7 if level >= 100 else 6,
         'MP': 3,
-        'Prospecting': 100,
+        'Prospecting': (120 if game_version == 'retro'
+                        and char_class == 'Enutrof' else 100),
         'Pods': 1000,
         'Summon': 1,
     }
@@ -106,7 +107,8 @@ def character_own_stats(level):
 
 def base_stats_by_attr_for(char):
     """Base stats of the character, before any gear."""
-    base_stats_by_attr = dict(character_own_stats(char.level))
+    base_stats_by_attr = dict(character_own_stats(
+        char.level, char.char_class, getattr(char, 'game_version', None)))
 
     for element_name, _ in STATS_NAMES:
         basestats = CharBaseStats.objects.filter(char=char, stat=element_name)
