@@ -37,6 +37,17 @@ SPREAD_FAMILIES = {
                        'res_earth_percent', 'res_air_percent'),
 }
 
+# Element stat: the generic stat of its family
+FAMILY_OF = {element: generic for generic, family in SPREAD_FAMILIES.items()
+             for element in family}
+
+
+def same_item(item):
+    """Key shared by every rarity of one item: its type and French title."""
+    # Each rarity is its own id; the English title can differ between them
+    # (Kralaring, Kringlove)
+    return item.type, (item.localized_names or {}).get('fr') or item.name
+
 
 class WakfuBuild:
     """Best set at a level; `weights` is keyed by stats.key."""
@@ -51,7 +62,6 @@ class WakfuBuild:
         self.full_set = full_set
         self.problem = None
         self._placements = []
-        self._by_item = {}
 
     def _positions_of_type(self):
         """{type id: [position, ...]}"""
@@ -64,7 +74,7 @@ class WakfuBuild:
         """Every (item, position) a character of this level could wear."""
         places = self._positions_of_type()
         out = []
-        for item in self.structure.get_items_list():
+        for item in self.structure.get_available_items_list():
             if item.level > self.level or item.id in self.forbidden:
                 continue
             for position in places.get(item.type, ()):
@@ -82,38 +92,60 @@ class WakfuBuild:
         stat = self.structure.get_stat_by_id(stat_id)
         return stat.key if stat is not None else None
 
-    def _spread_worth(self, stat_id, elements):
-        """Spread lines land on the build's best elements: top N weights."""
-        key = self._key_of(stat_id)
-        family = SPREAD_FAMILIES.get(key)
-        if family is None:
+    def _element_weights(self, generic):
+        """{element stat: weight}, dmg_in_percent's or res_in_percent's added."""
+        extra = self.weights.get(generic, 0)
+        return {name: self.weights.get(name, 0) + extra
+                for name in SPREAD_FAMILIES[generic]}
+
+    def _lands_on(self, generic, value, elements):
+        """Elements a spread line feeds: the best N, the worst N for a loss."""
+        weights = self._element_weights(generic)
+        sign = -1 if value >= 0 else 1
+        ranked = sorted(weights, key=lambda name: sign * weights[name])
+        return ranked[:max(0, elements)]
+
+    def _plain_lines(self, item):
+        """(stat id, value) rows of an item, its spread lines left out."""
+        # Spread lines are also rows of item.stats
+        spread = collections.Counter((stat_id, value) for stat_id, value, _e
+                                     in item.element_spread or ())
+        for stat_id, value in item.stats:
+            if spread[(stat_id, value)]:
+                spread[(stat_id, value)] -= 1
+                continue
+            yield stat_id, value
+
+    def _plain_weight(self, key):
+        """Worth of one point of a line that is not spread."""
+        if key in SPREAD_FAMILIES:
+            # Elemental mastery and resistance apply to every element
+            return sum(self._element_weights(key).values())
+        if key in FAMILY_OF:
+            return self._element_weights(FAMILY_OF[key])[key]
+        return self.weights.get(key, 0)
+
+    def _spread_weight(self, key, value, elements):
+        if key not in SPREAD_FAMILIES:
             return self.weights.get(key, 0)
-        wanted = sorted((self.weights.get(name, 0) for name in family),
-                        reverse=True)
-        return sum(wanted[:max(0, elements)])
+        weights = self._element_weights(key)
+        return sum(weights[name]
+                   for name in self._lands_on(key, value, elements))
 
     def _worth(self, item):
-        spread = list(item.element_spread or ())
-        # Spread lines are also rows of item.stats, skip them in the plain sum
-        separately = collections.Counter((stat_id, value)
-                                         for stat_id, value, _e in spread)
         total = 0
-        for stat_id, value in item.stats:
-            if separately[(stat_id, value)]:
-                separately[(stat_id, value)] -= 1
-                continue
-            total += self.weights.get(self._key_of(stat_id), 0) * value
-        for stat_id, value, elements in spread:
-            total += value * self._spread_worth(stat_id, elements)
+        for stat_id, value in self._plain_lines(item):
+            total += value * self._plain_weight(self._key_of(stat_id))
+        for stat_id, value, elements in item.element_spread or ():
+            total += value * self._spread_weight(self._key_of(stat_id), value,
+                                                 elements)
         return total
 
     def build(self):
         self.problem = LpProblem2()
         self._placements = self._candidates()
-        self._by_item = collections.defaultdict(list)
         for item, position in self._placements:
             self.problem.setup_variable(WORN, self._name(item, position), 0, 1)
-            self._by_item[item.id].append((item, position))
 
         self._one_item_per_slot()
         self._one_copy_of_an_item()
@@ -147,10 +179,13 @@ class WakfuBuild:
                 self.problem.restriction_lt_eq(1, parcels)
 
     def _one_copy_of_an_item(self):
-        """A ring may go in either hand, but only one of them at a time."""
+        """One copy of a ring, in either hand, its other rarities included."""
         doubles = get_game_version('wakfu').rings_can_double
-        for placements in self._by_item.values():
-            if len(placements) > 1:
+        by_item = collections.defaultdict(list)
+        for item, position in self._placements:
+            by_item[same_item(item)].append((item, position))
+        for placements in by_item.values():
+            if len({position for _item, position in placements}) > 1:
                 self.problem.restriction_lt_eq(
                     2 if doubles else 1, self._parcels(placements))
 
@@ -229,22 +264,26 @@ class WakfuBuild:
         landing = collections.Counter()
         for item in worn.values():
             for stat_id, value, elements in item.element_spread or ():
-                family = SPREAD_FAMILIES.get(self._key_of(stat_id))
-                if family is None:
+                key = self._key_of(stat_id)
+                if key not in SPREAD_FAMILIES:
                     continue
-                wanted = sorted(family, key=lambda name: -self.weights.get(name, 0))
-                for name in wanted[:max(0, elements)]:
+                for name in self._lands_on(key, value, elements):
                     landing[name] += value
         return landing
 
     def totals(self, worn):
-        """Stat totals of a set, base values included."""
+        """Stat totals of a set, base values included, spread lines landed."""
         out = collections.Counter()
         for item in worn.values():
-            for stat_id, value in item.stats:
-                stat = self.structure.get_stat_by_id(stat_id)
-                if stat is not None:
-                    out[stat.key] += value
+            for stat_id, value in self._plain_lines(item):
+                key = self._key_of(stat_id)
+                if key is not None:
+                    out[key] += value
+            for stat_id, value, _elements in item.element_spread or ():
+                key = self._key_of(stat_id)
+                if key is not None and key not in SPREAD_FAMILIES:
+                    out[key] += value
+        out.update(self.where_the_spread_lands(worn))
         for name, value in BASE_VALUES.items():
             out[name.lower()] += value
         return out
