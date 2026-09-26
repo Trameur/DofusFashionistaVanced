@@ -17,18 +17,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: .\chardata\coaching_view.py:55
+#: .\chardata\presets.py:43
 msgid "Solo PvM: focus damage"
 msgstr ""
 
 #: .\chardata\coaching_view.py:56
+#: .\chardata\presets.py:45
 msgid "Group PvM: tanky / support"
 msgstr ""
 
 #: .\chardata\coaching_view.py:57
+#: .\chardata\presets.py:47
 msgid "PvP: critical hits"
 msgstr ""
 
 #: .\chardata\coaching_view.py:58
+#: .\chardata\presets.py:49
 msgid "Farm / Level-up: Prospecting & Wisdom"
 msgstr ""
 
@@ -1090,18 +1094,22 @@ msgid "Please keep your comment respectful."
 msgstr ""
 
 #: .\chardata\nl_build_view.py:55
+#: .\chardata\presets.py:43
 msgid "solo PvM"
 msgstr ""
 
 #: .\chardata\nl_build_view.py:56
+#: .\chardata\presets.py:45
 msgid "group PvM"
 msgstr ""
 
 #: .\chardata\nl_build_view.py:57
+#: .\chardata\presets.py:47
 msgid "PvP"
 msgstr ""
 
 #: .\chardata\nl_build_view.py:58
+#: .\chardata\presets.py:49
 msgid "farm"
 msgstr ""
 

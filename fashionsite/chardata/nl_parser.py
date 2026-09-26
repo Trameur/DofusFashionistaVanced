@@ -10,6 +10,7 @@
 import re
 import unicodedata
 
+from chardata.presets import DEFAULT_STYLE, style_aspects
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 
 
@@ -46,13 +47,6 @@ _STYLE_WORDS = {
     'solo_pvm': ['pvm', 'pve', 'solo', 'dps', 'damage', 'degats', 'dmg', 'mono', 'schaden'],
 }
 
-_STYLE_BASE_ASPECTS = {
-    'solo_pvm': {'glasscannon'},
-    'group_pvm': {'vit', 'res'},
-    'pvp': {'pvp', 'crit'},
-    'farm': {'wis', 'pp'},
-}
-
 # Focus keyword -> extra build aspect, layered on the style's base aspects.
 # Keys must stay valid smart_build aspects (ASPECT_TO_SHORT_NAME /
 # ALL_ASPECTS_LIST).
@@ -73,14 +67,6 @@ _ASPECT_WORDS = {
     'pp': ['pp', 'prospection', 'prospecting', 'prospeccion', 'drop', 'prospektion'],
     'wis': ['wis', 'wisdom', 'sagesse', 'sabiduria', 'sabedoria', 'weisheit'],
     'pods': ['pods', 'pod', 'pano', 'schoten'],
-}
-
-_CLASS_DEFAULT_ELEMENT = {
-    'Iop': 'str', 'Cra': 'agi', 'Sram': 'agi', 'Xelor': 'cha', 'Eniripsa': 'int',
-    'Feca': 'int', 'Sacrier': 'agi', 'Sadida': 'cha', 'Enutrof': 'cha', 'Osamodas': 'cha',
-    'Ecaflip': 'cha', 'Pandawa': 'str', 'Eliotrope': 'cha', 'Huppermage': 'int',
-    'Ouginak': 'agi', 'Masqueraider': 'agi', 'Foggernaut': 'int', 'Rogue': 'agi',
-    'Forgelance': 'str',
 }
 
 
@@ -202,12 +188,8 @@ def parse_build_request(text):
     style = _match_style(sans_niveau)
     extra_aspects = _match_aspect_words(sans_niveau)
 
-    resolved_style = style or 'solo_pvm'
-    aspects = set(_STYLE_BASE_ASPECTS.get(resolved_style, set()))
-    if resolved_style != 'farm':
-        elem = element or (_CLASS_DEFAULT_ELEMENT.get(char_class, 'str') if char_class else 'str')
-        aspects.add(elem)
-    aspects |= extra_aspects
+    resolved_style = style or DEFAULT_STYLE
+    aspects = style_aspects(resolved_style, char_class, element) | extra_aspects
 
     return {
         'char_class': char_class,

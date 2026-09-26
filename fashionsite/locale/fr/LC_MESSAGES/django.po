@@ -18,18 +18,22 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: .\chardata\coaching_view.py:55
+#: .\chardata\presets.py:43
 msgid "Solo PvM: focus damage"
 msgstr "PvM solo : full dégâts"
 
 #: .\chardata\coaching_view.py:56
+#: .\chardata\presets.py:45
 msgid "Group PvM: tanky / support"
 msgstr "PvM en groupe : tank / support"
 
 #: .\chardata\coaching_view.py:57
+#: .\chardata\presets.py:47
 msgid "PvP: critical hits"
 msgstr "PvP : coups critiques"
 
 #: .\chardata\coaching_view.py:58
+#: .\chardata\presets.py:49
 msgid "Farm / Level-up: Prospecting & Wisdom"
 msgstr "Farm / up : Prospection & Sagesse"
 
@@ -1104,18 +1108,22 @@ msgid "Please keep your comment respectful."
 msgstr "Merci de rester respectueux dans ton commentaire."
 
 #: .\chardata\nl_build_view.py:55
+#: .\chardata\presets.py:43
 msgid "solo PvM"
 msgstr "PvM solo"
 
 #: .\chardata\nl_build_view.py:56
+#: .\chardata\presets.py:45
 msgid "group PvM"
 msgstr "PvM en groupe"
 
 #: .\chardata\nl_build_view.py:57
+#: .\chardata\presets.py:47
 msgid "PvP"
 msgstr "PvP"
 
 #: .\chardata\nl_build_view.py:58
+#: .\chardata\presets.py:49
 msgid "farm"
 msgstr "farm"
 

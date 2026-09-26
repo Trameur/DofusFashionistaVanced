@@ -10,7 +10,7 @@
 import pickle
 
 from django.http import HttpResponseRedirect
-from django.utils.translation import gettext as _, gettext_lazy
+from django.utils.translation import gettext as _
 
 from chardata.create_project_view import (is_anon_cant_create,
                                           wants_to_publish)
@@ -18,6 +18,7 @@ from chardata.lock_forbid import get_default_exclusions, set_exclusions_list_and
 from chardata.anon_projects import remember_anon_char
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
+from chardata.presets import DEFAULT_STYLE, offered_style, play_styles, style_aspects
 from chardata.smart_build import set_char_aspects
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import set_response, version_reverse
@@ -26,51 +27,7 @@ from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
 
 
-CLASS_DEFAULT_ELEMENT = {
-    'Iop': 'str',
-    'Cra': 'agi',
-    'Sram': 'agi',
-    'Xelor': 'cha',
-    'Eniripsa': 'int',
-    'Feca': 'int',
-    'Sacrier': 'agi',
-    'Sadida': 'cha',
-    'Enutrof': 'cha',
-    'Osamodas': 'cha',
-    'Ecaflip': 'cha',
-    'Pandawa': 'str',
-    'Eliotrope': 'cha',
-    'Huppermage': 'int',
-    'Ouginak': 'agi',
-    'Masqueraider': 'agi',
-    'Foggernaut': 'int',
-    'Rogue': 'agi',
-    'Forgelance': 'str',
-}
-
-PLAY_STYLES = [
-    ('solo_pvm', gettext_lazy('Solo PvM: focus damage')),
-    ('group_pvm', gettext_lazy('Group PvM: tanky / support')),
-    ('pvp', gettext_lazy('PvP: critical hits')),
-    ('farm', gettext_lazy('Farm / Level-up: Prospecting & Wisdom')),
-]
-
 DEFAULT_LEVELS = [20, 50, 100, 150, 180, 200]
-
-STYLE_BASE_ASPECTS = {
-    'solo_pvm': {'glasscannon'},
-    'group_pvm': {'vit', 'res'},
-    'pvp': {'pvp', 'crit'},
-    'farm': {'wis', 'pp'},
-}
-
-
-def _style_aspects(style, char_class):
-    aspects = set(STYLE_BASE_ASPECTS.get(style, set()))
-    if style != 'farm':  # farm builds are element-agnostic
-        element = CLASS_DEFAULT_ELEMENT.get(char_class, 'str')
-        aspects.add(element)
-    return aspects
 
 
 def _locale_class_options(game_version):
@@ -207,7 +164,7 @@ def coaching(request):
                          'selected_level': selected_level,
                          'included_item': included,
                          'included_set': included_set,
-                         'play_styles': PLAY_STYLES,
+                         'play_styles': play_styles(game_version),
                          'login_problem': is_anon_cant_create(request)})
 
 
@@ -277,11 +234,9 @@ def _create_from_coaching(request, game_version):
     except (TypeError, ValueError):
         char_level = 200
 
-    style = request.POST.get('play_style', 'solo_pvm')
-    if style not in dict(PLAY_STYLES):
-        style = 'solo_pvm'
+    style = offered_style(request.POST.get('play_style', DEFAULT_STYLE), game_version)
 
-    aspects = _style_aspects(style, char_class if char_class in CHARACTER_CLASSES else CHARACTER_CLASSES[0])
+    aspects = style_aspects(style, char_class if char_class in CHARACTER_CLASSES else CHARACTER_CLASSES[0])
     char = create_build(request, char_class, char_level, aspects, game_version)
 
     # The item the fiche asked for, locked into its slot. After create_build

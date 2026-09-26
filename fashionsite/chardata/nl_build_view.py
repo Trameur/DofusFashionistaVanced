@@ -13,6 +13,7 @@ from django.utils.translation import gettext as _, get_language
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
 from chardata.nl_parser import parse_build_request
+from chardata.presets import STYLE_BY_KEY
 from chardata.smart_build import ASPECT_TO_NAME, ALL_ASPECTS_LIST
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (set_response, version_free_canonical,
@@ -40,12 +41,10 @@ def _example_queries():
 
 
 def _style_name(style):
-    return {
-        'solo_pvm': _('solo PvM'),
-        'group_pvm': _('group PvM'),
-        'pvp': _('PvP'),
-        'farm': _('farm'),
-    }.get(style, style.replace('_', ' '))
+    preset = STYLE_BY_KEY.get(style)
+    if preset is None:
+        return style.replace('_', ' ')
+    return str(preset.build_name_word)
 
 
 def _aspect_labels(aspects):
