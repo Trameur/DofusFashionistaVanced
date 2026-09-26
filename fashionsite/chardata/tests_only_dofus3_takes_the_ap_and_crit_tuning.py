@@ -128,7 +128,7 @@ class FinalDamageKeepsTwelvePowerPerPercentTests(SimpleTestCase):
                     self.assertEqual(0, w[key])
 
 
-class ItemEffectsReadTheWeightsBeforeTheFloorsOnDofus3Tests(SimpleTestCase):
+class ItemEffectsReadTheBuildWeightsOnDofus3Tests(SimpleTestCase):
 
     def _terms(self, version, objective_values):
         from fashionistapulp.model import Model
@@ -152,28 +152,38 @@ class ItemEffectsReadTheWeightsBeforeTheFloorsOnDofus3Tests(SimpleTestCase):
 
         def term(name):
             return model.problem.terms[('p', model.structure.get_item_by_name(name).id)]
+        term.terms = model.problem.terms
         return term
 
-    def test_dofus3_values_surpryz_and_ap_effects_before_the_floors(self):
+    def _equivalents(self, name, element_count):
+        from fashionistapulp.item_effects import load_effect_table
+        for entry in load_effect_table('dofus3')['items'].values():
+            if entry['name']['site'] == name:
+                return entry['equivalents_by_elements'][str(element_count)]
+        raise KeyError(name)
+
+    def test_dofus3_pays_the_table_ap_and_crit_at_the_floored_weights(self):
         w = weights('dofus3', {'int'}, race='Iop')
         term = self._terms('dofus3', w)
-        self.assertEqual(240 * 20, term('Surpryz'))
-        self.assertEqual(2400 * 2.5 + w['mp'] * 2.5, term('Abyssal Dofus'))
-        self.assertEqual(2400 * 0.5, term('Prysipitate-O-Mat'))
-        self.assertEqual(2400, term("Ganymede's Diadem"))
-        self.assertEqual(1200 * 5, term('Turquoise Dofus'))
+        self.assertEqual(22080, w['ap'])
+        self.assertEqual(1200, w['ch'])
+        self.assertAlmostEqual(self._equivalents('Prysipitate-O-Mat', 1)['ap'] * w['ap'],
+                               term('Prysipitate-O-Mat'))
+        self.assertAlmostEqual(self._equivalents('Surpryz', 1)['ch'] * w['ch'],
+                               term('Surpryz'))
+
+    def test_dofus3_ignores_the_keys_before_the_floors(self):
+        w = weights('dofus3', {'int'}, race='Iop')
+        bare = {k: v for k, v in w.items() if k not in ('ap_before_floor', 'ch_before_floor')}
+        with_keys = self._terms('dofus3', w).terms
+        self.assertTrue(with_keys)
+        self.assertEqual(self._terms('dofus3', bare).terms, with_keys)
 
     def test_beta_reads_the_weights_it_is_given(self):
         w = weights('dofus3', {'int'}, race='Iop')
         term = self._terms('beta', w)
         self.assertEqual(w['ch'] * 20, term('Surpryz'))
         self.assertEqual(w['ap'] * 2.5 + w['mp'] * 2.5, term('Abyssal Dofus'))
-        self.assertEqual(w['ap'] * 0.5, term('Prysipitate-O-Mat'))
-
-    def test_a_weights_dict_without_the_extra_keys_is_read_as_before(self):
-        w = weights('beta', {'int'}, race='Iop')
-        term = self._terms('dofus3', w)
-        self.assertEqual(w['ch'] * 20, term('Surpryz'))
         self.assertEqual(w['ap'] * 0.5, term('Prysipitate-O-Mat'))
 
 
