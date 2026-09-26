@@ -18,11 +18,12 @@ from chardata.lock_forbid import get_default_exclusions, set_exclusions_list_and
 from chardata.anon_projects import remember_anon_char
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
-from chardata.presets import DEFAULT_STYLE, offered_style, play_styles, style_aspects
+from chardata.presets import (DEFAULT_STYLE, offered_style, play_styles, style_aspects,
+                              version_class)
 from chardata.smart_build import level_minimums, set_char_aspects
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import set_response, version_reverse
-from chardata.version_compat import class_exists_in_version, filter_classes_for_version
+from chardata.version_compat import filter_classes_for_version
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
 
@@ -171,10 +172,7 @@ def coaching(request):
 def create_build(request, char_class, char_level, aspects, game_version, name=None):
     """Create a fully configured Char + base stats. `aspects` is a set of
     smart_build aspect keys."""
-    if (char_class not in CHARACTER_CLASSES
-            or not class_exists_in_version(char_class, game_version)):
-        fallback = filter_classes_for_version(CHARACTER_CLASSES, game_version)
-        char_class = fallback[0] if fallback else CHARACTER_CLASSES[0]
+    char_class = version_class(char_class, game_version)
 
     char_level = max(1, min(int(char_level), 230))
 
@@ -228,7 +226,7 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
 
 
 def _create_from_coaching(request, game_version):
-    char_class = request.POST.get('char_class', '')
+    char_class = version_class(request.POST.get('char_class', ''), game_version)
 
     try:
         char_level = int(request.POST.get('char_level', 200))
@@ -237,7 +235,7 @@ def _create_from_coaching(request, game_version):
 
     style = offered_style(request.POST.get('play_style', DEFAULT_STYLE), game_version)
 
-    aspects = style_aspects(style, char_class if char_class in CHARACTER_CLASSES else CHARACTER_CLASSES[0])
+    aspects = style_aspects(style, char_class, game_version=game_version, level=char_level)
     char = create_build(request, char_class, char_level, aspects, game_version)
 
     # The item the fiche asked for, locked into its slot. After create_build

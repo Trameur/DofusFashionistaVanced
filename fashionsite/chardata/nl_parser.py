@@ -10,7 +10,8 @@
 import re
 import unicodedata
 
-from chardata.presets import DEFAULT_STYLE, capped_focus, offered_style, style_aspects
+from chardata.presets import (DEFAULT_STYLE, capped_focus, offered_style, style_aspects,
+                              version_class)
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 
 
@@ -196,14 +197,19 @@ def parse_build_request(text, game_version=None):
     extra_aspects = _match_aspect_words(sans_niveau)
 
     resolved_style = style or DEFAULT_STYLE
+    built_class = char_class
     if game_version is not None:
         resolved_style = offered_style(resolved_style, game_version)
-    aspects = capped_focus(style_aspects(resolved_style, char_class, element) | extra_aspects,
-                           _in_text_order(extra_aspects, ordered))
+        if char_class is not None:
+            built_class = version_class(char_class, game_version)
+    built_level = level if level is not None else 200
+    aspects = capped_focus(style_aspects(resolved_style, built_class, element, game_version,
+                                         built_level)
+                           | extra_aspects, _in_text_order(extra_aspects, ordered))
 
     return {
         'char_class': char_class,
-        'level': level if level is not None else 200,
+        'level': built_level,
         'element': element,
         'style': resolved_style,
         'aspects': aspects,

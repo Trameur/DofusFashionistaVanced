@@ -12,11 +12,15 @@ from collections import namedtuple
 
 from django.utils.translation import gettext_lazy
 
+from chardata.default_elements import version_element
 from chardata.models import Char
 from chardata.smart_build import get_standard_weights
+from chardata.version_compat import class_exists_in_version, filter_classes_for_version
+from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.game_versions import DEFAULT_VERSION
 
 
+# For a class default_elements/<version>.json does not list
 CLASS_DEFAULT_ELEMENT = {
     'Iop': 'str',
     'Cra': 'agi',
@@ -94,16 +98,26 @@ def offered_style(style, game_version):
     return DEFAULT_STYLE
 
 
-def default_element(char_class):
-    return CLASS_DEFAULT_ELEMENT.get(char_class, FALLBACK_ELEMENT)
+def version_class(char_class, game_version):
+    """The class a build gets on the version: its own, else the version's first class."""
+    if char_class in CHARACTER_CLASSES and class_exists_in_version(char_class, game_version):
+        return char_class
+    classes = filter_classes_for_version(CHARACTER_CLASSES, game_version)
+    return classes[0] if classes else CHARACTER_CLASSES[0]
 
 
-def style_aspects(style, char_class=None, element=None):
-    """The aspects a style sets, plus the element (the class's own unless given) when the style takes one."""
+def default_element(char_class, game_version=None, level=None):
+    """The class's element in the version's table at the nearest level, else the shared one."""
+    return (version_element(char_class, game_version, level)
+            or CLASS_DEFAULT_ELEMENT.get(char_class, FALLBACK_ELEMENT))
+
+
+def style_aspects(style, char_class=None, element=None, game_version=None, level=None):
+    """The aspects a style sets, plus the element (the class's own on the version and level unless given) when the style takes one."""
     preset = STYLE_BY_KEY.get(style)
     aspects = set(preset.aspects) if preset is not None else set()
     if preset is None or preset.takes_element:
-        aspects.add(element or default_element(char_class))
+        aspects.add(element or default_element(char_class, game_version, level))
     return aspects
 
 

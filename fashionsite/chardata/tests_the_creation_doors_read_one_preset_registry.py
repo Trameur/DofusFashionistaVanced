@@ -99,7 +99,8 @@ class TheDoorsReadTheRegistryTests(TestCase):
             response = self.client.post('/retro/quickstart/', {
                 'char_class': 'Iop', 'char_level': '200', 'play_style': 'farm'})
         self.assertEqual(302, response.status_code)
-        self.assertEqual({'glasscannon', 'str'}, self._aspects_of_the_last_build())
+        self.assertEqual({'glasscannon', presets.default_element('Iop', 'retro', 200)},
+                         self._aspects_of_the_last_build())
 
     def test_the_setup_page_shows_the_option_boxes_of_its_version(self):
         touch = {'styles': EVERY_STYLE, 'option_boxes': ('duel',)}
@@ -110,7 +111,8 @@ class TheDoorsReadTheRegistryTests(TestCase):
         self.assertEqual(presets.setup_columns('touch')[2:], _aspect_layout(page)[2:])
 
     def test_the_quick_start_and_the_smart_build_share_the_default_element(self):
-        with mock.patch.dict(presets.CLASS_DEFAULT_ELEMENT, {'Iop': 'agi'}):
+        with mock.patch.object(presets, 'default_element',
+                               lambda char_class, game_version=None, level=None: 'agi'):
             self.assertEqual({'glasscannon', 'agi'}, parse_build_request('Iop')['aspects'])
             response = self.client.post('/quickstart/', {
                 'char_class': 'Iop', 'char_level': '200', 'play_style': 'solo_pvm'})
