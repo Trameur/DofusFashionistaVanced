@@ -16,10 +16,10 @@
 
 import logging
 import pickle
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.utils.translation import get_language
+from django.utils.translation import get_language, gettext
 from django.views.decorators.http import require_POST
 import json
 
@@ -32,7 +32,7 @@ from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
 from chardata.build_name import cleaned_at_creation
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
-from chardata.presets import setup_columns
+from chardata.presets import FOCUS_LIMIT, setup_boxes, setup_columns, within_focus_limit
 from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECTS,
                                   inert_aspects,
                                   ASPECT_TO_NAME)
@@ -162,7 +162,9 @@ def save_project(request, char_id=0):
     char_id = int(char_id)
     char = get_char_or_raise(request, char_id)
     
-    state = _get_state_from_post(request)
+    state = _get_state_from_post(request, char.game_version or 'dofus3')
+    if not within_focus_limit(state['char_build_aspects_set']):
+        return JsonResponse({'error': _too_many_focus_boxes()}, status=400)
 
     remove_invalid_inclusions(char, state['char_level'])
 
@@ -214,9 +216,15 @@ def wants_to_publish(request):
     return True
 
 
+def _too_many_focus_boxes():
+    return gettext('Check at most %(limit)d boxes in the focus column.') % {'limit': FOCUS_LIMIT}
+
+
 @require_POST
 def create_project(request):
-    state = _get_state_from_post(request)
+    state = _get_state_from_post(request, getattr(request, 'game_version', 'dofus3'))
+    if not within_focus_limit(state['char_build_aspects_set']):
+        return HttpResponseBadRequest(_too_many_focus_boxes())
 
     char = Char()
     if not request.user.is_anonymous:
@@ -290,11 +298,11 @@ def _get_state_from_char(char):
             'char_class': char.char_class,
             'char_build_aspects': aspects_checklist}
 
-def _get_state_from_post(request):
+def _get_state_from_post(request, game_version):
     
     where_to_go = 'solution' if request.POST.get('byhand', None) else 'wizard'
     aspects_set = set()
-    for aspect in ALL_ASPECTS:
+    for aspect in ALL_ASPECTS & setup_boxes(game_version):
         if on_off_to_bool(request.POST.get('check_%s' % aspect, 'off')):
             aspects_set.add(aspect)
     return {'proj_name': request.POST.get('project', 'NoName'),

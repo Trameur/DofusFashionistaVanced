@@ -7,10 +7,13 @@
 
 """Presets shared by the doors that create a build: quick start styles, default elements, setup boxes."""
 
+import pickle
 from collections import namedtuple
 
 from django.utils.translation import gettext_lazy
 
+from chardata.models import Char
+from chardata.smart_build import get_standard_weights
 from fashionistapulp.game_versions import DEFAULT_VERSION
 
 
@@ -55,6 +58,10 @@ DEFAULT_STYLE = 'solo_pvm'
 ELEMENT_BOXES = ('str', 'int', 'cha', 'agi', 'omni')
 FOCUS_COLUMNS = (('balanced', 'vit', 'glasscannon', 'dam', 'heal', 'aprape', 'mprape', 'crit'),
                  ('res', 'wis', 'pp', 'pods', 'trap', 'summon', 'pushback', 'noncrit'))
+FOCUS_LIMIT = 2
+
+ELEMENT_DAMAGE = {'str': 'earthdam', 'int': 'firedam', 'cha': 'waterdam', 'agi': 'airdam'}
+SECOND_ELEMENT_SHARE = 0.5
 
 VERSION_PRESETS = {
     'dofus3': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
@@ -108,3 +115,60 @@ def setup_columns(game_version):
 
 def setup_boxes(game_version):
     return {aspect for column in setup_columns(game_version) for aspect in column}
+
+
+def focus_boxes(aspects):
+    return {aspect for column in FOCUS_COLUMNS for aspect in column
+            if aspect in aspects and aspect != 'balanced'}
+
+
+def within_focus_limit(aspects):
+    return len(focus_boxes(aspects)) <= FOCUS_LIMIT
+
+
+def capped_focus(aspects, preferred=()):
+    """At most FOCUS_LIMIT focus boxes: the preferred ones first, then column order."""
+    focus = focus_boxes(aspects)
+    order = [aspect for aspect in preferred if aspect in focus]
+    order += [aspect for column in FOCUS_COLUMNS for aspect in column
+              if aspect in focus and aspect not in order]
+    return (set(aspects) - focus) | set(order[:FOCUS_LIMIT])
+
+
+def element_stat_points(char_class, level, game_version):
+    """{element: {stat key: characteristic points per point}}, as the build weights price them."""
+    points = {}
+    for element, damage in ELEMENT_DAMAGE.items():
+        weights = get_standard_weights(Char(char_class=char_class, level=level,
+                                            game_version=game_version,
+                                            aspects=pickle.dumps({element})))
+        points[element] = {element: 1}
+        for stat in (damage, 'neutdam') if element == 'str' else (damage,):
+            points[element][stat] = weights.get(stat, 0) / weights[element]
+    return points
+
+
+def gear_elements(structure, item_ids, char_class, level, game_version, overrides=None):
+    """Top two elements with SECOND_ELEMENT_SHARE of the main one's points; all four make omni."""
+    counted = {element: [(structure.stat_dict_key[key].id, weight)
+                         for key, weight in stats.items() if key in structure.stat_dict_key]
+               for element, stats in element_stat_points(char_class, level,
+                                                         game_version).items()}
+    points = dict.fromkeys(counted, 0)
+    for item_id in item_ids:
+        item = structure.get_item_by_id(item_id)
+        if item is None:
+            continue
+        values = dict(item.stats or ())
+        values.update((overrides or {}).get(item_id) or {})
+        for element, stats in counted.items():
+            points[element] += sum(weight * values.get(stat_id, 0)
+                                   for stat_id, weight in stats)
+    ranked = sorted(points, key=points.get, reverse=True)
+    if points[ranked[0]] <= 0:
+        return set()
+    strong = [element for element in ranked
+              if points[element] >= SECOND_ELEMENT_SHARE * points[ranked[0]]]
+    if len(strong) == len(points):
+        return set(strong) | {'omni'}
+    return set(strong[:2])

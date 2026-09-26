@@ -54,11 +54,20 @@ class EveryPresetNamesWhatTheDoorsKnowTests(SimpleTestCase):
                 self.assertIn(presets.CLASS_DEFAULT_ELEMENT.get(char_class), SINGLE_ELEMENTS)
 
     def test_the_setup_page_has_one_box_per_aspect_the_server_reads(self):
-        for version in presets.VERSION_PRESETS:
+        focus = {aspect for column in presets.FOCUS_COLUMNS for aspect in column}
+        offered = set()
+        for version, entry in presets.VERSION_PRESETS.items():
             with self.subTest(version=version):
                 boxes = [aspect for column in presets.setup_columns(version)
                          for aspect in column]
-                self.assertEqual(sorted(ALL_ASPECTS | {'balanced'}), sorted(boxes))
+                expected = (list(presets.ELEMENT_BOXES) + list(entry['option_boxes'])
+                            + [aspect for column in presets.FOCUS_COLUMNS for aspect in column])
+                self.assertEqual(expected, boxes)
+                self.assertEqual(len(boxes), len(set(boxes)))
+                self.assertLessEqual(set(boxes), ALL_ASPECTS | {'balanced'})
+                offered.update(entry['option_boxes'])
+        self.assertEqual(ALL_ASPECTS | {'balanced'},
+                         set(presets.ELEMENT_BOXES) | offered | focus)
 
 
 class TheDoorsReadTheRegistryTests(TestCase):

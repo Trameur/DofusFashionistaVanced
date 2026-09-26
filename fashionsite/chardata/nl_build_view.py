@@ -74,7 +74,7 @@ def smart_build(request):
 
     if request.method == 'POST':
         query = (request.POST.get('q') or '').strip()
-        parsed = parse_build_request(query)
+        parsed = parse_build_request(query, game_version)
 
         if not parsed['matched_class']:
             return set_response(request, 'chardata/smart_build.html', {

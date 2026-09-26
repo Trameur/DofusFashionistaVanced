@@ -4818,6 +4818,17 @@ msgstr ""
 "Fokussieren auf, wobei andere Stats geopfert werden <span "
 "id='aspect_limit_text'>(bis zu 2)</span>"
 
+msgid ""
+"No element checked: the build will not look for any damage. Click again "
+"to continue anyway."
+msgstr ""
+"Kein Element angekreuzt: Der Build sucht keinen Schaden. Klicken Sie "
+"noch einmal, um trotzdem fortzufahren."
+
+#, python-format
+msgid "Check at most %(limit)d boxes in the focus column."
+msgstr "Kreuzen Sie in der Fokus-Spalte höchstens %(limit)d Felder an."
+
 #: .\chardata\templates\chardata\projdetails.html:85
 msgid "Create a set by hand"
 msgstr "Erstellen Sie ein Set von Hand"
@@ -4881,23 +4892,27 @@ msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:139
 msgid ""
-"1 vs. 1 Duelers should check this. Increases importance of initiative a lot. "
-"Enables shields."
+"1 vs. 1 duelers should check this. Increases importance of initiative a "
+"lot."
 msgstr ""
-"1 vs. 1 Duellanten sollten dies überprüfen. Erhöht die Bedeutung der "
-"Initiative erheblich. Aktiviert Schilde."
+"Für 1-gegen-1-Duelle gedacht. Die Initiative bekommt deutlich mehr "
+"Gewicht."
 
 #: .\chardata\templates\chardata\projdetails.html:140
-msgid "This will yield and all-around build."
-msgstr "Dadurch ergibt sich ein rundum ertragreicher Aufbau."
+msgid ""
+"No focus: every stat keeps its usual importance. Checking another box in "
+"this column unchecks this one."
+msgstr ""
+"Kein Fokus: Jeder Stat behält seine übliche Gewichtung. Wenn Sie ein "
+"anderes Feld dieser Spalte ankreuzen, wird dieses abgewählt."
 
 #: .\chardata\templates\chardata\projdetails.html:141
 msgid ""
-"Support and vitality based chars should check this. Increases importance of "
-"vitality, but will hurt the other stats."
+"Support and vitality based characters should check this. Vitality gets "
+"the same high importance for every class, and the other stats keep theirs."
 msgstr ""
-"Unterstützungs- und vitalitätsbasierte Charaktere sollten dies überprüfen. "
-"Erhöht die Bedeutung der Vitalität, beeinträchtigt aber die anderen Werte."
+"Für Supporter und Vita-Charaktere. Vitalität bekommt bei jeder Klasse "
+"dieselbe hohe Gewichtung, die anderen Stats verlieren nichts."
 
 #: .\chardata\templates\chardata\projdetails.html:142
 msgid ""
@@ -4955,14 +4970,17 @@ msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:148
 msgid ""
-"Only leechers should check this. This will give very little importance to "
-"all stats except wisdom. Wisdom will be high, but the rest won't be pretty. "
-"Disables trophies and Dofus."
+"Only leechers should check this. Wisdom becomes very important and, "
+"through the wizard, the Cawwot becomes the only Dofus allowed, with no "
+"trophy, unless Prospecting or Pods is checked without an element. "
+"Without an element, the other stats get almost no importance and there "
+"is no AP, MP or Range minimum."
 msgstr ""
-"Nur zum Leveln sollten Sie dies überprüfen. Dies wird allen "
-"Statistiken außer der "
-"Weisheit nur sehr wenig Bedeutung beimessen. Die Weisheit wird hoch sein, "
-"aber der Rest wird nicht schön sein. Deaktiviert Trophäen und Dofus."
+"Nur für Chars, die zum Leveln mitgezogen werden. Weisheit wird sehr "
+"wichtig, und mit dem Assistenten ist außer dem Kawott-Dofus kein Dofus "
+"und keine Trophäe erlaubt, es sei denn, Prospektion oder Pods ist ohne "
+"Element angekreuzt. Ohne Element zählen die anderen Stats kaum noch und "
+"es gibt kein Minimum für AP, BP oder Reichweite."
 
 #: .\chardata\templates\chardata\projdetails.html:149
 msgid ""

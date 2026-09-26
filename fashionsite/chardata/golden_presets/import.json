@@ -1,32 +1,34 @@
 {
 "case_fields":["aspects","build","class","level","minimums","options","weights"],
 "cases":{
-"beta Cra 100":[[],"","Cra",100,"bf21a9e8fb","0512058dc8","3070eea575"],
-"beta Iop 200":[[],"","Iop",200,"bf21a9e8fb","88fc1f9034","111df5b2f5"],
-"dofus2 Cra 100":[[],"","Cra",100,"bf21a9e8fb","0512058dc8","3070eea575"],
-"dofus2 Iop 200":[[],"","Iop",200,"bf21a9e8fb","88fc1f9034","111df5b2f5"],
-"dofus3 Cra 100":[[],"","Cra",100,"bf21a9e8fb","0512058dc8","3070eea575"],
-"dofus3 Iop 200":[[],"","Iop",200,"bf21a9e8fb","88fc1f9034","111df5b2f5"],
-"retro Cra 100":[[],"","Cra",100,"bf21a9e8fb","0b696d8076","8ac4bd16bd"],
-"retro Iop 200":[[],"","Iop",200,"bf21a9e8fb","0b696d8076","837e7c01f7"],
-"touch Cra 100":[[],"","Cra",100,"bf21a9e8fb","0512058dc8","2a5752ac37"],
-"touch Iop 200":[[],"","Iop",200,"bf21a9e8fb","88fc1f9034","f52790e735"]
+"beta Cra 100":[["agi"],"Agi","Cra",100,"07fa9b41c1","0512058dc8","e42136f957"],
+"beta Iop 200":[["agi","int"],"Int/Agi","Iop",200,"2626f0f0f0","88fc1f9034","572182c902"],
+"dofus2 Cra 100":[["agi"],"Agi","Cra",100,"07fa9b41c1","0512058dc8","e42136f957"],
+"dofus2 Iop 200":[["agi","int"],"Int/Agi","Iop",200,"2626f0f0f0","88fc1f9034","572182c902"],
+"dofus3 Cra 100":[["agi"],"Agi","Cra",100,"07fa9b41c1","0512058dc8","e42136f957"],
+"dofus3 Iop 200":[["agi","int"],"Int/Agi","Iop",200,"2626f0f0f0","88fc1f9034","00c5fa3e4c"],
+"retro Cra 100":[["agi","str"],"Str/Agi","Cra",100,"07fa9b41c1","0b696d8076","31213d331b"],
+"retro Iop 200":[["cha","str"],"Str/Cha","Iop",200,"2626f0f0f0","0b696d8076","c29160218e"],
+"touch Cra 100":[["int","str"],"Str/Int","Cra",100,"07fa9b41c1","0512058dc8","a4ce9001b9"],
+"touch Iop 200":[["cha","int"],"Int/Cha","Iop",200,"2626f0f0f0","88fc1f9034","56b84d84e1"]
 },
 "minimums":{
-"bf21a9e8fb":{}
+"07fa9b41c1":{"AP":8,"MP":4,"Range":2,"Summon":1},
+"2626f0f0f0":{"AP":11,"MP":6,"Range":0,"Summon":1}
 },
 "options":{
 "0512058dc8":{"ap_exo":false,"dragoturkey":true,"mp_exo":false,"prysmaradite":false,"rhineetle":true,"seemyool":true,"shields":true,"turq_dofus":false},
 "0b696d8076":{"ap_exo":false,"dragoturkey":true,"mp_exo":false,"prysmaradite":false,"rhineetle":true,"seemyool":true,"shields":false,"turq_dofus":false},
 "88fc1f9034":{"ap_exo":true,"dragoturkey":true,"mp_exo":true,"prysmaradite":true,"rhineetle":true,"seemyool":true,"shields":true,"turq_dofus":true}
 },
-"weight_keys":["agi","airdam","airres","airresper","ap","apred","apres","ch","cha","cridam","crires","dam","dodge","earthdam","earthres","earthresper","firedam","fireres","fireresper","heals","hp","init","int","lock","meleeness","mp","mpred","mpres","neutdam","neutres","neutresper","permedam","perrandam","perspedam","perweadam","pow","pp","pshdam","pshres","range","respermee","resperran","resperwea","str","summon","vit","waterdam","waterres","waterresper","wis"],
+"weight_keys":["agi","airdam","airres","airresper","ap","ap_before_floor","apred","apres","ch","ch_before_floor","cha","cridam","crires","dam","dodge","earthdam","earthres","earthresper","firedam","fireres","fireresper","heals","hp","init","int","lock","meleeness","mp","mpred","mpres","neutdam","neutres","neutresper","permedam","perrandam","perspedam","perweadam","pow","pp","pshdam","pshres","range","respermee","resperran","resperwea","str","summon","vit","waterdam","waterres","waterresper","wis"],
 "weights":{
-"111df5b2f5":"20,0,20,240,2400,0,20,240,1,0,4,0,80,0,20,240,0,20,240,0,20,1,0,120,0,2400,24,20,0,20,240,0,0,0,0,0,4,0,2,0,360,840,360,0,0,20,0,20,240,40",
-"2a5752ac37":"20,0,20,90,1400,0,20,240,1,0,4,0,180,0,20,90,0,20,90,0,18,1,0,20,0,1400,144,20,0,20,90,0,0,0,0,0,4,40,2,1120,0,0,0,0,0,18,0,20,90,40",
-"3070eea575":"20,0,20,90,1400,0,20,240,1,0,4,0,180,0,20,90,0,20,90,0,18,1,0,20,0,1400,144,20,0,20,90,0,0,0,0,0,4,40,2,1120,90,360,90,0,0,18,0,20,90,40",
-"837e7c01f7":"20,0,20,120,2400,0,0,240,1,0,0,0,0,0,20,120,0,20,120,0,20,2,0,0,0,2400,0,0,0,20,120,0,0,0,0,0,4,0,0,0,0,0,0,0,0,20,0,20,120,80",
-"8ac4bd16bd":"20,0,20,80,1400,0,0,240,1,0,0,0,0,0,20,80,0,20,80,0,18,2,0,0,0,1400,0,0,0,20,80,0,0,0,0,0,4,0,0,1120,0,0,0,0,0,18,0,20,80,80",
-"f52790e735":"20,0,20,240,2400,0,20,240,1,0,4,0,80,0,20,240,0,20,240,0,20,1,0,120,0,2400,24,20,0,20,240,0,0,0,0,0,4,0,2,0,0,0,0,0,0,20,0,20,240,40"
+"00c5fa3e4c":"100,600,20,240,37100,2400,0,20,1000,240,1,540,4,1200,80,0,20,240,600,20,240,0,20,1,100,120,0,2400,24,20,0,20,240,768,1152,1440,480,160,4,0,2,0,360,840,360,0,0,20,0,20,240,40",
+"31213d331b":"100,0,20,80,1400,,0,0,240,,1,0,0,1100,0,0,20,80,0,20,80,0,18,2,0,0,0,1400,0,0,0,20,80,0,0,0,0,160,4,0,0,1120,0,0,0,100,0,18,0,20,80,80",
+"56b84d84e1":"20,0,20,240,2400,,0,20,240,,100,562,4,1250,80,0,20,240,650,20,240,0,20,1,100,120,0,2400,24,20,0,20,240,0,0,0,0,160,4,0,2,0,0,0,0,0,0,20,600,20,240,40",
+"572182c902":"100,600,20,240,2400,,0,20,240,,1,540,4,1200,80,0,20,240,600,20,240,0,20,1,100,120,0,2400,24,20,0,20,240,768,1152,1440,480,160,4,0,2,0,360,840,360,0,0,20,0,20,240,40",
+"a4ce9001b9":"20,0,20,90,1400,,0,20,240,,1,592,4,1315,180,650,20,90,600,20,90,0,18,1,100,20,0,1400,144,20,65,20,90,0,0,0,0,160,4,40,2,1120,0,0,0,100,0,18,0,20,90,40",
+"c29160218e":"20,0,20,120,2400,,0,0,240,,100,0,0,1260,0,0,20,120,0,20,120,0,20,2,0,0,0,2400,0,0,0,20,120,0,0,0,0,160,4,0,0,0,0,0,0,100,0,20,0,20,120,80",
+"e42136f957":"120,720,20,90,1400,,0,20,240,,1,324,4,720,180,0,20,90,0,20,90,0,18,1,0,20,0,1400,144,20,0,20,90,56,504,490,70,80,4,40,2,1120,90,360,90,0,0,18,0,20,90,40"
 }
 }

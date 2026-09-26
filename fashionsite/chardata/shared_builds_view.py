@@ -46,8 +46,10 @@ from chardata.image_store import get_image_url
 from chardata.item_sources import (format_acquisition_counts,
                                    summarize_by_ankama_id)
 from chardata.solution import get_solution
+from chardata.solution_result import IMPORT_ORIGINS
 from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
+from chardata.presets import setup_columns
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
 from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS
 from fashionistapulp.fashion_util import strip_accents
@@ -244,8 +246,12 @@ def _get_shared_build_meta(char):
                 item_condition_violations = True
                 break
 
-        project_min_violations = solution._get_min_violations(
-            get_min_stats_digested_by_key(char))
+        # An imported set was never solved under the build's minimums
+        if solved_input.get('origin') in IMPORT_ORIGINS:
+            project_min_violations = []
+        else:
+            project_min_violations = solution._get_min_violations(
+                get_min_stats_digested_by_key(char))
         meta['has_condition_issues'] = (
             item_condition_violations or bool(project_min_violations))
         meta['is_invalid'] = (
@@ -715,10 +721,7 @@ def _gallery(request, forced_class=None):
 
     # Prepare aspect names and layout for checkboxes (same as projdetails.html)
     aspect_to_name = {k: str(v) for k, v in ASPECT_TO_NAME.items()}
-    aspect_layout = [['str', 'int', 'cha', 'agi', 'omni'],
-                     ['pvp', 'duel'],
-                     ['balanced', 'vit', 'glasscannon', 'dam', 'heal', 'aprape', 'mprape', 'crit'],
-                     ['res', 'wis', 'pp', 'pods', 'trap', 'summon', 'pushback', 'noncrit']]
+    aspect_layout = setup_columns(game_version)
     
     params = {
         'builds': builds_data,

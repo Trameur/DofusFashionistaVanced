@@ -10960,6 +10960,9 @@ class SetMaxCapTests(TestCase):
         request = RequestFactory().post('/')
         request.user = owner
         char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+        # create_build seeds the level minimums; this test needs none
+        from chardata.min_stats import set_min_stats
+        set_min_stats(char, {})
 
         wanted = self.SLOT_BY_ITEM[:pieces]
         inclusions = {slot: '' for _, slot in self.SLOT_BY_ITEM}
@@ -12138,6 +12141,9 @@ class SolveFromMyOwnItemsTests(TestCase):
         request = RequestFactory().post('/')
         request.user = owner
         char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+        # create_build seeds the level minimums; this test needs none
+        from chardata.min_stats import set_min_stats
+        set_min_stats(char, {})
         folder = InventoryFolder.objects.create(
             user=owner, name='mine', game_version='dofus3')
         owned = []
@@ -12602,6 +12608,9 @@ class GelanoExoInventoryTests(TestCase):
         req = RequestFactory().post('/')
         req.user = owner
         char = create_build(req, 'Xelor', 150, {'cha'}, 'dofus3')
+        # create_build seeds the level minimums; this test needs none
+        from chardata.min_stats import set_min_stats
+        set_min_stats(char, {})
         folder = InventoryFolder.objects.create(
             user=owner, name='inv', game_version='dofus3')
         InventoryItem.objects.create(folder=folder, item_id=gelano2.id, custom_stats='')
@@ -28364,6 +28373,9 @@ class ConstraintsReachedAreShownTests(TestCase):
         request = RequestFactory().post('/')
         request.user = owner
         char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+        # create_build seeds the level minimums; this test needs none
+        from chardata.min_stats import set_min_stats
+        set_min_stats(char, {})
         self.client.force_login(owner)
         self.client.get('/fashion/%d/' % char.pk)
         char.refresh_from_db()

@@ -70,7 +70,7 @@
 
             <table id="table-checkboxes" class="build-boxes-section">
                 <tr>
-                    <th scope="col" class="build-boxes-column build-boxes-title build-boxes-title-elements">{% trans "Elements" %}</th>
+                    <th scope="col" class="build-boxes-column build-boxes-title build-boxes-title-elements"><span id="element_title">{% trans "Elements" %}</span></th>
                     <th scope="col" class="build-boxes-column build-boxes-title build-boxes-title-options">{% trans "Options" %}</th>
                     <th scope="col" class="build-boxes-column build-boxes-title build-boxes-title-focus" colspan="2">{% trans "Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to 2)</span>" %}</th>
                 </tr>
@@ -82,6 +82,7 @@
     border-radius: 0px 0px 4px 0px;"></td>
                 </tr>
             </table>
+            <p id="no-element-warning" class="red-text" role="alert" style="display: none;">{% trans "No element checked: the build will not look for any damage. Click again to continue anyway." %}</p>
             <br>
 
             {% if temporix_available %}
@@ -156,16 +157,16 @@ var aspectToTip = {
     crit: '{{ _("Focus on critical hits. Useful for characters that have spells/weapons that are much better on a critical hit.")|escapejs }}',
     noncrit: '{{ _("Avoids critical hits. Useful to fight enemies with high critical resist.")|escapejs }}',
     pvp: '{{ _("PVPers should check this. Increases importance of AP/MP resists, critical resist and initiative. Decreases importance of prospecting to 0.")|escapejs }}',
-    duel: '{{ _("1 vs. 1 Duelers should check this. Increases importance of initiative a lot. Enables shields.")|escapejs }}',
-    balanced: '{{ _("This will yield and all-around build.")|escapejs }}',
-    vit: '{{ _("Support and vitality based chars should check this. Increases importance of vitality, but will hurt the other stats.")|escapejs }}',
+    duel: '{{ _("1 vs. 1 duelers should check this. Increases importance of initiative a lot.")|escapejs }}',
+    balanced: '{{ _("No focus: every stat keeps its usual importance. Checking another box in this column unchecks this one.")|escapejs }}',
+    vit: '{{ _("Support and vitality based characters should check this. Vitality gets the same high importance for every class, and the other stats keep theirs.")|escapejs }}',
     glasscannon: '{{ _("Hitters who want damage as high as possible ignoring defense should check this.")|escapejs }}',
     res: '{{ _("Tankers that want very high resists. Increases importance of linear and percentage resists.")|escapejs }}',
     dam: '{{ _("Chars that want +Damage over the main stat, for hitting with low base damage attacks. Increases importance of +Damage and +Elemental Damages.")|escapejs }}',
     heal: '{{ _("Healers that prefer +Heals over intelligence for low base heals spells/weapons. For example, Enis should check this if they intend to heal primarily with Healing Word and Revitalizing Word rather than Word of Sacrifice and Word of Altruism.")|escapejs }}',
     aprape: '{{ _("Disablers that want to focus on AP reduction rather than dealing damage should check this.")|escapejs }}',
     mprape: '{{ _("Disablers that want to focus on MP reduction rather than dealing damage should check this.")|escapejs }}',
-    wis: '{{ _("Only leechers should check this. This will give very little importance to all stats except wisdom. Wisdom will be high, but the rest won't be pretty. Disables trophies and Dofus.")|escapejs }}',
+    wis: '{{ _("Only leechers should check this. Wisdom becomes very important and, through the wizard, the Cawwot becomes the only Dofus allowed, with no trophy, unless Prospecting or Pods is checked without an element. Without an element, the other stats get almost no importance and there is no AP, MP or Range minimum.")|escapejs }}',
     pp: '{{ _("Check this to get a prospecting set, with mediocre stats but high prospecting.")|escapejs }}',
     pods: '{{ _("Check this to get a pod set, pretty much ignoring the rest, primarily for professions.")|escapejs }}',
     trap: '{{ _("Srams that focus on traps should check this, though there isn't much trap equipment. Importance of Power (Traps) and +Trap Damage will be increased.")|escapejs }}',
@@ -195,7 +196,7 @@ function get_questionmark_img()
 }
 
 function createCheckbox(aspect, label, tip) {
-    var resultHtml = '<label><input type="checkbox" name="check_' + aspect + '" id="check_' + aspect + '" name="require_crits" class="change-modifies-state">' + label + '</label>';
+    var resultHtml = '<label><input type="checkbox" name="check_' + aspect + '" id="check_' + aspect + '" class="change-modifies-state">' + label + '</label>';
     if (tip) {
         resultHtml += '<img alt="" class="build-boxes-tip" src=' + get_questionmark_img() + ' title="' + tip + '">';
     }
@@ -304,16 +305,49 @@ function setupCheckboxes() {
 }
 
 function highlightAspectRules() {
-    var text = $("#aspect_limit_text");
+    flashRed($("#aspect_limit_text"));
+}
+
+function flashRed(text) {
     text.addClass("red-text");
     setTimeout(function() {
         text.removeClass("red-text");
     }, 1000);
 }
 
+var noElementWarned = false;
+
+function lacksElement() {
+    var boxes = ["str", "int", "cha", "agi", "omni", "wis", "pp", "pods"];
+    for (var i = 0; i < boxes.length; i++) {
+        if ($("#check_" + boxes[i]).prop('checked')) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function warnOnceWithoutElement() {
+    if (noElementWarned || !lacksElement()) {
+        return false;
+    }
+    noElementWarned = true;
+    $("#no-element-warning").show();
+    flashRed($("#element_title"));
+    return true;
+}
+
+function forgetNoElementWarning() {
+    noElementWarned = false;
+    $("#no-element-warning").hide();
+}
+
 function saveButtonClicked() {
     if (!areAspectsValid()) { 
         highlightAspectRules();
+        return null;
+    }
+    if ($("#reapply-cb").prop('checked') && warnOnceWithoutElement()) {
         return null;
     }
     
@@ -336,6 +370,9 @@ function checkAndSubmit() {
         highlightAspectRules();
         return false;
     }
+    if (warnOnceWithoutElement()) {
+        return false;
+    }
     return true;
 }
 
@@ -349,6 +386,9 @@ $(document).ready(function() {
             box.find("input").prop('checked', initialState["char_build_aspects"][aspect]);
             box.change(function() {
                 $("#reapply-cb").prop('checked', true);
+                if (!lacksElement()) {
+                    forgetNoElementWarning();
+                }
             });
         });
     });
@@ -400,6 +440,7 @@ $(document).ready(function() {
     
     $("#button-discard-changes").click(function() {
         $("#reapply-cb").prop('checked', false);
+        forgetNoElementWarning();
     });
 });
 

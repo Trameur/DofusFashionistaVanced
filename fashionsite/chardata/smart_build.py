@@ -599,7 +599,7 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
     'beta': {},
     'dofus2': {},
     'touch': {
-        # Transfusion Arrow (48-52) leads the kit; the air kit tops at 26-28.
+        # Barricade Arrow (33-36) leads the kit; the air kit tops at 26-28.
         'Cra': {
             'str': {'earthdam': 6.5},
             'agi': {'airdam': 5.0},
@@ -823,13 +823,19 @@ def _param_for_race(race, param, game_version='dofus3'):
         return default_override[param]
     return RACE_TO_BUILD_PROFILE['default'][param]
 
-def _set_minimums(char, aspects):
+def _is_mule_or_leech(aspects):
+    elements = get_elements(aspects)
+    is_mule = not elements and ('pp' in aspects or 'pods' in aspects)
+    is_leech = not elements and 'wis' in aspects and 'pp' not in aspects and 'pods' not in aspects
+    return is_mule, is_leech
+
+def level_minimums(char, aspects):
+    """{stat name: minimum} for AP, MP, Range and Summons at the char's level, class and aspects."""
     race = char.char_class
     game_version = getattr(char, 'game_version', 'dofus3') or 'dofus3'
     level = char.level
     elements = get_elements(aspects)
-    is_mule = not elements and ('pp' in aspects or 'pods' in aspects)
-    is_leech = not elements and 'wis' in aspects and 'pp' not in aspects and 'pods' not in aspects
+    is_mule, is_leech = _is_mule_or_leech(aspects)
 
     mins = {}
 
@@ -876,7 +882,13 @@ def _set_minimums(char, aspects):
 
     if 'summon' in aspects:
         mins['summon'] += 1
- 
+
+    return {STAT_KEY_TO_NAME[k]: int(v) for k, v in mins.items()}
+
+def _set_minimums(char, aspects):
+    mins_by_name = level_minimums(char, aspects)
+    is_mule, is_leech = _is_mule_or_leech(aspects)
+
     # Options
     options = get_options(char)
     # TODO: Implement soft mode and hard mode. In soft mode, avoid switching options.
@@ -893,12 +905,7 @@ def _set_minimums(char, aspects):
     else:
         options['dofus'] = 'cawwot' if ('wis' in aspects) else True
     set_options(char, options)
-    
-    # Convert mins keys
-    mins_by_name = {}
-    for k, v in mins.items():
-        mins_by_name[STAT_KEY_TO_NAME[k]] = int(v)
-    
+
     # Set result in char
     char.minimum_stats = pickle.dumps(mins_by_name)
 
@@ -1099,9 +1106,11 @@ def _set_weights(char, aspects, apply=True):
                          'crires', 'pshres', 'cridam', 'pshdam', 'trapdam',
                          'trapdamper', 'ref', 'permedam', 'perrandam',
                          'perweadam', 'perspedam', 'respermee', 'resperran',
-                         'resperwea', 'init', 'wis', 'ch', 'vit', 'hp',
+                         'resperwea', 'init', 'ch', 'vit', 'hp',
                          'pow', 'str', 'int'):
             w[zero_key] = 0
+        if 'wis' not in aspects:
+            w['wis'] = 0
         for damage_type in DAMAGE_TYPES:
             w['%sres' % damage_type] = 0
             w['%sresper' % damage_type] = 0

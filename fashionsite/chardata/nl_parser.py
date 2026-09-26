@@ -10,7 +10,7 @@
 import re
 import unicodedata
 
-from chardata.presets import DEFAULT_STYLE, style_aspects
+from chardata.presets import DEFAULT_STYLE, capped_focus, offered_style, style_aspects
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 
 
@@ -174,7 +174,14 @@ def _match_aspect_words(tokens):
     return extra
 
 
-def parse_build_request(text):
+def _in_text_order(aspects, ordered_tokens):
+    def first_word(aspect):
+        return min(ordered_tokens.index(w) for w in _ASPECT_WORDS[aspect]
+                   if w in ordered_tokens)
+    return sorted(aspects, key=first_word)
+
+
+def parse_build_request(text, game_version=None):
     """Return a dict describing the parsed build, with `matched` flags."""
     normalized = _normalize(text)
     tokens = set(re.findall(r'[a-z0-9]+', normalized))
@@ -183,13 +190,16 @@ def parse_build_request(text):
     level = _match_level(normalized)
     element = _match_element(tokens)
     # Style and focus read the text without the level already parsed
-    sans_niveau = set(re.findall(r'[a-z0-9]+',
-                                 _NIVEAU_ANNONCE.sub(' ', normalized)))
+    ordered = re.findall(r'[a-z0-9]+', _NIVEAU_ANNONCE.sub(' ', normalized))
+    sans_niveau = set(ordered)
     style = _match_style(sans_niveau)
     extra_aspects = _match_aspect_words(sans_niveau)
 
     resolved_style = style or DEFAULT_STYLE
-    aspects = style_aspects(resolved_style, char_class, element) | extra_aspects
+    if game_version is not None:
+        resolved_style = offered_style(resolved_style, game_version)
+    aspects = capped_focus(style_aspects(resolved_style, char_class, element) | extra_aspects,
+                           _in_text_order(extra_aspects, ordered))
 
     return {
         'char_class': char_class,

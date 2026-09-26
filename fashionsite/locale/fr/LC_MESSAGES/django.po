@@ -4846,6 +4846,18 @@ msgstr ""
 "Se concentrer sur, en sacrifiant d'autres statistiques <span "
 "id='aspect_limit_text'>(maximum 2)</span>"
 
+msgid ""
+"No element checked: the build will not look for any damage. Click again "
+"to continue anyway."
+msgstr ""
+"Aucun élément coché : le build ne cherchera pas à faire de dégâts. "
+"Cliquez à nouveau pour continuer quand même."
+
+#, python-format
+msgid "Check at most %(limit)d boxes in the focus column."
+msgstr ""
+"Cochez au maximum %(limit)d cases dans la colonne « Se concentrer sur »."
+
 #: .\chardata\templates\chardata\projdetails.html:85
 msgid "Create a set by hand"
 msgstr "Créer un stuff manuellement"
@@ -4910,24 +4922,28 @@ msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:139
 msgid ""
-"1 vs. 1 Duelers should check this. Increases importance of initiative a lot. "
-"Enables shields."
+"1 vs. 1 duelers should check this. Increases importance of initiative a "
+"lot."
 msgstr ""
-"Nous conseillons aux joueurs de PvP 1v1 de cocher cette case. Cela augmente "
-"l'importance de l'initiative pendant la recherche, et active les boucliers."
+"Nous conseillons aux joueurs de PvP 1v1 de cocher cette case. Cela "
+"augmente beaucoup l'importance de l'initiative pendant la recherche."
 
 #: .\chardata\templates\chardata\projdetails.html:140
-msgid "This will yield and all-around build."
-msgstr "Cocher cette case vous permettra de créer un stuff équilibré."
+msgid ""
+"No focus: every stat keeps its usual importance. Checking another box in "
+"this column unchecks this one."
+msgstr ""
+"Aucune priorité : chaque caractéristique garde son importance habituelle. "
+"Cocher une autre case de cette colonne décoche celle-ci."
 
 #: .\chardata\templates\chardata\projdetails.html:141
 msgid ""
-"Support and vitality based chars should check this. Increases importance of "
-"vitality, but will hurt the other stats."
+"Support and vitality based characters should check this. Vitality gets "
+"the same high importance for every class, and the other stats keep theirs."
 msgstr ""
-"Nous conseillons aux classes piliers et les classes 'tank' de cocher cette "
-"case. Cela va augmenter l'importance de la vitalité pendant la recherche, "
-"mais baissera celle d'autres caractéristiques."
+"Pour les supports et les personnages axés vitalité. La vitalité prend la "
+"même importance élevée pour toutes les classes, sans rien retirer aux "
+"autres caractéristiques."
 
 #: .\chardata\templates\chardata\projdetails.html:142
 msgid ""
@@ -4986,13 +5002,17 @@ msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:148
 msgid ""
-"Only leechers should check this. This will give very little importance to "
-"all stats except wisdom. Wisdom will be high, but the rest won't be pretty. "
-"Disables trophies and Dofus."
+"Only leechers should check this. Wisdom becomes very important and, "
+"through the wizard, the Cawwot becomes the only Dofus allowed, with no "
+"trophy, unless Prospecting or Pods is checked without an element. "
+"Without an element, the other stats get almost no importance and there "
+"is no AP, MP or Range minimum."
 msgstr ""
-"Seules les mules à XP devraient cocher cette case. Cela donnera peu "
-"d'importance à toutes les stats sauf à la sagesse. Désactive les Trophées et "
-"les Dofus."
+"Seules les mules à XP devraient cocher cette case. La sagesse devient "
+"très importante et, en passant par l'Assistant, seul le Dofus Cawotte "
+"reste autorisé, sans trophée, sauf si Prospection ou Pods est coché sans "
+"élément. Sans élément, les autres caractéristiques ne comptent presque "
+"plus et il n'y a plus de minimum de PA, de PM ni de portée."
 
 #: .\chardata\templates\chardata\projdetails.html:149
 msgid ""

@@ -31,6 +31,7 @@ from chardata.lock_forbid import set_stat_overrides
 from chardata.middleware import looks_like_a_robot
 from chardata.models import CharBaseStats, ImportSourceHit
 from chardata.options import get_options, set_options
+from chardata.presets import gear_elements
 from chardata.screenshot_reader import language_options
 from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
                                         read_items)
@@ -605,7 +606,9 @@ def _lis(request, texte, version_page, formulaire, action=None):
         }, formulaire)
 
     nom = (build['name'] if build and build['name'] else _('Imported build'))
-    char = create_build(request, char_class, niveau, set(), version, name=nom)
+    elements = gear_elements(get_structure(version), item_ids, char_class, niveau, version,
+                             overrides)
+    char = create_build(request, char_class, niveau, elements, version, name=nom)
     _ecrit_les_caracteristiques(
         char, points, parchos,
         complet=bool(build and build.get('base_stats_complete')))

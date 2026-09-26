@@ -19,7 +19,7 @@ from chardata.anon_projects import remember_anon_char
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
 from chardata.presets import DEFAULT_STYLE, offered_style, play_styles, style_aspects
-from chardata.smart_build import set_char_aspects
+from chardata.smart_build import level_minimums, set_char_aspects
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import set_response, version_reverse
 from chardata.version_compat import class_exists_in_version, filter_classes_for_version
@@ -198,6 +198,7 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
     char.auto_publish = wants_to_publish(request)
     char.game_version = game_version
 
+    char.minimum_stats = pickle.dumps(level_minimums(char, aspects))
     set_char_aspects(char, aspects, True, False)
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     # Retro 1.29 has no AP/MP/range exotismes, Turquoise Dofus or prysmaradites.
@@ -261,6 +262,8 @@ def _create_from_coaching(request, game_version):
                     locked[piece['slot']] = piece['id']
     if locked:
         from chardata.lock_forbid import set_inclusions_dict_and_check_exclusions
+        # The locked pieces can make the level's AP/MP out of reach
+        char.minimum_stats = pickle.dumps({})
         set_inclusions_dict_and_check_exclusions(char, locked)
 
     return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))

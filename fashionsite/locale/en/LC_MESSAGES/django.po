@@ -4386,6 +4386,15 @@ msgid ""
 "span>"
 msgstr ""
 
+msgid ""
+"No element checked: the build will not look for any damage. Click again "
+"to continue anyway."
+msgstr ""
+
+#, python-format
+msgid "Check at most %(limit)d boxes in the focus column."
+msgstr ""
+
 #: .\chardata\templates\chardata\projdetails.html:85
 msgid "Create a set by hand"
 msgstr ""
@@ -4436,18 +4445,20 @@ msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:139
 msgid ""
-"1 vs. 1 Duelers should check this. Increases importance of initiative a lot. "
-"Enables shields."
+"1 vs. 1 duelers should check this. Increases importance of initiative a "
+"lot."
 msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:140
-msgid "This will yield and all-around build."
+msgid ""
+"No focus: every stat keeps its usual importance. Checking another box in "
+"this column unchecks this one."
 msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:141
 msgid ""
-"Support and vitality based chars should check this. Increases importance of "
-"vitality, but will hurt the other stats."
+"Support and vitality based characters should check this. Vitality gets "
+"the same high importance for every class, and the other stats keep theirs."
 msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:142
@@ -4490,9 +4501,11 @@ msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:148
 msgid ""
-"Only leechers should check this. This will give very little importance to "
-"all stats except wisdom. Wisdom will be high, but the rest won't be pretty. "
-"Disables trophies and Dofus."
+"Only leechers should check this. Wisdom becomes very important and, "
+"through the wizard, the Cawwot becomes the only Dofus allowed, with no "
+"trophy, unless Prospecting or Pods is checked without an element. "
+"Without an element, the other stats get almost no importance and there "
+"is no AP, MP or Range minimum."
 msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:149
