@@ -18,6 +18,7 @@
 import sqlite3
 
 from fashionistapulp.fashionista_config import get_items_db_path
+from fashionistapulp.item_effects import versions_with_effect_table
 from fashionistapulp.structure import get_structure
 
 _CACHE = {}
@@ -56,15 +57,16 @@ def stats_with_no_source(game_version):
     _CACHE[game_version] = missing
     return missing
 
-# model.py hands a handful of named Dofus 3 items extra objective weight from
+# model.py hands items with a special effect extra objective weight from
 # stats no item carries directly: weighting HP steers the Emerald Dofus,
-# weighting Dodge steers the Ochre. That block returns early for every version
-# other than these two, so only there can a stat with no item source still be
-# inert.
-_VERSIONS_WITH_WEIRD_ITEM_WEIGHTS = ('dofus3', 'beta')
+# weighting Dodge steers the Ochre. Only the versions with an effect table, and
+# beta with its own formulas, get those terms, so only there can a stat with no
+# item source still be inert.
+def _versions_with_weird_item_weights():
+    return versions_with_effect_table() + ('beta',)
 
 
 def stats_not_worth_offering(game_version):
-    if game_version in _VERSIONS_WITH_WEIRD_ITEM_WEIGHTS:
+    if game_version in _versions_with_weird_item_weights():
         return frozenset()
     return stats_with_no_source(game_version)

@@ -23,6 +23,7 @@ from copy import deepcopy
 
 from .exo_options import exo_count
 from .game_versions import get_game_version
+from .item_effects import effect_term, load_effect_table
 from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
                        temporix_only_item_ids)
 from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, percent_resist_cap, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve, NON_STAT_WEIGHT_KEYS
@@ -264,8 +265,9 @@ class Model:
         
         
     def add_weird_item_weights_to_objective_funcion(self, objective_values, level):
-        # Dofus 3 items only, other versions don't have them
-        if getattr(self.structure, 'game_version', 'dofus3') not in ('dofus3', 'beta'):
+        version = getattr(self.structure, 'game_version', 'dofus3')
+        table = load_effect_table(version)
+        if table is None and version != 'beta':
             return
 
         combat_stats = ('dam', 'hp', 'ap', 'mp', 'ch', 'permedam', 'perrandam',
@@ -273,10 +275,24 @@ class Model:
         if not any(objective_values.get(s, 0) for s in combat_stats):
             return
 
-        is_dofus3 = getattr(self.structure, 'game_version', 'dofus3') == 'dofus3'
-        if is_dofus3 and 'ap_before_floor' in objective_values:
-            objective_values = dict(objective_values, ap=objective_values['ap_before_floor'])
+        if table is None:
+            self._legacy_weird_item_weights(objective_values, level)
+            return
+        for key, entry in table['items'].items():
+            term = effect_term(entry, objective_values, level)
+            if not term:
+                continue
+            item = self._effect_table_item(key)
+            if item is not None:
+                self.problem.add_to_of('p', item.id, term)
 
+    def _effect_table_item(self, key):
+        if key.startswith('site:'):
+            return self.structure.get_item_by_id(int(key[len('site:'):]))
+        return self.structure.get_item_by_ankama_id(int(key))
+
+    # Beta only, until it has its own effect table
+    def _legacy_weird_item_weights(self, objective_values, level):
         #Crimson Dofus
         #Deep Crimson: When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).
         crimson_dofus_new_stat_weight = objective_values.get('permedam', 0) * 7 + objective_values.get('perrandam', 0) * 7
@@ -559,10 +575,7 @@ class Model:
 
         #Surpryz
         #The bearer gains 100% Critical on the first turn, 35% on the second turn and 15% on the third turn.
-        surpryz_ch = objective_values.get('ch', 0)
-        if is_dofus3:
-            surpryz_ch = objective_values.get('ch_before_floor', surpryz_ch)
-        surpryz_new_stat_weight = surpryz_ch * 20
+        surpryz_new_stat_weight = objective_values.get('ch', 0) * 20
         self.problem.add_to_of('p',
                                 self.structure.get_item_by_name("Surpryz").id,
                                 surpryz_new_stat_weight)
