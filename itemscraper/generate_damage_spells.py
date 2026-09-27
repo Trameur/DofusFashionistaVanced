@@ -703,10 +703,31 @@ def _prefix_stack_labels(
     return updated
 
 
+def _stack_rows_land_together(
+    spell: Mapping[str, Any],
+    block_rows: Sequence[Mapping[str, Any]],
+) -> bool:
+    """True when a stack's rows all land on the cast, one per element."""
+    if len(block_rows) < 2 or spell.get("ankama_id") in ONE_ELEMENT_FACES:
+        return False
+    situations = {row.get("situation") for row in block_rows}
+    triggers = {row.get("triggers") for row in block_rows}
+    elements = [row.get("element") for row in block_rows]
+    if (None in situations or len(situations) != 1 or len(triggers) != 1
+            or not _lands_on_cast(next(iter(triggers)))
+            or len(set(elements)) != len(elements)):
+        return False
+    if any(row.get("heals") or row.get("delay") or row.get("best_element_group")
+           for row in block_rows):
+        return False
+    return _drawn_groups(spell, block_rows, critical=False) == {}
+
+
 def _build_stack_row_aggregates(
     stack_row_block: int,
     base_row_count: int,
     stack_labels: Sequence[str],
+    together: bool = False,
 ) -> Optional[List[Tuple[str, List[int]]]]:
     if stack_row_block <= 0 or base_row_count <= 0 or not stack_labels:
         return None
@@ -717,6 +738,10 @@ def _build_stack_row_aggregates(
         label = stack_labels[stack_idx]
         if not label:
             label = f"Stack {stack_idx}"
+        if together:
+            aggregates.append((label, list(range(start, min(start + stack_row_block,
+                                                            base_row_count)))))
+            continue
         for offset in range(stack_row_block):
             row_idx = start + offset
             if row_idx >= base_row_count:
@@ -1432,6 +1457,14 @@ def _build_duplicated_row_aggregates(
     kept = int(entry.get("kept") or 0)
     if not kept or len(rows) != 2 * kept:
         return None
+
+    def copied(row):
+        return (row.get("element"), tuple(row.get("ranges") or ()),
+                str(row.get("situation") or "").partition("|")[0])
+
+    # The list is keyed by spell id, not by version
+    if [copied(row) for row in rows[:kept]] != [copied(row) for row in rows[kept:]]:
+        return None
     aggregates = [("", list(range(kept))), ("", list(range(kept, len(rows))))]
     for idx in range(len(rows), total_row_count):
         aggregates.append(("", [idx]))
@@ -2014,7 +2047,9 @@ def convert_spell(
     aggregates = best_element_aggregates or stack_aggregates
     aggregates_from_best = aggregates is best_element_aggregates and aggregates is not None
     if not aggregates and stack_labels and stack_row_block:
-        aggregates = _build_stack_row_aggregates(stack_row_block, base_row_count, stack_labels)
+        aggregates = _build_stack_row_aggregates(
+            stack_row_block, base_row_count, stack_labels,
+            together=_stack_rows_land_together(spell, normal_rows[:stack_row_block]))
     if aggregates_from_best and aggregates and stack_labels and stack_row_block:
         aggregates = _prefix_stack_labels(aggregates, stack_row_block, stack_labels)
     if not aggregates:

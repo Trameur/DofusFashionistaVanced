@@ -13,7 +13,7 @@ SORTS_DECLARES = {'dofus3': 37, 'beta': 37, 'dofus2': 27, 'touch': 6,
                   'retro': 1}
 # Declared and undeclared runs, all versions
 SUITES_DECLAREES = 210
-SUITES_NON_DECLAREES = 86
+SUITES_NON_DECLAREES = 40
 
 
 def _rows_of(spell):

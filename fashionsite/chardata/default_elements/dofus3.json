@@ -80,7 +80,7 @@
    "100": {"element": "int", "inputs": "98a0bdecc33b", "turns": {"agi": 608.8, "cha": 601.7, "int": 608.8, "str": 590.4}},
    "150": {"element": "cha", "inputs": "d94c2dc29533", "turns": {"agi": 1079.0, "cha": 1112.7, "int": 1063.0, "str": 1079.0}},
    "180": {"element": "cha", "inputs": "cba608aa2059", "turns": {"agi": 1506.8, "cha": 1531.7, "int": 1477.5, "str": 1436.3}},
-   "200": {"element": "cha", "inputs": "dc1454d28503", "turns": {"agi": 1990.2, "cha": 2018.3, "int": 1952.4, "str": 1906.9}}
+   "200": {"element": "cha", "inputs": "d43ad4272bc3", "turns": {"agi": 1990.2, "cha": 2018.3, "int": 1952.4, "str": 1906.9}}
   },
   "Iop": {
    "20": {"element": "str", "inputs": "1629e1a6524e", "turns": {"agi": 150.3, "cha": 170.7, "int": 172.7, "str": 189.4}},
@@ -160,7 +160,7 @@
    "100": {"element": "int", "inputs": "8242eddb3ca5", "turns": {"agi": 466.2, "cha": 378.1, "int": 477.1, "str": 422.0}},
    "150": {"element": "int", "inputs": "bfd3d01f9aeb", "turns": {"agi": 868.8, "cha": 744.1, "int": 1092.3, "str": 759.3}},
    "180": {"element": "int", "inputs": "31b83d5c608f", "turns": {"agi": 1139.4, "cha": 1117.3, "int": 1389.1, "str": 1030.8}},
-   "200": {"element": "int", "inputs": "92b8fc599694", "turns": {"agi": 1490.7, "cha": 1505.0, "int": 1889.0, "str": 1458.3}}
+   "200": {"element": "int", "inputs": "6637779e81ca", "turns": {"agi": 1490.7, "cha": 1505.0, "int": 1889.0, "str": 1458.3}}
   }
  }
 }

@@ -69,10 +69,10 @@
   "Huppermage": {
    "20": {"element": "cha", "inputs": "76e777db052f", "turns": {"agi": 169.9, "cha": 185.8, "int": 150.5, "str": 173.2}},
    "50": {"element": "int", "inputs": "46c93f213c58", "turns": {"agi": 251.6, "cha": 260.5, "int": 273.2, "str": 253.7}},
-   "100": {"element": "cha", "inputs": "5d155e35f23b", "turns": {"agi": 594.8, "cha": 652.8, "int": 611.3, "str": 629.8}},
-   "150": {"element": "cha", "inputs": "22aa8e1fb764", "turns": {"agi": 1008.7, "cha": 1102.6, "int": 1005.3, "str": 1049.3}},
-   "180": {"element": "cha", "inputs": "d7c634d08003", "turns": {"agi": 1347.9, "cha": 1462.0, "int": 1378.5, "str": 1342.3}},
-   "200": {"element": "cha", "inputs": "7d684c9a5e95", "turns": {"agi": 1760.3, "cha": 1907.0, "int": 1806.4, "str": 1749.7}}
+   "100": {"element": "cha", "inputs": "3a4884467682", "turns": {"agi": 594.8, "cha": 652.8, "int": 640.8, "str": 629.8}},
+   "150": {"element": "cha", "inputs": "edb6fddf97e2", "turns": {"agi": 1008.7, "cha": 1102.6, "int": 1005.3, "str": 1049.3}},
+   "180": {"element": "cha", "inputs": "35529a349d99", "turns": {"agi": 1347.9, "cha": 1462.0, "int": 1391.6, "str": 1342.3}},
+   "200": {"element": "cha", "inputs": "c1f5a1cde6dd", "turns": {"agi": 1760.3, "cha": 1907.0, "int": 1809.8, "str": 1749.7}}
   },
   "Iop": {
    "20": {"element": "str", "inputs": "cb61b1d72194", "turns": {"agi": 162.4, "cha": 173.2, "int": 172.7, "str": 189.4}},
@@ -152,7 +152,7 @@
    "100": {"element": "int", "inputs": "e0234e42bbfa", "turns": {"agi": 452.9, "cha": 459.6, "int": 717.4, "str": 552.1}},
    "150": {"element": "int", "inputs": "0fc28955923e", "turns": {"agi": 896.7, "cha": 764.9, "int": 1360.2, "str": 837.7}},
    "180": {"element": "int", "inputs": "3e536613c708", "turns": {"agi": 1208.8, "cha": 1021.6, "int": 1712.1, "str": 1191.4}},
-   "200": {"element": "int", "inputs": "d93d510af21d", "turns": {"agi": 1552.7, "cha": 1386.0, "int": 2218.3, "str": 1663.7}}
+   "200": {"element": "int", "inputs": "aa40c16f44dc", "turns": {"agi": 1552.7, "cha": 1386.0, "int": 2218.3, "str": 1663.7}}
   }
  }
 }
