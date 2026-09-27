@@ -7437,6 +7437,12 @@ msgstr "à la fin du tour de la cible, et seulement sur les ennemis autour d'ell
 msgid "only when the flask is destroyed, and only on the enemies around it"
 msgstr "seulement quand la Fiole est détruite, et seulement sur les ennemis autour d'elle"
 
+msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
+msgstr "seulement si le sort est lancé sur le lanceur, et seulement sur les ennemis autour du lanceur et de la Lance"
+
+msgid "only on the enemy it hit first, when the spell is then cast on another target"
+msgstr "seulement sur l'ennemi touché en premier, quand le sort est ensuite lancé sur une autre cible"
+
 msgid "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
 msgstr "seulement si le sort est lancé sur un Feu Follet du lanceur, et seulement sur les ennemis autour de lui"
 
@@ -7489,6 +7495,12 @@ msgstr "au début d'un tour"
 #: .\chardata\spells_view.py:449
 msgid "at the end of a turn"
 msgstr "à la fin d'un tour"
+
+msgid "on a later turn"
+msgstr "lors d'un tour suivant"
+
+msgid "when the double dies at the end of its third turn, on the entities next to it"
+msgstr "à la mort du double, à la fin de son troisième tour, sur les entités à son contact"
 
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"

@@ -539,7 +539,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     return {'casts': casts,
             'without_buffs_note': _without_buffs_note(
                 stats, spells, order, ap, standing, game_version, pushback,
-                char.level),
+                char.level, casts[-1]['running']),
             'rank_note': str(_RANK_NOTES['highest' if au_plus_haut
                                          else 'picked']),
             # standing holds the buffs really in force, not every ticked box
@@ -637,7 +637,7 @@ def _burst_total(stats, spells, order, standing, game_version):
 
 
 def _without_buffs_note(stats, spells, order, ap, standing, game_version,
-                        pushback, caster_level):
+                        pushback, caster_level, shown_total=None):
     """The same turn without the buffs it casts, on the panel's scale."""
     from chardata.spell_combo import best_turn
     buffs = _buff_casts(spells, order)
@@ -652,6 +652,9 @@ def _without_buffs_note(stats, spells, order, ap, standing, game_version,
     if not ordre:
         return ''
     montre = _burst_total(stats, restants, ordre, standing, game_version)
+    # The turn is chosen with its late damage; this turn alone may favour no buff
+    if shown_total is not None and montre >= shown_total:
+        return ''
     return str(_WITHOUT_BUFFS_NOTE) % {'damage': montre}
 
 
@@ -999,6 +1002,9 @@ def _localized_aggregate_label(label, game_version=None):
 _DELAYED_LABELS = {
     'turn_begin': _lazy('at the start of a turn'),
     'turn_end': _lazy('at the end of a turn'),
+    'later_turn': _lazy('on a later turn'),
+    'double_dies': _lazy('when the double dies at the end of its third turn, '
+                         'on the entities next to it'),
 }
 
 # calculate_damage never applies % melee or % ranged
@@ -1077,6 +1083,12 @@ _CONDITIONAL_LABELS = {
     'flask_destroyed':
         _lazy("only when the flask is destroyed, and only on the enemies "
               "around it"),
+    'on_the_caster':
+        _lazy("only when cast on the caster, and only on the enemies around "
+              "the caster and the Lance"),
+    'initial_enemy':
+        _lazy("only on the enemy it hit first, when the spell is then cast on "
+              "another target"),
     'trap': _lazy("only when an enemy sets off the trap"),
     'bomb': _lazy("only when the bomb explodes"),
     'glyph': _lazy("only when an enemy goes through the glyph"),

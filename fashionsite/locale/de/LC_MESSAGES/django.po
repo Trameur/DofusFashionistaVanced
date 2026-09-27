@@ -7383,6 +7383,12 @@ msgstr "am Ende der Runde des Ziels, und nur bei den Gegnern um das Ziel herum, 
 msgid "only when the flask is destroyed, and only on the enemies around it"
 msgstr "nur wenn die Phiole zerstört wird, und nur bei den Gegnern um sie herum"
 
+msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
+msgstr "nur wenn der Zauber auf den Zaubernden gewirkt wird, und nur bei den Gegnern um den Zaubernden und den Wurfspeer herum"
+
+msgid "only on the enemy it hit first, when the spell is then cast on another target"
+msgstr "nur beim zuerst getroffenen Gegner, wenn der Zauber danach auf ein anderes Ziel gewirkt wird"
+
 msgid "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
 msgstr "nur wenn der Zauber auf ein Irrlicht des Zaubernden gewirkt wird, und nur bei den Gegnern um das Irrlicht herum"
 
@@ -7435,6 +7441,12 @@ msgstr "zu Beginn einer Runde"
 #: .\chardata\spells_view.py:449
 msgid "at the end of a turn"
 msgstr "am Ende einer Runde"
+
+msgid "on a later turn"
+msgstr "in einer späteren Runde"
+
+msgid "when the double dies at the end of its third turn, on the entities next to it"
+msgstr "wenn der Doppelgänger am Ende seiner dritten Runde stirbt, bei den Einheiten in Nahkampfentfernung"
 
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"

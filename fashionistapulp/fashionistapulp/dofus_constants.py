@@ -770,7 +770,7 @@ DAMAGE_SPELLS = {
  ('', [4, 10]),
  ('', [6]),
  ('', [8]),
- ('', [11])], stacks=3, is_linked=(1, 'Fulminating Arrow'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'crit': [10, 10]}, spell_id=32446),
+ ('', [11])], stacks=3, is_linked=(1, 'Fulminating Arrow'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'crit': [10, 10]}, spell_id=32446, conditional={6: 'initial_enemy', 8: 'initial_enemy', 11: 'initial_enemy'}, delayed={5: 'later_turn', 7: 'later_turn', 9: 'later_turn', 10: 'later_turn'}),
         Spell('Burning Arrows', [150], Effects(
             [['34-38']],
             [['41-46']],
@@ -2755,7 +2755,7 @@ DAMAGE_SPELLS = {
             [['24-27', '30-34'], ['21-24', '26-30']],
             [['29-33', '36-41'], ['25-29', '31-36']],
             [WATER, WATER],
-        ), is_linked=(1, 'Hot Iron'), casting={'ap': [3, 3], 'per_turn': [1, 1], 'crit': [15, 15]}, spell_id=23268),
+        ), is_linked=(1, 'Hot Iron'), casting={'ap': [3, 3], 'per_turn': [1, 1], 'crit': [15, 15]}, spell_id=23268, conditional={1: 'on_the_caster'}),
         Spell('Noa', [85, 152], Effects(
             [['19-21', '23-26'], ['21-23', '26-29']],
             [['22-25', '28-31'], ['25-28', '31-35']],
@@ -3278,7 +3278,7 @@ DAMAGE_SPELLS = {
             [['26-30', '31-35'], ['41-44', '48-52']],
             [['32-36', '37-42'], ['49-53', '58-62']],
             [WATER, WATER],
-        ), is_linked=(2, 'Divine Sword'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [20, 20]}, spell_id=13117),
+        ), is_linked=(2, 'Divine Sword'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [20, 20]}, spell_id=13117, delayed={1: 'later_turn'}),
         Spell('Agitation', [120, 187], Effects(
             [['15', '20']],
             None,
@@ -4781,7 +4781,7 @@ DAMAGE_SPELLS = {
  ('Stack 5 - Hit in best element', [20]),
  ('Stack 5', [21]),
  ('Stack 5', [22]),
- ('Stack 5', [23])], stacks=5, casting={'ap': [3, 3], 'cooldown': [4, 4]}, spell_id=12936),
+ ('Stack 5', [23])], stacks=5, casting={'ap': [3, 3], 'cooldown': [4, 4]}, spell_id=12936, delayed={0: 'double_dies', 1: 'double_dies', 2: 'double_dies', 3: 'double_dies', 4: 'double_dies', 5: 'double_dies', 6: 'double_dies', 7: 'double_dies', 8: 'double_dies', 9: 'double_dies', 10: 'double_dies', 11: 'double_dies', 12: 'double_dies', 13: 'double_dies', 14: 'double_dies', 15: 'double_dies', 16: 'double_dies', 17: 'double_dies', 18: 'double_dies', 19: 'double_dies', 20: 'double_dies', 21: 'double_dies', 22: 'double_dies', 23: 'double_dies'}),
         Spell('Waylaying', [125, 192], Effects(
             [['19-22', '22-25']],
             [['23-26', '27-30']],
@@ -4995,7 +4995,7 @@ DAMAGE_SPELLS = {
             [['10-12'], ['23-25']],
             [['13-15'], ['28-30']],
             [FIRE, FIRE],
-        ), is_linked=(2, 'Slow Down'), casting={'ap': [2], 'per_turn': [2], 'per_target': [1], 'crit': [5]}, spell_id=13261),
+        ), is_linked=(2, 'Slow Down'), casting={'ap': [2], 'per_turn': [2], 'per_target': [1], 'crit': [5]}, spell_id=13261, delayed={1: 'later_turn'}),
         Spell('Water Clock', [160], Effects(
             [['33-37']],
             [['40-44']],

@@ -69,10 +69,10 @@
   "Forgelance": {
    "20": {"element": "int", "inputs": "b893bbdce232", "turns": {"agi": 162.6, "cha": 158.5, "int": 176.8, "str": 167.5}},
    "50": {"element": "str", "inputs": "d3ce0bf13854", "turns": {"agi": 247.9, "cha": 248.7, "int": 247.9, "str": 249.5}},
-   "100": {"element": "cha", "inputs": "59090975b547", "turns": {"agi": 545.1, "cha": 746.7, "int": 538.0, "str": 557.1}},
-   "150": {"element": "cha", "inputs": "8d4a39204d26", "turns": {"agi": 1069.5, "cha": 1361.4, "int": 1021.3, "str": 1031.8}},
-   "180": {"element": "cha", "inputs": "cabeef2e09ae", "turns": {"agi": 1413.2, "cha": 1747.5, "int": 1354.8, "str": 1416.1}},
-   "200": {"element": "cha", "inputs": "522aabc63410", "turns": {"agi": 1888.5, "cha": 2317.1, "int": 1886.5, "str": 1973.5}}
+   "100": {"element": "str", "inputs": "cb8233f021bd", "turns": {"agi": 545.1, "cha": 542.0, "int": 538.0, "str": 557.1}},
+   "150": {"element": "cha", "inputs": "a6af734a04f0", "turns": {"agi": 1069.5, "cha": 1049.3, "int": 1021.3, "str": 1031.8}},
+   "180": {"element": "cha", "inputs": "d202d3c5c04e", "turns": {"agi": 1413.2, "cha": 1389.2, "int": 1354.8, "str": 1416.1}},
+   "200": {"element": "str", "inputs": "5243f3eece24", "turns": {"agi": 1888.5, "cha": 1886.5, "int": 1886.5, "str": 1973.5}}
   },
   "Huppermage": {
    "20": {"element": "agi", "inputs": "a26d24d39760", "turns": {"agi": 199.4, "cha": 192.9, "int": 187.9, "str": 192.5}},

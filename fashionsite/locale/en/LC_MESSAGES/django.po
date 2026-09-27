@@ -6536,6 +6536,12 @@ msgstr "at the end of the target's turn, and only on the enemies around it, neve
 msgid "only when the flask is destroyed, and only on the enemies around it"
 msgstr "only when the flask is destroyed, and only on the enemies around it"
 
+msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
+msgstr "only when cast on the caster, and only on the enemies around the caster and the Lance"
+
+msgid "only on the enemy it hit first, when the spell is then cast on another target"
+msgstr "only on the enemy it hit first, when the spell is then cast on another target"
+
 msgid "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
 msgstr "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
 
@@ -6584,6 +6590,12 @@ msgstr ""
 #: .\chardata\spells_view.py:449
 msgid "at the end of a turn"
 msgstr ""
+
+msgid "on a later turn"
+msgstr "on a later turn"
+
+msgid "when the double dies at the end of its third turn, on the entities next to it"
+msgstr "when the double dies at the end of its third turn, on the entities next to it"
 
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"

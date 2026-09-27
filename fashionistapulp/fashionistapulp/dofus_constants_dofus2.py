@@ -2269,7 +2269,7 @@ DAMAGE_SPELLS = {
             [['24-27', '30-34'], ['21-24', '26-30']],
             [['29-33', '36-41'], ['25-29', '31-36']],
             [WATER, WATER],
-        ), is_linked=(1, 'Muspel'), casting={'ap': [3, 3], 'per_turn': [1, 1], 'crit': [5, 5]}, spell_id=23268),
+        ), is_linked=(1, 'Muspel'), casting={'ap': [3, 3], 'per_turn': [1, 1], 'crit': [5, 5]}, spell_id=23268, conditional={1: 'on_the_caster'}),
         Spell('Parry', [115, 182], Effects(
             [['21-24', '26-30'], ['21-24', '26-30'], ['21-24', '26-30'], ['21-24', '26-30']],
             None,
@@ -2947,7 +2947,7 @@ DAMAGE_SPELLS = {
             [['26-30', '31-35'], ['41-44', '48-52']],
             [['32-36', '37-42'], ['49-53', '58-62']],
             [WATER, WATER],
-        ), is_linked=(2, 'Divine Sword'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [20, 20]}, spell_id=13117),
+        ), is_linked=(2, 'Divine Sword'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [20, 20]}, spell_id=13117, delayed={1: 'later_turn'}),
         Spell('Power', [40, 107, 174], Effects(
             [['150', '200', '300'], ['50', '100', '150']],
             [['180', '240', '350'], ['60', '120', '180']],
@@ -4361,7 +4361,7 @@ DAMAGE_SPELLS = {
  ('Stack 5 - Hit in best element', [20]),
  ('Stack 5', [21]),
  ('Stack 5', [22]),
- ('Stack 5', [23])], stacks=5, casting={'ap': [3, 3], 'cooldown': [5, 5]}, spell_id=12936),
+ ('Stack 5', [23])], stacks=5, casting={'ap': [3, 3], 'cooldown': [5, 5]}, spell_id=12936, delayed={0: 'double_dies', 1: 'double_dies', 2: 'double_dies', 3: 'double_dies', 4: 'double_dies', 5: 'double_dies', 6: 'double_dies', 7: 'double_dies', 8: 'double_dies', 9: 'double_dies', 10: 'double_dies', 11: 'double_dies', 12: 'double_dies', 13: 'double_dies', 14: 'double_dies', 15: 'double_dies', 16: 'double_dies', 17: 'double_dies', 18: 'double_dies', 19: 'double_dies', 20: 'double_dies', 21: 'double_dies', 22: 'double_dies', 23: 'double_dies'}),
         Spell('Larceny', [50, 117, 184], Effects(
             [['24-27', '34-38', '38-42'], ['40', '60', '100']],
             [['29-32', '41-45', '46-50'], ['40', '60', '100']],

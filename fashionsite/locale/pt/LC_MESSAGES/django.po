@@ -7382,6 +7382,12 @@ msgstr "no fim do turno do alvo, e apenas nos inimigos ao redor dele, nunca no p
 msgid "only when the flask is destroyed, and only on the enemies around it"
 msgstr "apenas quando o Frasco é destruído, e apenas nos inimigos ao redor dele"
 
+msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
+msgstr "apenas se lançado no lançador, e apenas nos inimigos ao redor do lançador e da Lança"
+
+msgid "only on the enemy it hit first, when the spell is then cast on another target"
+msgstr "apenas no inimigo atingido primeiro, quando o feitiço é lançado depois em outro alvo"
+
 msgid "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
 msgstr "apenas se lançado em um Fogo-Fátuo do lançador, e apenas nos inimigos ao redor dele"
 
@@ -7434,6 +7440,12 @@ msgstr "no início de um turno"
 #: .\chardata\spells_view.py:449
 msgid "at the end of a turn"
 msgstr "no fim de um turno"
+
+msgid "on a later turn"
+msgstr "em um turno posterior"
+
+msgid "when the double dies at the end of its third turn, on the entities next to it"
+msgstr "quando o dublê morre, ao fim de seu terceiro turno, nas entidades em contato com ele"
 
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"

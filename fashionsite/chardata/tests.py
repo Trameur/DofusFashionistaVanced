@@ -19585,6 +19585,12 @@ class SpellComboTests(SimpleTestCase):
                                 'es': 'cuando lo destruyen',
                                 'pt': 'quando é destruído',
                                 'de': 'wenn sie zerstört wird'},
+            'on_the_caster': {'en': 'on the caster', 'fr': 'sur le lanceur',
+                              'es': 'sobre el lanzador', 'pt': 'no lançador',
+                              'de': 'beim zaubernden'},
+            'initial_enemy': {'en': 'initial enemy', 'fr': 'ennemi initial',
+                              'es': 'enemigo inicial', 'pt': 'inimigo inicial',
+                              'de': 'ursprünglichen gegner'},
         }
         self.assertTrue(module.CONDITIONAL_ROWS)
         declared = {trigger
@@ -19807,7 +19813,7 @@ class SpellComboTests(SimpleTestCase):
         self.assertTrue(checked, 'no class with a late row was exercised')
 
     def test_what_lands_late_is_read_from_the_client_not_a_list(self):
-        # Client trigger per damage row: I on cast, TB turn start, TE turn end
+        # Client trigger per damage row: I on cast, TB turn start, TE turn end; else its delay
         from fashionistapulp.dofus_constants import DAMAGE_SPELLS
         late = [spell for spells in DAMAGE_SPELLS.values()
                 for spell in spells if getattr(spell, 'delayed', None)]
@@ -19815,7 +19821,8 @@ class SpellComboTests(SimpleTestCase):
         for spell in late:
             for index, when in spell.delayed.items():
                 with self.subTest(spell=spell.name):
-                    self.assertIn(when, ('turn_begin', 'turn_end'))
+                    self.assertIn(when, ('turn_begin', 'turn_end', 'later_turn',
+                                         'double_dies'))
                     self.assertLess(index, len(spell.effects.elements))
         # A plain damage spell has none
         iop = {spell.name: spell for spell in DAMAGE_SPELLS['Iop']}

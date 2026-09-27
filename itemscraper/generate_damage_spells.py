@@ -13,9 +13,11 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Set, Tuple
 
 try:
-    from .get_spells import ELEMENT_ID_TO_TOKEN, SpellTransformer, select_default_spells
+    from .get_spells import (BEST_ELEMENT_DESCRIPTION_TOKENS, ELEMENT_ID_TO_TOKEN,
+                             SpellTransformer, _zone_signature, select_default_spells)
 except ImportError:
-    from get_spells import ELEMENT_ID_TO_TOKEN, SpellTransformer, select_default_spells
+    from get_spells import (BEST_ELEMENT_DESCRIPTION_TOKENS, ELEMENT_ID_TO_TOKEN,
+                            SpellTransformer, _zone_signature, select_default_spells)
 
 AUTO_START = "# AUTO-GENERATED DAMAGE_SPELLS START"
 AUTO_END = "# AUTO-GENERATED DAMAGE_SPELLS END"
@@ -126,6 +128,86 @@ def _rows_that_wait(normal_rows):
     return delayed, conditional
 
 
+# An effect's delay is the number of turns before it lands
+LATER_TURN = "later_turn"
+
+# Per version: what a spell's text says about the turn its delayed rows land
+_MODERN_DELAYED_WHEN = {
+    12936: "double_dies",   # Sram, Plotter
+}
+
+DELAYED_WHEN_BY_VERSION = {
+    "dofus3": _MODERN_DELAYED_WHEN,
+    "beta": _MODERN_DELAYED_WHEN,
+    "dofus2": {
+        12936: "double_dies",   # Sram, Plotter
+    },
+}
+
+DELAYED_WHEN = DELAYED_WHEN_BY_VERSION["dofus3"]
+
+
+def _stamp_delays(spell, rows, critical):
+    """Copies the delay of each damage effect onto the rows it writes; why it could not, or None."""
+    problem = None
+    for level_idx, level in enumerate(spell.get("levels") or []):
+        seen: Dict[Tuple[Any, ...], int] = {}
+        for effect in level.get("critical_effects" if critical else "effects") or []:
+            metadata = effect.get("effect_metadata") or {}
+            if metadata.get("category") != 2:
+                continue
+            ranges = SpellTransformer._format_range(effect.get("dice"))
+            text = ((metadata.get("description") or {}).get("en") or "").lower()
+            token = ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
+            best = not token and any(word in text for word in BEST_ELEMENT_DESCRIPTION_TOKENS)
+            if not ranges or not (token or best):
+                continue
+            situation = "%s|%s" % (effect.get("target_mask") or "",
+                                   _zone_signature(effect.get("zone")))
+            # Rows follow the effect order: the nth effect of a shape wrote the nth row of it
+            shape = (situation, token, best, "steal" in text, "heal" in text, ranges)
+            rank = seen.get(shape, 0)
+            seen[shape] = rank + 1
+            delay = effect.get("delay") or 0
+            if delay <= 0:
+                continue
+
+            def unit(idx):
+                return rows[idx].get("best_element_group") if best else idx
+
+            matches = [
+                idx for idx, row in enumerate(rows)
+                if row.get("situation") == situation
+                and (bool(row.get("best_element_group")) if best
+                     else row.get("element") == token)
+                and bool(row.get("steals")) == ("steal" in text)
+                and bool(row.get("heals")) == ("heal" in text)
+                and level_idx < len(row.get("ranges") or ())
+                and row["ranges"][level_idx] == ranges]
+            units = list(dict.fromkeys(unit(idx) for idx in matches))
+            if rank >= len(units):
+                problem = problem or "an effect with a delay writes no row"
+                continue
+            for idx in matches:
+                if unit(idx) == units[rank]:
+                    rows[idx]["delay"] = delay
+    return problem
+
+
+def _lands_on_cast(triggers):
+    return {code for code in str(triggers or '').split('|') if code} <= {'I'}
+
+
+def _late_rows(rows, from_triggers, when, held):
+    """{index: when} for the rows landing on a later turn, by trigger else by delay."""
+    late = dict(from_triggers)
+    for idx, row in enumerate(rows):
+        if (row.get("delay") and idx not in late and idx not in held
+                and _lands_on_cast(row.get("triggers"))):
+            late[idx] = when
+    return dict(sorted(late.items()))
+
+
 # Per version: the same id can be another spell in 2.73 (12882 Cheek / Nerve)
 _MODERN_CONDITIONAL_ROWS = {
     # Noa: row marked "I" but only lands on pushback
@@ -154,6 +236,11 @@ _MODERN_CONDITIONAL_ROWS = {
     # Rows 4 to 7 are the flask's, dealt when it is destroyed
     25802: {4: "flask_destroyed", 5: "flask_destroyed", 6: "flask_destroyed",
             7: "flask_destroyed"},   # Eniripsa, Alchemical Word
+    # Row 1 has the ring zone of the cast on the caster
+    23268: {1: "on_the_caster"},   # Forgelance, Jormun
+    # Rows 6, 8, 11 have the ring zone that spares the new target
+    32446: {6: "initial_enemy", 8: "initial_enemy",
+            11: "initial_enemy"},   # Cra, Devouring Arrow
 }
 
 CONDITIONAL_ROWS_BY_VERSION = {
@@ -173,6 +260,8 @@ CONDITIONAL_ROWS_BY_VERSION = {
         13147: {1: "around_the_target_at_turn_end"},   # Iop, Sentence
         # Row 1 shows the damage a sub-spell deals at turn end in a C2,1 ring
         13568: {1: "around_the_target_at_turn_end"},   # Sadida, Bush Fire
+        # Row 1 is the weaker damage of the cast on the caster
+        23268: {1: "on_the_caster"},   # Forgelance, Jormun
     },
 }
 
@@ -313,6 +402,8 @@ class SpellEntry:
     delayed_crit: Optional[Dict[int, str]] = None
     # Why a chance on the damage rows could not be read as one draw; never rendered
     draw_problem: Optional[str] = None
+    # Why a delay could not be put on its row; never rendered
+    delay_problem: Optional[str] = None
 
 
 def _parse_damage_literal(literal: str) -> tuple[int, int]:
@@ -833,6 +924,10 @@ def build_spell_map(class_data: Mapping[str, Any], all_spells: Sequence[Mapping[
             print("Warning: %s (%s) rolls a chance on its damage rows and is summed "
                   "as usual: %s" % (converted.name, converted.ankama_id,
                                     converted.draw_problem), file=sys.stderr)
+        if matched_classes and converted.delay_problem:
+            print("Warning: %s (%s) lands some damage later and is summed as "
+                  "usual: %s" % (converted.name, converted.ankama_id,
+                                 converted.delay_problem), file=sys.stderr)
         if matched_classes:
             for class_name in matched_classes:
                 spells_by_class[class_name].append(replace(converted))
@@ -1840,6 +1935,9 @@ def convert_spell(
 
     normal_rows = damage.get("normal") or []
     crit_rows = damage.get("critical") or []
+    # Before the stack rows are cloned from them
+    delay_problem = _stamp_delays(spell, normal_rows, critical=False)
+    delay_problem = _stamp_delays(spell, crit_rows, critical=True) or delay_problem
 
     stack_row_block = len(normal_rows)
     stack_labels: Optional[List[str]] = None
@@ -1963,16 +2061,21 @@ def convert_spell(
         aggregates = _listed_waits_drawn(aggregates, CONDITIONAL_ROWS.get(spell.get("ankama_id")))
     if not non_crit:
         return None
-    delayed = dict(_waiting_rows[0])
-    delayed.update(block_lands)
-    delayed_crit = None
-    if _waiting_crit is not None and _waiting_crit[0] != _waiting_rows[0]:
-        delayed_crit = dict(_waiting_crit[0])
-        delayed_crit.update(block_lands)
     holds_back = dict(_waiting_rows[1])
     holds_back.update(block_waits)
     for idx, trigger in _rows_only_on_allies(normal_rows, crit_rows).items():
         holds_back.setdefault(idx, trigger)
+    conditional = _conditional_rows(spell.get("ankama_id") or 0, elements, holds_back)
+    when = DELAYED_WHEN.get(spell.get("ankama_id"), LATER_TURN)
+    late = _late_rows(normal_rows, _waiting_rows[0], when, conditional or {})
+    delayed = dict(late)
+    delayed.update(block_lands)
+    delayed_crit = None
+    if _waiting_crit is not None:
+        late_crit = _late_rows(crit_rows, _waiting_crit[0], when, conditional or {})
+        if late_crit != late:
+            delayed_crit = dict(late_crit)
+            delayed_crit.update(block_lands)
     stacks = stack_limit
     variant_link = spell.get("variant_link")
     is_linked = _convert_variant_link(variant_link)
@@ -1994,10 +2097,11 @@ def convert_spell(
         order=order,
         ankama_id=ankama_id,
         casting=_casting(spell, len(level_requirements)),
-        conditional=_conditional_rows(ankama_id, elements, holds_back),
+        conditional=conditional,
         delayed=delayed or None,
         delayed_crit=delayed_crit,
         draw_problem=draw_problem,
+        delay_problem=delay_problem,
     )
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
@@ -2294,7 +2398,7 @@ def _version_named(suffix: str) -> str:
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
-    global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER, ONE_ELEMENT_FACES
+    global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER, ONE_ELEMENT_FACES, DELAYED_WHEN
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -2307,6 +2411,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ALLY_ONLY_MASKS = ALLY_ONLY_MASKS_BY_VERSION[args.game_version]
     CARRIED_MASK_LETTER = CARRIED_MASK_LETTER_BY_VERSION[args.game_version]
     ONE_ELEMENT_FACES = ONE_ELEMENT_FACES_BY_VERSION[args.game_version]
+    DELAYED_WHEN = DELAYED_WHEN_BY_VERSION[args.game_version]
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)
