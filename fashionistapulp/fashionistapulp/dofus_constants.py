@@ -234,6 +234,10 @@ def get_stat_maximum(game_version, temporix=False):
         '% Water Resist': 53,
         '% Earth Resist': 53,
     }
+    if game_version == 'touch':
+        # Touch caps a player's % resistances at 35 since 1.59
+        for element in ('Neutral', 'Air', 'Fire', 'Water', 'Earth'):
+            caps['%% %s Resist' % element] = 38
     if game_version != 'retro':
         caps['AP'] = 12
         caps['MP'] = 6

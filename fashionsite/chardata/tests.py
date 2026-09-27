@@ -7572,13 +7572,15 @@ class StatMaximumPerVersionTests(SimpleTestCase):
         self.assertNotIn('MP', caps)
         self.assertNotIn('Range', caps)
 
-    def test_resist_cap_is_version_neutral(self):
+    def test_resist_cap_is_the_game_cap_plus_three(self):
         from fashionistapulp.dofus_constants import get_stat_maximum
-        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
-            caps = get_stat_maximum(version)
-            for element in ('% Neutral Resist', '% Air Resist', '% Fire Resist',
-                            '% Water Resist', '% Earth Resist'):
-                self.assertEqual(caps[element], 53, '%s %s' % (version, element))
+        expected = {'dofus3': 53, 'beta': 53, 'dofus2': 53, 'retro': 53, 'touch': 38}
+        for version, cap in expected.items():
+            for temporix in (False, True):
+                caps = get_stat_maximum(version, temporix=temporix)
+                for element in ('% Neutral Resist', '% Air Resist', '% Fire Resist',
+                                '% Water Resist', '% Earth Resist'):
+                    self.assertEqual(caps[element], cap, '%s %s' % (version, element))
 
 
 class DropMonsterLevelTests(TestCase):
