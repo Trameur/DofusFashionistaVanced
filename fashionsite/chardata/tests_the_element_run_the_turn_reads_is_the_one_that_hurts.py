@@ -25,7 +25,7 @@ _MOITIE_QUI_FRAPPE = {
 }
 
 # Spells with a buff-only group, spells with several element runs
-_AVEC_GROUPE_DE_BUFF = 10
+_AVEC_GROUPE_DE_BUFF = 14
 _AVEC_PLUSIEURS_SERIES = 35
 
 _ZEROS_RESTANTS = {'dofus3': 52, 'beta': 52, 'dofus2': 26,

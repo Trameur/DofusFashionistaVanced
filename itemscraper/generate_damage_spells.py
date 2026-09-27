@@ -235,10 +235,17 @@ CARRIED_MASK_LETTER_BY_VERSION = {
 CARRIED_MASK_LETTER = CARRIED_MASK_LETTER_BY_VERSION["dofus3"]
 
 # Element rows that are the faces of one hit, with the French words saying so
-ONE_ELEMENT_FACES_BY_VERSION = {
+_MODERN_ONE_ELEMENT_FACES = {
     # Eniripsa, Alchemical Word: the flask holds one element
-    "dofus3": {25802: "des dommages selon son contenu"},
-    "beta": {25802: "des dommages selon son contenu"},
+    25802: "des dommages selon son contenu",
+    # Huppermage, Runification and Manifestation: one rune, so one element
+    13670: "une rune du lanceur pour voler de la vie",
+    13710: "une rune du lanceur pour voler de la vie",
+}
+
+ONE_ELEMENT_FACES_BY_VERSION = {
+    "dofus3": _MODERN_ONE_ELEMENT_FACES,
+    "beta": _MODERN_ONE_ELEMENT_FACES,
     "dofus2": {},
 }
 

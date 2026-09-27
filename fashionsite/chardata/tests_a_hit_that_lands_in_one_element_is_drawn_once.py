@@ -9,10 +9,10 @@ from chardata.spells_view import convert_aggregates, _one_lands_kind
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
 # Spells with a declared one-element run, per version
-SORTS_DECLARES = {'dofus3': 35, 'beta': 35, 'dofus2': 27, 'touch': 6,
+SORTS_DECLARES = {'dofus3': 37, 'beta': 37, 'dofus2': 27, 'touch': 6,
                   'retro': 1}
 # Declared and undeclared runs, all versions
-SUITES_DECLAREES = 206
+SUITES_DECLAREES = 210
 SUITES_NON_DECLAREES = 86
 
 
