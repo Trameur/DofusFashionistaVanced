@@ -32,6 +32,8 @@ STAT_KEYS = ELEMENT_KEYS + ('hp', 'ap', 'mp', 'ch', 'pow', 'dam', 'perspedam', '
 EQUIVALENT_KEYS = frozenset(PSEUDO_KEYS + STAT_KEYS)
 # No evaluator measures shields, heals or damage reductions: only an HP loss is paid
 COST_ONLY_KEYS = ('hp',)
+# No evaluator sees the gains of an estimated entry: only its losses are paid
+COST_ONLY_STATUSES = ('estimated',)
 
 # Worth depends on the wearer's class, which effect_term does not read
 CLASS_BOUND_RULES = ('class_item_spell_modifiers',)
@@ -120,6 +122,7 @@ def effect_term(entry, weights, level):
     by_count = (entry.get('equivalents_by_elements') or {}).get(str(len(played)))
     if by_count is not None:
         equivalents = by_count
+    cost_only = entry.get('status') in COST_ONLY_STATUSES
     return sum(amount * _weight(stat, weights, played, level)
                for stat, amount in equivalents.items()
-               if stat != 'sets' and not (stat in COST_ONLY_KEYS and amount > 0))
+               if stat != 'sets' and not (amount > 0 and (cost_only or stat in COST_ONLY_KEYS)))

@@ -114,6 +114,27 @@ class EffectTermTests(SimpleTestCase):
                     with self.subTest(aspects=aspects, item=key):
                         self.assertLessEqual(effect_term(entry, w, 200), 0)
 
+    def test_an_estimated_entry_pays_its_losses_and_not_its_gains(self):
+        w = dict(self.WEIGHTS, int=60)
+        gains = {'final': 2, 'played_char': 10}
+        self.assertEqual(0, effect_term({'status': 'estimated', 'equivalents': gains}, w, 200))
+        self.assertEqual(2 * 80 + 10 * 100,
+                         effect_term({'status': 'measured', 'equivalents': gains}, w, 200))
+        self.assertEqual(-600 * 20 * 100 / 200.0,
+                         effect_term({'status': 'estimated',
+                                      'equivalents': {'hp': -600, 'played_char': 10}}, w, 100))
+
+    def test_no_estimated_entry_of_the_dofus3_table_has_a_positive_term(self):
+        for aspects in (('str',), ('int', 'cha'), ('str', 'int', 'cha', 'agi')):
+            w = weights('dofus3', aspects)
+            terms = [effect_term(entry, w, 200)
+                     for entry in load_effect_table('dofus3')['items'].values()
+                     if entry.get('status') == 'estimated']
+            with self.subTest(aspects=aspects):
+                self.assertTrue(terms)
+                self.assertLessEqual(max(terms), 0)
+                self.assertLess(min(terms), 0)
+
     def test_entries_without_equivalents_or_bound_to_a_class_are_not_paid(self):
         self.assertEqual(0, effect_term({'status': 'not_valued', 'equivalents': {}},
                                         self.WEIGHTS, 200))
