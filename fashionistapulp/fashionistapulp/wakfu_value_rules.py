@@ -83,4 +83,33 @@ RULES = {
     'resources_kept_at_base': Rule(
         ('MP', 'WP'), CHOICE,
         'gear never takes MP or WP below a bare character'),
+    'melee_mastery_up_to_cells': Rule(
+        2, FAN, METHODWAKFU),
+    'side_hit_multiplier': Rule(
+        1.10, FAN, METHODWAKFU),
+    'rear_hit_multiplier': Rule(
+        1.25, FAN, METHODWAKFU),
+    'light_uses_best_element_mastery': Rule(
+        True, ASSUMPTION,
+        'a Light damage row takes the highest of the four element masteries'),
+    'casts_per_spell_per_turn': Rule(
+        3, ASSUMPTION,
+        'the encyclopedia states no per-turn cast limit for damage spells, so '
+        'a turn casts one spell at most this many times'),
+    'wp_spent_per_turn': Rule(
+        1, ASSUMPTION,
+        'a turn meant to repeat spends at most this many WP of the pool'),
+    'later_event_rows_count': Rule(
+        False, CHOICE,
+        'a damage row that lands on a later event (the start or end of a turn, '
+        'a trigger) stays out of the turn, whether the text states the timing '
+        'before or after the figure'),
+    'caster_does_not_move': Rule(
+        True, ASSUMPTION,
+        'the caster spends no MP on moving: every MP goes to spells, and a row '
+        'that needs the caster not to have moved counts'),
+    'spells_castable_at_every_level': Rule(
+        True, ASSUMPTION,
+        'the spell tables give every spell figures from level 1 and no unlock '
+        'level, so a turn at any level may cast every spell of the class'),
 }

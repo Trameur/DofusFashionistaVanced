@@ -48,6 +48,9 @@ class Command(BaseCommand):
         parser.add_argument('--allow-legacy', action='store_true',
                             help='let the solver pick legacy items, left out '
                                  'by default')
+        parser.add_argument('--class-id', type=int, default=None,
+                            help="Ankama class id: print that class's best turn "
+                                 'on the kept set (damage model only)')
 
     def handle(self, *args, **options):
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -136,6 +139,8 @@ class Command(BaseCommand):
                                            for cle in interessantes))
         if model is not None:
             self.print_model(role, options['level'], model)
+            if options['class_id']:
+                self.print_turn(role, options['level'], options['class_id'], totals)
 
     def hand_weights(self, text):
         weights = {}
@@ -181,6 +186,62 @@ class Command(BaseCommand):
         self.stdout.write('  ' + '  '.join('%s %.4g' % (key.upper(), weights[key])
                                            for key in sorted(weights)
                                            if weights[key]))
+
+    def print_turn(self, role, level, class_id, totals):
+        from fashionistapulp import wakfu_turn
+
+        critical, source = self.harvest_criticals(level)
+        book = wakfu_turn.SpellBook(critical=critical)
+        try:
+            spells = book.spells(class_id, level)
+        finally:
+            book.close()
+        self.stdout.write('')
+        if not spells:
+            self.stdout.write(self.style.WARNING(
+                'class %d has no damage spell in the tables' % class_id))
+            return
+        turn = wakfu_turn.best_turn(spells, role, totals)
+        names = {spell.id: spell.name for spell in spells}
+        self.stdout.write('  best turn of class %d: %.0f expected damage, %s'
+                          % (class_id, turn.damage,
+                             ', '.join(names[one] for one in turn.casts) or 'no cast'))
+        self.stdout.write('  budget %(ap)d AP, %(wp)d WP, %(mp)d MP, a spell at most '
+                          '%(casts_per_spell)d times' % turn.settings)
+        self.stdout.write('  critical values: %s' % source)
+        if turn.stance:
+            self.stdout.write('  stance: %s' % wakfu_turn.describe(turn.stance))
+        for label, entries in (('counted', turn.counted), ('not counted', turn.dropped)):
+            for spell_id, position, keys, heading in entries:
+                self.stdout.write('  %s: %s row %d, %s%s' % (
+                    label, names[spell_id], position,
+                    ', '.join(wakfu_turn.describe(key) for key in keys),
+                    ' (%s)' % heading if heading else ''))
+        for spell_ids, key, detail in turn.unmodelled:
+            self.stdout.write('  not modelled: %s, %s: %s' % (
+                ', '.join(names[one] for one in spell_ids),
+                wakfu_turn.describe(key), detail))
+
+    @staticmethod
+    def harvest_criticals(level):
+        """(critical values of the French harvest at `level` or None, where they come from)."""
+        import os
+        from fashionistapulp import wakfu_turn
+
+        if level >= wakfu_turn.TEXT_LEVEL:
+            return None, 'the encyclopedia text at level %d' % wakfu_turn.TEXT_LEVEL
+        fallback = 'x%s the base damage, no French spell harvest' % (
+            wakfu_turn.rule('critical_multiplier'))
+        try:
+            from itemscraper.wakfu_mirror import current_build_dir
+        except ImportError:
+            return None, fallback
+        folder = current_build_dir()
+        path = folder and os.path.join(str(folder), 'spells_fr.json')
+        if not path or not os.path.exists(path):
+            return None, fallback
+        return (wakfu_turn.harvest_criticals(path, [level]),
+                'the French spell harvest of %s' % os.path.basename(str(folder)))
 
     @staticmethod
     def why_empty(worn, slot):
