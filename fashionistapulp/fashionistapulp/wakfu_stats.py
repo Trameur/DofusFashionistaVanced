@@ -103,7 +103,8 @@ BASE_VALUES = {
     'WP': 6,
 }
 
-# Equip condition on the build's total % critical hit, not a cap
+# Equip condition on the sheet's % critical hit (methodwakfu), not a cap. The
+# solver holds it on the gear sum without the base crit, so a bit stricter
 CRITICAL_HIT_FLOOR_PERCENT = -9
 
 

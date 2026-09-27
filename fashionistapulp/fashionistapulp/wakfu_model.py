@@ -68,13 +68,15 @@ class WakfuBuild:
     """Best set at a level; `weights` is keyed by stats.key."""
 
     def __init__(self, structure, level, weights, forbidden=(),
-                 full_set=True):
+                 full_set=True, minimums=None):
         self.structure = structure
         self.level = level
         self.weights = dict(weights)
         self.forbidden = set(forbidden)
         # Fill every slot, or slots worth 0 in the objective stay empty
         self.full_set = full_set
+        # {stat key: lowest total, base values included}
+        self.minimums = dict(minimums or {})
         self.full_set_status = None
         self.problem = None
         self._placements = []
@@ -169,6 +171,7 @@ class WakfuBuild:
         self._one_relic_and_one_epic()
         self._caps()
         self._critical_hit_floor()
+        self._minimums()
         self._objective()
         return self
 
@@ -238,7 +241,7 @@ class WakfuBuild:
                 self.problem.restriction_lt_eq(cap - BASE_VALUES[name], parcels)
 
     def _critical_hit_floor(self):
-        """Critical hit floor, as a <= on the negated sum."""
+        """Critical hit floor on the gear sum, as a <= on the negated sum."""
         parcels = []
         for item, position in self._placements:
             value = self._stat_value(item, 'ferocity')
@@ -246,6 +249,18 @@ class WakfuBuild:
                 parcels.append((-value, WORN, self._name(item, position)))
         if parcels:
             self.problem.restriction_lt_eq(-CRITICAL_HIT_FLOOR_PERCENT, parcels)
+
+    def _minimums(self):
+        """Lowest totals, base values included, as a <= on the negated sums."""
+        for key, lowest in sorted(self.minimums.items()):
+            parcels = []
+            for item, position in self._placements:
+                value = self._stat_value(item, key)
+                if value:
+                    parcels.append((-value, WORN, self._name(item, position)))
+            if parcels:
+                self.problem.restriction_lt_eq(
+                    BASE_VALUES.get(key.upper(), 0) - lowest, parcels)
 
     def _objective(self):
         self.problem.init_objective_function()
