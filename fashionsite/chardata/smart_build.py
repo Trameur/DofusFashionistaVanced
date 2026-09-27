@@ -57,7 +57,7 @@ VERSION_WEIGHT_TUNING = {
         'pods_from_str': False,
     },
     'retro': {
-        # No 1.29 item carries these (dodge and lock came with Dofus 2.0)
+        # No 1.29 item carries these
         'zero_stats': ('cridam', 'apred', 'mpred', 'apres', 'mpres',
                        'lock', 'dodge', 'pshdam', 'pshres', 'crires',
                        'permedam', 'perrandam', 'perweadam', 'perspedam',
