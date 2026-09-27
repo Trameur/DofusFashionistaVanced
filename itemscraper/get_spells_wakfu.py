@@ -163,6 +163,25 @@ INTRODUCED = re.compile(
 # Enough to cross a bold marker and a target icon, not the row before
 INTRODUCTION_REACH = 60
 
+# "Effets si Berserk" heads the rows that need a state, "Effets normaux" the others
+SECTION = re.compile(
+    r"\b(?:(Effets\s+si|Effects\s+if|Efectos\s+si|Efeitos\s+se)"
+    r"|Effets\s+normaux|Normal\s+Effects|Efectos\s+normales|Efeitos\s+normais)\b")
+
+# An area reads like a condition, "En zone croix : -", yet it lands on the target
+AREA_HEADING = re.compile(
+    r"(?:En zone|En zona|Em zona|Em uma zona|En cercle|En círculo|Em um círculo"
+    r"|En ligne|En línea|Em linha|In an? [^:]{0,24}?(?:area of effect|circle|line)"
+    r"|Sur le chemin|En el camino|No caminho|Along the path)[^:]{0,30}$")
+
+
+def _under_a_state(read):
+    """Whether the last effect heading in `read` asks for a state."""
+    state = False
+    for found in SECTION.finditer(read):
+        state = bool(found.group(1))
+    return state
+
 
 def _is_conditional(items, at, label_after=None):
     """Whether the row at `at` only lands on a condition (": -")."""
@@ -174,7 +193,11 @@ def _is_conditional(items, at, label_after=None):
         if len(tail) >= INTRODUCTION_REACH:
             break
     pattern = INTRODUCED_BARE if label_after else INTRODUCED
-    return bool(pattern.search(tail))
+    found = pattern.search(tail)
+    if not found:
+        return False
+    heading = re.sub(r'\s+', ' ', tail[:found.start()])
+    return not AREA_HEADING.search(heading)
 
 
 def _pick_label(before, after):
@@ -194,7 +217,11 @@ def effect_rows(markup, report=None):
     items = reader.items
 
     out = []
+    read = ''
     for at, (kind, value) in enumerate(items):
+        if kind == 'text':
+            # A heading can follow a word with only a tag between them
+            read += ' ' + value
         if kind != 'element' or value not in ELEMENTS_IN_IMAGES:
             continue
         after = items[at + 1][1] if at + 1 < len(items) \
@@ -205,7 +232,8 @@ def effect_rows(markup, report=None):
         label = _pick_label(_words_before(items, at), figure.group(1))
         out.append((label, value, int(figure.group(2)),
                     figure.group(3) or '',
-                    _is_conditional(items, at, figure.group(1))))
+                    _under_a_state(read)
+                    or _is_conditional(items, at, figure.group(1))))
     return out
 
 
@@ -329,7 +357,7 @@ def read_spell(reader, url, report):
     return levels
 
 
-def collect(language, classes, limit, report, known=None, save=None):
+def collect(language, classes, limit, report, known=None, save=None, pace=PACE):
     reader = opener()
     out = dict(known or {})
     for class_id in classes:
@@ -348,7 +376,7 @@ def collect(language, classes, limit, report, known=None, save=None):
                 report['already collected'] += 1
                 continue
             levels = read_spell(reader, spell_url, report)
-            time.sleep(PACE)
+            time.sleep(pace)
             if levels is None:
                 continue
             out[str(spell_id)] = {
@@ -365,6 +393,30 @@ def collect(language, classes, limit, report, known=None, save=None):
     return out
 
 
+def parser_stamps(spells, fresh, earlier):
+    """The .meta.json of a harvest: one parser stamp per class, and one overall."""
+    now = fingerprint()
+    by_class = earlier.get('classes')
+    before = None if by_class is not None else earlier.get('parser')
+    seen = collections.defaultdict(set)
+    for key, spell in spells.items():
+        name = str(spell['class'])
+        seen[name].add(now if key in fresh
+                       else (by_class or {}).get(name, before))
+    stamps = {name: (read.pop() if len(read) == 1 else None)
+              for name, read in seen.items()}
+    distinct = set(stamps.values())
+    # None: a class read by an unknown parser or by two, nothing may compare it
+    if None in distinct or not distinct:
+        overall = None
+    elif len(distinct) == 1:
+        overall = distinct.pop()
+    else:
+        overall = 'mixed-' + hashlib.sha256(json.dumps(
+            stamps, sort_keys=True).encode('utf-8')).hexdigest()[:16]
+    return {'parser': overall, 'classes': stamps, 'spells': len(spells)}
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--lang', default='fr', choices=sorted(PATHS))
@@ -376,8 +428,14 @@ def main(argv=None):
     parser.add_argument('--limit', type=int,
                         help='stop after this many spells per class')
     parser.add_argument('--refresh', action='store_true',
-                        help='fetch every spell again instead of only the new')
+                        help='fetch every spell of the chosen classes again '
+                             'instead of only the new')
+    parser.add_argument('--pace', type=float, default=PACE,
+                        help='seconds to wait after each spell page (default %s)'
+                             % PACE)
     args = parser.parse_args(argv)
+    if args.pace < 0:
+        parser.error('--pace cannot be negative')
 
     version = args.version or current_build()
     if not version:
@@ -388,24 +446,37 @@ def main(argv=None):
     target.mkdir(parents=True, exist_ok=True)
     path = target / ('spells_%s.json' % args.lang)
 
+    # Not in the spells file, readers take every key there as a spell id
+    meta_path = target / ('spells_%s.meta.json' % args.lang)
+    earlier = {}
+    if meta_path.exists():
+        earlier = json.loads(meta_path.read_text(encoding='utf-8'))
+
+    known = {}
+    if path.exists():
+        known = json.loads(path.read_text(encoding='utf-8'))
+        if args.refresh:
+            # The classes not asked for keep what they had
+            known = {key: spell for key, spell in known.items()
+                     if spell['class'] not in classes}
+        report['already collected'] = 0
+
     def save(spells):
         temporary = path.with_name(path.name + '.tmp')
         temporary.write_text(json.dumps(spells, ensure_ascii=False, indent=1,
                                         sort_keys=True), encoding='utf-8')
         temporary.replace(path)
+        meta_path.write_text(json.dumps(
+            parser_stamps(spells, set(spells) - set(known), earlier),
+            indent=1, sort_keys=True), encoding='utf-8')
 
-    known = {}
-    if path.exists() and not args.refresh:
-        known = json.loads(path.read_text(encoding='utf-8'))
-        report['already collected'] = 0
     print('build %s, %d spells already collected' % (version, len(known)), flush=True)
-    spells = collect(args.lang, classes, args.limit, report, known, save)
+    spells = collect(args.lang, classes, args.limit, report, known, save,
+                     args.pace)
     save(spells)
-    # Not in the spells file, readers take every key there as a spell id
-    (target / ('spells_%s.meta.json' % args.lang)).write_text(
-        json.dumps({'parser': fingerprint(), 'spells': len(spells)},
-                   indent=1, sort_keys=True), encoding='utf-8')
     print('wrote %s' % path)
+    print('   parser %s' % json.loads(
+        meta_path.read_text(encoding='utf-8'))['parser'])
     for name, count in sorted(report.items()):
         print('   %-34s %6d' % (name, count))
     return 0

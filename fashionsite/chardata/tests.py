@@ -18888,6 +18888,35 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                           'against %s; re-run both before comparing them'
                           % (languages[0], languages[1], here, there))
 
+    # Ankama's pages disagree on these spells. The value says what the 1.93
+    # notes give; en, es and pt follow them where French lags, fr, es and pt
+    # where English lags.
+    STALE_IN_FRENCH = {
+        4702: 'heals allies; on an Imbibe target -100 elemental resistance',
+        4708: 'steals 100 % of the damage on an Imbibe target',
+        4712: 'carrying the barrel: 1 AP less, +4 max range',
+        4716: 'range 1 - 4',
+    }
+    STALE_IN_ENGLISH = {
+        5029: 'cast on an enemy: damage, -3 MP, -15 % damage dealt',
+        5032: 'Flame Return 30 % of max HP, then damage',
+        5037: 'one damage row, in a square area',
+        5041: 'one Motion Sickness damage row, then the Berserk damage',
+    }
+    # en, es and pt show Bain de sang there, and the French figures are older
+    NO_PAGE_FOLLOWS_THE_NOTES = {
+        5047: '20 % of max HP as Armor, range 0 - 1',
+    }
+    NUMBERS_DIFFER = frozenset((4708, 4712, 4716, 5032, 5037, 5041, 5047))
+    ROWS_DIFFER = frozenset((4702, 4708, 5029, 5032, 5037, 5041))
+
+    def test_each_disagreement_says_which_page_follows_the_notes(self):
+        recorded = [set(self.STALE_IN_FRENCH), set(self.STALE_IN_ENGLISH),
+                    set(self.NO_PAGE_FOLLOWS_THE_NOTES)]
+        self.assertEqual(self.NUMBERS_DIFFER | self.ROWS_DIFFER,
+                         set().union(*recorded))
+        self.assertEqual(sum(map(len, recorded)), len(set().union(*recorded)))
+
     def test_the_numbers_are_the_same_in_both_languages(self):
         # Figures do not translate: both languages must give the same numbers
         french, english = self._harvest('fr'), self._harvest('en')
@@ -18900,19 +18929,23 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                 left = french[spell_id]['levels'][level]
                 right = english[spell_id]['levels'][level]
                 if left['damage'] != right['damage']:
-                    disagree.append((french[spell_id]['name'], level,
-                                     left['damage'], right['damage']))
+                    disagree.append((int(spell_id), french[spell_id]['name'],
+                                     level, left['damage'], right['damage']))
                     break
                 if left['ap'] != right['ap'] or left['range'] != right['range']:
-                    disagree.append((french[spell_id]['name'], level,
-                                     left['ap'], right['ap']))
+                    disagree.append((int(spell_id), french[spell_id]['name'],
+                                     level, left['ap'], right['ap']))
                     break
-        self.assertEqual([], disagree[:5],
+        unexpected = [row for row in disagree
+                      if row[0] not in self.NUMBERS_DIFFER]
+        self.assertEqual([], unexpected[:5],
                          '%d spells read differently in the two languages'
-                         % len(disagree))
+                         % len(unexpected))
+        self.assertEqual(sorted(self.NUMBERS_DIFFER),
+                         sorted(row[0] for row in disagree))
 
     def test_the_four_languages_agree_on_which_rows_are_conditional(self):
-        """Conditional rows start with ": -" in every language."""
+        """Every language marks the same rows conditional."""
         books = {language: self._harvest(language)
                  for language in ('fr', 'en', 'es', 'pt')}
         french = books['fr']
@@ -18938,15 +18971,18 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                     continue
                 theirs = flags(books[language], spell_id)
                 if theirs != here:
-                    disagree.append((french[spell_id]['name'], language,
-                                     here, theirs))
+                    disagree.append((int(spell_id), french[spell_id]['name'],
+                                     language, here, theirs))
                     break
         self.assertGreater(marked, 20,
                            'nothing was marked conditional, so nothing was '
                            'tested')
-        self.assertEqual([], disagree[:5],
+        unexpected = [row for row in disagree if row[0] not in self.ROWS_DIFFER]
+        self.assertEqual([], unexpected[:5],
                          '%d spells read differently in two languages'
-                         % len(disagree))
+                         % len(unexpected))
+        self.assertEqual(sorted(self.ROWS_DIFFER),
+                         sorted(row[0] for row in disagree))
 
     def test_only_the_sram_has_a_different_book_per_language(self):
         # Ankama's French and English Sram books differ, no other class does
