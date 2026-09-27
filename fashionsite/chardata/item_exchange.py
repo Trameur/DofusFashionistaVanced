@@ -548,19 +548,29 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
     if weapon_obj.crit_chance_percent:
         crits_total += weapon_obj.crit_chance_percent
 
-    if structure.game_version == 'touch':
+    if structure.game_version in ('touch', 'retro', 'dofus2'):
         odds = _weapon_crit_odds(structure, weapon_obj, new_stats)
         rating = (rating_non_crit * (1 - odds) + rating_crit * odds
                   if odds else rating_non_crit)
-    elif weapon_obj.has_crits:
+    elif _weapon_can_crit(structure, weapon_obj):
         rating = (rating_non_crit * (100 - crits_total) + rating_crit * crits_total)/100
     else:
         rating = rating_non_crit
 
     return rating if rating > 0 else -rating
 
-def _weapon_crit_odds(structure, weapon_obj, stats):
+# A weapon that cannot crit is stored with base -1 on Retro, 0 on Touch and Dofus 2
+_NO_BASE_NO_CRIT_VERSIONS = ('touch', 'retro', 'dofus2')
+
+def _weapon_can_crit(structure, weapon_obj):
     if not weapon_obj.has_crits:
+        return False
+    if structure.game_version in _NO_BASE_NO_CRIT_VERSIONS:
+        return (weapon_obj.crit_chance or 0) > 0
+    return True
+
+def _weapon_crit_odds(structure, weapon_obj, stats):
+    if not _weapon_can_crit(structure, weapon_obj):
         return 0.0
     return crit_chance(weapon_obj.crit_chance, stats, structure.game_version)
 
@@ -606,10 +616,7 @@ def _get_weapon_info(weapon, char, stat_overrides=None):
             
     weapon_info['max_noncrit_dam'] = max_noncrit_dam  
     
-    can_crit = weapon_obj.has_crits
-    if structure.game_version == 'touch':
-        can_crit = _weapon_crit_odds(structure, weapon_obj, new_stats) > 0
-    if can_crit:
+    if _weapon_can_crit(structure, weapon_obj):
     
         calculated_crit_damage = {}
         for elementnew in DAMAGE_TYPES:

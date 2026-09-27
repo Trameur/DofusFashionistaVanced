@@ -91,11 +91,9 @@ class TheTouchRuleStaysOnTouchTests(_Mocked):
     LEGACY_CASES = {
         'dofus3': MODERN,
         'beta': MODERN,
-        'dofus2': MODERN,
-        'retro': ((50, 60, 37.5), (30, 90, 40.0), (2, -20, 5.5)),
     }
 
-    def test_versions_other_than_touch_keep_the_legacy_rating(self):
+    def test_dofus3_and_beta_keep_the_legacy_rating(self):
         for version, cases in self.LEGACY_CASES.items():
             for base_crit, crit_hits, expected in cases:
                 with self.subTest(version=version, base=base_crit, ch=crit_hits):
