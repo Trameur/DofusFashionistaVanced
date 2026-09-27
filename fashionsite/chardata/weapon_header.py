@@ -24,7 +24,8 @@ def format_weapon_header(game_version, weapon_type, ap, crit_chance, crit_bonus)
               'crit_chance': crit_chance, 'crit_bonus': crit_bonus}
 
     has_crit = (crit_chance is not None and crit_bonus is not None
-                and not (retro and (crit_chance <= 0 or weapon_type is None)))
+                and not (retro and (crit_chance <= 0 or weapon_type is None))
+                and not (game_version == 'touch' and crit_chance == 0))
     if ap is None:
         segments = []
         if weapon_type is not None:
