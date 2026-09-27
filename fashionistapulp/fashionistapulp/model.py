@@ -1104,12 +1104,22 @@ class Model:
             restriction = self.problem.restriction_lt_eq(1, prysmaradite_count)
             self.restrictions.prysmaradite_constraints = restriction
         
+    # Most Retro pieces need a stat to equip, and they share a few hundred thresholds
+    _GATED_CONDITION_VERSIONS = frozenset({'retro'})
+
     def create_condition_contraints(self):
+        self._condition_gates = set()
+        gated = (getattr(self.structure, 'game_version', 'dofus3')
+                 in self._GATED_CONDITION_VERSIONS)
         for item in self.items_list:
             for stat, value in item.min_stats_to_equip:
-                restriction = self.problem.restriction_lt_eq(10000,
-                                                            [(value + 10000, 'p', item.id),
-                                                             (-1, 'stat', stat)])
+                if gated:
+                    restriction = self.problem.restriction_lt_eq(
+                        0, [(1, 'p', item.id), (-1, 'gate', self._condition_gate(stat, value))])
+                else:
+                    restriction = self.problem.restriction_lt_eq(10000,
+                                                                [(value + 10000, 'p', item.id),
+                                                                 (-1, 'stat', stat)])
                 self.restrictions.min_condition_contraints[(item.id, stat)] = restriction 
             
         for item in self.items_list:
@@ -1121,6 +1131,16 @@ class Model:
                 self.restrictions.max_condition_contraints[(item.id, stat)] = restriction
 
         self.create_or_condition_constraints()
+
+    def _condition_gate(self, stat, value):
+        """The binary holding stat at value or more when 1, shared by the pieces with that condition."""
+        gate = '%s_%s' % (stat, value)
+        if gate not in self._condition_gates:
+            self.problem.setup_variable('gate', gate, 0, 1)
+            self.problem.restriction_lt_eq(10000, [(value + 10000, 'gate', gate),
+                                                   (-1, 'stat', stat)])
+            self._condition_gates.add(gate)
+        return gate
 
     def create_or_condition_constraints(self):
         """OR conditions like "MP < 6 or AP < 12": one binary per branch."""
