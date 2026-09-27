@@ -21,6 +21,7 @@ from chardata.options import set_setup_choices
 from chardata.smart_build import (get_char_aspects, get_elements, get_standard_weights,
                                   reapply_weights, set_char_aspects)
 from chardata.stats_weights import get_stats_weights
+from chardata.translation_util import localized_stat_name
 from chardata.version_compat import class_exists_in_version, filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.game_versions import DEFAULT_VERSION
@@ -104,28 +105,36 @@ DEFAULT_PLAY_MODE = 'general'
 MODE_OPTION_BOXES = frozenset({'pvp', 'duel'})
 
 GUARD_DEFAULT_PERCENT = 10
-GUARD_PERCENTS = (5, 10, 15, 20)
+GUARD_PERCENTS = (0, 5, 10, 15, 20)
 GUARD_KIND = {'damage': 'effective_hp', 'defense': 'turn', 'heals': 'turn'}
 PERCENT_RESIST_KEYS = ('neutresper', 'earthresper', 'fireresper', 'waterresper', 'airresper')
 TURN_GUARD_ADV_MINS = {'str': ('powstr', 'damstr'), 'int': ('powint', 'damint'),
                        'cha': ('powcha', 'damcha'), 'agi': ('powagi', 'damagi')}
+TURN_GUARD_EXACT = ('ap',)
+ALWAYS_GUARDED = frozenset({'ap', 'mp', 'range'})
+PRIORITY_PUSHES = {'damage': frozenset({'ch', 'cridam'})}
 
 VERSION_PRESETS = {
     'dofus3': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
                'option_boxes': ('pvp', 'duel'),
-               'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_2v2', 'koli_3v3')},
+               'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_2v2', 'koli_3v3'),
+               'box_modes': {'pvp': 'koli_3v3', 'duel': 'koli_1v1'}},
     'beta': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
              'option_boxes': ('pvp', 'duel'),
-             'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_3v3')},
+             'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_3v3'),
+             'box_modes': {'pvp': 'koli_3v3', 'duel': 'koli_1v1'}},
     'dofus2': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
                'option_boxes': ('pvp', 'duel'),
-               'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_2v2', 'koli_3v3')},
+               'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_2v2', 'koli_3v3'),
+               'box_modes': {'pvp': 'koli_3v3', 'duel': 'koli_1v1'}},
     'touch': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
               'option_boxes': ('pvp', 'duel'),
-              'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_3v3')},
+              'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_3v3'),
+              'box_modes': {'pvp': 'koli_3v3', 'duel': 'koli_1v1'}},
     'retro': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
               'option_boxes': ('pvp', 'duel'),
-              'modes': ('general', 'pvm_solo', 'aggression_1v1', 'group_pvp')},
+              'modes': ('general', 'pvm_solo', 'aggression_1v1', 'group_pvp'),
+              'box_modes': {'pvp': 'group_pvp', 'duel': 'aggression_1v1'}},
 }
 
 
@@ -212,6 +221,34 @@ def mode_boxes(game_version):
     return {key: {} if key == DEFAULT_PLAY_MODE
             else {box: box in PLAY_MODE_BY_KEY[key].boxes for box in sorted(MODE_OPTION_BOXES)}
             for key, _label in play_modes(game_version)}
+
+
+def option_column_modes(game_version):
+    """[(key, label)] the Options column lists on this version; none ticked is the default mode."""
+    return [(key, label) for key, label in play_modes(game_version) if key != DEFAULT_PLAY_MODE]
+
+
+def option_box_labels(game_version):
+    """{option box: label} in the modes' words: pvp is any PvP mode, duel the version's 1v1 one."""
+    labels = {'pvp': gettext_lazy('PvP')}
+    duel_mode = version_presets(game_version).get('box_modes', {}).get('duel')
+    if duel_mode in PLAY_MODE_BY_KEY:
+        labels['duel'] = PLAY_MODE_BY_KEY[duel_mode].label
+    return labels
+
+
+def shown_play_mode(aspects, play_mode, game_version):
+    """The mode the Options column ticks: the stored one if its boxes match, else the one the boxes stand for."""
+    offered = dict(play_modes(game_version))
+    boxes = set(aspects) & set(version_presets(game_version).get('option_boxes', ()))
+    mode = PLAY_MODE_BY_KEY.get(play_mode)
+    if play_mode != DEFAULT_PLAY_MODE and play_mode in offered and set(mode.boxes) == boxes:
+        return play_mode
+    stands_for = version_presets(game_version).get('box_modes', {})
+    for box in ('duel', 'pvp'):
+        if box in boxes and stands_for.get(box) in offered:
+            return stands_for[box]
+    return DEFAULT_PLAY_MODE
 
 
 def offered_priority(priority):
@@ -392,29 +429,65 @@ def _panel_turn(char, solution):
     return combo['total'] if combo else None
 
 
-def _scaled_floor(value, share):
-    """share of value rounded down, never above value itself."""
-    return math.floor(min(value, share * value))
+def _kept_share(value, share):
+    """The least whole value keeping share of value, never above value; at or below zero, value itself."""
+    if value <= 0:
+        return value
+    return min(value, math.ceil(round(share * value, 6)))
 
 
 def _at_least(current, value):
     return max(current, value) if isinstance(current, (int, float)) else value
 
 
-def guard_minimums(minimums, kind, percent, reading, aspects):
+def _is_number(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def guarded_stats(char, balanced):
+    """Stat keys valued in the balanced weights that the build's priority does not push, plus AP, MP and Range unless weighed below zero."""
+    priority, _play_mode = stored_choices(char)
+    boxes = get_char_aspects(char)
+    plain = _standard_weights(char, boxes)
+    raised = _standard_weights(char, solved_aspects(boxes, priority))
+    pushed = {key for key, value in raised.items()
+              if _is_number(value) and value > (plain.get(key) if _is_number(plain.get(key)) else 0)}
+    pushed = (pushed | PRIORITY_PUSHES.get(priority, frozenset())) - ALWAYS_GUARDED
+    structure = get_structure()
+    guarded = []
+    for key in set(balanced) | ALWAYS_GUARDED:
+        value = balanced.get(key, 0)
+        if (not _is_number(value) or key in pushed
+                or structure.get_stat_by_key(key) is None):
+            continue
+        if value > 0 or (key in ALWAYS_GUARDED and value == 0):
+            guarded.append(key)
+    return sorted(guarded)
+
+
+def stat_floors(kind, percent, totals, keys):
+    """{stat key: least total} the priority solve must keep of the balanced one."""
+    share = (100 - percent) / 100.0
+    floors = {key: _kept_share(totals.get(key, 0), share) for key in keys}
+    if kind == 'turn':
+        for key in TURN_GUARD_EXACT:
+            floors[key] = max(floors.get(key, 0), int(totals.get(key, 0)))
+    return floors
+
+
+def guard_minimums(minimums, kind, percent, reading, aspects, floors=None):
     """A copy of the build's minimums with the safeguard's floors taken from the balanced solve."""
     share = (100 - percent) / 100.0
     guarded = dict(minimums)
-    if kind == 'effective_hp':
-        guarded[EFFECTIVE_HP_MINIMUM] = share * reading['value']
-        return guarded
     structure = get_structure()
+    for key, floor in (floors or {}).items():
+        name = structure.get_stat_by_key(key).name
+        guarded[name] = _at_least(guarded.get(name), floor)
+    if kind == 'effective_hp':
+        if reading.get('value'):
+            guarded[EFFECTIVE_HP_MINIMUM] = share * reading['value']
+        return guarded
     totals = reading['totals']
-    ap_name = structure.get_stat_by_key('ap').name
-    guarded[ap_name] = _at_least(guarded.get(ap_name), int(totals.get('ap', 0)))
-    crit_name = structure.get_stat_by_key('ch').name
-    guarded[crit_name] = _at_least(guarded.get(crit_name),
-                                   _scaled_floor(totals.get('ch', 0), share))
     adv_mins = dict(guarded.get('adv_mins') or {})
     by_key = {entry['key']: entry for entry in structure.get_adv_mins()}
     for element in get_elements(aspects):
@@ -423,9 +496,14 @@ def guard_minimums(minimums, kind, percent, reading, aspects):
             value = sum(totals.get(structure.get_stat_by_name(name).key, 0)
                         for name in entry['stats'])
             adv_mins[entry['name']] = _at_least(adv_mins.get(entry['name']),
-                                                _scaled_floor(value, share))
+                                                _kept_share(value, share))
     guarded['adv_mins'] = adv_mins
     return guarded
+
+
+def short_of_floors(floors, totals):
+    """The floored stat keys a set's totals fall below."""
+    return [key for key in sorted(floors) if totals.get(key, 0) < floors[key]]
 
 
 def guard_facts(minimal_solution_blob):
@@ -449,6 +527,56 @@ def guard_line(facts):
 
 
 def _guard_sentence(facts):
+    if 'floors' not in facts:
+        return _single_quantity_guard_sentence(facts)
+    share = 100 - facts['percent']
+    if facts.get('balanced_out_of_time'):
+        return gettext('Safeguard not applied: the solver ran out of time on the balanced '
+                       'build it compares with, so this set does without it.')
+    if facts.get('no_reference'):
+        return gettext('Safeguard not applied: the solver found no balanced set to compare '
+                       'with.')
+    if facts.get('out_of_time'):
+        return gettext('Safeguard: the solver ran out of time before it found a set for the '
+                       'priority, so this is the balanced build.')
+    if facts.get('fallback'):
+        return gettext('Safeguard not applied: the solver found no set keeping %(share)s%% of '
+                       'AP, MP, Range and every other stat with a weight that the priority '
+                       'does not aim for, so this set does without it.') % {'share': share}
+    structure = get_structure()
+    short = [localized_stat_name(structure.get_stat_by_key(key).name)
+             for key in facts.get('short') or () if structure.get_stat_by_key(key) is not None]
+    if short:
+        sentence = gettext('Safeguard: AP, MP, Range and every other stat with a weight that '
+                           'the priority does not aim for kept at least %(share)s%% of their '
+                           'value in the balanced build, except '
+                           '%(stats)s.') % {'share': share, 'stats': ', '.join(short)}
+    else:
+        sentence = gettext('Safeguard: AP, MP, Range and every other stat with a weight that '
+                           'the priority does not aim for kept at least %(share)s%% of their '
+                           'value in the balanced build.') % {'share': share}
+    return ' '.join(part for part in (sentence, _measure_sentence(facts, share)) if part)
+
+
+def _measure_sentence(facts, share):
+    """What the priority set holds of the quantity its kind reports, next to the balanced build's."""
+    balanced, kept = facts.get('balanced'), facts.get('kept')
+    if not balanced or balanced <= 0 or kept is None:
+        return None
+    values = {'share': share, 'balanced': int(round(balanced)), 'kept': int(round(kept))}
+    if facts['kind'] != 'effective_hp':
+        return gettext('Best turn: %(kept)s, against %(balanced)s for the balanced '
+                       'build.') % values
+    if kept >= share / 100.0 * balanced - 0.5:
+        return gettext('Effective HP: %(kept)s, against %(balanced)s for the balanced '
+                       'build.') % values
+    values['reached'] = int(100 * kept / balanced)
+    return gettext('Effective HP at %(reached)s%% of the balanced build (%(kept)s of '
+                   '%(balanced)s), short of the %(share)s%% aimed for.') % values
+
+
+def _single_quantity_guard_sentence(facts):
+    """Solutions solved before the safeguard covered every stat."""
     share = 100 - facts['percent']
     if facts.get('no_reference'):
         return gettext('Safeguard not applied: the solver found no balanced set to compare '

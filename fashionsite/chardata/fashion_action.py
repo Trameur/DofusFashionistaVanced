@@ -15,14 +15,18 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import copy
+import json
 import logging
 import time
+import zlib
 from contextlib import contextmanager
 
 from django.utils.translation import gettext_lazy
 from django.conf import settings
+from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.views.decorators.http import require_POST
 import pickle
 from chardata.char_blobs import read_char_blob
 from chardata.data_versions import current_data_version
@@ -32,9 +36,9 @@ from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
 from chardata.inventory_solver import (get_inventory_solver_settings,
     apply_inventory_restriction, get_effective_stat_overrides)
 from chardata.min_stats import get_min_stats_digested
-from chardata.models import CharBaseStats
+from chardata.models import Char, CharBaseStats
 from chardata.presets import (balanced_weights, cross_reading, guard_minimums, guard_plan,
-                              guard_reading)
+                              guard_reading, guarded_stats, short_of_floors, stat_floors)
 from chardata.smart_build import get_char_aspects
 from chardata.solution import set_minimal_solution
 from chardata.solution_history import record_solution_generation
@@ -72,10 +76,12 @@ def _warn_if_unproven(char, solved_status, proven):
         getattr(char, 'id', '?'), getattr(char, 'game_version', '?'))
 
 @contextmanager
-def _solver_time_limit(deadline):
-    """CBC's limit cut to what is left before deadline, yielded; None keeps the usual one."""
-    limit = None if deadline is None else max(int(deadline - time.monotonic()),
-                                               MIN_SOLVE_SECONDS)
+def _solver_time_limit(deadline, longest=None):
+    """CBC's limit cut to what is left before deadline and to longest seconds, yielded; None keeps the usual one."""
+    limits = [] if deadline is None else [int(deadline - time.monotonic())]
+    if longest is not None:
+        limits.append(longest)
+    limit = max(min(limits), MIN_SOLVE_SECONDS) if limits else None
     if limit is None or limit >= lpproblem.TIME_LIMIT_SECONDS:
         yield None
         return
@@ -111,6 +117,42 @@ def temporix_model_option(options, game_version):
     return {'temporix': (temporix.RULE_VERSION
                          if temporix.is_on(options, game_version) else False)}
 
+
+def _model_input(request, char, weights):
+    """The solver input of the build's current settings."""
+    min_stats = get_min_stats_digested(char)
+    model_options = get_options(request, char.id)
+
+    inclusions_dic = get_inclusions_dict(char)
+    exclusions = get_all_exclusions_ids(char)
+    inv_mode, inv_folder = get_inventory_solver_settings(char)
+    if inv_mode == 'only':
+        exclusions = apply_inventory_restriction(char, exclusions, inv_folder)
+    # Manual per-project overrides win over the inventory rolls.
+    stat_overrides = get_effective_stat_overrides(char)
+
+    # An owned item's exo rides on the item, see Model._apply_stat_overrides
+
+    base_stats_by_attr = get_base_stats_by_attr(request, char.id)
+
+    if char.allow_points_distribution:
+        stat_points_to_distribute = 5 * (char.level -1)
+    else:
+        stat_points_to_distribute = 0
+
+    # TODO: Sanity check input.
+    return ModelInput(char.level,
+                      base_stats_by_attr,
+                      min_stats,
+                      inclusions_dic,
+                      set(exclusions),
+                      weights,
+                      model_options,
+                      char.char_class,
+                      stat_points_to_distribute,
+                      get_empty_slots(char),
+                      stat_overrides)
+
 def fashion(request, char_id, spells=False):
     char = get_char_or_raise(request, char_id)
     remove_cache_for_char(char_id)
@@ -130,41 +172,12 @@ def fashion(request, char_id, spells=False):
                      version_reverse(request, 'stats', char_id),
                      char_id,
                      char)
-        
-    min_stats = get_min_stats_digested(char)
-    model_options = get_options(request, char_id)
-    
-    inclusions_dic = get_inclusions_dict(char)
-    exclusions = get_all_exclusions_ids(char)
-    inv_mode, inv_folder = get_inventory_solver_settings(char)
-    if inv_mode == 'only':
-        exclusions = apply_inventory_restriction(char, exclusions, inv_folder)
-    # Manual per-project overrides win over the inventory rolls.
-    stat_overrides = get_effective_stat_overrides(char)
 
-    # An owned item's exo rides on the item, see Model._apply_stat_overrides
+    model_input = _model_input(request, char, weights)
+    model_options = model_input.options
+    stat_overrides = model_input.stat_overrides
 
-    base_stats_by_attr = get_base_stats_by_attr(request, char_id)
-
-    if char.allow_points_distribution:
-        stat_points_to_distribute = 5 * (char.level -1)
-    else:
-        stat_points_to_distribute = 0
-
-    # TODO: Sanity check input.
-    model_input = ModelInput(char.level,
-                             base_stats_by_attr,
-                             min_stats,
-                             inclusions_dic,
-                             set(exclusions),
-                             weights,
-                             model_options,
-                             char.char_class,
-                             stat_points_to_distribute,
-                             get_empty_slots(char),
-                             stat_overrides)
-
-    def solve(model_input, deadline=None):
+    def solve(model_input, deadline=None, longest=None):
         solved_status = None
         stats = None
         result = None
@@ -180,23 +193,25 @@ def fashion(request, char_id, spells=False):
             if stat_overrides or is_temporix:
                 model = Model(stat_overrides=stat_overrides, temporix=is_temporix)
                 model.setup(model_input)
-                with _solver_time_limit(deadline) as time_limit:
+                with _solver_time_limit(deadline, longest) as time_limit:
                     model.run(2)
                 solved_status = model.get_solved_status()
                 proven = model.solution_is_proven()
                 pool = model.get_candidate_pool()
+                state = None if proven else _search_state(model)
                 if solved_status == 'Optimal':
                     stats = model.get_stats()
                     result = model.get_result_minimal()
             else:
                 model = borrow_model()
                 model.setup(model_input)
-                with _solver_time_limit(deadline) as time_limit:
+                with _solver_time_limit(deadline, longest) as time_limit:
                     model.run(2)
                 solved_status = model.get_solved_status()
                 # Read before return_model, like solved_status
                 proven = model.solution_is_proven()
                 pool = model.get_candidate_pool()
+                state = None if proven else _search_state(model)
                 if solved_status == 'Optimal':
                     stats = model.get_stats()
                     result = model.get_result_minimal()
@@ -211,6 +226,10 @@ def fashion(request, char_id, spells=False):
                 result.data_version = current_data_version(char.game_version)
                 if time_limit is not None:
                     result.time_limit = time_limit
+                search = _new_search(state, model_input,
+                                     time_limit or lpproblem.SOLVER.timeLimit)
+                if search is not None:
+                    result.search = search
             # The memory key has no time limit, so a solve the shortened limit cut is not stored
             if time_limit is None or proven or solved_status == 'Infeasible':
                 MEMORY.put(model_input, (solved_status, stats, result))
@@ -225,6 +244,7 @@ def fashion(request, char_id, spells=False):
     if result is None:
         return HttpResponseRedirect(version_reverse(request, 'infeasible', char.id))
 
+    _bind_search(result, model_input, plan)
     if char.allow_points_distribution:
         set_stats(char, stats)
     char.solved_version = (getattr(result, 'data_version', '')
@@ -239,7 +259,7 @@ def fashion(request, char_id, spells=False):
     return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
 
 def _guarded_solve(char, model_input, plan, solve):
-    """The priority solve under a floor taken from the balanced solve, all within GUARD_BUDGET_SECONDS."""
+    """The priority solve under floors taken from the balanced solve, all within GUARD_BUDGET_SECONDS."""
     kind, percent = plan
     started = time.monotonic()
     budget_end = started + GUARD_BUDGET_SECONDS
@@ -248,13 +268,14 @@ def _guarded_solve(char, model_input, plan, solve):
     if balanced_input.objective_values == model_input.objective_values:
         return solve(model_input)
     facts = {'kind': kind, 'percent': percent, 'balanced': None, 'kept': None,
-             'fallback': False, 'no_reference': False, 'no_turn': False, 'out_of_time': False,
-             'other_seconds': 0.0, 'time_limit': None}
+             'fallback': False, 'no_reference': False, 'balanced_out_of_time': False,
+             'no_turn': False, 'out_of_time': False, 'other_seconds': 0.0, 'time_limit': None,
+             'floors': {}, 'short': []}
     calls = []
 
-    def timed_solve(solve_input, deadline):
+    def timed_solve(solve_input, deadline, longest=None):
         call_started = time.monotonic()
-        solved = solve(solve_input, deadline)
+        solved = solve(solve_input, deadline, longest)
         calls.append((solved, getattr(solved[2], 'solve_seconds', None)
                       or time.monotonic() - call_started))
         return solved
@@ -262,23 +283,26 @@ def _guarded_solve(char, model_input, plan, solve):
     def has_time():
         return budget_end - time.monotonic() >= MIN_SOLVE_SECONDS
 
-    balanced = timed_solve(balanced_input, started + BALANCED_SECONDS)
+    balanced = timed_solve(balanced_input, budget_end - MIN_SOLVE_SECONDS, BALANCED_SECONDS)
     reading = None
     solved = None
     if balanced[2] is None:
-        facts.update(fallback=True, no_reference=True)
+        facts.update(fallback=True, no_reference=True,
+                     balanced_out_of_time=balanced[0] != 'Infeasible')
         solved = timed_solve(model_input, budget_end)
     else:
         reading = guard_reading(char, balanced[2], kind)
-        facts['balanced'] = reading['value']
-        if not reading['value'] or reading['value'] <= 0:
-            facts.update(fallback=True, no_turn=True)
-            reading = None
-            solved = timed_solve(model_input, budget_end)
-        elif has_time():
+        if reading['value'] and reading['value'] > 0:
+            facts['balanced'] = reading['value']
+        else:
+            facts['no_turn'] = True
+        if has_time():
+            facts['floors'] = stat_floors(kind, percent, reading['totals'],
+                                          guarded_stats(char, balanced_input.objective_values))
             guarded_input = copy.copy(model_input)
             guarded_input.minimum_stats = guard_minimums(model_input.minimum_stats, kind, percent,
-                                                         reading, get_char_aspects(char))
+                                                         reading, get_char_aspects(char),
+                                                         facts['floors'])
             solved = timed_solve(guarded_input, budget_end)
             if solved[2] is None:
                 logger.warning('the %s safeguard left char %s without a set, solving without it',
@@ -296,9 +320,15 @@ def _guarded_solve(char, model_input, plan, solve):
     if reading is not None and not facts['out_of_time']:
         kept = guard_reading(char, result, kind)
         facts['kept'] = kept['value']
-        if facts['kept'] is not None and facts['kept'] < facts['balanced']:
-            facts['other_balanced'] = cross_reading(char, reading, kind)
-            facts['other_kept'] = cross_reading(char, kept, kind)
+        if not facts['fallback']:
+            facts['short'] = short_of_floors(facts['floors'], kept['totals'])
+        if facts['kept'] is not None and facts['balanced'] is not None:
+            trails = facts['kept'] < facts['balanced']
+            # _guard_after_search reads it on the set a continued search finds
+            if trails or getattr(result, 'search', None):
+                facts['other_balanced'] = cross_reading(char, reading, kind)
+            if trails:
+                facts['other_kept'] = cross_reading(char, kept, kind)
     result.guard = facts
     return solved
 
@@ -316,3 +346,204 @@ def set_stats(char, stats):
             basestats.total_value += basestats.scrolled_value
         assert 0 <= basestats.total_value and basestats.total_value <= 3000
         basestats.save()
+
+
+def _search_state(model):
+    reader = getattr(model, 'get_search_state', None)
+    return reader() if reader is not None else None
+
+
+def _pack_start(values):
+    return zlib.compress(json.dumps(values, sort_keys=True).encode('ascii'))
+
+
+def _unpack_start(packed):
+    return json.loads(zlib.decompress(packed).decode('ascii'))
+
+
+def _new_search(state, solve_input, limit):
+    """What continuing a solve stopped on time needs, None when the model gave nothing to start from."""
+    if not state or state.get('objective') is None:
+        return None
+    return {'objective': state['objective'], 'bound': state['bound'],
+            'start': _pack_start(state['values']), 'limit': limit,
+            'minimum_stats': solve_input.minimum_stats,
+            'objective_values': solve_input.objective_values}
+
+
+def _bind_search(result, model_input, plan):
+    """Ties a stopped solve's search to the build settings it answers, keeping only what differs from them."""
+    search = getattr(result, 'search', None)
+    if not search:
+        return
+    search = dict(search, key=model_input.cache_key(), plan=plan)
+    for field in ('minimum_stats', 'objective_values'):
+        if search.get(field) == getattr(model_input, field):
+            search[field] = None
+    result.search = search
+
+
+def search_gap(search):
+    """How much more the best set can score than this one, as a fraction; None when unknown."""
+    objective, bound = (search or {}).get('objective'), (search or {}).get('bound')
+    if objective is None or bound is None or objective <= 0:
+        return None
+    return max(bound - objective, 0.0) / objective
+
+
+def continuation_input(request, char, minimal):
+    """The input the stored set was solved on, when its search can go on; None otherwise."""
+    search = getattr(minimal, 'search', None)
+    if (getattr(minimal, 'proven', None) is not False or not isinstance(search, dict)
+            or not search.get('start') or 'key' not in search):
+        return None
+    if getattr(minimal, 'data_version', None) != current_data_version(char.game_version):
+        return None
+    weights = get_stats_weights(char, persist=False)
+    if not any(value != 0 for value in weights.values()):
+        return None
+    model_input = _model_input(request, char, weights)
+    if model_input.cache_key() != search['key'] or guard_plan(char) != search.get('plan'):
+        return None
+    solve_input = copy.copy(model_input)
+    for field in ('minimum_stats', 'objective_values'):
+        if search.get(field) is not None:
+            setattr(solve_input, field, search[field])
+    return solve_input
+
+
+@require_POST
+def continue_search(request, char_id):
+    """Searches on from the stored set of a solve stopped on time and keeps the better set."""
+    started = time.monotonic()
+    char = get_char_or_raise(request, char_id)
+    blob = char.minimal_solution
+    minimal = read_char_blob(blob, None, 'minimal_solution', char)
+    solve_input = continuation_input(request, char, minimal)
+    if solve_input is not None:
+        _continue_search(request, char, blob, minimal, solve_input,
+                         started + GUARD_BUDGET_SECONDS)
+        remove_cache_for_char(char.id)
+    return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+
+
+def _continue_search(request, char, blob, minimal, solve_input, deadline):
+    search = minimal.search
+    rounds = search.get('rounds', 0) + 1
+    started = time.monotonic()
+    is_temporix = bool(solve_input.options.get('temporix'))
+    pooled = not (solve_input.stat_overrides or is_temporix)
+    if pooled:
+        model = borrow_model()
+    else:
+        model = Model(stat_overrides=solve_input.stat_overrides, temporix=is_temporix)
+    model.setup(solve_input)
+    with _solver_time_limit(deadline) as time_limit:
+        # CBC is deterministic: the same start and seed replay the same search
+        model.run(2, warm_start=_unpack_start(search['start']),
+                  seed=rounds if rounds > 1 else None)
+    proven = model.solution_is_proven()
+    state = model.get_search_state()
+    found = stats = None
+    if model.get_solved_status() == 'Optimal':
+        stats = model.get_stats()
+        found = model.get_result_minimal()
+    if pooled:
+        return_model(model)
+    if state.get('start_accepted') is False:
+        logger.warning('CBC did not take the stored set of char %s as its start', char.id)
+
+    before = state['start_objective']
+    if before is None:
+        before = search['objective']
+    after = state['objective']
+    tolerance = 1e-6 * max(1.0, abs(before))
+    if after is None or after < before - tolerance:
+        logger.warning('the search continued for char %s reached %s under the stored %s; '
+                       'the stored set stays', char.id, after, before)
+        minimal.search = dict(search, rounds=rounds)
+        _save_search(request, char, blob, minimal)
+        return
+    bounds = [bound for bound in (search.get('bound'), after if proven else state['bound'])
+              if bound is not None]
+    bound = min(bounds) if bounds else None
+    proven = proven or (bound is not None and bound <= after + tolerance)
+    seconds = (getattr(minimal, 'solve_seconds', None) or 0) + time.monotonic() - started
+    limit = (search.get('limit') or 0) + (time_limit or lpproblem.SOLVER.timeLimit)
+
+    if after <= before + tolerance:
+        minimal.proven = proven
+        minimal.solve_seconds = seconds
+        if proven:
+            minimal.search = None
+            _keep_in_memory(solve_input, minimal.stats, minimal, True)
+        else:
+            minimal.search = dict(search, objective=before, bound=bound, limit=limit,
+                                  rounds=rounds)
+        _save_search(request, char, blob, minimal)
+        return
+
+    found.proven = proven
+    found.solve_seconds = seconds
+    found.candidate_pool = getattr(minimal, 'candidate_pool', None)
+    found.data_version = minimal.data_version
+    if not proven:
+        found.search = dict(search, objective=after, bound=bound, limit=limit, rounds=rounds,
+                            start=_pack_start(state['values']))
+    if isinstance(getattr(minimal, 'guard', None), dict):
+        found.guard = _guard_after_search(char, minimal.guard, found)
+    _keep_in_memory(solve_input, stats, found, proven or time_limit is None)
+    _save_search(request, char, blob, found, stats)
+
+
+def _save_search(request, char, blob, solution, stats=None):
+    """Stores what a continued search left, as a new set when stats are given, unless the build changed meanwhile."""
+    with transaction.atomic():
+        current = Char.objects.select_for_update().filter(pk=char.pk).first()
+        if current is None or bytes(current.minimal_solution) != bytes(blob):
+            current = None
+        else:
+            stored = read_char_blob(current.minimal_solution, None, 'minimal_solution', current)
+            if continuation_input(request, current, stored) is None:
+                current = None
+        if current is None:
+            logger.info('the build of char %s changed during its search, which is dropped',
+                        char.id)
+            return
+        if stats is None:
+            current.minimal_solution = pickle.dumps(solution)
+            current.save(update_fields=['minimal_solution'])
+            return
+        if current.allow_points_distribution:
+            set_stats(current, stats)
+        current.solved_time = timezone.now()
+        set_minimal_solution(current, solution)
+        record_solution_generation(current, solution)
+
+
+def _guard_after_search(char, facts, result):
+    """The safeguard facts read again on the set a continued search found."""
+    facts = dict(facts)
+    if facts.get('no_reference') or facts.get('out_of_time') or facts.get('kept') is None:
+        return facts
+    kept = guard_reading(char, result, facts['kind'])
+    facts['kept'] = kept['value']
+    if not facts.get('fallback') and facts.get('floors'):
+        facts['short'] = short_of_floors(facts['floors'], kept['totals'])
+    facts.pop('other_kept', None)
+    if (facts.get('other_balanced') is not None and facts['kept'] is not None
+            and facts.get('balanced') is not None and facts['kept'] < facts['balanced']):
+        facts['other_kept'] = cross_reading(char, kept, facts['kind'])
+    return facts
+
+
+def _keep_in_memory(solve_input, stats, result, create):
+    """Offers the solution memory a set found for solve_input, without the build's own facts."""
+    shared = copy.copy(result)
+    shared.__dict__.pop('guard', None)
+    if getattr(shared, 'search', None):
+        shared.search = dict(
+            {key: value for key, value in shared.search.items() if key not in ('key', 'plan')},
+            minimum_stats=solve_input.minimum_stats,
+            objective_values=solve_input.objective_values)
+    MEMORY.keep_better(solve_input, ('Optimal', stats, shared), create)

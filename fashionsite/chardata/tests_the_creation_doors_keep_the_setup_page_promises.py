@@ -255,6 +255,21 @@ class TheDoorsReadTheBoxesTheirVersionListsTests(_DoorMixin, TestCase):
         self.assertEqual(expected, layout)
         self.assertEqual(['duel'], layout[1])
 
+    def test_the_gallery_names_the_option_boxes_after_the_modes_of_its_version(self):
+        expected = {'dofus3': ('PvP', 'Kolossium 1v1'), 'touch': ('PvP', 'Kolossium 1v1'),
+                    'retro': ('PvP', 'Aggression 1v1')}
+        for version, (pvp, duel) in expected.items():
+            with self.subTest(version=version):
+                set_current_game_version(version)
+                path = '/sharedbuilds/' if version == 'dofus3' else '/%s/sharedbuilds/' % version
+                page = self.client.get(path, HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+                labels = json.loads(re.search(r'var aspectToName = (.*?);', page).group(1))
+                self.assertEqual((pvp, duel), (labels['pvp'], labels['duel']))
+        set_current_game_version('retro')
+        page = self.client.get('/fr/retro/sharedbuilds/').content.decode('utf-8')
+        labels = json.loads(re.search(r'var aspectToName = (.*?);', page).group(1))
+        self.assertEqual('Agression en 1 contre 1', labels['duel'])
+
     def test_the_smart_build_only_uses_a_style_its_version_offers(self):
         retro = {'styles': ('solo_pvm', 'pvp'), 'option_boxes': ('pvp', 'duel')}
         with mock.patch.dict(presets.VERSION_PRESETS, {'retro': retro}):
@@ -560,7 +575,7 @@ class TheNewSetupSentencesAreTranslatedTests(SimpleTestCase):
         'No element checked: the build will not look for any damage. Click again to continue '
         'anyway.',
         'Check at most %(limit)d boxes in the focus column.',
-        '1 vs. 1 duelers should check this. Increases importance of initiative a lot.',
+        'For 1 vs. 1 PvP: the same as group PvP, with initiative mattering a lot more.',
         'No focus: every stat keeps its usual importance. Checking another box in this column '
         'unchecks this one.',
         'Support and vitality based characters should check this. Vitality gets the same high '

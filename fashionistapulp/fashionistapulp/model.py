@@ -1326,15 +1326,15 @@ class Model:
             restriction = self.restrictions.advanced_minimum_stat_constraints[stat['key']]
             restriction.changeRHS(-minimum_stats.get(stat['name'], -10000))
     
-    def run(self, retries=0, change_of=False):
+    def run(self, retries=0, change_of=False, warm_start=None, seed=None):
         if change_of:
             self.input['objective_values']['vit'] += 1
             self.write_objective_function(self.input['objective_values'], self.input['char_level'])
         try:
-            self.problem.run()
+            self.problem.run(warm_start, seed)
         except pulp.PulpSolverError:
             if retries > 0:            
-                self.run(retries-1, True)
+                self.run(retries-1, True, warm_start, seed)
             else:
                 raise
                 
@@ -1427,6 +1427,10 @@ class Model:
 
     def solution_is_proven(self):
         return self.problem.solution_is_proven()
+
+    def get_search_state(self):
+        """See LpProblem2.get_search_state. Call before return_model."""
+        return self.problem.get_search_state()
 
 
 class ModelInput(object):

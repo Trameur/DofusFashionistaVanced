@@ -28,12 +28,33 @@ from fashionistapulp.structure import get_current_game_version
 
 THRESHOLD = 1
 
+
+def _beats(new_tuple, old_tuple):
+    """Whether a solve result is worth more than the one remembered: proven, or scoring higher."""
+    new = new_tuple[2]
+    old = old_tuple[2] if old_tuple else None
+    if new is None:
+        return False
+    if old is None:
+        return True
+    if getattr(old, 'proven', None):
+        return False
+    if getattr(new, 'proven', None):
+        return True
+    new_score = (getattr(new, 'search', None) or {}).get('objective')
+    old_score = (getattr(old, 'search', None) or {}).get('objective')
+    return new_score is not None and old_score is not None and new_score > old_score
+
+
 class EmptySolutionMemory(object):
 
     def get(self, model_input):
         return None
 
     def put(self, input_hash, result_tuple):
+        pass
+
+    def keep_better(self, model_input, result_tuple, create):
         pass
 
 class DebugSolutionMemory(object):
@@ -50,6 +71,12 @@ class DebugSolutionMemory(object):
     def put(self, model_input, result_tuple):
         input_hash = model_input.__hash__()
         if self.demand_counter[input_hash] >= THRESHOLD:
+            self.memory[input_hash] = result_tuple
+
+    def keep_better(self, model_input, result_tuple, create):
+        input_hash = model_input.__hash__()
+        old = self.memory.get(input_hash)
+        if (old is not None or create) and _beats(result_tuple, old):
             self.memory[input_hash] = result_tuple
 
 # TODO: Do not back up the solution cache.
@@ -94,3 +121,17 @@ class DatabaseSolutionMemory(object):
                                           input=pickle.dumps(model_input),
                                           stored=pickle.dumps(result_tuple))
                 solution.save()
+
+    def keep_better(self, model_input, result_tuple, create):
+        """Replaces the remembered result for model_input when result_tuple beats it; create allows a first one."""
+        input_hash = model_input.cache_key()
+        remembered = SolutionMemory.objects.filter(input_hash=input_hash).first()
+        if remembered is None:
+            if create and _beats(result_tuple, None):
+                SolutionMemory(input_hash=input_hash, input=pickle.dumps(model_input),
+                               stored=pickle.dumps(result_tuple)).save()
+            return
+        old_tuple = read_char_blob(remembered.stored, None, 'memoized solution')
+        if _beats(result_tuple, old_tuple):
+            remembered.stored = pickle.dumps(result_tuple)
+            remembered.save(update_fields=['stored'])

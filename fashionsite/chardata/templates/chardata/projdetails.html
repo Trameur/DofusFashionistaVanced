@@ -21,6 +21,7 @@
     .advanced-options-field { flex: 1 1 260px; min-width: 0; }
     .advanced-options-field > label { display: block; padding: 3px 0; }
     .advanced-options-field select { max-width: 100%; }
+    html.fm-light:not(.fm-modern) .build-boxes-title .red-text { color: #ff8a80; }
     @media (max-width: 480px) {
         .advanced-options-name { flex-basis: 100%; font-size: 13px; font-weight: 700; }
         .advanced-options-field > label { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 0; }
@@ -99,6 +100,7 @@
                 </tr>
             </table>
             <p id="no-element-warning" class="red-text" role="alert" style="display: none;">{% trans "No element checked: the build will not look for any damage. Click again to continue anyway." %}</p>
+            <input type="hidden" name="play_mode" id="play-mode" value="general">
             <br>
 
             <details id="advanced-options" class="advanced-options">
@@ -114,14 +116,7 @@
                     <label for="guard-percent" class="advanced-options-name">{% trans "Safeguard" %}</label>
                     <div class="advanced-options-field">
                         <select id="guard-percent" name="guard_pct" class="change-modifies-state">{% for percent in guard_percents %}<option value="{{ percent }}"{% if percent == guard_default %} selected{% endif %}>{{ percent }}%</option>{% endfor %}</select>
-                        <div class="small-explain">{% trans "Compared with the balanced build, a Damage priority gives up at most this share of effective HP, and a Defense or Heals priority aims to give up at most this share of best turn damage. The build page shows what was kept." %}</div>
-                    </div>
-                </div>
-                <div class="advanced-options-row">
-                    <label for="play-mode" class="advanced-options-name">{% trans "Game mode" %}</label>
-                    <div class="advanced-options-field">
-                        <select id="play-mode" name="play_mode" class="change-modifies-state">{% for key, label in play_modes %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select>
-                        <div class="small-explain">{% trans "A PvP mode ticks its boxes in the Options column." %}</div>
+                        <div class="small-explain">{% trans "Compared with the balanced build, each stat the priority does not aim for loses at most this share: HP and resistances for Damage, damage stats for Defense and Heals, and for any priority AP, MP, Range and every other stat the build gives a weight to. At 0% none of them drops. The build page shows what was kept." %}</div>
                     </div>
                 </div>
             </details>
@@ -149,7 +144,7 @@
             </div>
             <div id="save-mode">
                 <label><input type="checkbox" class="click-modifies-state" name="reapply" value="reapply" id="reapply-cb"><span class='input-name'>{% trans "Restart wizard upon saving" %}</span></label><br>
-                <div id="choices-restart-note" class="small-explain" style="display: none;">{% trans "Changing the priority or the game mode always restarts the wizard." %}</div><br>
+                <div id="choices-restart-note" class="small-explain" style="display: none;">{% trans "Changing the priority or the mode in the Options column always restarts the wizard." %}</div><br>
                 {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
             </div>
         </form>
@@ -198,8 +193,6 @@ var question = {{ questionmark | safe }};
 var aspectToTip = {
     crit: '{{ _("Focus on critical hits. Useful for characters that have spells/weapons that are much better on a critical hit.")|escapejs }}',
     noncrit: '{{ _("Avoids critical hits. Useful to fight enemies with high critical resist.")|escapejs }}',
-    pvp: '{{ _("PVPers should check this. Increases importance of AP/MP resists, critical resist and initiative. Decreases importance of prospecting to 0.")|escapejs }}',
-    duel: '{{ _("1 vs. 1 duelers should check this. Increases importance of initiative a lot.")|escapejs }}',
     balanced: '{{ _("No focus: every stat keeps its usual importance. Checking another box in this column unchecks this one.")|escapejs }}',
     vit: '{{ _("Support and vitality based characters should check this. Vitality gets the same high importance for every class, and the other stats keep theirs.")|escapejs }}',
     glasscannon: '{{ _("Hitters who want damage as high as possible ignoring defense should check this.")|escapejs }}',
@@ -214,6 +207,15 @@ var aspectToTip = {
     trap: '{{ _("Srams that focus on traps should check this, though there isn't much trap equipment. Importance of Power (Traps) and +Trap Damage will be increased.")|escapejs }}',
     summon: '{{ _("Summon spammers should check this. It will increase the minimum summons by 1 and increase importance of summons.")|escapejs }}',
     pushback: '{{ _("Chars that deal significant pushback damage should check this. This increases the +Pushback Damage importance.")|escapejs }}',
+};
+var modeLayout = {{ mode_layout | safe }};
+var modeToTip = {
+    pvm_solo: '{{ _("For monster fights on your own, without the PvP changes.")|escapejs }}',
+    koli_1v1: '{{ _("For 1 vs. 1 PvP: the same as group PvP, with initiative mattering a lot more.")|escapejs }}',
+    aggression_1v1: '{{ _("For 1 vs. 1 PvP: the same as group PvP, with initiative mattering a lot more.")|escapejs }}',
+    koli_2v2: '{{ _("For PvP: AP and MP parry, critical resistance and initiative matter more, and prospecting not at all.")|escapejs }}',
+    koli_3v3: '{{ _("For PvP: AP and MP parry, critical resistance and initiative matter more, and prospecting not at all.")|escapejs }}',
+    group_pvp: '{{ _("For PvP: resistances in PvP and initiative matter more, and prospecting not at all.")|escapejs }}',
 };
 var modeBoxes = {{ mode_boxes | safe }};
 var inertAspects = {{ inert_aspects | safe }};
@@ -247,6 +249,15 @@ function createCheckbox(aspect, label, tip) {
     return $(resultHtml);
 }
 
+function createModeBox(mode, label, tip) {
+    var resultHtml = '<label><input type="checkbox" id="mode_' + mode + '" value="' + mode + '" class="mode-box change-modifies-state">' + label + '</label>';
+    if (tip) {
+        resultHtml += '<img alt="" class="build-boxes-tip" src=' + get_questionmark_img() + ' title="' + tip + '">';
+    }
+    resultHtml += '<br>';
+    return $(resultHtml);
+}
+
 function init(state) {
     $("#input-proj-name").val(state["proj_name"]);
     $("#input-char-name").val(state["char_name"]);
@@ -260,7 +271,9 @@ function initChoices(state) {
     $("input[name='priority']").filter(function() {
         return this.value === state["priority"];
     }).prop('checked', true);
+    // Posted as stored until a mode box is clicked, so an untouched build keeps its boxes
     $("#play-mode").val(state["play_mode"]);
+    showMode(state["shown_mode"]);
     $("#guard-percent").val(String(state["guard_pct"]));
     showChosenOptions();
     keepRestartForChoices();
@@ -276,42 +289,46 @@ function showChosenOptions() {
         chosen.push($.trim($("label[for='guard-percent']").text()) + " "
                     + $.trim($("#guard-percent option:selected").text()));
     }
-    chosen.push($.trim($("#play-mode option:selected").text()));
     $("#advanced-options-chosen").text(chosen.join(" · "));
 }
 
-function modeOptionBoxes() {
-    var boxes = [];
-    $.each(modeBoxes, function(mode, ticked) {
-        $.each(ticked, function(aspect) {
-            if (boxes.indexOf(aspect) === -1) {
-                boxes.push(aspect);
-            }
-        });
-    });
-    return boxes;
-}
-
-function tickModeBoxes() {
-    $.each(modeBoxes[$("#play-mode").val()] || {}, function(aspect, ticked) {
-        $("#check_" + aspect).prop('checked', ticked);
+function showMode(shown) {
+    $.each(modeLayout, function(i, mode) {
+        $("#mode_" + mode[0]).prop('checked', mode[0] === shown);
     });
 }
 
-function modeMatchesBoxes() {
-    var matches = true;
-    $.each(modeBoxes[$("#play-mode").val()] || {}, function(aspect, ticked) {
-        if (!!$("#check_" + aspect).prop('checked') !== ticked) {
-            matches = false;
+function shownMode() {
+    var shown = "general";
+    $.each(modeLayout, function(i, mode) {
+        if ($("#mode_" + mode[0]).prop('checked')) {
+            shown = mode[0];
         }
     });
-    return matches;
+    return shown;
+}
+
+function tickModeBoxes(mode) {
+    var ticked = modeBoxes[mode] || {};
+    $.each(aspectLayout[1], function(i, aspect) {
+        $("#check_" + aspect).prop('checked', !!ticked[aspect]);
+    });
+}
+
+function chooseMode(mode, ticked) {
+    var chosen = ticked ? mode : "general";
+    showMode(chosen);
+    $("#play-mode").val(chosen);
+    tickModeBoxes(chosen);
+    $("#reapply-cb").prop('checked', true);
+    keepRestartForChoices();
 }
 
 function choicesChanged() {
     var saved = initialStateStateEngine;
     return !!saved && ($("input[name='priority']:checked").val() !== saved["priority"]
-                       || $("#play-mode").val() !== saved["play_mode"]);
+                       || $("#play-mode").val() !== saved["play_mode"]
+                       || shownMode() !== saved["shown_mode"]);
 }
 
 function keepRestartForChoices() {
@@ -328,19 +345,9 @@ function setupChoices() {
         keepRestartForChoices();
         showChosenOptions();
     });
-    $("#play-mode").change(function() {
-        tickModeBoxes();
-        $("#reapply-cb").prop('checked', true);
-        keepRestartForChoices();
-        showChosenOptions();
-    });
-    $.each(modeOptionBoxes(), function(i, aspect) {
-        $("#check_" + aspect).change(function() {
-            if (!modeMatchesBoxes()) {
-                $("#play-mode").val($("#play-mode option").first().val());
-                keepRestartForChoices();
-                showChosenOptions();
-            }
+    $.each(modeLayout, function(i, mode) {
+        $("#mode_" + mode[0]).change(function() {
+            chooseMode(mode[0], $("#mode_" + mode[0]).prop('checked'));
         });
     });
     $("#guard-percent").change(showChosenOptions);
@@ -409,6 +416,10 @@ function setupCheckboxes() {
     $.each(aspectLayout[2].concat(aspectLayout[3]), function(i, aspect) {
         if (aspect != "balanced") {
             aspectElements = aspectElements.add("#check_" + aspect);
+            // A cancelled click leaves the box as it was and fires no change
+            $("#check_" + aspect).on('click', function(event) {
+                refuseExtraFocus(event, aspect);
+            });
         }
     });
     
@@ -441,6 +452,28 @@ function setupCheckboxes() {
 
 function highlightAspectRules() {
     flashRed($("#aspect_limit_text"));
+}
+
+var exclusiveFocus = {crit: "noncrit", noncrit: "crit"};
+
+function tooManyFocusBoxes(aspect) {
+    var count = 0;
+    $.each(aspectLayout[2].concat(aspectLayout[3]), function(i, other) {
+        if (other !== "balanced" && other !== exclusiveFocus[aspect]
+                && $("#check_" + other).prop('checked')) {
+            count++;
+        }
+    });
+    return count > 2;
+}
+
+function refuseExtraFocus(event, aspect) {
+    if (!$("#check_" + aspect).prop('checked') || !tooManyFocusBoxes(aspect)) {
+        return false;
+    }
+    event.preventDefault();
+    highlightAspectRules();
+    return true;
 }
 
 function flashRed(text) {
@@ -515,6 +548,13 @@ $(document).ready(function() {
 
     $.each(aspectLayout, function(columnIndex, column) {
         $.each(column, function(i, aspect) {
+            if (columnIndex === 1) {
+                var optionBox = $('<input type="checkbox" style="display: none;">')
+                    .attr({name: 'check_' + aspect, id: 'check_' + aspect});
+                optionBox.prop('checked', !!initialState["char_build_aspects"][aspect]);
+                $("#table-checkboxes-column-1").append(optionBox);
+                return;
+            }
             var box = createCheckbox(aspect, aspectToName[aspect],
                 aspect in aspectToTip ? aspectToTip[aspect] : null);
             $("#table-checkboxes-column-" + columnIndex).append(box);
@@ -527,7 +567,10 @@ $(document).ready(function() {
             });
         });
     });
-    
+    $.each(modeLayout, function(i, mode) {
+        $("#table-checkboxes-column-1").append(createModeBox(mode[0], mode[1], modeToTip[mode[0]]));
+    });
+
     $("#input-char-level").change(function() {
         $("#reapply-cb").prop('checked', true);
     });

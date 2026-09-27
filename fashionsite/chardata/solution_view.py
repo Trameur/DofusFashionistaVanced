@@ -39,7 +39,7 @@ from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
                                      parse_hidden, preview_box, preview_box_for)
 from chardata.character_assets import asset_formats, asset_token, preload_links
 from chardata.encoded_char_id import encode_char_id
-from chardata.fashion_action import fashion, get_options
+from chardata.fashion_action import continuation_input, fashion, get_options, search_gap
 from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
                                   get_all_inclusions_en_names,
@@ -60,6 +60,7 @@ from chardata.solution_history import get_generation_preview_items, get_generati
 from chardata.solution_scores import calculate_project_build_score
 from chardata.spell_buffs import compute_full_buff_stats
 from django.utils import timezone
+from django.utils.formats import number_format
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from datetime import timedelta
@@ -97,6 +98,8 @@ _CHECKED_SLOTS = {'Hat', 'Cloak', 'Amulet', 'Ring', 'Belt', 'Boots', 'Shield'}
 
 
 _SEARCH_SPACE_MIN_EXPONENT = 6
+_NEARLY_OPTIMAL_GAP = 0.05
+_LARGEST_GAP_SHOWN = 1.0
 
 
 def _constraints_reached(char, solution):
@@ -174,6 +177,27 @@ def _search_space_exponent(pool):
                      for taken in range(0, min(available, slots) + 1))
     exponent = len(str(total)) - 1
     return exponent if exponent >= _SEARCH_SPACE_MIN_EXPONENT else None
+
+
+def _stopped_solve(minimal_solution_blob):
+    """The stored solution when its solve stopped on time, else None."""
+    if not minimal_solution_blob:
+        return None
+    try:
+        minimal = pickle.loads(minimal_solution_blob)
+    except Exception:
+        return None
+    return minimal if getattr(minimal, 'proven', None) is False else None
+
+
+def _gap_percent(gap):
+    """A gap as the percent shown, rounded up so that "at most" holds; None past _LARGEST_GAP_SHOWN."""
+    if not gap or gap <= 0 or gap > _LARGEST_GAP_SHOWN:
+        return None
+    percent = gap * 100
+    if percent >= 10:
+        return number_format(math.ceil(round(percent, 6)), 0)
+    return number_format(math.ceil(round(percent * 10, 6)) / 10, 1)
 
 
 def _resolve_structure_item(structure, name):
@@ -696,6 +720,18 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     solver_guard = guard_facts(solved_blob) or {}
     if solver_seconds is not None:
         solver_seconds += solver_guard.get('other_seconds') or 0
+    stopped = _stopped_solve(solved_blob)
+    stopped_search = (getattr(stopped, 'search', None) or {}) if stopped is not None else {}
+    stopped_gap = search_gap(stopped_search)
+    solver_time_limit = (stopped_search.get('limit') or solver_guard.get('time_limit')
+                         or SOLVER_TIME_LIMIT_SECONDS)
+    continue_search_url = ''
+    if stopped is not None and not is_guest and not is_generation_snapshot:
+        try:
+            if continuation_input(request, char, stopped) is not None:
+                continue_search_url = version_reverse(request, 'continue_search', char.id)
+        except Exception:
+            logger.exception('Failed to check whether the search can go on (char %s)', char.id)
     solver_priorities = _solver_priorities(char)
     solver_pool_total = None if solver_pool is None else sum(solver_pool.values())
     solver_space_exponent = _search_space_exponent(solver_pool)
@@ -718,7 +754,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
             share_text = _build_share_text(
                 request, char, _sol_for_text,
                 facts=(solver_proven, solver_seconds),
-                time_limit=solver_guard.get('time_limit'))
+                time_limit=solver_time_limit)
             if char.link_shared:
                 try:
                     og_description = _build_og_description(
@@ -828,8 +864,11 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'solver_space_exponent': solver_space_exponent,
               'solver_seconds': (None if solver_seconds is None
                                  else round(solver_seconds, 1)),
-              'solver_time_limit': (solver_guard.get('time_limit')
-                                    or SOLVER_TIME_LIMIT_SECONDS),
+              'solver_time_limit': solver_time_limit,
+              'search_gap': _gap_percent(stopped_gap),
+              'search_gap_is_small': (stopped_gap or 0) <= _NEARLY_OPTIMAL_GAP,
+              'continue_search_url': continue_search_url,
+              'continue_search_seconds': SOLVER_TIME_LIMIT_SECONDS,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:

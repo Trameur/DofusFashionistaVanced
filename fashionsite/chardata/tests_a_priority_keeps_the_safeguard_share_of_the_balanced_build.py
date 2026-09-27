@@ -1,7 +1,7 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """A priority solve keeps the safeguard's share of the balanced build; a build without one solves as before."""
-import math
 import pickle
+import re
 import unittest
 from unittest import mock
 
@@ -42,10 +42,32 @@ NEW_SENTENCES = (
     'the balanced build.',
     'This set trails the balanced build on both counts: best turn %(turn)s against '
     '%(balanced_turn)s, effective HP %(hp)s against %(balanced_hp)s.',
-    'Compared with the balanced build, a Damage priority gives up at most this share of '
-    'effective HP, and a Defense or Heals priority aims to give up at most this share of best '
-    'turn damage. The build page shows what was kept.',
+    'Safeguard not applied: the solver found no set keeping %(share)s%% of AP, MP, Range and '
+    'every other stat with a weight that the priority does not aim for, so this set does without '
+    'it.',
+    'Safeguard: AP, MP, Range and every other stat with a weight that the priority does not aim '
+    'for kept at least %(share)s%% of their value in the balanced build, except %(stats)s.',
+    'Safeguard: AP, MP, Range and every other stat with a weight that the priority does not aim '
+    'for kept at least %(share)s%% of their value in the balanced build.',
+    'Safeguard not applied: the solver ran out of time on the balanced build it compares with, '
+    'so this set does without it.',
+    'Best turn: %(kept)s, against %(balanced)s for the balanced build.',
+    'Effective HP: %(kept)s, against %(balanced)s for the balanced build.',
+    'Effective HP at %(reached)s%% of the balanced build (%(kept)s of %(balanced)s), short of '
+    'the %(share)s%% aimed for.',
 )
+SETUP_SENTENCE = (
+    'Compared with the balanced build, each stat the priority does not aim for loses at most '
+    'this share: HP and resistances for Damage, damage stats for Defense and Heals, and for any '
+    'priority AP, MP, Range and every other stat the build gives a weight to. At 0% none of them '
+    'drops. The build page shows what was kept.')
+KEPT = ('Safeguard: AP, MP, Range and every other stat with a weight that the priority does not '
+        'aim for kept at least %d%% of their value in the balanced build.')
+FALLBACK = ('Safeguard not applied: the solver found no set keeping %d%% of AP, MP, Range and '
+            'every other stat with a weight that the priority does not aim for, so this set does '
+            'without it.')
+BALANCED_OUT_OF_TIME = ('Safeguard not applied: the solver ran out of time on the balanced build '
+                        'it compares with, so this set does without it.')
 
 
 def _solver_available():
@@ -190,6 +212,15 @@ class _BuildMixin(object):
     def wearing_the_hat(self, model_input):
         return _answer(model_input, {'hat': self.hat.id})
 
+    def with_floors(self, char, floors):
+        """The build's own minimums raised to the floors, by stat name."""
+        structure = get_structure(self.version)
+        expected = dict(get_min_stats_digested(char))
+        for key, floor in floors.items():
+            name = structure.get_stat_by_key(key).name
+            expected[name] = max(expected.get(name, floor), floor)
+        return expected
+
 
 class TheSafeguardIsReadFromTheBuildTests(_BuildMixin, TestCase):
 
@@ -225,9 +256,17 @@ class TheSafeguardIsReadFromTheBuildTests(_BuildMixin, TestCase):
         self.assertEqual(weights, char.stats_weight)
 
     def test_an_unknown_percent_reads_as_the_default(self):
-        for value in (0, 7, 'abc', None, 100):
+        for value in (7, 'abc', None, 100, -5):
             with self.subTest(value=value):
                 self.assertEqual(presets.GUARD_DEFAULT_PERCENT, presets.offered_guard(value))
+
+    def test_zero_percent_is_offered_stored_and_read_back(self):
+        self.assertEqual((0, 5, 10, 15, 20), presets.GUARD_PERCENTS)
+        char = self.build({'str'}, 'damage', guard_pct='0')
+        self.assertEqual(0, read_char_blob(char.options, {}, 'options', char)['guard_pct'])
+        self.assertEqual(('effective_hp', 0), presets.guard_plan(char))
+        self.assertEqual(0, presets.posted_guard({'guard_pct': '0'}, char))
+        self.assertEqual(0, presets.posted_guard({}, char))
 
     def test_a_form_without_the_field_keeps_the_stored_percent(self):
         char = self.build({'str'}, 'damage', guard_pct=15)
@@ -308,25 +347,111 @@ class TheFloorsGoOnACopyOfTheMinimumsTests(SimpleTestCase):
         self.assertEqual({'AP': 11, 'adv_mins': {'Power + Strength': 300}}, minimums)
         self.assertEqual(11, guarded['AP'])
 
-    def test_the_turn_floor_keeps_ap_and_the_share_of_crit_and_damage_stats(self):
+    def test_the_turn_floor_keeps_ap_and_the_share_of_the_damage_stats(self):
         structure = get_structure('dofus3')
         crit = structure.get_stat_by_key('ch').name
         totals = {'ap': 12, 'ch': 41, 'pow': 200, 'str': 900, 'dam': 30, 'earthdam': 45,
                   'int': 50, 'firedam': -8}
         minimums = {'AP': 11, crit: 50, 'adv_mins': {'Damage + Earth Damage': 10}}
+        floors = presets.stat_floors('turn', 10, totals, ['ch', 'mp'])
+        self.assertEqual({'ch': 37, 'mp': 0, 'ap': 12}, floors)
         guarded = presets.guard_minimums(minimums, 'turn', 10, {'totals': totals, 'value': 1},
-                                         {'str', 'int'})
+                                         {'str', 'int'}, floors)
         self.assertEqual(12, guarded['AP'])
         self.assertEqual(50, guarded[crit])
-        self.assertEqual({'Power + Strength': 990, 'Damage + Earth Damage': 67,
-                          'Power + Intelligence': 225, 'Damage + Fire Damage': 19},
+        self.assertEqual(0, guarded['MP'])
+        self.assertEqual({'Power + Strength': 990, 'Damage + Earth Damage': 68,
+                          'Power + Intelligence': 225, 'Damage + Fire Damage': 20},
                          guarded['adv_mins'])
         self.assertEqual({'AP': 11, crit: 50, 'adv_mins': {'Damage + Earth Damage': 10}},
                          minimums)
 
-    def test_a_negative_total_is_its_own_floor(self):
-        self.assertEqual(-10, presets._scaled_floor(-10, 0.9))
-        self.assertEqual(36, presets._scaled_floor(41, 0.9))
+    def test_an_effective_hp_floor_comes_with_the_stat_floors(self):
+        floors = presets.stat_floors('effective_hp', 10, {'ap': 12, 'hp': 4000, 'mp': 6},
+                                     ['ap', 'hp', 'mp'])
+        self.assertEqual({'ap': 11, 'hp': 3600, 'mp': 6}, floors)
+        guarded = presets.guard_minimums({'AP': 11, 'MP': 6}, 'effective_hp', 10,
+                                         {'value': 5000.0}, {'str'}, floors)
+        self.assertEqual({'AP': 11, 'MP': 6, 'HP': 3600, EFFECTIVE_HP_MINIMUM: 4500.0},
+                         guarded)
+
+    def test_a_share_is_the_least_whole_value_that_loses_at_most_the_percent(self):
+        kept = presets._kept_share
+        self.assertEqual(11, kept(12, 0.9))
+        self.assertEqual(6, kept(6, 0.9))
+        self.assertEqual(10, kept(12, 0.8))
+        self.assertEqual(990, kept(1100, 0.9))
+        self.assertEqual(37, kept(41, 0.9))
+        self.assertEqual(41, kept(41, 1.0))
+        self.assertEqual(-10, kept(-10, 0.9))
+        self.assertEqual(0, kept(0, 0.9))
+
+    def test_no_floor_loses_more_than_its_percent_or_asks_more_than_the_balanced_value(self):
+        for percent in presets.GUARD_PERCENTS:
+            for value in range(0, 250):
+                with self.subTest(percent=percent, value=value):
+                    floor = presets.stat_floors('effective_hp', percent, {'x': value}, ['x'])['x']
+                    self.assertLessEqual(floor, value)
+                    self.assertGreaterEqual(floor, (100 - percent) / 100.0 * value - 1e-9)
+
+
+class TheSafeguardCoversEveryStatThePriorityDoesNotPushTests(_BuildMixin, TestCase):
+
+    def guarded(self, aspects, priority):
+        char = self.build(aspects, priority)
+        balanced = presets.balanced_weights(char, get_stats_weights(char, persist=False))
+        return set(presets.guarded_stats(char, balanced)), balanced
+
+    def test_damage_guards_hp_resistances_and_the_rest_but_not_the_damage_stats(self):
+        guarded, balanced = self.guarded({'str'}, 'damage')
+        raised = get_stats_weights(self.build({'str'}, 'damage'), persist=False)
+        self.assertGreater(raised['ap'], balanced['ap'])
+        for key in ('hp', 'vit', 'earthresper', 'fireres', 'ap', 'mp', 'lock', 'dodge', 'apres',
+                    'mpres', 'crires', 'wis', 'init'):
+            self.assertIn(key, guarded)
+        for key in ('str', 'pow', 'dam', 'earthdam', 'ch', 'cridam'):
+            self.assertNotIn(key, guarded)
+
+    def test_defense_and_heals_guard_the_damage_stats_and_crit(self):
+        for priority in ('defense', 'heals'):
+            with self.subTest(priority=priority):
+                guarded, _balanced = self.guarded({'str'}, priority)
+                for key in ('str', 'pow', 'dam', 'earthdam', 'ch', 'ap', 'mp', 'lock'):
+                    self.assertIn(key, guarded)
+        defense, _balanced = self.guarded({'str'}, 'defense')
+        for key in ('hp', 'vit', 'earthresper', 'fireres'):
+            self.assertNotIn(key, defense)
+        heals, _balanced = self.guarded({'int'}, 'heals')
+        self.assertNotIn('heals', heals)
+        self.assertIn('int', heals)
+        heals, _balanced = self.guarded({'str'}, 'heals')
+        self.assertNotIn('int', heals)
+
+    def test_only_positive_weights_of_real_stats_are_guarded_besides_ap_mp_and_range(self):
+        guarded, balanced = self.guarded({'str', 'noncrit'}, 'defense')
+        structure = get_structure(self.version)
+        for key in guarded:
+            self.assertIsNotNone(structure.get_stat_by_key(key))
+            if key not in presets.ALWAYS_GUARDED:
+                self.assertGreater(balanced[key], 0)
+        self.assertNotIn('ch', guarded)
+        self.assertNotIn('ap_before_floor', guarded)
+        self.assertNotIn('summon', guarded)
+
+    def test_a_melee_build_guards_range_its_weights_leave_at_zero(self):
+        for priority in ('damage', 'defense', 'heals'):
+            with self.subTest(priority=priority):
+                guarded, balanced = self.guarded({'str'}, priority)
+                self.assertEqual(0, balanced['range'])
+                self.assertTrue(presets.ALWAYS_GUARDED <= guarded)
+
+    def test_a_range_weight_set_below_zero_is_not_guarded(self):
+        char = self.build({'str'}, 'damage')
+        balanced = presets.balanced_weights(char, get_stats_weights(char, persist=False))
+        guarded = presets.guarded_stats(char, dict(balanced, range=-5))
+        self.assertNotIn('range', guarded)
+        self.assertIn('mp', guarded)
+
 
 
 class TheModelHoldsTheFloorOnlyWhileAskedTests(SimpleTestCase):
@@ -404,16 +529,34 @@ class AGuardedSolveAsksForTheBalancedBuildFirstTests(_BuildMixin, TestCase):
         self.assertEqual(get_stats_weights(plain, persist=False), balanced.objective_values)
         self.assertEqual(get_min_stats_digested(char), balanced.minimum_stats)
         self.assertEqual(get_stats_weights(char, persist=False), guarded.objective_values)
-        ehp = presets.effective_hp(get_solution(char).get_stats_total())
+        totals = get_solution(char).get_stats_total()
+        ehp = presets.effective_hp(totals)
         self.assertAlmostEqual(0.9 * ehp, guarded.minimum_stats.pop(EFFECTIVE_HP_MINIMUM))
-        self.assertEqual(get_min_stats_digested(char), guarded.minimum_stats)
-        self.assertEqual(minimums, char.minimum_stats)
         facts = self.facts(char)
-        self.assertEqual(('effective_hp', 10, False), (facts['kind'], facts['percent'],
-                                                       facts['fallback']))
+        self.assertEqual(presets.stat_floors('effective_hp', 10, totals,
+                                             presets.guarded_stats(char, balanced.objective_values)),
+                         facts['floors'])
+        self.assertTrue({'hp', 'vit', 'earthresper', 'ap', 'mp', 'lock'} <= set(facts['floors']))
+        self.assertFalse({'str', 'pow', 'earthdam', 'ch'} & set(facts['floors']))
+        self.assertEqual(self.with_floors(char, facts['floors']), guarded.minimum_stats)
+        self.assertEqual(minimums, char.minimum_stats)
+        self.assertEqual(('effective_hp', 10, False, []),
+                         (facts['kind'], facts['percent'], facts['fallback'], facts['short']))
         self.assertAlmostEqual(ehp, facts['balanced'])
         self.assertAlmostEqual(ehp, facts['kept'])
         self.assertAlmostEqual(1.0, facts['other_seconds'])
+
+    def test_zero_percent_floors_every_guarded_stat_at_its_balanced_total(self):
+        char = self.build({'str'}, 'damage', guard_pct=0)
+        asked, _response = self.solve(char, self.wearing_the_hat)
+        totals = get_solution(char).get_stats_total()
+        facts = self.facts(char)
+        self.assertTrue(facts['floors'])
+        for key, floor in facts['floors'].items():
+            self.assertEqual(totals[key], floor, key)
+        self.assertAlmostEqual(presets.effective_hp(totals),
+                               asked[1].minimum_stats[EFFECTIVE_HP_MINIMUM])
+        self.assertIn(KEPT % 100, self.page(char))
 
     def test_a_chosen_percent_sets_the_floor(self):
         char = self.build({'str'}, 'damage', guard_pct=20)
@@ -430,12 +573,17 @@ class AGuardedSolveAsksForTheBalancedBuildFirstTests(_BuildMixin, TestCase):
         self.assertNotIn(EFFECTIVE_HP_MINIMUM, guarded)
         self.assertEqual(max(totals['ap'], get_min_stats_digested(char).get('AP', 0)),
                          guarded['AP'])
-        self.assertEqual(math.floor(0.9 * (totals['pow'] + totals['str'])),
+        self.assertEqual(presets._kept_share(totals['pow'] + totals['str'], 0.9),
                          guarded['adv_mins']['Power + Strength'])
         facts = self.facts(char)
         self.assertEqual('turn', facts['kind'])
+        self.assertTrue({'str', 'pow', 'earthdam', 'ch', 'ap', 'mp'} <= set(facts['floors']))
+        self.assertFalse({'hp', 'vit', 'earthresper', 'fireres'} & set(facts['floors']))
+        self.assertEqual(totals['ap'], facts['floors']['ap'])
         self.assertGreater(facts['balanced'], 0)
         self.assertAlmostEqual(facts['balanced'], facts['kept'])
+        self.assertIn('Best turn: %d, against %d for the balanced build.'
+                      % (round(facts['kept']), round(facts['balanced'])), self.page(char))
 
     def test_when_no_set_passes_the_floor_the_priority_solves_without_it_and_says_so(self):
         def rule(model_input):
@@ -449,8 +597,7 @@ class AGuardedSolveAsksForTheBalancedBuildFirstTests(_BuildMixin, TestCase):
         self.assertEqual(get_stats_weights(char, persist=False), asked[2].objective_values)
         self.assertIn('/solution/', response.url)
         self.assertTrue(self.facts(char)['fallback'])
-        self.assertIn("Safeguard not applied: the solver found no set keeping 90% of the "
-                      "balanced build's effective HP", self.page(char))
+        self.assertIn(FALLBACK % 90, self.page(char))
 
     def test_without_a_balanced_set_the_priority_solves_alone_and_says_so(self):
         balanced = None
@@ -467,17 +614,25 @@ class AGuardedSolveAsksForTheBalancedBuildFirstTests(_BuildMixin, TestCase):
         self.assertIn('Safeguard not applied: the solver found no balanced set to compare with.',
                       self.page(char))
 
-    def test_an_unreadable_balanced_turn_applies_no_floor_and_says_so(self):
+    def test_an_unreadable_balanced_turn_still_floors_the_stats_and_names_no_turn(self):
         char = self.build({'str'}, 'defense')
         with mock.patch('chardata.presets._panel_turn', return_value=None):
             asked, _response = self.solve(char, self.wearing_the_hat)
         self.assertEqual(2, len(asked))
-        self.assertEqual(get_min_stats_digested(char), asked[1].minimum_stats)
         self.assertEqual(get_stats_weights(char, persist=False), asked[1].objective_values)
         facts = self.facts(char)
         self.assertTrue(facts['no_turn'])
-        self.assertIn("Safeguard not applied: the balanced build's best turn could not be "
-                      "computed.", self.page(char))
+        self.assertFalse(facts['fallback'])
+        self.assertTrue(facts['floors'])
+        observed = dict(asked[1].minimum_stats)
+        expected = self.with_floors(char, facts['floors'])
+        observed.pop('adv_mins')
+        expected.pop('adv_mins', None)
+        self.assertEqual(expected, observed)
+        page = self.page(char)
+        self.assertIn(KEPT % 90, page)
+        self.assertNotIn('Best turn:', page)
+        self.assertNotIn('could not be computed', page)
 
     def test_an_infeasible_priority_build_still_lands_on_the_infeasible_page(self):
         char = self.build({'str'}, 'damage')
@@ -549,12 +704,42 @@ class TheSolvesOfOneRequestShareOneBudgetTests(_BuildMixin, TestCase):
         self.assertEqual(lpproblem.TIME_LIMIT_SECONDS, lpproblem.SOLVER.timeLimit)
         self.assertIsNone(self.facts(char)['time_limit'])
 
-    def test_a_model_built_for_each_solve_spends_its_build_time_from_the_limits(self):
+    def test_a_model_build_comes_out_of_the_budget_and_not_out_of_the_balanced_limit(self):
         char = self.build({'str'}, 'damage')
         model, _memory = self.run_fashion(char, [(5, 'Optimal'), (20, 'Optimal')],
                                           build_seconds=12)
-        self.assertEqual([fashion_action.BALANCED_SECONDS - 12,
+        self.assertEqual([fashion_action.BALANCED_SECONDS,
                           fashion_action.GUARD_BUDGET_SECONDS - 12 - 5 - 12], model.limits)
+
+    def test_the_balanced_limit_leaves_the_priority_its_least_solve(self):
+        char = self.build({'str'}, 'damage')
+        with mock.patch('chardata.fashion_action.BALANCED_SECONDS', 90):
+            model, _memory = self.run_fashion(char, [(5, 'Optimal'), (20, 'Optimal')],
+                                              build_seconds=12)
+        self.assertEqual(fashion_action.GUARD_BUDGET_SECONDS - 12
+                         - fashion_action.MIN_SOLVE_SECONDS, model.limits[0])
+
+    def test_a_balanced_solve_cut_by_its_limit_says_it_ran_out_of_time(self):
+        char = self.build({'str'}, 'damage')
+        model, _memory = self.run_fashion(char, [(30, 'Not Solved'), (20, 'Optimal')])
+        self.assertEqual([fashion_action.BALANCED_SECONDS,
+                          fashion_action.GUARD_BUDGET_SECONDS - 30], model.limits)
+        facts = self.facts(char)
+        self.assertEqual((True, True, True),
+                         (facts['balanced_out_of_time'], facts['no_reference'],
+                          facts['fallback']))
+        page = self.page(char)
+        self.assertIn(BALANCED_OUT_OF_TIME, page)
+        self.assertNotIn('found no balanced set', page)
+
+    def test_an_infeasible_balanced_build_is_not_called_out_of_time(self):
+        char = self.build({'str'}, 'damage')
+        _model, _memory = self.run_fashion(char, [(3, 'Infeasible'), (20, 'Optimal')])
+        facts = self.facts(char)
+        self.assertTrue(facts['no_reference'])
+        self.assertFalse(facts['balanced_out_of_time'])
+        self.assertIn('Safeguard not applied: the solver found no balanced set to compare with.',
+                      self.page(char))
 
     def test_a_slow_balanced_solve_leaves_the_priority_what_the_budget_has_left(self):
         char = self.build({'str'}, 'damage')
@@ -610,6 +795,7 @@ class TheSolvesOfOneRequestShareOneBudgetTests(_BuildMixin, TestCase):
 class TheBuildPageShowsWhatTheSafeguardKeptTests(_BuildMixin, TestCase):
 
     def stored(self, char, proven=True, solve_seconds=None, **facts):
+        """Facts shaped as a solve records them, without floors unless given."""
         base = {'kind': 'effective_hp', 'percent': 10, 'balanced': 4680.4, 'kept': 4212.2,
                 'fallback': False, 'no_reference': False, 'no_turn': False,
                 'out_of_time': False, 'other_seconds': 3.0, 'time_limit': None}
@@ -700,6 +886,83 @@ class TheBuildPageShowsWhatTheSafeguardKeptTests(_BuildMixin, TestCase):
                         self.assertNotEqual(sentence, translation.gettext(sentence))
 
 
+class TheBuildPageNamesEveryGuardedStatTests(_BuildMixin, TestCase):
+    FLOORS = {'hp': 3600, 'ap': 11, 'mp': 6, 'earthresper': 27}
+    stored = TheBuildPageShowsWhatTheSafeguardKeptTests.stored
+
+    def with_floors(self, char, **facts):
+        self.stored(char, **dict({'floors': self.FLOORS, 'short': []}, **facts))
+        return self.page(char)
+
+    def test_every_guarded_stat_held_and_the_effective_hp_are_named(self):
+        page = self.with_floors(self.build({'str'}, 'damage'))
+        self.assertIn(KEPT % 90 + ' Effective HP: 4212, against 4680 for the balanced build.',
+                      page)
+        self.assertNotIn('Safeguard: effective HP at least', page)
+
+    def test_a_stat_below_its_floor_is_named(self):
+        page = self.with_floors(self.build({'str'}, 'damage'), short=['ap', 'earthresper'])
+        self.assertIn('kept at least 90% of their value in the balanced build, except AP, '
+                      '% Earth Resist.', page)
+
+    def test_effective_hp_below_its_floor_says_how_far_it_fell(self):
+        page = self.with_floors(self.build({'str'}, 'damage'), kept=4000.0)
+        self.assertIn('Effective HP at 85% of the balanced build (4000 of 4680), short of the '
+                      '90% aimed for.', page)
+
+    def test_a_turn_priority_names_the_best_turn_it_kept(self):
+        page = self.with_floors(self.build({'str'}, 'defense'), kind='turn', percent=20,
+                                balanced=2000.0, kept=1500.0)
+        self.assertIn(KEPT % 80 + ' Best turn: 1500, against 2000 for the balanced build.',
+                      page)
+
+    def test_a_turn_that_could_not_be_read_leaves_only_the_stats(self):
+        page = self.with_floors(self.build({'str'}, 'defense'), kind='turn', balanced=None,
+                                kept=None, no_turn=True)
+        self.assertIn(KEPT % 90, page)
+        self.assertNotIn('Best turn:', page)
+        self.assertNotIn('could not be computed', page)
+
+    def test_a_fallback_says_no_set_kept_every_stat(self):
+        page = self.with_floors(self.build({'str'}, 'damage'), fallback=True)
+        self.assertIn(FALLBACK % 90, page)
+        self.assertNotIn('Effective HP:', page)
+
+    def test_the_new_sentences_speak_the_page_language(self):
+        char = self.build({'str'}, 'damage')
+        self.stored(char, floors=self.FLOORS, short=[])
+        expected = {'fr': 'Garde-fou : les PA, les PM, la PO et chaque autre stat ayant un poids '
+                          'que la priorité ne vise pas ont gardé au moins 90 % de leur valeur '
+                          'dans le build équilibré. PV effectifs : 4212, contre 4680 pour le '
+                          'build équilibré.',
+                    'es': 'Margen de seguridad: los PA, los PM, el alcance y cualquier otra '
+                          'característica con peso que la prioridad no busca conservaron al '
+                          'menos el 90% de su valor en el build equilibrado. PdV efectivos: '
+                          '4212, frente a 4680 del build equilibrado.',
+                    'pt': 'Margem de segurança: os PA, os PM, o alcance e qualquer outra stat '
+                          'com peso que a prioridade não busca mantiveram pelo menos 90% do seu '
+                          'valor no build equilibrado. PV efetivos: 4212, contra 4680 do build '
+                          'equilibrado.',
+                    'de': 'Sicherheitsmarge: AP, BP, Reichweite und jeder andere gewichtete '
+                          'Stat, auf den die Priorität nicht abzielt, haben mindestens 90 % '
+                          'ihres Werts im ausgewogenen Build behalten. Effektive LP: 4212, '
+                          'gegenüber 4680 beim ausgewogenen Build.'}
+        for language, sentence in expected.items():
+            with self.subTest(language=language):
+                self.assertIn(sentence, self.page(char, '/' + language))
+
+    def test_the_setup_page_says_every_other_stat_is_guarded(self):
+        page = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+        self.assertIn(SETUP_SENTENCE, page)
+        options = re.findall(r'<option[^>]*value="?(\d+)', re.search(
+            r'<select[^>]*guard-percent[^>]*>(.*?)</select>', page, re.S).group(1))
+        self.assertEqual(['0', '5', '10', '15', '20'], options)
+        for language in ('fr', 'es', 'pt', 'de'):
+            with translation.override(language):
+                escaped = SETUP_SENTENCE.replace('%', '%%')
+                self.assertNotEqual(escaped, translation.gettext(escaped))
+
+
 class AGuardOnTouchTemporixReadsTheTouchSetTests(_BuildMixin, TestCase):
     version = 'touch'
     prefix = '/touch'
@@ -728,11 +991,13 @@ class AGuardOnRetroKeepsItsTurnStatsTests(_BuildMixin, TestCase):
         self.assertEqual(2, len(asked))
         totals = get_solution(char).get_stats_total()
         guarded = asked[1].minimum_stats
-        self.assertEqual(math.floor(0.9 * (totals.get('pow', 0) + totals['str'])),
+        self.assertEqual(presets._kept_share(totals.get('pow', 0) + totals['str'], 0.9),
                          guarded['adv_mins']['Power + Strength'])
         facts = self.facts(char)
         self.assertEqual('turn', facts['kind'])
         self.assertGreater(facts['balanced'], 0)
+        self.assertIn('str', facts['floors'])
+        self.assertNotIn('vit', facts['floors'])
 
 
 class ARealGuardedSolveKeepsItsFloorTests(_BuildMixin, TestCase):
@@ -744,9 +1009,14 @@ class ARealGuardedSolveKeepsItsFloorTests(_BuildMixin, TestCase):
         char.refresh_from_db()
         facts = self.facts(char)
         self.assertFalse(facts['fallback'])
-        kept = presets.effective_hp(get_solution(char).get_stats_total())
+        totals = get_solution(char).get_stats_total()
+        kept = presets.effective_hp(totals)
         self.assertAlmostEqual(kept, facts['kept'], places=3)
         self.assertGreaterEqual(kept, 0.9 * facts['balanced'] - 0.5)
+        self.assertTrue({'hp', 'ap', 'mp', 'range'} <= set(facts['floors']))
+        self.assertEqual([], facts['short'])
+        for key, floor in facts['floors'].items():
+            self.assertGreaterEqual(totals[key], floor, key)
 
         plain = self.build({'str'})
         self.client.get('/fashion/%d/' % plain.pk)
@@ -754,3 +1024,71 @@ class ARealGuardedSolveKeepsItsFloorTests(_BuildMixin, TestCase):
         self.assertAlmostEqual(presets.effective_hp(get_solution(plain).get_stats_total()),
                                facts['balanced'], places=3)
         self.assertIsNone(self.facts(plain))
+
+    def solved_with_floors(self, aspects, priority, guard_pct=None):
+        """A real guarded solve, with a budget wide enough that only the floors can fail it."""
+        char = self.build(aspects, priority, guard_pct=guard_pct)
+        with mock.patch('chardata.fashion_action.BALANCED_SECONDS', 90), \
+                mock.patch('chardata.fashion_action.GUARD_BUDGET_SECONDS', 400):
+            self.client.get('%s/fashion/%d/' % (self.prefix, char.pk))
+        char.refresh_from_db()
+        facts = self.facts(char)
+        self.assertFalse(facts['no_reference'])
+        self.assertFalse(facts['fallback'])
+        self.assertEqual([], facts['short'])
+        return get_solution(char).get_stats_total(), facts
+
+    @unittest.skipUnless(_solver_available(), 'no pulp solver available')
+    def test_at_zero_percent_no_guarded_stat_drops_below_the_balanced_build(self):
+        totals, facts = self.solved_with_floors({'str'}, 'damage', guard_pct=0)
+        self.assertTrue(facts['floors'])
+        for key, floor in facts['floors'].items():
+            self.assertGreaterEqual(totals[key], floor, key)
+        self.assertGreaterEqual(facts['kept'], facts['balanced'] - 0.5)
+
+    @unittest.skipUnless(_solver_available(), 'no pulp solver available')
+    def test_a_defense_set_keeps_its_share_of_every_damage_stat(self):
+        totals, facts = self.solved_with_floors({'str'}, 'defense')
+        self.assertTrue({'str', 'pow', 'ap'} <= set(facts['floors']))
+        for key, floor in facts['floors'].items():
+            self.assertGreaterEqual(totals[key], floor, key)
+
+
+class ARealGuardedSolveOnTouchAndRetroKeepsEveryFloorTests(_BuildMixin, TestCase):
+    solved_with_floors = ARealGuardedSolveKeepsItsFloorTests.solved_with_floors
+
+    @unittest.skipUnless(_solver_available(), 'no pulp solver available')
+    def test_at_zero_percent_every_version_finds_a_set_above_every_floor(self):
+        for version in ('touch', 'retro'):
+            for priority in ('damage', 'defense'):
+                with self.subTest(version=version, priority=priority):
+                    self.version, self.prefix = version, '/' + version
+                    set_current_game_version(version)
+                    self.hat = _hat_with_vitality(version)
+                    totals, facts = self.solved_with_floors({'str'}, priority, guard_pct=0)
+                    self.assertTrue(facts['floors'])
+                    for key, floor in facts['floors'].items():
+                        self.assertGreaterEqual(totals[key], floor, key)
+
+
+class ARealGuardedSolveFitsTheProductionBudgetOnTouchAndRetroTests(_BuildMixin, TestCase):
+
+    @unittest.skipUnless(_solver_available(), 'no pulp solver available')
+    def test_a_melee_damage_priority_keeps_every_floor_within_the_budget(self):
+        for version in ('touch', 'retro'):
+            with self.subTest(version=version):
+                self.version, self.prefix = version, '/' + version
+                set_current_game_version(version)
+                self.hat = _hat_with_vitality(version)
+                char = self.build({'str'}, 'damage')
+                self.client.get('%s/fashion/%d/' % (self.prefix, char.pk))
+                char.refresh_from_db()
+                facts = self.facts(char)
+                self.assertEqual((False, False, False, []),
+                                 (facts['no_reference'], facts['balanced_out_of_time'],
+                                  facts['fallback'], facts['short']))
+                self.assertTrue({'hp', 'ap', 'mp', 'range'} <= set(facts['floors']))
+                totals = get_solution(char).get_stats_total()
+                for key, floor in facts['floors'].items():
+                    self.assertGreaterEqual(totals[key], floor, key)
+                self.assertIn(KEPT % 90, self.page(char))

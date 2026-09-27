@@ -171,6 +171,68 @@ msgstr ""
 "turno %(turn)s frente a %(balanced_turn)s, PdV efectivos %(hp)s frente a "
 "%(balanced_hp)s."
 
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard not applied: the solver found no set keeping %(share)s%% of AP, "
+"MP, Range and every other stat with a weight that the priority does not aim "
+"for, so this set does without it."
+msgstr ""
+"Margen de seguridad sin aplicar: el solver no encontró ningún set que "
+"conserve el %(share)s%% de los PA, los PM, el alcance y cualquier otra "
+"característica con peso que la prioridad no busca, así que este es el set "
+"sin margen."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: AP, MP, Range and every other stat with a weight that the "
+"priority does not aim for kept at least %(share)s%% of their value in the "
+"balanced build, except %(stats)s."
+msgstr ""
+"Margen de seguridad: los PA, los PM, el alcance y cualquier otra "
+"característica con peso que la prioridad no busca conservaron al menos el "
+"%(share)s%% de su valor en el build equilibrado, salvo %(stats)s."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: AP, MP, Range and every other stat with a weight that the "
+"priority does not aim for kept at least %(share)s%% of their value in the "
+"balanced build."
+msgstr ""
+"Margen de seguridad: los PA, los PM, el alcance y cualquier otra "
+"característica con peso que la prioridad no busca conservaron al menos el "
+"%(share)s%% de su valor en el build equilibrado."
+
+#: chardata/presets.py
+msgid ""
+"Safeguard not applied: the solver ran out of time on the balanced build it "
+"compares with, so this set does without it."
+msgstr ""
+"Margen de seguridad sin aplicar: al solver se le acabó el tiempo con el "
+"build equilibrado que sirve de comparación, así que este es el set sin "
+"margen."
+
+#: chardata/presets.py
+#, python-format
+msgid "Best turn: %(kept)s, against %(balanced)s for the balanced build."
+msgstr "Mejor turno: %(kept)s, frente a %(balanced)s del build equilibrado."
+
+#: chardata/presets.py
+#, python-format
+msgid "Effective HP: %(kept)s, against %(balanced)s for the balanced build."
+msgstr "PdV efectivos: %(kept)s, frente a %(balanced)s del build equilibrado."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Effective HP at %(reached)s%% of the balanced build (%(kept)s of "
+"%(balanced)s), short of the %(share)s%% aimed for."
+msgstr ""
+"PdV efectivos al %(reached)s%% del build equilibrado (%(kept)s de "
+"%(balanced)s), por debajo del %(share)s%% buscado."
+
 #: .\chardata\coaching_view.py:118
 #, python-format
 msgid "Quick Start %(cls)s lvl %(lvl)s"
@@ -4992,28 +5054,54 @@ msgid "Safeguard"
 msgstr "Margen de seguridad"
 
 #: chardata/templates/chardata/projdetails.html
+#, python-format
 msgid ""
-"Compared with the balanced build, a Damage priority gives up at most this "
-"share of effective HP, and a Defense or Heals priority aims to give up at "
-"most this share of best turn damage. The build page shows what was kept."
+"Compared with the balanced build, each stat the priority does not aim for "
+"loses at most this share: HP and resistances for Damage, damage stats for "
+"Defense and Heals, and for any priority AP, MP, Range and every other stat "
+"the build gives a weight to. At 0%% none of them drops. The build page shows "
+"what was kept."
 msgstr ""
-"Frente al build equilibrado, la prioridad Daño no sacrifica más que este "
-"porcentaje de los PdV efectivos, y la prioridad Defensa o Curas intenta no "
-"sacrificar más que este porcentaje del daño del mejor turno. La página del "
-"build muestra lo que se ha conservado."
+"Frente al build equilibrado, cada característica que la prioridad no busca "
+"pierde como mucho este porcentaje: PdV y resistencias con Daño, "
+"características de daño con Defensa y Curas, y, con cualquier prioridad, PA, "
+"PM, alcance y cualquier otra característica con peso en el build. Con 0%% "
+"no baja ninguna. La página del build muestra lo que se ha conservado."
 
 #: chardata/templates/chardata/projdetails.html
-msgid "Game mode"
-msgstr "Modo de juego"
+msgid "For monster fights on your own, without the PvP changes."
+msgstr "Para combates contra monstruos en solitario, sin los ajustes de PvP."
 
 #: chardata/templates/chardata/projdetails.html
-msgid "A PvP mode ticks its boxes in the Options column."
+msgid ""
+"For 1 vs. 1 PvP: the same as group PvP, with initiative mattering a lot more."
 msgstr ""
-"Un modo PvP marca las casillas que le corresponden en la columna Opciones."
+"Para el PvP 1 contra 1: igual que el PvP en grupo, pero con la iniciativa "
+"mucho más importante."
 
 #: chardata/templates/chardata/projdetails.html
-msgid "Changing the priority or the game mode always restarts the wizard."
-msgstr "Cambiar la prioridad o el modo de juego siempre reinicia el Wizard."
+msgid ""
+"For PvP: AP and MP parry, critical resistance and initiative matter more, "
+"and prospecting not at all."
+msgstr ""
+"Para el PvP: la esquiva PA y PM, la resistencia a críticos y la iniciativa "
+"cuentan más, y la prospección deja de contar."
+
+#: chardata/templates/chardata/projdetails.html
+msgid ""
+"For PvP: resistances in PvP and initiative matter more, and prospecting not "
+"at all."
+msgstr ""
+"Para el PvP: las resistencias en PvP y la iniciativa cuentan más, y la "
+"prospección deja de contar."
+
+#: chardata/templates/chardata/projdetails.html
+msgid ""
+"Changing the priority or the mode in the Options column always restarts the "
+"wizard."
+msgstr ""
+"Cambiar la prioridad o el modo en la columna Opciones siempre reinicia el "
+"Wizard."
 
 #, python-format
 msgid "Check at most %(limit)d boxes in the focus column."
@@ -7693,6 +7781,25 @@ msgstr "Mejor conjunto encontrado en %(limit)s segundos. Al solver se le acabó 
 #, python-format
 msgid "Computed in %(seconds)s s."
 msgstr "Calculado en %(seconds)s s."
+
+#: .\chardata\templates\chardata\solution.html:395
+#, python-format
+msgid "Nearly optimal set: a better one may exist, at most %(gap)s%% better on your criteria."
+msgstr "Conjunto casi óptimo: puede que exista uno mejor, pero como mucho un %(gap)s%% mejor según sus criterios."
+
+#: .\chardata\templates\chardata\solution.html:397
+#, python-format
+msgid "A better set may exist, at most %(gap)s%% better on your criteria."
+msgstr "Puede que exista un conjunto mejor, pero como mucho un %(gap)s%% mejor según sus criterios."
+
+#: .\chardata\templates\chardata\solution.html:403
+msgid "Continue the search"
+msgstr "Seguir buscando"
+
+#: .\chardata\templates\chardata\solution.html:404
+#, python-format
+msgid "The search picks up from this set for up to %(limit)s more seconds and only replaces it with a better one. To keep this set, there is nothing to do."
+msgstr "La búsqueda vuelve a arrancar desde este conjunto durante %(limit)s segundos más como máximo y solo lo sustituye por uno mejor. Para quedarse con este conjunto, no hace falta hacer nada."
 
 #: .\chardata\templates\chardata\solution.html:358
 msgid "How the optimizer works"

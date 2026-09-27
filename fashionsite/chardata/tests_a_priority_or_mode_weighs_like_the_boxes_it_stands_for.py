@@ -26,9 +26,15 @@ KOLOSSIUM = {'koli_1v1', 'koli_2v2', 'koli_3v3'}
 NEW_LABELS = ('No priority', 'Defense', 'General (all content)', 'Solo PvM', 'Kolossium 1v1',
               'Kolossium 2v2', 'Kolossium 3v3', 'Aggression 1v1',
               'Group PvP (prisms, perceptors)', 'Advanced options', 'Priority', 'Safeguard',
-              'Game mode', 'A PvP mode ticks its boxes in the Options column.',
-              'Changing the priority or the game mode always restarts the wizard.',
-              'Mode: %(mode)s · Priority: %(priority)s')
+              'Changing the priority or the mode in the Options column always restarts the '
+              'wizard.',
+              'Mode: %(mode)s · Priority: %(priority)s',
+              'For monster fights on your own, without the PvP changes.',
+              'For 1 vs. 1 PvP: the same as group PvP, with initiative mattering a lot more.',
+              'For PvP: AP and MP parry, critical resistance and initiative matter more, and '
+              'prospecting not at all.',
+              'For PvP: resistances in PvP and initiative matter more, and prospecting not at '
+              'all.')
 
 
 def _path(version, path):
@@ -80,6 +86,24 @@ class TheRegistryOffersEachVersionItsOwnModesTests(SimpleTestCase):
                 with self.subTest(version=version, mode=mode):
                     self.assertLessEqual(set(ticked), option_boxes)
                     self.assertEqual(mode == presets.DEFAULT_PLAY_MODE, not ticked)
+
+    def test_each_option_box_stands_for_a_mode_that_ticks_it(self):
+        for version in VERSIONS:
+            offered = dict(presets.play_modes(version))
+            stands_for = presets.version_presets(version)['box_modes']
+            with self.subTest(version=version):
+                self.assertEqual(set(presets.version_presets(version)['option_boxes']),
+                                 set(stands_for))
+                for box, mode in stands_for.items():
+                    self.assertIn(mode, offered)
+                    self.assertIn(box, presets.PLAY_MODE_BY_KEY[mode].boxes)
+                self.assertEqual({'pvp'}, set(presets.PLAY_MODE_BY_KEY[stands_for['pvp']].boxes))
+
+    def test_the_options_column_lists_every_mode_but_the_default_one(self):
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                self.assertEqual([key for key, _label in presets.play_modes(version)][1:],
+                                 [key for key, _label in presets.option_column_modes(version)])
 
     def test_a_duel_mode_ticks_both_pvp_boxes_and_a_group_mode_only_group_pvp(self):
         both = {'pvp': True, 'duel': True}
@@ -211,12 +235,26 @@ class TheClosedSectionChangesNothingTests(_SetupMixin, TestCase):
                 self.assertEqual(['checked' in tag for tag in radios],
                                  [key == presets.DEFAULT_PRIORITY
                                   for key, _label in presets.priorities()])
-                select = re.search(r'<select[^>]*name="?play_mode"?[^>]*>(.*?)</select>',
-                                   page, re.S)
-                self.assertEqual([mode for mode, _label in presets.play_modes(version)],
-                                 re.findall(r'value="?(\w+)', select.group(1)))
+                self.assertIsNone(re.search(r'<select[^>]*name="?play_mode', page))
+                self.assertNotIn('Game mode', page)
                 self.assertEqual(presets.mode_boxes(version), json.loads(
                     re.search(r'var modeBoxes = (.*?);', page).group(1)))
+
+    def test_the_options_column_lists_the_modes_of_the_version(self):
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                set_current_game_version(version)
+                page = self.client.get(_path(version, '/setup/'),
+                                       HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+                layout = json.loads(re.search(r'var modeLayout = (.*?);\n', page).group(1))
+                self.assertEqual([[key, str(label)] for key, label
+                                  in presets.option_column_modes(version)], layout)
+                hidden = re.search(r'<input[^>]*name="?play_mode"?[^>]*>', page).group(0)
+                self.assertRegex(hidden, r'type="?hidden')
+                self.assertRegex(hidden, r'value="?general"?')
+                tips = re.search(r'var modeToTip = \{(.*?)\n\};', page, re.S).group(1)
+                for key, _label in presets.option_column_modes(version):
+                    self.assertRegex(tips, r"\n    %s: '[^']+'" % key)
 
     def test_the_safeguard_starts_at_ten_percent_and_is_sent(self):
         page = self.client.get('/setup/').content.decode('utf-8')
@@ -293,6 +331,19 @@ class AModeTicksItsOptionBoxesTests(_SetupMixin, TestCase):
                          _blob(duel, 'stats_weight', {}))
         self.assertEqual('koli_1v1', _options(duel)['play_mode'])
 
+    def test_the_retro_group_mode_tip_names_what_the_pvp_box_moves_on_retro(self):
+        set_current_game_version('retro')
+        page = self.client.get('/retro/setup/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+        self.assertEqual('For PvP: resistances in PvP and initiative matter more, and prospecting '
+                         'not at all.', re.search(r"\n    group_pvp: '([^']+)'", page).group(1))
+        char = Char(char_class='Iop', level=200, game_version='retro')
+        plain, pvp = _weights_of(char, {'str'}), _weights_of(char, {'str', 'pvp'})
+        for key in ('apres', 'mpres', 'crires'):
+            self.assertEqual(0, pvp[key], key)
+        self.assertGreater(pvp['init'], plain['init'])
+        self.assertGreater(pvp['pvpearthresper'], plain.get('pvpearthresper', 0))
+        self.assertEqual(0, pvp['pp'])
+
     def test_retro_offers_aggression_and_group_pvp_on_the_same_boxes(self):
         aggression = self.create('retro', 'Iop', 200, {'str'}, {'play_mode': 'aggression_1v1'})
         self.assertEqual({'str', 'pvp', 'duel'}, _blob(aggression, 'aspects', set()))
@@ -305,6 +356,27 @@ class AModeTicksItsOptionBoxesTests(_SetupMixin, TestCase):
         self.assertEqual({'str'}, _blob(solo, 'aspects', set()))
         general = self.create('touch', 'Iop', 200, {'str', 'pvp'}, {'play_mode': 'general'})
         self.assertEqual({'str', 'pvp'}, _blob(general, 'aspects', set()))
+
+    def test_a_ticked_mode_weighs_like_the_old_boxes_it_posts(self):
+        for version in VERSIONS:
+            for box, mode in presets.version_presets(version)['box_modes'].items():
+                with self.subTest(version=version, mode=mode):
+                    posted = presets.PLAY_MODE_BY_KEY[mode].boxes
+                    ticked = self.create(version, 'Iop', 200, {'str'} | posted,
+                                         {'play_mode': mode})
+                    boxes = self.create(version, 'Iop', 200, {'str'} | posted)
+                    self.assertEqual(self.record(boxes)[:4], self.record(ticked)[:4])
+                    self.assertEqual(mode, _options(ticked)['play_mode'])
+
+    def test_an_untouched_build_saved_from_the_page_keeps_its_boxes_and_weights(self):
+        for aspects in ({'str', 'pvp'}, {'str', 'duel'}, {'str', 'pvp', 'duel'}):
+            with self.subTest(aspects=sorted(aspects)):
+                char = self.create('dofus3', 'Iop', 200, aspects)
+                before = self.record(char)
+                char, state = self.save(char, aspects, {'priority': 'balanced',
+                                                        'play_mode': 'general'})
+                self.assertEqual(before, self.record(char))
+                self.assertEqual('general', state['play_mode'])
 
     def test_a_mode_the_version_does_not_offer_is_the_default_one(self):
         for version, mode in (('retro', 'koli_3v3'), ('touch', 'koli_2v2'),
@@ -322,9 +394,33 @@ class TheChoicesStayWithTheBuildTests(_SetupMixin, TestCase):
                            {'priority': 'heals', 'play_mode': 'koli_3v3'})
         page = self.client.get('/project/%d/' % char.id).content.decode('utf-8')
         state = json.loads(re.search(r'var initialState = (\{.*?\});', page).group(1))
-        self.assertEqual(('heals', 'koli_3v3'), (state['priority'], state['play_mode']))
+        self.assertEqual(('heals', 'koli_3v3', 'koli_3v3'),
+                         (state['priority'], state['play_mode'], state['shown_mode']))
         self.assertTrue(state['char_build_aspects']['pvp'])
         self.assertFalse(state['char_build_aspects']['heal'])
+
+    def test_a_build_ticked_with_the_old_boxes_shows_the_mode_they_stand_for(self):
+        for version, aspects, shown in (('dofus3', {'str', 'pvp'}, 'koli_3v3'),
+                                        ('dofus3', {'str', 'pvp', 'duel'}, 'koli_1v1'),
+                                        ('dofus3', {'str', 'duel'}, 'koli_1v1'),
+                                        ('touch', {'str', 'pvp'}, 'koli_3v3'),
+                                        ('retro', {'str', 'pvp'}, 'group_pvp'),
+                                        ('retro', {'str', 'pvp', 'duel'}, 'aggression_1v1'),
+                                        ('beta', {'str'}, 'general')):
+            with self.subTest(version=version, aspects=sorted(aspects)):
+                char = self.create(version, 'Iop', 200, aspects)
+                page = self.client.get(_path(version, '/project/%d/' % char.id))
+                state = json.loads(re.search(r'var initialState = (\{.*?\});',
+                                             page.content.decode('utf-8')).group(1))
+                self.assertEqual(('general', shown), (state['play_mode'], state['shown_mode']))
+
+    def test_a_stored_mode_is_shown_while_its_boxes_match(self):
+        shown = presets.shown_play_mode
+        self.assertEqual('koli_2v2', shown({'str', 'pvp'}, 'koli_2v2', 'dofus2'))
+        self.assertEqual('pvm_solo', shown({'str'}, 'pvm_solo', 'touch'))
+        self.assertEqual('koli_1v1', shown({'str', 'pvp', 'duel'}, 'koli_2v2', 'dofus2'))
+        self.assertEqual('general', shown({'str'}, 'koli_3v3', 'dofus3'))
+        self.assertEqual('group_pvp', shown({'str', 'pvp'}, 'koli_3v3', 'retro'))
 
     def test_a_form_without_the_fields_keeps_the_stored_choices(self):
         char = self.create('dofus3', 'Iop', 200, {'str'}, {'priority': 'damage'})
@@ -438,7 +534,7 @@ class TheBuildPageNamesTheModeAndPriorityTests(_SetupMixin, TestCase):
         self.assertNotIn('solver-setup-choices', page)
 
 
-_SYNC_FUNCTIONS = ('modeOptionBoxes', 'tickModeBoxes', 'modeMatchesBoxes', 'choicesChanged',
+_SYNC_FUNCTIONS = ('showMode', 'shownMode', 'tickModeBoxes', 'chooseMode', 'choicesChanged',
                    'keepRestartForChoices', 'setupChoices')
 
 _JQUERY_STUB = """
@@ -456,7 +552,6 @@ function $(selector) {
             return this;
         },
         toggle: function(show) { shown[selector] = show; return this; },
-        first: function() { return $(selector + ':first'); },
         change: function(handler) {
             (handlers[selector] = handlers[selector] || []).push(handler);
             return this;
@@ -472,6 +567,17 @@ $.each = function(list, callback) {
 };
 function fire(selector) {
     (handlers[selector] || []).forEach(function(handler) { handler(); });
+}
+function click(mode) {
+    checked["#mode_" + mode] = !checked["#mode_" + mode];
+    fire("#mode_" + mode);
+}
+function boxes() {
+    return [!!checked["#check_pvp"], !!checked["#check_duel"]];
+}
+function modes() {
+    return modeLayout.filter(function(mode) { return checked["#mode_" + mode[0]]; })
+                     .map(function(mode) { return mode[0]; });
 }
 function showChosenOptions() {}
 var initialStateStateEngine = null;
@@ -489,12 +595,15 @@ class ThePageKeepsTheModeAndTheBoxesInStepUnderNodeTests(_SetupMixin, TestCase):
         set_current_game_version(version)
         page = self.client.get(_path(version, '/setup/')).content.decode('utf-8')
         chosen = saved or {'priority': presets.DEFAULT_PRIORITY,
-                           'play_mode': presets.DEFAULT_PLAY_MODE}
-        parts = [_JQUERY_STUB, re.search(r'var modeBoxes = .*?;\n', page).group(0),
-                 'values["#play-mode option:first"] = %s;' % json.dumps(
-                     presets.DEFAULT_PLAY_MODE),
+                           'play_mode': presets.DEFAULT_PLAY_MODE,
+                           'shown_mode': presets.DEFAULT_PLAY_MODE}
+        parts = [_JQUERY_STUB,
+                 re.search(r'var modeLayout = .*?;\n', page).group(0),
+                 re.search(r'var modeBoxes = .*?;\n', page).group(0),
+                 re.search(r'var inertAspects = .*?(?=\nfunction )', page, re.S).group(0),
                  'values[CHOSEN] = %s;' % json.dumps(chosen['priority']),
-                 'values["#play-mode"] = %s;' % json.dumps(chosen['play_mode'])]
+                 'values["#play-mode"] = %s;' % json.dumps(chosen['play_mode']),
+                 'checked["#mode_" + %s] = true;' % json.dumps(chosen['shown_mode'])]
         if saved is not None:
             parts.append('initialStateStateEngine = %s;' % json.dumps(saved))
         for name in _SYNC_FUNCTIONS:
@@ -512,39 +621,42 @@ class ThePageKeepsTheModeAndTheBoxesInStepUnderNodeTests(_SetupMixin, TestCase):
         self.assertEqual(0, done.returncode, done.stderr[-800:])
         return json.loads(done.stdout)
 
-    def test_a_mode_ticks_its_boxes_and_the_restart_box(self):
-        self.assertEqual([[True, True, True], [True, False], [False, False], [True, False]],
+    def test_a_mode_box_ticks_its_option_boxes_and_the_restart_box(self):
+        self.assertEqual([[['koli_1v1'], 'koli_1v1', [True, True], True],
+                          [['koli_3v3'], 'koli_3v3', [True, False]],
+                          [['pvm_solo'], 'pvm_solo', [False, False]],
+                          [[], 'general', [False, False]]],
                          self.run_page_script('dofus3', """
-            values["#play-mode"] = "koli_1v1"; fire("#play-mode");
-            var duel = [checked["#check_pvp"], checked["#check_duel"], checked["#reapply-cb"]];
-            values["#play-mode"] = "koli_3v3"; fire("#play-mode");
-            var group = [checked["#check_pvp"], checked["#check_duel"]];
-            values["#play-mode"] = "pvm_solo"; fire("#play-mode");
-            var solo = [checked["#check_pvp"], checked["#check_duel"]];
-            checked["#check_pvp"] = true;
-            values["#play-mode"] = "general"; fire("#play-mode");
-            return [duel, group, solo, [checked["#check_pvp"], checked["#check_duel"]]];"""))
+            click("koli_1v1");
+            var duel = [modes(), values["#play-mode"], boxes(), checked["#reapply-cb"]];
+            click("koli_3v3");
+            var group = [modes(), values["#play-mode"], boxes()];
+            click("pvm_solo");
+            var solo = [modes(), values["#play-mode"], boxes()];
+            click("pvm_solo");
+            return [duel, group, solo, [modes(), values["#play-mode"], boxes()]];"""))
 
-    def test_a_box_that_no_longer_fits_the_mode_goes_back_to_general(self):
-        for version, mode, box in (('dofus3', 'koli_1v1', 'duel'), ('dofus2', 'koli_2v2', 'duel'),
-                                   ('retro', 'aggression_1v1', 'pvp'),
-                                   ('retro', 'group_pvp', 'pvp')):
+    def test_retro_ticks_the_same_boxes_for_its_own_modes(self):
+        self.assertEqual([[True, True], [True, False]], self.run_page_script('retro', """
+            click("aggression_1v1");
+            var aggression = boxes();
+            click("group_pvp");
+            return [aggression, boxes()];"""))
+
+    def test_unticking_the_ticked_mode_clears_both_boxes(self):
+        for version, mode in (('dofus3', 'koli_1v1'), ('dofus2', 'koli_2v2'),
+                              ('retro', 'aggression_1v1'), ('retro', 'group_pvp')):
             with self.subTest(version=version, mode=mode):
-                self.assertEqual([mode, 'general'], self.run_page_script(version, """
-                    values["#play-mode"] = %s; fire("#play-mode");
-                    var kept = values["#play-mode"];
-                    checked["#check_%s"] = !checked["#check_%s"]; fire("#check_%s");
-                    return [kept, values["#play-mode"]];""" % (json.dumps(mode), box, box, box)))
-
-    def test_general_lets_the_boxes_change_freely(self):
-        self.assertEqual(['general', 'general'], self.run_page_script('touch', """
-            checked["#check_pvp"] = true; fire("#check_pvp");
-            var ticked = values["#play-mode"];
-            checked["#check_pvp"] = false; fire("#check_pvp");
-            return [ticked, values["#play-mode"]];"""))
+                self.assertEqual([[mode], [], 'general', [False, False]],
+                                 self.run_page_script(version, """
+                    click(%s);
+                    var kept = modes();
+                    click(%s);
+                    return [kept, modes(), values["#play-mode"], boxes()];"""
+                                                      % (json.dumps(mode), json.dumps(mode))))
 
     def test_the_restart_box_stays_ticked_while_a_choice_differs_from_the_saved_one(self):
-        saved = {'priority': 'balanced', 'play_mode': 'general'}
+        saved = {'priority': 'balanced', 'play_mode': 'general', 'shown_mode': 'general'}
         self.assertEqual([[True, True], [False, False]], self.run_page_script('dofus3', """
             values[CHOSEN] = "damage"; fire(PRIORITY);
             checked["#reapply-cb"] = false; fire("#reapply-cb");
@@ -553,14 +665,22 @@ class ThePageKeepsTheModeAndTheBoxesInStepUnderNodeTests(_SetupMixin, TestCase):
             checked["#reapply-cb"] = false; fire("#reapply-cb");
             return [kept, [checked["#reapply-cb"], shown["#choices-restart-note"]]];""", saved))
 
-    def test_unticking_the_saved_modes_box_also_keeps_the_restart_box(self):
-        saved = {'priority': 'balanced', 'play_mode': 'koli_3v3'}
-        self.assertEqual(['general', True, True], self.run_page_script('dofus3', """
+    def test_unticking_the_mode_the_old_boxes_stand_for_keeps_the_restart_box(self):
+        saved = {'priority': 'balanced', 'play_mode': 'general', 'shown_mode': 'koli_3v3'}
+        self.assertEqual(['general', [False, False], True, True],
+                         self.run_page_script('dofus3', """
             checked["#check_pvp"] = true;
-            checked["#check_pvp"] = false; fire("#check_pvp");
+            click("koli_3v3");
             checked["#reapply-cb"] = false; fire("#reapply-cb");
-            return [values["#play-mode"], checked["#reapply-cb"],
+            return [values["#play-mode"], boxes(), checked["#reapply-cb"],
                     shown["#choices-restart-note"]];""", saved))
+
+    def test_an_untouched_mode_posts_the_stored_one(self):
+        saved = {'priority': 'balanced', 'play_mode': 'general', 'shown_mode': 'koli_1v1'}
+        self.assertEqual([['koli_1v1'], 'general', False], self.run_page_script('dofus3', """
+            keepRestartForChoices();
+            return [modes(), values["#play-mode"], !!shown["#choices-restart-note"]];""",
+                                                                               saved))
 
     def test_the_creation_page_forces_nothing(self):
         self.assertEqual([False, False], self.run_page_script('dofus3', """
@@ -568,7 +688,7 @@ class ThePageKeepsTheModeAndTheBoxesInStepUnderNodeTests(_SetupMixin, TestCase):
             checked["#reapply-cb"] = false; fire("#reapply-cb");
             return [checked["#reapply-cb"], shown["#choices-restart-note"]];"""))
 
-    def test_every_box_a_mode_ticks_is_drawn_on_the_page(self):
+    def test_every_box_a_mode_ticks_is_posted_by_the_page(self):
         for version in VERSIONS:
             with self.subTest(version=version):
                 set_current_game_version(version)
@@ -576,9 +696,18 @@ class ThePageKeepsTheModeAndTheBoxesInStepUnderNodeTests(_SetupMixin, TestCase):
                 layout = json.loads(re.search(r'var aspectLayout = (\[.*?\])\s*\.map', page,
                                               re.S).group(1))
                 inert = json.loads(re.search(r'var inertAspects = (.*?);', page).group(1))
-                drawn = {aspect for column in layout for aspect in column} - set(inert)
+                posted = set(layout[1]) - set(inert)
                 for mode, boxes in presets.mode_boxes(version).items():
-                    self.assertLessEqual(set(boxes), drawn, mode)
+                    self.assertLessEqual(set(boxes), posted, mode)
+
+    def test_the_old_boxes_are_posted_hidden_and_the_mode_boxes_are_not_posted(self):
+        page = self.client.get('/setup/').content.decode('utf-8')
+        column = re.search(r'if \(columnIndex === 1\) \{(.*?)\n            \}', page, re.S)
+        self.assertIsNotNone(column)
+        self.assertIn("name: 'check_' + aspect", column.group(1))
+        self.assertIn('display: none', column.group(1))
+        mode_box = re.search(r'function createModeBox\(.*?\n\}', page, re.S).group(0)
+        self.assertNotIn('name=', mode_box)
 
     def test_the_edit_page_hides_the_restart_note_until_a_choice_changes(self):
         char = self.create('dofus3', 'Iop', 200, {'str'}, button='byhand')
@@ -586,5 +715,5 @@ class ThePageKeepsTheModeAndTheBoxesInStepUnderNodeTests(_SetupMixin, TestCase):
         note = re.search(r'<div[^>]*id="?choices-restart-note"?[^>]*>([^<]+)</div>', page)
         self.assertIsNotNone(note)
         self.assertIn('display: none', note.group(0))
-        self.assertEqual('Changing the priority or the game mode always restarts the wizard.',
-                         note.group(1).strip())
+        self.assertEqual('Changing the priority or the mode in the Options column always '
+                         'restarts the wizard.', note.group(1).strip())

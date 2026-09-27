@@ -390,6 +390,20 @@
         <p class="solver-why-line">{% trans "Proven optimum. The solver checked that no other legal combination scores higher on your criteria." %}</p>
         {% else %}
         <p class="solver-why-line">{% blocktrans with limit=solver_time_limit %}Best set found in {{ limit }} seconds. The solver ran out of time before it could prove that nothing beats it, so this is the best it reached, not a proof.{% endblocktrans %}</p>
+        {% if search_gap %}
+        {% if search_gap_is_small %}
+        <p class="solver-why-line solver-search-gap">{% blocktrans with gap=search_gap %}Nearly optimal set: a better one may exist, at most {{ gap }}% better on your criteria.{% endblocktrans %}</p>
+        {% else %}
+        <p class="solver-why-line solver-search-gap">{% blocktrans with gap=search_gap %}A better set may exist, at most {{ gap }}% better on your criteria.{% endblocktrans %}</p>
+        {% endif %}
+        {% endif %}
+        {% if continue_search_url %}
+        <form method="post" action="{{ continue_search_url }}" class="solver-continue-search" onsubmit="loadingAndRunUnchecked();">
+            {% csrf_token %}
+            <p class="solver-why-line"><button type="submit" class="button-generic">{% trans "Continue the search" %}</button></p>
+            <p class="solver-why-line">{% blocktrans with limit=continue_search_seconds %}The search picks up from this set for up to {{ limit }} more seconds and only replaces it with a better one. To keep this set, there is nothing to do.{% endblocktrans %}</p>
+        </form>
+        {% endif %}
         {% endif %}
         {% if solver_constraints %}
         <p class="solver-why-line">

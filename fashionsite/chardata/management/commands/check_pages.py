@@ -65,7 +65,7 @@ API = ('/api/v1/shared-builds/', '/api/v1/tier-list/', '/api/v1/import/schema/1/
 BUILD_PATHS = (
     '/project/%s/', '/setup/%s/', '/stats/%s/', '/min_stats/%s/',
     '/options/%s/', '/exclusions/%s/', '/inclusions/%s/', '/wizard/%s/',
-    '/solution/%s/', '/spells/%s/', '/fashion/%s/', '/infeasible/%s/',
+    '/solution/%s/', '/spells/%s/', '/fashion/%s/', '/continuesearch/%s/', '/infeasible/%s/',
     '/best_combo/%s/', '/exchange/%s/', '/itemadd/%s/', '/itemexchange/%s/',
     '/loadproject/%s/', '/initbasestats/%s/',
     '/wizardgetsliders/%s/', '/workshop/solutioningredients/%s/',

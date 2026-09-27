@@ -17,11 +17,13 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from .fashionista_config import get_fashionista_path
-from pulp import (LpVariable, LpInteger, LpProblem, LpMaximize, LpStatus,
-                  LpSolution, LpSolutionOptimal, value)
+from pulp import (LpVariable, LpInteger, LpProblem, LpMaximize, LpMinimize, LpStatus,
+                  LpStatusOptimal, LpSolution, LpSolutionOptimal, value)
+import copy
 import logging
 import pulp
 import os
+import re
 import uuid
 import platform
 
@@ -101,18 +103,102 @@ if hasattr(SOLVER, 'path'):
 else:
     logger.debug('Using default PuLP solver configuration')
 
+_PARTIAL_SEARCH = re.compile(r'best objective (\S+) \(best possible (\S+)\)')
+_SUMMARY_OBJECTIVE = re.compile(r'^Objective value:\s+(\S+)', re.M)
+_SUMMARY_BOUND = re.compile(r'^(?:Upper|Lower) bound:\s+(\S+)', re.M)
+_START_TAKEN = re.compile(r'MIPStart provided solution with cost')
+
+
+def read_best_bound(log_text, objective):
+    """The best bound a CBC log gives for a maximised objective that stopped at objective, or None."""
+    pairs = _PARTIAL_SEARCH.findall(log_text)[-1:]
+    summary_objective = _SUMMARY_OBJECTIVE.search(log_text)
+    summary_bound = _SUMMARY_BOUND.search(log_text)
+    if summary_objective and summary_bound:
+        pairs.append((summary_objective.group(1), summary_bound.group(1)))
+    for printed_objective, printed_bound in pairs:
+        try:
+            printed_objective, bound = float(printed_objective), float(printed_bound)
+        except ValueError:
+            continue
+        if abs(printed_objective + objective) < abs(printed_objective - objective):
+            bound = -bound
+        if bound >= objective - 1e-6 * max(1.0, abs(objective)):
+            return max(bound, objective)
+    return None
+
+
+def _solver_for_run(warm_start, seed=None):
+    """A copy of SOLVER writing CBC's log to a file of its own, reading a start and seeding if asked."""
+    solver = copy.copy(SOLVER)
+    solver.msg = False
+    if seed is not None:
+        solver.options = list(SOLVER.options) + ['randomSeed %d' % seed,
+                                                 'randomCbcSeed %d' % seed]
+    if warm_start and platform.system() == 'Windows':
+        drive, path = os.path.splitdrive(solver.tmpDir)
+        # CBC 2.10 opens "mips C:\..." under its own directory, but reads a path from the drive root
+        if drive and drive.lower() == os.path.splitdrive(os.getcwd())[0].lower():
+            solver.tmpDir = path
+    solver.optionsDict = dict(SOLVER.optionsDict, warmStart=bool(warm_start),
+                              logPath=os.path.join(solver.tmpDir,
+                                                   'cbc-%s.log' % uuid.uuid4().hex))
+    return solver
+
+
+def _read_and_remove(path):
+    try:
+        with open(path, encoding='utf-8', errors='replace') as log_file:
+            return log_file.read()
+    except OSError:
+        return ''
+    finally:
+        try:
+            os.remove(path)
+        except OSError:
+            logger.debug('could not remove file %s', path)
+
+
 class LpProblem2:
     
     def __init__(self):
         self.pulp_vars = {}
         #self.model_output = open('model.txt', 'w')
         self.pulp_lp = LpProblem("The Whiskas Problem", LpMaximize)
-        
-    def run(self):
+        self.objective_value = None
+        self.best_bound = None
+        self.start_objective = None
+        self.start_accepted = None
+
+    def run(self, warm_start=None, seed=None):
+        """Solve; warm_start is {variable name: value} of a set to start from, zero elsewhere, and seed a positive int for another search path."""
         problem_name = '/tmp/problem_%s' % str(uuid.uuid4())
         self.pulp_lp.name = problem_name
-        self.pulp_lp.solve(SOLVER)
-        logger.debug('Status: %s, Z = %g', LpStatus[self.pulp_lp.status], value(self.pulp_lp.objective))
+        solver = _solver_for_run(warm_start is not None, seed)
+        objective = self.pulp_lp.objective
+        self.objective_value = self.best_bound = self.start_objective = None
+        self.start_accepted = None
+        if warm_start is not None:
+            for variable in self.pulp_lp.variables():
+                variable.varValue = warm_start.get(variable.name, 0)
+            self.start_objective = value(objective)
+            # CBC 2.10 prices a mipstart in the wrong sign under "max"
+            self.pulp_lp.sense = LpMinimize
+            self.pulp_lp.objective = -objective
+        try:
+            self.pulp_lp.solve(solver)
+        finally:
+            if warm_start is not None:
+                self.pulp_lp.sense = LpMaximize
+                self.pulp_lp.objective = objective
+            log_text = _read_and_remove(solver.optionsDict['logPath'])
+        if warm_start is not None:
+            self.start_accepted = bool(_START_TAKEN.search(log_text))
+        if self.pulp_lp.status == LpStatusOptimal:
+            self.objective_value = value(objective)
+            if not self.solution_is_proven() and self.objective_value is not None:
+                self.best_bound = read_best_bound(log_text, self.objective_value)
+        logger.debug('Status: %s, Z = %s', LpStatus[self.pulp_lp.status], self.objective_value)
 
         tmpMps = os.path.join('%s-pulp.mps' % problem_name)
         tmpSol = os.path.join('%s-pulp.sol' % problem_name)
@@ -182,3 +268,12 @@ class LpProblem2:
     def solution_is_proven(self):
         """True only when the solver closed the gap. See get_solution_status."""
         return self.pulp_lp.sol_status == LpSolutionOptimal
+
+    def get_search_state(self):
+        """The last run's objective, best bound (None once proven or unread), start objective, whether CBC took the start, and non-zero values."""
+        return {'objective': self.objective_value,
+                'bound': self.best_bound,
+                'start_objective': self.start_objective,
+                'start_accepted': self.start_accepted,
+                'values': {name: number for name, number in self.get_result().items()
+                           if number}}

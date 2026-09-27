@@ -49,7 +49,7 @@ from chardata.solution import get_solution
 from chardata.solution_result import IMPORT_ORIGINS
 from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
-from chardata.presets import setup_columns
+from chardata.presets import option_box_labels, setup_columns
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
 from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS
 from fashionistapulp.fashion_util import strip_accents
@@ -721,6 +721,7 @@ def _gallery(request, forced_class=None):
 
     # Prepare aspect names and layout for checkboxes (same as projdetails.html)
     aspect_to_name = {k: str(v) for k, v in ASPECT_TO_NAME.items()}
+    aspect_to_name.update({k: str(v) for k, v in option_box_labels(game_version).items()})
     aspect_layout = setup_columns(game_version)
     
     params = {

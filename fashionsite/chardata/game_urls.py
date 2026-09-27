@@ -106,6 +106,7 @@ urlpatterns = [
     re_path(r'^wizardgetsliders/(?P<char_id>\d+)/', wizard_view.get_resetted_sliders, name='wizard_get_sliders'),
 
     re_path(r'^fashion/(?P<char_id>\d+)/', fashion_action.fashion, name='fashion'),
+    re_path(r'^continuesearch/(?P<char_id>\d+)/', fashion_action.continue_search, name='continue_search'),
 
     re_path(r'^solution/(?P<char_id>\d+)/(?P<empty>.*)/', solution_view.solution, name='solution'),
     re_path(r'^solutiongeneration/(?P<char_id>\d+)/(?P<generation_id>\d+)/',

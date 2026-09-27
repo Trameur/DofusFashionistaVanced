@@ -33,9 +33,10 @@ from chardata.build_name import cleaned_at_creation
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
 from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS,
-                              apply_setup_choices, mode_boxes, play_modes, posted_choices,
-                              posted_guard, priorities, setup_boxes, setup_columns,
-                              stored_choices, stored_guard, within_focus_limit)
+                              apply_setup_choices, mode_boxes, option_column_modes,
+                              posted_choices, posted_guard, priorities, setup_boxes,
+                              setup_columns, shown_play_mode, stored_choices, stored_guard,
+                              within_focus_limit)
 from chardata.smart_build import (get_char_aspects, ALL_ASPECTS,
                                   inert_aspects,
                                   ASPECT_TO_NAME)
@@ -105,7 +106,8 @@ def setup(request, char_id=0):
                          'aspect_layout': json.dumps(setup_columns(game_version)),
                          'inert_aspects': json.dumps(inert_aspects(game_version)),
                          'priorities': priorities(),
-                         'play_modes': play_modes(game_version),
+                         'mode_layout': json.dumps([[key, str(label)] for key, label
+                                                    in option_column_modes(game_version)]),
                          'mode_boxes': json.dumps(mode_boxes(game_version)),
                          'guard_percents': GUARD_PERCENTS,
                          'guard_default': GUARD_DEFAULT_PERCENT,
@@ -312,6 +314,8 @@ def _get_state_from_char(char):
             'char_build_aspects': aspects_checklist,
             'priority': priority,
             'play_mode': play_mode,
+            'shown_mode': shown_play_mode(aspect_list, play_mode,
+                                          getattr(char, 'game_version', None) or 'dofus3'),
             'guard_pct': stored_guard(char)}
 
 def _get_state_from_post(request, game_version):
