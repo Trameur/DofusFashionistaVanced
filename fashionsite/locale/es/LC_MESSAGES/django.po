@@ -83,6 +83,94 @@ msgstr "Agresión 1 contra 1"
 msgid "Group PvP (prisms, perceptors)"
 msgstr "PvP grupal (prismas, recaudadores)"
 
+#: chardata/presets.py
+msgid ""
+"Safeguard not applied: the solver found no balanced set to compare with."
+msgstr ""
+"Margen de seguridad sin aplicar: el solver no encontró ningún set "
+"equilibrado con el que comparar."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard not applied: the solver found no set keeping %(share)s%% of the "
+"balanced build's effective HP (%(balanced)s), so this set does without it."
+msgstr ""
+"Margen de seguridad sin aplicar: el solver no encontró ningún set que "
+"conserve el %(share)s%% de los PdV efectivos del build equilibrado "
+"(%(balanced)s), así que este es el set sin margen."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard not applied: the solver found no set keeping %(share)s%% of the "
+"balanced build's best turn (%(balanced)s), so this set does without it."
+msgstr ""
+"Margen de seguridad sin aplicar: el solver no encontró ningún set que "
+"conserve el %(share)s%% del mejor turno del build equilibrado "
+"(%(balanced)s), así que este es el set sin margen."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: effective HP at least %(share)s%% of the balanced build "
+"(%(kept)s of %(balanced)s)."
+msgstr ""
+"Margen de seguridad: al menos el %(share)s%% de los PdV efectivos del build "
+"equilibrado (%(kept)s de %(balanced)s)."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: best turn at least %(share)s%% of the balanced build (%(kept)s "
+"of %(balanced)s)."
+msgstr ""
+"Margen de seguridad: al menos el %(share)s%% del mejor turno del build "
+"equilibrado (%(kept)s de %(balanced)s)."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: effective HP at %(reached)s%% of the balanced build (%(kept)s of "
+"%(balanced)s), short of the %(share)s%% aimed for."
+msgstr ""
+"Margen de seguridad: el %(reached)s%% de los PdV efectivos del build "
+"equilibrado (%(kept)s de %(balanced)s), por debajo del %(share)s%% buscado."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: best turn at %(reached)s%% of the balanced build (%(kept)s of "
+"%(balanced)s), short of the %(share)s%% aimed for."
+msgstr ""
+"Margen de seguridad: el %(reached)s%% del mejor turno del build equilibrado "
+"(%(kept)s de %(balanced)s), por debajo del %(share)s%% buscado."
+
+#: chardata/presets.py
+msgid ""
+"Safeguard not applied: the balanced build's best turn could not be computed."
+msgstr ""
+"Margen de seguridad sin aplicar: no se pudo calcular el mejor turno del "
+"build equilibrado."
+
+#: chardata/presets.py
+msgid ""
+"Safeguard: the solver ran out of time before it found a set for the "
+"priority, so this is the balanced build."
+msgstr ""
+"Margen de seguridad: el solver se quedó sin tiempo antes de encontrar un set"
+" para la prioridad, así que este es el build equilibrado."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"This set trails the balanced build on both counts: best turn %(turn)s "
+"against %(balanced_turn)s, effective HP %(hp)s against %(balanced_hp)s."
+msgstr ""
+"Este set queda por detrás del build equilibrado en ambos frentes: mejor "
+"turno %(turn)s frente a %(balanced_turn)s, PdV efectivos %(hp)s frente a "
+"%(balanced_hp)s."
+
 #: .\chardata\coaching_view.py:118
 #, python-format
 msgid "Quick Start %(cls)s lvl %(lvl)s"
@@ -4905,14 +4993,14 @@ msgstr "Margen de seguridad"
 
 #: chardata/templates/chardata/projdetails.html
 msgid ""
-"Coming soon, no effect yet: compared with the balanced build, a Damage "
-"priority will give up at most this share of effective HP, and a Defense or "
-"Heals priority at most this share of best turn damage."
+"Compared with the balanced build, a Damage priority gives up at most this "
+"share of effective HP, and a Defense or Heals priority aims to give up at "
+"most this share of best turn damage. The build page shows what was kept."
 msgstr ""
-"Próximamente, todavía sin efecto: frente al build equilibrado, la prioridad "
-"Daño no sacrificará más que este porcentaje de los PdV efectivos, y la "
-"prioridad Defensa o Curas no más que este porcentaje del daño del mejor "
-"turno."
+"Frente al build equilibrado, la prioridad Daño no sacrifica más que este "
+"porcentaje de los PdV efectivos, y la prioridad Defensa o Curas intenta no "
+"sacrificar más que este porcentaje del daño del mejor turno. La página del "
+"build muestra lo que se ha conservado."
 
 #: chardata/templates/chardata/projdetails.html
 msgid "Game mode"

@@ -113,8 +113,8 @@
                 <div class="advanced-options-row">
                     <label for="guard-percent" class="advanced-options-name">{% trans "Safeguard" %}</label>
                     <div class="advanced-options-field">
-                        <select id="guard-percent" disabled>{% for percent in guard_percents %}<option{% if percent == guard_default %} selected{% endif %}>{{ percent }}%</option>{% endfor %}</select>
-                        <div class="small-explain">{% trans "Coming soon, no effect yet: compared with the balanced build, a Damage priority will give up at most this share of effective HP, and a Defense or Heals priority at most this share of best turn damage." %}</div>
+                        <select id="guard-percent" name="guard_pct" class="change-modifies-state">{% for percent in guard_percents %}<option value="{{ percent }}"{% if percent == guard_default %} selected{% endif %}>{{ percent }}%</option>{% endfor %}</select>
+                        <div class="small-explain">{% trans "Compared with the balanced build, a Damage priority gives up at most this share of effective HP, and a Defense or Heals priority aims to give up at most this share of best turn damage. The build page shows what was kept." %}</div>
                     </div>
                 </div>
                 <div class="advanced-options-row">
@@ -261,14 +261,23 @@ function initChoices(state) {
         return this.value === state["priority"];
     }).prop('checked', true);
     $("#play-mode").val(state["play_mode"]);
+    $("#guard-percent").val(String(state["guard_pct"]));
     showChosenOptions();
     keepRestartForChoices();
 }
 
 function showChosenOptions() {
-    var priority = $.trim($("input[name='priority']:checked").parent().text());
-    var mode = $.trim($("#play-mode option:selected").text());
-    $("#advanced-options-chosen").text(priority + " · " + mode);
+    var checked = $("input[name='priority']:checked");
+    var chosen = [$.trim(checked.parent().text())];
+    // A disabled select is not posted, so the build keeps its stored percent
+    var guarded = checked.val() !== "balanced";
+    $("#guard-percent").prop('disabled', !guarded);
+    if (guarded) {
+        chosen.push($.trim($("label[for='guard-percent']").text()) + " "
+                    + $.trim($("#guard-percent option:selected").text()));
+    }
+    chosen.push($.trim($("#play-mode option:selected").text()));
+    $("#advanced-options-chosen").text(chosen.join(" · "));
 }
 
 function modeOptionBoxes() {
@@ -334,6 +343,7 @@ function setupChoices() {
             }
         });
     });
+    $("#guard-percent").change(showChosenOptions);
     $("#reapply-cb").change(keepRestartForChoices);
 }
 

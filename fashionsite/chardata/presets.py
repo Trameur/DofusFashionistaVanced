@@ -7,20 +7,27 @@
 
 """Presets shared by the doors that create a build: styles, default elements, boxes, priorities, modes."""
 
+import logging
+import math
 import pickle
 from collections import namedtuple
 
-from django.utils.translation import gettext_lazy, pgettext_lazy
+from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
 from chardata.char_blobs import read_char_blob
 from chardata.default_elements import version_element
 from chardata.models import Char
 from chardata.options import set_setup_choices
-from chardata.smart_build import (get_char_aspects, get_standard_weights, reapply_weights,
-                                  set_char_aspects)
+from chardata.smart_build import (get_char_aspects, get_elements, get_standard_weights,
+                                  reapply_weights, set_char_aspects)
+from chardata.stats_weights import get_stats_weights
 from chardata.version_compat import class_exists_in_version, filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.game_versions import DEFAULT_VERSION
+from fashionistapulp.model import EFFECTIVE_HP_MINIMUM
+from fashionistapulp.structure import get_structure
+
+logger = logging.getLogger(__name__)
 
 
 # For a class default_elements/<version>.json does not list
@@ -98,6 +105,10 @@ MODE_OPTION_BOXES = frozenset({'pvp', 'duel'})
 
 GUARD_DEFAULT_PERCENT = 10
 GUARD_PERCENTS = (5, 10, 15, 20)
+GUARD_KIND = {'damage': 'effective_hp', 'defense': 'turn', 'heals': 'turn'}
+PERCENT_RESIST_KEYS = ('neutresper', 'earthresper', 'fireresper', 'waterresper', 'airresper')
+TURN_GUARD_ADV_MINS = {'str': ('powstr', 'damstr'), 'int': ('powint', 'damint'),
+                       'cha': ('powcha', 'damcha'), 'agi': ('powagi', 'damagi')}
 
 VERSION_PRESETS = {
     'dofus3': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
@@ -247,10 +258,16 @@ def solved_aspects(aspects, priority):
 
 
 def apply_setup_choices(char, aspects, priority=DEFAULT_PRIORITY, play_mode=DEFAULT_PLAY_MODE,
-                        reset=True, set_minimums=True):
-    """Saves the boxes and the mode's as aspects, weighs them with the priority's too, keeps non-default choices; without a reset only the boxes change."""
+                        reset=True, set_minimums=True, guard_pct=None):
+    """Saves the boxes and the mode's as aspects, weighs them with the priority's too, keeps non-default choices; without a reset only the boxes and the safeguard change."""
+    guard = {}
+    if guard_pct is not None:
+        guard_pct = offered_guard(guard_pct)
+        guard['guard_pct'] = None if guard_pct == GUARD_DEFAULT_PERCENT else guard_pct
     if not reset:
         set_char_aspects(char, aspects, False)
+        # The safeguard does not change the weights
+        set_setup_choices(char, guard)
         return set(aspects)
     boxes = with_mode_boxes(aspects, play_mode)
     solved = solved_aspects(boxes, priority)
@@ -259,9 +276,9 @@ def apply_setup_choices(char, aspects, priority=DEFAULT_PRIORITY, play_mode=DEFA
         set_char_aspects(char, boxes, False)
     else:
         set_char_aspects(char, boxes, True, set_minimums)
-    set_setup_choices(char, {
+    set_setup_choices(char, dict(guard, **{
         'priority': None if priority == DEFAULT_PRIORITY else priority,
-        'play_mode': None if play_mode == DEFAULT_PLAY_MODE else play_mode})
+        'play_mode': None if play_mode == DEFAULT_PLAY_MODE else play_mode}))
     return boxes
 
 
@@ -284,6 +301,210 @@ def choices_line(char):
         return None
     return {'mode': PLAY_MODE_BY_KEY[play_mode].label,
             'priority': PRIORITY_BY_KEY[priority].label}
+
+
+def offered_guard(percent):
+    """The safeguard percent if the setup page offers it, else the default."""
+    try:
+        percent = int(percent)
+    except (TypeError, ValueError):
+        return GUARD_DEFAULT_PERCENT
+    return percent if percent in GUARD_PERCENTS else GUARD_DEFAULT_PERCENT
+
+
+def stored_guard(char):
+    return offered_guard(read_char_blob(char.options, {}, 'options', char).get('guard_pct'))
+
+
+def posted_guard(post, char):
+    """Safeguard percent of a setup form; a form without the field keeps the build's own."""
+    if post.get('guard_pct') is None:
+        return stored_guard(char)
+    return offered_guard(post.get('guard_pct'))
+
+
+def guard_plan(char):
+    """(kind, percent) of the safeguard a solve of this build applies, None without a priority."""
+    priority, _play_mode = stored_choices(char)
+    if priority == DEFAULT_PRIORITY:
+        return None
+    return GUARD_KIND[priority], stored_guard(char)
+
+
+def _standard_weights(char, aspects):
+    build = Char(char_class=char.char_class, level=char.level, game_version=char.game_version,
+                 aspects=pickle.dumps(set(aspects)))
+    build.stats_weight = pickle.dumps(get_standard_weights(build))
+    return get_stats_weights(build, persist=False)
+
+
+def balanced_weights(char, weights):
+    """The build's weights less what its priority adds, so the player's own changes stay."""
+    priority, _play_mode = stored_choices(char)
+    boxes = get_char_aspects(char)
+    balanced = _standard_weights(char, boxes)
+    with_priority = _standard_weights(char, solved_aspects(boxes, priority))
+    if weights == with_priority:
+        return balanced
+    shifted = {}
+    for key, value in weights.items():
+        if not isinstance(value, (int, float)):
+            shifted[key] = value
+            continue
+        moved = value - (with_priority.get(key, 0) - balanced.get(key, 0))
+        shifted[key] = max(moved, 0) if value >= 0 else moved
+    return shifted
+
+
+def effective_hp(totals):
+    """HP / (1 - mean of the five % resists / 100)."""
+    mean = sum(totals.get(key, 0) for key in PERCENT_RESIST_KEYS) / 5.0
+    return totals.get('hp', 0) / (1 - mean / 100.0)
+
+
+def guard_reading(char, result, kind):
+    """{'solution', 'totals', 'value'} of a solve, value being its effective HP or the panel's best turn."""
+    from chardata.solution import get_solution_from_minimal
+    solution = get_solution_from_minimal(char, pickle.loads(pickle.dumps(result)),
+                                         refresh_base_stats=False)
+    reading = {'solution': solution, 'totals': dict(solution.get_stats_total())}
+    if kind == 'effective_hp':
+        reading['value'] = effective_hp(reading['totals'])
+    else:
+        reading['value'] = _panel_turn(char, solution)
+    return reading
+
+
+def cross_reading(char, reading, kind):
+    """What the other safeguard kind holds: the best turn for effective_hp, effective HP for turn."""
+    if kind == 'effective_hp':
+        return _panel_turn(char, reading['solution'])
+    return effective_hp(reading['totals'])
+
+
+def _panel_turn(char, solution):
+    from chardata.spells_view import _best_combo
+    try:
+        combo = _best_combo(char, solution, char.game_version or DEFAULT_VERSION)
+    except Exception:
+        logger.exception('could not read the best turn of a guarded solve (char %s)', char.id)
+        return None
+    return combo['total'] if combo else None
+
+
+def _scaled_floor(value, share):
+    """share of value rounded down, never above value itself."""
+    return math.floor(min(value, share * value))
+
+
+def _at_least(current, value):
+    return max(current, value) if isinstance(current, (int, float)) else value
+
+
+def guard_minimums(minimums, kind, percent, reading, aspects):
+    """A copy of the build's minimums with the safeguard's floors taken from the balanced solve."""
+    share = (100 - percent) / 100.0
+    guarded = dict(minimums)
+    if kind == 'effective_hp':
+        guarded[EFFECTIVE_HP_MINIMUM] = share * reading['value']
+        return guarded
+    structure = get_structure()
+    totals = reading['totals']
+    ap_name = structure.get_stat_by_key('ap').name
+    guarded[ap_name] = _at_least(guarded.get(ap_name), int(totals.get('ap', 0)))
+    crit_name = structure.get_stat_by_key('ch').name
+    guarded[crit_name] = _at_least(guarded.get(crit_name),
+                                   _scaled_floor(totals.get('ch', 0), share))
+    adv_mins = dict(guarded.get('adv_mins') or {})
+    by_key = {entry['key']: entry for entry in structure.get_adv_mins()}
+    for element in get_elements(aspects):
+        for key in TURN_GUARD_ADV_MINS[element]:
+            entry = by_key[key]
+            value = sum(totals.get(structure.get_stat_by_name(name).key, 0)
+                        for name in entry['stats'])
+            adv_mins[entry['name']] = _at_least(adv_mins.get(entry['name']),
+                                                _scaled_floor(value, share))
+    guarded['adv_mins'] = adv_mins
+    return guarded
+
+
+def guard_facts(minimal_solution_blob):
+    """The safeguard facts a solve recorded, None on solutions without them."""
+    if not minimal_solution_blob:
+        return None
+    try:
+        facts = getattr(pickle.loads(minimal_solution_blob), 'guard', None)
+    except Exception:
+        return None
+    return facts if isinstance(facts, dict) else None
+
+
+def guard_line(facts):
+    """The build page's sentences on the safeguard a solve applied, or None."""
+    if not facts:
+        return None
+    sentences = [sentence for sentence in (_guard_sentence(facts), _trailing_sentence(facts))
+                 if sentence]
+    return ' '.join(sentences) or None
+
+
+def _guard_sentence(facts):
+    share = 100 - facts['percent']
+    if facts.get('no_reference'):
+        return gettext('Safeguard not applied: the solver found no balanced set to compare '
+                       'with.')
+    if facts.get('no_turn'):
+        return gettext("Safeguard not applied: the balanced build's best turn could not be "
+                       "computed.")
+    if facts.get('out_of_time'):
+        return gettext('Safeguard: the solver ran out of time before it found a set for the '
+                       'priority, so this is the balanced build.')
+    balanced, kept = facts.get('balanced'), facts.get('kept')
+    if not balanced or balanced <= 0:
+        return None
+    values = {'share': share, 'balanced': int(round(balanced))}
+    hp = facts['kind'] == 'effective_hp'
+    if facts.get('fallback'):
+        if hp:
+            return gettext("Safeguard not applied: the solver found no set keeping %(share)s%% "
+                           "of the balanced build's effective HP (%(balanced)s), so this set "
+                           "does without it.") % values
+        return gettext("Safeguard not applied: the solver found no set keeping %(share)s%% of "
+                       "the balanced build's best turn (%(balanced)s), so this set does "
+                       "without it.") % values
+    if kept is None:
+        return None
+    values['kept'] = int(round(kept))
+    if kept >= share / 100.0 * balanced - 0.5:
+        if hp:
+            return gettext('Safeguard: effective HP at least %(share)s%% of the balanced build '
+                           '(%(kept)s of %(balanced)s).') % values
+        return gettext('Safeguard: best turn at least %(share)s%% of the balanced build '
+                       '(%(kept)s of %(balanced)s).') % values
+    values['reached'] = int(100 * kept / balanced)
+    if hp:
+        return gettext('Safeguard: effective HP at %(reached)s%% of the balanced build '
+                       '(%(kept)s of %(balanced)s), short of the %(share)s%% aimed for.') % values
+    return gettext('Safeguard: best turn at %(reached)s%% of the balanced build '
+                   '(%(kept)s of %(balanced)s), short of the %(share)s%% aimed for.') % values
+
+
+def _trailing_sentence(facts):
+    """Said when the set is behind the balanced build on both effective HP and best turn."""
+    values = [facts.get(key) for key in ('kept', 'balanced', 'other_kept', 'other_balanced')]
+    if any(value is None for value in values):
+        return None
+    kept, balanced, other_kept, other_balanced = (int(round(value)) for value in values)
+    if kept >= balanced or other_kept >= other_balanced:
+        return None
+    if facts['kind'] == 'effective_hp':
+        turn, hp = (other_kept, other_balanced), (kept, balanced)
+    else:
+        turn, hp = (kept, balanced), (other_kept, other_balanced)
+    return gettext('This set trails the balanced build on both counts: best turn %(turn)s '
+                   'against %(balanced_turn)s, effective HP %(hp)s against '
+                   '%(balanced_hp)s.') % {'turn': turn[0], 'balanced_turn': turn[1],
+                                          'hp': hp[0], 'balanced_hp': hp[1]}
 
 
 def element_stat_points(char_class, level, game_version):

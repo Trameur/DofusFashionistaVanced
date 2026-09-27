@@ -84,6 +84,94 @@ msgstr "Aggression 1 gegen 1"
 msgid "Group PvP (prisms, perceptors)"
 msgstr "Gruppen-PvP (Prismen, Perzeptauren)"
 
+#: chardata/presets.py
+msgid ""
+"Safeguard not applied: the solver found no balanced set to compare with."
+msgstr ""
+"Sicherheitsmarge nicht angewendet: Der Solver hat kein ausgewogenes Set zum "
+"Vergleich gefunden."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard not applied: the solver found no set keeping %(share)s%% of the "
+"balanced build's effective HP (%(balanced)s), so this set does without it."
+msgstr ""
+"Sicherheitsmarge nicht angewendet: Der Solver hat kein Set gefunden, das "
+"%(share)s %% der effektiven LP des ausgewogenen Builds (%(balanced)s) hält, "
+"daher ist dies das Set ohne Sicherheitsmarge."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard not applied: the solver found no set keeping %(share)s%% of the "
+"balanced build's best turn (%(balanced)s), so this set does without it."
+msgstr ""
+"Sicherheitsmarge nicht angewendet: Der Solver hat kein Set gefunden, das "
+"%(share)s %% der besten Runde des ausgewogenen Builds (%(balanced)s) hält, "
+"daher ist dies das Set ohne Sicherheitsmarge."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: effective HP at least %(share)s%% of the balanced build "
+"(%(kept)s of %(balanced)s)."
+msgstr ""
+"Sicherheitsmarge: mindestens %(share)s %% der effektiven LP des "
+"ausgewogenen Builds (%(kept)s von %(balanced)s)."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: best turn at least %(share)s%% of the balanced build (%(kept)s "
+"of %(balanced)s)."
+msgstr ""
+"Sicherheitsmarge: mindestens %(share)s %% der besten Runde des ausgewogenen "
+"Builds (%(kept)s von %(balanced)s)."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: effective HP at %(reached)s%% of the balanced build (%(kept)s of "
+"%(balanced)s), short of the %(share)s%% aimed for."
+msgstr ""
+"Sicherheitsmarge: %(reached)s %% der effektiven LP des ausgewogenen Builds "
+"(%(kept)s von %(balanced)s), unter den angestrebten %(share)s %%."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: best turn at %(reached)s%% of the balanced build (%(kept)s of "
+"%(balanced)s), short of the %(share)s%% aimed for."
+msgstr ""
+"Sicherheitsmarge: %(reached)s %% der besten Runde des ausgewogenen Builds "
+"(%(kept)s von %(balanced)s), unter den angestrebten %(share)s %%."
+
+#: chardata/presets.py
+msgid ""
+"Safeguard not applied: the balanced build's best turn could not be computed."
+msgstr ""
+"Sicherheitsmarge nicht angewendet: Die beste Runde des ausgewogenen Builds "
+"ließ sich nicht berechnen."
+
+#: chardata/presets.py
+msgid ""
+"Safeguard: the solver ran out of time before it found a set for the "
+"priority, so this is the balanced build."
+msgstr ""
+"Sicherheitsmarge: Dem Solver ging die Zeit aus, bevor er ein Set für die "
+"Priorität fand, daher ist dies der ausgewogene Build."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"This set trails the balanced build on both counts: best turn %(turn)s "
+"against %(balanced_turn)s, effective HP %(hp)s against %(balanced_hp)s."
+msgstr ""
+"Dieses Set liegt in beiden Punkten hinter dem ausgewogenen Build: beste "
+"Runde %(turn)s gegenüber %(balanced_turn)s, effektive LP %(hp)s gegenüber "
+"%(balanced_hp)s."
+
 #: .\chardata\coaching_view.py:118
 #, python-format
 msgid "Quick Start %(cls)s lvl %(lvl)s"
@@ -4893,14 +4981,14 @@ msgstr "Sicherheitsmarge"
 
 #: chardata/templates/chardata/projdetails.html
 msgid ""
-"Coming soon, no effect yet: compared with the balanced build, a Damage "
-"priority will give up at most this share of effective HP, and a Defense or "
-"Heals priority at most this share of best turn damage."
+"Compared with the balanced build, a Damage priority gives up at most this "
+"share of effective HP, and a Defense or Heals priority aims to give up at "
+"most this share of best turn damage. The build page shows what was kept."
 msgstr ""
-"Demnächst verfügbar, noch ohne Wirkung: Gegenüber dem ausgewogenen Build "
-"gibt die Priorität „Schaden“ höchstens diesen Anteil der effektiven LP auf, "
-"die Priorität „Verteidigung“ oder „Heilung“ höchstens diesen Anteil des "
-"Schadens der besten Runde."
+"Gegenüber dem ausgewogenen Build gibt die Priorität „Schaden“ höchstens "
+"diesen Anteil der effektiven LP auf, und die Priorität „Verteidigung“ oder "
+"„Heilung“ versucht, höchstens diesen Anteil des Schadens der besten Runde "
+"aufzugeben. Die Build-Seite zeigt, was erhalten geblieben ist."
 
 #: chardata/templates/chardata/projdetails.html
 msgid "Game mode"

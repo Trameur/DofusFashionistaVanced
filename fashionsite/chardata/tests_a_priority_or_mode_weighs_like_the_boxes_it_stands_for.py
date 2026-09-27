@@ -218,15 +218,31 @@ class TheClosedSectionChangesNothingTests(_SetupMixin, TestCase):
                 self.assertEqual(presets.mode_boxes(version), json.loads(
                     re.search(r'var modeBoxes = (.*?);', page).group(1)))
 
-    def test_the_safeguard_shows_ten_percent_and_is_never_sent(self):
+    def test_the_safeguard_starts_at_ten_percent_and_is_sent(self):
         page = self.client.get('/setup/').content.decode('utf-8')
         tag = re.search(r'<select[^>]*guard-percent[^>]*>(.*?)</select>', page, re.S)
         self.assertIsNotNone(tag)
         opening = tag.group(0)[:tag.group(0).index('>') + 1]
-        self.assertIn('disabled', opening)
-        self.assertNotIn('name=', opening)
-        self.assertEqual(['10%'], re.findall(r'<option[^>]*selected[^>]*>([^<]+)<',
-                                             tag.group(1)))
+        self.assertNotIn('disabled', opening)
+        self.assertRegex(opening, r'name="?guard_pct"?[ >]')
+        options = re.findall(r'<option([^>]*)>', tag.group(1))
+        values = [re.search(r'value="?(\d+)', option).group(1) for option in options]
+        self.assertEqual([str(p) for p in presets.GUARD_PERCENTS], values)
+        self.assertEqual(['10'], [value for option, value in zip(options, values)
+                                  if 'selected' in option])
+
+    def test_a_chosen_safeguard_is_stored_and_read_back(self):
+        char = self.create('dofus3', 'Iop', 200, {'str'}, {'priority': 'damage',
+                                                          'guard_pct': '20'})
+        self.assertEqual(20, _options(char)['guard_pct'])
+        char, state = self.save(char, {'str'}, {'priority': 'damage', 'guard_pct': '5'},
+                                reapply=False)
+        self.assertEqual(5, _options(char)['guard_pct'])
+        self.assertEqual(5, state['guard_pct'])
+        char, state = self.save(char, {'str'}, {'priority': 'damage', 'guard_pct': '10'},
+                                reapply=False)
+        self.assertNotIn('guard_pct', _options(char))
+        self.assertEqual(10, state['guard_pct'])
 
 
 class APriorityWeighsLikeItsBoxesTests(_SetupMixin, TestCase):

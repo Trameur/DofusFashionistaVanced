@@ -36,6 +36,12 @@ from collections import Counter
 
 logger = logging.getLogger(__name__)
 
+#: minimum_stats key: HP / (1 - mean of the five % resists / 100) must reach it
+EFFECTIVE_HP_MINIMUM = 'Effective HP'
+EFFECTIVE_HP_CONSTRAINT = 'effective_hp_minimum'
+PERCENT_RESISTS = ('% Neutral Resist', '% Earth Resist', '% Fire Resist', '% Water Resist',
+                   '% Air Resist')
+
 
 class Model:
 
@@ -735,6 +741,8 @@ class Model:
                                            model_input.options)
         self.modify_minimum_stat_constraints(model_input.minimum_stats, 
                                              model_input.char_level)
+        self.modify_effective_hp_constraint(model_input.minimum_stats.get(EFFECTIVE_HP_MINIMUM),
+                                            model_input.char_level)
         self.modify_locked_equip_constraints(model_input.locked_equips)
         self.modify_forbidden_items_constraints(model_input.forbidden_equips,
                                                 model_input.options)
@@ -1294,7 +1302,24 @@ class Model:
                 restriction = self.restrictions.minimum_stat_constraints[stat.name]
                 restriction.changeRHS(-minimum_stats.get(stat.name, -10000))
         self.modify_advanced_minimum_stat_constraints(minimum_stats.get('adv_mins', {}))
-    
+
+    def modify_effective_hp_constraint(self, floor, level):
+        """Only present while a solve asks for it: HP + floor * mean resist >= floor."""
+        lp = self.problem.pulp_lp
+        previous = lp.constraints.pop(EFFECTIVE_HP_CONSTRAINT, None)
+        if previous is not None:
+            lp.modifiedConstraints = [c for c in lp.modifiedConstraints if c is not previous]
+        if not floor:
+            return
+        terms = []
+        for coefficient, name in ([(1, 'HP'), (1, 'Vitality')]
+                                  + [(floor / 500.0, name) for name in PERCENT_RESISTS]):
+            stat = self.structure.get_stat_by_name(name)
+            if stat is not None:
+                terms.append(coefficient * self.problem.pulp_vars['stat_%s' % stat.id])
+        # Base HP of the level, as in ModelResult.get_stats_total
+        lp.addConstraint(pulp.lpSum(terms) >= floor - (50 + 5 * level), EFFECTIVE_HP_CONSTRAINT)
+
     def modify_advanced_minimum_stat_constraints(self, minimum_stats):
         adv_min_stats = self.structure.get_adv_mins()
         for stat in adv_min_stats:

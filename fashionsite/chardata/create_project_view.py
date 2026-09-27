@@ -34,8 +34,8 @@ from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
 from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS,
                               apply_setup_choices, mode_boxes, play_modes, posted_choices,
-                              priorities, setup_boxes, setup_columns, stored_choices,
-                              within_focus_limit)
+                              posted_guard, priorities, setup_boxes, setup_columns,
+                              stored_choices, stored_guard, within_focus_limit)
 from chardata.smart_build import (get_char_aspects, ALL_ASPECTS,
                                   inert_aspects,
                                   ASPECT_TO_NAME)
@@ -177,11 +177,12 @@ def save_project(request, char_id=0):
     remove_invalid_inclusions(char, state['char_level'])
 
     priority, play_mode = posted_choices(request.POST, char)
+    guard_pct = posted_guard(request.POST, char)
     _save_state_to_char(state, char)
 
     # TODO: Make clear we are resetting weights and mins.
     apply_setup_choices(char, state['char_build_aspects_set'], priority, play_mode,
-                        request.POST.get('reapply') == 'reapply')
+                        request.POST.get('reapply') == 'reapply', guard_pct=guard_pct)
 
     char.save()
     if char_id > 0:
@@ -249,7 +250,8 @@ def create_project(request):
     
     priority, play_mode = posted_choices(request.POST, char)
     apply_setup_choices(char, state['char_build_aspects_set'], priority, play_mode,
-                        True, state['where_to_go'] == 'wizard')
+                        True, state['where_to_go'] == 'wizard',
+                        guard_pct=posted_guard(request.POST, char))
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     initial_options = {'ap_exo': char.level >= 200,
                        'mp_exo': char.level >= 200,
@@ -309,7 +311,8 @@ def _get_state_from_char(char):
             'char_class': char.char_class,
             'char_build_aspects': aspects_checklist,
             'priority': priority,
-            'play_mode': play_mode}
+            'play_mode': play_mode,
+            'guard_pct': stored_guard(char)}
 
 def _get_state_from_post(request, game_version):
     

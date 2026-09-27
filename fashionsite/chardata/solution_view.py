@@ -31,7 +31,7 @@ from chardata.build_name import display_name
 from chardata.gallery_visibility import sentence_for as _gallery_sentence_for
 from chardata.translation_util import localized_stat_name
 from chardata.min_stats import get_min_stats_digested_by_key
-from chardata.presets import choices_line
+from chardata.presets import choices_line, guard_facts, guard_line
 from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
                                      MOUNT_SLOT, PREVIEW_SIZES, SLOT_TO_NODE,
                                      UNDRAWN_SLOTS, breed_colors,
@@ -343,8 +343,8 @@ def _build_check(char, solution):
     }
 
 
-def _build_share_text(request, char, solution, facts=None):
-    """Plain-text summary for Discord / forums; facts is (proven, seconds) if known."""
+def _build_share_text(request, char, solution, facts=None, time_limit=None):
+    """Plain-text summary for Discord / forums; facts is (proven, seconds) and time_limit a shortened solve's limit, if known."""
     classe = LOCALIZED_CHARACTER_CLASSES.get(char.char_class,
                                              char.char_class or '')
     title = char.char_name or display_name(char) or classe or 'Build'
@@ -396,6 +396,7 @@ def _build_share_text(request, char, solution, facts=None):
             proven = facts[0]
         else:
             proven = get_solver_facts(char.minimal_solution)[0]
+            time_limit = (guard_facts(char.minimal_solution) or {}).get('time_limit')
         if proven is True:
             lines += ['', _('Proven optimum. The solver checked that no '
                             'other legal combination scores higher on '
@@ -405,7 +406,7 @@ def _build_share_text(request, char, solution, facts=None):
                             'solver ran out of time before it could prove '
                             'that nothing beats it, so this is the best it '
                             'reached, not a proof.')
-                      % {'limit': SOLVER_TIME_LIMIT_SECONDS}]
+                      % {'limit': time_limit or SOLVER_TIME_LIMIT_SECONDS}]
     except Exception:
         logger.exception('Failed to add the proof line to share text '
                          '(char %s)', char.id)
@@ -689,9 +690,12 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         solver_constraints = _constraints_reached(char, solution)
 
     # "Why this result?" panel. None on solutions pickled before these facts
-    solver_proven, solver_seconds, solver_pool = get_solver_facts(
-        generation.minimal_solution if generation is not None
-        else char.minimal_solution)
+    solved_blob = (generation.minimal_solution if generation is not None
+                   else char.minimal_solution)
+    solver_proven, solver_seconds, solver_pool = get_solver_facts(solved_blob)
+    solver_guard = guard_facts(solved_blob) or {}
+    if solver_seconds is not None:
+        solver_seconds += solver_guard.get('other_seconds') or 0
     solver_priorities = _solver_priorities(char)
     solver_pool_total = None if solver_pool is None else sum(solver_pool.values())
     solver_space_exponent = _search_space_exponent(solver_pool)
@@ -713,7 +717,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         if _sol_for_text is not None:
             share_text = _build_share_text(
                 request, char, _sol_for_text,
-                facts=(solver_proven, solver_seconds))
+                facts=(solver_proven, solver_seconds),
+                time_limit=solver_guard.get('time_limit'))
             if char.link_shared:
                 try:
                     og_description = _build_og_description(
@@ -818,11 +823,13 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'solver_constraints': solver_constraints,
               'solver_priorities': solver_priorities,
               'setup_choices': choices_line(char),
+              'setup_guard': guard_line(solver_guard),
               'solver_pool_total': solver_pool_total,
               'solver_space_exponent': solver_space_exponent,
               'solver_seconds': (None if solver_seconds is None
                                  else round(solver_seconds, 1)),
-              'solver_time_limit': SOLVER_TIME_LIMIT_SECONDS,
+              'solver_time_limit': (solver_guard.get('time_limit')
+                                    or SOLVER_TIME_LIMIT_SECONDS),
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:

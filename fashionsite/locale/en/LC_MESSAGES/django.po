@@ -82,6 +82,71 @@ msgstr ""
 msgid "Group PvP (prisms, perceptors)"
 msgstr ""
 
+#: chardata/presets.py
+msgid ""
+"Safeguard not applied: the solver found no balanced set to compare with."
+msgstr ""
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard not applied: the solver found no set keeping %(share)s%% of the "
+"balanced build's effective HP (%(balanced)s), so this set does without it."
+msgstr ""
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard not applied: the solver found no set keeping %(share)s%% of the "
+"balanced build's best turn (%(balanced)s), so this set does without it."
+msgstr ""
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: effective HP at least %(share)s%% of the balanced build "
+"(%(kept)s of %(balanced)s)."
+msgstr ""
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: best turn at least %(share)s%% of the balanced build (%(kept)s "
+"of %(balanced)s)."
+msgstr ""
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: effective HP at %(reached)s%% of the balanced build (%(kept)s of "
+"%(balanced)s), short of the %(share)s%% aimed for."
+msgstr ""
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: best turn at %(reached)s%% of the balanced build (%(kept)s of "
+"%(balanced)s), short of the %(share)s%% aimed for."
+msgstr ""
+
+#: chardata/presets.py
+msgid ""
+"Safeguard not applied: the balanced build's best turn could not be computed."
+msgstr ""
+
+#: chardata/presets.py
+msgid ""
+"Safeguard: the solver ran out of time before it found a set for the "
+"priority, so this is the balanced build."
+msgstr ""
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"This set trails the balanced build on both counts: best turn %(turn)s "
+"against %(balanced_turn)s, effective HP %(hp)s against %(balanced_hp)s."
+msgstr ""
+
 #: .\chardata\coaching_view.py:118
 #, python-format
 msgid "Quick Start %(cls)s lvl %(lvl)s"
@@ -4457,9 +4522,9 @@ msgstr ""
 
 #: chardata/templates/chardata/projdetails.html
 msgid ""
-"Coming soon, no effect yet: compared with the balanced build, a Damage "
-"priority will give up at most this share of effective HP, and a Defense or "
-"Heals priority at most this share of best turn damage."
+"Compared with the balanced build, a Damage priority gives up at most this "
+"share of effective HP, and a Defense or Heals priority aims to give up at "
+"most this share of best turn damage. The build page shows what was kept."
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html

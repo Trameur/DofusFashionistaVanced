@@ -405,6 +405,9 @@
         {% if setup_choices %}
         <p class="solver-why-line solver-setup-choices">{% blocktrans with mode=setup_choices.mode priority=setup_choices.priority %}Mode: {{ mode }} · Priority: {{ priority }}{% endblocktrans %}</p>
         {% endif %}
+        {% if setup_guard %}
+        <p class="solver-why-line solver-setup-guard">{{ setup_guard }}</p>
+        {% endif %}
         {# Pool counted from the solver's own constraints #}
         {% if solver_pool_total %}
         <p class="solver-why-line">{% blocktrans with items=solver_pool_total %}{{ items }} items were on offer after your exclusions.{% endblocktrans %}{% if solver_space_exponent %} {% blocktrans with exponent=solver_space_exponent %}They can be arranged into more than 10 to the power of {{ exponent }} different sets, and the solver did not try them one at a time.{% endblocktrans %}{% endif %}</p>

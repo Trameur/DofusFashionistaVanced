@@ -83,6 +83,94 @@ msgstr "Agression en 1 contre 1"
 msgid "Group PvP (prisms, perceptors)"
 msgstr "PvP en groupe (prismes, percepteurs)"
 
+#: chardata/presets.py
+msgid ""
+"Safeguard not applied: the solver found no balanced set to compare with."
+msgstr ""
+"Garde-fou non appliqué : le solveur n'a trouvé aucun set équilibré auquel "
+"se comparer."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard not applied: the solver found no set keeping %(share)s%% of the "
+"balanced build's effective HP (%(balanced)s), so this set does without it."
+msgstr ""
+"Garde-fou non appliqué : le solveur n'a trouvé aucun set qui garde "
+"%(share)s %% des PV effectifs du build équilibré (%(balanced)s), voici donc "
+"le set sans garde-fou."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard not applied: the solver found no set keeping %(share)s%% of the "
+"balanced build's best turn (%(balanced)s), so this set does without it."
+msgstr ""
+"Garde-fou non appliqué : le solveur n'a trouvé aucun set qui garde "
+"%(share)s %% du meilleur tour du build équilibré (%(balanced)s), voici donc "
+"le set sans garde-fou."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: effective HP at least %(share)s%% of the balanced build "
+"(%(kept)s of %(balanced)s)."
+msgstr ""
+"Garde-fou : au moins %(share)s %% des PV effectifs du build équilibré "
+"(%(kept)s sur %(balanced)s)."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: best turn at least %(share)s%% of the balanced build (%(kept)s "
+"of %(balanced)s)."
+msgstr ""
+"Garde-fou : au moins %(share)s %% du meilleur tour du build équilibré "
+"(%(kept)s sur %(balanced)s)."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: effective HP at %(reached)s%% of the balanced build (%(kept)s of "
+"%(balanced)s), short of the %(share)s%% aimed for."
+msgstr ""
+"Garde-fou : %(reached)s %% des PV effectifs du build équilibré (%(kept)s "
+"sur %(balanced)s), sous les %(share)s %% visés."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"Safeguard: best turn at %(reached)s%% of the balanced build (%(kept)s of "
+"%(balanced)s), short of the %(share)s%% aimed for."
+msgstr ""
+"Garde-fou : %(reached)s %% du meilleur tour du build équilibré (%(kept)s "
+"sur %(balanced)s), sous les %(share)s %% visés."
+
+#: chardata/presets.py
+msgid ""
+"Safeguard not applied: the balanced build's best turn could not be computed."
+msgstr ""
+"Garde-fou non appliqué : impossible de calculer le meilleur tour du build "
+"équilibré."
+
+#: chardata/presets.py
+msgid ""
+"Safeguard: the solver ran out of time before it found a set for the "
+"priority, so this is the balanced build."
+msgstr ""
+"Garde-fou : le solveur a manqué de temps avant de trouver un set pour la "
+"priorité, voici donc le build équilibré."
+
+#: chardata/presets.py
+#, python-format
+msgid ""
+"This set trails the balanced build on both counts: best turn %(turn)s "
+"against %(balanced_turn)s, effective HP %(hp)s against %(balanced_hp)s."
+msgstr ""
+"Ce set fait moins bien que le build équilibré sur les deux tableaux : "
+"meilleur tour %(turn)s contre %(balanced_turn)s, PV effectifs %(hp)s contre "
+"%(balanced_hp)s."
+
 #: .\chardata\coaching_view.py:118
 #, python-format
 msgid "Quick Start %(cls)s lvl %(lvl)s"
@@ -4921,14 +5009,14 @@ msgstr "Garde-fou"
 
 #: chardata/templates/chardata/projdetails.html
 msgid ""
-"Coming soon, no effect yet: compared with the balanced build, a Damage "
-"priority will give up at most this share of effective HP, and a Defense or "
-"Heals priority at most this share of best turn damage."
+"Compared with the balanced build, a Damage priority gives up at most this "
+"share of effective HP, and a Defense or Heals priority aims to give up at "
+"most this share of best turn damage. The build page shows what was kept."
 msgstr ""
-"Bientôt disponible, sans effet pour l'instant : par rapport au build "
-"équilibré, la priorité Dégâts ne sacrifiera pas plus que cette part des PV "
-"effectifs, et la priorité Défense ou Soins pas plus que cette part des "
-"dégâts du meilleur tour."
+"Par rapport au build équilibré, la priorité Dégâts ne sacrifie pas plus que "
+"cette part des PV effectifs, et la priorité Défense ou Soins cherche à ne "
+"pas sacrifier plus que cette part des dégâts du meilleur tour. La page du "
+"build affiche ce qui a été gardé."
 
 #: chardata/templates/chardata/projdetails.html
 msgid "Game mode"
