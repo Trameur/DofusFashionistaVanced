@@ -98,8 +98,21 @@ class EffectTermTests(SimpleTestCase):
 
     def test_without_a_group_the_overall_equivalents_are_paid(self):
         w = dict(self.WEIGHTS, int=60)
-        self.assertEqual(2 * 80 + 100 * 20 * 100 / 200.0 + 10 * 100 + 0.5 * 1000,
-                         effect_term(self.ENTRY, w, 100))
+        self.assertEqual(2 * 80 + 10 * 100 + 0.5 * 1000, effect_term(self.ENTRY, w, 100))
+
+    def test_an_hp_gain_is_not_paid_and_an_hp_loss_is(self):
+        w = dict(self.WEIGHTS, int=60)
+        self.assertEqual(0, effect_term({'equivalents': {'hp': 1400}}, w, 200))
+        self.assertEqual(-600 * 20 * 100 / 200.0 + 10 * 100,
+                         effect_term({'equivalents': {'hp': -600, 'played_char': 10}}, w, 100))
+
+    def test_no_shield_or_heal_of_the_dofus3_table_is_paid(self):
+        for aspects in (('str',), ('int', 'cha'), ('str', 'int', 'cha', 'agi')):
+            w = weights('dofus3', aspects)
+            for key, entry in load_effect_table('dofus3')['items'].items():
+                if entry.get('equivalents', {}) and set(entry['equivalents']) - {'sets'} == {'hp'}:
+                    with self.subTest(aspects=aspects, item=key):
+                        self.assertLessEqual(effect_term(entry, w, 200), 0)
 
     def test_entries_without_equivalents_or_bound_to_a_class_are_not_paid(self):
         self.assertEqual(0, effect_term({'status': 'not_valued', 'equivalents': {}},
