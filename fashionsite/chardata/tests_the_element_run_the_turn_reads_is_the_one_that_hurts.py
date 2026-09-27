@@ -6,15 +6,16 @@ import collections
 from django.test import SimpleTestCase
 
 from chardata.spell_buffs import get_damage_spells_for_version
-from chardata.spell_combo import (Castable, _average, _element_alternatives)
+from chardata.spell_combo import (Castable, _average, _element_alternatives,
+                                   element_runs)
 from chardata.spell_reference import reference_by_spell_id
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
 # Average at rank 0, no crit, no gear
 _MOITIE_QUI_FRAPPE = {
-    ('dofus3', 'Eniripsa', 'Commotion'): 48.0,
-    ('beta', 'Eniripsa', 'Commotion'): 48.0,
+    ('dofus3', 'Eniripsa', 'Commotion'): 24.0,
+    ('beta', 'Eniripsa', 'Commotion'): 24.0,
     ('dofus2', 'Eniripsa', 'Commotion'): 24.0,
     ('dofus3', 'Osamodas', 'Bear Cry'): 15.0,
     ('beta', 'Osamodas', 'Bear Cry'): 15.0,
@@ -24,13 +25,14 @@ _MOITIE_QUI_FRAPPE = {
 }
 
 # Spells with a buff-only group, spells with several element runs
-_AVEC_GROUPE_DE_BUFF = 13
-_AVEC_PLUSIEURS_SERIES = 30
+_AVEC_GROUPE_DE_BUFF = 10
+_AVEC_PLUSIEURS_SERIES = 35
 
-_ZEROS_RESTANTS = {'dofus3': 50, 'beta': 50, 'dofus2': 26,
+_ZEROS_RESTANTS = {'dofus3': 52, 'beta': 52, 'dofus2': 26,
                   'touch': 96, 'retro': 48}
 _SORT_DES_ZEROS_RESTANTS = 'Ebony Dofus'
-_ATTENTES_DES_CHOSES_POSEES = {'trap', 'bomb', 'glyph', 'aura', 'state'}
+_ATTENTES_DES_CHOSES_POSEES = {'trap', 'bomb', 'glyph', 'aura', 'state',
+                               'flask_destroyed'}
 
 
 def _tous_les_sorts():
@@ -42,26 +44,8 @@ def _tous_les_sorts():
 
 def _series(aggregates, effects):
     """All element runs of the spell, buff-only groups dropped."""
-    aggregates = [(label, indices) for label, indices in (aggregates or [])
-                  if not all(index < len(effects)
-                             and effects[index].element.startswith('buff')
-                             for index in indices)]
-    if not aggregates or len(aggregates) < 2:
-        return []
-    toutes, courante, vus = [], [], set()
-    for _label, indices in aggregates:
-        if len(indices) != 1 or indices[0] >= len(effects):
-            return []
-        element = effects[indices[0]].element
-        if element in vus:
-            if len(courante) > 1:
-                toutes.append(courante)
-            courante, vus = [], set()
-        vus.add(element)
-        courante.append(set(indices))
-    if len(courante) > 1:
-        toutes.append(courante)
-    return toutes
+    return [[set(indices) for _label, indices in run]
+            for run in element_runs(aggregates, effects)]
 
 
 class TheTurnReadsTheHalfThatHurtsTests(SimpleTestCase):

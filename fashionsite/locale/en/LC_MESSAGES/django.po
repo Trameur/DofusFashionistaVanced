@@ -6231,6 +6231,9 @@ msgstr "Hit in best element"
 msgid "Hit in one random element"
 msgstr "Hit in one random element"
 
+msgid "Drawn at random"
+msgstr "Drawn at random"
+
 msgid "%(count)s MP used this turn"
 msgstr "%(count)s MP used this turn"
 
@@ -6381,6 +6384,12 @@ msgstr "only when one of the caster's Dolls dies"
 
 msgid "at the end of the target's turn, and only on the enemies around it, never on the target itself"
 msgstr "at the end of the target's turn, and only on the enemies around it, never on the target itself"
+
+msgid "only when the flask is destroyed, and only on the enemies around it"
+msgstr "only when the flask is destroyed, and only on the enemies around it"
+
+msgid "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
+msgstr "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
 
 msgid ""
 "only if the target attracts, repels, switches places or deals "

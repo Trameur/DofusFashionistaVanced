@@ -14,17 +14,17 @@
    "20": {"element": "str", "inputs": "ff388fee13a3", "turns": {"agi": 154.1, "cha": 126.4, "int": 157.7, "str": 162.4}},
    "50": {"element": "str", "inputs": "50ab100e4cdd", "turns": {"agi": 235.7, "cha": 196.9, "int": 226.7, "str": 247.2}},
    "100": {"element": "agi", "inputs": "986047feca96", "turns": {"agi": 567.4, "cha": 495.8, "int": 504.1, "str": 508.0}},
-   "150": {"element": "agi", "held_by": ["Tyrannical Arrow"], "inputs": "13858915498c", "turns": {"agi": 993.6, "cha": 907.3, "int": 2174.3, "str": 1074.3}},
-   "180": {"element": "agi", "held_by": ["Tyrannical Arrow"], "inputs": "00c18aac132c", "turns": {"agi": 1350.8, "cha": 1258.2, "int": 2677.1, "str": 1810.0}},
-   "200": {"element": "agi", "held_by": ["Tyrannical Arrow"], "inputs": "4386b1674f15", "turns": {"agi": 1744.3, "cha": 1627.1, "int": 3339.6, "str": 2337.9}}
+   "150": {"element": "int", "inputs": "b952c5e22763", "turns": {"agi": 993.6, "cha": 893.8, "int": 1378.6, "str": 1074.3}},
+   "180": {"element": "str", "inputs": "75f0877eb31f", "turns": {"agi": 1350.8, "cha": 1258.2, "int": 1750.1, "str": 1810.0}},
+   "200": {"element": "str", "inputs": "1088b54e1c3a", "turns": {"agi": 1744.3, "cha": 1627.1, "int": 2271.7, "str": 2337.9}}
   },
   "Ecaflip": {
-   "20": {"element": "cha", "held_by": ["Topkaj"], "inputs": "2d5d85af579b", "turns": {"agi": 197.8, "cha": 164.4, "int": 325.5, "str": 183.8}},
-   "50": {"element": "cha", "held_by": ["Topkaj"], "inputs": "2b3144230c0d", "turns": {"agi": 251.2, "cha": 231.4, "int": 485.7, "str": 248.7}},
-   "100": {"element": "cha", "held_by": ["Topkaj"], "inputs": "34d4cb25dca5", "turns": {"agi": 807.9, "cha": 801.6, "int": 1317.2, "str": 799.6}},
-   "150": {"element": "cha", "held_by": ["Topkaj"], "inputs": "6cd515745d16", "turns": {"agi": 1236.7, "cha": 1135.8, "int": 2062.6, "str": 1250.3}},
-   "180": {"element": "cha", "held_by": ["Topkaj"], "inputs": "037fcd04fa5a", "turns": {"agi": 1512.5, "cha": 1478.6, "int": 2568.3, "str": 1547.6}},
-   "200": {"element": "cha", "held_by": ["Topkaj"], "inputs": "ddd2de7ff536", "turns": {"agi": 1980.5, "cha": 1870.2, "int": 3135.7, "str": 2002.4}}
+   "20": {"element": "agi", "inputs": "e333074f5a2e", "turns": {"agi": 167.7, "cha": 78.4, "int": 128.4, "str": 128.3}},
+   "50": {"element": "int", "inputs": "30640b99cc7d", "turns": {"agi": 247.6, "cha": 212.1, "int": 248.9, "str": 245.1}},
+   "100": {"element": "agi", "inputs": "9039a958d107", "turns": {"agi": 801.2, "cha": 777.9, "int": 791.7, "str": 792.6}},
+   "150": {"element": "str", "inputs": "c40c8f67e3f4", "turns": {"agi": 1236.7, "cha": 1108.8, "int": 1206.1, "str": 1250.3}},
+   "180": {"element": "int", "inputs": "b06105c600d1", "turns": {"agi": 1512.5, "cha": 1478.6, "int": 1568.0, "str": 1547.6}},
+   "200": {"element": "str", "inputs": "ce4bc4574288", "turns": {"agi": 1980.5, "cha": 1870.2, "int": 1960.5, "str": 2002.4}}
   },
   "Eliotrope": {
    "20": {"element": "str", "inputs": "9fb7200cf7d1", "turns": {"agi": 155.7, "cha": 156.9, "int": 155.7, "str": 166.1}},
@@ -38,9 +38,9 @@
    "20": {"element": "cha", "inputs": "4f3d723c3a9b", "turns": {"agi": 126.4, "cha": 168.0, "int": 126.4, "str": 144.4}},
    "50": {"element": "str", "inputs": "8e8de94cc88a", "turns": {"agi": 207.8, "cha": 228.5, "int": 210.0, "str": 232.4}},
    "100": {"element": "int", "inputs": "39cb5f4cad22", "turns": {"agi": 464.1, "cha": 469.9, "int": 465.1, "str": 434.5}},
-   "150": {"element": "int", "inputs": "41b6444a1704", "turns": {"agi": 1026.0, "cha": 1061.0, "int": 1681.5, "str": 1031.6}},
-   "180": {"element": "int", "inputs": "d9a6567a3118", "turns": {"agi": 1306.8, "cha": 1344.3, "int": 2137.9, "str": 1358.2}},
-   "200": {"element": "int", "inputs": "685a56da22e8", "turns": {"agi": 2086.4, "cha": 2116.3, "int": 3201.1, "str": 2138.1}}
+   "150": {"element": "cha", "inputs": "d427e84edc9d", "turns": {"agi": 843.7, "cha": 936.2, "int": 870.4, "str": 857.5}},
+   "180": {"element": "int", "inputs": "c8e077853fd7", "turns": {"agi": 1132.0, "cha": 1226.6, "int": 1202.9, "str": 1215.0}},
+   "200": {"element": "agi", "inputs": "d662a83ea5c4", "turns": {"agi": 1651.2, "cha": 1647.7, "int": 1611.0, "str": 1643.6}}
   },
   "Enutrof": {
    "20": {"element": "str", "inputs": "87947cc9d487", "turns": {"agi": 128.3, "cha": 121.2, "int": 118.1, "str": 172.7}},
@@ -142,9 +142,9 @@
    "20": {"element": "agi", "inputs": "8bc541b33f1e", "turns": {"agi": 175.3, "cha": 155.4, "int": 155.4, "str": 145.8}},
    "50": {"element": "agi", "inputs": "284807041fd5", "turns": {"agi": 237.2, "cha": 225.0, "int": 211.0, "str": 233.1}},
    "100": {"element": "cha", "inputs": "0badb371c2d7", "turns": {"agi": 502.5, "cha": 493.4, "int": 458.5, "str": 503.2}},
-   "150": {"element": "int", "inputs": "3bf33236257e", "turns": {"agi": 863.3, "cha": 933.0, "int": 1055.6, "str": 1009.6}},
-   "180": {"element": "int", "inputs": "4775f33de6e5", "turns": {"agi": 1187.1, "cha": 1143.5, "int": 1573.5, "str": 1297.5}},
-   "200": {"element": "int", "inputs": "d02c4cc7fb7f", "turns": {"agi": 1634.7, "cha": 1613.3, "int": 2132.2, "str": 1658.1}}
+   "150": {"element": "str", "inputs": "4f713cb73914", "turns": {"agi": 863.3, "cha": 933.0, "int": 975.9, "str": 1009.6}},
+   "180": {"element": "str", "inputs": "65af883e49ba", "turns": {"agi": 1187.1, "cha": 1143.5, "int": 1188.1, "str": 1297.5}},
+   "200": {"element": "int", "inputs": "adda38a010a0", "turns": {"agi": 1634.7, "cha": 1613.3, "int": 1653.5, "str": 1658.1}}
   },
   "Sram": {
    "20": {"element": "int", "inputs": "6a1232498d5c", "turns": {"agi": 89.7, "cha": 137.4, "int": 173.4, "str": 160.2}},

@@ -19575,6 +19575,14 @@ class SpellComboTests(SimpleTestCase):
                 'en': 'around the target', 'fr': "autour d'elle",
                 'es': 'alrededor de este', 'pt': 'ao redor dele',
                 'de': 'ende der runde des ziels'},
+            'around_a_wisp': {'en': 'wisp', 'fr': 'feu follet',
+                              'es': 'fuego fatuo', 'pt': 'fogo-fátuo',
+                              'de': 'irrlicht'},
+            'flask_destroyed': {'en': 'when it is destroyed',
+                                'fr': 'est détruite',
+                                'es': 'cuando lo destruyen',
+                                'pt': 'quando é destruído',
+                                'de': 'wenn sie zerstört wird'},
         }
         self.assertTrue(module.CONDITIONAL_ROWS)
         declared = {trigger
@@ -19625,12 +19633,16 @@ class SpellComboTests(SimpleTestCase):
                 self.assertEqual(enemy.max_dam, ally.max_dam * 2)
 
     def test_a_poison_is_not_counted_as_damage_landing_now(self):
-        # Bush Fire burns at the end of the turn
         from chardata.spell_combo import (best_turn, castable_spells,
                                           delayed_damage)
         spells = castable_spells('Sadida', 200, 'dofus3')
-        burning = [spell for spell in spells if spell.delayed_plain]
+        # A late row that also waits never reaches the target
+        burning = [spell for spell in spells
+                   if spell.delayed_plain and not spell.waiting_plain]
         self.assertTrue(burning, 'no Sadida spell reads as late')
+        hitting = [spell for spell in spells
+                   if spell.hits and not spell.delayed_plain]
+        spells = burning + hitting[:1]
         total, order = best_turn(self._stats(ap=10), spells, 10,
                                  game_version='dofus3')
         later = delayed_damage(self._stats(ap=10), spells, order,
@@ -26200,10 +26212,11 @@ class OnlyOneElementalCharacteristicIsGrantedTests(SimpleTestCase):
     """
 
     def _castable(self, version, char_class, name):
-        from chardata.spell_combo import castable_spells
-        for castable in castable_spells(char_class, 200, version):
-            if castable.spell.name == name:
-                return castable
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.spell_combo import Castable
+        for spell in get_damage_spells_for_version(version).get(char_class, []):
+            if spell.name == name:
+                return Castable(spell, len(spell.level_req) - 1, False)
         self.fail('%s/%s has no spell named %r' % (version, char_class, name))
 
     ELEMENTAL = {'str', 'int', 'cha', 'agi'}

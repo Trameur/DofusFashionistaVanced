@@ -6992,6 +6992,9 @@ msgstr "Golpe no melhor elemento"
 msgid "Hit in one random element"
 msgstr "Golpe num elemento aleatório"
 
+msgid "Drawn at random"
+msgstr "Sorteado aleatoriamente"
+
 msgid "%(count)s MP used this turn"
 msgstr "%(count)s PM usados neste turno"
 
@@ -7198,6 +7201,12 @@ msgstr "apenas quando uma Boneca do lançador morre"
 
 msgid "at the end of the target's turn, and only on the enemies around it, never on the target itself"
 msgstr "no fim do turno do alvo, e apenas nos inimigos ao redor dele, nunca no próprio alvo"
+
+msgid "only when the flask is destroyed, and only on the enemies around it"
+msgstr "apenas quando o Frasco é destruído, e apenas nos inimigos ao redor dele"
+
+msgid "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
+msgstr "apenas se lançado em um Fogo-Fátuo do lançador, e apenas nos inimigos ao redor dele"
 
 msgid ""
 "only if the target attracts, repels, switches places or deals "

@@ -17,7 +17,7 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 _VERSIONS_TOUCHEES = {'dofus3', 'beta', 'dofus2'}
 
 # Spell/version pairs the rule reaches
-_SORTS_TOUCHES = 39
+_SORTS_TOUCHES = 37
 
 # Words of the French spell card
 _SOIGNE = re.compile(r'soigne', re.I)
@@ -120,7 +120,7 @@ class ThePageIsToldAndDoesNotRecomputeTests(SimpleTestCase):
         self.assertIn('aggregates = aggregatesWithRowsThatAlwaysLand(', source)
 
     def test_the_table_asks_per_rank_and_per_crit(self):
-        """The rows vary by rank and by crit, as on Alchemical Word."""
+        """The rows can vary by rank and by crit."""
         source = self._source('spells.html')
         self.assertIn('function getHits(spell, damage, isCrit, rank) {', source)
 
@@ -140,11 +140,10 @@ class ThePageIsToldAndDoesNotRecomputeTests(SimpleTestCase):
 
     def test_the_export_separates_the_critical_rows(self):
         sorts = {s.name: s
-                 for s in get_damage_spells_for_version('dofus3')['Eniripsa']}
-        alchimique = sorts.get('Alchemical Word')
-        self.assertIsNotNone(alchimique, 'Alchemical Word left the catalogue')
-        export = _always_land_by_rank(alchimique,
-                                      alchimique.get_effects_digest())
+                 for s in get_damage_spells_for_version('dofus2')['Osamodas']}
+        coeur = sorts.get('Dragon Heart')
+        self.assertIsNotNone(coeur, 'Dragon Heart left the catalogue')
+        export = _always_land_by_rank(coeur, coeur.get_effects_digest())
         self.assertIsNotNone(export)
         self.assertIn('non_crit', export)
         self.assertNotEqual(

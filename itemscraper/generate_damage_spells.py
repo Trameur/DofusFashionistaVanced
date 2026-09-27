@@ -13,9 +13,9 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Set, Tuple
 
 try:
-    from .get_spells import select_default_spells
+    from .get_spells import ELEMENT_ID_TO_TOKEN, SpellTransformer, select_default_spells
 except ImportError:
-    from get_spells import select_default_spells
+    from get_spells import ELEMENT_ID_TO_TOKEN, SpellTransformer, select_default_spells
 
 AUTO_START = "# AUTO-GENERATED DAMAGE_SPELLS START"
 AUTO_END = "# AUTO-GENERATED DAMAGE_SPELLS END"
@@ -32,6 +32,8 @@ ELEMENT_LITERAL = {
     "AIR": "AIR",
 }
 BEST_ELEMENT_LABEL = "Hit in best element"
+# One group of the effects with a chance lands per cast; must match spell_combo.DRAWN_LABEL
+DRAWN_LABEL = "Drawn at random"
 # Ebony Dofus poison takes the element of the attack that applies it
 ATTACK_ELEMENT_LABEL = "Poison in the element of the attack"
 # Rows read from the thing a spell places, labelled by kind; the site knows these heads
@@ -66,17 +68,21 @@ NOT_A_SELF_BUFF_BY_VERSION = {
         13672: "mentaire sur l'ennemi cibl",
         # Eniripsa, Alchemical Word: one element in the flask. Id shared with Friendship Word
         25802: "selon le contenu",
+        # Eniripsa, Commotion: the final damage of the Will-o'-the-Wisps
+        25856: "tous les Feux Follets du lanceur",
     },
     "beta": {
         12840: "effet al",
         13672: "mentaire sur l'ennemi cibl",
         25802: "selon le contenu",
+        25856: "tous les Feux Follets du lanceur",
     },
     "dofus2": {
         12840: "effet al",
         # Elemental Drain, worded differently in Dofus 2
         13672: "mentaire de l'ennemi cibl",
         # No 25802: in Dofus 2 that id is only Friendship Word
+        25856: "tous les Feux Follets du lanceur",
     },
 }
 
@@ -140,6 +146,14 @@ _MODERN_CONDITIONAL_ROWS = {
     13576: {1: "doll_dies"},   # Sadida, Voodoo Curse
     # Row 1's zone spares the centre cell: it never hits the target itself
     13147: {1: "around_the_target_at_turn_end"},   # Iop, Sentence
+    13568: {1: "around_the_target_at_turn_end"},   # Sadida, Bush Fire
+    # Row 2 is marked "I" but lands early, on pushback damage
+    32448: {2: "pushback"},   # Cra, Tyrannical Arrow
+    # Row 4 has the ring zone the spell only uses on a Will-o'-the-Wisp
+    25856: {4: "around_a_wisp"},   # Eniripsa, Commotion
+    # Rows 4 to 7 are the flask's, dealt when it is destroyed
+    25802: {4: "flask_destroyed", 5: "flask_destroyed", 6: "flask_destroyed",
+            7: "flask_destroyed"},   # Eniripsa, Alchemical Word
 }
 
 CONDITIONAL_ROWS_BY_VERSION = {
@@ -157,6 +171,8 @@ CONDITIONAL_ROWS_BY_VERSION = {
         13368: {1: "healed"},   # Enutrof, Firedamp Explosion
         13576: {1: "doll_dies"},   # Sadida, Voodoo Curse
         13147: {1: "around_the_target_at_turn_end"},   # Iop, Sentence
+        # Row 1 shows the damage a sub-spell deals at turn end in a C2,1 ring
+        13568: {1: "around_the_target_at_turn_end"},   # Sadida, Bush Fire
     },
 }
 
@@ -218,6 +234,16 @@ CARRIED_MASK_LETTER_BY_VERSION = {
 
 CARRIED_MASK_LETTER = CARRIED_MASK_LETTER_BY_VERSION["dofus3"]
 
+# Element rows that are the faces of one hit, with the French words saying so
+ONE_ELEMENT_FACES_BY_VERSION = {
+    # Eniripsa, Alchemical Word: the flask holds one element
+    "dofus3": {25802: "des dommages selon son contenu"},
+    "beta": {25802: "des dommages selon son contenu"},
+    "dofus2": {},
+}
+
+ONE_ELEMENT_FACES = ONE_ELEMENT_FACES_BY_VERSION["dofus3"]
+
 BUFF_SORT_ORDER = {
     "buff_str": 0,
     "buff_int": 1,
@@ -278,6 +304,8 @@ class SpellEntry:
     conditional: Optional[Dict[int, str]] = None
     delayed: Optional[Dict[int, str]] = None
     delayed_crit: Optional[Dict[int, str]] = None
+    # Why a chance on the damage rows could not be read as one draw; never rendered
+    draw_problem: Optional[str] = None
 
 
 def _parse_damage_literal(literal: str) -> tuple[int, int]:
@@ -794,6 +822,10 @@ def build_spell_map(class_data: Mapping[str, Any], all_spells: Sequence[Mapping[
         if not converted:
             continue
         matched_classes = _classes_for_spell(spell, breed_lookup)
+        if matched_classes and converted.draw_problem:
+            print("Warning: %s (%s) rolls a chance on its damage rows and is summed "
+                  "as usual: %s" % (converted.name, converted.ankama_id,
+                                    converted.draw_problem), file=sys.stderr)
         if matched_classes:
             for class_name in matched_classes:
                 spells_by_class[class_name].append(replace(converted))
@@ -1470,6 +1502,152 @@ def _build_thrown_hit_aggregates(
     return aggregates
 
 
+def _drawn_groups(
+    spell: Mapping[str, Any],
+    rows: Sequence[Mapping[str, Any]],
+    critical: bool,
+) -> Optional[Dict[int, Any]]:
+    """{row index: effect group} for the rows an effect with a chance writes; None if one is ambiguous."""
+    groups: Dict[int, Any] = {}
+    for level_idx, level in enumerate(spell.get("levels") or []):
+        for effect in level.get("critical_effects" if critical else "effects") or []:
+            metadata = effect.get("effect_metadata") or {}
+            token = ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
+            if not effect.get("random") or metadata.get("category") != 2 or not token:
+                continue
+            text = ((metadata.get("description") or {}).get("en") or "").lower()
+            ranges = SpellTransformer._format_range(effect.get("dice"))
+            matches = [
+                idx for idx, row in enumerate(rows)
+                if row.get("element") == token
+                and bool(row.get("heals")) == ("heal" in text)
+                and bool(row.get("steals")) == ("steal" in text)
+                and str(row.get("situation") or "").partition("|")[0]
+                == str(effect.get("target_mask") or "")
+                and level_idx < len(row.get("ranges") or ())
+                and row["ranges"][level_idx] == ranges]
+            if len(matches) != 1 or groups.setdefault(
+                    matches[0], effect.get("group")) != effect.get("group"):
+                return None
+    return groups
+
+
+def _draw_odds(spell: Mapping[str, Any], critical: bool) -> List[Dict[Any, float]]:
+    """Per level, {effect group: the chances of its effects added up}."""
+    odds = []
+    for level in spell.get("levels") or []:
+        chances: Dict[Any, float] = {}
+        for effect in level.get("critical_effects" if critical else "effects") or []:
+            if effect.get("random"):
+                group = effect.get("group")
+                chances[group] = chances.get(group, 0.0) + float(effect["random"])
+        odds.append(chances)
+    return odds
+
+
+def _drawn_runs(
+    spell: Mapping[str, Any],
+    rows: Sequence[Mapping[str, Any]],
+    crit_rows: Sequence[Mapping[str, Any]],
+) -> Tuple[Optional[List[List[int]]], Optional[str]]:
+    """(one run per kind of row, one face per effect group a cast draws, the hits first; why not)."""
+    drawn = _drawn_groups(spell, rows, critical=False)
+    if drawn is None:
+        return None, "an effect matches no single row"
+    if len(set(drawn.values())) < 2:
+        if len(drawn) > 1 and any(
+                abs(chances.get(group, 0.0) - 100) <= 1
+                for chances in _draw_odds(spell, False) for group in set(drawn.values())):
+            return None, "one group draws one of its rows"
+        return None, None
+    if len(drawn) != len(rows):
+        return None, "some of its rows are not drawn"
+    if crit_rows and _drawn_groups(spell, crit_rows, critical=True) != drawn:
+        return None, "its critical rows are drawn otherwise"
+    for chances in _draw_odds(spell, False) + _draw_odds(spell, True):
+        if chances and max(chances.values()) - min(chances.values()) > 0.01:
+            return None, "its groups are drawn at unequal odds"
+    group_ids = sorted(set(drawn.values()))
+    runs: Dict[Tuple[Any, ...], Dict[Any, int]] = {}
+    for idx, row in enumerate(rows):
+        kind = (row.get("element"), bool(row.get("heals")), bool(row.get("steals")),
+                row.get("situation"), row.get("triggers"))
+        faces = runs.setdefault(kind, {})
+        if drawn[idx] in faces:
+            return None, "one group draws two rows of one kind"
+        faces[drawn[idx]] = idx
+    if any(sorted(faces) != group_ids for faces in runs.values()):
+        return None, "a kind of row is missing from a group"
+    ordered = sorted(runs.values(),
+                     key=lambda faces: (all(rows[idx].get("heals") for idx in faces.values()),
+                                        min(faces.values())))
+    return [[faces[group] for group in group_ids] for faces in ordered], None
+
+
+def _build_drawn_aggregates(
+    runs: Optional[Sequence[Sequence[int]]],
+    base_row_count: int,
+    total_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    if not runs:
+        return None
+    aggregates: List[Tuple[str, List[int]]] = [
+        (DRAWN_LABEL if position == 0 else "", [idx])
+        for run in runs for position, idx in enumerate(run)]
+    for idx in range(base_row_count, total_row_count):
+        aggregates.append(("", [idx]))
+    return aggregates
+
+
+def _build_one_element_aggregates(
+    spell: Mapping[str, Any],
+    rows: Sequence[Mapping[str, Any]],
+    crit_rows: Sequence[Mapping[str, Any]],
+    total_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """Rows alike but for their element are the faces of one hit; the hits first."""
+    ankama_id = spell.get("ankama_id")
+    quote = ONE_ELEMENT_FACES.get(ankama_id)
+    if quote is None:
+        return None
+    if quote.lower() not in str(spell.get("description_fr") or "").lower():
+        raise SystemExit("spell %s no longer says %r; its element rows were made the "
+                         "faces of one hit on that sentence" % (ankama_id, quote))
+    runs: Dict[Tuple[Any, ...], List[int]] = {}
+    for idx, row in enumerate(rows):
+        kind = (bool(row.get("heals")), bool(row.get("steals")), row.get("situation"),
+                row.get("triggers"), tuple(row.get("ranges") or ()),
+                tuple((crit_rows[idx].get("ranges") or ()) if idx < len(crit_rows) else ()))
+        runs.setdefault(kind, []).append(idx)
+    for indexes in runs.values():
+        elements = [rows[idx].get("element") for idx in indexes]
+        if len(indexes) < 2 or len(set(elements)) != len(elements):
+            raise SystemExit("spell %s: its rows are no longer one per element"
+                             % ankama_id)
+    if crit_rows and len(crit_rows) != len(rows):
+        raise SystemExit("spell %s: its critical rows are not its normal ones"
+                         % ankama_id)
+    aggregates: List[Tuple[str, List[int]]] = []
+    for indexes in sorted(runs.values(),
+                          key=lambda indexes: (all(rows[idx].get("heals") for idx in indexes),
+                                               indexes[0])):
+        aggregates.extend((BEST_ELEMENT_LABEL if position == 0 else "", [idx])
+                          for position, idx in enumerate(indexes))
+    for idx in range(len(rows), total_row_count):
+        aggregates.append(("", [idx]))
+    return aggregates
+
+
+def _listed_waits_drawn(
+    aggregates: List[Tuple[str, List[int]]],
+    listed: Optional[Mapping[int, str]],
+) -> List[Tuple[str, List[int]]]:
+    """Listed held-back rows outside every group, each in a group of its own."""
+    covered = {idx for _label, indexes in aggregates for idx in indexes}
+    apart = [("", [idx]) for idx in sorted(listed or {}) if idx not in covered]
+    return list(aggregates) + apart if apart else aggregates
+
+
 def _split_the_one_state_on_its_target(
     rows: Sequence[Mapping[str, Any]],
     aggregates: Sequence[Tuple[str, Sequence[int]]],
@@ -1673,6 +1851,7 @@ def convert_spell(
         stack_row_block = stack_row_block or len(normal_rows)
 
     best_element_groups = _extract_best_element_groups(normal_rows)
+    drawn_runs, draw_problem = _drawn_runs(spell, normal_rows, crit_rows)
     base_row_count = len(normal_rows)
     _waiting_rows = _rows_that_wait(normal_rows)
     # Crit rows can differ from normal ones (Sentence: 3 vs 4 rows)
@@ -1733,6 +1912,11 @@ def convert_spell(
         aggregates = _build_stack_row_aggregates(stack_row_block, base_row_count, stack_labels)
     if aggregates_from_best and aggregates and stack_labels and stack_row_block:
         aggregates = _prefix_stack_labels(aggregates, stack_row_block, stack_labels)
+    if not aggregates:
+        aggregates = _build_drawn_aggregates(drawn_runs, len(normal_rows), len(non_crit))
+    if not aggregates:
+        aggregates = _build_one_element_aggregates(
+            spell, normal_rows, crit_rows, len(non_crit))
     state_aggregates = None
     if not aggregates:
         state_aggregates = _build_state_aggregates(normal_rows, len(non_crit))
@@ -1768,6 +1952,8 @@ def convert_spell(
         crit, steals, heals, aggregates, block_waits, block_lands = _append_placed_blocks(
             placed_blocks, level_count, base_row_count, non_crit, crit,
             elements, steals, heals, aggregates)
+    if aggregates:
+        aggregates = _listed_waits_drawn(aggregates, CONDITIONAL_ROWS.get(spell.get("ankama_id")))
     if not non_crit:
         return None
     delayed = dict(_waiting_rows[0])
@@ -1804,6 +1990,7 @@ def convert_spell(
         conditional=_conditional_rows(ankama_id, elements, holds_back),
         delayed=delayed or None,
         delayed_crit=delayed_crit,
+        draw_problem=draw_problem,
     )
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
@@ -2100,7 +2287,7 @@ def _version_named(suffix: str) -> str:
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
-    global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER
+    global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER, ONE_ELEMENT_FACES
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -2112,6 +2299,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     SUMMON_MASK_LETTERS = SUMMON_MASK_LETTERS_BY_VERSION[args.game_version]
     ALLY_ONLY_MASKS = ALLY_ONLY_MASKS_BY_VERSION[args.game_version]
     CARRIED_MASK_LETTER = CARRIED_MASK_LETTER_BY_VERSION[args.game_version]
+    ONE_ELEMENT_FACES = ONE_ELEMENT_FACES_BY_VERSION[args.game_version]
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)

@@ -39,22 +39,11 @@ SHARED_GEAR = ('pow', 'dam', 'neutdam', 'ch', 'cridam')
 GEAR_KEYS = ('char', 'edam') + SHARED_GEAR
 
 
-def _adds_every_face(spell):
-    return not spell.random_draw and any(len(rows) > 1 for rows in spell.plain_alternatives)
-
-
-def _counts_every_row(spell):
-    return not spell.waiting_plain
-
-
-_TOPKAJ = ('the game draws one of its damage faces, the turn adds all three', _adds_every_face)
-_TYRANNICAL_ARROW = ('one Fire row only lands on pushback damage, the turn always counts it',
-                     _counts_every_row)
 # {version: {spell id: (what the turn misreads, true while the rows still misread it)}}
 KNOWN_BAD_ROWS = {
-    'dofus3': {12846: _TOPKAJ, 32448: _TYRANNICAL_ARROW},
-    'beta': {12846: _TOPKAJ, 32448: _TYRANNICAL_ARROW},
-    'dofus2': {12846: _TOPKAJ},
+    'dofus3': {},
+    'beta': {},
+    'dofus2': {},
 }
 
 REFERENCE = ('Reference set, the same for every element, at each Quick Start level (%(levels)s): '

@@ -7046,6 +7046,9 @@ msgstr "Coup dans le meilleur élément"
 msgid "Hit in one random element"
 msgstr "Coup dans un élément au hasard"
 
+msgid "Drawn at random"
+msgstr "Tiré au hasard"
+
 msgid "%(count)s MP used this turn"
 msgstr "%(count)s PM utilisés ce tour"
 
@@ -7252,6 +7255,12 @@ msgstr "seulement à la mort d'une Poupée du lanceur"
 
 msgid "at the end of the target's turn, and only on the enemies around it, never on the target itself"
 msgstr "à la fin du tour de la cible, et seulement sur les ennemis autour d'elle, jamais sur la cible elle-même"
+
+msgid "only when the flask is destroyed, and only on the enemies around it"
+msgstr "seulement quand la Fiole est détruite, et seulement sur les ennemis autour d'elle"
+
+msgid "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
+msgstr "seulement si le sort est lancé sur un Feu Follet du lanceur, et seulement sur les ennemis autour de lui"
 
 msgid ""
 "only if the target attracts, repels, switches places or deals "

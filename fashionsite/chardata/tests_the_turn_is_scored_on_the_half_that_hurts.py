@@ -49,10 +49,11 @@ def _soigne_entierement(lignes):
     return bool(lignes) and all(getattr(e, 'heals', False) for e in lignes)
 
 
-def _hits_sans_buffs(effets):
-    """(index, line) pairs without buff lines, as production passes them."""
+def _hits_sans_buffs(effets, sort):
+    """(index, line) pairs without buff or waiting lines, as production passes them."""
+    attente = set(getattr(sort, 'conditional', None) or {})
     return [(index, effet) for index, effet in enumerate(effets)
-            if not effet.element.startswith('buff')]
+            if not effet.element.startswith('buff') and index not in attente]
 
 
 def _tous_les_sorts():
@@ -90,7 +91,7 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
                                   if rang < len(digest.non_crit_dams)
                                   else [])
                 retenu = _first_group_that_hurts(
-                    digest.aggregates, _hits_sans_buffs(effets_du_rang))
+                    digest.aggregates, _hits_sans_buffs(effets_du_rang, sort))
                 premier = set(digest.aggregates[0][1])
                 if retenu == premier:
                     continue
@@ -111,7 +112,7 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
                 if _element_alternatives(digest.aggregates, effets) is not None:
                     continue
                 retenu = _first_group_that_hurts(
-                    digest.aggregates, _hits_sans_buffs(effets))
+                    digest.aggregates, _hits_sans_buffs(effets, sort))
                 if retenu != set(digest.aggregates[0][1]):
                     bouges.add((version, classe, sort.name))
         self.assertEqual(
@@ -163,7 +164,7 @@ class AStackingCastStillStartsFromNothingBuiltUpTests(SimpleTestCase):
                 rows = digest.non_crit_dams
                 effets = rows[rang] if rang < len(rows) else []
                 retenu = _first_group_that_hurts(
-                    digest.aggregates, _hits_sans_buffs(effets))
+                    digest.aggregates, _hits_sans_buffs(effets, sort))
                 with self.subTest(version=version, sort=sort.name, rang=rang):
                     self.assertEqual(set(digest.aggregates[0][1]), retenu)
                 gardes += 1

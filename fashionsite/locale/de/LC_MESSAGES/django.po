@@ -6993,6 +6993,9 @@ msgstr "Treffer im besten Element"
 msgid "Hit in one random element"
 msgstr "Treffer in einem zufälligen Element"
 
+msgid "Drawn at random"
+msgstr "Zufällig gezogen"
+
 msgid "%(count)s MP used this turn"
 msgstr "%(count)s BP in dieser Runde verbraucht"
 
@@ -7199,6 +7202,12 @@ msgstr "nur wenn ein Püppchen des Zaubernden stirbt"
 
 msgid "at the end of the target's turn, and only on the enemies around it, never on the target itself"
 msgstr "am Ende der Runde des Ziels, und nur bei den Gegnern um das Ziel herum, niemals beim Ziel selbst"
+
+msgid "only when the flask is destroyed, and only on the enemies around it"
+msgstr "nur wenn die Phiole zerstört wird, und nur bei den Gegnern um sie herum"
+
+msgid "only when cast on one of the caster's Will-o'-the-Wisps, and only on the enemies around it"
+msgstr "nur wenn der Zauber auf ein Irrlicht des Zaubernden gewirkt wird, und nur bei den Gegnern um das Irrlicht herum"
 
 msgid ""
 "only if the target attracts, repels, switches places or deals "

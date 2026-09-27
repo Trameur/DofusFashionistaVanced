@@ -899,6 +899,8 @@ def _convert_weapon_damage(base):
 _BEST_ELEMENT = 'Hit in best element'
 # Retro's Bluff hits in Air or Water at random: one roll, not two hits
 _RANDOM_ELEMENT = 'Hit in one random element'
+# Topkaj draws one of its effect groups: faces of one value each
+_DRAWN = 'Drawn at random'
 # Ebony Dofus poisons in the attack's element only: its five rows are one hit
 _ATTACK_ELEMENT = 'Poison in the element of the attack'
 _STACK_LABEL = re.compile(r'^Stack (\d+)(?: - (.+))?$')
@@ -947,6 +949,8 @@ def _localized_aggregate_label(label, game_version=None):
         return _('Hit in best element')
     if label == _RANDOM_ELEMENT:
         return _('Hit in one random element')
+    if label == _DRAWN:
+        return _('Drawn at random')
     if label == _ATTACK_ELEMENT:
         return _('Poison in the element of the attack')
     if label == _WITH_SHIELD:
@@ -1067,6 +1071,12 @@ _CONDITIONAL_LABELS = {
     'around_the_target_at_turn_end':
         _lazy("at the end of the target's turn, and only on the enemies "
               "around it, never on the target itself"),
+    'around_a_wisp':
+        _lazy("only when cast on one of the caster's Will-o'-the-Wisps, and "
+              "only on the enemies around it"),
+    'flask_destroyed':
+        _lazy("only when the flask is destroyed, and only on the enemies "
+              "around it"),
     'trap': _lazy("only when an enemy sets off the trap"),
     'bomb': _lazy("only when the bomb explodes"),
     'glyph': _lazy("only when an enemy goes through the glyph"),
@@ -1079,6 +1089,7 @@ _CONDITIONAL_LABELS = {
 _ONE_LANDS = {
     _BEST_ELEMENT: 'best',
     _RANDOM_ELEMENT: 'one',
+    _DRAWN: 'one',
     _ATTACK_ELEMENT: 'one',
 }
 

@@ -43,6 +43,12 @@ ONLY_HITS_A_SUMMON = {
     },
 }
 
+# Spells whose pushback row ends their late rows, with the words of their description
+PUSH_ENDS_THE_LATE_ROWS = {
+    'dofus3': {32448: 'retire les effets du sort'},   # Cra, Tyrannical Arrow
+    'beta': {32448: 'retire les effets du sort'},
+}
+
 # Starting AP, for builds saved without base stats
 BASE_AP = 6
 
@@ -69,6 +75,8 @@ def _run_that_hurts(runs, effects):
 
 # Must match itemscraper/get_spells_retro.py
 RANDOM_ELEMENT_LABEL = 'Hit in one random element'
+# Must match DRAWN_LABEL in itemscraper/generate_damage_spells.py
+DRAWN_LABEL = 'Drawn at random'
 
 # The generator heads the rows of a placed thing; must match PLACED_LABELS there
 PLACED_LABEL = re.compile(
@@ -76,8 +84,8 @@ PLACED_LABEL = re.compile(
 
 
 def _draw_is_random(aggregates):
-    """True when the game draws the element, not the caster."""
-    return any(label == RANDOM_ELEMENT_LABEL
+    """True when the game draws the face, not the caster."""
+    return any(label in (RANDOM_ELEMENT_LABEL, DRAWN_LABEL)
                for label, _indices in (aggregates or []))
 
 
@@ -92,15 +100,18 @@ def element_runs(aggregates, effects):
     runs = []
     run = []
     seen = set()
+    drawn = False
     for label, indices in aggregates:
         if len(indices) != 1 or indices[0] >= len(effects):
             return []
         element = effects[indices[0]].element
-        # A placed thing's rows are a hit of their own, never a face of the last
-        if element in seen or PLACED_LABEL.match(label or ''):
+        # A placed thing or a draw starts its own hit; a draw's faces may share an element
+        if (label == DRAWN_LABEL or PLACED_LABEL.match(label or '')
+                or (drawn and label) or (element in seen and not drawn)):
             if len(run) > 1:
                 runs.append(run)
             run, seen = [], set()
+            drawn = label == DRAWN_LABEL
         seen.add(element)
         run.append((label, list(indices)))
     if len(run) > 1:
@@ -605,12 +616,24 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
         rows = getattr(castable, 'waiting_crit' if crit else 'waiting_plain',
                        None) or []
         own = _add_bonus_stats(dict(buffed), castable)
+
+        def worth(effect):
+            return (_average(calculate_damage([copy.copy(effect)], own,
+                                              crit, castable.is_spell))
+                    * multiplier)
+
+        ended = 0.0
+        if getattr(castable, 'spell_id', None) in PUSH_ENDS_THE_LATE_ROWS.get(
+                game_version, {}):
+            ended = sum(worth(effect) for effect, _when in getattr(
+                castable, 'delayed_crit' if crit else 'delayed_plain',
+                None) or [])
         for effect, trigger in rows:
             if trigger not in triggers:
                 continue
-            gained = (_average(calculate_damage([copy.copy(effect)], own,
-                                                crit, castable.is_spell))
-                      * multiplier)
+            gained = worth(effect)
+            if trigger == 'pushback':
+                gained, ended = gained - ended, 0.0
             if gained:
                 out.append((name, trigger, gained * counts[name]))
     return out

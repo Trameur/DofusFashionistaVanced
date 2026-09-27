@@ -137,9 +137,8 @@ class NoElementRestsOnRowsTheTurnMisreadsTests(SimpleTestCase):
                 self.assertEqual([], generator.bad_row_problems(version))
 
     def test_a_listed_spell_whose_rows_read_right_or_that_nobody_casts_is_reported(self):
-        topkaj = generator.KNOWN_BAD_ROWS['dofus2'][12846][0]
         with mock.patch.dict(generator.KNOWN_BAD_ROWS,
-                             {'dofus2': {12846: (topkaj, lambda spell: False),
+                             {'dofus2': {12846: ('a misread', lambda spell: False),
                                          999999999: ('nothing', lambda spell: True)}}):
             problems = generator.bad_row_problems('dofus2')
         self.assertEqual(2, len(problems))
@@ -159,7 +158,7 @@ class NoElementRestsOnRowsTheTurnMisreadsTests(SimpleTestCase):
                     self.assertNotEqual(max(entry['turns'], key=entry['turns'].get),
                                         entry['element'])
                     held += 1
-        self.assertGreater(held, 0)
+        self.assertEqual(any(generator.KNOWN_BAD_ROWS.values()), held > 0)
 
 
 class EveryVersionTableIsBuiltOnTodaysInputsTests(SimpleTestCase):
