@@ -35,6 +35,7 @@ from chardata.solution import get_solution, set_solution
 from chardata.image_store import get_image_url
 from chardata.item_sources import attach_acquisition, get_source_ankama_ids
 from chardata.solution_result import evolve_result_item, AttributeLine
+from chardata.spell_combo import crit_chance
 from static_s3.templatetags.static_s3 import static
 from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,\
     get_picker_cache_key, remove_cache_for_char, safe_int
@@ -547,12 +548,21 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
     if weapon_obj.crit_chance_percent:
         crits_total += weapon_obj.crit_chance_percent
 
-    if weapon_obj.has_crits:
+    if structure.game_version == 'touch':
+        odds = _weapon_crit_odds(structure, weapon_obj, new_stats)
+        rating = (rating_non_crit * (1 - odds) + rating_crit * odds
+                  if odds else rating_non_crit)
+    elif weapon_obj.has_crits:
         rating = (rating_non_crit * (100 - crits_total) + rating_crit * crits_total)/100
     else:
         rating = rating_non_crit
 
     return rating if rating > 0 else -rating
+
+def _weapon_crit_odds(structure, weapon_obj, stats):
+    if not weapon_obj.has_crits:
+        return 0.0
+    return crit_chance(weapon_obj.crit_chance, stats, structure.game_version)
 
 def _get_weapon_info(weapon, char, stat_overrides=None):
     weapon_info = {}
@@ -596,7 +606,10 @@ def _get_weapon_info(weapon, char, stat_overrides=None):
             
     weapon_info['max_noncrit_dam'] = max_noncrit_dam  
     
-    if weapon_obj.has_crits:
+    can_crit = weapon_obj.has_crits
+    if structure.game_version == 'touch':
+        can_crit = _weapon_crit_odds(structure, weapon_obj, new_stats) > 0
+    if can_crit:
     
         calculated_crit_damage = {}
         for elementnew in DAMAGE_TYPES:
