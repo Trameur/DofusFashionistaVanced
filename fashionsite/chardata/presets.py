@@ -5,16 +5,19 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Presets shared by the doors that create a build: quick start styles, default elements, setup boxes."""
+"""Presets shared by the doors that create a build: styles, default elements, boxes, priorities, modes."""
 
 import pickle
 from collections import namedtuple
 
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy, pgettext_lazy
 
+from chardata.char_blobs import read_char_blob
 from chardata.default_elements import version_element
 from chardata.models import Char
-from chardata.smart_build import get_standard_weights
+from chardata.options import set_setup_choices
+from chardata.smart_build import (get_char_aspects, get_standard_weights, reapply_weights,
+                                  set_char_aspects)
 from chardata.version_compat import class_exists_in_version, filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.game_versions import DEFAULT_VERSION
@@ -67,17 +70,51 @@ FOCUS_LIMIT = 2
 ELEMENT_DAMAGE = {'str': 'earthdam', 'int': 'firedam', 'cha': 'waterdam', 'agi': 'airdam'}
 SECOND_ELEMENT_SHARE = 0.5
 
+Priority = namedtuple('Priority', 'key label aspects')
+
+PRIORITIES = (
+    Priority('balanced', gettext_lazy('No priority'), frozenset()),
+    Priority('damage', pgettext_lazy('Priority', 'Damage'), frozenset({'glasscannon'})),
+    Priority('defense', gettext_lazy('Defense'), frozenset({'vit', 'res'})),
+    Priority('heals', pgettext_lazy('Priority', 'Heals'), frozenset({'heal'})),
+)
+PRIORITY_BY_KEY = {priority.key: priority for priority in PRIORITIES}
+DEFAULT_PRIORITY = 'balanced'
+
+PlayMode = namedtuple('PlayMode', 'key label boxes')
+
+PLAY_MODES = (
+    PlayMode('general', gettext_lazy('General (all content)'), frozenset()),
+    PlayMode('pvm_solo', gettext_lazy('Solo PvM'), frozenset()),
+    PlayMode('koli_1v1', gettext_lazy('Kolossium 1v1'), frozenset({'pvp', 'duel'})),
+    PlayMode('koli_2v2', gettext_lazy('Kolossium 2v2'), frozenset({'pvp'})),
+    PlayMode('koli_3v3', gettext_lazy('Kolossium 3v3'), frozenset({'pvp'})),
+    PlayMode('aggression_1v1', gettext_lazy('Aggression 1v1'), frozenset({'pvp', 'duel'})),
+    PlayMode('group_pvp', gettext_lazy('Group PvP (prisms, perceptors)'), frozenset({'pvp'})),
+)
+PLAY_MODE_BY_KEY = {mode.key: mode for mode in PLAY_MODES}
+DEFAULT_PLAY_MODE = 'general'
+MODE_OPTION_BOXES = frozenset({'pvp', 'duel'})
+
+GUARD_DEFAULT_PERCENT = 10
+GUARD_PERCENTS = (5, 10, 15, 20)
+
 VERSION_PRESETS = {
     'dofus3': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
-               'option_boxes': ('pvp', 'duel')},
+               'option_boxes': ('pvp', 'duel'),
+               'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_2v2', 'koli_3v3')},
     'beta': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
-             'option_boxes': ('pvp', 'duel')},
+             'option_boxes': ('pvp', 'duel'),
+             'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_3v3')},
     'dofus2': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
-               'option_boxes': ('pvp', 'duel')},
+               'option_boxes': ('pvp', 'duel'),
+               'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_2v2', 'koli_3v3')},
     'touch': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
-              'option_boxes': ('pvp', 'duel')},
+              'option_boxes': ('pvp', 'duel'),
+              'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_3v3')},
     'retro': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
-              'option_boxes': ('pvp', 'duel')},
+              'option_boxes': ('pvp', 'duel'),
+              'modes': ('general', 'pvm_solo', 'aggression_1v1', 'group_pvp')},
 }
 
 
@@ -147,6 +184,106 @@ def capped_focus(aspects, preferred=()):
     order += [aspect for column in FOCUS_COLUMNS for aspect in column
               if aspect in focus and aspect not in order]
     return (set(aspects) - focus) | set(order[:FOCUS_LIMIT])
+
+
+def priorities():
+    return [(priority.key, priority.label) for priority in PRIORITIES]
+
+
+def play_modes(game_version):
+    """[(key, label)] the setup page offers on this version, the default mode first."""
+    keys = version_presets(game_version).get('modes', (DEFAULT_PLAY_MODE,))
+    return [(key, PLAY_MODE_BY_KEY[key].label) for key in keys]
+
+
+def mode_boxes(game_version):
+    """{mode: {option box: ticked}} for the modes of this version; the default mode leaves the boxes alone."""
+    return {key: {} if key == DEFAULT_PLAY_MODE
+            else {box: box in PLAY_MODE_BY_KEY[key].boxes for box in sorted(MODE_OPTION_BOXES)}
+            for key, _label in play_modes(game_version)}
+
+
+def offered_priority(priority):
+    return priority if priority in PRIORITY_BY_KEY else DEFAULT_PRIORITY
+
+
+def offered_play_mode(play_mode, game_version):
+    """The mode if this version offers it, else the default one."""
+    if play_mode in dict(play_modes(game_version)):
+        return play_mode
+    return DEFAULT_PLAY_MODE
+
+
+def stored_choices(char):
+    """(priority, play mode) of a build; a missing or unknown one reads as the default."""
+    options = read_char_blob(char.options, {}, 'options', char)
+    game_version = getattr(char, 'game_version', None) or DEFAULT_VERSION
+    return (offered_priority(options.get('priority')),
+            offered_play_mode(options.get('play_mode'), game_version))
+
+
+def posted_choices(post, char):
+    """(priority, play mode) of a setup form; a field it does not send keeps the build's own."""
+    priority, play_mode = stored_choices(char)
+    game_version = getattr(char, 'game_version', None) or DEFAULT_VERSION
+    if post.get('priority') is not None:
+        priority = offered_priority(post.get('priority'))
+    if post.get('play_mode') is not None:
+        play_mode = offered_play_mode(post.get('play_mode'), game_version)
+    return priority, play_mode
+
+
+def with_mode_boxes(aspects, play_mode):
+    """The aspects with exactly the option boxes the mode ticks; the default mode leaves them as they are."""
+    mode = PLAY_MODE_BY_KEY.get(play_mode)
+    if mode is None or play_mode == DEFAULT_PLAY_MODE:
+        return set(aspects)
+    return (set(aspects) - MODE_OPTION_BOXES) | set(mode.boxes)
+
+
+def solved_aspects(aspects, priority):
+    """The aspects the weights and minimums are computed from: the boxes plus the priority's."""
+    return set(aspects) | PRIORITY_BY_KEY[offered_priority(priority)].aspects
+
+
+def apply_setup_choices(char, aspects, priority=DEFAULT_PRIORITY, play_mode=DEFAULT_PLAY_MODE,
+                        reset=True, set_minimums=True):
+    """Saves the boxes and the mode's as aspects, weighs them with the priority's too, keeps non-default choices; without a reset only the boxes change."""
+    if not reset:
+        set_char_aspects(char, aspects, False)
+        return set(aspects)
+    boxes = with_mode_boxes(aspects, play_mode)
+    solved = solved_aspects(boxes, priority)
+    if solved != boxes:
+        set_char_aspects(char, solved, True, set_minimums)
+        set_char_aspects(char, boxes, False)
+    else:
+        set_char_aspects(char, boxes, True, set_minimums)
+    set_setup_choices(char, {
+        'priority': None if priority == DEFAULT_PRIORITY else priority,
+        'play_mode': None if play_mode == DEFAULT_PLAY_MODE else play_mode})
+    return boxes
+
+
+def reapply_build_weights(char):
+    """smart_build.reapply_weights, counting the build's priority too."""
+    priority, _play_mode = stored_choices(char)
+    if priority == DEFAULT_PRIORITY:
+        reapply_weights(char)
+        return
+    solved = solved_aspects(get_char_aspects(char), priority)
+    char.stats_weight = pickle.dumps(get_standard_weights(Char(
+        char_class=char.char_class, level=char.level, game_version=char.game_version,
+        aspects=pickle.dumps(solved))))
+
+
+def choices_line(char):
+    """{'mode': label, 'priority': label} when the build has a non-default choice, else None."""
+    priority, play_mode = stored_choices(char)
+    if priority == DEFAULT_PRIORITY and play_mode == DEFAULT_PLAY_MODE:
+        return None
+    return {'mode': PLAY_MODE_BY_KEY[play_mode].label,
+            'priority': PRIORITY_BY_KEY[priority].label}
 
 
 def element_stat_points(char_class, level, game_version):

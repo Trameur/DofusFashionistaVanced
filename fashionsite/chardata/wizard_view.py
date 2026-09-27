@@ -24,7 +24,7 @@ from chardata.models import CharBaseStats
 from chardata.options import get_options, set_options, DOFUS_OPTIONS, get_available_options
 from chardata.options_view import parse_options_post, parse_inventory_options, \
     inventory_source_context
-from chardata.smart_build import reapply_weights
+from chardata.presets import reapply_build_weights
 from chardata.solution_view import get_class_avatar
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
 from chardata.wizard_sliders import get_wizard_sliders, set_wizard_sliders
@@ -61,7 +61,7 @@ def wizard(request, char_id):
 
 def get_resetted_sliders(request, char_id):
     char = get_char_or_raise(request, char_id)
-    reapply_weights(char)
+    reapply_build_weights(char)
     all_sliders = get_wizard_sliders(char)
     all_sliders_json = jsonpickle.encode(all_sliders)
     return HttpResponseJson(all_sliders_json)

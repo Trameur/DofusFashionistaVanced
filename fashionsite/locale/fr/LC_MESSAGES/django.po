@@ -37,6 +37,52 @@ msgstr "PvP : coups critiques"
 msgid "Farm / Level-up: Prospecting & Wisdom"
 msgstr "Farm / up : Prospection & Sagesse"
 
+#: chardata/presets.py
+msgid "No priority"
+msgstr "Aucune priorité"
+
+#: chardata/presets.py
+msgctxt "Priority"
+msgid "Damage"
+msgstr "Dégâts"
+
+#: chardata/presets.py
+msgctxt "Priority"
+msgid "Heals"
+msgstr "Soins"
+
+#: chardata/presets.py
+msgid "Defense"
+msgstr "Défense"
+
+#: chardata/presets.py
+msgid "General (all content)"
+msgstr "Général (tous contenus)"
+
+#: chardata/presets.py
+msgid "Solo PvM"
+msgstr "PvM solo"
+
+#: chardata/presets.py
+msgid "Kolossium 1v1"
+msgstr "Kolizéum 1v1"
+
+#: chardata/presets.py
+msgid "Kolossium 2v2"
+msgstr "Kolizéum 2v2"
+
+#: chardata/presets.py
+msgid "Kolossium 3v3"
+msgstr "Kolizéum 3v3"
+
+#: chardata/presets.py
+msgid "Aggression 1v1"
+msgstr "Agression en 1 contre 1"
+
+#: chardata/presets.py
+msgid "Group PvP (prisms, perceptors)"
+msgstr "PvP en groupe (prismes, percepteurs)"
+
 #: .\chardata\coaching_view.py:118
 #, python-format
 msgid "Quick Start %(cls)s lvl %(lvl)s"
@@ -4853,6 +4899,50 @@ msgstr ""
 "Aucun élément coché : le build ne cherchera pas à faire de dégâts. "
 "Cliquez à nouveau pour continuer quand même."
 
+#: chardata/templates/chardata/projdetails.html
+msgid "Advanced options"
+msgstr "Options avancées"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Priority"
+msgstr "Priorité"
+
+#: chardata/templates/chardata/projdetails.html
+msgid ""
+"Prospecting, wisdom, AP or MP removal, summons and the rest stay in the "
+"focus column above."
+msgstr ""
+"Prospection, sagesse, retrait PA ou PM, invocations et le reste se "
+"choisissent plus haut, dans la colonne « Se concentrer sur »."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Safeguard"
+msgstr "Garde-fou"
+
+#: chardata/templates/chardata/projdetails.html
+msgid ""
+"Coming soon, no effect yet: compared with the balanced build, a Damage "
+"priority will give up at most this share of effective HP, and a Defense or "
+"Heals priority at most this share of best turn damage."
+msgstr ""
+"Bientôt disponible, sans effet pour l'instant : par rapport au build "
+"équilibré, la priorité Dégâts ne sacrifiera pas plus que cette part des PV "
+"effectifs, et la priorité Défense ou Soins pas plus que cette part des "
+"dégâts du meilleur tour."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Game mode"
+msgstr "Mode de jeu"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "A PvP mode ticks its boxes in the Options column."
+msgstr ""
+"Un mode PvP coche les cases qui lui correspondent dans la colonne Options."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Changing the priority or the game mode always restarts the wizard."
+msgstr "Changer la priorité ou le mode de jeu redémarre toujours l'Assistant."
+
 #, python-format
 msgid "Check at most %(limit)d boxes in the focus column."
 msgstr ""
@@ -8228,6 +8318,11 @@ msgstr "Besoin d'idées ?"
 #: chardata/templates/chardata/solution.html
 msgid "Priorities given to the solver:"
 msgstr "Priorités données au solveur :"
+
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Mode: %(mode)s · Priority: %(priority)s"
+msgstr "Mode : %(mode)s · Priorité : %(priority)s"
 
 #: chardata/templates/chardata/text_build.html
 #, python-format

@@ -199,3 +199,21 @@ def set_options(char, options):
 
     char.save()
 
+
+def set_setup_choices(char, choices):
+    """Merges {key: value} into the options, None removing the key; unchanged options are not rewritten."""
+    options = read_char_blob(char.options, {}, 'options', char)
+    changed = False
+    for key, value in choices.items():
+        if value is None:
+            if key in options:
+                del options[key]
+                changed = True
+        elif options.get(key) != value:
+            options[key] = value
+            changed = True
+    if changed:
+        char.options = pickle.dumps(options)
+        char.save()
+    return changed
+

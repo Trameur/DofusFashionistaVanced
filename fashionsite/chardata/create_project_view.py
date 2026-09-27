@@ -32,8 +32,11 @@ from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
 from chardata.build_name import cleaned_at_creation
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
-from chardata.presets import FOCUS_LIMIT, setup_boxes, setup_columns, within_focus_limit
-from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECTS,
+from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS,
+                              apply_setup_choices, mode_boxes, play_modes, posted_choices,
+                              priorities, setup_boxes, setup_columns, stored_choices,
+                              within_focus_limit)
+from chardata.smart_build import (get_char_aspects, ALL_ASPECTS,
                                   inert_aspects,
                                   ASPECT_TO_NAME)
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
@@ -101,6 +104,11 @@ def setup(request, char_id=0):
                          'aspect_to_name': _get_json_aspect_to_name(),
                          'aspect_layout': json.dumps(setup_columns(game_version)),
                          'inert_aspects': json.dumps(inert_aspects(game_version)),
+                         'priorities': priorities(),
+                         'play_modes': play_modes(game_version),
+                         'mode_boxes': json.dumps(mode_boxes(game_version)),
+                         'guard_percents': GUARD_PERCENTS,
+                         'guard_default': GUARD_DEFAULT_PERCENT,
                          'is_new_char_json': json.dumps(is_new_char),
                          'questionmark': json.dumps(get_questionmark_URL(request)),
                          'temporix_available': (
@@ -168,11 +176,12 @@ def save_project(request, char_id=0):
 
     remove_invalid_inclusions(char, state['char_level'])
 
+    priority, play_mode = posted_choices(request.POST, char)
     _save_state_to_char(state, char)
 
     # TODO: Make clear we are resetting weights and mins.
-    set_char_aspects(char, state['char_build_aspects_set'],
-                     request.POST.get('reapply') == 'reapply')
+    apply_setup_choices(char, state['char_build_aspects_set'], priority, play_mode,
+                        request.POST.get('reapply') == 'reapply')
 
     char.save()
     if char_id > 0:
@@ -238,8 +247,9 @@ def create_project(request):
 
     _save_state_to_char(state, char)
     
-    
-    set_char_aspects(char, state['char_build_aspects_set'], True, state['where_to_go'] == 'wizard')
+    priority, play_mode = posted_choices(request.POST, char)
+    apply_setup_choices(char, state['char_build_aspects_set'], priority, play_mode,
+                        True, state['where_to_go'] == 'wizard')
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     initial_options = {'ap_exo': char.level >= 200,
                        'mp_exo': char.level >= 200,
@@ -292,11 +302,14 @@ def create_project(request):
 def _get_state_from_char(char):
     aspect_list = get_char_aspects(char)
     aspects_checklist = _get_aspect_checklist(aspect_list)
+    priority, play_mode = stored_choices(char)
     return {'proj_name': char.name,
             'char_name': char.char_name,
             'char_level': char.level,
             'char_class': char.char_class,
-            'char_build_aspects': aspects_checklist}
+            'char_build_aspects': aspects_checklist,
+            'priority': priority,
+            'play_mode': play_mode}
 
 def _get_state_from_post(request, game_version):
     

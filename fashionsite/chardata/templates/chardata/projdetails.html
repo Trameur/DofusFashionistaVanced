@@ -12,6 +12,22 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    <style>
+    .advanced-options { max-width: 560px; margin: 0 auto 12px; text-align: left; }
+    .advanced-options > summary { cursor: pointer; padding: 6px 4px; font-size: 15px; }
+    .advanced-options-chosen { margin-left: 6px; }
+    .advanced-options-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 8px 4px; border-top: 1px solid rgba(128, 128, 128, 0.3); }
+    .advanced-options-name { flex: 0 0 120px; font-size: 15px; }
+    .advanced-options-field { flex: 1 1 260px; min-width: 0; }
+    .advanced-options-field > label { display: block; padding: 3px 0; }
+    .advanced-options-field select { max-width: 100%; }
+    @media (max-width: 480px) {
+        .advanced-options-name { flex-basis: 100%; font-size: 13px; font-weight: 700; }
+        .advanced-options-field > label { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 0; }
+        .advanced-options-field input[type="radio"] { width: 20px; height: 20px; flex: 0 0 auto; margin: 0; }
+        .advanced-options-field select { width: 100%; min-height: 40px; }
+    }
+    </style>
 {% endblock %}
 
 {% block main %}
@@ -85,6 +101,31 @@
             <p id="no-element-warning" class="red-text" role="alert" style="display: none;">{% trans "No element checked: the build will not look for any damage. Click again to continue anyway." %}</p>
             <br>
 
+            <details id="advanced-options" class="advanced-options">
+                <summary>{% trans "Advanced options" %}<span id="advanced-options-chosen" class="advanced-options-chosen small-explain"></span></summary>
+                <div class="advanced-options-row" role="radiogroup" aria-labelledby="priority-name">
+                    <span id="priority-name" class="advanced-options-name">{% trans "Priority" %}</span>
+                    <div class="advanced-options-field">
+                        {% for key, label in priorities %}<label><input type="radio" name="priority" value="{{ key }}" class="change-modifies-state"{% if forloop.first %} checked{% endif %}> {{ label }}</label>
+                        {% endfor %}<div class="small-explain">{% trans "Prospecting, wisdom, AP or MP removal, summons and the rest stay in the focus column above." %}</div>
+                    </div>
+                </div>
+                <div class="advanced-options-row">
+                    <label for="guard-percent" class="advanced-options-name">{% trans "Safeguard" %}</label>
+                    <div class="advanced-options-field">
+                        <select id="guard-percent" disabled>{% for percent in guard_percents %}<option{% if percent == guard_default %} selected{% endif %}>{{ percent }}%</option>{% endfor %}</select>
+                        <div class="small-explain">{% trans "Coming soon, no effect yet: compared with the balanced build, a Damage priority will give up at most this share of effective HP, and a Defense or Heals priority at most this share of best turn damage." %}</div>
+                    </div>
+                </div>
+                <div class="advanced-options-row">
+                    <label for="play-mode" class="advanced-options-name">{% trans "Game mode" %}</label>
+                    <div class="advanced-options-field">
+                        <select id="play-mode" name="play_mode" class="change-modifies-state">{% for key, label in play_modes %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select>
+                        <div class="small-explain">{% trans "A PvP mode ticks its boxes in the Options column." %}</div>
+                    </div>
+                </div>
+            </details>
+
             {% if temporix_available %}
             <div id="temporix-choice" class="temporix-box" style="margin-bottom: 10px;">
                 <label><input type="checkbox" name="temporix" value="on" id="temporix-cb">
@@ -107,7 +148,8 @@
                 <input class='submit-button button-generic' name="wizard" type='submit' value="{{ _('Continue to Wizard') }}" style="margin-left: 10px;"/>
             </div>
             <div id="save-mode">
-                <label><input type="checkbox" class="click-modifies-state" name="reapply" value="reapply" id="reapply-cb"><span class='input-name'>{% trans "Restart wizard upon saving" %}</span></label><br><br>
+                <label><input type="checkbox" class="click-modifies-state" name="reapply" value="reapply" id="reapply-cb"><span class='input-name'>{% trans "Restart wizard upon saving" %}</span></label><br>
+                <div id="choices-restart-note" class="small-explain" style="display: none;">{% trans "Changing the priority or the game mode always restarts the wizard." %}</div><br>
                 {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
             </div>
         </form>
@@ -173,6 +215,7 @@ var aspectToTip = {
     summon: '{{ _("Summon spammers should check this. It will increase the minimum summons by 1 and increase importance of summons.")|escapejs }}',
     pushback: '{{ _("Chars that deal significant pushback damage should check this. This increases the +Pushback Damage importance.")|escapejs }}',
 };
+var modeBoxes = {{ mode_boxes | safe }};
 var inertAspects = {{ inert_aspects | safe }};
 var aspectLayout = {{ aspect_layout | safe }}
                    .map(function(row) {
@@ -210,6 +253,88 @@ function init(state) {
     $("#input-char-level").val(state["char_level"]);
     $("#select-char-class").val(state["char_class"]);
     initAspectState(state["char_build_aspects"]);
+    initChoices(state);
+}
+
+function initChoices(state) {
+    $("input[name='priority']").filter(function() {
+        return this.value === state["priority"];
+    }).prop('checked', true);
+    $("#play-mode").val(state["play_mode"]);
+    showChosenOptions();
+    keepRestartForChoices();
+}
+
+function showChosenOptions() {
+    var priority = $.trim($("input[name='priority']:checked").parent().text());
+    var mode = $.trim($("#play-mode option:selected").text());
+    $("#advanced-options-chosen").text(priority + " · " + mode);
+}
+
+function modeOptionBoxes() {
+    var boxes = [];
+    $.each(modeBoxes, function(mode, ticked) {
+        $.each(ticked, function(aspect) {
+            if (boxes.indexOf(aspect) === -1) {
+                boxes.push(aspect);
+            }
+        });
+    });
+    return boxes;
+}
+
+function tickModeBoxes() {
+    $.each(modeBoxes[$("#play-mode").val()] || {}, function(aspect, ticked) {
+        $("#check_" + aspect).prop('checked', ticked);
+    });
+}
+
+function modeMatchesBoxes() {
+    var matches = true;
+    $.each(modeBoxes[$("#play-mode").val()] || {}, function(aspect, ticked) {
+        if (!!$("#check_" + aspect).prop('checked') !== ticked) {
+            matches = false;
+        }
+    });
+    return matches;
+}
+
+function choicesChanged() {
+    var saved = initialStateStateEngine;
+    return !!saved && ($("input[name='priority']:checked").val() !== saved["priority"]
+                       || $("#play-mode").val() !== saved["play_mode"]);
+}
+
+function keepRestartForChoices() {
+    var changed = choicesChanged();
+    if (changed) {
+        $("#reapply-cb").prop('checked', true);
+    }
+    $("#choices-restart-note").toggle(changed);
+}
+
+function setupChoices() {
+    $("input[name='priority']").change(function() {
+        $("#reapply-cb").prop('checked', true);
+        keepRestartForChoices();
+        showChosenOptions();
+    });
+    $("#play-mode").change(function() {
+        tickModeBoxes();
+        $("#reapply-cb").prop('checked', true);
+        keepRestartForChoices();
+        showChosenOptions();
+    });
+    $.each(modeOptionBoxes(), function(i, aspect) {
+        $("#check_" + aspect).change(function() {
+            if (!modeMatchesBoxes()) {
+                $("#play-mode").val($("#play-mode option").first().val());
+                keepRestartForChoices();
+                showChosenOptions();
+            }
+        });
+    });
+    $("#reapply-cb").change(keepRestartForChoices);
 }
 
 function initAspectState(aspectState) {
@@ -398,6 +523,7 @@ $(document).ready(function() {
     });
     
     setupCheckboxes();
+    setupChoices();
     
     if (isNewChar) {
         $("#save-mode").remove();

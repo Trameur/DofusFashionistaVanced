@@ -36,6 +36,52 @@ msgstr ""
 msgid "Farm / Level-up: Prospecting & Wisdom"
 msgstr ""
 
+#: chardata/presets.py
+msgid "No priority"
+msgstr ""
+
+#: chardata/presets.py
+msgctxt "Priority"
+msgid "Damage"
+msgstr ""
+
+#: chardata/presets.py
+msgctxt "Priority"
+msgid "Heals"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Defense"
+msgstr ""
+
+#: chardata/presets.py
+msgid "General (all content)"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Solo PvM"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Kolossium 1v1"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Kolossium 2v2"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Kolossium 3v3"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Aggression 1v1"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Group PvP (prisms, perceptors)"
+msgstr ""
+
 #: .\chardata\coaching_view.py:118
 #, python-format
 msgid "Quick Start %(cls)s lvl %(lvl)s"
@@ -4391,6 +4437,43 @@ msgid ""
 "to continue anyway."
 msgstr ""
 
+#: chardata/templates/chardata/projdetails.html
+msgid "Advanced options"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Priority"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid ""
+"Prospecting, wisdom, AP or MP removal, summons and the rest stay in the "
+"focus column above."
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Safeguard"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid ""
+"Coming soon, no effect yet: compared with the balanced build, a Damage "
+"priority will give up at most this share of effective HP, and a Defense or "
+"Heals priority at most this share of best turn damage."
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Game mode"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "A PvP mode ticks its boxes in the Options column."
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Changing the priority or the game mode always restarts the wizard."
+msgstr ""
+
 #, python-format
 msgid "Check at most %(limit)d boxes in the focus column."
 msgstr ""
@@ -7184,6 +7267,11 @@ msgstr "Looking for ideas?"
 #: chardata/templates/chardata/solution.html
 msgid "Priorities given to the solver:"
 msgstr "Priorities given to the solver:"
+
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Mode: %(mode)s · Priority: %(priority)s"
+msgstr ""
 
 #: chardata/templates/chardata/text_build.html
 #, python-format

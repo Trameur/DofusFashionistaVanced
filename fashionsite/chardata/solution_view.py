@@ -31,6 +31,7 @@ from chardata.build_name import display_name
 from chardata.gallery_visibility import sentence_for as _gallery_sentence_for
 from chardata.translation_util import localized_stat_name
 from chardata.min_stats import get_min_stats_digested_by_key
+from chardata.presets import choices_line
 from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
                                      MOUNT_SLOT, PREVIEW_SIZES, SLOT_TO_NODE,
                                      UNDRAWN_SLOTS, breed_colors,
@@ -816,6 +817,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'solver_proven': solver_proven,
               'solver_constraints': solver_constraints,
               'solver_priorities': solver_priorities,
+              'setup_choices': choices_line(char),
               'solver_pool_total': solver_pool_total,
               'solver_space_exponent': solver_space_exponent,
               'solver_seconds': (None if solver_seconds is None
