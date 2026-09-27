@@ -24,7 +24,7 @@ from copy import deepcopy
 from .game_versions import get_game_version
 from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
                        temporix_only_item_ids)
-from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve, NON_STAT_WEIGHT_KEYS
+from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, percent_resist_cap, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve, NON_STAT_WEIGHT_KEYS
 from .lpproblem import LpProblem2
 from .modelresult import (ModelResultMinimal, level_prospecting,
                           wisdom_per_ap_mp_dodge_point)
@@ -139,7 +139,8 @@ class Model:
                 for stat_name in stat['stats']:
                     stat_obj = self.structure.get_stat_by_name(stat_name)
                     var_id = f"capped_{stat_obj.key}"
-                    self.problem.setup_variable('capped_resist', var_id, 0, 50)
+                    self.problem.setup_variable('capped_resist', var_id, 0,
+                                                percent_resist_cap(self.structure.game_version))
     
     def create_item_number_variables(self):
         # Dofus 2/3 allow two copies of a setless ring; Retro 1.29 never allows the same ring twice.

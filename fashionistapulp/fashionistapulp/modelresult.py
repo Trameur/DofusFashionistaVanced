@@ -311,7 +311,7 @@ class ModelResult():
                                          + self.stats_total['cha']
                                          + self.stats_total['agi'])
             self.stats_total['hp'] = self.stats_total['vit'] + self.input['char_level'] * 5 + 50 + self.stats_total['hp']
-            # Raw caps, Retro has no AP/MP/Range cap; the 50% resist cap is in model.py
+            # Raw caps, Retro has no AP/MP/Range cap; the game's % resist cap is in model.py
             for stat_name, cap in get_stat_maximum(
                     version, temporix=temporix_is_on(
                         self.input.get('options'), version)).items():

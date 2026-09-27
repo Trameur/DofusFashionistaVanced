@@ -224,20 +224,22 @@ STAT_ORDER = {
     'resperwea': 133,
 }
 
+def percent_resist_cap(game_version):
+    """The game's cap on a player's % resistance per element; Touch lowered it to 35 in 1.59."""
+    return 35 if game_version == 'touch' else 50
+
+
 # Build total caps per version. Retro has no AP/MP/Range limit; gear Range stops at 6
 def get_stat_maximum(game_version, temporix=False):
+    resist = percent_resist_cap(game_version) + 3
     caps = {
         'Summon': 10,  # no real cap, loose LP bound
-        '% Neutral Resist': 53,
-        '% Air Resist': 53,
-        '% Fire Resist': 53,
-        '% Water Resist': 53,
-        '% Earth Resist': 53,
+        '% Neutral Resist': resist,
+        '% Air Resist': resist,
+        '% Fire Resist': resist,
+        '% Water Resist': resist,
+        '% Earth Resist': resist,
     }
-    if game_version == 'touch':
-        # Touch caps a player's % resistances at 35 since 1.59
-        for element in ('Neutral', 'Air', 'Fire', 'Water', 'Earth'):
-            caps['%% %s Resist' % element] = 38
     if game_version != 'retro':
         caps['AP'] = 12
         caps['MP'] = 6
