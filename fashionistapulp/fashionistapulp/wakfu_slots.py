@@ -47,9 +47,9 @@ EXCLUSIVE_PROPERTIES = {
     12: 'epic',
 }
 
-# Ordered tiers, as the data numbers them
+# Tiers as the data numbers them; 0 has been the legacy tier since 1.93
 RARITIES = {
-    0: 'common',
+    0: 'legacy',
     1: 'unusual',
     2: 'rare',
     3: 'mythical',
@@ -58,6 +58,8 @@ RARITIES = {
     6: 'souvenir',
     7: 'epic',
 }
+
+LEGACY_RARITY = 0
 
 
 def blocks_the_off_hand(disabled_positions):

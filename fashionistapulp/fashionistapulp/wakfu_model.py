@@ -49,6 +49,21 @@ def same_item(item):
     return item.type, (item.localized_names or {}).get('fr') or item.name
 
 
+class WakfuSet(dict):
+    """{position: item} of a solve."""
+
+    def __init__(self, worn=(), full_set_status=None, no_candidate=()):
+        super().__init__(worn)
+        # Status of the every-slot model when it gave no set, else None
+        self.full_set_status = full_set_status
+        self.no_candidate = tuple(no_candidate)
+
+    @property
+    def full_set_dropped(self):
+        """True when the solve had to allow empty slots."""
+        return self.full_set_status is not None
+
+
 class WakfuBuild:
     """Best set at a level; `weights` is keyed by stats.key."""
 
@@ -60,6 +75,7 @@ class WakfuBuild:
         self.forbidden = set(forbidden)
         # Fill every slot, or slots worth 0 in the objective stay empty
         self.full_set = full_set
+        self.full_set_status = None
         self.problem = None
         self._placements = []
 
@@ -240,11 +256,12 @@ class WakfuBuild:
         self.problem.finish_objective_function()
 
     def solve(self):
-        """{position: item}, or None; retries without full_set if infeasible."""
+        """WakfuSet or None; drops full_set when that model gives no set."""
         if self.problem is None:
             self.build()
         self.problem.run()
         if self.problem.get_status() != 'Optimal' and self.full_set:
+            self.full_set_status = self.problem.get_status()
             self.full_set = False
             self.problem = None
             self.build()
@@ -252,23 +269,34 @@ class WakfuBuild:
         if self.problem.get_status() != 'Optimal':
             return None
         chosen = self.problem.get_result()
-        worn = {}
+        placed = {position for _item, position in self._placements}
+        worn = WakfuSet(full_set_status=self.full_set_status,
+                        no_candidate=[slot for slot in SLOTS
+                                      if slot not in placed])
         for item, position in self._placements:
             name = '%s_%s' % (WORN, self._name(item, position))
             if (chosen.get(name) or 0) > 0.5:
                 worn[position] = item
         return worn
 
+    def spread_lines(self, worn):
+        """[(position, item, key, value, elements it landed on)] of a set."""
+        out = []
+        for position in sorted(worn):
+            item = worn[position]
+            for stat_id, value, elements in item.element_spread or ():
+                key = self._key_of(stat_id)
+                if key in SPREAD_FAMILIES:
+                    out.append((position, item, key, value,
+                                self._lands_on(key, value, elements)))
+        return out
+
     def where_the_spread_lands(self, worn):
         """{stat key: total} for the elements a build's spread lines feed."""
         landing = collections.Counter()
-        for item in worn.values():
-            for stat_id, value, elements in item.element_spread or ():
-                key = self._key_of(stat_id)
-                if key not in SPREAD_FAMILIES:
-                    continue
-                for name in self._lands_on(key, value, elements):
-                    landing[name] += value
+        for _position, _item, _key, value, landed in self.spread_lines(worn):
+            for name in landed:
+                landing[name] += value
         return landing
 
     def totals(self, worn):

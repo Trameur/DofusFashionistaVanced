@@ -30,11 +30,16 @@ class Command(BaseCommand):
                             help='comma separated stat=weight, e.g. ' + self.EXEMPLE)
         parser.add_argument('--forbid', default='',
                             help='comma separated item ids to leave out')
+        parser.add_argument('--allow-legacy', action='store_true',
+                            help='let the solver pick legacy items, left out '
+                                 'by default')
 
     def handle(self, *args, **options):
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.structure import get_structure
+        from fashionistapulp.wakfu_exclusions import default_exclusions
         from fashionistapulp.wakfu_model import WakfuBuild
+        from fashionistapulp.wakfu_slots import SLOTS
         import os
 
         chemin = get_items_db_path('wakfu')
@@ -59,11 +64,16 @@ class Command(BaseCommand):
         if not weights:
             raise CommandError('give at least one stat=weight')
 
-        forbidden = tuple(int(x) for x in options['forbid'].split(',') if x.strip())
+        forbidden = [int(x) for x in options['forbid'].split(',') if x.strip()]
+        structure = get_structure('wakfu')
+        if not options['allow_legacy']:
+            legacy = default_exclusions(structure)
+            forbidden.extend(legacy)
+            self.stdout.write('leaving out %d legacy items (--allow-legacy '
+                              'lets the solver pick them)' % len(legacy))
 
         debut = time.time()
-        build = WakfuBuild(get_structure('wakfu'), options['level'], weights,
-                           forbidden)
+        build = WakfuBuild(structure, options['level'], weights, forbidden)
         worn = build.build().solve()
         duree = time.time() - debut
 
@@ -76,13 +86,42 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(
             'level %d, %d pieces, solved in %.1fs'
             % (options['level'], len(worn), duree)))
+        if worn.full_set_dropped:
+            self.stdout.write(self.style.WARNING(
+                'the every-slot model gave no set (%s), so empty slots were '
+                'allowed' % worn.full_set_status))
+        empty = [slot for slot in SLOTS if slot not in worn]
+        if empty:
+            self.stdout.write('empty: %s' % ', '.join(
+                '%s (%s)' % (slot, self.why_empty(worn, slot)) for slot in empty))
         for slot in sorted(worn):
             item = worn[slot]
             self.stdout.write('  %-16s %-38s level %s'
                               % (slot, getattr(item, 'name', item.id), item.level))
+
+        spread = build.spread_lines(worn)
+        if spread:
+            self.stdout.write('')
+            self.stdout.write('  spread lines and the elements each landed on')
+            for slot, item, key, value, landed in spread:
+                self.stdout.write('  %-16s %-38s %+d %s -> %s'
+                                  % (slot, getattr(item, 'name', item.id),
+                                     value, key.upper(),
+                                     ', '.join(name.upper() for name in landed)))
 
         totals = build.totals(worn)
         interessantes = [cle for cle in sorted(totals) if totals[cle]]
         self.stdout.write('')
         self.stdout.write('  ' + '  '.join('%s %s' % (cle.upper(), totals[cle])
                                            for cle in interessantes))
+
+    @staticmethod
+    def why_empty(worn, slot):
+        from fashionistapulp.wakfu_slots import BLOCKED_BY_TWO_HANDED
+        if slot in worn.no_candidate:
+            return 'no item fits'
+        weapon = worn.get('FIRST_WEAPON')
+        if (slot == BLOCKED_BY_TWO_HANDED and weapon is not None
+                and 'two_handed' in (weapon.flags or ())):
+            return 'two-handed weapon'
+        return 'left empty by the solver'
