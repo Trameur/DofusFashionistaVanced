@@ -103,24 +103,22 @@ class TheCritFloorIsPerClassOnDofus3Tests(SimpleTestCase):
                 self.assertNotIn('ch_before_floor', w)
 
 
-class FinalDamageIsTwentyPowerPerPercentOnDofus3Tests(SimpleTestCase):
+class FinalDamageKeepsTwelvePowerPerPercentTests(SimpleTestCase):
 
     def _per_power(self, w):
         return ((w['permedam'] + w['perrandam']) / w['pow'],
                 (w['perweadam'] + w['perspedam']) / w['pow'])
 
-    def test_dofus3_pays_twenty_power_per_percent(self):
-        for count, aspects in ELEMENTS.items():
-            with self.subTest(elements=count):
-                for value in self._per_power(weights('dofus3', aspects)):
-                    self.assertAlmostEqual(20, value, delta=0.02)
-
-    def test_beta_and_dofus2_pay_twelve_power_per_percent(self):
-        for version in ('beta', 'dofus2'):
+    def test_dofus3_beta_and_dofus2_pay_twelve_power_per_percent(self):
+        for version in ('dofus3', 'beta', 'dofus2'):
             for count, aspects in ELEMENTS.items():
                 with self.subTest(version=version, elements=count):
                     for value in self._per_power(weights(version, aspects)):
                         self.assertAlmostEqual(12, value, delta=0.02)
+
+    def test_dofus3_has_no_final_damage_tuning(self):
+        from chardata.smart_build import VERSION_WEIGHT_TUNING
+        self.assertNotIn('final_damage_per_pow', VERSION_WEIGHT_TUNING['dofus3'])
 
     def test_touch_and_retro_keep_final_damage_at_zero(self):
         for version in ('touch', 'retro'):

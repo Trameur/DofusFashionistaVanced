@@ -44,7 +44,6 @@ VERSION_WEIGHT_TUNING = {
         'ap_per_char': {1: 184, 2: 371, 3: 570, 4: 581},
         'crit_per_char': {'Cra': {1: 7, 2: 16, 3: 20, 4: 7}, 'Iop': 10,
                           'Masqueraider': 8, 'Sacrier': 7, 'Xelor': 8},
-        'final_damage_per_pow': 20,
     },
     'beta': {},
     'dofus2': {
@@ -1102,7 +1101,7 @@ def _set_weights(char, aspects, apply=True):
             w['ch'] = crit_per_char * attack_factor * b
         w['cridam'] = w['dam'] * pfb(race, elements, 'cridam', 'float_avg')
 
-    marginal_final_damage_effect = _lerp(2, tuning.get('final_damage_per_pow', 12), level_pct)
+    marginal_final_damage_effect = _lerp(2, 12, level_pct)
     marginal_final_damage_w = w['pow'] * marginal_final_damage_effect
     meleeness = pfb(race, elements, 'meleeness', 'float_avg')
 
