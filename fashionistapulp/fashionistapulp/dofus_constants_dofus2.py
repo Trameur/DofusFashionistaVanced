@@ -775,7 +775,7 @@ DAMAGE_SPELLS = {
             [['13-15'], ['13-15'], ['7-8'], ['7-8']],
             [['16-18'], ['16-18'], ['9-10'], ['9-10']],
             [FIRE, AIR, FIRE, AIR],
-        ), is_linked=(2, 'Persecuting Arrow'), casting={'ap': [4], 'per_turn': [1], 'crit': [10]}, spell_id=13082, conditional={2: 'pushback'}),
+        ), is_linked=(2, 'Persecuting Arrow'), casting={'ap': [4], 'per_turn': [1], 'crit': [10]}, spell_id=13082, conditional={2: 'pushback', 3: 'attracted_or_pushed'}),
         Spell('Barricade Shot', [130, 197], Effects(
             [['23-27', '26-30']],
             [['28-32', '31-36']],
@@ -799,7 +799,7 @@ DAMAGE_SPELLS = {
              ['14-16', '17-20', '24-28']],
             [FIRE, FIRE, FIRE],
             steals=[True, True, False],
-        ), aggregates=[('', [0, 2]), ('', [1])], is_linked=(1, 'Tormenting Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=13085),
+        ), aggregates=[('', [0, 2]), ('', [1])], is_linked=(1, 'Tormenting Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=13085, conditional={2: 'around_the_target_at_turn_end'}),
         Spell('Fulminating Arrow', [190], Effects(
             [['34-38']],
             [['41-46']],
@@ -1710,7 +1710,7 @@ DAMAGE_SPELLS = {
             [['13-15', '17-19'], ['13-15', '17-19'], ['13-15', '17-19']],
             [WATER, WATER, WATER],
             heals=[False, True, False],
-        ), aggregates=[('', [0, 2]), ('', [1])], is_linked=(1, 'Murmur'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1], 'crit': [10, 10]}, spell_id=25875),
+        ), aggregates=[('', [0, 2]), ('', [1])], is_linked=(1, 'Murmur'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1], 'crit': [10, 10]}, spell_id=25875, delayed={1: 'later_turn', 2: 'later_turn'}),
         Spell('Defensive Word', [145], Effects(
             [['28-31']],
             [['34-37']],
@@ -4041,7 +4041,7 @@ DAMAGE_SPELLS = {
             [['26-28'], ['13-14']],
             None,
             [FIRE, FIRE],
-        ), is_linked=(2, 'Voodoo Sacrifice'), casting={'ap': [3], 'cooldown': [2]}, spell_id=13517),
+        ), is_linked=(2, 'Voodoo Sacrifice'), casting={'ap': [3], 'cooldown': [2]}, spell_id=13517, conditional={1: 'mp_removal'}),
         Spell('Wild Grass', [55, 122, 189], Effects(
             [['20-23', '27-31', '31-35']],
             [['24-27', '32-37', '37-42']],
@@ -4572,7 +4572,7 @@ DAMAGE_SPELLS = {
             [['11-14', '15-18', '19-23'], ['14', '18', '23']],
             [['14-16', '18-21', '23-28'], ['16', '21', '28']],
             [FIRE, FIRE],
-        ), is_linked=(1, 'Cog'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [15, 15, 15]}, spell_id=13244),
+        ), is_linked=(1, 'Cog'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [15, 15, 15]}, spell_id=13244, conditional={1: 'telefrag_ends'}),
         Spell('Shrivelling', [1, 68, 134], Effects(
             [['14-16', '19-22', '25-28'],
              ['20-22', '26-29', '33-36'],

@@ -7484,6 +7484,12 @@ msgstr ""
 "apenas se o alvo atrair, empurrar, trocar de lugar ou infligir danos "
 "de empurrão"
 
+msgid "only if the target is attracted or pushed"
+msgstr "apenas se o alvo for atraído ou empurrado"
+
+msgid "only when the target leaves the Telefrag state"
+msgstr "apenas quando o alvo sai do estado Telefrag"
+
 msgid "only if the target is hit by an attempted AP reduction"
 msgstr "apenas se o alvo sofrer uma tentativa de retirada de PA"
 

@@ -19588,7 +19588,7 @@ class SpellComboTests(SimpleTestCase):
                            'es': 'intento de retirada de pa',
                            'pt': 'tentativa de retirada de pa',
                            'de': 'ap zu entziehen'},
-            'mp_removal': {'en': 'attempted mp reduction',
+            'mp_removal': {'en': ('attempted mp reduction', 'attempted mp removal'),
                            'fr': 'tentative de retrait de pm',
                            'es': 'intento de retirada de pm',
                            'pt': 'tentativa de retirada de pm',
@@ -19601,6 +19601,12 @@ class SpellComboTests(SimpleTestCase):
             'telefragged': {'en': 'telefrag', 'fr': 'téléfrag',
                             'es': 'telefrag', 'pt': 'telefrag',
                             'de': 'telefra'},
+            'telefrag_ends': {
+                'en': 'upon leaving the {spell,24510,1::telefrag',
+                'fr': "en sortie d'état {spell,24510,1::téléfrag",
+                'es': 'al salir del estado {spell,24510,1::telefrag',
+                'pt': 'na saída do estado {spell,24510,1::telefrag',
+                'de': 'am ende des zustands „{spell,24510,1::telefrag'},
             'on_ally': {'en': 'on allies', 'fr': 'sur les alliés',
                         'es': 'en los aliados', 'pt': 'nos aliados',
                         'de': 'bei verbündeten'},
@@ -19651,9 +19657,11 @@ class SpellComboTests(SimpleTestCase):
                 for trigger in set(rows.values()):
                     for language, word in words[trigger].items():
                         said = (entry['description'].get(language) or '').lower()
+                        phrasings = word if isinstance(word, tuple) else (word,)
                         with self.subTest(version=version, spell=spell_id,
                                           rule=trigger, language=language):
-                            self.assertIn(word, said)
+                            self.assertTrue(any(phrasing in said for phrasing in phrasings),
+                                            '%r not in %r' % (phrasings, said))
         self.assertGreaterEqual(seen, 18,
                                 'no annotated spell was checked')
 

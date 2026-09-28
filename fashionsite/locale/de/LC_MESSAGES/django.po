@@ -7488,6 +7488,12 @@ msgstr ""
 "nur wenn das Ziel heranzieht, zurückstößt, die Position tauscht oder "
 "Schubsschaden verursacht"
 
+msgid "only if the target is attracted or pushed"
+msgstr "nur wenn das Ziel herangezogen oder geschubst wird"
+
+msgid "only when the target leaves the Telefrag state"
+msgstr "nur wenn beim Ziel der Zustand Telefrag endet"
+
 msgid "only if the target is hit by an attempted AP reduction"
 msgstr "nur wenn versucht wird, dem Ziel AP zu entziehen"
 

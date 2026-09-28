@@ -1063,6 +1063,7 @@ _CONDITIONAL_LABELS = {
     'displaced':
         _lazy("only if the target attracts, repels, switches places or "
               "deals pushback damage"),
+    'attracted_or_pushed': _lazy("only if the target is attracted or pushed"),
     'ap_removal': _lazy("only if the target is hit by an attempted AP reduction"),
     'melee_and_ranged':
         _lazy("only after attacking both in close combat and at range in the "
@@ -1072,6 +1073,7 @@ _CONDITIONAL_LABELS = {
     'telefragged':
         _lazy("at the end of the caster's next turn, and only if the "
               "target has Telefrag"),
+    'telefrag_ends': _lazy("only when the target leaves the Telefrag state"),
     'on_ally': _lazy("only on an ally, never on an enemy"),
     'doll_dies': _lazy("only when one of the caster's Dolls dies"),
     'around_the_target_at_turn_end':

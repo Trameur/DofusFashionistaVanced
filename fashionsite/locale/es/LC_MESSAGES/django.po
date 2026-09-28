@@ -7507,6 +7507,12 @@ msgstr ""
 "solo si el objetivo atrae, repele, intercambia posición u ocasiona "
 "daños de empuje"
 
+msgid "only if the target is attracted or pushed"
+msgstr "solo si el objetivo es atraído o empujado"
+
+msgid "only when the target leaves the Telefrag state"
+msgstr "solo cuando el objetivo sale del estado Telefrag"
+
 msgid "only if the target is hit by an attempted AP reduction"
 msgstr "solo si el objetivo sufre un intento de retirada de PA"
 

@@ -6615,6 +6615,12 @@ msgid ""
 "pushback damage"
 msgstr ""
 
+msgid "only if the target is attracted or pushed"
+msgstr "only if the target is attracted or pushed"
+
+msgid "only when the target leaves the Telefrag state"
+msgstr "only when the target leaves the Telefrag state"
+
 msgid "only if the target is hit by an attempted AP reduction"
 msgstr ""
 
