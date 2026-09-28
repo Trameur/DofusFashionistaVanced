@@ -749,7 +749,7 @@ class Model:
                                 self.structure.get_item_by_name("Sylvan Dofus 2").id,
                                 sylvan_dofus_new_stat_weight)
 
-    def write_objective_function(self, objective_values, level):
+    def write_objective_function(self, objective_values, level, item_terms=None):
         self.problem.init_objective_function()
 
         for stat, value in objective_values.items():
@@ -761,6 +761,8 @@ class Model:
                     logger.warning('Could not find stat %s', stat)
         
         self.add_weird_item_weights_to_objective_funcion(objective_values, level)
+        for item_id, term in sorted((item_terms or {}).items()):
+            self.problem.add_to_of('p', item_id, term)
 
         for (category, key), value in sorted((getattr(self, '_modifier_terms', None)
                                               or {}).items()):
@@ -900,7 +902,9 @@ class Model:
         self.modify_spell_modifier_terms(modifier_values,
                                          getattr(model_input, 'modifier_overlaps', None))
 
-        self.write_objective_function(model_input.objective_values, model_input.char_level)
+        self.item_terms = dict(getattr(model_input, 'item_terms', None) or {})
+        self.write_objective_function(model_input.objective_values, model_input.char_level,
+                                      self.item_terms)
     
     def create_type_constraints(self):
         types_list = self.structure.get_types_list()
@@ -1615,7 +1619,8 @@ class Model:
             pulp.lpSum(weight * variable for _name, variable, _asked, weight in shortfalls)
             <= ceiling * (1 + 1e-6) + 1e-6, 'elastic_hold')
         self._shortfall_objective = None
-        self.write_objective_function(self.input['objective_values'], self.input['char_level'])
+        self.write_objective_function(self.input['objective_values'], self.input['char_level'],
+                                      getattr(self, 'item_terms', None))
 
     def get_shortfall(self, shortfalls):
         return sum(weight * (variable.varValue or 0)
@@ -1624,7 +1629,8 @@ class Model:
     def run(self, retries=0, change_of=False, warm_start=None, seed=None):
         if change_of:
             self.input['objective_values']['vit'] += 1
-            self.write_objective_function(self.input['objective_values'], self.input['char_level'])
+            self.write_objective_function(self.input['objective_values'], self.input['char_level'],
+                                          getattr(self, 'item_terms', None))
         try:
             self.problem.run(warm_start, seed)
         except pulp.PulpSolverError:
@@ -1749,7 +1755,7 @@ class ModelInput(object):
                  forbidden_equips, objective_values, options, char_class,
                  stat_points_to_distribute, empty_slot_types=None, stat_overrides=None,
                  modifier_values=None, modifier_overlaps=None, gender=None,
-                 char_name=None):
+                 char_name=None, item_terms=None):
         self.char_level = char_level
         self.base_stats_by_attr = base_stats_by_attr
         self.minimum_stats = minimum_stats
@@ -1767,6 +1773,8 @@ class ModelInput(object):
         # Sex (0 male, 1 female) and character name some pieces ask for, None is not checked
         self.gender = gender
         self.char_name = char_name
+        # {item id: objective term} added to what the weights give
+        self.item_terms = item_terms or {}
 
     def _barred_to_the_wearer(self):
         """The pieces the sex and name rule out, None when neither is checked."""
@@ -1814,6 +1822,9 @@ class ModelInput(object):
         barred = self._barred_to_the_wearer()
         if barred:
             parts.append(['barred to the wearer', barred])
+        item_terms = getattr(self, 'item_terms', None)
+        if item_terms:
+            parts.append(item_terms)
         return _stable_digest(parts)
 
     def __hash__(self, *args, **kwargs):
@@ -1844,6 +1855,9 @@ class ModelInput(object):
         barred = self._barred_to_the_wearer()
         if barred:
             key += (frozenset(barred),)
+        item_terms = getattr(self, 'item_terms', None)
+        if item_terms:
+            key += (freeze(item_terms),)
         return key.__hash__()
 
 def _is_number(value):

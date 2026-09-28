@@ -50,6 +50,7 @@ from chardata.stats_weights import get_stats_weights
 from chardata.util import get_char_or_raise, get_base_stats_by_attr, \
     remove_cache_for_char, version_reverse
 from chardata.util_views import error
+from chardata.weapon_terms import weapon_hit_terms
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp import lpproblem, temporix
 from fashionistapulp.model import Model, ModelInput
@@ -252,7 +253,7 @@ def fashion(request, char_id, spells=False, seed=None):
         else:
             model.run(2, seed=seed)
 
-    def solve(model_input, deadline=None, longest=None):
+    def solve_once(model_input, deadline=None, longest=None):
         solved_status = None
         stats = None
         result = None
@@ -318,6 +319,9 @@ def fashion(request, char_id, spells=False, seed=None):
                 else:
                     MEMORY.put(model_input, (solved_status, stats, result))
         return solved_status, stats, result
+
+    def solve(model_input, deadline=None, longest=None):
+        return solve_with_weapon_hits(char, solve_once, model_input, deadline, longest)
 
     plan = guard_plan(char)
     if plan is None:
@@ -483,6 +487,18 @@ def _closest_found(model, shortfalls):
             'meets_all': shortfall <= 1e-6, 'pool': model.get_candidate_pool(),
             'values': model.get_search_state()['values']}
 
+def solve_with_weapon_hits(char, solve_once, model_input, deadline=None, longest=None):
+    """A second solve with the weapons' hits read on the first set, when the version has them."""
+    solved = solve_once(model_input, deadline, longest)
+    terms = weapon_hit_terms(char, solved[2], model_input)
+    if not terms:
+        return solved
+    weighed_input = copy.copy(model_input)
+    weighed_input.item_terms = terms
+    weighed = solve_once(weighed_input, deadline, longest)
+    return weighed if weighed[2] is not None else solved
+
+
 def _guarded_solve(char, model_input, plan, solve):
     """The priority solve under floors taken from the balanced solve, all within GUARD_BUDGET_SECONDS."""
     kind, percent = plan
@@ -596,7 +612,8 @@ def _new_search(state, solve_input, limit):
     return {'objective': state['objective'], 'bound': state['bound'],
             'start': _pack_start(state['values']), 'limit': limit,
             'minimum_stats': solve_input.minimum_stats,
-            'objective_values': solve_input.objective_values}
+            'objective_values': solve_input.objective_values,
+            'item_terms': getattr(solve_input, 'item_terms', None) or None}
 
 
 def _bind_search(result, model_input, plan):
@@ -605,8 +622,8 @@ def _bind_search(result, model_input, plan):
     if not search:
         return
     search = dict(search, key=model_input.cache_key(), plan=plan)
-    for field in ('minimum_stats', 'objective_values'):
-        if search.get(field) == getattr(model_input, field):
+    for field in ('minimum_stats', 'objective_values', 'item_terms'):
+        if search.get(field) == getattr(model_input, field, None):
             search[field] = None
     result.search = search
 
@@ -634,7 +651,7 @@ def continuation_input(request, char, minimal):
     if model_input.cache_key() != search['key'] or guard_plan(char) != search.get('plan'):
         return None
     solve_input = copy.copy(model_input)
-    for field in ('minimum_stats', 'objective_values'):
+    for field in ('minimum_stats', 'objective_values', 'item_terms'):
         if search.get(field) is not None:
             setattr(solve_input, field, search[field])
     return solve_input
