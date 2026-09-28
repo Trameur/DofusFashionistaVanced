@@ -20190,8 +20190,9 @@ class CritRateInTheTurnTests(TestCase):
                 # Capped at 100%
                 self.assertAlmostEqual(crit_chance(30, {'ch': 70}, version), 1.0)
                 self.assertAlmostEqual(crit_chance(30, {'ch': 400}, version), 1.0)
-                # An attack that can crit never falls under 1%
-                self.assertAlmostEqual(crit_chance(5, {'ch': -90}, version), 0.01)
+                # Dofus 2 stops at zero
+                floor = 0.0 if version == 'dofus2' else 0.01
+                self.assertAlmostEqual(crit_chance(5, {'ch': -90}, version), floor)
                 # One that cannot crit at all stays at zero
                 self.assertEqual(crit_chance(0, {'ch': 50}, version), 0.0)
 

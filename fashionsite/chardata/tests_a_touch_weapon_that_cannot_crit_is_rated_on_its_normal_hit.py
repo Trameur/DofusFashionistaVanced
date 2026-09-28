@@ -87,7 +87,7 @@ class TheTouchWeaponRatingFollowsTheCriticalRuleTests(_Mocked):
 
 class TheTouchRuleStaysOnTouchTests(_Mocked):
 
-    MODERN = ((0, 60, 25.0), (30, 90, 40.0), (5, -20, 6.25))
+    MODERN = ((30, 90, 40.0), (5, -20, 6.25))
     LEGACY_CASES = {
         'dofus3': MODERN,
         'beta': MODERN,

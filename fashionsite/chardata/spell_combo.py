@@ -428,12 +428,13 @@ def _average(damages):
 
 def crit_chance(base_rate, stats, game_version):
     """Odds of a critical, 0 to 1."""
-    if not base_rate:
+    if not base_rate or base_rate < 0:
         return 0.0
     bonus = stats.get('ch', 0) or 0
     if game_version == 'retro':
         return 1.0 / retro_critical_x(base_rate, bonus, stats.get('agi', 0) or 0)
-    return min(100, max(1, base_rate + bonus)) / 100.0
+    floor = 0 if game_version == 'dofus2' else 1
+    return min(100, max(floor, base_rate + bonus)) / 100.0
 
 
 def retro_critical_x(base_rate, bonus, agility):

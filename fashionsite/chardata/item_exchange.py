@@ -559,8 +559,8 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
 
     return rating if rating > 0 else -rating
 
-# A weapon that cannot crit is stored with base -1 on Retro, 0 on Touch and Dofus 2
-_NO_BASE_NO_CRIT_VERSIONS = ('touch', 'retro', 'dofus2')
+# A weapon that cannot crit is stored with base -1 on Retro, 0 on the other versions
+_NO_BASE_NO_CRIT_VERSIONS = ('touch', 'retro', 'dofus2', 'dofus3', 'beta')
 
 def _weapon_can_crit(structure, weapon_obj):
     if not weapon_obj.has_crits:

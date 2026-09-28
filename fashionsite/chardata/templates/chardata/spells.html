@@ -205,6 +205,8 @@
     // Retro states a critical rate as the X of 1/X, everywhere else it is a
     // percentage.
     var CRIT_IS_FRACTION = {{ crit_is_fraction|yesno:"true,false" }};
+    // Same floor as spell_combo.crit_chance
+    var CRIT_FLOOR_PERCENT = {% if current_game_version == 'dofus2' %}0{% else %}1{% endif %};
 
     function spellDealsDamage(spell) {
         var rows = spell.non_crit_dams || spell.crit_dams;
@@ -259,13 +261,13 @@
     }
 
     function critRateLabel(base, spell) {
-        // Buffs included. Retro is 1/X, everywhere else a percentage, cap 100%, floor 1%.
+        // Buffs included. Retro is 1/X, everywhere else a percentage, cap 100%.
         var stats = getTotalStats(spell);
         var bonus = stats['ch'] || 0;
         if (CRIT_IS_FRACTION) {
             return '1/' + retroCriticalX(base, bonus, stats['agi'] || 0);
         }
-        return Math.min(100, Math.max(1, base + bonus)) + '%';
+        return Math.min(100, Math.max(CRIT_FLOOR_PERCENT, base + bonus)) + '%';
     }
 
     function referenceLine(spell) {
@@ -297,7 +299,7 @@
             parts.push('{% trans "Cooldown" %} ' + cooldown);
         }
         var crit = rankValue(reference.crit, spell);
-        if (crit) {
+        if (crit > 0) {
             parts.push(critRateLabel(crit, spell) + ' {% trans "crit" %}');
         }
         return parts.join(' · ');
