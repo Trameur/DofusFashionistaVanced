@@ -39,10 +39,10 @@ from chardata.spell_combo import crit_chance
 from static_s3.templatetags.static_s3 import static
 from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,\
     get_picker_cache_key, remove_cache_for_char, safe_int
-from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER, SLOT_NAME_TO_TYPE, calculate_damage,\
-    DAMAGE_TYPES, NEUTRAL, ELEMENT_KEY_TO_NAME
+from fashionistapulp.dofus_constants import STAT_ORDER, SLOT_NAME_TO_TYPE, calculate_damage,\
+    DAMAGE_TYPES, NEUTRAL, ELEMENT_KEY_TO_NAME, slots_for
 from fashionistapulp.modelresult import ModelResultItem
-from fashionistapulp.structure import get_structure
+from fashionistapulp.structure import fits_the_class, get_structure
 from fashionistapulp.temporix import as_worn, temporix_only_item_ids
 from fashionistapulp.translation import get_supported_language
 from chardata.temporix_mode import solution_uses_temporix
@@ -68,6 +68,11 @@ def _worn_in_picker(char, structure, item, overrides):
         return item
     overridden = bool(overrides) and item is not None and item.id in overrides
     return as_worn(item, structure, {'temporix': True}, overridden=overridden)
+
+
+def _for_the_class(char, items):
+    """Only what the build's class can wear (the class seals)."""
+    return [item for item in items if fits_the_class(item, char.char_class)]
 
 
 def _without_temporix_only(char, structure, items):
@@ -254,7 +259,7 @@ def get_items_of_type(request, char_id):
     slot = request.POST.get('slot', None)
     stat_filters = _parse_stat_filters(request)
 
-    if slot not in SLOTS:
+    if slot not in slots_for(char.game_version):
         return HttpResponseBadRequest()
     itype = SLOT_NAME_TO_TYPE[slot]
     structure = get_structure()
@@ -275,6 +280,7 @@ def get_items_of_type(request, char_id):
         items = [i for i in items if _is_owned(structure, i, owned_ids)]
     items = _apply_source_filter(items, _source_filter(request))
     items = _without_temporix_only(char, structure, items)
+    items = _for_the_class(char, items)
 
     max_page = math.ceil(len(items) / 10.0)
     items_to_return = items[(page - 1) * 10 : page * 10]
@@ -325,7 +331,7 @@ def get_items_to_exchange(request, char_id):
     order_by_stats = request.POST.get('order_by_stat', True)
     stat_filters = _parse_stat_filters(request)
 
-    if slot not in SLOTS or page < 0:
+    if slot not in slots_for(char.game_version) or page < 0:
         return HttpResponseBadRequest()
 
     structure = get_structure()
@@ -353,6 +359,7 @@ def get_items_to_exchange(request, char_id):
                              if _is_owned(structure, i, owned_ids)]
     items_to_exchange = _apply_source_filter(items_to_exchange, _source_filter(request))
     items_to_exchange = _without_temporix_only(char, structure, items_to_exchange)
+    items_to_exchange = _for_the_class(char, items_to_exchange)
 
     max_page = math.ceil(len(items_to_exchange) / 10.0)
 
@@ -433,7 +440,7 @@ def switch_item(request, char_id):
     char = get_char_or_raise(request, char_id)
     item_name = request.POST.get('itemName', None)
     slot = request.POST.get('slot', None)
-    if slot not in SLOTS:
+    if slot not in slots_for(char.game_version):
         return HttpResponseBadRequest()
 
     structure = get_structure()
@@ -449,6 +456,8 @@ def switch_item(request, char_id):
         # only ever fills a slot with that type. Anything else builds gear the
         # game cannot wear, and shared builds are public pages.
         return HttpResponseBadRequest()
+    if not fits_the_class(item, char.char_class):
+        return HttpResponseBadRequest()
     result = get_solution(char)
     result.switch_item(item, slot,
                        get_effective_stat_overrides(char) or None)
@@ -461,7 +470,7 @@ def switch_item(request, char_id):
 def remove_item(request, char_id):
     char = get_char_or_raise(request, char_id)
     slot = request.POST.get('slot', None)
-    if slot not in SLOTS:
+    if slot not in slots_for(char.game_version):
         return HttpResponseBadRequest()
 
     result = get_solution(char)

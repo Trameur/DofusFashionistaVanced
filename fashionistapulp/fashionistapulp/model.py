@@ -30,7 +30,7 @@ from .modelresult import (ModelResultMinimal, level_prospecting,
                           wisdom_per_ap_mp_dodge_point)
 import pulp
 from .restrictions import Restrictions
-from .structure import get_structure
+from .structure import fits_the_class, get_structure, level_to_wear
 
 from collections import Counter
 
@@ -745,7 +745,8 @@ class Model:
                                             model_input.char_level)
         self.modify_locked_equip_constraints(model_input.locked_equips)
         self.modify_forbidden_items_constraints(model_input.forbidden_equips,
-                                                model_input.options)
+                                                model_input.options,
+                                                model_input.char_class)
         self.modify_stats_points_constraints(model_input.char_class,
                                              model_input.stat_points_to_distribute,
                                              model_input.base_stats_by_attr)
@@ -806,7 +807,7 @@ class Model:
     def modify_level_constraints(self, char_level):
         for item in self.items_list:
             restriction = self.restrictions.level_constraints.get(item.id, None)
-            restriction.changeRHS(0 if char_level < item.level else 1)
+            restriction.changeRHS(0 if char_level < level_to_wear(item) else 1)
     
     def create_forbidden_items_constraints(self):
         for item in self.items_list:
@@ -862,7 +863,8 @@ class Model:
         restriction = self.restrictions.fourth_stats_points_constraint
         restriction.changeRHS(stat_points)
     
-    def modify_forbidden_items_constraints(self, forbidden_equips, options):
+    def modify_forbidden_items_constraints(self, forbidden_equips, options,
+                                           char_class=None):
         # Copy, the caller's set is part of its cache key
         new_forbid_list = set(forbidden_equips)
         
@@ -878,14 +880,21 @@ class Model:
             new_forbid_list.update(
                 self.structure.get_rows_of_the_same_item(item_id))
 
+        locked = set(((getattr(self, 'input', None) or {}).get('locked_equips')
+                      or {}).values())
         # TemporiX-only pieces are in the live Touch data too
         if temporix_is_on(options, self.structure.game_version):
             temporix_only = set()
         else:
             temporix_only = temporix_only_item_ids(self.structure)
             # Keep locked pieces, banning them makes the build infeasible
-            locked = (getattr(self, 'input', None) or {}).get('locked_equips')
-            temporix_only -= set((locked or {}).values())
+            temporix_only -= locked
+        emblem_type = self.structure.get_type_id_by_name('Emblem')
+        not_worn_unless_locked = {
+            item.id for item in self.items_list
+            if item.id not in locked
+            and (item.type == emblem_type
+                 or not fits_the_class(item, char_class))}
 
         for item in self.items_list:
             restriction = self.restrictions.forbidden_items_constraints.get(item.id, None)
@@ -911,7 +920,8 @@ class Model:
                     and 'Rhineetle' in item.name
                 or ((not options['prysmaradite'])
                     and item.weird_conditions['prysmaradite'])
-                or item.id in temporix_only):
+                or item.id in temporix_only
+                or item.id in not_worn_unless_locked):
                 restriction.changeRHS(0)
             else:
                 restriction.changeRHS(1)

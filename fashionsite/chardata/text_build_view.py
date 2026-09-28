@@ -37,6 +37,7 @@ from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
                                         read_items)
 from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, safe_int
+from chardata.wear_conditions import class_condition_text
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
 from fashionistapulp.game_versions import get_game_version
@@ -328,6 +329,7 @@ def _pieces_du_lien(build, structure, version):
             lignes_ajoutees=True)
         pieces.append({'name': piece['name'], 'approximate': False,
                        'rolls': detail, 'id': piece['id'],
+                       'classes': tuple(getattr(item, 'classes', ())),
                        'out_of_range': any(d['out_of_range'] for d in detail)})
         if appliques:
             overrides[piece['id']] = appliques
@@ -579,6 +581,13 @@ def _lis(request, texte, version_page, formulaire, action=None):
             overrides.setdefault(item_id, {}).update(par_piece)
     refuses = refuses_du_lien + lu['refused_rolls']
     class_ok = char_class in CHARACTER_CLASSES
+    trouvees = pieces_du_lien + lu['matched']
+    for piece in trouvees:
+        if piece.get('classes'):
+            piece['class_text'] = class_condition_text(piece['classes'])
+    autre_classe = [piece['name'] for piece in trouvees
+                    if class_ok and piece.get('classes')
+                    and char_class not in piece['classes']]
 
     if not formulaire.get('confirm') or not class_ok:
         return _reponse(request, {
@@ -586,7 +595,8 @@ def _lis(request, texte, version_page, formulaire, action=None):
             'confirm': True,
             'version_label': get_game_version(version).label,
             'link': lien,
-            'matched': pieces_du_lien + lu['matched'],
+            'matched': trouvees,
+            'other_class': autre_classe,
             'ignored': laissees[:12],
             'ignored_total': len(laissees),
             'unreadable_links': illisibles[:12],

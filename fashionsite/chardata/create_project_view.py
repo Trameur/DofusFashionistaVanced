@@ -176,11 +176,10 @@ def save_project(request, char_id=0):
     if not within_focus_limit(state['char_build_aspects_set']):
         return JsonResponse({'error': _too_many_focus_boxes()}, status=400)
 
-    remove_invalid_inclusions(char, state['char_level'])
-
     priority, play_mode = posted_choices(request.POST, char)
     guard_pct = posted_guard(request.POST, char)
     _save_state_to_char(state, char)
+    remove_invalid_inclusions(char, state['char_level'], char.char_class)
 
     # TODO: Make clear we are resetting weights and mins.
     apply_setup_choices(char, state['char_build_aspects_set'], priority, play_mode,

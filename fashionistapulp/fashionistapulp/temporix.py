@@ -39,6 +39,8 @@ TEMPORIX_ONLY_ANKAMA_IDS = {
     23851: 'The Real Ivory Dofus',
     # Equip condition Sc=13000&PB!805
     24053: 'Cocoa Dofus',
+    # Equip condition Sc=13000&PB!805, worn in a seal slot
+    24057: 'Spell Book: Doom',
 }
 
 # Drop condition that excludes TemporiX

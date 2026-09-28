@@ -33,6 +33,7 @@ TYPE_NAME_TO_SLOT = {
     'Boots': 'boots',
     'Dofus': 'dofus',
     'Pet': 'pet',
+    'Emblem': 'emblem',
 }
 
 SLOT_NAME_TO_TYPE = {
@@ -52,6 +53,8 @@ SLOT_NAME_TO_TYPE = {
     'dofus5': 'Dofus',
     'dofus6': 'Dofus',
     'pet': 'Pet',
+    'emblem1': 'Emblem',
+    'emblem2': 'Emblem',
 }
 
 TYPE_NAME_TO_SLOT_NUMBER = {
@@ -65,20 +68,47 @@ TYPE_NAME_TO_SLOT_NUMBER = {
     'Boots': 1,
     'Dofus': 6,
     'Pet': 1,
+    'Emblem': 2,
 }
 
-TYPE_NAMES = list(TYPE_NAME_TO_SLOT.keys())
+# Worn only where GameVersion.extra_slot_types lists them
+EXTRA_TYPE_NAMES = ('Emblem',)
 
-SLOTS = []
-for type_name in TYPE_NAMES:
-    slot_number = TYPE_NAME_TO_SLOT_NUMBER[type_name]
-    slot_name = TYPE_NAME_TO_SLOT[type_name]
-    if slot_number > 1:
-        for i in range(1, slot_number + 1):
-            SLOTS.append("%s%d" % (slot_name, i))
-    else:
-        SLOTS.append(slot_name)
-        
+ALL_TYPE_NAMES = list(TYPE_NAME_TO_SLOT.keys())
+
+TYPE_NAMES = [type_name for type_name in ALL_TYPE_NAMES
+              if type_name not in EXTRA_TYPE_NAMES]
+
+
+def _slots_of(type_names):
+    slots = []
+    for type_name in type_names:
+        slot_number = TYPE_NAME_TO_SLOT_NUMBER[type_name]
+        slot_name = TYPE_NAME_TO_SLOT[type_name]
+        if slot_number > 1:
+            for i in range(1, slot_number + 1):
+                slots.append("%s%d" % (slot_name, i))
+        else:
+            slots.append(slot_name)
+    return slots
+
+
+SLOTS = _slots_of(TYPE_NAMES)
+
+
+def type_names_for(game_version):
+    """The item types a version wears, TYPE_NAMES plus its extra ones."""
+    from .game_versions import get_game_version
+    extra = get_game_version(game_version or 'dofus3').extra_slot_types
+    return TYPE_NAMES + [type_name for type_name in ALL_TYPE_NAMES
+                         if type_name in extra]
+
+
+def slots_for(game_version):
+    """The slots a version's character has, SLOTS first."""
+    return _slots_of(type_names_for(game_version))
+
+
 STAT_NAME_TO_KEY = {
     'Power': 'pow',
     'Damage': 'dam',

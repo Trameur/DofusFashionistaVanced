@@ -24,7 +24,7 @@ import _pickle
 from django.core.management.base import BaseCommand, CommandError
 from django.test import Client
 
-from fashionistapulp.dofus_constants import SLOTS, SLOT_NAME_TO_TYPE
+from fashionistapulp.dofus_constants import SLOT_NAME_TO_TYPE, slots_for
 from fashionistapulp.modelresult import ModelResultMinimal
 from fashionistapulp.structure import get_structure, set_current_game_version
 from fashionistapulp.game_versions import dofus_versions
@@ -166,7 +166,7 @@ class Command(BaseCommand):
     def _payloads(self, version, char_id):
         """(path, POST dict) pairs, in the order the page would send them."""
         structure = get_structure(version)
-        for slot in SLOTS:
+        for slot in slots_for(version):
             # The picker, ordered by damage and by weighted stats
             for order in ('true', 'false'):
                 yield ('/itemexchange/%d/' % char_id,

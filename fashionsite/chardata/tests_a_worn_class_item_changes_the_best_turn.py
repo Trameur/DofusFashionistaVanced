@@ -190,7 +190,7 @@ class EachVersionReadsItsOwnModifiersTests(SimpleTestCase):
 
     def test_every_class_item_carries_its_rows_in_each_version(self):
         counts = {'dofus3': (95, 760), 'beta': (95, 760),
-                  'dofus2': (95, 760), 'retro': (63, 257), 'touch': (2, 8)}
+                  'dofus2': (95, 760), 'retro': (63, 257), 'touch': (31, 37)}
         for version, (items, rows) in counts.items():
             table = spell_modifier_table(version)['items']
             with self.subTest(version=version):
@@ -207,9 +207,16 @@ class EachVersionReadsItsOwnModifiersTests(SimpleTestCase):
         self.assertEqual(effects['115']['c'], effects['287']['c'])
         self.assertEqual(effects['112']['c'], effects['283']['c'])
 
-    def test_touch_imports_no_class_item_with_a_modifier(self):
+    def test_touch_modifiers_come_from_the_two_weapons_and_the_seals(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('touch')
+        emblem = structure.get_type_id_by_name('Emblem')
+        seals = {str(item.ankama_id) for item in structure.get_items_list()
+                 if item.type == emblem}
+        table = set(spell_modifier_table('touch')['items'])
         self.assertEqual({str(ankama_id) for ankama_id in BLORD_WEAPONS},
-                         set(spell_modifier_table('touch')['items']))
+                         table - seals)
+        self.assertTrue(table & seals)
 
 
 class AClassItemGivesTheExtraCastTests(SimpleTestCase):

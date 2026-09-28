@@ -130497,6 +130497,54 @@
         "uses_per_turn": 1
     },
     {
+        "ankama_id": 19001,
+        "ankama_type": "equipment",
+        "name_en": "Feca Seal: Heroism",
+        "name_fr": "Emblème Féca : Héroïsme",
+        "name_es": "Emblema de feca: Heroísmo",
+        "name_pt": "Emblema Feca: Heroísmo",
+        "name_de": "Féca-Emblem: Heroismus",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Feca"
+        ]
+    },
+    {
+        "ankama_id": 19003,
+        "ankama_type": "equipment",
+        "name_en": "Feca Seal: Teleglyph",
+        "name_fr": "Emblème Féca : Téléglyphe",
+        "name_es": "Emblema de feca: Teleglifo",
+        "name_pt": "Emblema Feca: Teleglifo",
+        "name_de": "Féca-Emblem: Teleglyphation",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Feca"
+        ]
+    },
+    {
+        "ankama_id": 19005,
+        "ankama_type": "equipment",
+        "name_en": "Rogue Seal: Magnet",
+        "name_fr": "Emblème Roublard : Aimantation",
+        "name_es": "Emblema de tymador: Imantación",
+        "name_pt": "Emblema Ladino: Imantação",
+        "name_de": "Halsabschneider-Emblem: Magnetisierung",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Rogue"
+        ]
+    },
+    {
         "ankama_id": 19006,
         "ankama_type": "equipment",
         "name_en": "Call for Help Charm",
@@ -130519,6 +130567,22 @@
             ]
         ],
         "conditions": []
+    },
+    {
+        "ankama_id": 19007,
+        "ankama_type": "equipment",
+        "name_en": "Rogue Seal: Dirty Trick",
+        "name_fr": "Emblème Roublard : Entourloupe",
+        "name_es": "Emblema de tymador: Jugarreta",
+        "name_pt": "Emblema Ladino: Truque Sujo",
+        "name_de": "Halsabschneider-Emblem: Fauler Trick",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Rogue"
+        ]
     },
     {
         "ankama_id": 19008,
@@ -130565,6 +130629,22 @@
         "conditions": []
     },
     {
+        "ankama_id": 19009,
+        "ankama_type": "equipment",
+        "name_en": "Foggernaut Seal: Scaphander",
+        "name_fr": "Emblème Steamer : Scaphandre",
+        "name_es": "Emblema de steamer: Escafandra",
+        "name_pt": "Emblema de Steamer: Escafandro",
+        "name_de": "Steamer-Emblem: Taucheranzug",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Foggernaut"
+        ]
+    },
+    {
         "ankama_id": 19010,
         "ankama_type": "equipment",
         "name_en": "Snowly",
@@ -130582,6 +130662,406 @@
             ]
         ],
         "conditions": []
+    },
+    {
+        "ankama_id": 19011,
+        "ankama_type": "equipment",
+        "name_en": "Foggernaut Seal: Evolution",
+        "name_fr": "Emblème Steamer : Évolution",
+        "name_es": "Emblema de steamer: Evolución",
+        "name_pt": "Emblema de Steamer: Evolução",
+        "name_de": "Steamer-Emblem: Evolution",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Foggernaut"
+        ]
+    },
+    {
+        "ankama_id": 19013,
+        "ankama_type": "equipment",
+        "name_en": "Osamodas Seal: Feline Movement",
+        "name_fr": "Emblème Osamodas : Déplacement Félin",
+        "name_es": "Emblema de osamodas: Desplazamiento Felino",
+        "name_pt": "Emblema de Osamodas: Movimento Felino",
+        "name_de": "Osamodas-Emblem: Katzenhafte Bewegung",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Osamodas"
+        ]
+    },
+    {
+        "ankama_id": 19015,
+        "ankama_type": "equipment",
+        "name_en": "Osamodas Seal: Bestial Heal",
+        "name_fr": "Emblème Osamodas : Soin Bestial",
+        "name_es": "Emblema de osamodas: Cura Bestial",
+        "name_pt": "Emblema de Osamodas: Cura Bestial",
+        "name_de": "Osamodas-Emblem: Bestialische Heilung",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Osamodas"
+        ]
+    },
+    {
+        "ankama_id": 19017,
+        "ankama_type": "equipment",
+        "name_en": "Iop Seal: Power",
+        "name_fr": "Emblème Iop : Puissance",
+        "name_es": "Emblema de yopuka: Potencia",
+        "name_pt": "Emblema Iop: Potência",
+        "name_de": "Iop-Emblem: Macht",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Iop"
+        ]
+    },
+    {
+        "ankama_id": 19019,
+        "ankama_type": "equipment",
+        "name_en": "Iop Seal: Jump",
+        "name_fr": "Emblème Iop : Bond",
+        "name_es": "Emblema de yopuka: Salto",
+        "name_pt": "Emblema Iop: Salto",
+        "name_de": "Iop-Emblem: Sprung",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Iop"
+        ]
+    },
+    {
+        "ankama_id": 19021,
+        "ankama_type": "equipment",
+        "name_en": "Enutrof Seal: Clumsiness",
+        "name_fr": "Emblème Enutrof : Maladresse",
+        "name_es": "Emblema de anutrof: Torpeza",
+        "name_pt": "Emblema de Enutrof: Desajeitado",
+        "name_de": "Enutrof-Emblem: Ungeschicklichkeit",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Enutrof"
+        ]
+    },
+    {
+        "ankama_id": 19023,
+        "ankama_type": "equipment",
+        "name_en": "Enutrof Seal: Fortune",
+        "name_fr": "Emblème Enutrof : Chance",
+        "name_es": "Emblema de anutrof: Suerte",
+        "name_pt": "Emblema de Enutrof: Sorte",
+        "name_de": "Enutrof-Emblem: Glück",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Enutrof"
+        ]
+    },
+    {
+        "ankama_id": 19025,
+        "ankama_type": "equipment",
+        "name_en": "Ecaflip Seal: Clubs",
+        "name_fr": "Emblème Ecaflip : Trèfle",
+        "name_es": "Emblema de zurcarák: Trébol",
+        "name_pt": "Emblema de Ecaflip: Trevo",
+        "name_de": "Ecaflip-Emblem: Kleeblatt",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Ecaflip"
+        ]
+    },
+    {
+        "ankama_id": 19027,
+        "ankama_type": "equipment",
+        "name_en": "Ecaflip Seal: Feline Leap",
+        "name_fr": "Emblème Ecaflip : Bond du Félin",
+        "name_es": "Emblema de zurcarák: Salto del Felino",
+        "name_pt": "Emblema de Ecaflip: Salto do Felino",
+        "name_de": "Ecaflip-Emblem: Katzensprung",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Ecaflip"
+        ]
+    },
+    {
+        "ankama_id": 19029,
+        "ankama_type": "equipment",
+        "name_en": "Sadida Seal: Insolent Bramble",
+        "name_fr": "Emblème Sadida : Ronce Insolente",
+        "name_es": "Emblema de sadida: Zarza Insolente",
+        "name_pt": "Emblema Sadida: Sarça Insolente",
+        "name_de": "Sadida-Emblem: Bodenlose Rankenheit",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Sadida"
+        ]
+    },
+    {
+        "ankama_id": 19031,
+        "ankama_type": "equipment",
+        "name_en": "Sadida Seal: Tree",
+        "name_fr": "Emblème Sadida : Arbre",
+        "name_es": "Emblema de sadida: Árbol",
+        "name_pt": "Emblema Sadida: Árvore",
+        "name_de": "Sadida-Emblem: Baum",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Sadida"
+        ]
+    },
+    {
+        "ankama_id": 19033,
+        "ankama_type": "equipment",
+        "name_en": "Sacrier Seal: Martyr Punishment",
+        "name_fr": "Emblème Sacrieur : Châtiment du Martyr",
+        "name_es": "Emblema de sacrógrito: Castigo del Mártir",
+        "name_pt": "Emblema Sacrier: Castigo do Mártir",
+        "name_de": "Sacrieur-Emblem: Bestrafung des Märtyrers",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Sacrier"
+        ]
+    },
+    {
+        "ankama_id": 19035,
+        "ankama_type": "equipment",
+        "name_en": "Sacrier Seal: Retribution",
+        "name_fr": "Emblème Sacrieur : Punition",
+        "name_es": "Emblema de sacrógrito: Castigo",
+        "name_pt": "Emblema Sacrier: Punição",
+        "name_de": "Sacrieur-Emblem: Strafe",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Sacrier"
+        ]
+    },
+    {
+        "ankama_id": 19037,
+        "ankama_type": "equipment",
+        "name_en": "Masqueraider Seal: Bling",
+        "name_fr": "Emblème Zobal : Reuche",
+        "name_es": "Emblema de zobal: Esprín",
+        "name_pt": "Emblema de Zobal: Bling",
+        "name_de": "Maskerador-Emblem: Rösch",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Masqueraider"
+        ]
+    },
+    {
+        "ankama_id": 19039,
+        "ankama_type": "equipment",
+        "name_en": "Masqueraider Seal: Stampede",
+        "name_fr": "Emblème Zobal : Débandade",
+        "name_es": "Emblema de zobal: Desbandada",
+        "name_pt": "Emblema de Zobal: Debandada",
+        "name_de": "Maskerador-Emblem: Hals über Kopf!",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Masqueraider"
+        ]
+    },
+    {
+        "ankama_id": 19041,
+        "ankama_type": "equipment",
+        "name_en": "Cra Seal: Grapple Arrow",
+        "name_fr": "Emblème Crâ : Flèche Grappin",
+        "name_es": "Emblema de ocra: Flecha Gancho",
+        "name_pt": "Emblema de Cra: Flecha-Gancho",
+        "name_de": "Crâ-Emblem: Enterhakenpfeil",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Cra"
+        ]
+    },
+    {
+        "ankama_id": 19043,
+        "ankama_type": "equipment",
+        "name_en": "Cra Seal: Summoning of Tactical Beacon",
+        "name_fr": "Emblème Crâ : Invocation de Balise Tactique",
+        "name_es": "Emblema de ocra: Invocación de Baliza Táctica",
+        "name_pt": "Emblema de Cra: Invocação de Baliza Tática",
+        "name_de": "Crâ-Emblem: Taktische Markierung beschwören",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Cra"
+        ]
+    },
+    {
+        "ankama_id": 19045,
+        "ankama_type": "equipment",
+        "name_en": "Pandawa Seal: Vulnerability",
+        "name_fr": "Emblème Pandawa : Vulnérabilité",
+        "name_es": "Emblema de pandawa: Vulnerabilidad",
+        "name_pt": "Emblema de Pandawa: Vulnerabilidade",
+        "name_de": "Pandawa-Emblem: Schwäche",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Pandawa"
+        ]
+    },
+    {
+        "ankama_id": 19047,
+        "ankama_type": "equipment",
+        "name_en": "Pandawa Seal: Stabilisation",
+        "name_fr": "Emblème Pandawa : Stabilisation",
+        "name_es": "Emblema de pandawa: Estabilización",
+        "name_pt": "Emblema de Pandawa: Estabilização",
+        "name_de": "Pandawa-Emblem: Stabilisierung",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Pandawa"
+        ]
+    },
+    {
+        "ankama_id": 19049,
+        "ankama_type": "equipment",
+        "name_en": "Sram Seal: Paralysing Trap",
+        "name_fr": "Emblème Sram : Piège d'Immobilisation",
+        "name_es": "Emblema de sram: Trampa de Inmovilización",
+        "name_pt": "Emblema de Sram: Armadilha de Imobilização",
+        "name_de": "Sram-Emblem: Lähmfalle",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Sram"
+        ]
+    },
+    {
+        "ankama_id": 19051,
+        "ankama_type": "equipment",
+        "name_en": "Sram Seal: Double",
+        "name_fr": "Emblème Sram : Double",
+        "name_es": "Emblema de sram: Doble",
+        "name_pt": "Emblema de Sram: Dublê",
+        "name_de": "Sram-Emblem: Spiegelbild",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Sram"
+        ]
+    },
+    {
+        "ankama_id": 19053,
+        "ankama_type": "equipment",
+        "name_en": "Xelor Seal: Mummification",
+        "name_fr": "Emblème Xélor : Momification",
+        "name_es": "Emblema de xelor: Momificación",
+        "name_pt": "Emblema de Xelor: Mumificação",
+        "name_de": "Xélor-Emblem: Mumifizierung",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Xelor"
+        ]
+    },
+    {
+        "ankama_id": 19055,
+        "ankama_type": "equipment",
+        "name_en": "Xelor Seal: Rewind",
+        "name_fr": "Emblème Xélor : Rembobinage",
+        "name_es": "Emblema de xelor: Rebobinamiento",
+        "name_pt": "Emblema de Xelor: Rebobinando",
+        "name_de": "Xélor-Emblem: Zurückspulen",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Xelor"
+        ]
+    },
+    {
+        "ankama_id": 19057,
+        "ankama_type": "equipment",
+        "name_en": "Eniripsa Seal: Stimulating Word",
+        "name_fr": "Emblème Eniripsa : Mot Stimulant",
+        "name_es": "Emblema de aniripsa: Palabra Estimulante",
+        "name_pt": "Emblema de Eniripsa: Palavra Estimulante",
+        "name_de": "Eniripsa-Emblem: Stimulierendes Wort",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Eniripsa"
+        ]
+    },
+    {
+        "ankama_id": 19059,
+        "ankama_type": "equipment",
+        "name_en": "Eniripsa Seal: Word of Altruism",
+        "name_fr": "Emblème Eniripsa : Mot d'Altruisme",
+        "name_es": "Emblema de aniripsa: Palabra de Altruismo",
+        "name_pt": "Emblema de Eniripsa: Palavra Altruísta",
+        "name_de": "Eniripsa-Emblem: Wort der Nächstenliebe",
+        "level": 190,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": [],
+        "classes": [
+            "Eniripsa"
+        ]
     },
     {
         "ankama_id": 19079,
@@ -138087,13 +138567,26 @@
         "conditions": []
     },
     {
+        "ankama_id": 23485,
+        "ankama_type": "equipment",
+        "name_en": "Fighter of the Decade Insignia",
+        "name_fr": "Insigne du Combattant de la décennie",
+        "name_es": "Insignia del guerrero de la década",
+        "name_pt": "Insígnia do Combatente da Década",
+        "name_de": "Abzeichen des Kämpfers des Jahrzehnts",
+        "level": 1,
+        "w_type": "Emblem",
+        "stats": [],
+        "conditions": []
+    },
+    {
         "ankama_id": 23841,
         "ankama_type": "equipment",
         "name_en": "Shield of Infinity",
         "name_fr": "Bouclier de l'infini",
         "name_es": "Escudo del infinito",
         "name_pt": "Escudo do Infinito",
-        "name_de": "Bouclier de l'infini",
+        "name_de": "Shield of Infinity",
         "level": 1,
         "w_type": "Shield",
         "stats": [
@@ -138127,7 +138620,7 @@
         "name_fr": "Le Vrai Dofus Ivoire",
         "name_es": "El Auténtico Dofus Marfil",
         "name_pt": "O Verdadeiro Dofus Marfim",
-        "name_de": "Le Vrai Dofus Ivoire",
+        "name_de": "The Real Ivory Dofus",
         "level": 1,
         "w_type": "Dofus",
         "stats": [
@@ -138161,7 +138654,7 @@
         "name_fr": "Gerbouille exploratrice",
         "name_es": "Gerbilinda exploradora",
         "name_pt": "Gerbela Exploradora",
-        "name_de": "Gerbouille exploratrice",
+        "name_de": "Gerbean Explorer",
         "level": 1,
         "w_type": "Pet",
         "stats": [
@@ -138180,7 +138673,7 @@
         "name_fr": "Sakochère explorateur",
         "name_es": "Sakóquero explorador",
         "name_pt": "Javóquero Explorador",
-        "name_de": "Sakochère explorateur",
+        "name_de": "Boarhog Explorer",
         "level": 1,
         "w_type": "Pet",
         "stats": [
@@ -138199,7 +138692,7 @@
         "name_fr": "La Broche Céleste Ankarton",
         "name_es": "El Broche Celeste Ankartón",
         "name_pt": "Broche Celestial Ankartolina",
-        "name_de": "La Broche Céleste Ankarton",
+        "name_de": "Khardboard Celestial Brooch",
         "level": 175,
         "w_type": "Amulet",
         "stats": [
@@ -138218,7 +138711,7 @@
         "name_fr": "Ceinture du Meulou Ankarton",
         "name_es": "Cinturón de Maxilubo Ankartón",
         "name_pt": "Cinto do Mulobo Ankartolina",
-        "name_de": "Ceinture du Meulou Ankarton",
+        "name_de": "Khardboard Moowolf Belt",
         "level": 150,
         "w_type": "Belt",
         "stats": [
@@ -138237,7 +138730,7 @@
         "name_fr": "Cape Fulgurante Ankarton",
         "name_es": "Capa Fulgurante Ankartón",
         "name_pt": "Capa Fulgurante Ankartolina",
-        "name_de": "Cape Fulgurante Ankarton",
+        "name_de": "Khardboard Dazzling Cloak",
         "level": 75,
         "w_type": "Cloak",
         "stats": [
@@ -138256,7 +138749,7 @@
         "name_fr": "Goultard Ankarton",
         "name_es": "Gúltar Ankartón",
         "name_pt": "Gultar Ankartolina",
-        "name_de": "Goultard Ankarton",
+        "name_de": "Khardboard Goultard",
         "level": 50,
         "w_type": "Weapon",
         "stats": [
@@ -138300,7 +138793,7 @@
         "name_fr": "Geta Ankarton",
         "name_es": "Geta Ankartón",
         "name_pt": "Tamanca Ankartolina",
-        "name_de": "Geta Ankarton",
+        "name_de": "Khardboard Getas",
         "level": 125,
         "w_type": "Boots",
         "stats": [
@@ -138319,7 +138812,7 @@
         "name_fr": "Bouclier de Bowisse Ankarton",
         "name_es": "Escudo de Bowis Ankartón",
         "name_pt": "Escudo de Bowis Ankartolina",
-        "name_de": "Bouclier de Bowisse Ankarton",
+        "name_de": "Khardboard Bowisse's Shield",
         "level": 100,
         "w_type": "Shield",
         "stats": [
@@ -138338,7 +138831,7 @@
         "name_fr": "Coiffe du Bouftou Ankarton",
         "name_es": "Sombrero de jalató Ankartón",
         "name_pt": "Chapéu do Papatudo Celestial Ankartolina",
-        "name_de": "Coiffe du Bouftou Ankarton",
+        "name_de": "Khardboard Gobball Headgear",
         "level": 50,
         "w_type": "Hat",
         "stats": [
@@ -138357,7 +138850,7 @@
         "name_fr": "Gelano Ankarton",
         "name_es": "Gelanillo Ankartón",
         "name_pt": "Gelano Ankartolina",
-        "name_de": "Gelano Ankarton",
+        "name_de": "Khardboard Gelano",
         "level": 200,
         "w_type": "Ring",
         "stats": [
@@ -138376,7 +138869,7 @@
         "name_fr": "Pioutrage",
         "name_es": "Piofensa",
         "name_pt": "Piultraje",
-        "name_de": "Pioutrage",
+        "name_de": "Piwinsult",
         "level": 1,
         "w_type": "Pet",
         "stats": [
@@ -138415,7 +138908,7 @@
         "name_fr": "Kramtou",
         "name_es": "Kemató",
         "name_pt": "Krematudo",
-        "name_de": "Kramtou",
+        "name_de": "Burninout",
         "level": 1,
         "w_type": "Pet",
         "stats": [
@@ -138439,9 +138932,22 @@
         "name_fr": "Dofus Cacao",
         "name_es": "Dofus cacao",
         "name_pt": "Dofus Cacau",
-        "name_de": "Dofus Cacao",
+        "name_de": "Cocoa Dofus",
         "level": 6,
         "w_type": "Dofus",
+        "stats": [],
+        "conditions": []
+    },
+    {
+        "ankama_id": 24057,
+        "ankama_type": "equipment",
+        "name_en": "Spell Book: Doom",
+        "name_fr": "Livre de sort : Doom",
+        "name_es": "Libro de hechizos: Doom",
+        "name_pt": "Livro de Feitiço: Doom",
+        "name_de": "Spell Book: Doom",
+        "level": 1,
+        "w_type": "Emblem",
         "stats": [],
         "conditions": []
     },

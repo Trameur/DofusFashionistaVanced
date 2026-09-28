@@ -38,6 +38,34 @@ TYPE_MAP = {
     22: ('Weapon', 'Scythe'),
 }
 
+# ItemTypes superTypeId -> (w_type, weapon subtype): the client's itemTypePositions
+# puts every item of super type 51 in the emblem1 and emblem2 slots
+SUPER_TYPE_MAP = {
+    51: ('Emblem', None),
+}
+
+# Types whose PG= class condition is carried to the solver
+CLASS_GATED_TYPES = ('Emblem',)
+
+
+def load_item_types(raw_dir: Path) -> dict:
+    """{type id: super type id}, from ItemTypes."""
+    path = raw_dir / 'ItemTypes_fr.json'
+    if not path.exists():
+        return {}
+    table = json.loads(path.read_text(encoding='utf-8'))
+    return {int(type_id): record.get('superTypeId')
+            for type_id, record in table.items() if isinstance(record, dict)}
+
+
+def resolve_type(type_id, super_types):
+    """(w_type, weapon subtype) for an item type id, or None when not worn."""
+    by_super_type = SUPER_TYPE_MAP.get(super_types.get(type_id))
+    if by_super_type is not None:
+        return by_super_type
+    return TYPE_MAP.get(type_id)
+
+
 # Ankama characteristic id -> stat name; characteristic 0 is overloaded, see effectId below
 CHAR_TO_STAT = {
     1: 'AP', 23: 'MP',
@@ -231,24 +259,44 @@ def decode_conditions(criteria: str):
     return out
 
 
+def decode_classes(criteria: str):
+    """'Pt=29983&PG=1&Ft!2' -> ['Feca']: the classes a top-level PG= part allows."""
+    from get_spells_touch import CLASS_ID_TO_NAME
+    classes = []
+    if not criteria or criteria == 'null':
+        return classes
+    for part in _top_level_parts(str(criteria)):
+        match = re.fullmatch(r'\s*PG\s*=\s*(\d+)\s*', part)
+        if match:
+            name = CLASS_ID_TO_NAME.get(int(match.group(1)))
+            if name and name not in classes:
+                classes.append(name)
+    return classes
+
+
 def loc_name(tables_by_lang, lang, item_id, fallback):
     rec = (tables_by_lang.get(lang) or {}).get(item_id)
     if rec and rec.get('nameId'):
         return clean_display_name(rec['nameId'])
+    # Touch no longer serves German: a piece added since has no German row
+    english = (tables_by_lang.get('en') or {}).get(item_id)
+    if lang != 'en' and english and english.get('nameId'):
+        return clean_display_name(english['nameId'])
     return fallback
 
 
-def build_equipment(items_by_lang, effects, shield_levels=None):
+def build_equipment(items_by_lang, effects, shield_levels=None, super_types=None):
     shield_levels = shield_levels or {}
+    super_types = super_types or {}
     items_fr = items_by_lang['fr']
     out = []
     for iid, it in items_fr.items():
         if not isinstance(it, dict):
             continue
-        type_id = it.get('typeId')
-        if type_id not in TYPE_MAP:
+        resolved_type = resolve_type(it.get('typeId'), super_types)
+        if resolved_type is None:
             continue
-        w_type, weapon_type = TYPE_MAP[type_id]
+        w_type, weapon_type = resolved_type
         try:
             ankama_id = int(iid)
         except (TypeError, ValueError):
@@ -283,6 +331,10 @@ def build_equipment(items_by_lang, effects, shield_levels=None):
             'stats': stats + hits,
             'conditions': decode_conditions(it.get('criteria') or ''),
         }
+        if w_type in CLASS_GATED_TYPES:
+            classes = decode_classes(it.get('criteria') or '')
+            if classes:
+                rec['classes'] = classes
         if weapon_type:
             rec['weapon_type'] = weapon_type
             if it.get('apCost'):
@@ -393,7 +445,8 @@ def main(argv=None):
     sets_by_lang = _load_lang_tables(raw_dir, 'ItemSets')
 
     equipment = build_equipment(items_by_lang, effects,
-                                load_shield_levels(raw_dir))
+                                load_shield_levels(raw_dir),
+                                load_item_types(raw_dir))
     mounts = load_mounts(raw_dir)
     equipment += mounts
     valid_item_ids = {e['ankama_id'] for e in equipment}

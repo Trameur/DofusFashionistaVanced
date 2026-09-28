@@ -22,8 +22,8 @@ from chardata.lock_forbid import (get_inclusions_dict,
     set_inclusions_dict_and_check_exclusions,
     get_stat_overrides, set_item_stat_override, remove_item_stat_override)
 from chardata.util import set_response, get_char_or_raise, HttpResponseJson, HttpResponseText
-from fashionistapulp.dofus_constants import SLOTS, SLOT_NAME_TO_TYPE
-from fashionistapulp.structure import get_structure
+from fashionistapulp.dofus_constants import SLOT_NAME_TO_TYPE, slots_for
+from fashionistapulp.structure import fits_the_class, get_structure
 from chardata.image_store import get_image_url
 from chardata.stat_icons import get_stat_icon_path
 from static_s3.templatetags.static_s3 import static
@@ -45,6 +45,8 @@ def inclusions(request, char_id):
         items_by_type_and_name[item_type] = {}
     for item_type in items_by_type:
         for item in structure.get_unique_items_by_type_and_level(item_type, char.level):
+            if not fits_the_class(item, char.char_class):
+                continue
             item_name = structure.get_item_name_in_language(item, get_supported_language())
             items_by_type[item_type][item.id] = item_name
             items_by_type_and_name[item_type][item_name] = item.id
@@ -53,8 +55,9 @@ def inclusions(request, char_id):
     for item_slot in SLOT_NAME_TO_TYPE:
         images_urls[item_slot] = static('chardata/%s.png' % SLOT_NAME_TO_TYPE[item_slot])
 
+    slots = slots_for(char.game_version)
     inclusions = get_inclusions_dict(char)
-    for slot in SLOTS:
+    for slot in slots:
         inclusions.setdefault(slot, '')
 
     # Convert stat_overrides keys to strings for JSON (item_id: {stat_id: value})
@@ -66,6 +69,7 @@ def inclusions(request, char_id):
                         'chardata/inclusions.html',
                         {'char_id': char_id,
                          'advanced': True,
+                         'has_emblem_slots': 'emblem1' in slots,
                          'types': items_by_type,
                          'types_json': jsonpickle.encode(items_by_type, unpicklable=False),
                          'names_and_types_json': jsonpickle.encode(items_by_type_and_name, unpicklable=False),
@@ -109,19 +113,31 @@ def get_item_details(request):
 
     return HttpResponseJson(json_response)
 
+def _wearable_by(structure, posted_id, char_class):
+    try:
+        item = structure.get_item_by_id(int(posted_id))
+    except (TypeError, ValueError):
+        return True
+    return item is None or fits_the_class(item, char_class)
+
+
 @require_POST
 def inclusions_post(request, char_id):
     char = get_char_or_raise(request, char_id)
 
+    slots = slots_for(char.game_version)
+    structure = get_structure()
     inclusions = {}
-    for slot in SLOTS:
+    for slot in slots:
         inclusions[slot] = request.POST.get(slot, '')
+        if not _wearable_by(structure, inclusions[slot], char.char_class):
+            inclusions[slot] = ''
 
     set_inclusions_dict_and_check_exclusions(char, inclusions)
 
     inclusions = get_inclusions_dict(char)
 
-    for slot in SLOTS:
+    for slot in slots:
         inclusions.setdefault(slot, '')
 
     return HttpResponseJson(json.dumps(inclusions))

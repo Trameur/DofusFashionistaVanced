@@ -24,11 +24,13 @@ _TYPES_TRADUITS = {
     'Belt': {'fr': 'Ceinture', 'de': 'Gürtel'},
     'Shield': {'fr': 'Bouclier', 'de': 'Schild'},
     'Pet': {'fr': 'Familier', 'de': 'Haustier'},
+    'Emblem': {'en': 'Seal', 'fr': 'Emblème', 'es': 'Emblema', 'pt': 'Emblema'},
 }
 
 _IDENTIQUES = {
     'Dofus': "le mot du jeu, le meme dans les cinq langues",
     ('Ring', 'de'): "Ring est le mot allemand pour un anneau",
+    ('Emblem', 'de'): "Emblem est aussi le mot allemand",
 }
 
 _VUES_QUI_TRADUISAIENT = ('inventory_view.py', 'forgemagie_view.py',
@@ -51,9 +53,10 @@ class TheWorkshopTranslatesTheTypeTests(SimpleTestCase):
                                      _localized_type(type_name, langue))
 
     def test_english_gets_the_canonical_word_back(self):
-        for type_name in _TYPES_TRADUITS:
+        for type_name, attendus in _TYPES_TRADUITS.items():
             with self.subTest(type=type_name):
-                self.assertEqual(type_name, _localized_type(type_name, 'en'))
+                self.assertEqual(attendus.get('en', type_name),
+                                 _localized_type(type_name, 'en'))
 
     def test_an_item_with_no_type_stays_empty(self):
         self.assertEqual('', _localized_type('', 'fr'))

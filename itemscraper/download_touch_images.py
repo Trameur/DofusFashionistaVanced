@@ -29,7 +29,7 @@ sys.path.insert(0, str(ROOT / 'fashionistapulp'))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from fashionistapulp.fashion_util import normalize_name, safe_icon_name
-from get_equipments_touch import TYPE_MAP
+from get_equipments_touch import load_item_types, resolve_type
 
 CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
 FALLBACK_ASSETS_URL = ("https://dofustouch.cdn.ankama.com/assets/"
@@ -91,10 +91,12 @@ def main(argv=None):
     cache = {}  # icon_id -> resized PNG bytes or None (missing on CDN)
     written = skipped = missing = bad_name = 0
 
+    super_types = load_item_types(raw)
     for iid, it in items.items():
         if not isinstance(it, dict):
             continue
-        if it.get('typeId') not in TYPE_MAP:
+        resolved_type = resolve_type(it.get('typeId'), super_types)
+        if resolved_type is None:
             continue
         icon_id = it.get('iconId')
         if not icon_id:
@@ -102,7 +104,7 @@ def main(argv=None):
         name = names_en.get(iid) or it.get('nameId') or ''
         if not name:
             continue
-        type_dir = 'pets' if TYPE_MAP[it['typeId']][0] == 'Pet' else 'items'
+        type_dir = 'pets' if resolved_type[0] == 'Pet' else 'items'
         dest = STATIC / type_dir / 'touch' / '60x60' / ('%s-60-60.png' % safe_icon_name(normalize_name(name)))
         try:
             if dest.exists() and not args.force:

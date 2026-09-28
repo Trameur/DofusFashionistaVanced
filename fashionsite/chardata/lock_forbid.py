@@ -18,8 +18,8 @@ import logging
 import pickle
 from chardata.char_blobs import read_char_blob
 
-from fashionistapulp.dofus_constants import SLOTS
-from fashionistapulp.structure import get_structure
+from fashionistapulp.structure import (fits_the_class, get_structure,
+                                       level_to_wear)
 
 logger = logging.getLogger(__name__)
 
@@ -510,13 +510,15 @@ def set_exclusions_list_by_name(char, excluded_items):
             logger.warning('Item %s does not exist and cannot be excluded', item_name)
     set_exclusions_list_and_check_inclusions(char, items)
     
-def remove_invalid_inclusions(char, level):
+def remove_invalid_inclusions(char, level, char_class=None):
     structure = get_structure()
     inclusions = get_inclusions_dict(char)
     for item_type, equip in inclusions.items():
         if equip != '':
             item = structure.get_item_by_id(equip)
-            if item is None or item.level > level:
+            if (item is None or level_to_wear(item) > level
+                    or (char_class is not None
+                        and not fits_the_class(item, char_class))):
                 inclusions[item_type] = ''
 
     _save_inclusion_dict(char, inclusions)
@@ -593,7 +595,7 @@ def _remove_inclusions_by_id(char, item_ids):
     inclusions = get_inclusions_dict(char)
 
     changed = False
-    for slot in SLOTS:
+    for slot in list(inclusions):
         if inclusions.get(slot, '') in item_ids:
             inclusions[slot] = ''
             changed = True

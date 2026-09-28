@@ -15938,7 +15938,7 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                'April 2023', 'April 2026', 'August 2026', 'September 2026',
                'November 2025', 'April - September 2025',
                ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d',
-               '%(ap)s AP', '%(item)s: %(changes)s'},
+               '%(ap)s AP', '%(item)s: %(changes)s', 'Emblem', 'Element'},
     }
     # Dofus grid labels fall back to the item's official name
     LABELLED_FROM_GAME_DATA = {
@@ -27016,7 +27016,8 @@ class InventorySearchReachesEveryItemTypeTests(TestCase):
                 types = _search_types(structure, True)
                 self.assertIn('Pet', types)
                 self.assertIn('Dofus', types)
-                self.assertEqual(10, len(types), types)
+                # Touch adds its two Emblem slots
+                self.assertEqual(11 if version == 'touch' else 10, len(types), types)
 
     def test_the_level_comes_from_the_version_not_from_a_constant(self):
         """types is cumulative, so its top level holds everything. Every Dofus

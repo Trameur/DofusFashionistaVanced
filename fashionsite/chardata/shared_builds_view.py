@@ -51,7 +51,7 @@ from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
 from chardata.presets import option_box_labels, setup_columns
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
-from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS
+from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, slots_for
 from fashionistapulp.fashion_util import strip_accents
 from chardata.legacy_ids import repair_minimal_solution
 from fashionistapulp.modelresult import get_item_in_slot
@@ -106,7 +106,7 @@ def _get_preview_items(minimal_solution, structure, game_version):
     item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
     language = get_supported_language()
 
-    for slot in SLOTS:
+    for slot in slots_for(game_version):
         item_id = item_per_slot.get(slot)
         if item_id is None:
             continue

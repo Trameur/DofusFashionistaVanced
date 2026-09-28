@@ -165,10 +165,13 @@
         <p class="import-missing" id="import-link-fm-unmapped">{% trans "These forgemagie lines could not be read and are left out:" %} {{ link.fm_unmapped|join:", " }}</p>
         {% endif %}
         {% endif %}
+        {% if other_class %}
+        <p class="import-missing" id="import-other-class">{% trans "These pieces are for another class, so they are left out:" %} {{ other_class|join:", " }}</p>
+        {% endif %}
         <ul class="import-list">
             {% for piece in matched %}
             <li class="import-line">
-                <span class="import-piece">{{ piece.name }}{% if piece.approximate %} <span class="import-approx">{% trans "closest match" %}</span>{% endif %}</span>
+                <span class="import-piece">{{ piece.name }}{% if piece.approximate %} <span class="import-approx">{% trans "closest match" %}</span>{% endif %}{% if piece.class_text %} <span class="import-approx">{{ piece.class_text }}</span>{% endif %}</span>
                 {% if piece.rolls %}
                 <span class="import-rolls">
                     {# AP, MP or range above the item's max is an exo, not a roll #}

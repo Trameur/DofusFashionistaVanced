@@ -45,6 +45,11 @@
     <div class="small-brown-box min-stat-name" align="center">
         {% include "chardata/inclusions_row.html" with select_name="dofus5" %}
     </div>
+    {% if has_emblem_slots %}
+    <div class="small-brown-box min-stat-name" align="center">
+        {% include "chardata/inclusions_row.html" with select_name="emblem1" %}
+    </div>
+    {% endif %}
   </div>
   <div class="columns-column inclusions-column">
     <div class="small-brown-box min-stat-name" align="center">
@@ -71,6 +76,11 @@
     <div class="small-brown-box min-stat-name" align="center">
         {% include "chardata/inclusions_row.html" with select_name="dofus6" %}
     </div>
+    {% if has_emblem_slots %}
+    <div class="small-brown-box min-stat-name" align="center">
+        {% include "chardata/inclusions_row.html" with select_name="emblem2" %}
+    </div>
+    {% endif %}
   </div>
   </div>
         

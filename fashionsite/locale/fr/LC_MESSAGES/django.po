@@ -791,6 +791,20 @@ msgstr "Résistance Terre"
 msgid "Earth Resist in PVP"
 msgstr "Résistance Terre en PvP"
 
+#: .\chardata\dynamic_translations.py:94
+msgid "Emblem"
+msgstr "Emblème"
+
+#: .\chardata\wear_conditions.py:12
+#, python-format
+msgid "Class: %(classes)s"
+msgstr "Classe : %(classes)s"
+
+#: .\chardata\wear_conditions.py:30
+#, python-format
+msgid "The %(spell)s spell must be at level %(rank)s"
+msgstr "Le sort %(spell)s doit être niveau %(rank)s"
+
 #: .\chardata\dynamic_translations.py:92
 msgid "Emote"
 msgstr "Émote"
@@ -8561,6 +8575,10 @@ msgstr "Plus aucun emplacement libre pour ces pièces, elles restent de côté :
 #: chardata/templates/chardata/text_build.html
 msgid "These pieces are already worn as many times as the game allows, so they are left out:"
 msgstr "Ces pièces sont déjà portées autant de fois que le jeu le permet, elles restent de côté :"
+
+#: chardata/templates/chardata/text_build.html
+msgid "These pieces are for another class, so they are left out:"
+msgstr "Ces pièces sont réservées à une autre classe, elles restent de côté :"
 
 #: chardata/templates/chardata/text_build.html
 #, python-format

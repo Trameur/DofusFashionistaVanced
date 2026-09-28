@@ -53,7 +53,7 @@ def included_item_for(game_version, value, language=None):
     """
     from django.utils import translation
     from fashionistapulp.dofus_constants import SLOT_NAME_TO_TYPE
-    from fashionistapulp.structure import get_structure
+    from fashionistapulp.structure import get_structure, level_to_wear
     try:
         item_id = int(value)
     except (TypeError, ValueError):
@@ -70,7 +70,8 @@ def included_item_for(game_version, value, language=None):
     language = language or (translation.get_language() or 'en')[:2]
     return {'id': item.id,
             'name': structure.get_item_name_in_language(item, language) or item.name,
-            'level': item.level,
+            'level': level_to_wear(item),
+            'classes': tuple(getattr(item, 'classes', ())),
             'type_name': type_name,
             'slot': slot}
 
@@ -86,7 +87,7 @@ def included_set_for(game_version, value, language=None):
     """
     from django.utils import translation
     from fashionistapulp.dofus_constants import SLOT_NAME_TO_TYPE
-    from fashionistapulp.structure import get_structure
+    from fashionistapulp.structure import get_structure, level_to_wear
     try:
         set_id = int(value)
     except (TypeError, ValueError):
@@ -110,7 +111,8 @@ def included_set_for(game_version, value, language=None):
         taken.add(slot)
         pieces.append({'id': item.id,
                        'name': structure.get_item_name_in_language(item, language) or item.name,
-                       'level': item.level,
+                       'level': level_to_wear(item),
+                       'classes': tuple(getattr(item, 'classes', ())),
                        'slot': slot})
     if not pieces:
         return None
@@ -120,6 +122,10 @@ def included_set_for(game_version, value, language=None):
             'level': max(piece['level'] for piece in pieces),
             'count': len(pieces),
             'pieces': pieces}
+
+
+def _worn_by(piece, char_class):
+    return not piece['classes'] or char_class in piece['classes']
 
 
 def level_options_for(included_level):
@@ -157,10 +163,15 @@ def coaching(request):
     elif included_set is not None:
         floor = included_set['level']
     level_options, selected_level = level_options_for(floor)
+    class_options = _locale_class_options(game_version)
+    if included is not None and included['classes']:
+        class_options = ([option for option in class_options
+                          if option[0] in included['classes']]
+                         or class_options)
 
     return set_response(request,
                         'chardata/coaching.html',
-                        {'class_options': _locale_class_options(game_version),
+                        {'class_options': class_options,
                          'level_options': level_options,
                          'selected_level': selected_level,
                          'included_item': included,
@@ -242,12 +253,14 @@ def _create_from_coaching(request, game_version):
     # on purpose: that call seeds the default exclusions, and an item the
     # reader explicitly asked for must win over a default that hides it,
     # which is what set_inclusions_dict_and_check_exclusions does. An item
-    # above the character's level cannot be worn, so it is not locked, and
-    # the form does not offer such a level anyway.
+    # above the character's level, or of another class, cannot be worn, so
+    # it is not locked, and the form offers neither anyway.
     included = included_item_for(game_version, request.POST.get('item'))
     locked = {}
-    if included is not None and included['level'] <= char.level:
-        locked[included['slot']] = included['id']
+    if included is not None:
+        if (included['level'] <= char.level
+                and _worn_by(included, char.char_class)):
+            locked[included['slot']] = included['id']
     elif included is None:
         # A whole panoply: every piece the character can wear, each in its
         # own slot. The form starts its levels at the highest piece, so
@@ -256,7 +269,8 @@ def _create_from_coaching(request, game_version):
         included_set = included_set_for(game_version, request.POST.get('set'))
         if included_set is not None:
             for piece in included_set['pieces']:
-                if piece['level'] <= char.level:
+                if (piece['level'] <= char.level
+                        and _worn_by(piece, char.char_class)):
                     locked[piece['slot']] = piece['id']
     if locked:
         from chardata.lock_forbid import set_inclusions_dict_and_check_exclusions

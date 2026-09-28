@@ -91,6 +91,7 @@ DYNAMIC_DATA_STRINGS = [
     gettext_noop('Earth Damage'),
     gettext_noop('Earth Resist'),
     gettext_noop('Earth Resist in PVP'),
+    gettext_noop('Emblem'),
     gettext_noop('Emote'),
     gettext_noop('Exchangeable'),
     gettext_noop('Fertile'),

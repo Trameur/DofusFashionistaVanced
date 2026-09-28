@@ -1,8 +1,9 @@
 """Impose a set on a character from a list of Ankama item ids."""
 
-from fashionistapulp.dofus_constants import (SLOTS, TYPE_NAME_TO_SLOT,
-                                             TYPE_NAME_TO_SLOT_NUMBER)
+from fashionistapulp.dofus_constants import (TYPE_NAME_TO_SLOT,
+                                             TYPE_NAME_TO_SLOT_NUMBER, slots_for)
 from fashionistapulp.game_versions import get_game_version
+from fashionistapulp.structure import fits_the_class, level_to_wear
 
 from chardata.lock_forbid import set_inclusions_dict_and_check_exclusions
 
@@ -13,6 +14,7 @@ UNKNOWN_TYPE = 'unknown_type'
 NO_FREE_SLOT = 'no_free_slot'
 ALREADY_PLACED = 'already_placed'
 ABOVE_CHAR_LEVEL = 'above_char_level'
+WRONG_CLASS = 'wrong_class'
 
 
 def slots_for_type_name(type_name):
@@ -37,7 +39,7 @@ def _can_be_worn_twice(structure, item, type_name, game_version):
 
 
 def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
-                    char_level=None):
+                    char_level=None, char_class=None):
     """Place each id without writing: returns ([(slot, item)], [(ankama_id, reason)])."""
     placed = []
     rejected = []
@@ -58,13 +60,18 @@ def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
             continue
 
         type_name = structure.get_type_name_by_id(item.type)
-        candidats = slots_for_type_name(type_name)
+        candidats = [slot for slot in slots_for_type_name(type_name)
+                     if slot in slots_for(game_version)]
         if not candidats:
             rejected.append((ankama_id, UNKNOWN_TYPE))
             continue
 
-        if char_level is not None and getattr(item, 'level', 0) > char_level:
+        if char_level is not None and level_to_wear(item) > char_level:
             rejected.append((ankama_id, ABOVE_CHAR_LEVEL))
+            continue
+
+        if char_class is not None and not fits_the_class(item, char_class):
+            rejected.append((ankama_id, WRONG_CLASS))
             continue
 
         if poses.get(ankama_id):
@@ -90,12 +97,14 @@ def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
 
 def apply_ankama_ids(char, structure, ankama_ids):
     """Returns {'placed': [(slot, item_id, name)], 'rejected': [(id, reason)]}."""
+    game_version = getattr(char, 'game_version', 'dofus3')
     placed, rejected = plan_ankama_ids(
         structure, ankama_ids,
-        game_version=getattr(char, 'game_version', 'dofus3'),
-        char_level=getattr(char, 'level', None))
+        game_version=game_version,
+        char_level=getattr(char, 'level', None),
+        char_class=getattr(char, 'char_class', None))
 
-    inclusions = {slot: '' for slot in SLOTS}
+    inclusions = {slot: '' for slot in slots_for(game_version)}
     inclusions.update({slot: item.id for slot, item in placed})
     set_inclusions_dict_and_check_exclusions(char, inclusions)
 

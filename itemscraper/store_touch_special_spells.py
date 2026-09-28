@@ -11,6 +11,7 @@ get_equipments3 also puts Dofus 3's "-special spell-" lines.
 import json
 import os
 import pickle
+import re
 import sys
 
 import requests
@@ -23,6 +24,7 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
 
 from store_item_obtainment import (  # noqa: E402
     get_items_db_path, _open_items_db, _save_db_to_dump, _resolve_item_id, _table_exists)
+from get_equipments_touch import _top_level_parts  # noqa: E402
 
 GAME_VERSION = 'touch'
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
@@ -40,6 +42,9 @@ CAST_SPELL_EFFECTS = {2822: ('diceNum', '#1')}
 # diceNum, amount in value.
 SPELL_MODIFIER_EFFECTS = set(range(281, 292))
 
+# Equip condition "Pt=<spell level id>": the spell must be at that rank
+SPELL_RANK_CRITERION = re.compile(r'\s*Pt\s*=\s*(\d+)\s*')
+
 
 def _data_url():
     try:
@@ -55,11 +60,52 @@ def _fetch(data_url, cls, lang):
                          timeout=180).json()
 
 
+def spell_rank_conditions(items, spells, spell_levels):
+    """{item ankama id: [(spell id, rank, player level of that rank)]} from the Pt= parts."""
+    out = {}
+    for ankama_id, it in items.items():
+        if not isinstance(it, dict):
+            continue
+        for part in _top_level_parts(str(it.get('criteria') or '')):
+            match = SPELL_RANK_CRITERION.fullmatch(part)
+            if not match:
+                continue
+            level_id = int(match.group(1))
+            spell_level = spell_levels.get(str(level_id)) or {}
+            spell = spells.get(str(spell_level.get('spellId'))) or {}
+            ranks = [int(rank) for rank in spell.get('spellLevels') or []]
+            if level_id not in ranks:
+                print('  ! item %s asks for spell level %s, which no spell lists'
+                      % (ankama_id, level_id))
+                continue
+            out.setdefault(int(ankama_id), []).append(
+                (int(spell['id']), ranks.index(level_id) + 1,
+                 int(spell_level.get('minPlayerLevel') or 1)))
+    return out
+
+
+def store_spell_rank_conditions(cursor, conditions):
+    cursor.execute("DROP TABLE IF EXISTS item_spell_conditions")
+    cursor.execute("CREATE TABLE item_spell_conditions (item INTEGER, spell INTEGER,"
+                   " rank INTEGER, min_level INTEGER)")
+    stored = 0
+    for ankama_id, rows in sorted(conditions.items()):
+        item_id = _resolve_item_id(cursor, ankama_id, 'equipment')
+        if item_id is None:
+            continue
+        for spell_id, rank, min_level in rows:
+            cursor.execute("INSERT INTO item_spell_conditions VALUES (?, ?, ?, ?)",
+                           (item_id, spell_id, rank, min_level))
+            stored += 1
+    return stored
+
+
 def main():
     items = json.loads(open(os.path.join(RAW_DIR, 'Items_fr.json'), encoding='utf-8').read())
     data_url = _data_url()
     spells = {lang: _fetch(data_url, 'Spells', lang) for lang in LANGUAGES}
     effects = {lang: _fetch(data_url, 'Effects', lang) for lang in LANGUAGES}
+    spell_levels = _fetch(data_url, 'SpellLevels', 'fr')
 
     # item ankama id -> {lang: [formatted lines]}
     lines_by_item = {}
@@ -100,10 +146,14 @@ def main():
                            (item_id, pickle.dumps(lines), lang))
             stored += 1
 
+    ranks_stored = store_spell_rank_conditions(
+        cursor, spell_rank_conditions(items, spells['fr'], spell_levels))
+
     conn.commit()
     conn.close()
     _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
     print('[touch] Stored special-spell lines for %d items.' % len(lines_by_item))
+    print('[touch] Stored %d spell rank conditions.' % ranks_stored)
 
 
 if __name__ == '__main__':

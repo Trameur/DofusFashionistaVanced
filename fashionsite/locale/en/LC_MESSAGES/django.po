@@ -754,6 +754,20 @@ msgstr ""
 msgid "Earth Resist in PVP"
 msgstr ""
 
+#: .\chardata\dynamic_translations.py:94
+msgid "Emblem"
+msgstr "Seal"
+
+#: .\chardata\wear_conditions.py:12
+#, python-format
+msgid "Class: %(classes)s"
+msgstr ""
+
+#: .\chardata\wear_conditions.py:30
+#, python-format
+msgid "The %(spell)s spell must be at level %(rank)s"
+msgstr ""
+
 #: .\chardata\dynamic_translations.py:92
 msgid "Emote"
 msgstr ""
@@ -7466,6 +7480,10 @@ msgstr "No slot is left for these pieces, so they are left out:"
 #: chardata/templates/chardata/text_build.html
 msgid "These pieces are already worn as many times as the game allows, so they are left out:"
 msgstr "These pieces are already worn as many times as the game allows, so they are left out:"
+
+#: chardata/templates/chardata/text_build.html
+msgid "These pieces are for another class, so they are left out:"
+msgstr "These pieces are for another class, so they are left out:"
 
 #: chardata/templates/chardata/text_build.html
 #, python-format

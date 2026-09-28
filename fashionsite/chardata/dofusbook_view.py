@@ -15,7 +15,8 @@ from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES,
                                              TYPE_NAME_TO_SLOT_NUMBER)
 from fashionistapulp.modelresult import ModelResultMinimal
-from fashionistapulp.structure import (get_structure, get_current_game_version,
+from fashionistapulp.structure import (fits_the_class, get_structure,
+                                       get_current_game_version,
                                        set_current_game_version)
 
 logger = logging.getLogger(__name__)
@@ -79,6 +80,8 @@ def _place_items(char, item_ids, origin='dofusbook'):
                 continue
             type_name = structure.get_type_name_by_id(item.type)
             if restants.get(type_name, 0) <= 0:
+                continue
+            if not fits_the_class(item, getattr(char, 'char_class', None)):
                 continue
             restants[type_name] -= 1
             gardes.append(item_id)

@@ -23,7 +23,8 @@ class GameVersion:
     def __init__(self, key, label, db_file, dump_file, prefix=None,
                  seo_word='', experimental=False, dofus=True,
                  rings_can_double=True, temporix=False,
-                 weapon_element_rate=0.85, element_potion_heals=True):
+                 weapon_element_rate=0.85, element_potion_heals=True,
+                 extra_slot_types=()):
         self.key = key
         self.label = label
         self.db_file = db_file
@@ -42,6 +43,8 @@ class GameVersion:
         # Weapon element potion: share of a neutral line kept, and if heals turn too
         self.weapon_element_rate = weapon_element_rate
         self.element_potion_heals = element_potion_heals
+        # Slot types beyond the shared sixteen slots (dofus_constants.EXTRA_TYPE_NAMES)
+        self.extra_slot_types = tuple(extra_slot_types)
 
     def __repr__(self):
         return '<GameVersion %s>' % self.key
@@ -58,7 +61,7 @@ GAME_VERSIONS = {
                     'item_db_dumped_dofus2.dump', seo_word='2'),
         GameVersion('touch', 'Touch', 'items_touch.db',
                     'item_db_dumped_touch.dump', seo_word='Touch',
-                    temporix=True),
+                    temporix=True, extra_slot_types=('Emblem',)),
         GameVersion('retro', 'Retro', 'items_retro.db',
                     'item_db_dumped_retro.dump', seo_word='Retro',
                     rings_can_double=False),

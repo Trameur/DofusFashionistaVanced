@@ -34,6 +34,7 @@ dump_output_path = _args.dump_output if _args.dump_output else _default_dump
 input_dir = os.path.abspath(_args.input_dir) if _args.input_dir else current_directory
 
 from fashionistapulp.fashionistapulp.dofus_constants import (
+    EXTRA_TYPE_NAMES,
     STAT_NAME_TO_KEY,
     STAT_ORDER,
     TYPE_NAME_TO_SLOT
@@ -175,8 +176,11 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
     # Write initial SQL commands
     f.write("PRAGMA foreign_keys=OFF;\nBEGIN TRANSACTION;\nCREATE TABLE item_types\n             (id INTEGER PRIMARY KEY AUTOINCREMENT, name text);\n")
 
-    # Write item_types INSERT commands
+    # Write item_types INSERT commands, a version-only type when the version has one
+    worn_types = {item.get('w_type') for item in original_data}
     for index, item in enumerate(TYPE_NAME_TO_SLOT, start=1):
+        if item in EXTRA_TYPE_NAMES and item not in worn_types:
+            continue
         f.write(f"INSERT INTO item_types VALUES ({index},'{item}');\n")
 
     # Write CREATE TABLE for stats
@@ -607,6 +611,14 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         if item.get('is_trophy'):
             item_id = item_to_id[id(item)]
             f.write(f"INSERT INTO item_flags VALUES({item_id}, 'Trophy');\n")
+
+    # The classes allowed to wear a piece, for the pieces the game restricts
+    if any(item.get('classes') for item in original_data):
+        f.write("""CREATE TABLE item_class_conditions (item INTEGER, class text, FOREIGN KEY(item) REFERENCES items(id));\n""")
+        for item in original_data:
+            item_id = item_to_id[id(item)]
+            for char_class in item.get('classes') or ():
+                f.write(f"INSERT INTO item_class_conditions VALUES({item_id}, '{escape_single_quotes(char_class)}');\n")
 
     f.write("""CREATE TABLE extra_lines (item INTEGER, line text, language text, FOREIGN KEY(item) REFERENCES items(id));\n""")
 

@@ -69,14 +69,14 @@ from chardata import build_sites, dofusbook_export
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
     HttpResponseText, HttpResponseJson, get_base_stats_by_attr, \
     version_reverse, get_stats_and_scrolled
-from fashionistapulp.dofus_constants import (SLOTS, STAT_ORDER, STATS_NAMES,
+from fashionistapulp.dofus_constants import (STAT_ORDER, STATS_NAMES,
                                              TYPE_NAME_TO_SLOT,
                                              TYPE_NAME_TO_SLOT_NUMBER,
-                                             max_scroll_for_version)
+                                             max_scroll_for_version, slots_for)
 from fashionistapulp.game_versions import get_game_version
 
 from static_s3.templatetags.static_s3 import static
-from fashionistapulp.structure import get_structure
+from fashionistapulp.structure import fits_the_class, get_structure, level_to_wear
 from chardata.stat_icons import get_stat_icon_path
 from fashionistapulp.modelresult import ModelResultMinimal
 from chardata.themes import get_ajax_loader_URL, get_external_image_URL
@@ -86,7 +86,7 @@ from fashionistapulp.translation import get_supported_language
 SHARED_SOLUTION_CACHE_TIMEOUT = 6 * 60 * 60
 
 _SHARE_SLOT_ORDER = ['Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Ring',
-                     'Belt', 'Boots', 'Dofus', 'Pet']
+                     'Belt', 'Boots', 'Dofus', 'Pet', 'Emblem']
 
 
 # Upgrade hints: at least this many better items, and below this ratio of the best
@@ -224,7 +224,7 @@ def pieces_above_the_character_level(char, solution):
                 structure, getattr(item, 'name', None))
             if structure_item is None:
                 continue
-            niveau = getattr(structure_item, 'level', None)
+            niveau = level_to_wear(structure_item)
             if niveau and niveau > char_level:
                 above.append({
                     'name': structure.get_item_name_in_language(
@@ -542,7 +542,8 @@ def _get_shared_solution_params(char):
     solution_result = SolutionResult(solution,
                                      inclusions,
                                      exclusions,
-                                     weights=get_stats_weights(char, persist=False))
+                                     weights=get_stats_weights(char, persist=False),
+                                     char_class=char.char_class)
     cached_params = solution_result.get_params()
     cache.set(cache_key, cached_params, SHARED_SOLUTION_CACHE_TIMEOUT)
     return cached_params
@@ -709,7 +710,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                          inclusions,
                                          exclusions,
                                          empty_slots,
-                                         weights=get_stats_weights(char, persist=False))
+                                         weights=get_stats_weights(char, persist=False),
+                                         char_class=char.char_class)
         solution_params = solution_result.get_params()
         solver_constraints = _constraints_reached(char, solution)
 
@@ -1089,13 +1091,15 @@ def set_item_locked(request, char_id):
     item_name = request.POST.get('equip', None)
     locked = request.POST.get('locked', None)
 
-    if slot not in SLOTS:
+    if slot not in slots_for(char.game_version):
         return HttpResponseBadRequest('unknown slot')
 
     structure = get_structure()
     item_id = _item_id_for_name(structure, item_name)
     if item_id is None:
         return HttpResponseBadRequest('unknown item')
+    if not fits_the_class(structure.get_item_by_id(item_id), char.char_class):
+        return HttpResponseBadRequest('not for this class')
     if locked == 'true':
         set_item_included(char, item_id, slot, True)
     elif locked == 'false':
@@ -1165,7 +1169,7 @@ def set_slot_lock_empty(request, char_id):
     slot = request.POST.get('slot', None)
     locked = request.POST.get('locked', None)
 
-    if slot not in SLOTS:
+    if slot not in slots_for(char.game_version):
         return HttpResponseBadRequest('unknown slot')
 
     set_empty_slot(char, slot, locked == 'true')

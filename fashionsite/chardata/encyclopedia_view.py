@@ -19,7 +19,7 @@ from chardata.spell_tips import SpellTip, spell_tip_for
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
 from chardata.util import shared_build_path
-from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
+from fashionistapulp.dofus_constants import STAT_ORDER, type_names_for
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import is_same_item_name, strip_accents
 from fashionistapulp.item_flags import flag_lines
@@ -35,6 +35,7 @@ from chardata.url_language import (build_alternate_urls,
 from chardata.stat_range import format_stat_range, get_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
 from chardata.translation_util import localized_stat_name, LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
+from chardata.wear_conditions import condition_texts
 from static_s3.templatetags.static_s3 import static
 
 
@@ -748,7 +749,7 @@ def _get_stat_lines(structure, item, language):
 def _collect_unique_items(structure):
     items = []
     seen_ids = set()
-    for type_name in TYPE_NAMES:
+    for type_name in type_names_for(structure.game_version):
         for item in structure.get_unique_items_by_type_and_level(type_name, 200):
             if item.id in seen_ids or item.removed:
                 continue
@@ -1110,6 +1111,8 @@ def _format_condition_groups(structure, variant_items, language):
             text = _condition_text(structure, stat_id, value, True, language)
             if text:
                 shared.append(text)
+        with translation.override(language):
+            shared.extend(condition_texts(structure.game_version, variant))
 
         branches = getattr(variant, 'or_conditions', None) or []
         if not branches:
@@ -2192,7 +2195,7 @@ def encyclopedia(request):
             'value': type_name,
             'label': _localized_label(type_name, language),
         }
-        for type_name in TYPE_NAMES
+        for type_name in type_names_for(game_version)
     ]
 
     return set_response(
@@ -2371,7 +2374,7 @@ def encyclopedia_most_used(request):
     # Headline: highest share across all slots
     tete = None
     slots = []
-    for type_name in TYPE_NAMES:
+    for type_name in type_names_for(game_version):
         objets = par_slot.get(type_name)
         if not objets:
             continue

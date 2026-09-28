@@ -98,6 +98,18 @@ def _the_name_without_ankamas_number(name):
     return numbered.group(1) if numbered else name
 
 
+def level_to_wear(item):
+    """The character level a piece needs: its own, or its required spell rank's."""
+    return max([item.level or 0] + [min_level for _spell, _rank, min_level
+                                    in getattr(item, 'spell_conditions', ())])
+
+
+def fits_the_class(item, char_class):
+    """Whether a character of this class can wear the piece."""
+    classes = getattr(item, 'classes', ())
+    return not classes or char_class in classes
+
+
 def _what_makes_two_rows_one_item(item):
     """Everything about a row except its id and Ankama's number on the name."""
     return (_the_name_without_ankamas_number(item.name),
@@ -165,6 +177,8 @@ class Structure:
             self.read_min_stat_to_equip_table()
             self.read_max_stat_to_equip_table()
             self.read_or_conditions_table()
+            self.read_item_class_conditions_table()
+            self.read_item_spell_conditions_table()
             self.read_legacy_item_ids_table()
             self.read_weird_conditions_table()
             self.read_extra_lines_table()
@@ -577,6 +591,32 @@ class Structure:
                 item.or_conditions = [gates for _branch, gates
                                       in sorted(branches.items())]
 
+    def read_item_class_conditions_table(self):
+        if not self._table_exists('item_class_conditions'):
+            return
+        by_item = {}
+        c = self.conn.cursor()
+        for item_id, char_class in c.execute(
+                'SELECT item, class FROM item_class_conditions'):
+            by_item.setdefault(item_id, []).append(char_class)
+        for item_id, classes in by_item.items():
+            item = self.get_item_by_id(item_id)
+            if item is not None:
+                item.classes = tuple(sorted(set(classes)))
+
+    def read_item_spell_conditions_table(self):
+        """(spell id, rank, player level of that rank) a piece needs, Touch's Pt= condition."""
+        if not self._table_exists('item_spell_conditions'):
+            return
+        c = self.conn.cursor()
+        for item_id, spell_id, rank, min_level in c.execute(
+                'SELECT item, spell, rank, min_level FROM item_spell_conditions'
+                ' ORDER BY item, spell'):
+            item = self.get_item_by_id(item_id)
+            if item is not None:
+                item.spell_conditions = (getattr(item, 'spell_conditions', ())
+                                         + ((spell_id, rank, min_level),))
+
     def _table_exists(self, name):
         c = self.conn.cursor()
         return c.execute("SELECT 1 FROM sqlite_master WHERE type = 'table'"
@@ -918,11 +958,11 @@ class Structure:
                     if item.dofus_touch:
                         dt_or_items_set.add(item_name)
                         self.dt_or_items[item_name] = []
-                        self.dt_types[new_item.level][self.get_type_name_by_id(new_item.type)].append(new_item)
+                        self.dt_types[level_to_wear(item)][self.get_type_name_by_id(new_item.type)].append(new_item)
                     else:
                         or_items_set.add(item_name)
                         self.or_items[item_name] = []
-                        self.types[new_item.level][self.get_type_name_by_id(new_item.type)].append(new_item)
+                        self.types[level_to_wear(item)][self.get_type_name_by_id(new_item.type)].append(new_item)
                 if item.dofus_touch:
                     self.dt_or_items[item_name].append(item)
                 else:
@@ -941,9 +981,9 @@ class Structure:
                         
             else:
                 if item.dofus_touch:
-                    self.dt_types[item.level][self.get_type_name_by_id(item.type)].append(item)
+                    self.dt_types[level_to_wear(item)][self.get_type_name_by_id(item.type)].append(item)
                 else:
-                    self.types[item.level][self.get_type_name_by_id(item.type)].append(item)
+                    self.types[level_to_wear(item)][self.get_type_name_by_id(item.type)].append(item)
                 item.or_name = item.name
 
         # A level carries everything the levels below it carry.

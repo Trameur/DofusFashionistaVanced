@@ -41,6 +41,8 @@ from chardata.transcendence_advice import best_transcendence
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
+from chardata.wear_conditions import (class_condition_text,
+                                      spell_rank_condition_text)
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from chardata.official_site import get_set_link
@@ -49,12 +51,13 @@ from chardata.official_site import get_set_link
 class SolutionResult:
 
     def __init__(self, model_result, inclusions={}, exclusions=[], empty_slots=[],
-                 weights=None):
+                 weights=None, char_class=None):
         self.model_result = model_result
         self.inclusions = inclusions
         self.exclusions_set = set(exclusions)
         self.empty_slots_set = set(empty_slots)
         self.weights = weights
+        self.char_class = char_class
                    
     def get_params(self):
         r = self.model_result 
@@ -76,6 +79,11 @@ class SolutionResult:
         
         item_sections = [item_columns, dofus_columns]
         all_items = item_list_ordered + dofus_list
+        emblem_list = sorted(r.items.get('Emblem') or [],
+                             key=lambda result_item: result_item.slot or '')
+        if emblem_list:
+            item_sections.append([emblem_list[::2], emblem_list[1::2]])
+            all_items = all_items + emblem_list
         item_per_slot = {}
         
         # TODO: Grafting this attribute is a hack.
@@ -87,7 +95,7 @@ class SolutionResult:
         item_violates = {}
         item_ids = {}
         for result_item in all_items:
-            evolve_result_item(result_item, r)
+            evolve_result_item(result_item, r, self.char_class)
             attach_transcendence(result_item, self.weights)
         attach_acquisition(all_items)
 
@@ -267,7 +275,7 @@ def stat_sources(model_result):
     return sources
 
 
-def evolve_result_item(result_item, r=None):
+def evolve_result_item(result_item, r=None, char_class=None):
     if result_item.slot:
         result_item.file = static('chardata/%s.png' % SLOT_NAME_TO_TYPE[result_item.slot])
     if not result_item.item_added:
@@ -340,6 +348,19 @@ def evolve_result_item(result_item, r=None):
 
     if result_item.weird_conditions['prysmaradite']:
         result_item.condition_lines.append(PrysmaraditeConditionLine(r))
+
+    classes = getattr(result_item, 'classes', ())
+    if classes:
+        line = TextConditionLine(class_condition_text(classes))
+        if char_class and char_class not in classes:
+            line.formatting = '#r'
+        result_item.condition_lines.append(line)
+    for spell_id, rank, min_level in getattr(result_item, 'spell_conditions', ()):
+        line = TextConditionLine(spell_rank_condition_text(
+            get_current_game_version(), classes, spell_id, rank))
+        if r and (r.input or {}).get('char_level', min_level) < min_level:
+            line.formatting = '#r'
+        result_item.condition_lines.append(line)
 
     if hasattr(result_item, 'non_crit_hits'):
         damage_lines = []
@@ -447,6 +468,14 @@ class LightSetConditionLine:
         if model_result:
             if not model_result.check_if_set_is_light():
                 self.formatting = '#r'
+
+class TextConditionLine:
+
+    def __init__(self, text):
+        self.text = text
+        self.formatting = ''
+        self.icon_url = None
+
 
 class PrysmaraditeConditionLine:
 

@@ -51,7 +51,7 @@ from chardata.util import (set_response, get_char_possibly_encoded_or_raise, get
                            HttpResponseJson, version_reverse)
 from fashionistapulp.dofus_constants import (NON_ELEMENTAL_HIT_TYPES,
                                              TYPE_NAME_TO_SLOT_NUMBER,
-                                             TYPE_NAME_TO_SLOT)
+                                             TYPE_NAME_TO_SLOT, type_names_for)
 from fashionistapulp.modelresult import ModelResultItem
 from fashionistapulp.structure import (get_structure,
                                        set_current_game_version)
@@ -214,7 +214,7 @@ def compare_sets(request, sets_params):
               'character_asset_formats': json.dumps(asset_formats()),
               'preview_box': preview_box_for(request.user) if character_previews else None,
               'solutions': solutions,
-              'items_sorted': _sort_items(solutions),
+              'items_sorted': _sort_items(solutions, game_version),
               'acquisition_by_char': _acquisition_by_char(solutions, game_version),
               'buffs_by_char_json': json.dumps(buffs_by_char),
               'shows_spell_buffs': any(buffs_by_char.values()),
@@ -421,9 +421,12 @@ def _acquisition_by_char(solutions, game_version):
     return summaries
 
 
-def _sort_items(solutions):
+def _sort_items(solutions, game_version='dofus3'):
+    type_order = TYPE_ORDER + [type_name for type_name
+                               in type_names_for(game_version)
+                               if type_name not in TYPE_ORDER]
     item_counters = {}
-    for type_name in TYPE_ORDER:
+    for type_name in type_order:
         slot_number = TYPE_NAME_TO_SLOT_NUMBER[type_name]
         if slot_number > 1:
             item_counter = Counter()
@@ -440,7 +443,7 @@ def _sort_items(solutions):
     for char_id, solution in solutions.items():
         result[char_id] = []
 
-        for type_name in TYPE_ORDER:
+        for type_name in type_order:
             slot_number = TYPE_NAME_TO_SLOT_NUMBER[type_name]
             slot_name = TYPE_NAME_TO_SLOT[type_name]
             if slot_number > 1:

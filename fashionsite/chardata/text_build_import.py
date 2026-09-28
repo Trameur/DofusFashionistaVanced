@@ -9,8 +9,8 @@ from chardata.inventory_view import _ocr_normalize, _ocr_stat_lexicon
 from chardata.stat_range import get_stat_range
 from chardata.translation_util import (LOCALIZED_CHARACTER_CLASSES,
                                        localized_stat_name)
-from fashionistapulp.dofus_constants import (STATS_NAMES,
-                                            TYPE_NAME_TO_SLOT_NUMBER)
+from fashionistapulp.dofus_constants import (SLOTS, STATS_NAMES,
+                                            TYPE_NAME_TO_SLOT_NUMBER, slots_for)
 from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
 from fashionistapulp.model import Model
 from fashionistapulp.structure import get_structure
@@ -20,8 +20,8 @@ MIN_LIGNE = 5
 
 MAX_LIGNES = 300
 
-# How many items a build can hold, all slots
-MAX_OBJETS = sum(TYPE_NAME_TO_SLOT_NUMBER.values())
+# The slots every version has; read_items caps at slots_for(version)
+MAX_OBJETS = len(SLOTS)
 
 # Going over the item's value on these stats is an exo
 EXO_STAT_KEYS = Model._EXO_STAT_KEYS
@@ -350,7 +350,7 @@ def read_items(text, game_version, language):
             ignored.append(ligne)
             continue
         _plain, item, nom, type_name = entree
-        if len(item_ids) >= MAX_OBJETS:
+        if len(item_ids) >= len(slots_for(game_version)):
             tronque = True
             courante = None
             continue
@@ -366,6 +366,7 @@ def read_items(text, game_version, language):
             'name': nom,
             'type_name': type_name,
             'level': item.level,
+            'classes': tuple(getattr(item, 'classes', ())),
             'approximate': approche,
             'item': item,
             'jets_lus': [],

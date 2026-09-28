@@ -793,6 +793,20 @@ msgstr "Resistencia Tierra"
 msgid "Earth Resist in PVP"
 msgstr "Resistencia Tierra en PvP"
 
+#: .\chardata\dynamic_translations.py:94
+msgid "Emblem"
+msgstr "Emblema"
+
+#: .\chardata\wear_conditions.py:12
+#, python-format
+msgid "Class: %(classes)s"
+msgstr "Clase: %(classes)s"
+
+#: .\chardata\wear_conditions.py:30
+#, python-format
+msgid "The %(spell)s spell must be at level %(rank)s"
+msgstr "El hechizo %(spell)s debe tener nivel %(rank)s"
+
 #: .\chardata\dynamic_translations.py:92
 msgid "Emote"
 msgstr "Emote"
@@ -8529,6 +8543,10 @@ msgstr "No queda hueco para estas piezas, así que se quedan fuera:"
 #: chardata/templates/chardata/text_build.html
 msgid "These pieces are already worn as many times as the game allows, so they are left out:"
 msgstr "Estas piezas ya se llevan tantas veces como permite el juego, así que se quedan fuera:"
+
+#: chardata/templates/chardata/text_build.html
+msgid "These pieces are for another class, so they are left out:"
+msgstr "Estas piezas son exclusivas de otra clase, así que se quedan fuera:"
 
 #: chardata/templates/chardata/text_build.html
 #, python-format

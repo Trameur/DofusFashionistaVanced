@@ -18,9 +18,9 @@ from collections import Counter
 import logging
 from django.utils.translation import gettext as _
 
-from .dofus_constants import (TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS,
+from .dofus_constants import (ALL_TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER,
                              DAMAGE_TYPES, BASE_STATS, STAT_KEY_TO_NAME,
-                             calculate_damage, SLOT_NAME_TO_TYPE)
+                             calculate_damage, SLOT_NAME_TO_TYPE, slots_for)
 from .item_flags import flag_lines
 from .spell_text import fold_spell_blocks
 from .structure import get_structure, get_current_game_version
@@ -76,7 +76,7 @@ class ModelResultMinimal():
                     break
         
         item_per_slot = {}
-        open_slots = set(SLOTS)
+        open_slots = set(slots_for(get_current_game_version()))
         for item_id in item_id_list:
             item = structure.get_item_by_id(item_id)
             if item is None:
@@ -108,7 +108,7 @@ class ModelResultMinimal():
     @classmethod
     def from_model_result(cls, model_result):
         item_per_slot = {}
-        for slot in SLOTS:
+        for slot in slots_for(get_current_game_version()):
             item_found = [i for i in model_result.item_list if i.slot == slot]
             if item_found:
                 item_per_slot[slot] = item_found[0].id
@@ -123,7 +123,7 @@ class ModelResultMinimal():
     def generate_empty_solution(cls, input_):
         input_['origin'] = 'from_scratch'
         item_per_slot = {}
-        for slot in SLOTS:
+        for slot in slots_for(get_current_game_version()):
             item_per_slot[slot] = None
         return cls(item_per_slot,
                    {k: input_[k] for k in input_ if k in RELEVANT_INPUT},
@@ -187,10 +187,10 @@ class ModelResult():
         self.input = input_        
         
         self.items = {}
-        for type_name in TYPE_NAMES:
+        for type_name in ALL_TYPE_NAMES:
             self.items[type_name] = []
         self.item_list = []
-        self.open_slots = set(SLOTS)
+        self.open_slots = set(slots_for(get_current_game_version()))
         
         self.sets = []
         
@@ -216,9 +216,10 @@ class ModelResult():
         
     def _add_result_item_at_slot(self, slot, result_item):
         result_item.set_slot(slot)
-        self.open_slots.remove(slot)
+        self.open_slots.discard(slot)
 
-        self.items[self._display_type(slot, result_item)].append(result_item)
+        self.items.setdefault(self._display_type(slot, result_item),
+                              []).append(result_item)
         self.item_list.append(result_item)
 
     @staticmethod
@@ -226,7 +227,7 @@ class ModelResult():
         """The piece's own type, not its slot's (saved builds can mismatch)."""
         if getattr(result_item, 'item_added', False):
             type_name = getattr(result_item, 'type', None)
-            if type_name in TYPE_NAMES:
+            if type_name in ALL_TYPE_NAMES:
                 return type_name
         return SLOT_NAME_TO_TYPE[slot]
 
@@ -335,7 +336,7 @@ class ModelResult():
                 to_remove = candidate_item
                 break
         self.items[SLOT_NAME_TO_TYPE.get(slot)].remove(to_remove)
-        self.items[SLOT_NAME_TO_TYPE.get(slot)].append(result_item)
+        self.items.setdefault(SLOT_NAME_TO_TYPE.get(slot), []).append(result_item)
         self.item_list.remove(to_remove)
         self.item_list.append(result_item)
         s = get_structure()
@@ -422,7 +423,7 @@ class ModelResult():
         violations = []
         s = get_structure()
         item_type = s.get_type_name_by_id(item_type_id)
-        if len(self.items[item_type]) > 1:
+        if len(self.items.get(item_type, ())) > 1:
             dict_names = {}
             for item in self.items[item_type]:
                 if item.item_added:
@@ -431,7 +432,8 @@ class ModelResult():
             for (name, occurrences) in dict_names.items():
                 if len(occurrences) > 1:
                     item_name = occurrences[0]
-                    if (s.get_item_by_name(item_name).type == s.get_type_id_by_name('Dofus')
+                    if (s.get_type_name_by_id(s.get_item_by_name(item_name).type)
+                            in ('Dofus', 'Emblem')
                         or s.get_item_by_name(item_name).set):
                         violation = Violation()
                         violation.is_red = True
@@ -659,6 +661,8 @@ class ModelResultItem():
                         or item_set.name)
 
             self.weird_conditions = item.weird_conditions
+            self.classes = tuple(getattr(item, 'classes', ()))
+            self.spell_conditions = tuple(getattr(item, 'spell_conditions', ()))
             # Shiny TemporiX copy: same name, golden slot in game
             self.shiny = bool(getattr(item, 'shiny', False))
     

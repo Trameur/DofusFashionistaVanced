@@ -24,6 +24,7 @@ import json
 from chardata.lock_forbid import get_all_exclusions_with_names, get_all_exclusions_ids, set_exclusions_list_and_check_inclusions
 from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, get_char_or_raise, HttpResponseJson
+from fashionistapulp.dofus_constants import TYPE_NAMES, type_names_for
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 
@@ -40,6 +41,14 @@ TYPE_COLUMNS = [
      {'id': 'Belt', 'name': gettext_lazy('Belt')},
      {'id': 'Dofus', 'name': gettext_lazy('Dofus')}]
 ]
+
+
+def _type_columns(game_version):
+    """TYPE_COLUMNS, the version's extra slot types at the end of the last column."""
+    extra = [{'id': type_name, 'name': gettext_lazy(type_name)}
+             for type_name in type_names_for(game_version)
+             if type_name not in TYPE_NAMES]
+    return TYPE_COLUMNS[:-1] + [TYPE_COLUMNS[-1] + extra] if extra else TYPE_COLUMNS
 
 
 def _localized(label, language):
@@ -193,7 +202,7 @@ def exclusions(request, char_id):
                         'chardata/exclusions.html', 
                         {'char_id': char_id,
                          'advanced': True,
-                         'type_columns': TYPE_COLUMNS,
+                         'type_columns': _type_columns(char.game_version),
                          'all_items_json': json.dumps(all_items),
                          'all_items_names_json': json.dumps(all_names),
                          'ids_by_plain_name_json': json.dumps(ids_by_plain_name),

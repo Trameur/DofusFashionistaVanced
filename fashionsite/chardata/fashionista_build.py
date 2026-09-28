@@ -12,12 +12,13 @@ from django.utils.translation import gettext_lazy
 
 from chardata.build_import import _can_be_worn_twice
 from chardata.dofusbook_import import ImportError_, MAX_POINTS
-from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, SLOTS,
+from fashionistapulp.dofus_constants import (CHARACTER_CLASSES,
                                              STATS_NAMES,
                                              TYPE_NAME_TO_SLOT_NUMBER,
-                                             max_scroll_for_version)
+                                             max_scroll_for_version, slots_for)
 from fashionistapulp.game_versions import get_game_version, version_keys
-from fashionistapulp.structure import PET_VARIANT_ID_BASE, get_structure
+from fashionistapulp.structure import (PET_VARIANT_ID_BASE, get_structure,
+                                       level_to_wear)
 
 FORMAT = 'fashionista-build'
 FORMAT_VERSION = 1
@@ -507,7 +508,7 @@ def _resolve(reading, entries):
         item_ids.append(item.id)
         if gelanos and item is gelanos[0]:
             reading.gelano_mp = True
-        if reading.level is not None and item.level > reading.level:
+        if reading.level is not None and level_to_wear(item) > reading.level:
             reading.warn('item_above_level', path, id=ankama)
         # Overrides are stored per item id: a second copy shares the first one's
         if copies:
@@ -765,7 +766,7 @@ def _export(char):
     overrides = get_effective_stat_overrides(char) or {}
     gelanos = _gelanos(structure)
     items = []
-    for slot in SLOTS:
+    for slot in slots_for(char.game_version):
         stored = per_slot.get(slot)
         if stored is None:
             continue
