@@ -18,8 +18,8 @@ from chardata.lock_forbid import get_default_exclusions, set_exclusions_list_and
 from chardata.anon_projects import remember_anon_char
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
-from chardata.presets import (DEFAULT_STYLE, offered_style, play_styles, style_aspects,
-                              version_class)
+from chardata.presets import (DEFAULT_STYLE, element_choices, offered_element, offered_style,
+                              play_styles, style_aspects, version_class)
 from chardata.smart_build import level_minimums, set_char_aspects
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import set_response, version_reverse
@@ -147,16 +147,22 @@ def level_options_for(included_level):
 
 def coaching(request):
     game_version = getattr(request, 'game_version', 'dofus3')
+    form = request.GET
+    error = None
     if request.method == 'POST':
-        return _create_from_coaching(request, game_version)
+        element = offered_element(request.POST.get('element'))
+        if element is not None:
+            return _create_from_coaching(request, game_version, element)
+        form = request.POST
+        error = _('Pick an element for this build.')
 
     # A fiche of the encyclopedia sends its item along: the build will keep
     # it, so the levels below the item's are not offered.
-    included = included_item_for(game_version, request.GET.get('item'))
+    included = included_item_for(game_version, form.get('item'))
     # A set page sends its panoply the same way; one or the other, the
     # item first when both are given.
     included_set = (None if included is not None
-                    else included_set_for(game_version, request.GET.get('set')))
+                    else included_set_for(game_version, form.get('set')))
     floor = None
     if included is not None:
         floor = included['level']
@@ -169,15 +175,33 @@ def coaching(request):
                           if option[0] in included['classes']]
                          or class_options)
 
-    return set_response(request,
-                        'chardata/coaching.html',
-                        {'class_options': class_options,
-                         'level_options': level_options,
-                         'selected_level': selected_level,
-                         'included_item': included,
-                         'included_set': included_set,
-                         'play_styles': play_styles(game_version),
-                         'login_problem': is_anon_cant_create(request)})
+    if error is not None:
+        selected_level = _posted_level(form, level_options, selected_level)
+
+    response = set_response(request,
+                            'chardata/coaching.html',
+                            {'class_options': class_options,
+                             'level_options': level_options,
+                             'selected_level': selected_level,
+                             'selected_class': form.get('char_class') if error else None,
+                             'selected_style': form.get('play_style') if error else None,
+                             'included_item': included,
+                             'included_set': included_set,
+                             'play_styles': play_styles(game_version),
+                             'element_choices': element_choices(),
+                             'error': error,
+                             'login_problem': is_anon_cant_create(request)})
+    if error is not None:
+        response.status_code = 400
+    return response
+
+
+def _posted_level(form, level_options, selected_level):
+    try:
+        level = int(form.get('char_level'))
+    except (TypeError, ValueError):
+        return selected_level
+    return level if level in level_options else selected_level
 
 
 def create_build(request, char_class, char_level, aspects, game_version, name=None):
@@ -236,7 +260,7 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
     return char
 
 
-def _create_from_coaching(request, game_version):
+def _create_from_coaching(request, game_version, element):
     char_class = version_class(request.POST.get('char_class', ''), game_version)
 
     try:
@@ -246,7 +270,7 @@ def _create_from_coaching(request, game_version):
 
     style = offered_style(request.POST.get('play_style', DEFAULT_STYLE), game_version)
 
-    aspects = style_aspects(style, char_class, game_version=game_version, level=char_level)
+    aspects = style_aspects(style, element)
     char = create_build(request, char_class, char_level, aspects, game_version)
 
     # The item the fiche asked for, locked into its slot. After create_build

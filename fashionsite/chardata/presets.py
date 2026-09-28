@@ -5,7 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Presets shared by the doors that create a build: styles, default elements, boxes, priorities, modes."""
+"""Presets shared by the doors that create a build: styles, element choices, boxes, priorities, modes."""
 
 import logging
 import math
@@ -18,8 +18,8 @@ from chardata.char_blobs import read_char_blob
 from chardata.default_elements import version_element
 from chardata.models import Char
 from chardata.options import set_setup_choices
-from chardata.smart_build import (get_char_aspects, get_elements, get_standard_weights,
-                                  reapply_weights, set_char_aspects)
+from chardata.smart_build import (ASPECT_TO_NAME, get_char_aspects, get_elements,
+                                  get_standard_weights, reapply_weights, set_char_aspects)
 from chardata.stats_weights import get_stats_weights
 from chardata.translation_util import localized_stat_name
 from chardata.version_compat import class_exists_in_version, filter_classes_for_version
@@ -55,22 +55,25 @@ CLASS_DEFAULT_ELEMENT = {
 }
 FALLBACK_ELEMENT = 'str'
 
-Style = namedtuple('Style', 'key label build_name_word aspects takes_element')
+Style = namedtuple('Style', 'key label build_name_word aspects')
 
 STYLES = (
     Style('solo_pvm', gettext_lazy('Solo PvM: focus damage'), gettext_lazy('solo PvM'),
-          frozenset({'glasscannon'}), True),
+          frozenset({'glasscannon'})),
     Style('group_pvm', gettext_lazy('Group PvM: tanky / support'), gettext_lazy('group PvM'),
-          frozenset({'vit', 'res'}), True),
+          frozenset({'vit', 'res'})),
     Style('pvp', gettext_lazy('PvP: critical hits'), gettext_lazy('PvP'),
-          frozenset({'pvp', 'crit'}), True),
+          frozenset({'pvp', 'crit'})),
     Style('farm', gettext_lazy('Farm / Level-up: Prospecting & Wisdom'), gettext_lazy('farm'),
-          frozenset({'wis', 'pp'}), False),
+          frozenset({'wis', 'pp'})),
 )
 STYLE_BY_KEY = {style.key: style for style in STYLES}
 DEFAULT_STYLE = 'solo_pvm'
 
 ELEMENT_BOXES = ('str', 'int', 'cha', 'agi', 'omni')
+NO_ELEMENT = 'none'
+ELEMENT_CHOICES = ELEMENT_BOXES + (NO_ELEMENT,)
+NO_ELEMENT_LABEL = gettext_lazy('None (XP or Prospecting mule)')
 FOCUS_COLUMNS = (('balanced', 'vit', 'glasscannon', 'dam', 'heal', 'aprape', 'mprape', 'crit'),
                  ('res', 'wis', 'pp', 'pods', 'trap', 'summon', 'pushback', 'noncrit'))
 FOCUS_LIMIT = 2
@@ -164,18 +167,36 @@ def version_class(char_class, game_version):
 
 
 def default_element(char_class, game_version=None, level=None):
-    """The class's element in the version's table at the nearest level, else the shared one."""
+    """The class's element in the version's table at the nearest level, else the shared one. No door applies it."""
     return (version_element(char_class, game_version, level)
             or CLASS_DEFAULT_ELEMENT.get(char_class, FALLBACK_ELEMENT))
 
 
-def style_aspects(style, char_class=None, element=None, game_version=None, level=None):
-    """The aspects a style sets, plus the element (the class's own on the version and level unless given) when the style takes one."""
+def element_choices():
+    """[(key, label)] of the element question of the quick start and the Smart Build."""
+    return ([(key, ASPECT_TO_NAME[key]) for key in ELEMENT_BOXES]
+            + [(NO_ELEMENT, NO_ELEMENT_LABEL)])
+
+
+def offered_element(element):
+    """The element choice if it is one of the list, else None."""
+    return element if element in ELEMENT_CHOICES else None
+
+
+def element_aspects(element):
+    """The aspects an element choice sets, none for NO_ELEMENT; ValueError outside ELEMENT_CHOICES."""
+    if element in (None, NO_ELEMENT):
+        return set()
+    if element not in ELEMENT_BOXES:
+        raise ValueError('not an element choice: %r' % (element,))
+    return {element}
+
+
+def style_aspects(style, element=None):
+    """The aspects a style sets, plus the element chosen."""
     preset = STYLE_BY_KEY.get(style)
     aspects = set(preset.aspects) if preset is not None else set()
-    if preset is None or preset.takes_element:
-        aspects.add(element or default_element(char_class, game_version, level))
-    return aspects
+    return aspects | element_aspects(element)
 
 
 def setup_columns(game_version):

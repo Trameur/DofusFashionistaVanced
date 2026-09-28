@@ -20,8 +20,8 @@ SINGLE_ELEMENTS = {'str', 'int', 'cha', 'agi'}
 EVERY_STYLE = ('solo_pvm', 'group_pvm', 'pvp', 'farm')
 
 
-def _offered_styles(page):
-    block = re.search(r'<select[^>]*name="?play_style"?[^>]*>(.*?)</select>', page, re.S)
+def _offered(page, name='play_style'):
+    block = re.search(r'<select[^>]*name="?%s"?[^>]*>(.*?)</select>' % name, page, re.S)
     return re.findall(r'<option[^>]*value="?([\w-]+)"?', block.group(1))
 
 
@@ -89,18 +89,18 @@ class TheDoorsReadTheRegistryTests(TestCase):
             on_retro = self.client.get('/retro/quickstart/').content.decode('utf-8')
             set_current_game_version('dofus3')
             on_dofus3 = self.client.get('/quickstart/').content.decode('utf-8')
-        self.assertEqual(['solo_pvm', 'pvp'], _offered_styles(on_retro))
-        self.assertEqual(list(EVERY_STYLE), _offered_styles(on_dofus3))
+        self.assertEqual(['solo_pvm', 'pvp'], _offered(on_retro))
+        self.assertEqual(list(EVERY_STYLE), _offered(on_dofus3))
 
     def test_a_style_its_version_does_not_offer_falls_back_to_the_default(self):
         retro = {'styles': ('solo_pvm', 'pvp'), 'option_boxes': ('pvp', 'duel')}
         with mock.patch.dict(presets.VERSION_PRESETS, {'retro': retro}):
             set_current_game_version('retro')
             response = self.client.post('/retro/quickstart/', {
-                'char_class': 'Iop', 'char_level': '200', 'play_style': 'farm'})
+                'char_class': 'Iop', 'char_level': '200', 'play_style': 'farm',
+                'element': 'agi'})
         self.assertEqual(302, response.status_code)
-        self.assertEqual({'glasscannon', presets.default_element('Iop', 'retro', 200)},
-                         self._aspects_of_the_last_build())
+        self.assertEqual({'glasscannon', 'agi'}, self._aspects_of_the_last_build())
 
     def test_the_setup_page_shows_the_option_boxes_of_its_version(self):
         touch = {'styles': EVERY_STYLE, 'option_boxes': ('duel',)}
@@ -110,11 +110,10 @@ class TheDoorsReadTheRegistryTests(TestCase):
         self.assertEqual(['duel'], _aspect_layout(page)[1])
         self.assertEqual(presets.setup_columns('touch')[2:], _aspect_layout(page)[2:])
 
-    def test_the_quick_start_and_the_smart_build_share_the_default_element(self):
-        with mock.patch.object(presets, 'default_element',
-                               lambda char_class, game_version=None, level=None: 'agi'):
-            self.assertEqual({'glasscannon', 'agi'}, parse_build_request('Iop')['aspects'])
-            response = self.client.post('/quickstart/', {
-                'char_class': 'Iop', 'char_level': '200', 'play_style': 'solo_pvm'})
-        self.assertEqual(302, response.status_code)
-        self.assertEqual({'glasscannon', 'agi'}, self._aspects_of_the_last_build())
+    def test_the_quick_start_and_the_smart_build_share_the_element_list(self):
+        with mock.patch.object(presets, 'ELEMENT_BOXES', ('agi',)):
+            quick_start = self.client.get('/quickstart/').content.decode('utf-8')
+            smart_build = self.client.post('/smartbuild/', {'q': 'Iop'}).content.decode('utf-8')
+        self.assertEqual(['agi', 'none'], _offered(quick_start, 'element'))
+        self.assertEqual(['agi', 'none'], _offered(smart_build, 'element'))
+        self.assertEqual({'glasscannon'}, parse_build_request('Iop')['aspects'])

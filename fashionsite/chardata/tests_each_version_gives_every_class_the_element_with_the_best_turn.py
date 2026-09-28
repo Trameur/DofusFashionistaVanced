@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Each version's default_elements table gives every class, at each Quick Start level, the element of its best turn, and the doors read it."""
+"""Each version's default_elements table gives every class, at each Quick Start level, the element of its best turn; no door applies it."""
 import pickle
 from unittest import mock
 
@@ -241,21 +241,14 @@ class EveryVersionTableIsBuiltOnTodaysInputsTests(SimpleTestCase):
                 self.assertEqual(expected, headers)
 
 
-class TheQuickStartAndTheSmartBuildShareTheVersionElementTests(SimpleTestCase):
+class TheTableReaderGivesTheVersionElementTests(SimpleTestCase):
 
-    def test_both_doors_give_every_class_its_version_element_at_each_level(self):
+    def test_the_reader_gives_every_class_its_version_element_at_each_level(self):
         for version in dofus_versions():
             for char_class, level, entry in _entries(version):
                 with self.subTest(version=version, char_class=char_class, level=level):
                     self.assertEqual(entry['element'],
                                      presets.default_element(char_class, version, level))
-                    self.assertIn(entry['element'],
-                                  presets.style_aspects('solo_pvm', char_class,
-                                                        game_version=version, level=level))
-                    parsed = parse_build_request('%s %d' % (char_class, level), version)
-                    self.assertEqual((char_class, level), (parsed['char_class'],
-                                                           parsed['level']))
-                    self.assertIn(entry['element'], parsed['aspects'])
 
     def test_a_level_reads_the_nearest_reference_level_and_the_lower_on_a_tie(self):
         table = {'classes': {'Iop': {'100': {'element': 'agi'}, '150': {'element': 'int'}}}}
@@ -278,12 +271,14 @@ class TheQuickStartAndTheSmartBuildShareTheVersionElementTests(SimpleTestCase):
         self.assertEqual(presets.CLASS_DEFAULT_ELEMENT['Iop'],
                          presets.default_element('Iop', 'wakfu', 200))
 
-    def test_the_smart_build_gives_a_class_its_version_lacks_the_element_of_the_class_built(self):
-        built = presets.version_class('Rogue', 'retro')
-        expected = presets.default_element(built, 'retro', 200)
-        self.assertNotEqual('Rogue', built)
-        self.assertNotEqual(presets.CLASS_DEFAULT_ELEMENT['Rogue'], expected)
-        self.assertIn(expected, parse_build_request('Roublard', 'retro')['aspects'])
+    def test_the_parser_adds_no_table_element_at_any_level(self):
+        for version in dofus_versions():
+            for char_class, level, entry in _entries(version):
+                with self.subTest(version=version, char_class=char_class, level=level):
+                    parsed = parse_build_request('%s %d' % (char_class, level), version)
+                    self.assertEqual((char_class, level), (parsed['char_class'],
+                                                           parsed['level']))
+                    self.assertEqual({'glasscannon'}, parsed['aspects'])
 
 
 def _tables(overrides):
@@ -298,7 +293,7 @@ def _patched(version, elements):
                         for char_class, by_level in elements.items()}}
 
 
-class TheDoorsFollowTheirVersionTableTests(TestCase):
+class TheDoorsApplyNoVersionTableTests(TestCase):
 
     def setUp(self):
         self.addCleanup(set_current_game_version, 'dofus3')
@@ -313,67 +308,73 @@ class TheDoorsFollowTheirVersionTableTests(TestCase):
         char = self._last_build()
         return set(read_char_blob(char.aspects, set(), 'aspects', char))
 
-    def _quick_start(self, version, char_class, level=200, style='solo_pvm'):
+    def _post(self, version, path, data, expected):
         set_current_game_version(version)
-        response = self.client.post(_path(version, '/quickstart/'), {
-            'char_class': char_class, 'char_level': str(level), 'play_style': style})
-        self.assertEqual(302, response.status_code)
+        before = Char.objects.count()
+        response = self.client.post(_path(version, path),
+                                    {key: value for key, value in data.items()
+                                     if value is not None})
+        self.assertEqual(expected, response.status_code)
+        if expected != 302:
+            self.assertEqual(before, Char.objects.count())
+            return None
         return self._aspects_of_the_last_build()
 
-    def _smart_build(self, version, text):
-        set_current_game_version(version)
-        response = self.client.post(_path(version, '/smartbuild/'),
-                                    {'q': text, 'confirm': '1'})
-        self.assertEqual(302, response.status_code)
-        return self._aspects_of_the_last_build()
+    def _quick_start(self, version, char_class, level=200, style='solo_pvm', element='none',
+                     expected=302):
+        return self._post(version, '/quickstart/', {
+            'char_class': char_class, 'char_level': str(level), 'play_style': style,
+            'element': element}, expected)
 
-    def test_the_quick_start_and_the_smart_build_take_the_element_of_their_version(self):
+    def _smart_build(self, version, text, element='none', expected=302):
+        return self._post(version, '/smartbuild/', {'q': text, 'confirm': '1',
+                                                    'element': element}, expected)
+
+    def test_no_door_reads_the_version_table(self):
+        def unread(version):
+            raise AssertionError('a door read the %s default_elements table' % version)
+        with mock.patch.object(default_elements, 'default_elements_table', unread):
+            for version in ('retro', 'dofus3'):
+                with self.subTest(version=version):
+                    self.assertEqual({'glasscannon'}, self._quick_start(version, 'Iop'))
+                    self.assertEqual({'glasscannon'}, self._smart_build(version, 'Iop'))
+                    self.assertEqual({'glasscannon'},
+                                     parse_build_request('Sram 100', version)['aspects'])
+
+    def test_a_patched_table_changes_no_build(self):
         other = {'Iop': 'agi', 'Sram': 'int'}
         for version in ('retro', 'dofus3'):
             patched = _patched(version, {char_class: {'200': element}
                                          for char_class, element in other.items()})
             with mock.patch.object(default_elements, 'default_elements_table',
                                    _tables({version: patched})):
-                for char_class, element in other.items():
+                for char_class in other:
                     with self.subTest(version=version, char_class=char_class):
-                        self.assertEqual({'glasscannon', element},
-                                         self._quick_start(version, char_class))
-                        self.assertEqual({'glasscannon', element},
-                                         self._smart_build(version, char_class))
+                        self.assertEqual({'glasscannon', 'cha'},
+                                         self._quick_start(version, char_class, element='cha'))
+                        self.assertEqual({'glasscannon', 'cha'},
+                                         self._smart_build(version, char_class, 'cha'))
 
-    def test_the_quick_start_and_the_smart_build_take_the_element_of_their_level(self):
-        patched = _patched('retro', {'Iop': {'50': 'agi', '200': 'int'}})
-        with mock.patch.object(default_elements, 'default_elements_table',
-                               _tables({'retro': patched})):
-            for level, element in ((50, 'agi'), (100, 'agi'), (199, 'int')):
-                with self.subTest(level=level):
-                    self.assertEqual({'glasscannon', element},
-                                     self._quick_start('retro', 'Iop', level))
-                    self.assertEqual({'glasscannon', element},
-                                     self._smart_build('retro', 'Iop %d' % level))
-            self.assertEqual({'glasscannon', 'int'}, self._smart_build('retro', 'Iop'))
+    def test_a_post_without_an_element_is_refused(self):
+        for version in ('retro', 'dofus3'):
+            with self.subTest(version=version):
+                self._quick_start(version, 'Iop', element=None, expected=400)
+                self._quick_start(version, 'Iop', element='fire', expected=400)
+                self._smart_build(version, 'Iop 150', None, expected=400)
 
-    def test_another_version_table_changes_nothing(self):
-        patched = _patched('touch', {'Iop': {'200': 'agi'}})
-        expected = presets.default_element('Iop', 'retro', 200)
-        with mock.patch.object(default_elements, 'default_elements_table',
-                               _tables({'touch': patched})):
-            self.assertEqual({'glasscannon', expected}, self._quick_start('retro', 'Iop'))
-            self.assertEqual({'glasscannon', expected}, self._smart_build('retro', 'Iop'))
-
-    def test_a_class_its_version_lacks_is_built_with_the_element_of_the_class_built(self):
+    def test_a_class_its_version_lacks_is_built_without_an_element(self):
         built = presets.version_class('Rogue', 'retro')
-        expected = {'glasscannon', presets.default_element(built, 'retro', 200)}
-        self.assertNotIn(presets.CLASS_DEFAULT_ELEMENT['Rogue'], expected)
-        self.assertEqual(expected, self._quick_start('retro', 'Rogue'))
+        self.assertNotEqual('Rogue', built)
+        self.assertEqual({'glasscannon'}, self._quick_start('retro', 'Rogue'))
         self.assertEqual(built, self._last_build().char_class)
-        self.assertEqual(expected, self._smart_build('retro', 'Roublard'))
+        self.assertEqual({'glasscannon'}, self._smart_build('retro', 'Roublard'))
         self.assertEqual(built, self._last_build().char_class)
 
-    def test_a_quick_start_healer_values_the_characteristic_its_heals_scale_with(self):
+    def test_a_quick_start_healer_on_intelligence_values_its_heals(self):
         for level in generator.LEVELS:
             with self.subTest(level=level):
-                self._quick_start('retro', 'Eniripsa', level, 'group_pvm')
+                self._quick_start('retro', 'Eniripsa', level, 'group_pvm',
+                                  generator.HEAL_CHARACTERISTIC)
                 char = self._last_build()
                 weights = read_char_blob(char.stats_weight, {}, 'stats_weight', char)
                 self.assertGreater(weights.get('heals', 0), 0)

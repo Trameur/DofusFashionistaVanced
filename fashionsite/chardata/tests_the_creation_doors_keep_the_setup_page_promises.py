@@ -73,17 +73,19 @@ class _DoorMixin(object):
 class EveryDoorSeedsTheSetupPageMinimumsTests(_DoorMixin, TestCase):
 
     def test_the_quick_start_stores_what_the_setup_wizard_stores(self):
-        for version, char_class, level, style in (('dofus3', 'Iop', 200, 'solo_pvm'),
-                                                  ('retro', 'Cra', 100, 'pvp'),
-                                                  ('touch', 'Osamodas', 150, 'group_pvm'),
-                                                  ('dofus2', 'Enutrof', 200, 'farm')):
-            with self.subTest(version=version, style=style):
+        for version, char_class, level, style, element in (
+                ('dofus3', 'Iop', 200, 'solo_pvm', 'str'), ('retro', 'Cra', 100, 'pvp', 'agi'),
+                ('touch', 'Osamodas', 150, 'group_pvm', 'omni'),
+                ('dofus2', 'Enutrof', 200, 'farm', 'none'),
+                ('beta', 'Xelor', 200, 'farm', 'cha')):
+            with self.subTest(version=version, style=style, element=element):
                 set_current_game_version(version)
                 self.client.post(_path(version, '/quickstart/'), {
-                    'char_class': char_class, 'char_level': str(level), 'play_style': style})
+                    'char_class': char_class, 'char_level': str(level), 'play_style': style,
+                    'element': element})
                 quick = self.last_char()
                 page = self.setup_page(version, char_class, level,
-                                       presets.style_aspects(style, char_class))
+                                       presets.style_aspects(style, element))
                 self.assertEqual(self.blob(page, 'minimum_stats', {}),
                                  self.blob(quick, 'minimum_stats', {}))
                 self.assertTrue(self.blob(quick, 'minimum_stats', {}))
@@ -99,7 +101,7 @@ class EveryDoorSeedsTheSetupPageMinimumsTests(_DoorMixin, TestCase):
 
     def test_a_farm_build_asks_no_ap_mp_or_range(self):
         self.client.post('/quickstart/', {'char_class': 'Enutrof', 'char_level': '200',
-                                          'play_style': 'farm'})
+                                          'play_style': 'farm', 'element': 'none'})
         minimums = self.blob(self.last_char(), 'minimum_stats', {})
         self.assertEqual((0, 0, 0), (minimums['AP'], minimums['MP'], minimums['Range']))
 
@@ -119,7 +121,7 @@ class AQuickStartAroundGearKeepsItSolvableTests(_DoorMixin, TestCase):
         set_current_game_version(version)
         response = self.client.post(_path(version, '/quickstart/'), {
             'char_class': 'Iop', 'char_level': '200', 'play_style': 'solo_pvm',
-            'set': str(_lowest_set(version))})
+            'element': 'str', 'set': str(_lowest_set(version))})
         self.assertEqual(302, response.status_code)
         return self.last_char()
 
@@ -134,7 +136,8 @@ class AQuickStartAroundGearKeepsItSolvableTests(_DoorMixin, TestCase):
         structure = get_structure('dofus3')
         hat = next(item for item in structure.types[200]['Hat'] if not item.removed)
         self.client.post('/quickstart/', {'char_class': 'Iop', 'char_level': '200',
-                                          'play_style': 'solo_pvm', 'item': str(hat.id)})
+                                          'play_style': 'solo_pvm', 'element': 'str',
+                                          'item': str(hat.id)})
         char = self.last_char()
         self.assertEqual(hat.id, self.blob(char, 'inclusions', {}).get('hat'))
         self.assertEqual({}, self.blob(char, 'minimum_stats', {}))
@@ -156,7 +159,8 @@ class TheFarmStyleWeighsWisdomTests(_DoorMixin, TestCase):
             with self.subTest(version=version):
                 set_current_game_version(version)
                 self.client.post(_path(version, '/quickstart/'), {
-                    'char_class': 'Enutrof', 'char_level': '200', 'play_style': 'farm'})
+                    'char_class': 'Enutrof', 'char_level': '200', 'play_style': 'farm',
+                    'element': 'none'})
                 weights = self.blob(self.last_char(), 'stats_weight', {})
                 self.assertGreater(weights['wis'], 0)
                 self.assertGreater(weights['pp'], 0)
@@ -222,7 +226,7 @@ class TheFocusLimitHoldsOnTheServerTests(_DoorMixin, TestCase):
         self.assertEqual({'trap', 'summon'}, presets.focus_boxes(parsed['aspects']))
 
     def test_the_smart_build_drops_its_style_boxes_before_the_words_typed(self):
-        parsed = parse_build_request('Feca vitality resistance 50')
+        parsed = parse_build_request('Feca fire vitality resistance 50')
         self.assertEqual({'int', 'vit', 'res'}, parsed['aspects'])
 
     def test_every_parsed_request_stays_within_the_limit(self):
@@ -275,8 +279,8 @@ class TheDoorsReadTheBoxesTheirVersionListsTests(_DoorMixin, TestCase):
         with mock.patch.dict(presets.VERSION_PRESETS, {'retro': retro}):
             set_current_game_version('retro')
             self.client.post('/retro/smartbuild/', {'q': 'Enutrof farm level 100',
-                                                    'confirm': '1'})
-        self.assertEqual(presets.style_aspects('solo_pvm', 'Enutrof'),
+                                                    'confirm': '1', 'element': 'cha'})
+        self.assertEqual(presets.style_aspects('solo_pvm', 'cha'),
                          self.blob(self.last_char(), 'aspects', set()))
 
 

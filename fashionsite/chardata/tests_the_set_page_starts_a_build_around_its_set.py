@@ -90,7 +90,7 @@ class TheQuickStartKeepsTheWholeSetTests(TestCase):
         structure, item_set, pieces = _panoplie_a_deux_bagues('dofus3')
         reponse = self.client.post('/quickstart/', {
             'char_class': 'Cra', 'char_level': '200',
-            'play_style': 'solo_pvm', 'set': str(item_set.id)})
+            'play_style': 'solo_pvm', 'element': 'agi', 'set': str(item_set.id)})
         self.assertEqual(302, reponse.status_code)
         char = Char.objects.order_by('-id').first()
         attendu = {p['slot']: p['id'] for p in pieces['pieces']}
@@ -111,7 +111,7 @@ class TheQuickStartKeepsTheWholeSetTests(TestCase):
             raise AssertionError('no dofus3 set with pieces of different levels')
         self.client.post('/quickstart/', {
             'char_class': 'Cra', 'char_level': str(bas),
-            'play_style': 'solo_pvm', 'set': str(item_set.id)})
+            'play_style': 'solo_pvm', 'element': 'agi', 'set': str(item_set.id)})
         char = Char.objects.order_by('-id').first()
         verrouilles = set(get_inclusions_dict(char).values())
         for p in pieces['pieces']:
@@ -128,7 +128,7 @@ class TheQuickStartKeepsTheWholeSetTests(TestCase):
         self.assertNotIn('coaching-included-set', page)
         self.client.post('/quickstart/', {
             'char_class': 'Cra', 'char_level': '200', 'play_style': 'solo_pvm',
-            'set': str(item_set.id), 'item': str(objet.id)})
+            'element': 'agi', 'set': str(item_set.id), 'item': str(objet.id)})
         char = Char.objects.order_by('-id').first()
         self.assertEqual({'hat': objet.id}, get_inclusions_dict(char))
 

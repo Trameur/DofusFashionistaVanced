@@ -1,7 +1,8 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """Every door that creates a build keeps the aspects, weights, minimums and options in golden_presets/.
 
-Regenerate after an intended change, every door or a comma list of them
+The quick start and the Smart Build post the version table's element, none on farm; None has
+cases of its own. Regenerate after an intended change, every door or a comma list of them
 (quick_start, setup, smart_build, import), from fashionsite/:
     REGENERATE_GOLDEN_PRESETS=1 py manage.py test chardata.tests_every_preset_keeps_its_weights_and_minimums --settings=fashionsite.settings_test --noinput --parallel 1
 """
@@ -18,6 +19,7 @@ from django.contrib.auth.models import User
 from django.test import Client, RequestFactory, SimpleTestCase, TestCase
 from django.utils import translation
 
+from chardata import presets
 from chardata.char_blobs import read_char_blob
 from chardata.coaching_view import coaching
 from chardata.create_project_view import create_project, save_project
@@ -251,14 +253,25 @@ def _script_value(page, name, until=';'):
     return match.group(1).strip()
 
 
-def _offered_styles(version):
+def _offered(version, name):
     page = _page(version, '/quickstart/')
-    block = re.search(r'<select[^>]*name="?play_style"?[^>]*>(.*?)</select>', page, re.S)
+    block = re.search(r'<select[^>]*name="?%s"?[^>]*>(.*?)</select>' % name, page, re.S)
     if block is None:
-        raise AssertionError('the quick start no longer offers a play_style list')
+        raise AssertionError('the quick start no longer offers a %s list' % name)
     return [[value, html.unescape(label.strip())] for value, label in
             re.findall(r'<option[^>]*value="?([\w-]+)"?[^>]*>(.*?)</option>',
                        block.group(1), re.S)]
+
+
+def _offered_styles(version):
+    return _offered(version, 'play_style')
+
+
+def _class_element(style, char_class, version, level):
+    """The element a case posts: the version table's for the class and level, none on farm."""
+    if style == 'farm':
+        return presets.NO_ELEMENT
+    return presets.default_element(char_class, version, level)
 
 
 def _offered_setup(version):
@@ -313,22 +326,34 @@ class _GoldenDoorMixin(object):
 
 
 class TheQuickStartKeepsItsAspectsWeightsAndMinimumsTests(_GoldenDoorMixin, TestCase):
-    """Every version, class, offered style and level 50, 100, 199 and 200."""
+    """Every version, class, offered style and level 50, 100, 199 and 200; None and farm with an element on a spread."""
     door = 'quick_start'
+
+    def _create(self, version, char_class, level, style, element):
+        return _record(self._post(coaching, version, {
+            'char_class': char_class, 'char_level': str(level), 'play_style': style,
+            'element': element}))
 
     def collect(self):
         cases = {}
         for version in VERSIONS:
             styles = _offered_styles(version)
-            cases['%s offered' % version] = {'styles': styles}
-            for char_class in _classes(version):
+            cases['%s offered' % version] = {'styles': styles,
+                                             'elements': _offered(version, 'element')}
+            classes = _classes(version)
+            for char_class in classes:
                 for level in LEVELS:
                     for style, _label in styles:
-                        char = self._post(coaching, version, {
-                            'char_class': char_class, 'char_level': str(level),
-                            'play_style': style})
                         cases['%s %s %d %s' % (version, char_class, level, style)] = \
-                            _record(char)
+                            self._create(version, char_class, level, style,
+                                         _class_element(style, char_class, version, level))
+            for style, _label in styles:
+                for level in LEVELS:
+                    element = (_pick(presets.ELEMENT_BOXES, version, style, level)
+                               if style == 'farm' else presets.NO_ELEMENT)
+                    char_class = _pick(classes, version, style, level, element)
+                    cases['%s %s %d %s %s' % (version, char_class, level, style, element)] = \
+                        self._create(version, char_class, level, style, element)
         return cases
 
 
@@ -465,8 +490,17 @@ class TheSetupPageKeepsItsAspectsWeightsAndMinimumsTests(_GoldenDoorMixin, TestC
 
 
 class TheSmartBuildKeepsItsParsingAndPresetsTests(_GoldenDoorMixin, TestCase):
-    """Phrases per language and every class alone: what the parser reads and the build created."""
+    """Phrases per language and every class alone: what the parser reads and the build created; None on a spread."""
     door = 'smart_build'
+
+    def _confirm(self, phrase, version):
+        data = {'q': phrase, 'confirm': '1'}
+        parsed = parse_build_request(phrase, version)
+        if not parsed['matched_element']:
+            data['element'] = _class_element(
+                parsed['style'], presets.version_class(parsed['char_class'], version), version,
+                parsed['level'])
+        return data
 
     def collect(self):
         cases = {}
@@ -477,12 +511,18 @@ class TheSmartBuildKeepsItsParsingAndPresetsTests(_GoldenDoorMixin, TestCase):
                 if not parsed['matched_class']:
                     continue
                 for version in VERSIONS:
-                    char = self._post(smart_build, version, {'q': phrase, 'confirm': '1'})
+                    char = self._post(smart_build, version, self._confirm(phrase, version))
                     cases['%s %s %s' % (version, language, phrase)] = \
+                        _record(char, identity=True)
+                if not parsed['matched_element']:
+                    version = _pick(VERSIONS, language, phrase)
+                    char = self._post(smart_build, version, {
+                        'q': phrase, 'confirm': '1', 'element': presets.NO_ELEMENT})
+                    cases['%s %s %s none' % (version, language, phrase)] = \
                         _record(char, identity=True)
         for char_class in CHARACTER_CLASSES:
             cases['parse class %s' % char_class] = _parsed(parse_build_request(char_class))
-            char = self._post(smart_build, 'dofus3', {'q': char_class, 'confirm': '1'})
+            char = self._post(smart_build, 'dofus3', self._confirm(char_class, 'dofus3'))
             cases['dofus3 class %s' % char_class] = _record(char, identity=True)
         return cases
 

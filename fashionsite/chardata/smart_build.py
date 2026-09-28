@@ -24,8 +24,9 @@ import pickle
 from chardata.char_blobs import read_char_blob
 
 from chardata.options import get_options, set_options
-from fashionistapulp.dofus_constants import DAMAGE_TYPES, STAT_KEY_TO_NAME, MAIN_STATS
-from fashionistapulp.modelresult import wisdom_per_ap_mp_dodge_point
+from fashionistapulp.dofus_constants import (DAMAGE_TYPES, STAT_KEY_TO_NAME, MAIN_STATS,
+                                             NON_STAT_WEIGHT_KEYS)
+from fashionistapulp.modelresult import characteristic_passives, wisdom_per_ap_mp_dodge_point
 
 
 ALL_ASPECTS_LIST = ['str', 'int', 'cha', 'agi',
@@ -832,6 +833,28 @@ def _is_mule_or_leech(aspects):
     is_leech = not elements and 'wis' in aspects and 'pp' not in aspects and 'pods' not in aspects
     return is_mule, is_leech
 
+MULE_STATS = {'wis': 'wis', 'pp': 'pp', 'pods': 'pod'}
+# A Strength weight turns on model.py's special Dofus prices
+MULE_STATS_PRICED_THROUGH_CHARACTERISTIC = ('pp',)
+# Stored mule weights carry these at 0 too
+MULE_ZERO_KEYS = ('ref', 'trapdam', 'trapdamper')
+
+def mule_stats(aspects):
+    """The stats a build without an element weighs alone: Wisdom, Prospecting, Pods for their boxes."""
+    if get_elements(aspects):
+        return set()
+    return {stat for aspect, stat in MULE_STATS.items() if aspect in aspects}
+
+def _mule_weights(w, stats, game_version):
+    """Every weight 0 but the mule's stats and the Chance that gives Prospecting."""
+    kept = {stat: w[stat] for stat in stats}
+    for stat, characteristic, per, gain in characteristic_passives(game_version):
+        if stat in stats and stat in MULE_STATS_PRICED_THROUGH_CHARACTERISTIC:
+            kept[characteristic] = kept.get(characteristic, 0) + w[stat] * gain / float(per)
+    for key in set(w).union(MULE_ZERO_KEYS):
+        if key not in NON_STAT_WEIGHT_KEYS:
+            w[key] = kept.get(key, 0)
+
 def level_minimums(char, aspects):
     """{stat name: minimum} for AP, MP, Range and Summons at the char's level, class and aspects."""
     race = char.char_class
@@ -1109,39 +1132,9 @@ def _set_weights(char, aspects, apply=True):
 
     w['resperwea'] = chance_of_melee_def * resper_w * 5
 
-    # 10 chance = 1 prospecting
-    if not elements and ('pp' in aspects or 'pods' in aspects):
-        for zero_key in ('ap', 'mp', 'range', 'heals', 'summon',
-                         'dodge', 'lock', 'agi', 'apred', 'mpred', 'apres', 'mpres',
-                         'crires', 'pshres', 'cridam', 'pshdam', 'trapdam',
-                         'trapdamper', 'ref', 'permedam', 'perrandam',
-                         'perweadam', 'perspedam', 'respermee', 'resperran',
-                         'resperwea', 'init', 'ch', 'vit', 'hp',
-                         'pow', 'str', 'int'):
-            w[zero_key] = 0
-        if 'wis' not in aspects:
-            w['wis'] = 0
-        for damage_type in DAMAGE_TYPES:
-            w['%sres' % damage_type] = 0
-            w['%sresper' % damage_type] = 0
-            w['%sdam' % damage_type] = 0
-        w['dam'] = 0
-        w['cha'] = w['pp'] / 10.0 if pp_from_cha else 0
-
-    if not elements and 'wis' in aspects and 'pp' not in aspects and 'pods' not in aspects:
-        for zero_key in ('ap', 'mp', 'range', 'heals', 'summon',
-                         'dodge', 'lock', 'agi', 'apred', 'mpred', 'apres', 'mpres',
-                         'crires', 'pshres', 'cridam', 'pshdam', 'trapdam',
-                         'trapdamper', 'ref', 'permedam', 'perrandam',
-                         'perweadam', 'perspedam', 'respermee', 'resperran',
-                         'resperwea', 'init', 'ch', 'vit', 'hp',
-                         'pow', 'str', 'int', 'cha', 'pp'):
-            w[zero_key] = 0
-        for damage_type in DAMAGE_TYPES:
-            w['%sres' % damage_type] = 0
-            w['%sresper' % damage_type] = 0
-            w['%sdam' % damage_type] = 0
-        w['dam'] = 0
+    mule = mule_stats(aspects)
+    if mule:
+        _mule_weights(w, mule, game_version)
 
     # Zeroed, not removed: the tuning page expects every key
     for zero_key in tuning.get('zero_stats', ()):

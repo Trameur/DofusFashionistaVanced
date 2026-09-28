@@ -34,6 +34,7 @@
         }
         .smart-chip-main { font-weight: bold; border-color: rgba(200,160,40,0.7); }
         .smart-hint { opacity: 0.7; font-size: 0.85em; margin-top: 8px; }
+        .smart-element { padding: 6px 8px; font-size: 1em; max-width: 100%; }
     </style>
 {% endblock %}
 
@@ -79,10 +80,19 @@
                 {% for a in interpretation.aspect_labels %}<span class="smart-chip">{{ a }}</span>{% endfor %}
             </div>
             {% if confirm %}
+            {% if element_error %}<p class="smart-error" id="smart-element-error" role="alert">{{ element_error }}</p>{% endif %}
             <form method="post" class="smart-form" style="margin-top: 12px;">
                 {% csrf_token %}
                 <input type="hidden" name="q" value="{{ query }}">
                 <input type="hidden" name="confirm" value="1">
+                {% if asks_element %}
+                <select name="element" id="smart_element" class="smart-element" aria-label="{% trans 'Element' %}" required>
+                    <option value="" disabled selected>{% trans "Choose an element" %}</option>
+                    {% for key, label in element_choices %}
+                    <option value="{{ key }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+                {% endif %}
                 <button type="submit" class="button-generic">{% trans "Create this build" %}</button>
             </form>
             <p class="smart-hint">{% trans "Not quite? Edit your description above and search again." %}</p>

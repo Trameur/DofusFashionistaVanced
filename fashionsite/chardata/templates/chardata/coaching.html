@@ -4,7 +4,7 @@
 {% load version_url %}
 
 {% block title %}{% trans "Build a Dofus Set in 3 Clicks" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
-{% block meta_description %}{% trans "Answer a few quick questions about your Dofus character - class, level, playstyle - and get a ready-to-use set in under a minute." %}{% endblock %}
+{% block meta_description %}{% trans "Answer a few quick questions about your Dofus character (class, level, element and playstyle) and get a ready-to-use set in under a minute." %}{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
@@ -39,7 +39,7 @@
             text-align: center;
             margin-top: 18px;
         }
-        .coaching-login-warn {
+        .coaching-login-warn, .coaching-error {
             color: #c33;
             text-align: center;
             margin-bottom: 12px;
@@ -52,8 +52,12 @@
 
     <div class="coaching-card">
         <p class="coaching-intro">
-            {% trans "Three questions, one ready-to-play build. No wizard, no jargon. Just pick your class, level and playstyle." %}
+            {% trans "Four questions, one ready-to-play build. No wizard, no jargon. Just pick your class, level, element and playstyle." %}
         </p>
+
+        {% if error %}
+        <p class="coaching-error" id="coaching-error" role="alert">{{ error }}</p>
+        {% endif %}
 
         {% if login_problem %}
         <p class="coaching-login-warn">
@@ -77,7 +81,7 @@
                 <span class="coaching-field-label">{% trans "Class" %}</span>
                 <select name="char_class" required>
                     {% for key, label in class_options %}
-                    <option value="{{ key }}">{{ label }}</option>
+                    <option value="{{ key }}"{% if key == selected_class %} selected{% endif %}>{{ label }}</option>
                     {% endfor %}
                 </select>
             </label>
@@ -92,10 +96,20 @@
             </label>
 
             <label class="coaching-field">
+                <span class="coaching-field-label">{% trans "Element" %}</span>
+                <select name="element" required>
+                    <option value="" disabled selected>{% trans "Choose an element" %}</option>
+                    {% for key, label in element_choices %}
+                    <option value="{{ key }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label class="coaching-field">
                 <span class="coaching-field-label">{% trans "Playstyle" %}</span>
                 <select name="play_style" required>
                     {% for key, label in play_styles %}
-                    <option value="{{ key }}">{{ label }}</option>
+                    <option value="{{ key }}"{% if key == selected_style %} selected{% endif %}>{{ label }}</option>
                     {% endfor %}
                 </select>
             </label>

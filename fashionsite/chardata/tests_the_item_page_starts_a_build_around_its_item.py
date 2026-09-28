@@ -108,7 +108,7 @@ class TheQuickStartKeepsTheItemTests(TestCase):
         structure, item = _objet('dofus3', type_name='Ring')
         reponse = self.client.post('/quickstart/', {
             'char_class': 'Cra', 'char_level': '200',
-            'play_style': 'solo_pvm', 'item': str(item.id)})
+            'play_style': 'solo_pvm', 'element': 'agi', 'item': str(item.id)})
         self.assertEqual(302, reponse.status_code)
         char = Char.objects.order_by('-id').first()
         self.assertEqual({'ring1': item.id}, get_inclusions_dict(char))
@@ -123,7 +123,7 @@ class TheQuickStartKeepsTheItemTests(TestCase):
                     and structure.get_type_name_by_id(i.type) == 'Hat')
         self.client.post('/quickstart/', {
             'char_class': 'Cra', 'char_level': '150',
-            'play_style': 'solo_pvm', 'item': str(haut.id)})
+            'play_style': 'solo_pvm', 'element': 'agi', 'item': str(haut.id)})
         char = Char.objects.order_by('-id').first()
         self.assertEqual({}, get_inclusions_dict(char))
 
@@ -142,7 +142,7 @@ class TheQuickStartKeepsTheItemTests(TestCase):
             self.skipTest('no default-hidden item to ask for')
         self.client.post('/quickstart/', {
             'char_class': 'Cra', 'char_level': '200',
-            'play_style': 'solo_pvm', 'item': str(cache.id)})
+            'play_style': 'solo_pvm', 'element': 'agi', 'item': str(cache.id)})
         char = Char.objects.order_by('-id').first()
         self.assertIn(cache.id, get_inclusions_dict(char).values())
         # Read through the repo's guarded path (read_char_blob): an unreadable column is a failure, not an exception

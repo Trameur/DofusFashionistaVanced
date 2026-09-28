@@ -37,6 +37,7 @@ class SetupAndStatsPagesShowTranslatedPercentLabelsTests(TestCase):
     def _make_char(self):
         response = self.client.post('/quickstart/', {
             'char_class': 'Iop', 'char_level': '200', 'play_style': 'solo_pvm',
+            'element': 'str',
         })
         self.assertEqual(302, response.status_code)
         return Char.objects.order_by('-id').first()

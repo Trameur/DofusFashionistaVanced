@@ -13,7 +13,7 @@ from django.utils.translation import gettext as _, get_language
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
 from chardata.nl_parser import parse_build_request
-from chardata.presets import STYLE_BY_KEY
+from chardata.presets import STYLE_BY_KEY, element_aspects, element_choices, offered_element
 from chardata.smart_build import ASPECT_TO_NAME, ALL_ASPECTS_LIST
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (set_response, version_free_canonical,
@@ -86,15 +86,25 @@ def smart_build(request):
                 'login_problem': is_anon_cant_create(request),
             })
 
-        if not request.POST.get('confirm'):
-            return set_response(request, 'chardata/smart_build.html', {
+        confirmed = bool(request.POST.get('confirm'))
+        element = (None if parsed['matched_element']
+                   else offered_element(request.POST.get('element')))
+        missing_element = not parsed['matched_element'] and element is None
+        if not confirmed or missing_element:
+            response = set_response(request, 'chardata/smart_build.html', {
                 'canonical_path': version_free_canonical('smart_build'),
                 'query': query,
                 'interpretation': _interpretation(parsed, confirmed=True),
                 'confirm': True,
+                'asks_element': not parsed['matched_element'],
+                'element_choices': element_choices(),
+                'element_error': _('Pick an element for this build.') if confirmed else None,
                 'examples': _example_queries(),
                 'login_problem': is_anon_cant_create(request),
             })
+            if confirmed:
+                response.status_code = 400
+            return response
 
         name = _('%(cls)s %(style)s lvl %(lvl)s') % {
             'cls': parsed['char_class'],
@@ -102,7 +112,8 @@ def smart_build(request):
             'lvl': parsed['level'],
         }
         char = create_build(request, parsed['char_class'], parsed['level'],
-                            parsed['aspects'], game_version, name=name)
+                            parsed['aspects'] | element_aspects(element), game_version,
+                            name=name)
         return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
 
     return set_response(request, 'chardata/smart_build.html', {

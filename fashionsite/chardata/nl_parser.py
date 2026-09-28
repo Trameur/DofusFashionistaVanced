@@ -10,8 +10,7 @@
 import re
 import unicodedata
 
-from chardata.presets import (DEFAULT_STYLE, capped_focus, offered_style, style_aspects,
-                              version_class)
+from chardata.presets import DEFAULT_STYLE, capped_focus, offered_style, style_aspects
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 
 
@@ -68,6 +67,12 @@ _ASPECT_WORDS = {
     'pp': ['pp', 'prospection', 'prospecting', 'prospeccion', 'drop', 'prospektion'],
     'wis': ['wis', 'wisdom', 'sagesse', 'sabiduria', 'sabedoria', 'weisheit'],
     'pods': ['pods', 'pod', 'pano', 'schoten'],
+}
+
+# Farm words naming one mule stat; 'farm', 'farmen' or 'recolte' alone name both
+_FARM_STAT_WORDS = {
+    'wis': _ASPECT_WORDS['wis'] + ['xp', 'exp', 'level', 'leveling', 'levelup', 'rush'],
+    'pp': _ASPECT_WORDS['pp'],
 }
 
 
@@ -175,6 +180,12 @@ def _match_aspect_words(tokens):
     return extra
 
 
+def _farmed_stats(tokens):
+    """The mule stats a farm phrase names, both when it names neither."""
+    named = {stat for stat, words in _FARM_STAT_WORDS.items() if any(w in tokens for w in words)}
+    return named or set(_FARM_STAT_WORDS)
+
+
 def _in_text_order(aspects, ordered_tokens):
     def first_word(aspect):
         return min(ordered_tokens.index(w) for w in _ASPECT_WORDS[aspect]
@@ -197,15 +208,13 @@ def parse_build_request(text, game_version=None):
     extra_aspects = _match_aspect_words(sans_niveau)
 
     resolved_style = style or DEFAULT_STYLE
-    built_class = char_class
     if game_version is not None:
         resolved_style = offered_style(resolved_style, game_version)
-        if char_class is not None:
-            built_class = version_class(char_class, game_version)
     built_level = level if level is not None else 200
-    aspects = capped_focus(style_aspects(resolved_style, built_class, element, game_version,
-                                         built_level)
-                           | extra_aspects, _in_text_order(extra_aspects, ordered))
+    style_boxes = style_aspects(resolved_style, element)
+    if resolved_style == 'farm':
+        style_boxes = (style_boxes - set(_FARM_STAT_WORDS)) | _farmed_stats(sans_niveau)
+    aspects = capped_focus(style_boxes | extra_aspects, _in_text_order(extra_aspects, ordered))
 
     return {
         'char_class': char_class,

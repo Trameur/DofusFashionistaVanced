@@ -8989,3 +8989,30 @@ msgstr "%(value)s de daños básicos"
 #: chardata/spells_view.py
 msgid "Minimum range"
 msgstr "Alcance mínimo"
+
+#: chardata/templates/chardata/coaching.html:7
+msgid "Answer a few quick questions about your Dofus character (class, level, element and playstyle) and get a ready-to-use set in under a minute."
+msgstr "Responde unas preguntas rápidas sobre tu personaje de Dofus (clase, nivel, elemento y estilo de juego) y obtén un set listo para usar en menos de un minuto."
+
+#: chardata/templates/chardata/coaching.html:55
+msgid "Four questions, one ready-to-play build. No wizard, no jargon. Just pick your class, level, element and playstyle."
+msgstr "Cuatro preguntas, un build listo para jugar. Sin asistente, sin tecnicismos. Solo elige tu clase, tu nivel, tu elemento y tu estilo de juego."
+
+#: chardata/templates/chardata/coaching.html:99
+#: chardata/templates/chardata/smart_build.html:89
+msgid "Element"
+msgstr "Elemento"
+
+#: chardata/templates/chardata/coaching.html:101
+#: chardata/templates/chardata/smart_build.html:90
+msgid "Choose an element"
+msgstr "Elige un elemento"
+
+#: chardata/presets.py:76
+msgid "None (XP or Prospecting mule)"
+msgstr "Ninguno (mula de leveo o de prospección)"
+
+#: chardata/coaching_view.py:157
+#: chardata/nl_build_view.py:101
+msgid "Pick an element for this build."
+msgstr "Elige un elemento para este build."
