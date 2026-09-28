@@ -28,6 +28,8 @@ from .wakfu_stats import BASE_VALUES, CRITICAL_HIT_FLOOR_PERCENT, \
 
 # LP variable: this item, worn in this slot
 WORN = 'w'
+# LP variable: the set's AP total is this number
+AP_TOTAL = 'apt'
 
 # Stats a line spread over N elements may land on
 SPREAD_FAMILIES = {
@@ -65,13 +67,20 @@ class WakfuSet(dict):
 
 
 class WakfuBuild:
-    """Best set at a level; `weights` is keyed by stats.key."""
+    """Best set at a level; `weights` is keyed by stats.key.
+
+    ap_values: optional {AP total: worth}, base included; the set is then worth
+    the entry of its AP total instead of weights['ap'] per AP.
+    """
 
     def __init__(self, structure, level, weights, forbidden=(),
-                 full_set=True, minimums=None):
+                 full_set=True, minimums=None, ap_values=None):
         self.structure = structure
         self.level = level
         self.weights = dict(weights)
+        self.ap_values = None if ap_values is None else dict(ap_values)
+        if self.ap_values is not None:
+            self.weights.pop('ap', None)
         self.forbidden = set(forbidden)
         # Fill every slot, or slots worth 0 in the objective stay empty
         self.full_set = full_set
@@ -172,6 +181,7 @@ class WakfuBuild:
         self._caps()
         self._critical_hit_floor()
         self._minimums()
+        self._ap_total()
         self._objective()
         return self
 
@@ -262,12 +272,39 @@ class WakfuBuild:
                 self.problem.restriction_lt_eq(
                     BASE_VALUES.get(key.upper(), 0) - lowest, parcels)
 
+    def _ap_totals(self):
+        """Every AP total a set can reach, base included, up to the cap."""
+        lowest = collections.defaultdict(int)
+        for item, position in self._placements:
+            lowest[position] = min(lowest[position], self._stat_value(item, 'ap'))
+        return range(BASE_VALUES['AP'] + sum(lowest.values()),
+                     OUT_OF_COMBAT_CAPS['AP'] + 1)
+
+    def _ap_total(self):
+        """One AP_TOTAL variable at 1, the one the worn AP adds up to."""
+        if self.ap_values is None:
+            return
+        totals = self._ap_totals()
+        for total in totals:
+            self.problem.setup_variable(AP_TOTAL, total, 0, 1)
+        self.problem.restriction_eq(1, [(1, AP_TOTAL, total) for total in totals])
+        parcels = [(BASE_VALUES['AP'] - total, AP_TOTAL, total) for total in totals]
+        for item, position in self._placements:
+            value = self._stat_value(item, 'ap')
+            if value:
+                parcels.append((value, WORN, self._name(item, position)))
+        self.problem.restriction_eq(0, parcels)
+
     def _objective(self):
         self.problem.init_objective_function()
         for item, position in self._placements:
             worth = self._worth(item)
             if worth:
                 self.problem.add_to_of(WORN, self._name(item, position), worth)
+        if self.ap_values is not None:
+            floor = min(self.ap_values.values())
+            for total in self._ap_totals():
+                self.problem.add_to_of(AP_TOTAL, total, self.ap_values.get(total, floor))
         self.problem.finish_objective_function()
 
     def solve(self):

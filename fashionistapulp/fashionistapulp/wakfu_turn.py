@@ -28,6 +28,7 @@ import re
 import sqlite3
 
 from . import wakfu_value
+from .wakfu_stats import OUT_OF_COMBAT_CAPS
 from .wakfu_value_rules import RULES
 
 # The tables hold the French figures and the French level-245 text
@@ -44,6 +45,7 @@ PICTURED = 'pictured target'
 OBJECT = 'object target'
 STILL = 'stood still'
 GAUGE = 'class gauge'
+STATE = 'class state'
 SKIPPED = 'row'
 # "no portal" holds while the role does not take "portal"
 NOT = 'no '
@@ -59,6 +61,7 @@ LABELS = {
     OBJECT: 'cast on an object',
     STILL: 'the caster has not moved this turn',
     GAUGE: 'class gauge',
+    STATE: 'class state',
     SKIPPED: 'damage row not counted',
     'damage bonus': 'percent damage bonus',
     'repeat': 'repeats or doubles its effects',
@@ -152,7 +155,34 @@ GAUGES = (
     ('Retour de flamme', re.compile(r"\bRetour de flamme\b")),
     ('BQ', re.compile(r"\bBQ\b")),
     ('runes', re.compile(r"\b[Rr]unes?\b")),
+    ('Charge de Rouage', re.compile(r"\bCharge de Rouage\b")),
+    ('Veine', re.compile(r"\bVeine\b")),
+    ('Propagateur', re.compile(r"\bPropagateur\b")),
+    ('Engrainé', re.compile(r"\bEngrainé\b")),
+    ('Pulsar', re.compile(r"\bPulsar\b")),
+    ('Traqueur', re.compile(r"\bTraqueur\b")),
+    ('Surpression', re.compile(r"\bSurpression\b")),
+    ('PS', re.compile(r"\bPS\b")),
 )
+STATES = (
+    ('Berserk', re.compile(r"\bBerserk\b")),
+    ('Bouclier', re.compile(r"\b[Bb]oucliers?\b")),
+    ('Trésors', re.compile(r"\bTrésors\b")),
+    ('Hémorragie', re.compile(r"\bHémorragie\b")),
+    ('heure courante', re.compile(r"\b[Hh]eure courante\b")),
+    ('Courroux', re.compile(r"\bCourroux\b")),
+    ('Égaré', re.compile(r"\bÉgaré\b")),
+    ('Imbibé', re.compile(r"\bImbibé\b")),
+    ('Ivre', re.compile(r"\bIvre\b")),
+    ('Dynamite', re.compile(r"\bDynamite\b")),
+    ('Retour de dague', re.compile(r"\bRetours? de dague\b")),
+    ('Proie', re.compile(r"\bProie\b")),
+    ('Don Céleste', re.compile(r"\bDon Céleste\b")),
+    ('Cœur de Lumière', re.compile(r"\bC(?:œ|oe)ur de Lumière\b")),
+)
+
+# A turn at 0 damage, in percent of value
+NO_DAMAGE = -1000.0
 
 
 class Row(collections.namedtuple(
@@ -452,6 +482,27 @@ class SpellBook:
             self._mechanics[spell_id] = mechanics(text[0])
         return self._clauses[spell_id]
 
+    def names(self, class_id):
+        """{spell id: name} of every spell of the class, passives included."""
+        return dict(self.conn.execute(
+            'SELECT spells.id, spell_names.name FROM spells JOIN spell_names'
+            ' ON spell_names.spell = spells.id AND spell_names.language = ?'
+            ' WHERE spells.class = ?', (TEXT_LANGUAGE, class_id)).fetchall())
+
+    def class_mechanics(self, class_id):
+        """((key, name, spell ids)) of the gauges and states named in the class's texts."""
+        texts = self.conn.execute(
+            'SELECT spells.id, spell_text.normal FROM spells JOIN spell_text'
+            ' ON spell_text.spell = spells.id AND spell_text.language = ?'
+            ' WHERE spells.class = ? ORDER BY spells.id', (TEXT_LANGUAGE, class_id)).fetchall()
+        out = []
+        for key, vocabulary in ((GAUGE, GAUGES), (STATE, STATES)):
+            for name, pattern in vocabulary:
+                ids = tuple(spell_id for spell_id, text in texts if pattern.search(text or ''))
+                if ids:
+                    out.append((key, name, ids))
+        return tuple(out)
+
     def spells(self, class_id, level):
         """Every castable spell of the class with a damage row at `level`."""
         level = max(1, min(level, TEXT_LEVEL))
@@ -525,7 +576,8 @@ class Turn(collections.namedtuple(
     counted: (spell id, row position, condition keys, heading) of the conditional
     rows of the cast spells; dropped: the same for the rows of every usable spell
     the conditions leave out. unmodelled: (spell ids, key, detail) of what the
-    usable spells do to damage that no counted row carries.
+    usable spells do to damage that no counted row carries, and of the class
+    mechanics best_turn was given.
     """
 
 
@@ -566,23 +618,31 @@ def lands(row, accepted):
             and not (row.unless and all(holds(key, accepted) for key in row.unless)))
 
 
-def cast_damage(spell, totals, reach, orientation, accepted, damage_inflicted=0):
-    """(expected damage of one cast, {element: part of it}, cost change)."""
+def counted_rows(spell, totals, reach, orientation, accepted, damage_inflicted=0):
+    """[(row, expected damage)] of the rows one cast counts."""
     chance = wakfu_value.critical_chance(totals.get('ferocity', 0))
     hits, adds, instead = [], [], []
-    cost = collections.Counter()
     for row in spell.rows:
         if not lands(row, accepted):
             continue
         worth = _hit(row, totals, reach, orientation, accepted, damage_inflicted, chance)
-        {'instead': instead, 'adds': adds}.get(row.mode, hits).append((row.element, worth))
-        for key, change in row.cost.items():
-            cost[key] = change
+        {'instead': instead, 'adds': adds}.get(row.mode, hits).append((row, worth))
     if instead:
         hits = [max(instead, key=lambda one: one[1])]
+    return hits + adds
+
+
+def cast_damage(spell, totals, reach, orientation, accepted, damage_inflicted=0):
+    """(expected damage of one cast, {element: part of it}, cost change)."""
+    cost = collections.Counter()
+    for row in spell.rows:
+        if lands(row, accepted):
+            for key, change in row.cost.items():
+                cost[key] = change
     parts = collections.Counter()
-    for element, worth in hits + adds:
-        parts[element] += worth
+    for row, worth in counted_rows(spell, totals, reach, orientation, accepted,
+                                   damage_inflicted):
+        parts[row.element] += worth
     return sum(parts.values()), parts, cost
 
 
@@ -627,23 +687,47 @@ def _stance_options(usable, chosen):
     return [None]
 
 
+def movement_split(role, mp):
+    """(MP left for spells, MP spent moving) of a turn with `mp` MP, from role.movement.
+
+    role.movement is the share of MP spent moving, 0 to 1; None spends none.
+    """
+    share = getattr(role, 'movement', None) or 0.0
+    moving = min(mp, int(math.ceil(mp * share - 1e-9)))
+    return mp - moving, moving
+
+
+def stood_still(role, moving):
+    """Whether a row that needs the caster not to have moved counts.
+
+    A role that states no movement share takes the caster_does_not_move rule.
+    """
+    if getattr(role, 'movement', None) is None:
+        return rule('caster_does_not_move')
+    return not moving
+
+
 def best_turn(spells, role, totals, conditions=(), orientation='front',
-              casts_per_spell=None, wp=None, mp=None):
+              casts_per_spell=None, wp=None, mp=None, class_mechanics=()):
     """Best expected damage of one turn on one enemy.
 
-    role: a wakfu_value.DamageDealer (elements, reach, % damage inflicted);
+    role: a wakfu_value.DamageDealer (elements, reach, % damage inflicted, movement);
     conditions: keys the role adds to DEFAULT_CONDITIONS, see LABELS. A class
-    with stances gets its best one unless conditions name one.
+    with stances gets its best one unless conditions name one. mp: the turn's MP
+    before the role's movement takes its share. class_mechanics: from
+    SpellBook.class_mechanics, listed in unmodelled in place of the gauges the
+    usable spells name.
     """
     if orientation not in ('front', 'side', 'rear'):
         raise ValueError('orientation is front, side or rear, got %r' % orientation)
     casts_per_spell = casts_per_spell or rule('casts_per_spell_per_turn')
     ap = int(totals.get('ap', 0))
     wp = int(min(totals.get('wp', 0), rule('wp_spent_per_turn') if wp is None else wp))
-    mp = int(max(totals.get('mp', 0) if mp is None else mp, 0))
+    mp, moving = movement_split(
+        role, int(max(totals.get('mp', 0) if mp is None else mp, 0)))
     inflicted = role.damage_inflicted + totals.get('damage_inflicted', 0)
     chosen = set(DEFAULT_CONDITIONS) | set(conditions)
-    if rule('caster_does_not_move'):
+    if stood_still(role, moving):
         chosen.add(STILL)
 
     usable = [spell for spell in spells
@@ -686,17 +770,19 @@ def best_turn(spells, role, totals, conditions=(), orientation='front',
                 dropped.append(entry)
             elif spell.id in cast:
                 counted.append(entry)
-    settings = {'ap': ap, 'wp': wp, 'mp': mp, 'casts_per_spell': casts_per_spell,
-                'orientation': orientation, 'conditions': tuple(sorted(accepted))}
+    settings = {'ap': ap, 'wp': wp, 'mp': mp, 'mp_moving': moving,
+                'casts_per_spell': casts_per_spell, 'orientation': orientation,
+                'conditions': tuple(sorted(accepted))}
     return Turn(damage, casts, dict(elements), stance, tuple(counted), tuple(dropped),
-                tuple(spell.id for spell in usable), settings, _unmodelled(usable))
+                tuple(spell.id for spell in usable), settings,
+                _unmodelled(usable, class_mechanics))
 
 
 def _opposite(key):
     return key[len(NOT):] if key.startswith(NOT) else 'not ' + key
 
 
-def _unmodelled(usable):
+def _unmodelled(usable, class_mechanics=()):
     out, gauges = [], collections.OrderedDict()
     for spell in usable:
         for position, reason in spell.skipped:
@@ -706,8 +792,103 @@ def _unmodelled(usable):
                 gauges.setdefault(detail, []).append(spell.id)
             else:
                 out.append(((spell.id,), key, detail))
-    out.extend((tuple(ids), GAUGE, name) for name, ids in gauges.items())
+    if class_mechanics:
+        out.extend((tuple(ids), key, name) for key, name, ids in class_mechanics)
+    else:
+        out.extend((tuple(ids), GAUGE, name) for name, ids in gauges.items())
     return tuple(out)
+
+
+def _plus(totals, key, amount=1):
+    out = collections.Counter(totals)
+    out[key] += amount
+    return out
+
+
+class TurnModel:
+    """The damage side of the value from a class's best turn, for wakfu_value.
+
+        model = TurnModel(book.spells(class_id, level), role)
+        wakfu_value.solve(structure, level, role, forbidden, turn=model)
+
+    options go to best_turn.
+    """
+
+    def __init__(self, spells, role, **options):
+        self.spells = collections.OrderedDict((spell.id, spell) for spell in spells)
+        self.role = role
+        self.options = options
+
+    def best(self, totals):
+        return best_turn(tuple(self.spells.values()), self.role, totals, **self.options)
+
+    def damage(self, totals):
+        return self.best(totals).damage
+
+    def _mastery_keys(self, row, totals, orientation, accepted):
+        keys = [wakfu_value.REACH_MASTERY[row.reach or self.role.reach]]
+        if row.element != 'light':
+            keys.append(wakfu_value.MASTERY_OF[row.element])
+        elif rule('light_uses_best_element_mastery'):
+            order = list(self.role.elements) + [
+                element for element in wakfu_value.ELEMENTS if element not in self.role.elements]
+            keys.append(wakfu_value.MASTERY_OF[max(
+                order, key=lambda element: totals.get(wakfu_value.MASTERY_OF[element], 0))])
+        if orientation == 'rear':
+            keys.append('backstab_bonus')
+        if BERSERK in accepted:
+            keys.append('berserk_dmg')
+        return keys
+
+    def weights(self, totals):
+        """{stat key: percent of the turn per point just above totals}, the rotation held.
+
+        AP is the best turn one AP up. Elemental mastery has no weight of its own:
+        the solver adds the four element weights.
+        """
+        turn = self.best(totals)
+        if turn.damage <= 0:
+            return {}
+        orientation = turn.settings['orientation']
+        accepted = frozenset(turn.settings['conditions'])
+        reach = self.role.reach
+        inflicted = self.role.damage_inflicted + totals.get('damage_inflicted', 0)
+        chance = wakfu_value.critical_chance(totals.get('ferocity', 0))
+        every = _plus(totals, wakfu_value.ELEMENTAL_MASTERY)
+        critical = _plus(totals, 'critical_bonus')
+        ferocity = _plus(totals, 'ferocity')
+        gains = collections.Counter()
+        for spell_id in turn.casts:
+            spell = self.spells[spell_id]
+            for row, worth in counted_rows(spell, totals, reach, orientation, accepted,
+                                           inflicted):
+                per_point = _hit(row, every, reach, orientation, accepted, inflicted,
+                                 chance) - worth
+                for key in self._mastery_keys(row, totals, orientation, accepted):
+                    gains[key] += per_point
+                gains['critical_bonus'] += _hit(row, critical, reach, orientation, accepted,
+                                                inflicted, chance) - worth
+            gains['ferocity'] += (
+                cast_damage(spell, ferocity, reach, orientation, accepted, inflicted)[0]
+                - cast_damage(spell, totals, reach, orientation, accepted, inflicted)[0])
+        weights = {key: 100 * gain / turn.damage for key, gain in gains.items() if gain > 0}
+        weights['ap'] = 100 * (self.damage(_plus(totals, 'ap')) - turn.damage) / turn.damage
+        return weights
+
+    def ap_values(self, totals, high=None):
+        """{AP total: 100 x log(turn at that AP / turn at totals)}, from 0 AP to the AP cap."""
+        high = OUT_OF_COMBAT_CAPS['AP'] if high is None else high
+        damages = {}
+        for ap in range(high + 1):
+            moved = collections.Counter(totals)
+            moved['ap'] = ap
+            damages[ap] = self.damage(moved)
+        here = self.damage(totals)
+        reference = here if here > 0 else max(damages.values())
+        if reference <= 0:
+            return {ap: 0.0 for ap in damages}
+        return {ap: 100 * math.log(damage / reference) if damage > 0 else NO_DAMAGE
+                for ap, damage in damages.items()}
 
 
 def describe(condition):

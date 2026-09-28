@@ -51,6 +51,15 @@ class Command(BaseCommand):
         parser.add_argument('--class-id', type=int, default=None,
                             help="Ankama class id: print that class's best turn "
                                  'on the kept set (damage model only)')
+        parser.add_argument('--class-turn', action='store_true',
+                            help="solve on the best turn of --class-id, every AP "
+                                 'total priced by that turn, instead of AP x '
+                                 'mastery; the generic set is kept when that turn '
+                                 'values it higher (damage model only)')
+        parser.add_argument('--movement', type=float, default=None,
+                            help='share of its MP the role spends moving, 0 to 1, '
+                                 'in the --class-id turn and the --class-turn solve '
+                                 '(default none: every MP goes to spells)')
 
     def handle(self, *args, **options):
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -75,9 +84,13 @@ class Command(BaseCommand):
             try:
                 role = wakfu_value.DamageDealer(
                     options['elements'].split(','), options['reach'],
-                    options['defense'])
+                    options['defense'], movement=options['movement'])
             except ValueError as error:
                 raise CommandError(str(error))
+        for flag, given in (('--class-turn', options['class_turn']),
+                            ('--movement', options['movement'] is not None)):
+            if given and (role is None or not options['class_id']):
+                raise CommandError('%s needs --class-id and no --weights' % flag)
 
         forbidden = [int(x) for x in options['forbid'].split(',') if x.strip()]
         structure = get_structure('wakfu')
@@ -87,6 +100,20 @@ class Command(BaseCommand):
             self.stdout.write('leaving out %d legacy items (--allow-legacy '
                               'lets the solver pick them)' % len(legacy))
 
+        turn = None
+        if options['class_turn']:
+            from fashionistapulp import wakfu_turn
+            spells = self.class_spells(options['level'], options['class_id'])[0]
+            if not spells:
+                raise CommandError('class %d has no damage spell in the tables'
+                                   % options['class_id'])
+            turn = wakfu_turn.TurnModel(spells, role)
+            if turn.damage(wakfu_value.resource_ceiling()) <= 0:
+                raise CommandError(
+                    'class %d has no damage turn for %s at %s, even with AP, MP and WP '
+                    'at their caps' % (options['class_id'], '+'.join(role.elements),
+                                       role.reach))
+
         start = time.time()
         model = None
         if role is None:
@@ -94,7 +121,7 @@ class Command(BaseCommand):
             worn = build.build().solve()
         else:
             model = wakfu_value.solve(structure, options['level'], role,
-                                      forbidden, options['rounds'])
+                                      forbidden, options['rounds'], turn=turn)
             build = model.best.build if model.best else None
             worn = model.best.worn if model.best else None
         duration = time.time() - start
@@ -138,7 +165,7 @@ class Command(BaseCommand):
         self.stdout.write('  ' + '  '.join('%s %s' % (cle.upper(), totals[cle])
                                            for cle in interessantes))
         if model is not None:
-            self.print_model(role, options['level'], model)
+            self.print_model(role, options['level'], model, turn)
             if options['class_id']:
                 self.print_turn(role, options['level'], options['class_id'], totals)
 
@@ -159,55 +186,78 @@ class Command(BaseCommand):
             raise CommandError('give at least one stat=weight')
         return weights
 
-    def print_model(self, role, level, model):
+    def print_model(self, role, level, model, turn=None):
         from fashionistapulp import wakfu_value
 
         self.stdout.write('')
-        self.stdout.write('  damage model: %s, %s, defense %g; %d rounds, %s'
+        self.stdout.write('  damage model: %s, %s, defense %g%s; %d rounds, %s'
                           % ('+'.join(role.elements), role.reach, role.defense,
+                             ', on the class turn' if turn is not None else '',
                              len(model.rounds),
                              'settled' if model.converged
                              else 'not settled, best round kept'))
         self.stdout.write('  kept at least: ' + ', '.join(
             '%s %s' % (key.upper(), lowest)
             for key, lowest in sorted(role.minimums().items())))
-        for number, one in enumerate(model.rounds, 1):
+        labels = [('round %d%s' % (number, ' *' if one is model.best else '  '), one)
+                  for number, one in enumerate(model.rounds, 1)]
+        generic = not any(one is model.best for one in model.rounds)
+        if generic:
+            labels.append(('generic set *', model.best))
+        for label, one in labels:
+            if turn is None:
+                damage = 'damage x%.2f' % wakfu_value.damage_factor(role, one.totals)
+            else:
+                damage = 'turn %.0f' % turn.damage(one.totals)
             self.stdout.write(
-                '  round %d%s value %.4f  damage x%.2f over %d AP  crit %d%%  '
-                'effective life %.0f'
-                % (number, ' *' if one is model.best else '  ', one.value,
-                   wakfu_value.damage_factor(role, one.totals),
-                   one.totals.get('ap', 0),
+                '  %s value %.4f  %s over %d AP  crit %d%%  effective life %.0f'
+                % (label, one.value, damage, one.totals.get('ap', 0),
                    round(100 * wakfu_value.critical_chance(
                        one.totals.get('ferocity', 0))),
                    wakfu_value.effective_life(level, one.totals)))
-        weights = model.best.weights
-        self.stdout.write('  weights of the kept round, percent of value per point')
+        weights = dict(model.best.weights)
+        if turn is None:
+            note = ''
+        elif generic:
+            note = ', from the generic solve, whose set the class turn values higher'
+        else:
+            weights.pop('ap', None)
+            note = ', each AP total priced by the class turn'
+        self.stdout.write('  weights of the kept round, percent of value per point%s'
+                          % note)
         self.stdout.write('  ' + '  '.join('%s %.4g' % (key.upper(), weights[key])
                                            for key in sorted(weights)
                                            if weights[key]))
 
-    def print_turn(self, role, level, class_id, totals):
+    def class_spells(self, level, class_id):
+        """(damage spells, class mechanics, {spell id: name}, source of the critical values)."""
         from fashionistapulp import wakfu_turn
 
         critical, source = self.harvest_criticals(level)
         book = wakfu_turn.SpellBook(critical=critical)
         try:
-            spells = book.spells(class_id, level)
+            return (book.spells(class_id, level), book.class_mechanics(class_id),
+                    book.names(class_id), source)
         finally:
             book.close()
+
+    def print_turn(self, role, level, class_id, totals):
+        from fashionistapulp import wakfu_turn
+
+        spells, mechanics, names, source = self.class_spells(level, class_id)
         self.stdout.write('')
         if not spells:
             self.stdout.write(self.style.WARNING(
                 'class %d has no damage spell in the tables' % class_id))
             return
-        turn = wakfu_turn.best_turn(spells, role, totals)
-        names = {spell.id: spell.name for spell in spells}
+        turn = wakfu_turn.best_turn(spells, role, totals, class_mechanics=mechanics)
+        names.update((spell.id, spell.name) for spell in spells)
         self.stdout.write('  best turn of class %d: %.0f expected damage, %s'
                           % (class_id, turn.damage,
                              ', '.join(names[one] for one in turn.casts) or 'no cast'))
-        self.stdout.write('  budget %(ap)d AP, %(wp)d WP, %(mp)d MP, a spell at most '
-                          '%(casts_per_spell)d times' % turn.settings)
+        self.stdout.write('  budget %(ap)d AP, %(wp)d WP, %(mp)d MP on spells and '
+                          '%(mp_moving)d moving, a spell at most %(casts_per_spell)d '
+                          'times' % turn.settings)
         self.stdout.write('  critical values: %s' % source)
         if turn.stance:
             self.stdout.write('  stance: %s' % wakfu_turn.describe(turn.stance))

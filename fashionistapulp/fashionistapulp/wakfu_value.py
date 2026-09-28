@@ -23,7 +23,7 @@ its derivative, so one point of a stat is worth weight percent of the value.
 import collections
 import math
 
-from .wakfu_stats import BASE_VALUES, ELEMENTS as ELEMENT_NAMES
+from .wakfu_stats import BASE_VALUES, ELEMENTS as ELEMENT_NAMES, OUT_OF_COMBAT_CAPS
 from .wakfu_value_rules import RULES
 
 ELEMENTS = tuple(name.lower() for name in ELEMENT_NAMES)
@@ -39,11 +39,15 @@ def rule(name):
 
 
 class DamageDealer(collections.namedtuple(
-        'DamageDealer', 'elements reach defense damage_inflicted')):
-    """A damage role: the elements it casts, its reach and its defence weight."""
+        'DamageDealer', 'elements reach defense damage_inflicted movement')):
+    """A damage role: the elements it casts, its reach and its defence weight.
+
+    movement: share of the turn's MP spent moving, 0 to 1; None spends none
+    and leaves the caster_does_not_move rule to say whether the caster stood still.
+    """
 
     def __new__(cls, elements=('fire',), reach='distance', defense=None,
-                damage_inflicted=0):
+                damage_inflicted=0, movement=None):
         elements = tuple(dict.fromkeys(name.strip().lower() for name in elements))
         unknown = set(elements) - set(ELEMENTS)
         if not elements or unknown:
@@ -54,8 +58,12 @@ class DamageDealer(collections.namedtuple(
             defense = rule('defense_weight')
         if defense < 0:
             raise ValueError('defense cannot be negative')
+        if movement is not None:
+            movement = float(movement)
+            if not 0 <= movement <= 1:
+                raise ValueError('movement is a share of MP, 0 to 1, got %r' % movement)
         return super().__new__(cls, elements, reach, float(defense),
-                               damage_inflicted)
+                               damage_inflicted, movement)
 
     def minimums(self):
         """{stat key: lowest total, base included} every set of the role keeps."""
@@ -114,6 +122,17 @@ def bare_totals():
                                 for name, value in BASE_VALUES.items()})
 
 
+def resource_ceiling():
+    """A bare character's totals with AP, MP and WP at their caps.
+
+    A class turn that deals nothing there deals nothing on any set.
+    """
+    totals = bare_totals()
+    for name, cap in OUT_OF_COMBAT_CAPS.items():
+        totals[name.lower()] = cap
+    return totals
+
+
 def applicable_mastery(role, totals, element):
     return (totals.get(MASTERY_OF[element], 0)
             + totals.get(ELEMENTAL_MASTERY, 0)
@@ -157,18 +176,49 @@ def effective_life(level, totals):
     return life(level, totals) / (mean_share_taken(totals) * block_factor(totals))
 
 
-def value(role, level, totals):
-    """log(turn damage) + role.defense x log(effective life)."""
-    return (math.log(turn_damage(role, totals))
-            + role.defense * math.log(effective_life(level, totals)))
+def value(role, level, totals, turn=None):
+    """log(turn damage) + role.defense x log(effective life).
+
+    turn: a wakfu_turn.TurnModel, whose best turn replaces AP x damage_factor.
+    """
+    if turn is None:
+        damage = math.log(turn_damage(role, totals))
+    else:
+        best = turn.damage(totals)
+        damage = math.log(best) if best > 0 else float('-inf')
+    return damage + role.defense * math.log(effective_life(level, totals))
 
 
-def linear_weights(role, level, totals):
+def linear_weights(role, level, totals, turn=None):
     """{stat key: percent of value per point}, the slope of value just above totals.
 
     Elemental mastery and resistance carry no weight of their own: the solver
-    adds the four element weights for them.
+    adds the four element weights for them. turn: as in value().
     """
+    if turn is None:
+        weights = _damage_weights(role, totals)
+    else:
+        weights = collections.Counter(turn.weights(totals))
+    if role.defense:
+        weights['hp'] = 100 * role.defense / life(level, totals)
+        through = mean_share_taken(totals)
+        slope = math.log(1 / rule('resistance_base')) / 100
+        plain = totals.get(ELEMENTAL_RESISTANCE, 0)
+        floor = 1 - rule('resistance_cap_percent') / 100
+        for element in ELEMENTS:
+            taken = rule('resistance_base') ** (
+                (totals.get(RESISTANCE_OF[element], 0) + plain) / 100)
+            if taken > floor:
+                weights[RESISTANCE_OF[element]] = (
+                    100 * role.defense * slope * taken / len(ELEMENTS) / through)
+        if 0 <= totals.get('block', 0) < 100:
+            weights['block'] = (100 * role.defense
+                                * (1 - rule('block_multiplier')) / 100
+                                / block_factor(totals))
+    return dict(weights)
+
+
+def _damage_weights(role, totals):
     per_point = rule('mastery_percent_per_point') / 100
     critical = rule('critical_multiplier')
     chance = critical_chance(totals.get('ferocity', 0))
@@ -192,24 +242,7 @@ def linear_weights(role, level, totals):
         weights['ferocity'] = gain / factor
 
     weights['ap'] = 100 / totals['ap']
-
-    if role.defense:
-        weights['hp'] = 100 * role.defense / life(level, totals)
-        through = mean_share_taken(totals)
-        slope = math.log(1 / rule('resistance_base')) / 100
-        plain = totals.get(ELEMENTAL_RESISTANCE, 0)
-        floor = 1 - rule('resistance_cap_percent') / 100
-        for element in ELEMENTS:
-            taken = rule('resistance_base') ** (
-                (totals.get(RESISTANCE_OF[element], 0) + plain) / 100)
-            if taken > floor:
-                weights[RESISTANCE_OF[element]] = (
-                    100 * role.defense * slope * taken / len(ELEMENTS) / through)
-        if 0 <= totals.get('block', 0) < 100:
-            weights['block'] = (100 * role.defense
-                                * (1 - rule('block_multiplier')) / 100
-                                / block_factor(totals))
-    return dict(weights)
+    return weights
 
 
 class ModelRound(collections.namedtuple('ModelRound',
@@ -233,7 +266,7 @@ def blend(point, totals, step):
                                 for key in set(point) | set(totals)})
 
 
-def land(structure, level, role, build, worn):
+def land(structure, level, role, build, worn, turn=None):
     """(value, build, totals) of the best landing tried for a set's spread lines.
 
     Each pass lands them on the weights at the totals the pass before gave.
@@ -241,22 +274,43 @@ def land(structure, level, role, build, worn):
     from .wakfu_model import WakfuBuild
 
     totals = build.totals(worn)
-    tried = [(value(role, level, totals), build, totals)]
+    tried = [(value(role, level, totals, turn), build, totals)]
     for _ in range(LANDING_PASSES):
-        build = WakfuBuild(structure, level, linear_weights(role, level, totals))
+        build = WakfuBuild(structure, level, linear_weights(role, level, totals, turn))
         totals = build.totals(worn)
         if totals == tried[-1][2]:
             break
-        tried.append((value(role, level, totals), build, totals))
+        tried.append((value(role, level, totals, turn), build, totals))
     return max(tried, key=lambda one: one[0])
 
 
-def solve(structure, level, role, forbidden=(), rounds=5, full_set=True):
+def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=None):
     """Best set by value; each round solves on the tangent at a blend of the sets found.
 
     The blend moves toward each new set by 2/(k+2) of the way, a Frank-Wolfe
-    step, and the rounds stop once a set comes back twice in a row.
+    step, and the rounds stop once a set comes back twice in a row. turn: a
+    wakfu_turn.TurnModel; each round then also prices every AP total by the
+    turn at that AP (TurnModel.ap_values) instead of one AP weight. The generic
+    model's best set, landed and valued on the turn, is then kept in place of
+    the rounds' best when it is worth more, so best may be none of the rounds.
     """
+    if turn is None:
+        return _solve(structure, level, role, forbidden, rounds, full_set)
+    if turn.damage(resource_ceiling()) <= 0:
+        raise ValueError('the class turn deals no damage for this role, even with '
+                         'AP, MP and WP at their caps')
+    classed = _solve(structure, level, role, forbidden, rounds, full_set, turn)
+    generic = _solve(structure, level, role, forbidden, rounds, full_set).best
+    if generic is None:
+        return classed
+    worth, landed, totals = land(structure, level, role, generic.build, generic.worn, turn)
+    if classed.best is not None and classed.best.value >= worth:
+        return classed
+    return classed._replace(
+        best=ModelRound(generic.weights, landed, generic.worn, totals, worth))
+
+
+def _solve(structure, level, role, forbidden, rounds, full_set, turn=None):
     from .wakfu_model import WakfuBuild
 
     point = bare_totals()
@@ -264,13 +318,14 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True):
     done = []
     converged = False
     for number in range(max(1, rounds)):
-        weights = linear_weights(role, level, point)
+        weights = linear_weights(role, level, point, turn)
+        options = {} if turn is None else {'ap_values': turn.ap_values(point)}
         build = WakfuBuild(structure, level, weights, forbidden, full_set,
-                           minimums=minimums)
+                           minimums=minimums, **options)
         worn = build.build().solve()
         if worn is None:
             break
-        worth, landed, totals = land(structure, level, role, build, worn)
+        worth, landed, totals = land(structure, level, role, build, worn, turn)
         done.append(ModelRound(weights, landed, worn, totals, worth))
         if len(done) > 1 and done[-2].ids == done[-1].ids:
             converged = True

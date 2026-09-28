@@ -106,8 +106,9 @@ RULES = {
         'before or after the figure'),
     'caster_does_not_move': Rule(
         True, ASSUMPTION,
-        'the caster spends no MP on moving: every MP goes to spells, and a row '
-        'that needs the caster not to have moved counts'),
+        'a role that states no movement share spends every MP on spells, and a '
+        'row that needs the caster not to have moved counts; False keeps the MP '
+        'on spells and leaves those rows out'),
     'spells_castable_at_every_level': Rule(
         True, ASSUMPTION,
         'the spell tables give every spell figures from level 1 and no unlock '
