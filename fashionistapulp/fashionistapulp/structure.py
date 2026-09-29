@@ -106,8 +106,17 @@ def level_to_wear(item):
 
 def fits_the_class(item, char_class):
     """Whether a character of this class can wear the piece."""
+    if getattr(item, 'unusable', False):
+        return False
     classes = getattr(item, 'classes', ())
     return not classes or char_class in classes
+
+
+def fits_the_level(item, char_level):
+    """Whether a character of this level can wear the piece."""
+    highest = getattr(item, 'max_level', None)
+    return (level_to_wear(item) <= char_level
+            and (highest is None or char_level <= highest))
 
 
 def _what_makes_two_rows_one_item(item):
@@ -179,6 +188,7 @@ class Structure:
             self.read_or_conditions_table()
             self.read_item_class_conditions_table()
             self.read_item_spell_conditions_table()
+            self.read_wear_limit_tables()
             self.read_legacy_item_ids_table()
             self.read_weird_conditions_table()
             self.read_extra_lines_table()
@@ -616,6 +626,38 @@ class Structure:
             if item is not None:
                 item.spell_conditions = (getattr(item, 'spell_conditions', ())
                                          + ((spell_id, rank, min_level),))
+
+    def read_wear_limit_tables(self):
+        """Highest level, unusable pieces and pieces that cannot be worn together."""
+        c = self.conn.cursor()
+        if self._table_exists('max_level_to_equip'):
+            for item_id, value in c.execute(
+                    'SELECT item, value FROM max_level_to_equip'):
+                item = self.get_item_by_id(item_id)
+                if item is not None:
+                    item.max_level = value
+        if self._table_exists('unusable_items'):
+            for (item_id,) in c.execute('SELECT item FROM unusable_items'):
+                item = self.get_item_by_id(item_id)
+                if item is not None:
+                    item.unusable = True
+        if self._table_exists('items_not_worn_together'):
+            # not_worn_with goes both ways, own_not_worn_with is what the piece's own criteria name
+            own, pairs = set(), set()
+            for item_id, other_id in c.execute(
+                    'SELECT item, other FROM items_not_worn_together'):
+                if item_id != other_id:
+                    own.add((item_id, other_id))
+                    pairs.add((item_id, other_id))
+                    pairs.add((other_id, item_id))
+            for item_id, other_id in sorted(pairs):
+                item = self.get_item_by_id(item_id)
+                if item is not None and self.get_item_by_id(other_id) is not None:
+                    item.not_worn_with = (getattr(item, 'not_worn_with', ())
+                                          + (other_id,))
+                    if (item_id, other_id) in own:
+                        item.own_not_worn_with = (
+                            getattr(item, 'own_not_worn_with', ()) + (other_id,))
 
     def _table_exists(self, name):
         c = self.conn.cursor()

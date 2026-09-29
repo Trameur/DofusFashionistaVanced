@@ -7,8 +7,14 @@ import argparse
 import json
 import os
 import re
+import sys
 import unicodedata
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import item_criteria  # noqa: E402
+from get_spells_retro import CLASS_ID_TO_NAME  # noqa: E402
 
 # Retro item type id -> (slot, weapon subtype or None); equippable types only
 TYPE_MAP = {
@@ -64,12 +70,6 @@ EFFECT_MAP = {
     260: ('Earth Resist in PVP', 1), 261: ('Water Resist in PVP', 1),
     262: ('Air Resist in PVP', 1), 263: ('Fire Resist in PVP', 1),
     264: ('Neutral Resist in PVP', 1),
-}
-
-# Condition code -> English stat name (only stat-gating codes; class/sub/align skipped).
-CONDITION_MAP = {
-    'CS': 'Strength', 'CI': 'Intelligence', 'CA': 'Agility',
-    'CV': 'Vitality', 'CC': 'Chance', 'CW': 'Wisdom',
 }
 
 # Elemental damage effect id -> element; on a weapon, a hit line, not a bonus
@@ -378,15 +378,8 @@ def decode_weapon_e(e):
 
 
 def decode_conditions(c_string):
-    """Retro condition string -> ['Strength > 34', ...] (stat conditions only)."""
-    out = []
-    if not c_string:
-        return out
-    for code, op, val in re.findall(r'(C[A-Z])\s*([<>])\s*(\d+)', str(c_string)):
-        stat = CONDITION_MAP.get(code)
-        if stat:
-            out.append(f'{stat} {op} {val}')
-    return out
+    """Retro condition string -> ['Strength > 34', 'MP > 5', ...], OR parts joined by ' | '."""
+    return item_criteria.stat_conditions(item_criteria.parse(c_string))
 
 
 def min_player_level(c_string):
@@ -429,6 +422,9 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
             level = 1
         # Mount certificates gate on 'PL>NN'; their `l` is the mount tier
         level = max(level, min_player_level(it.get('c', '')))
+        tree = item_criteria.read(it.get('c', ''), ankama_id)
+        worn = item_criteria.describe(tree, CLASS_ID_TO_NAME, 'retro')
+        worn.pop('min_level', None)
         level = max(1, min(level, 200))  # structure.py indexes types by level 1..200
         is_weapon = weapon_type is not None
         stats, hits = decode_stats(it.get('istats', ''), is_weapon=is_weapon)
@@ -440,8 +436,11 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
             'level': level,
             'w_type': w_type,
             'stats': stats + hits,
-            'conditions': decode_conditions(it.get('c', '')),
+            'conditions': item_criteria.stat_conditions(tree),
         }
+        if it.get('c'):
+            rec['criteria'] = it['c']
+        rec.update(worn)
         for lang, lines in decode_spell_lines(it.get('istats', ''),
                                               spell_names_by_lang).items():
             rec['special_spell_%s' % lang] = '\n'.join(lines)

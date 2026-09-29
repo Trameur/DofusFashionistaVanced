@@ -68,6 +68,7 @@
         "conditions": [
             "Strength > 20"
         ],
+        "criteria": "CS>20",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 20,
@@ -114,6 +115,7 @@
         "conditions": [
             "Intelligence > 44"
         ],
+        "criteria": "CI>44",
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 35,
@@ -150,6 +152,7 @@
         "conditions": [
             "Strength > 39"
         ],
+        "criteria": "CS>39",
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 20,
@@ -192,6 +195,7 @@
             "Strength > 30",
             "Vitality > 6"
         ],
+        "criteria": "CS>30&CV>6",
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 15,
@@ -240,6 +244,7 @@
             "Vitality > 39",
             "Agility > 39"
         ],
+        "criteria": "CS>79&CV>39&CA>39",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 35,
@@ -281,6 +286,7 @@
         "conditions": [
             "Strength > 66"
         ],
+        "criteria": "CS>66",
         "weapon_type": "Sword",
         "ap": 2,
         "crit_chance": 30,
@@ -423,6 +429,7 @@
         "conditions": [
             "Agility > 4"
         ],
+        "criteria": "CA>4",
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 10,
@@ -623,6 +630,7 @@
         "conditions": [
             "Intelligence > 4"
         ],
+        "criteria": "CI>4",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 15,
@@ -654,6 +662,7 @@
         "conditions": [
             "Intelligence > 4"
         ],
+        "criteria": "CI>4",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
@@ -686,6 +695,7 @@
             "Intelligence > 1",
             "Strength > 1"
         ],
+        "criteria": "CI>1&CS>1",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 15,
@@ -718,6 +728,7 @@
             "Strength > 1",
             "Chance > 1"
         ],
+        "criteria": "CS>1&CC>1",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
@@ -938,6 +949,7 @@
         "conditions": [
             "Intelligence > 30"
         ],
+        "criteria": "CI>30",
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 50,
@@ -995,6 +1007,7 @@
             "Wisdom > 100",
             "AP < 11 | MP < 6"
         ],
+        "criteria": "CW>100&(CP<11|CM<6)",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
@@ -1124,6 +1137,7 @@
         "conditions": [
             "Agility > 14"
         ],
+        "criteria": "CA>14",
         "weapon_type": "Staff",
         "ap": 2,
         "crit_chance": 10,
@@ -1216,6 +1230,7 @@
             "Vitality > 10",
             "Wisdom > 10"
         ],
+        "criteria": "CI>60&CV>10&CW>10",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
@@ -1262,6 +1277,7 @@
         "conditions": [
             "Chance > 30"
         ],
+        "criteria": "CC>30",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
@@ -1335,6 +1351,7 @@
             "Vitality > 52",
             "Agility > 20"
         ],
+        "criteria": "CS>104&CV>52&CA>20",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 25,
@@ -1522,6 +1539,7 @@
         "conditions": [
             "Agility > 40"
         ],
+        "criteria": "CA>40",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 30,
@@ -1573,6 +1591,7 @@
         "conditions": [
             "Agility > 60 | Chance > 60"
         ],
+        "criteria": "CA>60|CC>60",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -1625,6 +1644,7 @@
             "Agility > 73",
             "Chance > 15"
         ],
+        "criteria": "CA>73&CC>15",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -1815,6 +1835,7 @@
             "Intelligence > 40",
             "Wisdom > 10"
         ],
+        "criteria": "CS>40&CI>40&CW>10",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
@@ -1852,6 +1873,7 @@
             "Intelligence > 15",
             "Strength > 15"
         ],
+        "criteria": "CI>15&CS>15",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 35,
@@ -2059,6 +2081,7 @@
         "conditions": [
             "Chance > 200"
         ],
+        "criteria": "CC>200",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 35,
@@ -3233,6 +3256,7 @@
         "conditions": [
             "Agility > 46"
         ],
+        "criteria": "CA>46",
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 10,
@@ -3518,6 +3542,7 @@
             "Strength > 24",
             "Agility > 10"
         ],
+        "criteria": "CS>24&CA>10",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 10,
@@ -3701,6 +3726,7 @@
             "Strength > 10",
             "Intelligence > 16"
         ],
+        "criteria": "CS>10&CI>16",
         "weapon_type": "Hammer",
         "ap": 2,
         "crit_chance": 20,
@@ -3816,6 +3842,7 @@
             "Strength > 10",
             "Agility > 28"
         ],
+        "criteria": "CS>10&CA>28",
         "weapon_type": "Bow",
         "ap": 2,
         "crit_chance": 10,
@@ -3923,6 +3950,7 @@
             "Intelligence > 20",
             "Chance > 20"
         ],
+        "criteria": "CW>20&CI>20&CC>20",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
@@ -4111,6 +4139,7 @@
             "Strength > 30",
             "Agility > 36"
         ],
+        "criteria": "CS>30&CA>36",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
@@ -4556,6 +4585,7 @@
         "conditions": [
             "Vitality > 40"
         ],
+        "criteria": "CV>40",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
@@ -4602,6 +4632,7 @@
         "conditions": [
             "Vitality > 30"
         ],
+        "criteria": "CV>30",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 15,
@@ -4643,6 +4674,7 @@
         "conditions": [
             "Agility > 30"
         ],
+        "criteria": "CA>30",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
@@ -5401,7 +5433,8 @@
                 "Heals"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=1&Pa>20"
     },
     {
         "ankama_id": 759,
@@ -5506,6 +5539,7 @@
         "conditions": [
             "Chance > 10"
         ],
+        "criteria": "CC>10",
         "weapon_type": "Scythe",
         "ap": 4,
         "crit_chance": 10,
@@ -5808,7 +5842,8 @@
                 "Intelligence"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=2&Pa>30"
     },
     {
         "ankama_id": 779,
@@ -6448,6 +6483,7 @@
         "conditions": [
             "Wisdom > 11"
         ],
+        "criteria": "CW>11",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 20,
@@ -7287,6 +7323,7 @@
             "Strength > 148",
             "Vitality > 30"
         ],
+        "criteria": "CS>148&CV>30",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
@@ -7344,6 +7381,7 @@
             "Strength > 200",
             "Intelligence > 90"
         ],
+        "criteria": "CS>200&CI>90",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
@@ -8167,6 +8205,7 @@
             "Agility > 35",
             "Strength > 12"
         ],
+        "criteria": "CA>35&CS>12",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
@@ -8257,6 +8296,7 @@
         "conditions": [
             "Agility > 39"
         ],
+        "criteria": "CA>39",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -8427,6 +8467,7 @@
             "Agility > 79",
             "Strength > 20"
         ],
+        "criteria": "CA>79&CS>20",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -8533,6 +8574,7 @@
             "Strength > 4",
             "Chance > 29"
         ],
+        "criteria": "CS>4&CC>29",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
@@ -8659,6 +8701,7 @@
             "Intelligence > 49",
             "Strength > 49"
         ],
+        "criteria": "CI>49&CS>49",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
@@ -8710,6 +8753,7 @@
         "conditions": [
             "Agility > 47"
         ],
+        "criteria": "CA>47",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
@@ -9030,6 +9074,7 @@
         "conditions": [
             "Strength > 39"
         ],
+        "criteria": "CS>39",
         "weapon_type": "Hammer",
         "ap": 6,
         "crit_chance": 35,
@@ -9175,6 +9220,7 @@
             "Intelligence > 30",
             "Strength > 30"
         ],
+        "criteria": "CI>30&CS>30",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
@@ -9836,6 +9882,7 @@
         "conditions": [
             "Intelligence > 49"
         ],
+        "criteria": "CI>49",
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 20,
@@ -9892,6 +9939,7 @@
         "conditions": [
             "Intelligence > 90"
         ],
+        "criteria": "CI>90",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 35,
@@ -10056,6 +10104,7 @@
         "conditions": [
             "Intelligence > 60"
         ],
+        "criteria": "CI>60",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 35,
@@ -10123,7 +10172,8 @@
                 "Critical Hits"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=1&Pa>10"
     },
     {
         "ankama_id": 1350,
@@ -10508,6 +10558,7 @@
         "conditions": [
             "Agility > 25"
         ],
+        "criteria": "CA>25",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
@@ -10726,6 +10777,7 @@
         "conditions": [
             "Agility > 30"
         ],
+        "criteria": "CA>30",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
@@ -10782,6 +10834,7 @@
         "conditions": [
             "Strength > 49"
         ],
+        "criteria": "CS>49",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 40,
@@ -10833,6 +10886,7 @@
         "conditions": [
             "Wisdom > 50"
         ],
+        "criteria": "CW>50",
         "weapon_type": "Staff",
         "ap": 2,
         "crit_chance": 25,
@@ -10957,6 +11011,7 @@
         "conditions": [
             "Intelligence > 50"
         ],
+        "criteria": "CI>50",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
@@ -11135,6 +11190,7 @@
         "conditions": [
             "Agility > 39"
         ],
+        "criteria": "CA>39",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 30,
@@ -11176,6 +11232,7 @@
         "conditions": [
             "Agility > 60"
         ],
+        "criteria": "CA>60",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 15,
@@ -11359,6 +11416,7 @@
         "conditions": [
             "Strength > 50"
         ],
+        "criteria": "CS>50",
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 20,
@@ -11635,6 +11693,7 @@
         "conditions": [
             "Agility > 20"
         ],
+        "criteria": "CA>20",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
@@ -11681,6 +11740,7 @@
         "conditions": [
             "Intelligence > 80"
         ],
+        "criteria": "CI>80",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
@@ -11856,6 +11916,7 @@
             "Chance > 24",
             "Intelligence > 24"
         ],
+        "criteria": "CC>24&CI>24",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
@@ -11961,6 +12022,7 @@
         "conditions": [
             "Agility > 60"
         ],
+        "criteria": "CA>60",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
@@ -12027,6 +12089,7 @@
         "conditions": [
             "Intelligence > 90"
         ],
+        "criteria": "CI>90",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
@@ -12117,6 +12180,7 @@
         "conditions": [
             "Chance > 30"
         ],
+        "criteria": "CC>30",
         "weapon_type": "Pickaxe",
         "ap": 4,
         "crit_chance": 5,
@@ -12247,6 +12311,7 @@
             "Strength > 90",
             "Vitality > 50"
         ],
+        "criteria": "CS>90&CV>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -12431,6 +12496,7 @@
             "Intelligence > 50",
             "Vitality > 30"
         ],
+        "criteria": "CI>50&CV>30",
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 20,
@@ -12617,7 +12683,8 @@
         ],
         "conditions": [
             "Chance > 10"
-        ]
+        ],
+        "criteria": "CC>10"
     },
     {
         "ankama_id": 1486,
@@ -13024,7 +13091,11 @@
                 "Dodge"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PG=3",
+        "classes": [
+            "Enutrof"
+        ]
     },
     {
         "ankama_id": 1500,
@@ -13113,6 +13184,7 @@
         "conditions": [
             "Intelligence > 30"
         ],
+        "criteria": "CI>30",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 15,
@@ -13220,6 +13292,7 @@
             "Agility > 99",
             "Vitality > 99"
         ],
+        "criteria": "CS>99&CA>99&CV>99",
         "weapon_type": "Sword",
         "ap": 9,
         "crit_chance": 25,
@@ -14379,7 +14452,8 @@
                 "Pods"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PJ>2,20|PJ>24,20|PJ>36,20|PJ>28,20|PJ>26,20|PJ>41,20"
     },
     {
         "ankama_id": 1699,
@@ -14490,7 +14564,8 @@
                 "Strength"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PJ>2,40|PJ>24,40|PJ>36,40|PJ>28,40|PJ>26,40|PJ>41,40"
     },
     {
         "ankama_id": 1703,
@@ -14509,7 +14584,8 @@
                 "Pods"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PJ>2,60|PJ>24,60|PJ>36,60|PJ>28,60|PJ>26,60|PJ>41,60"
     },
     {
         "ankama_id": 1704,
@@ -14528,7 +14604,8 @@
                 "Pods"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PJ>2,90|PJ>24,90|PJ>36,90|PJ>28,90|PJ>26,90|PJ>41,90"
     },
     {
         "ankama_id": 1705,
@@ -14640,7 +14717,8 @@
         ],
         "conditions": [
             "Strength > 59"
-        ]
+        ],
+        "criteria": "CS>59"
     },
     {
         "ankama_id": 1719,
@@ -14671,7 +14749,8 @@
         ],
         "conditions": [
             "Intelligence > 49"
-        ]
+        ],
+        "criteria": "CI>49"
     },
     {
         "ankama_id": 1720,
@@ -14712,7 +14791,8 @@
         ],
         "conditions": [
             "Vitality > 119"
-        ]
+        ],
+        "criteria": "CV>119"
     },
     {
         "ankama_id": 1728,
@@ -14752,7 +14832,8 @@
         "conditions": [
             "Intelligence < 100",
             "Chance < 100"
-        ]
+        ],
+        "criteria": "CI<100&CC<100"
     },
     {
         "ankama_id": 1739,
@@ -15372,7 +15453,8 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=2"
     },
     {
         "ankama_id": 2119,
@@ -15385,7 +15467,8 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=1"
     },
     {
         "ankama_id": 2157,
@@ -15398,7 +15481,8 @@
         "level": 50,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PX=A"
     },
     {
         "ankama_id": 2233,
@@ -15445,7 +15529,8 @@
         "conditions": [
             "Strength < 40",
             "Intelligence > 80"
-        ]
+        ],
+        "criteria": "CS<40&CI>80"
     },
     {
         "ankama_id": 2341,
@@ -15465,6 +15550,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "Ps=1",
         "weapon_type": "Bow",
         "ap": 6,
         "crit_chance": 0,
@@ -15539,7 +15625,8 @@
         ],
         "conditions": [
             "Wisdom > 49"
-        ]
+        ],
+        "criteria": "CW>49&Ps=1"
     },
     {
         "ankama_id": 2368,
@@ -15580,7 +15667,8 @@
         ],
         "conditions": [
             "Wisdom > 49"
-        ]
+        ],
+        "criteria": "CW>49&Ps=2"
     },
     {
         "ankama_id": 2369,
@@ -15660,7 +15748,8 @@
         ],
         "conditions": [
             "Agility > 50"
-        ]
+        ],
+        "criteria": "CA>50"
     },
     {
         "ankama_id": 2371,
@@ -15740,7 +15829,8 @@
         ],
         "conditions": [
             "Chance > 50"
-        ]
+        ],
+        "criteria": "CC>50"
     },
     {
         "ankama_id": 2373,
@@ -15986,7 +16076,8 @@
         ],
         "conditions": [
             "Intelligence > 90"
-        ]
+        ],
+        "criteria": "CI>90"
     },
     {
         "ankama_id": 2382,
@@ -16056,7 +16147,8 @@
         ],
         "conditions": [
             "Strength > 90"
-        ]
+        ],
+        "criteria": "CS>90"
     },
     {
         "ankama_id": 2384,
@@ -16210,7 +16302,8 @@
         "conditions": [
             "Wisdom > 30",
             "Vitality > 50"
-        ]
+        ],
+        "criteria": "CW>30&CV>50"
     },
     {
         "ankama_id": 2388,
@@ -16992,6 +17085,7 @@
             "Intelligence > 50",
             "Vitality > 50"
         ],
+        "criteria": "CI>50&CV>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
@@ -19541,6 +19635,7 @@
             "Vitality > 90",
             "Strength > 50"
         ],
+        "criteria": "CV>90&CS>50",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
@@ -19603,6 +19698,7 @@
             "Vitality > 50",
             "Agility > 50"
         ],
+        "criteria": "CV>50&CA>50",
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 25,
@@ -19912,6 +20008,7 @@
             "Strength > 9",
             "Agility > 9"
         ],
+        "criteria": "CV>9&CS>9&CA>9",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -19970,6 +20067,7 @@
             "Agility > 30",
             "Strength > 30"
         ],
+        "criteria": "CV>30&CA>30&CS>30",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 30,
@@ -20033,6 +20131,7 @@
             "Agility > 50",
             "Strength > 50"
         ],
+        "criteria": "CV>50&CA>50&CS>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -20841,7 +20940,8 @@
                 "% Fire Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=1"
     },
     {
         "ankama_id": 3205,
@@ -20880,7 +20980,8 @@
                 "% Earth Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=2"
     },
     {
         "ankama_id": 3206,
@@ -21129,6 +21230,7 @@
             "Agility > 80",
             "Strength > 90"
         ],
+        "criteria": "CA>80&CS>90",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -21319,6 +21421,7 @@
             "Agility > 250",
             "Strength > 100"
         ],
+        "criteria": "CA>250&CS>100",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -21446,6 +21549,7 @@
             "Agility > 100",
             "Vitality > 100"
         ],
+        "criteria": "CI>250&CA>100&CV>100",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
@@ -21512,6 +21616,7 @@
         "conditions": [
             "Strength > 140"
         ],
+        "criteria": "CS>140",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 25,
@@ -21897,6 +22002,7 @@
         "conditions": [
             "Intelligence > 85"
         ],
+        "criteria": "CI>85",
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 25,
@@ -21964,6 +22070,7 @@
             "Intelligence > 90",
             "Wisdom > 30"
         ],
+        "criteria": "CI>90&CW>30",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
@@ -22080,6 +22187,7 @@
             "Strength > 80",
             "Vitality > 50"
         ],
+        "criteria": "CS>80&CV>50",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -22234,6 +22342,7 @@
         "conditions": [
             "Chance > 50"
         ],
+        "criteria": "CC>50",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -22458,6 +22567,7 @@
             "Agility > 80",
             "Strength > 50"
         ],
+        "criteria": "CA>80&CS>50",
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 25,
@@ -22520,6 +22630,7 @@
             "Agility > 200",
             "Strength > 100"
         ],
+        "criteria": "CA>200&CS>100",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
@@ -22572,6 +22683,7 @@
             "Strength > 70",
             "Agility > 70"
         ],
+        "criteria": "CS>70&CA>70",
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 25,
@@ -22629,6 +22741,7 @@
             "Vitality > 140",
             "Wisdom > 50"
         ],
+        "criteria": "CV>140&CW>50",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -22694,7 +22807,8 @@
         ],
         "conditions": [
             "Chance > 30"
-        ]
+        ],
+        "criteria": "CC>30"
     },
     {
         "ankama_id": 6460,
@@ -23647,6 +23761,7 @@
         "conditions": [
             "Strength > 90 | Agility > 90"
         ],
+        "criteria": "CS>90|CA>90",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -23708,6 +23823,7 @@
         "conditions": [
             "Agility > 100"
         ],
+        "criteria": "CA>100",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -23907,6 +24023,7 @@
             "Intelligence > 300",
             "Wisdom > 100"
         ],
+        "criteria": "CI>300&CW>100",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 30,
@@ -23990,6 +24107,7 @@
             "Chance > 250",
             "Wisdom > 150"
         ],
+        "criteria": "CI>400&CC>250&CW>150",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 20,
@@ -24057,6 +24175,7 @@
             "Intelligence > 70",
             "Wisdom > 70"
         ],
+        "criteria": "CI>70&CW>70",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 25,
@@ -24388,6 +24507,7 @@
             "Strength > 80",
             "Vitality > 70"
         ],
+        "criteria": "CS>80&CV>70",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
@@ -24583,6 +24703,7 @@
             "Strength > 60",
             "Intelligence > 60"
         ],
+        "criteria": "CS>60&CI>60",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
@@ -24777,6 +24898,7 @@
         "conditions": [
             "Chance > 299"
         ],
+        "criteria": "CC>299",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
@@ -24854,6 +24976,7 @@
             "Intelligence > 150",
             "Strength > 80"
         ],
+        "criteria": "CI>150&CS>80",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
@@ -24911,6 +25034,7 @@
             "Intelligence > 50",
             "Chance > 50"
         ],
+        "criteria": "CI>50&CC>50",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
@@ -25028,6 +25152,7 @@
             "Strength > 100",
             "Vitality > 100"
         ],
+        "criteria": "CA>150&CS>100&CV>100",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -25090,6 +25215,7 @@
             "Agility > 50",
             "Strength > 50"
         ],
+        "criteria": "CA>50&CS>50",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -25157,6 +25283,7 @@
             "Intelligence > 300",
             "Vitality > 100"
         ],
+        "criteria": "CI>300&CV>100",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
@@ -25337,6 +25464,7 @@
             "Strength > 250",
             "Vitality > 200"
         ],
+        "criteria": "CS>250&CV>200",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -25410,6 +25538,7 @@
             "Strength > 200",
             "Vitality > 150"
         ],
+        "criteria": "CI>200&CS>200&CV>150",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
@@ -25472,6 +25601,7 @@
             "Strength > 200",
             "Vitality > 150"
         ],
+        "criteria": "CS>200&CV>150",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
@@ -25691,6 +25821,7 @@
             "Chance > 60",
             "Intelligence > 60"
         ],
+        "criteria": "CC>60&CI>60",
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 25,
@@ -25829,6 +25960,7 @@
             "Vitality > 100",
             "Wisdom > 50"
         ],
+        "criteria": "CC>300&CS>50&CV>100&CW>50",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
@@ -26068,6 +26200,7 @@
             "Strength > 30",
             "Chance > 140"
         ],
+        "criteria": "CS>30&CC>140",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
@@ -26135,6 +26268,7 @@
             "Chance > 140",
             "Vitality > 80"
         ],
+        "criteria": "CC>140&CV>80",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 0,
@@ -26286,6 +26420,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "PN~Lordsoth",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -27007,6 +27142,7 @@
             "Chance > 50",
             "Vitality > 50"
         ],
+        "criteria": "CC>50&CV>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
@@ -27054,6 +27190,7 @@
             "Strength > 50",
             "Vitality > 50"
         ],
+        "criteria": "CS>50&CV>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
@@ -27101,6 +27238,7 @@
             "Agility > 50",
             "Vitality > 50"
         ],
+        "criteria": "CA>50&CV>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
@@ -27494,6 +27632,7 @@
             "Chance > 150",
             "Strength > 150"
         ],
+        "criteria": "CC>150&CS>150",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -27777,6 +27916,7 @@
             "Strength > 90",
             "Vitality > 90"
         ],
+        "criteria": "CS>90&CV>90",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 25,
@@ -28663,6 +28803,7 @@
             "Agility > 100",
             "Vitality > 100"
         ],
+        "criteria": "CS>100&CA>100&CV>100",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -29215,6 +29356,7 @@
             "Chance > 140",
             "Vitality > 90"
         ],
+        "criteria": "CA>140&CC>140&CV>90",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 40,
@@ -29472,7 +29614,8 @@
                 "Vitality"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PX=3|PX=5"
     },
     {
         "ankama_id": 6895,
@@ -31616,6 +31759,7 @@
             "Agility > 250",
             "Strength > 150"
         ],
+        "criteria": "CA>250&CS>150",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 10,
@@ -31732,6 +31876,7 @@
             "Strength > 250",
             "Agility > 100"
         ],
+        "criteria": "CS>250&CA>100",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -31789,6 +31934,7 @@
             "Strength > 300",
             "Agility > 49"
         ],
+        "criteria": "CS>300&CA>49",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 30,
@@ -32693,6 +32839,7 @@
             "Agility > 250",
             "Vitality > 300"
         ],
+        "criteria": "CA>250&CV>300",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
@@ -32743,7 +32890,8 @@
         ],
         "conditions": [
             "Strength > 100"
-        ]
+        ],
+        "criteria": "CS>100"
     },
     {
         "ankama_id": 7031,
@@ -33280,6 +33428,7 @@
             "Intelligence > 450",
             "Vitality > 200"
         ],
+        "criteria": "CI>450&CV>200",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
@@ -34761,6 +34910,7 @@
         "conditions": [
             "Chance > 200"
         ],
+        "criteria": "CC>200",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
@@ -34819,6 +34969,7 @@
             "Vitality > 200",
             "Wisdom > 100"
         ],
+        "criteria": "CI>350&CV>200&CW>100",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 30,
@@ -34891,6 +35042,7 @@
             "Intelligence > 150",
             "Wisdom > 70"
         ],
+        "criteria": "CI>150&CW>70",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
@@ -34943,6 +35095,7 @@
             "Intelligence > 150",
             "Vitality > 150"
         ],
+        "criteria": "CI>150&CV>150",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
@@ -35024,6 +35177,7 @@
         "conditions": [
             "Intelligence > 250"
         ],
+        "criteria": "CI>250",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
@@ -35085,6 +35239,7 @@
         "conditions": [
             "Agility > 250"
         ],
+        "criteria": "CA>250",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
@@ -35152,6 +35307,7 @@
             "Chance > 200",
             "Vitality > 300"
         ],
+        "criteria": "CC>200&CV>300",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 35,
@@ -35228,6 +35384,7 @@
         "conditions": [
             "Intelligence > 400"
         ],
+        "criteria": "CI>400",
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 30,
@@ -35295,6 +35452,7 @@
             "Intelligence > 250",
             "Agility > 100"
         ],
+        "criteria": "CI>250&CA>100",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
@@ -35352,6 +35510,7 @@
             "Agility > 200",
             "Chance > 70"
         ],
+        "criteria": "CA>200&CC>70",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -35408,6 +35567,7 @@
         "conditions": [
             "Agility > 250"
         ],
+        "criteria": "CA>250",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -35553,6 +35713,7 @@
         "conditions": [
             "Intelligence > 300"
         ],
+        "criteria": "CI>300",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
@@ -35599,6 +35760,7 @@
         "conditions": [
             "Intelligence > 60"
         ],
+        "criteria": "CI>60",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
@@ -35660,6 +35822,7 @@
         "conditions": [
             "Intelligence > 140"
         ],
+        "criteria": "CI>140",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
@@ -35726,6 +35889,7 @@
         "conditions": [
             "Intelligence > 200"
         ],
+        "criteria": "CI>200",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
@@ -35788,6 +35952,7 @@
             "Intelligence > 350",
             "Vitality > 200"
         ],
+        "criteria": "CI>350&CV>200",
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 35,
@@ -35855,6 +36020,7 @@
             "Intelligence > 300",
             "Vitality > 300"
         ],
+        "criteria": "CI>300&CV>300",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 30,
@@ -35907,6 +36073,7 @@
             "Intelligence > 200",
             "Wisdom > 50"
         ],
+        "criteria": "CI>200&CW>50",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 30,
@@ -36034,6 +36201,7 @@
             "Intelligence > 50",
             "Agility > 50"
         ],
+        "criteria": "CS>150&CV>400&CI>50&CA>50",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -36124,6 +36292,7 @@
         "conditions": [
             "Intelligence > 140"
         ],
+        "criteria": "CI>140",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
@@ -36201,6 +36370,7 @@
             "Vitality > 250",
             "Wisdom > 60"
         ],
+        "criteria": "CV>250&CW>60",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 30,
@@ -36262,6 +36432,7 @@
         "conditions": [
             "Vitality > 200"
         ],
+        "criteria": "CV>200",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
@@ -36323,6 +36494,7 @@
         "conditions": [
             "Vitality > 70"
         ],
+        "criteria": "CV>70",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -36429,6 +36601,7 @@
             "Vitality > 200",
             "Wisdom > 100"
         ],
+        "criteria": "CV>200&CW>100",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
@@ -36470,6 +36643,7 @@
         "conditions": [
             "Chance > 100"
         ],
+        "criteria": "CC>100",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 35,
@@ -36532,6 +36706,7 @@
             "Agility > 100",
             "Intelligence > 100"
         ],
+        "criteria": "CA>100&CI>100",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -36608,6 +36783,7 @@
         "conditions": [
             "Intelligence > 450"
         ],
+        "criteria": "CI>450",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
@@ -36670,6 +36846,7 @@
             "Strength > 140",
             "Agility > 140"
         ],
+        "criteria": "CS>140&CA>140",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -36742,6 +36919,7 @@
             "Agility > 200",
             "Strength > 200"
         ],
+        "criteria": "CA>200&CS>200",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -36794,6 +36972,7 @@
             "Strength > 300",
             "Agility > 120"
         ],
+        "criteria": "CS>300&CA>120",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 30,
@@ -36861,6 +37040,7 @@
             "Vitality > 250",
             "Intelligence > 300"
         ],
+        "criteria": "CV>250&CI>300",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 20,
@@ -36997,6 +37177,7 @@
             "Vitality > 300",
             "Agility > 300"
         ],
+        "criteria": "CV>300&CA>300",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 5,
@@ -37079,6 +37260,7 @@
             "Intelligence > 150",
             "Vitality > 200"
         ],
+        "criteria": "CI>150&CV>200",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 5,
@@ -37131,6 +37313,7 @@
             "Strength > 200",
             "Agility > 100"
         ],
+        "criteria": "CS>200&CA>100",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -37204,6 +37387,7 @@
             "Agility > 120",
             "Vitality > 300"
         ],
+        "criteria": "CS>200&CA>120&CV>300",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -37245,6 +37429,7 @@
         "conditions": [
             "Strength > 59"
         ],
+        "criteria": "CS>59",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -37345,6 +37530,7 @@
         "conditions": [
             "Strength > 120"
         ],
+        "criteria": "CS>120",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 25,
@@ -37416,6 +37602,7 @@
         "conditions": [
             "Agility > 90"
         ],
+        "criteria": "CA>90",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -37463,6 +37650,7 @@
             "Vitality > 29",
             "Wisdom > 9"
         ],
+        "criteria": "CV>29&CW>9",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -37574,6 +37762,7 @@
             "Agility > 90",
             "Vitality > 70"
         ],
+        "criteria": "CA>90&CV>70",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -37635,6 +37824,7 @@
         "conditions": [
             "Strength > 250"
         ],
+        "criteria": "CS>250",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 25,
@@ -37840,6 +38030,7 @@
             "Strength > 25",
             "Vitality > 85"
         ],
+        "criteria": "CI>140&CS>25&CV>85",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
@@ -37936,6 +38127,7 @@
             "Chance > 400",
             "Vitality > 250"
         ],
+        "criteria": "CC>400&CV>250",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
@@ -39246,6 +39438,7 @@
         "conditions": [
             "Chance > 49"
         ],
+        "criteria": "CC>49",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
@@ -39362,6 +39555,7 @@
             "Agility > 140",
             "Strength > 50"
         ],
+        "criteria": "CA>140&CS>50",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -39424,6 +39618,7 @@
             "Intelligence > 200",
             "Agility > 60"
         ],
+        "criteria": "CI>200&CA>60",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 25,
@@ -39627,6 +39822,7 @@
             "Vitality > 150",
             "Intelligence > 300"
         ],
+        "criteria": "CV>150&CI>300",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
@@ -40450,6 +40646,7 @@
             "Intelligence > 1000",
             "Agility > 250"
         ],
+        "criteria": "CI>1000&CA>250",
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 35,
@@ -40800,7 +40997,9 @@
                 "Wisdom"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 7888,
@@ -40864,7 +41063,9 @@
                 "Lock"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 7889,
@@ -40933,7 +41134,9 @@
                 "Lock"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 7890,
@@ -41013,6 +41216,8 @@
             ]
         ],
         "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true,
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
@@ -41558,6 +41763,7 @@
         "conditions": [
             "Intelligence > 250"
         ],
+        "criteria": "CI>250",
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 30,
@@ -41652,6 +41858,7 @@
             "Chance > 100",
             "Strength > 100"
         ],
+        "criteria": "CI>100&CA>100&CC>100&CS>100",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
@@ -41724,6 +41931,7 @@
             "Intelligence > 200",
             "Agility > 50"
         ],
+        "criteria": "CI>200&CA>50",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
@@ -41816,6 +42024,7 @@
             "Agility > 150",
             "Intelligence > 150"
         ],
+        "criteria": "CA>150&CI>150",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
@@ -41898,6 +42107,7 @@
             "Strength > 250",
             "Agility > 100"
         ],
+        "criteria": "CS>250&CA>100",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -42014,6 +42224,7 @@
             "Intelligence > 300",
             "Strength > 130"
         ],
+        "criteria": "CI>300&CS>130",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
@@ -42086,6 +42297,7 @@
             "Intelligence > 250",
             "Chance > 250"
         ],
+        "criteria": "CI>250&CC>250",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
@@ -42152,6 +42364,7 @@
         "conditions": [
             "Strength > 250"
         ],
+        "criteria": "CS>250",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
@@ -42308,6 +42521,7 @@
             "Agility > 120",
             "Vitality > 150"
         ],
+        "criteria": "CA>120&CV>150",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
@@ -42390,6 +42604,7 @@
             "Strength > 150",
             "Wisdom > 150"
         ],
+        "criteria": "CS>150&CW>150",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
@@ -42457,6 +42672,7 @@
             "Intelligence > 230",
             "Vitality > 250"
         ],
+        "criteria": "CI>230&CV>250",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
@@ -42532,6 +42748,7 @@
             "Chance > 49",
             "Vitality > 199"
         ],
+        "criteria": "CS>49&CA>49&CI>49&CC>49&CV>199",
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 30,
@@ -42605,6 +42822,7 @@
             "Vitality > 300",
             "Agility > 49"
         ],
+        "criteria": "CI>300&CV>300&CA>49",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
@@ -47472,6 +47690,7 @@
             "Strength > 200",
             "Agility > 200"
         ],
+        "criteria": "CS>200&CA>200",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 30,
@@ -47554,6 +47773,7 @@
             "Chance > 180",
             "Wisdom > 80"
         ],
+        "criteria": "CC>180&CW>80",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
@@ -47626,6 +47846,7 @@
             "Intelligence > 200",
             "Chance > 100"
         ],
+        "criteria": "CI>200&CC>100",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
@@ -47693,6 +47914,7 @@
             "Strength > 300",
             "Vitality > 250"
         ],
+        "criteria": "CS>300&CV>250",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
@@ -47765,6 +47987,7 @@
             "Intelligence > 100",
             "Agility > 200"
         ],
+        "criteria": "CI>100&CA>200",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
@@ -47838,6 +48061,7 @@
             "Agility > 150",
             "Vitality > 300"
         ],
+        "criteria": "CS>300&CA>150&CV>300",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 30,
@@ -48576,6 +48800,7 @@
             "Intelligence > 120",
             "Agility > 100"
         ],
+        "criteria": "CS>120&CI>120&CA>100",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -48663,6 +48888,7 @@
             "Chance > 199",
             "Strength > 199"
         ],
+        "criteria": "CC>199&CS>199",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
@@ -48714,6 +48940,7 @@
         "conditions": [
             "Chance > 200"
         ],
+        "criteria": "CC>200",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 30,
@@ -48786,6 +49013,7 @@
             "Chance > 200",
             "Strength > 49"
         ],
+        "criteria": "CC>200&CS>49",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 15,
@@ -50822,6 +51050,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "Qa=166",
         "weapon_type": "Dagger",
         "ap": 4,
         "crit_chance": 25,
@@ -51238,6 +51467,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "PN~xxramboplxx",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 13,
@@ -51300,6 +51530,7 @@
             "Strength > 350",
             "Vitality > 400"
         ],
+        "criteria": "CS>350&CV>400",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 20,
@@ -51454,6 +51685,7 @@
         "conditions": [
             "Strength > 250"
         ],
+        "criteria": "CS>250",
         "weapon_type": "Sword",
         "ap": 8,
         "crit_chance": 25,
@@ -51595,6 +51827,7 @@
             "Agility > 150",
             "Intelligence > 150"
         ],
+        "criteria": "CA>150&CI>150",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
@@ -51705,6 +51938,7 @@
         "conditions": [
             "Agility > 200"
         ],
+        "criteria": "CA>200",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -51757,6 +51991,7 @@
             "Intelligence > 140",
             "Chance > 140"
         ],
+        "criteria": "CI>140&CC>140",
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 25,
@@ -51814,6 +52049,7 @@
             "Intelligence > 90",
             "Chance > 90"
         ],
+        "criteria": "CI>90&CC>90",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 25,
@@ -51865,6 +52101,7 @@
         "conditions": [
             "Agility > 140"
         ],
+        "criteria": "CA>140",
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 25,
@@ -52030,6 +52267,7 @@
             "Intelligence > 90",
             "Vitality > 90"
         ],
+        "criteria": "CI>90&CV>90",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
@@ -52092,6 +52330,7 @@
             "Intelligence > 350",
             "Wisdom > 180"
         ],
+        "criteria": "CI>350&CW>180",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 15,
@@ -52197,6 +52436,7 @@
         "conditions": [
             "Chance > 120"
         ],
+        "criteria": "CC>120",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
@@ -52214,7 +52454,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8627,
@@ -52251,7 +52493,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8629,
@@ -52264,7 +52508,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8630,
@@ -52277,7 +52523,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8631,
@@ -52290,7 +52538,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8632,
@@ -52303,7 +52553,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8633,
@@ -52316,7 +52568,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8634,
@@ -52329,7 +52583,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8635,
@@ -52342,7 +52598,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8636,
@@ -52355,7 +52613,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8637,
@@ -52368,7 +52628,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8638,
@@ -52381,7 +52643,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8639,
@@ -52394,7 +52658,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8640,
@@ -52407,7 +52673,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8641,
@@ -52420,7 +52688,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8642,
@@ -52433,7 +52703,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8643,
@@ -52446,7 +52718,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8644,
@@ -52459,7 +52733,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8645,
@@ -52472,7 +52748,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8646,
@@ -52485,7 +52763,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8647,
@@ -52498,7 +52778,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8648,
@@ -52511,7 +52793,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8649,
@@ -52524,7 +52808,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8650,
@@ -52537,7 +52823,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8651,
@@ -52550,7 +52838,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8652,
@@ -52563,7 +52853,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8653,
@@ -52576,7 +52868,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8654,
@@ -52589,7 +52883,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8655,
@@ -52602,7 +52898,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8656,
@@ -52615,7 +52913,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8657,
@@ -52628,7 +52928,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8658,
@@ -52641,7 +52943,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8659,
@@ -52654,7 +52958,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8660,
@@ -52667,7 +52973,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8661,
@@ -52680,7 +52988,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8662,
@@ -52693,7 +53003,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8663,
@@ -52706,7 +53018,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8664,
@@ -52719,7 +53033,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8665,
@@ -52732,7 +53048,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8666,
@@ -52745,7 +53063,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8667,
@@ -52758,7 +53078,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8668,
@@ -52771,7 +53093,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8669,
@@ -52784,7 +53108,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8670,
@@ -52797,7 +53123,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8676,
@@ -52846,6 +53174,7 @@
             "Agility > 50",
             "Strength > 50"
         ],
+        "criteria": "CV>50&CA>50&CS>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -52959,6 +53288,7 @@
         "conditions": [
             "MP > 5"
         ],
+        "criteria": "CM>5",
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 20,
@@ -53101,6 +53431,7 @@
             "Agility > 50",
             "Strength > 50"
         ],
+        "criteria": "CV>50&CA>50&CS>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
@@ -53182,7 +53513,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8714,
@@ -53195,7 +53528,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8715,
@@ -53208,7 +53543,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8716,
@@ -53221,7 +53558,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8717,
@@ -53234,7 +53573,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8718,
@@ -53247,7 +53588,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8719,
@@ -53260,7 +53603,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8720,
@@ -53273,7 +53618,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8721,
@@ -53286,7 +53633,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8722,
@@ -53299,7 +53648,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8723,
@@ -53312,7 +53663,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8724,
@@ -53325,7 +53678,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8725,
@@ -53338,7 +53693,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8726,
@@ -53351,7 +53708,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8727,
@@ -53364,7 +53723,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8728,
@@ -53377,7 +53738,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8818,
@@ -53878,6 +54241,7 @@
             "Agility > 130",
             "Chance > 130"
         ],
+        "criteria": "CA>130&CC>130",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
@@ -53945,6 +54309,7 @@
             "Agility > 250",
             "Wisdom > 150"
         ],
+        "criteria": "CA>250&CW>150",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
@@ -54012,6 +54377,7 @@
             "Wisdom > 220",
             "Vitality > 500"
         ],
+        "criteria": "CW>220&CV>500",
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 25,
@@ -54129,6 +54495,7 @@
             "Agility > 90",
             "Vitality > 140"
         ],
+        "criteria": "CC>90&CA>90&CV>140",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
@@ -54196,6 +54563,7 @@
             "Strength > 90",
             "Intelligence > 90"
         ],
+        "criteria": "CS>90&CI>90",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
@@ -54268,6 +54636,7 @@
             "Agility > 200",
             "Strength > 200"
         ],
+        "criteria": "CA>200&CS>200",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
@@ -54335,6 +54704,7 @@
             "Agility > 200",
             "Intelligence > 200"
         ],
+        "criteria": "CA>200&CI>200",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
@@ -54402,6 +54772,7 @@
             "Intelligence > 180",
             "Strength > 100"
         ],
+        "criteria": "CI>180&CS>100",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 15,
@@ -54479,6 +54850,7 @@
             "Intelligence > 250",
             "Strength > 200"
         ],
+        "criteria": "CI>250&CS>200",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 15,
@@ -55215,6 +55587,7 @@
         "conditions": [
             "Vitality > 500"
         ],
+        "criteria": "CV>500",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
@@ -55758,6 +56131,7 @@
         "conditions": [
             "Chance > 250"
         ],
+        "criteria": "CC>250",
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 30,
@@ -56693,6 +57067,7 @@
         "conditions": [
             "Agility > 200"
         ],
+        "criteria": "CA>200",
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 25,
@@ -56775,6 +57150,7 @@
             "Agility > 300",
             "Intelligence > 300"
         ],
+        "criteria": "CA>300&CI>300",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -56872,6 +57248,7 @@
             "Agility > 250",
             "Chance > 250"
         ],
+        "criteria": "CA>250&CC>250",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
@@ -56959,6 +57336,7 @@
             "Strength > 350",
             "Agility > 200"
         ],
+        "criteria": "CS>350&CA>200",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -57020,6 +57398,7 @@
         "conditions": [
             "Agility > 300"
         ],
+        "criteria": "CA>300",
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 25,
@@ -57112,6 +57491,7 @@
             "Intelligence > 250",
             "Chance > 250"
         ],
+        "criteria": "CI>250&CC>250",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -57184,6 +57564,7 @@
             "Agility > 300",
             "Intelligence > 300"
         ],
+        "criteria": "CA>300&CI>300",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -57272,6 +57653,7 @@
             "Chance > 199",
             "Strength > 199"
         ],
+        "criteria": "CA>199&CC>199&CS>199",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 10,
@@ -57428,6 +57810,7 @@
             "Wisdom > 200",
             "Strength > 300"
         ],
+        "criteria": "CW>200&CS>300",
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 5,
@@ -57516,6 +57899,7 @@
             "Agility > 150",
             "Intelligence > 150"
         ],
+        "criteria": "CC>150&CA>150&CI>150",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 5,
@@ -57598,6 +57982,7 @@
             "Chance > 250",
             "Intelligence > 250"
         ],
+        "criteria": "CC>250&CI>250",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
@@ -57680,6 +58065,7 @@
             "Chance > 99",
             "Agility > 99"
         ],
+        "criteria": "CC>99&CA>99",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 30,
@@ -57800,6 +58186,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -57841,6 +58228,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -57882,6 +58270,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 35,
@@ -57923,6 +58312,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -57964,6 +58354,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -58005,6 +58396,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -58046,6 +58438,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -58087,6 +58480,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -58128,6 +58522,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -58169,6 +58564,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -58210,6 +58606,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -58251,6 +58648,7 @@
         "conditions": [
             "Strength > 150"
         ],
+        "criteria": "CS>150",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
@@ -58740,6 +59138,7 @@
         "conditions": [
             "Vitality > 600"
         ],
+        "criteria": "CV>600",
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 0,
@@ -59390,6 +59789,7 @@
             "Strength > 299",
             "Intelligence > 299"
         ],
+        "criteria": "CS>299&CI>299",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -59502,6 +59902,7 @@
             "Intelligence > 299",
             "Agility > 299"
         ],
+        "criteria": "CI>299&CA>299",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
@@ -59599,6 +60000,7 @@
             "Strength > 200",
             "Chance > 200"
         ],
+        "criteria": "CS>200&CC>200",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 0,
@@ -59705,6 +60107,7 @@
         "conditions": [
             "Agility > 450"
         ],
+        "criteria": "CA>450",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -59776,6 +60179,7 @@
         "conditions": [
             "Chance > 450"
         ],
+        "criteria": "CC>450",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 10,
@@ -62247,6 +62651,7 @@
             "Strength > 10",
             "Agility > 10"
         ],
+        "criteria": "CV>10&CS>10&CA>10",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 20,
@@ -62592,7 +62997,8 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PX=3|PX=5|PX=2"
     },
     {
         "ankama_id": 9402,
@@ -63136,6 +63542,7 @@
         "conditions": [
             "Chance > 450"
         ],
+        "criteria": "CC>450",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 0,
@@ -63213,6 +63620,7 @@
             "Chance > 300",
             "Agility > 300"
         ],
+        "criteria": "CC>300&CA>300",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 10,
@@ -63246,7 +63654,8 @@
                 "Vitality"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PR=0"
     },
     {
         "ankama_id": 9542,
@@ -63517,6 +63926,8 @@
             ]
         ],
         "conditions": [],
+        "criteria": "PL<6",
+        "max_level": 5,
         "weapon_type": "Staff",
         "ap": 42,
         "crit_chance": 13,
@@ -63733,6 +64144,7 @@
             "Agility > 30",
             "Vitality > 30"
         ],
+        "criteria": "CA>30&CV>30",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
@@ -63760,6 +64172,7 @@
             "Intelligence > 40",
             "Vitality > 40"
         ],
+        "criteria": "CI>40&CV>40",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
@@ -63787,6 +64200,7 @@
             "Chance > 50",
             "Vitality > 50"
         ],
+        "criteria": "CC>50&CV>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
@@ -63814,6 +64228,7 @@
             "Strength > 60",
             "Vitality > 60"
         ],
+        "criteria": "CS>60&CV>60",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
@@ -63859,6 +64274,7 @@
             "Chance > 35",
             "Vitality > 70"
         ],
+        "criteria": "CA>35&CS>35&CI>35&CC>35&CV>70",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 40,
@@ -63886,6 +64302,7 @@
             "Intelligence > 30",
             "Vitality > 30"
         ],
+        "criteria": "CI>30&CV>30",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 35,
@@ -63913,6 +64330,7 @@
             "Chance > 40",
             "Vitality > 40"
         ],
+        "criteria": "CC>40&CV>40",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 35,
@@ -63940,6 +64358,7 @@
             "Strength > 50",
             "Vitality > 50"
         ],
+        "criteria": "CS>50&CV>50",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 35,
@@ -63967,6 +64386,7 @@
             "Agility > 60",
             "Vitality > 60"
         ],
+        "criteria": "CA>60&CV>60",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 30,
@@ -64012,6 +64432,7 @@
             "Intelligence > 35",
             "Vitality > 70"
         ],
+        "criteria": "CA>35&CC>35&CS>35&CI>35&CV>70",
         "weapon_type": "Dagger",
         "ap": 4,
         "crit_chance": 40,
@@ -64039,6 +64460,7 @@
             "Chance > 30",
             "Vitality > 30"
         ],
+        "criteria": "CC>30&CV>30",
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 35,
@@ -64066,6 +64488,7 @@
             "Strength > 40",
             "Vitality > 40"
         ],
+        "criteria": "CS>40&CV>40",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 35,
@@ -64093,6 +64516,7 @@
             "Agility > 50",
             "Vitality > 50"
         ],
+        "criteria": "CA>50&CV>50",
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 35,
@@ -64120,6 +64544,7 @@
             "Intelligence > 60",
             "Vitality > 60"
         ],
+        "criteria": "CI>60&CV>60",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 35,
@@ -64165,6 +64590,7 @@
             "Strength > 35",
             "Vitality > 70"
         ],
+        "criteria": "CI>35&CA>35&CC>35&CS>35&CV>70",
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 40,
@@ -64192,6 +64618,7 @@
             "Strength > 30",
             "Vitality > 30"
         ],
+        "criteria": "CS>30&CV>30",
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 35,
@@ -64219,6 +64646,7 @@
             "Agility > 40",
             "Vitality > 40"
         ],
+        "criteria": "CA>40&CV>40",
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 40,
@@ -64246,6 +64674,7 @@
             "Intelligence > 50",
             "Vitality > 50"
         ],
+        "criteria": "CI>50&CV>50",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 35,
@@ -64273,6 +64702,7 @@
             "Chance > 60",
             "Vitality > 60"
         ],
+        "criteria": "CC>60&CV>60",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 40,
@@ -64318,6 +64748,7 @@
             "Intelligence > 35",
             "Vitality > 70"
         ],
+        "criteria": "CC>35&CA>35&CS>35&CI>35&CV>70",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 40,
@@ -64345,6 +64776,7 @@
             "Agility > 30",
             "Vitality > 30"
         ],
+        "criteria": "CA>30&CV>30",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 35,
@@ -64372,6 +64804,7 @@
             "Intelligence > 40",
             "Vitality > 40"
         ],
+        "criteria": "CI>40&CV>40",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 40,
@@ -64399,6 +64832,7 @@
             "Chance > 50",
             "Vitality > 50"
         ],
+        "criteria": "CC>50&CV>50",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 40,
@@ -64426,6 +64860,7 @@
             "Strength > 60",
             "Vitality > 60"
         ],
+        "criteria": "CS>60&CV>60",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 40,
@@ -64471,6 +64906,7 @@
             "Intelligence > 35",
             "Vitality > 70"
         ],
+        "criteria": "CC>35&CA>35&CS>35&CI>35&CV>70",
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 35,
@@ -64498,6 +64934,7 @@
             "Intelligence > 30",
             "Vitality > 30"
         ],
+        "criteria": "CI>30&CV>30",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 35,
@@ -64525,6 +64962,7 @@
             "Chance > 40",
             "Vitality > 40"
         ],
+        "criteria": "CC>40&CV>40",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 35,
@@ -64552,6 +64990,7 @@
             "Strength > 50",
             "Vitality > 50"
         ],
+        "criteria": "CS>50&CV>50",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 35,
@@ -64579,6 +65018,7 @@
             "Agility > 60",
             "Vitality > 60"
         ],
+        "criteria": "CA>60&CV>60",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 35,
@@ -64624,6 +65064,7 @@
             "Agility > 35",
             "Vitality > 70"
         ],
+        "criteria": "CC>35&CS>35&CI>35&CA>35&CV>70",
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 35,
@@ -64651,6 +65092,7 @@
             "Chance > 30",
             "Vitality > 30"
         ],
+        "criteria": "CC>30&CV>30",
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 35,
@@ -64678,6 +65120,7 @@
             "Strength > 40",
             "Vitality > 40"
         ],
+        "criteria": "CS>40&CV>40",
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 35,
@@ -64705,6 +65148,7 @@
             "Agility > 50",
             "Vitality > 50"
         ],
+        "criteria": "CA>50&CV>50",
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 35,
@@ -64732,6 +65176,7 @@
             "Intelligence > 60",
             "Vitality > 60"
         ],
+        "criteria": "CI>60&CV>60",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
@@ -64777,6 +65222,7 @@
             "Intelligence > 35",
             "Vitality > 70"
         ],
+        "criteria": "CS>35&CA>35&CC>35&CI>35&CV>70",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 40,
@@ -64804,6 +65250,7 @@
             "Strength > 30",
             "Vitality > 30"
         ],
+        "criteria": "CS>30&CV>30",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 35,
@@ -64831,6 +65278,7 @@
             "Agility > 40",
             "Vitality > 40"
         ],
+        "criteria": "CA>40&CV>40",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 35,
@@ -64858,6 +65306,7 @@
             "Intelligence > 50",
             "Vitality > 50"
         ],
+        "criteria": "CI>50&CV>50",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 20,
@@ -64885,6 +65334,7 @@
             "Chance > 60",
             "Vitality > 60"
         ],
+        "criteria": "CC>60&CV>60",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 35,
@@ -64930,6 +65380,7 @@
             "Intelligence > 35",
             "Vitality > 70"
         ],
+        "criteria": "CA>35&CS>35&CC>35&CI>35&CV>70",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 35,
@@ -65319,6 +65770,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "PJ>20,49",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 5,
@@ -65352,7 +65804,8 @@
                 "Pods"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10055,
@@ -65386,7 +65839,8 @@
                 "Summon"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10056,
@@ -65415,7 +65869,8 @@
                 "Initiative"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10058,
@@ -65444,7 +65899,8 @@
                 "Range"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10061,
@@ -65478,7 +65934,8 @@
                 "Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10076,
@@ -65517,7 +65974,8 @@
                 "Air Resist in PVP"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PP>9"
     },
     {
         "ankama_id": 10102,
@@ -65546,7 +66004,8 @@
                 "Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10106,
@@ -65607,6 +66066,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Bow",
         "ap": 6,
         "crit_chance": 15,
@@ -65646,6 +66106,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 15,
@@ -65685,6 +66146,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Staff",
         "ap": 6,
         "crit_chance": 15,
@@ -65724,6 +66186,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 15,
@@ -66431,6 +66894,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
@@ -66552,6 +67016,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
@@ -66668,6 +67133,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 5,
@@ -66779,6 +67245,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 25,
@@ -66890,6 +67357,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 25,
@@ -67001,6 +67469,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Pickaxe",
         "ap": 5,
         "crit_chance": 5,
@@ -67481,7 +67950,8 @@
                 "Vitality"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Sc=10"
     },
     {
         "ankama_id": 10830,
@@ -67534,7 +68004,8 @@
                 "Summon"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Sc=17"
     },
     {
         "ankama_id": 10836,
@@ -67923,6 +68394,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 15,
@@ -67947,6 +68419,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 15,
@@ -67971,6 +68444,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 5,
@@ -68047,6 +68521,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
@@ -68208,6 +68683,7 @@
         "conditions": [
             "Vitality > 30"
         ],
+        "criteria": "CV>30&OP!2",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 5,
@@ -68328,6 +68804,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 15,
@@ -68426,6 +68903,7 @@
         "conditions": [
             "Agility > 50"
         ],
+        "criteria": "CA>50&OP!2",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 5,
@@ -69396,6 +69874,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 10,
@@ -69653,6 +70132,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -69779,6 +70259,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 15,
@@ -69935,6 +70416,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 5,
@@ -69959,6 +70441,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 5,
@@ -71032,6 +71515,7 @@
             "Chance > 199",
             "Agility > 199"
         ],
+        "criteria": "CS>199&CC>199&CA>199",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -71125,7 +71609,8 @@
             "Intelligence > 200",
             "Chance > 200",
             "Agility > 200"
-        ]
+        ],
+        "criteria": "CS>200&CI>200&CC>200&CA>200"
     },
     {
         "ankama_id": 11571,
@@ -72787,7 +73272,10 @@
         "level": 174,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [
+            "Chance = 0"
+        ],
+        "criteria": "CC=0"
     },
     {
         "ankama_id": 11604,
@@ -73294,7 +73782,10 @@
         "level": 138,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [
+            "Chance = 0"
+        ],
+        "criteria": "CC=0"
     },
     {
         "ankama_id": 11611,
@@ -74066,6 +74557,7 @@
             "Intelligence > 300",
             "Wisdom > 150"
         ],
+        "criteria": "CI>300&CW>150",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 10,
@@ -74162,6 +74654,7 @@
         "conditions": [
             "Agility > 300"
         ],
+        "criteria": "CA>300",
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 0,
@@ -74260,6 +74753,7 @@
             "Chance > 250",
             "Intelligence > 150"
         ],
+        "criteria": "CS>250&CC>250&CI>150",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
@@ -74362,6 +74856,7 @@
             "Chance > 250",
             "Strength > 150"
         ],
+        "criteria": "CC>250&CS>150",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
@@ -74455,6 +74950,7 @@
             "Agility > 200",
             "MP < 6"
         ],
+        "criteria": "CS>350&CA>200&CM<6",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 10,
@@ -74557,6 +75053,7 @@
             "Intelligence > 250",
             "Agility > 250"
         ],
+        "criteria": "CI>250&CA>250",
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 15,
@@ -74644,6 +75141,7 @@
             "Strength > 250",
             "Vitality > 800"
         ],
+        "criteria": "CS>250&CV>800",
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 0,
@@ -74746,6 +75244,7 @@
             "Intelligence > 250",
             "Chance > 250"
         ],
+        "criteria": "CI>250&CC>250",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 20,
@@ -74842,6 +75341,7 @@
         "conditions": [
             "Chance > 250"
         ],
+        "criteria": "CC>250",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 10,
@@ -74939,6 +75439,7 @@
             "Intelligence > 300",
             "Chance > 150"
         ],
+        "criteria": "CI>300&CC>150",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
@@ -75036,6 +75537,7 @@
             "Agility > 300",
             "Intelligence > 150"
         ],
+        "criteria": "CA>300&CI>150",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -75716,6 +76218,7 @@
             "Agility > 300",
             "Chance > 300"
         ],
+        "criteria": "CA>300&CC>300",
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 15,
@@ -76500,7 +77003,8 @@
             "Intelligence < 600",
             "Chance < 600",
             "Agility < 600"
-        ]
+        ],
+        "criteria": "CI<600&CC<600&CA<600"
     },
     {
         "ankama_id": 11721,
@@ -77566,7 +78070,9 @@
         "level": 183,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=0",
+        "unusable": true
     },
     {
         "ankama_id": 11734,
@@ -77908,7 +78414,8 @@
         ],
         "conditions": [
             "AP < 11"
-        ]
+        ],
+        "criteria": "CP<11"
     },
     {
         "ankama_id": 11739,
@@ -78283,6 +78790,7 @@
             "Strength > 200",
             "Intelligence > 200"
         ],
+        "criteria": "CS>200&CI>200",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
@@ -78374,6 +78882,7 @@
         "conditions": [
             "Vitality > 2000"
         ],
+        "criteria": "CV>2000",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 0,
@@ -78476,6 +78985,7 @@
             "Strength > 350",
             "Intelligence > 250"
         ],
+        "criteria": "CS>350&CI>250",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 15,
@@ -78573,6 +79083,7 @@
             "Agility > 200",
             "Strength > 130"
         ],
+        "criteria": "CA>200&CS>130",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
@@ -78670,6 +79181,7 @@
             "Agility > 300",
             "Strength > 200"
         ],
+        "criteria": "CA>300&CS>200",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
@@ -78778,6 +79290,7 @@
             "Agility > 150",
             "Chance > 150"
         ],
+        "criteria": "CI>150&CA>150&CC>150",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
@@ -78796,6 +79309,8 @@
         "w_type": "Weapon",
         "stats": [],
         "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true,
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -78888,6 +79403,7 @@
             "Agility > 350",
             "Vitality > 1500"
         ],
+        "criteria": "CA>350&CV>1500",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
@@ -78995,6 +79511,7 @@
             "Intelligence > 399",
             "Strength > 299"
         ],
+        "criteria": "CI>399&CS>299",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 15,
@@ -79082,6 +79599,7 @@
             "Intelligence > 300",
             "Strength > 100"
         ],
+        "criteria": "CI>300&CS>100",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -79178,6 +79696,7 @@
         "conditions": [
             "Chance > 350"
         ],
+        "criteria": "CC>350",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -79275,6 +79794,7 @@
             "Strength > 399",
             "Agility > 399"
         ],
+        "criteria": "CS>399&CA>399",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
@@ -79381,6 +79901,7 @@
         "conditions": [
             "Chance > 250"
         ],
+        "criteria": "CC>250",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -79473,6 +79994,7 @@
             "Strength > 90",
             "AP < 12"
         ],
+        "criteria": "CS>90&CP<12",
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 0,
@@ -79581,6 +80103,7 @@
             "Chance > 299",
             "Strength > 99"
         ],
+        "criteria": "CA>299&CC>299&CS>99",
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 20,
@@ -79683,6 +80206,7 @@
             "Strength > 200",
             "Intelligence > 200"
         ],
+        "criteria": "CS>200&CI>200",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
@@ -79795,6 +80319,7 @@
             "Intelligence > 300",
             "Agility > 200"
         ],
+        "criteria": "CI>300&CA>200",
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 10,
@@ -80105,6 +80630,7 @@
             "Strength > 300",
             "Intelligence > 300"
         ],
+        "criteria": "CS>300&CI>300",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 15,
@@ -80201,6 +80727,7 @@
         "conditions": [
             "Chance > 250"
         ],
+        "criteria": "CC>250",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 5,
@@ -80307,6 +80834,7 @@
         "conditions": [
             "Chance > 400"
         ],
+        "criteria": "CC>400",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
@@ -80463,7 +80991,8 @@
             "Intelligence > 250",
             "Chance > 250",
             "Agility > 250"
-        ]
+        ],
+        "criteria": "CS>250&CI>250&CC>250&CA>250"
     },
     {
         "ankama_id": 11794,
@@ -80673,6 +81202,7 @@
         "conditions": [
             "Chance > 50"
         ],
+        "criteria": "CC>50",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
@@ -80786,6 +81316,7 @@
             "Intelligence > 199",
             "Agility > 199"
         ],
+        "criteria": "CS>199&CI>199&CA>199",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 5,
@@ -80981,6 +81512,7 @@
             "Intelligence > 30",
             "Chance > 30"
         ],
+        "criteria": "CS>30&CI>30&CC>30",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 15,
@@ -81020,6 +81552,7 @@
         "conditions": [
             "Intelligence > 200"
         ],
+        "criteria": "CI>200&Qf=612&OP!2",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
@@ -81051,6 +81584,7 @@
         "conditions": [
             "Chance > 200"
         ],
+        "criteria": "CC>200&Qf=612&OP!2",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 15,
@@ -81077,6 +81611,7 @@
         "conditions": [
             "Strength > 200"
         ],
+        "criteria": "CS>200&Qf=612&OP!2",
         "weapon_type": "Hammer",
         "ap": 6,
         "crit_chance": 10,
@@ -81108,6 +81643,7 @@
         "conditions": [
             "Agility > 200"
         ],
+        "criteria": "CA>200&Qf=612&OP!2",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 15,
@@ -81200,6 +81736,7 @@
             "Intelligence > 350",
             "Agility > 100"
         ],
+        "criteria": "CI>350&CA>100",
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 20,
@@ -81546,6 +82083,7 @@
         "conditions": [
             "Vitality > 89"
         ],
+        "criteria": "CV>89",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 35,
@@ -81626,6 +82164,7 @@
             "Vitality > 90",
             "Wisdom > 50"
         ],
+        "criteria": "CV>90&CW>50",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
@@ -81782,6 +82321,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 5,
@@ -81918,6 +82458,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 15,
@@ -82044,6 +82585,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 5,
@@ -82170,6 +82712,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
@@ -82306,6 +82849,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -82442,6 +82986,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
@@ -82661,6 +83206,7 @@
             "Intelligence > 150",
             "Wisdom > 300"
         ],
+        "criteria": "CI>150&CW>300",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 0,
@@ -83013,6 +83559,7 @@
             "Agility > 200",
             "Chance > 200"
         ],
+        "criteria": "CA>200&CC>200",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
@@ -83281,6 +83828,7 @@
         "conditions": [
             "Agility > 250"
         ],
+        "criteria": "CA>250",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
@@ -83929,7 +84477,8 @@
         ],
         "conditions": [
             "Agility > 150"
-        ]
+        ],
+        "criteria": "CA>150"
     },
     {
         "ankama_id": 12097,
@@ -84180,6 +84729,7 @@
             "Intelligence > 150",
             "Chance > 150"
         ],
+        "criteria": "CI>150&CC>150",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 5,
@@ -84509,6 +85059,7 @@
             "Strength > 200",
             "Chance > 150"
         ],
+        "criteria": "CS>200&CC>150",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -84564,7 +85115,8 @@
         ],
         "conditions": [
             "Chance < 600"
-        ]
+        ],
+        "criteria": "CC<600"
     },
     {
         "ankama_id": 12105,
@@ -84620,7 +85172,8 @@
         ],
         "conditions": [
             "Strength < 600"
-        ]
+        ],
+        "criteria": "CS<600"
     },
     {
         "ankama_id": 12106,
@@ -84681,7 +85234,8 @@
         ],
         "conditions": [
             "Intelligence < 600"
-        ]
+        ],
+        "criteria": "CI<600"
     },
     {
         "ankama_id": 12107,
@@ -84742,7 +85296,8 @@
         ],
         "conditions": [
             "Agility < 600"
-        ]
+        ],
+        "criteria": "CA<600"
     },
     {
         "ankama_id": 12108,
@@ -84838,7 +85393,8 @@
         ],
         "conditions": [
             "MP < 6 | AP < 12"
-        ]
+        ],
+        "criteria": "CM<6|CP<12"
     },
     {
         "ankama_id": 12109,
@@ -84919,7 +85475,8 @@
         ],
         "conditions": [
             "MP < 6 | AP < 12"
-        ]
+        ],
+        "criteria": "CM<6|CP<12"
     },
     {
         "ankama_id": 12110,
@@ -85020,7 +85577,8 @@
         ],
         "conditions": [
             "MP < 6 | AP < 12"
-        ]
+        ],
+        "criteria": "CM<6|CP<12"
     },
     {
         "ankama_id": 12111,
@@ -85126,7 +85684,8 @@
         ],
         "conditions": [
             "MP < 6 | AP < 12"
-        ]
+        ],
+        "criteria": "CM<6|CP<12"
     },
     {
         "ankama_id": 12112,
@@ -85229,6 +85788,7 @@
             "MP < 6 | AP < 12",
             "Wisdom > 300"
         ],
+        "criteria": "(CM<6|CP<12)&CW>300",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 5,
@@ -85988,7 +86548,8 @@
         "level": 60,
         "w_type": "Amulet",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PS=0&Qf=714"
     },
     {
         "ankama_id": 12238,
@@ -86001,7 +86562,8 @@
         "level": 60,
         "w_type": "Amulet",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PS=1&Qf=714"
     },
     {
         "ankama_id": 12273,
@@ -86482,7 +87044,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12386,
@@ -86495,7 +87059,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12387,
@@ -86508,7 +87074,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12388,
@@ -86521,7 +87089,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12389,
@@ -86534,7 +87104,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12390,
@@ -86547,7 +87119,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12391,
@@ -86560,7 +87134,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12392,
@@ -86573,7 +87149,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12393,
@@ -86586,7 +87164,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12394,
@@ -86599,7 +87179,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 12407,
@@ -87615,7 +88197,8 @@
         "level": 60,
         "w_type": "Pet",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PE=51"
     },
     {
         "ankama_id": 12598,
@@ -90622,6 +91205,7 @@
             ]
         ],
         "conditions": [],
+        "criteria": "OP!2",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
@@ -91195,6 +91779,8 @@
             ]
         ],
         "conditions": [],
+        "criteria": "BI=0",
+        "unusable": true,
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 5,
@@ -91915,6 +92501,7 @@
         "conditions": [
             "Intelligence > 500"
         ],
+        "criteria": "CI>500",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 10,
@@ -92851,7 +93438,8 @@
                 "% Air Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qf=893"
     },
     {
         "ankama_id": 13136,
@@ -93218,7 +93806,8 @@
         "level": 1,
         "w_type": "Pet",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PE=65"
     },
     {
         "ankama_id": 13245,
@@ -93320,6 +93909,7 @@
         "conditions": [
             "Strength > 350"
         ],
+        "criteria": "CS>350",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
@@ -93350,7 +93940,9 @@
         "level": 1,
         "w_type": "Hat",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 13262,
@@ -93363,7 +93955,9 @@
         "level": 1,
         "w_type": "Cloak",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 13263,
@@ -93376,7 +93970,9 @@
         "level": 1,
         "w_type": "Boots",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 13264,
@@ -93389,7 +93985,9 @@
         "level": 1,
         "w_type": "Belt",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 13265,
@@ -93402,7 +94000,9 @@
         "level": 1,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 13271,
@@ -93456,6 +94056,7 @@
         "conditions": [
             "Chance > 100"
         ],
+        "criteria": "CC>100",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
@@ -93476,6 +94077,7 @@
         "conditions": [
             "Intelligence > 80"
         ],
+        "criteria": "CI>80",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
@@ -93935,6 +94537,7 @@
             "Chance > 150",
             "Intelligence > 100"
         ],
+        "criteria": "CC>150&CI>100",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 30,
@@ -94036,7 +94639,8 @@
                 "Linked to the character"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "(SG=08|SG=09)|PX=A"
     },
     {
         "ankama_id": 13459,
@@ -94302,6 +94906,7 @@
             "Chance > 100",
             "Agility > 100"
         ],
+        "criteria": "CC>100&CA>100",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
@@ -94679,6 +95284,7 @@
             "Strength > 350",
             "Intelligence > 350"
         ],
+        "criteria": "CS>350&CI>350",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
@@ -96351,7 +96957,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 13658,
@@ -96427,7 +97034,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 13659,
@@ -96508,7 +97116,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 13661,
@@ -98528,7 +99137,8 @@
         ],
         "conditions": [
             "MP < 6"
-        ]
+        ],
+        "criteria": "CM<6"
     },
     {
         "ankama_id": 13830,
@@ -98795,6 +99405,7 @@
         "conditions": [
             "Chance > 250"
         ],
+        "criteria": "CC>250",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -99143,6 +99754,7 @@
             "Intelligence > 400",
             "Agility > 400"
         ],
+        "criteria": "CI>400&CA>400",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
@@ -99250,6 +99862,7 @@
             "Strength > 349",
             "Agility > 349"
         ],
+        "criteria": "CS>349&CA>349",
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 15,
@@ -100493,6 +101106,7 @@
         "conditions": [
             "Strength > 450"
         ],
+        "criteria": "CS>450",
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 15,
@@ -101071,7 +101685,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 14064,
@@ -103801,7 +104416,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 14131,
@@ -103899,6 +104515,7 @@
             "Intelligence > 399",
             "Strength > 149"
         ],
+        "criteria": "CI>399&CS>149",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -103995,6 +104612,7 @@
         "conditions": [
             "Strength > 450 | Agility > 450"
         ],
+        "criteria": "CS>450|CA>450",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 5,
@@ -104092,6 +104710,7 @@
             "Strength > 300",
             "Chance > 300"
         ],
+        "criteria": "CS>300&CC>300",
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 5,
@@ -104204,6 +104823,7 @@
             "Intelligence > 350",
             "Chance > 250"
         ],
+        "criteria": "CI>350&CC>250",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 0,
@@ -104334,6 +104954,7 @@
         "conditions": [
             "Chance > 450"
         ],
+        "criteria": "CC>450",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 10,
@@ -104676,7 +105297,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 14163,
@@ -105071,6 +105693,7 @@
             "Chance > 350",
             "Intelligence > 200"
         ],
+        "criteria": "CC>350&CI>200",
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
@@ -105141,7 +105764,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 14169,
@@ -105395,7 +106019,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 14201,
@@ -106167,6 +106792,7 @@
             "Chance > 300",
             "Agility > 300"
         ],
+        "criteria": "CC>300&CA>300",
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 20,
@@ -107479,7 +108105,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 14601,
@@ -109537,6 +110164,7 @@
             "Strength > 299",
             "Chance > 299"
         ],
+        "criteria": "CI>299&CS>299&CC>299",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
@@ -109633,7 +110261,8 @@
         ],
         "conditions": [
             "AP < 11"
-        ]
+        ],
+        "criteria": "CP<11"
     },
     {
         "ankama_id": 15112,
@@ -109684,7 +110313,8 @@
         ],
         "conditions": [
             "AP < 11"
-        ]
+        ],
+        "criteria": "CP<11"
     },
     {
         "ankama_id": 15113,
@@ -109750,7 +110380,8 @@
         ],
         "conditions": [
             "AP < 11"
-        ]
+        ],
+        "criteria": "CP<11"
     },
     {
         "ankama_id": 15116,
@@ -112548,6 +113179,7 @@
             "Intelligence > 350",
             "Strength > 350"
         ],
+        "criteria": "CI>350&CS>350",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 30,
@@ -112734,6 +113366,7 @@
             "Agility > 300",
             "Intelligence > 300"
         ],
+        "criteria": "CA>300&CI>300",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
@@ -112837,6 +113470,7 @@
             "Agility > 400",
             "MP > 5"
         ],
+        "criteria": "CS>400&CA>400&CM>5",
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 0,
@@ -112909,6 +113543,7 @@
             "Chance > 250",
             "Agility > 120"
         ],
+        "criteria": "CC>250&CA>120",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 20,
@@ -113118,6 +113753,7 @@
             "Intelligence > 249",
             "Chance > 249"
         ],
+        "criteria": "CI>249&CC>249",
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 0,
@@ -114757,6 +115393,7 @@
         "conditions": [
             "Strength > 450 | Agility > 450"
         ],
+        "criteria": "CS>450|CA>450",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 10,
@@ -116833,7 +117470,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16039,
@@ -117070,7 +117708,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16067,
@@ -117511,6 +118150,7 @@
             "Agility > 450",
             "Intelligence > 450"
         ],
+        "criteria": "CA>450&CI>450",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
@@ -119866,7 +120506,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16185,
@@ -119976,7 +120617,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16187,
@@ -120199,7 +120841,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16191,
@@ -121980,6 +122623,7 @@
             "Intelligence > 449",
             "Chance > 449"
         ],
+        "criteria": "CI>449&CC>449",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 15,
@@ -122282,7 +122926,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16354,
@@ -122348,7 +122993,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16356,
@@ -122424,7 +123070,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16362,
@@ -122653,7 +123300,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16374,
@@ -122734,7 +123382,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16376,
@@ -122884,7 +123533,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16382,
@@ -123034,7 +123684,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16386,
@@ -125925,7 +126576,8 @@
         "level": 10,
         "w_type": "Ring",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=1548,1&PB=829"
     },
     {
         "ankama_id": 16528,
@@ -126070,7 +126722,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 16540,
@@ -126227,6 +126880,7 @@
             "Agility > 299",
             "Strength > 299"
         ],
+        "criteria": "CA>299&CS>299",
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 0,
@@ -126870,7 +127524,8 @@
                 "Vitality"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PL>59"
     },
     {
         "ankama_id": 17754,
@@ -127577,6 +128232,7 @@
         "conditions": [
             "Agility > 399"
         ],
+        "criteria": "CA>399",
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
@@ -127842,6 +128498,7 @@
             "Agility > 149",
             "Strength > 399"
         ],
+        "criteria": "CA>149&CS>399",
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 5,
@@ -128043,6 +128700,7 @@
             "Agility > 399",
             "Chance > 399"
         ],
+        "criteria": "CA>399&CC>399",
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 15,
@@ -128130,6 +128788,7 @@
             "Strength > 449",
             "Chance > 449"
         ],
+        "criteria": "CS>449&CC>449",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 5,
@@ -130508,6 +131167,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=29983&PG=1&Ft!2",
         "classes": [
             "Feca"
         ]
@@ -130524,6 +131184,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=10532&PG=1&Ft!2",
         "classes": [
             "Feca"
         ]
@@ -130540,6 +131201,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=18335&PG=13&Ft!2",
         "classes": [
             "Rogue"
         ]
@@ -130566,7 +131228,8 @@
                 "Summon"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PB=848"
     },
     {
         "ankama_id": 19007,
@@ -130580,6 +131243,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=18347&PG=13&Ft!2",
         "classes": [
             "Rogue"
         ]
@@ -130640,6 +131304,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=19873&PG=15&Ft!2",
         "classes": [
             "Foggernaut"
         ]
@@ -130675,6 +131340,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=19858&PG=15&Ft!2",
         "classes": [
             "Foggernaut"
         ]
@@ -130691,6 +131357,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=38023&PG=2&Ft!2",
         "classes": [
             "Osamodas"
         ]
@@ -130707,6 +131374,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=38413&PG=2&Ft!2",
         "classes": [
             "Osamodas"
         ]
@@ -130723,6 +131391,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=33939&PG=8&Ft!2",
         "classes": [
             "Iop"
         ]
@@ -130739,6 +131408,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=33805&PG=8&Ft!2",
         "classes": [
             "Iop"
         ]
@@ -130755,6 +131425,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=10490&PG=3&Ft!2",
         "classes": [
             "Enutrof"
         ]
@@ -130771,6 +131442,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=3004&PG=3&Ft!2",
         "classes": [
             "Enutrof"
         ]
@@ -130787,6 +131459,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=32471&PG=6&Ft!2",
         "classes": [
             "Ecaflip"
         ]
@@ -130803,6 +131476,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=32221&PG=6&Ft!2",
         "classes": [
             "Ecaflip"
         ]
@@ -130819,6 +131493,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=10505&PG=10&Ft!2",
         "classes": [
             "Sadida"
         ]
@@ -130835,6 +131510,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=10499&PG=10&Ft!2",
         "classes": [
             "Sadida"
         ]
@@ -130851,6 +131527,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=26455&PG=11&Ft!2",
         "classes": [
             "Sacrier"
         ]
@@ -130867,6 +131544,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=26450&PG=11&Ft!2",
         "classes": [
             "Sacrier"
         ]
@@ -130883,6 +131561,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=27067&PG=14&Ft!2",
         "classes": [
             "Masqueraider"
         ]
@@ -130899,6 +131578,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=26959&PG=14&Ft!2",
         "classes": [
             "Masqueraider"
         ]
@@ -130915,6 +131595,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=25475&PG=9&Ft!2",
         "classes": [
             "Cra"
         ]
@@ -130931,6 +131612,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=26089&PG=9&Ft!2",
         "classes": [
             "Cra"
         ]
@@ -130947,6 +131629,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=30896&PG=12&Ft!2",
         "classes": [
             "Pandawa"
         ]
@@ -130963,6 +131646,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=30884&PG=12&Ft!2",
         "classes": [
             "Pandawa"
         ]
@@ -130979,6 +131663,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=10519&PG=4&Ft!2",
         "classes": [
             "Sram"
         ]
@@ -130995,6 +131680,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=3027&PG=4&Ft!2",
         "classes": [
             "Sram"
         ]
@@ -131011,6 +131697,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=33223&PG=5&Ft!2",
         "classes": [
             "Xelor"
         ]
@@ -131027,6 +131714,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=33210&PG=5&Ft!2",
         "classes": [
             "Xelor"
         ]
@@ -131043,6 +131731,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=25997&PG=7&Ft!2",
         "classes": [
             "Eniripsa"
         ]
@@ -131059,6 +131748,7 @@
         "w_type": "Emblem",
         "stats": [],
         "conditions": [],
+        "criteria": "Pt=26043&PG=7&Ft!2",
         "classes": [
             "Eniripsa"
         ]
@@ -131117,7 +131807,8 @@
                 "Power"
             ]
         ],
-        "conditions": []
+        "conditions": [],
+        "criteria": "PL>59"
     },
     {
         "ankama_id": 19111,
@@ -131255,6 +131946,7 @@
             "Strength > 399",
             "Intelligence > 399"
         ],
+        "criteria": "CA>399&CS>399&CI>399",
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 10,
@@ -131752,6 +132444,7 @@
             "Chance > 299",
             "Strength > 299"
         ],
+        "criteria": "CC>299&CS>299",
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 15,
@@ -132807,6 +133500,7 @@
             "Agility > 300",
             "Chance > 300"
         ],
+        "criteria": "CA>300&CC>300",
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 15,
@@ -132914,6 +133608,7 @@
             "Agility > 349",
             "Intelligence > 349"
         ],
+        "criteria": "CA>349&CI>349",
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 5,
@@ -133174,6 +133869,7 @@
             "Intelligence > 449",
             "Chance > 449"
         ],
+        "criteria": "CI>449&CC>449",
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 0,
@@ -134207,7 +134903,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 19245,
@@ -134279,7 +134976,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19319,
@@ -134300,7 +134998,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19321,
@@ -134321,7 +135020,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19323,
@@ -134342,7 +135042,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19325,
@@ -134363,7 +135064,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19327,
@@ -134384,7 +135086,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19329,
@@ -134405,7 +135108,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19331,
@@ -134426,7 +135130,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19333,
@@ -134447,7 +135152,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19335,
@@ -134468,7 +135174,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19337,
@@ -134489,7 +135196,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19339,
@@ -134510,7 +135218,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19340,
@@ -134570,7 +135279,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19343,
@@ -134591,7 +135301,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19345,
@@ -134612,7 +135323,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19347,
@@ -134633,7 +135345,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19349,
@@ -134654,7 +135367,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19351,
@@ -134675,7 +135389,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19353,
@@ -134696,7 +135411,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19355,
@@ -134717,7 +135433,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19357,
@@ -134738,7 +135455,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19359,
@@ -134759,7 +135477,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19361,
@@ -134780,7 +135499,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19363,
@@ -134801,7 +135521,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19365,
@@ -134822,7 +135543,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19367,
@@ -134843,7 +135565,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19369,
@@ -134864,7 +135587,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19371,
@@ -134885,7 +135609,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19373,
@@ -134906,7 +135631,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19375,
@@ -134927,7 +135653,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19377,
@@ -134948,7 +135675,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19379,
@@ -134969,7 +135697,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19381,
@@ -134990,7 +135719,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19383,
@@ -135011,7 +135741,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19385,
@@ -135032,7 +135763,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19387,
@@ -135053,7 +135785,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19389,
@@ -135074,7 +135807,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19391,
@@ -135095,7 +135829,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19393,
@@ -135116,7 +135851,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19395,
@@ -135137,7 +135873,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19397,
@@ -135158,7 +135895,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19399,
@@ -135179,7 +135917,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19401,
@@ -135200,7 +135939,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19403,
@@ -135221,7 +135961,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19405,
@@ -135242,7 +135983,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19407,
@@ -135263,7 +136005,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19409,
@@ -135284,7 +136027,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19411,
@@ -135305,7 +136049,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19413,
@@ -135326,7 +136071,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19415,
@@ -135347,7 +136093,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19417,
@@ -135368,7 +136115,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19419,
@@ -135389,7 +136137,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19421,
@@ -135410,7 +136159,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19423,
@@ -135431,7 +136181,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19425,
@@ -135452,7 +136203,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19427,
@@ -135473,7 +136225,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19429,
@@ -135494,7 +136247,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19431,
@@ -135515,7 +136269,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19433,
@@ -135536,7 +136291,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19435,
@@ -135557,7 +136313,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19437,
@@ -135578,7 +136335,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19439,
@@ -135599,7 +136357,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19441,
@@ -135620,7 +136379,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19443,
@@ -135641,7 +136401,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19445,
@@ -135662,7 +136423,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19447,
@@ -135683,7 +136445,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19449,
@@ -135704,7 +136467,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19451,
@@ -135725,7 +136489,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19453,
@@ -135746,7 +136511,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19455,
@@ -135772,7 +136538,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19457,
@@ -135798,7 +136565,8 @@
         ],
         "conditions": [
             "Set bonus < 2"
-        ]
+        ],
+        "criteria": "Pk<2"
     },
     {
         "ankama_id": 19513,
@@ -135869,7 +136637,8 @@
         ],
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 19614,
@@ -138085,6 +138854,7 @@
             "Intelligence > 349",
             "Strength > 349"
         ],
+        "criteria": "CI>349&CS>349",
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 15,
@@ -138936,7 +139706,8 @@
         "level": 6,
         "w_type": "Dofus",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Sc=13000&PB!805"
     },
     {
         "ankama_id": 24057,
@@ -138949,7 +139720,8 @@
         "level": 1,
         "w_type": "Emblem",
         "stats": [],
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ft!2&PB!805&Sc=13000&OP=1"
     },
     {
         "ankama_id": 3,

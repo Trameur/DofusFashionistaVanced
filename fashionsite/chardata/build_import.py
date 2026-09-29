@@ -14,7 +14,10 @@ UNKNOWN_TYPE = 'unknown_type'
 NO_FREE_SLOT = 'no_free_slot'
 ALREADY_PLACED = 'already_placed'
 ABOVE_CHAR_LEVEL = 'above_char_level'
+PAST_MAX_LEVEL = 'past_max_level'
+UNUSABLE = 'unusable'
 WRONG_CLASS = 'wrong_class'
+NOT_WORN_TOGETHER = 'not_worn_together'
 
 
 def slots_for_type_name(type_name):
@@ -70,8 +73,22 @@ def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
             rejected.append((ankama_id, ABOVE_CHAR_LEVEL))
             continue
 
+        highest = getattr(item, 'max_level', None)
+        if char_level is not None and highest is not None and char_level > highest:
+            rejected.append((ankama_id, PAST_MAX_LEVEL))
+            continue
+
+        if getattr(item, 'unusable', False):
+            rejected.append((ankama_id, UNUSABLE))
+            continue
+
         if char_class is not None and not fits_the_class(item, char_class):
             rejected.append((ankama_id, WRONG_CLASS))
+            continue
+
+        clash = set(getattr(item, 'not_worn_with', ()))
+        if any(other.id in clash for _slot, other in placed):
+            rejected.append((ankama_id, NOT_WORN_TOGETHER))
             continue
 
         if poses.get(ankama_id):

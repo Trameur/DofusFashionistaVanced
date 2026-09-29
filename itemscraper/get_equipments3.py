@@ -363,6 +363,8 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(stat_name) + 1
                     if operator == '>':
                         f.write(f"INSERT INTO min_stat_to_equip VALUES({item_id},{stat_index},{int(stat_value)+1});\n")
+                    elif operator == '=':
+                        f.write(f"INSERT INTO min_stat_to_equip VALUES({item_id},{stat_index},{int(stat_value)});\n")
 
     # Write CREATE TABLE for max_stat_to_equip
     f.write("""CREATE TABLE max_stat_to_equip
@@ -383,6 +385,8 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(stat_name) + 1
                     if operator == '<':
                         f.write(f"INSERT INTO max_stat_to_equip VALUES({item_id},{stat_index},{int(stat_value)-1});\n")
+                    elif operator == '=':
+                        f.write(f"INSERT INTO max_stat_to_equip VALUES({item_id},{stat_index},{int(stat_value)});\n")
 
     # An item the game lets you wear when EITHER gate holds, "MP < 6 | AP < 12".
     # The two tables above can only AND, so such a condition used to be dropped
@@ -619,6 +623,27 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
             item_id = item_to_id[id(item)]
             for char_class in item.get('classes') or ():
                 f.write(f"INSERT INTO item_class_conditions VALUES({item_id}, '{escape_single_quotes(char_class)}');\n")
+
+    # The equip criteria as the game writes them, and what the solver reads from them
+    f.write("""CREATE TABLE item_criteria (item INTEGER, criteria text, FOREIGN KEY(item) REFERENCES items(id));\n""")
+    f.write("""CREATE TABLE max_level_to_equip (item INTEGER, value INTEGER, FOREIGN KEY(item) REFERENCES items(id));\n""")
+    f.write("""CREATE TABLE unusable_items (item INTEGER, FOREIGN KEY(item) REFERENCES items(id));\n""")
+    f.write("""CREATE TABLE items_not_worn_together (item INTEGER, other INTEGER, FOREIGN KEY(item) REFERENCES items(id), FOREIGN KEY(other) REFERENCES items(id));\n""")
+    ids_by_ankama_id = {}
+    for item in original_data:
+        if item.get('ankama_type') != 'mounts':
+            ids_by_ankama_id.setdefault(item['ankama_id'], []).append(item_to_id[id(item)])
+    for item in original_data:
+        item_id = item_to_id[id(item)]
+        if item.get('criteria'):
+            f.write(f"INSERT INTO item_criteria VALUES({item_id}, '{escape_single_quotes(item['criteria'])}');\n")
+        if item.get('max_level') is not None:
+            f.write(f"INSERT INTO max_level_to_equip VALUES({item_id}, {int(item['max_level'])});\n")
+        if item.get('unusable'):
+            f.write(f"INSERT INTO unusable_items VALUES({item_id});\n")
+        for other_ankama_id in item.get('not_worn_with') or ():
+            for other_id in ids_by_ankama_id.get(other_ankama_id, ()):
+                f.write(f"INSERT INTO items_not_worn_together VALUES({item_id}, {other_id});\n")
 
     f.write("""CREATE TABLE extra_lines (item INTEGER, line text, language text, FOREIGN KEY(item) REFERENCES items(id));\n""")
 

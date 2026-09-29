@@ -460,8 +460,6 @@ class MaxConditionLine:
 class LightSetConditionLine:
 
     def __init__(self, model_result, cap=2):
-        # cap = max weighted set-bonuses the trophy allows: dofus3/beta "< 3"
-        # -> 2, touch "< 2" -> 1.
         cap = 2 if cap is True else cap
         self.text = _('Set bonus < 2') if cap <= 1 else _('Set bonus < 3')
         self.formatting = ''

@@ -1094,6 +1094,18 @@ def _condition_text(structure, stat_id, value, is_max, language):
             else '%s > %d' % (label, value - 1))
 
 
+def _build_wide_condition_texts(item):
+    weird = getattr(item, 'weird_conditions', None) or {}
+    texts = []
+    cap = weird.get('light_set')
+    if cap:
+        cap = 2 if cap is True else cap
+        texts.append(_('Set bonus < 2') if cap <= 1 else _('Set bonus < 3'))
+    if weird.get('prysmaradite'):
+        texts.append(_('Prysmaradite < 1'))
+    return texts
+
+
 def _format_condition_groups(structure, variant_items, language):
     """Condition groups: all gates in a group hold, a build needs one group."""
     groups = []
@@ -1103,16 +1115,23 @@ def _format_condition_groups(structure, variant_items, language):
             return STAT_ORDER.get(stat.key, 9999) if stat else 9999
 
         shared = []
+        exact = set(variant.min_stats_to_equip) & set(variant.max_stats_to_equip)
+        for stat_id, value in sorted(exact, key=order):
+            stat = structure.get_stat_by_id(stat_id)
+            if stat is not None:
+                shared.append('%s = %d' % (_localized_stat(
+                    stat.name, language, structure.game_version), value))
         for stat_id, value in sorted(variant.min_stats_to_equip, key=order):
             text = _condition_text(structure, stat_id, value, False, language)
-            if text:
+            if text and (stat_id, value) not in exact:
                 shared.append(text)
         for stat_id, value in sorted(variant.max_stats_to_equip, key=order):
             text = _condition_text(structure, stat_id, value, True, language)
-            if text:
+            if text and (stat_id, value) not in exact:
                 shared.append(text)
         with translation.override(language):
             shared.extend(condition_texts(structure.game_version, variant))
+            shared.extend(_build_wide_condition_texts(variant))
 
         branches = getattr(variant, 'or_conditions', None) or []
         if not branches:

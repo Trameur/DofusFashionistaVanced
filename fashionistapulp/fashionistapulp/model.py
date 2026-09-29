@@ -30,7 +30,8 @@ from .modelresult import (ModelResultMinimal, level_prospecting,
                           wisdom_per_ap_mp_dodge_point)
 import pulp
 from .restrictions import Restrictions
-from .structure import fits_the_class, get_structure, level_to_wear
+from .structure import (fits_the_class, fits_the_level, get_structure,
+                        level_to_wear)
 
 from collections import Counter
 
@@ -700,7 +701,79 @@ class Model:
         
         self.add_weird_item_weights_to_objective_funcion(objective_values, level)
 
+        for (category, key), value in sorted((getattr(self, '_modifier_terms', None)
+                                              or {}).items()):
+            self.problem.add_to_of(category, key, value)
+
         self.problem.finish_objective_function()
+
+    _AP_TIER_BIG_M = 100
+
+    def modify_spell_modifier_terms(self, modifier_values, modifier_overlaps=None):
+        """modifier_values is {item id: {AP: value}}: a piece earns its value at the AP the set
+        reaches. modifier_overlaps is {(item id, item id): {AP: value}}, added when both are."""
+        lp = self.problem.pulp_lp
+        for name in getattr(self, '_modifier_constraints', ()):
+            constraint = lp.constraints.pop(name, None)
+            if constraint is not None:
+                lp.modifiedConstraints = [c for c in lp.modifiedConstraints
+                                          if c is not constraint]
+        stale = set(getattr(self, '_modifier_variables', ()))
+        if stale:
+            # PuLP keeps every variable it has seen, even once out of every constraint
+            lp._variables = [v for v in lp._variables if v.name not in stale]
+            lp._variable_ids = {key: v for key, v in lp._variable_ids.items()
+                                if v.name not in stale}
+            for name in stale:
+                self.problem.pulp_vars.pop(name, None)
+        self._modifier_constraints = []
+        self._modifier_variables = []
+        self._modifier_terms = {}
+
+        present = {item.id for item in self.items_list}
+        values = {(item_id, int(ap)): value
+                  for item_id, per_ap in (modifier_values or {}).items() if item_id in present
+                  for ap, value in per_ap.items() if value > 0}
+        if not values:
+            return
+        ap_total = self.problem.pulp_vars['stat_%s' % self.structure.get_stat_by_key('ap').id]
+        big_m = self._AP_TIER_BIG_M
+
+        # Binary, not continuous: CBC 2.10 stops short of the optimum with continuous ones here
+        def variable(name):
+            created = pulp.LpVariable(name, 0, 1, pulp.LpInteger)
+            self.problem.pulp_vars[name] = created
+            self._modifier_variables.append(name)
+            return created
+
+        def constraint(name, expression):
+            lp.addConstraint(expression, name)
+            self._modifier_constraints.append(name)
+
+        tiers = {}
+        for ap in sorted({ap for _item_id, ap in values}):
+            tier = tiers[ap] = variable('modap_%d' % ap)
+            constraint('modifier_ap_%d_at_most' % ap, ap_total + big_m * tier <= ap + big_m)
+            constraint('modifier_ap_%d_at_least' % ap, ap_total - big_m * tier >= ap - big_m)
+        constraint('modifier_ap_one_total', pulp.lpSum(tiers.values()) <= 1)
+        picks = {}
+        for (item_id, ap), value in sorted(values.items()):
+            key = '%d_%d' % (item_id, ap)
+            pick = picks[(item_id, ap)] = variable('modpick_' + key)
+            worn = self.problem.pulp_vars['p_%d' % item_id]
+            constraint('modifier_%s_worn' % key, pick <= worn)
+            constraint('modifier_%s_at_ap' % key, pick <= tiers[ap])
+            self._modifier_terms[('modpick', key)] = value
+        for (first, second), per_ap in sorted((modifier_overlaps or {}).items()):
+            for ap, value in sorted(per_ap.items()):
+                ap = int(ap)
+                if value >= 0 or (first, ap) not in picks or (second, ap) not in picks:
+                    continue
+                key = '%d_%d_%d' % (first, second, ap)
+                both = variable('modboth_' + key)
+                constraint('modifier_%s_both' % key,
+                           picks[(first, ap)] + picks[(second, ap)] - both <= 1)
+                self._modifier_terms[('modboth', key)] = value
     
     #def add_objective_term(self, stat_name, weight):
     #    for item in self.items_list:
@@ -732,9 +805,13 @@ class Model:
         self.create_stats_points_constraints()
         self.create_light_set_constraints()
         self.create_prysmaradite_constraints()
+        self.create_not_worn_together_constraints()
         
     def setup(self, model_input):
         self.input = model_input.get_old_input()
+        modifier_values = getattr(model_input, 'modifier_values', None) or {}
+        self._valued_items = {item_id for item_id, per_ap in modifier_values.items()
+                              if any(value > 0 for value in per_ap.values())}
 
         self.modify_level_constraints(model_input.char_level)
         self.modify_stat_total_constraints(model_input.base_stats_by_attr,
@@ -744,6 +821,7 @@ class Model:
         self.modify_effective_hp_constraint(model_input.minimum_stats.get(EFFECTIVE_HP_MINIMUM),
                                             model_input.char_level)
         self.modify_locked_equip_constraints(model_input.locked_equips)
+        self.modify_not_worn_together_constraints(model_input.locked_equips)
         self.modify_forbidden_items_constraints(model_input.forbidden_equips,
                                                 model_input.options,
                                                 model_input.char_class)
@@ -751,6 +829,8 @@ class Model:
                                              model_input.stat_points_to_distribute,
                                              model_input.base_stats_by_attr)
         self.modify_empty_slot_constraints(model_input.empty_slot_types)
+        self.modify_spell_modifier_terms(modifier_values,
+                                         getattr(model_input, 'modifier_overlaps', None))
 
         self.write_objective_function(model_input.objective_values, model_input.char_level)
     
@@ -805,9 +885,14 @@ class Model:
             self.restrictions.level_constraints[item.id] = restriction
     
     def modify_level_constraints(self, char_level):
+        locked = set(((getattr(self, 'input', None) or {}).get('locked_equips')
+                      or {}).values())
         for item in self.items_list:
             restriction = self.restrictions.level_constraints.get(item.id, None)
-            restriction.changeRHS(0 if char_level < level_to_wear(item) else 1)
+            # Keep a locked piece past its highest level, banning it makes the build infeasible
+            wearable = (fits_the_level(item, char_level)
+                        or (item.id in locked and level_to_wear(item) <= char_level))
+            restriction.changeRHS(1 if wearable else 0)
     
     def create_forbidden_items_constraints(self):
         for item in self.items_list:
@@ -890,10 +975,11 @@ class Model:
             # Keep locked pieces, banning them makes the build infeasible
             temporix_only -= locked
         emblem_type = self.structure.get_type_id_by_name('Emblem')
+        valued = getattr(self, '_valued_items', None) or set()
         not_worn_unless_locked = {
             item.id for item in self.items_list
             if item.id not in locked
-            and (item.type == emblem_type
+            and ((item.type == emblem_type and item.id not in valued)
                  or not fits_the_class(item, char_class))}
 
         for item in self.items_list:
@@ -1104,6 +1190,23 @@ class Model:
         restriction = self.problem.restriction_lt_eq(0, plist) 
         self.restrictions.fifth_light_set_constraint = restriction
     
+    def create_not_worn_together_constraints(self):
+        """Pieces the game refuses together, like the Dofus 2 Belladonna rings."""
+        self._not_worn_together = {}
+        present = {item.id for item in self.items_list}
+        for item in self.items_list:
+            for other_id in getattr(item, 'not_worn_with', ()):
+                pair = (min(item.id, other_id), max(item.id, other_id))
+                if other_id in present and pair not in self._not_worn_together:
+                    self._not_worn_together[pair] = self.problem.restriction_lt_eq(
+                        1, [(1, 'p', pair[0]), (1, 'p', pair[1])])
+
+    def modify_not_worn_together_constraints(self, locked_equips):
+        locked = set((locked_equips or {}).values())
+        for pair, restriction in self._not_worn_together.items():
+            # Both locked: keep them, forbidding one makes the build infeasible
+            restriction.changeRHS(2 if set(pair) <= locked else 1)
+
     def create_prysmaradite_constraints(self):
         prysmaradite_count = []
         for item in self.items_list:
@@ -1467,7 +1570,8 @@ class ModelInput(object):
 
     def __init__(self, char_level, base_stats_by_attr, minimum_stats, locked_equips,
                  forbidden_equips, objective_values, options, char_class,
-                 stat_points_to_distribute, empty_slot_types=None, stat_overrides=None):
+                 stat_points_to_distribute, empty_slot_types=None, stat_overrides=None,
+                 modifier_values=None, modifier_overlaps=None):
         self.char_level = char_level
         self.base_stats_by_attr = base_stats_by_attr
         self.minimum_stats = minimum_stats
@@ -1479,6 +1583,9 @@ class ModelInput(object):
         self.stat_points_to_distribute = stat_points_to_distribute
         self.empty_slot_types = empty_slot_types or []
         self.stat_overrides = stat_overrides or {}
+        # Spell modifiers of the pieces, see Model.modify_spell_modifier_terms
+        self.modifier_values = modifier_values or {}
+        self.modifier_overlaps = modifier_overlaps or {}
 
     def get_old_input(self):
         return {'char_level': self.char_level,
@@ -1495,7 +1602,7 @@ class ModelInput(object):
         from fashionistapulp.structure import get_current_game_version
         minimum_stats = dict(self.minimum_stats or {})
         adv_mins = minimum_stats.pop('adv_mins', None)
-        return _stable_digest([
+        parts = [
             get_current_game_version(),
             self.char_level,
             self.base_stats_by_attr,
@@ -1509,7 +1616,12 @@ class ModelInput(object):
             self.stat_points_to_distribute,
             sorted(self.empty_slot_types or [], key=repr),
             self.stat_overrides,
-        ])
+        ]
+        # Left out when empty so older keys still match
+        if getattr(self, 'modifier_values', None):
+            parts.append(self.modifier_values)
+            parts.append(getattr(self, 'modifier_overlaps', None) or {})
+        return _stable_digest(parts)
 
     def __hash__(self, *args, **kwargs):
         # DatabaseSolutionMemory keys its cache by this hash, so it must include the game version.
@@ -1518,19 +1630,25 @@ class ModelInput(object):
             (item_id, frozenset(stats.items()))
             for item_id, stats in self.stat_overrides.items()
         )
-        return (get_current_game_version(),
-                self.char_level,
-                freeze(self.base_stats_by_attr),
-                frozenset([p for p in list(self.minimum_stats.items()) if p[0] != 'adv_mins']),
-                freeze(self.minimum_stats.get('adv_mins')),
-                freeze(self.locked_equips),
-                frozenset(self.forbidden_equips),
-                freeze(self.objective_values),
-                freeze(self.options),
-                self.char_class,
-                self.stat_points_to_distribute,
-                frozenset(self.empty_slot_types),
-                overrides_key).__hash__()
+        key = (get_current_game_version(),
+               self.char_level,
+               freeze(self.base_stats_by_attr),
+               frozenset([p for p in list(self.minimum_stats.items()) if p[0] != 'adv_mins']),
+               freeze(self.minimum_stats.get('adv_mins')),
+               freeze(self.locked_equips),
+               frozenset(self.forbidden_equips),
+               freeze(self.objective_values),
+               freeze(self.options),
+               self.char_class,
+               self.stat_points_to_distribute,
+               frozenset(self.empty_slot_types),
+               overrides_key)
+        modifier_values = getattr(self, 'modifier_values', None)
+        if modifier_values:
+            key += tuple(frozenset((item_id, freeze(per_ap)) for item_id, per_ap in terms.items())
+                         for terms in (modifier_values,
+                                       getattr(self, 'modifier_overlaps', None) or {}))
+        return key.__hash__()
 
 def _canonical(value):
     """value with dicts and sets sorted, for a stable digest."""

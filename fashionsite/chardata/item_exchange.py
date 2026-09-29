@@ -30,6 +30,7 @@ from django.http import HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 
 from chardata.inventory_solver import get_effective_stat_overrides
+from chardata.lock_forbid import get_inclusions_dict, the_build_can_wear
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.solution import get_solution, set_solution
 from chardata.image_store import get_image_url
@@ -42,7 +43,7 @@ from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,
 from fashionistapulp.dofus_constants import STAT_ORDER, SLOT_NAME_TO_TYPE, calculate_damage,\
     DAMAGE_TYPES, NEUTRAL, ELEMENT_KEY_TO_NAME, slots_for
 from fashionistapulp.modelresult import ModelResultItem
-from fashionistapulp.structure import fits_the_class, get_structure
+from fashionistapulp.structure import fits_the_class, fits_the_level, get_structure
 from fashionistapulp.temporix import as_worn, temporix_only_item_ids
 from fashionistapulp.translation import get_supported_language
 from chardata.temporix_mode import solution_uses_temporix
@@ -70,9 +71,29 @@ def _worn_in_picker(char, structure, item, overrides):
     return as_worn(item, structure, {'temporix': True}, overridden=overridden)
 
 
-def _for_the_class(char, items):
-    """Only what the build's class can wear (the class seals)."""
-    return [item for item in items if fits_the_class(item, char.char_class)]
+def _wearable_by_the_build(char, items):
+    """Only what the build's class and level can wear."""
+    return [item for item in items if fits_the_class(item, char.char_class)
+            and fits_the_level(item, char.level)]
+
+
+def _worn_or_locked_elsewhere(char, structure, slot):
+    """Ids of the pieces the build wears or locks outside this slot."""
+    minimal = read_char_blob(char.minimal_solution, None, 'minimal_solution', char)
+    locked = get_inclusions_dict(char)
+    pieces = list((getattr(minimal, 'item_per_slot', None) or {}).items())
+    pieces += list(locked.items()) if isinstance(locked, dict) else []
+    return {structure.current_item_id(item_id) for other, item_id in pieces
+            if other != slot and item_id not in (None, '')}
+
+
+def _clear_of_the_other_pieces(char, structure, slot, items):
+    """Without the pieces the game refuses beside one worn or locked in another slot."""
+    if not any(getattr(item, 'not_worn_with', ()) for item in items):
+        return items
+    elsewhere = _worn_or_locked_elsewhere(char, structure, slot)
+    return [item for item in items
+            if not elsewhere.intersection(getattr(item, 'not_worn_with', ()))]
 
 
 def _without_temporix_only(char, structure, items):
@@ -280,7 +301,8 @@ def get_items_of_type(request, char_id):
         items = [i for i in items if _is_owned(structure, i, owned_ids)]
     items = _apply_source_filter(items, _source_filter(request))
     items = _without_temporix_only(char, structure, items)
-    items = _for_the_class(char, items)
+    items = _wearable_by_the_build(char, items)
+    items = _clear_of_the_other_pieces(char, structure, slot, items)
 
     max_page = math.ceil(len(items) / 10.0)
     items_to_return = items[(page - 1) * 10 : page * 10]
@@ -359,7 +381,9 @@ def get_items_to_exchange(request, char_id):
                              if _is_owned(structure, i, owned_ids)]
     items_to_exchange = _apply_source_filter(items_to_exchange, _source_filter(request))
     items_to_exchange = _without_temporix_only(char, structure, items_to_exchange)
-    items_to_exchange = _for_the_class(char, items_to_exchange)
+    items_to_exchange = _wearable_by_the_build(char, items_to_exchange)
+    items_to_exchange = _clear_of_the_other_pieces(char, structure, slot,
+                                                   items_to_exchange)
 
     max_page = math.ceil(len(items_to_exchange) / 10.0)
 
@@ -456,7 +480,8 @@ def switch_item(request, char_id):
         # only ever fills a slot with that type. Anything else builds gear the
         # game cannot wear, and shared builds are public pages.
         return HttpResponseBadRequest()
-    if not fits_the_class(item, char.char_class):
+    if not the_build_can_wear(char, item,
+                              _worn_or_locked_elsewhere(char, structure, slot)):
         return HttpResponseBadRequest()
     result = get_solution(char)
     result.switch_item(item, slot,

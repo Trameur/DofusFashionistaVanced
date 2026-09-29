@@ -805,6 +805,20 @@ msgstr "Classe: %(classes)s"
 msgid "The %(spell)s spell must be at level %(rank)s"
 msgstr "O feitiço %(spell)s deve estar no nível %(rank)s"
 
+#: .\chardata\wear_conditions.py:36
+msgid "Unequippable item"
+msgstr "Item que não pode ser equipado"
+
+#: .\chardata\wear_conditions.py:40
+#, python-format
+msgid "Be level %(level)s or lower"
+msgstr "Estar no nível %(level)s ou abaixo"
+
+#: .\chardata\wear_conditions.py:44
+#, python-format
+msgid "Not have the \"%(item)s\" item equipped"
+msgstr "Não ser equipado do item '%(item)s'"
+
 #: .\chardata\dynamic_translations.py:92
 msgid "Emote"
 msgstr "Emote"

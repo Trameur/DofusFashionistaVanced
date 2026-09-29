@@ -18,8 +18,8 @@ import logging
 import pickle
 from chardata.char_blobs import read_char_blob
 
-from fashionistapulp.structure import (fits_the_class, get_structure,
-                                       level_to_wear)
+from fashionistapulp.structure import (fits_the_class, fits_the_level,
+                                       get_structure)
 
 logger = logging.getLogger(__name__)
 
@@ -463,9 +463,36 @@ def _as_item_id(value):
     except (TypeError, ValueError):
         return ''
 
+def the_build_can_wear(char, item, beside=()):
+    """Whether the build's class and level can wear the piece, next to the pieces in beside."""
+    level = getattr(char, 'level', None)
+    return (fits_the_class(item, getattr(char, 'char_class', None))
+            and (level is None or fits_the_level(item, level))
+            and not set(beside).intersection(getattr(item, 'not_worn_with', ())))
+
+def _without_new_locks_it_cannot_wear(char, included):
+    """The posted locks, less the new ones the build cannot wear. A stored lock stays."""
+    structure = _structure_of(char)
+    if structure is None:
+        return included
+    stored = get_inclusions_dict(char)
+    if not isinstance(stored, dict):
+        stored = {}
+    kept = {slot: item_id for slot, item_id in included.items()
+            if item_id == '' or stored.get(slot) == item_id}
+    for slot, item_id in included.items():
+        if slot in kept:
+            continue
+        item = structure.get_item_by_id(item_id)
+        beside = {other for other in kept.values() if other != ''}
+        wearable = item is None or the_build_can_wear(char, item, beside)
+        kept[slot] = item_id if wearable else ''
+    return {slot: kept[slot] for slot in included}
+
 def set_inclusions_dict_and_check_exclusions(char, inclusions_dict):
-    included = {slot: _as_item_id(value)
-                for slot, value in inclusions_dict.items()}
+    included = _without_new_locks_it_cannot_wear(
+        char, {slot: _as_item_id(value)
+               for slot, value in inclusions_dict.items()})
     remove_items_from_exclusions(char, [item_id for item_id
                                         in included.values() if item_id != ''])
     _save_inclusion_dict(char, included)
@@ -516,7 +543,7 @@ def remove_invalid_inclusions(char, level, char_class=None):
     for item_type, equip in inclusions.items():
         if equip != '':
             item = structure.get_item_by_id(equip)
-            if (item is None or level_to_wear(item) > level
+            if (item is None or not fits_the_level(item, level)
                     or (char_class is not None
                         and not fits_the_class(item, char_class))):
                 inclusions[item_type] = ''
@@ -524,9 +551,18 @@ def remove_invalid_inclusions(char, level, char_class=None):
     _save_inclusion_dict(char, inclusions)
 
 def set_item_included(char, item_id, slot, included):
+    """False when the build cannot wear the piece there, and nothing is locked."""
     inclusions = get_inclusions_dict(char)
     
     if included:
+        if inclusions.get(slot) != _as_item_id(item_id):
+            structure = _structure_of(char)
+            item = (structure.get_item_by_id(_as_item_id(item_id))
+                    if structure else None)
+            beside = {other for other_slot, other in inclusions.items()
+                      if other_slot != slot and other != ''}
+            if item is not None and not the_build_can_wear(char, item, beside):
+                return False
         inclusions[slot] = item_id
         set_excluded(char, item_id, False)
     else:
@@ -534,6 +570,7 @@ def set_item_included(char, item_id, slot, included):
             inclusions[slot] = ''
 
     _save_inclusion_dict(char, inclusions)
+    return True
 
 def get_all_exclusions_with_names(char, language):
     item_list = []

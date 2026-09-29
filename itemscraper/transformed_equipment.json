@@ -320,7 +320,8 @@
         "has_conditions": true,
         "conditions": [
             "MP < 5"
-        ]
+        ],
+        "criteria": "CM<5"
     },
     {
         "ankama_id": 67,
@@ -1128,7 +1129,8 @@
             "AP < 12",
             "MP < 6",
             "Wisdom > 99"
-        ]
+        ],
+        "criteria": "CP<12&CM<6&CW>99"
     },
     {
         "ankama_id": 181,
@@ -1376,7 +1378,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 11"
-        ]
+        ],
+        "criteria": "CP<11"
     },
     {
         "ankama_id": 201,
@@ -1836,7 +1839,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 224,
@@ -2344,7 +2348,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 251,
@@ -3651,7 +3656,8 @@
         "has_conditions": true,
         "conditions": [
             "MP < 5"
-        ]
+        ],
+        "criteria": "CM<5"
     },
     {
         "ankama_id": 342,
@@ -4291,7 +4297,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 8"
-        ]
+        ],
+        "criteria": "CP<8"
     },
     {
         "ankama_id": 469,
@@ -6203,9 +6210,8 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17002-64.png",
         "dofustouch": false,
         "has_conditions": true,
-        "conditions": [
-            "Alignment level > 20"
-        ]
+        "conditions": [],
+        "criteria": "Ps=1&Pa>20"
     },
     {
         "ankama_id": 759,
@@ -6625,7 +6631,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 9"
-        ]
+        ],
+        "criteria": "CP<9"
     },
     {
         "ankama_id": 778,
@@ -6653,9 +6660,8 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17184-64.png",
         "dofustouch": false,
         "has_conditions": true,
-        "conditions": [
-            "Alignment level > 30"
-        ]
+        "conditions": [],
+        "criteria": "Ps=2&Pa>30"
     },
     {
         "ankama_id": 779,
@@ -9043,7 +9049,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 10"
-        ]
+        ],
+        "criteria": "CP<10"
     },
     {
         "ankama_id": 968,
@@ -9083,7 +9090,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 10"
-        ]
+        ],
+        "criteria": "CP<10"
     },
     {
         "ankama_id": 969,
@@ -9743,7 +9751,8 @@
         "has_conditions": true,
         "conditions": [
             "MP < 6"
-        ]
+        ],
+        "criteria": "CM<6"
     },
     {
         "ankama_id": 1041,
@@ -10046,7 +10055,8 @@
         "has_conditions": true,
         "conditions": [
             "MP < 5"
-        ]
+        ],
+        "criteria": "CM<5"
     },
     {
         "ankama_id": 1058,
@@ -11138,7 +11148,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 9"
-        ]
+        ],
+        "criteria": "CP<9"
     },
     {
         "ankama_id": 1136,
@@ -11571,9 +11582,8 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/1023-64.png",
         "dofustouch": false,
         "has_conditions": true,
-        "conditions": [
-            "Alignment level > 10"
-        ]
+        "conditions": [],
+        "criteria": "Ps=1&Pa>10"
     },
     {
         "ankama_id": 1350,
@@ -12746,7 +12756,8 @@
         "has_conditions": true,
         "conditions": [
             "MP < 5"
-        ]
+        ],
+        "criteria": "CM<5"
     },
     {
         "ankama_id": 1373,
@@ -14359,7 +14370,8 @@
         "has_conditions": true,
         "conditions": [
             "Chance > 10"
-        ]
+        ],
+        "criteria": "CC>10"
     },
     {
         "ankama_id": 1486,
@@ -14795,7 +14807,11 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9039-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/9039-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PG=3",
+        "classes": [
+            "Enutrof"
+        ]
     },
     {
         "ankama_id": 1500,
@@ -15043,7 +15059,8 @@
             "Strength > 99",
             "Agility > 99",
             "Vitality > 99"
-        ]
+        ],
+        "criteria": "CS>99&CA>99&CV>99"
     },
     {
         "ankama_id": 1559,
@@ -16290,7 +16307,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/81026-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/81026-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PJ>2,40|PJ>24,40|PJ>36,40|PJ>28,40|PJ>26,40|PJ>41,40"
     },
     {
         "ankama_id": 1699,
@@ -16398,7 +16416,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/81028-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/81028-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PJ>2,80|PJ>24,80|PJ>36,80|PJ>28,80|PJ>26,80|PJ>41,80"
     },
     {
         "ankama_id": 1703,
@@ -16420,7 +16439,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/81029-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/81029-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PJ>2,120|PJ>24,120|PJ>36,120|PJ>28,120|PJ>26,120|PJ>41,120"
     },
     {
         "ankama_id": 1704,
@@ -16442,7 +16462,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/81030-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/81030-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PJ>2,180|PJ>24,180|PJ>36,180|PJ>28,180|PJ>26,180|PJ>41,180"
     },
     {
         "ankama_id": 1705,
@@ -16667,7 +16688,8 @@
         "conditions": [
             "Intelligence < 100",
             "Chance < 100"
-        ]
+        ],
+        "criteria": "CI<100&CC<100"
     },
     {
         "ankama_id": 1739,
@@ -17460,7 +17482,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17020-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17020-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=2"
     },
     {
         "ankama_id": 2119,
@@ -17476,7 +17499,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17034-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17034-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=1"
     },
     {
         "ankama_id": 2154,
@@ -17518,7 +17542,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9007-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/9007-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PN~Silaisie&BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 2155,
@@ -17545,7 +17571,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1019-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/1019-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PN~Silaisie&BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 2156,
@@ -17575,7 +17603,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6016-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6016-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PN~Silaisie&BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 2233,
@@ -17626,7 +17656,8 @@
         "conditions": [
             "Strength < 40",
             "Intelligence > 80"
-        ]
+        ],
+        "criteria": "CS<40&CI>80"
     },
     {
         "ankama_id": 2341,
@@ -17671,7 +17702,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/2008-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/2008-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=1"
     },
     {
         "ankama_id": 2361,
@@ -17766,7 +17798,8 @@
         "has_conditions": true,
         "conditions": [
             "Wisdom > 49"
-        ]
+        ],
+        "criteria": "CW>49&Ps=1"
     },
     {
         "ankama_id": 2368,
@@ -17816,7 +17849,8 @@
         "has_conditions": true,
         "conditions": [
             "Wisdom > 49"
-        ]
+        ],
+        "criteria": "CW>49&Ps=2"
     },
     {
         "ankama_id": 2369,
@@ -17856,7 +17890,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 2370,
@@ -17906,7 +17941,8 @@
         "has_conditions": true,
         "conditions": [
             "Agility > 50"
-        ]
+        ],
+        "criteria": "CA>50"
     },
     {
         "ankama_id": 2371,
@@ -17993,7 +18029,8 @@
         "has_conditions": true,
         "conditions": [
             "Chance > 50"
-        ]
+        ],
+        "criteria": "CC>50"
     },
     {
         "ankama_id": 2373,
@@ -18330,7 +18367,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 90"
-        ]
+        ],
+        "criteria": "CS>90"
     },
     {
         "ankama_id": 2384,
@@ -18497,7 +18535,8 @@
         "conditions": [
             "Wisdom > 30",
             "Vitality > 50"
-        ]
+        ],
+        "criteria": "CW>30&CV>50"
     },
     {
         "ankama_id": 2388,
@@ -19154,7 +19193,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 9"
-        ]
+        ],
+        "criteria": "CP<9"
     },
     {
         "ankama_id": 2411,
@@ -20885,7 +20925,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 12"
-        ]
+        ],
+        "criteria": "CP<12"
     },
     {
         "ankama_id": 2532,
@@ -23431,7 +23472,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10037-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/10037-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=1"
     },
     {
         "ankama_id": 3205,
@@ -23468,7 +23510,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10038-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/10038-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Ps=2"
     },
     {
         "ankama_id": 3206,
@@ -25431,7 +25474,8 @@
         "has_conditions": true,
         "conditions": [
             "Chance > 30"
-        ]
+        ],
+        "criteria": "CC>30"
     },
     {
         "ankama_id": 6460,
@@ -26840,7 +26884,8 @@
         "conditions": [
             "Intelligence > 299",
             "Chance > 199"
-        ]
+        ],
+        "criteria": "CI>299&CC>199"
     },
     {
         "ankama_id": 6496,
@@ -27395,7 +27440,11 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9040-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/9040-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PG=3",
+        "classes": [
+            "Enutrof"
+        ]
     },
     {
         "ankama_id": 6507,
@@ -28048,7 +28097,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 199"
-        ]
+        ],
+        "criteria": "CI>199"
     },
     {
         "ankama_id": 6519,
@@ -29168,7 +29218,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16053-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16053-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PS=0"
     },
     {
         "ankama_id": 6661,
@@ -29208,7 +29259,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16054-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16054-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PS=1"
     },
     {
         "ankama_id": 6712,
@@ -29340,7 +29392,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5034-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/5034-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PN~Lordsoth"
     },
     {
         "ankama_id": 6716,
@@ -32519,7 +32572,11 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6018-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6018-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PG=6&PS=0",
+        "classes": [
+            "Ecaflip"
+        ]
     },
     {
         "ankama_id": 6840,
@@ -32554,7 +32611,11 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6018-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6018-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PG=6&PS=1",
+        "classes": [
+            "Ecaflip"
+        ]
     },
     {
         "ankama_id": 6856,
@@ -32688,7 +32749,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/18001-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/18001-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PX=3|PX=5"
     },
     {
         "ankama_id": 6895,
@@ -32755,7 +32817,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/18001-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/18001-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PX=3|PX=5"
     },
     {
         "ankama_id": 6908,
@@ -34852,7 +34915,8 @@
         "conditions": [
             "Agility > 249 | Strength > 249"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CA>249|CS>249"
     },
     {
         "ankama_id": 6982,
@@ -35998,7 +36062,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 90"
-        ]
+        ],
+        "criteria": "CS>90"
     },
     {
         "ankama_id": 7031,
@@ -39190,7 +39255,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 199"
-        ]
+        ],
+        "criteria": "CI>199"
     },
     {
         "ankama_id": 7171,
@@ -39264,7 +39330,8 @@
         "conditions": [
             "Intelligence > 149",
             "Agility > 149"
-        ]
+        ],
+        "criteria": "CI>149&CA>149"
     },
     {
         "ankama_id": 7172,
@@ -40046,7 +40113,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 399"
-        ]
+        ],
+        "criteria": "CI>399"
     },
     {
         "ankama_id": 7190,
@@ -40114,7 +40182,8 @@
         "has_conditions": true,
         "conditions": [
             "MP < 6"
-        ]
+        ],
+        "criteria": "CM<6"
     },
     {
         "ankama_id": 7191,
@@ -40452,7 +40521,8 @@
         "has_conditions": true,
         "conditions": [
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CA>299"
     },
     {
         "ankama_id": 7197,
@@ -43736,7 +43806,8 @@
         "has_conditions": true,
         "conditions": [
             "AP < 10"
-        ]
+        ],
+        "criteria": "CP<10"
     },
     {
         "ankama_id": 7553,
@@ -45848,7 +45919,8 @@
             "Agility > 99",
             "Chance > 99",
             "Strength > 99"
-        ]
+        ],
+        "criteria": "CI>99&CA>99&CC>99&CS>99"
     },
     {
         "ankama_id": 8090,
@@ -46126,7 +46198,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 299"
-        ]
+        ],
+        "criteria": "CS>299"
     },
     {
         "ankama_id": 8095,
@@ -53257,9 +53330,13 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Strength > 89 & Intelligence > 89 & Agility > 89 & AP < 12 | Strength > 89 & Intelligence > 89 & Agility > 89 & MP < 6"
+            "Strength > 89",
+            "Intelligence > 89",
+            "Agility > 89",
+            "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "(CS>89&CI>89&CA>89)&(CP<12|CM<6)"
     },
     {
         "ankama_id": 8415,
@@ -55982,7 +56059,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5060-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/5060-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=166"
     },
     {
         "ankama_id": 8521,
@@ -56424,7 +56502,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4071-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/4071-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PN~xxramboplxx&BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 8596,
@@ -56979,7 +57059,8 @@
             "Intelligence > 99",
             "Chance > 99",
             "AP < 12"
-        ]
+        ],
+        "criteria": "CI>99&CC>99&CP<12"
     },
     {
         "ankama_id": 8611,
@@ -57107,7 +57188,8 @@
         "has_conditions": true,
         "conditions": [
             "MP < 6"
-        ]
+        ],
+        "criteria": "CM<6"
     },
     {
         "ankama_id": 8613,
@@ -57355,7 +57437,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 299"
-        ]
+        ],
+        "criteria": "CI>299"
     },
     {
         "ankama_id": 8617,
@@ -60530,7 +60613,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 8701,
@@ -62355,9 +62439,11 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Vitality > 1499 & AP < 12 | Vitality > 1499 & MP < 6"
+            "Vitality > 1499",
+            "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CV>1499&(CP<12|CM<6)"
     },
     {
         "ankama_id": 8828,
@@ -64420,7 +64506,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 8867,
@@ -65467,7 +65554,8 @@
         "conditions": [
             "Agility > 249",
             "Intelligence > 249"
-        ]
+        ],
+        "criteria": "CA>249&CI>249"
     },
     {
         "ankama_id": 8926,
@@ -65561,7 +65649,8 @@
         "conditions": [
             "Agility > 199",
             "Chance > 199"
-        ]
+        ],
+        "criteria": "CA>199&CC>199"
     },
     {
         "ankama_id": 8927,
@@ -65650,7 +65739,8 @@
         "conditions": [
             "Strength > 299",
             "Agility > 149"
-        ]
+        ],
+        "criteria": "CS>299&CA>149"
     },
     {
         "ankama_id": 8928,
@@ -65723,7 +65813,8 @@
         "has_conditions": true,
         "conditions": [
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CA>299"
     },
     {
         "ankama_id": 8929,
@@ -65892,7 +65983,8 @@
         "conditions": [
             "Agility > 199",
             "Intelligence > 199"
-        ]
+        ],
+        "criteria": "CA>199&CI>199"
     },
     {
         "ankama_id": 8931,
@@ -65987,7 +66079,8 @@
             "Agility > 199",
             "Chance > 199",
             "Strength > 199"
-        ]
+        ],
+        "criteria": "CA>199&CC>199&CS>199"
     },
     {
         "ankama_id": 8932,
@@ -66076,7 +66169,8 @@
         "conditions": [
             "Strength > 249 | Agility > 199"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CS>249|CA>199"
     },
     {
         "ankama_id": 8933,
@@ -66144,7 +66238,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 299"
-        ]
+        ],
+        "criteria": "CS>299"
     },
     {
         "ankama_id": 8934,
@@ -66323,7 +66418,8 @@
         "conditions": [
             "Chance > 199",
             "Intelligence > 199"
-        ]
+        ],
+        "criteria": "CC>199&CI>199"
     },
     {
         "ankama_id": 8936,
@@ -66502,7 +66598,8 @@
         "conditions": [
             "Strength > 199",
             "Intelligence > 199"
-        ]
+        ],
+        "criteria": "CS>199&CI>199"
     },
     {
         "ankama_id": 8941,
@@ -66555,7 +66652,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8956,
@@ -66608,7 +66706,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8957,
@@ -66661,7 +66760,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8958,
@@ -66714,7 +66814,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8959,
@@ -66767,7 +66868,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8960,
@@ -66820,7 +66922,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8961,
@@ -66873,7 +66976,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8962,
@@ -66926,7 +67030,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8963,
@@ -66979,7 +67084,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8964,
@@ -67032,7 +67138,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8965,
@@ -67085,7 +67192,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8966,
@@ -67138,7 +67246,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 140"
-        ]
+        ],
+        "criteria": "CS>140"
     },
     {
         "ankama_id": 8989,
@@ -67554,7 +67663,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9001-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/9001-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PX=3|PX=5"
     },
     {
         "ankama_id": 9117,
@@ -68252,7 +68362,8 @@
         "conditions": [
             "Strength > 249",
             "Intelligence > 249"
-        ]
+        ],
+        "criteria": "CS>249&CI>249"
     },
     {
         "ankama_id": 9135,
@@ -68341,7 +68452,8 @@
         "conditions": [
             "Intelligence > 249",
             "Agility > 249"
-        ]
+        ],
+        "criteria": "CI>249&CA>249"
     },
     {
         "ankama_id": 9136,
@@ -68430,7 +68542,8 @@
         "conditions": [
             "Strength > 199",
             "Chance > 199"
-        ]
+        ],
+        "criteria": "CS>199&CC>199"
     },
     {
         "ankama_id": 9137,
@@ -70503,7 +70616,8 @@
         "conditions": [
             "Strength > 199",
             "Agility > 199"
-        ]
+        ],
+        "criteria": "CS>199&CA>199"
     },
     {
         "ankama_id": 9177,
@@ -71370,7 +71484,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9007-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/9007-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PX=3|PX=5|PX=2"
     },
     {
         "ankama_id": 9402,
@@ -71974,7 +72089,8 @@
         "has_conditions": true,
         "conditions": [
             "Chance > 399"
-        ]
+        ],
+        "criteria": "CC>399"
     },
     {
         "ankama_id": 9469,
@@ -72058,7 +72174,8 @@
         "conditions": [
             "Chance > 249",
             "Agility > 249"
-        ]
+        ],
+        "criteria": "CC>249&CA>249"
     },
     {
         "ankama_id": 9542,
@@ -72446,9 +72563,9 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/4001-64.png",
         "dofustouch": false,
         "has_conditions": true,
-        "conditions": [
-            "Be level {0} or higher < 6"
-        ]
+        "conditions": [],
+        "criteria": "PL<6",
+        "max_level": 5
     },
     {
         "ankama_id": 9655,
@@ -73266,7 +73383,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9171-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/9171-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10055,
@@ -73308,7 +73426,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1146-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/1146-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10056,
@@ -73350,7 +73469,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10156-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/10156-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10058,
@@ -73387,7 +73507,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17168-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17168-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10061,
@@ -73429,7 +73550,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11139-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/11139-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10102,
@@ -73466,7 +73588,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16244-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16244-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PO!10119"
     },
     {
         "ankama_id": 10106,
@@ -75891,7 +76014,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/20091-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/20091-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Sc=13"
     },
     {
         "ankama_id": 10830,
@@ -75923,7 +76047,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17172-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17172-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Sc=14"
     },
     {
         "ankama_id": 10834,
@@ -75982,7 +76107,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1158-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/1158-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Sc=18"
     },
     {
         "ankama_id": 10846,
@@ -76029,7 +76155,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17173-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17173-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Sc=19"
     },
     {
         "ankama_id": 10847,
@@ -76724,7 +76851,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/81025-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/81025-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Sc=23"
     },
     {
         "ankama_id": 10976,
@@ -79602,7 +79730,8 @@
             "Intelligence > 199",
             "Chance > 199",
             "Agility > 199"
-        ]
+        ],
+        "criteria": "CS>199&CI>199&CC>199&CA>199"
     },
     {
         "ankama_id": 11571,
@@ -81363,7 +81492,10 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16276-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16276-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [
+            "Chance = 0"
+        ],
+        "criteria": "CC=0"
     },
     {
         "ankama_id": 11604,
@@ -81891,7 +82023,10 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10179-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/10179-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [
+            "Chance = 0"
+        ],
+        "criteria": "CC=0"
     },
     {
         "ankama_id": 11611,
@@ -82701,7 +82836,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 299"
-        ]
+        ],
+        "criteria": "CI>299"
     },
     {
         "ankama_id": 11626,
@@ -82804,7 +82940,8 @@
         "has_conditions": true,
         "conditions": [
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CA>299"
     },
     {
         "ankama_id": 11627,
@@ -82914,7 +83051,8 @@
             "Strength > 149",
             "Chance > 149",
             "Intelligence > 149"
-        ]
+        ],
+        "criteria": "CS>149&CC>149&CI>149"
     },
     {
         "ankama_id": 11628,
@@ -83123,7 +83261,8 @@
         "conditions": [
             "Strength > 199",
             "Agility > 199"
-        ]
+        ],
+        "criteria": "CS>199&CA>199"
     },
     {
         "ankama_id": 11630,
@@ -83232,7 +83371,8 @@
         "conditions": [
             "Intelligence > 199",
             "Agility > 199"
-        ]
+        ],
+        "criteria": "CI>199&CA>199"
     },
     {
         "ankama_id": 11631,
@@ -83325,7 +83465,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 299"
-        ]
+        ],
+        "criteria": "CS>299"
     },
     {
         "ankama_id": 11632,
@@ -83434,7 +83575,8 @@
         "conditions": [
             "Intelligence > 199",
             "Chance > 199"
-        ]
+        ],
+        "criteria": "CI>199&CC>199"
     },
     {
         "ankama_id": 11633,
@@ -83537,7 +83679,8 @@
         "has_conditions": true,
         "conditions": [
             "Chance > 249"
-        ]
+        ],
+        "criteria": "CC>249"
     },
     {
         "ankama_id": 11634,
@@ -83736,7 +83879,8 @@
         "conditions": [
             "Agility > 199",
             "Intelligence > 199"
-        ]
+        ],
+        "criteria": "CA>199&CI>199"
     },
     {
         "ankama_id": 11667,
@@ -84429,7 +84573,8 @@
         "conditions": [
             "Agility > 249",
             "Chance > 249"
-        ]
+        ],
+        "criteria": "CA>249&CC>249"
     },
     {
         "ankama_id": 11712,
@@ -86277,7 +86422,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10198-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/10198-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=0",
+        "unusable": true
     },
     {
         "ankama_id": 11734,
@@ -86626,7 +86773,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 11739,
@@ -87016,7 +87164,8 @@
         "conditions": [
             "Strength > 199",
             "Intelligence > 199"
-        ]
+        ],
+        "criteria": "CS>199&CI>199"
     },
     {
         "ankama_id": 11743,
@@ -87084,7 +87233,8 @@
         "has_conditions": true,
         "conditions": [
             "Vitality > 1999"
-        ]
+        ],
+        "criteria": "CV>1999"
     },
     {
         "ankama_id": 11744,
@@ -87193,7 +87343,8 @@
         "conditions": [
             "Strength > 299",
             "Intelligence > 199"
-        ]
+        ],
+        "criteria": "CS>299&CI>199"
     },
     {
         "ankama_id": 11745,
@@ -87297,7 +87448,8 @@
         "conditions": [
             "Agility > 199",
             "Strength > 199"
-        ]
+        ],
+        "criteria": "CA>199&CS>199"
     },
     {
         "ankama_id": 11746,
@@ -87401,7 +87553,8 @@
         "conditions": [
             "Agility > 249",
             "Strength > 149"
-        ]
+        ],
+        "criteria": "CA>249&CS>149"
     },
     {
         "ankama_id": 11747,
@@ -87511,7 +87664,8 @@
             "Intelligence > 199",
             "Agility > 199",
             "Chance > 199"
-        ]
+        ],
+        "criteria": "CI>199&CA>199&CC>199"
     },
     {
         "ankama_id": 11748,
@@ -87535,7 +87689,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4101-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/4101-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 11749,
@@ -87628,7 +87784,8 @@
         "has_conditions": true,
         "conditions": [
             "Agility > 349"
-        ]
+        ],
+        "criteria": "CA>349"
     },
     {
         "ankama_id": 11750,
@@ -87731,7 +87888,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 399"
-        ]
+        ],
+        "criteria": "CI>399"
     },
     {
         "ankama_id": 11751,
@@ -87814,7 +87972,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 249"
-        ]
+        ],
+        "criteria": "CI>249"
     },
     {
         "ankama_id": 11752,
@@ -88018,7 +88177,8 @@
         "conditions": [
             "Strength > 299",
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CS>299&CA>299"
     },
     {
         "ankama_id": 11754,
@@ -88131,7 +88291,8 @@
         "has_conditions": true,
         "conditions": [
             "Chance > 249"
-        ]
+        ],
+        "criteria": "CC>249"
     },
     {
         "ankama_id": 11755,
@@ -88340,7 +88501,8 @@
         "conditions": [
             "Agility > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CA>299&CC>299"
     },
     {
         "ankama_id": 11757,
@@ -88449,7 +88611,8 @@
         "conditions": [
             "Strength > 199",
             "Intelligence > 199"
-        ]
+        ],
+        "criteria": "CS>199&CI>199"
     },
     {
         "ankama_id": 11758,
@@ -88563,7 +88726,8 @@
         "conditions": [
             "Intelligence > 249",
             "Agility > 199"
-        ]
+        ],
+        "criteria": "CI>249&CA>199"
     },
     {
         "ankama_id": 11759,
@@ -88672,7 +88836,8 @@
         "conditions": [
             "Intelligence > 249",
             "Chance > 249"
-        ]
+        ],
+        "criteria": "CI>249&CC>249"
     },
     {
         "ankama_id": 11760,
@@ -88781,7 +88946,8 @@
         "conditions": [
             "Strength > 199",
             "Agility > 199"
-        ]
+        ],
+        "criteria": "CS>199&CA>199"
     },
     {
         "ankama_id": 11761,
@@ -88895,7 +89061,8 @@
         "conditions": [
             "Strength > 249",
             "Intelligence > 249"
-        ]
+        ],
+        "criteria": "CS>249&CI>249"
     },
     {
         "ankama_id": 11762,
@@ -88998,7 +89165,8 @@
         "has_conditions": true,
         "conditions": [
             "Chance > 249"
-        ]
+        ],
+        "criteria": "CC>249"
     },
     {
         "ankama_id": 11763,
@@ -89101,7 +89269,8 @@
         "has_conditions": true,
         "conditions": [
             "Chance > 399"
-        ]
+        ],
+        "criteria": "CC>399"
     },
     {
         "ankama_id": 11765,
@@ -89312,7 +89481,8 @@
             "Intelligence > 249",
             "Chance > 249",
             "Agility > 249"
-        ]
+        ],
+        "criteria": "CS>249&CI>249&CC>249&CA>249"
     },
     {
         "ankama_id": 11794,
@@ -89612,7 +89782,8 @@
             "Strength > 199",
             "Intelligence > 199",
             "Agility > 199"
-        ]
+        ],
+        "criteria": "CS>199&CI>199&CA>199"
     },
     {
         "ankama_id": 11850,
@@ -89823,7 +89994,8 @@
             "Strength > 30",
             "Intelligence > 30",
             "Chance > 30"
-        ]
+        ],
+        "criteria": "CS>30&CI>30&CC>30"
     },
     {
         "ankama_id": 11858,
@@ -89949,7 +90121,8 @@
         "conditions": [
             "Intelligence > 249",
             "Agility > 149"
-        ]
+        ],
+        "criteria": "CI>249&CA>149"
     },
     {
         "ankama_id": 11950,
@@ -93726,7 +93899,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 12109,
@@ -94131,7 +94305,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 12113,
@@ -94920,7 +95095,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1196-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/1196-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PS=0&Qf=714"
     },
     {
         "ankama_id": 12238,
@@ -94936,7 +95112,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1196-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/1196-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PS=1&Qf=714"
     },
     {
         "ankama_id": 12370,
@@ -97036,7 +97213,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/121000-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/121000-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PE=51"
     },
     {
         "ankama_id": 12598,
@@ -100874,7 +101052,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4111-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/4111-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=0",
+        "unusable": true
     },
     {
         "ankama_id": 13064,
@@ -103012,7 +103192,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 13197,
@@ -103126,7 +103307,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/18088-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/18088-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "PE=65"
     },
     {
         "ankama_id": 13245,
@@ -103234,7 +103416,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 249"
-        ]
+        ],
+        "criteria": "CS>249"
     },
     {
         "ankama_id": 13261,
@@ -104337,7 +104520,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16005-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16005-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "(Sc=968&SG=08&Sd>18&Sd<27)|PX=A"
     },
     {
         "ankama_id": 13459,
@@ -105223,7 +105407,8 @@
         "conditions": [
             "Strength > 299",
             "Intelligence > 299"
-        ]
+        ],
+        "criteria": "CS>299&CI>299"
     },
     {
         "ankama_id": 13632,
@@ -106928,7 +107113,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 13658,
@@ -107009,7 +107195,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 13659,
@@ -107095,7 +107282,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 13661,
@@ -110054,7 +110242,8 @@
         "conditions": [
             "Intelligence > 299",
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CI>299&CA>299"
     },
     {
         "ankama_id": 13896,
@@ -110168,7 +110357,8 @@
         "conditions": [
             "Strength > 299",
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CS>299&CA>299"
     },
     {
         "ankama_id": 13897,
@@ -111467,7 +111657,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 399"
-        ]
+        ],
+        "criteria": "CS>399"
     },
     {
         "ankama_id": 14056,
@@ -112062,7 +112253,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 14064,
@@ -114898,7 +115090,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 14131,
@@ -115006,7 +115199,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 299"
-        ]
+        ],
+        "criteria": "CI>299"
     },
     {
         "ankama_id": 14132,
@@ -115110,7 +115304,8 @@
         "conditions": [
             "Strength > 399 | Intelligence > 399 | Agility > 399"
         ],
-        "or_branch_count": 3
+        "or_branch_count": 3,
+        "criteria": "CS>399|CI>399|CA>399"
     },
     {
         "ankama_id": 14133,
@@ -115214,7 +115409,8 @@
         "conditions": [
             "Strength > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CS>299&CC>299"
     },
     {
         "ankama_id": 14135,
@@ -115318,7 +115514,8 @@
         "conditions": [
             "Intelligence > 299",
             "Chance > 199"
-        ]
+        ],
+        "criteria": "CI>299&CC>199"
     },
     {
         "ankama_id": 14146,
@@ -115461,7 +115658,8 @@
         "has_conditions": true,
         "conditions": [
             "Chance > 399"
-        ]
+        ],
+        "criteria": "CC>399"
     },
     {
         "ankama_id": 14159,
@@ -116005,7 +116203,8 @@
         "conditions": [
             "Intelligence > 399 | Chance > 399 | Agility > 399"
         ],
-        "or_branch_count": 3
+        "or_branch_count": 3,
+        "criteria": "CI>399|CC>399|CA>399"
     },
     {
         "ankama_id": 14166,
@@ -116097,9 +116296,11 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Strength > 299 & Intelligence > 299 | Strength > 299 & Chance > 299 | Strength > 299 & Agility > 299"
+            "Strength > 299",
+            "Intelligence > 299 | Chance > 299 | Agility > 299"
         ],
-        "or_branch_count": 3
+        "or_branch_count": 3,
+        "criteria": "CS>299&(CI>299|CC>299|CA>299)"
     },
     {
         "ankama_id": 14167,
@@ -116213,7 +116414,8 @@
         "conditions": [
             "Chance > 299",
             "Intelligence > 149"
-        ]
+        ],
+        "criteria": "CC>299&CI>149"
     },
     {
         "ankama_id": 14168,
@@ -117301,7 +117503,8 @@
         "conditions": [
             "Chance > 249",
             "Agility > 249"
-        ]
+        ],
+        "criteria": "CC>249&CA>249"
     },
     {
         "ankama_id": 14289,
@@ -120933,7 +121136,8 @@
         "conditions": [
             "Chance > 299",
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CC>299&CA>299"
     },
     {
         "ankama_id": 14929,
@@ -121526,7 +121730,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 15009,
@@ -122679,7 +122884,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16410-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16410-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "(Sc=994&SG=03&Sd<9)|PX=A"
     },
     {
         "ankama_id": 15183,
@@ -124887,7 +125093,8 @@
         "conditions": [
             "Agility > 299",
             "Intelligence > 299"
-        ]
+        ],
+        "criteria": "CA>299&CI>299"
     },
     {
         "ankama_id": 15218,
@@ -125001,7 +125208,8 @@
         "conditions": [
             "Agility > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CA>299&CC>299"
     },
     {
         "ankama_id": 15235,
@@ -126926,7 +127134,8 @@
         "conditions": [
             "Strength > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CS>299&CC>299"
     },
     {
         "ankama_id": 15494,
@@ -127125,7 +127334,8 @@
         "conditions": [
             "Intelligence > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CI>299&CC>299"
     },
     {
         "ankama_id": 15496,
@@ -127234,7 +127444,8 @@
         "conditions": [
             "Strength > 299",
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CS>299&CA>299"
     },
     {
         "ankama_id": 15499,
@@ -128319,7 +128530,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5028-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/5028-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 15692,
@@ -128410,7 +128623,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 15693,
@@ -128496,7 +128710,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 15694,
@@ -128577,7 +128792,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 15695,
@@ -128956,7 +129172,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 15700,
@@ -130843,7 +131060,8 @@
         "conditions": [
             "Strength > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CS>299&CC>299"
     },
     {
         "ankama_id": 15780,
@@ -131026,7 +131244,8 @@
             "Strength > 199",
             "Chance > 199",
             "Agility > 199"
-        ]
+        ],
+        "criteria": "CI>199&CS>199&CC>199&CA>199"
     },
     {
         "ankama_id": 15782,
@@ -133265,7 +133484,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16183,
@@ -133290,7 +133510,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16184,
@@ -133315,7 +133536,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16185,
@@ -133340,7 +133562,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16186,
@@ -133365,7 +133588,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16187,
@@ -133390,7 +133614,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16188,
@@ -133415,7 +133640,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16189,
@@ -133440,7 +133666,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16190,
@@ -133465,7 +133692,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16191,
@@ -133490,7 +133718,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16192,
@@ -133515,7 +133744,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16193,
@@ -133540,7 +133770,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16194,
@@ -133565,7 +133796,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16195,
@@ -133590,7 +133822,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16196,
@@ -133615,7 +133848,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16202,
@@ -133640,7 +133874,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16203,
@@ -133665,7 +133900,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16204,
@@ -133690,7 +133926,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16209,
@@ -133851,7 +134088,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16244,
@@ -133876,7 +134114,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16245,
@@ -133901,7 +134140,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16246,
@@ -133926,7 +134166,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16247,
@@ -133951,7 +134192,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16248,
@@ -133976,7 +134218,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16249,
@@ -134001,7 +134244,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16250,
@@ -134026,7 +134270,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16251,
@@ -134051,7 +134296,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16252,
@@ -134076,7 +134322,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16253,
@@ -134101,7 +134348,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16254,
@@ -134126,7 +134374,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16255,
@@ -134151,7 +134400,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16256,
@@ -134176,7 +134426,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16257,
@@ -134201,7 +134452,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16258,
@@ -134226,7 +134478,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16259,
@@ -134251,7 +134504,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16260,
@@ -134276,7 +134530,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16262,
@@ -134301,7 +134556,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16263,
@@ -134326,7 +134582,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16264,
@@ -134351,7 +134608,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16265,
@@ -134376,7 +134634,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16266,
@@ -134401,7 +134660,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16267,
@@ -134426,7 +134686,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16269,
@@ -134478,7 +134739,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16275,
@@ -134503,7 +134765,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16276,
@@ -134550,7 +134813,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16282,
@@ -134575,7 +134839,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16283,
@@ -134600,7 +134865,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16284,
@@ -134625,7 +134891,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16292,
@@ -134650,7 +134917,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16293,
@@ -134675,7 +134943,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16294,
@@ -134700,7 +134969,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16295,
@@ -134752,7 +135022,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16301,
@@ -134777,7 +135048,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16302,
@@ -134802,7 +135074,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16303,
@@ -134827,7 +135100,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16305,
@@ -134852,7 +135126,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16306,
@@ -134877,7 +135152,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16308,
@@ -134902,7 +135178,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16309,
@@ -134927,7 +135204,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16310,
@@ -134952,7 +135230,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16311,
@@ -134977,7 +135256,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16312,
@@ -135002,7 +135282,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16313,
@@ -135027,7 +135308,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16314,
@@ -135052,7 +135334,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16315,
@@ -135077,7 +135360,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16316,
@@ -135102,7 +135386,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16318,
@@ -135127,7 +135412,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16319,
@@ -135152,7 +135438,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16320,
@@ -135177,7 +135464,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16321,
@@ -135202,7 +135490,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16322,
@@ -135227,7 +135516,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16323,
@@ -135252,7 +135542,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16324,
@@ -135277,7 +135568,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16325,
@@ -135302,7 +135594,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16326,
@@ -135327,7 +135620,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16327,
@@ -135352,7 +135646,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16328,
@@ -135377,7 +135672,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16329,
@@ -135402,7 +135698,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16330,
@@ -135427,7 +135724,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16331,
@@ -135452,7 +135750,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16332,
@@ -135477,7 +135776,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16333,
@@ -135502,7 +135802,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16335,
@@ -135527,7 +135828,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16336,
@@ -135552,7 +135854,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16337,
@@ -135597,7 +135900,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16338,
@@ -135642,7 +135946,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16339,
@@ -135687,7 +135992,8 @@
         "has_conditions": true,
         "conditions": [
             "Set bonus < 3"
-        ]
+        ],
+        "criteria": "Pk<3"
     },
     {
         "ankama_id": 16343,
@@ -140477,7 +140783,8 @@
             "Intelligence > 299",
             "Chance > 299",
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CI>299&CC>299&CA>299"
     },
     {
         "ankama_id": 17587,
@@ -141720,7 +142027,8 @@
             "Strength > 249",
             "Intelligence > 249",
             "Chance > 249"
-        ]
+        ],
+        "criteria": "CS>249&CI>249&CC>249"
     },
     {
         "ankama_id": 17684,
@@ -142218,7 +142526,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 18001,
@@ -142351,7 +142660,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 18003,
@@ -142608,7 +142918,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 18007,
@@ -142793,7 +143104,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 18010,
@@ -142902,7 +143214,8 @@
         "conditions": [
             "Intelligence > 299",
             "Strength > 299"
-        ]
+        ],
+        "criteria": "CI>299&CS>299"
     },
     {
         "ankama_id": 18011,
@@ -143006,7 +143319,8 @@
         "conditions": [
             "Intelligence > 299",
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CI>299&CA>299"
     },
     {
         "ankama_id": 18012,
@@ -143105,7 +143419,8 @@
         "conditions": [
             "Chance > 299",
             "Agility > 299"
-        ]
+        ],
+        "criteria": "CC>299&CA>299"
     },
     {
         "ankama_id": 18013,
@@ -143369,7 +143684,8 @@
         "conditions": [
             "Strength > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CS>299&CC>299"
     },
     {
         "ankama_id": 18017,
@@ -145030,7 +145346,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16463-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16463-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 18146,
@@ -145046,7 +145364,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17341-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17341-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 18229,
@@ -146475,7 +146795,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 18529,
@@ -150024,9 +150345,8 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/82035-64.png",
         "dofustouch": false,
         "has_conditions": true,
-        "conditions": [
-            "Kamas > 49999"
-        ]
+        "conditions": [],
+        "criteria": "PK>49999"
     },
     {
         "ankama_id": 18692,
@@ -151825,7 +152145,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6061-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6061-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Pm=181404680&Qa=1865&Qo>12441&Qo<12443"
     },
     {
         "ankama_id": 19044,
@@ -153057,7 +153378,8 @@
         "conditions": [
             "Intelligence > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CI>299&CC>299"
     },
     {
         "ankama_id": 19096,
@@ -153167,7 +153489,8 @@
             "Intelligence > 249",
             "Strength > 249",
             "Agility > 249"
-        ]
+        ],
+        "criteria": "CI>249&CS>249&CA>249"
     },
     {
         "ankama_id": 19105,
@@ -153202,7 +153525,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6061-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6061-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Pm=181404680&Qa=1865&Qo>12441&Qo<12443"
     },
     {
         "ankama_id": 19116,
@@ -155414,7 +155738,8 @@
         "conditions": [
             "Agility > 299",
             "Strength > 299"
-        ]
+        ],
+        "criteria": "CA>299&CS>299"
     },
     {
         "ankama_id": 19268,
@@ -155618,7 +155943,8 @@
         "conditions": [
             "Intelligence > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CI>299&CC>299"
     },
     {
         "ankama_id": 19270,
@@ -155849,7 +156175,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/20005-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/20005-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=1942&Qo>13493&Qo<13498"
     },
     {
         "ankama_id": 19482,
@@ -155884,7 +156211,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6098-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6098-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=1936|Qf=1936"
     },
     {
         "ankama_id": 19531,
@@ -156644,7 +156972,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 19596,
@@ -156725,7 +157054,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 19597,
@@ -157537,7 +157867,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 19608,
@@ -157742,7 +158073,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 19622,
@@ -157831,7 +158163,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/7748-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/7748-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 19639,
@@ -157853,7 +158187,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82001-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/82001-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 19641,
@@ -157875,7 +158211,9 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17356-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17356-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 19676,
@@ -158716,7 +159054,8 @@
             "Strength > 349",
             "Agility > 349",
             "Chance > 349"
-        ]
+        ],
+        "criteria": "CI>349&CS>349&CA>349&CC>349"
     },
     {
         "ankama_id": 20210,
@@ -158747,9 +159086,8 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6739-64.png",
         "dofustouch": false,
         "has_conditions": true,
-        "conditions": [
-            "Be subscribed = 1"
-        ]
+        "conditions": [],
+        "criteria": "PZ=1&(Qa=2035|Qa=2036|Qa=2037)"
     },
     {
         "ankama_id": 20213,
@@ -158780,9 +159118,8 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6740-64.png",
         "dofustouch": false,
         "has_conditions": true,
-        "conditions": [
-            "Be subscribed = 1"
-        ]
+        "conditions": [],
+        "criteria": "PZ=1&((Qa=2037&Qo>14621)|Qa=2038|Qa=2039|Qa=2040|Qa=2041|Qa=2042|Qa=2043|Qa=2044)"
     },
     {
         "ankama_id": 20286,
@@ -161321,7 +161658,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 21224,
@@ -161745,7 +162083,8 @@
         "conditions": [
             "Agility > 299",
             "Strength > 299"
-        ]
+        ],
+        "criteria": "CA>299&CS>299"
     },
     {
         "ankama_id": 21230,
@@ -163261,7 +163600,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/7001-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/7001-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=2113&Qo=15771"
     },
     {
         "ankama_id": 22163,
@@ -164468,7 +164808,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 22215,
@@ -167060,7 +167401,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164730-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/164730-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qf=2183"
     },
     {
         "ankama_id": 23522,
@@ -167140,7 +167482,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4108-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/4108-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qf=2181"
     },
     {
         "ankama_id": 23563,
@@ -167285,7 +167628,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 449"
-        ]
+        ],
+        "criteria": "CS>449"
     },
     {
         "ankama_id": 23618,
@@ -168047,7 +168391,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 23627,
@@ -169179,7 +169524,8 @@
         "conditions": [
             "Strength > 299",
             "Chance > 299"
-        ]
+        ],
+        "criteria": "CS>299&CC>299"
     },
     {
         "ankama_id": 24032,
@@ -170321,7 +170667,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 25222,
@@ -170501,7 +170848,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6749-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6749-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=2415"
     },
     {
         "ankama_id": 25245,
@@ -170800,9 +171148,9 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/165050-64.png",
         "dofustouch": false,
         "has_conditions": true,
-        "conditions": [
-            "Be subscribed = 1"
-        ]
+        "conditions": [],
+        "criteria": "PZ=1&Pn!8&(Pm=74186754|Pm=74187778)&BI=1",
+        "unusable": true
     },
     {
         "ankama_id": 26006,
@@ -172943,7 +173291,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1322-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/1322-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "OS=505"
     },
     {
         "ankama_id": 27266,
@@ -172970,7 +173319,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10352-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/10352-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "OS=505"
     },
     {
         "ankama_id": 27267,
@@ -172997,7 +173347,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17553-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/17553-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "OS=505"
     },
     {
         "ankama_id": 27268,
@@ -173052,7 +173403,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6754-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/6754-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "OS=505"
     },
     {
         "ankama_id": 27278,
@@ -173079,7 +173431,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11375-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/11375-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "OS=505"
     },
     {
         "ankama_id": 27280,
@@ -173106,7 +173459,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82418-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/82418-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "OS=505"
     },
     {
         "ankama_id": 27282,
@@ -173133,7 +173487,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16739-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16739-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "OS=505"
     },
     {
         "ankama_id": 27284,
@@ -173160,7 +173515,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9371-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/9371-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "OS=505"
     },
     {
         "ankama_id": 27431,
@@ -176094,7 +176450,8 @@
         "conditions": [
             "Strength > 299",
             "Intelligence > 299"
-        ]
+        ],
+        "criteria": "CS>299&CI>299"
     },
     {
         "ankama_id": 27645,
@@ -176129,7 +176486,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165052-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/165052-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Pm=225972993&Qa=2463"
     },
     {
         "ankama_id": 27803,
@@ -176218,7 +176576,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82476-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/82476-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=2488&Qo>18967"
     },
     {
         "ankama_id": 29133,
@@ -176265,7 +176624,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82477-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/82477-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=2488&Qo>18968"
     },
     {
         "ankama_id": 29134,
@@ -176287,7 +176647,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23036-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/23036-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=2488|Qa=2489"
     },
     {
         "ankama_id": 29135,
@@ -176324,7 +176685,8 @@
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23037-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/23037-64.png",
         "dofustouch": false,
-        "conditions": []
+        "conditions": [],
+        "criteria": "Qa=2488&Qo>18971"
     },
     {
         "ankama_id": 29136,
@@ -178125,7 +178487,8 @@
         "has_conditions": true,
         "conditions": [
             "Strength > 999"
-        ]
+        ],
+        "criteria": "CS>999"
     },
     {
         "ankama_id": 30860,
@@ -178305,7 +178668,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 666"
-        ]
+        ],
+        "criteria": "CI>666"
     },
     {
         "ankama_id": 30862,
@@ -178380,7 +178744,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 666"
-        ]
+        ],
+        "criteria": "CI>666"
     },
     {
         "ankama_id": 30863,
@@ -178460,7 +178825,8 @@
         "has_conditions": true,
         "conditions": [
             "Intelligence > 666"
-        ]
+        ],
+        "criteria": "CI>666"
     },
     {
         "ankama_id": 30943,
@@ -180807,7 +181173,8 @@
         "conditions": [
             "AP < 12 | MP < 6"
         ],
-        "or_branch_count": 2
+        "or_branch_count": 2,
+        "criteria": "CP<12|CM<6"
     },
     {
         "ankama_id": 31785,
@@ -181070,7 +181437,8 @@
         "has_conditions": true,
         "conditions": [
             "Vitality > 3949"
-        ]
+        ],
+        "criteria": "CV>3949"
     },
     {
         "ankama_id": 31787,
@@ -181203,7 +181571,8 @@
         "has_conditions": true,
         "conditions": [
             "Vitality > 3949"
-        ]
+        ],
+        "criteria": "CV>3949"
     },
     {
         "ankama_id": 31788,
@@ -181278,7 +181647,8 @@
         "has_conditions": true,
         "conditions": [
             "Vitality > 3949"
-        ]
+        ],
+        "criteria": "CV>3949"
     },
     {
         "ankama_id": 31789,

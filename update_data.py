@@ -11,6 +11,7 @@ Usage:
 
 Pipeline steps:
     items/download      get_equipments.py     -> itemscraper/all_*.json
+    data/download       download_raw_data.py  -> itemscraper/raw/<version>/items.json
     items/transform     get_equipments2.py    -> itemscraper/transformed_equipment.json
     items/dump          get_equipments3.py    -> item_db_dumped.dump
     items/load-db       load_item_db.py       -> items.db
@@ -116,6 +117,19 @@ def extract_notices(lines: list[str]) -> list[str]:
     return [l.strip() for l in lines if _is_notice(l)]
 
 
+def refetch_if_cut_short(raw_dir: Path) -> list[str]:
+    """--no-skip-existing when a cached file does not close its JSON: a download cut short."""
+    for name in ("items.json", "breeds.json", "en.json"):
+        path = raw_dir / name
+        if not path.exists():
+            continue
+        with open(path, "rb") as handle:
+            handle.seek(max(0, path.stat().st_size - 64))
+            if not handle.read().rstrip().endswith((b"]", b"}")):
+                return ["--no-skip-existing"]
+    return []
+
+
 def set_patch_started(content: str, key: str, patch: str, quiet: bool = False) -> str:
     today = datetime.now(timezone.utc).date().isoformat()
     new_content, found = re.subn(
@@ -207,7 +221,18 @@ def main() -> None:
 
     if do_data:
         step("items/download",   [PY, "get_equipments.py"],  cwd=ITEMSCRAPER)
-        step("items/transform",  [PY, "get_equipments2.py"], cwd=ITEMSCRAPER)
+        # The equip criteria as the game writes them, and the class names they use
+        step("data/download", [
+            PY, "-m", "itemscraper.download_raw_data",
+            "--tag", version,
+            "--filter", "items.json",
+            "--filter", "breeds.json",
+            "--filter", "en.json",
+            *refetch_if_cut_short(ITEMSCRAPER / "raw" / version),
+        ])
+        step("items/transform",  [PY, "get_equipments2.py",
+                                  "--raw-dir", str(ITEMSCRAPER / "raw" / version),
+                                  "--game-version", "dofus3"], cwd=ITEMSCRAPER)
         step("items/dump",       [PY, "get_equipments3.py"], cwd=ITEMSCRAPER)
         step("items/load-db",    [PY, "load_item_db.py"])
         # After load-db, which rebuilds items.db from the dump

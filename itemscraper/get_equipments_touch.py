@@ -9,12 +9,12 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import re
 import sys
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import item_criteria  # noqa: E402
 from untranslated_tag import clean_display_name  # noqa: E402
 
 # typeId -> (w_type, weapon subtype), subtypes as in WEAPON_TYPES of get_equipments3.py
@@ -43,10 +43,6 @@ TYPE_MAP = {
 SUPER_TYPE_MAP = {
     51: ('Emblem', None),
 }
-
-# Types whose PG= class condition is carried to the solver
-CLASS_GATED_TYPES = ('Emblem',)
-
 
 def load_item_types(raw_dir: Path) -> dict:
     """{type id: super type id}, from ItemTypes."""
@@ -112,15 +108,6 @@ WEAPON_HEAL_BY_EFFECT = {108, 81}
 # Non-stat lines under their Dofus 3 names; 795 is a hunting weapon only at value 1
 FLAG_BY_EFFECT = {795: 'Hunting Weapon', 981: 'Linked to the character'}
 FLAG_NEEDS_VALUE = {795: 1}
-
-# Equip condition codes -> stat, the 6 primaries only
-CONDITION_MAP = {
-    'CS': 'Strength', 'CI': 'Intelligence', 'CA': 'Agility',
-    'CV': 'Vitality', 'CC': 'Chance', 'CW': 'Wisdom',
-}
-
-# CP and CM count the item's own AP/MP bonus
-AP_MP_CONDITION_MAP = {'CP': 'AP', 'CM': 'MP'}
 
 LANGS = ['en', 'fr', 'es', 'pt', 'de']
 
@@ -237,41 +224,8 @@ def _top_level_parts(criteria: str):
 
 def decode_conditions(criteria: str):
     """'CS>20&CV>6' -> ['Strength > 20', 'Vitality > 6'], OR parts joined by ' | ', 'Pk<N' -> 'Set bonus < N'."""
-    out = []
-    if not criteria or criteria == 'null':
-        return out
-    for part in _top_level_parts(str(criteria)):
-        gates = []
-        for code, op, val in re.findall(r'(C[A-Z])\s*([<>])\s*(\d+)', part):
-            stat = CONDITION_MAP.get(code) or AP_MP_CONDITION_MAP.get(code)
-            if stat:
-                gates.append('%s %s %s' % (stat, op, val))
-        if '|' not in part:
-            out.extend(gates)
-            continue
-        branches = [branch for branch in part.replace('(', '').replace(')', '').split('|')]
-        # A branch we do not model (class, alignment) makes the part unenforceable
-        if len(gates) != len(branches):
-            continue
-        out.append(' | '.join(gates))
-    for val in re.findall(r'Pk\s*<\s*(\d+)', str(criteria)):
-        out.append('Set bonus < %s' % val)
-    return out
-
-
-def decode_classes(criteria: str):
-    """'Pt=29983&PG=1&Ft!2' -> ['Feca']: the classes a top-level PG= part allows."""
-    from get_spells_touch import CLASS_ID_TO_NAME
-    classes = []
-    if not criteria or criteria == 'null':
-        return classes
-    for part in _top_level_parts(str(criteria)):
-        match = re.fullmatch(r'\s*PG\s*=\s*(\d+)\s*', part)
-        if match:
-            name = CLASS_ID_TO_NAME.get(int(match.group(1)))
-            if name and name not in classes:
-                classes.append(name)
-    return classes
+    tree = item_criteria.parse(criteria)
+    return item_criteria.stat_conditions(tree) + item_criteria.set_bonus_caps(tree)
 
 
 def loc_name(tables_by_lang, lang, item_id, fallback):
@@ -286,6 +240,7 @@ def loc_name(tables_by_lang, lang, item_id, fallback):
 
 
 def build_equipment(items_by_lang, effects, shield_levels=None, super_types=None):
+    from get_spells_touch import CLASS_ID_TO_NAME as class_names
     shield_levels = shield_levels or {}
     super_types = super_types or {}
     items_fr = items_by_lang['fr']
@@ -302,8 +257,11 @@ def build_equipment(items_by_lang, effects, shield_levels=None, super_types=None
         except (TypeError, ValueError):
             continue
         name_fr = it.get('nameId') or ''
-        level = it.get('level') or 1
-        level = max(1, min(int(level), 200))
+        criteria = it.get('criteria') or ''
+        tree = item_criteria.read(criteria, ankama_id)
+        worn = item_criteria.describe(tree, class_names, 'touch')
+        level = max(int(it.get('level') or 1), worn.pop('min_level', 1))
+        level = max(1, min(level, 200))
         is_weapon = it.get('_type') == 'Weapon'
         stats, hits = decode_effects(it.get('possibleEffects'), effects, is_weapon)
         if it.get('shieldBonuses'):
@@ -329,12 +287,12 @@ def build_equipment(items_by_lang, effects, shield_levels=None, super_types=None
             'level': level,
             'w_type': w_type,
             'stats': stats + hits,
-            'conditions': decode_conditions(it.get('criteria') or ''),
+            'conditions': (item_criteria.stat_conditions(tree)
+                           + item_criteria.set_bonus_caps(tree)),
         }
-        if w_type in CLASS_GATED_TYPES:
-            classes = decode_classes(it.get('criteria') or '')
-            if classes:
-                rec['classes'] = classes
+        if criteria and criteria != 'null':
+            rec['criteria'] = criteria
+        rec.update(worn)
         if weapon_type:
             rec['weapon_type'] = weapon_type
             if it.get('apCost'):

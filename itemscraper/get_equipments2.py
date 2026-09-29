@@ -25,13 +25,24 @@ sys.path.insert(0, current_directory)
 
 # Icon filenames are normalized separately (get_equipments4/image_store).
 from untranslated_tag import clean_display_name  # noqa: E402
+import item_criteria  # noqa: E402
 
 _parser = argparse.ArgumentParser(description="Transform downloaded equipment JSON files")
 _parser.add_argument("--work-dir", default=None, help="Directory to read/write JSON files (default: script directory)")
+_parser.add_argument("--raw-dir", default=None,
+                     help="dofusdude dump with items.json, breeds.json and en.json: equip criteria as the game writes them")
+_parser.add_argument("--game-version", default="dofus3")
 _args = _parser.parse_args()
 if _args.work_dir:
     current_directory = os.path.abspath(_args.work_dir)
     os.makedirs(current_directory, exist_ok=True)
+
+raw_criteria = None
+class_names = {}
+if _args.raw_dir:
+    raw_criteria = item_criteria.load_raw_items_criteria(
+        os.path.join(_args.raw_dir, 'items.json'))
+    class_names = item_criteria.load_raw_class_names(_args.raw_dir)
 
 
 STAT_TRANSLATE = {
@@ -418,11 +429,25 @@ for item in equipment_data['en']['items']:
             transformed_item["or_branch_count"] = len(flattened_or_conditions)
         else:
             transformed_item["conditions"] = [gate(cond) for cond in flattened_or_conditions[0]]
-        new_data.append(transformed_item)
     else:
         # Ensure "conditions" key exists with an empty list
         transformed_item["conditions"] = []     
-        new_data.append(transformed_item)
+    # dofusdude drops the criteria it has no name for (class, unusable) and the Dofus 2 OR parts
+    if raw_criteria is not None and item.get('ankama_id') in raw_criteria:
+        criteria = raw_criteria[item['ankama_id']]
+        tree = item_criteria.read(criteria, item['ankama_id'])
+        # Unread criteria keep the gates the API gave
+        if tree is not None or not criteria:
+            transformed_item["conditions"] = (item_criteria.stat_conditions(tree)
+                                              + item_criteria.set_bonus_caps(tree))
+        if criteria:
+            transformed_item["criteria"] = criteria
+        worn = item_criteria.describe(tree, class_names, _args.game_version)
+        if "level" in transformed_item and "min_level" in worn:
+            transformed_item["level"] = max(transformed_item["level"], worn["min_level"])
+        worn.pop("min_level", None)
+        transformed_item.update(worn)
+    new_data.append(transformed_item)
 
 for item in mount_data['en']['mounts']:
     transformed_item = {}

@@ -43,6 +43,8 @@ from chardata.smart_build import get_char_aspects
 from chardata.solution import set_minimal_solution
 from chardata.solution_history import record_solution_generation
 from chardata.solution_memory import DatabaseSolutionMemory
+from chardata.spell_modifier_values import (modifier_values, pays_at_the_true_turn,
+                                            turn_changers)
 from chardata.stats_weights import get_stats_weights
 from chardata.util import get_char_or_raise, get_base_stats_by_attr, \
     remove_cache_for_char, version_reverse
@@ -51,6 +53,7 @@ from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp import lpproblem, temporix
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.model_pool import create_model, borrow_model, return_model
+from fashionistapulp.structure import get_current_game_version
 
 
 if not settings.DEBUG:
@@ -153,7 +156,63 @@ def _model_input(request, char, weights):
                       get_empty_slots(char),
                       stat_overrides)
 
+
+def _prices_spell_modifiers():
+    return bool(getattr(settings, 'PRICE_SPELL_MODIFIERS', False))
+
+
+def _solution_of(char, result):
+    from chardata.solution import get_solution_from_minimal
+    return get_solution_from_minimal(char, pickle.loads(pickle.dumps(result)),
+                                     refresh_base_stats=False)
+
+
+def _priced_input(char, solve_input, reference):
+    """solve_input with its spell-modifier pieces priced on reference, a solution of the build, None when none pays."""
+    game_version = get_current_game_version()
+    if reference is None or not turn_changers(game_version, solve_input.char_class,
+                                              solve_input.char_level):
+        return None
+    from chardata.spells_view import _weapon_castable
+    values, overlaps = modifier_values(game_version, solve_input.char_class,
+                                       solve_input.char_level, solve_input.objective_values,
+                                       dict(reference.get_stats_total()),
+                                       temporix=bool(solve_input.options.get('temporix')),
+                                       weapon=_weapon_castable(reference))
+    if not values:
+        return None
+    priced = copy.copy(solve_input)
+    priced.modifier_values = values
+    priced.modifier_overlaps = overlaps
+    return priced
+
+
+def _priced_solve(char, solve_input, unpriced, solve, deadline):
+    """unpriced, a solve of solve_input, or the solve with its spell-modifier pieces priced on that set when both are proven and the pieces pay at the true turn."""
+    if (not _prices_spell_modifiers() or unpriced[2] is None
+            or not getattr(unpriced[2], 'proven', False)):
+        return unpriced
+    try:
+        reference = _solution_of(char, unpriced[2])
+        priced_input = _priced_input(char, solve_input, reference)
+    except Exception:
+        logger.exception('could not price the spell modifiers of char %s', getattr(char, 'id', '?'))
+        return unpriced
+    if priced_input is None or deadline - time.monotonic() < MIN_SOLVE_SECONDS:
+        return unpriced
+    priced = solve(priced_input, deadline)
+    if priced[2] is None or not getattr(priced[2], 'proven', False):
+        return unpriced
+    try:
+        pays = pays_at_the_true_turn(char, priced_input, _solution_of(char, priced[2]), reference)
+    except Exception:
+        logger.exception('could not check the priced set of char %s', getattr(char, 'id', '?'))
+        return unpriced
+    return priced if pays else unpriced
+
+
 def fashion(request, char_id, spells=False):
+    started = time.monotonic()
     char = get_char_or_raise(request, char_id)
     remove_cache_for_char(char_id)
         
@@ -237,7 +296,8 @@ def fashion(request, char_id, spells=False):
 
     plan = guard_plan(char)
     if plan is None:
-        solved_status, stats, result = solve(model_input)
+        solved_status, stats, result = _priced_solve(char, model_input, solve(model_input), solve,
+                                                     started + GUARD_BUDGET_SECONDS)
     else:
         solved_status, stats, result = _guarded_solve(char, model_input, plan, solve)
 
@@ -266,7 +326,7 @@ def _guarded_solve(char, model_input, plan, solve):
     balanced_input = copy.copy(model_input)
     balanced_input.objective_values = balanced_weights(char, model_input.objective_values)
     if balanced_input.objective_values == model_input.objective_values:
-        return solve(model_input)
+        return _priced_solve(char, model_input, solve(model_input), solve, budget_end)
     facts = {'kind': kind, 'percent': percent, 'balanced': None, 'kept': None,
              'fallback': False, 'no_reference': False, 'balanced_out_of_time': False,
              'no_turn': False, 'out_of_time': False, 'other_seconds': 0.0, 'time_limit': None,
@@ -289,7 +349,8 @@ def _guarded_solve(char, model_input, plan, solve):
     if balanced[2] is None:
         facts.update(fallback=True, no_reference=True,
                      balanced_out_of_time=balanced[0] != 'Infeasible')
-        solved = timed_solve(model_input, budget_end)
+        solved = _priced_solve(char, model_input, timed_solve(model_input, budget_end),
+                               timed_solve, budget_end)
     else:
         reading = guard_reading(char, balanced[2], kind)
         if reading['value'] and reading['value'] > 0:
@@ -303,12 +364,14 @@ def _guarded_solve(char, model_input, plan, solve):
             guarded_input.minimum_stats = guard_minimums(model_input.minimum_stats, kind, percent,
                                                          reading, get_char_aspects(char),
                                                          facts['floors'])
-            solved = timed_solve(guarded_input, budget_end)
+            solved = _priced_solve(char, guarded_input, timed_solve(guarded_input, budget_end),
+                                   timed_solve, budget_end)
             if solved[2] is None:
                 logger.warning('the %s safeguard left char %s without a set, solving without it',
                                kind, getattr(char, 'id', '?'))
                 facts['fallback'] = True
-                solved = timed_solve(model_input, budget_end) if has_time() else None
+                solved = (_priced_solve(char, model_input, timed_solve(model_input, budget_end),
+                                        timed_solve, budget_end) if has_time() else None)
         if solved is None:
             facts.update(fallback=True, out_of_time=True)
             solved = balanced

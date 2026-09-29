@@ -805,6 +805,20 @@ msgstr "Classe : %(classes)s"
 msgid "The %(spell)s spell must be at level %(rank)s"
 msgstr "Le sort %(spell)s doit être niveau %(rank)s"
 
+#: .\chardata\wear_conditions.py:36
+msgid "Unequippable item"
+msgstr "Objet non équipable"
+
+#: .\chardata\wear_conditions.py:40
+#, python-format
+msgid "Be level %(level)s or lower"
+msgstr "Être niveau %(level)s ou moins"
+
+#: .\chardata\wear_conditions.py:44
+#, python-format
+msgid "Not have the \"%(item)s\" item equipped"
+msgstr "Ne pas être équipé de l'objet '%(item)s'"
+
 #: .\chardata\dynamic_translations.py:92
 msgid "Emote"
 msgstr "Émote"

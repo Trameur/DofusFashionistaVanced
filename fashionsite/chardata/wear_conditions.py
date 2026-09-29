@@ -1,10 +1,11 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Equip conditions that are not a stat: a class, a spell rank."""
+"""Equip conditions that are not a stat: a class, a spell rank, a level range, a piece worn with another."""
 
 from django.utils.translation import gettext as _
 
 from chardata.spell_reference import get_spell_reference
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
+from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 
 
@@ -31,13 +32,39 @@ def spell_rank_condition_text(game_version, classes, spell_id, rank):
         'spell': name, 'rank': rank}
 
 
+def unusable_condition_text():
+    return _('Unequippable item')
+
+
+def max_level_condition_text(level):
+    return _('Be level %(level)s or lower') % {'level': level}
+
+
+def not_worn_with_condition_text(name):
+    return _('Not have the "%(item)s" item equipped') % {'item': name}
+
+
 def condition_texts(game_version, item):
-    """The class and spell rank lines of one piece, in the active language."""
+    """The lines of one piece that are not a stat, in the active language."""
     classes = tuple(getattr(item, 'classes', ()))
     texts = []
+    if getattr(item, 'unusable', False):
+        texts.append(unusable_condition_text())
     if classes:
         texts.append(class_condition_text(classes))
+    if getattr(item, 'max_level', None) is not None:
+        texts.append(max_level_condition_text(item.max_level))
     for spell_id, rank, _min_level in getattr(item, 'spell_conditions', ()):
         texts.append(spell_rank_condition_text(game_version, classes,
                                                spell_id, rank))
+    others = getattr(item, 'own_not_worn_with', ())
+    if others:
+        structure = get_structure(game_version)
+        language = get_supported_language()
+        for other_id in others:
+            other = structure.get_item_by_id(other_id)
+            if other is not None:
+                texts.append(not_worn_with_condition_text(
+                    structure.get_item_name_in_language(other, language)
+                    or other.name))
     return texts

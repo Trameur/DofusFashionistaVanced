@@ -58,6 +58,15 @@ def item_spell_modifiers(game_version, ankama_id):
     return out
 
 
+def item_modifiers_by_spell(game_version, ankama_id, name=None):
+    """{spell id: [SpellModifier, ...]} for one piece."""
+    out = {}
+    for spell_id, kind, amount in item_spell_modifiers(game_version, ankama_id):
+        out.setdefault(spell_id, []).append(
+            SpellModifier(kind, amount, name, ankama_id))
+    return out
+
+
 def worn_spell_modifiers(solution, game_version):
     """{spell id: [SpellModifier, ...]} for the pieces a solution wears."""
     out = {}
@@ -73,10 +82,9 @@ def worn_spell_modifiers(solution, game_version):
                 continue
             seen.add(ankama_id)
             name = getattr(piece, 'localized_name', None) or piece.name
-            for spell_id, kind, amount in item_spell_modifiers(game_version,
-                                                               ankama_id):
-                out.setdefault(spell_id, []).append(
-                    SpellModifier(kind, amount, name, ankama_id))
+            for spell_id, modifiers in item_modifiers_by_spell(
+                    game_version, ankama_id, name).items():
+                out.setdefault(spell_id, []).extend(modifiers)
     return out
 
 
