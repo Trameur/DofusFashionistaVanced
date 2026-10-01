@@ -660,12 +660,88 @@ function getCompareScoredFaces(spell, key, level) {
     return spell.scored[key][String(level)] || [];
 }
 
-function summarizeCompareHits(spell, hits, isCrit, stats, faces) {
-    if (!hits) {
+function compareHpShareLines(spell, isCrit, level) {
+    var block = spell && spell.hp_share && spell.hp_share[isCrit ? 'critical' : 'normal'];
+    return (block && block[level]) || [];
+}
+
+function compareHpShareRange(line, hp) {
+    return [Math.floor(hp * line.percent[0] / 100), Math.floor(hp * line.percent[1] / 100)];
+}
+
+function compareHpShareDamage(spell, isCrit, level, hp) {
+    var total = null;
+    $.each(compareHpShareLines(spell, isCrit, level), function(i, line) {
+        if (line.counted) {
+            var range = compareHpShareRange(line, hp);
+            total = (total || 0) + (range[0] + range[1]) / 2.0;
+        }
+    });
+    return total;
+}
+
+function compareHpShareTipLines(spell, charLevel, hp) {
+    if (!spell || !spell.hp_share || (spell.level && charLevel < spell.level[0])) {
+        return [];
+    }
+    var level = getCompareSpellLevel(spell, charLevel);
+    var normal = compareHpShareLines(spell, false, level);
+    var critical = compareHpShareLines(spell, true, level);
+    var out = [];
+    function add(lines) {
+        $.each(lines, function(i, line) {
+            if (i > 0 && line.gated && lines[i - 1].gated) {
+                out.push({text: "{{ _('or')|escapejs }}"});
+            }
+            out.push({text: line.text});
+            if (line.counted) {
+                var range = compareHpShareRange(line, hp);
+                out.push({text: range[0] == range[1] ? String(range[0])
+                                                     : range[0] + ' - ' + range[1],
+                          strong: true});
+            }
+        });
+    }
+    add(normal);
+    if (critical.length && JSON.stringify(critical) != JSON.stringify(normal)) {
+        out.push({text: "{{ _('Critical hit')|escapejs }}", strong: true});
+        add(critical);
+    }
+    return out;
+}
+
+function appendCompareHpShareTip(cell, spell, lines) {
+    if (!lines.length || !window.spellTipHtml) {
+        return false;
+    }
+    var tip = $(window.spellTipHtml({spell_tip: {spell: spell.name, description: spell.name}}));
+    var panel = tip.find('.spell-tip-panel');
+    panel.find('.spell-tip-text').remove();
+    $.each(lines, function(i, line) {
+        var row = $("<span class='spell-tip-text'></span>");
+        if (line.strong) {
+            $('<b></b>').text(line.text).appendTo(row);
+        } else {
+            row.text(line.text);
+        }
+        panel.append(row);
+    });
+    var lineBreak = cell.children('br').first();
+    if (lineBreak.length) {
+        lineBreak.before(tip);
+    } else {
+        cell.append(tip);
+    }
+    return true;
+}
+
+function summarizeCompareHits(spell, hits, isCrit, stats, faces, hpShare) {
+    var hasHpShare = hpShare !== null && hpShare !== undefined;
+    if (!hits && !hasHpShare) {
         return null;
     }
-    var groups = [hits];
-    if (faces) {
+    var groups = [hits || []];
+    if (faces && hits) {
         groups = [];
         $.each(faces, function(i, face) {
             var rows = [];
@@ -674,6 +750,9 @@ function summarizeCompareHits(spell, hits, isCrit, stats, faces) {
             });
             groups.push(rows);
         });
+        if (!groups.length && hasHpShare) {
+            groups = [[]];
+        }
     }
     var values = [];
     $.each(groups, function(g, rows) {
@@ -690,8 +769,8 @@ function summarizeCompareHits(spell, hits, isCrit, stats, faces) {
             maxDamage += calculateCompareDamageValue(resolvedHit, isCrit, false, spell, stats);
             hitCount += 1;
         });
-        if (hitCount > 0) {
-            values.push((minDamage + maxDamage) / 2.0);
+        if (hitCount > 0 || hasHpShare) {
+            values.push((minDamage + maxDamage) / 2.0 + (hpShare || 0));
         }
     });
     if (values.length == 0) {
@@ -716,21 +795,26 @@ function compareStatsForSpell(spell, stats) {
     return own;
 }
 
-function summarizeCompareSpell(spell, stats, charLevel) {
+function summarizeCompareSpell(spell, stats, charLevel, hp) {
     if (!spell) {
         return null;
     }
     if (spell.type == 'spell' && spell.level && charLevel < spell.level[0]) {
         return null;
     }
+    if (hp === undefined) {
+        hp = Math.max(getCompareNumber(stats, 'hp'), 0);
+    }
     stats = compareStatsForSpell(spell, stats);
     var level = getCompareSpellLevel(spell, charLevel);
     var normal = summarizeCompareHits(
         spell, spell.non_crit_dams && spell.non_crit_dams[level], false, stats,
-        getCompareScoredFaces(spell, 'non_crit', level));
+        getCompareScoredFaces(spell, 'non_crit', level),
+        compareHpShareDamage(spell, false, level, hp));
     var critical = summarizeCompareHits(
         spell, spell.crit_dams && spell.crit_dams[level], true, stats,
-        getCompareScoredFaces(spell, 'crit', level));
+        getCompareScoredFaces(spell, 'crit', level),
+        compareHpShareDamage(spell, true, level, hp));
     if (!normal && !critical) {
         return null;
     }
@@ -777,6 +861,7 @@ function getCompareSpellForRow(rowKey, charId) {
 
 function updateSpellPreview() {
     var newStatsDict = getAllStatsDict();
+    var tipped = false;
     $(".compare-spell-row").each(function() {
         var rowKey = $(this).data('spell-key');
         var summaries = {};
@@ -784,12 +869,17 @@ function updateSpellPreview() {
         var bestValue = Number.NEGATIVE_INFINITY;
         $.each(allCharIds, function(i, charId) {
             var spell = getCompareSpellForRow(rowKey, charId);
-            var summary = summarizeCompareSpell(
-                spell, newStatsDict[charId], compareCharLevels[charId.toString()]);
+            var charLevel = compareCharLevels[charId.toString()];
+            var hp = Math.max(getCompareNumber(allStatTotals[charId] || {}, 'hp'), 0);
+            var summary = summarizeCompareSpell(spell, newStatsDict[charId], charLevel, hp);
             summaries[charId] = summary;
             var cell = $("td[name=spell_damage_" + rowKey + "_" + charId + "]");
             cell.removeClass("compare-spell-best");
             cell.html(formatCompareSpellSummary(summary));
+            if (appendCompareHpShareTip(cell, spell,
+                                        compareHpShareTipLines(spell, charLevel, hp))) {
+                tipped = true;
+            }
             $.each((spell && spell.item_notes) || [], function(j, note) {
                 $("<div class='small-text'></div>").text(note).appendTo(cell);
             });
@@ -813,6 +903,9 @@ function updateSpellPreview() {
             });
         }
     });
+    if (tipped && window.linkSpellTipPanels) {
+        window.linkSpellTipPanels();
+    }
 }
 
 function updateStatsTable() {

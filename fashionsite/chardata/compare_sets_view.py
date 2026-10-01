@@ -41,6 +41,7 @@ from chardata.solution_view import generate_link
 from chardata.smart_build import VERSION_WEIGHT_TUNING
 from chardata.spell_buffs import (compute_full_buff_stats,
                                  get_damage_spells_for_version)
+from chardata.spell_combo import hp_share_hits_for_version
 from chardata.spell_modifiers import worn_spell_modifiers
 from chardata.spells_view import (_best_combo, _create_spell_web_digest,
                                   _create_weapon_web_digest)
@@ -284,11 +285,14 @@ def _build_spell_preview_context(request, chars, model_results):
 
     requested_spell_name = (request.GET.get('spell_name') or '').strip()
     spell_entries = []
-    for spell in (spells_by_class.get(selected_spell_class, [])
-                  + spells_by_class.get('default', [])):
-        if not _spell_has_direct_damage(spell):
+    class_spells = spells_by_class.get(selected_spell_class, [])
+    hp_shares = hp_share_hits_for_version(game_version)
+    for index, spell in enumerate(class_spells + spells_by_class.get('default', [])):
+        bucket = selected_spell_class if index < len(class_spells) else 'default'
+        hp_share = hp_shares.get(bucket, {}).get(getattr(spell, 'spell_id', None))
+        if not hp_share and not _spell_has_direct_damage(spell):
             continue
-        digest = _create_spell_web_digest(spell, game_version)
+        digest = _create_spell_web_digest(spell, game_version, hp_share=hp_share)
         compare_key = 'spell_%d' % len(spell_entries)
         digest['compare_key'] = compare_key
         row = {
@@ -302,6 +306,7 @@ def _build_spell_preview_context(request, chars, model_results):
             'row': row,
             'digest': digest,
             'spell': spell,
+            'hp_share': hp_share,
         })
     selected_spell_name = ''
     if requested_spell_name in {entry['value'] for entry in spell_entries}:
@@ -387,7 +392,8 @@ def _worn_spell_digests(chars, model_results, entries, game_version):
             if not modifiers:
                 continue
             digest = _create_spell_web_digest(entry['spell'], game_version,
-                                              modifiers=modifiers)
+                                              modifiers=modifiers,
+                                              hp_share=entry['hp_share'])
             digest['compare_key'] = entry['row']['key']
             own[entry['row']['key']] = digest
         if own:

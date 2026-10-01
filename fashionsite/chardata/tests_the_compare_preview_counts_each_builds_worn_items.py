@@ -45,7 +45,7 @@ allCharIds.forEach(function (charId) {
       own: spell !== shared,
       notes: spell.item_notes,
       item_stats: spell.item_stats,
-      rows: (spell.non_crit_dams[level] || []).map(function (hit) {
+      rows: ((spell.non_crit_dams && spell.non_crit_dams[level]) || []).map(function (hit) {
         return [hit.min_dam, hit.max_dam];
       }),
       summary: summarizeCompareSpell(spell, stats, compareCharLevels[charId])
