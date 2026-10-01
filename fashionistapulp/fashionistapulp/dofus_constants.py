@@ -5284,13 +5284,13 @@ def calculate_damage(base_damage, char_stats, critical_hit, is_spell):
     for dam in base_damage:
         if dam.element in NON_ELEMENTAL_HIT_TYPES:
             continue
-        if dam.element == 'best' or dam.element == 'damage' or dam.element == 'best-element': #best/damage/best-element = damage in best element
-            dam.element = get_best_element(char_stats)
-            dam.element = ATTRIBUTE_TO_ELEMENT[dam.element]
-        element_val = max(char_stats[DAMAGE_TYPE_TO_MAIN_STAT[dam.element]], 0)
+        element = dam.element
+        if element == 'best' or element == 'damage' or element == 'best-element': #best/damage/best-element = damage in best element
+            element = ATTRIBUTE_TO_ELEMENT[get_best_element(char_stats)]
+        element_val = max(char_stats[DAMAGE_TYPE_TO_MAIN_STAT[element]], 0)
         if not dam.heals:
             element_val = element_val + max(char_stats['pow'], 0)
-            element_dam = char_stats[dam.element.lower() + "dam"]
+            element_dam = char_stats[element.lower() + "dam"]
             element_dam = element_dam + char_stats['dam']
             if critical_hit:
                 element_dam += char_stats['cridam']
@@ -5309,7 +5309,7 @@ def calculate_damage(base_damage, char_stats, critical_hit, is_spell):
             maximum_damage = maximum_damage * (100 + char_stats['perweadam'])/100
         damage = CalculatedDamage(min_dam=minimum_damage,
                                   max_dam=maximum_damage,
-                                  element=dam.element,
+                                  element=element,
                                   steals=dam.steals,
                                   heals=dam.heals)
         
