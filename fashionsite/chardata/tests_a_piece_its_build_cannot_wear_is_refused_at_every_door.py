@@ -193,7 +193,7 @@ class AStoredBuildKeepsItsPiecesTests(_Build):
         necklace = self._piece('dofus3', JIVA_NECKLACE)
         self.assertTrue(necklace.unusable)
         char = self._char('dofus3', level=60)
-        minimal = pickle.loads(char.minimal_solution)
+        minimal = read_char_blob(char.minimal_solution, None, 'minimal_solution', char)
         minimal.item_per_slot['amulet'] = necklace.id
         char.minimal_solution = pickle.dumps(minimal)
         char.save()
@@ -338,7 +338,7 @@ class ThePickerAndTheSwitchKeepAPairApartTests(_Build):
     def _wearing_the_black_spotted_dofus(self):
         black_spotted = self._piece('dofus2', BLACK_SPOTTED_DOFUS)
         char = self._char('dofus2')
-        minimal = pickle.loads(char.minimal_solution)
+        minimal = read_char_blob(char.minimal_solution, None, 'minimal_solution', char)
         others = {self._piece('dofus2', number).id for number in (DOMAKURO, DORIGAMI)}
         for slot, item_id in minimal.item_per_slot.items():
             if item_id in others:
