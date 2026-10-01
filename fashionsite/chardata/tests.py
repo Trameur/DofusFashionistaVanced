@@ -7978,7 +7978,8 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
         prys = sum(1 for it in items
                    if (getattr(it, 'weird_conditions', {}) or {}).get('prysmaradite'))
         trophy = sum(1 for it in items
-                     if (getattr(it, 'weird_conditions', {}) or {}).get('light_set'))
+                     if any((getattr(it, 'weird_conditions', {}) or {}).get(name)
+                            for name in ('light_set', 'sets_equipped')))
         return prys, trophy
 
     def test_retro_has_neither_trophies_nor_prysmaradites(self):
@@ -7991,6 +7992,11 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
 
     def test_dofus3_has_both_trophies_and_prysmaradites(self):
         prys, trophy = self._counts('dofus3')
+        self.assertGreater(prys, 0)
+        self.assertGreater(trophy, 0)
+
+    def test_the_beta_has_both_trophies_and_prysmaradites(self):
+        prys, trophy = self._counts('beta')
         self.assertGreater(prys, 0)
         self.assertGreater(trophy, 0)
 
