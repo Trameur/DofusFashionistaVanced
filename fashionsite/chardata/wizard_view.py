@@ -28,7 +28,8 @@ from chardata.presets import reapply_build_weights
 from chardata.solution_view import get_class_avatar
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
 from chardata.wizard_sliders import get_wizard_sliders, set_wizard_sliders
-from fashionistapulp.dofus_constants import STATS_NAMES, SLOT_NAME_TO_TYPE, max_scroll_for_version
+from fashionistapulp.dofus_constants import STATS_NAMES, SLOT_NAME_TO_TYPE, max_scroll_for_version, \
+    STAT_NAME_TO_KEY, get_stat_maximum
 from fashionistapulp.structure import get_structure
 from static_s3.templatetags.static_s3 import static
 from fashionistapulp.translation import get_supported_language
@@ -52,7 +53,10 @@ def wizard(request, char_id):
                'wizard_data': jsonpickle.encode(wizard_data, unpicklable=False),
                'triangle_url': jsonpickle.encode(get_triangle_URL(request), unpicklable=False),
                'scroll_max': max_scroll_for_version(char.game_version, char.level),
-               'scroll_hundred': HUNDRED}
+               'scroll_hundred': HUNDRED,
+               'min_caps': {STAT_NAME_TO_KEY[name]: cap for name, cap
+                            in get_stat_maximum(char.game_version, temporix=False).items()
+                            if name in STATS_WITH_CONFIG_MINS}}
     context.update(inventory_source_context(request, char))
     return set_response(request,
                         'chardata/wizard.html',
