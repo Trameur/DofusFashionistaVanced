@@ -12,7 +12,7 @@ from chardata.management.commands import store_default_elements as generator
 from chardata.models import Char
 from chardata.nl_parser import parse_build_request
 from chardata.smart_build import get_standard_weights
-from chardata.spell_combo import castable_spells
+from chardata.spell_combo import HpShare, castable_spells
 from chardata.version_compat import filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.game_versions import dofus_versions
@@ -20,7 +20,8 @@ from fashionistapulp.structure import set_current_game_version
 
 SINGLE_ELEMENTS = set(presets.ELEMENT_DAMAGE)
 REBUILT_WHOLE = ('touch', 'retro')
-SAMPLED = (('dofus3', 'Xelor'), ('beta', 'Cra'), ('dofus2', 'Ecaflip'))
+SAMPLED = (('dofus3', 'Xelor'), ('beta', 'Cra'), ('dofus2', 'Ecaflip'), ('dofus3', 'Sacrier'),
+           ('dofus2', 'Masqueraider'))
 TURN_TOLERANCE = 0.5
 REGENERATE = 'py fashionsite/manage.py store_default_elements'
 
@@ -84,6 +85,23 @@ class EveryVersionTablePicksTheBestTurnTests(SimpleTestCase):
         self.assertEqual('int', generator.pick(turns, 'int'))
         self.assertEqual('str', generator.pick(turns, 'cha'))
         self.assertEqual('agi', generator.pick(dict.fromkeys(turns, 0.0), 'agi'))
+
+    def test_a_summary_line_names_the_leader_of_a_class_kept_on_a_tie(self):
+        turns = {'str': 100.0, 'int': 98.5, 'cha': 90.0, 'agi': 50.0}
+        table = {'game_version': 'retro', 'classes': {'Iop': {
+            '100': {'element': 'int', 'turns': turns},
+            '150': {'element': 'str', 'turns': turns},
+            '180': {'element': 'agi', 'turns': dict.fromkeys(turns, 0.0)},
+            '200': {'element': 'str', 'turns': turns}}}}
+        stored = {'classes': {'Iop': {'100': {'element': 'int'}, '150': {'element': 'str'},
+                                      '180': {'element': 'agi'}, '200': {'element': 'cha'}}}}
+        name = generator.element_name
+        self.assertEqual(
+            ['retro Iop 100: %s, kept on a tie, %s leads' % (name('int'), name('str')),
+             'retro Iop 150: %s' % name('str'),
+             'retro Iop 180: %s' % name('agi'),
+             'retro Iop 200: %s, was %s' % (name('str'), name('cha'))],
+            [line.split(' | ')[0] for line in generator.summary_lines(table, stored)])
 
     def test_the_element_a_class_has_is_the_stored_one_at_that_level(self):
         stored = {'classes': {'Iop': {'100': {'element': 'agi'}}}}
@@ -167,6 +185,10 @@ class EveryVersionTableIsBuiltOnTodaysInputsTests(SimpleTestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.rebuilt = {version: generator.build(version) for version in REBUILT_WHOLE}
+        level = str(generator.TOP_LEVEL)
+        cls.sampled = {(version, char_class): generator.level_entry(
+            version, char_class, generator.TOP_LEVEL, _table(version)['gear'][level])
+            for version, char_class in SAMPLED}
 
     def test_what_every_turn_reads_is_what_it_was_built_on(self):
         stale = []
@@ -201,11 +223,21 @@ class EveryVersionTableIsBuiltOnTodaysInputsTests(SimpleTestCase):
                     with self.subTest(version=version, char_class=char_class, level=level):
                         self._assert_same(classes[char_class][level], entry)
         for version, char_class in SAMPLED:
-            table = _table(version)
             level = str(generator.TOP_LEVEL)
             with self.subTest(version=version, char_class=char_class):
-                self._assert_same(table['classes'][char_class][level], generator.level_entry(
-                    version, char_class, generator.TOP_LEVEL, table['gear'][level])[0])
+                self._assert_same(_table(version)['classes'][char_class][level],
+                                  self.sampled[(version, char_class)][0])
+
+    def test_a_sampled_turn_casts_a_share_of_the_casters_hp(self):
+        cast = []
+        for (version, char_class), (entry, by_element) in self.sampled.items():
+            shares = {spell.name for spell in castable_spells(char_class, generator.TOP_LEVEL,
+                                                              version)
+                      if any(isinstance(row, HpShare) for alternative in spell.plain_alternatives
+                             for row in alternative)}
+            cast.extend(name for name in generator.cast_names(by_element[entry['element']])
+                        if name in shares)
+        self.assertTrue(cast)
 
     def test_a_pivot_is_cast_by_the_chosen_turn_and_its_removal_raises_no_turn(self):
         table, orders = self.rebuilt['retro']

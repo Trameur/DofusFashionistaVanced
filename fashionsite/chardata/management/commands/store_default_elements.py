@@ -16,13 +16,16 @@ from chardata.presets import CLASS_DEFAULT_ELEMENT, ELEMENT_DAMAGE, FALLBACK_ELE
 from chardata.smart_build import level_minimums, param_for_build
 from chardata.spell_combo import best_turn, castable_spells, combat_ap
 from chardata.spell_variants import variant_of
+from chardata.util import character_own_stats
 from chardata.version_compat import filter_classes_for_version
 from fashionistapulp.dofus_constants import (ATTRIBUTE_TO_ELEMENT, CHARACTER_CLASSES,
-                                             STAT_NAME_TO_KEY, get_soft_caps_for,
-                                             max_scroll_for_version, scrolls_push_cost_curve,
-                                             tier_widths_after_scroll)
+                                             STAT_KEY_TO_NAME, STAT_NAME_TO_KEY,
+                                             get_soft_caps_for, max_scroll_for_version,
+                                             scrolls_push_cost_curve, tier_widths_after_scroll)
 from fashionistapulp.game_versions import dofus_versions
-from fashionistapulp.structure import get_structure
+from fashionistapulp.modelresult import ModelResult
+from fashionistapulp.structure import (get_current_game_version, get_structure,
+                                       set_current_game_version)
 
 LEVELS = tuple(sorted(DEFAULT_LEVELS))
 TOP_LEVEL = LEVELS[-1]
@@ -35,8 +38,9 @@ HEAL_CHARACTERISTIC = 'int'
 TIER_COSTS = (0.5, 1, 2, 3, 4, 5)
 GEAR_SLOTS = ('Hat', 'Cloak', 'Amulet', 'Ring', 'Ring', 'Belt', 'Boots', 'Weapon')
 PIECES_PER_SLOT = 10
-SHARED_GEAR = ('pow', 'dam', 'neutdam', 'ch', 'cridam')
+SHARED_GEAR = ('pow', 'dam', 'neutdam', 'ch', 'cridam', 'vit')
 GEAR_KEYS = ('char', 'edam') + SHARED_GEAR
+SCROLLED = tuple(ELEMENT_DAMAGE) + ('vit',)
 
 
 # {version: {spell id: (what the turn misreads, true while the rows still misread it)}}
@@ -47,11 +51,12 @@ KNOWN_BAD_ROWS = {
 }
 
 REFERENCE = ('Reference set, the same for every element, at each Quick Start level (%(levels)s): '
-             'every characteristic scrolled to the version maximum, all characteristic points of '
+             '%(scrolled)s scrolled to the version maximum, all characteristic points of '
              'the level in the element at the class cost of the version, and eight pieces (hat, '
              'cloak, amulet, two rings, belt, boots, weapon), each the mean of the %(pieces)d '
              'highest-level pieces of its slot up to that level carrying the element '
-             'characteristic, averaged over the four elements. The turn is spell_combo.best_turn '
+             'characteristic, averaged over the four elements. The set carries the HP the build '
+             'page gives that level and that Vitality. The turn is spell_combo.best_turn '
              'on castable_spells, the mean of the level AP minimum and one AP more. The element '
              'with the best turn wins; the element a class has now stays while it is within '
              '%(tie)d%% of it. A class whose version profile weighs heals at %(healer)d%% or more '
@@ -60,7 +65,9 @@ REFERENCE = ('Reference set, the same for every element, at each Quick Start lev
 
 
 def reference_text():
+    scrolled = [STAT_KEY_TO_NAME[key] for key in SCROLLED]
     return REFERENCE % {'levels': ', '.join(str(level) for level in LEVELS),
+                        'scrolled': '%s and %s' % (', '.join(scrolled[:-1]), scrolled[-1]),
                         'pieces': PIECES_PER_SLOT, 'tie': 100 * TIE_SHARE,
                         'healer': 100 * HEALER_SHARE}
 
@@ -113,17 +120,33 @@ def gear_line(game_version, level=TOP_LEVEL):
             for key in GEAR_KEYS}
 
 
+def build_hp(game_version, char_class, level, vitality):
+    """The HP the build page gives a build of the class and level with that Vitality and no other life."""
+    base = dict(character_own_stats(level, char_class, game_version))
+    vitality_name = STAT_KEY_TO_NAME['vit']
+    base[vitality_name] = base.get(vitality_name, 0) + vitality
+    previous = get_current_game_version()
+    set_current_game_version(game_version)
+    try:
+        return ModelResult({'char_level': level, 'base_stats_by_attr': base,
+                            'options': {'ap_exo': False, 'range_exo': False,
+                                        'mp_exo': False}}).get_stats_total()['hp']
+    finally:
+        set_current_game_version(previous)
+
+
 def reference_stats(game_version, char_class, element, gear, ap, level=TOP_LEVEL):
     """The reference set's stats with its points and gear in one element."""
     stats = dict.fromkeys(STAT_NAME_TO_KEY.values(), 0)
     scroll = max_scroll_for_version(game_version, level)
-    for characteristic in ELEMENT_DAMAGE:
+    for characteristic in SCROLLED:
         stats[characteristic] = scroll
     stats[element] += gear['char'] + characteristic_from_points(
         game_version, char_class, element, 5 * (level - 1), scroll)
     stats[ELEMENT_DAMAGE[element]] += gear['edam']
     for key in SHARED_GEAR:
         stats[key] += gear[key]
+    stats['hp'] = build_hp(game_version, char_class, level, stats['vit'])
     stats['ap'] = ap
     return stats
 
@@ -360,8 +383,12 @@ def summary_lines(table, stored=None):
     for char_class, by_level in sorted(table['classes'].items()):
         for level, entry in _by_level(by_level):
             today = today_element(char_class, stored, level)
-            note = _entry_note(entry) or (
-                '' if entry['element'] == today else 'was %s' % element_name(today))
+            turns = entry['turns']
+            note = _entry_note(entry)
+            if not note and entry['element'] != today:
+                note = 'was %s' % element_name(today)
+            elif not note and turns[entry['element']] < max(turns.values()):
+                note = 'kept on a tie, %s leads' % element_name(_leader(turns))
             lines.append('%s %s %s: %s%s | %s' % (
                 table['game_version'], char_class, level, element_name(entry['element']),
                 ', %s' % note if note else '', _shares(entry['turns'])))
