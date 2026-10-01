@@ -44,7 +44,9 @@ from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
                                   get_all_inclusions_en_names,
                                   get_all_exclusions_en_names,
-                                  get_empty_slots, set_empty_slot)
+                                  get_empty_slots, get_inclusions_dict,
+                                  set_empty_slot)
+from chardata.wear_conditions import not_locked_text, reasons_the_build_cannot_wear
 from chardata.comment_view import get_comments_for_build
 from chardata.data_versions import build_patch_info
 from chardata.model_wrappers import WrappedChar
@@ -76,7 +78,7 @@ from fashionistapulp.dofus_constants import (STAT_ORDER, STATS_NAMES,
 from fashionistapulp.game_versions import get_game_version
 
 from static_s3.templatetags.static_s3 import static
-from fashionistapulp.structure import fits_the_class, get_structure, level_to_wear
+from fashionistapulp.structure import get_structure, level_to_wear
 from chardata.stat_icons import get_stat_icon_path
 from fashionistapulp.modelresult import ModelResultMinimal
 from chardata.themes import get_ajax_loader_URL, get_external_image_URL
@@ -525,9 +527,10 @@ def _get_shared_solution_cache_key(char):
     modified_marker = 'none'
     if char.modified_time is not None:
         modified_marker = str(int(char.modified_time.timestamp() * 1000000))
-    return 'shared-solution-%s-%s-%s' % (char.pk,
-                                         modified_marker,
-                                         get_supported_language())
+    return 'shared-solution-%s-%s-%s-%s' % (char.pk,
+                                            modified_marker,
+                                            char.gender or 0,
+                                            get_supported_language())
 
 
 def _get_shared_solution_params(char):
@@ -543,7 +546,9 @@ def _get_shared_solution_params(char):
                                      inclusions,
                                      exclusions,
                                      weights=get_stats_weights(char, persist=False),
-                                     char_class=char.char_class)
+                                     char_class=char.char_class,
+                                     gender=char.gender or 0,
+                                     char_name=char.char_name or '')
     cached_params = solution_result.get_params()
     cache.set(cache_key, cached_params, SHARED_SOLUTION_CACHE_TIMEOUT)
     return cached_params
@@ -711,7 +716,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                          exclusions,
                                          empty_slots,
                                          weights=get_stats_weights(char, persist=False),
-                                         char_class=char.char_class)
+                                         char_class=char.char_class,
+                                         gender=char.gender or 0,
+                                         char_name=char.char_name or '')
         solution_params = solution_result.get_params()
         solver_constraints = _constraints_reached(char, solution)
 
@@ -1098,10 +1105,14 @@ def set_item_locked(request, char_id):
     item_id = _item_id_for_name(structure, item_name)
     if item_id is None:
         return HttpResponseBadRequest('unknown item')
-    if not fits_the_class(structure.get_item_by_id(item_id), char.char_class):
-        return HttpResponseBadRequest('not for this class')
     if locked == 'true':
-        set_item_included(char, item_id, slot, True)
+        if not set_item_included(char, item_id, slot, True):
+            beside = {other for other_slot, other in get_inclusions_dict(char).items()
+                      if other_slot != slot and other != ''}
+            reasons = reasons_the_build_cannot_wear(
+                char, structure.get_item_by_id(item_id), beside)
+            return HttpResponseBadRequest(not_locked_text(reasons),
+                                          content_type='text/plain; charset=utf-8')
     elif locked == 'false':
         set_item_included(char, item_id, slot, False)
     
@@ -1109,13 +1120,17 @@ def set_item_locked(request, char_id):
 
 @require_POST
 def set_char_gender(request, char_id):
-    """Only the preview reads this, so nothing about the build changes."""
+    """The preview and the one-sex pieces read it; the stored solution is left as it is."""
     char = get_char_or_raise(request, char_id)
     char.gender = 1 if request.POST.get('gender') == '1' else 0
     char.save(update_fields=['gender'])
-    look = get_character_look(char, get_solution(char),
-                              getattr(request, 'game_version', 'dofus3'))
-    return HttpResponseJson(json.dumps(look or {}))
+    solution = get_solution(char)
+    look = dict(get_character_look(char, solution,
+                                   getattr(request, 'game_version', 'dofus3')) or {})
+    look['wears_a_one_sex_piece'] = any(
+        item.item_added and getattr(item, 'sexes', ())
+        for item in getattr(solution, 'item_list', None) or ())
+    return HttpResponseJson(json.dumps(look))
 
 
 @require_POST

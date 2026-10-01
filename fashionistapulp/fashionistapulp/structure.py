@@ -29,7 +29,8 @@ logger = logging.getLogger(__name__)
 
 from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL,
                              NON_ELEMENTAL_HIT_TYPES, STAT_ORDER,
-                             WEIRD_CONDITION_FROM_ID, LIGHT_SET_LIMIT_FROM_ID)
+                             WEIRD_CONDITION_FROM_ID, LIGHT_SET_LIMIT_FROM_ID,
+                             SETS_EQUIPPED_LIMIT_FROM_ID)
 from .dofus_stat import Stat
 from .fashion_util import normalize_name, strip_accents
 from .fashionista_config import (get_items_db_path, load_items_db_from_dump)
@@ -119,6 +120,22 @@ def fits_the_level(item, char_level):
             and (highest is None or char_level <= highest))
 
 
+def name_fits(char_name, wanted):
+    """The game's PN~: the character's name, whatever its case."""
+    return (char_name or '').strip().lower() == wanted.lower()
+
+
+def fits_the_wearer(item, gender=None, char_name=None):
+    """Whether a character of this sex (0 male, 1 female) and name can wear the piece; None is not checked."""
+    sexes = getattr(item, 'sexes', ())
+    if gender is not None and sexes and gender not in sexes:
+        return False
+    names = getattr(item, 'names', ())
+    if char_name is not None and names:
+        return any(name_fits(char_name, name) for name in names)
+    return True
+
+
 def _what_makes_two_rows_one_item(item):
     """Everything about a row except its id and Ankama's number on the name."""
     return (_the_name_without_ankamas_number(item.name),
@@ -189,6 +206,7 @@ class Structure:
             self.read_item_class_conditions_table()
             self.read_item_spell_conditions_table()
             self.read_wear_limit_tables()
+            self.read_wearer_tables()
             self.read_legacy_item_ids_table()
             self.read_weird_conditions_table()
             self.read_extra_lines_table()
@@ -659,6 +677,39 @@ class Structure:
                         item.own_not_worn_with = (
                             getattr(item, 'own_not_worn_with', ()) + (other_id,))
 
+    def read_wearer_tables(self):
+        """The sex and the character names a piece asks for."""
+        c = self.conn.cursor()
+        self.wearer_restricted_items = []
+        if self._table_exists('item_sex_conditions'):
+            for item_id, sex in c.execute(
+                    'SELECT item, sex FROM item_sex_conditions ORDER BY item, sex'):
+                item = self.get_item_by_id(item_id)
+                if item is not None:
+                    item.sexes = getattr(item, 'sexes', ()) + (sex,)
+                    self.wearer_restricted_items.append(item)
+        if self._table_exists('item_name_conditions'):
+            for item_id, name in c.execute(
+                    'SELECT item, name FROM item_name_conditions ORDER BY item, name'):
+                item = self.get_item_by_id(item_id)
+                if item is not None:
+                    item.names = getattr(item, 'names', ()) + (name,)
+                    self.wearer_restricted_items.append(item)
+        self.wearer_restricted_items = sorted(
+            {item.id: item for item in self.wearer_restricted_items}.values(),
+            key=lambda item: item.id)
+
+    def barred_to_the_wearer(self, gender=None, char_name=None):
+        """Ids of the pieces a character of this sex and name cannot wear."""
+        return [item.id for item in getattr(self, 'wearer_restricted_items', ())
+                if not fits_the_wearer(item, gender, char_name)]
+
+    def name_a_piece_asks_for(self, char_name):
+        """char_name as a piece's condition spells it, '' when no piece asks for it."""
+        return next((name for item in getattr(self, 'wearer_restricted_items', ())
+                     for name in getattr(item, 'names', ())
+                     if name_fits(char_name, name)), '')
+
     def _table_exists(self, name):
         c = self.conn.cursor()
         return c.execute("SELECT 1 FROM sqlite_master WHERE type = 'table'"
@@ -674,6 +725,8 @@ class Structure:
             if name == 'light_set':
                 # The set-bonus cap: 2 for "< 3", 1 for the stricter touch "< 2".
                 item.weird_conditions['light_set'] = LIGHT_SET_LIMIT_FROM_ID.get(condition_id, 2)
+            elif name == 'sets_equipped':
+                item.weird_conditions['sets_equipped'] = SETS_EQUIPPED_LIMIT_FROM_ID[condition_id]
             else:
                 item.weird_conditions[name] = True
 

@@ -17,8 +17,8 @@ from fashionistapulp.dofus_constants import (CHARACTER_CLASSES,
                                              TYPE_NAME_TO_SLOT_NUMBER,
                                              max_scroll_for_version, slots_for)
 from fashionistapulp.game_versions import get_game_version, version_keys
-from fashionistapulp.structure import (PET_VARIANT_ID_BASE, get_structure,
-                                       level_to_wear)
+from fashionistapulp.structure import (PET_VARIANT_ID_BASE, fits_the_class,
+                                       get_structure, level_to_wear)
 
 FORMAT = 'fashionista-build'
 FORMAT_VERSION = 1
@@ -79,6 +79,9 @@ WARNINGS = (
     ('already_placed', gettext_lazy('This piece is already worn as many times as the game allows: it is left out.')),
     ('removed_item', gettext_lazy('This piece is no longer in the game.')),
     ('item_above_level', gettext_lazy('This piece needs a higher level than the build has.')),
+    ('item_past_max_level', gettext_lazy('The build is above the highest level this piece allows.')),
+    ('item_for_another_class', gettext_lazy('This piece is for another class: it is left out.')),
+    ('unequippable_item', gettext_lazy('This piece cannot be equipped in the game: it is left out.')),
     ('unknown_stat', gettext_lazy('This stat key does not exist: the line is left out.')),
     ('duplicate_stat', gettext_lazy('This stat key comes more than once on the piece: the last line is kept.')),
     ('stat_out_of_range', gettext_lazy('This value is outside what the piece can roll: it is kept as sent.')),
@@ -258,6 +261,7 @@ class Reading:
         self.exos = None
         self.pieces = []
         self.worn_twice = []
+        self.not_wearable = []
         self.gelano_mp = False
         self.build = None
 
@@ -492,6 +496,14 @@ def _resolve(reading, entries):
                       'level': item.level})
         if item.removed:
             reading.warn('removed_item', path, id=ankama)
+        if getattr(item, 'unusable', False):
+            reading.warn('unequippable_item', path, id=ankama)
+            reading.not_wearable.append(item.id)
+            continue
+        if reading.char_class is not None and not fits_the_class(item, reading.char_class):
+            reading.warn('item_for_another_class', path, id=ankama)
+            reading.not_wearable.append(item.id)
+            continue
         copies = worn.get((kind, ankama), 0)
         if copies and (copies >= 2 or not _can_be_worn_twice(
                 structure, item, type_name, reading.game)):
@@ -510,6 +522,9 @@ def _resolve(reading, entries):
             reading.gelano_mp = True
         if reading.level is not None and level_to_wear(item) > reading.level:
             reading.warn('item_above_level', path, id=ankama)
+        highest = getattr(item, 'max_level', None)
+        if reading.level is not None and highest is not None and reading.level > highest:
+            reading.warn('item_past_max_level', path, id=ankama)
         # Overrides are stored per item id: a second copy shares the first one's
         if copies:
             continue
@@ -633,6 +648,7 @@ def check(payload, language='en'):
         'missing': missing,
         'wrong_game': wrong_game,
         'left_out': left_out,
+        'not_wearable': reading.not_wearable,
         'worn_twice': reading.worn_twice,
         'base_points': {name: value for name, value in reading.points.items()
                         if value},

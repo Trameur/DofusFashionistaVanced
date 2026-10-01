@@ -26421,6 +26421,9 @@
         ],
         "conditions": [],
         "criteria": "PN~Lordsoth",
+        "names": [
+            "Lordsoth"
+        ],
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -51468,6 +51471,9 @@
         ],
         "conditions": [],
         "criteria": "PN~xxramboplxx",
+        "names": [
+            "xxramboplxx"
+        ],
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 13,
@@ -86549,7 +86555,10 @@
         "w_type": "Amulet",
         "stats": [],
         "conditions": [],
-        "criteria": "PS=0&Qf=714"
+        "criteria": "PS=0&Qf=714",
+        "sexes": [
+            0
+        ]
     },
     {
         "ankama_id": 12238,
@@ -86563,7 +86572,10 @@
         "w_type": "Amulet",
         "stats": [],
         "conditions": [],
-        "criteria": "PS=1&Qf=714"
+        "criteria": "PS=1&Qf=714",
+        "sexes": [
+            1
+        ]
     },
     {
         "ankama_id": 12273,

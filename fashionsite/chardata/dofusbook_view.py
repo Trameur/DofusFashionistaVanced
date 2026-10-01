@@ -15,7 +15,8 @@ from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES,
                                              TYPE_NAME_TO_SLOT_NUMBER)
 from fashionistapulp.modelresult import ModelResultMinimal
-from fashionistapulp.structure import (fits_the_class, get_structure,
+from fashionistapulp.structure import (fits_the_class, fits_the_wearer,
+                                       get_structure,
                                        get_current_game_version,
                                        set_current_game_version)
 
@@ -45,6 +46,16 @@ def _preview(build):
             'level': item.level,
         })
     return pieces
+
+
+def sex_the_pieces_ask_for(structure, item_ids):
+    """The sex (0 male, 1 female) of the first piece only one sex can wear, 0 when none asks."""
+    for item_id in item_ids:
+        item = structure.get_item_by_id(item_id)
+        sexes = getattr(item, 'sexes', ()) if item is not None else ()
+        if sexes:
+            return sexes[0]
+    return 0
 
 
 def _language_code():
@@ -82,6 +93,9 @@ def _place_items(char, item_ids, origin='dofusbook'):
             if restants.get(type_name, 0) <= 0:
                 continue
             if not fits_the_class(item, getattr(char, 'char_class', None)):
+                continue
+            if not fits_the_wearer(item, getattr(char, 'gender', None) or 0,
+                                   getattr(char, 'char_name', None) or ''):
                 continue
             restants[type_name] -= 1
             gardes.append(item_id)

@@ -95,7 +95,19 @@ def _warning_cases():
     """{code: payload} for every warning a readable payload can carry."""
     good = _good()
     hat = good['items'][0]
+    dofus3 = get_structure('dofus3')
+    pieces = [dofus3.get_item_by_ankama_id(item.ankama_id)
+              for item in dofus3.get_items_list() if item.ankama_id]
+    wearable = [piece for piece in pieces if not getattr(piece, 'unusable', False)]
     return {
+        'item_past_max_level': _with(items=[next(
+            piece.ankama_id for piece in wearable
+            if getattr(piece, 'max_level', None) is not None)]),
+        'item_for_another_class': _with(items=good['items'] + [next(
+            piece.ankama_id for piece in wearable
+            if getattr(piece, 'classes', ()) and 'Iop' not in piece.classes)]),
+        'unequippable_item': _with(items=good['items'] + [next(
+            piece.ankama_id for piece in pieces if getattr(piece, 'unusable', False))]),
         'unknown_item': _with(items=good['items'] + [987654321]),
         'item_from_another_game': _with(items=good['items'] + [_only_in_retro()]),
         'slot_full': _with(items=good['items'] + [_third_ring(good)]),

@@ -56,7 +56,9 @@
                 <div class="encyclopedia-item-meta">{{ t.set_label }}: {% if item_set_url %}<a href="{{ item_set_url }}">{{ item_set_name }}</a>{% else %}{{ item_set_name }}{% endif %}</div>
                 {% endif %}
     {# Quick start of the same version, with the item locked in #}
+                {% if item.can_build_around %}
                 <div class="encyclopedia-item-meta encyclopedia-build-around"><a class="button-thin" id="encyclopedia-build-around" href="{% game_url 'quickstart' %}?item={{ item.id }}">{{ t.build_around_label }}</a></div>
+                {% endif %}
             </div>
         </div>
 

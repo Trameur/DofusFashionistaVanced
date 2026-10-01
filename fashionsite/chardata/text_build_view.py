@@ -26,7 +26,8 @@ from chardata import (build_link_import, dofusbook_import, dofuscreator_import,
                       fashionista_build)
 from chardata.dofusbook_import import ImportError_, MAX_POINTS
 from chardata.dofusbook_view import (_classes_for, _place_items,
-                                     _preview, _solution_path)
+                                     _preview, _solution_path,
+                                     sex_the_pieces_ask_for)
 from chardata.lock_forbid import set_stat_overrides
 from chardata.middleware import looks_like_a_robot
 from chardata.models import CharBaseStats, ImportSourceHit
@@ -37,11 +38,13 @@ from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
                                         read_items)
 from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, safe_int
-from chardata.wear_conditions import class_condition_text
+from chardata.wear_conditions import (class_condition_text, left_out_text,
+                                      reasons_not_worn)
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
 from fashionistapulp.game_versions import get_game_version
-from fashionistapulp.structure import get_current_game_version, get_structure
+from fashionistapulp.structure import (fits_the_class, get_current_game_version,
+                                       get_structure)
 from fashionistapulp.translation import get_supported_language
 
 logger = logging.getLogger(__name__)
@@ -373,6 +376,22 @@ def _pose_les_exos(char, build):
     set_options(char, options)
 
 
+def _pieces_left_out(build, structure):
+    """The link's pieces left out because the game lets no one, or not this class, wear them."""
+    language = get_supported_language()
+    pieces = []
+    for item_id in build.get('not_wearable') or []:
+        item = structure.get_item_by_id(item_id)
+        if item is None:
+            continue
+        pieces.append({'name': structure.get_item_name_in_language(item, language)
+                       or item.name,
+                       'approximate': False, 'rolls': [], 'id': item_id,
+                       'classes': tuple(getattr(item, 'classes', ())),
+                       'out_of_range': False})
+    return pieces
+
+
 def _forgemagie_laissee(build, structure, langue):
     """Link forgemagie no piece here can take: (build-wide lines, lines with no key)."""
     global_ = []
@@ -581,10 +600,23 @@ def _lis(request, texte, version_page, formulaire, action=None):
             overrides.setdefault(item_id, {}).update(par_piece)
     refuses = refuses_du_lien + lu['refused_rolls']
     class_ok = char_class in CHARACTER_CLASSES
-    trouvees = pieces_du_lien + lu['matched']
+    for piece, item_id in zip(lu['matched'], lu['item_ids']):
+        piece.setdefault('id', item_id)
+    structure = get_structure(version)
+    left_out_pieces = _pieces_left_out(build, structure) if build else []
+    trouvees = pieces_du_lien + left_out_pieces + lu['matched']
+    sex = sex_the_pieces_ask_for(structure, [
+        item_id for item_id in item_ids
+        if not class_ok or fits_the_class(structure.get_item_by_id(item_id),
+                                          char_class)])
     for piece in trouvees:
         if piece.get('classes'):
             piece['class_text'] = class_condition_text(piece['classes'])
+        item = structure.get_item_by_id(piece['id']) if piece.get('id') else None
+        reasons = (reasons_not_worn(version, item, gender=sex, char_name='')
+                   if item is not None else [])
+        if reasons:
+            piece['class_text'] = left_out_text(reasons)
     autre_classe = [piece['name'] for piece in trouvees
                     if class_ok and piece.get('classes')
                     and char_class not in piece['classes']]
@@ -618,7 +650,8 @@ def _lis(request, texte, version_page, formulaire, action=None):
     nom = (build['name'] if build and build['name'] else _('Imported build'))
     elements = gear_elements(get_structure(version), item_ids, char_class, niveau, version,
                              overrides)
-    char = create_build(request, char_class, niveau, elements, version, name=nom)
+    char = create_build(request, char_class, niveau, elements, version, name=nom,
+                        gender=sex)
     _ecrit_les_caracteristiques(
         char, points, parchos,
         complet=bool(build and build.get('base_stats_complete')))

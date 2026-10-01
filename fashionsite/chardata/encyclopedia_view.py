@@ -23,6 +23,7 @@ from fashionistapulp.dofus_constants import STAT_ORDER, type_names_for
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import is_same_item_name, strip_accents
 from fashionistapulp.item_flags import flag_lines
+from fashionistapulp.modelresult import sets_equipped_text
 from fashionistapulp.spell_text import fold_spell_blocks
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
@@ -35,7 +36,7 @@ from chardata.url_language import (build_alternate_urls,
 from chardata.stat_range import format_stat_range, get_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
 from chardata.translation_util import localized_stat_name, LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
-from chardata.wear_conditions import condition_texts
+from chardata.wear_conditions import a_new_build_can_wear, condition_texts
 from static_s3.templatetags.static_s3 import static
 
 
@@ -1101,6 +1102,8 @@ def _build_wide_condition_texts(item):
     if cap:
         cap = 2 if cap is True else cap
         texts.append(_('Set bonus < 2') if cap <= 1 else _('Set bonus < 3'))
+    if weird.get('sets_equipped'):
+        texts.append(sets_equipped_text(weird['sets_equipped']))
     if weird.get('prysmaradite'):
         texts.append(_('Prysmaradite < 1'))
     return texts
@@ -2772,6 +2775,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         'ankama_type': representative_item.ankama_type,
         'image_url': static(get_image_url(
             type_name, representative_item.name, game_version)),
+        'can_build_around': a_new_build_can_wear(representative_item),
     }
     _popularite = _get_popularity(representative_item.ankama_id, game_version)
 

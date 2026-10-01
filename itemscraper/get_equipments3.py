@@ -18,6 +18,7 @@ import argparse
 import json
 import pickle
 import os
+import re
 import sys
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -35,10 +36,14 @@ input_dir = os.path.abspath(_args.input_dir) if _args.input_dir else current_dir
 
 from fashionistapulp.fashionistapulp.dofus_constants import (
     EXTRA_TYPE_NAMES,
+    SETS_EQUIPPED_LIMIT_FROM_ID,
     STAT_NAME_TO_KEY,
     STAT_ORDER,
     TYPE_NAME_TO_SLOT
 )
+
+SETS_EQUIPPED_ID = {limit + 1: condition_id
+                    for condition_id, limit in SETS_EQUIPPED_LIMIT_FROM_ID.items()}
 #current_directory = os.path.dirname(__file__)
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
@@ -629,6 +634,8 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
     f.write("""CREATE TABLE max_level_to_equip (item INTEGER, value INTEGER, FOREIGN KEY(item) REFERENCES items(id));\n""")
     f.write("""CREATE TABLE unusable_items (item INTEGER, FOREIGN KEY(item) REFERENCES items(id));\n""")
     f.write("""CREATE TABLE items_not_worn_together (item INTEGER, other INTEGER, FOREIGN KEY(item) REFERENCES items(id), FOREIGN KEY(other) REFERENCES items(id));\n""")
+    f.write("""CREATE TABLE item_sex_conditions (item INTEGER, sex INTEGER, FOREIGN KEY(item) REFERENCES items(id));\n""")
+    f.write("""CREATE TABLE item_name_conditions (item INTEGER, name text, FOREIGN KEY(item) REFERENCES items(id));\n""")
     ids_by_ankama_id = {}
     for item in original_data:
         if item.get('ankama_type') != 'mounts':
@@ -644,6 +651,10 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         for other_ankama_id in item.get('not_worn_with') or ():
             for other_id in ids_by_ankama_id.get(other_ankama_id, ()):
                 f.write(f"INSERT INTO items_not_worn_together VALUES({item_id}, {other_id});\n")
+        for sex in item.get('sexes') or ():
+            f.write(f"INSERT INTO item_sex_conditions VALUES({item_id}, {int(sex)});\n")
+        for name in item.get('names') or ():
+            f.write(f"INSERT INTO item_name_conditions VALUES({item_id}, '{escape_single_quotes(name)}');\n")
 
     f.write("""CREATE TABLE extra_lines (item INTEGER, line text, language text, FOREIGN KEY(item) REFERENCES items(id));\n""")
 
@@ -705,13 +716,12 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
             _cond_text = _conds if isinstance(_conds, str) else ' '.join(str(c) for c in _conds)
             # light_set: "Set bonus < 3" -> id 1 (cap 2); the stricter
             # "Set bonus < 2" -> id 3 (cap 1). See LIGHT_SET_LIMIT_FROM_ID.
-            # Which version says which is Ankama's call and it moves: dofus2
-            # and touch were already on id 3, and beta 3.7.0.0 moved its 73
-            # trophies there while dofus3 3.6.11.15 stayed on id 1.
             if 'Set bonus < 2' in _cond_text:
                 f.write(f"INSERT INTO item_weird_conditions VALUES({item_id}, 3);\n")
             elif 'Set bonus <' in _cond_text:
                 f.write(f"INSERT INTO item_weird_conditions VALUES({item_id}, 1);\n")
+            for bound in re.findall(r'Sets equipped < (\d+)', _cond_text):
+                f.write(f"INSERT INTO item_weird_conditions VALUES({item_id}, {SETS_EQUIPPED_ID[int(bound)]});\n")
         if 'is_prysmaradite' in item:
             if item['is_prysmaradite']:
                 f.write(f"INSERT INTO item_weird_conditions VALUES({item_id}, 2);\n")

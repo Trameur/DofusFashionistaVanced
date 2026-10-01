@@ -33,6 +33,7 @@ from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.modelresult import (characteristic_passives,
                                          level_prospecting,
+                                         sets_equipped_text,
                                          wisdom_per_ap_mp_dodge_point)
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.spell_tips import spell_tip_for
@@ -42,7 +43,14 @@ from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
 from chardata.wear_conditions import (class_condition_text,
-                                      spell_rank_condition_text)
+                                      max_level_condition_text,
+                                      name_condition_text,
+                                      not_worn_with_condition_text,
+                                      other_item_name,
+                                      sex_condition_text,
+                                      spell_rank_condition_text,
+                                      unusable_condition_text)
+from fashionistapulp.structure import name_fits
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from chardata.official_site import get_set_link
@@ -51,13 +59,15 @@ from chardata.official_site import get_set_link
 class SolutionResult:
 
     def __init__(self, model_result, inclusions={}, exclusions=[], empty_slots=[],
-                 weights=None, char_class=None):
+                 weights=None, char_class=None, gender=None, char_name=None):
         self.model_result = model_result
         self.inclusions = inclusions
         self.exclusions_set = set(exclusions)
         self.empty_slots_set = set(empty_slots)
         self.weights = weights
         self.char_class = char_class
+        self.gender = gender
+        self.char_name = char_name
                    
     def get_params(self):
         r = self.model_result 
@@ -95,7 +105,8 @@ class SolutionResult:
         item_violates = {}
         item_ids = {}
         for result_item in all_items:
-            evolve_result_item(result_item, r, self.char_class)
+            evolve_result_item(result_item, r, self.char_class,
+                               self.gender, self.char_name)
             attach_transcendence(result_item, self.weights)
         attach_acquisition(all_items)
 
@@ -275,7 +286,16 @@ def stat_sources(model_result):
     return sources
 
 
-def evolve_result_item(result_item, r=None, char_class=None):
+def _worn_ids(model_result):
+    if not model_result:
+        return set()
+    return {getattr(result_item, 'id', None)
+            for result_items in (getattr(model_result, 'items', None) or {}).values()
+            for result_item in result_items
+            if getattr(result_item, 'item_added', False)}
+
+
+def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_name=None):
     if result_item.slot:
         result_item.file = static('chardata/%s.png' % SLOT_NAME_TO_TYPE[result_item.slot])
     if not result_item.item_added:
@@ -328,10 +348,21 @@ def evolve_result_item(result_item, r=None, char_class=None):
 
     result_item.condition_lines = []
 
+    min_stats = getattr(result_item, 'min_stats_to_equip', None) or {}
+    max_stats = getattr(result_item, 'max_stats_to_equip', None) or {}
+    exact = {stat_key for stat_key, stat_value in min_stats.items()
+             if max_stats.get(stat_key) == stat_value}
+    for stat_key in sorted(exact, key=lambda key: STAT_ORDER[key]):
+        stat_name = get_structure().get_stat_by_key(stat_key).name
+        result_item.condition_lines.append(
+            ExactConditionLine(stat_key, min_stats[stat_key], stat_name, r))
+
     if hasattr(result_item, 'min_stats_to_equip'):
         min_from_result_item = sorted(iter(result_item.min_stats_to_equip.items()),
                                       key=lambda x: STAT_ORDER[x[0]])
         for stat_key, stat_value in min_from_result_item:
+            if stat_key in exact:
+                continue
             stat_name = get_structure().get_stat_by_key(stat_key).name
             result_item.condition_lines.append(MinConditionLine(stat_key, stat_value, stat_name, r))
 
@@ -339,6 +370,8 @@ def evolve_result_item(result_item, r=None, char_class=None):
         max_from_result_item = sorted(iter(result_item.max_stats_to_equip.items()),
                                       key=lambda x: STAT_ORDER[x[0]])
         for stat_key, stat_value in max_from_result_item:
+            if stat_key in exact:
+                continue
             stat_name = get_structure().get_stat_by_key(stat_key).name
             result_item.condition_lines.append(MaxConditionLine(stat_key, stat_value, stat_name, r))
 
@@ -346,13 +379,49 @@ def evolve_result_item(result_item, r=None, char_class=None):
         result_item.condition_lines.append(
             LightSetConditionLine(r, result_item.weird_conditions['light_set']))
 
+    sets_equipped = result_item.weird_conditions.get('sets_equipped')
+    if sets_equipped:
+        result_item.condition_lines.append(
+            SetsEquippedConditionLine(r, sets_equipped))
+
     if result_item.weird_conditions['prysmaradite']:
         result_item.condition_lines.append(PrysmaraditeConditionLine(r))
 
+    if getattr(result_item, 'unusable', False):
+        line = TextConditionLine(unusable_condition_text())
+        line.formatting = '#r'
+        result_item.condition_lines.append(line)
     classes = getattr(result_item, 'classes', ())
     if classes:
         line = TextConditionLine(class_condition_text(classes))
         if char_class and char_class not in classes:
+            line.formatting = '#r'
+        result_item.condition_lines.append(line)
+    max_level = getattr(result_item, 'max_level', None)
+    if max_level is not None:
+        line = TextConditionLine(max_level_condition_text(max_level))
+        if r and (r.input or {}).get('char_level', max_level) > max_level:
+            line.formatting = '#r'
+        result_item.condition_lines.append(line)
+    worn_ids = _worn_ids(r)
+    for other_id in getattr(result_item, 'own_not_worn_with', ()):
+        name = other_item_name(get_current_game_version(), other_id)
+        if name is None:
+            continue
+        line = TextConditionLine(not_worn_with_condition_text(name))
+        if other_id in worn_ids:
+            line.formatting = '#r'
+        result_item.condition_lines.append(line)
+    sexes = tuple(getattr(result_item, 'sexes', ()))
+    if sexes:
+        line = TextConditionLine(sex_condition_text(sexes))
+        if gender is not None and gender not in sexes:
+            line.formatting = '#r'
+        result_item.condition_lines.append(line)
+    names = tuple(getattr(result_item, 'names', ()))
+    if names:
+        line = TextConditionLine(name_condition_text(names))
+        if char_name is not None and not any(name_fits(char_name, name) for name in names):
             line.formatting = '#r'
         result_item.condition_lines.append(line)
     for spell_id, rank, min_level in getattr(result_item, 'spell_conditions', ()):
@@ -442,6 +511,18 @@ class MinConditionLine:
             if model_result.stats_total[stat.key] < stat_value:
                 self.formatting = '#r'
 
+class ExactConditionLine:
+
+    def __init__(self, stat_key, stat_value, stat_name, model_result):
+        self.text = '%s = %d' % (_(stat_name), stat_value)
+        self.formatting = ''
+        icon_path = get_stat_icon_path(stat_key)
+        self.icon_url = static(icon_path) if icon_path else None
+        if model_result:
+            stat = get_structure().get_stat_by_name(stat_name)
+            if model_result.stats_total[stat.key] != stat_value:
+                self.formatting = '#r'
+
 class MaxConditionLine:
     
     def __init__(self, stat_key, stat_value, stat_name, model_result):
@@ -466,6 +547,14 @@ class LightSetConditionLine:
         if model_result:
             if not model_result.check_if_set_is_light():
                 self.formatting = '#r'
+
+class SetsEquippedConditionLine:
+
+    def __init__(self, model_result, cap):
+        self.text = sets_equipped_text(cap)
+        self.formatting = ''
+        if model_result and not model_result.check_sets_equipped(cap):
+            self.formatting = '#r'
 
 class TextConditionLine:
 

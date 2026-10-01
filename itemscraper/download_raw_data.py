@@ -39,10 +39,12 @@ def _fetch_release_json(repo: str, tag: str) -> dict:
 
 
 def _match_filters(name: str, filters: Optional[List[str]]) -> bool:
+    """A filter with a dot is a whole file name, one without is part of a name."""
     if not filters:
         return True
     lowered = name.lower()
-    return any(substr.lower() in lowered for substr in filters)
+    return any(lowered == wanted.lower() if "." in wanted else wanted.lower() in lowered
+               for wanted in filters)
 
 
 def _human_size(num: int) -> str:
@@ -54,7 +56,18 @@ def _human_size(num: int) -> str:
 
 
 def _download(url: str, dest: Path) -> None:
+    """Through a .tmp file, renamed once complete."""
     dest.parent.mkdir(parents=True, exist_ok=True)
+    partial = dest.with_name(dest.name + ".tmp")
+    try:
+        _download_to(url, partial, dest.name)
+        os.replace(partial, dest)
+    finally:
+        if partial.exists():
+            partial.unlink()
+
+
+def _download_to(url: str, dest: Path, label: str) -> None:
     with requests.get(url, stream=True, headers=_build_headers(), timeout=60) as r:
         r.raise_for_status()
         total = int(r.headers.get("Content-Length", 0))
@@ -69,12 +82,15 @@ def _download(url: str, dest: Path) -> None:
                 if total:
                     percent = downloaded / total * 100
                     sys.stdout.write(
-                        f"\r    -> {dest.name}: {downloaded/1024/1024:7.1f} MB / {total/1024/1024:7.1f} MB ({percent:5.1f}%)"
+                        f"\r    -> {label}: {downloaded/1024/1024:7.1f} MB / {total/1024/1024:7.1f} MB ({percent:5.1f}%)"
                     )
                 else:
-                    sys.stdout.write(f"\r    -> {dest.name}: {downloaded/1024/1024:7.1f} MB downloaded")
+                    sys.stdout.write(f"\r    -> {label}: {downloaded/1024/1024:7.1f} MB downloaded")
                 sys.stdout.flush()
         sys.stdout.write("\n")
+        if total and not r.headers.get("Content-Encoding") and downloaded != total:
+            raise requests.RequestException(
+                f"{label}: {downloaded} of {total} bytes received")
 
 
 def download_assets(
@@ -127,7 +143,7 @@ def parse_args(argv: Optional[Iterable[str]] = None) -> argparse.Namespace:
         "--filter",
         action="append",
         dest="filters",
-        help="Download only assets whose names contain the substring. Repeatable.",
+        help="Download only the asset of that name, or, without a dot, the assets whose names contain it. Repeatable.",
     )
     parser.add_argument(
         "--no-skip-existing",

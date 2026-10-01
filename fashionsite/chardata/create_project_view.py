@@ -285,8 +285,12 @@ def create_project(request):
         try:
             from fashionistapulp.structure import get_structure
             from chardata.build_import import apply_ankama_ids
-            rapport = apply_ankama_ids(
-                char, get_structure(char.game_version), [voulu])
+            structure = get_structure(char.game_version)
+            sexes = getattr(structure.get_item_by_ankama_id(voulu), 'sexes', ())
+            if sexes and (char.gender or 0) not in sexes:
+                char.gender = sexes[0]
+                char.save(update_fields=['gender'])
+            rapport = apply_ankama_ids(char, structure, [voulu])
             if rapport['rejected']:
                 # Usually an item above the chosen level; the project is still created
                 logger.info('build-around item %s not locked on char %s: %s',

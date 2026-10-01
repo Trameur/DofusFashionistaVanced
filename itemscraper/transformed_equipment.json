@@ -17544,7 +17544,10 @@
         "dofustouch": false,
         "conditions": [],
         "criteria": "PN~Silaisie&BI=1",
-        "unusable": true
+        "unusable": true,
+        "names": [
+            "Silaisie"
+        ]
     },
     {
         "ankama_id": 2155,
@@ -17573,7 +17576,10 @@
         "dofustouch": false,
         "conditions": [],
         "criteria": "PN~Silaisie&BI=1",
-        "unusable": true
+        "unusable": true,
+        "names": [
+            "Silaisie"
+        ]
     },
     {
         "ankama_id": 2156,
@@ -17605,7 +17611,10 @@
         "dofustouch": false,
         "conditions": [],
         "criteria": "PN~Silaisie&BI=1",
-        "unusable": true
+        "unusable": true,
+        "names": [
+            "Silaisie"
+        ]
     },
     {
         "ankama_id": 2233,
@@ -29219,7 +29228,10 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16053-64.png",
         "dofustouch": false,
         "conditions": [],
-        "criteria": "PS=0"
+        "criteria": "PS=0",
+        "sexes": [
+            0
+        ]
     },
     {
         "ankama_id": 6661,
@@ -29260,7 +29272,10 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/16054-64.png",
         "dofustouch": false,
         "conditions": [],
-        "criteria": "PS=1"
+        "criteria": "PS=1",
+        "sexes": [
+            1
+        ]
     },
     {
         "ankama_id": 6712,
@@ -29393,7 +29408,10 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/5034-64.png",
         "dofustouch": false,
         "conditions": [],
-        "criteria": "PN~Lordsoth"
+        "criteria": "PN~Lordsoth",
+        "names": [
+            "Lordsoth"
+        ]
     },
     {
         "ankama_id": 6716,
@@ -32576,6 +32594,9 @@
         "criteria": "PG=6&PS=0",
         "classes": [
             "Ecaflip"
+        ],
+        "sexes": [
+            0
         ]
     },
     {
@@ -32615,6 +32636,9 @@
         "criteria": "PG=6&PS=1",
         "classes": [
             "Ecaflip"
+        ],
+        "sexes": [
+            1
         ]
     },
     {
@@ -56504,7 +56528,10 @@
         "dofustouch": false,
         "conditions": [],
         "criteria": "PN~xxramboplxx&BI=1",
-        "unusable": true
+        "unusable": true,
+        "names": [
+            "xxramboplxx"
+        ]
     },
     {
         "ankama_id": 8596,
@@ -95096,7 +95123,10 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/1196-64.png",
         "dofustouch": false,
         "conditions": [],
-        "criteria": "PS=0&Qf=714"
+        "criteria": "PS=0&Qf=714",
+        "sexes": [
+            0
+        ]
     },
     {
         "ankama_id": 12238,
@@ -95113,7 +95143,10 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3/v1/img/item/1196-64.png",
         "dofustouch": false,
         "conditions": [],
-        "criteria": "PS=1&Qf=714"
+        "criteria": "PS=1&Qf=714",
+        "sexes": [
+            1
+        ]
     },
     {
         "ankama_id": 12370,

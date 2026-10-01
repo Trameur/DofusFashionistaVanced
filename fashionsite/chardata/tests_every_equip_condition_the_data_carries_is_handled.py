@@ -74,8 +74,8 @@ def _is_group(node):
 
 def _parts_read_loosely(criteria, version, tree):
     """Parts the kind-by-kind reading would relax: an OR over two enforced kinds, or a top-level-only kind nested."""
-    top_level_only = {criteria.LEVEL, criteria.SET_BONUS, criteria.NOT_WORN_WITH,
-                      criteria.SPELL_RANK}
+    top_level_only = {criteria.LEVEL, criteria.SET_BONUS, criteria.SETS_EQUIPPED,
+                      criteria.NOT_WORN_WITH, criteria.SPELL_RANK}
     read_in_an_or = {criteria.STAT, criteria.CLASS, criteria.UNUSABLE}
     table = criteria.KINDS[version]
 
@@ -166,7 +166,7 @@ class EveryConditionKindIsHandledTests(SimpleTestCase):
         criteria = _criteria()
         open_kinds = {
             criteria.ALIGNMENT, criteria.PVP_RANK, criteria.JOB, criteria.KAMAS,
-            criteria.NAME, criteria.SEX, criteria.MARRIED, criteria.EMOTE,
+            criteria.MARRIED, criteria.EMOTE,
             criteria.SUBSCRIPTION, criteria.ACCOUNT_RIGHTS, criteria.QUEST,
             criteria.SERVER, criteria.DATE, criteria.MAP, criteria.SUBAREA,
             criteria.INVENTORY, criteria.WORN_WITH, criteria.UNKNOWN}
@@ -287,18 +287,19 @@ class TheDatabaseHoldsWhatTheCriteriaSayTests(SimpleTestCase):
 
     def test_the_set_bonus_caps_are_the_ones_the_criteria_set(self):
         criteria = _criteria()
-        cap_ids = {'Set bonus < 2': 3, 'Set bonus < 3': 1}
+        cap_ids = {'Set bonus < 2': 3, 'Set bonus < 3': 1, 'Sets equipped < 2': 4}
         for version in BASES:
             with self.subTest(version=version):
                 expected = set()
                 for item, tree in _trees(version).items():
-                    for cap in criteria.set_bonus_caps(tree):
+                    for cap in (criteria.set_bonus_caps(tree)
+                                + criteria.sets_equipped_caps(tree)):
                         expected.add((item, cap_ids[cap]))
                 connection = _connect(version)
                 try:
                     stored = set(_rows(connection,
                                        'SELECT item, condition_id FROM item_weird_conditions'
-                                       ' WHERE condition_id IN (1, 3)'))
+                                       ' WHERE condition_id IN (1, 3, 4)'))
                 finally:
                     connection.close()
                 self.assertEqual(expected, stored)

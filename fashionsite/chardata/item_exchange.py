@@ -43,7 +43,8 @@ from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,
 from fashionistapulp.dofus_constants import STAT_ORDER, SLOT_NAME_TO_TYPE, calculate_damage,\
     DAMAGE_TYPES, NEUTRAL, ELEMENT_KEY_TO_NAME, slots_for
 from fashionistapulp.modelresult import ModelResultItem
-from fashionistapulp.structure import fits_the_class, fits_the_level, get_structure
+from fashionistapulp.structure import (fits_the_class, fits_the_level,
+                                       fits_the_wearer, get_structure)
 from fashionistapulp.temporix import as_worn, temporix_only_item_ids
 from fashionistapulp.translation import get_supported_language
 from chardata.temporix_mode import solution_uses_temporix
@@ -72,9 +73,11 @@ def _worn_in_picker(char, structure, item, overrides):
 
 
 def _wearable_by_the_build(char, items):
-    """Only what the build's class and level can wear."""
+    """Only what the build's class, level, sex and name can wear."""
+    gender, char_name = char.gender or 0, char.char_name or ''
     return [item for item in items if fits_the_class(item, char.char_class)
-            and fits_the_level(item, char.level)]
+            and fits_the_level(item, char.level)
+            and fits_the_wearer(item, gender, char_name)]
 
 
 def _worn_or_locked_elsewhere(char, structure, slot):

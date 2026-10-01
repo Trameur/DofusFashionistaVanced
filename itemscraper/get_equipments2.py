@@ -439,7 +439,8 @@ for item in equipment_data['en']['items']:
         # Unread criteria keep the gates the API gave
         if tree is not None or not criteria:
             transformed_item["conditions"] = (item_criteria.stat_conditions(tree)
-                                              + item_criteria.set_bonus_caps(tree))
+                                              + item_criteria.set_bonus_caps(tree)
+                                              + item_criteria.sets_equipped_caps(tree))
         if criteria:
             transformed_item["criteria"] = criteria
         worn = item_criteria.describe(tree, class_names, _args.game_version)

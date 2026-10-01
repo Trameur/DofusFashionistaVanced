@@ -21,7 +21,8 @@ class TheItemPagePrintsTheSetBonusCapTests(TestCase):
     def test_each_version_prints_its_own_cap(self):
         pages = (
             ('/encyclopedia/item/equipment/%d-x/' % MINOR_OBSTRUCTOR, 'Set bonus < 3'),
-            ('/beta/encyclopedia/item/equipment/%d-x/' % MINOR_OBSTRUCTOR, 'Set bonus < 2'),
+            ('/beta/encyclopedia/item/equipment/%d-x/' % MINOR_OBSTRUCTOR,
+             'Number of sets equipped < 2'),
             ('/touch/encyclopedia/item/equipment/%d-x/' % TOUCH_MINOR_BLOODTHIRST,
              'Set bonus < 2'),
         )

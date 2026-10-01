@@ -876,6 +876,10 @@
                     $.post(apiBase + '/setchargender/{{char.id}}/', {gender: next},
                            function (nextLook) {
                                toggle.dataset.gender = next;
+                               if (nextLook.wears_a_one_sex_piece) {
+                                   location.reload();
+                                   return;
+                               }
                                build(nextLook);
                            }).always(function () { toggle.disabled = false; });
                 });
@@ -1704,6 +1708,9 @@
 
                 lockButton.click(function(e) {
                     e.stopPropagation();
+                    var wasLocked = itemIsLocked[key];
+                    var wasForbidden = itemIsForbidden[key];
+                    itemContainer.find(".lock-refused-note").remove();
                     itemIsLocked[key] = !itemIsLocked[key];
                     if (itemIsLocked[key]) {
                         itemIsForbidden[key] = false;
@@ -1713,7 +1720,18 @@
                     $.post(apiBase + "/setitemlocked/{{char_id}}/",
                            {slot: key.toString(), equip: itemNames[key], locked: itemIsLocked[key]},
                            function(data) {
-                           });
+                           }).fail(function(xhr) {
+                        itemIsLocked[key] = wasLocked;
+                        itemIsForbidden[key] = wasForbidden;
+                        updateLockButtonState(lockButton, key);
+                        updateForbidButtonState(forbidButton, key);
+                        if (xhr.status === 400 && (xhr.getResponseHeader("Content-Type") || "").indexOf("text/plain") === 0) {
+                            $("<div class='solution-negative-stat-text lock-refused-note' role='alert'></div>")
+                                .text(xhr.responseText)
+                                .css({order: 4, flex: "0 0 100%", "font-size": "0.9em", "margin-top": "4px"})
+                                .insertAfter(itemContainer.find(".solution-item-icons"));
+                        }
+                    });
                 });
                 updateLockButtonState(lockButton, key);
             });

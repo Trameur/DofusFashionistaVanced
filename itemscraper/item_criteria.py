@@ -10,19 +10,20 @@ STAT = 'stat'
 CLASS = 'class'
 LEVEL = 'level'
 SET_BONUS = 'set_bonus'
+SETS_EQUIPPED = 'sets_equipped'
 SPELL_RANK = 'spell_rank'
 UNUSABLE = 'unusable'
 NOT_WORN_WITH = 'not_worn_with'
-ENFORCED = frozenset((STAT, CLASS, LEVEL, SET_BONUS, SPELL_RANK, UNUSABLE,
-                      NOT_WORN_WITH))
+SEX = 'sex'
+NAME = 'name'
+ENFORCED = frozenset((STAT, CLASS, LEVEL, SET_BONUS, SETS_EQUIPPED, SPELL_RANK,
+                      UNUSABLE, NOT_WORN_WITH, SEX, NAME))
 
 # Player state a build does not carry, the character's server or the calendar
 ALIGNMENT = 'alignment'
 PVP_RANK = 'pvp_rank'
 JOB = 'job'
 KAMAS = 'kamas'
-NAME = 'name'
-SEX = 'sex'
 MARRIED = 'married'
 EMOTE = 'emote'
 SUBSCRIPTION = 'subscription'
@@ -52,6 +53,7 @@ KINDS = {
         ('PG', '='): CLASS,
         ('PL', '<'): LEVEL,
         ('Pk', '<'): SET_BONUS,
+        ('pk', '<'): SETS_EQUIPPED,
         ('BI', '='): UNUSABLE,
         ('Ps', '='): ALIGNMENT, ('Pa', '>'): ALIGNMENT,
         ('PJ', '>'): JOB,
@@ -74,7 +76,8 @@ KINDS = {
         **_STATS,
         ('PG', '='): CLASS,
         ('PL', '<'): LEVEL,
-        ('pk', '<'): SET_BONUS,
+        ('Pk', '<'): SET_BONUS,
+        ('pk', '<'): SETS_EQUIPPED,
         ('BI', '='): UNUSABLE,
         ('Ps', '='): ALIGNMENT, ('Pa', '>'): ALIGNMENT,
         ('PJ', '>'): JOB,
@@ -292,6 +295,42 @@ def is_unusable(tree):
     return not holds(tree, lambda atom: atom[0] != 'BI')
 
 
+def _sex_holds(atom, sex):
+    try:
+        wanted = int(atom[2])
+    except ValueError:
+        return False
+    return (sex == wanted) if atom[1] == '=' else (sex != wanted)
+
+
+def allowed_sexes(tree):
+    """The sexes (the game's PS flag: 0 male, 1 female) that can meet the criteria, or None when both can."""
+    allowed = [sex for sex in (0, 1)
+               if holds(tree, lambda atom: (_sex_holds(atom, sex)
+                                            if atom[0] == 'PS' else True))]
+    return None if len(allowed) == 2 else allowed
+
+
+def name_fits(char_name, wanted):
+    """PN~: the character's name, whatever its case."""
+    return (char_name or '').strip().lower() == wanted.lower()
+
+
+def allowed_names(tree):
+    """The character names that can meet the criteria, as the data writes them, or None when any name can."""
+    names = sorted({atom[2] for atom in atoms(tree) if atom[0] == 'PN'})
+    if not names:
+        return None
+
+    def fits(char_name):
+        return holds(tree, lambda atom: ((atom[1] == '~' and name_fits(char_name, atom[2]))
+                                         if atom[0] == 'PN' else True))
+
+    if fits('\x00'):
+        return None
+    return [name for name in names if fits(name)]
+
+
 def _top_level(tree):
     if tree is None:
         return []
@@ -324,7 +363,13 @@ def not_worn_with(tree):
 def set_bonus_caps(tree):
     """['Set bonus < 3'] for a top-level Pk part."""
     return ['Set bonus < %s' % node[2] for node in _top_level(tree)
-            if _is_atom(node) and node[0] in ('Pk', 'pk') and node[1] == '<']
+            if _is_atom(node) and node[0] == 'Pk' and node[1] == '<']
+
+
+def sets_equipped_caps(tree):
+    """['Sets equipped < 2'] for a top-level pk part."""
+    return ['Sets equipped < %s' % node[2] for node in _top_level(tree)
+            if _is_atom(node) and node[0] == 'pk' and node[1] == '<']
 
 
 def _stat_gate(atom):
@@ -442,4 +487,10 @@ def describe(tree, class_names, version):
     others = not_worn_with(tree)
     if others and KINDS[version].get(('PO', 'X')) == NOT_WORN_WITH:
         out['not_worn_with'] = others
+    sexes = allowed_sexes(tree)
+    if sexes is not None:
+        out['sexes'] = sexes
+    names = allowed_names(tree)
+    if names is not None:
+        out['names'] = names
     return out

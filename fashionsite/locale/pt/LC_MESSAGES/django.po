@@ -819,6 +819,39 @@ msgstr "Estar no nível %(level)s ou abaixo"
 msgid "Not have the \"%(item)s\" item equipped"
 msgstr "Não ser equipado do item '%(item)s'"
 
+#: .\chardata\wear_conditions.py:46
+#, python-format
+msgid "Be level %(level)s or higher"
+msgstr "Estar no nível %(level)s ou acima"
+
+#: .\chardata\wear_conditions.py:54
+msgid "Male only"
+msgstr "Ser do sexo masculino"
+
+#: .\chardata\wear_conditions.py:54
+msgid "Female only"
+msgstr "Ser do sexo feminino"
+
+#: .\chardata\wear_conditions.py:58
+#, python-format
+msgid "Name = %(name)s"
+msgstr "Nome = %(name)s"
+
+#: .\chardata\wear_conditions.py:129
+#, python-format
+msgid "Not locked, this build cannot wear it: %(reasons)s"
+msgstr "Não travado, este build não pode equipar este item: %(reasons)s"
+
+#: .\chardata\wear_conditions.py:134
+#, python-format
+msgid "Still locked, but this build cannot wear it: %(reasons)s"
+msgstr "Continua travado, mas este build não pode equipar este item: %(reasons)s"
+
+#: .\chardata\wear_conditions.py:139
+#, python-format
+msgid "Left out, this build cannot wear it: %(reasons)s"
+msgstr "Fica de fora, este build não pode equipar esta peça: %(reasons)s"
+
 #: .\chardata\dynamic_translations.py:92
 msgid "Emote"
 msgstr "Emote"
@@ -1626,6 +1659,11 @@ msgstr "Bônus de conjuntos < 2"
 #: .\chardata\solution_result.py:367
 msgid "Set bonus < 3"
 msgstr "Bônus de conjuntos < 3"
+
+#: ..\fashionistapulp\fashionistapulp\modelresult.py:40
+#, python-format
+msgid "Number of sets equipped < %(limit)s"
+msgstr "Número de conjuntos equipados < %(limit)s"
 
 #: .\chardata\solution_result.py:376
 msgid "Prysmaradite < 1"
@@ -8647,6 +8685,18 @@ msgstr "Esta peça não existe mais no jogo."
 #: chardata/fashionista_build.py
 msgid "This piece needs a higher level than the build has."
 msgstr "Esta peça pede um nível mais alto que o do build."
+
+#: .\chardata\fashionista_build.py:82
+msgid "The build is above the highest level this piece allows."
+msgstr "O build passa do nível máximo que esta peça permite."
+
+#: .\chardata\fashionista_build.py:83
+msgid "This piece is for another class: it is left out."
+msgstr "Esta peça é exclusiva de outra classe: ela fica de fora."
+
+#: .\chardata\fashionista_build.py:84
+msgid "This piece cannot be equipped in the game: it is left out."
+msgstr "Esta peça não pode ser equipada no jogo: ela fica de fora."
 
 #: chardata/fashionista_build.py
 msgid "This stat key does not exist: the line is left out."

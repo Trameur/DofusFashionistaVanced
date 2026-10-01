@@ -3,7 +3,7 @@
 from fashionistapulp.dofus_constants import (TYPE_NAME_TO_SLOT,
                                              TYPE_NAME_TO_SLOT_NUMBER, slots_for)
 from fashionistapulp.game_versions import get_game_version
-from fashionistapulp.structure import fits_the_class, level_to_wear
+from fashionistapulp.structure import fits_the_class, fits_the_wearer, level_to_wear
 
 from chardata.lock_forbid import set_inclusions_dict_and_check_exclusions
 
@@ -17,6 +17,8 @@ ABOVE_CHAR_LEVEL = 'above_char_level'
 PAST_MAX_LEVEL = 'past_max_level'
 UNUSABLE = 'unusable'
 WRONG_CLASS = 'wrong_class'
+WRONG_SEX = 'wrong_sex'
+WRONG_NAME = 'wrong_name'
 NOT_WORN_TOGETHER = 'not_worn_together'
 
 
@@ -42,7 +44,7 @@ def _can_be_worn_twice(structure, item, type_name, game_version):
 
 
 def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
-                    char_level=None, char_class=None):
+                    char_level=None, char_class=None, gender=None, char_name=None):
     """Place each id without writing: returns ([(slot, item)], [(ankama_id, reason)])."""
     placed = []
     rejected = []
@@ -86,6 +88,14 @@ def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
             rejected.append((ankama_id, WRONG_CLASS))
             continue
 
+        if not fits_the_wearer(item, gender=gender):
+            rejected.append((ankama_id, WRONG_SEX))
+            continue
+
+        if not fits_the_wearer(item, char_name=char_name):
+            rejected.append((ankama_id, WRONG_NAME))
+            continue
+
         clash = set(getattr(item, 'not_worn_with', ()))
         if any(other.id in clash for _slot, other in placed):
             rejected.append((ankama_id, NOT_WORN_TOGETHER))
@@ -119,7 +129,9 @@ def apply_ankama_ids(char, structure, ankama_ids):
         structure, ankama_ids,
         game_version=game_version,
         char_level=getattr(char, 'level', None),
-        char_class=getattr(char, 'char_class', None))
+        char_class=getattr(char, 'char_class', None),
+        gender=getattr(char, 'gender', None) or 0,
+        char_name=getattr(char, 'char_name', None) or '')
 
     inclusions = {slot: '' for slot in slots_for(game_version)}
     inclusions.update({slot: item.id for slot, item in placed})

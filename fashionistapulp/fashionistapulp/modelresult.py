@@ -35,6 +35,11 @@ RELEVANT_INPUT = ['options', 'base_stats_by_attr', 'char_level', 'origin']
 logger = logging.getLogger(__name__)
 
 
+def sets_equipped_text(cap):
+    """"Number of sets equipped < 2" for a cap of 1."""
+    return _('Number of sets equipped < %(limit)s') % {'limit': cap + 1}
+
+
 def wisdom_per_ap_mp_dodge_point(game_version):
     """Wisdom behind one point of AP/MP dodge and of AP/MP reduction."""
     return 4 if game_version == 'retro' else 10
@@ -518,6 +523,12 @@ class ModelResult():
                         violation.cant_equip = False
                         violations.append(violation)
 
+        for item in self.item_list:
+            if item.item_added:
+                violation = self._sets_equipped_violation(item)
+                if violation is not None:
+                    violations.append(violation)
+
         is_prysmaradite = self.check_if_prysmaradite()
         if not is_prysmaradite:
             for item in self.item_list:
@@ -560,6 +571,22 @@ class ModelResult():
                         (len(self.sets) == 2 and self.sets[0].number_of_items <= 2 and self.sets[1].number_of_items <= 2))
         return is_set_light
     
+    def check_sets_equipped(self, cap):
+        """Whether at most cap sets have two pieces or more worn."""
+        return len(self.sets) <= cap
+
+    def _sets_equipped_violation(self, item):
+        cap = (getattr(item, 'weird_conditions', None) or {}).get('sets_equipped')
+        if not cap or self.check_sets_equipped(cap):
+            return None
+        violation = Violation()
+        violation.item_name = item.localized_name
+        violation.stat_name = sets_equipped_text(cap)
+        violation.condition_type = 'weird_light_set'
+        violation.is_red = True
+        violation.cant_equip = False
+        return violation
+
     def check_if_prysmaradite(self):
         prysmaradite_count = sum(1 for item in self.item_list if item.item_added and item.weird_conditions['prysmaradite'])
         return prysmaradite_count <= 1
@@ -591,6 +618,9 @@ class ModelResult():
                 violation.is_red = True
                 violation.cant_equip = False
                 violations.append(violation)
+        violation = self._sets_equipped_violation(item)
+        if violation is not None:
+            violations.append(violation)
         if item.weird_conditions['prysmaradite']:
             if not self.check_if_prysmaradite():
                 violation = Violation()
@@ -663,6 +693,12 @@ class ModelResultItem():
             self.weird_conditions = item.weird_conditions
             self.classes = tuple(getattr(item, 'classes', ()))
             self.spell_conditions = tuple(getattr(item, 'spell_conditions', ()))
+            self.unusable = bool(getattr(item, 'unusable', False))
+            self.max_level = getattr(item, 'max_level', None)
+            self.not_worn_with = tuple(getattr(item, 'not_worn_with', ()))
+            self.own_not_worn_with = tuple(getattr(item, 'own_not_worn_with', ()))
+            self.sexes = tuple(getattr(item, 'sexes', ()))
+            self.names = tuple(getattr(item, 'names', ()))
             # Shiny TemporiX copy: same name, golden slot in game
             self.shiny = bool(getattr(item, 'shiny', False))
     

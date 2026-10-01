@@ -271,6 +271,7 @@ def main() -> None:
             "--filter", "effects.json",
             "--filter", "breeds.json",
             "--filter", "monsters.json",
+            "--filter", "recipes.json",
             "--filter", "en.json",
             "--filter", "fr.json",
             "--filter", "es.json",

@@ -11,6 +11,9 @@
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
     <link rel="stylesheet" type="text/css" href="{% static css_files.solution %}" class="solution-css css-file">
     <link rel="stylesheet" type="text/css" href="{% static "chardata/solution.css" %}">
+    <style>
+        html.fm-dark .lock-note { color: #ff7a7a; }
+    </style>
 
 <form id="main_form" method="post">
   {% csrf_token %}
@@ -130,6 +133,7 @@ var apiBase = '{{ api_base }}';
 var allItemsPerType = {{ types_json | safe }};
 var allItemsPerTypeAndName = {{ names_and_types_json | safe }};
 var inclusionsInitial = {{ inclusions_json | safe }};
+inclusionsInitial._notes = {{ notes_json | safe }};
 var slotToType = {{ slot_to_type_json | safe }};
 var slotImages = {{ images_json | safe }};
 var loader = {{ ajax_loader | safe }};
@@ -157,11 +161,24 @@ function get_loader_img()
 }
 
 $(document).ready(function() {
+    var inclusionsPostUrl = "{% game_url 'inclusions_post' char_id %}";
     setupStateEngine(inclusionsInitStateEngine,
-            "{% game_url 'inclusions_post' char_id %}",
-             inclusionsInitial);
-             
-    $.each(inclusionsInitial, function(slot, equip) {
+            inclusionsPostUrl,
+             inclusionsInitial, null, inclusionsInitStateEngine);
+    $("#button-save-and-tailor").off('click').click(function() {
+        saveStateEngine(inclusionsPostUrl, null, function(data) {
+            inclusionsInitStateEngine(data);
+            var refused = false;
+            $.each(data._notes || {}, function(slot, note) {
+                refused = refused || !note.locked;
+            });
+            if (!refused) {
+                tailorStateEngine();
+            }
+        });
+    });
+
+    $.each(inclusionsSlots(inclusionsInitial), function(slot, equip) {
         var addButton = $("#button-add-"+slot);
 
         addButton.click(function(e){
@@ -183,8 +200,38 @@ $(document).ready(function() {
     });
 });
 
+function inclusionsSlots(inclusionsData) {
+    var slots = {};
+    $.each(inclusionsData, function(slot, equip) {
+        if (slot !== '_notes') {
+            slots[slot] = equip;
+        }
+    });
+    return slots;
+}
+
 function inclusionsInitStateEngine(inclusionsData) {
-    inclusionsInit(inclusionsData, allItemsPerType, allItemsPerTypeAndName, slotToType, slotImages);
+    var slots = inclusionsSlots(inclusionsData);
+    inclusionsInit(slots, allItemsPerType, allItemsPerTypeAndName, slotToType, slotImages);
+    var notes = inclusionsData._notes || {};
+    $.each(slots, function(slot, equip) {
+        if (equip === '' || equip === null) {
+            $("#item-id-" + slot).val("");
+            $("#" + slot + "-name").text("");
+            $("#item-level-" + slot).text("");
+            setupStatOverrideForSlot(slot, null);
+        }
+        var line = $("#lock-note-" + slot);
+        if (!line.length) {
+            line = $("<div class='red-text lock-note'></div>").attr('id', 'lock-note-' + slot);
+            $("#" + slot + "-name").after(line);
+        }
+        if (notes[slot]) {
+            line.text(notes[slot].text).show();
+        } else {
+            line.text("").hide();
+        }
+    });
 }
 
 function renderStatOverrideSection(slot, itemId, itemStats) {
@@ -252,7 +299,7 @@ function setupStatOverrideForSlot(slot, itemId) {
 }
 
 $(document).ready(function() {
-    $.each(inclusionsInitial, function(slot, itemId) {
+    $.each(inclusionsSlots(inclusionsInitial), function(slot, itemId) {
         setupStatOverrideForSlot(slot, itemId || null);
         $("#item-id-" + slot).on('change', function() {
             var newId = $(this).val();

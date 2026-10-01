@@ -339,11 +339,14 @@ ELEMENT_KEY_TO_NAME = {
 }
 ELEMENT_NAME_TO_KEY = {v: k for k, v in ELEMENT_KEY_TO_NAME.items()}
 
-WEIRD_CONDITION_FROM_ID = {1: 'light_set', 2: 'prysmaradite', 3: 'light_set'}
-# light_set: id 1 "Set bonus < 3" (Dofus 3), id 3 "Set bonus < 2" (beta, Dofus 2, Touch)
+WEIRD_CONDITION_FROM_ID = {1: 'light_set', 2: 'prysmaradite', 3: 'light_set',
+                           4: 'sets_equipped'}
+# light_set: id 1 "Set bonus < 3", id 3 "Set bonus < 2"
 LIGHT_SET_LIMIT_FROM_ID = {1: 2, 3: 1}
+# sets_equipped: id 4 "Sets equipped < 2", a set counts once two of its pieces are worn
+SETS_EQUIPPED_LIMIT_FROM_ID = {4: 1}
 # Write ids: id 3 only comes from the scraper
-WEIRD_CONDITION_TO_ID = {'light_set': 1, 'prysmaradite': 2}
+WEIRD_CONDITION_TO_ID = {'light_set': 1, 'prysmaradite': 2, 'sets_equipped': 4}
 WEIRD_CONDITIONS = ['light_set', 'prysmaradite']
 
 class Spell:

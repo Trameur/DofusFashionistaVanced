@@ -19,7 +19,7 @@ import pickle
 from chardata.char_blobs import read_char_blob
 
 from fashionistapulp.structure import (fits_the_class, fits_the_level,
-                                       get_structure)
+                                       fits_the_wearer, get_structure)
 
 logger = logging.getLogger(__name__)
 
@@ -464,10 +464,12 @@ def _as_item_id(value):
         return ''
 
 def the_build_can_wear(char, item, beside=()):
-    """Whether the build's class and level can wear the piece, next to the pieces in beside."""
+    """Whether the build's class, level, sex and name can wear the piece, next to the pieces in beside."""
     level = getattr(char, 'level', None)
     return (fits_the_class(item, getattr(char, 'char_class', None))
             and (level is None or fits_the_level(item, level))
+            and fits_the_wearer(item, getattr(char, 'gender', None) or 0,
+                                getattr(char, 'char_name', None) or '')
             and not set(beside).intersection(getattr(item, 'not_worn_with', ())))
 
 def _without_new_locks_it_cannot_wear(char, included):

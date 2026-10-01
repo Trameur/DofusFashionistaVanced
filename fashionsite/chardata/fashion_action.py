@@ -53,7 +53,7 @@ from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp import lpproblem, temporix
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.model_pool import create_model, borrow_model, return_model
-from fashionistapulp.structure import get_current_game_version
+from fashionistapulp.structure import get_current_game_version, get_structure
 
 
 if not settings.DEBUG:
@@ -154,7 +154,10 @@ def _model_input(request, char, weights):
                       char.char_class,
                       stat_points_to_distribute,
                       get_empty_slots(char),
-                      stat_overrides)
+                      stat_overrides,
+                      gender=char.gender or 0,
+                      char_name=get_structure().name_a_piece_asks_for(
+                          char.char_name or ''))
 
 
 def _prices_spell_modifiers():

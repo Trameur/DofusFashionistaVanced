@@ -30,8 +30,8 @@ from .modelresult import (ModelResultMinimal, level_prospecting,
                           wisdom_per_ap_mp_dodge_point)
 import pulp
 from .restrictions import Restrictions
-from .structure import (fits_the_class, fits_the_level, get_structure,
-                        level_to_wear)
+from .structure import (fits_the_class, fits_the_level, fits_the_wearer,
+                        get_structure, level_to_wear)
 
 from collections import Counter
 
@@ -804,6 +804,7 @@ class Model:
         self.create_forbidden_items_constraints()
         self.create_stats_points_constraints()
         self.create_light_set_constraints()
+        self.create_sets_equipped_constraints()
         self.create_prysmaradite_constraints()
         self.create_not_worn_together_constraints()
         
@@ -824,7 +825,9 @@ class Model:
         self.modify_not_worn_together_constraints(model_input.locked_equips)
         self.modify_forbidden_items_constraints(model_input.forbidden_equips,
                                                 model_input.options,
-                                                model_input.char_class)
+                                                model_input.char_class,
+                                                getattr(model_input, 'gender', None),
+                                                getattr(model_input, 'char_name', None))
         self.modify_stats_points_constraints(model_input.char_class,
                                              model_input.stat_points_to_distribute,
                                              model_input.base_stats_by_attr)
@@ -949,7 +952,8 @@ class Model:
         restriction.changeRHS(stat_points)
     
     def modify_forbidden_items_constraints(self, forbidden_equips, options,
-                                           char_class=None):
+                                           char_class=None, gender=None,
+                                           char_name=None):
         # Copy, the caller's set is part of its cache key
         new_forbid_list = set(forbidden_equips)
         
@@ -980,7 +984,8 @@ class Model:
             item.id for item in self.items_list
             if item.id not in locked
             and ((item.type == emblem_type and item.id not in valued)
-                 or not fits_the_class(item, char_class))}
+                 or not fits_the_class(item, char_class)
+                 or not fits_the_wearer(item, gender, char_name))}
 
         for item in self.items_list:
             restriction = self.restrictions.forbidden_items_constraints.get(item.id, None)
@@ -989,7 +994,8 @@ class Model:
                 or (not options.get('trophies', True) and 'Trophy' in item.flags)
                 or (options['dofus'] == 'lightset'
                     and item.type == self.structure.get_type_id_by_name('Dofus')
-                    and item.weird_conditions['light_set']) 
+                    and (item.weird_conditions['light_set']
+                         or item.weird_conditions.get('sets_equipped')))
                 or (options['dofus'] == False 
                     and item.type == self.structure.get_type_id_by_name('Dofus'))
                 or (options['dofus'] == 'cawwot' 
@@ -1189,6 +1195,29 @@ class Model:
 
         restriction = self.problem.restriction_lt_eq(0, plist) 
         self.restrictions.fifth_light_set_constraint = restriction
+
+    def create_sets_equipped_constraints(self):
+        """Trophies with "Sets equipped < N": at most N - 1 sets with two pieces or more, of any size."""
+        caps = sorted({item.weird_conditions.get('sets_equipped')
+                       for item in self.items_list} - {None, False})
+        if not caps:
+            return
+        n_total_sets = len(self.sets_list)
+        # Equipped sets = all sets minus those with 0 or 1 piece worn
+        unequipped_sets = [(-1, 'ss', '%d_%d' % (item_set.id, pieces + 1))
+                           for item_set in self.sets_list for pieces in (0, 1)]
+        maximum_trophies = 6
+        for cap in caps:
+            self.problem.setup_variable('ysets', cap, 0, 1)
+            self.problem.setup_variable('setstrophies', cap, 0, 1)
+            self.problem.restriction_lt_eq(
+                cap - n_total_sets, unequipped_sets + [(-n_total_sets, 'ysets', cap)])
+            self.problem.restriction_lt_eq(
+                n_total_sets, [(n_total_sets, 'ysets', cap), (1, 'setstrophies', cap)])
+            worn = [(1, 'x', item.id) for item in self.items_list
+                    if item.weird_conditions.get('sets_equipped') == cap]
+            worn.append((-maximum_trophies, 'setstrophies', cap))
+            self.problem.restriction_lt_eq(0, worn)
     
     def create_not_worn_together_constraints(self):
         """Pieces the game refuses together, like the Dofus 2 Belladonna rings."""
@@ -1571,7 +1600,8 @@ class ModelInput(object):
     def __init__(self, char_level, base_stats_by_attr, minimum_stats, locked_equips,
                  forbidden_equips, objective_values, options, char_class,
                  stat_points_to_distribute, empty_slot_types=None, stat_overrides=None,
-                 modifier_values=None, modifier_overlaps=None):
+                 modifier_values=None, modifier_overlaps=None, gender=None,
+                 char_name=None):
         self.char_level = char_level
         self.base_stats_by_attr = base_stats_by_attr
         self.minimum_stats = minimum_stats
@@ -1586,6 +1616,18 @@ class ModelInput(object):
         # Spell modifiers of the pieces, see Model.modify_spell_modifier_terms
         self.modifier_values = modifier_values or {}
         self.modifier_overlaps = modifier_overlaps or {}
+        # Sex (0 male, 1 female) and character name some pieces ask for, None is not checked
+        self.gender = gender
+        self.char_name = char_name
+
+    def _barred_to_the_wearer(self):
+        """The pieces the sex and name rule out, None when neither is checked."""
+        gender = getattr(self, 'gender', None)
+        char_name = getattr(self, 'char_name', None)
+        if gender is None and char_name is None:
+            return None
+        from fashionistapulp.structure import get_structure
+        return get_structure().barred_to_the_wearer(gender, char_name)
 
     def get_old_input(self):
         return {'char_level': self.char_level,
@@ -1621,6 +1663,9 @@ class ModelInput(object):
         if getattr(self, 'modifier_values', None):
             parts.append(self.modifier_values)
             parts.append(getattr(self, 'modifier_overlaps', None) or {})
+        barred = self._barred_to_the_wearer()
+        if barred:
+            parts.append(['barred to the wearer', barred])
         return _stable_digest(parts)
 
     def __hash__(self, *args, **kwargs):
@@ -1648,6 +1693,9 @@ class ModelInput(object):
             key += tuple(frozenset((item_id, freeze(per_ap)) for item_id, per_ap in terms.items())
                          for terms in (modifier_values,
                                        getattr(self, 'modifier_overlaps', None) or {}))
+        barred = self._barred_to_the_wearer()
+        if barred:
+            key += (frozenset(barred),)
         return key.__hash__()
 
 def _canonical(value):

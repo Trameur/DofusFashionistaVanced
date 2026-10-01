@@ -15938,7 +15938,8 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                'April 2023', 'April 2026', 'August 2026', 'September 2026',
                'November 2025', 'April - September 2025',
                ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d',
-               '%(ap)s AP', '%(item)s: %(changes)s', 'Emblem', 'Element'},
+               '%(ap)s AP', '%(item)s: %(changes)s', 'Emblem', 'Element',
+               'Name = %(name)s'},
     }
     # Dofus grid labels fall back to the item's official name
     LABELLED_FROM_GAME_DATA = {

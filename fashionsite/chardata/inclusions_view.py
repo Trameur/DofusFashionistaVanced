@@ -19,11 +19,14 @@ import jsonpickle
 
 from chardata.translation_util import localized_stat_name
 from chardata.lock_forbid import (get_inclusions_dict,
-    set_inclusions_dict_and_check_exclusions,
+    set_inclusions_dict_and_check_exclusions, the_build_can_wear,
     get_stat_overrides, set_item_stat_override, remove_item_stat_override)
+from chardata.wear_conditions import (not_locked_text,
+                                      reasons_the_build_cannot_wear,
+                                      still_locked_text)
 from chardata.util import set_response, get_char_or_raise, HttpResponseJson, HttpResponseText
 from fashionistapulp.dofus_constants import SLOT_NAME_TO_TYPE, slots_for
-from fashionistapulp.structure import fits_the_class, get_structure
+from fashionistapulp.structure import get_structure
 from chardata.image_store import get_image_url
 from chardata.stat_icons import get_stat_icon_path
 from static_s3.templatetags.static_s3 import static
@@ -45,7 +48,7 @@ def inclusions(request, char_id):
         items_by_type_and_name[item_type] = {}
     for item_type in items_by_type:
         for item in structure.get_unique_items_by_type_and_level(item_type, char.level):
-            if not fits_the_class(item, char.char_class):
+            if not the_build_can_wear(char, item):
                 continue
             item_name = structure.get_item_name_in_language(item, get_supported_language())
             items_by_type[item_type][item.id] = item_name
@@ -59,6 +62,13 @@ def inclusions(request, char_id):
     inclusions = get_inclusions_dict(char)
     for slot in slots:
         inclusions.setdefault(slot, '')
+    for slot, item_id in inclusions.items():
+        item = structure.get_item_by_id(item_id) if item_id != '' else None
+        item_type = SLOT_NAME_TO_TYPE.get(slot)
+        if item is not None and item_type in items_by_type:
+            item_name = structure.get_item_name_in_language(item, get_supported_language())
+            items_by_type[item_type][item.id] = item_name
+            items_by_type_and_name[item_type][item_name] = item.id
 
     # Convert stat_overrides keys to strings for JSON (item_id: {stat_id: value})
     raw_overrides = get_stat_overrides(char)
@@ -74,6 +84,8 @@ def inclusions(request, char_id):
                          'types_json': jsonpickle.encode(items_by_type, unpicklable=False),
                          'names_and_types_json': jsonpickle.encode(items_by_type_and_name, unpicklable=False),
                          'inclusions_json': json.dumps(inclusions),
+                         'notes_json': json.dumps(
+                             _lock_notes(char, structure, inclusions)).replace('<', '\\u003c'),
                          'images_json': json.dumps(images_urls),
                          'slot_to_type_json': json.dumps(SLOT_NAME_TO_TYPE),
                          'ajax_loader': json.dumps(get_ajax_loader_URL(request)),
@@ -113,12 +125,32 @@ def get_item_details(request):
 
     return HttpResponseJson(json_response)
 
-def _wearable_by(structure, posted_id, char_class):
+def _posted_id(value):
     try:
-        item = structure.get_item_by_id(int(posted_id))
+        return int(value)
     except (TypeError, ValueError):
-        return True
-    return item is None or fits_the_class(item, char_class)
+        return ''
+
+
+def _lock_notes(char, structure, stored, posted=None):
+    """{slot: {text, locked}} for a stored lock the build cannot wear and a posted one left out."""
+    notes = {}
+    locked = {slot: item_id for slot, item_id in stored.items() if item_id != ''}
+    wanted = {slot: _posted_id(value) for slot, value in (posted or {}).items()}
+    for slot in sorted(set(locked) | set(wanted)):
+        item_id = wanted.get(slot) or locked.get(slot)
+        item = structure.get_item_by_id(item_id) if item_id else None
+        if item is None:
+            continue
+        beside = {other for other_slot, other in locked.items() if other_slot != slot}
+        reasons = reasons_the_build_cannot_wear(char, item, beside)
+        if not reasons:
+            continue
+        kept = locked.get(slot) == item_id
+        notes[slot] = {'text': (still_locked_text(reasons) if kept
+                                else not_locked_text(reasons)),
+                       'locked': kept}
+    return notes
 
 
 @require_POST
@@ -130,17 +162,17 @@ def inclusions_post(request, char_id):
     inclusions = {}
     for slot in slots:
         inclusions[slot] = request.POST.get(slot, '')
-        if not _wearable_by(structure, inclusions[slot], char.char_class):
-            inclusions[slot] = ''
 
     set_inclusions_dict_and_check_exclusions(char, inclusions)
 
-    inclusions = get_inclusions_dict(char)
+    stored = get_inclusions_dict(char)
 
     for slot in slots:
-        inclusions.setdefault(slot, '')
+        stored.setdefault(slot, '')
 
-    return HttpResponseJson(json.dumps(inclusions))
+    answer = dict(stored)
+    answer['_notes'] = _lock_notes(char, structure, stored, inclusions)
+    return HttpResponseJson(json.dumps(answer))
 
 @require_POST
 def set_item_stat_override_view(request, char_id):

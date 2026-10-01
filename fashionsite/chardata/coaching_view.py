@@ -24,6 +24,7 @@ from chardata.smart_build import level_minimums, set_char_aspects
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import set_response, version_reverse
 from chardata.version_compat import filter_classes_for_version
+from chardata.wear_conditions import a_new_build_can_wear
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
 
@@ -60,7 +61,8 @@ def included_item_for(game_version, value, language=None):
         return None
     structure = get_structure(game_version)
     item = structure.get_item_by_id(item_id)
-    if item is None or getattr(item, 'removed', False):
+    if (item is None or getattr(item, 'removed', False)
+            or not a_new_build_can_wear(item)):
         return None
     type_name = structure.get_type_name_by_id(item.type)
     slot = next((s for s, t in SLOT_NAME_TO_TYPE.items() if t == type_name),
@@ -71,6 +73,8 @@ def included_item_for(game_version, value, language=None):
     return {'id': item.id,
             'name': structure.get_item_name_in_language(item, language) or item.name,
             'level': level_to_wear(item),
+            'max_level': getattr(item, 'max_level', None),
+            'sexes': tuple(getattr(item, 'sexes', ())),
             'classes': tuple(getattr(item, 'classes', ())),
             'type_name': type_name,
             'slot': slot}
@@ -101,7 +105,8 @@ def included_set_for(game_version, value, language=None):
     pieces = []
     for item_id in getattr(item_set, 'items', None) or []:
         item = structure.get_item_by_id(item_id)
-        if item is None or getattr(item, 'removed', False):
+        if (item is None or getattr(item, 'removed', False)
+                or not a_new_build_can_wear(item)):
             continue
         type_name = structure.get_type_name_by_id(item.type)
         slot = next((s for s, t in SLOT_NAME_TO_TYPE.items()
@@ -112,6 +117,8 @@ def included_set_for(game_version, value, language=None):
         pieces.append({'id': item.id,
                        'name': structure.get_item_name_in_language(item, language) or item.name,
                        'level': level_to_wear(item),
+                       'max_level': getattr(item, 'max_level', None),
+                       'sexes': tuple(getattr(item, 'sexes', ())),
                        'classes': tuple(getattr(item, 'classes', ())),
                        'slot': slot})
     if not pieces:
@@ -128,21 +135,36 @@ def _worn_by(piece, char_class):
     return not piece['classes'] or char_class in piece['classes']
 
 
-def level_options_for(included_level):
+def _fits(piece, char):
+    """Whether the new build's level and sex can wear the piece."""
+    highest = piece.get('max_level')
+    sexes = piece.get('sexes') or ()
+    return (piece['level'] <= char.level
+            and (highest is None or char.level <= highest)
+            and (not sexes or (char.gender or 0) in sexes))
+
+
+def level_options_for(included_level, highest_level=None):
     """(levels offered, level selected) for the quick start form.
 
     Without an item: the defaults, 200 selected. With one: the item's own
-    level, the lowest that can wear it, then the defaults above it; 200
-    stays selected when it is offered, else that lowest level (no version
-    carries an item above 200 today, but the arithmetic does not depend on
-    it).
+    level, the lowest that can wear it, then the defaults above it up to
+    the highest level the item allows, and that highest level; 200 stays
+    selected when it is offered, else the offered level closest to it (no
+    version carries an item above 200 today, but the arithmetic does not
+    depend on it).
     """
     if included_level is None:
         return DEFAULT_LEVELS, 200
-    levels = [lvl for lvl in DEFAULT_LEVELS if lvl >= included_level]
+    levels = [lvl for lvl in DEFAULT_LEVELS if lvl >= included_level
+              and (highest_level is None or lvl <= highest_level)]
     if included_level not in levels:
         levels = sorted(levels + [included_level])
-    return levels, (200 if 200 in levels else levels[0])
+    if (highest_level is not None and highest_level > included_level
+            and highest_level not in levels):
+        levels = sorted(levels + [highest_level])
+    return levels, (200 if 200 in levels
+                    else min(levels, key=lambda lvl: abs(lvl - 200)))
 
 
 def coaching(request):
@@ -163,12 +185,16 @@ def coaching(request):
     # item first when both are given.
     included_set = (None if included is not None
                     else included_set_for(game_version, form.get('set')))
-    floor = None
+    floor = ceiling = None
     if included is not None:
         floor = included['level']
+        ceiling = included['max_level']
     elif included_set is not None:
         floor = included_set['level']
-    level_options, selected_level = level_options_for(floor)
+        ceilings = [piece['max_level'] for piece in included_set['pieces']
+                    if piece['max_level'] is not None]
+        ceiling = min(ceilings) if ceilings else None
+    level_options, selected_level = level_options_for(floor, ceiling)
     class_options = _locale_class_options(game_version)
     if included is not None and included['classes']:
         class_options = ([option for option in class_options
@@ -204,7 +230,8 @@ def _posted_level(form, level_options, selected_level):
     return level if level in level_options else selected_level
 
 
-def create_build(request, char_class, char_level, aspects, game_version, name=None):
+def create_build(request, char_class, char_level, aspects, game_version, name=None,
+                 gender=0):
     """Create a fully configured Char + base stats. `aspects` is a set of
     smart_build aspect keys."""
     char_class = version_class(char_class, game_version)
@@ -218,6 +245,7 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
                          % {'cls': LOCALIZED_CHARACTER_CLASSES.get(char_class, char_class),
                             'lvl': char_level})
     char.char_name = ''
+    char.gender = gender
     char.char_class = char_class
     char.char_build = ''
     char.level = char_level
@@ -271,31 +299,33 @@ def _create_from_coaching(request, game_version, element):
     style = offered_style(request.POST.get('play_style', DEFAULT_STYLE), game_version)
 
     aspects = style_aspects(style, element)
-    char = create_build(request, char_class, char_level, aspects, game_version)
+    included = included_item_for(game_version, request.POST.get('item'))
+    included_set = (None if included is not None
+                    else included_set_for(game_version, request.POST.get('set')))
+    pieces = ([included] if included is not None
+              else included_set['pieces'] if included_set is not None else [])
+    gender = next((piece['sexes'][0] for piece in pieces if piece['sexes']), 0)
+    char = create_build(request, char_class, char_level, aspects, game_version,
+                        gender=gender)
 
     # The item the fiche asked for, locked into its slot. After create_build
     # on purpose: that call seeds the default exclusions, and an item the
     # reader explicitly asked for must win over a default that hides it,
     # which is what set_inclusions_dict_and_check_exclusions does. An item
-    # above the character's level, or of another class, cannot be worn, so
-    # it is not locked, and the form offers neither anyway.
-    included = included_item_for(game_version, request.POST.get('item'))
+    # outside the character's level range, or of another class, cannot be
+    # worn, so it is not locked, and the form offers neither anyway.
     locked = {}
     if included is not None:
-        if (included['level'] <= char.level
-                and _worn_by(included, char.char_class)):
+        if _fits(included, char) and _worn_by(included, char.char_class):
             locked[included['slot']] = included['id']
-    elif included is None:
+    elif included_set is not None:
         # A whole panoply: every piece the character can wear, each in its
         # own slot. The form starts its levels at the highest piece, so
         # normally all of them; a level posted by hand below that keeps
         # only the pieces that fit.
-        included_set = included_set_for(game_version, request.POST.get('set'))
-        if included_set is not None:
-            for piece in included_set['pieces']:
-                if (piece['level'] <= char.level
-                        and _worn_by(piece, char.char_class)):
-                    locked[piece['slot']] = piece['id']
+        for piece in included_set['pieces']:
+            if _fits(piece, char) and _worn_by(piece, char.char_class):
+                locked[piece['slot']] = piece['id']
     if locked:
         from chardata.lock_forbid import set_inclusions_dict_and_check_exclusions
         # The locked pieces can make the level's AP/MP out of reach
