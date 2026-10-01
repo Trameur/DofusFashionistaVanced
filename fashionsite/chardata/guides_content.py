@@ -9,9 +9,10 @@ ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-
 
 import logging
 import re
-from functools import lru_cache
+import weakref
+from itertools import zip_longest
 
-from fashionistapulp.game_versions import version_keys
+from fashionistapulp.game_versions import GAME_VERSIONS, get_game_version, version_keys
 
 from chardata.guides_slugs import GUIDE_SLUGS
 
@@ -27,7 +28,7 @@ GUIDES = {
             'modern': {
                 'en': {
                     'title': 'Lock and dodge: what the gear really gives',
-                    'desc': 'Counted on the Dofus 3 catalogue: 549 items carry lock, 606 carry dodge, and 121 of them take dodge away. What to plan, and what to check.',
+                    'desc': 'Counted on the [[version]] catalogue: [[count:lock]] items carry lock, [[count:dodge]] carry dodge, [[count:-dodge]] take it away. What to plan and check.',
                     'lead': 'Lock keeps an enemy beside you, dodge gets you out. Both are ordinary lines on ordinary gear, and the catalogue is far less generous with them than people assume.',
                     'body': '''
 <h2>What the check actually is</h2>
@@ -35,30 +36,29 @@ GUIDES = {
 <p>That is why the two stats belong in the same guide. Building lock without knowing what dodge is available is building against a number you never looked at.</p>
 
 <h2>What the catalogue gives, counted</h2>
-<p>We counted every item in the Dofus 3 database: <strong>549 carry lock</strong> and <strong>606 carry dodge</strong>. That sounds like plenty until you look at the sizes.</p>
+<p>We counted every item in the [[version]] database: <strong>[[count:lock]] carry lock</strong> and <strong>[[count:dodge]] carry dodge</strong>. That sounds like plenty until you look at the sizes.</p>
 <ul>
-<li>The best <strong>worn</strong> lock line is <strong>+20</strong>, on Count Harebourg's Hat and on Kroks, both level 200.</li>
-<li>Above that you are in trophy territory: Major Stickler and Major Obstructor give <strong>+32</strong> at level 150.</li>
-<li>Dodge reaches further: <strong>+40</strong> on the Ebony Dofus at level 180 and on Meriana's Clairvoyance at level 200.</li>
-<li>Pets are the outlier on both sides, at <strong>+50</strong>.</li>
+<li>On the gear you <strong>wear</strong>, lock stops at <strong>+[[top:lock:worn]]</strong> and dodge at <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>The Dofus and trophy slots carry the biggest lines: <strong>+[[top:lock:dofus]] lock</strong> ([[top-names:lock:dofus]]) and <strong>+[[top:dodge:dofus]] dodge</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Pets are the outlier on both sides, at <strong>+[[top:lock:pet]]</strong>.</li>
 </ul>
 <p>So a serious lock build is assembled from many small lines, not from two big ones. Read our guide on <a href="/guides/reading-an-item/">reading an item</a> if those numbers on a tooltip do not mean much to you yet, and the guide on <a href="/guides/dofus-and-trophies/">dofuses and trophies</a> for the slots that carry the largest of them.</p>
 
 <h2>The lines that take it away</h2>
-<p>This is the part players miss. <strong>80 items remove lock and 121 remove dodge</strong>, and the negatives are bigger than the positives: Lady Jhessica's Courage costs <strong>60 dodge</strong> and Death-Defying costs <strong>50</strong>, against a best case of +40.</p>
-<p>If you never asked for dodge, nothing warned you that a belt was quietly taking more of it than any item in the game could give back. Set a minimum and the optimizer has to respect it; leave it unset and it is free to spend that number on something else.</p>
+<p>This is the part players miss. <strong>[[count:-lock]] items remove lock and [[count:-dodge]] remove dodge</strong>, and the negatives are bigger than the positives: the biggest loss is <strong>[[top:-dodge:nopet]] dodge</strong> ([[top-names:-dodge:nopet]]), against a best case of +[[top:dodge:nopet]].</p>
+<p>If you never asked for dodge, nothing warned you that a single piece was quietly taking more of it than any item in the game could give back. Set a minimum and the optimizer has to respect it; leave it unset and it is free to spend that number on something else.</p>
 
 <h2>You will rarely get both</h2>
-<p>Only <strong>20 items in the whole Dofus 3 catalogue give lock and dodge at once</strong>. The two are treated as opposite intentions, and gear is built that way. Decide which side of the check you want to win before you start, because trying to hold both usually means holding neither.</p>
+<p>Only <strong>[[count:lock+dodge]] items in the whole [[version]] catalogue give lock and dodge at once</strong>. The two are treated as opposite intentions, and gear is built that way. Decide which side of the check you want to win before you start, because trying to hold both usually means holding neither.</p>
 
 <h2>How to ask for it</h2>
-<p>Put a minimum on Lock or on Dodge in your build and let the solver find the pieces. It searches the whole catalogue at once, which is exactly the job you do not want to do by hand across 549 items. <a href="/setup/">Start a build</a> and set the minimum before you look at the result.</p>
-<p>One warning if you play more than one version: these numbers are Dofus 3's. Dofus Touch caps every one of these lines at 32, and on Dofus Retro no item carries them at all: Agility decides tackling there. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why advice does not travel between them.</p>
+<p>Put a minimum on Lock or on Dodge in your build and let the solver find the pieces. It searches the whole catalogue at once, which is exactly the job you do not want to do by hand across [[count:lock]] items. <a href="/setup/">Start a build</a> and set the minimum before you look at the result.</p>
+<p>One warning if you play more than one version: these numbers are [[version]]'s. Outside pets, Dofus Touch stops at +[[top:lock:nopet:touch]] lock and +[[top:dodge:nopet:touch]] dodge, and on Dofus Retro no item carries them at all: Agility decides tackling there. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why advice does not travel between them.</p>
 ''',
                 },
                 'fr': {
                     'title': 'Tacle et fuite : ce que l\'équipement donne vraiment',
-                    'desc': 'Compté sur le catalogue Dofus 3 : 549 objets donnent du tacle, 606 de la fuite, et 121 en retirent. Ce qu\'il faut prévoir, et ce qu\'il faut vérifier.',
+                    'desc': 'Sur le catalogue [[version]], [[count:lock]] objets donnent du tacle, [[count:dodge]] de la fuite et [[count:-dodge]] en retirent. Quoi prévoir, quoi vérifier.',
                     'lead': 'Le tacle retient un ennemi contre toi, la fuite te fait sortir. Ce sont deux lignes ordinaires sur de l\'équipement ordinaire, et le catalogue est bien moins généreux qu\'on ne le croit.',
                     'body': '''
 <h2>Ce que le jeu compare vraiment</h2>
@@ -66,30 +66,29 @@ GUIDES = {
 <p>C'est pour ça que les deux stats tiennent dans le même guide. Monter du tacle sans savoir ce que la fuite peut atteindre, c'est se préparer contre un chiffre qu'on n'a jamais regardé.</p>
 
 <h2>Ce que le catalogue donne, compté</h2>
-<p>Nous avons compté chaque objet de la base Dofus 3 : <strong>549 portent du tacle</strong> et <strong>606 de la fuite</strong>. Ça paraît beaucoup, jusqu'à ce qu'on regarde les montants.</p>
+<p>Nous avons compté chaque objet de la base [[version]] : <strong>[[count:lock]] portent du tacle</strong> et <strong>[[count:dodge]] de la fuite</strong>. Ça paraît beaucoup, jusqu'à ce qu'on regarde les montants.</p>
 <ul>
-<li>La meilleure ligne de tacle <strong>portée</strong> est de <strong>+20</strong>, sur le Chapeau du Comte Harebourg et sur les Krocs, tous deux niveau 200.</li>
-<li>Au-dessus, on est chez les trophées : Majeur Colleur et Majeur Obstructeur donnent <strong>+32</strong> au niveau 150.</li>
-<li>La fuite monte plus haut : <strong>+40</strong> sur le Dofus Ebène au niveau 180 et sur la Clairvoyance de Meriana au niveau 200.</li>
-<li>Les familiers font exception des deux côtés, à <strong>+50</strong>.</li>
+<li>Sur l'équipement <strong>porté</strong>, le tacle plafonne à <strong>+[[top:lock:worn]]</strong> et la fuite à <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>Les plus grosses lignes sont dans les emplacements de dofus et de trophées : <strong>+[[top:lock:dofus]] de tacle</strong> ([[top-names:lock:dofus]]) et <strong>+[[top:dodge:dofus]] de fuite</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Les familiers font exception des deux côtés, à <strong>+[[top:lock:pet]]</strong>.</li>
 </ul>
 <p>Un vrai build tacle s'assemble donc à partir de beaucoup de petites lignes, pas de deux grosses. Lis notre guide sur <a href="/guides/reading-an-item/">la lecture d'un objet</a> si ces chiffres sur une infobulle ne te parlent pas encore, et celui sur <a href="/guides/dofus-and-trophies/">les dofus et les trophées</a> pour les emplacements qui portent les plus grosses.</p>
 
 <h2>Les lignes qui en retirent</h2>
-<p>C'est la partie qu'on oublie. <strong>80 objets retirent du tacle et 121 de la fuite</strong>, et les négatifs sont plus gros que les positifs : le Courage de Lady Jhessica coûte <strong>60 de fuite</strong> et l'Increvable <strong>50</strong>, face à un meilleur cas de +40.</p>
-<p>Si tu n'as jamais demandé de fuite, rien ne t'a prévenu qu'une ceinture t'en prenait discrètement plus que n'importe quel objet du jeu ne peut t'en rendre. Pose un minimum et l'optimiseur doit le respecter ; laisse-le vide et il est libre de dépenser ce chiffre ailleurs.</p>
+<p>C'est la partie qu'on oublie. <strong>[[count:-lock]] objets retirent du tacle et [[count:-dodge]] de la fuite</strong>, et les négatifs sont plus gros que les positifs : la plus grosse perte est de <strong>[[top:-dodge:nopet]] de fuite</strong> ([[top-names:-dodge:nopet]]), face à un meilleur cas de +[[top:dodge:nopet]].</p>
+<p>Si tu n'as jamais demandé de fuite, rien ne t'a prévenu qu'une seule pièce t'en prenait discrètement plus que n'importe quel objet du jeu ne peut t'en rendre. Pose un minimum et l'optimiseur doit le respecter ; laisse-le vide et il est libre de dépenser ce chiffre ailleurs.</p>
 
 <h2>Tu auras rarement les deux</h2>
-<p>Seuls <strong>20 objets de tout le catalogue Dofus 3 donnent du tacle et de la fuite en même temps</strong>. Le jeu traite les deux comme des intentions opposées, et l'équipement est construit comme ça. Choisis de quel côté de la comparaison tu veux gagner avant de commencer, parce que vouloir tenir les deux revient le plus souvent à ne tenir ni l'un ni l'autre.</p>
+<p>Seuls <strong>[[count:lock+dodge]] objets de tout le catalogue [[version]] donnent du tacle et de la fuite en même temps</strong>. Le jeu traite les deux comme des intentions opposées, et l'équipement est construit comme ça. Choisis de quel côté de la comparaison tu veux gagner avant de commencer, parce que vouloir tenir les deux revient le plus souvent à ne tenir ni l'un ni l'autre.</p>
 
 <h2>Comment le demander</h2>
-<p>Mets un minimum sur Tacle ou sur Fuite dans ton build et laisse le solveur trouver les pièces. Il fouille tout le catalogue d'un coup, ce qui est exactement le travail que tu n'as pas envie de faire à la main sur 549 objets. <a href="/setup/">Commence un build</a> et pose le minimum avant de regarder le résultat.</p>
-<p>Un avertissement si tu joues sur plusieurs versions : ces chiffres sont ceux de Dofus 3. Dofus Touch plafonne chacune de ces lignes à 32, et sur Dofus Rétro aucun objet n'en porte : c'est l'Agilité qui y décide du tacle. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les conseils ne voyagent pas de l'une à l'autre.</p>
+<p>Mets un minimum sur Tacle ou sur Fuite dans ton build et laisse le solveur trouver les pièces. Il fouille tout le catalogue d'un coup, ce qui est exactement le travail que tu n'as pas envie de faire à la main sur [[count:lock]] objets. <a href="/setup/">Commence un build</a> et pose le minimum avant de regarder le résultat.</p>
+<p>Un avertissement si tu joues sur plusieurs versions : ces chiffres sont ceux de [[version]]. Hors familiers, Dofus Touch s'arrête à +[[top:lock:nopet:touch]] de tacle et +[[top:dodge:nopet:touch]] de fuite, et sur Dofus Rétro aucun objet n'en porte : c'est l'Agilité qui y décide du tacle. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les conseils ne voyagent pas de l'une à l'autre.</p>
 ''',
                 },
                 'es': {
                     'title': 'Placaje y huida: lo que el equipo da de verdad',
-                    'desc': 'Contado en el catálogo de Dofus 3: 549 objetos dan placaje, 606 dan huida y 121 la quitan. Qué planear y qué comprobar antes de comprar.',
+                    'desc': 'Contado en el catálogo de [[version]]: [[count:lock]] objetos dan placaje, [[count:dodge]] dan huida y [[count:-dodge]] la quitan. Qué planear y comprobar.',
                     'lead': 'El placaje retiene a un enemigo a tu lado, la huida te saca de ahí. Son líneas corrientes en equipo corriente, y el catálogo es mucho menos generoso de lo que se cree.',
                     'body': '''
 <h2>Qué compara el juego</h2>
@@ -97,214 +96,226 @@ GUIDES = {
 <p>Por eso las dos estadísticas van en la misma guía. Subir placaje sin saber cuánta huida existe es prepararse contra una cifra que nunca miraste.</p>
 
 <h2>Lo que da el catálogo, contado</h2>
-<p>Contamos cada objeto de la base de Dofus 3: <strong>549 llevan placaje</strong> y <strong>606 llevan huida</strong>. Parece mucho hasta que miras las cantidades.</p>
+<p>Contamos cada objeto de la base de [[version]]: <strong>[[count:lock]] llevan placaje</strong> y <strong>[[count:dodge]] llevan huida</strong>. Parece mucho hasta que miras las cantidades.</p>
 <ul>
-<li>La mejor línea de placaje <strong>que se lleva puesta</strong> es <strong>+20</strong>, en el Sombrero del Conde Harebourg y en las Krocs, ambos de nivel 200.</li>
-<li>Por encima ya son trofeos: Placador Mayor y Obstructor Mayor dan <strong>+32</strong> a nivel 150.</li>
-<li>La huida llega más lejos: <strong>+40</strong> en el Dofus Ébano de nivel 180 y en la Clarividencia de Meriana de nivel 200.</li>
-<li>Las mascotas son la excepción por ambos lados, con <strong>+50</strong>.</li>
+<li>En el equipo <strong>que llevas puesto</strong>, el placaje se queda en <strong>+[[top:lock:worn]]</strong> y la huida en <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>Las líneas más grandes están en las ranuras de dofus y trofeos: <strong>+[[top:lock:dofus]] de placaje</strong> ([[top-names:lock:dofus]]) y <strong>+[[top:dodge:dofus]] de huida</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Las mascotas son la excepción por ambos lados, con <strong>+[[top:lock:pet]]</strong>.</li>
 </ul>
 <p>Un build de placaje serio se arma con muchas líneas pequeñas, no con dos grandes. Lee nuestra guía sobre <a href="/guides/reading-an-item/">leer un objeto</a> si esas cifras aún no te dicen nada, y la de <a href="/guides/dofus-and-trophies/">dofus y trofeos</a> para las ranuras que llevan las mayores.</p>
 
 <h2>Las líneas que lo quitan</h2>
-<p>Esta es la parte que se pasa por alto. <strong>80 objetos quitan placaje y 121 quitan huida</strong>, y los negativos son mayores que los positivos: el Valor de Lady Jhessica cuesta <strong>60 de huida</strong> y el Indomable <strong>50</strong>, frente a un máximo de +40.</p>
-<p>Si nunca pediste huida, nada te avisó de que un cinturón te quitaba en silencio más de la que cualquier objeto del juego puede devolverte. Pon un mínimo y el optimizador tiene que respetarlo; déjalo vacío y podrá gastar esa cifra en otra cosa.</p>
+<p>Esta es la parte que se pasa por alto. <strong>[[count:-lock]] objetos quitan placaje y [[count:-dodge]] quitan huida</strong>, y los negativos son mayores que los positivos: la mayor pérdida es de <strong>[[top:-dodge:nopet]] de huida</strong> ([[top-names:-dodge:nopet]]), frente a un máximo de +[[top:dodge:nopet]].</p>
+<p>Si nunca pediste huida, nada te avisó de que una sola pieza te quitaba en silencio más de la que cualquier objeto del juego puede devolverte. Pon un mínimo y el optimizador tiene que respetarlo; déjalo vacío y podrá gastar esa cifra en otra cosa.</p>
 
 <h2>Rara vez tendrás las dos</h2>
-<p>Solo <strong>20 objetos de todo el catálogo de Dofus 3 dan placaje y huida a la vez</strong>. El juego las trata como intenciones opuestas y el equipo está hecho así. Decide de qué lado de la comparación quieres ganar antes de empezar, porque querer las dos suele acabar sin ninguna.</p>
+<p>Solo <strong>[[count:lock+dodge]] objetos de todo el catálogo de [[version]] dan placaje y huida a la vez</strong>. El juego las trata como intenciones opuestas y el equipo está hecho así. Decide de qué lado de la comparación quieres ganar antes de empezar, porque querer las dos suele acabar sin ninguna.</p>
 
 <h2>Cómo pedirlo</h2>
-<p>Pon un mínimo en Placaje o en Huida y deja que el solucionador encuentre las piezas. Recorre el catálogo entero de una vez, que es justo el trabajo que no quieres hacer a mano sobre 549 objetos. <a href="/setup/">Empieza un build</a> y fija el mínimo antes de mirar el resultado.</p>
-<p>Un aviso si juegas en varias versiones: estas cifras son las de Dofus 3. Dofus Touch limita todas estas líneas a 32, y en Dofus Retro ningún objeto las lleva: allí la Agilidad decide el placaje. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> explica por qué los consejos no viajan entre ellas.</p>
+<p>Pon un mínimo en Placaje o en Huida y deja que el solucionador encuentre las piezas. Recorre el catálogo entero de una vez, que es justo el trabajo que no quieres hacer a mano sobre [[count:lock]] objetos. <a href="/setup/">Empieza un build</a> y fija el mínimo antes de mirar el resultado.</p>
+<p>Un aviso si juegas en varias versiones: estas cifras son las de [[version]]. Fuera de las mascotas, Dofus Touch se queda en +[[top:lock:nopet:touch]] de placaje y +[[top:dodge:nopet:touch]] de huida, y en Dofus Retro ningún objeto lleva esas líneas: allí la Agilidad decide el placaje. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> explica por qué los consejos no viajan entre ellas.</p>
 ''',
                 },
                 'pt': {
-                    'title': 'Placagem e fuga: o que o equipamento dá mesmo',
-                    'desc': 'Contado no catálogo do Dofus 3: 549 itens dão placagem, 606 dão fuga e 121 tiram. O que planejar e o que conferir antes de comprar.',
-                    'lead': 'A placagem segura um inimigo ao teu lado, a fuga te tira de lá. São linhas comuns em equipamento comum, e o catálogo é bem menos generoso do que se imagina.',
+                    'title': 'Bloqueio e fuga: o que o equipamento dá mesmo',
+                    'desc': 'Contado no catálogo do [[version]]: [[count:lock]] itens dão bloqueio, [[count:dodge]] dão fuga e [[count:-dodge]] tiram. O que planejar e conferir.',
+                    'lead': 'O bloqueio segura um inimigo ao teu lado, a fuga te tira de lá. São linhas comuns em equipamento comum, e o catálogo é bem menos generoso do que se imagina.',
                     'body': '''
 <h2>O que o jogo compara</h2>
-<p>Quando você tenta deixar uma casa vizinha a um inimigo, o jogo opõe a sua <strong>fuga</strong> à <strong>placagem</strong> dele. Se falhar, sair custa pontos de movimento e, depois que eles acabam, pontos de ação. Ninguém fica totalmente placado nem totalmente livre: é uma comparação entre dois números, então um ponto de placagem vale o que os outros colocarem em fuga.</p>
-<p>É por isso que as duas estatísticas cabem no mesmo guia. Subir placagem sem saber quanta fuga existe é se preparar contra um número que você nunca olhou.</p>
+<p>Quando você tenta deixar uma casa vizinha a um inimigo, o jogo opõe a sua <strong>fuga</strong> ao <strong>bloqueio</strong> dele. Se falhar, sair custa pontos de movimento e, depois que eles acabam, pontos de ação. Ninguém fica totalmente bloqueado nem totalmente livre: é uma comparação entre dois números, então um ponto de bloqueio vale o que os outros colocarem em fuga.</p>
+<p>É por isso que as duas estatísticas cabem no mesmo guia. Subir bloqueio sem saber quanta fuga existe é se preparar contra um número que você nunca olhou.</p>
 
 <h2>O que o catálogo dá, contado</h2>
-<p>Contamos cada item da base do Dofus 3: <strong>549 têm placagem</strong> e <strong>606 têm fuga</strong>. Parece muito até você olhar os valores.</p>
+<p>Contamos cada item da base do [[version]]: <strong>[[count:lock]] têm bloqueio</strong> e <strong>[[count:dodge]] têm fuga</strong>. Parece muito até você olhar os valores.</p>
 <ul>
-<li>A melhor linha de placagem <strong>vestível</strong> é <strong>+20</strong>, no Chapéu do Conde Harebourg e nas Krocs, ambos de nível 200.</li>
-<li>Acima disso já são troféus: Placador Maior e Obstrutor Maior dão <strong>+32</strong> no nível 150.</li>
-<li>A fuga vai mais longe: <strong>+40</strong> no Dofus Ébano de nível 180 e na Clarividência de Meriana de nível 200.</li>
-<li>Os mascotes são a exceção dos dois lados, com <strong>+50</strong>.</li>
+<li>No equipamento que você <strong>veste</strong>, o bloqueio para em <strong>+[[top:lock:worn]]</strong> e a fuga em <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>As maiores linhas ficam nos espaços de dofus e troféus: <strong>+[[top:lock:dofus]] de bloqueio</strong> ([[top-names:lock:dofus]]) e <strong>+[[top:dodge:dofus]] de fuga</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Os mascotes são a exceção dos dois lados, com <strong>+[[top:lock:pet]]</strong>.</li>
 </ul>
-<p>Um build de placagem sério é montado com muitas linhas pequenas, não com duas grandes. Leia nosso guia sobre <a href="/guides/reading-an-item/">ler um item</a> se esses números ainda não dizem nada, e o de <a href="/guides/dofus-and-trophies/">dofus e troféus</a> para os espaços que carregam as maiores.</p>
+<p>Um build de bloqueio sério é montado com muitas linhas pequenas, não com duas grandes. Leia nosso guia sobre <a href="/guides/reading-an-item/">ler um item</a> se esses números ainda não dizem nada, e o de <a href="/guides/dofus-and-trophies/">dofus e troféus</a> para os espaços que carregam as maiores.</p>
 
 <h2>As linhas que tiram</h2>
-<p>Essa é a parte que passa despercebida. <strong>80 itens tiram placagem e 121 tiram fuga</strong>, e os negativos são maiores que os positivos: a Coragem de Lady Jhessica custa <strong>60 de fuga</strong> e o Indomável <strong>50</strong>, contra um máximo de +40.</p>
-<p>Se você nunca pediu fuga, nada avisou que um cinto estava tirando em silêncio mais do que qualquer item do jogo consegue devolver. Ponha um mínimo e o otimizador precisa respeitá-lo; deixe vazio e ele fica livre para gastar esse número em outra coisa.</p>
+<p>Essa é a parte que passa despercebida. <strong>[[count:-lock]] itens tiram bloqueio e [[count:-dodge]] tiram fuga</strong>, e os negativos são maiores que os positivos: a maior perda é de <strong>[[top:-dodge:nopet]] de fuga</strong> ([[top-names:-dodge:nopet]]), contra um máximo de +[[top:dodge:nopet]].</p>
+<p>Se você nunca pediu fuga, nada avisou que uma única peça estava tirando em silêncio mais do que qualquer item do jogo consegue devolver. Ponha um mínimo e o otimizador precisa respeitá-lo; deixe vazio e ele fica livre para gastar esse número em outra coisa.</p>
 
 <h2>Você raramente terá as duas</h2>
-<p>Apenas <strong>20 itens de todo o catálogo do Dofus 3 dão placagem e fuga ao mesmo tempo</strong>. O jogo trata as duas como intenções opostas, e o equipamento é feito assim. Decida de que lado da comparação você quer vencer antes de começar, porque querer as duas costuma terminar sem nenhuma.</p>
+<p>Apenas <strong>[[count:lock+dodge]] itens de todo o catálogo do [[version]] dão bloqueio e fuga ao mesmo tempo</strong>. O jogo trata as duas como intenções opostas, e o equipamento é feito assim. Decida de que lado da comparação você quer vencer antes de começar, porque querer as duas costuma terminar sem nenhuma.</p>
 
 <h2>Como pedir</h2>
-<p>Coloque um mínimo em Placagem ou em Fuga e deixe o solucionador achar as peças. Ele varre o catálogo inteiro de uma vez, que é exatamente o trabalho que você não quer fazer à mão em 549 itens. <a href="/setup/">Comece um build</a> e defina o mínimo antes de olhar o resultado.</p>
-<p>Um aviso se você joga em mais de uma versão: estes números são do Dofus 3. O Dofus Touch limita todas essas linhas a 32, e no Dofus Retro nenhum item as carrega: lá a Agilidade decide a placagem. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> explica por que os conselhos não viajam entre elas.</p>
+<p>Coloque um mínimo em Bloqueio ou em Fuga e deixe o solucionador achar as peças. Ele varre o catálogo inteiro de uma vez, que é exatamente o trabalho que você não quer fazer à mão em [[count:lock]] itens. <a href="/setup/">Comece um build</a> e defina o mínimo antes de olhar o resultado.</p>
+<p>Um aviso se você joga em mais de uma versão: estes números são do [[version]]. Fora os mascotes, o Dofus Touch para em +[[top:lock:nopet:touch]] de bloqueio e +[[top:dodge:nopet:touch]] de fuga, e no Dofus Retro nenhum item traz essas linhas: lá a Agilidade decide o bloqueio. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> explica por que os conselhos não viajam entre elas.</p>
 ''',
                 },
                 'de': {
-                    'title': 'Fesseln und Ausweichen: was die Ausrüstung gibt',
-                    'desc': 'Im Dofus-3-Katalog gezählt: 549 Gegenstände geben Fesseln, 606 geben Ausweichen und 121 nehmen es weg. Was du planen und was du prüfen solltest.',
-                    'lead': 'Fesseln hält einen Gegner neben dir fest, Ausweichen bringt dich heraus. Beides sind gewöhnliche Zeilen auf gewöhnlicher Ausrüstung, und der Katalog ist damit viel sparsamer als gedacht.',
+                    'title': 'Blocken und Ausweichen: was die Ausrüstung gibt',
+                    'desc': 'Im Katalog von [[version]] gezählt: [[count:lock]] Teile geben Blocken, [[count:dodge]] Ausweichen und [[count:-dodge]] nehmen es weg. Worauf du achten musst.',
+                    'lead': 'Blocken hält einen Gegner neben dir fest, Ausweichen bringt dich heraus. Beides sind gewöhnliche Zeilen auf gewöhnlicher Ausrüstung, und der Katalog ist damit viel sparsamer als gedacht.',
                     'body': '''
 <h2>Was das Spiel wirklich vergleicht</h2>
-<p>Wenn du ein Feld neben einem Gegner verlassen willst, stellt das Spiel dein <strong>Ausweichen</strong> gegen sein <strong>Fesseln</strong>. Misslingt es, kostet dich der Ausbruch Bewegungspunkte und danach Aktionspunkte. Niemand ist je ganz gefesselt oder ganz frei: es ist ein Vergleich zweier Zahlen, also ist ein Punkt Fesseln nur so viel wert, wie die anderen in Ausweichen stecken.</p>
-<p>Deshalb gehören die beiden Werte in denselben Leitfaden. Fesseln zu bauen, ohne zu wissen, wie hoch Ausweichen überhaupt gehen kann, heißt gegen eine Zahl zu planen, die du nie angesehen hast.</p>
+<p>Wenn du ein Feld neben einem Gegner verlassen willst, stellt das Spiel dein <strong>Ausweichen</strong> gegen sein <strong>Blocken</strong>. Misslingt es, kostet dich der Ausbruch Bewegungspunkte und danach Aktionspunkte. Niemand ist je ganz geblockt oder ganz frei: es ist ein Vergleich zweier Zahlen, also ist ein Punkt Blocken nur so viel wert, wie die anderen in Ausweichen stecken.</p>
+<p>Deshalb gehören die beiden Werte in denselben Leitfaden. Auf Blocken zu bauen, ohne zu wissen, wie hoch Ausweichen überhaupt gehen kann, heißt gegen eine Zahl zu planen, die du nie angesehen hast.</p>
 
 <h2>Was der Katalog hergibt, gezählt</h2>
-<p>Wir haben jeden Gegenstand der Dofus-3-Datenbank gezählt: <strong>549 tragen Fesseln</strong>, <strong>606 tragen Ausweichen</strong>. Das klingt nach viel, bis man die Höhe ansieht.</p>
+<p>Wir haben jeden Gegenstand der Datenbank von [[version]] gezählt: <strong>[[count:lock]] tragen Blocken</strong>, <strong>[[count:dodge]] tragen Ausweichen</strong>. Das klingt nach viel, bis man die Höhe ansieht.</p>
 <ul>
-<li>Die beste <strong>getragene</strong> Fesseln-Zeile ist <strong>+20</strong>, auf dem Hut des Grafen Harebourg und auf den Krocs, beide Stufe 200.</li>
-<li>Darüber beginnt das Trophäengebiet: Großer Klammerer und Großer Blockierer geben <strong>+32</strong> auf Stufe 150.</li>
-<li>Ausweichen reicht weiter: <strong>+40</strong> auf dem Ebenholz-Dofus (Stufe 180) und auf Merianas Weitblick (Stufe 200).</li>
-<li>Begleiter sind auf beiden Seiten die Ausnahme, mit <strong>+50</strong>.</li>
+<li>Auf <strong>getragener</strong> Ausrüstung endet Blocken bei <strong>+[[top:lock:worn]]</strong> und Ausweichen bei <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>Die größten Zeilen liegen auf den Dofus- und Trophäenplätzen: <strong>+[[top:lock:dofus]] Blocken</strong> ([[top-names:lock:dofus]]) und <strong>+[[top:dodge:dofus]] Ausweichen</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Begleiter sind auf beiden Seiten die Ausnahme, mit <strong>+[[top:lock:pet]]</strong>.</li>
 </ul>
-<p>Ein ernst gemeinter Fesseln-Build entsteht also aus vielen kleinen Zeilen, nicht aus zwei großen. Lies unseren Leitfaden zum <a href="/guides/reading-an-item/">Lesen eines Gegenstands</a>, falls dir diese Zahlen noch wenig sagen, und den zu <a href="/guides/dofus-and-trophies/">Dofus und Trophäen</a> für die Plätze mit den größten davon.</p>
+<p>Ein ernst gemeinter Blocken-Build entsteht also aus vielen kleinen Zeilen, nicht aus zwei großen. Lies unseren Leitfaden zum <a href="/guides/reading-an-item/">Lesen eines Gegenstands</a>, falls dir diese Zahlen noch wenig sagen, und den zu <a href="/guides/dofus-and-trophies/">Dofus und Trophäen</a> für die Plätze mit den größten davon.</p>
 
 <h2>Die Zeilen, die es wegnehmen</h2>
-<p>Das übersehen die meisten. <strong>80 Gegenstände nehmen Fesseln und 121 nehmen Ausweichen</strong>, und die Minuswerte sind größer als die Pluswerte: Lady Jhessicas Mut kostet <strong>60 Ausweichen</strong> und der Unverwüstliche <strong>50</strong>, gegen bestenfalls +40.</p>
-<p>Wenn du nie nach Ausweichen gefragt hast, hat dich nichts gewarnt, dass ein Gürtel dir still mehr davon nimmt, als irgendein Gegenstand im Spiel zurückgeben kann. Setz ein Minimum, dann muss der Optimierer es einhalten; lass es leer, und er darf diese Zahl anderswo ausgeben.</p>
+<p>Das übersehen die meisten. <strong>[[count:-lock]] Gegenstände nehmen Blocken und [[count:-dodge]] nehmen Ausweichen</strong>, und die Minuswerte sind größer als die Pluswerte: Der größte Verlust beträgt <strong>[[top:-dodge:nopet]] Ausweichen</strong> ([[top-names:-dodge:nopet]]), gegen bestenfalls +[[top:dodge:nopet]].</p>
+<p>Wenn du nie nach Ausweichen gefragt hast, hat dich nichts gewarnt, dass ein einziges Teil dir still mehr davon nimmt, als irgendein Gegenstand im Spiel zurückgeben kann. Setz ein Minimum, dann muss der Optimierer es einhalten; lass es leer, und er darf diese Zahl anderswo ausgeben.</p>
 
 <h2>Beides bekommst du selten</h2>
-<p>Nur <strong>20 Gegenstände im ganzen Dofus-3-Katalog geben Fesseln und Ausweichen zugleich</strong>. Das Spiel behandelt sie als gegensätzliche Absichten, und die Ausrüstung ist so gebaut. Entscheide vorher, welche Seite des Vergleichs du gewinnen willst, denn wer beides halten will, hält meist keines von beiden.</p>
+<p>Nur <strong>[[count:lock+dodge]] Gegenstände im ganzen Katalog von [[version]] geben Blocken und Ausweichen zugleich</strong>. Das Spiel behandelt sie als gegensätzliche Absichten, und die Ausrüstung ist so gebaut. Entscheide vorher, welche Seite des Vergleichs du gewinnen willst, denn wer beides halten will, hält meist keines von beiden.</p>
 
 <h2>Wie du danach fragst</h2>
-<p>Setz ein Minimum auf Fesseln oder auf Ausweichen und lass den Löser die Teile finden. Er durchsucht den ganzen Katalog auf einmal, genau die Arbeit, die du bei 549 Gegenständen nicht von Hand machen willst. <a href="/setup/">Starte einen Build</a> und setz das Minimum, bevor du auf das Ergebnis schaust.</p>
-<p>Ein Hinweis, falls du mehrere Versionen spielst: das sind die Zahlen von Dofus 3. Dofus Touch deckelt jede dieser Zeilen bei 32, und auf Dofus Retro trägt sie kein Gegenstand: dort entscheidet die Flinkheit das Fesseln. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> erklärt, warum Ratschläge nicht zwischen ihnen wandern.</p>
+<p>Setz ein Minimum auf Blocken oder auf Ausweichen und lass den Löser die Teile finden. Er durchsucht den ganzen Katalog auf einmal, genau die Arbeit, die du bei [[count:lock]] Gegenständen nicht von Hand machen willst. <a href="/setup/">Starte einen Build</a> und setz das Minimum, bevor du auf das Ergebnis schaust.</p>
+<p>Ein Hinweis, falls du mehrere Versionen spielst: das sind die Zahlen von [[version]]. Abgesehen von Begleitern endet Dofus Touch bei +[[top:lock:nopet:touch]] Blocken und +[[top:dodge:nopet:touch]] Ausweichen, und auf Dofus Retro trägt kein Gegenstand diese Zeilen: dort entscheidet die Flinkheit über das Blocken. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> erklärt, warum Ratschläge nicht zwischen ihnen wandern.</p>
 ''',
                 },
             },
             'touch': {
                 'en': {
-                    'title': 'Lock and dodge on Dofus Touch: everything stops at 32',
-                    'desc': 'Counted on the Touch catalogue: 339 items carry lock, 453 carry dodge, and not one line anywhere goes above 32. Do not copy Dofus 3 numbers here.',
-                    'lead': 'Touch has both stats, but its ceiling is much lower than the modern one, and the biggest lines are trophies rather than gear you wear.',
+                    'title': 'Lock and dodge on Dofus Touch: trophies and pets set the ceiling',
+                    'desc': 'On Touch, [[count:lock]] items carry lock and [[count:dodge]] dodge. Outside pets, lock stops at +[[top:lock:nopet]] and dodge at +[[top:dodge:nopet]].',
+                    'lead': 'Touch has both stats, but its worn gear gives less dodge than [[version:dofus3]], and outside pets the biggest lines are trophies rather than gear you wear.',
                     'body': '''
-<h2>The same check, a smaller catalogue</h2>
+<h2>The same check, a different catalogue</h2>
 <p>Leaving a cell next to an enemy puts your <strong>dodge</strong> against their <strong>lock</strong>, and failing costs you movement points and then action points. That part works as it does on the modern versions. The numbers do not.</p>
 
-<h2>Nothing goes above 32</h2>
-<p>We counted every item in the Touch database: <strong>339 carry lock</strong> and <strong>453 carry dodge</strong>, and <strong>not one line in either direction exceeds 32</strong>.</p>
+<h2>What the catalogue gives, counted</h2>
+<p>We counted every item in the Touch database: <strong>[[count:lock]] carry lock</strong> and <strong>[[count:dodge]] carry dodge</strong>.</p>
 <ul>
-<li>The ceiling is trophy-shaped: Major Stickler at level 150 and Major Obstructor at level 175 give <strong>+32 lock</strong>; Major Vagabond at 150 and Major Deserter at 175 give <strong>+32 dodge</strong>.</li>
-<li>The best lock you can actually wear is <strong>+20</strong>, on Count Harebourg's Hat and on Bethel's Panties, both level 200.</li>
-<li>The best worn dodge is smaller still, at <strong>+16</strong>.</li>
+<li>On the gear you <strong>wear</strong>, lock stops at <strong>+[[top:lock:worn]]</strong> ([[top-names:lock:worn]]) and dodge at <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>The trophies go further: <strong>+[[top:lock:dofus]] lock</strong> ([[top-names:lock:dofus]]) and <strong>+[[top:dodge:dofus]] dodge</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Pets top both: <strong>+[[top:lock:pet]] lock</strong> and <strong>+[[top:dodge:pet]] dodge</strong>.</li>
 </ul>
-<p>Dofus 3 reaches +40 dodge on the Ebony Dofus and on a pair of level 200 boots. Touch has neither. A guide that tells you to aim for forty on Touch is quoting a version you are not playing.</p>
+<p>[[version:dofus3]] is another game here: its worn gear reaches <strong>+[[top:dodge:worn:dofus3]] dodge</strong> where Touch stops at +[[top:dodge:worn]]. A guide that tells you to aim for [[version:dofus3]] numbers on Touch is quoting a version you are not playing.</p>
 
 <h2>Trophies decide this fight</h2>
-<p>Because the worn lines are so small, the trophy slots carry most of the decision on Touch, and they cut both ways: the same trophies that give 32 on one side take 32 off the other. Our guide on <a href="/guides/dofus-and-trophies/">dofuses and trophies</a> covers how those slots work.</p>
-<p>Only <strong>12 Touch items give lock and dodge at once</strong>, so here too you are choosing a side rather than covering both.</p>
+<p>Outside pets, trophies carry the biggest lines on Touch.[[if:13750]] Many of them cut both ways: a [[name:13750]] gives <strong>[[lines:13750]]</strong>.[[/if]] Our guide on <a href="/guides/dofus-and-trophies/">dofuses and trophies</a> covers how those slots work.</p>
+<p>Only <strong>[[count:lock+dodge]] Touch items give lock and dodge at once</strong>, so here too you are choosing a side rather than covering both.</p>
+
+<h2>The lines that take it away</h2>
+<p><strong>[[count:-lock]] items remove lock and [[count:-dodge]] remove dodge</strong>, and the biggest losses are <strong>[[top:-lock:all]] lock</strong> and <strong>[[top:-dodge:all]] dodge</strong>. If you never asked for either, nothing stops a piece from quietly taking it away: set a minimum and the optimizer has to respect it.</p>
 
 <h2>How to ask for it</h2>
 <p>Set a minimum on Lock or Dodge and let the solver pick from the Touch catalogue rather than from someone else's. <a href="/touch/setup/">Start a Touch build</a> and set it before you read the result. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why the two catalogues drifted apart.</p>
 ''',
                 },
                 'fr': {
-                    'title': 'Tacle et fuite sur Dofus Touch : tout plafonne à 32',
-                    'desc': 'Compté sur le catalogue Touch : 339 objets donnent du tacle, 453 de la fuite, et aucune ligne ne dépasse 32. Ne recopie pas les chiffres de Dofus 3.',
-                    'lead': 'Touch a bien les deux stats, mais son plafond est très inférieur à celui du moderne, et les plus grosses lignes sont des trophées, pas de l\'équipement porté.',
+                    'title': 'Tacle et fuite sur Dofus Touch : trophées et familiers fixent le plafond',
+                    'desc': '[[count:lock]] objets Touch ont du tacle, [[count:dodge]] de la fuite. Hors familiers, le tacle plafonne à +[[top:lock:nopet]], la fuite à +[[top:dodge:nopet]].',
+                    'lead': 'Touch a bien les deux stats, mais son équipement porté donne moins de fuite que [[version:dofus3]], et hors familiers les plus grosses lignes sont des trophées, pas de l\'équipement porté.',
                     'body': '''
-<h2>La même comparaison, un catalogue plus petit</h2>
+<h2>La même comparaison, un autre catalogue</h2>
 <p>Quitter une case adjacente à un ennemi oppose ta <strong>fuite</strong> à son <strong>tacle</strong>, et un échec te coûte des points de mouvement puis des points d'action. Ça, ça marche comme sur les versions modernes. Les chiffres, non.</p>
 
-<h2>Rien ne dépasse 32</h2>
-<p>Nous avons compté chaque objet de la base Touch : <strong>339 portent du tacle</strong> et <strong>453 de la fuite</strong>, et <strong>aucune ligne, dans un sens comme dans l'autre, ne dépasse 32</strong>.</p>
+<h2>Ce que le catalogue donne, compté</h2>
+<p>Nous avons compté chaque objet de la base Touch : <strong>[[count:lock]] portent du tacle</strong> et <strong>[[count:dodge]] de la fuite</strong>.</p>
 <ul>
-<li>Le plafond a une forme de trophée : Majeur Colleur au niveau 150 et Majeur Obstructeur au niveau 175 donnent <strong>+32 de tacle</strong> ; Majeur Vagabond au 150 et Majeur Déserteur au 175 donnent <strong>+32 de fuite</strong>.</li>
-<li>Le meilleur tacle réellement portable est <strong>+20</strong>, sur le Chapeau du Comte Harebourg et sur la Culotte de Bethel, tous deux niveau 200.</li>
-<li>La meilleure fuite portée est plus petite encore, à <strong>+16</strong>.</li>
+<li>Sur l'équipement <strong>porté</strong>, le tacle plafonne à <strong>+[[top:lock:worn]]</strong> ([[top-names:lock:worn]]) et la fuite à <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>Les trophées vont plus loin : <strong>+[[top:lock:dofus]] de tacle</strong> ([[top-names:lock:dofus]]) et <strong>+[[top:dodge:dofus]] de fuite</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Les familiers passent devant tout le monde : <strong>+[[top:lock:pet]] de tacle</strong> et <strong>+[[top:dodge:pet]] de fuite</strong>.</li>
 </ul>
-<p>Dofus 3 atteint +40 de fuite sur le Dofus Ebène et sur des bottes niveau 200. Touch n'a ni l'un ni l'autre. Un guide qui te dit de viser quarante sur Touch cite une version que tu ne joues pas.</p>
+<p>[[version:dofus3]] est un autre jeu sur ce point : son équipement porté monte à <strong>+[[top:dodge:worn:dofus3]] de fuite</strong>, là où Touch s'arrête à +[[top:dodge:worn]]. Un guide qui te dit de viser les chiffres de [[version:dofus3]] sur Touch cite une version que tu ne joues pas.</p>
 
 <h2>Les trophées décident</h2>
-<p>Comme les lignes portées sont si faibles, ce sont les emplacements de trophées qui portent l'essentiel du choix sur Touch, et ils coupent des deux côtés : les trophées qui donnent 32 d'un côté en retirent 32 de l'autre. Notre guide sur <a href="/guides/dofus-and-trophies/">les dofus et les trophées</a> explique comment ces emplacements fonctionnent.</p>
-<p>Seuls <strong>12 objets Touch donnent tacle et fuite en même temps</strong> : là aussi, on choisit un camp plutôt que de couvrir les deux.</p>
+<p>Hors familiers, ce sont les trophées qui portent les plus grosses lignes sur Touch.[[if:13750]] Beaucoup coupent des deux côtés : un [[name:13750]] donne <strong>[[lines:13750]]</strong>.[[/if]] Notre guide sur <a href="/guides/dofus-and-trophies/">les dofus et les trophées</a> explique comment ces emplacements fonctionnent.</p>
+<p>Seuls <strong>[[count:lock+dodge]] objets Touch donnent tacle et fuite en même temps</strong> : là aussi, on choisit un camp plutôt que de couvrir les deux.</p>
+
+<h2>Les lignes qui en retirent</h2>
+<p><strong>[[count:-lock]] objets retirent du tacle et [[count:-dodge]] de la fuite</strong>, et les plus grosses pertes sont de <strong>[[top:-lock:all]] de tacle</strong> et <strong>[[top:-dodge:all]] de fuite</strong>. Si tu n'as demandé ni l'un ni l'autre, rien n'empêche une pièce de t'en retirer en douce : pose un minimum et l'optimiseur doit le respecter.</p>
 
 <h2>Comment le demander</h2>
 <p>Pose un minimum sur Tacle ou sur Fuite et laisse le solveur choisir dans le catalogue Touch, pas dans celui d'une autre version. <a href="/touch/setup/">Commence un build Touch</a> et pose-le avant de lire le résultat. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les deux catalogues ont divergé.</p>
 ''',
                 },
                 'es': {
-                    'title': 'Placaje y huida en Dofus Touch: todo se detiene en 32',
-                    'desc': 'Contado en el catálogo de Touch: 339 objetos dan placaje, 453 dan huida y ninguna línea pasa de 32. No copies aquí las cifras de Dofus 3.',
-                    'lead': 'Touch tiene las dos estadísticas, pero su techo es mucho más bajo que el moderno, y las líneas mayores son trofeos, no equipo que se lleva puesto.',
+                    'title': 'Placaje y huida en Dofus Touch: trofeos y mascotas marcan el techo',
+                    'desc': 'En Touch, [[count:lock]] objetos dan placaje y [[count:dodge]] huida. Sin mascotas, el placaje llega a +[[top:lock:nopet]] y la huida a +[[top:dodge:nopet]].',
+                    'lead': 'Touch tiene las dos estadísticas, pero su equipo puesto da menos huida que [[version:dofus3]], y sin contar mascotas las líneas mayores son trofeos, no equipo que se lleva puesto.',
                     'body': '''
-<h2>La misma comparación, un catálogo más pequeño</h2>
+<h2>La misma comparación, otro catálogo</h2>
 <p>Salir de una casilla contigua a un enemigo enfrenta tu <strong>huida</strong> a su <strong>placaje</strong>, y fallar cuesta puntos de movimiento y luego de acción. Eso funciona igual que en las versiones modernas. Las cifras no.</p>
 
-<h2>Nada pasa de 32</h2>
-<p>Contamos cada objeto de la base de Touch: <strong>339 llevan placaje</strong> y <strong>453 llevan huida</strong>, y <strong>ninguna línea, en ningún sentido, pasa de 32</strong>.</p>
+<h2>Lo que da el catálogo, contado</h2>
+<p>Contamos cada objeto de la base de Touch: <strong>[[count:lock]] llevan placaje</strong> y <strong>[[count:dodge]] llevan huida</strong>.</p>
 <ul>
-<li>El techo tiene forma de trofeo: Placador Mayor de nivel 150 y Obstructor Mayor de nivel 175 dan <strong>+32 de placaje</strong>; Vagabundo Mayor de 150 y Desertor Mayor de 175 dan <strong>+32 de huida</strong>.</li>
-<li>El mejor placaje que puedes llevar puesto es <strong>+20</strong>, en el Sombrero del Conde Harebourg y en las Bragas de Bethel, ambos de nivel 200.</li>
-<li>La mejor huida vestible es aún menor, <strong>+16</strong>.</li>
+<li>En el equipo <strong>que llevas puesto</strong>, el placaje se queda en <strong>+[[top:lock:worn]]</strong> ([[top-names:lock:worn]]) y la huida en <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>Los trofeos llegan más lejos: <strong>+[[top:lock:dofus]] de placaje</strong> ([[top-names:lock:dofus]]) y <strong>+[[top:dodge:dofus]] de huida</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Las mascotas superan a todo: <strong>+[[top:lock:pet]] de placaje</strong> y <strong>+[[top:dodge:pet]] de huida</strong>.</li>
 </ul>
-<p>Dofus 3 llega a +40 de huida en el Dofus Ébano y en unas botas de nivel 200. Touch no tiene ninguno de los dos. Una guía que te diga que apuntes a cuarenta en Touch está citando una versión que no juegas.</p>
+<p>[[version:dofus3]] es otro juego en esto: su equipo llega a <strong>+[[top:dodge:worn:dofus3]] de huida</strong>, donde Touch se queda en +[[top:dodge:worn]]. Una guía que te diga que apuntes a las cifras de [[version:dofus3]] en Touch está citando una versión que no juegas.</p>
 
 <h2>Los trofeos deciden</h2>
-<p>Como las líneas vestibles son tan pequeñas, en Touch son las ranuras de trofeo las que cargan con casi toda la decisión, y cortan por los dos lados: los mismos trofeos que dan 32 en un sentido quitan 32 en el otro. Nuestra guía sobre <a href="/guides/dofus-and-trophies/">dofus y trofeos</a> explica cómo funcionan esas ranuras.</p>
-<p>Solo <strong>12 objetos de Touch dan placaje y huida a la vez</strong>: también aquí se elige bando en vez de cubrir los dos.</p>
+<p>Sin contar mascotas, en Touch los trofeos llevan las líneas mayores.[[if:13750]] Muchos cortan por los dos lados: un [[name:13750]] da <strong>[[lines:13750]]</strong>.[[/if]] Nuestra guía sobre <a href="/guides/dofus-and-trophies/">dofus y trofeos</a> explica cómo funcionan esas ranuras.</p>
+<p>Solo <strong>[[count:lock+dodge]] objetos de Touch dan placaje y huida a la vez</strong>: también aquí se elige bando en vez de cubrir los dos.</p>
+
+<h2>Las líneas que lo quitan</h2>
+<p><strong>[[count:-lock]] objetos quitan placaje y [[count:-dodge]] quitan huida</strong>, y las mayores pérdidas son de <strong>[[top:-lock:all]] de placaje</strong> y <strong>[[top:-dodge:all]] de huida</strong>. Si no pediste ninguna de las dos, nada impide que una pieza te la quite en silencio: pon un mínimo y el optimizador tiene que respetarlo.</p>
 
 <h2>Cómo pedirlo</h2>
 <p>Pon un mínimo en Placaje o en Huida y deja que el solucionador elija del catálogo de Touch y no del de otra versión. <a href="/touch/setup/">Empieza un build de Touch</a> y fíjalo antes de leer el resultado. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> explica por qué los dos catálogos se separaron.</p>
 ''',
                 },
                 'pt': {
-                    'title': 'Placagem e fuga no Dofus Touch: tudo para em 32',
-                    'desc': 'Contado no catálogo do Touch: 339 itens dão placagem, 453 dão fuga e nenhuma linha passa de 32. Não copie aqui os números do Dofus 3.',
-                    'lead': 'O Touch tem as duas estatísticas, mas o teto dele é bem mais baixo que o moderno, e as maiores linhas são troféus, não equipamento vestido.',
+                    'title': 'Bloqueio e fuga no Dofus Touch: troféus e mascotes definem o teto',
+                    'desc': 'No Touch, [[count:lock]] itens dão bloqueio e [[count:dodge]] fuga. Sem mascotes, o bloqueio para em +[[top:lock:nopet]] e a fuga em +[[top:dodge:nopet]].',
+                    'lead': 'O Touch tem as duas estatísticas, mas o equipamento vestido dele dá menos fuga que o [[version:dofus3]], e fora os mascotes as maiores linhas são troféus, não equipamento vestido.',
                     'body': '''
-<h2>A mesma comparação, um catálogo menor</h2>
-<p>Sair de uma casa vizinha a um inimigo opõe a sua <strong>fuga</strong> à <strong>placagem</strong> dele, e falhar custa pontos de movimento e depois de ação. Isso funciona como nas versões modernas. Os números, não.</p>
+<h2>A mesma comparação, outro catálogo</h2>
+<p>Sair de uma casa vizinha a um inimigo opõe a sua <strong>fuga</strong> ao <strong>bloqueio</strong> dele, e falhar custa pontos de movimento e depois de ação. Isso funciona como nas versões modernas. Os números, não.</p>
 
-<h2>Nada passa de 32</h2>
-<p>Contamos cada item da base do Touch: <strong>339 têm placagem</strong> e <strong>453 têm fuga</strong>, e <strong>nenhuma linha, em nenhum sentido, passa de 32</strong>.</p>
+<h2>O que o catálogo dá, contado</h2>
+<p>Contamos cada item da base do Touch: <strong>[[count:lock]] têm bloqueio</strong> e <strong>[[count:dodge]] têm fuga</strong>.</p>
 <ul>
-<li>O teto tem formato de troféu: Placador Maior no nível 150 e Obstrutor Maior no 175 dão <strong>+32 de placagem</strong>; Vagabundo Maior no 150 e Desertor Maior no 175 dão <strong>+32 de fuga</strong>.</li>
-<li>A melhor placagem realmente vestível é <strong>+20</strong>, no Chapéu do Conde Harebourg e na Calcinha de Bethel, ambos de nível 200.</li>
-<li>A melhor fuga vestível é menor ainda, <strong>+16</strong>.</li>
+<li>No equipamento que você <strong>veste</strong>, o bloqueio para em <strong>+[[top:lock:worn]]</strong> ([[top-names:lock:worn]]) e a fuga em <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>Os troféus vão mais longe: <strong>+[[top:lock:dofus]] de bloqueio</strong> ([[top-names:lock:dofus]]) e <strong>+[[top:dodge:dofus]] de fuga</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Os mascotes passam de tudo: <strong>+[[top:lock:pet]] de bloqueio</strong> e <strong>+[[top:dodge:pet]] de fuga</strong>.</li>
 </ul>
-<p>O Dofus 3 chega a +40 de fuga no Dofus Ébano e em botas de nível 200. O Touch não tem nenhum dos dois. Um guia que manda mirar quarenta no Touch está citando uma versão que você não joga.</p>
+<p>O [[version:dofus3]] é outro jogo nisso: o equipamento dele chega a <strong>+[[top:dodge:worn:dofus3]] de fuga</strong>, onde o Touch para em +[[top:dodge:worn]]. Um guia que manda mirar os números do [[version:dofus3]] no Touch está citando uma versão que você não joga.</p>
 
 <h2>Os troféus decidem</h2>
-<p>Como as linhas vestíveis são tão pequenas, no Touch são os espaços de troféu que carregam quase toda a decisão, e eles cortam dos dois lados: os mesmos troféus que dão 32 de um lado tiram 32 do outro. Nosso guia sobre <a href="/guides/dofus-and-trophies/">dofus e troféus</a> explica como esses espaços funcionam.</p>
-<p>Apenas <strong>12 itens do Touch dão placagem e fuga ao mesmo tempo</strong>: aqui também se escolhe um lado em vez de cobrir os dois.</p>
+<p>Fora os mascotes, no Touch são os troféus que carregam as maiores linhas.[[if:13750]] Muitos cortam dos dois lados: um [[name:13750]] dá <strong>[[lines:13750]]</strong>.[[/if]] Nosso guia sobre <a href="/guides/dofus-and-trophies/">dofus e troféus</a> explica como esses espaços funcionam.</p>
+<p>Apenas <strong>[[count:lock+dodge]] itens do Touch dão bloqueio e fuga ao mesmo tempo</strong>: aqui também se escolhe um lado em vez de cobrir os dois.</p>
+
+<h2>As linhas que tiram</h2>
+<p><strong>[[count:-lock]] itens tiram bloqueio e [[count:-dodge]] tiram fuga</strong>, e as maiores perdas são de <strong>[[top:-lock:all]] de bloqueio</strong> e <strong>[[top:-dodge:all]] de fuga</strong>. Se você não pediu nenhum dos dois, nada impede uma peça de tirá-los em silêncio: ponha um mínimo e o otimizador precisa respeitá-lo.</p>
 
 <h2>Como pedir</h2>
-<p>Coloque um mínimo em Placagem ou em Fuga e deixe o solucionador escolher no catálogo do Touch, não no de outra versão. <a href="/touch/setup/">Comece um build do Touch</a> e defina antes de ler o resultado. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> explica por que os dois catálogos se afastaram.</p>
+<p>Coloque um mínimo em Bloqueio ou em Fuga e deixe o solucionador escolher no catálogo do Touch, não no de outra versão. <a href="/touch/setup/">Comece um build do Touch</a> e defina antes de ler o resultado. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> explica por que os dois catálogos se afastaram.</p>
 ''',
                 },
                 'de': {
-                    'title': 'Fesseln und Ausweichen auf Dofus Touch: alles endet bei 32',
-                    'desc': 'Im Touch-Katalog gezählt: 339 Gegenstände geben Fesseln, 453 geben Ausweichen, und keine Zeile geht über 32. Übernimm hier keine Dofus-3-Zahlen.',
-                    'lead': 'Touch hat beide Werte, aber seine Obergrenze liegt weit unter der modernen, und die größten Zeilen sind Trophäen statt getragener Ausrüstung.',
+                    'title': 'Blocken und Ausweichen auf Dofus Touch: Trophäen und Begleiter setzen die Grenze',
+                    'desc': 'Auf Touch geben [[count:lock]] Teile Blocken, [[count:dodge]] Ausweichen. Ohne Begleiter: Blocken bis +[[top:lock:nopet]], Ausweichen bis +[[top:dodge:nopet]].',
+                    'lead': 'Touch hat beide Werte, aber seine getragene Ausrüstung gibt weniger Ausweichen als [[version:dofus3]], und ohne Begleiter sind die größten Zeilen Trophäen statt getragener Ausrüstung.',
                     'body': '''
-<h2>Derselbe Vergleich, ein kleinerer Katalog</h2>
-<p>Ein Feld neben einem Gegner zu verlassen stellt dein <strong>Ausweichen</strong> gegen sein <strong>Fesseln</strong>, und ein Fehlschlag kostet Bewegungspunkte und danach Aktionspunkte. Das funktioniert wie auf den modernen Versionen. Die Zahlen nicht.</p>
+<h2>Derselbe Vergleich, ein anderer Katalog</h2>
+<p>Ein Feld neben einem Gegner zu verlassen stellt dein <strong>Ausweichen</strong> gegen sein <strong>Blocken</strong>, und ein Fehlschlag kostet Bewegungspunkte und danach Aktionspunkte. Das funktioniert wie auf den modernen Versionen. Die Zahlen nicht.</p>
 
-<h2>Nichts geht über 32</h2>
-<p>Wir haben jeden Gegenstand der Touch-Datenbank gezählt: <strong>339 tragen Fesseln</strong>, <strong>453 tragen Ausweichen</strong>, und <strong>keine Zeile geht in irgendeine Richtung über 32</strong>.</p>
+<h2>Was der Katalog hergibt, gezählt</h2>
+<p>Wir haben jeden Gegenstand der Touch-Datenbank gezählt: <strong>[[count:lock]] tragen Blocken</strong>, <strong>[[count:dodge]] tragen Ausweichen</strong>.</p>
 <ul>
-<li>Die Obergrenze hat Trophäenform: Großer Klammerer auf Stufe 150 und Großer Blockierer auf Stufe 175 geben <strong>+32 Fesseln</strong>; Großer Vagabund auf 150 und Großer Deserteur auf 175 geben <strong>+32 Ausweichen</strong>.</li>
-<li>Das beste tatsächlich tragbare Fesseln ist <strong>+20</strong>, auf dem Hut des Grafen Harebourg und auf Bethels Höschen, beide Stufe 200.</li>
-<li>Das beste getragene Ausweichen ist noch kleiner, <strong>+16</strong>.</li>
+<li>Auf <strong>getragener</strong> Ausrüstung endet Blocken bei <strong>+[[top:lock:worn]]</strong> ([[top-names:lock:worn]]) und Ausweichen bei <strong>+[[top:dodge:worn]]</strong>.</li>
+<li>Die Trophäen gehen weiter: <strong>+[[top:lock:dofus]] Blocken</strong> ([[top-names:lock:dofus]]) und <strong>+[[top:dodge:dofus]] Ausweichen</strong> ([[top-names:dodge:dofus]]).</li>
+<li>Begleiter übertreffen alles: <strong>+[[top:lock:pet]] Blocken</strong> und <strong>+[[top:dodge:pet]] Ausweichen</strong>.</li>
 </ul>
-<p>Dofus 3 erreicht +40 Ausweichen auf dem Ebenholz-Dofus und auf Stiefeln der Stufe 200. Touch hat weder das eine noch das andere. Ein Leitfaden, der dir auf Touch vierzig empfiehlt, zitiert eine Version, die du nicht spielst.</p>
+<p>[[version:dofus3]] ist hier ein anderes Spiel: Seine getragene Ausrüstung erreicht <strong>+[[top:dodge:worn:dofus3]] Ausweichen</strong>, wo Touch bei +[[top:dodge:worn]] endet. Ein Leitfaden, der dir auf Touch die Zahlen von [[version:dofus3]] empfiehlt, zitiert eine Version, die du nicht spielst.</p>
 
 <h2>Trophäen entscheiden</h2>
-<p>Weil die getragenen Zeilen so klein sind, tragen auf Touch die Trophäenplätze fast die ganze Entscheidung, und sie schneiden nach beiden Seiten: dieselben Trophäen, die 32 geben, nehmen 32 auf der anderen Seite. Unser Leitfaden zu <a href="/guides/dofus-and-trophies/">Dofus und Trophäen</a> erklärt, wie diese Plätze arbeiten.</p>
-<p>Nur <strong>12 Touch-Gegenstände geben Fesseln und Ausweichen zugleich</strong>: auch hier wählst du eine Seite, statt beide abzudecken.</p>
+<p>Ohne Begleiter tragen auf Touch die Trophäen die größten Zeilen.[[if:13750]] Viele schneiden nach beiden Seiten: ein [[name:13750]] gibt <strong>[[lines:13750]]</strong>.[[/if]] Unser Leitfaden zu <a href="/guides/dofus-and-trophies/">Dofus und Trophäen</a> erklärt, wie diese Plätze arbeiten.</p>
+<p>Nur <strong>[[count:lock+dodge]] Touch-Gegenstände geben Blocken und Ausweichen zugleich</strong>: auch hier wählst du eine Seite, statt beide abzudecken.</p>
+
+<h2>Die Zeilen, die es wegnehmen</h2>
+<p><strong>[[count:-lock]] Gegenstände nehmen Blocken und [[count:-dodge]] nehmen Ausweichen</strong>, und die größten Verluste betragen <strong>[[top:-lock:all]] Blocken</strong> und <strong>[[top:-dodge:all]] Ausweichen</strong>. Hast du nach keinem von beiden gefragt, hindert nichts ein Teil daran, es dir still wegzunehmen: Setz ein Minimum, dann muss der Optimierer es einhalten.</p>
 
 <h2>Wie du danach fragst</h2>
-<p>Setz ein Minimum auf Fesseln oder Ausweichen und lass den Löser aus dem Touch-Katalog wählen, nicht aus dem einer anderen Version. <a href="/touch/setup/">Starte einen Touch-Build</a> und setz es, bevor du das Ergebnis liest. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> erklärt, warum die beiden Kataloge auseinandergelaufen sind.</p>
+<p>Setz ein Minimum auf Blocken oder Ausweichen und lass den Löser aus dem Touch-Katalog wählen, nicht aus dem einer anderen Version. <a href="/touch/setup/">Starte einen Touch-Build</a> und setz es, bevor du das Ergebnis liest. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> erklärt, warum die beiden Kataloge auseinandergelaufen sind.</p>
 ''',
                 },
             },
@@ -332,7 +343,7 @@ GUIDES = {
 ''',
                 },
                 'fr': {
-                    'title': 'Sur Dofus Rétro, le tacle vient de l\'Agilité',
+                    'title': 'Sur Dofus Retro, le tacle vient de l\'Agilité',
                     'desc': 'Aucun objet du catalogue 1.29 ne porte de ligne de tacle ou de fuite. La mécanique existe pourtant : c\'est l\'Agilité qui la décide, face à celle d\'en face.',
                     'lead': 'Le Rétro a bien le tacle, mais personne ne te le vend. Il n\'y a pas de ligne à acheter sur un chapeau, seulement une caractéristique à monter.',
                     'body': '''
@@ -376,46 +387,46 @@ GUIDES = {
 ''',
                 },
                 'pt': {
-                    'title': 'No Dofus Retro a placagem vem da Agilidade',
-                    'desc': 'Nenhum item do catálogo do 1.29 carrega uma linha de placagem ou de fuga. A mecânica existe assim mesmo: quem decide é a Agilidade, contra a do adversário.',
-                    'lead': 'O Retro tem placagem, mas ninguém te vende. Não há linha para comprar num chapéu, só uma característica para subir.',
+                    'title': 'No Dofus Retro o bloqueio vem da Agilidade',
+                    'desc': 'Nenhum item do catálogo do 1.29 carrega uma linha de bloqueio ou de fuga. A mecânica existe assim mesmo: quem decide é a Agilidade, contra a do adversário.',
+                    'lead': 'O Retro tem bloqueio, mas ninguém te vende. Não há linha para comprar num chapéu, só uma característica para subir.',
                     'body': '''
 <h2>Nenhum equipamento carrega</h2>
-<p>Percorremos toda a base do Dofus Retro atrás de placagem e de fuga, nos itens e nos bônus de conjunto, que vêm de duas fontes diferentes. A conta é <strong>zero em tudo</strong>. Nem um chapéu, nem um escudo, nem um dofus, em nível nenhum, e nenhum bônus de conjunto também.</p>
+<p>Percorremos toda a base do Dofus Retro atrás de bloqueio e de fuga, nos itens e nos bônus de conjunto, que vêm de duas fontes diferentes. A conta é <strong>zero em tudo</strong>. Nem um chapéu, nem um escudo, nem um dofus, em nível nenhum, e nenhum bônus de conjunto também.</p>
 <p>Vale dizer com clareza: uma estatística que três itens carregam é rara, uma que nenhum carrega não se compra.</p>
 
 <h2>Mas a mecânica existe, e quem manda é a Agilidade</h2>
-<p>Não confunda catálogo vazio com mecânica ausente. No 1.29 você pode placar e ser placado, e quem decide é a <strong>Agilidade</strong>, comparada com a do personagem à sua frente. É uma disputa entre duas características e não entre duas linhas de equipamento, e é por isso que nenhum item precisa carregar uma.</p>
-<p>A consequência prática é o contrário do conselho moderno: no Retro você não caça peças de placagem, você decide quanta Agilidade o seu build merece. É a mesma característica que alimenta o seu dano de Ar e os seus golpes críticos no 1.29, então a decisão raramente é só sobre placagem.</p>
+<p>Não confunda catálogo vazio com mecânica ausente. No 1.29 você pode bloquear e ser bloqueado, e quem decide é a <strong>Agilidade</strong>, comparada com a do personagem à sua frente. É uma disputa entre duas características e não entre duas linhas de equipamento, e é por isso que nenhum item precisa carregar uma.</p>
+<p>A consequência prática é o contrário do conselho moderno: no Retro você não caça peças de bloqueio, você decide quanta Agilidade o seu build merece. É a mesma característica que alimenta o seu dano de Ar e os seus golpes críticos no 1.29, então a decisão raramente é só sobre bloqueio.</p>
 
 <h2>O que muda ao ler um guia</h2>
-<p>Todo conselho sobre comprar a saída de uma placagem, ou empilhar pequenas linhas de placagem em sete espaços, vem do ramo moderno. Não se transfere. Se um build te dá um número de placagem para alcançar, confira para que versão ele foi escrito antes de gastar uma kama.</p>
-<p>No seu build aqui, os valores de placagem e fuga saem da sua Agilidade exatamente por isso. Nosso guia sobre <a href="/guides/ap-mp-range-caps/">pontos de ação, de movimento e alcance</a> cobre as outras estatísticas que decidem um turno no Retro.</p>
+<p>Todo conselho sobre comprar a saída de um bloqueio, ou empilhar pequenas linhas de bloqueio em sete espaços, vem do ramo moderno. Não se transfere. Se um build te dá um número de bloqueio para alcançar, confira para que versão ele foi escrito antes de gastar uma kama.</p>
+<p>No seu build aqui, os valores de bloqueio e fuga saem da sua Agilidade exatamente por isso. Nosso guia sobre <a href="/guides/ap-mp-range-caps/">pontos de ação, de movimento e alcance</a> cobre as outras estatísticas que decidem um turno no Retro.</p>
 
 <h2>Por que as versões diferem tanto</h2>
-<p>O 1.29 foi congelado antes de o ramo moderno transformar a placagem em duas estatísticas que o equipamento pode dar. Não foi a mecânica que chegou depois, foi a etiqueta de preço dela. É o mesmo motivo pelo qual faltam aqui outras estatísticas que você talvez procure. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> diz quais e por que copiar um build de uma versão para outra dá errado.</p>
+<p>O 1.29 foi congelado antes de o ramo moderno transformar o bloqueio em duas estatísticas que o equipamento pode dar. Não foi a mecânica que chegou depois, foi a etiqueta de preço dela. É o mesmo motivo pelo qual faltam aqui outras estatísticas que você talvez procure. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> diz quais e por que copiar um build de uma versão para outra dá errado.</p>
 <p><a href="/retro/setup/">Comece um build de Retro</a> e a ferramenta só vai oferecer o que o 1.29 tem.</p>
 ''',
                 },
                 'de': {
-                    'title': 'In Dofus Retro kommt das Fesseln aus der Flinkheit',
-                    'desc': 'Kein Gegenstand im 1.29-Katalog trägt eine Fesseln- oder Ausweichen-Zeile. Die Mechanik gibt es trotzdem: die Flinkheit entscheidet sie, gegen die des Gegners.',
-                    'lead': 'Retro hat das Fesseln, aber niemand verkauft es dir. Es gibt keine Zeile auf einem Hut zu kaufen, nur einen Wert zu steigern.',
+                    'title': 'In Dofus Retro kommt das Blocken aus der Flinkheit',
+                    'desc': 'Kein Gegenstand im 1.29-Katalog trägt eine Blocken- oder Ausweichen-Zeile. Die Mechanik gibt es trotzdem: die Flinkheit entscheidet sie, gegen die des Gegners.',
+                    'lead': 'Retro hat das Blocken, aber niemand verkauft es dir. Es gibt keine Zeile auf einem Hut zu kaufen, nur einen Wert zu steigern.',
                     'body': '''
 <h2>Keine Ausrüstung trägt es</h2>
-<p>Wir sind die ganze Dofus-Retro-Datenbank auf Fesseln und Ausweichen durchgegangen, in den Gegenständen und in den Set-Boni, die aus zwei verschiedenen Quellen stammen. Das Ergebnis ist <strong>überall null</strong>. Kein Hut, kein Schild, kein Dofus, auf keiner Stufe, und auch kein Set-Bonus.</p>
+<p>Wir sind die ganze Dofus-Retro-Datenbank auf Blocken und Ausweichen durchgegangen, in den Gegenständen und in den Set-Boni, die aus zwei verschiedenen Quellen stammen. Das Ergebnis ist <strong>überall null</strong>. Kein Hut, kein Schild, kein Dofus, auf keiner Stufe, und auch kein Set-Bonus.</p>
 <p>Das gehört klar gesagt: ein Wert auf drei Gegenständen ist selten, ein Wert auf keinem ist nichts, wonach man einkaufen kann.</p>
 
 <h2>Die Mechanik gibt es aber, und die Flinkheit führt sie</h2>
-<p>Verwechsle den leeren Katalog nicht mit einer fehlenden Mechanik. In 1.29 kannst du fesseln und gefesselt werden, und entschieden wird das von der <strong>Flinkheit</strong>, gegen die der Figur dir gegenüber. Es ist ein Vergleich zweier Werte und nicht zweier Ausrüstungszeilen, und genau deshalb muss kein Gegenstand eine tragen.</p>
-<p>Die praktische Folge ist das Gegenteil des modernen Rats: auf Retro jagst du keine Fesseln-Teile, du entscheidest, wie viel Flinkheit dein Build wert ist. Das ist derselbe Wert, der in 1.29 deinen Luftschaden und deine kritischen Treffer speist, also hängt die Entscheidung selten am Fesseln allein.</p>
+<p>Verwechsle den leeren Katalog nicht mit einer fehlenden Mechanik. In 1.29 kannst du blocken und geblockt werden, und entschieden wird das von der <strong>Flinkheit</strong>, gegen die der Figur dir gegenüber. Es ist ein Vergleich zweier Werte und nicht zweier Ausrüstungszeilen, und genau deshalb muss kein Gegenstand eine tragen.</p>
+<p>Die praktische Folge ist das Gegenteil des modernen Rats: auf Retro jagst du keine Blocken-Teile, du entscheidest, wie viel Flinkheit dein Build wert ist. Das ist derselbe Wert, der in 1.29 deinen Luftschaden und deine kritischen Treffer speist, also hängt die Entscheidung selten am Blocken allein.</p>
 
 <h2>Was das beim Lesen eines Leitfadens ändert</h2>
-<p>Jeder Rat, sich aus einer Fessel freizukaufen oder kleine Fesseln-Zeilen über sieben Plätze zu stapeln, stammt aus dem modernen Zweig. Er lässt sich nicht übertragen. Wenn ein Build dir eine Fesseln-Zahl als Ziel nennt, prüfe vor dem ersten Kama, für welche Version er geschrieben wurde.</p>
-<p>In deinem Build hier stammen die Fesseln- und Ausweichen-Zahlen genau deshalb aus deiner Flinkheit. Unser Leitfaden zu <a href="/guides/ap-mp-range-caps/">Aktionspunkten, Bewegungspunkten und Reichweite</a> behandelt die übrigen Werte, die eine Retro-Runde entscheiden.</p>
+<p>Jeder Rat, sich aus einer Blockade freizukaufen oder kleine Blocken-Zeilen über sieben Plätze zu stapeln, stammt aus dem modernen Zweig. Er lässt sich nicht übertragen. Wenn ein Build dir eine Blocken-Zahl als Ziel nennt, prüfe vor dem ersten Kama, für welche Version er geschrieben wurde.</p>
+<p>In deinem Build hier stammen die Blocken- und Ausweichen-Zahlen genau deshalb aus deiner Flinkheit. Unser Leitfaden zu <a href="/guides/ap-mp-range-caps/">Aktionspunkten, Bewegungspunkten und Reichweite</a> behandelt die übrigen Werte, die eine Retro-Runde entscheiden.</p>
 
 <h2>Warum die Versionen so weit auseinander liegen</h2>
-<p>1.29 wurde eingefroren, bevor der moderne Zweig das Fesseln in zwei Werte verwandelte, die Ausrüstung geben kann. Nicht die Mechanik kam später, sondern ihr Preisschild. Aus demselben Grund fehlen hier einige weitere Werte, die du vielleicht suchst. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> nennt sie und erklärt, warum ein Build von einer Version zur anderen schiefgeht.</p>
+<p>1.29 wurde eingefroren, bevor der moderne Zweig das Blocken in zwei Werte verwandelte, die Ausrüstung geben kann. Nicht die Mechanik kam später, sondern ihr Preisschild. Aus demselben Grund fehlen hier einige weitere Werte, die du vielleicht suchst. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> nennt sie und erklärt, warum ein Build von einer Version zur anderen schiefgeht.</p>
 <p><a href="/retro/setup/">Starte einen Retro-Build</a>, und das Werkzeug bietet dir nur an, was 1.29 hat.</p>
 ''',
                 },
@@ -3823,115 +3834,140 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': 'Dofus and trophies: how to fill your six slots',
-                'desc': "Six slots, and in modern Dofus three different families competing for them: trophies, Dofus and Prysmaradites. What goes where, and what it costs you.",
+                'desc': "Six slots, and up to three families competing for them: trophies, Dofus and Prysmaradites. What goes where, and what it costs you.",
                 'lead': "Every character has six of these slots, and in the modern game they are the most crowded decision in your build. Here is what can go in them and how to choose.",
                 'body': '''
 <h2>Six slots, three families</h2>
-<p>Your character carries <strong>six</strong> of these slots, in every version of the game. What you can put in them is where the versions part ways. In Dofus 3, the beta and Dofus 2 there are over three hundred candidates, and they come in three families: <strong>trophies</strong>, <strong>Dofus</strong> proper, and <strong>Prysmaradites</strong>. On Dofus Touch the same three families exist with its own roster.</p>
+<p>Your character carries <strong>six</strong> of these slots, in every version of the game. What you can put in them is where the versions part ways. In Dofus 3, the beta and Dofus 2 there are over three hundred candidates, and they come in three families: <strong>trophies</strong>, <strong>Dofus</strong> proper, and <strong>Prysmaradites</strong>. Dofus Touch has the trophies and the Dofus, from its own roster, and no Prysmaradites.</p>
 
-<h2>Trophies: a flat stat, then a price</h2>
-<p>Trophies arrive in tiers. The small ones ask for level 50 and give a plain bonus with no downside: a Minor Acrobat is simply +15 Agility. The next tier, at level 100, doubles it: an Acrobat is +30 Agility, still free of any cost. From the level 150 tier the deal changes, and this is where players get caught: an Arcanist gives +6% spell damage but takes <strong>6% melee resistance and 6% ranged resistance</strong> with it. The stronger the trophy, the more it asks back.</p>
+<h2>Trophies: some free, some with a price</h2>
+<p>On [[slot-version]], trophies arrive in tiers, and many of them cost nothing: a [[name:12712]] (level [[level:12712]]) gives [[lines:12712]] and an [[name:12713]] (level [[level:12713]]) gives [[lines:12713]], with nothing taken back. Others make you pay from the very first tier, and this is where players get caught: a [[name:13748]] gives <strong>[[lines:13748]]</strong>, and a [[name:13829]] gives <strong>[[lines:13829]]</strong>. The higher the tier, the more such a trophy asks back.[[trophy-condition]]</p>
 
-<h2>Dofus and Prysmaradites: the expensive end</h2>
-<p>The Dofus themselves sit at level 180 and are broad rather than sharp: an Ivory Dofus adds 4% resistance in all five elements, an Ice Dofus adds 25 damage in all five. They are the quest reward at the end of very long chains, and they are worth a slot for exactly that breadth. Prysmaradites, at level 200, go back to trading: a Caraprys hands you 2 summons and takes <strong>1 MP</strong>. Losing an MP is not a rounding error, so a Prysmaradite has to earn its slot against a Dofus that costs you nothing.</p>
+<h2>Dofus[[if:22018]] and Prysmaradites[[/if]]: the expensive end</h2>
+<p>On [[slot-version]], the Dofus themselves are broad rather than sharp:</p>
+<ul>
+[[if:7115]]<li>an [[name:7115]] gives [[lines:7115]];</li>
+[[/if]]<li>an [[name:7043]] gives [[lines:7043]].</li>
+</ul>
+<p>They are the quest reward at the end of very long chains, and they are worth a slot for exactly that breadth.[[if:22018:lines]] Prysmaradites go back to trading: a [[name:22018]], at level [[level:22018]], gives <strong>[[lines:22018]]</strong>. That loss is not a rounding error, so a Prysmaradite has to earn its slot against a Dofus that costs you nothing.[[/if]][[if:22018:nolines]] On [[slot-version]], Prysmaradites carry no characteristic line: each one gives an effect during the fight instead, [[name:22018]] (level [[level:22018]]) among them. The optimizer counts characteristics, so those effects stay out of its sums, and whether one is worth a slot is your call.[[/if]]</p>
 
 <h2>Dofus Retro plays a much simpler game</h2>
 <p>Retro has <strong>no trophies and no Prysmaradites at all</strong>. Its six slots are filled from seventeen items, and twelve of those are the classic level 6 Dofus: Emerald, Turquoise, Crimson, Vulbis, Ochre, Ivory, Cawwot, Ebony, Kaliptus and the rest. There is no tier ladder and no trade-off family to weigh. If you learned the modern trophy game, none of that thinking transfers to Retro, and the reverse is just as true.</p>
 
 <h2>Let the optimizer weigh the trade</h2>
-<p>This is a slot where counting by hand goes wrong fast, because the drawbacks are in different currencies from the gains: is 6% spell damage worth 6% melee resistance? Is 2 summons worth an MP? The optimizer already knows every candidate and every penalty attached to it, and it weighs them against your own priorities rather than against a tier list. Set what you care about, run it, and read what it put in those six slots.</p>
+<p>This is a slot where counting by hand goes wrong fast, because the drawbacks are in different currencies from the gains: is an AP worth the MP it costs? Is lock worth the dodge it takes? The optimizer already knows every candidate and every penalty attached to it, and it weighs them against your own priorities rather than against a tier list. Set what you care about, run it, and read what it put in those six slots.</p>
 
 <p><em>Curious what the six slots should hold for your character? <a href="/setup/">Build it here.</a></em></p>
 ''',
             },
             'fr': {
                 'title': 'Dofus et trophées : comment remplir tes six emplacements',
-                'desc': "Six emplacements, et sur le Dofus moderne trois familles qui se les disputent : trophées, Dofus et Prysmaradites. Ce qui va où, et ce que ça te coûte.",
+                'desc': "Six emplacements, et jusqu'à trois familles qui se les disputent : trophées, Dofus et Prysmaradites. Ce qui va où, et ce que ça te coûte.",
                 'lead': "Chaque personnage a six de ces emplacements, et sur le jeu moderne c'est la décision la plus disputée de ton build. Voilà ce qui peut y aller et comment choisir.",
                 'body': '''
 <h2>Six emplacements, trois familles</h2>
-<p>Ton personnage porte <strong>six</strong> de ces emplacements, dans toutes les versions du jeu. Ce que tu peux y mettre, en revanche, sépare les versions. Sur Dofus 3, la beta et Dofus 2, plus de trois cents candidats se présentent, répartis en trois familles : les <strong>trophées</strong>, les <strong>Dofus</strong> eux-mêmes, et les <strong>Prysmaradites</strong>. Dofus Touch a les mêmes trois familles avec son propre catalogue.</p>
+<p>Ton personnage porte <strong>six</strong> de ces emplacements, dans toutes les versions du jeu. Ce que tu peux y mettre, en revanche, sépare les versions. Sur Dofus 3, la beta et Dofus 2, plus de trois cents candidats se présentent, répartis en trois familles : les <strong>trophées</strong>, les <strong>Dofus</strong> eux-mêmes, et les <strong>Prysmaradites</strong>. Dofus Touch a les trophées et les Dofus, avec son propre catalogue, et pas de Prysmaradites.</p>
 
-<h2>Les trophées : une stat sèche, puis une facture</h2>
-<p>Les trophées arrivent par paliers. Les petits demandent le niveau 50 et donnent un bonus simple, sans contrepartie : un Acrobate mineur, c'est +15 Agilité, point. Le palier suivant, au niveau 100, double la mise : un Acrobate donne +30 Agilité, toujours sans coût. À partir du palier 150, le marché change, et c'est là que les joueurs se font avoir : un Arcaniste donne +6% de dommages aux sorts mais emporte avec lui <strong>6% de résistance mêlée et 6% de résistance distance</strong>. Plus le trophée est fort, plus il réclame en échange.</p>
+<h2>Les trophées : certains gratuits, d'autres avec une facture</h2>
+<p>Sur [[slot-version]], les trophées arrivent par paliers, et beaucoup ne coûtent rien : un [[name:12712]] (niveau [[level:12712]]) donne [[lines:12712]] et un [[name:12713]] (niveau [[level:12713]]) donne [[lines:12713]], sans rien reprendre. D'autres font payer dès le premier palier, et c'est là que les joueurs se font avoir : un [[name:13748]] donne <strong>[[lines:13748]]</strong>, et un [[name:13829]] donne <strong>[[lines:13829]]</strong>. Plus le palier est haut, plus ce genre de trophée réclame en échange.[[trophy-condition]]</p>
 
-<h2>Dofus et Prysmaradites : le haut du panier</h2>
-<p>Les Dofus eux-mêmes sont au niveau 180, et ils sont larges plutôt que pointus : un Dofus Ivoire ajoute 4% de résistance dans les cinq éléments, un Dofus Glace ajoute 25 dommages dans les cinq. Ce sont les récompenses de très longues quêtes, et c'est exactement cette largeur qui justifie un emplacement. Les Prysmaradites, au niveau 200, reviennent au troc : un Caraprys te donne 2 invocations et te prend <strong>1 PM</strong>. Perdre un PM n'est pas un détail, donc un Prysmaradite doit mériter sa place face à un Dofus qui, lui, ne coûte rien.</p>
+<h2>Dofus[[if:22018]] et Prysmaradites[[/if]] : le haut du panier</h2>
+<p>Sur [[slot-version]], les Dofus eux-mêmes sont larges plutôt que pointus :</p>
+<ul>
+[[if:7115]]<li>un [[name:7115]] donne [[lines:7115]] ;</li>
+[[/if]]<li>un [[name:7043]] donne [[lines:7043]].</li>
+</ul>
+<p>Ce sont les récompenses de très longues quêtes, et c'est exactement cette largeur qui justifie un emplacement.[[if:22018:lines]] Les Prysmaradites reviennent au troc : un [[name:22018]], niveau [[level:22018]], donne <strong>[[lines:22018]]</strong>. Cette perte n'est pas un détail, donc une Prysmaradite doit mériter sa place face à un Dofus qui, lui, ne coûte rien.[[/if]][[if:22018:nolines]] Sur [[slot-version]], les Prysmaradites ne portent aucune ligne de caractéristique : chacune donne plutôt un effet pendant le combat, [[name:22018]] (niveau [[level:22018]]) par exemple. L'optimiseur compte les caractéristiques, donc ces effets restent hors de ses calculs, et c'est à toi de juger si l'une d'elles vaut un emplacement.[[/if]]</p>
 
 <h2>Dofus Retro joue à un jeu bien plus simple</h2>
 <p>Retro n'a <strong>ni trophées ni Prysmaradites</strong>. Ses six emplacements se remplissent parmi dix-sept objets, dont douze sont les Dofus classiques de niveau 6 : Émeraude, Turquoise, Pourpre, Vulbis, Ocre, Ivoire, Cawotte, Ébène, Kaliptus et les autres. Pas d'échelle de paliers, pas de famille à contrepartie à peser. Si tu as appris le jeu des trophées sur le moderne, rien de ce raisonnement ne se transpose sur Retro, et l'inverse est tout aussi vrai.</p>
 
 <h2>Laisse l'optimiseur peser l'échange</h2>
-<p>C'est un emplacement où le calcul à la main dérape vite, parce que les contreparties ne sont pas dans la même monnaie que les gains : est-ce que 6% de dommages aux sorts valent 6% de résistance mêlée ? Est-ce que 2 invocations valent un PM ? L'optimiseur connaît déjà chaque candidat et chaque malus qui y est attaché, et il les pèse selon tes propres priorités plutôt que selon une tier list. Règle ce qui compte pour toi, lance, et regarde ce qu'il a mis dans ces six emplacements.</p>
+<p>C'est un emplacement où le calcul à la main dérape vite, parce que les contreparties ne sont pas dans la même monnaie que les gains : est-ce qu'un PA vaut le PM qu'il coûte ? Est-ce que du tacle vaut la fuite qu'il te prend ? L'optimiseur connaît déjà chaque candidat et chaque malus qui y est attaché, et il les pèse selon tes propres priorités plutôt que selon une tier list. Règle ce qui compte pour toi, lance, et regarde ce qu'il a mis dans ces six emplacements.</p>
 
 <p><em>Curieux de savoir ce que devraient porter tes six emplacements ? <a href="/setup/">Construis-le ici.</a></em></p>
 ''',
             },
             'es': {
                 'title': 'Dofus y trofeos: cómo llenar tus seis huecos',
-                'desc': "Seis huecos y, en el Dofus moderno, tres familias que se los disputan: trofeos, Dofus y Prysmaradites. Qué va en cada uno y qué te cuesta.",
+                'desc': "Seis huecos y hasta tres familias que se los disputan: trofeos, Dofus y Prysmaradites. Qué va en cada uno y qué te cuesta.",
                 'lead': "Todo personaje tiene seis de estos huecos y, en el juego moderno, son la decisión más disputada de tu build. Esto es lo que puede ir en ellos y cómo elegir.",
                 'body': '''
 <h2>Seis huecos, tres familias</h2>
-<p>Tu personaje lleva <strong>seis</strong> de estos huecos en todas las versiones del juego. Lo que puedes meter en ellos es donde las versiones se separan. En Dofus 3, la beta y Dofus 2 hay más de trescientos candidatos, repartidos en tres familias: <strong>trofeos</strong>, <strong>Dofus</strong> propiamente dichos y <strong>Prysmaradites</strong>. Dofus Touch tiene esas mismas tres familias con su propio catálogo.</p>
+<p>Tu personaje lleva <strong>seis</strong> de estos huecos en todas las versiones del juego. Lo que puedes meter en ellos es donde las versiones se separan. En Dofus 3, la beta y Dofus 2 hay más de trescientos candidatos, repartidos en tres familias: <strong>trofeos</strong>, <strong>Dofus</strong> propiamente dichos y <strong>Prysmaradites</strong>. Dofus Touch tiene los trofeos y los Dofus, con su propio catálogo, y ningún Prysmaradite.</p>
 
-<h2>Los trofeos: una estadística seca y luego la factura</h2>
-<p>Los trofeos llegan por niveles. Los pequeños piden nivel 50 y dan un bonus simple, sin contrapartida: un Acróbata menor son +15 de Agilidad y ya está. El siguiente escalón, en el nivel 100, dobla la apuesta: un Acróbata da +30 de Agilidad, todavía sin coste. A partir del escalón 150 el trato cambia, y ahí es donde pican los jugadores: un Arcanista da +6% de daño de hechizos pero se lleva por delante <strong>un 6% de resistencia cuerpo a cuerpo y un 6% de resistencia a distancia</strong>. Cuanto más fuerte es el trofeo, más pide a cambio.</p>
+<h2>Los trofeos: unos gratis, otros con factura</h2>
+<p>En [[slot-version]], los trofeos llegan por escalones, y muchos no cuestan nada: un [[name:12712]] (nivel [[level:12712]]) da [[lines:12712]] y un [[name:12713]] (nivel [[level:12713]]) da [[lines:12713]], sin quitarte nada a cambio. Otros cobran desde el primer escalón, y ahí es donde pican los jugadores: un [[name:13748]] da <strong>[[lines:13748]]</strong>, y un [[name:13829]] da <strong>[[lines:13829]]</strong>. Cuanto más alto el escalón, más pide a cambio ese tipo de trofeo.[[trophy-condition]]</p>
 
-<h2>Dofus y Prysmaradites: la parte cara</h2>
-<p>Los Dofus están en el nivel 180 y son amplios más que afilados: un Dofus Marfil añade un 4% de resistencia en los cinco elementos, un Dofus Hielo añade 25 de daño en los cinco. Son la recompensa de cadenas de misiones larguísimas, y esa amplitud es justo lo que justifica un hueco. Los Prysmaradites, en el nivel 200, vuelven al trueque: un Caraprys te da 2 invocaciones y te quita <strong>1 PM</strong>. Perder un PM no es un detalle, así que un Prysmaradite tiene que ganarse el hueco frente a un Dofus que no te cuesta nada.</p>
+<h2>Dofus[[if:22018]] y Prysmaradites[[/if]]: la parte cara</h2>
+<p>En [[slot-version]], los Dofus son amplios más que afilados:</p>
+<ul>
+[[if:7115]]<li>un [[name:7115]] da [[lines:7115]];</li>
+[[/if]]<li>un [[name:7043]] da [[lines:7043]].</li>
+</ul>
+<p>Son la recompensa de cadenas de misiones larguísimas, y esa amplitud es justo lo que justifica un hueco.[[if:22018:lines]] Los Prysmaradites vuelven al trueque: un [[name:22018]], de nivel [[level:22018]], da <strong>[[lines:22018]]</strong>. Esa pérdida no es un detalle, así que un Prysmaradite tiene que ganarse el hueco frente a un Dofus que no te cuesta nada.[[/if]][[if:22018:nolines]] En [[slot-version]], los Prysmaradites no llevan ninguna línea de característica: cada uno da en cambio un efecto durante el combate, por ejemplo [[name:22018]] (nivel [[level:22018]]). El optimizador cuenta características, así que esos efectos quedan fuera de sus cuentas, y decidir si uno merece un hueco te toca a ti.[[/if]]</p>
 
 <h2>Dofus Retro juega a algo mucho más sencillo</h2>
 <p>Retro no tiene <strong>ni trofeos ni Prysmaradites</strong>. Sus seis huecos se llenan con diecisiete objetos, y doce de ellos son los Dofus clásicos de nivel 6: Esmeralda, Turquesa, Púrpura, Vulbis, Ocre, Marfil, Cawotte, Ébano, Kaliptus y compañía. No hay escalera de niveles ni familia con contrapartida que sopesar. Si aprendiste el juego de los trofeos en el moderno, nada de ese razonamiento se traslada a Retro, y al revés igual.</p>
 
 <h2>Deja que el optimizador pese el intercambio</h2>
-<p>Es un hueco donde echar cuentas a mano se tuerce enseguida, porque las contrapartidas no están en la misma moneda que las ganancias: ¿vale un 6% de daño de hechizos lo que cuesta un 6% de resistencia cuerpo a cuerpo? ¿Valen 2 invocaciones un PM? El optimizador ya conoce cada candidato y cada penalización que lleva pegada, y los pesa según tus prioridades y no según una tier list. Ajusta lo que te importa, ejecútalo y mira qué ha puesto en esos seis huecos.</p>
+<p>Es un hueco donde echar cuentas a mano se tuerce enseguida, porque las contrapartidas no están en la misma moneda que las ganancias: ¿vale un PA el PM que te cuesta? ¿Vale el placaje la huida que te quita? El optimizador ya conoce cada candidato y cada penalización que lleva pegada, y los pesa según tus prioridades y no según una tier list. Ajusta lo que te importa, ejecútalo y mira qué ha puesto en esos seis huecos.</p>
 
 <p><em>¿Con curiosidad por lo que deberían llevar tus seis huecos? <a href="/setup/">Constrúyelo aquí.</a></em></p>
 ''',
             },
             'pt': {
                 'title': 'Dofus e troféus: como preencher seus seis espaços',
-                'desc': "Seis espaços e, no Dofus moderno, três famílias disputando: troféus, Dofus e Prysmaradites. O que vai em cada um e quanto custa.",
+                'desc': "Seis espaços e até três famílias disputando: troféus, Dofus e Prysmaradites. O que vai em cada um e quanto custa.",
                 'lead': "Todo personagem tem seis desses espaços e, no jogo moderno, são a decisão mais disputada do seu build. Aqui está o que pode entrar neles e como escolher.",
                 'body': '''
 <h2>Seis espaços, três famílias</h2>
-<p>Seu personagem carrega <strong>seis</strong> desses espaços, em todas as versões do jogo. O que dá para colocar neles é onde as versões se separam. No Dofus 3, no beta e no Dofus 2 há mais de trezentos candidatos, divididos em três famílias: <strong>troféus</strong>, <strong>Dofus</strong> propriamente ditos e <strong>Prysmaradites</strong>. O Dofus Touch tem as mesmas três famílias com o catálogo dele.</p>
+<p>Seu personagem carrega <strong>seis</strong> desses espaços, em todas as versões do jogo. O que dá para colocar neles é onde as versões se separam. No Dofus 3, no beta e no Dofus 2 há mais de trezentos candidatos, divididos em três famílias: <strong>troféus</strong>, <strong>Dofus</strong> propriamente ditos e <strong>Prysmaradites</strong>. O Dofus Touch tem os troféus e os Dofus, com o catálogo dele, e nenhum Prysmaradite.</p>
 
-<h2>Troféus: um atributo seco e depois a conta</h2>
-<p>Os troféus vêm em degraus. Os pequenos pedem nível 50 e dão um bônus simples, sem contrapartida: um Acrobata menor são +15 de Agilidade e pronto. O degrau seguinte, no nível 100, dobra a aposta: um Acrobata dá +30 de Agilidade, ainda sem custo. A partir do degrau 150 o acordo muda, e é aí que os jogadores se dão mal: um Arcanista dá +6% de dano de feitiços mas leva junto <strong>6% de resistência corpo a corpo e 6% de resistência à distância</strong>. Quanto mais forte o troféu, mais ele cobra de volta.</p>
+<h2>Troféus: uns de graça, outros com conta</h2>
+<p>No [[slot-version]], os troféus vêm em degraus, e muitos não custam nada: um [[name:12712]] (nível [[level:12712]]) dá [[lines:12712]] e um [[name:12713]] (nível [[level:12713]]) dá [[lines:12713]], sem tirar nada de volta. Outros cobram desde o primeiro degrau, e é aí que os jogadores se dão mal: um [[name:13748]] dá <strong>[[lines:13748]]</strong>, e um [[name:13829]] dá <strong>[[lines:13829]]</strong>. Quanto mais alto o degrau, mais esse tipo de troféu cobra de volta.[[trophy-condition]]</p>
 
-<h2>Dofus e Prysmaradites: a ponta cara</h2>
-<p>Os Dofus ficam no nível 180 e são largos em vez de afiados: um Dofus Marfim soma 4% de resistência nos cinco elementos, um Dofus Gelo soma 25 de dano nos cinco. São a recompensa de cadeias de missões longuíssimas, e é exatamente essa largura que justifica um espaço. Os Prysmaradites, no nível 200, voltam à troca: um Caraprys te dá 2 invocações e tira <strong>1 PM</strong>. Perder um PM não é detalhe, então um Prysmaradite precisa merecer o espaço diante de um Dofus que não custa nada.</p>
+<h2>Dofus[[if:22018]] e Prysmaradites[[/if]]: a ponta cara</h2>
+<p>No [[slot-version]], os Dofus são largos em vez de afiados:</p>
+<ul>
+[[if:7115]]<li>um [[name:7115]] dá [[lines:7115]];</li>
+[[/if]]<li>um [[name:7043]] dá [[lines:7043]].</li>
+</ul>
+<p>São a recompensa de cadeias de missões longuíssimas, e é exatamente essa largura que justifica um espaço.[[if:22018:lines]] Os Prysmaradites voltam à troca: um [[name:22018]], de nível [[level:22018]], dá <strong>[[lines:22018]]</strong>. Essa perda não é detalhe, então um Prysmaradite precisa merecer o espaço diante de um Dofus que não custa nada.[[/if]][[if:22018:nolines]] No [[slot-version]], os Prysmaradites não têm nenhuma linha de característica: cada um dá um efeito durante o combate, por exemplo [[name:22018]] (nível [[level:22018]]). O otimizador conta características, então esses efeitos ficam fora das contas dele, e decidir se um merece um espaço é com você.[[/if]]</p>
 
 <h2>O Dofus Retro joga um jogo bem mais simples</h2>
 <p>O Retro não tem <strong>troféus nem Prysmaradites</strong>. Seus seis espaços são preenchidos entre dezessete itens, e doze deles são os Dofus clássicos de nível 6: Esmeralda, Turquesa, Púrpura, Vulbis, Ocre, Marfim, Cawotte, Ébano, Kaliptus e companhia. Não há escada de degraus nem família com contrapartida para pesar. Se você aprendeu o jogo dos troféus no moderno, nada desse raciocínio se transfere para o Retro, e o contrário também não.</p>
 
 <h2>Deixe o otimizador pesar a troca</h2>
-<p>É um espaço em que a conta na mão desanda rápido, porque as contrapartidas não estão na mesma moeda que os ganhos: 6% de dano de feitiços valem 6% de resistência corpo a corpo? 2 invocações valem um PM? O otimizador já conhece cada candidato e cada penalidade colada nele, e os pesa pelas suas prioridades em vez de por uma tier list. Ajuste o que importa para você, rode e veja o que ele colocou nesses seis espaços.</p>
+<p>É um espaço em que a conta na mão desanda rápido, porque as contrapartidas não estão na mesma moeda que os ganhos: um PA vale o PM que ele custa? O bloqueio vale a fuga que ele tira? O otimizador já conhece cada candidato e cada penalidade colada nele, e os pesa pelas suas prioridades em vez de por uma tier list. Ajuste o que importa para você, rode e veja o que ele colocou nesses seis espaços.</p>
 
 <p><em>Curioso sobre o que seus seis espaços deveriam levar? <a href="/setup/">Monte aqui.</a></em></p>
 ''',
             },
             'de': {
                 'title': 'Dofus und Trophäen: wie du deine sechs Plätze füllst',
-                'desc': "Sechs Plätze, und im modernen Dofus streiten sich drei Familien darum: Trophäen, Dofus und Prysmaradite. Was wohin gehört und was es dich kostet.",
+                'desc': "Sechs Plätze, und bis zu drei Familien streiten sich darum: Trophäen, Dofus und Prysmaradite. Was wohin gehört und was es dich kostet.",
                 'lead': "Jeder Charakter hat sechs dieser Plätze, und im modernen Spiel sind sie die umkämpfteste Entscheidung deines Builds. Hier steht, was hineinkann und wie du wählst.",
                 'body': '''
 <h2>Sechs Plätze, drei Familien</h2>
-<p>Dein Charakter trägt in jeder Version <strong>sechs</strong> dieser Plätze. Was hineindarf, trennt die Versionen. In Dofus 3, im Beta und in Dofus 2 bewerben sich über dreihundert Gegenstände, verteilt auf drei Familien: <strong>Trophäen</strong>, die <strong>Dofus</strong> selbst und die <strong>Prysmaradite</strong>. Dofus Touch hat dieselben drei Familien mit eigenem Angebot.</p>
+<p>Dein Charakter trägt in jeder Version <strong>sechs</strong> dieser Plätze. Was hineindarf, trennt die Versionen. In Dofus 3, im Beta und in Dofus 2 bewerben sich über dreihundert Gegenstände, verteilt auf drei Familien: <strong>Trophäen</strong>, die <strong>Dofus</strong> selbst und die <strong>Prysmaradite</strong>. Dofus Touch hat die Trophäen und die Dofus, mit eigenem Angebot, aber keine Prysmaradite.</p>
 
-<h2>Trophäen: ein trockener Wert, dann die Rechnung</h2>
-<p>Trophäen kommen in Stufen. Die kleinen verlangen Stufe 50 und geben einen schlichten Bonus ohne Gegenleistung: ein Kleiner Akrobat sind +15 Flinkheit, mehr nicht. Die nächste Stufe, auf 100, verdoppelt das: ein Akrobat gibt +30 Flinkheit, weiterhin kostenlos. Ab der Stufe 150 ändert sich der Handel, und genau da tappen Spieler hinein: ein Arkanist gibt +6% Zauberschaden, nimmt aber <strong>6% Nahkampfresistenz und 6% Fernkampfresistenz</strong> mit. Je stärker die Trophäe, desto mehr fordert sie zurück.</p>
+<h2>Trophäen: manche umsonst, manche mit Rechnung</h2>
+<p>In [[slot-version]] kommen Trophäen in Stufen, und viele kosten nichts: ein [[name:12712]] (Stufe [[level:12712]]) gibt [[lines:12712]] und ein [[name:12713]] (Stufe [[level:12713]]) gibt [[lines:12713]], ohne etwas zurückzunehmen. Andere verlangen schon ab der ersten Stufe ihren Preis, und genau da tappen Spieler hinein: ein [[name:13748]] gibt <strong>[[lines:13748]]</strong>, und ein [[name:13829]] gibt <strong>[[lines:13829]]</strong>. Je höher die Stufe, desto mehr fordert so eine Trophäe zurück.[[trophy-condition]]</p>
 
-<h2>Dofus und Prysmaradite: das teure Ende</h2>
-<p>Die Dofus selbst liegen auf Stufe 180 und sind breit statt spitz: ein Elfenbein-Dofus gibt 4% Resistenz in allen fünf Elementen, ein Eis-Dofus 25 Schaden in allen fünf. Sie sind die Belohnung sehr langer Questketten, und genau diese Breite rechtfertigt einen Platz. Die Prysmaradite auf Stufe 200 kehren zum Tauschhandel zurück: ein Caraprys gibt dir 2 Beschwörungen und nimmt <strong>1 BP</strong>. Ein BP zu verlieren ist keine Kleinigkeit, also muss sich ein Prysmaradit seinen Platz gegen ein Dofus verdienen, das dich nichts kostet.</p>
+<h2>Dofus[[if:22018]] und Prysmaradite[[/if]]: das teure Ende</h2>
+<p>In [[slot-version]] sind die Dofus selbst breit statt spitz:</p>
+<ul>
+[[if:7115]]<li>ein [[name:7115]] gibt [[lines:7115]];</li>
+[[/if]]<li>ein [[name:7043]] gibt [[lines:7043]].</li>
+</ul>
+<p>Sie sind die Belohnung sehr langer Questketten, und genau diese Breite rechtfertigt einen Platz.[[if:22018:lines]] Die Prysmaradite kehren zum Tauschhandel zurück: [[name:22018]] auf Stufe [[level:22018]] gibt <strong>[[lines:22018]]</strong>. Dieser Verlust ist keine Kleinigkeit, also muss sich ein Prysmaradit seinen Platz gegen ein Dofus verdienen, das dich nichts kostet.[[/if]][[if:22018:nolines]] In [[slot-version]] tragen die Prysmaradite keine Eigenschaftszeile: Jeder gibt stattdessen einen Effekt im Kampf, etwa [[name:22018]] (Stufe [[level:22018]]). Der Optimierer zählt Eigenschaften, also stehen diese Effekte nicht in seinen Summen, und ob einer einen Platz verdient, entscheidest du.[[/if]]</p>
 
 <h2>Dofus Retro spielt ein deutlich einfacheres Spiel</h2>
 <p>Retro hat <strong>weder Trophäen noch Prysmaradite</strong>. Seine sechs Plätze werden aus siebzehn Gegenständen gefüllt, zwölf davon die klassischen Dofus der Stufe 6: Smaragd, Türkis, Purpur, Vulbis, Ocker, Elfenbein, Cawotte, Ebenholz, Kaliptus und die übrigen. Keine Stufenleiter, keine Familie mit Gegenleistung zum Abwägen. Wer das Trophäenspiel im modernen Dofus gelernt hat, kann davon nichts nach Retro mitnehmen, und umgekehrt genauso wenig.</p>
 
 <h2>Lass den Optimierer den Tausch abwägen</h2>
-<p>Hier geht Kopfrechnen schnell schief, weil die Nachteile in einer anderen Währung stehen als die Gewinne: sind 6% Zauberschaden 6% Nahkampfresistenz wert? Sind 2 Beschwörungen ein BP wert? Der Optimierer kennt jeden Kandidaten und jeden Malus daran bereits und wägt sie nach deinen Prioritäten ab statt nach einer Tier-Liste. Stell ein, was dir wichtig ist, lass ihn laufen und schau, was er auf diese sechs Plätze gelegt hat.</p>
+<p>Hier geht Kopfrechnen schnell schief, weil die Nachteile in einer anderen Währung stehen als die Gewinne: ist ein AP den BP wert, den er kostet? Ist Blocken das Ausweichen wert, das es nimmt? Der Optimierer kennt jeden Kandidaten und jeden Malus daran bereits und wägt sie nach deinen Prioritäten ab statt nach einer Tier-Liste. Stell ein, was dir wichtig ist, lass ihn laufen und schau, was er auf diese sechs Plätze gelegt hat.</p>
 
 <p><em>Neugierig, was auf deine sechs Plätze gehört? <a href="/setup/">Bau es hier.</a></em></p>
 ''',
@@ -5336,8 +5372,6 @@ def ordered_slugs():
 
 # Per-version guides carry 'i18n_by_group' instead of 'i18n'
 _DEFAULT_GUIDE_GROUP = 'modern'
-_GROUP_CANONICAL_VERSION = {'modern': 'dofus3', 'touch': 'touch',
-                            'dofus2': 'dofus2', 'retro': 'retro'}
 
 
 def _guide_group(guide, game_version):
@@ -5364,26 +5398,72 @@ def is_version_specific(slug):
     return bool(guide and 'i18n_by_group' in guide)
 
 
+def _name_own_version(text, game_version, named):
+    """The tokens naming the page's own version, set to name another one."""
+    token = '[[version:%s]]' % named
+    if _SLOT_VERSION in text and _slot_catalogue(game_version)[0] == game_version:
+        text = text.replace(_SLOT_VERSION, token)
+    return text.replace('[[version]]', token)
+
+
+def _reading(guide, game_version, named):
+    """The page's fields in every language, its own version named as another, without its links' prefix."""
+    for lang in ('en', 'fr', 'es', 'pt', 'de'):
+        block = _guide_block(guide, lang, game_version)
+        for field in ('title', 'desc', 'lead', 'body'):
+            yield _fill_measured_numbers(
+                _name_own_version(block.get(field, ''), game_version, named),
+                game_version, lang)
+
+
 def guide_canonical_version(slug, game_version='dofus3'):
-    """dofus3 for a plain guide, else the group's canonical version."""
+    """The first version whose page reads like this one, dofus3 first."""
     guide = GUIDES.get(slug)
-    group = _guide_group(guide, game_version) if guide else None
-    if group is None:
+    if guide is None:
         return 'dofus3'
-    return _GROUP_CANONICAL_VERSION.get(group, 'dofus3')
+    for version in version_keys():
+        if version == game_version:
+            return version
+        if all(own == other for own, other in zip_longest(
+                _reading(guide, game_version, version),
+                _reading(guide, version, version))):
+            return version
+    return game_version
 
 
 def canonical_versions(slug):
-    """Versions with a canonical page for this guide, one per group."""
-    guide = GUIDES.get(slug)
-    if not guide or 'i18n_by_group' not in guide:
-        return ['dofus3']
-    seen = []
-    for version in version_keys():
-        canonical = guide_canonical_version(slug, version)
-        if canonical not in seen:
-            seen.append(canonical)
-    return seen
+    """Versions whose page of this guide is its own canonical."""
+    return [version for version in version_keys()
+            if guide_canonical_version(slug, version) == version]
+
+
+_NAMED_DESC = {'en': '%s: %s', 'fr': '%s : %s', 'es': '%s: %s', 'pt': '%s: %s', 'de': '%s: %s'}
+
+
+def head_title_and_desc(key, language_code, game_version='dofus3', canonical_version=None):
+    """(title, desc) of the page head, the version named where a self-canonical page reads like another version's."""
+    guide = GUIDES[key]
+    lang = _lang(language_code)
+
+    def fields(version):
+        block = _guide_block(guide, lang, version)
+        return tuple(_fill_measured_numbers(block[field], version, lang)
+                     for field in ('title', 'desc'))
+
+    title, desc = fields(game_version)
+    if canonical_version is None:
+        canonical_version = guide_canonical_version(key, game_version)
+    versions = list(version_keys())
+    if canonical_version != game_version or game_version == versions[0]:
+        return title, desc
+    others = [fields(version) for version in versions if version != game_version]
+    # Page titles carry the unaccented name in every language, as base.html does
+    name = _version_name(game_version, 'en')
+    if title in [other[0] for other in others]:
+        title = '%s · %s' % (title, name)
+    if desc in [other[1] for other in others]:
+        desc = _NAMED_DESC[lang] % (name, desc)
+    return title, desc
 
 
 def list_guides(language_code, game_version='dofus3'):
@@ -5396,8 +5476,8 @@ def list_guides(language_code, game_version='dofus3'):
             # `slug` differs per language, compare guides on `key`
             'key': key,
             'slug': slug_for(key, lang),
-            'title': block['title'],
-            'desc': block['desc'],
+            'title': _fill_measured_numbers(block['title'], game_version, lang),
+            'desc': _fill_measured_numbers(block['desc'], game_version, lang),
         })
     return out
 
@@ -5441,57 +5521,325 @@ def _version_specific_slugs():
 _MEASURED = re.compile(r'\[\[spells:([A-Za-z]+)(?::([a-z0-9]+))?\]\]')
 
 
-@lru_cache(maxsize=64)
+# {(class, version): (spell table read, count)}
+_SPELL_COUNTS = {}
+
+
 def _usable_spell_count(char_class, game_version):
-    """Spells the best turn panel can cast at level 200."""
-    from chardata.spell_combo import castable_spells
-    from fashionistapulp.structure import set_current_game_version
-    set_current_game_version(game_version)
-    return len(castable_spells(char_class, 200, game_version))
+    """Spells the best turn panel can cast at level 200, counted again when the version's spell table changes."""
+    from chardata import spell_combo
+    from fashionistapulp.structure import (get_current_game_version,
+                                           set_current_game_version)
+    table = spell_combo.get_damage_spells_for_version(game_version)
+    cached = _SPELL_COUNTS.get((char_class, game_version))
+    if cached is not None and cached[0] is table:
+        return cached[1]
+    before = get_current_game_version()
+    try:
+        set_current_game_version(game_version)
+        count = len(spell_combo.castable_spells(char_class, 200, game_version))
+    finally:
+        set_current_game_version(before)
+    _SPELL_COUNTS[(char_class, game_version)] = (table, count)
+    return count
 
 
 _DIFFERING = '[[differing-spell-names]]'
 
+# {'count': (spell tables read, count)}
+_DIFFERING_COUNT = {}
 
-@lru_cache(maxsize=1)
+
 def _differing_spell_names():
-    """Spell names Dofus 3 and Dofus 2 do not share, over the classes both have."""
+    """Spell names Dofus 3 and Dofus 2 do not share, over the classes both have, counted again when either spell table changes."""
     from chardata.spell_buffs import get_damage_spells_for_version
     from chardata.version_compat import filter_classes_for_version
     from fashionistapulp.dofus_constants import CHARACTER_CLASSES
     from fashionistapulp.structure import (get_current_game_version,
                                            set_current_game_version)
+    versions = ('dofus3', 'dofus2')
+    read = tuple(get_damage_spells_for_version(version) for version in versions)
+    cached = _DIFFERING_COUNT.get('count')
+    if cached is not None and all(old is new for old, new in zip(cached[0], read)):
+        return cached[1]
     before = get_current_game_version()
     tables = {}
     try:
-        for version in ('dofus3', 'dofus2'):
+        for version, by_class in zip(versions, read):
             set_current_game_version(version)
-            par_classe = get_damage_spells_for_version(version)
             tables[version] = {
-                classe: {spell.name for spell in par_classe.get(classe, [])}
-                for classe in filter_classes_for_version(CHARACTER_CLASSES,
-                                                         version)}
+                char_class: {spell.name for spell in by_class.get(char_class, [])}
+                for char_class in filter_classes_for_version(CHARACTER_CLASSES,
+                                                             version)}
     finally:
         set_current_game_version(before)
-    communes = set(tables['dofus2']) & set(tables['dofus3'])
-    return sum(len(tables['dofus3'][classe] ^ tables['dofus2'][classe])
-               for classe in communes)
+    shared = set(tables['dofus2']) & set(tables['dofus3'])
+    count = sum(len(tables['dofus3'][char_class] ^ tables['dofus2'][char_class])
+                for char_class in shared)
+    _DIFFERING_COUNT['count'] = (read, count)
+    return count
 
 
-def _fill_measured_numbers(body, game_version):
-    """Replace the [[spells:...]] tokens with the current counts."""
+# [[count:lock]], [[top:dodge:dofus]] and the like for the page's version, [[top:lock:nopet:touch]] for another one
+_CATALOGUE = re.compile(
+    r'\[\[(version|count|top|top-names|lines|name|level|trophy-condition)(?::([^\]]*))?\]\]')
+_IF_CARRIED = re.compile(r'\[\[if:(\d+)(?::(lines|nolines))?\]\](.*?)\[\[/if\]\]', re.S)
+# The version whose Dofus slot the piece tokens read
+_SLOT_VERSION = '[[slot-version]]'
+_AND ={'en': 'and', 'fr': 'et', 'es': 'y', 'pt': 'e', 'de': 'und'}
+
+# Ankama's item line, where it differs from the stat's own name
+_ITEM_LINE = {
+    'ch': {'en': '%s%% Critical', 'fr': '%s%% Critique', 'es': '%s %% crítico',
+           'pt': '%s%% de crítico', 'de': '%s%% KT'},
+}
+
+_TROPHY_CONDITION = {
+    'light_set': {
+        'en': ' Some trophies carry a condition on the sets you wear: <strong>Set bonus &lt; %(limit)d</strong>. A set worn with two pieces counts as one set bonus and with three pieces as two, so these trophies leave room for very little set gear.',
+        'fr': ' Certains trophées posent une condition sur les panoplies que tu portes : <strong>Bonus de panoplies &lt; %(limit)d</strong>. Une panoplie portée avec deux pièces compte pour un bonus, avec trois pour deux, donc ces trophées laissent très peu de place aux panoplies.',
+        'es': ' Algunos trofeos ponen una condición a los sets que llevas: <strong>Bonus de sets &lt; %(limit)d</strong>. Un set llevado con dos piezas cuenta como un bonus y con tres como dos, así que estos trofeos dejan muy poco sitio a los sets.',
+        'pt': ' Alguns troféus impõem uma condição aos conjuntos que você usa: <strong>Bônus de conjuntos &lt; %(limit)d</strong>. Um conjunto usado com duas peças conta como um bônus e com três como dois, então esses troféus deixam pouquíssimo espaço para conjuntos.',
+        'de': ' Manche Trophäen stellen eine Bedingung an die Sets, die du trägst: <strong>Set-Bonus &lt; %(limit)d</strong>. Ein Set mit zwei getragenen Teilen zählt als ein Bonus, mit drei Teilen als zwei, also lassen diese Trophäen kaum Platz für Sets.',
+    },
+    'sets_equipped': {
+        'en': ' Some trophies carry a condition on the sets you wear: <strong>Number of sets equipped &lt; %(limit)d</strong>. A set counts as equipped from its second piece on, whatever its size, so the condition limits how many sets you wear, not how many of their pieces.',
+        'fr': ' Certains trophées posent une condition sur les panoplies que tu portes : <strong>Nombre de panoplies équipées &lt; %(limit)d</strong>. Une panoplie compte comme équipée dès sa deuxième pièce, quelle que soit sa taille : la condition limite le nombre de panoplies que tu portes, pas leur nombre de pièces.',
+        'es': ' Algunos trofeos ponen una condición a los sets que llevas: <strong>Número de sets equipados &lt; %(limit)d</strong>. Un set cuenta como equipado desde su segunda pieza, sea cual sea su tamaño: la condición limita cuántos sets llevas, no cuántas piezas de cada uno.',
+        'pt': ' Alguns troféus impõem uma condição aos conjuntos que você usa: <strong>Número de conjuntos equipados &lt; %(limit)d</strong>. Um conjunto conta como equipado a partir da segunda peça, seja qual for o tamanho: a condição limita quantos conjuntos você usa, não quantas peças de cada um.',
+        'de': ' Manche Trophäen stellen eine Bedingung an die Sets, die du trägst: <strong>Anzahl der ausgerüsteten Sets &lt; %(limit)d</strong>. Ein Set zählt ab seinem zweiten Teil als ausgerüstet, egal wie groß es ist: Die Bedingung begrenzt, wie viele Sets du trägst, nicht wie viele Teile davon.',
+    },
+}
+
+_FRENCH_VERSION_NAME = {'beta': 'Dofus 3 Bêta', 'retro': 'Dofus Rétro'}
+
+
+def _version_name(game_version, language):
+    if language == 'fr' and game_version in _FRENCH_VERSION_NAME:
+        return _FRENCH_VERSION_NAME[game_version]
+    version = get_game_version(game_version)
+    return 'Dofus %s' % version.seo_word if version.seo_word else version.label
+
+
+def _scope_of(structure, item):
+    """'pet', 'dofus' (Dofus, trophies, Prysmaradites) or 'worn'."""
+    type_name = structure.get_type_name_by_id(item.type)
+    return type_name.lower() if type_name in ('Pet', 'Dofus') else 'worn'
+
+
+def _physical_item(item):
+    """The branches of an OR item are one piece."""
+    or_name = getattr(item, 'or_name', item.name)
+    return or_name if or_name != item.name else item.id
+
+
+_STAT_LINES = weakref.WeakKeyDictionary()
+
+
+def _stat_lines(game_version, stat_key):
+    """(item, scope, value) for every line of one stat in a version's catalogue."""
+    from fashionistapulp.structure import get_structure
+    structure = get_structure(game_version)
+    by_stat = _STAT_LINES.setdefault(structure, {})
+    if stat_key not in by_stat:
+        stat = structure.get_stat_by_key(stat_key)
+        by_stat[stat_key] = () if stat is None else tuple(
+            (item, _scope_of(structure, item), value)
+            for item in structure.get_available_items_list()
+            for stat_id, value in item.stats
+            if stat_id == stat.id and value)
+    return by_stat[stat_key]
+
+
+def _count(game_version, spec):
+    """Pieces with a line of the stat: 'lock', losing it: '-lock', giving both: 'lock+dodge'."""
+    def pieces(key, keep):
+        return {_physical_item(item)
+                for item, _scope, value in _stat_lines(game_version, key)
+                if keep(value)}
+    if '+' in spec:
+        return len(set.intersection(*[pieces(key, lambda value: value > 0)
+                                      for key in spec.split('+')]))
+    if spec.startswith('-'):
+        return len(pieces(spec[1:], lambda value: value < 0))
+    return len(pieces(spec, lambda value: True))
+
+
+def _in_scope(where, scope):
+    if scope == 'all':
+        return True
+    return where != 'pet' if scope == 'nopet' else where == scope
+
+
+def _top(game_version, spec, scope):
+    """(size, pieces) of the biggest line, '-dodge' for the biggest loss; scope 'nopet' is all but pets."""
+    loss = spec.startswith('-')
+    lines = [(item, abs(value))
+             for item, where, value in _stat_lines(game_version, spec.lstrip('-'))
+             if (value < 0) == loss and _in_scope(where, scope)]
+    if not lines:
+        return 0, []
+    size = max(amount for _item, amount in lines)
+    pieces, seen = [], set()
+    for item, amount in sorted(lines, key=lambda line: (line[0].level,
+                                                         line[0].ankama_id or 0)):
+        if amount == size and _physical_item(item) not in seen:
+            seen.add(_physical_item(item))
+            pieces.append(item)
+    return size, pieces
+
+
+def _joined(texts, language):
+    if len(texts) < 2:
+        return ''.join(texts)
+    return '%s %s %s' % (', '.join(texts[:-1]), _AND[language], texts[-1])
+
+
+_HAS_TROPHIES = weakref.WeakKeyDictionary()
+
+
+def _slot_catalogue(game_version):
+    """(version, structure) the Dofus slot tokens read; a version without trophies reads the default version's."""
+    from fashionistapulp.game_versions import DEFAULT_VERSION
+    from fashionistapulp.structure import get_structure
+    structure = get_structure(game_version)
+    if structure not in _HAS_TROPHIES:
+        _HAS_TROPHIES[structure] = any('Trophy' in item.flags
+                                       for item in structure.get_available_items_list())
+    if _HAS_TROPHIES[structure] or game_version == DEFAULT_VERSION:
+        return game_version, structure
+    # Retro numbers its items on its own, its 12712 is a ring
+    return DEFAULT_VERSION, get_structure(DEFAULT_VERSION)
+
+
+def _slot_item(game_version, ankama_id):
+    """(version, structure, item), item None when that catalogue's Dofus slot has no such piece."""
+    version, structure = _slot_catalogue(game_version)
+    item = structure.get_item_by_ankama_id(ankama_id)
+    if (item is None or item.removed
+            or structure.get_type_name_by_id(item.type) != 'Dofus'):
+        item = None
+    return version, structure, item
+
+
+def _has_lines(item):
+    return any(value for _stat, value in item.stats)
+
+
+def _item_lines(game_version, ankama_id, language):
+    """'+15 Agility and +1% Critical', the piece's lines in Ankama's words."""
+    from django.utils import translation
+    from chardata.translation_util import localized_stat_name
+    version, structure, item = _slot_item(game_version, ankama_id)
+    if item is None:
+        return ''
+    texts = []
+    with translation.override(language):
+        for stat_id, value in item.stats:
+            if not value:
+                continue
+            stat = structure.get_stat_by_id(stat_id)
+            amount = '%+d' % int(round(value))
+            if stat.key in _ITEM_LINE:
+                texts.append(_ITEM_LINE[stat.key][language] % amount)
+                continue
+            name = str(localized_stat_name(stat.name, version))
+            texts.append('%s%s%s' % (amount, '' if name.startswith('%') else ' ', name))
+    return _joined(texts, language)
+
+
+def _item_name(game_version, ankama_id, language):
+    _version, structure, item = _slot_item(game_version, ankama_id)
+    return '' if item is None else structure.get_item_name_in_language(item, language)
+
+
+def _item_level(game_version, ankama_id):
+    _version, _structure, item = _slot_item(game_version, ankama_id)
+    return '' if item is None else str(item.level)
+
+
+def _trophy_condition(game_version, language):
+    """The set condition some trophies carry; a version without trophies reads the default version's."""
+    _version, structure = _slot_catalogue(game_version)
+    items = structure.get_available_items_list()
+    caps = set()
+    for item in items:
+        for kind in _TROPHY_CONDITION:
+            cap = item.weird_conditions.get(kind)
+            if cap:
+                caps.add((kind, 2 if cap is True else cap))
+    return ''.join(_TROPHY_CONDITION[kind][language] % {'limit': cap + 1}
+                   for kind, cap in sorted(caps))
+
+
+def _fill_catalogue_numbers(text, game_version, language):
+    def resolve(match):
+        kind, args = match.group(1), (match.group(2) or '').split(':')
+        version = args.pop() if args[-1] in GAME_VERSIONS else game_version
+        try:
+            if kind == 'version':
+                return _version_name(version, language)
+            if kind == 'count':
+                return str(_count(version, args[0]))
+            if kind == 'top':
+                return str(_top(version, *args)[0])
+            if kind == 'top-names':
+                from fashionistapulp.structure import get_structure
+                structure = get_structure(version)
+                return ', '.join(structure.get_item_name_in_language(item, language)
+                                 for item in _top(version, *args)[1])
+            if kind == 'lines':
+                return _item_lines(version, int(args[0]), language)
+            if kind == 'name':
+                return _item_name(version, int(args[0]), language)
+            if kind == 'level':
+                return _item_level(version, int(args[0]))
+            return _trophy_condition(version, language)
+        except Exception:
+            logger.exception('guide: cannot resolve %s on %s',
+                             match.group(0), version)
+            return ''
+    return _CATALOGUE.sub(resolve, text)
+
+
+def _keep_carried_passages(text, game_version):
+    """[[if:ID]]...[[/if]] stays where the Dofus slot holds that piece; [[if:ID:lines]] also needs a line on it, [[if:ID:nolines]] none."""
+    def keep(match):
+        try:
+            item = _slot_item(game_version, int(match.group(1)))[2]
+        except Exception:
+            logger.exception('guide: cannot resolve %s on %s',
+                             match.group(0)[:40], game_version)
+            item = None
+        if item is None:
+            return ''
+        if match.group(2) and _has_lines(item) != (match.group(2) == 'lines'):
+            return ''
+        return match.group(3)
+    return _IF_CARRIED.sub(keep, text)
+
+
+def _fill_measured_numbers(body, game_version, language='en'):
+    """Replace the guide tokens with what the version's data says today."""
+    if '[[' not in body:
+        return body
+    body = _keep_carried_passages(body, game_version)
+    if _SLOT_VERSION in body:
+        body = body.replace(_SLOT_VERSION,
+                            '[[version:%s]]' % _slot_catalogue(game_version)[0])
+    body = _fill_catalogue_numbers(body, game_version, _lang(language))
     if _DIFFERING in body:
         body = body.replace(_DIFFERING, str(_differing_spell_names()))
 
-    def resoudre(match):
-        classe, version = match.group(1), match.group(2) or game_version
+    def resolve(match):
+        char_class, version = match.group(1), match.group(2) or game_version
         try:
-            return str(_usable_spell_count(classe, version))
+            return str(_usable_spell_count(char_class, version))
         except Exception:
-            logger.exception('guide: comptage impossible pour %s en %s',
-                             classe, version)
+            logger.exception('guide: cannot count the spells of %s on %s',
+                             char_class, version)
             return ''
-    return _MEASURED.sub(resoudre, body)
+    return _MEASURED.sub(resolve, body)
 
 
 def _localize_body_links(body, game_version, language_code='en'):
@@ -5531,7 +5879,9 @@ def get_guide(slug, language_code, game_version='dofus3'):
     }
     data.update(block)
     data['body'] = _localize_body_links(data['body'], game_version, lang)
-    data['body'] = _fill_measured_numbers(data['body'], game_version)
+    for field in ('title', 'desc', 'lead', 'body'):
+        if field in data:
+            data[field] = _fill_measured_numbers(data[field], game_version, lang)
     return data
 
 

@@ -4,13 +4,13 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% block title %}{{ guide.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
-{% block meta_description %}{{ guide.desc }}{% endblock %}
+{% block title %}{{ head_title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block meta_description %}{{ head_desc }}{% endblock %}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
 {% block og_meta %}
-    <meta property="og:title" content="{{ guide.title }}">
-    <meta property="og:description" content="{{ guide.desc }}">
+    <meta property="og:title" content="{{ head_title }}">
+    <meta property="og:description" content="{{ head_desc }}">
     <meta property="og:type" content="article">
     <meta property="og:url" content="{{ canonical_url }}">
     <meta property="og:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">

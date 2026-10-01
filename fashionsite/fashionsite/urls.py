@@ -569,9 +569,10 @@ def _sitemap_pages(base_url):
             # One url per language: the slug names the language
             slugs = sorted(set(guides_content.alternate_slugs(key).values())
                            or {key})
+            versions = guides_content.canonical_versions(key)
             for slug in slugs:
                 # A per-version guide is a distinct page per game version.
-                for version in guides_content.canonical_versions(key):
+                for version in versions:
                     prefix = '' if version == 'dofus3' else '/%s' % version
                     blocks.append('  <url>\n    <loc>%s%s/guides/%s/</loc>%s\n'
                                   '    <changefreq>monthly</changefreq>\n'

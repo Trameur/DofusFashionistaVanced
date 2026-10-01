@@ -120,6 +120,8 @@ def guide(request, slug, char_id=0):
 
     body_top, body_rest = split_body(
         add_version_prefix(data.get('body'), game_version))
+    head_title, head_desc = guides_content.head_title_and_desc(
+        data['key'], url_language, game_version, canonical_version)
     return set_response(
         request,
         'chardata/guide.html',
@@ -127,6 +129,8 @@ def guide(request, slug, char_id=0):
          'user': request.user,
          'char_id': char_id,
          'guide': data,
+         'head_title': head_title,
+         'head_desc': head_desc,
          'guide_body_top': body_top,
          'guide_body_rest': body_rest,
          'canonical_url': canonical_url,
