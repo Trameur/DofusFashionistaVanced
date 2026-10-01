@@ -31,7 +31,7 @@ jmespath==1.1.0
 jsonpickle==4.1.2
 oauthlib==4.0.0
 pillow==12.3.0
-PuLP==2.7.0
+PuLP==4.0.0
 pycparser==3.0
 PyJWT==2.15.0
 PyMySQL==1.2.0

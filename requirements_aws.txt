@@ -51,7 +51,7 @@ ply==3.11
 prettytable==3.18.0
 prompt-toolkit==3.0.53
 protobuf==7.36.2
-PuLP==2.7.0
+PuLP==4.0.0
 pyasn1==0.6.4
 pyasn1-modules==0.4.2
 pycparser==3.0
