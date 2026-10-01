@@ -44,6 +44,35 @@ PERCENT_RESISTS = ('% Neutral Resist', '% Earth Resist', '% Fire Resist', '% Wat
                    '% Air Resist')
 
 
+def _minimum_dependencies(version):
+    """{stat name: [[stat names], [multipliers]]}, the stats a minimum on that stat also counts."""
+    wisdom_rate = 1.0 / wisdom_per_ap_mp_dodge_point(version)
+    dependencies = {'Dodge': [['Agility'],[0.1]],
+                    'Lock': [['Agility'],[0.1]],
+                    'AP Reduction': [['Wisdom'],[wisdom_rate]],
+                    'MP Reduction': [['Wisdom'],[wisdom_rate]],
+                    'AP Loss Resist': [['Wisdom'],[wisdom_rate]],
+                    'MP Loss Resist': [['Wisdom'],[wisdom_rate]],
+                    'Initiative': [['Agility', 'Intelligence', 'Strength', 'Chance'],
+                                   [1, 1, 1, 1]],
+                    'Prospecting': [['Chance'],[0.1]],
+                    'Pods': [['Strength'],[5]],
+                    'HP': [['Vitality'],[1]]}
+    if version == 'touch':
+        dependencies['Dodge'] = [['Chance'], [0.1]]
+        del dependencies['Prospecting']
+        del dependencies['Pods']
+    return dependencies
+
+def _minimum_bound(version, stat_name, value, level):
+    """What the stat and its dependencies must sum to for a minimum of value."""
+    if stat_name == 'HP':
+        return value - 55 - 5*(level-1)
+    if stat_name == 'Prospecting' and version == 'touch':
+        return value - level_prospecting(version, level)
+    return value
+
+
 class Model:
 
     def __init__(self, stat_overrides=None, temporix=False):
@@ -706,6 +735,10 @@ class Model:
             self.problem.add_to_of(category, key, value)
 
         self.problem.finish_objective_function()
+        shortfalls = getattr(self, '_shortfall_objective', None)
+        if shortfalls:
+            self.problem.pulp_lp.setObjective(
+                -pulp.lpSum(weight * variable for _name, variable, _asked, weight in shortfalls))
 
     _AP_TIER_BIG_M = 100
 
@@ -1395,23 +1428,8 @@ class Model:
         self.modify_exo_constraints(options)
 
     def create_minimum_stat_constraints(self):
-        wisdom_rate = 1.0 / wisdom_per_ap_mp_dodge_point(
-            getattr(self.structure, 'game_version', 'dofus3'))
-        dependencies = {'Dodge': [['Agility'],[0.1]],
-                        'Lock': [['Agility'],[0.1]],
-                        'AP Reduction': [['Wisdom'],[wisdom_rate]],
-                        'MP Reduction': [['Wisdom'],[wisdom_rate]],
-                        'AP Loss Resist': [['Wisdom'],[wisdom_rate]],
-                        'MP Loss Resist': [['Wisdom'],[wisdom_rate]],
-                        'Initiative': [['Agility', 'Intelligence', 'Strength', 'Chance'],
-                                       [1, 1, 1, 1]],
-                        'Prospecting': [['Chance'],[0.1]],
-                        'Pods': [['Strength'],[5]],
-                        'HP': [['Vitality'],[1]]}
-        if getattr(self.structure, 'game_version', 'dofus3') == 'touch':
-            dependencies['Dodge'] = [['Chance'], [0.1]]
-            del dependencies['Prospecting']
-            del dependencies['Pods']
+        version = getattr(getattr(self, 'structure', None), 'game_version', 'dofus3')
+        dependencies = _minimum_dependencies(version)
 
         for stat in self.stats_list:
             if stat.name in dependencies:
@@ -1450,19 +1468,11 @@ class Model:
             self.restrictions.advanced_minimum_stat_constraints[stat['key']] = restriction
 
     def modify_minimum_stat_constraints(self, minimum_stats, level):
-        version = getattr(getattr(self, 'structure', None), 'game_version',
-                          'dofus3')
+        version = getattr(getattr(self, 'structure', None), 'game_version', 'dofus3')
         for stat in self.stats_list:
-            if stat.name == 'HP':
-                restriction = self.restrictions.minimum_stat_constraints[stat.name]
-                restriction.changeRHS(-minimum_stats.get(stat.name, -10000) + 55 + 5*(level-1))
-            elif stat.name == 'Prospecting' and version == 'touch':
-                restriction = self.restrictions.minimum_stat_constraints[stat.name]
-                restriction.changeRHS(-minimum_stats.get(stat.name, -10000)
-                                      + level_prospecting(version, level))
-            else:
-                restriction = self.restrictions.minimum_stat_constraints[stat.name]
-                restriction.changeRHS(-minimum_stats.get(stat.name, -10000))
+            restriction = self.restrictions.minimum_stat_constraints[stat.name]
+            restriction.changeRHS(-_minimum_bound(
+                version, stat.name, minimum_stats.get(stat.name, -10000), level))
         self.modify_advanced_minimum_stat_constraints(minimum_stats.get('adv_mins', {}))
 
     def modify_effective_hp_constraint(self, floor, level):
@@ -1487,7 +1497,72 @@ class Model:
         for stat in adv_min_stats:
             restriction = self.restrictions.advanced_minimum_stat_constraints[stat['key']]
             restriction.changeRHS(-minimum_stats.get(stat['name'], -10000))
-    
+
+    def add_elastic_minimums(self, minimum_stats, level):
+        """The minimums turned into ones a shortfall can make up, as [(name, shortfall, asked, 1 / asked)]; never on a pooled model, ValueError when a minimum has no variable."""
+        lp = self.problem.pulp_lp
+        self.modify_minimum_stat_constraints({}, level)
+        version = getattr(getattr(self, 'structure', None), 'game_version', 'dofus3')
+        dependencies = _minimum_dependencies(version)
+
+        def lp_variable(category, name):
+            stat = self.structure.get_stat_by_name(name)
+            if stat is None:
+                return None
+            key = stat.id if category == 'stat' else 'capped_%s' % stat.key
+            return self.problem.pulp_vars.get(
+                '%s_%s' % (category, str(key).replace(' ', '_').replace('-', '_')))
+
+        wanted = []
+        for stat in self.stats_list:
+            asked = minimum_stats.get(stat.name)
+            if not _is_number(asked):
+                continue
+            names, multipliers = dependencies.get(stat.name, [[], []])
+            terms = [(1, lp_variable('stat', stat.name))] + [
+                (multiplier, lp_variable('stat', name))
+                for name, multiplier in zip(names, multipliers)]
+            wanted.append((stat.name, asked, _minimum_bound(version, stat.name, asked, level), terms))
+        advanced = minimum_stats.get('adv_mins') or {}
+        for stat in self.structure.get_adv_mins():
+            asked = advanced.get(stat['name'])
+            if not _is_number(asked):
+                continue
+            is_percent_resist_sum = all(name.strip().startswith('%') and name.strip().endswith('Resist')
+                                        for name in stat['stats'])
+            category = 'capped_resist' if is_percent_resist_sum else 'stat'
+            wanted.append((stat['name'], asked, asked,
+                           [(1, lp_variable(category, name)) for name in stat['stats']]))
+
+        unread = [name for name, _asked, _bound, terms in wanted
+                  if any(variable is None for _multiplier, variable in terms)]
+        if unread:
+            raise ValueError('no solver variable behind the minimums %s' % ', '.join(unread))
+        shortfalls = []
+        for number, (name, asked, bound, terms) in enumerate(wanted):
+            shortfall = pulp.LpVariable('shortfall_%d' % number, 0)
+            lp.addConstraint(pulp.lpSum(multiplier * variable for multiplier, variable in terms)
+                             + shortfall >= bound, 'elastic_%d' % number)
+            shortfalls.append((name, shortfall, asked, 1.0 / max(abs(asked), 1)))
+        return shortfalls
+
+    def minimise_shortfall(self, shortfalls):
+        """The objective becomes the weighted shortfall, minimised; see hold_shortfall."""
+        self._shortfall_objective = list(shortfalls)
+        self.write_objective_function(self.input['objective_values'], self.input['char_level'])
+
+    def hold_shortfall(self, shortfalls, ceiling):
+        """Keeps the weighted shortfall at ceiling and goes back to the build's own objective."""
+        self.problem.pulp_lp.addConstraint(
+            pulp.lpSum(weight * variable for _name, variable, _asked, weight in shortfalls)
+            <= ceiling * (1 + 1e-6) + 1e-6, 'elastic_hold')
+        self._shortfall_objective = None
+        self.write_objective_function(self.input['objective_values'], self.input['char_level'])
+
+    def get_shortfall(self, shortfalls):
+        return sum(weight * (variable.varValue or 0)
+                   for _name, variable, _asked, weight in shortfalls)
+
     def run(self, retries=0, change_of=False, warm_start=None, seed=None):
         if change_of:
             self.input['objective_values']['vit'] += 1
@@ -1697,6 +1772,10 @@ class ModelInput(object):
         if barred:
             key += (frozenset(barred),)
         return key.__hash__()
+
+def _is_number(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
 
 def _canonical(value):
     """value with dicts and sets sorted, for a stable digest."""

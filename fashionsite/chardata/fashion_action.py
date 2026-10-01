@@ -17,6 +17,7 @@
 import copy
 import json
 import logging
+import math
 import time
 import zlib
 from contextlib import contextmanager
@@ -36,7 +37,7 @@ from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
 from chardata.inventory_solver import (get_inventory_solver_settings,
     apply_inventory_restriction, get_effective_stat_overrides)
 from chardata.min_stats import get_min_stats_digested
-from chardata.models import Char, CharBaseStats
+from chardata.models import Char, CharBaseStats, SolutionMemory
 from chardata.presets import (balanced_weights, cross_reading, guard_minimums, guard_plan,
                               guard_reading, guarded_stats, short_of_floors, stat_floors)
 from chardata.smart_build import get_char_aspects
@@ -67,6 +68,12 @@ MEMORY = DatabaseSolutionMemory()
 GUARD_BUDGET_SECONDS = 95
 BALANCED_SECONDS = 30
 MIN_SOLVE_SECONDS = 10
+#: Limits of the two solves looking for the set closest to the minimums
+CLOSEST_SECONDS = 30
+CLOSEST_TIE_BREAK_SECONDS = 30
+#: Seconds a fresh model took to build and set up, per game version; FIRST_BUILD_SECONDS before the first
+_BUILD_SECONDS = {}
+FIRST_BUILD_SECONDS = 20
 
 
 def _warn_if_unproven(char, solved_status, proven):
@@ -214,7 +221,7 @@ def _priced_solve(char, solve_input, unpriced, solve, deadline):
     return priced if pays else unpriced
 
 
-def fashion(request, char_id, spells=False):
+def fashion(request, char_id, spells=False, seed=None):
     started = time.monotonic()
     char = get_char_or_raise(request, char_id)
     remove_cache_for_char(char_id)
@@ -239,13 +246,22 @@ def fashion(request, char_id, spells=False):
     model_options = model_input.options
     stat_overrides = model_input.stat_overrides
 
+    def run(model):
+        if seed is None:
+            model.run(2)
+        else:
+            model.run(2, seed=seed)
+
     def solve(model_input, deadline=None, longest=None):
         solved_status = None
         stats = None
         result = None
 
         memoized_result = MEMORY.get(model_input)
-        if memoized_result is not None:
+        # Only 'Infeasible' is a proof; a stored search that ran out of time is solved again
+        stale = (memoized_result is not None and memoized_result[2] is None
+                 and memoized_result[0] != 'Infeasible')
+        if memoized_result is not None and not stale:
             solved_status, stats, result = memoized_result
         else:
             # Wall clock of the solve alone
@@ -256,7 +272,7 @@ def fashion(request, char_id, spells=False):
                 model = Model(stat_overrides=stat_overrides, temporix=is_temporix)
                 model.setup(model_input)
                 with _solver_time_limit(deadline, longest) as time_limit:
-                    model.run(2)
+                    run(model)
                 solved_status = model.get_solved_status()
                 proven = model.solution_is_proven()
                 pool = model.get_candidate_pool()
@@ -268,7 +284,7 @@ def fashion(request, char_id, spells=False):
                 model = borrow_model()
                 model.setup(model_input)
                 with _solver_time_limit(deadline, longest) as time_limit:
-                    model.run(2)
+                    run(model)
                 solved_status = model.get_solved_status()
                 # Read before return_model, like solved_status
                 proven = model.solution_is_proven()
@@ -293,8 +309,14 @@ def fashion(request, char_id, spells=False):
                 if search is not None:
                     result.search = search
             # The memory key has no time limit, so a solve the shortened limit cut is not stored
-            if time_limit is None or proven or solved_status == 'Infeasible':
-                MEMORY.put(model_input, (solved_status, stats, result))
+            if ((time_limit is None or proven or solved_status == 'Infeasible')
+                    and (result is not None or solved_status == 'Infeasible')):
+                if stale and result is None:
+                    _overwrite_memory(model_input, (solved_status, stats, result))
+                elif stale:
+                    MEMORY.keep_better(model_input, (solved_status, stats, result), False)
+                else:
+                    MEMORY.put(model_input, (solved_status, stats, result))
         return solved_status, stats, result
 
     plan = guard_plan(char)
@@ -305,9 +327,24 @@ def fashion(request, char_id, spells=False):
         solved_status, stats, result = _guarded_solve(char, model_input, plan, solve)
 
     if result is None:
-        return HttpResponseRedirect(version_reverse(request, 'infeasible', char.id))
+        return _without_a_set(request, char, model_input,
+                              'proof' if solved_status == 'Infeasible' else 'time',
+                              int(round(time.monotonic() - started)), seed,
+                              started + GUARD_BUDGET_SECONDS, spells)
 
     _bind_search(result, model_input, plan)
+    _store_set(char, stats, result)
+    return _to_the_set(request, char, spells)
+
+
+def _to_the_set(request, char, spells=False):
+    if spells:
+        return HttpResponseRedirect(version_reverse(request, 'spells', char.id))
+
+    return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+
+
+def _store_set(char, stats, result):
     if char.allow_points_distribution:
         set_stats(char, stats)
     char.solved_version = (getattr(result, 'data_version', '')
@@ -316,10 +353,135 @@ def fashion(request, char_id, spells=False):
     set_minimal_solution(char, result)
     record_solution_generation(char, result)
 
-    if spells:
-        return HttpResponseRedirect(version_reverse(request, 'spells', char.id))
 
-    return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+def solve_budget_seconds(char):
+    """The longest a /fashion/ request of the build may take, what the waiting screen counts towards."""
+    budget = GUARD_BUDGET_SECONDS
+    options = read_char_blob(char.options, {}, 'options', char)
+    if get_effective_stat_overrides(char) or temporix.is_on(options, char.game_version):
+        budget = max(budget, lpproblem.TIME_LIMIT_SECONDS
+                     + _BUILD_SECONDS.get(char.game_version, FIRST_BUILD_SECONDS))
+    return int(math.ceil(budget))
+
+
+def _asks_a_minimum(minimum_stats):
+    values = [value for name, value in minimum_stats.items() if name != 'adv_mins']
+    values += list((minimum_stats.get('adv_mins') or {}).values())
+    return any(isinstance(value, (int, float)) and not isinstance(value, bool)
+               for value in values)
+
+
+def _without_a_set(request, char, model_input, cause, seconds, attempt, deadline, spells=False,
+                   reuse=True):
+    """Looks for the set closest to the minimums, then shows the failure page, or the set when it meets them all."""
+    from chardata.closest_set import read_failure, remember_failure
+    key = model_input.cache_key()
+    known = read_failure(request, char, model_input) if reuse else None
+    if _settled(known):
+        closest = known
+        if known.get('cause') == 'proof':
+            cause = 'proof'
+    else:
+        closest = _closest_solve(char, model_input, cause, deadline)
+    if closest['state'] == 'locks':
+        cause = 'proof'
+    elif (closest['state'] == 'found' and cause == 'time' and closest['meets_all']
+          and closest.get('tie_break')):
+        _store_set(char, closest['stats'], _answer_of(char, model_input, closest))
+        return _to_the_set(request, char, spells)
+    remember_failure(request, char, key, dict(closest, cause=cause, seconds=seconds,
+                                              attempt=attempt or 0))
+    return HttpResponseRedirect(version_reverse(request, 'infeasible', char.id))
+
+
+def _settled(entry):
+    """Whether a remembered closest solve already answers the same settings: locks, or a set short of the minimums."""
+    if entry is None:
+        return False
+    return (entry.get('state') == 'locks'
+            or (entry.get('state') == 'found' and not entry.get('meets_all')))
+
+
+def _answer_of(char, model_input, closest):
+    """The closest set meeting every minimum after a stop on time, as a solve's result of model_input."""
+    tie_break = closest['tie_break']
+    result = closest['minimal']
+    result.proven = tie_break['proven']
+    result.solve_seconds = closest['solve_seconds']
+    result.candidate_pool = closest['pool']
+    result.data_version = current_data_version(char.game_version)
+    if tie_break['limit'] is not None:
+        result.time_limit = tie_break['limit']
+    if not tie_break['proven']:
+        search = _new_search(tie_break['state'], model_input,
+                             tie_break['limit'] or lpproblem.SOLVER.timeLimit)
+        if search is not None:
+            result.search = search
+            _bind_search(result, model_input, guard_plan(char))
+    return result
+
+
+def _closest_solve(char, model_input, cause, deadline):
+    """The set nearest the build's minimums with every other rule kept, on a model of its own, by deadline."""
+    if not _asks_a_minimum(model_input.minimum_stats):
+        return {'state': 'locks' if cause == 'proof' else 'skipped'}
+    version = get_current_game_version()
+    solve_input = copy.copy(model_input)
+    solve_input.objective_values = dict(model_input.objective_values)
+
+    def left():
+        return deadline - time.monotonic()
+
+    if left() < MIN_SOLVE_SECONDS + _BUILD_SECONDS.get(version, FIRST_BUILD_SECONDS):
+        return {'state': 'no_time'}
+    try:
+        started = time.monotonic()
+        model = Model(stat_overrides=solve_input.stat_overrides,
+                      temporix=bool(solve_input.options.get('temporix')))
+        model.setup(solve_input)
+        shortfalls = model.add_elastic_minimums(solve_input.minimum_stats,
+                                                solve_input.char_level)
+        _BUILD_SECONDS[version] = time.monotonic() - started
+        if not shortfalls:
+            return {'state': 'locks' if cause == 'proof' else 'skipped'}
+        if left() < MIN_SOLVE_SECONDS:
+            return {'state': 'no_time'}
+        model.minimise_shortfall(shortfalls)
+        with _solver_time_limit(deadline, CLOSEST_SECONDS) as limit:
+            model.run(2)
+        status = model.get_solved_status()
+        if status == 'Infeasible':
+            return {'state': 'locks'}
+        if status != 'Optimal':
+            return {'state': 'stopped'}
+        closeness = {'closest_proven': model.solution_is_proven(),
+                     'closest_seconds': limit or lpproblem.SOLVER.timeLimit}
+        found = dict(_closest_found(model, shortfalls), **closeness)
+        if left() >= MIN_SOLVE_SECONDS:
+            model.hold_shortfall(shortfalls, found['shortfall'])
+            with _solver_time_limit(deadline, CLOSEST_TIE_BREAK_SECONDS) as tie_limit:
+                model.run(2, warm_start=found['values'])
+            if model.get_solved_status() == 'Optimal':
+                found = dict(_closest_found(model, shortfalls), **closeness)
+                found['tie_break'] = {'proven': model.solution_is_proven(), 'limit': tie_limit,
+                                      'state': model.get_search_state()}
+        found.pop('values', None)
+        found['solve_seconds'] = time.monotonic() - started
+        return found
+    except Exception:
+        logger.exception('could not look for the closest set of char %s', getattr(char, 'id', '?'))
+        return {'state': 'error'}
+
+
+def _closest_found(model, shortfalls):
+    minimal = model.get_result_minimal()
+    shortfall = model.get_shortfall(shortfalls)
+    return {'state': 'found', 'minimal': minimal,
+            'items': [item_id for item_id in minimal.item_per_slot.values()
+                      if item_id is not None],
+            'stats': dict(model.get_stats()), 'shortfall': shortfall,
+            'meets_all': shortfall <= 1e-6, 'pool': model.get_candidate_pool(),
+            'values': model.get_search_state()['values']}
 
 def _guarded_solve(char, model_input, plan, solve):
     """The priority solve under floors taken from the balanced solve, all within GUARD_BUDGET_SECONDS."""
@@ -493,6 +655,46 @@ def continue_search(request, char_id):
     return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
 
 
+@require_POST
+def keep_closest_set(request, char_id):
+    """Stores the closest set the failure page shows as the build's set."""
+    from chardata.closest_set import closest_minimal, current_input, forget_failure, read_failure
+    char = get_char_or_raise(request, char_id)
+    model_input = current_input(request, char)
+    entry = read_failure(request, char, model_input) if model_input is not None else None
+    if entry is None or entry.get('state') != 'found':
+        return HttpResponseRedirect(version_reverse(request, 'infeasible', char.id) + '?gone=1')
+    _store_set(char, entry['stats'], closest_minimal(entry, model_input))
+    forget_failure(request, char)
+    remove_cache_for_char(char.id)
+    return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+
+
+@require_POST
+def search_again(request, char_id):
+    """Solves the build again on another search path."""
+    from chardata.closest_set import read_failure
+    char = get_char_or_raise(request, char_id)
+    previous = read_failure(request, char) or {}
+    return fashion(request, char_id, seed=previous.get('attempt', 0) + 1)
+
+
+@require_POST
+def find_closest_set(request, char_id):
+    """Looks for the closest set on a budget of its own, when the failed solve left it no time."""
+    from chardata.closest_set import current_input, read_failure
+    started = time.monotonic()
+    char = get_char_or_raise(request, char_id)
+    model_input = current_input(request, char)
+    previous = read_failure(request, char, model_input) if model_input is not None else None
+    if previous is None:
+        return fashion(request, char_id)
+    remove_cache_for_char(char.id)
+    return _without_a_set(request, char, model_input, previous.get('cause', 'time'),
+                          previous.get('seconds'), previous.get('attempt', 0),
+                          started + GUARD_BUDGET_SECONDS, reuse=False)
+
+
 def _continue_search(request, char, blob, minimal, solve_input, deadline):
     search = minimal.search
     rounds = search.get('rounds', 0) + 1
@@ -613,3 +815,12 @@ def _keep_in_memory(solve_input, stats, result, create):
             minimum_stats=solve_input.minimum_stats,
             objective_values=solve_input.objective_values)
     MEMORY.keep_better(solve_input, ('Optimal', stats, shared), create)
+
+
+def _overwrite_memory(model_input, result_tuple):
+    """Writes result_tuple over the remembered one; put never overwrites and keep_better keeps a row without a set."""
+    if isinstance(MEMORY, DatabaseSolutionMemory):
+        SolutionMemory.objects.filter(input_hash=model_input.cache_key()).update(
+            stored=pickle.dumps(result_tuple))
+    else:
+        MEMORY.put(model_input, result_tuple)

@@ -176,7 +176,7 @@
         loadingAndRunUnchecked();
     }
     
-    function loadingAndRunUnchecked() {
+    function loadingAndRunUnchecked(budget) {
         var loading = $(".loading");
         if (!loading.length) {
             return;
@@ -184,6 +184,9 @@
         $(".maincontent").hide();
         loading.show();
         $('html, body').scrollTop(loading.offset().top);
+        if (typeof startSolveProgress === 'function') {
+            startSolveProgress(budget);
+        }
     }
     
     </script>

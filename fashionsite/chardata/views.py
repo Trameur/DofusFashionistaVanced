@@ -24,6 +24,7 @@ from django.utils.translation import get_language
 
 from chardata.model_wrappers import WrappedChar
 from chardata.anon_projects import get_anon_char_id
+from chardata.closest_set import failure_context
 from chardata.min_stats import minimums_above_their_cap
 from chardata.models import Char
 from chardata.solution import get_solution
@@ -86,17 +87,16 @@ def load_a_project(request, char_id):
 def infeasible(request, char_id=0):
     # Shows the project name, so it needs the same access rule as /setup/
     char = get_char_or_raise(request, char_id)
-    return set_response(request, 
-                        'chardata/infeasible.html', 
-                        {'request': request,
-                         'user': request.user,
-                         'char_id': char_id,
-                         'over_cap': minimums_above_their_cap(char),
-                         'mins_link': version_reverse(request, 'min_stats', char_id),
-                         'weights_link': version_reverse(request, 'stats', char_id),
-                         'lock_link': version_reverse(request, 'inclusions', char_id),
-                         'exo_link': version_reverse(request, 'options', char_id)},
-                        char)
+    context = {'request': request,
+               'user': request.user,
+               'char_id': char_id,
+               'over_cap': minimums_above_their_cap(char),
+               'mins_link': version_reverse(request, 'min_stats', char_id),
+               'weights_link': version_reverse(request, 'stats', char_id),
+               'lock_link': version_reverse(request, 'inclusions', char_id),
+               'exo_link': version_reverse(request, 'options', char_id)}
+    context.update(failure_context(request, char))
+    return set_response(request, 'chardata/infeasible.html', context, char)
                                                          
 def forbidden(request, exception=None, char_id=0):
     response = set_response(request, 

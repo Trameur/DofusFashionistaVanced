@@ -157,6 +157,7 @@ html.fm-modern .maincontent, html.fm-modern .loading{
   background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-border) !important;
   border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); padding:26px !important;
 }
+html.fm-modern .loading-progress > span{ background:var(--fm-accent); }
 html.fm-modern .maincontent{ animation:fmFade .25s ease; }
 @keyframes fmFade{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }
 @media (prefers-reduced-motion:reduce){ html.fm-modern *{ animation:none !important; transition:none !important; } }

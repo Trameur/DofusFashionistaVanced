@@ -383,10 +383,18 @@
     </div>
 
     {# Older solutions have solver_proven None; False means the time limit hit #}
-    {% if solver_proven is not None %}
+    {% if solver_proven is not None or solver_closest %}
     <div class="solver-why">
         <div class="solver-why-title">{% trans "Why this result?" %}</div>
-        {% if solver_proven %}
+        {% if solver_closest %}
+        {% if not solver_closest.missed %}
+        <p class="solver-why-line solver-closest">{% trans "This set was kept from the search for the set closest to your minimums, and it meets all of them now. Tailor a new set to weigh it against every other set on your criteria." %}</p>
+        {% elif solver_closest.proven %}
+        <p class="solver-why-line solver-closest">{% trans "Closest set to your minimums: it does not meet all of them. The ones it misses are marked below." %}</p>
+        {% else %}
+        <p class="solver-why-line solver-closest">{% trans "Closest set to your minimums the solver found before it ran out of time: it does not meet all of them, and a closer one may exist. The ones it misses are marked below." %}</p>
+        {% endif %}
+        {% elif solver_proven %}
         <p class="solver-why-line">{% trans "Proven optimum. The solver checked that no other legal combination scores higher on your criteria." %}</p>
         {% else %}
         <p class="solver-why-line">{% blocktrans with limit=solver_time_limit %}Best set found in {{ limit }} seconds. The solver ran out of time before it could prove that nothing beats it, so this is the best it reached, not a proof.{% endblocktrans %}</p>
@@ -405,9 +413,9 @@
         </form>
         {% endif %}
         {% endif %}
-        {% if solver_constraints %}
+        {% if solver_constraints or solver_closest.advanced_missed %}
         <p class="solver-why-line">
-            {% for line in solver_constraints %}<span class="solver-why-goal{% if not line.met %} solver-why-goal-missed{% endif %}">{{ line.name }} {{ line.reached }}{% if not line.met %} / {{ line.asked }}{% endif %}</span>{% if not forloop.last %} {% endif %}{% endfor %}
+            {% for line in solver_constraints %}<span class="solver-why-goal{% if not line.met %} solver-why-goal-missed{% endif %}">{{ line.name }} {{ line.reached }}{% if not line.met %} / {{ line.asked }}{% endif %}</span>{% if not forloop.last %} {% endif %}{% endfor %}{% for line in solver_closest.advanced_missed %} <span class="solver-why-goal solver-why-goal-missed">{{ line.name }} {{ line.reached }} / {{ line.asked }}</span>{% endfor %}
         </p>
         {% endif %}
         {% if solver_priorities %}

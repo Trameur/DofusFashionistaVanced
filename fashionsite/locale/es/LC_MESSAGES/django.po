@@ -9080,3 +9080,131 @@ msgstr "Ninguno (mula de leveo o de prospección)"
 #: chardata/nl_build_view.py:101
 msgid "Pick an element for this build."
 msgstr "Elige un elemento para este build."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "The solver proved that no set meets all of your settings at once."
+msgstr "El solver demostró que ningún set cumple todos tus ajustes a la vez."
+
+#: chardata/templates/chardata/infeasible.html
+#, python-format
+msgid "The solver ran out of time after %(seconds)s seconds without finding a set. That does not prove that none exists."
+msgstr "El solver se quedó sin tiempo tras %(seconds)s segundos sin encontrar ningún set. Eso no demuestra que no exista ninguno."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Search again"
+msgstr "Buscar de nuevo"
+
+#: chardata/templates/chardata/infeasible.html
+#, python-format
+msgid "The search starts over on another path, for up to %(seconds)s seconds."
+msgstr "La búsqueda empieza de nuevo por otro camino, durante %(seconds)s segundos como máximo."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "This set is no longer available: the build changed or too much time passed."
+msgstr "Este set ya no está disponible: el build cambió o pasó demasiado tiempo."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Closest set found"
+msgstr "Set más cercano encontrado"
+
+#: chardata/templates/chardata/infeasible.html
+msgid "This set meets every minimum you asked for."
+msgstr "Este set cumple todos los mínimos que pediste."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "This is the set that comes closest to your minimums, with every locked item, forbidden item and item condition kept."
+msgstr "Este es el set que más se acerca a tus mínimos, respetando todos tus objetos asegurados, tus objetos prohibidos y las condiciones de los objetos."
+
+#: chardata/templates/chardata/infeasible.html
+#, python-format
+msgid "%(reached)s of %(total)s minimum reached"
+msgid_plural "%(reached)s of %(total)s minimums reached"
+msgstr[0] "%(reached)s de %(total)s mínimo alcanzado"
+msgstr[1] "%(reached)s de %(total)s mínimos alcanzados"
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Minimum"
+msgstr "Mínimo"
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Asked"
+msgstr "Pedido"
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Reached"
+msgstr "Alcanzado"
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Keep this set"
+msgstr "Conservar este set"
+
+#: chardata/templates/chardata/infeasible.html
+msgid "It replaces your current set."
+msgstr "Reemplaza tu set actual."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "The minimums it misses stay in your settings and show in red on the set page."
+msgstr "Los mínimos que no alcanza siguen en tus ajustes y aparecen en rojo en la página del set."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Your locked items"
+msgstr "Tus objetos asegurados"
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Even without any minimum, no set can be built around these locked items with your options and forbidden items:"
+msgstr "Incluso sin ningún mínimo, no se puede armar ningún set alrededor de estos objetos asegurados con tus opciones y tus objetos prohibidos:"
+
+#: chardata/templates/chardata/infeasible.html
+#, python-format
+msgid "Conditions: %(conditions)s"
+msgstr "Condiciones: %(conditions)s"
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Even without any minimum, no set can be built with your options and forbidden items."
+msgstr "Incluso sin ningún mínimo, no se puede armar ningún set con tus opciones y tus objetos prohibidos."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "There was no time left to look for the closest set."
+msgstr "No quedaba tiempo para buscar el set más cercano."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "The solver ran out of time while looking for the closest set."
+msgstr "El solver se quedó sin tiempo buscando el set más cercano."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "The search for the closest set failed."
+msgstr "La búsqueda del set más cercano falló."
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Find the closest set"
+msgstr "Buscar el set más cercano"
+
+#: chardata/templates/chardata/infeasible.html
+msgid "Check that your minimums suit the character's level: a low level character cannot reach the stats of a level 200 set."
+msgstr "Revisa que tus mínimos se ajusten al nivel del personaje: un personaje de nivel bajo no puede alcanzar las características de un set de nivel 200."
+
+#: chardata/templates/chardata/solution.html
+msgid "Closest set to your minimums: it does not meet all of them. The ones it misses are marked below."
+msgstr "Conjunto más cercano a sus mínimos: no los cumple todos. Los que no alcanza están marcados abajo."
+
+#: chardata/templates/chardata/loading.html
+#, python-format
+msgid "Searching: %%(elapsed)s s (at most %%(budget)s s)"
+msgstr "Buscando: %%(elapsed)s s (como máximo %%(budget)s s)"
+
+#: chardata/templates/chardata/loading.html
+msgid "Almost done"
+msgstr "Ya casi está"
+
+#: chardata/templates/chardata/infeasible.html
+#, python-format
+msgid "This is the closest set to your minimums the solver found in %(seconds)s seconds, with every locked item, forbidden item and item condition kept. It ran out of time before it could prove that no set comes closer."
+msgstr "Este es el set más cercano a tus mínimos que el solver encontró en %(seconds)s segundos, respetando todos tus objetos asegurados, tus objetos prohibidos y las condiciones de los objetos. Se quedó sin tiempo antes de poder demostrar que ningún set se acerca más."
+
+#: chardata/templates/chardata/solution.html
+msgid "This set was kept from the search for the set closest to your minimums, and it meets all of them now. Tailor a new set to weigh it against every other set on your criteria."
+msgstr "Este conjunto se conservó de la búsqueda del set más cercano a sus mínimos y ahora los cumple todos. Teja un nuevo set para compararlo con todos los demás según sus criterios."
+
+#: chardata/templates/chardata/solution.html
+msgid "Closest set to your minimums the solver found before it ran out of time: it does not meet all of them, and a closer one may exist. The ones it misses are marked below."
+msgstr "Conjunto más cercano a sus mínimos que el solver encontró antes de quedarse sin tiempo: no los cumple todos y puede existir uno más cercano. Los que no alcanza están marcados abajo."

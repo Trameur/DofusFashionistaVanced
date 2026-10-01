@@ -137,6 +137,47 @@ select, .pretty-input {
     font-size: 15px;
 }
 
+.infeasible-cause {
+    margin: 0 0 12px;
+}
+
+.infeasible-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+}
+.infeasible-actions .button-generic {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.infeasible-body .solver-why {
+    margin: 0 0 16px;
+}
+.infeasible-items img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+.infeasible-shortfall {
+    border-collapse: collapse;
+    margin: 6px 0 8px;
+}
+.infeasible-shortfall th, .infeasible-shortfall td {
+    padding: 2px 12px 2px 0;
+    text-align: right;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+}
+.infeasible-shortfall th:first-child, .infeasible-shortfall td:first-child {
+    text-align: left;
+}
+.infeasible-lock img {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
 .columns-section {
    display: table;
 }

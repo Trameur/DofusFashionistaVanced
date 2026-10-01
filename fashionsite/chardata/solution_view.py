@@ -38,6 +38,8 @@ from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
                                      get_character_look, parse_colors,
                                      parse_hidden, preview_box, preview_box_for)
 from chardata.character_assets import asset_formats, asset_token, preload_links
+from chardata.char_blobs import read_char_blob
+from chardata.closest_set import closest_set_facts
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import continuation_input, fashion, get_options, search_gap
 from chardata.lock_forbid import (set_excluded,
@@ -704,6 +706,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
             raise Http404
 
     solver_constraints = []
+    solver_closest = None
     if is_guest and char.link_shared and generation is None:
         solution_params = _get_shared_solution_params(char)
     else:
@@ -721,6 +724,10 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                          char_name=char.char_name or '')
         solution_params = solution_result.get_params()
         solver_constraints = _constraints_reached(char, solution)
+        solver_closest = closest_set_facts(
+            char, read_char_blob(generation.minimal_solution if generation is not None
+                                 else char.minimal_solution, None, 'minimal_solution', char),
+            solution)
 
     # "Why this result?" panel. None on solutions pickled before these facts
     solved_blob = (generation.minimal_solution if generation is not None
@@ -865,6 +872,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'current_solution_compare_id': char.id,
               'disable_solution_item_actions': is_generation_snapshot,
               'solver_proven': solver_proven,
+              'solver_closest': solver_closest,
               'solver_constraints': solver_constraints,
               'solver_priorities': solver_priorities,
               'setup_choices': choices_line(char),

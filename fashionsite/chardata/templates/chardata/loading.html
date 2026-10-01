@@ -1,5 +1,7 @@
 {% load i18n %}
+{% load l10n %}
 {% load static_s3 %}
+{% load solve_budget %}
 
 {# base.html already links home.css and its themed twin #}
 <script src="{% static 'chardata/loading.js' %}"></script>
@@ -18,6 +20,10 @@
         <img alt="" id="loadingimg"></img>
     </div>
     <br>
+    {% with budget=char|solve_budget_seconds %}
+    <div class="loading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="{{ budget|unlocalize }}" aria-valuenow="0" data-budget="{{ budget|unlocalize }}"><span></span></div>
+    {% endwith %}
+    <div class="loading-progress-label"></div>
     <div class='marquee'>
         <div class='marquee-text'>
         </div>
@@ -25,6 +31,45 @@
 </div>
 
 <script>
+var solveProgressTimer = null;
+
+function startSolveProgress(budget) {
+    var bar = $('.loading-progress');
+    if (!bar.length) {
+        return;
+    }
+    budget = Number(budget) || Number(bar.attr('data-budget')) || 0;
+    bar.attr('aria-valuemax', budget);
+    var fill = bar.children('span');
+    var label = $('.loading-progress-label');
+    {% trans "Searching: %(elapsed)s s (at most %(budget)s s)" as searching_text %}
+    {% trans "Almost done" as almost_done_text %}
+    var searching = '{{ searching_text|escapejs }}';
+    var almostDone = '{{ almost_done_text|escapejs }}';
+    var started = Date.now();
+    function tick() {
+        var elapsed = Math.floor((Date.now() - started) / 1000);
+        var text = budget && elapsed > budget ? almostDone
+            : interpolate(searching, {elapsed: elapsed, budget: budget}, true);
+        fill.css('width', (budget ? Math.min(elapsed / budget, 1) * 100 : 0) + '%');
+        bar.attr('aria-valuenow', Math.min(elapsed, budget)).attr('aria-valuetext', text);
+        label.text(text);
+    }
+    clearInterval(solveProgressTimer);
+    tick();
+    solveProgressTimer = setInterval(tick, 1000);
+}
+
+// A page restored from the back-forward cache drops its overlay
+window.addEventListener('pageshow', function(event) {
+    if (!event.persisted) {
+        return;
+    }
+    clearInterval(solveProgressTimer);
+    $('.loading').hide();
+    $('.maincontent').show();
+});
+
 var language = '{{ language | safe }}';
 var marquee = $('div.marquee');
 

@@ -304,3 +304,10 @@
   .about-layout img { display: block; margin: 0 auto 8px; }
   .about-layout code { overflow-wrap: anywhere; }
 }
+
+/* Failure page: the picture above the text, and the shortfall table within the screen */
+@media (max-width: 600px) {
+  .infeasible-layout, .infeasible-layout > tbody, .infeasible-layout > tbody > tr, .infeasible-layout > tbody > tr > td { display: block !important; width: auto !important; max-width: 100%; box-sizing: border-box; }
+  .infeasible-layout > tbody > tr > td > img { display: block; margin: 0 auto 8px; }
+  .infeasible-shortfall th, .infeasible-shortfall td { padding-right: 6px; }
+}

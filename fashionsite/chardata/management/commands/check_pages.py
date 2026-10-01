@@ -66,6 +66,7 @@ BUILD_PATHS = (
     '/project/%s/', '/setup/%s/', '/stats/%s/', '/min_stats/%s/',
     '/options/%s/', '/exclusions/%s/', '/inclusions/%s/', '/wizard/%s/',
     '/solution/%s/', '/spells/%s/', '/fashion/%s/', '/continuesearch/%s/', '/infeasible/%s/',
+    '/keepclosest/%s/', '/searchagain/%s/', '/closestset/%s/',
     '/best_combo/%s/', '/exchange/%s/', '/itemadd/%s/', '/itemexchange/%s/',
     '/loadproject/%s/', '/initbasestats/%s/',
     '/wizardgetsliders/%s/', '/workshop/solutioningredients/%s/',

@@ -2,35 +2,121 @@
 {% block meta_robots %}noindex, follow{% endblock %}
 
 {% load i18n %}
+{% load l10n %}
 {% load static_s3 %}
 {% load stat_names %}
-    
+
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "No set suggestion found" %}{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/solution.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.solution %}" class="solution-css css-file">
 {% endblock %}
 
 {% block main %}
 <br><br>
-<table>
+<table class="infeasible-layout">
     <tr>
         <td>
             <img alt="" src="{% static "chardata/designs/myCrying.png" %}"></img>
         </td>
         <td>
-            <div class='infeasible-title'>{% blocktrans %}We could not find a set that fits all your needs{% endblocktrans %}<div>
-            <div class='infeasible-body'>{% blocktrans %}Try one or more of the following tips and try again:{% endblocktrans %}
+            <div class='infeasible-title'>{% blocktrans %}We could not find a set that fits all your needs{% endblocktrans %}</div>
+            <div class='infeasible-body'>
+                {% if cause == 'proof' %}
+                <p class="infeasible-cause">{% trans "The solver proved that no set meets all of your settings at once." %}</p>
+                {% elif cause == 'time' and seconds is not None %}
+                <p class="infeasible-cause">{% blocktrans %}The solver ran out of time after {{ seconds }} seconds without finding a set. That does not prove that none exists.{% endblocktrans %}</p>
+                {% endif %}
+                {% if cause == 'time' %}
+                <form method="post" action="{{ again_url }}" class="infeasible-again" onsubmit="loadingAndRunUnchecked({{ again_budget|unlocalize }});">
+                    {% csrf_token %}
+                    <p class="infeasible-cause"><button type="submit" class="button-generic">{% trans "Search again" %}</button> {% blocktrans with seconds=again_seconds %}The search starts over on another path, for up to {{ seconds }} seconds.{% endblocktrans %}</p>
+                </form>
+                {% endif %}
+                {% if gone %}
+                <p class="infeasible-cause">{% trans "This set is no longer available: the build changed or too much time passed." %}</p>
+                {% endif %}
+                <div class="infeasible-actions">
+                    <a class="button-generic" href="{{ mins_link }}">{% trans "Minimum Characteristics" %}</a>
+                    <a class="button-generic" href="{{ lock_link }}">{% trans "Lock Items" %}</a>
+                    <a class="button-generic" href="{{ weights_link }}">{% trans "Characteristics Weights" %}</a>
+                    <a class="button-generic" href="{{ exo_link }}">{% trans "Options" %}</a>
+                </div>
+                {% if closest_state == 'found' %}
+                <div class="solver-why infeasible-closest">
+                    <div class="solver-why-title">{% trans "Closest set found" %}</div>
+                    {% if all_met %}
+                    <p class="solver-why-line">{% trans "This set meets every minimum you asked for." %}</p>
+                    {% elif closest_proven %}
+                    <p class="solver-why-line">{% trans "This is the set that comes closest to your minimums, with every locked item, forbidden item and item condition kept." %}</p>
+                    {% else %}
+                    <p class="solver-why-line">{% blocktrans with seconds=closest_seconds %}This is the closest set to your minimums the solver found in {{ seconds }} seconds, with every locked item, forbidden item and item condition kept. It ran out of time before it could prove that no set comes closer.{% endblocktrans %}</p>
+                    {% endif %}
+                    <p class="solver-why-line infeasible-summary">{% blocktrans count total=asked_count with reached=reached_count %}{{ reached }} of {{ total }} minimum reached{% plural %}{{ reached }} of {{ total }} minimums reached{% endblocktrans %}</p>
+                    <p class="solver-why-line infeasible-items">{% for item in closest_items %}<span class="solver-why-goal"><img src="{{ item.image_url }}" alt=""> {{ item.name }}</span>{% if not forloop.last %} {% endif %}{% endfor %}</p>
+                    <table class="infeasible-shortfall">
+                        <thead>
+                            <tr>
+                                <th class="solver-why-line" scope="col">{% trans "Minimum" %}</th>
+                                <th class="solver-why-line" scope="col">{% trans "Asked" %}</th>
+                                <th class="solver-why-line" scope="col">{% trans "Reached" %}</th>
+                                <th class="solver-why-line" scope="col">{% trans "Missing" %}</th>
+                                <th class="solver-why-line" scope="col">%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in rows %}
+                            <tr class="infeasible-shortfall-row">
+                                <td class="solver-why-line">{{ row.name }}</td>
+                                <td class="solver-why-line">{{ row.asked }}</td>
+                                <td class="solver-why-line">{{ row.reached }}</td>
+                                <td class="solver-why-line">{% if row.missing %}<span class="solution-negative-stat-text">{{ row.missing }}</span>{% else %}0{% endif %}</td>
+                                <td class="solver-why-line">{% if row.percent is not None %}{{ row.percent }}{% endif %}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <form method="post" action="{{ keep_url }}" class="infeasible-keep">
+                        {% csrf_token %}
+                        <p class="solver-why-line"><button type="submit" class="button-generic">{% trans "Keep this set" %}</button></p>
+                        <p class="solver-why-line">{% trans "It replaces your current set." %}{% if not all_met %} {% trans "The minimums it misses stay in your settings and show in red on the set page." %}{% endif %}</p>
+                    </form>
+                </div>
+                {% elif closest_state == 'locks' %}
+                <div class="solver-why infeasible-locks">
+                    {% if lock_notes %}
+                    <div class="solver-why-title">{% trans "Your locked items" %}</div>
+                    <p class="solver-why-line">{% trans "Even without any minimum, no set can be built around these locked items with your options and forbidden items:" %}</p>
+                    {% for note in lock_notes %}
+                    <p class="solver-why-line infeasible-lock"><img src="{{ note.image_url }}" alt=""> <b>{{ note.name }}</b>{% if note.reasons %} {{ note.reasons }}{% endif %}{% if note.conditions %}<br>{% blocktrans with conditions=note.conditions %}Conditions: {{ conditions }}{% endblocktrans %}{% endif %}</p>
+                    {% endfor %}
+                    {% else %}
+                    <p class="solver-why-line">{% trans "Even without any minimum, no set can be built with your options and forbidden items." %}</p>
+                    {% endif %}
+                    <p class="solver-why-line"><a class="button-generic" href="{{ lock_link }}">{% trans "Lock Items" %}</a></p>
+                </div>
+                {% elif closest_state == 'no_time' or closest_state == 'stopped' or closest_state == 'error' %}
+                <div class="solver-why infeasible-closest">
+                    <p class="solver-why-line">{% if closest_state == 'no_time' %}{% trans "There was no time left to look for the closest set." %}{% elif closest_state == 'stopped' %}{% trans "The solver ran out of time while looking for the closest set." %}{% else %}{% trans "The search for the closest set failed." %}{% endif %}</p>
+                    <form method="post" action="{{ closest_url }}" class="infeasible-find" onsubmit="loadingAndRunUnchecked({{ closest_budget|unlocalize }});">
+                        {% csrf_token %}
+                        <p class="solver-why-line"><button type="submit" class="button-generic">{% trans "Find the closest set" %}</button></p>
+                    </form>
+                </div>
+                {% endif %}
+                {% blocktrans %}Try one or more of the following tips and try again:{% endblocktrans %}
                 <ul>
                     {% if over_cap %}
                     <li>{% blocktrans %}Lower these <a href={{mins_link}}>minimums</a>, which ask for more than this version can reach:{% endblocktrans %} {% for entry in over_cap %}{% if not forloop.first %}, {% endif %}{% stat_name entry.name %} ({{ entry.max }}){% endfor %}</li>
                     {% endif %}
                     <li>{% blocktrans %}Remove or lower <a href={{mins_link}}>minimum characteristics</a> and raise their <a href={{weights_link}}>weights</a> instead{% endblocktrans %}</li>
+                    <li>{% trans "Check that your minimums suit the character's level: a low level character cannot reach the stats of a level 200 set." %}</li>
                     <li>{% blocktrans %}Check if you <a href={{lock_link}}>locked</a> an item with conditions that can't be met{% endblocktrans %}</li>
                     <li>{% blocktrans %}<a href={{lock_link}}>Unlock</a> some items{% endblocktrans %}</li>
                     <li>{% blocktrans %}Allow <a href={{exo_link}}>exo mages</a>{% endblocktrans %}</li>
-                    <li>{% blocktrans %}Check if you are asking for &#x00BD; crits on a char whose level is too low{% endblocktrans %}</li>
                 </ul>
             </div>
         </td>
