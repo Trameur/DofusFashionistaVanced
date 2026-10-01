@@ -66,6 +66,8 @@
                 </div>
                 {% if cast.note %}<div class="best-combo-cast-note">{{ cast.note }}</div>{% endif %}
                 {% for item_note in cast.item_notes %}<div class="best-combo-cast-note">{{ item_note }}</div>{% endfor %}
+                {% for taken_note in cast.taken_notes %}<div class="best-combo-cast-note">{{ taken_note }}</div>{% endfor %}
+                {% for hp_note in cast.hp_notes %}<div class="best-combo-cast-note">{{ hp_note }}</div>{% endfor %}
             </li>
             {% endfor %}
         </ol>
@@ -87,7 +89,7 @@
                 {% for extra in best_combo.conditional %}
                 <li>
                     <span class="best-combo-name">{{ extra.name }}</span>
-                    <span class="best-combo-damage">+{{ extra.damage }}</span>
+                    {% if extra.damage is not None %}<span class="best-combo-damage">+{{ extra.damage }}</span>{% endif %}
                     <span class="best-combo-conditional-label">{{ extra.label }}</span>
                 </li>
                 {% endfor %}
@@ -208,7 +210,27 @@
     // Same floor as spell_combo.crit_chance
     var CRIT_FLOOR_PERCENT = {% if current_game_version == 'dofus2' %}0{% else %}1{% endif %};
 
+    function hpShareLines(spell, isCrit, rank) {
+        var block = spell.hp_share && spell.hp_share[isCrit ? 'critical' : 'normal'];
+        return (block && block[rank]) || [];
+    }
+
+    function hasHpShare(spell, element) {
+        var found = false;
+        $.each((spell.hp_share && spell.hp_share.normal) || [], function(rank, lines) {
+            $.each(lines, function(i, line) {
+                if (!element || line.element == element) {
+                    found = true;
+                }
+            });
+        });
+        return found;
+    }
+
     function spellDealsDamage(spell) {
+        if (hasHpShare(spell)) {
+            return true;
+        }
         var rows = spell.non_crit_dams || spell.crit_dams;
         if (!rows || !rows.length) {
             return false;
@@ -306,6 +328,9 @@
     }
 
     function checkElement(spell, element){
+        if (hasHpShare(spell, element)) {
+            return true;
+        }
         notEle = true;
         if (spell.crit_dams != null) {
             for (var i = 0; i < spell.crit_dams[0].length; i++) {
@@ -563,7 +588,7 @@
             table.append(line_variant);
         }
         // A spell that neither hurts nor buffs has no damage table at all.
-        if (!spell.non_crit_dams && !spell.crit_dams) {
+        if (!spell.non_crit_dams && !spell.crit_dams && !hasHpShare(spell)) {
             header.append(createDots(spell));
             return table;
         }
@@ -586,7 +611,7 @@
         line_crit_title.append(crit_title_cell);
         crit_title_cell.append("<hr class='hr-crit'/>");
         // A spell with no critical line and no critical rate cannot crit, so the block says so.
-        var can_crit = !!spell.crit_dams;
+        var can_crit = hasCritBlock(spell);
         if (can_crit) {
             crit_title_cell.append("<div class='hit-block-label'>"
                                    + "{% trans 'Critical hit' %}</div>");
@@ -971,9 +996,40 @@
             }
         }
         appendScalingBuffRows(spell, table);
+        appendHpShareRows(spell, table, isCrit, rank);
         return table;
     }
-    
+
+    function hasCritBlock(spell) {
+        return !!spell.crit_dams || !!(spell.hp_share && spell.hp_share.critical);
+    }
+
+    function appendHpShareRows(spell, table, isCrit, rank) {
+        var lines = hpShareLines(spell, isCrit, rank);
+        var hp = Math.max(charStats['hp'] || 0, 0);
+        $.each(lines, function(i, line) {
+            if (i > 0 && line.gated && lines[i - 1].gated) {
+                var orRow = $("<tr></tr>");
+                var orCell = $("<td align='center'></td>");
+                table.append(orRow);
+                orRow.append(orCell);
+                orCell.append("<span class='aggregate'>{% trans 'or' %}</span>");
+            }
+            var label = $("<tr></tr>");
+            var labelCell = $("<td></td>");
+            table.append(label);
+            label.append(labelCell);
+            labelCell.append($("<span class='aggregate'><sub></sub></span>")
+                                 .find('sub').text(line.text).end());
+            if (line.counted) {
+                writeDamageLine(line.element,
+                                Math.floor(hp * line.percent[0] / 100),
+                                Math.floor(hp * line.percent[1] / 100),
+                                false, false, table, null);
+            }
+        });
+    }
+
     function writeDamageLine(element, minDam, maxDam, heals, steals, table,
                             waitsFor) {
         var line = $("<tr></tr>");
@@ -1351,21 +1407,14 @@
         }
 
         var non_crit_cell = cellsForSpell.nonCrit;
-        var crit_title_cell = cellsForSpell.critTitle;
         var crit_hit_cell = cellsForSpell.crit;
         non_crit_cell.empty();
-        non_crit_cell.append(getHits(spell, spell.non_crit_dams[spellLevel[spell.name]], false, spellLevel[spell.name]));
-        if (spell.crit_dams === null){
-            crit_title_cell.hide();
-            crit_hit_cell.hide();
-            // With no critical block there is nothing to tell apart.
-            cellsForSpell.normalLabel.hide();
-        } else {
-            crit_title_cell.show();
-            crit_hit_cell.show();
-            cellsForSpell.normalLabel.show();
+        var rank = spellLevel[spell.name];
+        non_crit_cell.append(getHits(spell, spell.non_crit_dams ? spell.non_crit_dams[rank] : [], false, rank));
+        // Without a critical block the cell keeps the sentences createContent wrote in it
+        if (hasCritBlock(spell)) {
             crit_hit_cell.empty();
-            crit_hit_cell.append(getHits(spell, spell.crit_dams[spellLevel[spell.name]], true, spellLevel[spell.name]));
+            crit_hit_cell.append(getHits(spell, spell.crit_dams ? spell.crit_dams[rank] : [], true, rank));
         }
     }
     
@@ -1573,6 +1622,14 @@
                         $("<div class='best-combo-cast-note'></div>")
                             .text(note).appendTo(item);
                     });
+                    $.each(cast.taken_notes || [], function(j, note) {
+                        $("<div class='best-combo-cast-note'></div>")
+                            .text(note).appendTo(item);
+                    });
+                    $.each(cast.hp_notes || [], function(j, note) {
+                        $("<div class='best-combo-cast-note'></div>")
+                            .text(note).appendTo(item);
+                    });
                     list.append(item);
                 });
                 var later = panel.find('.best-combo-later');
@@ -1600,7 +1657,9 @@
                 $.each(extras, function(i, extra) {
                     var line = $("<li></li>");
                     $("<span class='best-combo-name'></span>").text(extra.name).appendTo(line);
-                    $("<span class='best-combo-damage'></span>").text('+' + extra.damage).appendTo(line);
+                    if (extra.damage !== null && extra.damage !== undefined) {
+                        $("<span class='best-combo-damage'></span>").text('+' + extra.damage).appendTo(line);
+                    }
                     $("<span class='best-combo-conditional-label'></span>")
                         .text(extra.label).appendTo(line);
                     rows.append(line);

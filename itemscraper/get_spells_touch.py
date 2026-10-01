@@ -10,8 +10,10 @@ from __future__ import annotations
 import argparse
 import io
 import json
+import pprint
 import re
 import sys
+import textwrap
 from pathlib import Path
 
 import requests
@@ -607,6 +609,164 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
     }
 
 
+# "x#1% damage sustained" on the fighters the row targets
+DAMAGE_TAKEN_EFFECT = 1163
+# Removes the effects of a spell, the spell id in value
+REMOVES_SPELL_EFFECTS = 406
+# Direct damage, and damage from an enemy of the bearer
+DIRECT_DAMAGE_TRIGGERS = frozenset(('D', 'DBE'))
+# Rows casting the spell in diceNum at the rank in diceSide
+CASTS_A_SPELL = frozenset((792, 1160, 2960))
+
+
+def _ungated(effect):
+    """True for a target mask of plain letters, no state, life or id test."""
+    tokens = [token for token in str(effect.get('targetMask') or '').split(',') if token]
+    return bool(tokens) and all(len(token) == 1 and token.isalpha() for token in tokens)
+
+
+def _on_direct_damage(triggers):
+    codes = {code for code in str(triggers or '').split('|') if code}
+    return bool(codes) and codes <= DIRECT_DAMAGE_TRIGGERS
+
+
+def _damage_taken_on_enemy(effect):
+    """A row multiplying what any enemy it lands on takes, the tooltip's own copy left out."""
+    return (effect.get('effectId') == DAMAGE_TAKEN_EFFECT and not effect.get('isPreview')
+            and _ungated(effect) and 'A' in _mask_letters(effect)
+            and _on_direct_damage(effect.get('triggers'))
+            and not effect.get('delay') and not effect.get('random')
+            and bool(effect.get('duration')))
+
+
+def raises_damage_taken(effect):
+    """A row raising what any enemy it lands on takes from the caster's hits."""
+    return _damage_taken_on_enemy(effect) and int(effect.get('diceNum') or 0) > 100
+
+
+def _lands_a_hit_now(effect):
+    return ((effect.get('effectId') in DAMAGE_EFFECTS
+             or effect.get('effectId') == BEST_ELEMENT_EFFECT)
+            and effect.get('triggers') == 'I' and not effect.get('delay')
+            and bool(effect.get('diceNum') or effect.get('diceSide')))
+
+
+def damage_taken_at(effects, spell_id):
+    """(percent, ends on the next hit) one effect list puts on an enemy, or None."""
+    effects = effects or []
+    if (any(_damage_taken_on_enemy(effect) and not raises_damage_taken(effect)
+            for effect in effects) and any(_lands_a_hit_now(effect) for effect in effects)):
+        raise SystemExit('touch spell %s lowers the damage taken of an enemy it hits' % spell_id)
+    rows = [effect for effect in effects if raises_damage_taken(effect)]
+    if not rows:
+        return None
+    if len(rows) > 1:
+        raise SystemExit('touch spell %s puts %d damage taken rows on one enemy'
+                         % (spell_id, len(rows)))
+    if any(_lands_a_hit_now(effect) for effect in effects[effects.index(rows[0]) + 1:]):
+        raise SystemExit('touch spell %s raises the damage taken before its own hit' % spell_id)
+    ends = any(effect.get('effectId') == REMOVES_SPELL_EFFECTS
+               and effect.get('value') == spell_id
+               and _on_direct_damage(effect.get('triggers'))
+               for effect in effects)
+    return int(rows[0].get('diceNum') or 0), ends
+
+
+def _check_cast_spells(rank, spell_id, spells, spell_levels, seen=frozenset()):
+    """Stop if a spell the rank casts puts a damage taken on an enemy, which no rule reads."""
+    for key in ('effects', 'criticalEffect'):
+        for effect in rank.get(key) or []:
+            child = (spells or {}).get(str(effect.get('diceNum')))
+            cast = (effect.get('diceNum'), effect.get('diceSide'))
+            if effect.get('effectId') not in CASTS_A_SPELL or child is None or cast in seen:
+                continue
+            child_level = child_rank(child, int(effect.get('diceSide') or 0), spell_levels)
+            if any(raises_damage_taken(row) for row_key in ('effects', 'criticalEffect')
+                   for row in child_level.get(row_key) or []):
+                raise SystemExit('touch spell %s casts %s, whose damage taken on an enemy '
+                                 'has no rule yet' % (spell_id, child.get('id')))
+            _check_cast_spells(child_level, spell_id, spells, spell_levels, seen | {cast})
+
+
+def damage_taken_entry(spell, spell_levels, spells=None, bombs=None, text=None):
+    """What a cast multiplies one enemy's damage taken by, per rank, or None."""
+    levels_req, casting = [], []
+    percents, criticals, stacks, ends, placed = [], [], [], [], []
+    for lid in spell.get('spellLevels') or []:
+        rank = spell_levels.get(str(lid))
+        if not rank:
+            continue
+        levels_req.append(max(1, int(rank.get('minPlayerLevel') or 1)))
+        casting.append({key: int(rank.get(field) or 0)
+                        for key, field in CASTING_FIELDS.items()})
+        _check_cast_spells(rank, spell.get('id'), spells, spell_levels)
+        carriers = [(spell.get('id'), rank, None)]
+        for effect in rank.get('effects') or []:
+            child = placed_child(effect, spells, bombs)
+            if child is None:
+                continue
+            when = ('state' if STATE_IN_TARGET_MASK.findall(str(effect.get('targetMask') or ''))
+                    else PLACED_BY_EFFECT[effect.get('effectId')][1])
+            carriers.append((child[0], child_rank(spells[str(child[0])], child[1], spell_levels),
+                             when))
+        found = None
+        for carrier_id, carrier_rank, when in carriers:
+            normal = damage_taken_at(carrier_rank.get('effects'), carrier_id)
+            critical = (damage_taken_at(carrier_rank.get('criticalEffect'), carrier_id)
+                        if carrier_rank.get('criticalHitProbability') else normal)
+            if normal is None and critical is None:
+                continue
+            if found is not None:
+                raise SystemExit('touch spell %s puts damage taken rows from two spells'
+                                 % spell.get('id'))
+            if normal is None or critical is None or critical[1] != normal[1]:
+                raise SystemExit('touch spell %s puts damage taken on one kind of hit only, '
+                                 'or one that ends otherwise on a critical hit' % carrier_id)
+            cap = int(carrier_rank.get('maxStack') or 0)
+            found = (normal[0], critical[0], cap if cap > 0 else None, normal[1], when)
+        percents.append(found[0] if found else 0)
+        criticals.append(found[1] if found else 0)
+        stacks.append(found[2] if found else None)
+        ends.append(found[3] if found else False)
+        placed.append(found[4] if found else None)
+    if not any(percents):
+        return None
+    entry = {
+        'spell_id': spell['id'],
+        'name': spell.get('nameId') or '',
+        'levels': levels_req,
+        'casting': {key: [level[key] for level in casting] for key in CASTING_FIELDS
+                    if any(level[key] for level in casting)} or None,
+        'percent': percents,
+    }
+    if criticals != percents:
+        entry['percent_critical'] = criticals
+    entry['stacks'] = stacks
+    if any(ends):
+        entry['ends_on_hit'] = ends
+    if any(placed):
+        entry['placed'] = placed
+    if text:
+        entry['text'] = dict(text)
+    return entry
+
+
+def build_damage_taken(breeds, spells, spell_levels, bombs=None, text=None):
+    """{class: [damage_taken_entry]} over each class's spell book."""
+    out = {}
+    for bid, app_name in CLASS_ID_TO_NAME.items():
+        seen = set()
+        for sid in (breeds.get(str(bid)) or {}).get('breedSpellsId') or []:
+            spell = spells.get(str(sid))
+            if not spell or sid in seen:
+                continue
+            seen.add(sid)
+            entry = damage_taken_entry(spell, spell_levels, spells, bombs, text)
+            if entry:
+                out.setdefault(app_name, []).append(entry)
+    return out
+
+
 def build(breeds, spells, spell_levels, bombs=None):
     by_class = {}
     for bid, app_name in CLASS_ID_TO_NAME.items():
@@ -644,7 +804,19 @@ def build_spell_names(by_class, spells_by_lang):
     return out
 
 
-def emit_module(by_class, spell_names, path):
+def render_damage_taken(taken_by_class):
+    lines = ["TOUCH_DAMAGE_TAKEN = {"]
+    for cls, entries in sorted((taken_by_class or {}).items()):
+        lines.append("    %s: [" % json.dumps(cls))
+        for entry in sorted(entries, key=lambda e: (e['name'], e['spell_id'])):
+            text = pprint.pformat(entry, width=88, sort_dicts=False)
+            lines.append(textwrap.indent(text, " " * 8) + ",")
+        lines.append("    ],")
+    lines.append("}")
+    return lines
+
+
+def emit_module(by_class, spell_names, path, taken_by_class=None):
     lines = [
         "# AUTO-GENERATED by itemscraper/get_spells_touch.py -- do not edit by hand.",
         "# Dofus Touch damage spells per class, decoded from the Touch spell data.",
@@ -685,6 +857,8 @@ def emit_module(by_class, spell_names, path):
     lines.append("    'default': [],")
     lines.append("}")
     lines.append("")
+    lines.extend(render_damage_taken(taken_by_class))
+    lines.append("")
     lines.append("TOUCH_SPELL_NAMES = " + json.dumps(spell_names, ensure_ascii=False, indent=1, sort_keys=True))
     Path(path).write_text("\n".join(lines) + "\n", encoding='utf-8')
 
@@ -706,15 +880,23 @@ def main(argv=None):
     spells_by_lang = {lang: fetch_table(data_url, 'Spells', lang) for lang in LANGS}
     spells = spells_by_lang['fr']
     bombs = fetch_table(data_url, BOMB_TABLE)
+    taken_text = {lang: (fetch_table(data_url, 'Effects', lang).get(str(DAMAGE_TAKEN_EFFECT))
+                         or {}).get('descriptionId') for lang in LANGS}
     print(f"  Breeds={len(breeds)} Spells={len(spells)} SpellLevels={len(spell_levels)} "
           f"{BOMB_TABLE}={len(bombs)}")
 
     by_class = build(breeds, spells, spell_levels, bombs)
+    taken_by_class = build_damage_taken(
+        breeds, spells, spell_levels, bombs,
+        {lang: text for lang, text in taken_text.items() if text})
     spell_names = build_spell_names(by_class, spells_by_lang)
-    emit_module(by_class, spell_names, args.module_out)
+    emit_module(by_class, spell_names, args.module_out, taken_by_class)
 
     total = sum(len(v) for v in by_class.values())
     print(f"Wrote {total} damage spells across {len(by_class)} classes to {args.module_out}")
+    print("  damage taken: " + ", ".join(
+        "%s %s" % (cls, entry['name']) for cls, entries in sorted(taken_by_class.items())
+        for entry in entries))
     empty = [c for c, v in by_class.items() if not v]
     if empty:
         print("  classes with no damage spells: " + ", ".join(empty))

@@ -991,6 +991,43 @@ TOUCH_DAMAGE_SPELLS = {
     'default': [],
 }
 
+TOUCH_DAMAGE_TAKEN = {
+    "Iop": [
+        {'spell_id': 8113,
+         'name': 'Bond',
+         'levels': [1, 1, 1, 1, 51, 101],
+         'casting': {'ap': [4, 4, 4, 4, 4, 4],
+                     'per_turn': [0, 0, 0, 0, 1, 1],
+                     'cooldown': [5, 4, 3, 3, 2, 2],
+                     'crit': [15, 15, 15, 15, 15, 15]},
+         'percent': [102, 104, 105, 106, 108, 110],
+         'percent_critical': [104, 106, 107, 108, 110, 115],
+         'stacks': [1, 1, 1, 1, 1, 1],
+         'text': {'fr': 'Dommages subis x#1%',
+                  'en': 'x#1% damage sustained',
+                  'es': 'Daños sufridos x#1%',
+                  'pt': 'Danos sofridos x#1%',
+                  'de': 'x#1% damage sustained'}},
+    ],
+    "Pandawa": [
+        {'spell_id': 7037,
+         'name': 'Vulnérabilité',
+         'levels': [31, 31, 31, 31, 81, 131],
+         'casting': {'ap': [3, 3, 3, 3, 3, 3],
+                     'per_turn': [2, 2, 3, 3, 4, 4],
+                     'per_target': [1, 1, 1, 1, 1, 1],
+                     'crit': [5, 5, 5, 5, 5, 5]},
+         'percent': [109, 110, 111, 112, 113, 115],
+         'percent_critical': [111, 112, 113, 114, 115, 117],
+         'stacks': [2, 2, 2, 2, 2, 2],
+         'text': {'fr': 'Dommages subis x#1%',
+                  'en': 'x#1% damage sustained',
+                  'es': 'Daños sufridos x#1%',
+                  'pt': 'Danos sofridos x#1%',
+                  'de': 'x#1% damage sustained'}},
+    ],
+}
+
 TOUCH_SPELL_NAMES = {
  "Absinthe": {
   "de": "Absinthe",

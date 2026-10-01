@@ -70,11 +70,14 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
         class_spells + shared_spells, game_version,
         list(reference.values()) + list(shared_reference.values()))
     modifiers = worn_spell_modifiers(solution, game_version)
-    for spell in class_spells + shared_spells:
+    from chardata.spell_combo import hp_share_hits_for_version
+    hp_shares = hp_share_hits_for_version(game_version)
+    for index, spell in enumerate(class_spells + shared_spells):
         spell_id = getattr(spell, 'spell_id', None)
-        web_digest = _create_spell_web_digest(spell, game_version,
-                                              char.level,
-                                              modifiers.get(spell_id))
+        bucket = char_class if index < len(class_spells) else 'default'
+        web_digest = _create_spell_web_digest(
+            spell, game_version, char.level, modifiers.get(spell_id),
+            hp_share=hp_shares.get(bucket, {}).get(spell_id))
         web_digest['variant_partner'] = partenaires.get(spell_id)
         entry = reference.get(spell_id) or shared_reference.get(spell_id)
         if entry is not None:
@@ -378,6 +381,11 @@ def _localized_spell_name(name, language, game_version, spell_id=None):
         version_names = TOUCH_SPELL_NAMES
     if version_names is not None:
         names = version_names.get(name)
+        if not names and spell_id is not None:
+            # The name map holds the damage spells only, the reference every class spell
+            entry = _spell_reference_by_id(game_version).get(spell_id)
+            if entry is not None and (entry.get('name') or {}).get('fr') == name:
+                names = entry['name']
         if names:
             lang = (language or 'en').split('-')[0].lower()
             return names.get(lang) or names.get('fr') or name
@@ -435,8 +443,9 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     """Best cast order for one turn, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force,
                                       castable_spells, combat_ap,
-                                      conditional_extras, delayed_damage,
-                                      delayed_moments, stacks_in_force)
+                                      conditional_extras, damage_taken_by_cast,
+                                      delayed_damage, delayed_moments,
+                                      stacks_in_force)
     stats = dict(solution.get_stats_total())
     for stat, delta in buffs_in_force(char.char_class, char.level,
                                       game_version, buff_state,
@@ -472,6 +481,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     for name, _damage in order:
         times_cast[name] = times_cast.get(name, 0) + 1
     limit_notes = _limit_notes(spells, order, times_cast, ap)
+    under_by_cast = damage_taken_by_cast(spells, order)
     casts = []
     running = 0
     shown = 0
@@ -501,6 +511,9 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                                          shown - before, game_version),
                       'item_notes': _item_notes(
                           getattr(castable, 'modifiers', None), game_version),
+                      'taken_notes': _taken_notes(castable, under_by_cast[index],
+                                                  language, game_version, stats),
+                      'hp_notes': _hp_share_lines(castable, language)[0],
                       'limit_mark': limit_notes.get(index, ('', ''))[0],
                       'limit_title': limit_notes.get(index, ('', ''))[1]})
     late = []
@@ -533,6 +546,12 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'damage': int(round(damage)),
             'label': str(_CONDITIONAL_LABELS.get(trigger, trigger)),
         })
+    for name in dict.fromkeys(name for name, _damage in order):
+        castable = by_name[name]
+        for text in _hp_share_lines(castable, language)[1]:
+            extras.append({'name': _localized_spell_name(
+                name, language, game_version, castable.spell_id),
+                'damage': None, 'label': text})
     au_plus_haut = all(getattr(castable, 'at_highest_rank', True)
                        for castable in spells
                        if getattr(castable, 'is_spell', False))
@@ -604,13 +623,53 @@ def _cast_note(castable, name, later, damage, game_version=None):
         return ''
     if name in later:
         return str(_CAST_NOTES['delayed'])
-    if getattr(castable, 'buffs', None) and not getattr(castable, 'hits', None):
+    if (getattr(castable, 'hits', None)
+            or _hp_share_rows_at_full_hp(castable)):
+        return ''
+    if getattr(castable, 'buffs', None) or getattr(castable, 'taken', None):
         return str(_CAST_NOTES['buff'])
     return ''
 
 
+def _taken_line(taken, stacks, language, percent=None):
+    """Ankama's damage taken line at the multiplier stacks of it make, '' without one."""
+    lang = (language or 'en').split('-')[0].lower()
+    template = taken.text.get(lang) or taken.text.get('en') or ''
+    if not template:
+        return ''
+    percent = taken.percent if percent is None else percent
+    value = 100 * (percent / 100.0) ** stacks
+    if percent in (taken.percent, taken.critical):
+        return template.replace('#1', str(int(round(value))))
+    from django.utils import translation
+    from django.utils.formats import number_format
+    with translation.override(lang):
+        return template.replace('#1', number_format(value, 1))
+
+
+def _taken_notes(castable, under, language, game_version, stats):
+    """The damage taken a cast puts on the target, then each one its hits land under."""
+    from chardata.spell_combo import damage_taken_odds
+    notes = []
+    taken = getattr(castable, 'taken', None)
+    if taken is not None:
+        notes.append(_taken_line(taken, 1, language))
+        critical = _taken_line(taken, 1, language, taken.critical)
+        if taken.critical != taken.percent and critical:
+            from django.utils import translation
+            with translation.override(language):
+                notes.append('%s (%s)' % (critical, _('Critical hit')))
+    for source, stacks in under:
+        line = _taken_line(source.taken, stacks, language, source.taken.weighted(
+            damage_taken_odds(source, stats, game_version)))
+        if line:
+            notes.append('%s (%s)' % (line, _localized_spell_name(
+                source.name, language, game_version, source.spell_id)))
+    return [note for note in notes if note]
+
+
 def _buff_casts(spells, order):
-    """Spells the turn casts that only buff, same test as _cast_note."""
+    """Spells the turn casts that only buff, with no hit of their own."""
     lances = {name for name, _damage in order}
     return {spell.name for spell in spells
             if spell.name in lances
@@ -761,8 +820,74 @@ def _names_are_english(game_version):
     return get_supported_language() in _languages_left_english(game_version)
 
 
+def _hp_share_text(row, rank, language):
+    lines = row.get('text') or []
+    by_language = (lines[rank] if rank < len(lines) else None) or {}
+    lang = (language or 'en').split('-')[0].lower()
+    return by_language.get(lang) or by_language.get('en') or ''
+
+
+def _hp_share_digest(entry, ranks, language):
+    """{'normal': [[row, ...] per rank], 'critical': same or None} as the page draws them."""
+    if not entry:
+        return None
+    from chardata.spell_combo import HP_SHARE_ELEMENTS, HpShare, counted_at_full_hp
+
+    def drawn(rows):
+        if rows is None:
+            return None
+        out = []
+        for rank in range(ranks):
+            lines = []
+            for row in rows:
+                percents = row.get('percent') or []
+                if rank >= len(percents):
+                    continue
+                share = HpShare(HP_SHARE_ELEMENTS[row['element']], percents[rank])
+                if not share.min_dam and not share.max_dam:
+                    continue
+                lines.append({'text': _hp_share_text(row, rank, language),
+                              'element': share.element,
+                              'percent': [share.min_dam, share.max_dam],
+                              'counted': counted_at_full_hp(row),
+                              'gated': bool(row.get('gate'))})
+            out.append(lines)
+        return out
+
+    return {'normal': drawn(entry.get('normal')),
+            'critical': drawn(entry.get('critical'))}
+
+
+def _hp_share_rows_at_full_hp(castable):
+    """The rows of shares of HP a cast deals at full HP, at its rank."""
+    from chardata.spell_combo import lands_at_full_hp
+    entry = getattr(castable, 'hp_share', None)
+    if not entry:
+        return []
+    rank = getattr(castable, 'hp_share_level', 0)
+    rows = []
+    for row in entry.get('normal') or []:
+        percents = row.get('percent') or []
+        if (rank < len(percents) and percents[rank] not in ('0', '0-0')
+                and lands_at_full_hp(row)):
+            rows.append(row)
+    return rows
+
+
+def _hp_share_lines(castable, language):
+    """(counted, not counted) Ankama lines of the shares of HP a cast deals at full HP."""
+    from chardata.spell_combo import counted_at_full_hp
+    rank = getattr(castable, 'hp_share_level', 0)
+    counted, uncounted = [], []
+    for row in _hp_share_rows_at_full_hp(castable):
+        text = _hp_share_text(row, rank, language)
+        if text:
+            (counted if counted_at_full_hp(row) else uncounted).append(text)
+    return counted, uncounted
+
+
 def _create_spell_web_digest(spell, game_version='dofus3', char_level=None,
-                             modifiers=None):
+                             modifiers=None, hp_share=None):
     web_digest = {}
     digest = spell.get_effects_digest()
     current_language = get_supported_language()
@@ -811,6 +936,8 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None,
          for index, when in crit_delayed.items()}
         if crit_delayed is not None else None)
     web_digest['buff_scaling'] = spell.buff_scaling
+    web_digest['hp_share'] = _hp_share_digest(hp_share, len(spell.level_req),
+                                              current_language)
     return web_digest
 
 def best_combo_json(request, char_id=0):

@@ -48,6 +48,52 @@ class TheReasonIsReadAndNeverGuessedTests(SimpleTestCase):
         self.assertEqual('', self._note(_Arme()))
 
 
+class ADamageTakenDebuffIsReadFromTheGameTests(SimpleTestCase):
+
+    def _castable(self, name):
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.spell_combo import castable_spells
+        set_current_game_version('dofus3')
+        return next(castable for castable in castable_spells('Cra', 200, 'dofus3')
+                    if castable.name == name)
+
+    def _note(self, castable):
+        from django.utils.translation import override
+        from chardata.spells_view import _cast_note
+        with override('en'):
+            return _cast_note(castable, castable.name, {}, 0, 'dofus3')
+
+    def test_a_debuff_with_no_hit_says_it_raises_the_casts_that_follow(self):
+        castable = self._castable('Piercing Shot')
+        self.assertIsNotNone(castable.taken)
+        self.assertFalse(castable.hits)
+        self.assertFalse(castable.buffs)
+        self.assertIn('raises the casts', self._note(castable))
+
+    def test_a_debuff_whose_own_share_of_hp_is_listed_apart_is_not_called_damageless(self):
+        from chardata.spells_view import _hp_share_lines
+        castable = self._castable('Reprisal')
+        self.assertIsNotNone(castable.taken)
+        self.assertFalse(castable.hits)
+        self.assertTrue(_hp_share_lines(castable, 'en')[1])
+        self.assertEqual('', self._note(castable))
+
+    def test_the_share_of_hp_decides_it_even_when_no_language_has_its_text(self):
+        import copy
+        from chardata.spells_view import _hp_share_lines
+        reprisal = self._castable('Reprisal')
+        without_text = copy.deepcopy(reprisal.hp_share)
+        for row in without_text['normal']:
+            row['text'] = []
+        castable = _Lancable()
+        castable.name = reprisal.name
+        castable.taken = reprisal.taken
+        castable.hp_share = without_text
+        castable.hp_share_level = reprisal.hp_share_level
+        self.assertEqual(([], []), _hp_share_lines(castable, 'en'))
+        self.assertEqual('', self._note(castable))
+
+
 class TheNoteAnswersInFiveLanguagesTests(SimpleTestCase):
 
     def _notes(self, langue):

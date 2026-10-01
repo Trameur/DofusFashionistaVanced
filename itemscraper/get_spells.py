@@ -60,6 +60,30 @@ PLACED_WAITS = frozenset(("trap", "bomb", "glyph", "aura", "state"))
 SUMMON_STACK_CAP = 10
 STACKABLE_TIMES_PATTERN = re.compile(r"stackable\s*(?:up to\s*)?(\d+)", re.IGNORECASE)
 
+# "#2% of the caster's HP" (Dofus 2: "attacker's"), its missing or eroded HP, the target's
+HP_SHARE_PATTERN = re.compile(
+    r"#2%\s+of\s+(?:the\s+)?(middle\s+of\s+the\s+)?(caster|attacker|target)'s\s+"
+    r"(missing\s+|eroded\s+)?HP\b", re.IGNORECASE)
+_SPRITE_TAG = re.compile(r"<sprite[^>]*>")
+# Dofus 3 words 672 "of the middle of the caster's HP"; the 2.73 client words it like 89
+MIDDLE_OF_CASTER_HP_EFFECT_ID = 672
+
+
+def hp_share_of(metadata: Optional[Mapping[str, Any]],
+                effect_id: Optional[int] = None) -> Optional[str]:
+    """caster_hp, caster_missing_hp, target_eroded_hp... for a hit of a share of a life, else None."""
+    if not metadata or metadata.get("category") != 2:
+        return None
+    text = _SPRITE_TAG.sub("", (metadata.get("description") or {}).get("en") or "")
+    match = HP_SHARE_PATTERN.search(text)
+    if not match:
+        return None
+    whose = "target" if match.group(2).lower() == "target" else "caster"
+    what = (match.group(3) or "").strip().lower() or ("middle" if match.group(1) else "")
+    if effect_id == MIDDLE_OF_CASTER_HP_EFFECT_ID and whose == "caster" and not what:
+        what = "middle"
+    return "%s_%shp" % (whose, what + "_" if what else "")
+
 
 def _zone_signature(zone: Optional[Mapping[str, Any]]) -> str:
     if not zone:
@@ -437,6 +461,8 @@ class SpellTransformer:
             for effect in effects:
                 metadata = effect.get("effect_metadata")
                 if not metadata or metadata.get("category") != 2:
+                    continue
+                if hp_share_of(metadata):
                     continue
                 dice = self._format_range(effect.get("dice"))
                 if not dice:

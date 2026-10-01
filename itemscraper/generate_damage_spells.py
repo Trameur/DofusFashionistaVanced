@@ -13,11 +13,17 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Set, Tuple
 
 try:
-    from .get_spells import (BEST_ELEMENT_DESCRIPTION_TOKENS, ELEMENT_ID_TO_TOKEN,
-                             SpellTransformer, _zone_signature, select_default_spells)
+    from .get_spells import (BEST_ELEMENT_DESCRIPTION_TOKENS, BOMB_EFFECT_ID,
+                             ELEMENT_ID_TO_TOKEN, PLACED_BY_EFFECT, STATE_IN_TARGET_MASK,
+                             SpellTransformer, _load_datacenter_table, _zone_signature,
+                             hp_share_of, select_default_spells)
+    from .store_monster_spells import render_effect
 except ImportError:
-    from get_spells import (BEST_ELEMENT_DESCRIPTION_TOKENS, ELEMENT_ID_TO_TOKEN,
-                            SpellTransformer, _zone_signature, select_default_spells)
+    from get_spells import (BEST_ELEMENT_DESCRIPTION_TOKENS, BOMB_EFFECT_ID,
+                            ELEMENT_ID_TO_TOKEN, PLACED_BY_EFFECT, STATE_IN_TARGET_MASK,
+                            SpellTransformer, _load_datacenter_table, _zone_signature,
+                            hp_share_of, select_default_spells)
+    from store_monster_spells import render_effect
 
 AUTO_START = "# AUTO-GENERATED DAMAGE_SPELLS START"
 AUTO_END = "# AUTO-GENERATED DAMAGE_SPELLS END"
@@ -167,7 +173,7 @@ def _stamp_delays(spell, rows, critical):
         seen: Dict[Tuple[Any, ...], int] = {}
         for effect in level.get("critical_effects" if critical else "effects") or []:
             metadata = effect.get("effect_metadata") or {}
-            if metadata.get("category") != 2:
+            if metadata.get("category") != 2 or hp_share_of(metadata):
                 continue
             ranges = SpellTransformer._format_range(effect.get("dice"))
             text = ((metadata.get("description") or {}).get("en") or "").lower()
@@ -381,6 +387,22 @@ ONE_ELEMENT_FACES_BY_VERSION = {
 }
 
 ONE_ELEMENT_FACES = ONE_ELEMENT_FACES_BY_VERSION["dofus3"]
+
+# "x#1% damage sustained" on the fighters the row targets
+DAMAGE_TAKEN_EFFECT_ID = 1163
+# "Removes the effects of the #2 spell", the spell id in value
+REMOVES_SPELL_EFFECTS_EFFECT_ID = 406
+# m_flags bit of a row only the tooltip shows; Dofus 2 has forClientOnly instead
+CLIENT_ONLY_FLAG = 16
+# Direct damage, and damage from an enemy of the bearer
+DIRECT_DAMAGE_TRIGGERS = frozenset(("D", "DBE"))
+# Rows casting the spell in dice min at the grade in dice max
+CASTS_A_SPELL_EFFECT_IDS = frozenset((792, 1160, 2960))
+
+# Effect uids the Dofus 2 client marks forClientOnly, read in main
+CLIENT_ONLY_EFFECTS: frozenset = frozenset()
+# {bomb monster id: its explosion spell}, read in main
+BOMB_SPELLS: Dict[int, int] = {}
 
 BUFF_SORT_ORDER = {
     "buff_str": 0,
@@ -1016,6 +1038,428 @@ def build_spell_map(class_data: Mapping[str, Any], all_spells: Sequence[Mapping[
     spells_by_class = {"default": default_entries, **spells_by_class}
     _prune_missing_links(spells_by_class)
     return spells_by_class
+
+
+def _client_only(effect: Mapping[str, Any]) -> bool:
+    return bool((effect.get("flags") or 0) & CLIENT_ONLY_FLAG
+                or effect.get("effect_uid") in CLIENT_ONLY_EFFECTS)
+
+
+def _ungated(mask: Any) -> bool:
+    """True for a target mask of plain letters, no state, life or id test."""
+    tokens = [token for token in str(mask or "").split(",") if token]
+    return bool(tokens) and all(len(token) == 1 and token.isalpha() for token in tokens)
+
+
+def _on_direct_damage(triggers: Any) -> bool:
+    codes = {code for code in str(triggers or "").split("|") if code}
+    return bool(codes) and codes <= DIRECT_DAMAGE_TRIGGERS
+
+
+def _lands_a_hit_now(effect: Mapping[str, Any]) -> bool:
+    metadata = effect.get("effect_metadata") or {}
+    text = ((metadata.get("description") or {}).get("en") or "").lower()
+    element = (ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
+               or any(word in text for word in BEST_ELEMENT_DESCRIPTION_TOKENS))
+    return (metadata.get("category") == 2 and bool(element) and "heal" not in text
+            and effect.get("triggers") == "I" and not effect.get("delay")
+            and bool(SpellTransformer._format_range(effect.get("dice"))))
+
+
+def _damage_taken_row(effect: Mapping[str, Any]) -> bool:
+    return (effect.get("effect_id") == DAMAGE_TAKEN_EFFECT_ID
+            and _ungated(effect.get("target_mask"))
+            and "A" in str(effect.get("target_mask")).split(",")
+            and _on_direct_damage(effect.get("triggers"))
+            and not effect.get("delay")
+            and not effect.get("random")
+            and bool(effect.get("effect_trigger_duration") or effect.get("duration")))
+
+
+def _raises_damage_taken(effect: Mapping[str, Any]) -> bool:
+    """A row multiplying what any enemy it lands on takes from the caster's hits."""
+    return _damage_taken_row(effect) and not _client_only(effect)
+
+
+def _damage_taken_at(level: Mapping[str, Any], carrier_id: Any,
+                     critical: bool = False) -> Optional[Tuple[int, bool, Mapping[str, Any]]]:
+    """(percent, ends on the next hit, row) one level puts on the enemy, or None."""
+    effects = level.get("critical_effects" if critical else "effects") or []
+    rows = [effect for effect in effects if _raises_damage_taken(effect)]
+    if not rows:
+        return None
+    if len(rows) > 1:
+        raise RuntimeError("spell %s puts %d damage taken rows on one enemy"
+                           % (carrier_id, len(rows)))
+    # The best turn raises only the hits after the cast
+    if any(_lands_a_hit_now(effect) for effect in effects[effects.index(rows[0]) + 1:]):
+        raise RuntimeError("spell %s raises the damage taken before its own hit" % carrier_id)
+    ends = any(effect.get("effect_id") == REMOVES_SPELL_EFFECTS_EFFECT_ID
+               and effect.get("value") == carrier_id
+               and _on_direct_damage(effect.get("triggers"))
+               and not _client_only(effect)
+               for effect in effects)
+    return int((rows[0].get("dice") or {}).get("min") or 0), ends, rows[0]
+
+
+def _placed_carriers(level: Mapping[str, Any], spell_lookup: Mapping[int, Mapping[str, Any]]
+                     ) -> List[Tuple[Mapping[str, Any], Mapping[str, Any], str]]:
+    """(placed spell, its level, when its rows land) for each thing the level places."""
+    out = []
+    for effect in level.get("effects") or []:
+        effect_id = effect.get("effect_id")
+        if effect_id not in PLACED_BY_EFFECT:
+            continue
+        dice = effect.get("dice") or {}
+        child_id = (BOMB_SPELLS.get(dice.get("min")) if effect_id == BOMB_EFFECT_ID
+                    else dice.get("min"))
+        when = ("state" if STATE_IN_TARGET_MASK.findall(str(effect.get("target_mask") or ""))
+                else PLACED_BY_EFFECT[effect_id][1])
+        child = spell_lookup.get(child_id)
+        for child_level in (child or {}).get("levels") or []:
+            if child_level.get("grade") == dice.get("max"):
+                out.append((child, child_level, when))
+    return out
+
+
+def _cast_at_once(level: Mapping[str, Any], spell_lookup: Mapping[int, Mapping[str, Any]],
+                  key: str = "effects") -> List[Tuple[Mapping[str, Any], Mapping[str, Any]]]:
+    """(spell, its level) for each spell the level casts on cast where it aims at enemies."""
+    out = []
+    for effect in level.get(key) or []:
+        # A token starting with * tests the caster, not the target
+        letters = {token for token in str(effect.get("target_mask") or "").split(",")
+                   if token and not token.startswith("*")}
+        if (effect.get("effect_id") not in CASTS_A_SPELL_EFFECT_IDS
+                or effect.get("triggers") != "I" or effect.get("delay")
+                or effect.get("random") or _client_only(effect)
+                or "A" not in letters or not letters <= EVERY_FIGHTER_MASK_LETTERS):
+            continue
+        dice = effect.get("dice") or {}
+        child = spell_lookup.get(dice.get("min"))
+        for child_level in (child or {}).get("levels") or []:
+            if child_level.get("grade") == dice.get("max"):
+                out.append((child, child_level))
+    return out
+
+
+def _cast_carriers(spell: Mapping[str, Any], level: Mapping[str, Any],
+                   spell_lookup: Mapping[int, Mapping[str, Any]]
+                   ) -> List[Tuple[Mapping[str, Any], Mapping[str, Any]]]:
+    """The spell a level casts to put the damage taken its own row only shows in the tooltip."""
+    shown = [effect for effect in level.get("effects") or []
+             if _damage_taken_row(effect) and _client_only(effect)]
+    if not shown:
+        return []
+
+    def carrying(key):
+        return {(child.get("ankama_id"), child_level.get("grade")): (child, child_level)
+                for child, child_level in _cast_at_once(level, spell_lookup, key)
+                if _damage_taken_at(child_level, child.get("ankama_id")) is not None}
+
+    found = carrying("effects")
+    if level.get("critical_hit_probability") and set(carrying("critical_effects")) != set(found):
+        raise RuntimeError("spell %s casts other damage taken on a critical hit"
+                           % spell.get("ankama_id"))
+    percent = int((shown[0].get("dice") or {}).get("min") or 0)
+    for child, child_level in found.values():
+        if _damage_taken_at(child_level, child.get("ankama_id"))[0] != percent:
+            raise RuntimeError("spell %s shows x%d%% damage taken and casts another percent"
+                               % (spell.get("ankama_id"), percent))
+    return list(found.values())
+
+
+def damage_taken_entry(spell: Mapping[str, Any],
+                       spell_lookup: Optional[Mapping[int, Mapping[str, Any]]] = None
+                       ) -> Optional[Dict[str, Any]]:
+    """What a cast multiplies one enemy's damage taken by, per spell level, or None."""
+    levels = spell.get("levels") or []
+    requirements = spell.get("level_requirements") or []
+    if not levels or len(levels) != len(requirements):
+        return None
+    percents: List[int] = []
+    stacks: List[Optional[int]] = []
+    ends: List[bool] = []
+    placed: List[Optional[str]] = []
+    text = None
+    for level in levels:
+        found = None
+        carriers = ([(spell, level, None)] + _placed_carriers(level, spell_lookup or {})
+                    + [(child, child_level, None) for child, child_level
+                       in _cast_carriers(spell, level, spell_lookup or {})])
+        for carrier, carrier_level, when in carriers:
+            carrier_id = carrier.get("ankama_id")
+            taken = _damage_taken_at(carrier_level, carrier_id)
+            if taken is None:
+                continue
+            if found is not None:
+                raise RuntimeError("spell %s puts damage taken rows from two spells"
+                                   % spell.get("ankama_id"))
+            if carrier_level.get("critical_hit_probability"):
+                critical = _damage_taken_at(carrier_level, carrier_id, critical=True)
+                if critical is None or critical[:2] != taken[:2]:
+                    raise RuntimeError("spell %s puts other damage taken on a critical hit"
+                                       % carrier_id)
+            cap = carrier_level.get("max_stack") or 0
+            found = (taken[0], cap if cap > 0 else None, taken[1], when)
+            text = text or ((taken[2].get("effect_metadata") or {}).get("description"))
+        percents.append(found[0] if found else 0)
+        stacks.append(found[1] if found else None)
+        ends.append(found[2] if found else False)
+        placed.append(found[3] if found else None)
+    if not any(percents):
+        return None
+    entry: Dict[str, Any] = {
+        "spell_id": spell.get("ankama_id"),
+        "name": pick_name(spell),
+        "levels": [int(level) for level in requirements],
+        "casting": _casting(spell, len(requirements)),
+        "percent": percents,
+        "stacks": stacks,
+    }
+    if any(ends):
+        entry["ends_on_hit"] = ends
+    if any(placed):
+        entry["placed"] = placed
+    if text:
+        entry["text"] = dict(text)
+    return entry
+
+
+def build_damage_taken_map(class_data: Mapping[str, Any],
+                           all_spells: Sequence[Mapping[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
+    """{class: [damage_taken_entry]} over the class spells."""
+    breed_lookup = _build_breed_lookup(class_data)
+    spell_lookup = _build_spell_lookup(all_spells)
+    out: Dict[str, List[Dict[str, Any]]] = {}
+    for spell in sorted(all_spells, key=_sort_key):
+        classes = _classes_for_spell(spell, breed_lookup)
+        if not classes:
+            continue
+        entry = damage_taken_entry(spell, spell_lookup)
+        if entry is None:
+            continue
+        for class_name in classes:
+            out.setdefault(class_name, []).append(dict(entry))
+    return out
+
+
+# "*V50": the caster has less than 50% of its HP, "*v50" 50% or more
+CASTER_LIFE_GATE = re.compile(r"^\*([vV])(\d+)$")
+
+
+def _mask_tokens(effect: Mapping[str, Any]) -> List[str]:
+    return [token.strip() for token in str(effect.get("target_mask") or "").split(",")
+            if token.strip()]
+
+
+def _hp_share_on_enemies(effect: Mapping[str, Any]) -> Optional[str]:
+    """The HP share kind of a row landing on enemies, else None."""
+    kind = hp_share_of(effect.get("effect_metadata"), effect.get("effect_id"))
+    if not kind or "A" not in _mask_tokens(effect):
+        return None
+    return kind
+
+
+def _hits_enemies_with_a_hp_share(spell: Mapping[str, Any]) -> bool:
+    return any(_hp_share_on_enemies(effect)
+               for level in spell.get("levels") or []
+               for key in ("effects", "critical_effects")
+               for effect in level.get(key) or [])
+
+
+def _hp_share_hit(effect: Mapping[str, Any], spell_id: Any) -> Optional[Tuple[Any, ...]]:
+    """(kind, element, gate, percent) of a row dealing enemies a share of a life, else None."""
+    kind = _hp_share_on_enemies(effect)
+    if not kind:
+        return None
+    element = ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
+    if not element:
+        raise RuntimeError("spell %s deals a share of HP in no element" % spell_id)
+    if not _lands_on_cast(effect.get("triggers")) or effect.get("delay"):
+        raise RuntimeError("spell %s deals a share of HP on trigger %s, delay %s"
+                           % (spell_id, effect.get("triggers"), effect.get("delay")))
+    gate = None
+    for token in _mask_tokens(effect):
+        if len(token) == 1 and token.isalpha():
+            continue
+        match = CASTER_LIFE_GATE.match(token)
+        if not match or gate is not None:
+            raise RuntimeError("spell %s deals a share of HP behind %s, which no "
+                               "gate reads" % (spell_id, effect.get("target_mask")))
+        gate = ("caster_below" if match.group(1) == "V" else "caster_at_least",
+                int(match.group(2)))
+    return kind, element, gate, SpellTransformer._format_range(effect.get("dice") or {}) or "0"
+
+
+def _hp_share_rows(spell: Mapping[str, Any], critical: bool) -> List[Dict[str, Any]]:
+    """Rows of the hits a share of a life total deals to enemies, one value per level."""
+    levels = spell.get("levels") or []
+    rows: List[Dict[str, Any]] = []
+    by_key: Dict[Tuple[Any, ...], Dict[str, Any]] = {}
+    for level_idx, level in enumerate(levels):
+        seen: Dict[Tuple[Any, ...], int] = {}
+        for effect in level.get("critical_effects" if critical else "effects") or []:
+            hit = _hp_share_hit(effect, spell.get("ankama_id"))
+            if hit is None:
+                continue
+            kind, element, gate, percent = hit
+            shape = (kind, element, effect.get("target_mask"))
+            rank = seen.get(shape, 0)
+            seen[shape] = rank + 1
+            row = by_key.get(shape + (rank,))
+            if row is None:
+                row = {"of": kind, "element": element, "gate": list(gate) if gate else None,
+                       "percent": ["0"] * len(levels), "text": [None] * len(levels)}
+                by_key[shape + (rank,)] = row
+                rows.append(row)
+            dice = effect.get("dice") or {}
+            row["percent"][level_idx] = percent
+            template = (effect.get("effect_metadata") or {}).get("description") or {}
+            row["text"][level_idx] = {
+                lang: render_effect(text, dice.get("min"), dice.get("max"))
+                for lang, text in template.items() if text}
+    return rows
+
+
+def _casts_now(effect: Mapping[str, Any]) -> bool:
+    return (effect.get("effect_id") in CASTS_A_SPELL_EFFECT_IDS
+            and _lands_on_cast(effect.get("triggers")) and not effect.get("delay")
+            and not effect.get("random") and not _client_only(effect)
+            and _ungated(effect.get("target_mask")))
+
+
+def _spells_reached(level: Mapping[str, Any], key: str,
+                    spell_lookup: Mapping[int, Mapping[str, Any]], seen: frozenset
+                    ) -> List[Tuple[Mapping[str, Any], Mapping[str, Any], bool]]:
+    """(spell, its level, cast with it) for each spell a level places or casts, then theirs."""
+    out: List[Tuple[Mapping[str, Any], Mapping[str, Any], bool]] = []
+    for effect in level.get(key) or []:
+        effect_id = effect.get("effect_id")
+        if effect_id not in PLACED_BY_EFFECT and effect_id not in CASTS_A_SPELL_EFFECT_IDS:
+            continue
+        dice = effect.get("dice") or {}
+        child_id = (BOMB_SPELLS.get(dice.get("min")) if effect_id == BOMB_EFFECT_ID
+                    else dice.get("min"))
+        child = spell_lookup.get(child_id)
+        cast = (child_id, dice.get("max"))
+        if child is None or cast in seen:
+            continue
+        now = _casts_now(effect)
+        for child_level in child.get("levels") or []:
+            if child_level.get("grade") != dice.get("max"):
+                continue
+            out.append((child, child_level, now))
+            for child_key in ("effects", "critical_effects"):
+                out.extend((spell, spell_level, now and deeper and child_key == "effects")
+                           for spell, spell_level, deeper in _spells_reached(
+                               child_level, child_key, spell_lookup, seen | {cast}))
+    return out
+
+
+def _hp_share_hits_at(level: Mapping[str, Any], key: str, spell_id: Any,
+                      shown: bool) -> List[Tuple[Any, ...]]:
+    """Sorted share hits of a level's tooltip rows when shown, else of the rows that land."""
+    hits = [_hp_share_hit(effect, spell_id) for effect in level.get(key) or []
+            if _client_only(effect) == shown]
+    return sorted((kind, element, gate or (), percent)
+                  for kind, element, gate, percent in filter(None, hits))
+
+
+def _check_hp_shares_reached(spell: Mapping[str, Any],
+                             spell_lookup: Mapping[int, Mapping[str, Any]]) -> None:
+    """Raise unless the shares the tooltip rows show are those the spells cast with it deal."""
+    spell_id = spell.get("ankama_id")
+    for level in spell.get("levels") or []:
+        for key in ("effects", "critical_effects"):
+            dealt: List[Tuple[Any, ...]] = []
+            for child, child_level, now in _spells_reached(
+                    level, key, spell_lookup, frozenset(((spell_id, level.get("grade")),))):
+                child_id = child.get("ankama_id")
+                hits = _hp_share_hits_at(child_level, "effects", child_id, shown=False)
+                critical = _hp_share_hits_at(child_level, "critical_effects", child_id,
+                                             shown=False)
+                if not hits and not critical:
+                    continue
+                if not now or (child_level.get("critical_hit_probability") and critical != hits):
+                    raise RuntimeError("spell %s reaches %s, whose share of HP nothing reads"
+                                       % (spell_id, child_id))
+                dealt.extend(hits)
+            if sorted(dealt) != _hp_share_hits_at(level, key, spell_id, shown=True):
+                raise RuntimeError("spell %s shows a share of HP the spells it casts do not deal"
+                                   % spell_id)
+
+
+def hp_share_entry(spell: Mapping[str, Any],
+                   spell_lookup: Optional[Mapping[int, Mapping[str, Any]]] = None
+                   ) -> Optional[Dict[str, Any]]:
+    """The hits of a share of a life total a spell deals to enemies, or None."""
+    _check_hp_shares_reached(spell, spell_lookup or {})
+    normal = _hp_share_rows(spell, critical=False)
+    can_crit = any(level.get("critical_effects") for level in spell.get("levels") or [])
+    critical = _hp_share_rows(spell, critical=True) if can_crit else None
+    if not normal and not critical:
+        return None
+    return {"spell_id": spell.get("ankama_id"), "name": pick_name(spell),
+            "normal": normal, "critical": critical}
+
+
+def build_hp_share_map(class_data: Mapping[str, Any],
+                       all_spells: Sequence[Mapping[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
+    """{class: [hp_share_entry]} over the class spells, then the shared ones under default."""
+    breed_lookup = _build_breed_lookup(class_data)
+    spell_lookup = _build_spell_lookup(all_spells)
+    out: Dict[str, List[Dict[str, Any]]] = {}
+    for spell in sorted(all_spells, key=_sort_key):
+        classes = _classes_for_spell(spell, breed_lookup)
+        if not classes:
+            continue
+        entry = hp_share_entry(spell, spell_lookup)
+        if entry is None:
+            continue
+        for class_name in sorted(classes):
+            out.setdefault(class_name, []).append(dict(entry))
+    for spell in sorted((class_data.get("default") or {}).get("spells") or [], key=_sort_key):
+        entry = hp_share_entry(spell, spell_lookup)
+        if entry is not None:
+            out.setdefault("default", []).append(entry)
+    return out
+
+
+def _client_only_effects(game_version: str) -> frozenset:
+    """Uids of the rows the 2.73 client marks forClientOnly; empty for the other versions."""
+    if game_version != "dofus2":
+        return frozenset()
+    root = Path(__file__).resolve().parents[1]
+    if str(root) not in sys.path:
+        sys.path.insert(0, str(root))
+    import fashionista_version
+    path = (root / "itemscraper" / "raw" / fashionista_version.FASHIONISTA_DOFUS2_VERSION
+            / "spell_levels.json")
+    if not path.exists():
+        raise SystemExit("missing %s: the Dofus 2 rows the tooltip alone shows are read there"
+                         % path)
+    return frozenset(effect.get("effectUid")
+                     for level in load_json(path)
+                     for key in ("effects", "criticalEffect")
+                     for effect in level.get(key) or []
+                     if effect.get("forClientOnly"))
+
+
+def _bomb_spells(game_version: str) -> Dict[int, int]:
+    """{bomb monster id: its explosion spell}, the archive table get_spells reads."""
+    root = Path(__file__).resolve().parents[1]
+    if str(root) not in sys.path:
+        sys.path.insert(0, str(root))
+    import fashionista_version
+    tag = {"dofus3": fashionista_version.FASHIONISTA_VERSION,
+           "beta": fashionista_version.FASHIONISTA_BETA_VERSION,
+           "dofus2": fashionista_version.FASHIONISTA_DOFUS2_VERSION}.get(game_version)
+    path = root / "itemscraper" / "raw" / str(tag) / "bomb_spells.json"
+    if not tag or not path.exists():
+        return {}
+    return {int(monster_id): int(record.get("explodSpellId") or 0)
+            for monster_id, record in _load_datacenter_table(path).items()}
 
 
 def _sort_key(spell: Mapping[str, Any]) -> tuple:
@@ -1695,7 +2139,8 @@ def _drawn_groups(
         for effect in level.get("critical_effects" if critical else "effects") or []:
             metadata = effect.get("effect_metadata") or {}
             token = ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
-            if not effect.get("random") or metadata.get("category") != 2 or not token:
+            if (not effect.get("random") or metadata.get("category") != 2 or not token
+                    or hp_share_of(metadata)):
                 continue
             text = ((metadata.get("description") or {}).get("en") or "").lower()
             ranges = SpellTransformer._format_range(effect.get("dice"))
@@ -2141,7 +2586,7 @@ def convert_spell(
             elements, steals, heals, aggregates)
     if aggregates:
         aggregates = _listed_waits_drawn(aggregates, CONDITIONAL_ROWS.get(spell.get("ankama_id")))
-    if not non_crit:
+    if not non_crit and not _hits_enemies_with_a_hp_share(spell):
         return None
     holds_back = dict(_waiting_rows[1])
     holds_back.update(block_waits)
@@ -2350,7 +2795,9 @@ def pick_name(source: Mapping[str, Any]) -> str:
     return ""
 
 
-def render_block(spells_by_class: Mapping[str, List[SpellEntry]]) -> str:
+def render_block(spells_by_class: Mapping[str, List[SpellEntry]],
+                 taken_by_class: Optional[Mapping[str, List[Dict[str, Any]]]] = None,
+                 hp_share_by_class: Optional[Mapping[str, List[Dict[str, Any]]]] = None) -> str:
     ordered_keys = ["default"] + [cls for cls in CHARACTER_CLASSES if cls in spells_by_class]
     lines: List[str] = [AUTO_START, AUTO_COMMENT, "DAMAGE_SPELLS = {"]
     for idx, key in enumerate(ordered_keys):
@@ -2361,9 +2808,37 @@ def render_block(spells_by_class: Mapping[str, List[SpellEntry]]) -> str:
             lines.extend(render_spell(entry))
         lines.append(f"    ]{trailing}")
     lines.append("}")
+    if taken_by_class is not None:
+        lines.extend(render_damage_taken(taken_by_class))
+    if hp_share_by_class is not None:
+        lines.extend(render_hp_share_hits(hp_share_by_class))
     lines.append(AUTO_END)
     lines.append("")
     return "\n".join(lines)
+
+
+def render_damage_taken(taken_by_class: Mapping[str, List[Dict[str, Any]]]) -> List[str]:
+    lines: List[str] = ["DAMAGE_TAKEN = {"]
+    for key in [cls for cls in CHARACTER_CLASSES if taken_by_class.get(cls)]:
+        lines.append(f"    {key!r}: [")
+        for entry in taken_by_class[key]:
+            text = pprint.pformat(entry, width=88, sort_dicts=False)
+            lines.append(textwrap.indent(text, " " * 8) + ",")
+        lines.append("    ],")
+    lines.append("}")
+    return lines
+
+
+def render_hp_share_hits(hp_share_by_class: Mapping[str, List[Dict[str, Any]]]) -> List[str]:
+    lines: List[str] = ["HP_SHARE_HITS = {"]
+    for key in [cls for cls in ["default"] + CHARACTER_CLASSES if hp_share_by_class.get(cls)]:
+        lines.append(f"    {key!r}: [")
+        for entry in hp_share_by_class[key]:
+            text = pprint.pformat(entry, width=88, sort_dicts=False)
+            lines.append(textwrap.indent(text, " " * 8) + ",")
+        lines.append("    ],")
+    lines.append("}")
+    return lines
 
 
 def _conditional_rows(ankama_id, elements, from_data=None):
@@ -2489,6 +2964,7 @@ def _version_named(suffix: str) -> str:
 def main(argv: Optional[Sequence[str]] = None) -> int:
     global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
     global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER, ONE_ELEMENT_FACES, DELAYED_WHEN, DELAYED_ROWS
+    global CLIENT_ONLY_EFFECTS, BOMB_SPELLS
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -2503,10 +2979,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ONE_ELEMENT_FACES = ONE_ELEMENT_FACES_BY_VERSION[args.game_version]
     DELAYED_WHEN = DELAYED_WHEN_BY_VERSION[args.game_version]
     DELAYED_ROWS = DELAYED_ROWS_BY_VERSION[args.game_version]
+    CLIENT_ONLY_EFFECTS = _client_only_effects(args.game_version)
+    BOMB_SPELLS = _bomb_spells(args.game_version)
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)
-    block = render_block(spells_by_class)
+    block = render_block(spells_by_class, build_damage_taken_map(class_data, all_spells),
+                         build_hp_share_map(class_data, all_spells))
     update_constants_file(args.constants, block)
     return 0
 

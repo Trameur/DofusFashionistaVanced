@@ -25,14 +25,27 @@ def _lignes(valeur):
     return sum(len(niveau or []) for niveau in valeur)
 
 
+def _page_draws_a_critical_block(spell, version, hp_share):
+    """What hasCritBlock in spells.html reads, from the digest the page receives."""
+    from django.utils.translation import override
+    from chardata.spells_view import _create_spell_web_digest
+    with override('en'):
+        digest = _create_spell_web_digest(spell, version, 200, None,
+                                          hp_share=hp_share)
+    return (digest['crit_dams'] is not None
+            or bool(digest['hp_share']
+                    and digest['hp_share']['critical'] is not None))
+
+
 def _etat_des_sorts(version):
     from chardata.spell_combo import castable_spells
+    from chardata.spells_view import _hp_share_digest
     from chardata.version_compat import filter_classes_for_version
     from fashionistapulp.dofus_constants import CHARACTER_CLASSES
     from fashionistapulp.structure import set_current_game_version
 
     set_current_game_version(version)
-    vus, sans, sans_ni_taux, inverse = 0, 0, 0, []
+    vus, sans, sans_ni_taux, inverse, disagreements = 0, 0, 0, [], []
     noms = set()
     for classe in filter_classes_for_version(CHARACTER_CLASSES, version):
         for castable in castable_spells(classe, 200, version):
@@ -48,15 +61,22 @@ def _etat_des_sorts(version):
             if digest is None:
                 continue
             vus += 1
-            normal = _lignes(digest.non_crit_dams)
-            crit = _lignes(digest.crit_dams)
+            partage = _hp_share_digest(getattr(castable, 'hp_share', None),
+                                       len(spell.level_req), 'en') or {}
+            normal = (_lignes(digest.non_crit_dams)
+                      + _lignes(partage.get('normal')))
+            crit = (_lignes(digest.crit_dams)
+                    + _lignes(partage.get('critical')))
             if normal and not crit:
                 sans += 1
                 if not (getattr(castable, 'crit_rate', 0) or 0):
                     sans_ni_taux += 1
             if crit and not normal:
                 inverse.append(castable.name)
-    return vus, sans, sans_ni_taux, inverse
+            if bool(crit) != _page_draws_a_critical_block(
+                    spell, version, getattr(castable, 'hp_share', None)):
+                disagreements.append(castable.name)
+    return vus, sans, sans_ni_taux, inverse, disagreements
 
 
 class TheGameSaysTwiceThatTheseSpellsCannotCritTests(SimpleTestCase):
@@ -64,15 +84,27 @@ class TheGameSaysTwiceThatTheseSpellsCannotCritTests(SimpleTestCase):
     def test_each_version_has_the_measured_number(self):
         compte = {}
         for version in VERSIONS:
-            vus, sans, _sans_ni_taux, _inverse = _etat_des_sorts(version)
+            vus, sans, _sans_ni_taux, _inverse, _disagreements = _etat_des_sorts(
+                version)
             self.assertGreater(vus, 100, version)
             compte[version] = sans
         self.assertEqual(_SANS_CRITIQUE, compte)
 
+    def test_the_page_draws_a_critical_block_exactly_when_there_are_critical_rows(self):
+        found = []
+        for version in VERSIONS:
+            _vus, _sans, _ni, _inverse, disagreements = _etat_des_sorts(version)
+            found.extend((version, name) for name in disagreements)
+        self.assertFalse(
+            found,
+            'the page and this count disagree on whether these can crit: %s'
+            % found[:6])
+
     def test_none_of_them_carries_a_critical_rate_either(self):
         ecarts = []
         for version in VERSIONS:
-            _vus, sans, sans_ni_taux, _inverse = _etat_des_sorts(version)
+            _vus, sans, sans_ni_taux, _inverse, _disagreements = _etat_des_sorts(
+                version)
             if sans != sans_ni_taux:
                 ecarts.append((version, sans, sans_ni_taux))
         self.assertFalse(
@@ -83,7 +115,7 @@ class TheGameSaysTwiceThatTheseSpellsCannotCritTests(SimpleTestCase):
     def test_no_spell_has_a_critical_block_without_a_normal_one(self):
         trouves = []
         for version in VERSIONS:
-            _vus, _sans, _ni, inverse = _etat_des_sorts(version)
+            _vus, _sans, _ni, inverse, _disagreements = _etat_des_sorts(version)
             trouves.extend((version, nom) for nom in inverse)
         self.assertFalse(trouves, 'these would print an empty normal block: %s'
                          % trouves[:6])
@@ -91,7 +123,8 @@ class TheGameSaysTwiceThatTheseSpellsCannotCritTests(SimpleTestCase):
     def test_touch_and_retro_are_not_concerned(self):
         for version in ('touch', 'retro'):
             with self.subTest(version=version):
-                _vus, sans, _ni, _inverse = _etat_des_sorts(version)
+                _vus, sans, _ni, _inverse, _disagreements = _etat_des_sorts(
+                    version)
                 self.assertEqual(0, sans)
 
 
@@ -128,7 +161,7 @@ class TheCardSaysItRatherThanLeavingTheLabelEmptyTests(TestCase):
 
     def test_the_heading_is_no_longer_printed_whatever_happens(self):
         source = self._gabarit()
-        self.assertIn('var can_crit = !!spell.crit_dams;', source)
+        self.assertIn('var can_crit = hasCritBlock(spell);', source)
         self.assertIn("hit-block-label no-crit", source)
         self.assertEqual(
             1, source.count("+ \"{% trans 'Critical hit' %}</div>\");"),

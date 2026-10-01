@@ -22,7 +22,9 @@ import copy
 import math
 import re
 
-from fashionistapulp.dofus_constants import (NEUTRAL, calculate_damage,
+from fashionistapulp.dofus_constants import (AIR, EARTH, FIRE, NEUTRAL,
+                                             NON_ELEMENTAL_HIT_TYPES, WATER,
+                                             Effects, Spell, calculate_damage,
                                              get_stat_maximum)
 
 from chardata.pushback import pushback_damage
@@ -198,6 +200,7 @@ class WeaponCastable(object):
     at_highest_rank = True
     stacks = 1
     spell_id = None
+    taken = None
 
     def __init__(self, weapon, crit=False):
         self.weapon = weapon
@@ -227,6 +230,8 @@ class WeaponCastable(object):
 class Castable(object):
 
     is_spell = True
+    # DamageTaken the cast puts on the target, filled in by castable_spells
+    taken = None
 
     def __init__(self, spell, level_index, crit):
         self.spell = spell
@@ -511,6 +516,183 @@ def _chosen_level(levels, spell, char_level):
     return highest
 
 
+class DamageTaken(object):
+    """What one cast multiplies the target's damage taken by, from the generated DAMAGE_TAKEN."""
+
+    def __init__(self, entry, level_index):
+        self.percent = entry['percent'][level_index]
+        self.critical = (entry.get('percent_critical') or entry['percent'])[level_index]
+        self.stacks = entry['stacks'][level_index]
+        self.ends_on_hit = bool((entry.get('ends_on_hit')
+                                 or [False] * (level_index + 1))[level_index])
+        self.text = dict(entry.get('text') or {})
+
+    def cap(self):
+        return self.stacks or MAX_CASTS
+
+    def weighted(self, odds):
+        """The percent one cast puts, a critical one landing at odds."""
+        if not odds or self.critical == self.percent:
+            return self.percent
+        return (1 - odds) * self.percent + odds * self.critical
+
+    def factor(self, odds):
+        """What one cast multiplies by, a critical one landing at odds."""
+        return self.weighted(odds) / 100.0
+
+
+def damage_taken_odds(spell, stats, game_version):
+    """Odds the cast putting spell's damage taken is a critical one, from the turn's stats."""
+    return crit_chance(getattr(spell, 'crit_rate', 0), _add_bonus_stats(dict(stats), spell),
+                       game_version)
+
+
+_DAMAGE_TAKEN_CACHE = {}
+
+
+def damage_taken_for_version(game_version):
+    """{class: [DAMAGE_TAKEN entry]}; Retro carries none."""
+    if game_version == 'retro':
+        return {}
+    if game_version in _DAMAGE_TAKEN_CACHE:
+        return _DAMAGE_TAKEN_CACHE[game_version]
+    if game_version == 'touch':
+        from fashionistapulp.dofus_constants_touch_spells import \
+            TOUCH_DAMAGE_TAKEN as DAMAGE_TAKEN
+    elif game_version == 'beta':
+        from fashionistapulp.dofus_constants_beta import DAMAGE_TAKEN
+    elif game_version == 'dofus2':
+        from fashionistapulp.dofus_constants_dofus2 import DAMAGE_TAKEN
+    else:
+        from fashionistapulp.dofus_constants import DAMAGE_TAKEN
+    kept = DAMAGE_TAKEN
+    if game_version == 'dofus2':
+        # Like its DAMAGE_SPELLS: only the spells a Dofus 2 player can still cast
+        from chardata.spell_reference import get_spell_reference
+        reference = get_spell_reference('dofus2') or {}
+        kept = {}
+        for class_name, entries in DAMAGE_TAKEN.items():
+            known = {entry.get('id') for entry in reference.get(class_name) or []}
+            kept[class_name] = [entry for entry in entries
+                                if not reference.get(class_name)
+                                or entry['spell_id'] in known]
+    _DAMAGE_TAKEN_CACHE[game_version] = kept
+    return kept
+
+
+def _damage_taken_at(entry, level_req, level_index):
+    """DamageTaken of entry at the spell's rank level_index, or None."""
+    if entry is None:
+        return None
+    # Touch ranks can share a required level, so a rank is its place in the ladder
+    if list(entry['levels']) != list(level_req):
+        if level_req[level_index] not in entry['levels']:
+            return None
+        level_index = entry['levels'].index(level_req[level_index])
+    # A placed thing's row lands with its hit, after the turn's casts if ever
+    if (entry.get('placed') or [None] * (level_index + 1))[level_index]:
+        return None
+    return DamageTaken(entry, level_index) if entry['percent'][level_index] else None
+
+
+class HpShare(object):
+    """A hit of a share of the caster's HP; characteristics, Power and damage never raise it."""
+
+    heals = False
+    steals = False
+
+    def __init__(self, element, percent):
+        self.element = element
+        low, _sep, high = str(percent).partition('-')
+        self.min_dam = int(low)
+        self.max_dam = int(high or low)
+
+    def damage(self, stats):
+        hp = max(stats.get('hp', 0) or 0, 0)
+        return (hp * self.min_dam // 100 + hp * self.max_dam // 100) / 2.0
+
+
+HP_SHARE_ELEMENTS = {'NEUTRAL': NEUTRAL, 'EARTH': EARTH, 'FIRE': FIRE,
+                      'WATER': WATER, 'AIR': AIR}
+
+_HP_SHARE_CACHE = {}
+
+
+def hp_share_hits_for_version(game_version):
+    """{class: {spell id: HP_SHARE_HITS entry}}; Retro and Touch carry none."""
+    if game_version in ('retro', 'touch'):
+        return {}
+    if game_version not in _HP_SHARE_CACHE:
+        if game_version == 'beta':
+            from fashionistapulp import dofus_constants_beta as constants
+        elif game_version == 'dofus2':
+            from fashionistapulp import dofus_constants_dofus2 as constants
+        else:
+            from fashionistapulp import dofus_constants as constants
+        _HP_SHARE_CACHE[game_version] = {
+            class_name: {entry['spell_id']: entry for entry in entries}
+            for class_name, entries in getattr(constants, 'HP_SHARE_HITS', {}).items()}
+    return _HP_SHARE_CACHE[game_version]
+
+
+def lands_at_full_hp(row):
+    """Whether the row's gate on the caster's life holds at the start of the turn."""
+    gate = row.get('gate')
+    return not gate or gate[0] == 'caster_at_least'
+
+
+def counted_at_full_hp(row):
+    """A hit the turn counts: a share of the caster's own HP, at full HP."""
+    return row.get('of') == 'caster_hp' and lands_at_full_hp(row)
+
+
+def _hp_share_rows(rows, level_index):
+    out = []
+    for row in rows or ():
+        percents = row.get('percent') or []
+        if level_index >= len(percents) or not counted_at_full_hp(row):
+            continue
+        hit = HpShare(HP_SHARE_ELEMENTS[row['element']], percents[level_index])
+        if hit.min_dam or hit.max_dam:
+            out.append(hit)
+    return out
+
+
+def _with_rows(alternatives, rows):
+    if not rows:
+        return alternatives
+    if not alternatives:
+        return [list(rows)]
+    return [list(alternative) + list(rows) for alternative in alternatives]
+
+
+def add_hp_share_hits(castable, entry, level_index):
+    """The castable with the shares of HP the turn counts added to each alternative."""
+    castable.hp_share = entry
+    castable.hp_share_level = level_index
+    if not entry:
+        return castable
+    castable.plain_alternatives = _with_rows(
+        castable.plain_alternatives, _hp_share_rows(entry.get('normal'), level_index))
+    castable.crit_alternatives = _with_rows(
+        castable.crit_alternatives, _hp_share_rows(entry.get('critical'), level_index))
+    castable.alternatives = (castable.crit_alternatives if castable.crit
+                             else castable.plain_alternatives)
+    castable.hits = castable.alternatives[0] if castable.alternatives else []
+    return castable
+
+
+def _hp_share_damage(rows, stats):
+    return sum(row.damage(stats) for row in rows if isinstance(row, HpShare))
+
+
+def _row_worth(effect, stats, critical, is_spell, multiplier):
+    if isinstance(effect, HpShare):
+        return effect.damage(stats)
+    return (_average(calculate_damage([copy.copy(effect)], stats, critical, is_spell))
+            * multiplier)
+
+
 def castable_spells(char_class, char_level, game_version, crit=False,
                     levels=None, modifiers=None):
     """Class spells only; `levels` is {spell name: rank index}, `modifiers`
@@ -521,6 +703,15 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     pushing = pushing_spell_ids(game_version)
     spells = by_class.get(char_class, [])
     summon_only = ONLY_HITS_A_SUMMON.get(game_version) or {}
+    taken_by_id = {entry['spell_id']: entry for entry in
+                   damage_taken_for_version(game_version).get(char_class, [])}
+    hp_share_by_id = hp_share_hits_for_version(game_version).get(char_class, {})
+    known = {spell.spell_id for spell in spells}
+    # A debuff that hits nothing is not in DAMAGE_SPELLS: cast it from its own entry
+    spells = list(spells) + [
+        Spell(entry['name'], entry['levels'], Effects([], None, []),
+              casting=entry['casting'], spell_id=entry['spell_id'])
+        for entry in taken_by_id.values() if entry['spell_id'] not in known]
     out = []
     for spell in spells:
         if not spell.casting or char_level < spell.level_req[0]:
@@ -532,7 +723,11 @@ def castable_spells(char_class, char_level, game_version, crit=False,
         castable.at_highest_rank = (
             level_index == _decide_spell_level(spell.level_req, char_level))
         apply_spell_modifiers(castable, (modifiers or {}).get(spell.spell_id))
-        if not castable.cost or (not castable.hits and not castable.buffs):
+        add_hp_share_hits(castable, hp_share_by_id.get(spell.spell_id), level_index)
+        castable.taken = _damage_taken_at(taken_by_id.get(spell.spell_id),
+                                          spell.level_req, level_index)
+        if not castable.cost or (not castable.hits and not castable.buffs
+                                 and not castable.taken):
             continue
         castable.pushes = spell.spell_id in pushing
         info = push_info(game_version, spell.spell_id, level_index) or {}
@@ -680,10 +875,8 @@ def delayed_damage(stats, spells, order, crit=False, standing=None,
                     total = 0.0
                     delayed = 0.0
                     for effect in alternative:
-                        value = (_average(calculate_damage([copy.copy(effect)],
-                                                           buffed, critical,
-                                                           castable.is_spell))
-                                 * multiplier)
+                        value = _row_worth(effect, buffed, critical,
+                                           castable.is_spell, multiplier)
                         total += value
                         if id(effect) in late:
                             delayed += value
@@ -742,6 +935,45 @@ def push_value(castable, stats, game_version, caster_level):
     return (dealt or 0.0) * PUSH_STOPPED_ON_AVERAGE
 
 
+def _strikes_now(spell):
+    """Whether a cast lands a direct hit at once, the hit a damage taken debuff waits for."""
+    late = getattr(spell, 'late_by_effect', None) or {}
+    alternatives = ((getattr(spell, 'plain_alternatives', None) or [])
+                    + (getattr(spell, 'crit_alternatives', None) or []))
+    return any(id(effect) not in late and not getattr(effect, 'heals', False)
+               and effect.element not in NON_ELEMENTAL_HIT_TYPES
+               and (effect.min_dam or effect.max_dam)
+               for alternative in alternatives for effect in alternative)
+
+
+def _ends_on_hit(spell):
+    taken = getattr(spell, 'taken', None)
+    return taken is not None and taken.ends_on_hit
+
+
+def damage_taken_by_cast(spells, order):
+    """[[(debuff castable, stacks), ...] per cast of order], the debuffs its hits land under."""
+    by_name = {spell.name: spell for spell in spells}
+    counts = {}
+    pending = {}
+    out = []
+    for name, _damage in order or []:
+        castable = by_name.get(name)
+        under = []
+        if castable is not None and _strikes_now(castable):
+            under = [(by_name[other], min(times, by_name[other].taken.cap()))
+                     for other, times in counts.items()
+                     if getattr(by_name[other], 'taken', None)
+                     and not _ends_on_hit(by_name[other])]
+            under += [(by_name[other], stacks) for other, stacks in pending.items()]
+            pending = {}
+        if _ends_on_hit(castable):
+            pending[name] = min(pending.get(name, 0) + 1, castable.taken.cap())
+        counts[name] = counts.get(name, 0) + 1
+        out.append(under)
+    return out
+
+
 def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
               pushback=False, caster_level=0):
     """(total, [(spell name, damage), ...]) for the best order fitting the AP."""
@@ -755,22 +987,58 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
     # A cast's damage only depends on the buff stacks standing, cache on those
     buff_indexes = tuple(index for index, spell in enumerate(spells)
                          if spell.buffs)
+    # Damage taken debuffs: casts so far stack the lasting ones, the next hit ends the others
+    lasting = tuple(index for index, spell in enumerate(spells)
+                    if getattr(spell, 'taken', None) and not _ends_on_hit(spell))
+    ending = tuple(index for index, spell in enumerate(spells)
+                   if _ends_on_hit(spell))
+    strikes = tuple(_strikes_now(spell) for spell in spells) if ending else ()
+    factors = {index: (spells[index].taken.critical / 100.0 if crit
+                       else spells[index].taken.factor(damage_taken_odds(
+                           spells[index], stats, game_version)))
+               for index in lasting + ending}
     scores = {}
 
-    def damage_of(spell, counts):
+    def damage_of(spell, counts, pending):
         if not spell.alternatives and not (pushback
                                            and getattr(spell, 'push_cells', 0)):
             return 0.0
         key = (spell.name,
                tuple(min(counts[index], spells[index].stacks)
-                     for index in buff_indexes))
+                     for index in buff_indexes),
+               tuple(min(counts[index], spells[index].taken.cap())
+                     for index in lasting),
+               pending)
         if key in scores:
             return scores[key]
-        value = _damage_of(spell, counts)
+        value = _damage_of(spell, counts, pending)
         scores[key] = value
         return value
 
-    def _damage_of(spell, counts):
+    def taken_factors(counts, pending):
+        """(factor on every hit now, factor on the first one) of the debuffs standing."""
+        every = 1.0
+        for index in lasting:
+            if counts[index]:
+                every *= factors[index] ** min(counts[index], spells[index].taken.cap())
+        first = 1.0
+        for index, stacks in zip(ending, pending):
+            if stacks:
+                first *= factors[index] ** stacks
+        return every, first
+
+    def pending_after(index, pending):
+        if not ending:
+            return pending
+        if strikes[index]:
+            pending = (0,) * len(ending)
+        if index in ending:
+            position = ending.index(index)
+            stacks = min(pending[position] + 1, spells[index].taken.cap())
+            pending = pending[:position] + (stacks,) + pending[position + 1:]
+        return pending
+
+    def _damage_of(spell, counts, pending):
         buffed = dict(stats)
         for index, other in enumerate(spells):
             if not counts[index]:
@@ -788,15 +1056,43 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
         if not spell.is_spell and buffed.get('powweap'):
             buffed['pow'] = buffed.get('pow', 0) + buffed['powweap']
         multiplier = final_multiplier(buffed)
+        every, first = taken_factors(counts, pending)
+        late = getattr(spell, 'late_by_effect', None) or {}
+
+        def raised(alternative, critical):
+            """(scaled, shares of HP) of the alternative's rows, the hits now under the debuffs."""
+            total = 0.0
+            fixed = 0.0
+            ending_factor = first
+            for effect in alternative:
+                share = isinstance(effect, HpShare)
+                if share:
+                    value = effect.damage(buffed)
+                else:
+                    value = _average(calculate_damage([copy.copy(effect)], buffed,
+                                                      critical, spell.is_spell))
+                if value > 0 and id(effect) not in late:
+                    value *= every * ending_factor
+                    ending_factor = 1.0
+                if share:
+                    fixed += value
+                else:
+                    total += value
+            return total, fixed
 
         def scored(alternatives, critical):
             # Caster picks the best element; a game draw averages the faces
             gains = []
             for alternative in alternatives:
-                rows = [copy.copy(effect) for effect in alternative]
+                if every != 1.0 or first != 1.0:
+                    scaled, fixed = raised(alternative, critical)
+                    gains.append(scaled * multiplier + fixed)
+                    continue
+                rows = [copy.copy(effect) for effect in alternative
+                        if not isinstance(effect, HpShare)]
                 gains.append(_average(calculate_damage(rows, buffed, critical,
                                                        spell.is_spell))
-                             * multiplier)
+                             * multiplier + _hp_share_damage(alternative, buffed))
             if not gains:
                 return 0.0
             if getattr(spell, 'random_draw', False):
@@ -819,14 +1115,15 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
 
     best = {}
     # Counts past a spell's stack cap and cast limit change nothing: fold them
-    caps =tuple(max(spell.stacks or 1, spell.limit or 0, 1)
-                 for spell in spells)
+    caps =tuple(max(spell.stacks or 1, spell.limit or 0, 1,
+                     spell.taken.cap() if index in lasting else 0)
+                 for index, spell in enumerate(spells))
 
     def fold(counts):
         return tuple(min(count, cap) for count, cap in zip(counts, caps))
 
-    def search(ap_left, counts, depth):
-        key = (ap_left, fold(counts))
+    def search(ap_left, counts, depth, pending):
+        key = (ap_left, fold(counts), pending)
         if key in best:
             return best[key]
         outcome = (0.0, ())
@@ -838,16 +1135,16 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
                     continue
                 if any(counts[other] for other in partners.get(index, ())):
                     continue
-                gained = damage_of(spell, counts)
+                gained = damage_of(spell, counts, pending)
                 after = list(counts)
                 after[index] += 1
                 total, order = search(ap_left - spell.cost, tuple(after),
-                                      depth + 1)
+                                      depth + 1, pending_after(index, pending))
                 total += gained
                 if total > outcome[0]:
                     outcome = (total, ((index, gained),) + order)
         best[key] = outcome
         return outcome
 
-    total, order = search(ap, (0,) * len(spells), 0)
+    total, order = search(ap, (0,) * len(spells), 0, (0,) * len(ending))
     return total, [(spells[index].name, gained) for index, gained in order]
