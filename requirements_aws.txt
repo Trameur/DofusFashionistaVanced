@@ -93,5 +93,5 @@ tzdata==2026.4
 Unidecode==1.4.0
 urllib3==2.8.0
 wcwidth==0.3.5
-webencodings==0.5.1
+webencodings==0.6.1
 zope.interface==8.6
