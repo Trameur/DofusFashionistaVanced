@@ -50,6 +50,7 @@
     color: #2f6b25;
 }
 
+html.fm-dark .compare-spell-best,
 .dark-theme-active .compare-spell-best {
     color: #a9e58f;
 }
