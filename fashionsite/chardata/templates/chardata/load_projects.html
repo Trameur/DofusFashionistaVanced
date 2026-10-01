@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load static_s3 %}
 {% load version_url %}
+{% load version_copy_tags %}
 
 {% block title %}{% trans "Your Saved Dofus Sets" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{% blocktrans %}Find the Dofus sets you have already built and pick up where you left off.{% endblocktrans %}{% endblock %}
@@ -15,6 +16,14 @@
 
     {% if error_message %}<p class='text'><strong>{{ error_message }}</strong></p>{% endif %}
     <span id='login-error-top' class='error-message'>{% if error_msg == 'too_many' %}{% trans "You have reached the maximum number of builds. Please delete some old builds and try again." %}{% endif %}</span>
+    {% if error_msg == 'guest_has_one' %}
+    <p class='text guest-has-a-build'>
+        {% game_url 'login_page' as login_link %}
+        {% game_url 'load_projects' as load_proj_link %}
+        {% game_name current_game_version as target_name %}
+        {% blocktrans with version=target_name %} You already have a build on {{ version }}, and you can find it <a href="{{load_proj_link}}">here</a>. <a href="{{login_link}}">Log in</a> to keep several builds per version. {% endblocktrans %}
+    </p>
+    {% endif %}
     {% if user %}
         {% if has_projects %}
              <table class="load-project-table">
@@ -82,6 +91,11 @@
           {% if not user.is_anonymous %}
           <input type="button" class="button-thin" id="button-duplicate-project" value="{% trans "Duplicate" %}" />
           {% endif %}
+          {% copy_targets current_game_version as copy_versions %}{% for target in copy_versions %}
+          {% blocktrans with version=target.name asvar copy_label %}Copy to {{ version }}{% endblocktrans %}
+          <input type="button" class="button-thin button-copy-to-version" data-copy-version="{{ target.key }}" value="{{ copy_label }}" />
+          {% endfor %}
+          <form method="post" id="copy-to-version-form" data-action="{% game_url 'copy_to_version' 0 %}" style="display: none;">{% csrf_token %}<input type="hidden" name="version" value=""></form>
        {% else %}
             <div align="center" class='text'>
             {% game_url 'setup' as create_project_link %}
@@ -160,6 +174,17 @@ function compareProjects() {
 }
 {% endif %}
 
+function copyToVersion() {
+    var checked = $(".project-checkbox:checkbox:checked");
+    if (checked.length !== 1) {
+        return;
+    }
+    var form = $("#copy-to-version-form");
+    form.attr("action", form.attr("data-action").replace(/\/0\/$/, "/" + checked.first().val() + "/"));
+    form.find("input[name=version]").val($(this).attr("data-copy-version"));
+    form.submit();
+}
+
 function updateButtonStates() {
     var numberCheckboxesChecked = $(".project-checkbox:checkbox:checked").length;
     
@@ -173,6 +198,8 @@ function updateButtonStates() {
     {% endif %}
     
     $("#button-duplicate-project").prop('disabled',
+        numberCheckboxesChecked !== 1);
+    $(".button-copy-to-version").prop('disabled',
         numberCheckboxesChecked !== 1);
 }
 
@@ -203,6 +230,7 @@ $(document).ready(function() {
     updateButtonStates();
 
     $("#button-duplicate-project").click(duplicateProj);
+    $(".button-copy-to-version").click(copyToVersion);
     $("#button-delete-project").click(confirmDelete);
 
     {% trans "In the gallery" as msg_in_gallery %}

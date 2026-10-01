@@ -17,7 +17,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
 import json
@@ -27,6 +27,9 @@ from chardata.create_project_view import MAXIMUM_NUMBER_OF_PROJECTS
 from chardata.encoded_char_id import decode_char_id
 from chardata.models import CharBaseStats, Char
 from chardata.util import get_char_or_raise, TESTER_USERS, HttpResponseText, version_reverse
+from chardata.version_copy import (copy_build, guest_holds_a_build_there,
+                                   version_path)
+from fashionistapulp.game_versions import sibling_versions
 
 
 @require_POST
@@ -131,3 +134,33 @@ def _unchecked_duplicate_project(request, proj_id_to_copy):
         remember_anon_char(request, new_char)
     
     return True
+
+
+def _copy_to_version(request, char):
+    target = request.POST.get('version', '')
+    if target not in sibling_versions(char.game_version):
+        raise Http404
+    if guest_holds_a_build_there(request, target):
+        return HttpResponseRedirect(version_path(target, 'load_projects_error',
+                                                 'guest_has_one'))
+    new_char, _missing = copy_build(request, char, target)
+    if new_char is None:
+        return HttpResponseRedirect(version_path(target, 'load_projects_error',
+                                                 'too_many'))
+    return HttpResponseRedirect(version_path(target, 'load_a_project', new_char.id))
+
+
+@require_POST
+def copy_my_build_to_version(request, char_id):
+    return _copy_to_version(request, get_char_or_raise(request, char_id))
+
+
+@require_POST
+def copy_someones_build_to_version(request, encoded_char_id):
+    char_id = decode_char_id(encoded_char_id)
+    if char_id is None:
+        raise PermissionDenied
+    char = get_object_or_404(Char, pk=char_id)
+    if not char.link_shared or char.deleted:
+        raise PermissionDenied
+    return _copy_to_version(request, char)

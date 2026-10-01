@@ -87,6 +87,8 @@ Disallow: */createproject/
 Disallow: */duplicateproject/
 Disallow: */duplicatemyproject/
 Disallow: */duplicatesomeonesproject/
+Disallow: */copytoversion/
+Disallow: */copysharedtoversion/
 Disallow: */deleteprojects/
 Disallow: */project/
 Disallow: */initbasestats/

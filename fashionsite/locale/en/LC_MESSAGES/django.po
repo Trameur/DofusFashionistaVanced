@@ -8145,3 +8145,31 @@ msgstr ""
 #: chardata/templates/chardata/solution.html
 msgid "Closest set to your minimums the solver found before it ran out of time: it does not meet all of them, and a closer one may exist. The ones it misses are marked below."
 msgstr ""
+
+#: chardata/templates/chardata/main-header.html
+#: chardata/templates/chardata/load_projects.html
+#, python-format
+msgid "Copy to %(version)s"
+msgstr ""
+
+#: chardata/templates/chardata/main-header.html
+#, python-format
+msgid "Copied from %(version)s. These pieces do not exist here and were left out:"
+msgstr ""
+
+#: chardata/templates/chardata/main-header.html
+#, python-format
+msgid "Copied from %(version)s. Every piece of the build exists here."
+msgstr ""
+
+#: chardata/templates/chardata/text_build.html
+#, python-format
+msgid "%(version)s has this piece, which this version lacks:"
+msgid_plural "%(version)s has these %(counter)s pieces, which this version lacks:"
+msgstr[0] ""
+msgstr[1] ""
+
+#: chardata/templates/chardata/text_build.html
+#, python-format
+msgid "Import on %(version)s instead"
+msgstr ""

@@ -29,6 +29,8 @@ urlpatterns = [
     re_path(r'^deleteprojects/', projects_view.delete_projects, name='delete_projects'),
     re_path(r'^duplicateproject/', projects_view.duplicate_project, name='duplicate_project'),
     re_path(r'^duplicatemyproject/(?P<char_id>\d+)/', projects_view.duplicate_my_project, name='duplicate_my_project'),
+    re_path(r'^copytoversion/(?P<char_id>\d+)/$', projects_view.copy_my_build_to_version, name='copy_to_version'),
+    re_path(r'^copysharedtoversion/(?P<encoded_char_id>[^/]+)/$', projects_view.copy_someones_build_to_version, name='copy_shared_to_version'),
     re_path(r'^sharedbuilds/$', shared_builds_view.shared_builds, name='shared_builds'),
     re_path(r'^sharedbuilds/(?P<class_slug>[a-z]+)/$',
             shared_builds_view.shared_builds_for_class, name='shared_builds_class'),

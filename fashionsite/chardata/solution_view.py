@@ -1024,7 +1024,8 @@ def solution_linked(request, char_name, encoded_char_id):
 # robots.txt `Disallow: */word/` words, matched at any depth, so also in /s/<name>/
 RESERVED_PATH_WORDS = frozenset((
     'addtag', 'change_password', 'check_username', 'check_your_email',
-    'choose_item', 'choose_set', 'confirm_email', 'createproject',
+    'choose_item', 'choose_set', 'confirm_email', 'copysharedtoversion',
+    'copytoversion', 'createproject',
     'delete_item', 'delete_set', 'deletecomment', 'deleteprojects',
     'do_recover_password', 'duplicatemyproject', 'duplicateproject',
     'duplicatesomeonesproject', 'edit_item', 'edit_set', 'email_confirmed',

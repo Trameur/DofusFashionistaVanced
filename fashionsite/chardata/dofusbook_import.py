@@ -169,6 +169,18 @@ def fetch_build(host, build_id, opener=None):
     return charge
 
 
+def unplaced_ankama_ids(payload, game_version):
+    """The Ankama ids behind map_items' names we could not place, in the same order."""
+    from fashionistapulp.structure import get_structure
+    structure = get_structure(game_version)
+    ids = []
+    for entree in payload.get('items') or []:
+        ankama = entree.get('official')
+        if ankama is None or structure.items_dict_ankama.get(ankama) is None:
+            ids.append(ankama)
+    return ids
+
+
 def map_items(payload, game_version):
     """([our item ids], [names we could not place])."""
     from fashionistapulp.structure import get_structure
@@ -300,6 +312,7 @@ def read_build(url, opener=None):
         'level': niveau if isinstance(niveau, int) and 1 <= niveau <= 200 else None,
         'item_ids': items,
         'missing': manquants,
+        'missing_ankama_ids': unplaced_ankama_ids(payload, game_version),
         'base_points': points,
         'base_scrolled': parchos,
         'rolls': rolls,
@@ -327,12 +340,13 @@ def read_stuffer_link(host, stuff):
         raise ImportError_('bad_link')
 
     structure = get_structure(game_version)
-    items, manquants = [], []
+    items, manquants, inconnus = [], [], []
     for (_slot, codes), groupe in zip(dofusbook_export.GROUPS, lu['ids']):
         for ankama in groupe[:len(codes)]:
             item = structure.items_dict_ankama.get(ankama)
             if item is None:
                 manquants.append(str(ankama))
+                inconnus.append(ankama)
             else:
                 items.append(item.id)
     total = len(items) + len(manquants)
@@ -364,6 +378,7 @@ def read_stuffer_link(host, stuff):
         'level': niveau if 1 <= niveau <= 200 else None,
         'item_ids': items,
         'missing': manquants,
+        'missing_ankama_ids': inconnus,
         'base_points': points,
         'base_scrolled': parchos,
         'rolls': {},

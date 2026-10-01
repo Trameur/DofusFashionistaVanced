@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load version_url %}
+{% load version_copy_tags %}
 
 {% if char %}
   <div class="proj_info">
@@ -24,6 +25,9 @@
   {% if is_guest %}
   <div style="display: table-cell; vertical-align: middle; width: 200px;">
     <a href="{% game_url 'duplicate_someones_project' encoded_char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Copy this build" %}</a>
+    {% if char.link_shared %}{% copy_targets char.game_version as copy_versions %}{% for target in copy_versions %}
+    <form method="post" action="{% game_url 'copy_shared_to_version' encoded_char_id %}" class="version-copy-form" style="display: inline-block; margin: 6px 0 0;">{% csrf_token %}<input type="hidden" name="version" value="{{ target.key }}"><button type="submit" style="color: white; font-family: inherit; font-size: inherit;" class="submit-button button-generic copy-action-link">{% blocktrans with version=target.name %}Copy to {{ version }}{% endblocktrans %}</button></form>
+    {% endfor %}{% endif %}
   </div>
   {% elif char_id %}
   <div style="display: table-cell; vertical-align: middle; width: 200px; text-align: right; padding-right: 14px;">
@@ -31,7 +35,20 @@
     {% if not user.is_anonymous %}
     <a href="{% game_url 'duplicate_my_project' char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Duplicate" %}</a>
     {% endif %}
+    {% copy_targets char.game_version as copy_versions %}{% for target in copy_versions %}
+    <form method="post" action="{% game_url 'copy_to_version' char_id %}" class="version-copy-form" style="display: inline-block; margin: 6px 0 0;">{% csrf_token %}<input type="hidden" name="version" value="{{ target.key }}"><button type="submit" style="color: white; font-family: inherit; font-size: inherit;" class="submit-button button-generic copy-action-link">{% blocktrans with version=target.name %}Copy to {{ version }}{% endblocktrans %}</button></form>
+    {% endfor %}
   </div>
   {% endif %}
   </div>
+  {% if char_id and not is_guest %}{% version_copy_report char as copy_report %}{% if copy_report %}
+  <div class="text version-copy-report" role="status" style="margin: 10px 0;">
+    {% if copy_report.missing %}
+    <p>{% blocktrans with version=copy_report.from_name %}Copied from {{ version }}. These pieces do not exist here and were left out:{% endblocktrans %}
+    {% for kind, name in copy_report.missing %}{{ name }} ({{ kind }}){% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    {% else %}
+    <p>{% blocktrans with version=copy_report.from_name %}Copied from {{ version }}. Every piece of the build exists here.{% endblocktrans %}</p>
+    {% endif %}
+  </div>
+  {% endif %}{% endif %}
 {% endif %}

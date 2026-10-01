@@ -9189,3 +9189,31 @@ msgstr "Dieses Set wurde bei der Suche nach dem Set behalten, das Ihren Mindestw
 #: chardata/templates/chardata/solution.html
 msgid "Closest set to your minimums the solver found before it ran out of time: it does not meet all of them, and a closer one may exist. The ones it misses are marked below."
 msgstr "Set, das Ihren Mindestwerten am nächsten kommt, soweit der Solver es fand, bevor ihm die Zeit ausging: Es erreicht nicht alle, und ein näheres kann existieren. Die verfehlten sind unten markiert."
+
+#: chardata/templates/chardata/main-header.html
+#: chardata/templates/chardata/load_projects.html
+#, python-format
+msgid "Copy to %(version)s"
+msgstr "Nach %(version)s kopieren"
+
+#: chardata/templates/chardata/main-header.html
+#, python-format
+msgid "Copied from %(version)s. These pieces do not exist here and were left out:"
+msgstr "Aus %(version)s kopiert. Diese Teile gibt es hier nicht und wurden weggelassen:"
+
+#: chardata/templates/chardata/main-header.html
+#, python-format
+msgid "Copied from %(version)s. Every piece of the build exists here."
+msgstr "Aus %(version)s kopiert. Jedes Teil des Builds gibt es auch hier."
+
+#: chardata/templates/chardata/text_build.html
+#, python-format
+msgid "%(version)s has this piece, which this version lacks:"
+msgid_plural "%(version)s has these %(counter)s pieces, which this version lacks:"
+msgstr[0] "%(version)s hat dieses Teil, das dieser Version fehlt:"
+msgstr[1] "%(version)s hat diese %(counter)s Teile, die dieser Version fehlen:"
+
+#: chardata/templates/chardata/text_build.html
+#, python-format
+msgid "Import on %(version)s instead"
+msgstr "Stattdessen auf %(version)s importieren"

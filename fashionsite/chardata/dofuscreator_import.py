@@ -153,11 +153,12 @@ def read_build(url, opener=None):
     game_version = HOSTS[host]
     projet = parse_project(fetch_project(host, code, opener=opener))
     structure = get_structure(game_version)
-    item_ids, manquants, avec_fm = [], [], []
+    item_ids, manquants, inconnus, avec_fm = [], [], [], []
     for slot, ankama, exos in projet['items']:
         item = structure.items_dict_ankama.get(ankama)
         if item is None:
             manquants.append('#%d (%s)' % (ankama, slot))
+            inconnus.append(ankama)
             continue
         item_ids.append(item.id)
         if exos:
@@ -173,6 +174,7 @@ def read_build(url, opener=None):
         'level': niveau if isinstance(niveau, int) and 1 <= niveau <= 200 else None,
         'item_ids': item_ids,
         'missing': manquants,
+        'missing_ankama_ids': inconnus,
         'base_points': _stats(projet['points']),
         'base_scrolled': _stats(projet['scrolls']),
         'char_class': CLASSES.get(projet['race']),

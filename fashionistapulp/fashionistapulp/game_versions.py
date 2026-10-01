@@ -24,7 +24,7 @@ class GameVersion:
                  seo_word='', experimental=False, dofus=True,
                  rings_can_double=True, temporix=False,
                  weapon_element_rate=0.85, element_potion_heals=True,
-                 extra_slot_types=()):
+                 extra_slot_types=(), family=None):
         self.key = key
         self.label = label
         self.db_file = db_file
@@ -45,6 +45,13 @@ class GameVersion:
         self.element_potion_heals = element_potion_heals
         # Slot types beyond the shared sixteen slots (dofus_constants.EXTRA_TYPE_NAMES)
         self.extra_slot_types = tuple(extra_slot_types)
+        # Versions of one family share their catalogue: a build moves between them
+        self.family = family or key
+
+    @property
+    def game_name(self):
+        """The name players give the game: 'Dofus 3', 'Dofus 3 Beta'."""
+        return 'Dofus %s' % self.seo_word if self.seo_word else self.label
 
     def __repr__(self):
         return '<GameVersion %s>' % self.key
@@ -53,10 +60,11 @@ class GameVersion:
 GAME_VERSIONS = {
     version.key: version for version in (
         GameVersion('dofus3', 'Dofus 3', 'items.db', 'item_db_dumped.dump',
-                    prefix='', seo_word=''),
+                    prefix='', seo_word='', family='dofus3'),
         GameVersion('beta', 'Beta', 'items_beta.db',
                     'item_db_dumped_beta.dump', seo_word='3 Beta',
-                    weapon_element_rate=1.0, element_potion_heals=False),
+                    weapon_element_rate=1.0, element_potion_heals=False,
+                    family='dofus3'),
         GameVersion('dofus2', 'Dofus 2', 'items_dofus2.db',
                     'item_db_dumped_dofus2.dump', seo_word='2'),
         GameVersion('touch', 'Touch', 'items_touch.db',
@@ -100,3 +108,13 @@ def dofus_versions():
     """The versions that are Dofus, for rules that assume Dofus."""
     return [key for key in version_keys(include_experimental=True)
             if GAME_VERSIONS[key].dofus]
+
+
+def sibling_versions(key):
+    """The other reader-facing versions of this version's family, in page order."""
+    try:
+        family = GAME_VERSIONS[key].family
+    except KeyError:
+        return []
+    return [other for other in version_keys()
+            if other != key and GAME_VERSIONS[other].family == family]

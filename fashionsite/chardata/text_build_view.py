@@ -38,11 +38,12 @@ from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
                                         read_items)
 from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, safe_int
+from chardata.version_copy import import_offers, link_build_in
 from chardata.wear_conditions import (class_condition_text, left_out_text,
                                       reasons_not_worn)
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
-from fashionistapulp.game_versions import get_game_version
+from fashionistapulp.game_versions import get_game_version, sibling_versions
 from fashionistapulp.structure import (fits_the_class, get_current_game_version,
                                        get_structure)
 from fashionistapulp.translation import get_supported_language
@@ -498,12 +499,16 @@ def _lis(request, texte, version_page, formulaire, action=None):
             'form_action': action,
             'login_problem': is_anon_cant_create(request),
         }, formulaire)
+    if (build and not envoye and build['game_version'] != version_page
+            and version_page in sibling_versions(build['game_version'])):
+        build = link_build_in(build, version_page, get_supported_language())
     version = build['game_version'] if build else version_page
 
     # 2. The text, in the link's version or else the page's
     lu = read_items(reste, version, get_supported_language())
     annoncee = lu['stated_version']
-    if annoncee and annoncee != version:
+    if (annoncee and annoncee != version
+            and annoncee not in sibling_versions(version)):
         return _reponse(request, {
             'text': texte,
             'version_label': get_game_version(version).label,
@@ -623,6 +628,9 @@ def _lis(request, texte, version_page, formulaire, action=None):
 
     if not formulaire.get('confirm') or not class_ok:
         return _reponse(request, {
+            'sibling_offers': ([] if envoye else
+                               import_offers(reste, version, get_supported_language(),
+                                             build)),
             'text': texte,
             'confirm': True,
             'version_label': get_game_version(version).label,

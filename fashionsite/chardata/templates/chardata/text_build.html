@@ -222,6 +222,21 @@
         <p class="import-missing">{% blocktrans with n=max_lines %}Only the first {{ n }} lines were read.{% endblocktrans %}</p>
         {% endif %}
 
+        {% for offer in sibling_offers %}
+        <div class="import-ignored import-sibling" id="import-sibling-{{ offer.key }}">
+            <p>{% blocktrans count counter=offer.count with version=offer.name %}{{ version }} has this piece, which this version lacks:{% plural %}{{ version }} has these {{ counter }} pieces, which this version lacks:{% endblocktrans %}</p>
+            <ul>
+                {% for name in offer.names %}<li>{{ name }}</li>{% endfor %}
+            </ul>
+            <form method="post" class="import-form" action="{{ offer.url }}">
+                {% csrf_token %}
+                <input type="hidden" name="text" value="{{ text }}">
+                <input type="hidden" name="used_screenshot" value="{% if used_screenshot %}1{% else %}0{% endif %}">
+                <button type="submit" class="button-thin">{% blocktrans with version=offer.name %}Import on {{ version }} instead{% endblocktrans %}</button>
+            </form>
+        </div>
+        {% endfor %}
+
         <form method="post" class="import-form"{% if form_action %} action="{{ form_action }}"{% endif %}>
             {% csrf_token %}
             <input type="hidden" name="text" value="{{ text }}">

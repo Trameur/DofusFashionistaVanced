@@ -76,6 +76,7 @@ BUILD_PATHS = (
     '/save_char/%s/', '/saveproject/%s/', '/setcharcolors/%s/',
     '/setchargender/%s/', '/setcharhidden/%s/', '/setitemforbidden/%s/',
     '/setitemlocked/%s/', '/setitemstatoverride/%s/', '/setslotlockempty/%s/',
+    '/copytoversion/%s/',
 )
 
 # What a build page gets sent that its own form never would.
