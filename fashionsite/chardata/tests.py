@@ -23189,6 +23189,27 @@ class PinnedDependenciesAgreeTests(SimpleTestCase):
                                  % (name, pins['boto3'], pins['botocore']))
         self.assertTrue(checked, 'no requirements file pins both packages')
 
+    def test_every_requirements_file_pins_the_installed_pulp(self):
+        from importlib.metadata import version
+        installed = version('PuLP')
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        checked = 0
+        for name in self.FILES:
+            path = os.path.join(repo_root, name)
+            if not os.path.exists(path):
+                continue
+            with open(path, encoding='utf-8') as fh:
+                pins = {k.lower(): v for k, v in self.PIN.findall(fh.read())}
+            if 'pulp' not in pins:
+                continue
+            checked += 1
+            with self.subTest(requirements=name):
+                self.assertEqual(pins['pulp'], installed,
+                                 '%s pins PuLP %s but the suite runs on %s'
+                                 % (name, pins['pulp'], installed))
+        self.assertTrue(checked, 'no requirements file pins PuLP')
+
 
 class NoEmDashInCodeTests(SimpleTestCase):
     """No em or en dash in first-party sources, copy and comments alike."""

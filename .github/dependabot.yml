@@ -16,6 +16,11 @@ updates:
         patterns:
           - "boto3"
           - "botocore"
+    # PuLP 4 drops the bundled CBC solver and the LpStatus names the
+    # optimizer imports, so a major bump needs a port, not a merge.
+    ignore:
+      - dependency-name: "pulp"
+        update-types: ["version-update:semver-major"]
     open-pull-requests-limit: 10
 
   # JavaScript dependencies (assumes package.json is at the root)
