@@ -18,6 +18,7 @@ ANIMATED_GIFT = 3106
 DRUNKARDS_BARREL = 5843
 TOFU = 8070
 BOMBOLA = 4146
+BRACO = 446
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 TAGS = {'dofus3': fashionista_version.FASHIONISTA_VERSION,
         'beta': fashionista_version.FASHIONISTA_BETA_VERSION}
@@ -25,6 +26,7 @@ TAGS = {'dofus3': fashionista_version.FASHIONISTA_VERSION,
 CLIENT_TEXT_IDS = {
     'ap_dodge_label': '1113674', 'mp_dodge_label': '1113675',
     'critical_resistance_label': '806734', 'push_resistance_label': '806735',
+    'power_label': '501883',
 }
 FLAT_RESISTANCE_EFFECTS = {
     'earth_flat_label': 240, 'water_flat_label': 241, 'air_flat_label': 242,
@@ -33,10 +35,10 @@ FLAT_RESISTANCE_EFFECTS = {
 WISDOM_EFFECT = 124
 NEVER_NULL = ('ap_dodge', 'mp_dodge', 'earth_resistance', 'air_resistance', 'fire_resistance',
               'water_resistance', 'neutral_resistance', 'wisdom')
-RESISTANCE_LABELS = ('earth_flat_label', 'fire_flat_label', 'water_flat_label', 'air_flat_label',
-                     'neutral_flat_label', 'critical_resistance_label', 'push_resistance_label')
-RESISTANCE_COLUMNS = ('earth_flat_resistance', 'fire_flat_resistance', 'water_flat_resistance',
-                      'air_flat_resistance', 'neutral_flat_resistance',
+RESISTANCE_LABELS = ('power_label', 'earth_flat_label', 'fire_flat_label', 'water_flat_label',
+                     'air_flat_label', 'neutral_flat_label', 'critical_resistance_label', 'push_resistance_label')
+RESISTANCE_COLUMNS = ('percent_damage_bonus', 'earth_flat_resistance', 'fire_flat_resistance',
+                      'water_flat_resistance', 'air_flat_resistance', 'neutral_flat_resistance',
                       'critical_damage_reduction', 'push_damage_reduction')
 
 GRADE_36 = {
@@ -292,7 +294,7 @@ class GradePageTests(TestCase):
         from chardata.encyclopedia_view import MONSTER_UI
         labels = [MONSTER_UI['en'][key] for key in RESISTANCE_LABELS]
         for version in TAGS:
-            for monster_id in (ANIMATED_GIFT, BLUE_LARVA):
+            for monster_id in (ANIMATED_GIFT, BLUE_LARVA, BRACO):
                 with self.subTest(version=version, monster=monster_id):
                     stored = _rows(version, 'SELECT grade, %s FROM monster_grades '
                                             'WHERE monster_ankama_id = ? ORDER BY grade'
@@ -333,7 +335,8 @@ class GradePageTests(TestCase):
                 line = next((paragraph for paragraph in re.findall(r'<p[^>]*>([^<]*)</p>', page)
                              if paragraph.startswith(labels['summoner_share_hint'])), '')
                 self.assertIn('%s %s%%' % (labels['wisdom_label'], shares['wisdom']), line)
-                for column, label in (('ap_dodge', 'ap_dodge_label'), ('mp_dodge', 'mp_dodge_label')):
+                for column, label in (('ap_dodge', 'ap_dodge_label'), ('mp_dodge', 'mp_dodge_label'),
+                                      ('percent_damage_bonus', 'power_label')):
                     if column in shares:
                         self.assertIn('%s %s%%' % (labels[label], shares[column]), line)
                 self.assertNotIn(labels['grade_label'], line)

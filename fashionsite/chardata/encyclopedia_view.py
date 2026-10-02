@@ -2857,6 +2857,7 @@ MONSTER_UI = {
         'ap_dodge_label': 'AP Parry',
         'mp_dodge_label': 'MP Parry',
         'wisdom_label': 'Wisdom',
+        'power_label': 'Power',
         'earth_flat_label': 'Earth Resistance',
         'fire_flat_label': 'Fire Resistance',
         'water_flat_label': 'Water Resistance',
@@ -2912,6 +2913,7 @@ MONSTER_UI = {
         'ap_dodge_label': 'Esquive PA',
         'mp_dodge_label': 'Esquive PM',
         'wisdom_label': 'Sagesse',
+        'power_label': 'Puissance',
         'earth_flat_label': 'Résistance Terre',
         'fire_flat_label': 'Résistance Feu',
         'water_flat_label': 'Résistance Eau',
@@ -2967,6 +2969,7 @@ MONSTER_UI = {
         'ap_dodge_label': 'Esquiva PA',
         'mp_dodge_label': 'Esquiva PM',
         'wisdom_label': 'Sabiduría',
+        'power_label': 'Potencia (daños generales)',
         'earth_flat_label': 'Resistencia a la tierra',
         'fire_flat_label': 'Resistencia al fuego',
         'water_flat_label': 'Resistencia al agua',
@@ -3022,6 +3025,7 @@ MONSTER_UI = {
         'ap_dodge_label': 'Esquiva PA',
         'mp_dodge_label': 'Esquiva PM',
         'wisdom_label': 'Sabedoria',
+        'power_label': 'Potência',
         'earth_flat_label': 'Resistência a terra',
         'fire_flat_label': 'Resistência a fogo',
         'water_flat_label': 'Resistência a água',
@@ -3077,6 +3081,7 @@ MONSTER_UI = {
         'ap_dodge_label': 'Res. gg. AP-Entzug',
         'mp_dodge_label': 'Res. gg. BP-Entzug',
         'wisdom_label': 'Weisheit',
+        'power_label': 'Schlagkraft',
         'earth_flat_label': 'Resistenz gegen Erdschaden',
         'fire_flat_label': 'Resistenz gegen Feuerschaden',
         'water_flat_label': 'Resistenz gegen Wasserschaden',
@@ -3126,6 +3131,7 @@ def _db_table_exists(cursor, table_name):
 
 _OPTIONAL_GRADE_COLUMNS = (
     ('summoner_hp', 'summoner_life_percent'), ('wisdom', 'wisdom'),
+    ('power', 'percent_damage_bonus'),
     ('ap_dodge', 'ap_dodge'), ('mp_dodge', 'mp_dodge'),
     ('earth_flat', 'earth_flat_resistance'), ('fire_flat', 'fire_flat_resistance'),
     ('water_flat', 'water_flat_resistance'), ('air_flat', 'air_flat_resistance'),
@@ -3133,10 +3139,11 @@ _OPTIONAL_GRADE_COLUMNS = (
     ('critical_resistance', 'critical_damage_reduction'),
     ('push_resistance', 'push_damage_reduction'), ('summoner_shares', 'summoner_shares'),
 )
-_GRADE_RESISTANCE_COLUMNS = ('earth_flat', 'fire_flat', 'water_flat', 'air_flat',
+_GRADE_RESISTANCE_COLUMNS = ('power', 'earth_flat', 'fire_flat', 'water_flat', 'air_flat',
                              'neutral_flat', 'critical_resistance', 'push_resistance')
 _SUMMONER_SHARE_LABELS = (
     ('action_points', 'ap_label'), ('movement_points', 'mp_label'), ('wisdom', 'wisdom_label'),
+    ('percent_damage_bonus', 'power_label'),
     ('ap_dodge', 'ap_dodge_label'), ('mp_dodge', 'mp_dodge_label'),
     ('earth_resistance', 'earth_label'), ('fire_resistance', 'fire_label'),
     ('water_resistance', 'water_label'), ('air_resistance', 'air_label'),
