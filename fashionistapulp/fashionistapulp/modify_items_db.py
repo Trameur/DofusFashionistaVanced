@@ -505,6 +505,10 @@ def delete_weapon(item_id):
     c.execute('DELETE from weapon_hits WHERE item = ?', (item_id,))
     c.execute('DELETE from weapon_is_onehanded WHERE item = ?', (item_id,))  
     c.execute('DELETE from weapon_weapontype WHERE item = ?', (item_id,))  
+    for table in ('weapon_uses_per_turn', 'weapon_range'):
+        if c.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?",
+                     (table,)).fetchone():
+            c.execute('DELETE FROM %s WHERE item = ?' % table, (item_id,))
     _finish_editing(conn)
     
 def insert_item(item, weapon):
