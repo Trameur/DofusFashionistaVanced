@@ -443,6 +443,10 @@ msgstr ""
 msgid "You have unsaved changes. They will be discarded if you leave."
 msgstr ""
 
+#: chardata/static/chardata/stateengine.js
+msgid "The changes could not be saved. Try again."
+msgstr ""
+
 #: staticfiles/admin/js/SelectFilter2.js:105
 #, javascript-format
 msgid "Type into this box to filter down the list of selected %s."

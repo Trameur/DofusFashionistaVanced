@@ -448,6 +448,10 @@ msgstr ""
 "Du hast ungespeicherte Änderungen. Sie gehen verloren, wenn du die Seite "
 "verlässt."
 
+#: chardata/static/chardata/stateengine.js
+msgid "The changes could not be saved. Try again."
+msgstr "Die Änderungen konnten nicht gespeichert werden. Probier es erneut."
+
 #: chardata/static/chardata/solution_popup.js
 msgid "Stat filters"
 msgstr "Stat-Filter"

@@ -433,6 +433,10 @@ msgstr ""
 "Vous avez effectué des changements sur cette page. Si vous quittez la page, "
 "ils ne seront pas sauvegardés."
 
+#: chardata/static/chardata/stateengine.js
+msgid "The changes could not be saved. Try again."
+msgstr "Les changements n’ont pas pu être enregistrés. Réessaie."
+
 #: chardata/static/chardata/solution_popup.js
 msgid "Stat filters"
 msgstr "Filtres de stats"

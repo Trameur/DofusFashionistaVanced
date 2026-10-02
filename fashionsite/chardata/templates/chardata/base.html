@@ -159,6 +159,10 @@
     
     function confirmRun() {
         if ((typeof changesPendingStateEngine) !== 'undefined' && changesPendingStateEngine) {
+            if ($('#main_form[data-save-before-tailor]').length && $('#button-save-and-tailor').length) {
+                $('#button-save-and-tailor').trigger('click');
+                return false;
+            }
             if (!confirm('{{ _("You have unsaved changes. They will be discarded if you leave.")|escapejs }}')) {
                return false;
             }

@@ -166,6 +166,10 @@ $(document).ready(function() {
             inclusionsPostUrl,
              inclusionsInitial, null, inclusionsInitStateEngine);
     $("#button-save-and-tailor").off('click').click(function() {
+        if (!changesPendingStateEngine) {
+            tailorStateEngine();
+            return;
+        }
         saveStateEngine(inclusionsPostUrl, null, function(data) {
             inclusionsInitStateEngine(data);
             var refused = false;

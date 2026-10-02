@@ -3,7 +3,6 @@ var changesPendingStateEngine = false;
 function setChangesPendingStateEngine(v) {
     changesPendingStateEngine = v;
     $("#button-save").val(changesPendingStateEngine ? gettext("Save") : gettext("Saved"));
-    $("#button-save-and-tailor").prop("disabled", !changesPendingStateEngine);
     $("#button-save").prop("disabled", !changesPendingStateEngine);
     $("#button-discard-changes").prop("disabled", !changesPendingStateEngine);
 }
@@ -29,6 +28,8 @@ function saveStateEngine(postUrl, sendDataFunction, onDataReceivedFunction) {
                    if (onDataReceivedFunction) {
                        onDataReceivedFunction(initialStateStateEngine);
                    }
+               }).fail(function() {
+                   alert(gettext("The changes could not be saved. Try again."));
                });
     }
 }
@@ -63,6 +64,10 @@ function setupStateEngine(initFunction, postUrl, initialState, sendDataFunction,
     });
     
     $("#button-save-and-tailor").click(function(){
+        if (!changesPendingStateEngine) {
+            tailorStateEngine();
+            return;
+        }
         saveStateEngine(postUrl, sendDataFunction, tailorStateEngine);
     });
 }

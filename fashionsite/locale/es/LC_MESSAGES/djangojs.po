@@ -445,6 +445,10 @@ msgid "You have unsaved changes. They will be discarded if you leave."
 msgstr ""
 "No has guardado los cambios. Estos serán eliminados si sales de la página."
 
+#: chardata/static/chardata/stateengine.js
+msgid "The changes could not be saved. Try again."
+msgstr "No se pudieron guardar los cambios. Inténtalo de nuevo."
+
 #: chardata/static/chardata/solution_popup.js
 msgid "Stat filters"
 msgstr "Filtros de stats"
