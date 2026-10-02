@@ -314,7 +314,7 @@ class GradePageTests(TestCase):
         from chardata.encyclopedia_view import MONSTER_UI
         page = self._page('beta', ANIMATED_GIFT)
         hint = page.index(MONSTER_UI['en']['weakest_hint'])
-        tables = [match.start() for match in re.finditer('<table class="monster-grades">', page)]
+        tables = [match.start() for match in re.finditer('<table class="monster-grades[ "]', page)]
         self.assertEqual(2, len(tables))
         self.assertLess(tables[0], hint)
         self.assertLess(hint, tables[1])

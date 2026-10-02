@@ -48,10 +48,12 @@
 .monster-version-link-meta { display: block; opacity: 0.95; font-size: 0.85em; }
 .monster-grades-scroll { overflow-x: auto; margin-top: 6px; }
 .monster-grades { border-collapse: collapse; font-size: 0.95em; min-width: 420px; }
+.monster-grades.monster-grades-narrow { min-width: 0; }
+.monster-grades.monster-grades-narrow th, .monster-grades.monster-grades-narrow td { padding: 3px 6px; }
 .monster-grades th, .monster-grades td { padding: 3px 9px; text-align: right; border-bottom: 1px solid rgba(61, 32, 13, 0.15); }
 .monster-grades th { font-weight: 700; text-align: right; }
 .monster-grades th:first-child, .monster-grades td:first-child { text-align: left; }
-.dark-theme-active .monster-grades th, .dark-theme-active .monster-grades td { border-bottom-color: #4a4a4a; }
+.dark-theme-active .monster-grades th, .dark-theme-active .monster-grades td, html.fm-dark .monster-grades th, html.fm-dark .monster-grades td { border-bottom-color: #4a4a4a; }
 .monster-grades td.monster-weak { font-weight: 700; color: #0a7d0a; }
 .dark-theme-active .monster-grades td.monster-weak,
 html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
@@ -140,7 +142,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
             </div>
             {% if has_weakness %}<p class="monster-weakest-hint">{{ mt.weakest_hint }}</p>{% endif %}{% if has_summoner_hp %}<p class="monster-weakest-hint">{{ mt.summoner_hp_hint }}</p>{% endif %}{% if resistance_rows %}
             <div class="monster-grades-scroll">
-            <table class="monster-grades">
+            <table class="monster-grades monster-grades-narrow">
                 <thead>
                     <tr>
                         <th>{{ mt.grade_label }}</th>
