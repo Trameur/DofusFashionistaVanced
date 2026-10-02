@@ -159,6 +159,10 @@ def _read_and_remove(path):
             logger.debug('could not remove file %s', path)
 
 
+def _sum_or_zero(terms):
+    return pulp.lpSum(terms) if terms else 0
+
+
 class LpProblem2:
     
     def __init__(self):
@@ -228,18 +232,18 @@ class LpProblem2:
             self.obj_vars[var_name] += weight
 
     def finish_objective_function(self):
-        self.pulp_lp.objective = sum([value * self.pulp_vars[key] for key, value in
+        self.pulp_lp.objective = _sum_or_zero([value * self.pulp_vars[key] for key, value in
                          self.obj_vars.items() if key in self.pulp_vars])
         
     def restriction_lt_eq(self, max_bound, parcels):
-        restriction = sum([parcel[0] * self.pulp_vars['%s_%s' % (parcel[1], str(parcel[2]).replace(' ', '_').replace('-', '_'))] 
+        restriction = _sum_or_zero([parcel[0] * self.pulp_vars['%s_%s' % (parcel[1], str(parcel[2]).replace(' ', '_').replace('-', '_'))] 
                             for parcel in parcels]) <= max_bound
         self.pulp_lp += restriction
         return restriction
         
 
     def restriction_eq(self, max_bound, parcels):
-        restriction = sum([parcel[0] * self.pulp_vars['%s_%s' % (parcel[1], str(parcel[2]).replace(' ', '_').replace('-', '_'))] 
+        restriction = _sum_or_zero([parcel[0] * self.pulp_vars['%s_%s' % (parcel[1], str(parcel[2]).replace(' ', '_').replace('-', '_'))] 
                             for parcel in parcels]) == max_bound
         self.pulp_lp += restriction
         return restriction
