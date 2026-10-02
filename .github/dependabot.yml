@@ -21,6 +21,10 @@ updates:
     ignore:
       - dependency-name: "pulp"
         update-types: ["version-update:semver-major"]
+      # Django 6.1 refuses MySQL below 8.4 and the mysql service runs 8.0.
+      # Remove this entry once that service is on 8.4 or later.
+      - dependency-name: "django"
+        versions: [">=6.1"]
     open-pull-requests-limit: 10
 
   # JavaScript dependencies (assumes package.json is at the root)
