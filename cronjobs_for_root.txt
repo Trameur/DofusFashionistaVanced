@@ -1,1 +1,1 @@
-*/10 * * * * cd `cat /etc/fashionista/config`; ./auto_restart_apache.py >> /var/log/fashionista/restart_job.log 2>&1
+*/10 * * * * cd `cat /etc/fashionista/config`; python3 auto_restart_apache.py >> /var/log/fashionista/restart_job.log 2>&1

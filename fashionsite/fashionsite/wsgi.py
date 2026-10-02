@@ -52,10 +52,11 @@ sys.path.append(path)  # Adding the main project directory to sys.path
 
 # On Windows, skip the Linux-only paths
 if platform.system() != 'Windows':
+    python_dir = 'python%d.%d' % sys.version_info[:2]
     sys.path.append('/home/ec2-user/DofusFashionistaVanced')
     sys.path.append('/home/ec2-user/DofusFashionistaVanced/fashionistapulp')
-    sys.path.append('/home/ec2-user/.local/lib/python3.9/site-packages')
-    sys.path.append('/usr/local/lib/python3.9/site-packages')
+    sys.path.append('/home/ec2-user/.local/lib/%s/site-packages' % python_dir)
+    sys.path.append('/usr/local/lib/%s/site-packages' % python_dir)
 
 sys.path.append(os.path.join(path, 'fashionistapulp'))
 sys.path.append(os.path.join(path, 'fashionsite'))

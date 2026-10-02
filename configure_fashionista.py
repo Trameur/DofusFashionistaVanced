@@ -20,10 +20,11 @@ import getpass
 import platform
 import os
 import json
+import sys
 from subprocess import call
 
 # Determine the correct python command
-PYTHON_CMD = "python3" if platform.system() != "Windows" else "python"
+PYTHON_CMD = sys.executable if platform.system() != "Windows" else "python"
 
 # Configuration folder for the operating system
 if platform.system() == 'Windows':
@@ -54,8 +55,12 @@ def main():
         return
 
     _print_header('Creating database')
+    host_args = []
+    if os.environ.get('DB_HOST'):
+        host_args = ['-h', os.environ['DB_HOST'], '-P', os.environ.get('DB_PORT', '3306')]
     call([
         'mysql',
+    ] + host_args + [
         '-u', db_user,
         '-p' + db_password,
         '-e', f'CREATE DATABASE IF NOT EXISTS {db_name};'

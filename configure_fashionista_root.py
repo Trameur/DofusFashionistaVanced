@@ -44,16 +44,19 @@ PACKAGES_TO_INSTALL = {
         'memcached',
     ],
     'yum': [
-        'python3-pip',
+        'git',
+        'gcc',
+        'httpd',
+        'httpd-devel',
+        'python3.14',
+        'python3.14-devel',
+        'python3.14-pip',
         'sqlite',
-        'pngcrush',
+        'gettext',
         'ImageMagick',
-        'mariadb-server',
-        'mariadb',
-        'python3-devel',
-        'mariadb-devel',
-        'libevent-devel',
-        'memcached',
+        'mariadb114',
+        'mariadb114-server',
+        'cronie',
     ],
     # Added for Fedora
     'dnf': [
@@ -73,6 +76,12 @@ PACKAGES_TO_INSTALL = {
         'https://aka.ms/vs/17/release/vc_redist.x64.exe', # Visual C++ Redistributable
         'https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.1-21-Q16-HDRI-x64-dll.exe', # ImageMagick
     ]
+}
+
+REQUIREMENTS_FILES = {
+    'apt-get': 'requirements.txt',
+    'yum': 'requirements_aws.txt',
+    'dnf': 'requirements.txt',
 }
 
 PIP_PACKAGES_TO_INSTALL = [
@@ -191,9 +200,19 @@ user={GEN_CONFIGS['mysql_USER']}
             package_manager = _get_package_manager()
             if package_manager:
                 call(['sudo', package_manager, 'install', '-y'] + PACKAGES_TO_INSTALL[package_manager])
-                call(['pip3', 'install'] + PIP_PACKAGES_TO_INSTALL)
+                _install_linux_python_packages(REQUIREMENTS_FILES[package_manager])
 
     _print_header('Done')
+
+def _install_linux_python_packages(requirements_file):
+    if sys.version_info < (3, 12):
+        print('Django 6.0 needs Python 3.12 or later, and this script runs on %d.%d.'
+              % sys.version_info[:2])
+        print('Run it again with a newer Python, for example:')
+        print('  sudo python3.14 ./configure_fashionista_root.py -i')
+        return
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), requirements_file)
+    call([sys.executable, '-m', 'pip', 'install', '-r', path])
 
 def _install_windows_deps():
     _print_header("Installing Windows dependencies")

@@ -17,6 +17,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import datetime
+import os
 import socket
 import urllib.request, urllib.error, urllib.parse
 from subprocess import call
@@ -39,7 +40,10 @@ def main():
     is_down = is_localhost_down()
     if is_down:
         print_with_time('Restarting apache because server is down.')
-        call(['/etc/init.d/apache2', 'restart'])
+        if os.path.exists('/etc/init.d/apache2'):
+            call(['/etc/init.d/apache2', 'restart'])
+        else:
+            call(['systemctl', 'restart', 'httpd'])
 
 def print_with_time(s):
     print('[%s]' % datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))

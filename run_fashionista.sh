@@ -2,17 +2,19 @@
 
 trap 'echo "Stopping server..."; exit' INT
 
+PYTHON="${PYTHON:-$(command -v python3.14 || command -v python3)}"
+
 while true
 do
     export PYTHONPATH=$PYTHONPATH:~/DofusFashionistaVanced/fashionistapulp
 
-    ./wipe_solution_cache.py
+    "$PYTHON" wipe_solution_cache.py
 
     cd fashionsite
-    django-admin compilemessages
+    "$PYTHON" -m django compilemessages
     cd ..
 
-    python3 fashionsite/manage.py runserver 0.0.0.0:8000
+    "$PYTHON" fashionsite/manage.py runserver 0.0.0.0:8000
 
     echo "Server crashed with exit code $?. Respawning..." >&2
     sleep 1
