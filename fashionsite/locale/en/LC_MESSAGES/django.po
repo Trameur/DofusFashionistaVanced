@@ -5328,6 +5328,10 @@ msgstr ""
 msgid "Add all items to my Workshop"
 msgstr ""
 
+#: chardata/templates/chardata/solution.html
+msgid "Edit weights and minimums"
+msgstr ""
+
 #: .\chardata\templates\chardata\solution.html:357
 #: .\chardata\templates\chardata\solution.html:1849
 msgid "Show crafting ingredients"

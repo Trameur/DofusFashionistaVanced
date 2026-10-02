@@ -169,6 +169,9 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
                       self._template('encyclopedia_set.html'))
         self.assertTrue(reverse('quickstart'))
 
+    def test_the_set_page_opens_weights_and_minimums(self):
+        self.assertIn("game_url 'stats' char_id", self._template('solution.html'))
+
     def test_the_temporix_box_is_on_touch_builds_and_nowhere_else(self):
         self.assertIn('name="temporix"', self._template('options.html'))
         from fashionistapulp.dofus_constants import get_stat_maximum

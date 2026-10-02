@@ -5895,6 +5895,10 @@ msgstr "Dieses Set bekommen: %(summary)s"
 msgid "Add all items to my Workshop"
 msgstr "Alle Gegenstände zu meiner Werkstatt hinzufügen"
 
+#: chardata/templates/chardata/solution.html
+msgid "Edit weights and minimums"
+msgstr "Gewichte und Mindestwerte bearbeiten"
+
 #: .\chardata\templates\chardata\solution.html:357
 #: .\chardata\templates\chardata\solution.html:1849
 msgid "Show crafting ingredients"
