@@ -887,6 +887,15 @@ class Structure:
                 item_name, w = self._get_item_name_and_weapon_by_id(item_id)
                 w.uses_per_turn = entry[1] or None
 
+        has_range = any(row[0] == 'weapon_range' for row in c.execute(
+            "SELECT name FROM sqlite_master WHERE type = 'table'"
+            " AND name = 'weapon_range'"))
+        if has_range:
+            for item_id, lowest, farthest in c.execute(
+                    'SELECT item, min_value, max_value FROM weapon_range'):
+                item_name, w = self._get_item_name_and_weapon_by_id(item_id)
+                w.range = (lowest, farthest)
+
         for entry in c.execute('SELECT item, weapontype FROM weapon_weapontype'):
             item_id = entry[0]
             weapon_type = entry[1]

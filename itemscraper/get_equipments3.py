@@ -502,6 +502,16 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         if item.get('uses_per_turn'):
             f.write(f"INSERT INTO weapon_uses_per_turn VALUES({item_id},{item['uses_per_turn']});\n")
 
+    f.write("""CREATE TABLE weapon_range
+             (item INTEGER, min_value INTEGER, max_value INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id));\n""")
+
+    for item in original_data:
+        item_id = item_to_id[id(item)]
+        lowest, farthest = item.get('range') or (None, None)
+        if lowest is not None and farthest is not None:
+            f.write(f"INSERT INTO weapon_range VALUES({item_id},{lowest},{farthest});\n")
+
     f.write("""CREATE TABLE weapontype
              (id INTEGER PRIMARY KEY AUTOINCREMENT, name text, key text);\n""")
     
