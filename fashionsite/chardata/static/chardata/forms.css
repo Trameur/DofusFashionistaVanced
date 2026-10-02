@@ -444,3 +444,181 @@ select, .pretty-input {
     line-height: 1.45;
     text-align: center;
 }
+
+.min-stat-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.min-stat-icon-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.wm-page {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+.wm-intro {
+    max-width: 640px;
+    margin: 0 auto 8px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.wm-tools {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 0 10px;
+}
+
+.wm-section {
+    margin: 0 0 12px;
+    border-radius: 7px;
+    border: 2px solid transparent;
+    overflow: hidden;
+}
+
+.wm-section > summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 2px 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    list-style: none;
+}
+
+.wm-section > summary::-webkit-details-marker {
+    display: none;
+}
+
+.wm-section > summary::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 7px;
+    border-color: transparent transparent transparent currentColor;
+    transition: transform .15s;
+}
+
+.wm-section[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.wm-count {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.wm-row, .wm-head {
+    display: grid;
+    grid-template-columns: 18px minmax(6em, 1fr) minmax(60px, 220px) 84px 96px;
+    gap: 8px;
+    align-items: center;
+    padding: 3px 12px;
+}
+
+.wm-head {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.wm-name {
+    min-width: 0;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.wm-aggregate .wm-name {
+    font-weight: bold;
+}
+
+.wm-member .wm-name {
+    padding-left: 18px;
+}
+
+.wm-row .wm-input {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.wm-min {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.wm-min .wm-input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.wm-cap {
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.wm-slider {
+    margin: 0 8px;
+}
+
+.wm-note {
+    margin: 0;
+    padding: 4px 12px;
+}
+
+.wm-idle {
+    opacity: .75;
+}
+
+.wm-has-min {
+    box-shadow: inset 3px 0 0 currentColor;
+}
+
+.wm-cap-hit .wm-min-input {
+    outline: 2px solid currentColor;
+    outline-offset: 1px;
+}
+
+.wm-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px 8px;
+    border-radius: 7px 7px 0 0;
+}
+
+.wm-actions input, .wm-actions button {
+    margin: 0 !important;
+}
+
+.wm-name-wide {
+    grid-column: 1 / 5;
+}
+
+.wm-name-wide + .wm-min {
+    grid-column: 5;
+}
+
+.wm-icon-group {
+    margin-right: 4px;
+    vertical-align: middle;
+}

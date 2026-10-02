@@ -40,7 +40,8 @@ UNKNOWN_ITEM = 'No Such Item At All'
 
 # Workshop form posts, sent empty and with nonsense
 FORM_PATHS = (
-    '/statspost/%d/', '/minstatspost/%d/', '/optionspost/%d/',
+    '/statspost/%d/', '/minstatspost/%d/', '/weightsminspost/%d/',
+    '/optionspost/%d/',
     '/inclusionspost/%d/', '/exclusionspost/%d/', '/wizardpost/%d/',
     '/wizardgetsliders/%d/', '/setup/%d/', '/save_char/%d/',
     '/initbasestatspost/%d/', '/saveproject/%d/', '/addtag/%d/',

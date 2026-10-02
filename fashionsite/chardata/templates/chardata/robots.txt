@@ -95,6 +95,7 @@ Disallow: */initbasestats/
 Disallow: */initbasestatspost/
 Disallow: */statspost/
 Disallow: */minstatspost/
+Disallow: */weightsminspost/
 Disallow: */inclusions/
 Disallow: */inclusionspost/
 Disallow: */exclusions/

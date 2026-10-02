@@ -851,3 +851,20 @@ html.fm-dark .spell-tip.st-open .spell-tip-mark{ color:#a7ddea; }
 .transcendence-tip{ margin-left:0; }
 .transcendence-tip .spell-tip-mark{ opacity:.7; }
 .transcendence-tip .spell-tip-text + .spell-tip-text{ margin-top:5px; opacity:.75; }
+
+/* ---------- Weights and minimums ---------- */
+html.fm-modern .wm-section{ background:var(--fm-surface-2); border:1px solid var(--fm-border); border-radius:var(--fm-radius);
+  box-shadow:var(--fm-shadow-sm); }
+html.fm-modern .wm-section > summary{ color:var(--fm-head); padding:4px 16px; }
+html.fm-modern .wm-section > .wm-note{ color:var(--fm-muted); padding:4px 16px; }
+html.fm-modern .wm-head, html.fm-modern .wm-cap, html.fm-modern .wm-count{ color:var(--fm-muted); }
+html.fm-modern .wm-row, html.fm-modern .wm-head{ padding-left:16px; padding-right:16px; }
+html.fm-modern .wm-row.weight-stat-line{ background:transparent; color:var(--fm-text); }
+html.fm-modern .wm-row.weight-stat-line:nth-child(even){ background:rgba(128,110,70,.08); }
+html.fm-modern .wm-idle{ opacity:1; }
+html.fm-modern .wm-idle .wm-name{ color:var(--fm-muted); }
+html.fm-modern .wm-has-min{ box-shadow:inset 3px 0 0 var(--fm-accent); }
+html.fm-modern .wm-row input.wm-input{ padding:6px 8px !important; }
+html.fm-modern .wm-row input.wm-input:disabled{ background:var(--fm-surface-2) !important; color:var(--fm-muted) !important;
+  border-style:dashed !important; cursor:default; }
+html.fm-modern .wm-actions{ background:var(--fm-surface); border-top:1px solid var(--fm-border); }

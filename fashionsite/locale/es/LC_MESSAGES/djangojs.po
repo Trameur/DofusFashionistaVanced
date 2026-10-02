@@ -711,3 +711,10 @@ msgstr "Quitar de la comparación"
 #: .\chardata\static\chardata\login.js:0
 msgid "Too many attempts. Wait a few minutes and try again."
 msgstr "Demasiados intentos. Espera unos minutos y vuelve a intentarlo."
+
+#: chardata/static/chardata/weights_minimums.js
+#, javascript-format
+msgid "%s minimum"
+msgid_plural "%s minimums"
+msgstr[0] "%s mínimo"
+msgstr[1] "%s mínimos"

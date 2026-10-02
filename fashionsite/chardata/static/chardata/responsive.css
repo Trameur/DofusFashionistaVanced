@@ -263,6 +263,13 @@
 
   /* ---- Generic safety ---- */
   .footer { padding: 10px; font-size: 13px; }
+
+  /* Weights and minimums: overflow-x on body breaks sticky, so the bar is fixed */
+  .wm-actions {
+    position: fixed !important; left: 0; right: 0; bottom: 0; margin: 0 !important;
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) !important; border-radius: 0 !important;
+  }
+  .wm-page { padding-bottom: 76px !important; }
 }
 
 /* Phones (narrow) fine-tuning */
@@ -285,6 +292,18 @@
   #table-checkboxes-column-2, #table-checkboxes-column-3 { padding-top: 0 !important; }
   #table-checkboxes label { display: flex; align-items: center; gap: 8px; min-height: 40px; margin: 0; padding: 4px 6px; border-top: 1px solid rgba(128, 128, 128, 0.3); font-size: 13px !important; line-height: 1.2; }
   #table-checkboxes label input[type="checkbox"] { width: 20px; height: 20px; flex: 0 0 auto; }
+
+  .wm-slider, .wm-slider-gap { display: none !important; }
+  .wm-row, .wm-head { grid-template-columns: 18px minmax(0, 1fr) 72px 80px !important; gap: 6px !important; padding-left: 8px !important; padding-right: 8px !important; }
+  .wm-row .wm-input { font-size: 16px !important; min-height: 44px; }
+  .wm-name-wide { grid-column: 1 / 4 !important; }
+  .wm-name-wide + .wm-min { grid-column: 4 !important; }
+  .wm-section > summary, .wm-actions .button-generic, #button-reset-weights { min-height: 44px !important; }
+  .wm-actions { flex-wrap: nowrap !important; gap: 6px !important; }
+  .wm-actions .button-generic { flex: 1 1 0; min-width: 0; white-space: normal; font-size: 14px !important; line-height: 1.15; padding: 4px 8px !important; }
+  .wm-actions #button-discard-changes:disabled { display: none !important; }
+  .tailor-long { display: none !important; }
+  .tailor-short { display: inline !important; }
 }
 
 /* Desktop: the level sits in the name div for mobile, put it back on its own line */

@@ -137,3 +137,17 @@ select, .pretty-input {
     color:#DDD;
  }
 
+
+.wm-section {
+    background: #151515;
+    border-color: #151515;
+}
+
+.wm-section > summary, .wm-head, .wm-section > .wm-note, .wm-row {
+    color: #DDD;
+}
+
+.wm-actions {
+    background: #151515;
+    border-top: 1px solid #444444;
+}

@@ -3815,19 +3815,8 @@ msgid "If you say each intelligence is worth 10 points and each initiative is wo
 msgstr "Wenn Sie sagen, dass jede Intelligenz 10 Punkte und jede Initiative 1 Punkt wert ist, erhält Ausrüstung A eine Punktzahl von 300 Punkten, während Ausrüstung B eine Punktzahl von 500 Punkten hat und das Programm Ausrüstung B auswählt."
 
 #: .\chardata\templates\chardata\faq.html:68
-msgid ""
-"That is our way of telling the program what to optimize. The ranges you see "
-"on each slider is the range that is most effective for each attribute, based "
-"on our experience. If you wish to use values outside of the range we "
-"defined, you can go to the Characteristics Weights page (under More) and set "
-"them manually."
-msgstr ""
-"Auf diese Weise sagen wir dem Programm, was optimiert werden soll. Die "
-"Bereiche, die Sie auf jedem Schieberegler sehen, sind unserer Erfahrung nach "
-"die Bereiche, die für jedes Attribut am effektivsten sind. Wenn Sie Werte "
-"außerhalb des von uns definierten Bereichs verwenden möchten, können Sie zur "
-"Seite „Merkmalsgewichtungen“ (unter „Mehr“) gehen und diese manuell "
-"festlegen."
+msgid "That is our way of telling the program what to optimize. The range of each slider is the one that works best for each attribute, based on our experience. If you wish to use values outside of it, open the Weights and Minimums page from the sidebar and type them in."
+msgstr "Auf diese Weise sagen wir dem Programm, was optimiert werden soll. Der Bereich jedes Schiebereglers ist unserer Erfahrung nach der effektivste für jedes Attribut. Wenn Sie Werte außerhalb dieses Bereichs verwenden möchten, öffnen Sie die Seite „Gewichte und Mindestwerte“ über die Seitenleiste und geben Sie sie dort ein."
 
 #: .\chardata\templates\chardata\faq.html:70
 msgid "I asked for exos but I can’t find them on any item. Where are they?"
@@ -9217,3 +9206,56 @@ msgstr[1] "%(version)s hat diese %(counter)s Teile, die dieser Version fehlen:"
 #, python-format
 msgid "Import on %(version)s instead"
 msgstr "Stattdessen auf %(version)s importieren"
+
+#: chardata/templates/chardata/weights_minimums.html chardata/templates/chardata/base.html
+msgid "Weights and Minimums"
+msgstr "Gewichte und Mindestwerte"
+
+#: chardata/templates/chardata/weights_minimums.html
+msgid "A weight is what one point of a characteristic is worth to this build: raising it makes the Fashionista give up other characteristics for it. A minimum is a value every set must reach. Leave a minimum empty when it does not matter."
+msgstr "Ein Gewicht ist der Wert eines Punktes einer Eigenschaft für diesen Build: Steigt es, opfert der Fashionista andere Eigenschaften dafür. Ein Mindestwert ist ein Wert, den jedes Set erreichen muss. Ein Mindestwert, der keine Rolle spielt, bleibt leer."
+
+#: chardata/templates/chardata/weights_minimums.html
+msgid "Weight"
+msgstr "Gewicht"
+
+#: chardata/templates/chardata/weights_minimums.html
+msgid "TemporiX mode is on: no AP, MP, Range or summon limit."
+msgstr "TemporiX-Modus aktiv: keine Grenze für AP, BP, Reichweite oder Beschwörungen."
+
+#: chardata/templates/chardata/weights_minimums.html
+msgid "Combined minimums"
+msgstr "Kombinierte Mindestwerte"
+
+#: chardata/templates/chardata/weights_minimums.html
+msgid "Other saved minimums"
+msgstr "Weitere gespeicherte Mindestwerte"
+
+#: chardata/templates/chardata/weights_minimums.html
+msgid "No item of this version gives these characteristics. Empty a box to remove its minimum."
+msgstr "Kein Gegenstand dieser Version gibt diese Eigenschaften. Ein geleertes Feld entfernt seinen Mindestwert."
+
+#: chardata/templates/chardata/weights_minimums_row.html
+msgid "Follows the elemental damages"
+msgstr "Folgt dem Elementarschaden"
+
+#: chardata/templates/chardata/weights_minimums_row.html
+#, python-format
+msgid "No set goes above %(cap)s on this version"
+msgstr "Kein Set geht in dieser Version über %(cap)s hinaus"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "October 2026"
+msgstr "Oktober 2026"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Weights and minimums on one page"
+msgstr "Gewichte und Mindestwerte auf einer Seite"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Weights and minimums share one page, opened from the sidebar or the set page: each characteristic has its weight, a slider and its minimum, grouped as in the wizard."
+msgstr "Gewichte und Mindestwerte teilen sich eine Seite, erreichbar über die Seitenleiste oder die Set-Seite: Jede Eigenschaft hat ihr Gewicht, einen Schieberegler und ihren Mindestwert, gruppiert wie im Zauberer."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "A build can be copied between Dofus 3 and Dofus 3 Beta, and the copy lists the pieces the other version lacks."
+msgstr "Ein Build lässt sich zwischen Dofus 3 und Dofus 3 Beta kopieren, und die Kopie nennt die Teile, die der anderen Version fehlen."

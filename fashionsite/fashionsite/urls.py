@@ -819,6 +819,7 @@ urlpatterns = [
 
     re_path(r'^stats/(?P<char_id>\d+)/', stats_weights_view.stats, name='stats'),
     re_path(r'^statspost/(?P<char_id>\d+)/', stats_weights_view.stats_post, name='stats_post'),
+    re_path(r'^weightsminspost/(?P<char_id>\d+)/', stats_weights_view.weights_mins_post, name='weights_mins_post'),
 
     re_path(r'^min_stats/(?P<char_id>\d+)/', min_stats_view.min_stats, name='min_stats'),
     re_path(r'^minstatspost/(?P<char_id>\d+)/', min_stats_view.min_stats_post, name='min_stats_post'),

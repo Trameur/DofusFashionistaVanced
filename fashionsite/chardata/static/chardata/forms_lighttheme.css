@@ -139,3 +139,28 @@ select, .pretty-input {
  .no-proj, .no-proj:link, .no-proj:visited {
     color:#eeb996;
  }
+
+.wm-section {
+    background: #3D200D;
+    border-color: #3D200D;
+}
+
+.wm-section > summary, .wm-head, .wm-section > .wm-note {
+    color: #FFFFFF;
+}
+
+.wm-row {
+    color: #3D200D;
+}
+
+html:not(.fm-modern) .wm-idle {
+    opacity: 1;
+}
+
+html:not(.fm-modern) .wm-idle .wm-name {
+    color: #634E3A;
+}
+
+.wm-actions {
+    background: #CACCA7;
+}

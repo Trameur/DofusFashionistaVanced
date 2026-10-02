@@ -1040,8 +1040,8 @@ RESERVED_PATH_WORDS = frozenset((
     'saveproject', 'saveprojecttouser', 'send', 'setitemforbidden',
     'setitemlocked', 'setitemstatoverride', 'setslotlockempty', 'setup',
     'solution', 'spells', 'statspost', 'unfollow', 'update_item',
-    'update_set', 'votebuild', 'wizard', 'wizardgetsliders', 'wizardpost',
-    'workshop',
+    'update_set', 'votebuild', 'weightsminspost', 'wizard', 'wizardgetsliders',
+    'wizardpost', 'workshop',
 ))
 
 

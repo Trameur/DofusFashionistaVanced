@@ -10,6 +10,8 @@ from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 
 MOIS = 'September 2026'
+NOUVEAU_MOIS = 'October 2026'
+MOIS_GARDES = (NOUVEAU_MOIS, MOIS)
 LANGUES = ('fr', 'es', 'pt', 'de')
 TEMPLATE = os.path.join(settings.BASE_DIR, 'chardata', 'templates',
                         'chardata', 'changelog_content.html')
@@ -40,11 +42,13 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
 
     def test_three_entries_of_at_most_four_bullets(self):
         entrees = _entrees()
-        self.assertEqual(MOIS, entrees[0][0])
+        self.assertEqual(NOUVEAU_MOIS, entrees[0][0])
+        self.assertEqual('Weights and minimums on one page', entrees[0][1])
+        self.assertEqual(1, len([e for e in entrees if e[0] == NOUVEAU_MOIS]))
         de_ce_mois = [e for e in entrees if e[0] == MOIS]
         self.assertEqual(4, len(de_ce_mois), [e[1] for e in de_ce_mois])
-        self.assertEqual('A workshop that knows your stock', entrees[0][1])
-        for _date, titre, puces in de_ce_mois:
+        self.assertEqual('A workshop that knows your stock', de_ce_mois[0][1])
+        for _date, titre, puces in [e for e in entrees if e[0] in MOIS_GARDES]:
             self.assertLessEqual(len(puces), MAX_PUCES, titre)
             self.assertGreaterEqual(len(puces), 1, titre)
 
@@ -52,7 +56,7 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
         interdits = ('fixed', 'renamed', 'no longer', 'not on an error page',
                      'privacy page', 'sidebar counter', 'search engines')
         for date, titre, puces in _entrees():
-            if date != MOIS:
+            if date not in MOIS_GARDES:
                 continue
             for puce in puces:
                 bas = puce.lower()
@@ -61,7 +65,7 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
 
     def test_no_third_party_site_is_named(self):
         for date, titre, puces in _entrees():
-            if date != MOIS:
+            if date not in MOIS_GARDES:
                 continue
             for phrase in [titre] + puces:
                 self.assertNotIn('dofusbook', phrase.lower(), phrase)
@@ -72,7 +76,7 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
     def test_every_sentence_of_this_month_is_translated_natively(self):
         phrases = set()
         for date, titre, puces in _entrees():
-            if date != MOIS:
+            if date not in MOIS_GARDES:
                 continue
             phrases.update([date, titre] + puces)
         self.assertGreaterEqual(len(phrases), 7)
@@ -102,6 +106,7 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
     def test_the_english_catalogue_carries_the_ids(self):
         catalogue = _catalogue('en')
         self.assertIn(MOIS, catalogue)
+        self.assertIn(NOUVEAU_MOIS, catalogue)
         self.assertIn('Your build, in and out', catalogue)
 
 
@@ -173,3 +178,15 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
         uncapped = get_stat_maximum('touch', temporix=True)
         for stat_name in ('AP', 'MP', 'Range', 'Summon'):
             self.assertNotIn(stat_name, uncapped)
+
+    def test_weights_and_minimums_share_a_page_the_sidebar_and_set_page_open(self):
+        self.assertTrue(reverse('weights_mins_post', args=[1]))
+        self.assertIn('wm-section', self._template('weights_minimums.html'))
+        self.assertIn("game_url 'stats' char_id", self._template('base.html'))
+
+    def test_a_build_copies_between_dofus3_and_the_beta(self):
+        from fashionistapulp.game_versions import GAME_VERSIONS
+        self.assertEqual(GAME_VERSIONS['dofus3'].family, GAME_VERSIONS['beta'].family)
+        self.assertTrue(reverse('copy_to_version', args=[1]))
+        self.assertIn('These pieces do not exist here and were left out',
+                      self._template('main-header.html'))
