@@ -108,10 +108,16 @@ echo.
 echo WARNING: This will sync data to AWS RDS
 echo Endpoint: %RDS_ENDPOINT%
 echo.
-echo You will be prompted to enter the RDS password.
+echo sync_db.py writes no backup, and it empties every table it copies
+echo on the destination: take an RDS snapshot of the destination first.
 echo Press Ctrl+C to cancel...
 echo.
 pause
+
+if not defined DEST_DB_PASSWORD (
+    echo The password shows as you type it. Set DEST_DB_PASSWORD beforehand to skip this prompt.
+    set /p DEST_DB_PASSWORD=RDS password for fashionista: 
+)
 
 echo.
 echo Syncing to AWS RDS...
@@ -125,8 +131,7 @@ python sync_db.py ^
     --dest-host %RDS_ENDPOINT% ^
     --dest-port 3306 ^
     --dest-db fashionista ^
-    --dest-user fashionista ^
-    --dest-pass 
+    --dest-user fashionista
 
 if errorlevel 1 (
     echo.

@@ -21,7 +21,6 @@ import argparse
 import logging
 import json
 import os
-from datetime import datetime
 from pathlib import Path
 
 try:
@@ -30,16 +29,6 @@ except ImportError:
     print("Error: pymysql is required. Install with: pip install pymysql")
     sys.exit(1)
 
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('db_sync.log'),
-        logging.StreamHandler()
-    ]
-)
 logger = logging.getLogger(__name__)
 
 
@@ -48,34 +37,6 @@ class DatabaseSyncManager:
     
     BATCH_SIZE = 300
     COMMIT_INTERVAL = 10  # Commit after every 10 batches (3000 rows)
-    
-    # Tables to sync in order (respecting foreign key dependencies)
-    TABLES_TO_SYNC = [
-        'auth_user',
-        'auth_group',
-        'auth_group_permissions',
-        'auth_user_groups',
-        'auth_user_user_permissions',
-        'django_content_type',
-        'django_permission',
-        'social_auth_usersocialauth',
-        'chardata_set',
-        'chardata_setbonus',
-        'chardata_itemtype',
-        'chardata_item',
-        'chardata_char',
-        'chardata_charbasestats',
-        'chardata_characterskill',
-        'chardata_solutioncounter',
-        'chardata_build',
-        'chardata_builditem',
-        'chardata_useralias',
-        'chardata_customset',
-        'django_session',
-        'django_migrations',
-        'django_admin_log',
-        'socialauth_nonce',
-    ]
     
     def __init__(self, source_config, dest_config, dry_run=False):
         """
@@ -93,7 +54,9 @@ class DatabaseSyncManager:
         self.dest_conn = None
         self.total_rows_synced = 0
         self.stats = {}
-        
+        self.tables = []
+        self.failed_tables = []
+
     def connect(self):
         """Establish connections to both databases"""
         try:
@@ -117,7 +80,8 @@ class DatabaseSyncManager:
                 password=self.dest_config['password'],
                 database=self.dest_config['db'],
                 charset='utf8mb4',
-                cursorclass=pymysql.cursors.DictCursor
+                cursorclass=pymysql.cursors.DictCursor,
+                init_command='SET FOREIGN_KEY_CHECKS=0'
             )
             logger.info("✓ Connected to destination database")
             
@@ -133,30 +97,24 @@ class DatabaseSyncManager:
             self.dest_conn.close()
     
     def backup_destination(self):
-        """Create a backup of destination database before sync"""
+        """Warn that no backup is written: take one before a real run"""
         if self.dry_run:
-            logger.info("[DRY RUN] Would create backup")
             return
-        
-        try:
-            backup_file = f"db_backup_{self.dest_config['db']}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.sql"
-            logger.info(f"Creating backup: {backup_file}")
-            
-            with self.dest_conn.cursor() as cursor:
-                # Get list of all tables
-                cursor.execute("SHOW TABLES")
-                tables = [row[0] for row in cursor.fetchall()]
-            
-            logger.info(f"✓ Backup created: {backup_file} (reference for {len(tables)} tables)")
-            
-        except pymysql.Error as e:
-            logger.error(f"Backup creation failed: {e}")
-    
+        logger.warning("This script writes no backup. Every table it copies is "
+                       "emptied on the destination first: take an RDS snapshot or "
+                       "a mysqldump of the destination before a real run.")
+
+    def list_tables(self):
+        """Every base table of the source database"""
+        with self.source_conn.cursor(pymysql.cursors.Cursor) as cursor:
+            cursor.execute("SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'")
+            return [row[0] for row in cursor.fetchall()]
+
     def get_table_columns(self, table_name):
         """Get column names for a table"""
         try:
-            with self.source_conn.cursor() as cursor:
-                cursor.execute(f"SHOW COLUMNS FROM {table_name}")
+            with self.source_conn.cursor(pymysql.cursors.Cursor) as cursor:
+                cursor.execute(f"SHOW COLUMNS FROM `{table_name}`")
                 columns = [row[0] for row in cursor.fetchall()]
                 return columns
         except pymysql.Error as e:
@@ -171,6 +129,7 @@ class DatabaseSyncManager:
             # Get column names
             columns = self.get_table_columns(table_name)
             if not columns:
+                self.failed_tables.append(table_name)
                 return 0
             
             column_str = ", ".join([f"`{col}`" for col in columns])
@@ -179,12 +138,12 @@ class DatabaseSyncManager:
             if not self.dry_run:
                 # Clear destination table
                 with self.dest_conn.cursor() as cursor:
-                    cursor.execute(f"TRUNCATE TABLE {table_name}")
+                    cursor.execute(f"DELETE FROM `{table_name}`")
                 self.dest_conn.commit()
             
             # Count source rows
             with self.source_conn.cursor() as cursor:
-                cursor.execute(f"SELECT COUNT(*) as cnt FROM {table_name}")
+                cursor.execute(f"SELECT COUNT(*) as cnt FROM `{table_name}`")
                 total_rows = cursor.fetchone()['cnt']
             
             if total_rows == 0:
@@ -198,32 +157,29 @@ class DatabaseSyncManager:
             rows_synced = 0
             batch_count = 0
             
-            with self.source_conn.cursor() as source_cursor:
-                source_cursor.execute(f"SELECT {column_str} FROM {table_name}")
-                
+            with self.source_conn.cursor(pymysql.cursors.SSDictCursor) as source_cursor:
+                source_cursor.execute(f"SELECT {column_str} FROM `{table_name}`")
+
                 while True:
                     rows = source_cursor.fetchmany(self.BATCH_SIZE)
                     if not rows:
                         break
-                    
+
                     batch_count += 1
-                    
+                    rows_synced += len(rows)
+
                     if not self.dry_run:
-                        insert_sql = f"INSERT INTO {table_name} ({column_str}) VALUES ({placeholder_str})"
-                        
+                        insert_sql = f"INSERT INTO `{table_name}` ({column_str}) VALUES ({placeholder_str})"
+
                         with self.dest_conn.cursor() as dest_cursor:
-                            for row in rows:
-                                values = tuple(row[col] for col in columns)
-                                dest_cursor.execute(insert_sql, values)
-                        
+                            dest_cursor.executemany(
+                                insert_sql, [tuple(row[col] for col in columns) for row in rows])
+
                         # Commit every COMMIT_INTERVAL batches
                         if batch_count % self.COMMIT_INTERVAL == 0:
                             self.dest_conn.commit()
-                            rows_synced += len(rows)
                             logger.info(f"  Progress: {rows_synced}/{total_rows} rows synced")
-                    else:
-                        rows_synced += len(rows)
-            
+
             # Final commit
             if not self.dry_run:
                 self.dest_conn.commit()
@@ -236,6 +192,7 @@ class DatabaseSyncManager:
             
         except pymysql.Error as e:
             logger.error(f"Error syncing table {table_name}: {e}")
+            self.failed_tables.append(table_name)
             if not self.dry_run:
                 self.dest_conn.rollback()
             return 0
@@ -246,16 +203,20 @@ class DatabaseSyncManager:
         
         mismatches = []
         
-        for table in self.TABLES_TO_SYNC:
+        for table in self.tables:
             try:
                 with self.source_conn.cursor() as cursor:
-                    cursor.execute(f"SELECT COUNT(*) as cnt FROM {table}")
+                    cursor.execute(f"SELECT COUNT(*) as cnt FROM `{table}`")
                     source_count = cursor.fetchone()['cnt']
-                
+
                 with self.dest_conn.cursor() as cursor:
-                    cursor.execute(f"SELECT COUNT(*) as cnt FROM {table}")
+                    cursor.execute(f"SELECT COUNT(*) as cnt FROM `{table}`")
                     dest_count = cursor.fetchone()['cnt']
-                
+
+                if self.dry_run:
+                    logger.info(f"  {table}: source={source_count}, dest={dest_count} (dry run, not compared)")
+                    continue
+
                 status = "✓" if source_count == dest_count else "✗"
                 logger.info(f"{status} {table}: source={source_count}, dest={dest_count}")
                 
@@ -264,10 +225,16 @@ class DatabaseSyncManager:
                     
             except Exception as e:
                 logger.error(f"Error verifying {table}: {e}")
-        
-        if mismatches:
-            logger.error(f"\n⚠ Mismatches found in tables: {', '.join(mismatches)}")
+                mismatches.append(table)
+
+        failed = [table for table in self.tables
+                  if table in mismatches or table in self.failed_tables]
+        if failed:
+            logger.error(f"\nTables not copied or not matching: {', '.join(failed)}")
             return False
+        elif self.dry_run:
+            logger.info(f"\n✓ Every table can be read on both sides - dry run, nothing written")
+            return True
         else:
             logger.info(f"\n✓ All tables verified - sync successful!")
             return True
@@ -285,23 +252,28 @@ class DatabaseSyncManager:
         
         try:
             self.connect()
-            
+            self.tables = self.list_tables()
+            logger.info(f"Tables in the source: {len(self.tables)}")
+
             if not self.dry_run:
                 self.backup_destination()
-            
+
             # Sync each table
-            for table in self.TABLES_TO_SYNC:
+            for table in self.tables:
                 self.sync_table(table)
             
             # Verify
-            self.verify_sync()
-            
+            verified = self.verify_sync()
+
             # Final summary
             logger.info(f"\n{'='*60}")
-            logger.info(f"Synchronization Complete")
+            logger.info("Synchronization Complete" if verified else "Synchronization Failed")
             logger.info(f"Total rows synced: {self.total_rows_synced:,}")
             logger.info(f"{'='*60}\n")
-            
+
+            if not verified:
+                sys.exit(1)
+
         except Exception as e:
             logger.error(f"Fatal error: {e}")
             sys.exit(1)
@@ -334,6 +306,14 @@ def load_windows_config():
 
 
 def main():
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler('db_sync.log'),
+            logging.StreamHandler()
+        ]
+    )
     parser = argparse.ArgumentParser(
         description='Synchronize databases between source and destination',
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -365,7 +345,8 @@ def main():
     parser.add_argument('--dry-run', action='store_true',
                         help='Run without making changes (preview mode)')
     parser.add_argument('--config', type=str,
-                        help='Load configuration from JSON file')
+                        help='JSON file with "source" and "destination" objects '
+                             '(host, port, db, user, password), over the options above')
     
     args = parser.parse_args()
     
@@ -386,6 +367,13 @@ def main():
         'password': args.dest_pass,
     }
     
+    if args.config:
+        file_config = load_config_from_file(os.path.expanduser(args.config))
+        if file_config is None:
+            sys.exit(1)
+        source_config.update(file_config.get('source', {}))
+        dest_config.update(file_config.get('destination', {}))
+
     # Run sync
     sync_manager = DatabaseSyncManager(source_config, dest_config, dry_run=args.dry_run)
     sync_manager.run_sync()
