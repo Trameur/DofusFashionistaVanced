@@ -14,7 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Objective terms for weapon hits: what a weapon's swings add to the best turn, times the share of attacks its range reaches, in played characteristic points."""
+"""Objective terms for weapon hits: what a weapon's swings add to the best turn, in played characteristic points."""
 
 import logging
 import pickle
@@ -26,8 +26,6 @@ logger = logging.getLogger(__name__)
 VERSIONS = ('dofus3',)
 CHARACTERISTIC_STEP = 20
 SEARCHED = 3
-MELEE_DISTANCE = 1
-FIRST_RANGED_DISTANCE = 3
 
 
 def weapon_swing(item, stats):
@@ -124,73 +122,13 @@ class TurnReader(object):
         return self.full(weapon) - self.spells_only(self.ap)[0]
 
 
-def melee_share(weights):
-    """The share of the build's attacks made in melee, as its % melee and % ranged damage weights split them; None when they do not."""
-    melee = weights.get('permedam') or 0
-    ranged = weights.get('perrandam') or 0
-    if melee < 0 or ranged < 0 or melee + ranged <= 0:
-        return None
-    return float(melee) / (melee + ranged)
-
-
-def ranged_band(spells, game_version, char_class, level):
-    """(first ranged distance, median farthest range of the class's attack spells that reach it), from the version's spell reference; None without one."""
-    from statistics import median_low
-    from chardata.spell_buffs import _decide_spell_level
-    from chardata.spell_reference import reference_by_spell_id
-    reference = reference_by_spell_id(game_version, char_class)
-    reaches = []
-    for spell in spells:
-        entry = reference.get(getattr(spell, 'spell_id', None))
-        if not getattr(spell, 'hits', None) or not entry:
-            continue
-        ranges, levels = entry.get('range') or [], entry.get('levels') or []
-        if not ranges or not levels:
-            continue
-        rank = _decide_spell_level(levels, level)
-        farthest = ranges[rank][1] if rank < len(ranges) else None
-        if farthest is not None and farthest >= FIRST_RANGED_DISTANCE:
-            reaches.append(farthest)
-    if not reaches:
-        return None
-    return FIRST_RANGED_DISTANCE, median_low(reaches)
-
-
-def reach_share(weapon_range, melee, band):
-    """The share of the build's attacks a weapon of weapon_range (lowest, farthest) can take part in."""
-    lowest, farthest = weapon_range
-    in_melee = 1.0 if lowest <= MELEE_DISTANCE <= farthest else 0.0
-    if band is None:
-        at_range = 1.0 if farthest >= FIRST_RANGED_DISTANCE else 0.0
-    else:
-        near, far = band
-        covered = min(farthest, far) - max(lowest, near) + 1
-        at_range = max(covered, 0) / float(far - near + 1)
-    return melee * in_melee + (1.0 - melee) * at_range
-
-
-def weapon_reach(structure, weapon_ids, weights, band):
-    """{item id: reach share} of the weapons whose range is known; {} when the weights give no melee share."""
-    melee = melee_share(weights)
-    if melee is None:
-        return {}
-    shares = {}
-    for item_id in weapon_ids:
-        weapon = structure.get_weapon_for_item(structure.get_item_by_id(item_id))
-        weapon_range = getattr(weapon, 'range', None)
-        if weapon_range is not None:
-            shares[item_id] = reach_share(weapon_range, melee, band)
-    return shares
-
-
 def stat_lines_value(item, weights, structure):
     return sum(weights.get(structure.get_stat_by_id(stat_id).key, 0) * value
                for stat_id, value in item.stats)
 
 
-def terms_on_stats(reader, weights, worn, weapons_by_id, line_values=None, searched=SEARCHED,
-                   reach=None):
-    """{item id: term} on one set of stats; the shortlist and the worn weapon get best_turn's gain, each gain times its reach share."""
+def terms_on_stats(reader, weights, worn, weapons_by_id, line_values=None, searched=SEARCHED):
+    """{item id: term} on one set of stats; the shortlist and the worn weapon get best_turn's gain."""
     played = played_characteristics(weights)
     if not played:
         return {}
@@ -200,9 +138,7 @@ def terms_on_stats(reader, weights, worn, weapons_by_id, line_values=None, searc
     if per_point <= 0:
         return {}
     paid = sum(weights.get(key, 0) for key in played) / float(len(played))
-    reach = reach or {}
-    gains = {item_id: reader.lower_gain(weapon) * reach.get(item_id, 1.0)
-             for item_id, weapon in weapons_by_id.items()}
+    gains = {item_id: reader.lower_gain(weapon) for item_id, weapon in weapons_by_id.items()}
     line_values = line_values or {}
 
     def estimate(item_id):
@@ -212,8 +148,7 @@ def terms_on_stats(reader, weights, worn, weapons_by_id, line_values=None, searc
     if worn_id in weapons_by_id:
         shortlist.append(worn_id)
     for item_id in set(shortlist):
-        gains[item_id] = max(gains[item_id],
-                             reader.gain(weapons_by_id[item_id]) * reach.get(item_id, 1.0))
+        gains[item_id] = max(gains[item_id], reader.gain(weapons_by_id[item_id]))
     return {item_id: gain / per_point * paid for item_id, gain in gains.items() if gain > 0}
 
 
@@ -257,7 +192,4 @@ def weapon_hit_terms(char, result, model_input):
     reader = TurnReader(stats, spells, ap, game_version, char.level)
     line_values = {item_id: stat_lines_value(structure.get_item_by_id(item_id), weights, structure)
                    for item_id in weapons}
-    reach = weapon_reach(structure, weapons, weights,
-                         ranged_band(spells, game_version, char.char_class, char.level))
-    return terms_on_stats(reader, weights, _weapon_castable(solution), weapons, line_values,
-                          reach=reach)
+    return terms_on_stats(reader, weights, _weapon_castable(solution), weapons, line_values)
