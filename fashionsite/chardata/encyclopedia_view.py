@@ -2835,6 +2835,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monster',
         'stats_section_label': 'Stats per grade',
         'weakest_hint': 'Green marks the weakest element (most damage).',
+        'summoner_hp_hint': "A percentage in the HP column is a share of the summoner's base HP.",
         'weakness_label': 'Weakness',
         'weakness_filter_all': 'Any weakness',
         'weakness_filter_link_title': 'Show monsters with this weakness',
@@ -2878,6 +2879,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monstre',
         'stats_section_label': 'Caractéristiques par grade',
         'weakest_hint': "Le vert indique l'élément le plus faible (dégâts maximum).",
+        'summoner_hp_hint': "Un pourcentage dans la colonne PV est une part des PV de base de l'invocateur.",
         'weakness_label': 'Faiblesse',
         'weakness_filter_all': 'Toutes faiblesses',
         'weakness_filter_link_title': 'Voir les monstres avec cette faiblesse',
@@ -2921,6 +2923,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monstruo',
         'stats_section_label': 'Características por grado',
         'weakest_hint': 'El verde marca el elemento más débil (más daño).',
+        'summoner_hp_hint': 'Un porcentaje en la columna PdV es una parte de los PdV base del invocador.',
         'weakness_label': 'Debilidad',
         'weakness_filter_all': 'Cualquier debilidad',
         'weakness_filter_link_title': 'Ver los monstruos con esta debilidad',
@@ -2964,6 +2967,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monstro',
         'stats_section_label': 'Características por grau',
         'weakest_hint': 'O verde marca o elemento mais fraco (mais dano).',
+        'summoner_hp_hint': 'Uma porcentagem na coluna PV é uma parte dos PV base do invocador.',
         'weakness_label': 'Fraqueza',
         'weakness_filter_all': 'Qualquer fraqueza',
         'weakness_filter_link_title': 'Ver os monstros com esta fraqueza',
@@ -3007,6 +3011,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monster',
         'stats_section_label': 'Werte pro Stufe',
         'weakest_hint': 'Grün markiert das schwächste Element (höchster Schaden).',
+        'summoner_hp_hint': 'Ein Prozentwert in der LP-Spalte ist ein Anteil der Basis-LP des Beschwörers.',
         'weakness_label': 'Schwäche',
         'weakness_filter_all': 'Beliebige Schwäche',
         'weakness_filter_link_title': 'Monster mit dieser Schwäche anzeigen',
@@ -3062,6 +3067,16 @@ def _monster_ui_text():
 def _db_table_exists(cursor, table_name):
     cursor.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?", (table_name,))
     return cursor.fetchone() is not None
+
+
+_OPTIONAL_GRADE_COLUMNS = (('summoner_hp', 'summoner_life_percent'),)
+
+
+def _optional_grade_columns(cursor):
+    """[(grade key, column or NULL)]: only dofus3 and beta store these."""
+    present = {row[1] for row in cursor.execute('PRAGMA table_info(monster_grades)')}
+    return [(key, column if column in present else 'NULL')
+            for key, column in _OPTIONAL_GRADE_COLUMNS]
 
 
 def _monster_level_spans(cursor, monster_ids):
@@ -3779,21 +3794,24 @@ def encyclopedia_monster(request, monster_id, slug=None):
 
         # Per-grade stats
         if _db_table_exists(cursor, 'monster_grades'):
+            optional = _optional_grade_columns(cursor)
             for row in cursor.execute(
                     """
                     SELECT grade, level, life_points, action_points,
                            movement_points, earth_resistance, fire_resistance,
-                           water_resistance, air_resistance, neutral_resistance
+                           water_resistance, air_resistance, neutral_resistance, %s
                     FROM monster_grades
                     WHERE monster_ankama_id = ?
                     ORDER BY grade
-                    """, (target_monster_id,)):
+                    """ % ', '.join(column for _key, column in optional),
+                    (target_monster_id,)):
                 grade = {
                     'grade': row[0], 'level': row[1], 'hp': row[2],
                     'ap': row[3], 'mp': row[4], 'earth': row[5],
                     'fire': row[6], 'water': row[7], 'air': row[8],
                     'neutral': row[9],
                 }
+                grade.update(zip((key for key, _column in optional), row[10:]))
                 grade['weakest'] = _weakest_elements(grade)
                 grades.append(grade)
         # Subareas, French as fallback
@@ -3944,6 +3962,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             'item_drops': item_drops,
             'grades': grades,
             'has_weakness': any(g['weakest'] for g in grades),
+            'has_summoner_hp': any(g.get('summoner_hp') for g in grades),
             'weakness_element_name': weakness_element_name,
             'level_span': _grade_level_span(grades),
             'subareas': subareas,

@@ -5374,6 +5374,10 @@ class LocalizedUiParityTests(SimpleTestCase):
         from chardata.encyclopedia_view import LOCALIZED_UI
         self._assert_parity(LOCALIZED_UI, 'encyclopedia')
 
+    def test_monster_ui_parity(self):
+        from chardata.encyclopedia_view import MONSTER_UI
+        self._assert_parity(MONSTER_UI, 'monster')
+
     def test_localized_ui_dicts_use_native_accents(self):
         # MONSTER_UI is left out: one-word labels carry no accents
         from chardata import encyclopedia_view, forgemagie_view, inventory_view
@@ -7938,6 +7942,8 @@ class MonsterWeakestElementTests(TestCase):
         self.assertEqual(cell.render(Context({'g': {'hp': 0}})), '<td>-</td>')
         self.assertEqual(cell.render(Context({'g': {'hp': None}})), '<td>-</td>')
         self.assertEqual(cell.render(Context({'g': {'hp': 90}})), '<td>90</td>')
+        self.assertEqual(cell.render(Context({'g': {'hp': None, 'summoner_hp': 60}})), '<td>60%</td>')
+        self.assertEqual(cell.render(Context({'g': {'hp': 1, 'summoner_hp': 80}})), '<td>1 + 80%</td>')
 
         # {# #} is single-line only, a multi-line one leaks into the page
         from chardata import encyclopedia_view
@@ -14109,7 +14115,7 @@ class EncyclopediaMonsterPageTests(TestCase):
             '200 Neutral damage for 1 AP used')
 
     def test_no_version_stores_an_unusable_grade_row(self):
-        # A row with no level or no life points is not a grade
+        # A row with no level, or neither life points nor a share of the summoner's, is not a grade
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
 
@@ -14121,22 +14127,39 @@ class EncyclopediaMonsterPageTests(TestCase):
                         "WHERE type = 'table' AND name = 'monster_grades'"
                         ).fetchone():
                     continue
+                columns = {row[1] for row in conn.execute(
+                    'PRAGMA table_info(monster_grades)')}
+                if 'summoner_life_percent' in columns:
+                    no_health = ('((life_points IS NULL OR life_points <= 0) '
+                                 'AND (summoner_life_percent IS NULL '
+                                 'OR summoner_life_percent <= 0)) '
+                                 'OR summoner_life_percent <= 0 ')
+                else:
+                    no_health = 'life_points IS NULL OR life_points <= 0 '
                 total = conn.execute(
                     'SELECT COUNT(*) FROM monster_grades').fetchone()[0]
                 bad = conn.execute(
                     'SELECT monster_ankama_id, grade, level, life_points, '
                     'action_points, movement_points FROM monster_grades '
-                    'WHERE life_points IS NULL OR life_points <= 0 '
+                    'WHERE ' + no_health +
                     'OR level IS NULL OR level <= 0 '
                     # -1 and -100 mean the creature does not move, 0 is real
                     'OR action_points < 0 OR movement_points < 0 '
                     'LIMIT 5').fetchall()
+                unread = conn.execute(
+                    'SELECT monster_ankama_id, grade FROM monster_grades '
+                    'WHERE ap_dodge IS NULL OR mp_dodge IS NULL '
+                    'OR earth_resistance IS NULL OR fire_resistance IS NULL '
+                    'OR water_resistance IS NULL OR air_resistance IS NULL '
+                    'OR neutral_resistance IS NULL LIMIT 5').fetchall()
             finally:
                 conn.close()
             self.assertGreater(total, 0,
                                'no monster grades stored for %s' % game_version)
             self.assertFalse(bad, '%s stores empty grade rows, first few: %s'
                                   % (game_version, bad[:3]))
+            self.assertFalse(unread, '%s stores grades with no resistance or dodge, '
+                                     'first few: %s' % (game_version, unread[:3]))
 
     def test_monster_hub_shows_level_ranges_per_version(self):
         # The level span comes from each version's own monster_grades table.

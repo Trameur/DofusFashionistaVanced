@@ -1,25 +1,33 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """Dofus 3 and Beta monster grades are the rows the version's own client dump gives."""
+import html
 import os
 import sqlite3
 
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 
 import fashionista_version
 from fashionistapulp.fashionista_config import get_items_db_path
 
 BLUE_LARVA = 31
+DRUNKARDS_BARREL = 5843
 
 GRADE_36 = {
     'grade': 1, 'level': 16, 'lifePoints': 90, 'actionPoints': 5, 'movementPoints': 2,
     'paDodge': 0, 'pmDodge': 0, 'earthResistance': 6, 'airResistance': -9,
     'fireResistance': 6, 'waterResistance': -9, 'neutralResistance': 1,
+    'bonusCharacteristics': {'lifePoints': 0},
 }
 GRADE_37 = {
     'grade': 1, 'level': 16, 'lifePoints': 90, 'actionPoints': 5, 'movementPoints': 2,
     'paLostDodge': 0, 'mpLostDodge': 0, 'reductionEarth': 6, 'reductionAir': -9,
     'reductionFire': 6, 'reductionWater': -9, 'reductionNeutral': 1,
+    'bonusCharacteristics': {'lifePoints': 0},
 }
+
+
+def _summon(life_points, share):
+    return dict(GRADE_37, lifePoints=life_points, bonusCharacteristics={'lifePoints': share})
 
 
 def _storer():
@@ -31,7 +39,7 @@ class GradeRowTests(SimpleTestCase):
 
     def test_both_schemas_give_the_same_row(self):
         storer = _storer()
-        expected = (BLUE_LARVA, 1, 16, 90, 5, 2, 0, 0, 6, -9, 6, -9, 1)
+        expected = (BLUE_LARVA, 1, 16, 90, 5, 2, 0, 0, 6, -9, 6, -9, 1, None)
         self.assertEqual(expected, storer.grade_row(BLUE_LARVA, GRADE_36))
         self.assertEqual(expected, storer.grade_row(BLUE_LARVA, GRADE_37))
 
@@ -39,7 +47,8 @@ class GradeRowTests(SimpleTestCase):
         storer = _storer()
         neither = {key: value for key, value in GRADE_37.items() if key != 'reductionAir'}
         both = dict(GRADE_36, **GRADE_37)
-        for grade in (neither, both):
+        no_bonus = {key: value for key, value in GRADE_37.items() if key != 'bonusCharacteristics'}
+        for grade in (neither, both, no_bonus):
             with self.assertRaises(storer.UnknownGradeSchema):
                 storer.grade_row(BLUE_LARVA, grade)
 
@@ -47,6 +56,15 @@ class GradeRowTests(SimpleTestCase):
         storer = _storer()
         self.assertIsNone(storer.grade_row(BLUE_LARVA, dict(GRADE_37, lifePoints=0)))
         self.assertIsNone(storer.grade_row(BLUE_LARVA, dict(GRADE_37, level=0)))
+        self.assertIsNone(storer.grade_row(DRUNKARDS_BARREL, dict(_summon(0, 60), level=0)))
+
+    def test_a_summon_keeps_its_share_of_the_summoners_life_points(self):
+        storer = _storer()
+        for life_points, share, expected in ((0, 60, (None, 60)), (18, 80, (18, 80)),
+                                             (90, 0, (90, None))):
+            with self.subTest(life_points=life_points, share=share):
+                row = dict(zip(storer.COLUMNS, storer.grade_row(DRUNKARDS_BARREL, _summon(life_points, share))))
+                self.assertEqual(expected, (row['life_points'], row['summoner_life_percent']))
 
     def test_negative_ap_and_mp_are_stored_as_null(self):
         storer = _storer()
@@ -69,7 +87,8 @@ class GradeRowTests(SimpleTestCase):
 
 
 class StoredGradesMatchTheDumpTests(SimpleTestCase):
-    VERSIONS = {'dofus3': fashionista_version.FASHIONISTA_VERSION}
+    VERSIONS = {'dofus3': fashionista_version.FASHIONISTA_VERSION,
+                'beta': fashionista_version.FASHIONISTA_BETA_VERSION}
 
     def test_the_table_holds_the_rows_the_dump_gives(self):
         storer = _storer()
@@ -91,3 +110,25 @@ class StoredGradesMatchTheDumpTests(SimpleTestCase):
                 self.assertEqual(len(rows), len(built))
                 self.assertEqual([], sorted(built - stored, key=str)[:5])
                 self.assertEqual([], sorted(stored - built, key=str)[:5])
+
+
+class SummonPageTests(TestCase):
+
+    def test_a_beta_summon_shows_its_share_and_the_hint(self):
+        from chardata.encyclopedia_view import MONSTER_UI
+        from chardata.official_site import get_monster_link
+        conn = sqlite3.connect(get_items_db_path('beta'))
+        try:
+            name = conn.execute("SELECT name FROM monster_names WHERE monster_ankama_id = ? "
+                                "AND language = 'en'", (DRUNKARDS_BARREL,)).fetchone()[0]
+            grades = conn.execute('SELECT level, life_points, summoner_life_percent FROM monster_grades '
+                                  'WHERE monster_ankama_id = ?', (DRUNKARDS_BARREL,)).fetchall()
+        finally:
+            conn.close()
+        self.assertTrue(grades)
+        page = html.unescape(self.client.get(get_monster_link(DRUNKARDS_BARREL, name, 'beta')).content.decode('utf-8'))
+        for level, life_points, share in grades:
+            self.assertLess(level, 200)
+            self.assertIsNone(life_points)
+            self.assertRegex(page, r'<td>\s*%d%%\s*</td>' % share)
+        self.assertIn(MONSTER_UI['en']['summoner_hp_hint'], page)

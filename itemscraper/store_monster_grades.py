@@ -37,13 +37,14 @@ MIN_ROWS = 20000
 COLUMNS = ('monster_ankama_id', 'grade', 'level', 'life_points', 'action_points',
            'movement_points', 'ap_dodge', 'mp_dodge', 'earth_resistance',
            'air_resistance', 'fire_resistance', 'water_resistance',
-           'neutral_resistance')
+           'neutral_resistance', 'summoner_life_percent')
 NEVER_NULL = ('ap_dodge', 'mp_dodge', 'earth_resistance', 'air_resistance',
               'fire_resistance', 'water_resistance', 'neutral_resistance')
 
 COMMON_FIELDS = {
     'grade': 'grade', 'level': 'level', 'life_points': 'lifePoints',
     'action_points': 'actionPoints', 'movement_points': 'movementPoints',
+    'summoner_life_percent': 'bonusCharacteristics.lifePoints',
 }
 SCHEMAS = {
     '3.6': {
@@ -65,12 +66,26 @@ class UnknownGradeSchema(ValueError):
     pass
 
 
+def _value(grade, key):
+    for part in key.split('.'):
+        grade = grade[part]
+    return grade
+
+
+def _has(grade, key):
+    try:
+        _value(grade, key)
+    except (KeyError, TypeError):
+        return False
+    return True
+
+
 def grade_fields(monster_id, grade):
     """{column: key} of the one schema whose keys the grade carries."""
     matches = []
-    for name, fields in sorted(SCHEMAS.items()):
+    for fields in SCHEMAS.values():
         fields = dict(COMMON_FIELDS, **fields)
-        if all(key in grade for key in fields.values()):
+        if all(_has(grade, key) for key in fields.values()):
             matches.append(fields)
     if len(matches) != 1:
         raise UnknownGradeSchema(
@@ -82,8 +97,11 @@ def grade_fields(monster_id, grade):
 def grade_row(monster_id, grade):
     """The monster_grades row of one dump grade, or None for an empty grade."""
     fields = grade_fields(monster_id, grade)
-    values = {column: grade[key] for column, key in fields.items()}
-    if not values['level'] or not values['life_points']:
+    values = {column: _value(grade, key) for column, key in fields.items()}
+    if not values['summoner_life_percent'] or values['summoner_life_percent'] < 0:
+        values['summoner_life_percent'] = None
+    values['life_points'] = values['life_points'] or None
+    if not values['level'] or not (values['life_points'] or values['summoner_life_percent']):
         return None
     for column in ('action_points', 'movement_points'):
         if values[column] is not None and values[column] < 0:

@@ -124,7 +124,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                         <td>{{ g.grade }}</td>
                         <td>{{ g.level }}</td>
                         {# No creature has zero health: 0 means the game has no value. #}
-                        <td>{% if g.hp %}{{ g.hp }}{% else %}-{% endif %}</td>
+                        <td>{% if g.hp %}{{ g.hp }}{% if g.summoner_hp %} + {{ g.summoner_hp }}%{% endif %}{% elif g.summoner_hp %}{{ g.summoner_hp }}%{% else %}-{% endif %}</td>
                         {# 0 AP or 0 MP is a real creature; no value is not. #}
                         <td>{% if g.ap is None %}-{% else %}{{ g.ap }}{% endif %}</td>
                         <td>{% if g.mp is None %}-{% else %}{{ g.mp }}{% endif %}</td>
@@ -139,6 +139,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
             </table>
             </div>
             {% if has_weakness %}<p class="monster-weakest-hint">{{ mt.weakest_hint }}</p>{% endif %}
+            {% if has_summoner_hp %}<p class="monster-weakest-hint">{{ mt.summoner_hp_hint }}</p>{% endif %}
         </div>
         {% endif %}
 
