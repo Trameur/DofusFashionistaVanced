@@ -312,7 +312,9 @@ def main() -> None:
             "--game-version", "dofus3",
         ], cwd=ITEMSCRAPER)
         # After drops/store, which creates monster_names
-        step("monster-grades", [PY, "store_dofusdb_monster_grades.py"], cwd=ITEMSCRAPER)
+        step("monster-grades", [PY, "store_monster_grades.py",
+                                "--game-version", "dofus3", "--tag", version],
+             cwd=ITEMSCRAPER)
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py"], cwd=ITEMSCRAPER)
         # Its own dump, not the newest under raw/: that one is the beta's.
         step("monster-spells", [PY, "store_monster_spells.py",

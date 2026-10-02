@@ -335,8 +335,9 @@ def main() -> None:
             "--game-version", "beta",
         ], cwd=ITEMSCRAPER)
         # Need monster_names, which drops/store creates
-        step("monster-grades", [PY, "store_dofusdb_monster_grades.py",
-                                "--game-version", "beta"], cwd=ITEMSCRAPER)
+        step("monster-grades", [PY, "store_monster_grades.py",
+                                "--game-version", "beta", "--tag", version],
+             cwd=ITEMSCRAPER)
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py",
                                      "--game-version", "beta"], cwd=ITEMSCRAPER)
         step("monster-spells", [PY, "store_monster_spells.py",

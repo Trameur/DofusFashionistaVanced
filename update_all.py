@@ -46,8 +46,7 @@ TOUCH_CLIENT = 'https://dt-proxy-production-login.ankama-games.com/build/script.
 WAKFU = 'https://wakfu.cdn.ankama.com/gamedata/config.json'
 IMAGE_STEPS = {'item-images', 'resource-icons', 'monster-images',
                'monsters/artworks', 'spell-images', 'spell-icons', 'resize'}
-LOCAL_TABLES = {'mount-looks': 'mount_looks', 'monster-grades': 'monster_grades',
-                'monster-subareas': 'monster_subareas'}
+LOCAL_TABLES = {'mount-looks': 'mount_looks', 'monster-subareas': 'monster_subareas'}
 NETWORK_STEP = re.compile(r'download|mirror|scrape|data/sets|data/spells|data/mounts|images|icons|artworks')
 RETRY_DELAY = 20
 PIPELINE_TIMEOUT = 4 * 3600

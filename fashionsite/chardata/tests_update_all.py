@@ -902,7 +902,7 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         module = SimpleNamespace(__file__='legacy.py')
         def main():
             module.run_step('monster-images', ['python', 'download_monster_images.py'])
-            module.run_step('monster-grades', ['python', 'store_dofusdb_monster_grades.py'])
+            module.run_step('monster-subareas', ['python', 'store_dofusdb_monster_subareas.py'])
         module.main = main
         job = self.root / 'job.json'
         updater.write_json(job, {'key': 'dofus3', 'images': True, 'available': '3.6.10.0', 'timeout': 60})
@@ -916,6 +916,41 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         steps = updater.read_json(self.root / 'dofus3-steps.json')
         self.assertEqual(2, len(steps))
         self.assertTrue(all(step['warning'] and step['kept'] for step in steps))
+
+    def test_monster_grades_are_stored_from_the_dump_on_dofus3_and_beta(self):
+        for key in ('dofus3', 'beta'):
+            with self.subTest(key=key):
+                command = ['python', 'store_monster_grades.py', '--game-version', key, '--tag', '3.7.2.2']
+                module = SimpleNamespace(__file__='legacy.py')
+                def main():
+                    module.run_step('monster-grades', command)
+                module.main = main
+                commands = []
+                def run(command, log, *args, **kwargs):
+                    commands.append(command)
+                    log.write_text('ok\n', encoding='utf-8')
+                    return {'exit_code': 0, 'log': str(log), 'seconds': .1}
+                job = self.root / key / 'job.json'
+                job.parent.mkdir()
+                updater.write_json(job, {'key': key, 'images': False, 'available': '3.7.2.2', 'timeout': 60})
+                with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
+                        mock.patch.object(updater, 'run_command', side_effect=run), \
+                        mock.patch.object(audit, 'preserve_table') as preserve, \
+                        mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
+                    updater.worker(job)
+                preserve.assert_not_called()
+                self.assertEqual([command], commands)
+
+    def test_both_pipelines_store_monster_grades_from_their_own_tag(self):
+        repo = Path(__file__).resolve().parents[2]
+        for pipeline in ('update_data.py', 'update_data_beta.py'):
+            with self.subTest(pipeline=pipeline):
+                source = (repo / pipeline).read_text(encoding='utf-8')
+                self.assertNotIn('dofusdb_monster_grades', source)
+                step = re.search(r'step\("monster-grades", \[(.*?)\]', source, re.S)
+                self.assertTrue(step, 'no monster-grades step in %s' % pipeline)
+                self.assertIn('"store_monster_grades.py"', step.group(1))
+                self.assertIn('"--tag", version', step.group(1))
 
     def test_pipeline_failure_names_the_step_and_cause_in_the_console(self):
         settings = self.root / 'fashionsite/fashionsite/settings_test.py'

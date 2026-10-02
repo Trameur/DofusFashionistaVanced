@@ -103,7 +103,7 @@ def probe_dofus3_sets():
 
 
 def probe_dofusdb_monsters():
-    """DofusDB, the source of the modern monster stats and artwork."""
+    """DofusDB, the source of the modern monster subareas and artwork."""
     payload = _get_json('https://api.dofusdb.fr/monsters?$limit=50')
     return len(payload.get('data') or []), 'monsters on one page'
 
