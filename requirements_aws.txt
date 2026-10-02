@@ -57,7 +57,7 @@ pyasn1-modules==0.4.2
 pycparser==3.0
 PyJWT==2.15.0
 pylibmc==1.6.3
-PyMySQL==1.2.0
+PyMySQL==1.2.3
 pyOpenSSL==26.4.0
 pyparsing==3.3.3
 pyrsistent==0.20.0
