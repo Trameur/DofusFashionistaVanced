@@ -22,6 +22,7 @@ from chardata.translation_util import localized_stat_name
 
 from chardata.stats_weights import get_stats_weights, set_stats_weights
 from chardata.util import safe_int, remove_cache_for_char
+from fashionistapulp.structure import get_structure
 from fashionistapulp.dofus_constants import (MAIN_STATS, DAMAGE_TYPES,
                                              ELEMENT_KEY_TO_NAME, STAT_KEY_TO_NAME)
 
@@ -43,13 +44,9 @@ def _damage_is_derived(unreachable):
     return not all(key in unreachable for key in _element_keys('%sdam'))
 
 
-def _sections(game_version):
-    """(section key, label, slider keys) for every stat a weight can steer."""
-    unreachable = _unreachable_stats(game_version)
-    offense = list(MAIN_STATS) + ['pow']
-    if not _damage_is_derived(unreachable):
-        offense.append('dam')
-    offense += _element_keys('%sdam') + [
+def _raw_sections():
+    """(section key, label, keys) for every stat a weight could steer, on any version."""
+    offense = list(MAIN_STATS) + ['pow', 'dam'] + _element_keys('%sdam') + [
         'ch', 'cridam', 'permedam', 'perrandam', 'perweadam', 'perspedam',
         'pshdam', 'trapdam', 'trapdamper']
     defense = (['vit', 'hp', 'perres'] + _element_keys('%sresper')
@@ -57,7 +54,7 @@ def _sections(game_version):
                + ['crires', 'pshres', 'respermee', 'resperran', 'resperwea',
                   'pvpperres'] + _element_keys('pvp%sresper')
                + ['pvplinres'] + _element_keys('pvp%sres'))
-    sections = [
+    return [
         ('apmprange', pgettext('Slider section', 'AP, MP and Range'),
          ['ap', 'mp', 'range']),
         ('offense', pgettext('Slider section', 'Offense'), offense),
@@ -67,11 +64,18 @@ def _sections(game_version):
         ('special', pgettext('Slider section', 'Special'),
          ['heals', 'summon', 'wis', 'pp', 'pod', 'ref']),
     ]
+
+
+def _sections(game_version):
+    """(section key, label, slider keys) for every stat a weight can steer."""
+    unreachable = _unreachable_stats(game_version)
+    derived = _damage_is_derived(unreachable)
     offered = []
-    for section_key, label, keys in sections:
+    for section_key, label, keys in _raw_sections():
         kept = [key for key in keys
-                if (_members(key, unreachable) if key in AGGREGATE_SLIDERS
-                    else key not in unreachable)]
+                if not (key == 'dam' and derived)
+                and (_members(key, unreachable) if key in AGGREGATE_SLIDERS
+                     else key not in unreachable)]
         offered.append((section_key, label, kept))
     return offered
 
@@ -173,8 +177,11 @@ def _shown_value(value):
     """The value the page's slider starts on: JavaScript's Math.round."""
     return int(math.floor(value + 0.5))
 
-def set_wizard_sliders(char, slider_dict):
-    weights = get_stats_weights(char)
+def apply_weight_fields(char, fields, prefix, base=None):
+    """Saves the weights a form posts as prefix + key, on top of base or the stored ones."""
+    weights = dict(base) if base is not None else get_stats_weights(char)
+    for stat in get_structure().get_stats_list():
+        weights.setdefault(stat.key, 0)
     # Values the page showed
     shown = dict(weights)
     game_version = getattr(char, 'game_version', 'dofus3') or 'dofus3'
@@ -185,9 +192,7 @@ def set_wizard_sliders(char, slider_dict):
     offered.sort(key=lambda key: key not in AGGREGATE_SLIDERS)
 
     for slider_key in offered:
-        form_field_name = 'slider_%s' % slider_key
-        slider_value_string = slider_dict.get(form_field_name, None)
-        new_slider_value = safe_int(slider_value_string)
+        new_slider_value = safe_int(fields.get(prefix + slider_key, None))
         if new_slider_value is None:
             continue
         members = (_members(slider_key, unreachable)
@@ -203,6 +208,10 @@ def set_wizard_sliders(char, slider_dict):
         _post_process_weights(weights)
     set_stats_weights(char, weights)
     remove_cache_for_char(char.id)
+    return weights
+
+def set_wizard_sliders(char, slider_dict):
+    apply_weight_fields(char, slider_dict, 'slider_')
 
 def _post_process_weights(weights):
     weights['dam'] = sum([weights['%sdam' % dam_type] for dam_type in DAMAGE_TYPES])

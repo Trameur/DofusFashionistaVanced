@@ -19,7 +19,7 @@ from chardata.default_elements import version_element
 from chardata.models import Char
 from chardata.options import set_setup_choices
 from chardata.smart_build import (ASPECT_TO_NAME, get_char_aspects, get_elements,
-                                  get_standard_weights, reapply_weights, set_char_aspects)
+                                  get_standard_weights, set_char_aspects)
 from chardata.stats_weights import get_stats_weights
 from chardata.translation_util import localized_stat_name
 from chardata.version_compat import class_exists_in_version, filter_classes_for_version
@@ -340,16 +340,20 @@ def apply_setup_choices(char, aspects, priority=DEFAULT_PRIORITY, play_mode=DEFA
     return boxes
 
 
-def reapply_build_weights(char):
-    """smart_build.reapply_weights, counting the build's priority too."""
+def default_build_weights(char):
+    """The weights the build's boxes and priority give, without saving them."""
     priority, _play_mode = stored_choices(char)
     if priority == DEFAULT_PRIORITY:
-        reapply_weights(char)
-        return
+        return get_standard_weights(char)
     solved = solved_aspects(get_char_aspects(char), priority)
-    char.stats_weight = pickle.dumps(get_standard_weights(Char(
+    return get_standard_weights(Char(
         char_class=char.char_class, level=char.level, game_version=char.game_version,
-        aspects=pickle.dumps(solved))))
+        aspects=pickle.dumps(solved)))
+
+
+def reapply_build_weights(char):
+    """smart_build.reapply_weights, counting the build's priority too."""
+    char.stats_weight = pickle.dumps(default_build_weights(char))
 
 
 def choices_line(char):
