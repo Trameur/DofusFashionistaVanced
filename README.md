@@ -92,22 +92,31 @@ Then open `http://localhost:8000` in your browser.
 
 ## Unix / AWS EC2
 
-SSH into your EC2 instance if needed
+SSH into your EC2 instance if needed. Django 6.0 needs Python 3.12 or later, and
+`python3` on Amazon Linux 2023 is 3.9, so the commands name `python3.14`. On another
+distribution, use any Python from 3.12 on.
 
-```shell 
-git clone https://github.com/Trameurs/DofusFashionista.git fashionista  
-echo "export PYTHONPATH=/home/<\<user\>>/fashionista/fashionistapulp" >> ~/.bashrc  
-chmod 777 fashionista  
-chmod 777 fashionista/fashionistapulp/fashionistapulp  
-cd fashionista  
-sudo python3 ./configure_fashionista_root.py -i -s -d  
+```shell
+sudo dnf install -y git python3.14
+git clone https://github.com/Trameur/DofusFashionistaVanced.git ~/DofusFashionistaVanced
+echo "export PYTHONPATH=$HOME/DofusFashionistaVanced/fashionistapulp" >> ~/.bashrc
+chmod 777 ~/DofusFashionistaVanced
+chmod 777 ~/DofusFashionistaVanced/fashionistapulp/fashionistapulp
+cd ~/DofusFashionistaVanced
+sudo python3.14 ./configure_fashionista_root.py -i -s
 ```
+
+Add `-d` on a development machine only: it turns `DEBUG` on, which accepts any host name
+and shows error pages with tracebacks.
 
 Configure files in /etc/fashionista
 
 ```shell
-python3 ./configure_fashionista.py
+python3.14 ./configure_fashionista.py
 ```
+
+For Apache, mod_wsgi, RDS and the cron jobs, see the EC2 section of
+[AWS_MIGRATION.md](AWS_MIGRATION.md#ec2-host-amazon-linux-2023).
 
 # Updating game data (scraping)
 
@@ -187,8 +196,9 @@ For detailed Docker setup, see [DOCKER_SETUP.md](DOCKER_SETUP.md).
 For production deployment to AWS with RDS and ECS/Fargate:
 
 ### Quick Start
-1. **Setup RDS**: Follow [AWS_MIGRATION.md](AWS_MIGRATION.md#aws-setup)
-2. **Migrate Data**: Use `sync_db.py` to transfer data from local MySQL to AWS RDS
+1. **Setup RDS**: MySQL 8.4, follow [AWS_MIGRATION.md](AWS_MIGRATION.md#aws-setup)
+2. **Migrate Data**: Create the tables with `manage.py migrate`, take a snapshot, then use
+   `sync_db.py` to transfer data from local MySQL to AWS RDS
 3. **Deploy App**: Follow deployment checklist in [AWS_DEPLOYMENT_CHECKLIST.md](AWS_DEPLOYMENT_CHECKLIST.md)
 
 ### Documentation
@@ -211,7 +221,8 @@ python sync_db.py \
   --source-db fashionista_migration \
   --dest-host fashionista-mysql.xxxxx.rds.amazonaws.com \
   --dest-port 3306 \
-  --dest-db fashionista
+  --dest-db fashionista \
+  --config ~/.aws/fashionista_aws_config.json
 
 # Use environment variables
 export SOURCE_DB_HOST=localhost
@@ -221,7 +232,8 @@ python sync_db.py
 
 Features:
 - Dry-run mode to test without making changes
-- Automatic backup before migration
+- Copies every base table of the source, foreign key checks off on the destination
+- No backup: it empties every table it copies, so take an RDS snapshot first
 - Row-count verification after migration
 - Batch processing for large datasets
 - Detailed logging to `db_sync.log`

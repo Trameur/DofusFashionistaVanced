@@ -4,7 +4,7 @@
 
 ## 30-Second Summary
 
-1. **Create AWS RDS** instance (MySQL 8.0)
+1. **Create AWS RDS** instance (MySQL 8.4)
 2. **Run sync script** to transfer data from local → AWS  
 3. **Deploy Docker image** to AWS ECS/Fargate
 4. **Point domain** to AWS load balancer
@@ -20,12 +20,13 @@
 
 #### Step 1: Create AWS RDS (30 minutes)
 ```bash
-# Create MySQL 8.0 instance
+# Create MySQL 8.4 instance
 aws rds create-db-instance \
   --db-instance-identifier fashionista-mysql \
   --db-instance-class db.t3.micro \
   --engine mysql \
-  --engine-version 8.0 \
+  --engine-version 8.4 \
+  --db-name fashionista \
   --master-username fashionista \
   --master-user-password "YourStrongPassword" \
   --allocated-storage 20 \
@@ -57,10 +58,15 @@ mysql -h fashionista-mysql.c9akciq32.us-east-1.rds.amazonaws.com \
 python sync_db.py --dry-run
 
 # Watch the output for any errors
-# Expected output shows all 24 tables would be synced
+# Expected output starts with "Tables in the source: N", one line per table
+# A table missing on the destination is named at the end, with exit code 1
 ```
 
 #### Step 5: Migrate Data to AWS (30-60 minutes)
+`sync_db.py` copies rows into existing tables, writes no backup and empties every table it
+copies. First create the tables with Django migrations and take an RDS snapshot
+([AWS_MIGRATION.md](AWS_MIGRATION.md), Data Migration Steps 2 and 3).
+
 ```bash
 # Run actual migration to AWS
 # Replace endpoint with your actual RDS endpoint
@@ -80,6 +86,7 @@ python sync_db.py \
 type db_sync.log
 
 # Expected: "✓ All tables verified - sync successful!"
+# Otherwise "Tables not copied or not matching: ..." and exit code 1
 ```
 
 #### Step 6: Verify Data (10 minutes)
@@ -89,11 +96,10 @@ mysql -h fashionista-mysql.c9akciq32.us-east-1.rds.amazonaws.com \
       -u fashionista -p fashionista << 'EOF'
 USE fashionista;
 SELECT 'auth_user' as tbl, COUNT(*) as cnt FROM auth_user
-UNION ALL SELECT 'chardata_char', COUNT(*) FROM chardata_char
-UNION ALL SELECT 'chardata_build', COUNT(*) FROM chardata_build;
+UNION ALL SELECT 'chardata_char', COUNT(*) FROM chardata_char;
 EOF
 
-# Expected: Around 5662 users, 136295 chars, 136295 builds
+# Expected: Around 5662 users and 136295 builds (chardata_char)
 ```
 
 ### Week 2: Application Deployment
@@ -115,10 +121,13 @@ docker push 123456789.dkr.ecr.us-east-1.amazonaws.com/fashionista:latest
 
 #### Step 8: Deploy to ECS (30 minutes)
 - Create ECS cluster: `fashionista-cluster`
-- Create task definition pointing to ECR image
+- Create task definition pointing to ECR image, with the entry point
+  `["/bin/sh", "/app/docker-entrypoint.sh"]` and the configuration files of
+  [AWS_MIGRATION.md](AWS_MIGRATION.md), Deployment Step 3
 - Create ECS service with 2-3 tasks
 - Create Application Load Balancer
-- Configure health checks
+- Configure health checks: the ALB check gets a 400 from Django, see Deployment Step 3
+- Choose how the static files are served (Deployment Step 4)
 
 #### Step 9: Setup Domain (15 minutes)
 - Point domain to ALB DNS name
@@ -149,7 +158,7 @@ For Windows, use the included helper script:
 # Sync to Docker locally
 .\aws_deploy.bat sync-to-docker
 
-# Sync to AWS RDS
+# Sync to AWS RDS (asks the RDS password, unless DEST_DB_PASSWORD is set)
 .\aws_deploy.bat sync-to-aws fashionista-mysql.c9akciq32.us-east-1.rds.amazonaws.com
 
 # Show detailed help
@@ -199,11 +208,8 @@ python sync_db.py
 
 ### "Migration failed mid-way"
 - Check `db_sync.log` for exact error
-- Restore from backup if needed:
-  ```bash
-  mysql -h RDS_ENDPOINT -u fashionista -p < db_backup_*.sql
-  ```
-- Fix issue and re-run sync
+- Restore the snapshot taken before the run if needed (see Rollback Plan below)
+- Fix issue and re-run sync: it empties and copies every table again
 
 ### "Row counts don't match"
 - Check network connectivity
@@ -211,10 +217,8 @@ python sync_db.py
   ```bash
   mysql -h RDS_ENDPOINT -u fashionista -p -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
   ```
-- If < 16MB, increase it:
-  ```bash
-  mysql -h RDS_ENDPOINT -u fashionista -p -e "SET GLOBAL max_allowed_packet = 268435456;"
-  ```
+- If < 16MB, increase it in the instance's DB parameter group: RDS sets server variables
+  there, not with `SET GLOBAL`
 
 ---
 
@@ -294,9 +298,8 @@ If something goes wrong:
 
 ---
 
-**Everything is prepared for AWS deployment!** 🚀
-
-Use this guide as your reference during deployment.  
-All scripts are production-ready and tested locally.
+Use this guide as your reference during deployment. The scripts have tests in
+`fashionsite/chardata`; the static files choice of AWS_MIGRATION.md, Deployment Step 4,
+comes before the switch.
 
 **Need help?** Check the referenced documentation files above.

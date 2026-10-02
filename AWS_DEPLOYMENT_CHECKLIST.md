@@ -21,8 +21,11 @@ Quick reference for deploying Dofus Fashionista to AWS.
 - [ ] Store credentials securely (not in git!)
 
 ### 3. Code Preparation
-- [ ] Update `fashionsite/settings.py` with RDS endpoint
-- [ ] Set `DEBUG=False` for production
+- [ ] Python 3.12 or later locally: Django 6.0 needs it
+- [ ] No `settings.py` edit for the database: it reads `DB_HOST`, `DB_PORT`, `DB_NAME`,
+  `DB_USER` and `DB_PASSWORD` from the environment
+- [ ] Production `debug_mode` file says `False` (the Docker image writes it)
+- [ ] Production `gen_config.json` ready, with its own `SECRET_KEY`
 - [ ] Collect static files locally: `python manage.py collectstatic`
 - [ ] Run migrations locally: `python manage.py migrate`
 - [ ] Test on local Docker one more time
@@ -30,12 +33,12 @@ Quick reference for deploying Dofus Fashionista to AWS.
 ## AWS Setup (Week 1)
 
 ### 1. RDS Instance Creation ✓
-- [ ] Create RDS MySQL 8.0 instance
+- [ ] Create RDS MySQL 8.4 instance (8.0 costs Extended Support fees since 1 August 2026)
   - [ ] Instance ID: `fashionista-mysql`
   - [ ] Instance class: `db.t3.micro` (free tier eligible)
   - [ ] Allocated storage: 20-50 GB
   - [ ] Multi-AZ: No (save cost)
-  - [ ] Database name: `fashionista`
+  - [ ] Database name: `fashionista` (`--db-name fashionista` with the CLI)
   - [ ] Master username: `fashionista`
   - [ ] Auto backup: Yes, 30 days retention
   - [ ] Enable Enhanced Monitoring
@@ -56,7 +59,9 @@ Quick reference for deploying Dofus Fashionista to AWS.
   ```
 
 ### 3. Create S3 Bucket for Static Files ✓
-- [ ] Create S3 bucket: `fashionista-static-files`
+- [ ] Create S3 bucket. The scripts name theirs: `upload_static_files.py` uploads to
+  `fashionistavanced`, `backup_db.py` to `fashionista-dbbackup`. Change those names there
+  if yours differ.
   - [ ] Block Public Access: Off (for CloudFront)
   - [ ] Enable versioning (optional, for rollback)
   - [ ] Enable server-side encryption (default)
@@ -64,12 +69,17 @@ Quick reference for deploying Dofus Fashionista to AWS.
 - [ ] Create CloudFront distribution pointing to S3
   - [ ] Origin: S3 bucket
   - [ ] Cache policy: CachingOptimized
-  - [ ] Note CloudFront URL (will be used in Django settings)
+  - [ ] Note CloudFront URL. `STATIC_URL` is fixed to `/static/` in `settings.py`, so
+    using it means changing that line (see AWS_MIGRATION.md, Deployment Step 4)
 
 ## Data Migration (Week 1)
 
 ### 1. Pre-Migration
-- [ ] Create RDS backup: `aws rds create-db-snapshot --db-instance-identifier fashionista-mysql --db-snapshot-identifier fashionista-backup-pre-migration`
+- [ ] Create the tables on RDS: `python fashionsite/manage.py migrate` with `DB_HOST`,
+  `DB_USER` and `DB_PASSWORD` set to the RDS values. `sync_db.py` creates no table.
+- [ ] Create RDS backup: `aws rds create-db-snapshot --db-instance-identifier fashionista-mysql --db-snapshot-identifier fashionista-backup-pre-migration`.
+  `sync_db.py` writes no backup and empties every table it copies.
+- [ ] Write the credentials file of AWS_MIGRATION.md (AWS Setup, Step 3)
 - [ ] Verify local MySQL is running
 - [ ] Verify Docker MySQL is running for local test
 
@@ -83,6 +93,7 @@ Quick reference for deploying Dofus Fashionista to AWS.
     --dest-host fashionista-mysql.xxxxx.rds.amazonaws.com \
     --dest-port 3306 \
     --dest-db fashionista \
+    --config ~/.aws/fashionista_aws_config.json \
     --dry-run
   ```
 - [ ] Verify no errors in output
@@ -99,22 +110,21 @@ Quick reference for deploying Dofus Fashionista to AWS.
     --source-db fashionista_migration \
     --dest-host fashionista-mysql.xxxxx.rds.amazonaws.com \
     --dest-port 3306 \
-    --dest-db fashionista
+    --dest-db fashionista \
+    --config ~/.aws/fashionista_aws_config.json
   ```
 - [ ] Monitor `db_sync.log` for completion
 - [ ] Expected time: 15-45 minutes
 
 ### 4. Post-Migration Verification ✓
-- [ ] Connect to RDS and run verification queries:
+- [ ] Connect to RDS and run the queries of MIGRATION_EXAMPLES.md, Example 8:
   ```bash
   mysql -h fashionista-mysql.xxxxx.rds.amazonaws.com \
-        -u fashionista -p fashionista < MIGRATION_EXAMPLES.md
-  # Run the "Verify After Migration" example queries
+        -u fashionista -p fashionista
   ```
 - [ ] Verify row counts for key tables:
   - [ ] `auth_user`: ~5,662 rows
-  - [ ] `chardata_char`: ~136,295 rows
-  - [ ] `chardata_build`: ~136,295+ rows
+  - [ ] `chardata_char` (the builds): ~136,295 rows
   - [ ] `django_session`: ~46,984 rows
   
 - [ ] Create RDS backup post-migration: `aws rds create-db-snapshot ...`
@@ -123,7 +133,7 @@ Quick reference for deploying Dofus Fashionista to AWS.
 
 ### 1. Container Registry (ECR)
 - [ ] Create ECR repository: `fashionista`
-- [ ] Get login credentials: `aws ecr get-login-password --region us-east-1`
+- [ ] Log Docker in: `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin {ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com`
 - [ ] Build and push Docker image:
   ```bash
   docker build -t dofus-fashionista:latest .
@@ -135,6 +145,8 @@ Quick reference for deploying Dofus Fashionista to AWS.
 - [ ] Create ECS cluster: `fashionista-cluster`
 - [ ] Create task definition:
   - [ ] Container image: ECR URI
+  - [ ] Entry point: `["/bin/sh", "/app/docker-entrypoint.sh"]` (the image's default
+    command is the development server)
   - [ ] Memory: 512-1024 MB
   - [ ] CPU: 256-512 units
   - [ ] Port: 8000
@@ -144,14 +156,21 @@ Quick reference for deploying Dofus Fashionista to AWS.
     - `DB_NAME`: fashionista
     - `DB_USER`: fashionista
     - `DB_PASSWORD`: (from secrets manager)
-    - `DEBUG`: False
-    - `ALLOWED_HOSTS`: your domain
+    - `FASHIONISTA_CONFIG_DIR`: an EFS mount holding `gen_config.json`, `debug_mode`
+      (`False`) and `serve_static` (`True`)
+  - [ ] No `DEBUG` or `ALLOWED_HOSTS` variable: `settings.py` ignores both. `DEBUG` comes
+    from `debug_mode`, `ALLOWED_HOSTS` is a fixed list in `settings.py`
+  - [ ] Container health check: the `curl` of `docker-compose.yml` with its `Host` header,
+    `startPeriod` 300 (the ECS maximum), `interval` 30, `retries` 10
 
 - [ ] Create ECS service:
   - [ ] Task definition: above
   - [ ] Number of tasks: 2-3 (for HA)
   - [ ] Load balancer: ALB
-  - [ ] Health check path: `/`
+  - [ ] Health check path: `/`, success code `400`: the ALB sends the task's private IP as
+    `Host`, which `ALLOWED_HOSTS` refuses
+  - [ ] Health check grace period: 600 seconds, the first boot budget of
+    `docker-compose.yml`; it also covers the container health check
 
 ### 3. Load Balancer Setup
 - [ ] Create Application Load Balancer (ALB)
@@ -180,6 +199,7 @@ Quick reference for deploying Dofus Fashionista to AWS.
 
 ### 1. Application Testing ✓
 - [ ] Access homepage: https://your-domain.com/
+- [ ] Check CSS and scripts load (static files, AWS_MIGRATION.md Deployment Step 4)
 - [ ] Check navbar loads
 - [ ] Test user login
 - [ ] Search for an item
@@ -232,6 +252,7 @@ Quick reference for deploying Dofus Fashionista to AWS.
 - ALB: ~$15/month
 - S3 static files: <$1/month (small project)
 - **Total**: ~$50-70/month
+- RDS MySQL 8.0 would add Extended Support fees: stay on 8.4
 
 ### Cost Reduction Tips
 - [ ] Use RDS Reserved Instances for 1-3 year discount
@@ -253,7 +274,7 @@ Quick reference for deploying Dofus Fashionista to AWS.
 - [ ] Clean up old logs and backups
 
 ### Quarterly
-- [ ] Major version updates (Django, MySQL, etc.)
+- [ ] Major version updates (Django, MySQL, etc.). MySQL: AWS_MIGRATION.md, MySQL Upgrades
 - [ ] Performance tuning based on metrics
 - [ ] Security audit (access logs, permissions)
 - [ ] Plan capacity for growth
@@ -326,6 +347,6 @@ aws ce get-cost-and-usage \
 
 ---
 
-**Last Updated**: April 18, 2026  
+**Last Updated**: October 2, 2026  
 **Version**: 1.0  
-**Status**: Ready for deployment
+**Status**: Ready once the static files are served (AWS_MIGRATION.md, Deployment Step 4)
