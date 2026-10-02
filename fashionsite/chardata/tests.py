@@ -5379,11 +5379,11 @@ class LocalizedUiParityTests(SimpleTestCase):
         self._assert_parity(MONSTER_UI, 'monster')
 
     def test_localized_ui_dicts_use_native_accents(self):
-        # MONSTER_UI is left out: one-word labels carry no accents
         from chardata import encyclopedia_view, forgemagie_view, inventory_view
         accented = re.compile('[À-ɏ]')
         dicts = {
             'encyclopedia.LOCALIZED_UI': encyclopedia_view.LOCALIZED_UI,
+            'encyclopedia.MONSTER_UI': encyclopedia_view.MONSTER_UI,
             'forgemagie.LOCALIZED_UI': forgemagie_view.LOCALIZED_UI,
             'inventory.LOCALIZED_UI': inventory_view.LOCALIZED_UI,
         }

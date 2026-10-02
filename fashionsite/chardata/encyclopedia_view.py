@@ -23,7 +23,7 @@ from fashionistapulp.dofus_constants import STAT_ORDER, type_names_for
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import is_same_item_name, strip_accents
 from fashionistapulp.item_flags import flag_lines
-from fashionistapulp.modelresult import sets_equipped_text
+from fashionistapulp.modelresult import sets_equipped_text, wisdom_per_ap_mp_dodge_point
 from fashionistapulp.spell_text import fold_spell_blocks
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
@@ -2836,6 +2836,7 @@ MONSTER_UI = {
         'stats_section_label': 'Stats per grade',
         'weakest_hint': 'Green marks the weakest element (most damage).',
         'summoner_hp_hint': "A percentage in the HP column is a share of the summoner's base HP.",
+        'summoner_share_hint': "In fight, this summon also receives this share of its summoner's characteristics:",
         'weakness_label': 'Weakness',
         'weakness_filter_all': 'Any weakness',
         'weakness_filter_link_title': 'Show monsters with this weakness',
@@ -2853,6 +2854,16 @@ MONSTER_UI = {
         'water_label': 'Water',
         'air_label': 'Air',
         'neutral_label': 'Neutral',
+        'ap_dodge_label': 'AP Parry',
+        'mp_dodge_label': 'MP Parry',
+        'wisdom_label': 'Wisdom',
+        'earth_flat_label': 'Earth Resistance',
+        'fire_flat_label': 'Fire Resistance',
+        'water_flat_label': 'Water Resistance',
+        'air_flat_label': 'Air Resistance',
+        'neutral_flat_label': 'Neutral Resistance',
+        'critical_resistance_label': 'Critical Resistance',
+        'push_resistance_label': 'Pushback Resistance',
         'monster_search_placeholder': 'Monster or drop name',
         'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Dropped resources',
@@ -2880,6 +2891,7 @@ MONSTER_UI = {
         'stats_section_label': 'Caractéristiques par grade',
         'weakest_hint': "Le vert indique l'élément le plus faible (dégâts maximum).",
         'summoner_hp_hint': "Un pourcentage dans la colonne PV est une part des PV de base de l'invocateur.",
+        'summoner_share_hint': 'En combat, cette invocation reçoit aussi cette part des caractéristiques de son invocateur :',
         'weakness_label': 'Faiblesse',
         'weakness_filter_all': 'Toutes faiblesses',
         'weakness_filter_link_title': 'Voir les monstres avec cette faiblesse',
@@ -2897,6 +2909,16 @@ MONSTER_UI = {
         'water_label': 'Eau',
         'air_label': 'Air',
         'neutral_label': 'Neutre',
+        'ap_dodge_label': 'Esquive PA',
+        'mp_dodge_label': 'Esquive PM',
+        'wisdom_label': 'Sagesse',
+        'earth_flat_label': 'Résistance Terre',
+        'fire_flat_label': 'Résistance Feu',
+        'water_flat_label': 'Résistance Eau',
+        'air_flat_label': 'Résistance Air',
+        'neutral_flat_label': 'Résistance Neutre',
+        'critical_resistance_label': 'Résistance Critiques',
+        'push_resistance_label': 'Résistance Poussée',
         'monster_search_placeholder': 'Nom du monstre ou du drop',
         'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Ressources droppées',
@@ -2924,6 +2946,7 @@ MONSTER_UI = {
         'stats_section_label': 'Características por grado',
         'weakest_hint': 'El verde marca el elemento más débil (más daño).',
         'summoner_hp_hint': 'Un porcentaje en la columna PdV es una parte de los PdV base del invocador.',
+        'summoner_share_hint': 'En combate, esta invocación también recibe esta parte de las características de su invocador:',
         'weakness_label': 'Debilidad',
         'weakness_filter_all': 'Cualquier debilidad',
         'weakness_filter_link_title': 'Ver los monstruos con esta debilidad',
@@ -2941,6 +2964,16 @@ MONSTER_UI = {
         'water_label': 'Agua',
         'air_label': 'Aire',
         'neutral_label': 'Neutral',
+        'ap_dodge_label': 'Esquiva PA',
+        'mp_dodge_label': 'Esquiva PM',
+        'wisdom_label': 'Sabiduría',
+        'earth_flat_label': 'Resistencia a la tierra',
+        'fire_flat_label': 'Resistencia al fuego',
+        'water_flat_label': 'Resistencia al agua',
+        'air_flat_label': 'Resistencia al aire',
+        'neutral_flat_label': 'Resistencia al neutro',
+        'critical_resistance_label': 'Resistencia a críticos',
+        'push_resistance_label': 'Resistencia al empuje',
         'monster_search_placeholder': 'Nombre del monstruo o drop',
         'drop_preview_label': 'Botín',
         'dropped_resources_label': 'Recursos soltados',
@@ -2968,6 +3001,7 @@ MONSTER_UI = {
         'stats_section_label': 'Características por grau',
         'weakest_hint': 'O verde marca o elemento mais fraco (mais dano).',
         'summoner_hp_hint': 'Uma porcentagem na coluna PV é uma parte dos PV base do invocador.',
+        'summoner_share_hint': 'Em combate, esta invocação também recebe esta parte das características do seu invocador:',
         'weakness_label': 'Fraqueza',
         'weakness_filter_all': 'Qualquer fraqueza',
         'weakness_filter_link_title': 'Ver os monstros com esta fraqueza',
@@ -2985,6 +3019,16 @@ MONSTER_UI = {
         'water_label': 'Água',
         'air_label': 'Ar',
         'neutral_label': 'Neutro',
+        'ap_dodge_label': 'Esquiva PA',
+        'mp_dodge_label': 'Esquiva PM',
+        'wisdom_label': 'Sabedoria',
+        'earth_flat_label': 'Resistência a terra',
+        'fire_flat_label': 'Resistência a fogo',
+        'water_flat_label': 'Resistência a água',
+        'air_flat_label': 'Resistência a ar',
+        'neutral_flat_label': 'Resistência a neutro',
+        'critical_resistance_label': 'Resistência crítica',
+        'push_resistance_label': 'Resistência a empurrão',
         'monster_search_placeholder': 'Nome do monstro ou drop',
         'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Recursos dropados',
@@ -3012,6 +3056,7 @@ MONSTER_UI = {
         'stats_section_label': 'Werte pro Stufe',
         'weakest_hint': 'Grün markiert das schwächste Element (höchster Schaden).',
         'summoner_hp_hint': 'Ein Prozentwert in der LP-Spalte ist ein Anteil der Basis-LP des Beschwörers.',
+        'summoner_share_hint': 'Im Kampf erhält diese Beschwörung zusätzlich diesen Anteil der Eigenschaftswerte ihres Beschwörers:',
         'weakness_label': 'Schwäche',
         'weakness_filter_all': 'Beliebige Schwäche',
         'weakness_filter_link_title': 'Monster mit dieser Schwäche anzeigen',
@@ -3029,6 +3074,16 @@ MONSTER_UI = {
         'water_label': 'Wasser',
         'air_label': 'Luft',
         'neutral_label': 'Neutral',
+        'ap_dodge_label': 'Res. gg. AP-Entzug',
+        'mp_dodge_label': 'Res. gg. BP-Entzug',
+        'wisdom_label': 'Weisheit',
+        'earth_flat_label': 'Resistenz gegen Erdschaden',
+        'fire_flat_label': 'Resistenz gegen Feuerschaden',
+        'water_flat_label': 'Resistenz gegen Wasserschaden',
+        'air_flat_label': 'Resistenz gegen Luftschaden',
+        'neutral_flat_label': 'Resistenz gegen Neutralschaden',
+        'critical_resistance_label': 'Resistenz gegen kritische Treffer',
+        'push_resistance_label': 'Schubsresistenz',
         'monster_search_placeholder': 'Monster- oder Dropname',
         'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Gedroppte Ressourcen',
@@ -3069,7 +3124,29 @@ def _db_table_exists(cursor, table_name):
     return cursor.fetchone() is not None
 
 
-_OPTIONAL_GRADE_COLUMNS = (('summoner_hp', 'summoner_life_percent'),)
+_OPTIONAL_GRADE_COLUMNS = (
+    ('summoner_hp', 'summoner_life_percent'), ('wisdom', 'wisdom'),
+    ('ap_dodge', 'ap_dodge'), ('mp_dodge', 'mp_dodge'),
+    ('earth_flat', 'earth_flat_resistance'), ('fire_flat', 'fire_flat_resistance'),
+    ('water_flat', 'water_flat_resistance'), ('air_flat', 'air_flat_resistance'),
+    ('neutral_flat', 'neutral_flat_resistance'),
+    ('critical_resistance', 'critical_damage_reduction'),
+    ('push_resistance', 'push_damage_reduction'), ('summoner_shares', 'summoner_shares'),
+)
+_GRADE_RESISTANCE_COLUMNS = ('earth_flat', 'fire_flat', 'water_flat', 'air_flat',
+                             'neutral_flat', 'critical_resistance', 'push_resistance')
+_SUMMONER_SHARE_LABELS = (
+    ('action_points', 'ap_label'), ('movement_points', 'mp_label'), ('wisdom', 'wisdom_label'),
+    ('ap_dodge', 'ap_dodge_label'), ('mp_dodge', 'mp_dodge_label'),
+    ('earth_resistance', 'earth_label'), ('fire_resistance', 'fire_label'),
+    ('water_resistance', 'water_label'), ('air_resistance', 'air_label'),
+    ('neutral_resistance', 'neutral_label'),
+    ('earth_flat_resistance', 'earth_flat_label'), ('fire_flat_resistance', 'fire_flat_label'),
+    ('water_flat_resistance', 'water_flat_label'), ('air_flat_resistance', 'air_flat_label'),
+    ('neutral_flat_resistance', 'neutral_flat_label'),
+    ('critical_damage_reduction', 'critical_resistance_label'),
+    ('push_damage_reduction', 'push_resistance_label'),
+)
 
 
 def _optional_grade_columns(cursor):
@@ -3077,6 +3154,26 @@ def _optional_grade_columns(cursor):
     present = {row[1] for row in cursor.execute('PRAGMA table_info(monster_grades)')}
     return [(key, column if column in present else 'NULL')
             for key, column in _OPTIONAL_GRADE_COLUMNS]
+
+
+def _summoner_share_lines(grades, mt):
+    """[{'text', 'grades'}] of shown stats a summon also takes; no grades when all agree."""
+    lines = []
+    for grade in grades:
+        shares = dict(pair.split(':') for pair in (grade.get('summoner_shares') or '').split(',')
+                      if pair)
+        text = ', '.join('%s %s%%' % (mt[label], shares[column])
+                         for column, label in _SUMMONER_SHARE_LABELS if column in shares)
+        if not text:
+            continue
+        line = next((line for line in lines if line['text'] == text), None)
+        if line is None:
+            line = {'text': text, 'grades': []}
+            lines.append(line)
+        line['grades'].append(grade['grade'])
+    if len(lines) == 1 and len(lines[0]['grades']) == len(grades):
+        lines[0]['grades'] = []
+    return lines
 
 
 def _monster_level_spans(cursor, monster_ids):
@@ -3812,6 +3909,12 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     'neutral': row[9],
                 }
                 grade.update(zip((key for key, _column in optional), row[10:]))
+                wisdom = grade.pop('wisdom')
+                for key in ('ap_dodge', 'mp_dodge'):
+                    if wisdom is None or grade[key] is None:
+                        grade[key] = None
+                    else:
+                        grade[key] += wisdom // wisdom_per_ap_mp_dodge_point(game_version)
                 grade['weakest'] = _weakest_elements(grade)
                 grades.append(grade)
         # Subareas, French as fallback
@@ -3941,6 +4044,8 @@ def encyclopedia_monster(request, monster_id, slug=None):
 
     weakest_key = _consistent_weakest(grades)
     weakness_element_name = mt.get('%s_label' % weakest_key) if weakest_key else None
+    resistance_columns = [key for key in _GRADE_RESISTANCE_COLUMNS
+                          if any(g.get(key) for g in grades)]
 
     return set_response(
         request,
@@ -3963,6 +4068,12 @@ def encyclopedia_monster(request, monster_id, slug=None):
             'grades': grades,
             'has_weakness': any(g['weakest'] for g in grades),
             'has_summoner_hp': any(g.get('summoner_hp') for g in grades),
+            'summoner_share_lines': _summoner_share_lines(grades, mt),
+            'has_dodge': any(g.get('ap_dodge') is not None or g.get('mp_dodge') is not None
+                             for g in grades),
+            'resistance_labels': [mt['%s_label' % key] for key in resistance_columns],
+            'resistance_rows': [{'grade': g['grade'], 'values': [g[key] for key in resistance_columns]}
+                                for g in grades] if resistance_columns else [],
             'weakness_element_name': weakness_element_name,
             'level_span': _grade_level_span(grades),
             'subareas': subareas,

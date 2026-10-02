@@ -37,14 +37,20 @@ MIN_ROWS = 20000
 COLUMNS = ('monster_ankama_id', 'grade', 'level', 'life_points', 'action_points',
            'movement_points', 'ap_dodge', 'mp_dodge', 'earth_resistance',
            'air_resistance', 'fire_resistance', 'water_resistance',
-           'neutral_resistance', 'summoner_life_percent')
+           'neutral_resistance', 'summoner_life_percent', 'wisdom',
+           'earth_flat_resistance', 'air_flat_resistance', 'fire_flat_resistance',
+           'water_flat_resistance', 'neutral_flat_resistance',
+           'critical_damage_reduction', 'push_damage_reduction',
+           'percent_damage_bonus', 'summoner_shares')
+TEXT_COLUMNS = ('summoner_shares',)
+NOT_SHARED = ('grade', 'level', 'life_points', 'summoner_life_percent')
 NEVER_NULL = ('ap_dodge', 'mp_dodge', 'earth_resistance', 'air_resistance',
-              'fire_resistance', 'water_resistance', 'neutral_resistance')
+              'fire_resistance', 'water_resistance', 'neutral_resistance', 'wisdom')
 
 COMMON_FIELDS = {
     'grade': 'grade', 'level': 'level', 'life_points': 'lifePoints',
     'action_points': 'actionPoints', 'movement_points': 'movementPoints',
-    'summoner_life_percent': 'bonusCharacteristics.lifePoints',
+    'summoner_life_percent': 'bonusCharacteristics.lifePoints', 'wisdom': 'wisdom',
 }
 SCHEMAS = {
     '3.6': {
@@ -58,6 +64,12 @@ SCHEMAS = {
         'earth_resistance': 'reductionEarth', 'air_resistance': 'reductionAir',
         'fire_resistance': 'reductionFire', 'water_resistance': 'reductionWater',
         'neutral_resistance': 'reductionNeutral',
+        'earth_flat_resistance': 'reductionEarthFlat', 'air_flat_resistance': 'reductionAirFlat',
+        'fire_flat_resistance': 'reductionFireFlat', 'water_flat_resistance': 'reductionWaterFlat',
+        'neutral_flat_resistance': 'reductionNeutralFlat',
+        'critical_damage_reduction': 'criticalDamageReduction',
+        'push_damage_reduction': 'pushDamageReduction',
+        'percent_damage_bonus': 'percentDamageBonus',
     },
 }
 
@@ -94,10 +106,19 @@ def grade_fields(monster_id, grade):
     return matches[0]
 
 
+def summoner_shares(grade, fields):
+    """'column:percent' pairs of the summoner's stats a summon also receives, or None."""
+    bonus = grade['bonusCharacteristics']
+    shares = ['%s:%s' % (column, bonus[fields[column]]) for column in COLUMNS
+              if column in fields and column not in NOT_SHARED and bonus.get(fields[column])]
+    return ','.join(shares) or None
+
+
 def grade_row(monster_id, grade):
     """The monster_grades row of one dump grade, or None for an empty grade."""
     fields = grade_fields(monster_id, grade)
     values = {column: _value(grade, key) for column, key in fields.items()}
+    values['summoner_shares'] = summoner_shares(grade, fields)
     if not values['summoner_life_percent'] or values['summoner_life_percent'] < 0:
         values['summoner_life_percent'] = None
     values['life_points'] = values['life_points'] or None
@@ -107,7 +128,7 @@ def grade_row(monster_id, grade):
         if values[column] is not None and values[column] < 0:
             values[column] = None
     values['monster_ankama_id'] = monster_id
-    return tuple(values[column] for column in COLUMNS)
+    return tuple(values.get(column) for column in COLUMNS)
 
 
 def dump_grades(monster):
@@ -147,8 +168,9 @@ def check_rows(rows):
 
 
 def create_table_sql():
-    lines = ['            %s INTEGER%s,'
-             % (column, ' NOT NULL' if column in COLUMNS[:2] else '')
+    lines = ['            %s %s%s,'
+             % (column, 'TEXT' if column in TEXT_COLUMNS else 'INTEGER',
+                ' NOT NULL' if column in COLUMNS[:2] else '')
              for column in COLUMNS]
     return ('CREATE TABLE monster_grades (\n%s\n'
             '            PRIMARY KEY (monster_ankama_id, grade)\n        )'
