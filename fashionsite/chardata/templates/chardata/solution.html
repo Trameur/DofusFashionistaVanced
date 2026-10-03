@@ -965,6 +965,8 @@
         var popupUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
         var options = {{options_json | safe}};
         var baseOptions = {% if base_options_json %}{{base_options_json | safe}}{% else %}options{% endif %};
+        var EXO_PER_ITEM = {% if exo_per_item %}true{% else %}false{% endif %};
+        var EXO_POINTS = {{ exo_points_json|default:"null"|safe }};
         var external = {{link_external_image | safe}};
         var loader = {{ ajax_loader | safe }};
 
@@ -1077,6 +1079,15 @@
             var wantedApExo = exoOverride.ap > 0 ? 1 : (baseOptions["ap_exo"] === true ? actualApExo : 0);
             var wantedMpExo = exoOverride.mp > 0 ? 1 : (baseOptions["mp_exo"] === true ? actualMpExo : 0);
             var wantedRangeExo = exoOverride.range > 0 ? 1 : (baseOptions["range_exo"] === true ? actualRangeExo : 0);
+            if (EXO_PER_ITEM && EXO_POINTS) {
+                var exoAtLoad = exoBaseline();
+                actualApExo = EXO_POINTS.ap || 0;
+                actualMpExo = EXO_POINTS.mp || 0;
+                actualRangeExo = EXO_POINTS.range || 0;
+                wantedApExo = Math.max(0, actualApExo + exoOverride.ap - exoAtLoad.ap);
+                wantedMpExo = Math.max(0, actualMpExo + exoOverride.mp - exoAtLoad.mp);
+                wantedRangeExo = Math.max(0, actualRangeExo + exoOverride.range - exoAtLoad.range);
+            }
             // apAdjust compensates for the difference between what's baked in stats_total and what we want to show
             var apAdjust = wantedApExo - actualApExo;
             var mpAdjust = wantedMpExo - actualMpExo;
@@ -1087,17 +1098,17 @@
                 if (stat_key === "ap") {
                     var apVal = stat_value + apAdjust;
                     statValueString = wantedApExo > 0
-                        ? formatDofusStatValue(apVal - wantedApExo) + "+1"
+                        ? formatDofusStatValue(apVal - wantedApExo) + "+" + wantedApExo
                         : formatDofusStatValue(apVal);
                 } else if (stat_key === "mp") {
                     var mpVal = stat_value + mpAdjust;
                     statValueString = wantedMpExo > 0
-                        ? formatDofusStatValue(mpVal - wantedMpExo) + "+1"
+                        ? formatDofusStatValue(mpVal - wantedMpExo) + "+" + wantedMpExo
                         : formatDofusStatValue(mpVal);
                 } else if (stat_key === "range") {
                     var rangeVal = stat_value + rangeAdjust;
                     statValueString = wantedRangeExo > 0
-                        ? formatDofusStatValue(rangeVal - wantedRangeExo) + "+1"
+                        ? formatDofusStatValue(rangeVal - wantedRangeExo) + "+" + wantedRangeExo
                         : formatDofusStatValue(rangeVal);
                 } else {
                     statValueString = formatDofusStatValue(stat_value);
@@ -1243,11 +1254,39 @@
             var result = {ap: 0, mp: 0, range: 0};
             $.each(trueExoOverrides, function(itemIdStr, statMap) {
                 var overrides = statOverrides[itemIdStr] || {};
-                if (apStatId && statMap[apStatId] && overrides[apStatId] > 0) result.ap = 1;
-                if (mpStatId && statMap[mpStatId] && overrides[mpStatId] > 0) result.mp = 1;
-                if (rangeStatId && statMap[rangeStatId] && overrides[rangeStatId] > 0) result.range = 1;
+                if (apStatId && statMap[apStatId] && overrides[apStatId] > 0) result.ap = EXO_PER_ITEM ? result.ap + 1 : 1;
+                if (mpStatId && statMap[mpStatId] && overrides[mpStatId] > 0) result.mp = EXO_PER_ITEM ? result.mp + 1 : 1;
+                if (rangeStatId && statMap[rangeStatId] && overrides[rangeStatId] > 0) result.range = EXO_PER_ITEM ? result.range + 1 : 1;
             });
             return result;
+        }
+
+        var exoBaselineByItem = {};
+
+        function exoCountsOf(itemIdStr) {
+            var statMap = trueExoOverrides[itemIdStr] || {};
+            var overrides = statOverrides[itemIdStr] || {};
+            var counts = {ap: 0, mp: 0, range: 0};
+            $.each(exoStatIds, function(sidStr, key) {
+                if (statMap[sidStr] && overrides[sidStr] > 0) counts[key] = 1;
+            });
+            return counts;
+        }
+
+        function exoBaseline() {
+            var result = {ap: 0, mp: 0, range: 0};
+            $.each(exoBaselineByItem, function(_, counts) {
+                result.ap += counts.ap;
+                result.mp += counts.mp;
+                result.range += counts.range;
+            });
+            return result;
+        }
+
+        function holdsAnotherExo(itemId, statId) {
+            var counts = exoCountsOf(String(itemId));
+            var key = exoStatIds[String(statId)];
+            return counts.ap + counts.mp + counts.range - (key && counts[key] ? 1 : 0) > 0;
         }
 
         function rebuildStatsDisplay(slot, itemId, itemStats) {
@@ -1359,6 +1398,7 @@
                         var gearKey = statIdToKey[String(capturedStatId)];
                         var isExoStat = !!exoStatIds[String(capturedStatId)];
                         var exoMaxVal = capturedIsAdded ? 1 : capturedOriginalValue + 1;
+                        if (EXO_PER_ITEM && isExoStat && holdsAnotherExo(itemId, capturedStatId)) exoMaxVal -= 1;
                         if (isExoStat && newVal !== '' && parseInt(newVal) > exoMaxVal) {
                             newVal = String(exoMaxVal);
                             inp.val(exoMaxVal);
@@ -1477,6 +1517,7 @@
                 var newVal = parseInt(addInput.val());
                 if (!newStatId || isNaN(newVal)) return;
                 if (exoStatIds[String(newStatId)] && newVal > 1) newVal = 1;
+                if (EXO_PER_ITEM && exoStatIds[String(newStatId)] && holdsAnotherExo(itemId, newStatId)) return;
                 var iconUrl = null, statName = '';
                 $.each(statFilterOptions, function(_, opt) {
                     if (String(opt.id) === String(newStatId)) {
@@ -1650,6 +1691,7 @@
                             if (name) itemStats.push({stat_id: parseInt(sidStr), name: name, value: val, icon_url: iconUrl, isAdded: true});
                         }
                     });
+                    if (EXO_PER_ITEM) exoBaselineByItem[itemIdStr] = exoCountsOf(itemIdStr);
                     rebuildStatsDisplay(slot, itemId, itemStats);
                     update_stats();
                 });

@@ -8250,3 +8250,14 @@ msgstr ""
 #, python-format
 msgid "%(item)s, exo"
 msgstr ""
+
+#: chardata/templates/chardata/solution_item.html
+#, python-format
+msgid "Exo to forge: the optimizer counts one %(stat)s exo on this piece."
+msgstr ""
+
+#: chardata/templates/chardata/solution_item.html
+#, python-format
+msgctxt "exo to forge on an item"
+msgid "Exo %(stat)s"
+msgstr ""

@@ -9288,3 +9288,14 @@ msgstr "Jedes schmiedemagische Teil kann ein Exo tragen, AP, BP oder Reichweite,
 #, python-format
 msgid "%(item)s, exo"
 msgstr "%(item)s, Exo"
+
+#: chardata/templates/chardata/solution_item.html
+#, python-format
+msgid "Exo to forge: the optimizer counts one %(stat)s exo on this piece."
+msgstr "Zu schmiedendes Exo: Der Optimierer zählt ein %(stat)s-Exo auf diesem Teil."
+
+#: chardata/templates/chardata/solution_item.html
+#, python-format
+msgctxt "exo to forge on an item"
+msgid "Exo %(stat)s"
+msgstr "Exo %(stat)s"

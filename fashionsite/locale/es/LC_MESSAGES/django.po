@@ -9308,3 +9308,14 @@ msgstr "Cada pieza forjamagueable puede llevar un exo, PA, PM o Alcance, sin lí
 #, python-format
 msgid "%(item)s, exo"
 msgstr "%(item)s, exo"
+
+#: chardata/templates/chardata/solution_item.html
+#, python-format
+msgid "Exo to forge: the optimizer counts one %(stat)s exo on this piece."
+msgstr "Exo por forjar: el optimizador cuenta un exo %(stat)s en esta pieza."
+
+#: chardata/templates/chardata/solution_item.html
+#, python-format
+msgctxt "exo to forge on an item"
+msgid "Exo %(stat)s"
+msgstr "Exo %(stat)s"

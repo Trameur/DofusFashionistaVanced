@@ -363,6 +363,7 @@ var allCharIds = [];
 var allStatTotals = {};
 var allStatGears = {};
 var allOptions = {};
+var allExoPoints = {};
 var allStatSources = {};
 var COMPARE_BUFFS = {{ buffs_by_char_json|safe }};
 var COMPARE_GEAR_KINDS = {item: 1, set: 1, exo: 1};
@@ -388,6 +389,7 @@ allCharIds.push(compareCharId);
 allStatTotals[compareCharId] = {{dict.stats_total_json | safe}};
 allStatGears[compareCharId] = {{dict.stats_gear_json | safe}};
 allOptions[compareCharId] = {{dict.options_json | safe}}
+allExoPoints[compareCharId] = {{ dict.exo_points_json|default:"null"|safe }};
 allStatSources[compareCharId] = {{dict.stat_sources_json | safe}};
 {% endwith %}
 {% endfor %}
@@ -508,9 +510,12 @@ function updateAllStats(allCharIds) {
             }
             
             var statValueString;
-            if ((statKey === "ap" && options["ap_exo"] === true)
+            var exoPoints = allExoPoints[charId];
+            if (exoPoints && exoPoints[statKey] > 0) {
+                statValueString = (statValue - exoPoints[statKey]).toString() + "+" + exoPoints[statKey];
+            } else if (!exoPoints && ((statKey === "ap" && options["ap_exo"] === true)
                 || (statKey === "mp" && options["mp_exo"] === true)
-                || (statKey === "range" && options["range_exo"] === true)) {
+                || (statKey === "range" && options["range_exo"] === true))) {
                 statValueString = (statValue - 1).toString() + "+1";
             } else {
                 statValueString = statValue.toString();

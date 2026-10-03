@@ -29,7 +29,7 @@ from chardata.forgemagie_data import MAGEABLE_TYPES
 from chardata.image_store import get_image_url
 from chardata.item_sources import acquisition_summary, attach_acquisition
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
-    SLOT_NAME_TO_TYPE
+    SLOT_NAME_TO_TYPE, STAT_KEY_TO_NAME
 from fashionistapulp.exo_options import exo_per_item
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.modelresult import (characteristic_passives,
@@ -105,6 +105,9 @@ class SolutionResult:
         translated_item_names = {}
         item_violates = {}
         item_ids = {}
+        per_item = exo_per_item(get_current_game_version())
+        if per_item:
+            r.get_stats_gear()
         for result_item in all_items:
             evolve_result_item(result_item, r, self.char_class,
                                self.gender, self.char_name)
@@ -169,6 +172,9 @@ class SolutionResult:
                   'stats_gear_json': json.dumps(r.get_stats_gear()),
                   'stats_total_json': json.dumps(r.get_stats_total()),
                   'stat_sources_json': json.dumps(stat_sources(r)),
+                  'exo_per_item': per_item,
+                  'exo_points_json': json.dumps(getattr(r, 'exo_points', None)
+                                                if per_item else None),
                   'item_names': json.dumps(item_names),
                   'translated_item_names': json.dumps(translated_item_names),
                   'item_ids': json.dumps(item_ids),
@@ -338,6 +344,8 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
     result_item.has_forge = base_stats is not None and any(
         result_item.stats.get(key, 0) != value
         for key, value in base_stats.items())
+    assumed_exo = getattr(result_item, 'assumed_exo', None)
+    result_item.assumed_exo_label = _(STAT_KEY_TO_NAME[assumed_exo]) if assumed_exo else None
 
     result_item.stats_lines = []
     # Absent from solutions pickled before the ranges existed.

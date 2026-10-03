@@ -9285,3 +9285,14 @@ msgstr "Cada peça forjamagificável pode ter um exo, PA, PM ou Alcance, sem lim
 #, python-format
 msgid "%(item)s, exo"
 msgstr "%(item)s, exo"
+
+#: chardata/templates/chardata/solution_item.html
+#, python-format
+msgid "Exo to forge: the optimizer counts one %(stat)s exo on this piece."
+msgstr "Exo a forjar: o otimizador conta um exo %(stat)s nesta peça."
+
+#: chardata/templates/chardata/solution_item.html
+#, python-format
+msgctxt "exo to forge on an item"
+msgid "Exo %(stat)s"
+msgstr "Exo %(stat)s"
