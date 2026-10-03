@@ -9315,3 +9315,28 @@ msgstr "Poids et minimums partagent une seule page, ouverte depuis le menu laté
 #: chardata/templates/chardata/changelog_content.html
 msgid "A build can be copied between Dofus 3 and Dofus 3 Beta, and the copy lists the pieces the other version lacks."
 msgstr "Un build se copie entre Dofus 3 et Dofus 3 Beta, et la copie liste les pièces qui manquent à l’autre version."
+
+#: chardata/templates/chardata/options.html
+#: chardata/templates/chardata/wizard_options.html
+msgid "Pieces with an AP exo"
+msgstr "Pièces avec un exo PA"
+
+#: chardata/templates/chardata/options.html
+#: chardata/templates/chardata/wizard_options.html
+msgid "Pieces with an MP exo"
+msgstr "Pièces avec un exo PM"
+
+#: chardata/templates/chardata/options.html
+msgid "Pieces with a Range exo"
+msgstr "Pièces avec un exo Portée"
+
+#: chardata/templates/chardata/options.html
+#: chardata/templates/chardata/wizard_options.html
+#, python-format
+msgid "Each forgeable piece can carry one exo, AP, MP or Range, with no limit for the whole build (%(slots)s pieces at most). Exos already recorded on your own pieces count on top."
+msgstr "Chaque pièce forgemageable peut porter un exo, PA, PM ou Portée, sans limite pour tout le build (%(slots)s pièces au plus). Les exos déjà notés sur tes propres pièces s'ajoutent."
+
+#: chardata/solution_result.py
+#, python-format
+msgid "%(item)s, exo"
+msgstr "%(item)s, exo"

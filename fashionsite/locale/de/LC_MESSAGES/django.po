@@ -9263,3 +9263,28 @@ msgstr "Gewichte und Mindestwerte teilen sich eine Seite, erreichbar über die S
 #: chardata/templates/chardata/changelog_content.html
 msgid "A build can be copied between Dofus 3 and Dofus 3 Beta, and the copy lists the pieces the other version lacks."
 msgstr "Ein Build lässt sich zwischen Dofus 3 und Dofus 3 Beta kopieren, und die Kopie nennt die Teile, die der anderen Version fehlen."
+
+#: chardata/templates/chardata/options.html
+#: chardata/templates/chardata/wizard_options.html
+msgid "Pieces with an AP exo"
+msgstr "Teile mit AP-Exo"
+
+#: chardata/templates/chardata/options.html
+#: chardata/templates/chardata/wizard_options.html
+msgid "Pieces with an MP exo"
+msgstr "Teile mit BP-Exo"
+
+#: chardata/templates/chardata/options.html
+msgid "Pieces with a Range exo"
+msgstr "Teile mit Reichweite-Exo"
+
+#: chardata/templates/chardata/options.html
+#: chardata/templates/chardata/wizard_options.html
+#, python-format
+msgid "Each forgeable piece can carry one exo, AP, MP or Range, with no limit for the whole build (%(slots)s pieces at most). Exos already recorded on your own pieces count on top."
+msgstr "Jedes schmiedemagische Teil kann ein Exo tragen, AP, BP oder Reichweite, ohne Grenze für den ganzen Build (höchstens %(slots)s Teile). Exos, die schon auf deinen eigenen Teilen eingetragen sind, kommen dazu."
+
+#: chardata/solution_result.py
+#, python-format
+msgid "%(item)s, exo"
+msgstr "%(item)s, Exo"

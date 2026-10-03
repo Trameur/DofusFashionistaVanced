@@ -1,10 +1,12 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """Dofus 3 keeps one exo point per stat for the whole build, with none of the Retro per-piece rows."""
 
+from types import SimpleNamespace
 from unittest import mock
 
 from django.test import SimpleTestCase
 
+from chardata.options import set_options
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.modelresult import ModelResult, model_result_from_minimal
 from fashionistapulp.structure import get_structure, set_current_game_version
@@ -65,3 +67,9 @@ class OneExoPerStatTests(SimpleTestCase):
                 pieces = sum(item.stats.get(key, 0) for item in worn)
                 sets = sum(item_set.get_bonus().get(key, 0) for item_set in result.sets)
                 self.assertEqual(pieces + sets + 1, gear[key])
+
+    def test_saving_a_count_on_dofus3_is_refused(self):
+        char = SimpleNamespace(game_version='dofus3', options=None)
+        for option in ('ap_exo', 'mp_exo', 'range_exo'):
+            with self.subTest(option=option), self.assertRaises(AssertionError):
+                set_options(char, {option: 2})

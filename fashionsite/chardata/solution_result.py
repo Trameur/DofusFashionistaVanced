@@ -30,6 +30,7 @@ from chardata.image_store import get_image_url
 from chardata.item_sources import acquisition_summary, attach_acquisition
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE
+from fashionistapulp.exo_options import exo_per_item
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.modelresult import (characteristic_passives,
                                          level_prospecting,
@@ -230,11 +231,14 @@ def stat_sources(model_result):
 
     model_input = getattr(model_result, 'input', None) or {}
     options = model_input.get('options') or {}
-    for stat_key, option in (('ap', 'ap_exo'), ('mp', 'mp_exo'),
-                             ('range', 'range_exo')):
-        # mp_exo can hold "gelano" (the ring), which is not a free point
-        if options.get(option) is True:
-            add(stat_key, _('Exotic bonus'), 1, 'exo')
+    if exo_per_item(get_current_game_version()):
+        _add_exos_per_piece(model_result, add)
+    else:
+        for stat_key, option in (('ap', 'ap_exo'), ('mp', 'mp_exo'),
+                                 ('range', 'range_exo')):
+            # mp_exo can hold "gelano" (the ring), which is not a free point
+            if options.get(option) is True:
+                add(stat_key, _('Exotic bonus'), 1, 'exo')
 
     base_by_attr = model_input.get('base_stats_by_attr') or {}
     distributed = getattr(model_result, 'stats', None) or {}
@@ -284,6 +288,23 @@ def stat_sources(model_result):
         lines.sort(key=lambda line: (line['kind'] == 'cap',
                                      -line['value'], line['label']))
     return sources
+
+
+def _add_exos_per_piece(model_result, add):
+    """One line per exo a worn piece holds, owned or still to forge."""
+    place = getattr(model_result, 'place_assumed_exos', None)
+    if place is not None:
+        place()
+    for result_item in getattr(model_result, 'item_list', None) or []:
+        if not result_item.item_added:
+            continue
+        name = (getattr(result_item, 'localized_name', None)
+                or getattr(result_item, 'name', ''))
+        label = _('%(item)s, exo') % {'item': name}
+        for stat_key in getattr(result_item, 'exo_overrides', None) or {}:
+            add(stat_key, label, 1, 'exo')
+        if getattr(result_item, 'assumed_exo', None):
+            add(result_item.assumed_exo, label, 1, 'exo')
 
 
 def _worn_ids(model_result):

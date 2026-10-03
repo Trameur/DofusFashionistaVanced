@@ -31,7 +31,7 @@ from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
                                     get_anon_char_ids, remember_anon_char)
 from chardata.build_name import cleaned_at_creation
 from chardata.models import Char, CharBaseStats
-from chardata.options import set_options
+from chardata.options import initial_exo_options, set_options
 from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS,
                               apply_setup_choices, mode_boxes, option_column_modes,
                               posted_choices, posted_guard, priorities, setup_boxes,
@@ -254,13 +254,12 @@ def create_project(request):
                         True, state['where_to_go'] == 'wizard',
                         guard_pct=posted_guard(request.POST, char))
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
-    initial_options = {'ap_exo': char.level >= 200,
-                       'mp_exo': char.level >= 200,
-                       'turq_dofus': char.level >= 199,
-                       'dragoturkey': True,
-                       'rhineetle': True,
-                       'seemyool': True,
-                       'prysmaradite': char.level >= 200}
+    initial_options = initial_exo_options(char.game_version, char.level)
+    initial_options.update({'turq_dofus': char.level >= 199,
+                            'dragoturkey': True,
+                            'rhineetle': True,
+                            'seemyool': True,
+                            'prysmaradite': char.level >= 200})
     if version_has_temporix(char.game_version):
         initial_options['temporix'] = request.POST.get('temporix') == 'on'
     set_options(char, initial_options)

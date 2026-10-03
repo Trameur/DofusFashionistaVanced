@@ -20,6 +20,8 @@ import pickle
 from chardata.char_blobs import read_char_blob
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
+from fashionistapulp.exo_options import EXO_OPTIONS, forgeable_slot_count
+from fashionistapulp.game_versions import get_game_version
 from fashionistapulp.structure import get_structure
 from fashionistapulp.temporix import version_has_temporix
 from fashionistapulp.translation import get_supported_language
@@ -144,6 +146,7 @@ def get_available_options(structure=None):
             for token in mounts:
                 if not mounts[token] and token in it.name:
                     mounts[token] = True
+    per_item = get_game_version(ver).exo_per_item
     result = {
         'dofuses': [{'key': k, 'label': _lazy_dofus_label(k, english, lbl),
                      'img': 'chardata/%s.png' % k}
@@ -155,6 +158,9 @@ def get_available_options(structure=None):
         'rhineetle': mounts['Rhineetle'],
         'any_mount': any(mounts.values()),
         'temporix': version_has_temporix(ver),
+        'exo_per_item': per_item,
+        'exo_slots': forgeable_slot_count(s) if per_item else 0,
+        'gelano': not per_item,
     }
     _available_options_cache[ver] = result
     return result
@@ -183,10 +189,25 @@ def get_options(char):
     options['dofusnotforchar'] = get_dofus_not_for_char(char)
     return options
 
+def initial_exo_options(game_version, level):
+    """The exo options a new build starts with."""
+    if get_game_version(game_version).exo_per_item:
+        count = 1 if level >= 200 else 0
+        return {'ap_exo': count, 'mp_exo': count, 'range_exo': 0}
+    return {'ap_exo': level >= 200, 'mp_exo': level >= 200}
+
+
+def _is_exo_count(char, value):
+    return (get_game_version(getattr(char, 'game_version', 'dofus3')).exo_per_item
+            and type(value) == int and value >= 0)
+
+
 def set_options(char, options):
-    assert type(options.get('ap_exo', False)) == bool
-    assert type(options.get('range_exo', False)) == bool
-    assert options.get('mp_exo') == 'gelano' or type(options.get('mp_exo', False)) == bool
+    for _key, option in EXO_OPTIONS:
+        if _is_exo_count(char, options.get(option)):
+            continue
+        assert (type(options.get(option, False)) == bool
+                or (option == 'mp_exo' and options.get(option) == 'gelano'))
     assert options.get('dofus') == 'lightset' or options.get('dofus') == 'cawwot' or type(options.get('dofus', False)) == bool
     assert type(options.get('temporix', False)) == bool
 

@@ -19,7 +19,21 @@ function optionsBooleanTrophiesToYesNo(bool_param) {
     return (bool_param) ? 'yes' : 'no';
 }
 
+function exoCount(value) {
+    if (value === true) {
+        return 1;
+    }
+    if (typeof value !== 'number' || value < 0) {
+        return 0;
+    }
+    return Math.floor(value);
+}
+
 function optionsInit(options) {
+    $('input[type=number][name$=_exo]').each(function() {
+        $(this).val(exoCount(options[this.name]));
+    });
+
     var $apExoRadios = $('input:radio[name=ap_exo]');
     $apExoRadios.filter('[value=' + optionsBooleanToYesNo(options['ap_exo']) + ']')
         .prop('checked', true);

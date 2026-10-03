@@ -8,18 +8,22 @@
 <td align="right" width="10%">
     <img src="{% static "chardata/Ga_Pa_Rune.png" %}" class="option_icon" alt="">
 </td>
-<td align="left" width="22%">{% trans "Allow AP Exo" %}<br>
+<td align="left" width="22%">{% if version_options.exo_per_item %}<label>{% trans "Pieces with an AP exo" %}<br>
+    <input class="pretty-input change-modifies-state" type="number" name="ap_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric" style="width: 48px;"></label>
+{% else %}{% trans "Allow AP Exo" %}<br>
     <label><input type="radio" name="ap_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label> <br>
     <label><input type="radio" name="ap_exo" class="change-modifies-state" value="no">{% trans "No" %}</label>
-</td>
+{% endif %}</td>
 <td align="right" width="10%">
     <img src="{% static "chardata/Ga_Pme_Rune.png" %}" class="option_icon" alt="">
 </td>
-<td align="left" width="25%">{% trans "Allow MP Exo" %}<br>
+<td align="left" width="25%">{% if version_options.exo_per_item %}<label>{% trans "Pieces with an MP exo" %}<br>
+    <input class="pretty-input change-modifies-state" type="number" name="mp_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric" style="width: 48px;"></label>
+{% else %}{% trans "Allow MP Exo" %}<br>
     <label><input type="radio" name="mp_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label> <br>
-    <label><input type="radio" name="mp_exo" class="change-modifies-state" value="gelano">{% trans "Only Gelano" %}</label> <br>
+    {% if version_options.gelano %}<label><input type="radio" name="mp_exo" class="change-modifies-state" value="gelano">{% trans "Only Gelano" %}</label> <br>{% endif %}
     <label><input type="radio" name="mp_exo" class="change-modifies-state" value="no">{% trans "No" %}</label>
-</td>
+{% endif %}</td>
 {% if version_options.any_mount %}
 <td align="right" width="10%">
     <img src="{% static "chardata/Almond and Ebony Rhineetle.png" %}" class="option_icon" alt="">
@@ -33,6 +37,7 @@
 {% endif %}
 </tr>
 </table>
+{% if version_options.exo_per_item %}<p>{% blocktrans with slots=version_options.exo_slots %}Each forgeable piece can carry one exo, AP, MP or Range, with no limit for the whole build ({{ slots }} pieces at most). Exos already recorded on your own pieces count on top.{% endblocktrans %}</p>{% endif %}
 </div>
 <br><br>
 <div class="wizard-div min-stat-name" align="center">

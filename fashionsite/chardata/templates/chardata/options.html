@@ -26,9 +26,14 @@
             <img alt="" src="{% static "chardata/Ga_Pa_Rune.png" %}" class="option_icon">
         </td>
         <td class='big-text'>
+            {% if version_options.exo_per_item %}
+            <label>{% trans "Pieces with an AP exo" %}<br>
+            <input class="pretty-input change-modifies-state" type="number" name="ap_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric" style="width: 48px;"></label>
+            {% else %}
             {% trans "Allow AP Exo" %}<br>
             <label><input type="radio" name="ap_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label>
             <label><input type="radio" name="ap_exo" class="change-modifies-state" value="no">{% trans "No" %}</label>
+            {% endif %}
             <br>
             <br>
         </td>
@@ -42,9 +47,14 @@
             <img alt="" src="{% static "chardata/Po_Rune.png" %}" class="option_icon">
         </td>
         <td class='big-text'>
+            {% if version_options.exo_per_item %}
+            <label>{% trans "Pieces with a Range exo" %}<br>
+            <input class="pretty-input change-modifies-state" type="number" name="range_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric" style="width: 48px;"></label>
+            {% else %}
             {% trans "Allow Range Exo" %}<br>
             <label><input type="radio" name="range_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label>
             <label><input type="radio" name="range_exo" class="change-modifies-state" value="no">{% trans "No" %}</label>
+            {% endif %}
         </td>
         </tr>
         </table>
@@ -58,10 +68,15 @@
             <img alt="" src="{% static "chardata/Ga_Pme_Rune.png" %}" class="option_icon">
         </td>
         <td class='big-text'>
+            {% if version_options.exo_per_item %}
+            <label>{% trans "Pieces with an MP exo" %}<br>
+            <input class="pretty-input change-modifies-state" type="number" name="mp_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric" style="width: 48px;"></label>
+            {% else %}
             {% trans "Allow MP Exo" %}<br>
             <label><input type="radio" name="mp_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label>
-            <label><input type="radio" name="mp_exo" class="change-modifies-state" value="gelano">{% trans "Only Gelano" %}</label>
+            {% if version_options.gelano %}<label><input type="radio" name="mp_exo" class="change-modifies-state" value="gelano">{% trans "Only Gelano" %}</label>{% endif %}
             <label><input type="radio" name="mp_exo" class="change-modifies-state" value="no">{% trans "No" %}</label>
+            {% endif %}
         </td>
         </tr>
         </table>
@@ -108,6 +123,10 @@
     </tr>
     {% endif %}
     </table>
+
+    {% if version_options.exo_per_item %}
+    <p align="center" class='big-text'>{% blocktrans with slots=version_options.exo_slots %}Each forgeable piece can carry one exo, AP, MP or Range, with no limit for the whole build ({{ slots }} pieces at most). Exos already recorded on your own pieces count on top.{% endblocktrans %}</p>
+    {% endif %}
 
     {% if version_options.temporix %}
     <div class='big-text' align="center">

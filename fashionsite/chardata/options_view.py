@@ -24,6 +24,7 @@ from chardata.options import get_options, set_options, DOFUS_OPTIONS,\
     get_dofus_not_for_char, get_available_options
 from chardata.util import safe_int, set_response, get_char_or_raise, HttpResponseJson
 from django.views.decorators.http import require_POST
+from fashionistapulp.exo_options import EXO_OPTIONS
 from fashionistapulp.structure import get_structure
 from chardata.views import forbidden
 
@@ -147,5 +148,23 @@ def parse_options_post(request):
     else:
         options['mp_exo'] = (mp_exo == 'yes')
 
+    available = get_available_options()
+    if available.get('exo_per_item'):
+        for _key, option in EXO_OPTIONS:
+            if option in request.POST or option != 'range_exo':
+                options[option] = _posted_exo_count(request.POST.get(option),
+                                                    available['exo_slots'])
+
     return options
+
+
+def _posted_exo_count(value, slots):
+    """How many pieces carry the exo, between 0 and the forgeable slots."""
+    if value == 'yes':
+        return 1
+    try:
+        count = int(value)
+    except (TypeError, ValueError):
+        return 0
+    return min(max(count, 0), slots)
 

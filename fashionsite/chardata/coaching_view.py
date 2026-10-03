@@ -17,7 +17,7 @@ from chardata.create_project_view import (is_anon_cant_create,
 from chardata.lock_forbid import get_default_exclusions, set_exclusions_list_and_check_inclusions
 from chardata.anon_projects import remember_anon_char
 from chardata.models import Char, CharBaseStats
-from chardata.options import set_options
+from chardata.options import initial_exo_options, set_options
 from chardata.presets import (DEFAULT_STYLE, element_choices, offered_element, offered_style,
                               play_styles, style_aspects, version_class)
 from chardata.smart_build import level_minimums, set_char_aspects
@@ -262,18 +262,18 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
     char.minimum_stats = pickle.dumps(level_minimums(char, aspects))
     set_char_aspects(char, aspects, True, False)
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
-    # Retro 1.29 has no AP/MP/range exotismes, Turquoise Dofus or prysmaradites.
-    exos = game_version != 'retro'
+    # Retro 1.29 has no Turquoise Dofus or prysmaradites.
+    modern = game_version != 'retro'
     # Retro shields only work in PvP.
     shields = game_version != 'retro' or 'pvp' in aspects
-    set_options(char, {'ap_exo': exos and char_level >= 200,
-                       'mp_exo': exos and char_level >= 200,
-                       'turq_dofus': exos and char_level >= 199,
-                       'dragoturkey': True,
-                       'rhineetle': True,
-                       'seemyool': True,
-                       'prysmaradite': exos and char_level >= 200,
-                       'shields': shields})
+    options = initial_exo_options(game_version, char_level)
+    options.update({'turq_dofus': modern and char_level >= 199,
+                    'dragoturkey': True,
+                    'rhineetle': True,
+                    'seemyool': True,
+                    'prysmaradite': modern and char_level >= 200,
+                    'shields': shields})
+    set_options(char, options)
     char.save()
 
     full_scroll = max_scroll_for_version(char.game_version, char.level)
