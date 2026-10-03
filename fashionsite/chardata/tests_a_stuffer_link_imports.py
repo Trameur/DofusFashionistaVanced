@@ -321,3 +321,41 @@ class ADofusStufferLinkImportsTests(TestCase):
     def test_the_page_names_the_site_among_the_ones_it_reads(self):
         page = self.client.get('/import/text/')
         self.assertContains(page, 'dofus-stuffer.is-great.net')
+
+
+class ARetroStufferLinkReadsItsExoBitAsOnePieceTests(TestCase):
+    """Retro counts exos per piece: their bit stands for one piece."""
+
+    def setUp(self):
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        set_current_game_version('retro')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        structure = get_structure('retro')
+        by_type = {}
+        for type_name in ('Hat', 'Cloak', 'Belt', 'Boots'):
+            by_type[type_name] = [next(
+                item.ankama_id for item in structure.types[200][type_name]
+                if not item.removed and item.ankama_id
+                and structure.get_item_by_ankama_id(item.ankama_id) is item)]
+        stuff = dofusbook_export.payload(
+            dofusbook_export.group_ankama_ids(by_type), 200,
+            exos=dofusbook_export.EXO_AP | dofusbook_export.EXO_RANGE)
+        self.link = dofusbook_export.build_url('retro', 'fr', stuff)
+
+    def test_the_bit_reads_as_one_piece(self):
+        build = build_link_import.read(self.link)
+        self.assertEqual('retro', build['game_version'])
+        self.assertEqual({'ap_exo': 1, 'mp_exo': 0, 'range_exo': 1},
+                         build['exo_options'])
+
+    def test_confirming_stores_the_counts(self):
+        from chardata.models import Char
+        from chardata.options import get_options
+        reponse = self.client.post('/retro/import/text/', {
+            'text': self.link, 'confirm': '1', 'char_class': 'Cra',
+            'level': '200'})
+        self.assertEqual(302, reponse.status_code)
+        options = get_options(Char.objects.order_by('-id').first())
+        self.assertEqual((1, 0, 1), (options['ap_exo'], options['mp_exo'],
+                                     options['range_exo']))

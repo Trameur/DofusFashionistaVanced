@@ -816,3 +816,76 @@ class AShinyPieceTravelsAsForgemagieTests(TestCase):
         avec = link_of(self, html)[0]
         self.assertEqual(sans[self.table['mp']] + 1, avec[self.table['mp']])
         self.assertIn('export-shiny', html)
+
+
+class ARetroBuildSendsOneExoBitPerStatTests(TestCase):
+    """Retro counts one exo per piece; their bit carries one per stat, the rest stays here."""
+
+    def setUp(self):
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        set_current_game_version('retro')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        self.structure = get_structure('retro')
+
+    def _char(self):
+        from chardata.models import Char
+        item = next(i for i in self.structure.types[200]['Hat']
+                    if not i.removed and i.ankama_id)
+        self.client.post('/retro/import/text/', {
+            'text': self.structure.get_item_name_in_language(item, 'en'),
+            'confirm': '1', 'char_class': 'Cra', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        self.assertEqual('retro', char.game_version)
+        return char, item
+
+    def _page(self, char, item, **exos):
+        from unittest import mock
+        from chardata.options import get_options, set_options
+        options = get_options(char)
+        options.update(exos)
+        set_options(char, options)
+
+        class Reponse(object):
+            def read(self, *args):
+                return json.dumps({'data': [{'official': item.ankama_id,
+                                             'effects': []}]}).encode('utf-8')
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+        with mock.patch('chardata.dofusbook_import._urlopen_allowlisted',
+                        return_value=Reponse()):
+            return self.client.get('/retro/export/dofusbook/%d/' % char.id,
+                                   HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+
+    def _flags(self, page):
+        return ThePageSendsTheForgemagieItShowsTests._charge(self, page)[3]
+
+    def test_one_ap_and_one_mp_exo_set_both_bits(self):
+        char, item = self._char()
+        page = self._page(char, item, ap_exo=1, mp_exo=1, range_exo=0)
+        self.assertEqual(dofusbook_export.EXO_AP | dofusbook_export.EXO_MP,
+                         self._flags(page))
+        self.assertNotIn('export-forge-staying', page)
+
+    def test_two_ap_exos_send_one_bit_and_name_the_rest(self):
+        from chardata.translation_util import localized_stat_name
+        char, item = self._char()
+        page = self._page(char, item, ap_exo=2, mp_exo=0, range_exo=0)
+        self.assertEqual(dofusbook_export.EXO_AP, self._flags(page))
+        staying = re.search(r'id="export-forge-staying"[^>]*>([^<]*)<', page)
+        self.assertTrue(staying, 'no forge staying note')
+        self.assertIn(str(localized_stat_name('AP', 'retro')), staying.group(1))
+
+    def test_an_exo_recorded_on_the_piece_counts_with_the_option(self):
+        from chardata.lock_forbid import set_stat_overrides
+        char, item = self._char()
+        ap = self.structure.get_stat_by_key('ap')
+        set_stat_overrides(char, {item.id: {ap.id: dict(item.stats).get(ap.id, 0) + 1}})
+        page = self._page(char, item, ap_exo=1, mp_exo=0, range_exo=0)
+        self.assertEqual(dofusbook_export.EXO_AP, self._flags(page))
+        self.assertIn('export-forge-staying', page)

@@ -22,6 +22,7 @@ from chardata.util import (get_char_or_raise, get_stats_and_scrolled,
                            set_response)
 from fashionistapulp import temporix
 from fashionistapulp.dofus_constants import STATS_NAMES
+from fashionistapulp.exo_options import EXO_OPTIONS, exo_count, exo_per_item
 from fashionistapulp.game_versions import get_game_version
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
@@ -104,6 +105,26 @@ def _exos(char):
     return drapeaux
 
 
+_EXO_BIT_BY_KEY = {'ap': dofusbook_export.EXO_AP, 'mp': dofusbook_export.EXO_MP,
+                   'range': dofusbook_export.EXO_RANGE}
+
+
+def _exos_per_piece(char, solution, pieces):
+    """(exo bits, stat keys with more exos than their one bit carries), counting each piece's own exo."""
+    from chardata.options import get_options
+    assumed = getattr(solution, 'exo_assumed', None)
+    options = get_options(char)
+    drapeaux, en_trop = 0, []
+    for key, option in EXO_OPTIONS:
+        nombre = pieces.get(key, 0) + (assumed.get(key, 0) if assumed is not None
+                                       else exo_count(options.get(option)))
+        if nombre:
+            drapeaux |= _EXO_BIT_BY_KEY[key]
+        if nombre > 1:
+            en_trop.append(key)
+    return drapeaux, en_trop
+
+
 def _partial_scrolls(char, scrolls):
     """Stats whose scroll cannot travel: their format holds 100 or nothing."""
     force = dofusbook_export.vitality_scroll_is_forced(char.level)
@@ -118,10 +139,11 @@ def _partial_scrolls(char, scrolls):
 
 
 def _forgemagie(overrides, structure, item_by_ankama, their_values):
-    """({position in their `fm`: total}, [stat keys with no position], exo bits)"""
+    """({position in their `fm`: total}, [stat keys with no position], exo bits, {exo stat key: pieces})"""
     positions = dofusbook_export.index_by_stat_key()
     totaux, sans_place = {}, []
     drapeaux = 0
+    pieces = {}
     for ankama, item_id in sorted(item_by_ankama.items()):
         jets = overrides.get(item_id)
         if not jets:
@@ -143,9 +165,10 @@ def _forgemagie(overrides, structure, item_by_ankama, their_values):
             if position in dofusbook_export.EXO_INDEXES:
                 if ecart > 0:
                     drapeaux |= dofusbook_export.EXO_BIT_BY_INDEX[position]
+                    pieces[stat.key] = pieces.get(stat.key, 0) + 1
                 continue
             totaux[position] = totaux.get(position, 0) + ecart
-    return totaux, sans_place, drapeaux
+    return totaux, sans_place, drapeaux, pieces
 
 
 def _shiny_forge(structure, item_by_ankama, their_values, overrides):
@@ -254,7 +277,7 @@ def dofusbook_export_page(request, char_id):
     points, scrolls = _points_and_scrolls(char)
     structure = get_structure(char.game_version)
     overrides = get_effective_stat_overrides(char) or {}
-    totaux, sans_place, exos_des_jets = _forgemagie(
+    totaux, sans_place, exos_des_jets, pieces_avec_exo = _forgemagie(
         overrides, structure, item_par_ankama, leurs_valeurs)
     rayonnant = {}
     if solution_uses_temporix(solution, char.game_version):
@@ -271,7 +294,10 @@ def dofusbook_export_page(request, char_id):
     for position in dofusbook_export.EXO_INDEXES:
         if rayonnant.get(position):
             forge[position] = rayonnant[position]
-    exos = _exos(char) | exos_des_jets
+    if exo_per_item(char.game_version):
+        exos, exos_en_trop = _exos_per_piece(char, solution, pieces_avec_exo)
+    else:
+        exos, exos_en_trop = _exos(char) | exos_des_jets, []
     charge = dofusbook_export.payload(connus_par_groupe, char.level,
                                       points=points, scrolls=scrolls,
                                       exos=exos, forge=forge)
@@ -285,7 +311,7 @@ def dofusbook_export_page(request, char_id):
         'shiny_travels': bool(rayonnant),
         'forge_staying': _named_stats(
             structure, char.game_version,
-            sans_place + _keys_of_positions(
+            sans_place + exos_en_trop + _keys_of_positions(
                 dofusbook_export.index_by_stat_key(), refusees)),
         'vitality_scroll_forced': (
             dofusbook_export.vitality_scroll_is_forced(char.level)

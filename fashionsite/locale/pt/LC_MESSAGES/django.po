@@ -8717,8 +8717,9 @@ msgid "A scroll above what this game allows is lowered to its cap."
 msgstr "Um pergaminho acima do que este jogo permite é reduzido ao limite."
 
 #: chardata/fashionista_build.py
-msgid "This game has no exos: they are left out."
-msgstr "Este jogo não tem exos: eles ficam de fora."
+#, python-format
+msgid "More exos than this game has forgeable pieces: the count is lowered to %(slots)s."
+msgstr "Mais exos do que peças forjamagificáveis neste jogo: o número cai para %(slots)s."
 
 #: chardata/fashionista_build.py
 msgid "The name is cut to the length build names allow."
@@ -8803,8 +8804,8 @@ msgid "Scroll points, with the same six keys. Without this field, every characte
 msgstr "Os pontos de pergaminho, com as mesmas seis chaves. Sem este campo, cada atributo fica com pergaminho no máximo, como começa aqui um build novo."
 
 #: chardata/templates/chardata/send_a_build.html
-msgid "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."
-msgstr "os exos do build inteiro, cada um true ou false. Sem o campo ou sem uma chave, não há exo. Dofus Retro não tem e os deixa de fora."
+msgid "the exos of the whole build, each true or false. On Dofus Retro, a number per characteristic: how many pieces carry that exo. A missing field or key means no exo."
+msgstr "os exos do build inteiro, cada um true ou false. No Dofus Retro, um número por atributo: quantas peças têm esse exo. Sem o campo ou sem uma chave, não há exo."
 
 #: chardata/templates/chardata/send_a_build.html
 msgid "Your domain, such as example.org. It names your site in our import statistics."
@@ -9296,3 +9297,9 @@ msgstr "Exo a forjar: o otimizador conta um exo %(stat)s nesta peça."
 msgctxt "exo to forge on an item"
 msgid "Exo %(stat)s"
 msgstr "Exo %(stat)s"
+
+#~ msgid "This game has no exos: they are left out."
+#~ msgstr "Este jogo não tem exos: eles ficam de fora."
+
+#~ msgid "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."
+#~ msgstr "os exos do build inteiro, cada um true ou false. Sem o campo ou sem uma chave, não há exo. Dofus Retro não tem e os deixa de fora."

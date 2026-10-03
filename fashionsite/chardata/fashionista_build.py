@@ -16,6 +16,8 @@ from fashionistapulp.dofus_constants import (CHARACTER_CLASSES,
                                              STATS_NAMES,
                                              TYPE_NAME_TO_SLOT_NUMBER,
                                              max_scroll_for_version, slots_for)
+from fashionistapulp.exo_options import (exo_count, exo_per_item,
+                                         forgeable_slot_count)
 from fashionistapulp.game_versions import get_game_version, version_keys
 from fashionistapulp.structure import (PET_VARIANT_ID_BASE, fits_the_class,
                                        get_structure, level_to_wear)
@@ -88,7 +90,7 @@ WARNINGS = (
     ('unknown_class', gettext_lazy('Unknown class: the player picks one.')),
     ('class_not_in_game', gettext_lazy('This class does not exist in this game: the player picks another one.')),
     ('scroll_capped', gettext_lazy('A scroll above what this game allows is lowered to its cap.')),
-    ('exos_not_in_game', gettext_lazy('This game has no exos: they are left out.')),
+    ('exo_count_capped', gettext_lazy('More exos than this game has forgeable pieces: the count is lowered to %(slots)s.')),
     ('name_truncated', gettext_lazy('The name is cut to the length build names allow.')),
     ('name_ignored', gettext_lazy('The name must be text: it is left out.')),
     ('source_ignored', gettext_lazy('The source field is not a domain name: it is ignored.')),
@@ -97,6 +99,8 @@ WARNINGS = (
 )
 
 _MESSAGES = dict(ERRORS + WARNINGS)
+
+_MESSAGES_WITH_DETAILS = ('exo_count_capped',)
 
 _BASE64URL = re.compile(r'^[A-Za-z0-9_-]*={0,2}$')
 
@@ -111,8 +115,11 @@ class FormatError(ImportError_):
         self.source = source
 
 
-def message(code):
-    return str(_MESSAGES.get(code, code))
+def message(code, details=None):
+    text = str(_MESSAGES.get(code, code))
+    if code in _MESSAGES_WITH_DETAILS and details:
+        text = text % details
+    return text
 
 
 def _whole(value):
@@ -314,22 +321,38 @@ def _read_six(reading, payload, field, ceiling):
     return read
 
 
+def _sent_exo_count(flag):
+    """Pieces a sent exo stands for: true is one, false none, a whole number itself; None when wrong."""
+    if isinstance(flag, bool):
+        return int(flag)
+    whole = _whole(flag)
+    return whole if whole is not None and whole >= 0 else None
+
+
 def _read_exos(reading, payload):
-    """{build option: flag}; no exos field means no exos. None on Retro or when wrong."""
+    """{build option: flag, or a piece count where each piece takes its own exo}; no exos field means no exos. None when wrong."""
+    per_item = exo_per_item(reading.game)
     value = payload.get('exos')
     if value is None:
-        if reading.game == 'retro':
-            return None
-        return {option: False for _key, option in EXOS}
+        return {option: 0 if per_item else False for _key, option in EXOS}
     if (not isinstance(value, dict)
-            or any(key not in dict(EXOS) or not isinstance(flag, bool)
+            or any(key not in dict(EXOS)
+                   or not (isinstance(flag, bool)
+                           or (per_item and _sent_exo_count(flag) is not None))
                    for key, flag in value.items())):
         reading.error('bad_exos', 'exos')
         return None
-    if reading.game == 'retro':
-        reading.warn('exos_not_in_game', 'exos')
-        return None
-    return {option: bool(value.get(key)) for key, option in EXOS}
+    if not per_item:
+        return {option: bool(value.get(key)) for key, option in EXOS}
+    slots = forgeable_slot_count(get_structure(reading.game))
+    counts = {}
+    for key, option in EXOS:
+        count = _sent_exo_count(value.get(key, False))
+        if count > slots:
+            reading.warn('exo_count_capped', 'exos.' + key, slots=slots)
+            count = slots
+        counts[option] = count
+    return counts
 
 
 def _read_entries(reading, payload):
@@ -636,7 +659,8 @@ def check(payload, language='en'):
         return reading
 
     exo_options = reading.exos
-    if reading.gelano_mp and exo_options is not None and not exo_options['mp_exo']:
+    if (reading.gelano_mp and exo_options is not None and not exo_options['mp_exo']
+            and not exo_per_item(reading.game)):
         exo_options = dict(exo_options, mp_exo='gelano')
     reading.build = {
         'game_version': reading.game,
@@ -678,9 +702,17 @@ def read_build(text, language='en'):
     return reading.build
 
 
+def documented_warnings():
+    """(code, message) of every warning, a piece count read off the game that counts exos per piece."""
+    games = [game for game in version_keys() if exo_per_item(game)]
+    details = ({'slots': forgeable_slot_count(get_structure(games[0]))}
+               if games else None)
+    return [(code, message(code, details)) for code, _text in WARNINGS]
+
+
 def _issues(issues, language):
     with translation.override(language):
-        return [dict(issue, message=message(issue['code'])) for issue in issues]
+        return [dict(issue, message=message(issue['code'], issue)) for issue in issues]
 
 
 def link_for(payload, game):
@@ -818,8 +850,11 @@ def _export(char):
                                   for field, name in CHARACTERISTICS}
     payload['scrolls'] = {field: max(0, scrolled.get(name, 0))
                           for field, name in CHARACTERISTICS}
-    if char.game_version != 'retro':
-        options = get_options(char)
+    options = get_options(char)
+    if exo_per_item(char.game_version):
+        payload['exos'] = {key: exo_count(options.get(option))
+                           for key, option in EXOS}
+    else:
         # 'gelano' means the Gelano carries the MP, not an exo
         payload['exos'] = {key: options.get(option) is True
                            for key, option in EXOS}
@@ -882,7 +917,9 @@ def example_payload(game):
         'scrolls': {field: max_scroll_for_version(game, level)
                     for field, _name in CHARACTERISTICS},
     }
-    if game != 'retro':
+    if exo_per_item(game):
+        payload['exos'] = {'ap': 2, 'mp': 1, 'range': 0}
+    else:
         payload['exos'] = {'ap': True, 'mp': False, 'range': False}
     payload['source'] = 'example.org'
     payload['back_url'] = 'https://example.org/builds/42'
@@ -950,8 +987,11 @@ def json_schema():
             'scrolls': six,
             'exos': {
                 'type': ['object', 'null'],
+                'description': 'Each true or false; on Dofus Retro also an '
+                               'integer, how many pieces carry that exo.',
                 'additionalProperties': False,
-                'properties': {key: {'type': 'boolean'} for key, _o in EXOS},
+                'properties': {key: {'type': ['boolean', 'integer'],
+                                     'minimum': 0} for key, _o in EXOS},
             },
             'source': {'type': ['string', 'null']},
             'back_url': {'type': ['string', 'null']},

@@ -7682,8 +7682,9 @@ msgid "A scroll above what this game allows is lowered to its cap."
 msgstr "A scroll above what this game allows is lowered to its cap."
 
 #: chardata/fashionista_build.py
-msgid "This game has no exos: they are left out."
-msgstr "This game has no exos: they are left out."
+#, python-format
+msgid "More exos than this game has forgeable pieces: the count is lowered to %(slots)s."
+msgstr "More exos than this game has forgeable pieces: the count is lowered to %(slots)s."
 
 #: chardata/fashionista_build.py
 msgid "The name is cut to the length build names allow."
@@ -7768,8 +7769,8 @@ msgid "Scroll points, with the same six keys. Without this field, every characte
 msgstr "Scroll points, with the same six keys. Without this field, every characteristic is fully scrolled, as a new build here starts."
 
 #: chardata/templates/chardata/send_a_build.html
-msgid "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."
-msgstr "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."
+msgid "the exos of the whole build, each true or false. On Dofus Retro, a number per characteristic: how many pieces carry that exo. A missing field or key means no exo."
+msgstr "the exos of the whole build, each true or false. On Dofus Retro, a number per characteristic: how many pieces carry that exo. A missing field or key means no exo."
 
 #: chardata/templates/chardata/send_a_build.html
 msgid "Your domain, such as example.org. It names your site in our import statistics."
@@ -8261,3 +8262,9 @@ msgstr ""
 msgctxt "exo to forge on an item"
 msgid "Exo %(stat)s"
 msgstr ""
+
+#~ msgid "This game has no exos: they are left out."
+#~ msgstr "This game has no exos: they are left out."
+
+#~ msgid "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."
+#~ msgstr "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."

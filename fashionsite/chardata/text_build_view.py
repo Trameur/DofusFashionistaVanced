@@ -43,6 +43,7 @@ from chardata.wear_conditions import (class_condition_text, left_out_text,
                                       reasons_not_worn)
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
+from fashionistapulp.exo_options import exo_count, exo_per_item
 from fashionistapulp.game_versions import get_game_version, sibling_versions
 from fashionistapulp.structure import (fits_the_class, get_current_game_version,
                                        get_structure)
@@ -358,9 +359,14 @@ _EXOS = (('ap_exo', 'AP'), ('mp_exo', 'MP'), ('range_exo', 'Range'))
 
 
 def _exos_du_lien(build):
-    """Build-wide exo options the link sets, in the reader's language."""
+    """Build-wide exo options the link sets, in the reader's language, with the piece count past one."""
     portees = build.get('exo_options') or {}
-    return [_(mot) for option, mot in _EXOS if portees.get(option) is True]
+    exos = []
+    for option, mot in _EXOS:
+        nombre = exo_count(portees.get(option))
+        if nombre:
+            exos.append(_(mot) if nombre == 1 else '%s (%d)' % (_(mot), nombre))
+    return exos
 
 
 def _pose_les_exos(char, build):
@@ -369,11 +375,15 @@ def _pose_les_exos(char, build):
     if portees is None:
         return
     options = get_options(char)
+    par_piece = exo_per_item(char.game_version)
     # Off included: a new level 200 build starts with AP and MP exo on
     for option, _mot in _EXOS:
         valeur = portees.get(option)
-        # 'gelano' wears Gelano (#1), whose MP is not an exo
-        options[option] = valeur if valeur == 'gelano' else bool(valeur)
+        if par_piece:
+            options[option] = exo_count(valeur)
+        else:
+            # 'gelano' wears Gelano (#1), whose MP is not an exo
+            options[option] = valeur if valeur == 'gelano' else bool(valeur)
     set_options(char, options)
 
 

@@ -8740,8 +8740,9 @@ msgid "A scroll above what this game allows is lowered to its cap."
 msgstr "Un pergamino por encima de lo que permite este juego se baja a su tope."
 
 #: chardata/fashionista_build.py
-msgid "This game has no exos: they are left out."
-msgstr "Este juego no tiene exos: se quedan fuera."
+#, python-format
+msgid "More exos than this game has forgeable pieces: the count is lowered to %(slots)s."
+msgstr "Más exos que piezas forjamagueables en este juego: el número baja a %(slots)s."
 
 #: chardata/fashionista_build.py
 msgid "The name is cut to the length build names allow."
@@ -8826,8 +8827,8 @@ msgid "Scroll points, with the same six keys. Without this field, every characte
 msgstr "Los puntos de pergamino, con las mismas seis claves. Sin este campo, cada característica va con pergaminos al máximo, como empieza aquí un build nuevo."
 
 #: chardata/templates/chardata/send_a_build.html
-msgid "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."
-msgstr "los exos de todo el build, cada uno true o false. Sin el campo o sin una clave, no hay exo. Dofus Retro no tiene y los deja fuera."
+msgid "the exos of the whole build, each true or false. On Dofus Retro, a number per characteristic: how many pieces carry that exo. A missing field or key means no exo."
+msgstr "los exos de todo el build, cada uno true o false. En Dofus Retro, un número por característica: cuántas piezas llevan ese exo. Sin el campo o sin una clave, no hay exo."
 
 #: chardata/templates/chardata/send_a_build.html
 msgid "Your domain, such as example.org. It names your site in our import statistics."
@@ -9319,3 +9320,9 @@ msgstr "Exo por forjar: el optimizador cuenta un exo %(stat)s en esta pieza."
 msgctxt "exo to forge on an item"
 msgid "Exo %(stat)s"
 msgstr "Exo %(stat)s"
+
+#~ msgid "This game has no exos: they are left out."
+#~ msgstr "Este juego no tiene exos: se quedan fuera."
+
+#~ msgid "the exos of the whole build, each true or false. A missing field or key means no exo. Dofus Retro has none and leaves them out."
+#~ msgstr "los exos de todo el build, cada uno true o false. Sin el campo o sin una clave, no hay exo. Dofus Retro no tiene y los deja fuera."

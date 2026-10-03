@@ -234,6 +234,29 @@ class TheGelanoWithItsMpComesBackTheSameTests(_RoundTrip):
                          (options['ap_exo'], options['mp_exo'], options['range_exo']))
 
 
+class ARetroBuildComesBackWithItsExoCountsTests(_RoundTrip):
+
+    def test_two_ap_and_one_mp_exo_come_back_as_counts(self):
+        items = _example_items('retro')
+        original = self._build('retro', items, 'Cra', 100, dict.fromkeys(POINTS, 101), {},
+                               {'ap_exo': 2, 'mp_exo': 1, 'range_exo': 0})
+        payload = self._export(original)
+        self.assertEqual({'ap': 2, 'mp': 1, 'range': 0}, payload['exos'])
+        answer = fashionista_build.report(payload)
+        self.assertEqual(([], True), (answer['warnings'], answer['valid']))
+        _preview, copy = self._send_back_and_confirm(payload, 'Cra')
+        self._assert_same(original, copy)
+        options = get_options(copy)
+        self.assertEqual((2, 1, 0),
+                         (options['ap_exo'], options['mp_exo'], options['range_exo']))
+        try:
+            import jsonschema
+        except ImportError:
+            raise unittest.SkipTest('jsonschema not installed')
+        jsonschema.validate(payload, fashionista_build.json_schema(),
+                            cls=jsonschema.Draft202012Validator)
+
+
 class EveryWornPieceCanBeWrittenTests(TestCase):
 
     def test_in_every_game_the_only_piece_without_an_ankama_id_is_the_gelano_with_its_mp(self):
@@ -256,7 +279,7 @@ class APetVariantAndACollidingMountComeBackTheSameTests(_RoundTrip):
         original = self._build('retro', items, 'Cra', 100, dict.fromkeys(POINTS, 101),
                                {}, {})
         payload = self._export(original)
-        self.assertNotIn('exos', payload)
+        self.assertEqual({'ap': 0, 'mp': 0, 'range': 0}, payload['exos'])
         pet = payload['items'][-1]
         self.assertEqual(variant.ankama_id, pet['id'])
         self.assertTrue(pet['stats'])

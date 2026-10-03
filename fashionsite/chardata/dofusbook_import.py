@@ -330,6 +330,7 @@ def read_stuffer_link(host, stuff):
     """Same shape as `read_build`, from a link that carries the whole build."""
     from chardata import dofusbook_export
     from fashionistapulp.dofus_constants import STATS_NAMES
+    from fashionistapulp.exo_options import exo_per_item
     from fashionistapulp.structure import get_structure
     game_version = HOSTS.get(host) or STUFFER_HOSTS[host]
     try:
@@ -367,6 +368,8 @@ def read_stuffer_link(host, stuff):
     exos = {option: bool(lu['exos'] & bit) for option, bit in (
         ('ap_exo', dofusbook_export.EXO_AP), ('mp_exo', dofusbook_export.EXO_MP),
         ('range_exo', dofusbook_export.EXO_RANGE))}
+    if exo_per_item(game_version):
+        exos = {option: int(flag) for option, flag in exos.items()}
     # Their forgemagie is one total per stat for the whole build
     forge = {dofusbook_export.VE[index]: valeur for index, valeur
              in dofusbook_export.global_forge(lu).items()}

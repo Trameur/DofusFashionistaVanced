@@ -181,7 +181,7 @@ def send_a_build(request):
         'import_path': _import_url(page_version),
         'games': list(version_keys()),
         'errors': [(code, str(text)) for code, text in fashionista_build.ERRORS],
-        'warnings': [(code, str(text)) for code, text in fashionista_build.WARNINGS],
+        'warnings': fashionista_build.documented_warnings(),
         'stat_keys': _stat_keys(page_version),
         'classes': _classes(),
         'limits': {

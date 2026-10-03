@@ -123,7 +123,7 @@ def _warning_cases():
         'unknown_class': _with(**{'class': 'Wizard'}),
         'class_not_in_game': dict(_good('retro'), **{'class': 'Forgelance'}),
         'scroll_capped': _with(scrolls=dict(good['scrolls'], agility=400)),
-        'exos_not_in_game': dict(_good('retro'), exos={'ap': True}),
+        'exo_count_capped': dict(_good('retro'), exos={'ap': 12}),
         'name_truncated': _with(name='x' * 80),
         'name_ignored': _with(name=12),
         'source_ignored': _with(source='not a domain'),
@@ -265,7 +265,9 @@ class TheAnswerSaysWhatWillApplyTests(_Validator):
         del payload['exos']
         data = self._post(payload).json()
         self.assertEqual({'ap': False, 'mp': False, 'range': False}, data['exos'])
-        self.assertIsNone(self._post(dict(_good('retro'))).json()['exos'])
+        retro = _good('retro')
+        del retro['exos']
+        self.assertEqual({'ap': 0, 'mp': 0, 'range': 0}, self._post(retro).json()['exos'])
 
     def test_a_stat_sent_twice_keeps_its_last_line(self):
         hat = _good()['items'][0]

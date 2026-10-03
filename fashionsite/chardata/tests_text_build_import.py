@@ -839,6 +839,41 @@ class APastedExoIsKeptAndCountedOnceTests(TestCase):
         self.assertEqual({'ap', 'mp', 'range'}, set(EXO_STAT_KEYS))
 
 
+class TwoPastedRetroExosBothCountTests(TestCase):
+    """On Retro each forgeable piece takes its own exo."""
+
+    def setUp(self):
+        from fashionistapulp.structure import set_current_game_version
+        set_current_game_version('retro')
+        self.addCleanup(set_current_game_version, 'dofus3')
+
+    def _sans_pa(self, structure, type_name):
+        ap = structure.get_stat_by_key('ap').id
+        return next(item for item in structure.types[199][type_name]
+                    if not item.removed and item.stats and item.forgeable
+                    and ap not in dict(item.stats))
+
+    def _total(self, texte):
+        from chardata.models import Char
+        from chardata.solution import get_solution
+        self.client.post('/retro/import/text/', {'text': texte, 'confirm': '1',
+                                                 'char_class': 'Cra', 'level': '199'})
+        char = Char.objects.order_by('-id').first()
+        self.assertEqual('retro', char.game_version)
+        return char, get_solution(char).get_stats_total()
+
+    def test_an_ap_exo_on_two_pieces_adds_two_ap(self):
+        from chardata.options import get_options
+        structure = get_structure('retro')
+        noms = [structure.get_item_name_in_language(self._sans_pa(structure, t), 'en')
+                for t in ('Hat', 'Cloak')]
+        char_sans, sans = self._total('\n'.join(noms))
+        self.assertEqual(0, get_options(char_sans)['ap_exo'],
+                         'the option is on, the case proves nothing')
+        _char, avec = self._total('%s\n1 AP\n%s\n1 AP' % tuple(noms))
+        self.assertEqual(sans.get('ap', 0) + 2, avec.get('ap', 0), avec)
+
+
 class TheSharedTextSpeaksTheReaderLanguageTests(TestCase):
 
     def _exporte(self, langue):
