@@ -200,7 +200,12 @@ $(document).ready(function() {
 
     setupStateEngine(optionsInit,
             "{% game_url 'options_post' char_id %}",
-            initialOptions);
+            initialOptions,
+            null,
+            function(savedOptions) {
+                optionsInit(savedOptions);
+                disableUnusableDofus(savedOptions.dofusnotforchar);
+            });
     disableUnusableDofus(initialOptions.dofusnotforchar);
 });
 </script>

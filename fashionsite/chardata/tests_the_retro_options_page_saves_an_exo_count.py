@@ -1,5 +1,7 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """The Retro options page and wizard save how many pieces carry each exo, kept between 0 and the forgeable slots."""
+import json
+
 from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
 
@@ -35,6 +37,16 @@ class TheRetroPagesSaveAnExoCountTests(TestCase):
         self.client.post('/retro/optionspost/%d/' % char.id,
                          {'ap_exo': '3', 'mp_exo': '99', 'range_exo': '-2'})
         self.assertEqual((3, slots, 0), self._saved(char))
+
+    def test_the_reply_the_page_redraws_from_carries_the_stored_count(self):
+        char = self._char('retro')
+        slots = forgeable_slot_count(get_structure('retro'))
+        response = self.client.post('/retro/optionspost/%d/' % char.id,
+                                    {'ap_exo': '99', 'mp_exo': '1.5', 'range_exo': '2'})
+        reply = json.loads(response.content)
+        self.assertEqual((slots, 0, 2), tuple(reply[option] for option in _OPTIONS))
+        page = self.client.get('/retro/options/%d/' % char.id).content.decode('utf-8')
+        self.assertIn('optionsInit(savedOptions)', page)
 
     def test_a_word_where_a_count_belongs_stores_none(self):
         char = self._char('retro')
