@@ -79857,7 +79857,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26020-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26020-128.png"
             },
-            "description": "Durch die Macht des Tsunamis wird die von einer Waffe gewährte Heilung im Element Neutral in mit dem Element Wasser verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt keine Reduktion der Grundheilung.",
+            "description": "Durch die Macht des Tsunamis wird die neutrale Heilung durch Waffen in mit dem Element Wasser verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt keine Reduktion der Grundheilung.",
             "recipe": [
                 {
                     "item_ankama_id": 1536,
@@ -79904,7 +79904,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26024-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26024-128.png"
             },
-            "description": "Durch die Macht des Bebens wird die von einer Waffe gewährte Heilung im Element Neutral in mit dem Element Erde verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt keine Reduktion der Grundheilung.",
+            "description": "Durch die Macht des Bebens wird die neutrale Heilung durch Waffen in mit dem Element Erde verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt keine Reduktion der Grundheilung.",
             "recipe": [
                 {
                     "item_ankama_id": 1538,
@@ -79951,7 +79951,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26023-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26023-128.png"
             },
-            "description": "Durch die Macht des Schüttelns wird die von einer Waffe gewährte Heilung im Element Neutral in mit dem Element Erde verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt eine starke Reduktion der Grundheilung.",
+            "description": "Durch die Macht der Erschütterung wird die neutrale Heilung durch Waffen in mit dem Element Erde verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt eine starke Reduktion der Grundheilung.",
             "recipe": [
                 {
                     "item_ankama_id": 1528,
@@ -79998,7 +79998,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26019-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26019-128.png"
             },
-            "description": "Durch die Macht des Sprühregens wird die von einer Waffe gewährte Heilung im Element Neutral in mit dem Element Wasser verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt eine starke Reduktion der Grundheilung.",
+            "description": "Durch die Macht des Sprühregens wird die neutrale Heilung durch Waffen in mit dem Element Wasser verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt eine starke Reduktion der Grundheilung.",
             "recipe": [
                 {
                     "item_ankama_id": 1527,
@@ -80045,7 +80045,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26025-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26025-128.png"
             },
-            "description": "Durch die Macht des Luftzugs wird die von einer Waffe gewährte Heilung im Element Neutral in mit dem Element Luft verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt eine starke Reduktion der Grundheilung.",
+            "description": "Durch die Macht des Luftzugs wird die neutrale Heilung durch Waffen in mit dem Element Luft verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt eine starke Reduktion der Grundheilung.",
             "recipe": [
                 {
                     "item_ankama_id": 1529,
@@ -80092,7 +80092,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26021-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26021-128.png"
             },
-            "description": "Durch die Macht des Funkens wird die von einer Waffe gewährte Heilung im Element Neutral in mit dem Element Feuer verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt eine starke Reduktion des Grundschadens.",
+            "description": "Durch die Macht des Funkens wird die neutrale Heilung durch Waffen in mit dem Element Feuer verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt eine starke Reduktion des Grundschadens.",
             "recipe": [
                 {
                     "item_ankama_id": 1526,
@@ -80139,7 +80139,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26026-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26026-128.png"
             },
-            "description": "Durch die Macht des Orkans wird die von einer Waffe gewährte Heilung im Element Neutral in mit dem Element Luft verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt keine Reduktion der Grundheilung.",
+            "description": "Durch die Macht des Orkans wird die neutrale Heilung durch Waffen in mit dem Element Luft verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt keine Reduktion der Grundheilung.",
             "recipe": [
                 {
                     "item_ankama_id": 1537,
@@ -80186,7 +80186,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26022-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26022-128.png"
             },
-            "description": "Durch die Macht der Feuersbrunst wird die von einer Waffe gewährte Heilung im Element Neutral in mit dem Element Feuer verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt keine Reduktion der Grundheilung.",
+            "description": "Durch die Macht der Feuersbrunst wird die neutrale Heilung durch Waffen in mit dem Element Feuer verknüpfte Heilung umgewandelt.\nDie Verzauberung bewirkt keine Reduktion der Grundheilung.",
             "recipe": [
                 {
                     "item_ankama_id": 1535,

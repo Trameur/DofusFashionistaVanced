@@ -108117,7 +108117,7 @@
         },
         {
             "ankama_id": 34684,
-            "name": "[!] Tarenterne",
+            "name": "Tarânterna",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -108127,7 +108127,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18953-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18953-128.png"
             },
-            "description": "[!] Alors que votre âme s'apprête à rejoindre l'Externam, vous entendez les cliquetis des pattes de la Tarenterne qui arrive pour vous guider. Sa présence est rassurante et libère votre esprit. Vous pouvez partir en paix.",
+            "description": "Quando sua alma se prepara para ir para o Externam, você ouve o som das patas da Tarânterna que chega para lhe servir de guia. A presença dela é reconfortante e liberta o seu espírito. Você pode ir em paz.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108160,7 +108160,7 @@
         },
         {
             "ankama_id": 34685,
-            "name": "[!] Tarentrouille",
+            "name": "Tarântemor",
             "type": {
                 "name": "Montascote de aparência",
                 "id": 59
@@ -108170,7 +108170,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121187-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121187-128.png"
             },
-            "description": "[!] Lorsqu'une Tarenterne a emmagasiné un très grand nombre d'âmes, elle se transforme en Tarentrouille. Redoutée par les vivants, elle est pourtant l'incarnation de la dévotion avec laquelle elle a guidé les morts tout au long de sa vie.",
+            "description": "Ao acumular uma grande quantidade de almas, uma Tarânterna se transforma em Tarântemor. Embora temida pelos vivos, ela encarna a dedicação com a qual guiou os mortos por toda a sua vida.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108216,7 +108216,7 @@
         },
         {
             "ankama_id": 34687,
-            "name": "[!] Bandeau du Gardien des âmes",
+            "name": "Faixa do Guardião das Almas",
             "type": {
                 "name": "Chapéu de aparência",
                 "id": 6
@@ -108226,7 +108226,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16926-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16926-128.png"
             },
-            "description": "[!] Devant la mort, toutes les âmes sont égales. En portant ce bandeau, le Gardien des âmes assure une impartialité sans faille. C'est le poids des actions du défunt qui détermineront la suite de son histoire.",
+            "description": "Perante a morte, todas as almas são iguais. Ao usar esta faixa, o Guardião das Almas garante uma imparcialidade infalível. É o peso dos atos do defunto que determina a continuação de sua história.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108259,7 +108259,7 @@
         },
         {
             "ankama_id": 34688,
-            "name": "[!] Cape du Gardien des âmes",
+            "name": "Capa do Guardião das Almas",
             "type": {
                 "name": "Capa de aparência",
                 "id": 18
@@ -108269,7 +108269,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17708-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17708-128.png"
             },
-            "description": "[!] Il n'est jamais simple de quitter le mode des vivants et certaines âmes ne peuvent se résoudre à rejoindre l'Externam. Bloquées entre deux mondes, elles s'accrochent à la cape du Gardien des âmes, dans l'espoir vain et infini de pouvoir un jour retrouver leur passé pourtant révolu.",
+            "description": "Nunca é fácil deixar o mundo dos vivos, e algumas almas não conseguem tomar a decisão de ir para o Externam. Presas entre dois mundos, elas se agarram à capa do Guardião das Almas na esperança vã e infinita de um dia reencontrar um passado que não volta mais.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108302,7 +108302,7 @@
         },
         {
             "ankama_id": 34689,
-            "name": "[!] Miroir du Gardien des âmes",
+            "name": "Espelho do Guardião das Almas",
             "type": {
                 "name": "Escudo de aparência",
                 "id": 19
@@ -108312,7 +108312,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82605-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82605-128.png"
             },
-            "description": "[!] On dit que les yeux sont le miroir de l'âme, et qu'ils reflètent nos émotions. Mais ce bouclier va bien plus loin, c'est un vrai miroir dans lequel les âmes peuvent se contempler une dernière fois avant de partir. Au plus profond de vous, sans artifices, qui êtes-vous vraiment ?",
+            "description": "Dizem que os olhos são o espelho da alma e que eles refletem nossas emoções. Mas este escudo vai muito além: é um verdadeiro espelho no qual as almas podem se contemplar uma última vez antes de partir. No âmago do seu ser, sem subterfúgios, quem é você realmente?",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108345,7 +108345,7 @@
         },
         {
             "ankama_id": 34690,
-            "name": "[!] Costume du Gardien des âmes",
+            "name": "Traje do Guardião das Almas",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -108355,7 +108355,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164326-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164326-128.png"
             },
-            "description": "[!] Il faut beaucoup de sang froid pour être Gardien des âmes, en effet, il n'est pas aisé d'affronter quotidiennement le malheur des âmes égarées. Ce costume permettra de réchauffer votre corps, et peut-être aussi votre petit cœur.",
+            "description": "É preciso ter muito sangue-frio para ser o Guardião das Almas: não é fácil encarar todos os dias a infelicidade das almas perdidas. Este traje pode aquecer o seu corpo e talvez também o seu coraçãozinho.",
             "effects": [
                 {
                     "int_minimum": 0,

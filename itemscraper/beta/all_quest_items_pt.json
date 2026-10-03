@@ -63938,7 +63938,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Os inimigos reduzem os danos dos ataques a distância em 40%.\nQuando um inimigo é atacado, 100% dos danos são infligidos aos aliados que estiverem ao redor do atacante em uma zona de 3 casas.\nOs adversários ganham 1 PM cada vez que são atacados."
+                    "formatted": "{{spell,28438,1::Ídolo de Viti Chamuscado}}\n• Os inimigos ganham 40% de resistência a distância.\n• Quando um inimigo é atacado, devolve 100% dos danos sofridos aos aliados ao redor do atacante a até 3 células dele."
                 }
             ],
             "pods": 1
@@ -64008,7 +64008,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Os danos corpo a corpo dos adversários aumentam em 200%.\nOs adversários refletem 50% dos danos sofridos.\nQuando um inimigo morre, os inimigos ganham 2 PM durante 1 turno."
+                    "formatted": "{{spell,28449,1::Ídolo de Thomahon Nauseabundo}}\n• Os inimigos ganham 200% de danos corpo a corpo.\n• Quando um inimigo é atacado, ele devolve 50% dos danos sofridos ao atacante."
                 }
             ],
             "pods": 1
@@ -64148,7 +64148,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Os adversários ganham 3 PM.\nOs inimigos reduzem os danos dos ataques a distância em 40%.\nEstar alinhado com um inimigo ou aliado ao final do turno faz perder 50% de PV durante 2 turnos."
+                    "formatted": "{{spell,28441,1::Ídolo de Viti Vegetal}}\n• Os inimigos ganham 2 PM e 40% de resistência a distância."
                 }
             ],
             "pods": 1
@@ -64218,7 +64218,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ao final do turno deles, os inimigos atraem por 1 célula todos os aliados situados a mais de 4 AL.\nFicar em uma célula adjacente à de um inimigo ao final do turno faz perder 50% de PV durante 2 turnos.\nNo início de cada turno de um inimigo, o personagem mais próximo do inimigo que inicia seu turno sofre 50% de danos adicionais durante 1 turno. (acúmulo máx. de 2)"
+                    "formatted": "{{spell,28442,1::Ídolo de Viti Congelado}}\n• Quando um combatente aliado termina seu turno, ele perde 50% da vida (2 turnos) se estiver em contato com pelo menos um inimigo.\n• Quando um inimigo termina seu turno, ele atrai por uma célula todos os aliados a mais de 4 células de distância dele."
                 }
             ],
             "pods": 1
@@ -64288,7 +64288,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Não terminar o turno em uma célula adjacente à de um adversário faz perder 50% de PV durante 2 turnos.\nQuando um aliado sofre danos, os aliados a até 4 células sofrem 200% desses danos.\nOs adversários refletem 50% dos danos sofridos."
+                    "formatted": "{{spell,28443,1::Ídolo de Thomahon Marinheiro}}\n• Quando um combatente aliado termina seu turno, ele perde 50% da vida (2 turnos) se não estiver em contato com um inimigo.\n• Quando um inimigo é atacado, ele devolve 50% dos danos sofridos ao atacante."
                 }
             ],
             "pods": 1
@@ -64363,7 +64363,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Estar alinhado com um inimigo ou aliado ao final do turno faz perder 50% de PV durante 2 turnos.\nOs adversários ganham 4 PM.\nAo final do turno deles, os inimigos atraem por 1 célula todos os aliados situados a mais de 8 AL."
+                    "formatted": "{{spell,28444,1::Ídolo de Thomahon Arborícola}}\n• Os inimigos ganham 4 PM.\n• Quando um inimigo termina seu turno, ele atrai por uma célula todos os aliados a mais de 8 células de distância dele."
                 }
             ],
             "pods": 1
@@ -64433,7 +64433,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ficar em uma célula adjacente à de um inimigo ao final do turno faz perder 50% de PV durante 2 turnos.\nNo início do turno deles, os inimigos aplicam um aumento de 100% dos danos sofridos nos aliados que estiverem a menos de 6 células de distância.\nQuando um aliado sofrer danos, os aliados a até 2 células sofrerão 200% desses danos.\nOs inimigos reduzem os danos dos ataques a distância em 20%."
+                    "formatted": "{{spell,28445,1::Ídolo de Thomahon de Obsidiana}}\n• Quando um combatente aliado é atacado, ele devolve 200% dos danos sofridos aos seus aliados a até 2 células dele.\n• Quando ele termina seu turno, perde 50% da vida (2 turnos) se estiver em contato com pelo menos um inimigo."
                 }
             ],
             "pods": 1
@@ -64508,7 +64508,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Deixa os aliados Incuráveis.\nOs danos dos adversários aumentam em 40% por turno de jogo.\nOs adversários ganham 1 PM cada vez que são atacados."
+                    "formatted": "{{spell,28446,1::Ídolo de Foluk Arranhado}}\n• Os aliados ficam Incuráveis.\n• Os inimigos ganham 40% de danos finais após cada turno global."
                 }
             ],
             "pods": 1
@@ -64583,7 +64583,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "{{spell,28447,1::Ídolo de Foluk Feérico}}\n• Os inimigos ganham 400% de danos finais. Esses danos finais são reduzidos em 40% após cada turno global (acumula 10 vezes).\n• Quando um combatente aliado começa seu turno, ele coloca dois glifos de início e de fim de turno (duração infinita) que deixam os inimigos Invulneráveis (1 turno)."
+                    "formatted": "{{spell,28447,1::Ídolo de Foluk Feérico}}\n• Os inimigos ganham 400% de danos finais. Esses danos finais são reduzidos em 40% após cada turno global (acumula 10 vezes).\n• Quando um combatente aliado começa seu turno, ele coloca em sua célula dois glifos de início e de fim de turno que deixam os inimigos Invulneráveis (1 turno)."
                 }
             ],
             "pods": 1

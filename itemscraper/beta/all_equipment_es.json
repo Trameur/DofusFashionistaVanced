@@ -315238,7 +315238,7 @@
             },
             "critical_hit_probability": 30,
             "critical_hit_bonus": 3,
-            "max_cast_per_turn": 2,
+            "max_cast_per_turn": 1,
             "ap_cost": 3,
             "range": {
                 "min": 4,

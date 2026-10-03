@@ -79857,7 +79857,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26020-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26020-128.png"
             },
-            "description": "Graças ao poder do Tsunami, as curas neutras aplicadas por uma arma são transformadas em curas associadas ao elemento água.\nO encantamento não provoca nenhuma redução das curas de base.",
+            "description": "Graças ao poder do Tsunami, as curas neutras realizadas por uma arma são transformadas em curas associadas ao elemento água.\nO encantamento não provoca nenhuma redução das curas de base.",
             "recipe": [
                 {
                     "item_ankama_id": 1536,
@@ -79904,7 +79904,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26024-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26024-128.png"
             },
-            "description": "Graças ao poder do Graças ao poder do Terremoto, as curas neutras aplicadas por uma arma são transformadas em curas associadas ao elemento terra.\nO encantamento não provoca nenhuma redução das curas de base.",
+            "description": "Graças ao poder do Terremoto, as curas neutras realizadas por uma arma são transformadas em curas associadas ao elemento terra.\nO encantamento não provoca nenhuma redução das curas de base.",
             "recipe": [
                 {
                     "item_ankama_id": 1538,
@@ -79951,7 +79951,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26023-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26023-128.png"
             },
-            "description": "Graças ao poder do Abalo, as curas neutras aplicadas por uma arma são transformadas em curas associadas ao elemento terra.\nO encantamento provoca uma grande redução das curas de base.",
+            "description": "Graças ao poder do Abalo, as curas neutras realizadas por uma arma são transformadas em curas associadas ao elemento terra.\nO encantamento provoca uma grande redução das curas de base.",
             "recipe": [
                 {
                     "item_ankama_id": 1528,
@@ -79998,7 +79998,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26019-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26019-128.png"
             },
-            "description": "Graças ao poder da Garoa, as curas neutras aplicadas por uma arma são transformadas em curas associadas ao elemento água.\nO encantamento provoca uma grande redução das curas de base.",
+            "description": "Graças ao poder da Garoa, as curas neutras realizadas por uma arma são transformadas em curas associadas ao elemento água.\nO encantamento provoca uma grande redução das curas de base.",
             "recipe": [
                 {
                     "item_ankama_id": 1527,
@@ -80045,7 +80045,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26025-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26025-128.png"
             },
-            "description": "Graças ao poder da Corrente de Ar, as curas neutras aplicadas por uma arma são transformadas em curas associadas ao elemento ar.\nO encantamento provoca uma grande redução das curas de base.",
+            "description": "Graças ao poder da Corrente de Ar, as curas neutras realizadas por uma arma são transformadas em curas associadas ao elemento ar.\nO encantamento provoca uma grande redução das curas de base.",
             "recipe": [
                 {
                     "item_ankama_id": 1529,
@@ -80092,7 +80092,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26021-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26021-128.png"
             },
-            "description": "Graças ao poder da Centelha, as curas neutras aplicadas por uma arma são transformadas em curas associadas ao elemento fogo.\nO encantamento provoca uma grande redução dos danos de base.",
+            "description": "Graças ao poder da Centelha, as curas neutras realizadas por uma arma são transformadas em curas associadas ao elemento fogo.\nO encantamento provoca uma grande redução dos danos de base.",
             "recipe": [
                 {
                     "item_ankama_id": 1526,
@@ -80139,7 +80139,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26026-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26026-128.png"
             },
-            "description": "Graças ao poder do Furacão, as curas neutras aplicadas por uma arma são transformadas em curas associadas ao elemento ar.\nO encantamento não provoca nenhuma redução das curas de base.",
+            "description": "Graças ao poder do Furacão, as curas neutras realizadas por uma arma são transformadas em curas associadas ao elemento ar.\nO encantamento não provoca nenhuma redução das curas de base.",
             "recipe": [
                 {
                     "item_ankama_id": 1537,
@@ -80186,7 +80186,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26022-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26022-128.png"
             },
-            "description": "Graças ao poder do Incêndio, as curas neutras aplicadas por uma arma são transformadas em curas associadas ao elemento fogo.\nO encantamento não provoca nenhuma redução das curas de base.",
+            "description": "Graças ao poder do Incêndio, as curas neutras realizadas por uma arma são transformadas em curas associadas ao elemento fogo.\nO encantamento não provoca nenhuma redução das curas de base.",
             "recipe": [
                 {
                     "item_ankama_id": 1535,

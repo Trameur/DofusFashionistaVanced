@@ -63938,7 +63938,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Los enemigos reducen los daños de los ataques a distancia un 40%.\nCuando se ataca a un enemigo, los aliados alrededor del atacante en una zona de 3 casillas reciben un 100% de los daños ocasionados.\nLos adversarios ganan 1 PM cada vez que son alcanzados."
+                    "formatted": "{{spell,28438,1::Ídolo de Viti Chamuscado}}\n• Los enemigos ganan un 40% de resistencia a distancia.\n• Cuando se ataca a un enemigo, devuelve un 100% de los daños sufridos a los aliados alrededor del atacante a 3 casillas de distancia o menos de este."
                 }
             ],
             "pods": 1
@@ -64008,7 +64008,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Los daños en contacto de los adversarios aumentan un 200%.\nLos enemigos devuelven un 50% de los daños recibidos.\nCuando un enemigo muere, los enemigos ganan 2 PM durante 1 turno."
+                    "formatted": "{{spell,28449,1::Ídolo de Thomahon Nauseabundo}}\n• Los enemigos ganan un 200% de daños en cuerpo a cuerpo.\n• Cuando se ataca a un enemigo, este reenvía el 50% de los daños sufridos a su atacante."
                 }
             ],
             "pods": 1
@@ -64148,7 +64148,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Los enemigos ganan 3 PM.\nLos enemigos reducen los daños de los ataques a distancia un 40%.\nSi se está alineado con un enemigo o un aliado al final de turno, se pierde un 50% de los PdV durante 2 turnos."
+                    "formatted": "{{spell,28441,1::Ídolo de Viti Vegetal}}\n• Los enemigos ganan 2 PM y un 40% de resistencia a distancia."
                 }
             ],
             "pods": 1
@@ -64218,7 +64218,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Al final de su turno, los enemigos atraen 1 casilla a todos los aliados situados a más de 4 AL.\nSi se permanece en una casilla adyacente a la de un enemigo al final de turno, se pierde un 50% de los PdV durante 2 turnos.\nEn cada inicio de turno de un enemigo, el personaje más cercano al enemigo que empieza su turno recibe un 50% de daños adicionales durante 1 turno. (acumulación máx. de 2)"
+                    "formatted": "{{spell,28442,1::Ídolo de Viti Helado}}\n• Cuando un luchador aliado termina su turno, pierde el 50% de su vida (2 turnos) si está en contacto con al menos un enemigo.\n• Cuando un enemigo termina su turno, atrae una casilla a todos los aliados a más de 4 casillas de él."
                 }
             ],
             "pods": 1
@@ -64288,7 +64288,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Si no se permanece en una casilla adyacente a la de un enemigo al final de turno, se pierde un 50% de los PdV durante 2 turnos.\nCuando un aliado recibe daños, sus aliados situados a 4 casillas o menos de él reciben un 200% de dichos daños.\nLos enemigos devuelven un 50% de los daños recibidos."
+                    "formatted": "{{spell,28443,1::Ídolo de Thomahon Marino}}\n• Cuando un luchador aliado termina su turno, pierde el 50% de su vida (2 turnos) si no está en contacto con al menos un enemigo.\n• Cuando se ataca a un enemigo, este reenvía el 50% de los daños sufridos a su atacante."
                 }
             ],
             "pods": 1
@@ -64363,7 +64363,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Si se está alineado con un enemigo o un aliado al final de turno, se pierde un 50% de los PdV durante 2 turnos.\nLos enemigos ganan 4 PM.\nAl final de su turno, los enemigos atraen 1 casilla a todos los aliados situados a más de 8 AL."
+                    "formatted": "{{spell,28444,1::Ídolo de Thomahon Arborícola}}\n• Los enemigos ganan 4 PM.\n• Cuando un enemigo termina su turno, atrae una casilla a todos los aliados a más de 8 casillas de él."
                 }
             ],
             "pods": 1
@@ -64433,7 +64433,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Si se permanece en una casilla adyacente a la de un enemigo al final de turno, se pierde un 50% de los PdV durante 2 turnos.\nAl principio de su turno, los enemigos aplican un aumento de los daños recibidos del 100% a los aliados a menos de 6 casillas.\nCuando un aliado sufre daños, sus aliados situados a 2 casillas sufren un 200% de dichos daños.\nLos enemigos reducen los daños de los ataques a distancia un 20%."
+                    "formatted": "{{spell,28445,1::Ídolo de Thomahon de Obsidiana}}\n• Cuando se ataca a un luchador aliado, este reenvía el 200% de los daños sufridos a sus aliados a 2 casillas o menos de él.\n• Cuando termina su turno, pierde el 50% de su vida (2 turnos) si está en contacto con al menos un enemigo."
                 }
             ],
             "pods": 1
@@ -64508,7 +64508,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vuelve incurables a los aliados.\nLos daños de los enemigos aumentan un 40% cada turno de juego.\nLos adversarios ganan 1 PM cada vez que son alcanzados."
+                    "formatted": "{{spell,28446,1::Ídolo de Foluk Arañado}}\n• Los aliados son incurables.\n• Los enemigos ganan un 40% de daños finales tras cada turno global."
                 }
             ],
             "pods": 1
@@ -64583,7 +64583,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Los aliados colocan un glifo al principio de su turno de manera indefinida. Si los enemigos empiezan o terminan su turno sobre él, se hacen invulnerables.\nLos monstruos son invulnerables mientras no se desplacen. Los daños por empuje les hacen ganar un 200% de daños.\nAl morir, los enemigos matan a sus enemigos que estén en las casillas adyacentes a la suya.\nLos daños de los enemigos aumentan un 400% y van disminuyendo un 40% cada turno de juego."
+                    "formatted": "{{spell,28447,1::Ídolo de Foluk Feérico}}\n• Los enemigos ganan un 400% de daños finales. Estos daños finales se reducen un 40% tras cada turno global (acumulable 10 veces).\n• Cuando un luchador aliado empieza su turno, coloca dos glifos de principio y de fin de turno en su casilla, que vuelven invulnerables a los enemigos (1 turno)."
                 }
             ],
             "pods": 1

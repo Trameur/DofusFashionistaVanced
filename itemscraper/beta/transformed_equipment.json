@@ -122534,7 +122534,7 @@
         "w_type": "Bow",
         "level": 107,
         "ap": 3,
-        "uses_per_turn": 2,
+        "uses_per_turn": 1,
         "range": [
             4,
             10

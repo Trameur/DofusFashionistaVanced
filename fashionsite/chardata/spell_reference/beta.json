@@ -4325,7 +4325,7 @@
     "de": "Erodiert den anvisierten Gegner und enthüllt alle unsichtbaren Einheiten im Wirkungsbereich.",
     "en": "Erodes the targeted enemy and reveals invisible entities in an area of effect.",
     "es": "Erosiona al enemigo objetivo y desvela a las entidades invisibles en zona.",
-    "fr": "Érode l'ennemi ciblé et dévoile les entités invisibles en zone.",
+    "fr": "Érode les ennemis et dévoile les entités invisibles en zone.",
     "pt": "Erode o inimigo visado e revela as entidades invisíveis em zona."
    },
    "id": 12867,
@@ -21103,11 +21103,11 @@
     3
    ],
    "description": {
-    "de": "Erhöht die Resistenzen des ausgewählten Verbündeten und versetzt ihn in den Zustand „Elementar-Schild“:\n• Versetzt den Angreifer in einen Elementarzustand, der vom Element des Angriffs abhängt, den das Ziel erleidet.\n\nKann Elementar-Kombinationen erzeugen.",
+    "de": "Erhöht die Resistenzen des ausgewählten Verbündeten und versetzt ihn in den Zustand „Elementar-Schild“:\n• Verringert die Resistenzen des Ziels im Element des von ihm erlittenen Angriffs.\n• Wendet einen Elementarzustand bei seinem Angreifer an, der sich nach dem Element seines Angriffs richtet.\n\nKann Elementar-Kombinationen erzeugen.",
     "en": "Increases the targeted ally's resistance and applies the Elemental Shield state on the ally:\n• Applies an elemental state on the attacker based on the element of the attack suffered by the target.\n\nCan generate Elemental Combinations.",
-    "es": "Aumenta las resistencias del aliado objetivo y le aplica el estado Escudo Elemental:\n• Aplica un estado elemental sobre el atacante según el elemento del ataque que reciba el objetivo.\n\nPuede generar combinaciones elementales.",
+    "es": "Aumenta las resistencias del aliado objetivo y le aplica el estado Escudo Elemental:\n• Reduce las resistencias del objetivo con el elemento del ataque que reciba.\n• Aplica un estado elemental sobre su atacante según el elemento de su ataque.\n\nPuede generar combinaciones elementales.",
     "fr": "Augmente les résistances de l'allié ciblé et lui applique l'état Bouclier Élémentaire :\n• Réduit les résistances de la cible dans l'élément de l'attaque qu'elle subit.\n• Applique un état élémentaire sur son attaquant selon l'élément de son attaque.\n\nPeut générer des Combinaisons Élémentaires.",
-    "pt": "Aumenta as resistências do aliado visado e aplica o estado Escudo Elementar:\n• Aplica um estado elementar no atacante de acordo com o elemento do ataque sofrido pelo alvo.\n\nPode gerar Combinações Elementares."
+    "pt": "Aumenta as resistências do aliado visado e aplica o estado Escudo Elementar:\n• Reduz as resistências do alvo no elemento do ataque sofrido por ele.\n• Aplica um estado elementar no atacante de acordo com o elemento do ataque.\n\nPode gerar Combinações Elementares."
    },
    "id": 13682,
    "kind": {
@@ -36065,7 +36065,7 @@
     1
    ],
    "description": {
-    "de": "Macht eine Bombe des Zaubernden Unverrückbar.\nDie Bombe erhält 2 Combo.\n• Durch Auslösen der Explosion, wenn sie zerstört wird.\n• Durch Entziehen der Wirkungen des Zaubers, wenn er auf eine andere Bombe geschleudert wird.\n\nDie Wirkungen werden aufgehoben, wenn die Bombe durch einen Sprengeffekt ausgelöst wird.",
+    "de": "Macht eine Bombe des Zaubernden Unverrückbar.\nDie Bombe erhält 2 Kombos:\n• Durch Auslösen der Explosion, wenn sie zerstört wird.\n• Durch Entziehen der Wirkungen des Zaubers, wenn er auf eine andere Bombe geschleudert wird.\n\nDie Wirkungen werden aufgehoben, wenn die Bombe durch einen Sprengeffekt ausgelöst wird.",
     "en": "Makes one of the caster's Bombs Unmovable.\nAdds 2 Combo to the Bomb:\n• By causing it to explode if it is destroyed.\n• By removing the spell's effects if it is cast on another Bomb.\n\nThe effects are removed if the Bomb is triggered by an explosion effect.",
     "es": "Vuelve una bomba del lanzador Indesplazable.\nAñade 2 combos a la bomba:\n• Haciendo que explote si es destruida.\n• Eliminando los efectos del hechizo si se lanza a otra bomba.\n\nLos efectos se retiran si la bomba se activa por un efecto de explosión.",
     "fr": "Rend une Bombe du lanceur Indéplaçable.\nAjoute 2 Combos à la Bombe :\n• En déclenchant son explosion si elle est détruite.\n• En retirant les effets du sort s'il est lancé sur une autre Bombe.\n\nLes effets sont retirés si la Bombe est déclenchée par un effet d'explosion.",
@@ -36171,7 +36171,7 @@
     3
    ],
    "description": {
-    "de": "Reduziert die maximale Vitalität des Zaubernden, um vorübergehend seinen Bomben 3 Combos zusätzlich zu verleihen.",
+    "de": "Reduziert die maximale Vitalität des Zaubernden, um vorübergehend seinen Bomben 3 Kombos zusätzlich zu verleihen.",
     "en": "Reduces the caster's maximum Vitality to temporarily add 3 Combos to their Bombs.",
     "es": "Reduce la vitalidad máxima del lanzador para añadir temporalmente 3 combos a sus bombas.",
     "fr": "Réduit la Vitalité maximale du lanceur pour ajouter temporairement 3 Combos à ses Bombes.",
@@ -37132,11 +37132,11 @@
     3
    ],
    "description": {
-    "de": "Platziert eine Klebrige Bombe auf dem Ziel.\nAuf einem freien Feld wird eine Falle ausgelegt, die bei ihrem Auslösen eine Klebrige Bombe an die auslösende Einheit anheftet oder die Explosion einer Bombe des Zaubernden verursacht.\n\nDie Bombe kann mit Aktivierungszaubern oder durch Bombenexplosionen aktiviert werden.\nWenn sie aktiviert wird, verursacht sie Schaden im besten Element des Zaubernden und sprengt seine Bomben im Wirkungsbereich.\n\nEine Klebrige Bombe kann nicht auf eine Elementarbombe angewendet werden.",
+    "de": "Platziert eine Klebrige Bombe auf dem Ziel.\n\nAuf einem freien Feld wird eine Falle ausgelegt, die bei ihrem Auslösen eine Klebrige Bombe an die auslösende Einheit anheftet oder die Explosion einer Bombe des Zaubernden verursacht.\n\nDie Bombe kann mit Aktivierungszaubern oder durch Bombenexplosionen aktiviert werden.\nWenn sie aktiviert wird, verursacht sie Schaden im besten Element des Zaubernden und sprengt seine Bomben im Wirkungsbereich.\n\nEine Klebrige Bombe kann nicht auf eine Elementarbombe angewendet werden.",
     "en": "Places a sticky bomb on the target.\nOn a free cell: places a trap that puts a Sticky Bomb on the entity that triggers it or makes one of the caster's Bombs explode.\n\nThe Bomb may be activated by activation spells or bomb explosions.\nWhen activated, it inflicts damage in the caster's best element and makes the caster's Bombs explode in an area of effect.\n\nA Sticky Bomb cannot be applied to an Elemental Bomb.",
-    "es": "Coloca una bomba pegajosa sobre el objetivo.\nEn una casilla libre: pone una trampa que pone una bomba pegajosa sobre la entidad que la activa o activa la explosión de una bomba del lanzador.\n\nLa bomba puede activarse con los hechizos de activación o con las explosiones de bomba.\nCuando se activa, ocasiona daños con el mejor elemento del lanzador y activa la explosión de sus bombas en zona.\n\nNo se puede aplicar una bomba pegajosa a una bomba elemental.",
+    "es": "Coloca una bomba pegajosa sobre el objetivo.\n\nEn una casilla libre: pone una trampa que pone una bomba pegajosa sobre la entidad que la activa o activa la explosión de una bomba del lanzador.\n\nLa bomba puede activarse con los hechizos de activación o con las explosiones de bomba.\nCuando se activa, ocasiona daños con el mejor elemento del lanzador y activa la explosión de sus bombas en zona.\n\nNo se puede aplicar una bomba pegajosa a una bomba elemental.",
     "fr": "Pose une Bombe Collante sur la cible.\n\nSur une case libre : pose un piège qui pose une Bombe Collante sur l'entité qui le déclenche ou déclenche l'explosion d'une Bombe du lanceur.\n\nLa Bombe peut être activée avec les sorts d'activation ou les explosions de bombe.\nLorsqu'elle est activée, elle occasionne des dommages dans le meilleur élément du lanceur et déclenche l'explosion de ses Bombes en zone.\n\nUne Bombe Collante ne peut pas être appliquée sur une Bombe élémentaire.",
-    "pt": "Coloca uma Bomba Pegajosa no alvo.\nEm uma célula livre: coloca uma armadilha que coloca uma Bomba Pegajosa na entidade que a acionar ou aciona a explosão de um bomba do lançador.\n\nA Bomba pode ser ativada por feitiços de ativação ou explosões de bombas.\nQuando está ativa, ela inflige danos no melhor elemento do lançador e aciona a explosão de suas Bombas em zona.\n\nUma Bomba Pegajosa não pode ser aplicada sobre uma Bomba Elementar."
+    "pt": "Coloca uma Bomba Pegajosa no alvo.\n\nEm uma célula livre: coloca uma armadilha que coloca uma Bomba Pegajosa na entidade que a acionar ou aciona a explosão de um bomba do lançador.\n\nA Bomba pode ser ativada por feitiços de ativação ou explosões de bombas.\nQuando está ativa, ela inflige danos no melhor elemento do lançador e aciona a explosão de suas Bombas em zona.\n\nUma Bomba Pegajosa não pode ser aplicada sobre uma Bomba Elementar."
    },
    "id": 13479,
    "kind": {
@@ -46963,7 +46963,7 @@
    "range": [
     [
      0,
-     2
+     3
     ]
    ],
    "stacks": [

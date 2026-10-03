@@ -79857,7 +79857,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26020-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26020-128.png"
             },
-            "description": "Gracias al poder del tsunami, las curas neutrales aplicadas por un arma se transforman en curas asociadas al elemento agua.\nEl encantamiento no reduce las curas básicas.",
+            "description": "Gracias al poder del tsunami, las curas neutrales aplicadas por un arma se transforman en curas del elemento agua.\nEl encantamiento no reduce las curas básicas.",
             "recipe": [
                 {
                     "item_ankama_id": 1536,
@@ -79904,7 +79904,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26024-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26024-128.png"
             },
-            "description": "Gracias al poder del seísmo, las curas neutrales aplicadas por un arma se transforman en curas asociadas al elemento tierra.\nEl encantamiento no reduce las curas básicas.",
+            "description": "Gracias al poder del seísmo, las curas neutrales aplicadas por un arma se transforman en curas del elemento tierra.\nEl encantamiento no reduce las curas básicas.",
             "recipe": [
                 {
                     "item_ankama_id": 1538,
@@ -79951,7 +79951,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26023-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26023-128.png"
             },
-            "description": "Gracias al poder de la sacudida, las curas neutrales aplicadas por un arma se transforman en curas asociadas al elemento tierra.\nEl encantamiento provoca una fuerte reducción de las curas básicas.",
+            "description": "Gracias al poder de la sacudida, las curas neutrales aplicadas por un arma se transforman en curas del elemento tierra.\nEl encantamiento provoca una fuerte reducción de las curas básicas.",
             "recipe": [
                 {
                     "item_ankama_id": 1528,
@@ -79998,7 +79998,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26019-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26019-128.png"
             },
-            "description": "Gracias al poder de la llovizna, las curas neutrales aplicadas por un arma se transforman en curas asociadas al elemento agua.\nEl encantamiento provoca una fuerte reducción de las curas básicas.",
+            "description": "Gracias al poder de la llovizna, las curas neutrales aplicadas por un arma se transforman en curas del elemento agua.\nEl encantamiento provoca una fuerte reducción de las curas básicas.",
             "recipe": [
                 {
                     "item_ankama_id": 1527,
@@ -80045,7 +80045,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26025-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26025-128.png"
             },
-            "description": "Gracias al poder de la corriente de aire, las curas neutrales aplicadas por un arma se transforman en curas asociadas al elemento aire.\nEl encantamiento provoca una fuerte reducción de las curas básicas.",
+            "description": "Gracias al poder de la corriente de aire, las curas neutrales aplicadas por un arma se transforman en curas del elemento aire.\nEl encantamiento provoca una fuerte reducción de las curas básicas.",
             "recipe": [
                 {
                     "item_ankama_id": 1529,
@@ -80092,7 +80092,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26021-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26021-128.png"
             },
-            "description": "Gracias al poder de la chispa, las curas neutrales aplicadas por un arma se transforman en curas asociadas al elemento fuego.\nEl encantamiento provoca una fuerte reducción de los daños básicos.",
+            "description": "Gracias al poder de la chispa, las curas neutrales aplicadas por un arma se transforman en curas del elemento fuego.\nEl encantamiento provoca una fuerte reducción de los daños básicos.",
             "recipe": [
                 {
                     "item_ankama_id": 1526,
@@ -80139,7 +80139,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26026-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26026-128.png"
             },
-            "description": "Gracias al poder del huracán, las curas neutrales aplicadas por un arma se transforman en curas asociadas al elemento aire.\nEl encantamiento no reduce las curas básicas.",
+            "description": "Gracias al poder del huracán, las curas neutrales aplicadas por un arma se transforman en curas del elemento aire.\nEl encantamiento no reduce las curas básicas.",
             "recipe": [
                 {
                     "item_ankama_id": 1537,
@@ -80186,7 +80186,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26022-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26022-128.png"
             },
-            "description": "Gracias al poder del incendio, las curas neutrales aplicadas por un arma se transforman en curas asociadas al elemento fuego.\nEl encantamiento no reduce las curas básicas.",
+            "description": "Gracias al poder del incendio, las curas neutrales aplicadas por un arma se transforman en curas del elemento fuego.\nEl encantamiento no reduce las curas básicas.",
             "recipe": [
                 {
                     "item_ankama_id": 1535,

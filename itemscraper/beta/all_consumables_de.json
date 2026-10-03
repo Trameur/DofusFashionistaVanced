@@ -126396,6 +126396,49 @@
             "pods": 0
         },
         {
+            "ankama_id": 34624,
+            "name": "[!] Malédiction de Médoroziam",
+            "type": {
+                "name": "Emote-Schriftrolle",
+                "id": 46
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/25285-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/25285-128.png"
+            },
+            "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 353,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Emote",
+                        "id": 98,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Emote 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34674,
             "name": "Schriftrolle des Stufengewinns (200)",
             "type": {
@@ -126438,9 +126481,9 @@
         },
         {
             "ankama_id": 34704,
-            "name": "[!] Tourte aux champignons",
+            "name": "Champignonpastete",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126448,14 +126491,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49162-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49162-128.png"
             },
-            "description": "[!] Après 45 minutes de cuisson, profitez d'un fumet à vous en faire tourter la tête.",
+            "description": "Nach 45 Minuten Garzeit könnt ihr eine Mahlzeit genießen, die euch aus den Socken hauen wird.",
             "pods": 0
         },
         {
             "ankama_id": 34705,
-            "name": "[!] Omelette au fromage",
+            "name": "Käseomelette",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126463,14 +126506,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49163-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49163-128.png"
             },
-            "description": "[!] Comme dit le proverbe : \"On ne fait pas d'omelette sans râper du bleu\"",
+            "description": "Ganz nach dem alten Sprichwort: „Ohne Reibekäse kein Omelett.“",
             "pods": 0
         },
         {
             "ankama_id": 34706,
-            "name": "[!] Thé à la réglisse",
+            "name": "Lakritztee",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126478,14 +126521,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49164-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49164-128.png"
             },
-            "description": "[!] La boisson parfaite pour courir et glisser hors de portée de vos adversaires.",
+            "description": "Dies ist das perfekte Getränk, um loszulaufen und euren Gegnern davonzuflitzen.",
             "pods": 0
         },
         {
             "ankama_id": 34707,
-            "name": "[!] Brochettes caramélisées",
+            "name": "Karamellisierte Spieße",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126493,14 +126536,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49165-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49165-128.png"
             },
-            "description": "[!] Qu'il pleuve, qu'il vente ou qu'il neige, c'est toujours le temps idéal pour sortir le barbecue et se faire cuire de succulentes brochettes.",
+            "description": "Ganz egal, ob es regnet, stürmt oder schneit. Jedes Wetter ist ideal, um den Grill hervorzuholen und ein paar leckere Spieße aufzulegen.",
             "pods": 0
         },
         {
             "ankama_id": 34708,
-            "name": "[!] Carbonade",
+            "name": "Schmorfleischeintopf",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126508,14 +126551,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49166-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49166-128.png"
             },
-            "description": "[!] Entre la découpe, la marinade et les trois heures de cuisson, il faut sacrément charbonner pour déguster cette délicatesse.",
+            "description": "Zwischen Schneiden, Marinieren und drei Stunden Garzeit muss man sich ganz schön ins Zeug legen, um diese Köstlichkeit genießen zu können.",
             "pods": 0
         },
         {
             "ankama_id": 34709,
-            "name": "[!] Grillades terre et mer",
+            "name": "Gemischte Grillplatte",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126523,14 +126566,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49167-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49167-128.png"
             },
-            "description": "[!] Pour pouvoir goûter à ce délice, de nombreux gourmets sont prêts à remuer ciel et terre (et mer).",
+            "description": "Viele Feinschmecker sind bereit, Himmel und Hölle (und das Meer) in Bewegung zu setzen, um diese Delikatesse einmal probieren zu dürfen.",
             "pods": 0
         },
         {
             "ankama_id": 34710,
-            "name": "[!] Le repas de Zabelle",
+            "name": "Zabelles Mahlzeit",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126538,14 +126581,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49168-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49168-128.png"
             },
-            "description": "[!] C'est peu connu, mais ajouter quelques effluves d'âmes d'amaknéens à votre recette est le meilleur moyen d'ajouter du goût sans le moindre calorie supplémentaire.",
+            "description": "Kaum jemand weiß es ... aber wenn ihr das Rezept mit einem Hauch von Amaknaer-Seelen verfeinert, wird das Gericht noch leckerer – ohne auch nur eine einzige zusätzliche Kalorie.",
             "pods": 0
         },
         {
             "ankama_id": 34711,
-            "name": "[!] Bouillon de chat",
+            "name": "Katzenbrühe",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126553,14 +126596,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49169-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49169-128.png"
             },
-            "description": "[!] Rassurez-vous, aucun félin n'a été incorporé dans ce bouillon. Ce n'est pas passé loin par contre, alors faites attention aux boules de poils qui traîneraient dans votre assiette.",
+            "description": "Keine Sorge, in dieser Brühe ist keine Katze enthalten. Viel hat allerdings nicht gefehlt ... Achtet also lieber auf eventuelle Haarbüschel, die auf eurem Teller gelandet sein könnten.",
             "pods": 0
         },
         {
             "ankama_id": 34712,
-            "name": "[!] Compote de pommes",
+            "name": "Apfelkompott",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126568,14 +126611,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49170-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49170-128.png"
             },
-            "description": "[!] Cette compote est extrêmement populaire à la Source, car elle est réalisée avec des fruits locaux : les Bellapommes.",
+            "description": "Dieses Kompott ist in der Gegend der Quelle äußerst beliebt, da es aus regionalem Obst zubereitet wird – den Belläpfeln.",
             "pods": 0
         },
         {
             "ankama_id": 34713,
-            "name": "[!] Soupe à l'oignon",
+            "name": "Zwiebelsuppe",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126583,14 +126626,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49171-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49171-128.png"
             },
-            "description": "[!] Si simple, mais si savoureuse, cette soupe est à en pleurer de délice.",
+            "description": "So einfach und doch so lecker! Diese Suppe ist so köstlich, dass man vor Freude weinen könnte.",
             "pods": 0
         },
         {
             "ankama_id": 34714,
-            "name": "[!] Madeleines à la cannelle",
+            "name": "Zimt-Madeleines",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126598,14 +126641,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49172-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49172-128.png"
             },
-            "description": "[!] Fraîchement sorties du four, le parfum qui se dégage de ces madeleines n'a d'égal que leur moelleux.",
+            "description": "Ihre fluffige Konsistenz ist ebenso unwiderstehlich wie der Duft, den diese frisch gebackenen Madeleines verströmen.",
             "pods": 0
         },
         {
             "ankama_id": 34715,
-            "name": "[!] Welsh et Shedar",
+            "name": "Welsh und Shedar",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Event-Nahrung",
                 "id": 265
             },
             "level": 1,
@@ -126613,7 +126656,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49173-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49173-128.png"
             },
-            "description": "[!] Quoi de mieux pour finir un repas que du fromage ? Du fromage mariné dans du fromage, saupoudré de fromage, sur son lit de fromage. Impossible de manger quoi que ce soit d'autres après ça.",
+            "description": "Käse schließt den Magen! Was könnte es also Besseres geben, um eine Mahlzeit zu beenden? In Käse marinierter Käse, mit Käse bestreut und auf einem Bett aus Käse. Danach kann man einfach nichts anderes mehr essen.",
             "pods": 0
         }
     ]

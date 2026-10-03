@@ -126396,6 +126396,49 @@
             "pods": 0
         },
         {
+            "ankama_id": 34624,
+            "name": "[!] Malédiction de Médoroziam",
+            "type": {
+                "name": "Pergamino de actitud",
+                "id": 46
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/25285-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/25285-128.png"
+            },
+            "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 353,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Actitud",
+                        "id": 98,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Actitud 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34674,
             "name": "Pergamino de nivel (200)",
             "type": {
@@ -126438,9 +126481,9 @@
         },
         {
             "ankama_id": 34704,
-            "name": "[!] Tourte aux champignons",
+            "name": "Pastel de setas",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126448,14 +126491,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49162-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49162-128.png"
             },
-            "description": "[!] Après 45 minutes de cuisson, profitez d'un fumet à vous en faire tourter la tête.",
+            "description": "Tras 45 minutos de horno, disfruta de un aroma que hará que te dé vueltas la cabeza.",
             "pods": 0
         },
         {
             "ankama_id": 34705,
-            "name": "[!] Omelette au fromage",
+            "name": "Tortilla de queso",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126463,14 +126506,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49163-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49163-128.png"
             },
-            "description": "[!] Comme dit le proverbe : \"On ne fait pas d'omelette sans râper du bleu\"",
+            "description": "Como dice el refrán: «No se puede hacer una tortilla sin rallar queso azul».",
             "pods": 0
         },
         {
             "ankama_id": 34706,
-            "name": "[!] Thé à la réglisse",
+            "name": "Té al regaliz",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126478,14 +126521,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49164-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49164-128.png"
             },
-            "description": "[!] La boisson parfaite pour courir et glisser hors de portée de vos adversaires.",
+            "description": "La bebida perfecta para salir kas... cando y dejar atrás a tus adversarios.",
             "pods": 0
         },
         {
             "ankama_id": 34707,
-            "name": "[!] Brochettes caramélisées",
+            "name": "Brochetas caramelizadas",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126493,14 +126536,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49165-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49165-128.png"
             },
-            "description": "[!] Qu'il pleuve, qu'il vente ou qu'il neige, c'est toujours le temps idéal pour sortir le barbecue et se faire cuire de succulentes brochettes.",
+            "description": "Llueva, truene o relampaguee, siempre es un buen momento para sacar la barbacoa y preparar unas brochetas para chuparse los dedos.",
             "pods": 0
         },
         {
             "ankama_id": 34708,
-            "name": "[!] Carbonade",
+            "name": "Carbonada",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126508,14 +126551,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49166-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49166-128.png"
             },
-            "description": "[!] Entre la découpe, la marinade et les trois heures de cuisson, il faut sacrément charbonner pour déguster cette délicatesse.",
+            "description": "Entre picarlo todo, marinar los ingredientes y esperar tres horas a que se cocine, hay que trabajar a fuego lento para ganarse este manjar.",
             "pods": 0
         },
         {
             "ankama_id": 34709,
-            "name": "[!] Grillades terre et mer",
+            "name": "Parrillada tierra y mar",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126523,14 +126566,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49167-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49167-128.png"
             },
-            "description": "[!] Pour pouvoir goûter à ce délice, de nombreux gourmets sont prêts à remuer ciel et terre (et mer).",
+            "description": "Para probar esta delicia, muchos gourmets están dispuestos a remover cielo, tierra... y hasta el mar.",
             "pods": 0
         },
         {
             "ankama_id": 34710,
-            "name": "[!] Le repas de Zabelle",
+            "name": "La comida de Zabelle",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126538,14 +126581,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49168-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49168-128.png"
             },
-            "description": "[!] C'est peu connu, mais ajouter quelques effluves d'âmes d'amaknéens à votre recette est le meilleur moyen d'ajouter du goût sans le moindre calorie supplémentaire.",
+            "description": "Pocos lo saben, pero añadir a la receta una pizca de almas amakneanas es la mejor forma de potenciar el sabor sin añadir ni una sola caloría extra.",
             "pods": 0
         },
         {
             "ankama_id": 34711,
-            "name": "[!] Bouillon de chat",
+            "name": "Caldo de gato",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126553,14 +126596,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49169-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49169-128.png"
             },
-            "description": "[!] Rassurez-vous, aucun félin n'a été incorporé dans ce bouillon. Ce n'est pas passé loin par contre, alors faites attention aux boules de poils qui traîneraient dans votre assiette.",
+            "description": "No te preocupes: ningún felino ha acabado dentro de este caldo. Aunque ha faltado poco, así que cuidado con las bolas de pelo que puedas encontrarte en el plato.",
             "pods": 0
         },
         {
             "ankama_id": 34712,
-            "name": "[!] Compote de pommes",
+            "name": "Compota de manzana",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126568,14 +126611,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49170-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49170-128.png"
             },
-            "description": "[!] Cette compote est extrêmement populaire à la Source, car elle est réalisée avec des fruits locaux : les Bellapommes.",
+            "description": "Esta compota es muy popular en la Fuente, ya que se elabora con una fruta de la zona: las belinzanas.",
             "pods": 0
         },
         {
             "ankama_id": 34713,
-            "name": "[!] Soupe à l'oignon",
+            "name": "Sopa de cebolla",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126583,14 +126626,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49171-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49171-128.png"
             },
-            "description": "[!] Si simple, mais si savoureuse, cette soupe est à en pleurer de délice.",
+            "description": "Tan sencilla como sabrosa, esta sopa está para llorar de gusto.",
             "pods": 0
         },
         {
             "ankama_id": 34714,
-            "name": "[!] Madeleines à la cannelle",
+            "name": "Magdalenas de canela",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126598,14 +126641,14 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49172-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49172-128.png"
             },
-            "description": "[!] Fraîchement sorties du four, le parfum qui se dégage de ces madeleines n'a d'égal que leur moelleux.",
+            "description": "Recién salidas del horno, estas magdalenas desprenden un aroma solo comparable a lo esponjosas que están.",
             "pods": 0
         },
         {
             "ankama_id": 34715,
-            "name": "[!] Welsh et Shedar",
+            "name": "Welsh y Shedar",
             "type": {
-                "name": "[!] Nourriture évènementielle",
+                "name": "Comida de evento",
                 "id": 265
             },
             "level": 1,
@@ -126613,7 +126656,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/49173-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/49173-128.png"
             },
-            "description": "[!] Quoi de mieux pour finir un repas que du fromage ? Du fromage mariné dans du fromage, saupoudré de fromage, sur son lit de fromage. Impossible de manger quoi que ce soit d'autres après ça.",
+            "description": "¿Qué mejor forma de terminar una comida que con queso? Queso marinado en queso, espolvoreado con queso y servido sobre un lecho de queso. Después de esto, imposible comer nada más.",
             "pods": 0
         }
     ]

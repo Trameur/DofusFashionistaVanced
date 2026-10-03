@@ -63938,7 +63938,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Der Fernkampfschaden der Gegner verringert sich um 40 %.\nWenn ein Gegner angegriffen wird, wird 100 % des Schadens den Verbündeten zugefügt, die in einem Umkreis von 3 Feldern zum Angreifer stehen.\nJedes Mal, wenn sie getroffen werden, erhalten die Gegner 1 BP."
+                    "formatted": "{{spell,28438,1::Vitis versengtes Idol}}\n• Gegner erhalten 40 % Fernkampfresistenz zusätzlich.\n• Wird ein Gegner angegriffen, wirft er 100 % des erlittenen Schadens auf Verbündete zurück, die höchstens 3 Felder vom Angreifer entfernt stehen."
                 }
             ],
             "pods": 1
@@ -64008,7 +64008,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Der Nahkampfschaden der Gegner erhöht sich um 200 %.\nGegner werfen 50 % des erlittenen Schadens zurück.\nWenn ein Gegner stirbt, erhalten Gegner 1 Runde lang 2 BP."
+                    "formatted": "{{spell,28449,1::Thomahons widerliches Idol}}\n• Die Gegner erhalten 200 % Nahkampfschaden zusätzlich.\n• Wird ein Gegner angegriffen, wirft er 50 % des erlittenen Schadens auf seinen Angreifer zurück."
                 }
             ],
             "pods": 1
@@ -64148,7 +64148,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Die Gegner erhalten 3 BP.\nDer Fernkampfschaden der Gegner verringert sich um 40 %.\nBefindet man sich am Ende der Runde in einer Linie mit einem Gegner oder Verbündeten, verliert man 2 Runden lang 50 % LP."
+                    "formatted": "{{spell,28441,1::Vitis umranktes Idol}}\n• Gegner erhalten 2 BP und 40 % Fernkampfresistenz zusätzlich."
                 }
             ],
             "pods": 1
@@ -64218,7 +64218,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Am Ende ihrer Runde ziehen die Gegner alle Verbündeten, die sich in einer Reichweite von mehr als 4 Feldern befinden, um 1 Feld heran.\nBefindet man sich am Ende der Runde auf einem an das Feld eines Gegners angrenzenden Feld, verliert man 2 Runden lang 50 % LP.\nJedes Mal, wenn ein Gegner seinen Spielzug beginnt, erleidet der Charakter, der diesem Gegner am nächsten steht, 1 Runde lang 50 % mehr Schaden. (max. Kumulierung 2)"
+                    "formatted": "{{spell,28442,1::Vitis eiskaltes Idol}}\n• Beendet ein verbündeter Kämpfer seine Runde, verliert er 50 % seiner LP (2 Runden lang), wenn er in Nahkampfentfernung zu mindestens einem Gegner steht.\n• Beendet ein Gegner seine Runde, zieht er alle Verbündeten, die mehr als 4 Felder von ihm entfernt sind, um 1 Feld zu sich heran."
                 }
             ],
             "pods": 1
@@ -64288,7 +64288,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Befindet man sich am Ende der Runde nicht auf einem an das Feld eines Gegners angrenzenden Feld, verliert man 2 Runden lang 50 % LP.\nWenn ein Verbündeter Schaden erleidet, erleiden alle Verbündeten im Umkreis von 4 Feldern 200 % dieses Schadens.\nGegner werfen 50 % des erlittenen Schadens zurück."
+                    "formatted": "{{spell,28443,1::Thomahons marines Idol}}\n• Beendet ein verbündeter Kämpfer seine Runde, verliert er 50 % seiner LP (2 Runden lang), wenn er zu keinem Gegner in Nahkampfentfernung steht.\n• Wird ein Gegner angegriffen, wirft er 50 % des erlittenen Schadens auf seinen Angreifer zurück."
                 }
             ],
             "pods": 1
@@ -64363,7 +64363,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Befindet man sich am Ende der Runde in einer Linie mit einem Gegner oder Verbündeten, verliert man 2 Runden lang 50 % LP.\nGegner erhalten 4 BP.\nAm Ende ihrer Runde ziehen Gegner alle Verbündeten, die sich in einer Reichweite von mehr als 8 Feldern befinden, um 1 Feld heran."
+                    "formatted": "{{spell,28444,1::Thomahons Baum-Idol}}\n• Gegner erhalten 4 BP zusätzlich.\n• Beendet ein Gegner seine Runde, zieht er alle Verbündeten, die mehr als 8 Felder von ihm entfernt sind, um 1 Feld zu sich heran."
                 }
             ],
             "pods": 1
@@ -64433,7 +64433,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Befindet man sich am Ende der Runde auf einem an das Feld eines Gegners angrenzenden Feld, verliert man 2 Runden lang 50 % LP.\nZu Beginn ihrer Runde erhöhen Gegner den erlittenen Schaden von Verbündeten in einer Entfernung von weniger als 6 Feldern um 100 %.\nWenn ein Verbündeter Schaden erleidet, erleiden alle Verbündeten im Umkreis von 2 Feldern 200 % dieses Schadens.\nGegner verringern den Fernkampfschaden um 20 %."
+                    "formatted": "{{spell,28445,1::Thomahons Obsidian-Idol}}\n• Wird ein verbündeter Kämpfer angegriffen, wirft er 200 % des erlittenen Schadens auf seine Verbündeten zurück, die höchstens 2 Felder von ihm entfernt stehen.\n• Beendet er seine Runde, verliert er 50 % seiner LP (2 Runden lang), wenn er in Nahkampfentfernung zu mindestens einem Gegner steht."
                 }
             ],
             "pods": 1
@@ -64508,7 +64508,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Macht die Verbündeten Unheilbar.\nDer Schaden der Gegner erhöht sich pro Spielrunde um 40 %.\nJedes Mal, wenn sie getroffen werden, erhalten die Gegner 1 BP."
+                    "formatted": "{{spell,28446,1::Foluks zerkratztes Idol}}\n• Verbündete sind Unheilbar.\n• Gegner erhalten nach jeder Spielrunde 40 % Endschaden zusätzlich."
                 }
             ],
             "pods": 1
@@ -64583,7 +64583,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Die Verbündeten legen zu Beginn ihrer Runde für unbegrenzte Dauer eine Glyphe aus. Wenn die Gegner ihre Runde auf ihr beginnen oder beenden, werden sie unverwundbar.\nSolange sie nicht wegbewegt werden, sind die Monster unverwundbar. Durch Schubsschaden verursachen sie 200 % mehr Schaden.\nGegner töten Feinde, die auf angrenzenden Feldern stehen, wenn sie sterben.\nDer Schaden von Gegnern erhöht sich um 400 % und verringert sich dann pro Spielrunde um 40 %."
+                    "formatted": "{{spell,28447,1::Foluks feenhaftes Idol}}\n• Gegner erhalten 400 % Endschaden. Dieser Endschaden reduziert sich nach jeder Spielrunde um 40 % (10-mal kumulierbar).\n• Beginnt ein verbündeter Kämpfer seine Runde, platziert er zu Rundenbeginn und am Rundenende zwei Glyphen auf seinem Feld, die die Gegner Unverwundbar machen (1 Runde lang)."
                 }
             ],
             "pods": 1

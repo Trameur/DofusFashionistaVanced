@@ -126396,6 +126396,49 @@
             "pods": 0
         },
         {
+            "ankama_id": 34624,
+            "name": "Malédiction de Médoroziam",
+            "type": {
+                "name": "Parchemin d'attitude",
+                "id": 46
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/25285-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/25285-128.png"
+            },
+            "description": "Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 353,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Attitude",
+                        "id": 98,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Attitude 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34674,
             "name": "Parchemin de Niveau (200)",
             "type": {
