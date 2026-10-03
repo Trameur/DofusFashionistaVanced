@@ -24,7 +24,7 @@ class GameVersion:
                  seo_word='', experimental=False, dofus=True,
                  rings_can_double=True, temporix=False,
                  weapon_element_rate=0.85, element_potion_heals=True,
-                 extra_slot_types=(), family=None):
+                 extra_slot_types=(), family=None, exo_per_item=False):
         self.key = key
         self.label = label
         self.db_file = db_file
@@ -47,6 +47,8 @@ class GameVersion:
         self.extra_slot_types = tuple(extra_slot_types)
         # Versions of one family share their catalogue: a build moves between them
         self.family = family or key
+        # Retro: one exo per forgeable piece, no build limit
+        self.exo_per_item = exo_per_item
 
     @property
     def game_name(self):
@@ -72,7 +74,7 @@ GAME_VERSIONS = {
                     temporix=True, extra_slot_types=('Emblem',)),
         GameVersion('retro', 'Retro', 'items_retro.db',
                     'item_db_dumped_retro.dump', seo_word='Retro',
-                    rings_can_double=False),
+                    rings_can_double=False, exo_per_item=True),
         # Nothing may link to Wakfu yet; doubled rings unknown there, so one copy
         GameVersion('wakfu', 'Wakfu', 'items_wakfu.db',
                     'item_db_dumped_wakfu.dump', seo_word='Wakfu',

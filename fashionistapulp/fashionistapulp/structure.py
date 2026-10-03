@@ -32,6 +32,7 @@ from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL,
                              WEIRD_CONDITION_FROM_ID, LIGHT_SET_LIMIT_FROM_ID,
                              SETS_EQUIPPED_LIMIT_FROM_ID)
 from .dofus_stat import Stat
+from .exo_options import FORGEABLE_TYPES, FORGEABLE_WEAPON_TYPES
 from .fashion_util import normalize_name, strip_accents
 from .fashionista_config import (get_items_db_path, load_items_db_from_dump)
 from .game_versions import get_game_version
@@ -206,6 +207,7 @@ class Structure:
             self.read_item_class_conditions_table()
             self.read_item_spell_conditions_table()
             self.read_wear_limit_tables()
+            self.read_forgeable_items_table()
             self.read_wearer_tables()
             self.read_legacy_item_ids_table()
             self.read_weird_conditions_table()
@@ -676,6 +678,30 @@ class Structure:
                     if (item_id, other_id) in own:
                         item.own_not_worn_with = (
                             getattr(item, 'own_not_worn_with', ()) + (other_id,))
+
+    def read_forgeable_items_table(self):
+        """The pieces a smithmagic rune can go on, read on exo_per_item versions."""
+        c = self.conn.cursor()
+        if self._table_exists('forgeable_items'):
+            for (item_id,) in c.execute('SELECT item FROM forgeable_items'):
+                item = self.get_item_by_id(item_id)
+                if item is not None:
+                    item.forgeable = True
+            return
+        if not get_game_version(self.game_version).exo_per_item:
+            return
+        weapon_keys = {}
+        if self._table_exists('weapon_weapontype'):
+            for item_id, weapon_type in c.execute(
+                    'SELECT item, weapontype FROM weapon_weapontype'):
+                key = getattr(self.weapon_type_dict.get(weapon_type), 'key', None)
+                weapon_keys[item_id] = key
+        for item in itertools.chain(self.items_dict.values(),
+                                    self.dt_items_dict.values()):
+            type_name = self.types_dict.get(item.type)
+            item.forgeable = (type_name in FORGEABLE_TYPES
+                              or (type_name == 'Weapon'
+                                  and weapon_keys.get(item.id) in FORGEABLE_WEAPON_TYPES))
 
     def read_wearer_tables(self):
         """The sex and the character names a piece asks for."""

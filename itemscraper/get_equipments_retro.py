@@ -390,8 +390,14 @@ def min_player_level(c_string):
     return best
 
 
+def mage_item_types(skills_root):
+    """Item type ids a smithmagic skill works on, as strings."""
+    return {str(skill['f']) for skill in skills_root.values()
+            if isinstance(skill, dict) and 'f' in skill}
+
+
 def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
-          set_names_by_lang=None, spell_names_by_lang=None):
+          set_names_by_lang=None, spell_names_by_lang=None, mage_types=None):
     items = items_root['u']
     names_by_lang = names_by_lang or {}
     set_names_by_lang = set_names_by_lang or {}
@@ -440,6 +446,8 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
         }
         if it.get('c'):
             rec['criteria'] = it['c']
+        if mage_types is not None:
+            rec['forgeable'] = type_id in mage_types and it.get('fm') is not False
         rec.update(worn)
         for lang, lines in decode_spell_lines(it.get('istats', ''),
                                               spell_names_by_lang).items():
@@ -495,6 +503,7 @@ def main(argv=None):
     items_root = json.loads((raw / f'items_{args.lang}.json').read_text(encoding='utf-8'))['I']
     ista = json.loads((raw / f'itemstats_{args.lang}.json').read_text(encoding='utf-8'))['ISTA']
     sets_root = json.loads((raw / f'itemsets_{args.lang}.json').read_text(encoding='utf-8'))['IS']
+    skills_root = json.loads((raw / f'skills_{args.lang}.json').read_text(encoding='utf-8'))['SK']
 
     # Attach the stat strings onto each item under 'istats' for decode_stats.
     for iid, it in items_root['u'].items():
@@ -541,7 +550,8 @@ def main(argv=None):
     set_bonuses = load_set_bonuses(args.set_bonuses)
 
     equipment, sets = build(items_root, sets_root, names_by_lang, set_bonuses,
-                            set_names_by_lang, load_spell_names(raw))
+                            set_names_by_lang, load_spell_names(raw),
+                            mage_item_types(skills_root))
 
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -551,8 +561,9 @@ def main(argv=None):
         json.dumps(sets, ensure_ascii=False), encoding='utf-8')
 
     with_stats = sum(1 for e in equipment if e['stats'])
-    print(f"Wrote {len(equipment)} equipment ({with_stats} with stats) "
-          f"and {len(sets)} sets to {out}/")
+    forgeable = sum(1 for e in equipment if e.get('forgeable'))
+    print(f"Wrote {len(equipment)} equipment ({with_stats} with stats, "
+          f"{forgeable} forgeable) and {len(sets)} sets to {out}/")
     return 0
 
 

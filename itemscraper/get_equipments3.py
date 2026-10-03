@@ -656,6 +656,13 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         for name in item.get('names') or ():
             f.write(f"INSERT INTO item_name_conditions VALUES({item_id}, '{escape_single_quotes(name)}');\n")
 
+    # Pieces a smithmagic rune can go on
+    if any('forgeable' in item for item in original_data):
+        f.write("""CREATE TABLE forgeable_items (item INTEGER, FOREIGN KEY(item) REFERENCES items(id));\n""")
+        for item in original_data:
+            if item.get('forgeable'):
+                f.write(f"INSERT INTO forgeable_items VALUES({item_to_id[id(item)]});\n")
+
     f.write("""CREATE TABLE extra_lines (item INTEGER, line text, language text, FOREIGN KEY(item) REFERENCES items(id));\n""")
 
     for item in original_data:
