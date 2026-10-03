@@ -892,11 +892,12 @@ class ARetroBuildSendsOneExoBitPerStatTests(TestCase):
 
     def test_a_solution_saved_before_the_count_sends_the_exos_its_page_shows(self):
         import pickle
+        from chardata.char_blobs import read_char_blob
         from chardata.lock_forbid import set_stat_overrides
         char, item = self._char()
         ap = self.structure.get_stat_by_key('ap')
         set_stat_overrides(char, {item.id: {ap.id: dict(item.stats).get(ap.id, 0) + 1}})
-        minimal = pickle.loads(char.minimal_solution)
+        minimal = read_char_blob(char.minimal_solution, None, 'minimal_solution', char)
         minimal.input['options'].update(ap_exo=True, mp_exo=False, range_exo=False)
         del minimal.exo_option_tops_owned
         char.minimal_solution = pickle.dumps(minimal)

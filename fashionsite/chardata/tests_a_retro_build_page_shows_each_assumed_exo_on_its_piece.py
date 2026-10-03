@@ -7,6 +7,7 @@ import re
 from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
 
+from chardata.char_blobs import read_char_blob
 from chardata.coaching_view import create_build
 from chardata.models import Char
 from chardata.options import set_options
@@ -53,7 +54,7 @@ class TheRetroBuildPageMarksEachAssumedExoTests(TestCase):
     def test_two_ap_exos_mark_two_pieces_and_add_two_ap(self):
         char = self._solved('retro', {'ap_exo': 2, 'mp_exo': 0, 'range_exo': 0})
         self.assertEqual({'ap': 2, 'mp': 0, 'range': 0},
-                         pickle.loads(char.minimal_solution).exo_assumed)
+                         read_char_blob(char.minimal_solution, None, 'minimal_solution', char).exo_assumed)
         page = self._page(char)
         self.assertEqual(2, page.count(_MARK))
         self.assertEqual(2, page.count(_TITLE))
@@ -70,7 +71,7 @@ class TheRetroBuildPageMarksEachAssumedExoTests(TestCase):
 
     def test_a_solution_saved_before_the_count_places_the_option_count(self):
         char = self._solved('retro', {'ap_exo': 2, 'mp_exo': 0, 'range_exo': 0})
-        minimal = pickle.loads(char.minimal_solution)
+        minimal = read_char_blob(char.minimal_solution, None, 'minimal_solution', char)
         del minimal.exo_assumed
         self.assertIsNone(minimal.exo_assumed)
         char.minimal_solution = pickle.dumps(minimal)
