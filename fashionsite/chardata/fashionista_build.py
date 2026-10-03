@@ -67,7 +67,7 @@ ERRORS = (
     ('bad_stats', gettext_lazy('The stats of an item must be a list of lines, each with a key and a whole number.')),
     ('bad_level', gettext_lazy('The level must be a whole number from 1 to 200.')),
     ('bad_characteristics', gettext_lazy('Characteristics and scrolls only take vitality, wisdom, strength, intelligence, chance and agility, each a whole number from 0 up.')),
-    ('bad_exos', gettext_lazy('Exos only take ap, mp and range, each true or false.')),
+    ('bad_exos', gettext_lazy('Exos only take ap, mp and range, each true or false, or on Dofus Retro a whole number from 0 up.')),
     ('no_known_item', gettext_lazy('None of these items is in our catalogue for this game.')),
     ('wrong_game', gettext_lazy('These items belong to another version of the game. Check the game field.')),
     ('rate_limited', gettext_lazy('Too many checks from your address. Wait a few minutes.')),

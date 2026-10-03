@@ -8660,8 +8660,8 @@ msgid "Characteristics and scrolls only take vitality, wisdom, strength, intelli
 msgstr "Las características y los pergaminos solo aceptan vitality, wisdom, strength, intelligence, chance y agility, cada uno un número entero desde 0."
 
 #: chardata/fashionista_build.py
-msgid "Exos only take ap, mp and range, each true or false."
-msgstr "Los exos solo aceptan ap, mp y range, cada uno true o false."
+msgid "Exos only take ap, mp and range, each true or false, or on Dofus Retro a whole number from 0 up."
+msgstr "Los exos solo aceptan ap, mp y range, cada uno true o false, o en Dofus Retro un número entero desde 0."
 
 #: chardata/fashionista_build.py
 msgid "None of these items is in our catalogue for this game."

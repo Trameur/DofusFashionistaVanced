@@ -8640,8 +8640,8 @@ msgid "Characteristics and scrolls only take vitality, wisdom, strength, intelli
 msgstr "Eigenschaftswerte und Schriftrollen nehmen nur vitality, wisdom, strength, intelligence, chance und agility an, jeweils eine ganze Zahl ab 0."
 
 #: chardata/fashionista_build.py
-msgid "Exos only take ap, mp and range, each true or false."
-msgstr "Exos nehmen nur ap, mp und range an, jeweils true oder false."
+msgid "Exos only take ap, mp and range, each true or false, or on Dofus Retro a whole number from 0 up."
+msgstr "Exos nehmen nur ap, mp und range an, jeweils true oder false, oder bei Dofus Retro eine ganze Zahl ab 0."
 
 #: chardata/fashionista_build.py
 msgid "None of these items is in our catalogue for this game."
@@ -9277,7 +9277,7 @@ msgstr "Teile mit BP-Exo"
 
 #: chardata/templates/chardata/options.html
 msgid "Pieces with a Range exo"
-msgstr "Teile mit Reichweite-Exo"
+msgstr "Teile mit Reichweiten-Exo"
 
 #: chardata/templates/chardata/options.html
 #: chardata/templates/chardata/wizard_options.html
@@ -9293,7 +9293,7 @@ msgstr "%(item)s, Exo"
 #: chardata/templates/chardata/solution_item.html
 #, python-format
 msgid "Exo to forge: the optimizer counts one %(stat)s exo on this piece."
-msgstr "Zu schmiedendes Exo: Der Optimierer zählt ein %(stat)s-Exo auf diesem Teil."
+msgstr "Zu schmiedendes Exo: Der Optimierer zählt auf diesem Teil ein Exo (%(stat)s)."
 
 #: chardata/templates/chardata/solution_item.html
 #, python-format
