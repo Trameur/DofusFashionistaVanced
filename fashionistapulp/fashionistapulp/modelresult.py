@@ -63,11 +63,14 @@ class ModelResultMinimal():
 
     # {stat key: exos to forge}, from a Retro solve; older pickles lack it
     exo_assumed = None
+    # Older pickles lack it: their option counted the owned exos worn
+    exo_option_tops_owned = False
 
     def __init__(self, item_per_slot, input_, stats):
         self.item_per_slot = item_per_slot
         self.input = input_
         self.stats = stats
+        self.exo_option_tops_owned = True
 
     @classmethod
     def from_item_id_list(cls, item_id_list, input_, stats):
@@ -128,6 +131,7 @@ class ModelResultMinimal():
         stats = model_result.get_stats()
         minimal = cls(item_per_slot, {k: input_[k] for k in input_ if k in RELEVANT_INPUT}, stats)
         minimal.exo_assumed = getattr(model_result, 'exo_assumed', None)
+        minimal.exo_option_tops_owned = getattr(model_result, 'exo_option_tops_owned', True)
         return minimal
     
     @classmethod
@@ -175,6 +179,7 @@ def model_result_from_minimal(minimal, stat_overrides=None):
     else:
         result = ModelResult(minimal.input)
     result.exo_assumed = getattr(minimal, 'exo_assumed', None)
+    result.exo_option_tops_owned = getattr(minimal, 'exo_option_tops_owned', False)
 
     for slot, item_id in minimal.item_per_slot.items():
         item = (get_item_in_slot(structure, item_id, slot)
@@ -196,6 +201,7 @@ def model_result_from_minimal(minimal, stat_overrides=None):
 class ModelResult():
 
     exo_assumed = None
+    exo_option_tops_owned = True
     # {stat key: exo points worn}, on exo_per_item versions
     exo_points = None
     
@@ -325,7 +331,12 @@ class ModelResult():
         if self.exo_assumed is not None:
             targets = [(key, self.exo_assumed.get(key, 0)) for key, _option in EXO_OPTIONS]
         else:
-            targets = [(key, exo_count(options.get(option)))
+            owned = Counter()
+            if not self.exo_option_tops_owned:
+                for result_item in self.item_list:
+                    if result_item.item_added:
+                        owned.update(getattr(result_item, 'exo_overrides', {}).keys())
+            targets = [(key, max(exo_count(options.get(option)) - owned[key], 0))
                        for key, option in EXO_OPTIONS]
         for result_item in self.item_list:
             result_item.assumed_exo = None

@@ -113,6 +113,10 @@ def _exos_per_piece(char, solution, pieces):
     """(exo bits, stat keys with more exos than their one bit carries), counting each piece's own exo."""
     from chardata.options import get_options
     assumed = getattr(solution, 'exo_assumed', None)
+    if assumed is None and not getattr(solution, 'exo_option_tops_owned', True):
+        assumed = {key: sum(1 for item in solution.item_list
+                            if item.item_added and item.assumed_exo == key)
+                   for key, _option in EXO_OPTIONS}
     options = get_options(char)
     drapeaux, en_trop = 0, []
     for key, option in EXO_OPTIONS:

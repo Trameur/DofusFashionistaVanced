@@ -889,3 +889,17 @@ class ARetroBuildSendsOneExoBitPerStatTests(TestCase):
         page = self._page(char, item, ap_exo=1, mp_exo=0, range_exo=0)
         self.assertEqual(dofusbook_export.EXO_AP, self._flags(page))
         self.assertIn('export-forge-staying', page)
+
+    def test_a_solution_saved_before_the_count_sends_the_exos_its_page_shows(self):
+        import pickle
+        from chardata.lock_forbid import set_stat_overrides
+        char, item = self._char()
+        ap = self.structure.get_stat_by_key('ap')
+        set_stat_overrides(char, {item.id: {ap.id: dict(item.stats).get(ap.id, 0) + 1}})
+        minimal = pickle.loads(char.minimal_solution)
+        minimal.input['options'].update(ap_exo=True, mp_exo=False, range_exo=False)
+        del minimal.exo_option_tops_owned
+        char.minimal_solution = pickle.dumps(minimal)
+        page = self._page(char, item, ap_exo=True, mp_exo=False, range_exo=False)
+        self.assertEqual(dofusbook_export.EXO_AP, self._flags(page))
+        self.assertNotIn('export-forge-staying', page)
