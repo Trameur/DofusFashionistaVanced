@@ -21,6 +21,7 @@ import json
 import logging
 from copy import deepcopy
 
+from .exo_options import exo_count
 from .game_versions import get_game_version
 from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
                        temporix_only_item_ids)
@@ -94,13 +95,19 @@ class Model:
 
     _EXO_STAT_KEYS = {'ap', 'mp', 'range'}
 
+    @property
+    def _exo_per_item(self):
+        return get_game_version(self.structure.game_version).exo_per_item
+
     def _apply_stat_overrides(self, stat_overrides):
         # Extra AP, MP or Range is an exo: the piece keeps its catalogue value, see 'exo'
         self._exo_carriers = {key: set() for key in self._EXO_STAT_KEYS}
+        # Above the catalogue on another stat: an over, no exo on top of it
+        self._overed_items = set()
         for item_id, item_overrides in stat_overrides.items():
             for stat_id, recorded in item_overrides.items():
                 stat = self.structure.get_stat_by_id(stat_id)
-                if not stat or stat.key not in self._EXO_STAT_KEYS:
+                if not stat:
                     continue
                 catalogue = 0
                 for other_id, value in self.structure.get_item_by_id(
@@ -108,8 +115,12 @@ class Model:
                             item_id) else ():
                     if other_id == stat_id:
                         catalogue = value
-                if recorded > catalogue:
+                if recorded <= catalogue:
+                    continue
+                if stat.key in self._EXO_STAT_KEYS:
                     self._exo_carriers[stat.key].add(item_id)
+                else:
+                    self._overed_items.add(item_id)
 
         new_items_list = []
         for item in self.items_list:
@@ -228,10 +239,11 @@ class Model:
             if stat and stat.name in self.stat_maximum:
                 self.problem.setup_variable('overage', stat_id, 0, self.stat_maximum[stat.name])
 
-        # One exo point per stat for the whole build
+        # One exo point per stat for the whole build, or one per forgeable piece
+        exo_bound = None if self._exo_per_item else 1
         for stat in self.stats_list:
             if stat.key in self._EXO_STAT_KEYS:
-                self.problem.setup_variable('exo', stat.id, 0, 1)
+                self.problem.setup_variable('exo', stat.id, 0, exo_bound)
 
     def create_stat_points_variables(self):
         self.stat_count = len(self.stats_list)
@@ -1407,6 +1419,29 @@ class Model:
                     matrix.append((-1, 'p', item.id))
             self.restrictions.exo_constraints[stat.key] = (
                 self.problem.restriction_lt_eq(0, matrix))
+        if self._exo_per_item:
+            self._create_exo_per_item_constraints(carriers)
+
+    def _create_exo_per_item_constraints(self, carriers):
+        """Exos fit on the forgeable pieces worn, and an owned exo always counts."""
+        overed = getattr(self, '_overed_items', None) or set()
+        exo_stats = [stat for stat in self.stats_list
+                     if stat.key in self._EXO_STAT_KEYS]
+        capacity = [(1, 'exo', stat.id) for stat in exo_stats]
+        for item in self.items_list:
+            held = sum(1 for stat in exo_stats
+                       if item.id in carriers.get(stat.key, ()))
+            room = held or (1 if item.forgeable and item.id not in overed else 0)
+            if room:
+                capacity.append((-room, 'p', item.id))
+        self.restrictions.exo_capacity = self.problem.restriction_lt_eq(0, capacity)
+        for stat in exo_stats:
+            matrix = [(-1, 'exo', stat.id)]
+            for item in self.items_list:
+                if item.id in carriers.get(stat.key, ()):
+                    matrix.append((1, 'p', item.id))
+            self.restrictions.exo_owned_floor[stat.key] = (
+                self.problem.restriction_lt_eq(0, matrix))
 
     def modify_exo_constraints(self, options):
         for stat in self.stats_list:
@@ -1416,6 +1451,9 @@ class Model:
             if restriction is None:
                 continue
             option = options.get('%s_exo' % stat.key)
+            if self._exo_per_item:
+                restriction.changeRHS(exo_count(option))
+                continue
             # mp_exo 'gelano' swaps in Gelano (#1), which carries the MP itself
             restriction.changeRHS(1 if option is True else 0)
 
@@ -1638,7 +1676,22 @@ class Model:
                 item_id_list.append(item)
                 
         result = ModelResultMinimal.from_item_id_list(item_id_list, self.input, self.get_stats())
+        if self._exo_per_item:
+            result.exo_assumed = self._assumed_exos(grouped_vars)
         return result
+
+    def _assumed_exos(self, grouped_vars):
+        """{stat key: exos the solver counted beyond the owned ones worn}."""
+        worn = {int(k) for k, v in grouped_vars['x'].items() if v and round(v) > 0}
+        carriers = getattr(self, '_exo_carriers', None) or {}
+        exos = grouped_vars.get('exo', {})
+        assumed = {}
+        for stat in self.stats_list:
+            if stat.key in self._EXO_STAT_KEYS:
+                counted = int(round(exos.get(str(stat.id)) or 0))
+                owned = len(carriers.get(stat.key, set()) & worn)
+                assumed[stat.key] = max(counted - owned, 0)
+        return assumed
 
     def get_solved_status(self):
         return self.problem.get_status()

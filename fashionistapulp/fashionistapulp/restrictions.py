@@ -37,6 +37,8 @@ class Restrictions:
         self.or_branch_constraints = {}
         self.stat_total_constraints = {}
         self.exo_constraints = {}
+        self.exo_capacity = None
+        self.exo_owned_floor = {}
         self.stat_cap_constraints = {}
         self.minimum_stat_constraints = {}
         self.advanced_minimum_stat_constraints = {}

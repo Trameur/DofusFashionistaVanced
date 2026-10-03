@@ -18,6 +18,7 @@ from collections import Counter
 import logging
 from django.utils.translation import gettext as _
 
+from .exo_options import EXO_OPTIONS, exo_count, exo_per_item
 from .dofus_constants import (ALL_TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER,
                              DAMAGE_TYPES, BASE_STATS, STAT_KEY_TO_NAME,
                              calculate_damage, SLOT_NAME_TO_TYPE, slots_for)
@@ -59,6 +60,9 @@ def level_prospecting(game_version, level):
 
 
 class ModelResultMinimal():
+
+    # {stat key: exos to forge}, from a Retro solve; older pickles lack it
+    exo_assumed = None
 
     def __init__(self, item_per_slot, input_, stats):
         self.item_per_slot = item_per_slot
@@ -122,7 +126,9 @@ class ModelResultMinimal():
                 
         input_ = model_result.input
         stats = model_result.get_stats()
-        return cls(item_per_slot, {k: input_[k] for k in input_ if k in RELEVANT_INPUT}, stats)
+        minimal = cls(item_per_slot, {k: input_[k] for k in input_ if k in RELEVANT_INPUT}, stats)
+        minimal.exo_assumed = getattr(model_result, 'exo_assumed', None)
+        return minimal
     
     @classmethod
     def generate_empty_solution(cls, input_):
@@ -168,6 +174,7 @@ def model_result_from_minimal(minimal, stat_overrides=None):
         result = ModelResult(minimal.input, minimal.stats)
     else:
         result = ModelResult(minimal.input)
+    result.exo_assumed = getattr(minimal, 'exo_assumed', None)
 
     for slot, item_id in minimal.item_per_slot.items():
         item = (get_item_in_slot(structure, item_id, slot)
@@ -187,6 +194,10 @@ def model_result_from_minimal(minimal, stat_overrides=None):
     return result
 
 class ModelResult():
+
+    exo_assumed = None
+    # {stat key: exo points worn}, on exo_per_item versions
+    exo_points = None
     
     def __init__(self, input_, stats=None):
         self.input = input_        
@@ -276,6 +287,10 @@ class ModelResult():
             for result_set in self.sets:
                 for stat_key, stat_value in result_set.get_bonus().items():
                     self.stats_gear[stat_key] += stat_value
+            if exo_per_item(get_current_game_version()):
+                for key, points in self._count_exos_per_piece().items():
+                    self.stats_gear[key] += points
+                return self.stats_gear
             # One exo point per stat for the whole build, option or worn piece
             worn_exos = set()
             for result_item in self.item_list:
@@ -290,6 +305,46 @@ class ModelResult():
             if options['mp_exo'] is True or 'mp' in worn_exos:
                 self.stats_gear['mp'] += 1
         return self.stats_gear
+
+    def _count_exos_per_piece(self):
+        """One point per exo a worn piece holds, owned or assumed."""
+        self.place_assumed_exos()
+        self.exo_points = {key: 0 for key, _option in EXO_OPTIONS}
+        for result_item in self.item_list:
+            if not result_item.item_added:
+                continue
+            for key in getattr(result_item, 'exo_overrides', {}):
+                self.exo_points[key] += 1
+            if result_item.assumed_exo:
+                self.exo_points[result_item.assumed_exo] += 1
+        return self.exo_points
+
+    def place_assumed_exos(self):
+        """Puts each exo to forge on a free forgeable piece, AP first, in slot order."""
+        options = self.input['options']
+        if self.exo_assumed is not None:
+            targets = [(key, self.exo_assumed.get(key, 0)) for key, _option in EXO_OPTIONS]
+        else:
+            targets = [(key, exo_count(options.get(option)))
+                       for key, option in EXO_OPTIONS]
+        for result_item in self.item_list:
+            result_item.assumed_exo = None
+        structure = get_structure()
+        by_slot = {result_item.slot: result_item for result_item in self.item_list
+                   if result_item.item_added}
+        free = []
+        for slot in slots_for(get_current_game_version()):
+            result_item = by_slot.get(slot)
+            item = structure.get_item_by_id(result_item.id) if result_item else None
+            if (item is not None and item.forgeable
+                    and not getattr(result_item, 'exo_overrides', None)
+                    and not result_item.holds_an_over()):
+                free.append(result_item)
+        for key, count in targets:
+            for _ in range(count):
+                if not free:
+                    return
+                free.pop(0).assumed_exo = key
         
     def get_stats_total(self): 
         if self.stats_total is None:
@@ -655,6 +710,8 @@ class ModelResult():
 
 class ModelResultItem():
 
+    assumed_exo = None
+
     def __init__(self, item, stat_overrides=None):
         # Legacy pickles can be missing the newer weapon fields.
         self.is_mageable = False
@@ -774,6 +831,14 @@ class ModelResultItem():
             self.slot = None
             self.file = None
             
+    def holds_an_over(self):
+        """A recorded roll above the catalogue on a stat other than AP, MP or Range."""
+        exo_keys = {key for key, _option in EXO_OPTIONS}
+        base = getattr(self, 'base_stats', {})
+        return any(value > base.get(key, 0)
+                   for key, value in getattr(self, 'stats', {}).items()
+                   if key not in exo_keys)
+
     def set_slot(self, slot):
         self.slot = slot
         if not self.localized_name:
