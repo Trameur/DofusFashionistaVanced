@@ -614,6 +614,7 @@ def _apply_stackable_damage(
     elements: List[str],
     steals: Optional[List[bool]],
     heals: Optional[List[bool]],
+    counts_its_own_target: bool = False,
 ) -> Optional[List[Tuple[str, List[int]]]]:
     if not damage_template:
         return None
@@ -630,40 +631,38 @@ def _apply_stackable_damage(
     for cap in caps:
         if cap and cap > stack_cap:
             stack_cap = cap
-    if stack_cap <= 0:
+    if stack_cap <= 0 and not counts_its_own_target:
         return None
     base_non_crit = non_crit[0]
     base_crit = crit[0] if crit else None
     default_element = elements[0]
     default_steal = steals[0] if steals else False
     default_heal = heals[0] if heals else False
-    aggregates: List[Tuple[str, List[int]]] = [("Stack 0", [0])]
-    for stack_count in range(1, stack_cap + 1):
-        new_non: List[str] = []
-        for level_idx, base_literal in enumerate(base_non_crit):
+
+    def stacked(base_literals: List[str], stack_count: int) -> List[str]:
+        out: List[str] = []
+        for level_idx, base_literal in enumerate(base_literals):
             delta_single = per_stack[level_idx] or 0
             if delta_single == 0:
-                new_non.append(base_literal)
+                out.append(base_literal)
                 continue
             cap = caps[level_idx] if level_idx < len(caps) else None
             effective_stack = min(stack_count, cap) if cap else stack_count
             min_val, max_val = _parse_damage_literal(base_literal)
             delta_total = delta_single * effective_stack
-            new_non.append(_format_damage_literal(min_val + delta_total, max_val + delta_total))
-        non_crit.append(new_non)
+            out.append(_format_damage_literal(min_val + delta_total, max_val + delta_total))
+        return out
+
+    first_stack = 1 if counts_its_own_target else 0
+    if first_stack:
+        non_crit[0] = stacked(base_non_crit, first_stack)
         if base_crit is not None and crit is not None:
-            new_crit: List[str] = []
-            for level_idx, base_literal in enumerate(base_crit):
-                delta_single = per_stack[level_idx] or 0
-                if delta_single == 0:
-                    new_crit.append(base_literal)
-                    continue
-                cap = caps[level_idx] if level_idx < len(caps) else None
-                effective_stack = min(stack_count, cap) if cap else stack_count
-                min_val, max_val = _parse_damage_literal(base_literal)
-                delta_total = delta_single * effective_stack
-                new_crit.append(_format_damage_literal(min_val + delta_total, max_val + delta_total))
-            crit.append(new_crit)
+            crit[0] = stacked(base_crit, first_stack)
+    aggregates: List[Tuple[str, List[int]]] = [(f"Stack {first_stack}", [0])]
+    for stack_count in range(first_stack + 1, stack_cap + 1):
+        non_crit.append(stacked(base_non_crit, stack_count))
+        if base_crit is not None and crit is not None:
+            crit.append(stacked(base_crit, stack_count))
         elements.append(default_element)
         if steals is not None:
             steals.append(default_steal)
@@ -1141,6 +1140,42 @@ def _cast_at_once(level: Mapping[str, Any], spell_lookup: Mapping[int, Mapping[s
             if child_level.get("grade") == dice.get("max"):
                 out.append((child, child_level))
     return out
+
+
+def _raises_the_owner_now(child_level: Mapping[str, Any], owner_id: Any) -> bool:
+    return any(effect.get("effect_id") == MP_DAMAGE_EFFECT_ID
+               and (effect.get("dice") or {}).get("min") == owner_id
+               and str(effect.get("target_mask") or "") == "C"
+               and effect.get("triggers") == "I" and not effect.get("delay")
+               and not _client_only(effect) and (effect.get("value") or 0) > 0
+               for effect in child_level.get("effects") or [])
+
+
+def _counted_before_the_hit(effects: Sequence[Mapping[str, Any]],
+                            spell_lookup: Mapping[int, Mapping[str, Any]], owner_id: Any) -> bool:
+    hits = [effect for effect in effects if _lands_a_hit_now(effect)]
+    if not hits or not all("A" in str(hit.get("target_mask") or "").split(",") for hit in hits):
+        return False
+    for effect in effects[:effects.index(hits[0])]:
+        cells = _zone_signature(effect.get("zone"))
+        if not cells or any(_zone_signature(hit.get("zone")) != cells for hit in hits):
+            continue
+        if any(_raises_the_owner_now(child_level, owner_id)
+               for _, child_level in _cast_at_once({"effects": [effect]}, spell_lookup)):
+            return True
+    return False
+
+
+def _counts_its_own_target(spell: Mapping[str, Any],
+                           spell_lookup: Optional[Mapping[int, Mapping[str, Any]]]) -> bool:
+    """True when every level raises its own damage once per target in its area before it hits."""
+    levels = spell.get("levels") or []
+    if not spell_lookup or not levels:
+        return False
+    owner_id = spell.get("ankama_id")
+    return all(_counted_before_the_hit(level.get(key) or [], spell_lookup, owner_id)
+               for level in levels for key in ("effects", "critical_effects")
+               if key == "effects" or level.get(key))
 
 
 def _cast_carriers(spell: Mapping[str, Any], level: Mapping[str, Any],
@@ -2528,6 +2563,7 @@ def convert_spell(
         elements,
         steals,
         heals,
+        _counts_its_own_target(spell, spell_lookup),
     )
     if stack_aggregates and mp_stack_spec and mp_stack_spec.get("labels"):
         stack_aggregates = _apply_custom_stack_labels(stack_aggregates, mp_stack_spec["labels"])

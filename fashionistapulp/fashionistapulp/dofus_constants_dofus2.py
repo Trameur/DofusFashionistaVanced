@@ -3017,10 +3017,10 @@ DAMAGE_SPELLS = {
             [AIR],
         ), stacks=2, is_linked=(2, 'Pressure'), casting={'ap': [4, 4], 'per_turn': [2, 2], 'crit': [15, 15]}, spell_id=13139),
         Spell('Tumult', [190], Effects(
-            [['19-21']],
-            [['23-25']],
+            [['39-41']],
+            [['43-45']],
             [FIRE],
-        ), is_linked=(2, 'Sword of Fate'), casting={'ap': [4], 'cooldown': [1], 'crit': [20]}, spell_id=13144),
+        ), aggregates=[('Stack 1', [0])], is_linked=(2, 'Sword of Fate'), casting={'ap': [4], 'cooldown': [1], 'crit': [20]}, spell_id=13144),
         Spell('Zenith', [180], Effects(
             [['27-29'], ['52-58']],
             [['31-35'], ['64-70']],
