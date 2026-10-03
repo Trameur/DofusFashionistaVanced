@@ -8290,8 +8290,8 @@ msgstr "am Maximum, das eine Runde auf ein Ziel erlaubt"
 msgid "Critical failure is not counted; this version is the only one that has it."
 msgstr "Kritischer Fehlschlag wird nicht mitgerechnet; nur diese Version kennt ihn."
 
-msgid "monster stats and artwork for Dofus 3 and the Beta, and the transcendence runes with their icons"
-msgstr "Monsterwerte und Illustrationen für Dofus 3 und die Beta sowie die Transzendenzrunen mit ihren Symbolen"
+msgid "where monsters are found and their artwork for Dofus 3 and the Beta, and the transcendence runes with their icons"
+msgstr "Fundorte und Illustrationen der Monster für Dofus 3 und die Beta sowie die Transzendenzrunen mit ihren Symbolen"
 
 msgid "No critical hit"
 msgstr "Kein kritischer Treffer"
