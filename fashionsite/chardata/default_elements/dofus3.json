@@ -15,8 +15,8 @@
    "50": {"element": "str", "inputs": "ce848b0f79d6", "turns": {"agi": 235.7, "cha": 196.9, "int": 226.7, "str": 247.2}},
    "100": {"element": "agi", "inputs": "c1bea69370b6", "turns": {"agi": 567.4, "cha": 495.8, "int": 504.1, "str": 508.0}},
    "150": {"element": "int", "inputs": "02eafb671187", "turns": {"agi": 993.6, "cha": 893.8, "int": 1382.5, "str": 1074.3}},
-   "180": {"element": "str", "inputs": "afae81e81178", "turns": {"agi": 1350.8, "cha": 1258.2, "int": 1756.8, "str": 1810.0}},
-   "200": {"element": "str", "inputs": "5e04d44e518a", "turns": {"agi": 1744.3, "cha": 1627.1, "int": 2271.7, "str": 2337.9}}
+   "180": {"element": "str", "inputs": "9cde7f73984f", "turns": {"agi": 1350.8, "cha": 1258.2, "int": 1756.8, "str": 1810.0}},
+   "200": {"element": "str", "inputs": "6853da0f0d5a", "turns": {"agi": 1744.3, "cha": 1627.1, "int": 2271.7, "str": 2337.9}}
   },
   "Ecaflip": {
    "20": {"element": "agi", "inputs": "25f035874556", "turns": {"agi": 167.7, "cha": 78.4, "int": 128.4, "str": 128.3}},
@@ -88,7 +88,7 @@
    "100": {"element": "str", "inputs": "a729cf4273f2", "turns": {"agi": 511.3, "cha": 567.3, "int": 513.7, "str": 571.6}},
    "150": {"element": "cha", "inputs": "61b1ed447558", "turns": {"agi": 914.9, "cha": 1354.6, "int": 1003.8, "str": 1095.9}},
    "180": {"element": "cha", "inputs": "8c5d680d24d1", "turns": {"agi": 1660.3, "cha": 1812.6, "int": 1276.3, "str": 1386.2}},
-   "200": {"element": "cha", "inputs": "9f5ace3dc826", "turns": {"agi": 2124.2, "cha": 2354.0, "int": 1681.2, "str": 1974.2}}
+   "200": {"element": "cha", "inputs": "8b5aadc7f6d7", "turns": {"agi": 2124.2, "cha": 2354.0, "int": 1681.2, "str": 1974.2}}
   },
   "Masqueraider": {
    "20": {"element": "agi", "inputs": "37c059908048", "turns": {"agi": 166.0, "cha": 148.7, "int": 140.6, "str": 148.7}},

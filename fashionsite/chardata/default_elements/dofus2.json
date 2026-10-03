@@ -80,7 +80,7 @@
    "100": {"element": "str", "inputs": "4c62e05baae6", "turns": {"agi": 520.8, "cha": 569.6, "int": 521.5, "str": 577.6}},
    "150": {"element": "cha", "inputs": "90478c28ddef", "turns": {"agi": 945.6, "cha": 1293.3, "int": 999.7, "str": 1089.8}},
    "180": {"element": "cha", "inputs": "b9d10b8d7f29", "turns": {"agi": 1659.0, "cha": 1800.5, "int": 1277.7, "str": 1384.9}},
-   "200": {"element": "cha", "inputs": "8d2a246d6db8", "turns": {"agi": 2108.7, "cha": 2278.3, "int": 1678.3, "str": 1918.1}}
+   "200": {"element": "cha", "inputs": "31a96be911ba", "turns": {"agi": 2108.7, "cha": 2278.3, "int": 1678.3, "str": 1918.1}}
   },
   "Masqueraider": {
    "20": {"element": "agi", "inputs": "5679c096dece", "turns": {"agi": 166.1, "cha": 148.7, "int": 140.6, "str": 148.7}},
