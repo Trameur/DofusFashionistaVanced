@@ -124,7 +124,7 @@ VERSION_PRESETS = {
                'box_modes': {'pvp': 'koli_3v3', 'duel': 'koli_1v1'}},
     'beta': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
              'option_boxes': ('pvp', 'duel'),
-             'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_3v3'),
+             'modes': ('general', 'pvm_solo', 'koli_1v1', 'koli_2v2', 'koli_3v3'),
              'box_modes': {'pvp': 'koli_3v3', 'duel': 'koli_1v1'}},
     'dofus2': {'styles': ('solo_pvm', 'group_pvm', 'pvp', 'farm'),
                'option_boxes': ('pvp', 'duel'),

@@ -73,7 +73,7 @@ class TheRegistryOffersEachVersionItsOwnModesTests(SimpleTestCase):
                    for version in VERSIONS}
         self.assertEqual(KOLOSSIUM, offered['dofus3'] & KOLOSSIUM)
         self.assertEqual(KOLOSSIUM, offered['dofus2'] & KOLOSSIUM)
-        self.assertEqual({'koli_1v1', 'koli_3v3'}, offered['beta'] & KOLOSSIUM)
+        self.assertEqual(KOLOSSIUM, offered['beta'] & KOLOSSIUM)
         self.assertEqual({'koli_1v1', 'koli_3v3'}, offered['touch'] & KOLOSSIUM)
         self.assertEqual(set(), offered['retro'] & KOLOSSIUM)
         self.assertEqual({'general', 'pvm_solo', 'aggression_1v1', 'group_pvp'},
@@ -380,7 +380,7 @@ class AModeTicksItsOptionBoxesTests(_SetupMixin, TestCase):
 
     def test_a_mode_the_version_does_not_offer_is_the_default_one(self):
         for version, mode in (('retro', 'koli_3v3'), ('touch', 'koli_2v2'),
-                              ('beta', 'koli_2v2'), ('dofus3', 'group_pvp')):
+                              ('beta', 'group_pvp'), ('dofus3', 'group_pvp')):
             with self.subTest(version=version, mode=mode):
                 char = self.create(version, 'Iop', 200, {'str', 'duel'}, {'play_mode': mode})
                 self.assertEqual({'str', 'duel'}, _blob(char, 'aspects', set()))
