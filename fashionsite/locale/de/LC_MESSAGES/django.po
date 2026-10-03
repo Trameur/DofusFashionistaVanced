@@ -9301,6 +9301,10 @@ msgctxt "exo to forge on an item"
 msgid "Exo %(stat)s"
 msgstr "Exo %(stat)s"
 
+#: chardata/templates/chardata/faq.html
+msgid "On Dofus Retro, every forgeable piece can take one exo, so the build page marks the piece where the optimizer counted each one. Move it to a cheaper piece if you like: any forgeable piece works."
+msgstr "In Dofus Retro kann jedes schmiedemagische Teil ein Exo bekommen, deshalb markiert die Build-Seite das Teil, auf dem der Optimierer jedes gezählt hat. Verschieb es ruhig auf ein günstigeres Teil: Jedes schmiedemagische Teil geht."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Dieses Spiel hat keine Exos: Sie bleiben außen vor."
 
