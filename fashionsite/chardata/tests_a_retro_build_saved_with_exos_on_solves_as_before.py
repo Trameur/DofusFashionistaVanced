@@ -27,7 +27,6 @@ def _solve(level, exos, per_item):
         model.run(1)
         result = model_result_from_minimal(model.get_result_minimal())
         total = result.get_stats_total()
-        # Several sets can tie on the score, so the pieces are not compared
         return pulp.value(model.problem.pulp_lp.objective), total['ap'], total['mp']
 
 
