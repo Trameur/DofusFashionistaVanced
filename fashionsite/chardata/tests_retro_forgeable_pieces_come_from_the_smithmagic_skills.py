@@ -87,7 +87,8 @@ class TheDumpListsTheForgeablePiecesTests(SimpleTestCase):
             done = subprocess.run(
                 [sys.executable, 'get_equipments3.py', '--input-dir', directory,
                  '--dump-output', dump],
-                cwd=_SCRAPERS, capture_output=True, text=True, timeout=300)
+                cwd=_SCRAPERS, capture_output=True, text=True, timeout=300,
+                env={key: value for key, value in os.environ.items() if key != 'PYTHONPATH'})
             self.assertEqual(0, done.returncode, done.stderr)
             with open(dump, encoding='utf-8') as text:
                 database = sqlite3.connect(':memory:')
