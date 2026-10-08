@@ -516,7 +516,10 @@ def criteria_source(version, connection, tables):
     record = {'file': relative_name(source)}
     if not source.is_file() or 'item_criteria' not in tables:
         return dict(record, refused='no items.json or no item_criteria table')
-    raw = item_criteria.load_raw_items_criteria(source)
+    try:
+        raw = item_criteria.load_raw_items_criteria(source)
+    except (OSError, ValueError) as exc:
+        return dict(record, refused='items.json unreadable: %s' % exc)
     stored = dict(connection.execute('SELECT item, criteria FROM item_criteria'))
     pieces = dict(connection.execute("SELECT id, ankama_id FROM items WHERE ankama_type != 'mounts' AND NOT COALESCE(removed, 0)"))
     differ = sorted(item for item, ankama in pieces.items() if ankama not in raw or (raw[ankama] or None) != stored.get(item))

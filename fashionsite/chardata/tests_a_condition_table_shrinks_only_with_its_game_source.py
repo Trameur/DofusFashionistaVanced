@@ -151,6 +151,12 @@ class TheSnapshotReadsTheArchiveCriteriaTests(TestCase):
         self.assertNotIn('counts', record)
         self.assertIn('unreadable', record['refused'])
 
+    def test_an_archive_that_does_not_parse_gets_no_counts(self):
+        (self.root / 'itemscraper/raw/9.9.9.9/items.json').write_text('{"references": {"RefIds": [', encoding='utf-8')
+        record = self.read()
+        self.assertNotIn('counts', record)
+        self.assertIn('items.json unreadable', record['refused'])
+
     def test_a_refused_source_keeps_the_error_and_says_why(self):
         refused = self.read({10: 'PG=4'})
         before, after = pair(4, 2, 4, 2)
