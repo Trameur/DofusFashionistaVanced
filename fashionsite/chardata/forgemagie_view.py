@@ -1001,9 +1001,10 @@ TRANSCENDENCE_UI = {
                         'the item to runes (no further smithmagic). Only '
                         'possible if the item has no over and no exotic line, '
                         'and if the rune\u2019s weight plus the target stat\u2019s '
-                        'current weight stays within 101. A New Leaf Orb still '
-                        'resets a transcended item: the transcendence comes off '
-                        'and every line gets a new roll.',
+                        'current weight stays within 101. A New Leaf Orb of at '
+                        'least the item\u2019s level still resets a '
+                        'transcended item: the transcendence comes off and '
+                        'every line gets a new roll.',
         'intro_dofus2': 'Applied at 100% - they add a powerful bonus but permanently '
                         'lock the item (no further smithmagic). Only possible if the '
                         'item has no over and no exotic line, and if the rune\u2019s '
@@ -1025,9 +1026,10 @@ TRANSCENDENCE_UI = {
                         'forgemagie). Possible seulement si l\u2019objet n\u2019a ni '
                         'over ni ligne exotique, et si le poids de la rune plus '
                         'le poids actuel de la stat vis\u00e9e reste dans les 101. '
-                        'Un Orbe r\u00e9g\u00e9n\u00e9rant r\u00e9initialise quand m\u00eame un objet '
-                        'transcend\u00e9 : la transcendance part et chaque ligne '
-                        're\u00e7oit un nouveau jet.',
+                        'Un Orbe r\u00e9g\u00e9n\u00e9rant d\u2019un niveau au moins \u00e9gal \u00e0 '
+                        'celui de l\u2019objet r\u00e9initialise quand m\u00eame un '
+                        'objet transcend\u00e9 : la transcendance part et chaque '
+                        'ligne re\u00e7oit un nouveau jet.',
         'intro_dofus2': 'Pos\u00e9es \u00e0 100 % - elles ajoutent un bonus puissant mais '
                         'verrouillent d\u00e9finitivement l\u2019objet (plus aucune '
                         'forgemagie). Possible seulement si l\u2019objet n\u2019a ni over '
@@ -1048,9 +1050,10 @@ TRANSCENDENCE_UI = {
                         'objeto a las runas (no más forja). Solo si el objeto no '
                         'tiene over ni línea exótica, y si el peso de la runa más '
                         'el peso actual de la característica elegida no pasa de '
-                        '101. Un Orbe regenerativo sigue pudiendo reiniciar un '
-                        'objeto trascendido: la trascendencia desaparece y cada '
-                        'línea recibe una tirada nueva.',
+                        '101. Un Orbe regenerativo de nivel igual o superior al '
+                        'del objeto sigue pudiendo reiniciar un objeto '
+                        'trascendido: la trascendencia desaparece y cada línea '
+                        'recibe una tirada nueva.',
         'intro_dofus2': 'Se aplican al 100 % - añaden un bono potente pero bloquean el '
                         'objeto para siempre (no más forja). Solo si el objeto no '
                         'tiene over ni línea exótica, y si el peso de la runa más el '
@@ -1070,8 +1073,9 @@ TRANSCENDENCE_UI = {
                         'o item para runas (sem mais forjamagia). Só se o item não '
                         'tiver over nem linha exótica, e se o peso da runa mais o '
                         'peso atual do atributo visado não passar de 101. Um Orbe '
-                        'regenerativo ainda reinicia um item transcendido: a '
-                        'transcendência sai e cada linha recebe uma nova rolagem.',
+                        'regenerativo de nível igual ou superior ao do item '
+                        'ainda reinicia um item transcendido: a transcendência '
+                        'sai e cada linha recebe uma nova rolagem.',
         'intro_dofus2': 'Aplicadas a 100% - adicionam um bônus poderoso mas bloqueiam '
                         'o item para sempre (sem mais forjamagia). Só se o item não '
                         'tiver over nem linha exótica, e se o peso da runa mais o '
@@ -1092,7 +1096,8 @@ TRANSCENDENCE_UI = {
                         'möglich, wenn der Gegenstand weder Over noch exotische '
                         'Linie trägt und das Gewicht der Rune plus das aktuelle '
                         'Gewicht des Zielwerts 101 nicht übersteigt. Eine '
-                        'Alles-auf-Anfang-Kristallkugel setzt einen '
+                        'Alles-auf-Anfang-Kristallkugel, deren Stufe mindestens '
+                        'die des Gegenstands erreicht, setzt einen '
                         'transzendierten Gegenstand trotzdem zurück: Die '
                         'Transzendenz verschwindet und jede Linie wird neu '
                         'gewürfelt.',

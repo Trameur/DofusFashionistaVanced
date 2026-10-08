@@ -4002,7 +4002,7 @@ GUIDES = {
 <p>A transcendence rune only lands on a clean item: no line above its maximum roll, and no exotic line (the hunting line of a hunting weapon is allowed). The rune's weight, added to the weight the target line already carries, must also stay within 101. Once the rune is on, the item is <strong>closed to runes</strong>: no over, no fix, no further forgemagie with runes.</p>
 
 <h2>The way back: a New Leaf Orb</h2>
-<p>A transcended item is no longer set in stone. A <strong>New Leaf Orb</strong> now resets it completely, transcendence and all: the transcendence comes off, every characteristic line takes a new random roll between the item's minimum and maximum, and any element change on a weapon's damage, steal or heal lines is undone. What you get back is a fresh item that takes runes again, or a new transcendence.</p>
+<p>A transcended item is no longer set in stone. A <strong>New Leaf Orb</strong> now resets it completely, transcendence and all: the transcendence comes off, every characteristic line takes a new random roll between the item's minimum and maximum, and any element change on a weapon's damage, steal or heal lines is undone. What you get back is a fresh item that takes runes again, or a new transcendence. Each orb only resets items up to its own level, so a top-level piece needs a Masterly New Leaf Orb.</p>
 <p>That makes the orb a way out, not a gift. It costs you the transcendence bonus and every roll on the item, the good ones included: a piece with perfect rolls loses them too.</p>
 
 <h2>Which piece deserves one</h2>
@@ -4010,7 +4010,7 @@ GUIDES = {
 <p>Weight matters too. A Rata rune is the heaviest of its family, and heavy runes are the expensive ones. If the +15 from a Pata closes the gap you actually needed, the Rata is money spent on a number you will not feel.</p>
 
 <h2>Reading it as a budget</h2>
-<p>See a transcendence rune as one guaranteed bonus per item, kept for as long as the item suits the build. If the build changes, the orb lets you start that piece over, at the price of the rune and of the rolls. It still pays best at finishing a build: settle the build first, then transcend.</p>
+<p>See a transcendence rune as one guaranteed bonus per item, kept for as long as the item suits the build. If the build changes, the orb lets you start that piece over, at the price of the transcendence bonus and of the rolls. It still pays best at finishing a build: settle the build first, then transcend.</p>
 
 <p><em>The <a href="/forgemagie/">forgemagie simulator</a> lists every rune by stat and refuses the ones your item cannot take. Not sure which piece is already final? <a href="/setup/">Solve the build first.</a></em></p>
 ''',
@@ -4027,7 +4027,7 @@ GUIDES = {
 <p>Une rune de transcendance ne se pose que sur un objet propre : aucune ligne au-dessus de son jet maximum, et aucune ligne exotique (la ligne de chasse d'une arme de chasse est permise). Le poids de la rune, ajouté au poids que porte déjà la ligne visée, doit aussi rester dans les 101. Une fois la rune posée, l'objet est <strong>fermé aux runes</strong> : plus d'over, plus de retouche, plus aucune forgemagie à la rune.</p>
 
 <h2>Le chemin du retour : l'Orbe régénérant</h2>
-<p>Un objet transcendé n'est plus figé pour de bon. Un <strong>Orbe régénérant</strong> le réinitialise désormais entièrement, même transcendé : la transcendance part, chaque ligne de caractéristique reçoit un nouveau jet entre le minimum et le maximum de l'objet, et les changements d'élément sur les lignes de dégâts, de vol et de soin d'une arme sont annulés. Tu récupères un objet neuf, qui reprend les runes, ou une nouvelle transcendance.</p>
+<p>Un objet transcendé n'est plus figé pour de bon. Un <strong>Orbe régénérant</strong> le réinitialise désormais entièrement, même transcendé : la transcendance part, chaque ligne de caractéristique reçoit un nouveau jet entre le minimum et le maximum de l'objet, et les changements d'élément sur les lignes de dégâts, de vol et de soin d'une arme sont annulés. Tu récupères un objet neuf, qui reprend les runes, ou une nouvelle transcendance. Chaque orbe ne réinitialise que les objets jusqu'à son propre niveau : une pièce de haut niveau demande un Orbe régénérant magistral.</p>
 <p>C'est une porte de sortie, pas un cadeau. Tu y laisses le bonus de transcendance et tous les jets de l'objet, les bons compris : une pièce aux jets parfaits les perd aussi.</p>
 
 <h2>Quelle pièce mérite une rune</h2>
@@ -4035,7 +4035,7 @@ GUIDES = {
 <p>Le poids compte aussi. Une Rata est la plus lourde de sa famille, et les runes lourdes sont les chères. Si les +15 d'une Pata comblent le trou dont tu avais vraiment besoin, la Rata est de l'argent mis dans un chiffre que tu ne sentiras pas.</p>
 
 <h2>Le voir comme un budget</h2>
-<p>Vois une rune de transcendance comme un bonus garanti par objet, que tu gardes tant que l'objet sert ton build. Si le build change, l'orbe te laisse repartir de zéro sur la pièce, au prix de la rune et des jets. Elle reste surtout faite pour finir un build : fige le build d'abord, transcende ensuite.</p>
+<p>Vois une rune de transcendance comme un bonus garanti par objet, que tu gardes tant que l'objet sert ton build. Si le build change, l'orbe te laisse repartir de zéro sur la pièce, au prix du bonus de transcendance et des jets. Elle reste surtout faite pour finir un build : fige le build d'abord, transcende ensuite.</p>
 
 <p><em>Le <a href="/forgemagie/">simulateur de forgemagie</a> liste chaque rune par caractéristique et refuse celles que ton objet ne peut pas prendre. Tu ne sais pas quelle pièce est déjà définitive ? <a href="/setup/">Calcule le build d'abord.</a></em></p>
 ''',
@@ -4052,7 +4052,7 @@ GUIDES = {
 <p>Una runa de trascendencia solo entra en un objeto limpio: ninguna línea por encima de su tirada máxima y ninguna línea exótica (la línea de caza de un arma de caza sí se permite). El peso de la runa, sumado al peso que ya lleva la línea elegida, también tiene que quedarse en 101 o menos. Una vez puesta la runa, el objeto queda <strong>cerrado a las runas</strong>: ni over, ni retoque, ni más forjamagia con runas.</p>
 
 <h2>El camino de vuelta: el Orbe regenerativo</h2>
-<p>Un objeto trascendido ya no queda fijo para siempre. Un <strong>Orbe regenerativo</strong> ahora lo reinicia por completo, aunque esté trascendido: la trascendencia desaparece, cada línea de característica recibe una tirada nueva entre el mínimo y el máximo del objeto, y se anulan los cambios de elemento en las líneas de daño, robo y cura de un arma. Te queda un objeto nuevo, que vuelve a aceptar runas o una nueva trascendencia.</p>
+<p>Un objeto trascendido ya no queda fijo para siempre. Un <strong>Orbe regenerativo</strong> ahora lo reinicia por completo, aunque esté trascendido: la trascendencia desaparece, cada línea de característica recibe una tirada nueva entre el mínimo y el máximo del objeto, y se anulan los cambios de elemento en las líneas de daño, robo y cura de un arma. Te queda un objeto nuevo, que vuelve a aceptar runas o una nueva trascendencia. Cada orbe solo reinicia objetos hasta su propio nivel, así que una pieza de nivel alto necesita un Orbe regenerativo magistral.</p>
 <p>Es una salida, no un regalo. Pierdes el bono de trascendencia y todas las tiradas del objeto, las buenas también: una pieza con tiradas perfectas las pierde igual.</p>
 
 <h2>Qué pieza merece una</h2>
@@ -4060,7 +4060,7 @@ GUIDES = {
 <p>El peso también cuenta. Una Rata es la más pesada de su familia, y las runas pesadas son las caras. Si los +15 de una Pata tapan el hueco que de verdad necesitabas, la Rata es dinero puesto en una cifra que no vas a notar.</p>
 
 <h2>Verlo como un presupuesto</h2>
-<p>Piensa en una runa de trascendencia como un bono garantizado por objeto, que conservas mientras el objeto le sirva a tu build. Si la build cambia, el orbe te deja empezar la pieza de cero, a cambio de la runa y de las tiradas. Donde más rinde sigue siendo al rematar una build: cierra la build primero y trasciende después.</p>
+<p>Piensa en una runa de trascendencia como un bono garantizado por objeto, que conservas mientras el objeto le sirva a tu build. Si la build cambia, el orbe te deja empezar la pieza de cero, a cambio del bono de trascendencia y de las tiradas. Donde más rinde sigue siendo al rematar una build: cierra la build primero y trasciende después.</p>
 
 <p><em>El <a href="/forgemagie/">simulador de forjamagia</a> lista cada runa por característica y rechaza las que tu objeto no puede aceptar. ¿No sabes qué pieza ya es definitiva? <a href="/setup/">Calcula la build primero.</a></em></p>
 ''',
@@ -4077,7 +4077,7 @@ GUIDES = {
 <p>Uma runa de transcendência só entra num item limpo: nenhuma linha acima do seu valor máximo e nenhuma linha exótica (a linha de caça de uma arma de caça é permitida). O peso da runa, somado ao peso que a linha visada já tem, também tem de ficar dentro dos 101. Assim que a runa entra, o item fica <strong>fechado às runas</strong>: nem over, nem retoque, nem mais forjamagia com runas.</p>
 
 <h2>O caminho de volta: o Orbe regenerativo</h2>
-<p>Um item transcendido já não fica fixo para sempre. Um <strong>Orbe regenerativo</strong> agora reinicia-o por completo, mesmo transcendido: a transcendência sai, cada linha de característica recebe um valor novo entre o mínimo e o máximo do item, e as mudanças de elemento nas linhas de dano, roubo e cura de uma arma são anuladas. Ficas com um item novo, que volta a aceitar runas ou uma nova transcendência.</p>
+<p>Um item transcendido já não fica fixo para sempre. Um <strong>Orbe regenerativo</strong> agora reinicia-o por completo, mesmo transcendido: a transcendência sai, cada linha de característica recebe um valor novo entre o mínimo e o máximo do item, e as mudanças de elemento nas linhas de dano, roubo e cura de uma arma são anuladas. Ficas com um item novo, que volta a aceitar runas ou uma nova transcendência. Cada orbe só reinicia itens até ao seu próprio nível, por isso uma peça de nível alto precisa de um Orbe regenerativo magistral.</p>
 <p>É uma saída, não um presente. Perdes o bónus de transcendência e todos os valores do item, os bons também: uma peça com valores perfeitos perde-os na mesma.</p>
 
 <h2>Que peça merece uma</h2>
@@ -4085,7 +4085,7 @@ GUIDES = {
 <p>O peso também conta. Uma Rata é a mais pesada da sua família, e as runas pesadas são as caras. Se os +15 de uma Pata tapam o buraco de que precisavas mesmo, a Rata é dinheiro posto num número que não vais sentir.</p>
 
 <h2>Vê-la como um orçamento</h2>
-<p>Vê uma runa de transcendência como um bónus garantido por item, que guardas enquanto o item servir a tua build. Se a build mudar, o orbe deixa-te recomeçar a peça do zero, ao preço da runa e dos valores. Onde mais rende continua a ser no fim de uma build: fecha a build primeiro, transcende depois.</p>
+<p>Vê uma runa de transcendência como um bónus garantido por item, que guardas enquanto o item servir a tua build. Se a build mudar, o orbe deixa-te recomeçar a peça do zero, ao preço do bónus de transcendência e dos valores. Onde mais rende continua a ser no fim de uma build: fecha a build primeiro, transcende depois.</p>
 
 <p><em>O <a href="/forgemagie/">simulador de forjamagia</a> lista cada runa por característica e recusa as que o teu item não pode aceitar. Não sabes que peça já é definitiva? <a href="/setup/">Calcula a build primeiro.</a></em></p>
 ''',
@@ -4102,7 +4102,7 @@ GUIDES = {
 <p>Eine Transzendenz-Rune geht nur auf ein sauberes Item: keine Zeile über ihrem Maximalwurf und keine exotische Zeile (die Jagdzeile einer Jagdwaffe ist erlaubt). Das Gewicht der Rune plus das Gewicht, das die Zielzeile schon trägt, muss außerdem bei höchstens 101 bleiben. Sobald die Rune sitzt, ist das Item <strong>für Runen gesperrt</strong>: kein Over, keine Korrektur, keine Schmiedemagie mit Runen mehr.</p>
 
 <h2>Der Weg zurück: die Alles-auf-Anfang-Kristallkugel</h2>
-<p>Ein transzendiertes Item ist nicht mehr für immer festgelegt. Eine <strong>Alles-auf-Anfang-Kristallkugel</strong> setzt es jetzt vollständig zurück, auch mit Transzendenz: Die Transzendenz verschwindet, jede Eigenschaftszeile bekommt einen neuen Zufallswurf zwischen Minimum und Maximum des Items, und jede Elementänderung an den Schadens-, Raub- und Heilzeilen einer Waffe wird aufgehoben. Zurück bekommst du ein frisches Item, das wieder Runen nimmt oder eine neue Transzendenz.</p>
+<p>Ein transzendiertes Item ist nicht mehr für immer festgelegt. Eine <strong>Alles-auf-Anfang-Kristallkugel</strong> setzt es jetzt vollständig zurück, auch mit Transzendenz: Die Transzendenz verschwindet, jede Eigenschaftszeile bekommt einen neuen Zufallswurf zwischen Minimum und Maximum des Items, und jede Elementänderung an den Schadens-, Raub- und Heilzeilen einer Waffe wird aufgehoben. Zurück bekommst du ein frisches Item, das wieder Runen nimmt oder eine neue Transzendenz. Jede Kugel setzt nur Items bis zu ihrer eigenen Stufe zurück, ein Teil auf hoher Stufe braucht also eine Mächtige Alles-auf-Anfang-Kristallkugel.</p>
 <p>Damit ist die Kugel ein Ausweg, kein Geschenk. Sie kostet dich den Transzendenz-Bonus und jeden Wurf auf dem Item, auch die guten: Ein Teil mit perfekten Würfen verliert sie ebenfalls.</p>
 
 <h2>Welches Teil eine verdient</h2>
@@ -4110,7 +4110,7 @@ GUIDES = {
 <p>Auch das Gewicht zählt. Eine Rata ist die schwerste ihrer Familie, und schwere Runen sind die teuren. Wenn die +15 einer Pata die Lücke schließen, die dir wirklich gefehlt hat, ist die Rata Geld in einer Zahl, die du nicht spürst.</p>
 
 <h2>Als Budget lesen</h2>
-<p>Sieh eine Transzendenz-Rune als einen garantierten Bonus pro Item, den du behältst, solange das Item zum Build passt. Ändert sich der Build, lässt dich die Kugel das Teil neu beginnen, zum Preis der Rune und der Würfe. Am meisten bringt sie weiterhin zum Abschluss eines Builds: erst den Build festzurren, dann transzendieren.</p>
+<p>Sieh eine Transzendenz-Rune als einen garantierten Bonus pro Item, den du behältst, solange das Item zum Build passt. Ändert sich der Build, lässt dich die Kugel das Teil neu beginnen, zum Preis des Transzendenz-Bonus und der Würfe. Am meisten bringt sie weiterhin zum Abschluss eines Builds: erst den Build festzurren, dann transzendieren.</p>
 
 <p><em>Der <a href="/forgemagie/">Schmiedemagie-Simulator</a> listet jede Rune nach Wert und lehnt die ab, die dein Item nicht nehmen kann. Du weißt nicht, welches Teil schon endgültig ist? <a href="/setup/">Rechne zuerst den Build.</a></em></p>
 ''',

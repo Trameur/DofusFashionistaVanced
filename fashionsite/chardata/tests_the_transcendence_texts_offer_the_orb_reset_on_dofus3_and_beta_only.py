@@ -7,22 +7,26 @@ from django.test import TestCase
 
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 NEW_LEAF_ORB = 17273
+MASTERLY_NEW_LEAF_ORB = 17275
 RESOURCE_DIRECTORY = {'dofus3': '', 'beta': 'beta'}
 
 
-def _orb_names(version):
+def _resources(version, language):
     from fashionistapulp.fashionista_config import get_fashionista_path
+    path = os.path.join(get_fashionista_path(), 'itemscraper',
+                        RESOURCE_DIRECTORY[version],
+                        'all_resources_%s.json' % language)
+    with open(path, encoding='utf-8') as handle:
+        data = json.load(handle)
+    items = data if isinstance(data, list) else data['items']
+    return [item for item in items if isinstance(item, dict)]
+
+
+def _orb_names(version, ankama_id=NEW_LEAF_ORB):
     names = {}
     for language in LANGUAGES:
-        path = os.path.join(get_fashionista_path(), 'itemscraper',
-                            RESOURCE_DIRECTORY[version],
-                            'all_resources_%s.json' % language)
-        with open(path, encoding='utf-8') as handle:
-            data = json.load(handle)
-        items = data if isinstance(data, list) else data['items']
-        names[language] = next(item['name'] for item in items
-                               if isinstance(item, dict)
-                               and item.get('ankama_id') == NEW_LEAF_ORB)
+        names[language] = next(item['name'] for item in _resources(version, language)
+                               if item.get('ankama_id') == ankama_id)
     return names
 
 
@@ -52,6 +56,18 @@ class TheOrbResetTests(TestCase):
             names = _orb_names(version)
             for language in LANGUAGES:
                 with self.subTest(version=version, language=language):
+                    self.assertIn(names[language], _guide_text(version, language))
+
+    def test_the_guides_name_the_orb_that_resets_the_highest_level_items(self):
+        for version in RESOURCE_DIRECTORY:
+            by_id = {item.get('ankama_id'): item for item in _resources(version, 'en')}
+            orb_type = by_id[NEW_LEAF_ORB]['type']['id']
+            top_level = max(item['level'] for item in by_id.values()
+                            if (item.get('type') or {}).get('id') == orb_type)
+            names = _orb_names(version, MASTERLY_NEW_LEAF_ORB)
+            for language in LANGUAGES:
+                with self.subTest(version=version, language=language):
+                    self.assertEqual(top_level, by_id[MASTERLY_NEW_LEAF_ORB]['level'])
                     self.assertIn(names[language], _guide_text(version, language))
 
     def test_the_dofus2_guide_names_no_orb_and_reads_unlike_dofus3(self):
