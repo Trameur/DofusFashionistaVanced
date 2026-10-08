@@ -24,7 +24,7 @@ from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
 from chardata import (build_link_import, dofusbook_import, dofuscreator_import,
                       fashionista_build)
-from chardata.dofusbook_import import ImportError_, MAX_POINTS
+from chardata.dofusbook_import import ImportError_, MAX_POINTS, read_weapon_forge
 from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _preview, _solution_path,
                                      sex_the_pieces_ask_for)
@@ -39,10 +39,12 @@ from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
 from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, safe_int
 from chardata.version_copy import import_offers, link_build_in
+from chardata.weapon_forge_text import conversion_line
 from chardata.wear_conditions import (class_condition_text, left_out_text,
                                       reasons_not_worn)
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
+from fashionistapulp import weapon_forge
 from fashionistapulp.exo_options import exo_count, exo_per_item
 from fashionistapulp.game_versions import get_game_version, sibling_versions
 from fashionistapulp.structure import (fits_the_class, get_current_game_version,
@@ -578,6 +580,8 @@ def _lis(request, texte, version_page, formulaire, action=None):
 
     lien = None
     pieces_du_lien, overrides_du_lien, refuses_du_lien = [], {}, []
+    forge_choice, forge_unread = (read_weapon_forge(build, version) if build
+                                  else ({}, []))
     if build:
         structure = get_structure(version)
         langue = get_supported_language()
@@ -597,7 +601,10 @@ def _lis(request, texte, version_page, formulaire, action=None):
                 'missing': build['missing'],
                 'fm_not_carried': sans_fm,
                 'fm_global': fm_global,
-                'fm_weapon': bool(build.get('fm_weapon')),
+                'fm_weapon': bool(forge_unread),
+                'weapon_forge': [conversion_line(version, kind, element, tier)
+                                 for kind, element, tier
+                                 in weapon_forge.applied(forge_choice)],
                 'fm_unmapped': fm_sans_cle,
                 'exos': _exos_du_lien(build),
                 'version_differs': version != version_page,
@@ -670,6 +677,9 @@ def _lis(request, texte, version_page, formulaire, action=None):
                              overrides)
     char = create_build(request, char_class, niveau, elements, version, name=nom,
                         gender=sex)
+    if forge_choice:
+        char.weapon_forge = weapon_forge.write_choice(forge_choice)
+        char.save(update_fields=['weapon_forge'])
     _ecrit_les_caracteristiques(
         char, points, parchos,
         complet=bool(build and build.get('base_stats_complete')))

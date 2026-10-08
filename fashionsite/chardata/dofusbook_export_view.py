@@ -14,12 +14,14 @@ from django.utils.translation import gettext as _
 from django.http import Http404
 
 from chardata import build_sites, dofusbook_export, export_count
+from chardata.dofusbook_import import WEAPON_FIELDS, read_weapon_code
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.solution import get_solution
 from chardata.temporix_mode import solution_uses_temporix
 from chardata.translation_util import localized_stat_name
 from chardata.util import (get_char_or_raise, get_stats_and_scrolled,
                            set_response)
+from chardata.weapon_forge_text import conversion_line
 from fashionistapulp import temporix
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.exo_options import EXO_OPTIONS, exo_count, exo_per_item
@@ -61,6 +63,22 @@ def _worn_items(solution):
         if gardes:
             porte[slot] = gardes
     return porte
+
+
+def _weapon_by_hand(solution, game_version):
+    for item in _worn_items(solution).get('Weapon', []):
+        conversions = getattr(item, 'conversions', None)
+        if not conversions:
+            continue
+        codes = dofusbook_export.weapon_codes(game_version, conversions)
+        lines = []
+        for kind, field, _key, _prefix in WEAPON_FIELDS:
+            entry = (read_weapon_code(game_version, kind, codes[field])
+                     if field in codes else None)
+            if entry is not None:
+                lines.append(conversion_line(game_version, kind, *entry))
+        return lines
+    return []
 
 
 def _ankama_id(item, game_version):
@@ -313,6 +331,7 @@ def dofusbook_export_page(request, char_id):
         'partial_scrolls': _partial_scrolls(char, scrolls),
         'forge_travels': bool(forge) or bool(exos),
         'shiny_travels': bool(rayonnant),
+        'weapon_by_hand': _weapon_by_hand(solution, char.game_version),
         'forge_staying': _named_stats(
             structure, char.game_version,
             sans_place + exos_en_trop + _keys_of_positions(

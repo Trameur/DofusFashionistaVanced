@@ -238,6 +238,53 @@ FM_CODES = {
     'rw': 'resperwea',
 }
 
+WEAPON_FIELDS = (
+    ('damage', 'fmWeapon', 'fm_weapon', 'd'),
+    ('steal', 'fmStealWeapon', 'fm_steal_weapon', 'v'),
+    ('heal', 'fmHealWeapon', 'fm_heal_weapon', 'pv'),
+)
+
+_WEAPON_CODE = re.compile(r'([a-z]+)-([0-9]{1,3})')
+
+
+def weapon_letters():
+    from fashionistapulp import weapon_forge
+    letters = {}
+    for code, key in FM_CODES.items():
+        if (len(code) == 3 and code[0] == 'd' and code[2] == 'f'
+                and key[:-len('dam')] in weapon_forge.ELEMENTS):
+            letters[code[1]] = key[:-len('dam')]
+    return letters
+
+
+def read_weapon_code(game_version, kind, code):
+    from fashionistapulp import weapon_forge
+    prefix = dict((k, p) for k, _field, _key, p in WEAPON_FIELDS)[kind]
+    found = _WEAPON_CODE.fullmatch(code) if isinstance(code, str) else None
+    if found is None or not found.group(1).startswith(prefix):
+        return None
+    element = weapon_letters().get(found.group(1)[len(prefix):])
+    rate = int(found.group(2))
+    for offered_element, tier in weapon_forge.offer(game_version, kind):
+        if (offered_element == element
+                and weapon_forge.percent(game_version, kind, tier) == rate):
+            return element, tier
+    return None
+
+
+def read_weapon_forge(build, game_version):
+    choice, unread = {}, []
+    for kind, _field, key, _prefix in WEAPON_FIELDS:
+        code = build.get(key)
+        if not code:
+            continue
+        entry = read_weapon_code(game_version, kind, code)
+        if entry is None:
+            unread.append(code)
+        else:
+            choice[kind] = entry
+    return choice, unread
+
 
 def item_rolls(payload, game_version):
     """({item id: [{'key', 'value'}]}, [(item id, code, value) we have no key for])."""
@@ -321,6 +368,8 @@ def read_build(url, opener=None):
         'fm_global': dict((payload.get('fmGlobal') or {})
                           if isinstance(payload.get('fmGlobal'), dict) else {}),
         'fm_weapon': payload.get('fmWeapon') or None,
+        'fm_steal_weapon': payload.get('fmStealWeapon') or None,
+        'fm_heal_weapon': payload.get('fmHealWeapon') or None,
         # Their character_class is their own numbering, not Ankama's
         'class_is_unknown': True,
     }

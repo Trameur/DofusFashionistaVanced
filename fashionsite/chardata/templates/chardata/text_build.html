@@ -152,6 +152,9 @@
         {% if link.fm_not_carried %}
         <p class="import-missing" id="import-link-fm">{% trans "The forgemagie on these pieces does not travel yet and is left out:" %} {{ link.fm_not_carried|join:", " }}</p>
         {% endif %}
+        {% if link.weapon_forge %}
+        <p class="import-missing" id="import-link-weapon-forge">{% trans "Weapon element read from the link:" %} {{ link.weapon_forge|join:", " }}</p>
+        {% endif %}
         {% if link.fm_weapon %}
         <p class="import-missing" id="import-link-fm-weapon">{% trans "The weapon forgemagie from the link is left out." %}</p>
         {% endif %}

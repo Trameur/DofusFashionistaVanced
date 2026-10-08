@@ -63,6 +63,9 @@
     {% if shiny_travels %}
     <p class="export-note" id="export-shiny">{% trans "Shiny TemporiX pieces do not exist on DofusBook: what the x1.5 adds to each of them is sent in that global forgemagie." %}</p>
     {% endif %}
+    {% if weapon_by_hand %}
+    <p class="export-note" id="export-weapon-forge">{% trans "Their link format has no room for the weapon element, so set it on DofusBook by hand:" %} {{ weapon_by_hand|join:", " }}</p>
+    {% endif %}
     {% if forge_staying %}
     <p class="export-note" id="export-forge-staying">{% trans "Their forgemagie field cannot hold these, so they stay here:" %} {{ forge_staying|join:", " }}</p>
     {% endif %}

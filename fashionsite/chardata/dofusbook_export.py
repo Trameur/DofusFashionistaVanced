@@ -361,6 +361,21 @@ def payload(grouped, level, points=None, scrolls=None, exos=0, forge=None):
     return base64.b64encode(brut).decode('ascii')
 
 
+def weapon_codes(game_version, chosen):
+    from chardata.dofusbook_import import WEAPON_FIELDS, weapon_letters
+    from fashionistapulp import weapon_forge
+    letters = {element: letter for letter, element in weapon_letters().items()}
+    codes = {}
+    for kind, element, tier in weapon_forge.applied(chosen):
+        rate = weapon_forge.percent(game_version, kind, tier)
+        if element not in letters or rate is None:
+            continue
+        for field_kind, field, _key, prefix in WEAPON_FIELDS:
+            if field_kind == kind:
+                codes[field] = '%s%s-%d' % (prefix, letters[element], rate)
+    return codes
+
+
 def build_url(game_version, language, stuff):
     if not supports(game_version):
         raise ExportError('unsupported_version')
