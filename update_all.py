@@ -23,6 +23,7 @@ from datetime import datetime, timezone
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / 'itemscraper'))
 import update_audit as audit  # noqa: E402
+import release_items  # noqa: E402
 
 REPORTS = ROOT / '.update-reports'
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu')
@@ -40,6 +41,11 @@ APIS = {'dofus3': 'https://api.dofusdu.de/dofus3/v1/',
         'beta': 'https://api.dofusdu.de/dofus3beta/v1/',
         'dofus2': 'https://api.dofusdu.de/dofus2/'}
 REPOS = {'dofus3': 'dofus3-main', 'beta': 'dofus3-beta', 'dofus2': 'dofus2-main'}
+ITEMS_FROM_RELEASE = ('dofus3', 'beta')
+RELEASE_ASSETS = frozenset({'spells.json', 'effects.json', 'breeds.json', 'monsters.json', 'recipes.json',
+                            'en.json', 'fr.json', 'es.json', 'pt.json', 'de.json'})
+ITEM_ASSETS = frozenset(release_items.ASSETS)
+GAME_VERSION = r'\d+(?:\.\d+){2,4}'
 CYTRUS = 'https://cytrus.cdn.ankama.com/cytrus.json'
 TOUCH = 'https://dt-proxy-production-login.ankama-games.com/config.json?lang=fr'
 TOUCH_CLIENT = 'https://dt-proxy-production-login.ankama-games.com/build/script.js'
@@ -255,6 +261,31 @@ def restore_label(key, backup):
     return []
 
 
+def complete_release(version, tag, needed):
+    release = fetch_json('https://api.github.com/repos/dofusdude/%s/releases/tags/%s' % (REPOS[version], tag))
+    missing = needed - {a['name'] for a in release['assets']}
+    if release.get('draft') or missing:
+        raise ValueError('Incomplete archive: ' + ', '.join(sorted(missing)))
+    return release
+
+
+def importable_release(version, served, official, warnings):
+    """(tag, release): the Ankama client's version when dofusdude has its full release, else the API's."""
+    if version in ITEMS_FROM_RELEASE and official != served and re.fullmatch(GAME_VERSION, official):
+        try:
+            release = complete_release(version, official, RELEASE_ASSETS | ITEM_ASSETS)
+        except (OSError, ValueError, KeyError) as exc:
+            warnings.append('The Ankama client is %s but dofusdude has no complete %s release (%s): '
+                            'importing %s, the version its API serves.' % (official, official, exc, served))
+        else:
+            warnings.append('The dofusdude API still serves %s, the Ankama client is %s: '
+                            'items come from the %s release files.' % (served, official, official))
+            return official, release
+    elif official != served:
+        warnings.append('The Ankama client (%s) and the importable data (%s) differ.' % (official, served))
+    return served, complete_release(version, served, RELEASE_ASSETS)
+
+
 def probe(version, catalog=None):
     ours = read_metadata()
     state = read_json(REPORTS / 'state.json', {})
@@ -263,27 +294,22 @@ def probe(version, catalog=None):
               'error': None, 'changed': False}
     if version in APIS:
         api = fetch_json(APIS[version] + 'meta/version')
-        tag = api['version']
-        if not re.fullmatch(r'\d+(?:\.\d+){2,4}', tag):
-            raise ValueError('Invalid data version: %r' % tag)
-        current = result['current']
-        if re.fullmatch(r'\d+(?:\.\d+){2,4}', current) and tuple(map(int, tag.split('.'))) < tuple(map(int, current.split('.'))):
-            raise ValueError('Source older than the local version: %s < %s; downgrade refused.' % (tag, current))
-        release = fetch_json('https://api.github.com/repos/dofusdude/%s/releases/tags/%s'
-                             % (REPOS[version], tag))
-        assets = {a['name'] for a in release['assets']}
-        needed = {'spells.json', 'effects.json', 'breeds.json', 'monsters.json',
-                  'recipes.json', 'en.json', 'fr.json', 'es.json', 'pt.json', 'de.json'}
-        if release.get('draft') or needed - assets:
-            raise ValueError('Incomplete archive: ' + ', '.join(sorted(needed - assets)))
-        result['available'] = tag
-        result['source'] = {'version': tag, 'update_stamp': api.get('update_stamp'),
-                            'archive': release['tag_name']}
+        served = api['version']
+        if not re.fullmatch(GAME_VERSION, served):
+            raise ValueError('Invalid data version: %r' % served)
         channel = {'dofus3': 'dofus3', 'beta': 'beta', 'dofus2': 'main'}[version]
         catalog = catalog or fetch_json(CYTRUS)
         result['official'] = catalog['games']['dofus']['platforms']['windows'][channel].split('_')[-1]
-        if result['official'] != tag:
-            result['warnings'].append('The Ankama client and the importable data differ.')
+        tag, release = importable_release(version, served, result['official'], result['warnings'])
+        current = result['current']
+        if re.fullmatch(GAME_VERSION, current) and tuple(map(int, tag.split('.'))) < tuple(map(int, current.split('.'))):
+            raise ValueError('Source older than the local version: %s < %s; downgrade refused.' % (tag, current))
+        result['available'] = tag
+        result['source'] = {'version': tag, 'archive': release['tag_name']}
+        if served == tag:
+            result['source']['update_stamp'] = api.get('update_stamp')
+        if version in ITEMS_FROM_RELEASE:
+            result['items'] = 'dofusdude API' if served == tag else 'release files'
         result['changed'] = result['current'] != tag
     elif version == 'touch':
         config = fetch_json(TOUCH)
@@ -370,7 +396,10 @@ def version_details(row, console=False):
     if row['key'] == 'retro':
         return ['Game version available: ' + (row['available'] or 'unavailable'),
                 'Cytrus technical id: %s -> %s' % (row.get('current_data', '?'), source.get('build', '?'))]
-    return ['Importable data: %s | Ankama client: %s' % (row['available'] or 'unavailable', row['official'] or '?')]
+    line = 'Importable data: %s | Ankama client: %s' % (row['available'] or 'unavailable', row['official'] or '?')
+    if row.get('items'):
+        line += ' | items: ' + row['items']
+    return [line]
 
 
 def selection(text, rows):
@@ -1363,6 +1392,8 @@ def version_block(row):
                                                   'yes' if row.get('images') else 'no')]
     if row['key'] in ('touch', 'retro'):
         lines += ['- ' + detail for detail in version_details(row)]
+    if row.get('items'):
+        lines.append('- Items from: ' + row['items'])
     if row.get('cause'):
         lines.append('- Cause: ' + row['cause'])
     if row.get('restore_error'):

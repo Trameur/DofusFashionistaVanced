@@ -13,6 +13,7 @@ import threading
 import time
 from types import SimpleNamespace
 from unittest import TestCase, mock
+import urllib.error
 
 import update_all as updater
 import sys
@@ -121,17 +122,92 @@ class UpdateLauncherTests(TestCase):
     def test_the_importable_version_uses_the_matching_api_and_archive(self):
         assets = [{'name': name + '.json'} for name in ('spells', 'effects', 'breeds', 'monsters', 'recipes', 'en', 'fr', 'es', 'pt', 'de')]
         catalog = {'games': {'dofus': {'platforms': {'windows': {'dofus3': '6.0_3.6.11.0'}}}}}
+        absent = urllib.error.HTTPError('url', 404, 'Not Found', {}, None)
         with mock.patch.object(updater, 'fetch_json', side_effect=[
-                {'version': '3.6.10.0'}, {'tag_name': '3.6.10.0', 'assets': assets}]) as fetch:
+                {'version': '3.6.10.0'}, absent, {'tag_name': '3.6.10.0', 'assets': assets}]) as fetch:
             row = updater.probe('dofus3', catalog)
         self.assertEqual('3.6.10.0', row['available'])
         self.assertTrue(row['warnings'])
-        self.assertTrue(fetch.call_args_list[1].args[0].endswith('/releases/tags/3.6.10.0'))
+        self.assertTrue(fetch.call_args_list[2].args[0].endswith('/releases/tags/3.6.10.0'))
 
     def test_an_incomplete_archive_is_not_importable(self):
-        with mock.patch.object(updater, 'fetch_json', side_effect=[{'version': '3.6.10.0'}, {'assets': []}]):
+        catalog = {'games': {'dofus': {'platforms': {'windows': {'dofus3': '6.0_3.6.10.0'}}}}}
+        with mock.patch.object(updater, 'fetch_json', side_effect=[{'version': '3.6.10.0'}, catalog, {'assets': []}]):
             with self.assertRaisesRegex(ValueError, 'Incomplete archive'):
                 updater.probe('dofus3')
+
+    DATA_FILES = ('spells.json', 'effects.json', 'breeds.json', 'monsters.json', 'recipes.json',
+                  'en.json', 'fr.json', 'es.json', 'pt.json', 'de.json')
+    ITEM_FILES = ('MAPPED_ITEMS.json', 'MAPPED_SETS.json', 'MAPPED_RECIPES.json')
+
+    def release(self, *names, draft=False):
+        return {'draft': draft, 'assets': [{'name': name} for name in names]}
+
+    def dofusdude_probe(self, key, served, client, releases):
+        catalog = {'games': {'dofus': {'platforms': {'windows': {key: '6.0_' + client}}}}}
+        def fetch(url):
+            if url == updater.APIS[key] + 'meta/version':
+                return {'version': served, 'update_stamp': 'stamp'}
+            if url == updater.CYTRUS:
+                return catalog
+            repo, tag = re.fullmatch(r'https://api\.github\.com/repos/dofusdude/([\w-]+)/releases/tags/(.+)', url).groups()
+            self.assertEqual(updater.REPOS[key], repo)
+            if tag not in releases:
+                raise urllib.error.HTTPError(url, 404, 'Not Found', {}, None)
+            return dict(releases[tag], tag_name=tag)
+        with mock.patch.object(updater, 'fetch_json', side_effect=fetch):
+            return updater.probe(key)
+
+    def test_the_target_is_the_client_version_when_its_release_is_complete(self):
+        for key in ('dofus3', 'beta'):
+            with self.subTest(key=key):
+                row = self.dofusdude_probe(key, '3.7.1.0', '3.7.4.4', {
+                    '3.7.1.0': self.release(*self.DATA_FILES, *self.ITEM_FILES),
+                    '3.7.4.4': self.release(*self.DATA_FILES, *self.ITEM_FILES)})
+                self.assertIsNone(row['error'])
+                self.assertEqual(('3.7.4.4', '3.7.4.4'), (row['available'], row['official']))
+                self.assertEqual({'version': '3.7.4.4', 'archive': '3.7.4.4'}, row['source'])
+                self.assertEqual('release files', row['items'])
+                self.assertTrue(row['changed'])
+
+    def test_the_api_stays_the_item_source_when_it_serves_the_client_version(self):
+        row = self.dofusdude_probe('dofus3', '3.7.4.4', '3.7.4.4', {'3.7.4.4': self.release(*self.DATA_FILES)})
+        self.assertEqual('3.7.4.4', row['available'])
+        self.assertEqual({'version': '3.7.4.4', 'archive': '3.7.4.4', 'update_stamp': 'stamp'}, row['source'])
+        self.assertEqual('dofusdude API', row['items'])
+        self.assertEqual([], row['warnings'])
+
+    def test_a_lagging_api_is_reported_with_both_numbers(self):
+        row = self.dofusdude_probe('dofus3', '3.7.1.0', '3.7.4.4', {
+            '3.7.1.0': self.release(*self.DATA_FILES), '3.7.4.4': self.release(*self.DATA_FILES, *self.ITEM_FILES)})
+        self.assertEqual(1, len(row['warnings']))
+        warning = row['warnings'][0]
+        self.assertIn('API still serves 3.7.1.0', warning)
+        self.assertIn('Ankama client is 3.7.4.4', warning)
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            updater.show_versions([row])
+        self.assertIn('To check: ' + warning, output.getvalue())
+        self.assertIn('Importable data: 3.7.4.4 | Ankama client: 3.7.4.4 | items: release files', output.getvalue())
+        report = updater.report_markdown({'status': updater.IMPORTED, 'directory': 'report',
+                                          'versions': [dict(row, images=False)]})
+        self.assertIn('- Items from: release files', report)
+        self.assertIn('- To check: ' + warning, report)
+
+    def test_an_incomplete_release_falls_back_to_the_api_version(self):
+        cases = {'no release': {},
+                 'no item files': {'3.7.4.4': self.release(*self.DATA_FILES)},
+                 'draft': {'3.7.4.4': self.release(*self.DATA_FILES, *self.ITEM_FILES, draft=True)}}
+        for case, client_release in cases.items():
+            with self.subTest(case=case):
+                row = self.dofusdude_probe('dofus3', '3.7.1.0', '3.7.4.4',
+                                           {**client_release, '3.7.1.0': self.release(*self.DATA_FILES)})
+                self.assertEqual('3.7.1.0', row['available'])
+                self.assertEqual({'version': '3.7.1.0', 'archive': '3.7.1.0', 'update_stamp': 'stamp'}, row['source'])
+                self.assertEqual('dofusdude API', row['items'])
+                self.assertEqual(1, len(row['warnings']))
+                self.assertIn('Ankama client is 3.7.4.4', row['warnings'][0])
+                self.assertIn('importing 3.7.1.0', row['warnings'][0])
 
     IMAGES = 'https://api.dofusdu.de/dofus3beta/v1/img/item'
     MAPPED_ITEMS = [
