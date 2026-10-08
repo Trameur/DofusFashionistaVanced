@@ -12,6 +12,7 @@ import sqlite3
 import subprocess
 import time
 from data_file_ops import replace_file
+import item_criteria
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / 'fashionistapulp/fashionistapulp'
@@ -23,6 +24,14 @@ TRACKED_DIRECTORY = 'itemscraper'
 WAKFU_SOURCES = {'item_recipes': 'recipes.json', 'item_recipe_ingredient_names': 'recipes.json',
                  'item_craft_jobs': 'recipes.json'}
 LOSS_TOLERANCE = .03
+CRITERIA_TABLES = {'item_criteria': (),
+                   'item_class_conditions': (item_criteria.CLASS,),
+                   'item_sex_conditions': (item_criteria.SEX,),
+                   'item_name_conditions': (item_criteria.NAME,),
+                   'item_weird_conditions': (item_criteria.SET_BONUS, item_criteria.SETS_EQUIPPED),
+                   'max_level_to_equip': (item_criteria.LEVEL,),
+                   'unusable_items': (item_criteria.UNUSABLE,),
+                   'items_not_worn_together': (item_criteria.NOT_WORN_WITH,)}
 
 
 def database_path(version):
@@ -475,7 +484,7 @@ def empty_snapshot(version):
     return {'version': version, 'tables': {}, 'schema': {}, 'items': {}, 'stats': {}, 'spells': {},
             'legacy_ids': {}, 'integrity': ['ok'], 'source_stats': {}, 'dump_errors': [], 'orphaned': {},
             'images': {'references': 0, 'paths': {}, 'unique_files': 0, 'problems': {}},
-            'mirror': wakfu_mirror_counts() if version == 'wakfu' else {}}
+            'mirror': wakfu_mirror_counts() if version == 'wakfu' else {}, 'criteria_source': {}}
 
 
 def wakfu_mirror_counts():
@@ -489,6 +498,45 @@ def wakfu_mirror_counts():
         if source.is_file():
             counts[name] = len(json.loads(source.read_text(encoding='utf-8')))
     return counts
+
+
+def archive_tag(version):
+    path = ROOT / 'fashionsite/chardata/spell_modifiers' / (version + '.json')
+    if not path.is_file():
+        return None
+    return json.loads(path.read_text(encoding='utf-8')).get('data_version')
+
+
+def criteria_source(version, connection, tables):
+    """Per condition table, the pieces whose criteria in the archive's items.json carry its kinds."""
+    tag = archive_tag(version)
+    if version not in item_criteria.KINDS or not tag:
+        return {}
+    source = ROOT / 'itemscraper/raw' / tag / 'items.json'
+    record = {'file': relative_name(source)}
+    if not source.is_file() or 'item_criteria' not in tables:
+        return dict(record, refused='no items.json or no item_criteria table')
+    raw = item_criteria.load_raw_items_criteria(source)
+    stored = dict(connection.execute('SELECT item, criteria FROM item_criteria'))
+    pieces = dict(connection.execute("SELECT id, ankama_id FROM items WHERE ankama_type != 'mounts' AND NOT COALESCE(removed, 0)"))
+    differ = sorted(item for item, ankama in pieces.items() if ankama not in raw or (raw[ankama] or None) != stored.get(item))
+    if differ:
+        return dict(record, refused='%d pieces whose criteria differ from the file, %s first' % (len(differ), differ[0]))
+    carried = []
+    for item, ankama in sorted(pieces.items()):
+        if not raw[ankama]:
+            continue
+        try:
+            found = item_criteria.kinds(version, item_criteria.parse(raw[ankama]))
+        except item_criteria.CriteriaError as exc:
+            return dict(record, refused='criteria of %s unreadable: %s' % (item, exc))
+        if None in found.values():
+            unknown = sorted('%s%s' % atom for atom, kind in found.items() if kind is None)
+            return dict(record, refused='criteria of %s carry %s, a kind the reader does not know' % (item, ', '.join(unknown)))
+        carried.append(set(found.values()))
+    record['counts'] = {table: sum(1 for found in carried if not kinds or found & set(kinds))
+                        for table, kinds in CRITERIA_TABLES.items()}
+    return record
 
 
 def snapshot(version):
@@ -547,14 +595,21 @@ def snapshot(version):
                 'integrity': [row[0] for row in connection.execute('PRAGMA integrity_check')],
                 'source_stats': vocabulary, 'dump_errors': dump_errors,
                 'orphaned': orphaned, 'images': image_inventory(version, items, connection, tables),
-                'mirror': wakfu_mirror_counts() if version == 'wakfu' else {}}
+                'mirror': wakfu_mirror_counts() if version == 'wakfu' else {},
+                'criteria_source': criteria_source(version, connection, tables)}
 
 
 def source_shrink(before, after, table):
     name = WAKFU_SOURCES.get(table)
-    if after.get('version') != 'wakfu' or not name:
+    if after.get('version') == 'wakfu' and name:
+        old, new = before.get('mirror', {}).get(name), after.get('mirror', {}).get(name)
+    elif table in CRITERIA_TABLES:
+        kinds = CRITERIA_TABLES[table]
+        name = 'items.json (pieces %s)' % ('whose criteria carry ' + ' or '.join(kinds) if kinds else 'with criteria')
+        old = before.get('criteria_source', {}).get('counts', {}).get(table)
+        new = after.get('criteria_source', {}).get('counts', {}).get(table)
+    else:
         return None
-    old, new = before.get('mirror', {}).get(name), after.get('mirror', {}).get(name)
     if not old or new is None or new >= old:
         return None
     return name, old, new
@@ -565,6 +620,10 @@ def compare(before, after):
     if after['integrity'] != ['ok']:
         result['errors'].append('SQLite: ' + '; '.join(after['integrity']))
     result['errors'].extend('Inconsistent dump: ' + error for error in after.get('dump_errors', []))
+    for moment, inventory in (('before', before), ('after', after)):
+        source = inventory.get('criteria_source', {})
+        if source.get('refused'):
+            result['warnings'].append('Criteria source not used %s the import: %s, %s' % (moment, source['file'], source['refused']))
     for name in sorted(after.get('source_stats', {}).keys() - before.get('source_stats', {}).keys()):
         result['warnings'].append('NEW SOURCE EFFECT: %s (%d items), check that it is handled' % (name, after['source_stats'][name]))
     for table in sorted(before['tables'].keys() | after['tables'].keys()):
