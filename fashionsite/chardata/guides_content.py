@@ -4238,7 +4238,7 @@ GUIDES = {
 <p>Transcendence runes belong to Dofus 3, the beta and Dofus 2. Dofus Touch split off earlier and is balanced on its own, so its smithmagic has no 100% guaranteed rune and no lock. Nothing on Touch closes an item permanently.</p>
 
 <h2>What Touch has instead</h2>
-<p>On Touch the end game is classic smithmagic: you push a line with runes, you accept a failure rate, and you can keep going as long as the item survives. That is slower and riskier than a guaranteed bonus, but it is also reversible in a way transcendence never is. A Touch item is never final.</p>
+<p>On Touch the end game is classic smithmagic: you push a line with runes, you accept a failure rate, and you can keep going as long as the item survives. That is slower and riskier than a guaranteed bonus, but it is also reversible line by line, which transcendence never is. A Touch item is never final.</p>
 
 <h2>What it changes for your build</h2>
 <p>Practically, it means you can gear first and refine forever. There is no piece you have to leave untouched, and no decision you cannot walk back. Plan your overs around what you can afford to fail, not around a one-shot purchase.</p>
@@ -4255,7 +4255,7 @@ GUIDES = {
 <p>Les runes de transcendance appartiennent à Dofus 3, à la bêta et à Dofus 2. Dofus Touch s'est séparé plus tôt et s'équilibre à part : sa forgemagie n'a aucune rune garantie à 100 % et aucun verrou. Rien, sur Touch, ne referme un objet définitivement.</p>
 
 <h2>Ce que Touch a à la place</h2>
-<p>Sur Touch, l'end game c'est la forgemagie classique : tu pousses une ligne à coups de runes, tu acceptes un taux d'échec, et tu peux continuer tant que l'objet tient. C'est plus lent et plus risqué qu'un bonus garanti, mais c'est aussi réversible comme la transcendance ne le sera jamais. Un objet Touch n'est jamais fini.</p>
+<p>Sur Touch, l'end game c'est la forgemagie classique : tu pousses une ligne à coups de runes, tu acceptes un taux d'échec, et tu peux continuer tant que l'objet tient. C'est plus lent et plus risqué qu'un bonus garanti, mais c'est aussi réversible ligne par ligne, ce que la transcendance n'est jamais. Un objet Touch n'est jamais fini.</p>
 
 <h2>Ce que ça change pour ton build</h2>
 <p>Concrètement, tu peux t'équiper d'abord et affiner sans fin. Aucune pièce que tu dois laisser vierge, aucune décision sur laquelle tu ne peux pas revenir. Planifie tes overs selon ce que tu peux te permettre de rater, pas selon un achat unique.</p>
@@ -4272,7 +4272,7 @@ GUIDES = {
 <p>Las runas de transcendencia son de Dofus 3, de la beta y de Dofus 2. Dofus Touch se separó antes y se equilibra por su cuenta: su forjamagia no tiene ninguna runa garantizada al 100 % ni ningún bloqueo. En Touch nada cierra un objeto para siempre.</p>
 
 <h2>Qué tiene Touch en su lugar</h2>
-<p>En Touch el end game es la forjamagia clásica: empujas una línea a base de runas, aceptas un porcentaje de fallo y puedes seguir mientras el objeto aguante. Es más lento y más arriesgado que un bono garantizado, pero también es reversible como la transcendencia nunca lo será. Un objeto de Touch nunca está terminado.</p>
+<p>En Touch el end game es la forjamagia clásica: empujas una línea a base de runas, aceptas un porcentaje de fallo y puedes seguir mientras el objeto aguante. Es más lento y más arriesgado que un bono garantizado, pero también es reversible línea a línea, cosa que la transcendencia nunca es. Un objeto de Touch nunca está terminado.</p>
 
 <h2>Qué cambia para tu build</h2>
 <p>En la práctica, puedes equiparte primero y pulir sin final. No hay ninguna pieza que debas dejar virgen, ni ninguna decisión sobre la que no puedas volver. Planifica tus overs según lo que puedas permitirte fallar, no según una compra única.</p>
@@ -4289,7 +4289,7 @@ GUIDES = {
 <p>As runas de transcendência são do Dofus 3, da beta e do Dofus 2. O Dofus Touch separou-se antes e é equilibrado à parte: a sua forjamagia não tem nenhuma runa garantida a 100 % nem nenhum bloqueio. No Touch nada fecha um item para sempre.</p>
 
 <h2>O que o Touch tem em vez disso</h2>
-<p>No Touch o end game é a forjamagia clássica: empurras uma linha à custa de runas, aceitas uma taxa de falha e podes continuar enquanto o item aguentar. É mais lento e mais arriscado do que um bónus garantido, mas também é reversível como a transcendência nunca será. Um item do Touch nunca está acabado.</p>
+<p>No Touch o end game é a forjamagia clássica: empurras uma linha à custa de runas, aceitas uma taxa de falha e podes continuar enquanto o item aguentar. É mais lento e mais arriscado do que um bónus garantido, mas também é reversível linha a linha, coisa que a transcendência nunca é. Um item do Touch nunca está acabado.</p>
 
 <h2>O que muda na tua build</h2>
 <p>Na prática, podes equipar-te primeiro e afinar sem fim. Não há nenhuma peça que tenhas de deixar virgem, nem nenhuma decisão sem volta. Planeia os teus overs pelo que podes dar-te ao luxo de falhar, não por uma compra única.</p>
@@ -4306,7 +4306,7 @@ GUIDES = {
 <p>Transzendenzrunen gehören zu Dofus 3, zur Beta und zu Dofus 2. Dofus Touch hat sich früher abgespalten und wird getrennt ausbalanciert: Seine Schmiedemagie kennt keine Rune mit 100 % Erfolg und keine Sperre. Auf Touch schließt nichts ein Item endgültig ab.</p>
 
 <h2>Was Touch stattdessen hat</h2>
-<p>Auf Touch ist das Endgame klassische Schmiedemagie: Du treibst eine Zeile mit Runen hoch, nimmst eine Fehlerquote in Kauf und kannst weitermachen, solange das Item durchhält. Das ist langsamer und riskanter als ein garantierter Bonus, dafür umkehrbar, wie es Transzendenz nie sein wird. Ein Touch-Item ist nie fertig.</p>
+<p>Auf Touch ist das Endgame klassische Schmiedemagie: Du treibst eine Zeile mit Runen hoch, nimmst eine Fehlerquote in Kauf und kannst weitermachen, solange das Item durchhält. Das ist langsamer und riskanter als ein garantierter Bonus, dafür Zeile für Zeile umkehrbar, was Transzendenz nie ist. Ein Touch-Item ist nie fertig.</p>
 
 <h2>Was das für deinen Build ändert</h2>
 <p>Praktisch heißt das: erst ausrüsten, dann endlos verfeinern. Es gibt kein Teil, das du unberührt lassen musst, und keine Entscheidung ohne Rückweg. Plane deine Over nach dem, was du dir zu verpatzen leisten kannst, nicht nach einem einmaligen Kauf.</p>
