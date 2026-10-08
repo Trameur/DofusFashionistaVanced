@@ -181,11 +181,24 @@ class AnImportThenAnExportKeepsTheConversionTests(TestCase):
         self.assertNotIn('import-link-weapon-forge', preview)
         self.assertEqual('', char.weapon_forge)
 
+    def test_a_partly_read_link_names_the_code_it_left_out(self):
+        preview, char = self._import(self._build(_HIDSAD_BOW, 200, fm_weapon='df-100',
+                                                 fm_steal_weapon='ve-85'))
+        self.assertIn('import-link-weapon-forge', preview)
+        self.assertIn('import-link-fm-weapon', preview)
+        self.assertIn('(ve-85)', preview)
+        self.assertEqual(weapon_forge.write_choice({'damage': (FIRE, 'strong')}),
+                         char.weapon_forge)
+
     def test_a_link_without_a_code_leaves_the_build_auto(self):
         preview, char = self._import(self._build(_HUNTING_KNIFE, 1))
         self.assertNotIn('import-link-fm-weapon', preview)
         self.assertNotIn('import-link-weapon-forge', preview)
         self.assertEqual('', char.weapon_forge)
+
+    def test_an_auto_build_has_no_weapon_note(self):
+        _preview, char = self._import(self._build(_HIDSAD_BOW, 200))
+        self.assertNotIn('export-weapon-forge', self._export(char))
 
     def test_a_build_without_a_weapon_has_no_weapon_note(self):
         build = self._build(_HUNTING_KNIFE, 200, fm_weapon='df-100')

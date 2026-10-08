@@ -602,6 +602,7 @@ def _lis(request, texte, version_page, formulaire, action=None):
                 'fm_not_carried': sans_fm,
                 'fm_global': fm_global,
                 'fm_weapon': bool(forge_unread),
+                'fm_weapon_codes': forge_unread,
                 'weapon_forge': [conversion_line(version, kind, element, tier)
                                  for kind, element, tier
                                  in weapon_forge.applied(forge_choice)],
