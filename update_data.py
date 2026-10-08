@@ -220,7 +220,7 @@ def main() -> None:
         return ok
 
     if do_data:
-        step("items/download",   [PY, "get_equipments.py"],  cwd=ITEMSCRAPER)
+        step("items/download",   [PY, "get_equipments.py", "--tag", version],  cwd=ITEMSCRAPER)
         # The equip criteria as the game writes them, and the class names they use
         step("data/download", [
             PY, "-m", "itemscraper.download_raw_data",

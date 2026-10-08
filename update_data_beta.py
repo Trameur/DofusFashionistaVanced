@@ -231,7 +231,8 @@ def main() -> None:
 
     if do_data:
         step("items/download", [PY, "get_equipments.py", "--api-url", BETA_API_URL, "--work-dir", BETA_WORK_DIR,
-                                "--skip-endpoints", "mounts"], cwd=ITEMSCRAPER)
+                                "--skip-endpoints", "mounts", "--tag", version, "--repo", BETA_REPO],
+             cwd=ITEMSCRAPER)
         # The equip criteria as the game writes them, and the class names they use
         step("data/download", [
             PY, "-m", "itemscraper.download_raw_data",

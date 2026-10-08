@@ -267,6 +267,29 @@ class UpdateLauncherTests(TestCase):
         self.assertIn('https://api.dofusdu.de/dofus3beta/v1/fr/items/equipment/all', calls)
         self.assertEqual(30, len(list(work.glob('all_*.json'))))
 
+    def test_both_dofus3_pipelines_pass_one_tag_to_items_data_and_spells(self):
+        import update_data
+        import update_data_beta
+        for module, setter in ((update_data, 'set_version'), (update_data_beta, 'set_beta_version')):
+            with self.subTest(pipeline=module.__name__):
+                commands = {}
+                def run_step(label, command, cwd=None):
+                    commands[label] = [str(part) for part in command]
+                    return True, []
+                with mock.patch.object(module, 'run_step', side_effect=run_step), \
+                        mock.patch.object(module, setter, side_effect=lambda version: version), \
+                        mock.patch.object(module.sys, 'argv', ['pipeline', '--version', '3.7.4.4', '--skip-images']), \
+                        contextlib.redirect_stdout(io.StringIO()):
+                    module.main()
+                downloads = [commands[label] for label in ('items/download', 'data/download', 'spells/download')]
+                for command in downloads:
+                    self.assertEqual('3.7.4.4', command[command.index('--tag') + 1])
+                self.assertEqual({'3.7.4.4'}, {command[command.index('--tag') + 1]
+                                               for command in commands.values() if '--tag' in command})
+                repos = {command[command.index('--repo') + 1] if '--repo' in command else None
+                         for command in downloads}
+                self.assertEqual(1, len(repos))
+
     def test_retro_probe_loads_the_flat_itemscraper_modules(self):
         manifest = {key: '123' for key in ('items', 'itemstats', 'itemsets', 'crafts', 'classes', 'effects', 'spells')}
         metadata = {'FASHIONISTA_RETRO_VERSION': '1.49', 'WATCHED_RETRO_BUILD': 'old',
