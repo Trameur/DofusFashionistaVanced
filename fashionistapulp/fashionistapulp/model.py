@@ -448,11 +448,11 @@ class Model:
                                self.structure.get_item_by_name("Death-Defying").id, 
                                objective_values.get('respermee', 0) * 2.5 + objective_values.get('resperran', 0) * 2.5)
         
-        #Adding more weight to Bram Worldbeard's Crown equivalent to 7.5% weapon damage
-        #When the bearer suffers an AP, MP or Range removal, they gain 3% weapon damage for 2 turns, stackable 5 times.
+        #Adding more weight to Bram Worldbeard's Crown equivalent to 5% final damage
+        #When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).
         self.problem.add_to_of('p', 
                                self.structure.get_item_by_name("Bram Worldbeard's Crown").id, 
-                               objective_values.get('perweadam', 0) * 7.5)
+                               objective_values.get('permedam', 0) * 5 + objective_values.get('perrandam', 0) * 5)
         
         #Adding more weight to Ganymede's Diadem equivalent to 1 AP
         #The bearer gains 2 AP on even turns and loses 1 AP on odd turns.

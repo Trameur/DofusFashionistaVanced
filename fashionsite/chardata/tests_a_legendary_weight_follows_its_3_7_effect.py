@@ -75,6 +75,14 @@ class ALegendaryWeightFollowsIts37EffectTests(SimpleTestCase):
                 self.assertEqual(
                     0, item_weight(version, "Dodge's Audacity", {'lock': 100}))
 
+    def test_bram_crown_passive_weighs_final_damage_not_weapon_damage(self):
+        crown = "Bram Worldbeard's Crown"
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                self.assertEqual(0, item_weight(version, crown, {'perweadam': 100}))
+                self.assertGreater(item_weight(version, crown, {'permedam': 100}), 0)
+                self.assertGreater(item_weight(version, crown, {'perrandam': 100}), 0)
+
     def test_the_effects_these_weights_follow_are_the_3_7_ones(self):
         versions = versions_on_3_7()
         self.assertIn('beta', versions)
@@ -87,3 +95,9 @@ class ALegendaryWeightFollowsIts37EffectTests(SimpleTestCase):
                               effect_text(version, 'Crocobur 3'))
                 self.assertIn('gains 1 MP and 10% Critical',
                               effect_text(version, "Dodge's Audacity"))
+                crown = "Bram Worldbeard's Crown"
+                self.assertIn('they gain 2% final damage for 2 turns',
+                              effect_text(version, crown))
+                structure = get_structure(version)
+                self.assertIn(structure.get_stat_by_key('ch').id,
+                              dict(structure.get_item_by_name(crown).stats))
