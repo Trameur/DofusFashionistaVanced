@@ -19,6 +19,8 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'itemscraper'))
 import update_audit as audit
+import get_equipments
+import release_items
 
 
 class UpdateLauncherTests(TestCase):
@@ -130,6 +132,140 @@ class UpdateLauncherTests(TestCase):
         with mock.patch.object(updater, 'fetch_json', side_effect=[{'version': '3.6.10.0'}, {'assets': []}]):
             with self.assertRaisesRegex(ValueError, 'Incomplete archive'):
                 updater.probe('dofus3')
+
+    IMAGES = 'https://api.dofusdu.de/dofus3beta/v1/img/item'
+    MAPPED_ITEMS = [
+        {'ankama_id': 20, 'name': {'fr': 'Bois', 'en': 'Wood'}, 'description': {'fr': 'Du bois'},
+         'type': {'name': {'fr': 'Bois'}, 'itemTypeId': 15, 'superTypeId': 9, 'categoryId': 2},
+         'level': 10, 'iconId': 2002, 'pods': 1, 'conditions': None, 'effects': None},
+        {'ankama_id': 30, 'name': {'fr': 'Dragodinde Amande'}, 'description': {'fr': ''},
+         'type': {'name': {'fr': 'Dragodinde'}, 'itemTypeId': 247, 'superTypeId': 12, 'categoryId': 0},
+         'level': 60, 'iconId': 3003, 'pods': 0, 'conditions': None, 'hasParentSet': False,
+         'effects': [{'min': 1, 'max': 0, 'type': {'fr': 'PM'}, 'element_id': 8, 'is_meta': False,
+                      'active': True, 'min_max_irrelevant': -1, 'templated': {'fr': '1 PM'}}]},
+        {'ankama_id': 10, 'name': {'fr': 'Épée Test'}, 'description': {'fr': 'Une épée'},
+         'type': {'name': {'fr': 'Épée'}, 'itemTypeId': 6, 'superTypeId': 2, 'categoryId': 0},
+         'level': 50, 'iconId': 1001, 'pods': 5, 'hasParentSet': True,
+         'parentSet': {'id': 5, 'name': {'fr': 'Panoplie Test'}},
+         'criticalHitProbability': 5, 'criticalHitBonus': 10, 'maxCastPerTurn': 1, 'apCost': 4,
+         'minRange': 1, 'range': 1,
+         'conditions': {'is_operand': False, 'relation': 'and', 'children': [
+             {'is_operand': True, 'value': {'operator': '>', 'value': 100, 'element_id': 7,
+                                            'templated': {'fr': 'Force > 100'}}}]},
+         'effects': [{'min': 10, 'max': 20, 'type': {'fr': 'Dommages Neutre'}, 'element_id': 100,
+                      'is_meta': False, 'active': True, 'min_max_irrelevant': 0,
+                      'templated': {'fr': '10 à 20 dommages Neutre'}}]},
+    ]
+    MAPPED_SETS = [{'ankama_id': 5, 'name': {'fr': 'Panoplie Test'}, 'items': [10], 'level': 50,
+                    'contains_cosmetics': False, 'contains_cosmetics_only': False,
+                    'effects': {'2': [{'min': 30, 'max': 0, 'type': {'fr': 'Force'}, 'element_id': 7,
+                                       'is_meta': False, 'active': False, 'min_max_irrelevant': -1,
+                                       'templated': {'fr': '30 Force'}}]}}]
+    MAPPED_RECIPES = [{'result_id': 10, 'entries': [{'item_id': 20, 'quantity': 3}]}]
+
+    def test_the_release_files_rebuild_the_api_item_pages(self):
+        pages = release_items.rebuild(self.MAPPED_ITEMS, self.MAPPED_SETS, self.MAPPED_RECIPES, self.IMAGES,
+                                      ['equipment', 'resources', 'mounts', 'sets'], languages=['fr'])
+        self.assertEqual({'first': None, 'prev': None, 'next': None, 'last': None},
+                         pages['equipment', 'fr']['_links'])
+        equipment = pages['equipment', 'fr']['items']
+        self.assertEqual([10, 30], [row['ankama_id'] for row in equipment])
+        self.assertEqual({
+            'ankama_id': 10, 'name': 'Épée Test', 'type': {'name': 'Épée', 'id': 6}, 'level': 50,
+            'image_urls': {'icon': self.IMAGES + '/1001-64.png', 'sd': self.IMAGES + '/1001-128.png'},
+            'description': 'Une épée',
+            'recipe': [{'item_ankama_id': 20, 'item_subtype': 'resources', 'quantity': 3}],
+            'conditions': {'is_operand': False, 'relation': 'and', 'children': [
+                {'condition': {'operator': '>', 'int_value': 100, 'element': {'name': 'Force > 100', 'id': 7}},
+                 'is_operand': True}]},
+            'effects': [{'int_minimum': 10, 'int_maximum': 20,
+                         'type': {'name': 'Dommages Neutre', 'id': 100, 'is_meta': False, 'is_active': True},
+                         'ignore_int_min': False, 'ignore_int_max': False,
+                         'formatted': '10 à 20 dommages Neutre'}],
+            'is_weapon': True, 'pods': 5, 'parent_set': {'id': 5, 'name': 'Panoplie Test'},
+            'critical_hit_probability': 5, 'critical_hit_bonus': 10, 'max_cast_per_turn': 1,
+            'ap_cost': 4, 'range': {'min': 1, 'max': 1}}, equipment[0])
+        self.assertEqual(['ankama_id', 'name', 'type', 'level', 'image_urls', 'description', 'recipe',
+                          'conditions', 'effects', 'is_weapon', 'pods', 'parent_set', 'critical_hit_probability',
+                          'critical_hit_bonus', 'max_cast_per_turn', 'ap_cost', 'range'], list(equipment[0]))
+        self.assertEqual({'ankama_id': 20, 'name': 'Bois', 'type': {'name': 'Bois', 'id': 15}, 'level': 10,
+                          'image_urls': {'icon': self.IMAGES + '/2002-64.png', 'sd': self.IMAGES + '/2002-128.png'},
+                          'description': 'Du bois', 'pods': 1}, pages['resources', 'fr']['items'][0])
+        self.assertEqual([{'ankama_id': 30, 'name': 'Dragodinde Amande',
+                           'family': {'ankama_id': 247, 'name': 'Dragodinde'},
+                           'image_urls': {'icon': self.IMAGES + '/3003-64.png', 'sd': self.IMAGES + '/3003-128.png'},
+                           'effects': [{'int_minimum': 1, 'int_maximum': 0,
+                                        'type': {'name': 'PM', 'id': 8, 'is_meta': False, 'is_active': True},
+                                        'ignore_int_min': False, 'ignore_int_max': True, 'formatted': '1 PM'}]}],
+                         pages['mounts', 'fr']['mounts'])
+        self.assertEqual([{'ankama_id': 5, 'name': 'Panoplie Test', 'items': 1, 'level': 50,
+                           'contains_cosmetics': False, 'contains_cosmetics_only': False,
+                           'effects': {'2': [{'int_minimum': 30, 'int_maximum': 0,
+                                              'type': {'name': 'Force', 'id': 7, 'is_meta': False,
+                                                       'is_active': False},
+                                              'ignore_int_min': False, 'ignore_int_max': True,
+                                              'formatted': '30 Force'}]},
+                           'equipment_ids': [10]}], pages['sets', 'fr']['sets'])
+
+    def test_an_unhandled_release_shape_stops_the_conversion(self):
+        quest = copy.deepcopy(self.MAPPED_ITEMS)
+        quest[0]['type']['categoryId'] = 3
+        hidden = copy.deepcopy(self.MAPPED_ITEMS)
+        hidden[2]['type']['categoryId'] = 4
+        cases = {'category 4 item': (hidden, self.MAPPED_RECIPES),
+                 'quest ingredient': (quest, self.MAPPED_RECIPES),
+                 'unknown ingredient': (self.MAPPED_ITEMS, [{'result_id': 10, 'entries': [{'item_id': 99, 'quantity': 1}]}]),
+                 'duplicated item': (self.MAPPED_ITEMS + self.MAPPED_ITEMS[:1], self.MAPPED_RECIPES)}
+        for case, (items, recipes) in cases.items():
+            with self.subTest(case=case):
+                with self.assertRaisesRegex(release_items.UnhandledShape, 'wait for the dofusdude API'):
+                    release_items.rebuild(items, self.MAPPED_SETS, recipes, self.IMAGES,
+                                          ['equipment', 'quest_items', 'resources'], languages=['fr'])
+
+    def item_download(self, served, *arguments):
+        work = self.root / 'items'
+        api_calls = []
+        def download(repo, tag, dest_root, filters=None, skip_existing=True, list_only=False):
+            self.assertEqual(sorted(release_items.ASSETS), sorted(filters))
+            self.assertFalse(skip_existing)
+            folder = dest_root / tag
+            folder.mkdir(parents=True)
+            for name, rows in zip(release_items.ASSETS, (self.MAPPED_ITEMS, self.MAPPED_SETS, self.MAPPED_RECIPES)):
+                (folder / name).write_text(json.dumps(rows), encoding='utf-8')
+            api_calls.append(('release', repo, tag))
+        def get(url, timeout):
+            api_calls.append(url)
+            body = {'version': served} if url.endswith('/meta/version') else {'items': []}
+            return mock.Mock(status_code=200, json=lambda: body, raise_for_status=lambda: None)
+        output = io.StringIO()
+        with mock.patch.object(get_equipments, 'RAW_DIR', self.root / 'raw'), \
+                mock.patch.object(get_equipments, 'download_assets', side_effect=download), \
+                mock.patch.object(get_equipments.requests, 'get', side_effect=get), \
+                contextlib.redirect_stdout(output):
+            get_equipments.main(['--api-url', 'https://api.dofusdu.de/dofus3beta/v1/', '--work-dir', str(work),
+                                 '--skip-endpoints', 'mounts', *arguments])
+        return work, api_calls, output.getvalue()
+
+    def test_the_item_download_reads_the_release_when_the_api_lags(self):
+        work, calls, output = self.item_download('3.7.1.0', '--tag', '3.7.4.4', '--repo', 'dofusdude/dofus3-beta')
+        self.assertEqual(['https://api.dofusdu.de/dofus3beta/v1/meta/version',
+                          ('release', 'dofusdude/dofus3-beta', '3.7.4.4')], calls)
+        self.assertIn('Warning: the dofusdude API serves 3.7.1.0, not 3.7.4.4', output)
+        self.assertEqual(30, len(list(work.glob('all_*.json'))))
+        self.assertFalse((work / 'all_mounts_fr.json').exists())
+        equipment = json.loads((work / 'all_equipment_fr.json').read_text(encoding='utf-8'))
+        self.assertEqual([10, 30], [row['ankama_id'] for row in equipment['items']])
+        self.assertEqual(self.IMAGES + '/1001-64.png', equipment['items'][0]['image_urls']['icon'])
+        sets = json.loads((work / 'all_sets_en.json').read_text(encoding='utf-8'))
+        self.assertEqual([5], [row['ankama_id'] for row in sets['sets']])
+
+    def test_the_item_download_reads_the_api_when_it_serves_the_tag(self):
+        work, calls, output = self.item_download('3.7.4.4', '--tag', '3.7.4.4')
+        self.assertEqual('https://api.dofusdu.de/dofus3beta/v1/meta/version', calls[0])
+        self.assertEqual(31, len(calls))
+        self.assertNotIn('release', [call[0] for call in calls if isinstance(call, tuple)])
+        self.assertIn('https://api.dofusdu.de/dofus3beta/v1/fr/items/equipment/all', calls)
+        self.assertEqual(30, len(list(work.glob('all_*.json'))))
 
     def test_retro_probe_loads_the_flat_itemscraper_modules(self):
         manifest = {key: '123' for key in ('items', 'itemstats', 'itemsets', 'crafts', 'classes', 'effects', 'spells')}
