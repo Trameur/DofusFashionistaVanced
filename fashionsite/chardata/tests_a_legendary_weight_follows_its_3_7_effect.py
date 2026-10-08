@@ -7,6 +7,7 @@ from fashionistapulp.model import Model
 from fashionistapulp.structure import get_structure, set_current_game_version
 
 VERSIONS = ('dofus3', 'beta')
+TEN_STACK_CAPPED_BUHORADO_FACTOR = 45
 
 
 class _Objective(object):
@@ -54,6 +55,16 @@ class ALegendaryWeightFollowsIts37EffectTests(SimpleTestCase):
                                    {'pshdam': 200, 'ch': 2800})
                 self.assertGreater(low, 0)
                 self.assertAlmostEqual(2800 / 240, high / low)
+
+    def test_buhorado_feather_weighs_more_than_with_a_ten_stack_cap(self):
+        pshdam, ch = 200, 240
+        capped = pshdam * TEN_STACK_CAPPED_BUHORADO_FACTOR * ch / 100
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                self.assertGreater(
+                    item_weight(version, 'Buhorado Feather',
+                                {'pshdam': pshdam, 'ch': ch}),
+                    capped)
 
     def test_crocobur_weighs_more_hp_for_a_melee_bearer(self):
         for version in VERSIONS:
