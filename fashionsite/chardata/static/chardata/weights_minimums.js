@@ -1,5 +1,6 @@
-function wmInit(postUrl) {
-    var $form = $('#main_form');
+function wmInit(postUrl, options) {
+    var formMode = !!(options && options.mode === 'form');
+    var $form = $((options && options.form) || '#main_form');
     var state = JSON.parse(document.getElementById('wm-state').textContent);
     var defaults = JSON.parse(document.getElementById('wm-defaults').textContent);
     var ranges = state.ranges || {};
@@ -287,7 +288,7 @@ function wmInit(postUrl) {
             rememberFocus(this);
         }
         if (event.ctrlKey || event.metaKey) {
-            if (changesPendingStateEngine) {
+            if (typeof changesPendingStateEngine !== 'undefined' && changesPendingStateEngine) {
                 $('#button-save').trigger('click');
             }
             return;
@@ -329,22 +330,31 @@ function wmInit(postUrl) {
         });
         refreshAll();
         $('#weights_reset').val('1');
-        setChangesPendingStateEngine(true);
+        if (!formMode) {
+            setChangesPendingStateEngine(true);
+        }
     });
 
     function clearTheBar() {
         var bar = $('.wm-actions')[0];
+        if (!bar) {
+            return;
+        }
         var fixed = $(bar).css('position') === 'fixed';
         $form[0].style.setProperty('padding-bottom', fixed ? (bar.offsetHeight + 12) + 'px' : '', fixed ? 'important' : '');
     }
     $(window).on('resize', clearTheBar);
-    if (window.ResizeObserver) {
+    if (window.ResizeObserver && $('.wm-actions').length) {
         new ResizeObserver(clearTheBar).observe($('.wm-actions')[0]);
     }
     clearTheBar();
 
     openSections();
-    setupStateEngine(applyState, postUrl, state, null, applyState);
+    if (formMode) {
+        applyState(state);
+    } else {
+        setupStateEngine(applyState, postUrl, state, null, applyState);
+    }
     $('.wm-section[open]').each(function() { buildSliders($(this)); });
     openHash();
 
