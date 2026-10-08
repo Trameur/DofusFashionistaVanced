@@ -24,16 +24,15 @@ from chardata.models import CharBaseStats
 from chardata.options import get_options, set_options, DOFUS_OPTIONS, get_available_options
 from chardata.options_view import parse_options_post, parse_inventory_options, \
     inventory_source_context
-from chardata.presets import reapply_build_weights
+from chardata.presets import default_build_weights, reapply_build_weights
 from chardata.solution_view import get_class_avatar
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
-from chardata.wizard_sliders import get_wizard_sliders, set_wizard_sliders
-from fashionistapulp.dofus_constants import STATS_NAMES, SLOT_NAME_TO_TYPE, max_scroll_for_version, \
-    STAT_NAME_TO_KEY, get_stat_maximum
+from chardata.weights_minimums import block_context, merge_minimum_fields, temporix_lifted_keys
+from chardata.wizard_sliders import apply_weight_fields, get_wizard_sliders, set_wizard_sliders
+from fashionistapulp.dofus_constants import STATS_NAMES, SLOT_NAME_TO_TYPE, max_scroll_for_version
 from fashionistapulp.structure import get_structure
 from static_s3.templatetags.static_s3 import static
 from fashionistapulp.translation import get_supported_language
-from chardata.themes import get_triangle_URL
 
 
 STATS_WITH_CONFIG_MINS = ['AP', 'MP', 'Range']
@@ -45,18 +44,17 @@ def wizard(request, char_id):
     constant_data = ConstantData(char)
     wizard_pic = get_class_avatar(char)
 
+    version_options = get_available_options()
     context = {'char_id': char_id,
                'wizard_pic': wizard_pic,
-               'version_options': get_available_options(),
+               'version_options': version_options,
                'options': get_options(char),
                'constant_data': jsonpickle.encode(constant_data, unpicklable=False),
                'wizard_data': jsonpickle.encode(wizard_data, unpicklable=False),
-               'triangle_url': jsonpickle.encode(get_triangle_URL(request), unpicklable=False),
                'scroll_max': max_scroll_for_version(char.game_version, char.level),
                'scroll_hundred': HUNDRED,
-               'min_caps': {STAT_NAME_TO_KEY[name]: cap for name, cap
-                            in get_stat_maximum(char.game_version, temporix=False).items()
-                            if name in STATS_WITH_CONFIG_MINS}}
+               'temporix_switch': bool(version_options.get('temporix'))}
+    context.update(block_context(char, classic_caps=True))
     context.update(inventory_source_context(request, char))
     return set_response(request,
                         'chardata/wizard.html',
@@ -83,11 +81,11 @@ def wizard_post(request, char_id):
 
     minimum_values = get_min_stats(char)
     for stat_name in STATS_WITH_CONFIG_MINS:
-        # A blank field means no minimum.
-        minimum = safe_int(request.POST.get('min_%s' % stat_name, '')) or 0
-        minimum_values[stat_name] = minimum
-        
+        field_name = 'min_%s' % stat_name
+        if field_name in request.POST:
+            minimum_values[stat_name] = safe_int(request.POST[field_name]) or 0
     set_min_stats(char, minimum_values)
+    merge_minimum_fields(char, request.POST)
     
     weapon_to_lock = request.POST.get('weapon', None)
     if weapon_to_lock:
@@ -106,7 +104,10 @@ def wizard_post(request, char_id):
             continue  # dofus not in this version (Retro/Dofus 2)
         set_excluded(char, dofus.id, forbidden)
 
-    set_wizard_sliders(char, request.POST)
+    base = default_build_weights(char) if request.POST.get('weights_reset') == '1' else None
+    apply_weight_fields(char, request.POST, 'weight_', base)
+    if any(name.startswith('slider_') for name in request.POST):
+        set_wizard_sliders(char, request.POST)
 
     scroll = request.POST.get('scrolling', 'leave')
     if scroll == 'fully':
@@ -195,12 +196,6 @@ def _clean_scroll_char(char):
     char.save()
     return char
 
-class Mins():
-    def __init__(self, char):
-        self.mins = {k: v for (k, v) in get_min_stats(char).items()
-                     if (k in STATS_WITH_CONFIG_MINS)}
-
-
 class FullyScrolled():
     def __init__(self, char):
         self.scrolling = _get_third_scroll_option(char)
@@ -213,16 +208,10 @@ class Options():
     def __init__(self, char):
         self.options = get_options(char)
 
-class Sliders():
-    def __init__(self, char):
-        self.sliders = get_wizard_sliders(char)
-
 class Data():
     def __init__(self, char):
-        self.mins = Mins(char)
         self.inclusions = Inclusions(char)
         self.options = Options(char)
-        self.sliders = Sliders(char)
         self.scrolled = FullyScrolled(char)
 
 class ConstantInclusions():
@@ -246,6 +235,7 @@ class ConstantInclusions():
 class ConstantOptions():
     def __init__(self, char):
         self.turq_values = list(range(11, 20 + 1))
+        self.temporix_lifted = temporix_lifted_keys(char.game_version)
 
 class ConstantData():
     def __init__(self, char):

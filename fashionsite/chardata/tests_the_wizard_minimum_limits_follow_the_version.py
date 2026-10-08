@@ -11,7 +11,7 @@ from fashionistapulp.structure import set_current_game_version
 
 PREFIX = {'dofus3': '', 'beta': '/beta', 'dofus2': '/dofus2', 'touch': '/touch',
           'retro': '/retro'}
-FIELDS = (('min_AP', 'AP'), ('min_MP', 'MP'), ('min_Range', 'Range'))
+FIELDS = (('min_ap', 'AP'), ('min_mp', 'MP'), ('min_range', 'Range'))
 
 
 class _Inputs(HTMLParser):
@@ -58,4 +58,4 @@ class TheWizardMinimumLimitsFollowTheVersionTests(TestCase):
                             self.assertNotIn('max', inputs[field])
 
     def test_retro_puts_no_limit_on_ap(self):
-        self.assertNotIn('max', self.inputs('retro', 200)['min_AP'])
+        self.assertNotIn('max', self.inputs('retro', 200)['min_ap'])

@@ -12,7 +12,8 @@
     <link rel="stylesheet" type="text/css" href="{% static css_files.solution %}" class="solution-css css-file">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
 
-<form id="wizard-form" action="{% game_url 'wizard_post' char_id %}" method="post">
+{% trans "This will reset the tuning sliders back to the default for your build." as confirm_reset %}
+<form id="wizard-form" action="{% game_url 'wizard_post' char_id %}" method="post" data-confirm-reset="{{ confirm_reset }}">
     {% csrf_token %}
     <h1 align="center">{% trans "Wizard" %}</h1><br><br>
     <div class= 'wizard-flying-pic'>
@@ -22,7 +23,6 @@
     <table align="center">
     <tr>
     <td align="center">
-        {% include "chardata/wizard_min_stats.html" %}<br><br>
         {% include "chardata/wizard_inclusions.html" %}<br><br>
     </td>
     <tr>
@@ -37,7 +37,10 @@
     </tr>
     <tr>
     <td>
-        {% include "chardata/wizard_sliders.html" %}
+        <div class="wizard-div min-stat-name wm-page" align="center">
+            <b>{% trans "Weights and Minimums" %}:</b><br><br>
+            {% include "chardata/weights_minimums_block.html" %}
+        </div>
     </td>
     </tr>
     </table>
@@ -67,7 +70,7 @@
 {% include "chardata/jqueryui.html" %}
 <script src="{% static "chardata/inclusions.js" %}"></script>
 <script src="{% static "chardata/options.js" %}"></script>
-<script src="{% static "chardata/wizard_sliders.js" %}"></script>
+<script src="{% static "chardata/weights_minimums.js" %}"></script>
 <script src="{% static "chardata/solution_popup.js" %}"></script>
 <script>
 
@@ -81,57 +84,42 @@ var apiBase = '{{ api_base }}';
 
 var initialData = {{ wizard_data | safe }};
 var constantData = {{ constant_data | safe }};
-var triangleURL = {{ triangle_url | safe }};
-
-function init(data) {
-    // Minimums
-    $("#min_AP").val(data.mins.mins["AP"]);
-    $("#min_MP").val(data.mins.mins["MP"]);
-    $("#min_Range").val(data.mins.mins["Range"]);
-}
 
 function lockItem(itemId, slot, char_id) {
     inclusionsUpdateLine(itemId, slot, constantData.inclusions.items_by_type, constantData.inclusions.slot_to_type)
     $("#blanket").click();
 }
 
-function getTriangleURL()
-{
-    if ('{{theme}}' == 'auto'){
-        var now = new Date();
-        var h = now.getHours();
-        theme = 'lighttheme';
-        if (h < 6 || h >= 18 ) {
-            theme = 'darktheme';
-        }
-        return triangleURL[theme];
-    }
-    return triangleURL;
-}
-
 $(document).ready(function() {
-    init(initialData);
     inclusionsInit(initialData.inclusions, constantData.inclusions.items_by_type, constantData.inclusions.items_by_type_and_name, constantData.inclusions.slot_to_type,
 constantData.inclusions.images_urls);
     optionsInit(initialData.options.options);
-    // TemporiX has no AP, MP or Range limit, so neither have the minimums.
+    wmInit("", {form: '#wizard-form', mode: 'form'});
     var $temporix = $('input:checkbox[name=temporix]');
+    var liftedBoxes = $.map(constantData.options.temporix_lifted, function(key) {
+        return '#min_' + key;
+    }).join(', ');
     function syncMinimumLimits() {
-        $('#min_AP, #min_MP, #min_Range').each(function() {
+        var lifted = $temporix.prop('checked');
+        $('#section-apmprange .wm-note').prop('hidden', !lifted);
+        if (!liftedBoxes) {
+            return;
+        }
+        $(liftedBoxes).each(function() {
             var $field = $(this);
             if ($field.data('limit') === undefined) {
                 $field.data('limit', $field.attr('max'));
             }
-            if ($temporix.prop('checked')) {
+            if (lifted) {
                 $field.removeAttr('max');
             } else {
                 $field.attr('max', $field.data('limit'));
             }
+            $field.siblings('.wm-cap').toggle(!lifted);
         });
     }
     $temporix.change(syncMinimumLimits);
     syncMinimumLimits();
-    wizardSlidersInit(initialData.sliders.sliders, getTriangleURL());
     
     var scrolling = initialData.scrolled.scrolling;
     if (scrolling == null) {
@@ -148,29 +136,8 @@ constantData.inclusions.images_urls);
         $("#scrolling option[value='leave']").prop('selected', true);
     }
     
-    $("#button-reset-sliders").click(function() {
-        if (confirm('{{_("This will reset the tuning sliders back to the default for your build.")|escapejs}}')) {
-            $.post(apiBase + "/wizardgetsliders/{{char_id}}/",
-                   {},
-                   function(data) {               
-                       var sliders_data = data;
-                       wizardSlidersReset(sliders_data);
-                   });
-        }
-    });
     $("#tailor-set").click(function(e) {
-        // Prevent the default action if needed
         e.preventDefault();
-
-        // Validate and correct inputs
-        $('#main_minimum_stats input[type="number"]').each(function() {
-            var inputVal = $(this).val();
-            if (inputVal === '' || isNaN(inputVal)) {
-                $(this).val('0');
-            }
-        });
-
-        // After validation and correction, submit the form
         $("#wizard-form").submit();
     });
     var addButton = $("#button-add-weapon");
