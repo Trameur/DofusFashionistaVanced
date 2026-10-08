@@ -447,7 +447,7 @@ def _weapon_castable(solution):
 
 
 def _best_combo(char, solution, game_version, buff_state=None, levels=None,
-                pushback=False):
+                pushback=False, note_without_buffs=True):
     """Best cast order for one turn, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force,
                                       castable_spells, combat_ap,
@@ -564,9 +564,10 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                        for castable in spells
                        if getattr(castable, 'is_spell', False))
     return {'casts': casts,
-            'without_buffs_note': _without_buffs_note(
+            'without_buffs_note': (_without_buffs_note(
                 stats, spells, order, ap, standing, game_version, pushback,
-                char.level, casts[-1]['running']),
+                char.level, casts[-1]['running'])
+                if note_without_buffs else ''),
             'rank_note': str(_RANK_NOTES['highest' if au_plus_haut
                                          else 'picked']),
             # standing holds the buffs really in force, not every ticked box

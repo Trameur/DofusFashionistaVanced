@@ -247,7 +247,8 @@ def _best_turn_rows(builds, game_version):
     for build in builds:
         try:
             set_current_game_version(game_version)
-            combo = _best_combo(build.char, build.solution, game_version)
+            combo = _best_combo(build.char, build.solution, game_version,
+                                note_without_buffs=False)
         except Exception:
             logger.exception('best turn failed for compared build %s', build.id)
             combo = None

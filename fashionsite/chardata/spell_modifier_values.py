@@ -229,9 +229,10 @@ def _panel_total(combo):
 def true_gain(char, solution, game_version, item_ids):
     """The spells panel's best turn on solution less the same with no spell modifier from item_ids."""
     from chardata.spells_view import _best_combo
-    return (_panel_total(_best_combo(char, solution, game_version))
+    return (_panel_total(_best_combo(char, solution, game_version,
+                                     note_without_buffs=False))
             - _panel_total(_best_combo(char, _WithoutModifiers(solution, item_ids),
-                                       game_version)))
+                                       game_version, note_without_buffs=False)))
 
 
 def pays_at_the_true_turn(char, priced_input, found, reference):

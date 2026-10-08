@@ -447,7 +447,8 @@ def cross_reading(char, reading, kind):
 def _panel_turn(char, solution):
     from chardata.spells_view import _best_combo
     try:
-        combo = _best_combo(char, solution, char.game_version or DEFAULT_VERSION)
+        combo = _best_combo(char, solution, char.game_version or DEFAULT_VERSION,
+                            note_without_buffs=False)
     except Exception:
         logger.exception('could not read the best turn of a guarded solve (char %s)', char.id)
         return None

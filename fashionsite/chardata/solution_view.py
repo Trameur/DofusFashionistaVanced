@@ -800,7 +800,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                          else get_solution(char))
         if _sol_for_turn is not None:
             _combo = _best_combo(char, _sol_for_turn,
-                                 getattr(request, 'game_version', 'dofus3'))
+                                 getattr(request, 'game_version', 'dofus3'),
+                                 note_without_buffs=False)
             best_turn = _combo['total'] if _combo else None
             if _combo:
                 # Same notes as the spell and compare pages
