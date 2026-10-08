@@ -62,7 +62,9 @@ class GameVersion:
 GAME_VERSIONS = {
     version.key: version for version in (
         GameVersion('dofus3', 'Dofus 3', 'items.db', 'item_db_dumped.dump',
-                    prefix='', seo_word='', family='dofus3'),
+                    prefix='', seo_word='',
+                    weapon_element_rate=1.0, element_potion_heals=False,
+                    family='dofus3'),
         GameVersion('beta', 'Beta', 'items_beta.db',
                     'item_db_dumped_beta.dump', seo_word='3 Beta',
                     weapon_element_rate=1.0, element_potion_heals=False,

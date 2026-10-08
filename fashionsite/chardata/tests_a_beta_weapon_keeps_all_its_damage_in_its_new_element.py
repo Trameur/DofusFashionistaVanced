@@ -38,12 +38,12 @@ class ABetaWeaponKeepsAllItsDamageInItsNewElementTests(SimpleTestCase):
         self.assertEqual([(17, 28, FIRE, False)] * 2,
                          _rows(weapon.crit_hits[FIRE]))
 
-    def test_dofus3_still_keeps_85_percent_of_the_roll(self):
+    def test_dofus3_keeps_the_whole_roll_in_its_new_element(self):
         weapon = get_structure('dofus3').get_weapon_by_name(_KUKRI)
         self.assertEqual([(10, 21, NEUTRAL, False)] * 2, _rows(weapon.base_hit))
-        self.assertEqual([(8, 17, FIRE, False)] * 2,
+        self.assertEqual([(10, 21, FIRE, False)] * 2,
                          _rows(weapon.non_crit_hits[FIRE]))
-        self.assertEqual([(15, 24, FIRE, False)] * 2,
+        self.assertEqual([(17, 28, FIRE, False)] * 2,
                          _rows(weapon.crit_hits[FIRE]))
 
     def test_a_neutral_heal_stays_neutral_on_the_beta(self):
@@ -97,9 +97,9 @@ class TheTurnSwingsTheWeaponAsItsVersionConvertsItTests(SimpleTestCase):
                           [(17, 28, FIRE, False)] * 2),
                          self._swing('beta'))
 
-    def test_dofus3_swings_85_percent_of_it(self):
-        self.assertEqual((FIRE, [(8, 17, FIRE, False)] * 2,
-                          [(15, 24, FIRE, False)] * 2),
+    def test_dofus3_swings_the_whole_roll(self):
+        self.assertEqual((FIRE, [(10, 21, FIRE, False)] * 2,
+                          [(17, 28, FIRE, False)] * 2),
                          self._swing('dofus3'))
 
 
