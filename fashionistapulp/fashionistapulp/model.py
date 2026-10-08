@@ -418,15 +418,19 @@ class Model:
                                sparkling_silver_dofus_new_stat_weight_pow)
         
         #TODO: find better way to add weight to Crocobur
-        #Adding more weight to Crocobur equivalent to 200 HP * meleeness
-        #At the start of each turn, the bearer inflicts damage on themself in their best attack element to steal health from adjacent entities at the end of the caster's turn.
+        #Adding more weight to Crocobur equivalent to 100 HP + 140 HP * share of melee attacks
+        #At the start of each turn, the bearer inflicts 15 damage on themself in their best attack element to inflict the same amount of health-steal damage on adjacent entities at the end of the bearer's turn. Also heals attackers by 7% of damage inflicted on enemies hit for 2 turns (stackable 1 time).
+        melee_weight = max(objective_values.get('permedam', 0), 0)
+        ranged_weight = max(objective_values.get('perrandam', 0), 0)
+        melee_share = melee_weight / (melee_weight + ranged_weight) if melee_weight + ranged_weight else 0
+        crocobur_self_heal = 0.07 * 10 * level * melee_share
         self.problem.add_to_of('p', 
                                self.structure.get_item_by_name("Crocobur 3").id, 
-                               objective_values.get('hp', 0) * level / 2 + objective_values.get('perrandam', 0) * level / 200)
+                               objective_values.get('hp', 0) * (level / 2 + crocobur_self_heal) + objective_values.get('perrandam', 0) * level / 200)
         
         #Buhorado Feather
-        #When the bearer lands a critical hit, they gain 10 Pushback Damage for 3 turns (stackable 10 times).
-        buhorado_feather_new_stat_weight = objective_values.get('pshdam', 0) * 45 * objective_values.get('ch', 0) / 100
+        #When the bearer lands a critical hit, they gain 10 Pushback Damage for 3 turns.
+        buhorado_feather_new_stat_weight = objective_values.get('pshdam', 0) * 50 * objective_values.get('ch', 0) / 100
         self.problem.add_to_of('p', 
                                self.structure.get_item_by_name("Buhorado Feather").id, 
                                buhorado_feather_new_stat_weight)
@@ -489,11 +493,14 @@ class Model:
                                self.structure.get_item_by_name("Kicked Ass Boots").id, 
                                objective_values.get('dodge', 0) * 30 + objective_values.get('pshdam', 0) * 50)
         
-        #Adding more weight to Dodge's Audacity equivalent to 50 dodge, 5% critical hits and 40 pushback damage
-        #At the start of each turn, the caster randomly teleports to an adjacent cell. If the move is impossible, they earn a +10% chance of critical hits and +80 Pushback Damage for 1 turn.
+        #Adding more weight to Dodge's Audacity equivalent to 0.375 MP, 7.5% critical hits, 10 dodge and 10 pushback damage
+        #At the start of each turn, the bearer teleports or switches places to a random adjacent cell and gains 1 MP and 10% Critical, or is not moved and gains 40 Dodge and Pushback Damage, for 1 turn.
+        dodge_moved_share = 0.75
+        dodge_audacity_new_stat_weight = (dodge_moved_share * (objective_values.get('mp', 0) * 0.5 + objective_values.get('ch', 0) * 10)
+                                          + (1 - dodge_moved_share) * (objective_values.get('dodge', 0) + objective_values.get('pshdam', 0)) * 40)
         self.problem.add_to_of('p', 
                                self.structure.get_item_by_name("Dodge's Audacity").id, 
-                               objective_values.get('dodge', 0) * 50 + objective_values.get('ch', 0) * 5 + objective_values.get('pshdam', 0) * 40)
+                               dodge_audacity_new_stat_weight)
         
         #Adding more weight to Lady Jhessica's Courage equivalent to 25 Lock
         #At end of their turn, the bearer removes 100 Dodge from adjacent enemies for 1 turn.
