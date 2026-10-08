@@ -1868,7 +1868,7 @@ GUIDES = {
 <p>Item stats, recipes and spells are different across versions. A build that's perfect on the live game can be nonsense on Retro, where half the items don't exist and the rules are old-school. So the first thing to get right is: which version are you actually playing? Pick it when you create a build, or switch any time with the version selector at the top of the page.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>The current game. This is the default, kept up to date with the latest patch, including the 3.6 characteristic rework and the newest items. If you just play Dofus on a regular server, this is you.</p>
+<p>The current game. This is the default, kept up to date with the latest patch and the newest items. If you just play Dofus on a regular server, this is you.</p>
 
 <h2>Beta</h2>
 <p>The test server, where Ankama trials upcoming changes before they go live. Handy if you want to plan a build around what's coming. Just remember the data moves around and can change overnight: it's a preview, not gospel.</p>
@@ -1894,7 +1894,7 @@ GUIDES = {
 <p>Les stats des items, les recettes et les sorts changent d'une version à l'autre. Un build parfait sur la live peut être n'importe quoi sur Retro, où la moitié des items n'existe pas et où les règles sont à l'ancienne. Donc le premier truc à caler, c'est : tu joues à quelle version, vraiment ? Choisis-la en créant ton build, ou change quand tu veux avec le sélecteur de version en haut de la page.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>Le jeu actuel. C'est le défaut, tenu à jour avec le dernier patch, refonte des caracs 3.6 et derniers items inclus. Si tu joues juste à Dofus sur un serveur classique, c'est toi.</p>
+<p>Le jeu actuel. C'est le défaut, tenu à jour avec le dernier patch et les derniers items. Si tu joues juste à Dofus sur un serveur classique, c'est toi.</p>
 
 <h2>Bêta</h2>
 <p>Le serveur de test, là où Ankama essaie les changements à venir avant qu'ils passent en live. Pratique pour préparer un build autour de ce qui arrive. Garde juste en tête que la donnée bouge et peut changer du jour au lendemain : c'est un aperçu, pas parole d'évangile.</p>
@@ -1920,7 +1920,7 @@ GUIDES = {
 <p>Las estadísticas de los ítems, las recetas y los hechizos cambian entre versiones. Un build perfecto en la live puede ser un disparate en Retro, donde la mitad de los ítems no existe y las reglas son a la antigua. Así que lo primero que hay que acertar es: ¿en qué versión juegas de verdad? Elígela al crear el build, o cámbiala cuando quieras con el selector de versión arriba.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>El juego actual. Es la opción por defecto, al día con el último parche, incluido el rework de características de 3.6 y los ítems más nuevos. Si juegas a Dofus en un servidor normal, esta eres tú.</p>
+<p>El juego actual. Es la opción por defecto, al día con el último parche y los ítems más nuevos. Si juegas a Dofus en un servidor normal, esta eres tú.</p>
 
 <h2>Beta</h2>
 <p>El servidor de pruebas, donde Ankama ensaya los cambios que vienen antes de que lleguen a la live. Útil para planear un build alrededor de lo que viene. Solo recuerda que los datos se mueven y pueden cambiar de un día para otro: es un adelanto, no una verdad absoluta.</p>
@@ -1946,7 +1946,7 @@ GUIDES = {
 <p>Os atributos dos itens, as receitas e os feitiços mudam de uma versão pra outra. Um build perfeito na live pode ser uma furada no Retro, onde metade dos itens não existe e as regras são old-school. Então a primeira coisa a acertar é: em qual versão você joga de verdade? Escolha ao criar o build, ou troque quando quiser no seletor de versão no topo da página.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>O jogo atual. É o padrão, mantido em dia com o último patch, incluindo a reformulação de características da 3.6 e os itens mais novos. Se você joga Dofus num servidor normal, é você.</p>
+<p>O jogo atual. É o padrão, mantido em dia com o último patch e os itens mais novos. Se você joga Dofus num servidor normal, é você.</p>
 
 <h2>Beta</h2>
 <p>O servidor de testes, onde a Ankama experimenta as mudanças que vêm aí antes de irem pra live. Útil pra planejar um build em torno do que está chegando. Só lembre que os dados mudam e podem virar de uma hora pra outra: é uma prévia, não verdade absoluta.</p>
@@ -1972,7 +1972,7 @@ GUIDES = {
 <p>Item-Werte, Rezepte und Zauber unterscheiden sich zwischen den Versionen. Ein Build, das auf dem Live-Spiel perfekt ist, kann auf Retro Unsinn sein, wo die Hälfte der Items nicht existiert und die Regeln altmodisch sind. Das Erste, was du richtig setzen musst, ist also: Welche Version spielst du eigentlich? Wähl sie beim Anlegen eines Builds, oder wechsle jederzeit mit der Versionsauswahl oben auf der Seite.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>Das aktuelle Spiel. Das ist die Voreinstellung, auf dem neuesten Patch gehalten, inklusive Charakterwerte-Rework der 3.6 und der neuesten Items. Wenn du einfach Dofus auf einem normalen Server spielst, bist das du.</p>
+<p>Das aktuelle Spiel. Das ist die Voreinstellung, auf dem neuesten Patch gehalten, mit den neuesten Items. Wenn du einfach Dofus auf einem normalen Server spielst, bist das du.</p>
 
 <h2>Beta</h2>
 <p>Der Testserver, auf dem Ankama kommende Änderungen ausprobiert, bevor sie live gehen. Praktisch, um ein Build um das zu planen, was kommt. Denk nur dran, dass sich die Daten verschieben und über Nacht ändern können: es ist eine Vorschau, kein Evangelium.</p>
