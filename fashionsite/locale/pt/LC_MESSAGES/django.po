@@ -9263,6 +9263,10 @@ msgid "Strong smithmagic potions now turn a weapon's neutral damage lines into t
 msgstr "As poções de forjamagia fortes agora convertem por completo as linhas de danos Neutro de uma arma para o elemento delas e deixam as linhas de roubo e de cura como estão."
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "On the weapon card, each build now chooses its potion, engraving and shard, and its damage follows that choice."
+msgstr "No cartão da arma, cada build agora escolhe sua poção, sua gravura e seu fragmento, e os danos seguem essa escolha."
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "Trophies that limit sets now allow one equipped set of any size: the optimizer respects it, and a build that breaks it shows the condition in red."
 msgstr "Os troféus que limitam os conjuntos agora permitem um único conjunto equipado, de qualquer tamanho: o otimizador respeita essa regra, e um build que a quebra mostra a condição em vermelho."
 

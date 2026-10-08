@@ -223,6 +223,13 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
             expected = base if kept else (base[0], base[1], FIRE, False, False)
             self.assertEqual(expected, maged)
 
+    def test_each_build_chooses_its_potion_engraving_and_shard_on_the_weapon_card(self):
+        from fashionistapulp import weapon_forge
+        for kind in ('damage', 'steal', 'heal'):
+            self.assertTrue(weapon_forge.offer('dofus3', kind), kind)
+        self.assertIn('solution-weapon-forge-select', self._template('solution_item.html'))
+        self.assertIn('/setweaponforge/', self._template('solution.html'))
+
     def test_a_trophy_that_limits_sets_allows_one_and_paints_a_second_red(self):
         from types import SimpleNamespace
         from chardata.solution_result import SetsEquippedConditionLine

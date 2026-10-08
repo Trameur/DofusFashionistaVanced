@@ -8228,6 +8228,10 @@ msgid "Strong smithmagic potions now turn a weapon's neutral damage lines into t
 msgstr ""
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "On the weapon card, each build now chooses its potion, engraving and shard, and its damage follows that choice."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "Trophies that limit sets now allow one equipped set of any size: the optimizer respects it, and a build that breaks it shows the condition in red."
 msgstr ""
 

@@ -9266,6 +9266,10 @@ msgid "Strong smithmagic potions now turn a weapon's neutral damage lines into t
 msgstr "Starke Schmiedemagie-Tränke wandeln die Neutralschaden-Zeilen einer Waffe jetzt vollständig in ihr Element um, die Raub- und Heilungszeilen der Waffe bleiben unverändert."
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "On the weapon card, each build now chooses its potion, engraving and shard, and its damage follows that choice."
+msgstr "Auf der Waffenkarte wählt jeder Build jetzt seinen Trank, seine Gravur und seinen Splitter, und sein Schaden folgt dieser Wahl."
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "Trophies that limit sets now allow one equipped set of any size: the optimizer respects it, and a build that breaks it shows the condition in red."
 msgstr "Trophäen, die Sets begrenzen, erlauben jetzt ein einziges ausgerüstetes Set beliebiger Größe: Der Optimierer hält sich an diese Regel, und ein Build, der sie bricht, zeigt die Bedingung in Rot."
 
