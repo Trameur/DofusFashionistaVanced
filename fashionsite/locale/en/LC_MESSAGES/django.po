@@ -8244,7 +8244,7 @@ msgid "Weights and minimums on one page"
 msgstr ""
 
 #: chardata/templates/chardata/changelog_content.html
-msgid "Weights and minimums share one page, opened from the sidebar or the set page: each characteristic has its weight, a slider and its minimum, grouped as in the wizard."
+msgid "Weights and minimums share one page, opened from the sidebar or the set page, and the wizard shows the same rows: each characteristic has its weight, a slider and its minimum."
 msgstr ""
 
 #: chardata/templates/chardata/changelog_content.html

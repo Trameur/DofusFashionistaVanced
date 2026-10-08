@@ -9334,8 +9334,8 @@ msgid "Weights and minimums on one page"
 msgstr "Poids et minimums sur une seule page"
 
 #: chardata/templates/chardata/changelog_content.html
-msgid "Weights and minimums share one page, opened from the sidebar or the set page: each characteristic has its weight, a slider and its minimum, grouped as in the wizard."
-msgstr "Poids et minimums partagent une seule page, ouverte depuis le menu latéral ou la page de l’équipement : chaque caractéristique a son poids, un curseur et son minimum, regroupés comme dans l’assistant."
+msgid "Weights and minimums share one page, opened from the sidebar or the set page, and the wizard shows the same rows: each characteristic has its weight, a slider and its minimum."
+msgstr "Poids et minimums partagent une seule page, ouverte depuis le menu latéral ou la page de l’équipement, et l’assistant affiche les mêmes lignes : chaque caractéristique a son poids, un curseur et son minimum."
 
 #: chardata/templates/chardata/changelog_content.html
 msgid "A build can be copied between Dofus 3 and Dofus 3 Beta, and the copy lists the pieces the other version lacks."
