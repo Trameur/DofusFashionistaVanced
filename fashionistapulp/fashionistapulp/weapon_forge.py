@@ -64,6 +64,39 @@ def applied_rate(version, kind, tier):
     return found
 
 
+def rate_published(version):
+    return _table(version).get('rate_published', True)
+
+
+def offered_tiers(version, kind):
+    return tuple(tier for tier in tiers(version, kind)
+                 if applied_rate(version, kind, tier) is not None)
+
+
+def percent(version, kind, tier):
+    found = applied_rate(version, kind, tier)
+    return None if found is None else int(round(found * 100))
+
+
+def row(version, kind, element, tier):
+    for entry in _table(version)['conversions']:
+        if (entry['kind'], entry['element'], entry['tier']) == (kind, element, tier):
+            return entry
+    return None
+
+
+def offer(version, kind):
+    return [(element, tier) for tier in offered_tiers(version, kind)
+            for element in ELEMENTS if row(version, kind, element, tier) is not None]
+
+
+def item_name(version, kind, element, tier, language):
+    found = row(version, kind, element, tier)
+    if found is None:
+        return None
+    return found['names'].get(language) or found['names'].get(FALLBACK_LANGUAGE)
+
+
 def can_forge(version, ankama_id):
     if not kinds(version):
         return False
@@ -199,6 +232,23 @@ def read_choice(text):
               and entry[0] in ELEMENTS and entry[1] in TIERS):
             choice[kind] = (entry[0], entry[1])
     return choice
+
+
+def read_option(version, kind, text):
+    element, _sep, tier = (text or '').partition(':')
+    if (element, tier) in offer(version, kind):
+        return element, tier
+    return None
+
+
+def write_option(element, tier):
+    return '%s:%s' % (element, tier)
+
+
+def applied(chosen):
+    chosen = chosen or {}
+    return [(kind, chosen[kind][0], chosen[kind][1]) for kind in KINDS
+            if kind in chosen and chosen[kind][0] != NEUTRAL]
 
 
 def write_choice(choice):

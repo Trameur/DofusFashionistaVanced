@@ -6,6 +6,8 @@ import pickle
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.test import SimpleTestCase, TestCase
+from django.utils import translation
+from django.utils.html import escape
 
 from chardata import spell_modifier_values as modifier_values
 from chardata.item_exchange import _get_weapon_rate
@@ -321,16 +323,23 @@ class TheItemPickerRatesTheBuildsOwnRowsTests(SimpleTestCase):
                            _get_weapon_rate(sacrier, None, result))
 
 
-class TheWeaponCardListsTheCatalogueLinesTests(SimpleTestCase):
+class TheWeaponCardNamesOnlyTheConversionsItAppliesTests(SimpleTestCase):
 
-    def test_the_card_reads_the_same_whatever_the_forge_choice(self):
+    def test_auto_names_the_engraving_and_the_shard_and_neutral_names_none(self):
         _result, auto = _worn(self, 'beta', _MALLEFISK_WAND, Intelligence=500)
         _result, neutral = _worn(self, 'beta', _MALLEFISK_WAND,
                                  {'steal': None, 'heal': None}, Intelligence=500)
         self.assertEqual((FIRE, NEUTRAL), (auto.steal_element, neutral.steal_element))
-        evolve_result_item(auto)
-        evolve_result_item(neutral)
-        self.assertEqual(neutral.damage_text, auto.damage_text)
+        with translation.override('en'):
+            evolve_result_item(auto)
+            evolve_result_item(neutral)
+        for kind in ('steal', 'heal'):
+            name = escape(weapon_forge.item_name('beta', kind, FIRE, 'strong', 'en'))
+            with self.subTest(kind=kind):
+                self.assertIn(name, auto.damage_text)
+                self.assertNotIn(name, neutral.damage_text)
+        self.assertEqual(auto.damage_text.split('<br>')[0],
+                         neutral.damage_text.split('<br>')[0])
 
 
 class EachChoiceKeepsItsOwnTurnGainsTests(SimpleTestCase):

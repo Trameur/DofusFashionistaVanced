@@ -17,6 +17,7 @@
 import logging
 
 from django.conf import settings
+from django.utils.html import escape
 from django.utils.translation import get_language, gettext as _
 import json
 
@@ -43,6 +44,7 @@ from chardata.transcendence_advice import best_transcendence
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
+from chardata.weapon_forge_text import controls as forge_controls, conversion_lines
 from chardata.wear_conditions import (class_condition_text,
                                       max_level_condition_text,
                                       name_condition_text,
@@ -472,10 +474,21 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
             result_item.crit_chance, result_item.crit_bonus)
         if header:
             damage_lines.append(header)
-        for hit in result_item.forge_base or result_item.non_crit_hits[NEUTRAL]:
-            damage_lines.append(format_weapon_hit(get_current_game_version(),
-                                                  hit, LOCALIZED_ELEMENTS))
+        version = get_current_game_version()
+        conversions = getattr(result_item, 'conversions', None)
+        forge_lines = conversion_lines(version, conversions)
+        damage_lines.extend(escape(line) for line in forge_lines)
+        if forge_lines:
+            shown = result_item.non_crit_hits[result_item.element_maged
+                                              if result_item.is_mageable else NEUTRAL]
+        else:
+            shown = result_item.forge_base or result_item.non_crit_hits[NEUTRAL]
+        for hit in shown:
+            damage_lines.append(format_weapon_hit(version, hit, LOCALIZED_ELEMENTS))
         result_item.damage_text = '<br>'.join(damage_lines)
+        result_item.forge_controls = (
+            forge_controls(version, conversions, getattr(r, 'forge_choice', None))
+            if r is not None and conversions else [])
 
     result_item.file = static(get_image_url(result_item.type, result_item.name))
     if settings.EXPERIMENTS['ITEM_LINKS']:

@@ -29,6 +29,7 @@ from chardata.spell_modifiers import (base_damage_bonus, bonus_stats,
 from chardata.spell_reference import (get_spell_reference, localized,
                                       reference_by_spell_id, state_name)
 from chardata.util import set_response, get_char_or_raise
+from chardata.weapon_forge_text import conversion_lines
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -36,6 +37,7 @@ from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy as _lazy
 from fashionistapulp.reserved_filenames import safe_asset_stem
+from fashionistapulp.structure import get_current_game_version
 from fashionistapulp.translation import get_supported_language
 
 from fashionistapulp.dofus_constants import (DAMAGE_TYPES, NEUTRAL,
@@ -307,6 +309,9 @@ def _create_weapon_web_digest(weapon):
         web_digest['type'] = 'weapon_non_mageable'
     web_digest['name'] = weapon.localized_name
     web_digest['level'] = weapon.level
+    web_digest['item_notes'] = conversion_lines(
+        get_current_game_version(), getattr(weapon, 'conversions', None),
+        kinds=('steal', 'heal'))
     web_digest['image_url'] = static(get_image_url(weapon.type, weapon.name))
     # Same fields as a spell's reference
     web_digest['reference'] = {
