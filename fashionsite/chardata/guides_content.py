@@ -8,7 +8,10 @@ ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-
 
 
 import logging
+import os
+import pathlib
 import re
+import sqlite3
 import weakref
 from itertools import zip_longest
 
@@ -3734,7 +3737,8 @@ GUIDES = {
 
 <h2>Reading a monster's card</h2>
 <p>Open a monster in the <a href="/encyclopedia/monsters/">bestiary</a>: its card lists resistances element by element, and when one element clearly hurts it more than the rest, that weakness is highlighted. You can also filter the whole bestiary by weakness, which answers the practical question: which monsters should my earth build farm? Keep in mind that the same monster often resists more in its stronger versions, so a family that melts at low level can shrug off that element later on. (Not every card names one. When a monster's grades disagree about which element is weakest, the page marks each grade and leaves the summary blank rather than guess.)</p>
-
+[[if-monsters:push-weak]]<p>On [[version]], a weakness is not always an element. Some monsters carry a negative <strong>Pushback Resistance</strong> on their card, and that value works like extra Pushback Damage on every push you land on them. Against those, a push into a wall or another fighter is worth more than usual, and the Pushback Damage in your build pays off.</p>
+[[/if-monsters]]
 <h2>Turning a weakness into a build</h2>
 <p>If the monsters you farm share a weakness your class can hit, lean into it: weight that element and its characteristic (Strength for earth, Intelligence for fire, Agility for air, Chance for water) high in the optimizer and let it chase the gear that pushes that element. A <a href="/guides/mono-vs-multi-element/">focused build</a> multiplies what the weakness already gives you. That is how farming builds are born: not made for everything, made for the dungeon you run twenty times.</p>
 
@@ -3754,7 +3758,8 @@ GUIDES = {
 
 <h2>Lire la fiche d'un monstre</h2>
 <p>Ouvre un monstre dans le <a href="/encyclopedia/monsters/">bestiaire</a> : sa fiche liste les résistances élément par élément, et quand un élément lui fait clairement plus mal que les autres, cette faiblesse est mise en évidence. Tu peux aussi filtrer tout le bestiaire par faiblesse, ce qui répond à la vraie question : quels monstres mon build terre devrait-il farmer ? Garde en tête qu'un même monstre résiste souvent plus dans ses versions plus fortes : une famille qui fond à bas niveau peut encaisser cet élément plus tard. (Toutes les fiches n'en nomment pas une. Quand les grades d'un monstre ne s'accordent pas sur l'élément le plus faible, la page marque chaque grade et laisse le résumé vide plutôt que de deviner.)</p>
-
+[[if-monsters:push-weak]]<p>Sur [[version]], une faiblesse n'est pas toujours un élément. Certains monstres affichent une <strong>Résistance Poussée</strong> négative sur leur fiche, et cette valeur agit comme des Dommages Poussée en plus sur chaque poussée que tu leur infliges. Contre eux, une poussée dans un mur ou dans un autre combattant vaut plus que d'habitude, et les Dommages Poussée de ton build rapportent.</p>
+[[/if-monsters]]
 <h2>Transformer une faiblesse en build</h2>
 <p>Si les monstres que tu farmes partagent une faiblesse que ta classe peut exploiter, fonce : mets un gros poids sur cet élément et sa caractéristique (Force pour la terre, Intelligence pour le feu, Agilité pour l'air, Chance pour l'eau) dans l'optimiseur et laisse-le chercher le stuff qui booste cet élément. Un <a href="/guides/mono-vs-multi-element/">build mono-élément</a> multiplie ce que la faiblesse te donne déjà. C'est comme ça que naissent les builds de farm : pas faits pour tout, faits pour le donjon que tu refais vingt fois.</p>
 
@@ -3774,7 +3779,8 @@ GUIDES = {
 
 <h2>Leer la ficha de un monstruo</h2>
 <p>Abre un monstruo en el <a href="/encyclopedia/monsters/">bestiario</a>: su ficha muestra las resistencias elemento a elemento, y cuando uno le duele claramente más que el resto, esa debilidad aparece resaltada. También puedes filtrar todo el bestiario por debilidad, lo que responde a la pregunta práctica: ¿qué monstruos debería farmear mi build de tierra? Ten en cuenta que un mismo monstruo a menudo resiste más en sus versiones más fuertes: una familia que se derrite a bajo nivel puede aguantar ese mismo elemento más adelante. (No todas las fichas nombran uno. Cuando los grados de un monstruo no coinciden en cuál es el elemento más débil, la página marca cada grado y deja el resumen vacío en lugar de adivinar.)</p>
-
+[[if-monsters:push-weak]]<p>En [[version]], una debilidad no siempre es un elemento. Algunos monstruos muestran una <strong>Resistencia al empuje</strong> negativa en su ficha, y ese valor funciona como Daños de Empuje extra en cada empuje que les haces. Contra ellos, empujarlos contra una pared o contra otro luchador vale más de lo normal, y los Daños de Empuje de tu build rinden.</p>
+[[/if-monsters]]
 <h2>Convertir una debilidad en un build</h2>
 <p>Si los monstruos que farmeas comparten una debilidad que tu clase puede explotar, apuesta por ella: dale un peso alto a ese elemento y a su característica (Fuerza para tierra, Inteligencia para fuego, Agilidad para aire, Suerte para agua) en el optimizador y deja que persiga el equipo que potencia ese elemento. Un <a href="/guides/mono-vs-multi-element/">build concentrado</a> multiplica lo que la debilidad ya te da. Así nacen los builds de farmeo: no hechos para todo, hechos para la mazmorra que repites veinte veces.</p>
 
@@ -3794,7 +3800,8 @@ GUIDES = {
 
 <h2>Ler a ficha de um monstro</h2>
 <p>Abra um monstro no <a href="/encyclopedia/monsters/">bestiário</a>: a ficha lista as resistências elemento por elemento, e quando um deles machuca claramente mais que os outros, essa fraqueza aparece destacada. Você também pode filtrar o bestiário inteiro por fraqueza, o que responde à pergunta prática: quais monstros meu build de terra deveria farmar? Lembre que um mesmo monstro muitas vezes resiste mais nas versões mais fortes: uma família que derrete em nível baixo pode aguentar esse mesmo elemento mais adiante. (Nem toda ficha nomeia um. Quando os graus de um monstro discordam sobre qual é o elemento mais fraco, a página marca cada grau e deixa o resumo vazio em vez de adivinhar.)</p>
-
+[[if-monsters:push-weak]]<p>No [[version]], uma fraqueza nem sempre é um elemento. Alguns monstros mostram uma <strong>Resistência a empurrão</strong> negativa na ficha, e esse valor funciona como Danos de Empurrão extras em cada empurrão que você aplica neles. Contra eles, empurrar contra uma parede ou contra outro lutador vale mais do que o normal, e os Danos de Empurrão do seu build compensam.</p>
+[[/if-monsters]]
 <h2>Transformar uma fraqueza em build</h2>
 <p>Se os monstros que você farma têm uma fraqueza em comum que sua classe consegue atingir, aposte nela: dê peso alto a esse elemento e à característica dele (Força para terra, Inteligência para fogo, Agilidade para ar, Sorte para água) no otimizador e deixe ele caçar o equipamento que impulsiona esse elemento. Um <a href="/guides/mono-vs-multi-element/">build concentrado</a> multiplica o que a fraqueza já te dá. É assim que nascem os builds de farm: não feitos para tudo, feitos para a masmorra que você repete vinte vezes.</p>
 
@@ -3814,7 +3821,8 @@ GUIDES = {
 
 <h2>Den Steckbrief eines Monsters lesen</h2>
 <p>Öffne ein Monster im <a href="/encyclopedia/monsters/">Bestiarium</a>: sein Steckbrief listet die Resistenzen Element für Element, und wenn ihm ein Element deutlich mehr wehtut als der Rest, ist diese Schwäche hervorgehoben. Du kannst das ganze Bestiarium auch nach Schwäche filtern, was die praktische Frage beantwortet: welche Monster sollte mein Erd-Build farmen? Denk daran, dass dasselbe Monster in seinen stärkeren Varianten oft mehr aushält: eine Familie, die auf niedriger Stufe schmilzt, kann dasselbe Element später wegstecken. (Nicht jede Karte nennt eines. Wenn sich die Stufen eines Monsters uneinig sind, welches Element am schwächsten ist, markiert die Seite jede Stufe einzeln und lässt die Zusammenfassung leer, statt zu raten.)</p>
-
+[[if-monsters:push-weak]]<p>In [[version]] ist eine Schwäche nicht immer ein Element. Manche Monster zeigen in ihrem Steckbrief eine negative <strong>Schubsresistenz</strong>, und dieser Wert wirkt wie zusätzlicher Schubsschaden bei jedem Schubs, den du ihnen verpasst. Gegen sie bringt ein Schubs gegen eine Wand oder einen anderen Kämpfer mehr als sonst, und der Schubsschaden in deinem Build zahlt sich aus.</p>
+[[/if-monsters]]
 <h2>Aus einer Schwäche ein Build machen</h2>
 <p>Wenn die Monster, die du farmst, eine Schwäche teilen, die deine Klasse treffen kann, zieh es durch: gewichte dieses Element und seinen Wert (Stärke für Erde, Intelligenz für Feuer, Flinkheit für Luft, Glück für Wasser) im Optimierer hoch und lass ihn die Ausrüstung suchen, die das Element pusht. Ein <a href="/guides/mono-vs-multi-element/">fokussiertes Build</a> multipliziert, was die Schwäche dir schon schenkt. So entstehen Farm-Builds: nicht für alles gemacht, sondern für den Dungeon, den du zwanzigmal läufst.</p>
 
@@ -5711,6 +5719,8 @@ def _differing_spell_names():
 _CATALOGUE = re.compile(
     r'\[\[(version|count|top|top-names|lines|name|level|trophy-condition)(?::([^\]]*))?\]\]')
 _IF_CARRIED = re.compile(r'\[\[if:(\d+)(?::(lines|nolines))?\]\](.*?)\[\[/if\]\]', re.S)
+_IF_MONSTERS = re.compile(r'\[\[if-monsters:([a-z-]+)\]\](.*?)\[\[/if-monsters\]\]', re.S)
+_MONSTER_CONDITIONS = {'push-weak': 'push_damage_reduction < 0'}
 # The version whose Dofus slot the piece tokens read
 _SLOT_VERSION = '[[slot-version]]'
 _AND ={'en': 'and', 'fr': 'et', 'es': 'y', 'pt': 'e', 'de': 'und'}
@@ -5946,11 +5956,47 @@ def _keep_carried_passages(text, game_version):
     return _IF_CARRIED.sub(keep, text)
 
 
+_MONSTER_COUNTS = {}
+
+
+def _monster_count(game_version, kind):
+    from fashionistapulp.fashionista_config import get_items_db_path
+    path = get_items_db_path(game_version)
+    stamp = os.path.getmtime(path)
+    cached = _MONSTER_COUNTS.get((game_version, kind))
+    if cached is not None and cached[0] == stamp:
+        return cached[1]
+    connection = sqlite3.connect(pathlib.Path(path).as_uri() + '?mode=ro', uri=True)
+    try:
+        count = connection.execute(
+            'SELECT COUNT(DISTINCT monster_ankama_id) FROM monster_grades WHERE %s'
+            % _MONSTER_CONDITIONS[kind]).fetchone()[0]
+    except sqlite3.OperationalError:
+        count = 0
+    finally:
+        connection.close()
+    _MONSTER_COUNTS[(game_version, kind)] = (stamp, count)
+    return count
+
+
+def _keep_monster_passages(text, game_version):
+    def keep(match):
+        try:
+            count = _monster_count(game_version, match.group(1))
+        except Exception:
+            logger.exception('guide: cannot resolve %s on %s',
+                             match.group(0)[:40], game_version)
+            count = 0
+        return match.group(2) if count else ''
+    return _IF_MONSTERS.sub(keep, text)
+
+
 def _fill_measured_numbers(body, game_version, language='en'):
     """Replace the guide tokens with what the version's data says today."""
     if '[[' not in body:
         return body
     body = _keep_carried_passages(body, game_version)
+    body = _keep_monster_passages(body, game_version)
     if _SLOT_VERSION in body:
         body = body.replace(_SLOT_VERSION,
                             '[[version:%s]]' % _slot_catalogue(game_version)[0])
