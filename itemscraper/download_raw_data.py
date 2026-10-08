@@ -100,14 +100,15 @@ def download_assets(
     filters: Optional[List[str]] = None,
     skip_existing: bool = True,
     list_only: bool = False,
-) -> None:
+) -> List[str]:
     release = _fetch_release_json(repo, tag)
     assets = release.get("assets", [])
     if not assets:
         print(f"No assets found for {repo}@{tag}")
-        return
+        return []
 
     target_dir = dest_root / tag
+    matched = []
     for asset in assets:
         name = asset.get("name")
         url = asset.get("browser_download_url")
@@ -121,6 +122,7 @@ def download_assets(
         human = _human_size(size)
         status = "exists" if dest_path.exists() else "missing"
         print(f"- {name} ({human}) -> {dest_path} [{status}]")
+        matched.append(name)
 
         if list_only:
             continue
@@ -128,6 +130,7 @@ def download_assets(
             continue
 
         _download(url, dest_path)
+    return matched
 
 
 def parse_args(argv: Optional[Iterable[str]] = None) -> argparse.Namespace:

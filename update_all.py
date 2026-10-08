@@ -269,21 +269,37 @@ def complete_release(version, tag, needed):
     return release
 
 
-def importable_release(version, served, official, warnings):
-    """(tag, release): the Ankama client's version when dofusdude has its full release, else the API's."""
-    if version in ITEMS_FROM_RELEASE and official != served and re.fullmatch(GAME_VERSION, official):
+def version_number(version):
+    return tuple(map(int, version.split('.')))
+
+
+def newer(version, than):
+    return (all(re.fullmatch(GAME_VERSION, number) for number in (version, than))
+            and version_number(version) > version_number(than))
+
+
+def importable_release(version, served, official, current, warnings):
+    """(tag, release or None): the Ankama client's version when it is newer than the API's and dofusdude has
+    its full release; else the API's, or the local one when that release is missing and the API is older."""
+    if version in ITEMS_FROM_RELEASE and newer(official, served):
         try:
             release = complete_release(version, official, RELEASE_ASSETS | ITEM_ASSETS)
         except (OSError, ValueError, KeyError) as exc:
-            warnings.append('The Ankama client is %s but dofusdude has no complete %s release (%s): '
-                            'importing %s, the version its API serves.' % (official, official, exc, served))
+            missing = 'The Ankama client is %s but dofusdude has no complete %s release (%s)' % (official, official, exc)
         else:
             warnings.append('The dofusdude API still serves %s, the Ankama client is %s: '
                             'items come from the %s release files.' % (served, official, official))
             return official, release
+        if newer(current, served):
+            warnings.append('%s; the dofusdude API serves %s, older than the local %s: no change.'
+                            % (missing, served, current))
+            return current, None
+        warnings.append('%s: importing %s, the version its API serves.' % (missing, served))
+    elif newer(served, official):
+        warnings.append('The dofusdude API serves %s, newer than the Ankama client %s.' % (served, official))
     elif official != served:
         warnings.append('The Ankama client (%s) and the importable data (%s) differ.' % (official, served))
-    return served, complete_release(version, served, RELEASE_ASSETS)
+    return served, None
 
 
 def probe(version, catalog=None):
@@ -300,10 +316,12 @@ def probe(version, catalog=None):
         channel = {'dofus3': 'dofus3', 'beta': 'beta', 'dofus2': 'main'}[version]
         catalog = catalog or fetch_json(CYTRUS)
         result['official'] = catalog['games']['dofus']['platforms']['windows'][channel].split('_')[-1]
-        tag, release = importable_release(version, served, result['official'], result['warnings'])
         current = result['current']
-        if re.fullmatch(GAME_VERSION, current) and tuple(map(int, tag.split('.'))) < tuple(map(int, current.split('.'))):
+        tag, release = importable_release(version, served, result['official'], current, result['warnings'])
+        if newer(current, tag):
             raise ValueError('Source older than the local version: %s < %s; downgrade refused.' % (tag, current))
+        if release is None:
+            release = complete_release(version, tag, RELEASE_ASSETS if tag == served else RELEASE_ASSETS | ITEM_ASSETS)
         result['available'] = tag
         result['source'] = {'version': tag, 'archive': release['tag_name']}
         if served == tag:

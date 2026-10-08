@@ -44,8 +44,8 @@ def download_and_save(lang, category, endpoint, api_base, work_dir):
     api_url = f"{api_base}{lang}{endpoint}"
     response = requests.get(api_url, timeout=60)
     if response.status_code != 200:
-        print(f"Failed to retrieve {category} data for {lang}. Status code: {response.status_code}")
-        return
+        raise SystemExit(f"Failed to retrieve {category} data for {lang} from {api_url}. "
+                         f"Status code: {response.status_code}")
 
     save(work_dir, category, lang, response.json())
 
@@ -69,9 +69,9 @@ def read_json(path):
 
 
 def rebuild_from_release(repo, tag, api_base, work_dir, categories):
-    download_assets(repo, tag, RAW_DIR, filters=list(release_items.ASSETS), skip_existing=False)
+    listed = download_assets(repo, tag, RAW_DIR, filters=list(release_items.ASSETS), skip_existing=False)
     release_dir = RAW_DIR / tag
-    missing = [name for name in release_items.ASSETS if not (release_dir / name).is_file()]
+    missing = [name for name in release_items.ASSETS if name not in listed or not (release_dir / name).is_file()]
     if missing:
         raise SystemExit(f"Release {repo}@{tag} lacks {', '.join(missing)}: items cannot be rebuilt")
     items, sets, recipes = (read_json(release_dir / name) for name in release_items.ASSETS)
@@ -111,6 +111,11 @@ def main(argv=None):
     for lang in LANGUAGES:
         for category in categories:
             download_and_save(lang, category, endpoints[category], api_base, work_dir)
+    if args.tag:
+        served = served_version(api_base)
+        if served != args.tag:
+            raise SystemExit(f"The dofusdude API moved from {args.tag} to {served} during the download: "
+                             f"the item pages may mix both versions")
 
 
 if __name__ == '__main__':

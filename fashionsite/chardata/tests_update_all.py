@@ -143,8 +143,13 @@ class UpdateLauncherTests(TestCase):
     def release(self, *names, draft=False):
         return {'draft': draft, 'assets': [{'name': name} for name in names]}
 
-    def dofusdude_probe(self, key, served, client, releases):
-        catalog = {'games': {'dofus': {'platforms': {'windows': {key: '6.0_' + client}}}}}
+    def dofusdude_probe(self, key, served, client, releases, local=None):
+        channel = {'dofus3': 'dofus3', 'beta': 'beta', 'dofus2': 'main'}[key]
+        catalog = {'games': {'dofus': {'platforms': {'windows': {channel: '6.0_' + client}}}}}
+        if local:
+            (self.root / 'fashionista_version.py').write_text(
+                '%s = "%s"\n' % (updater.METADATA[key], local), encoding='utf-8')
+        self.fetched_releases = []
         def fetch(url):
             if url == updater.APIS[key] + 'meta/version':
                 return {'version': served, 'update_stamp': 'stamp'}
@@ -152,6 +157,7 @@ class UpdateLauncherTests(TestCase):
                 return catalog
             repo, tag = re.fullmatch(r'https://api\.github\.com/repos/dofusdude/([\w-]+)/releases/tags/(.+)', url).groups()
             self.assertEqual(updater.REPOS[key], repo)
+            self.fetched_releases.append(tag)
             if tag not in releases:
                 raise urllib.error.HTTPError(url, 404, 'Not Found', {}, None)
             return dict(releases[tag], tag_name=tag)
@@ -208,6 +214,78 @@ class UpdateLauncherTests(TestCase):
                 self.assertEqual(1, len(row['warnings']))
                 self.assertIn('Ankama client is 3.7.4.4', row['warnings'][0])
                 self.assertIn('importing 3.7.1.0', row['warnings'][0])
+
+    def test_a_version_imported_from_its_release_files_is_then_no_change(self):
+        for key in ('dofus3', 'beta'):
+            with self.subTest(key=key):
+                row = self.dofusdude_probe(key, '3.7.1.0', '3.7.4.4', {
+                    '3.7.1.0': self.release(*self.DATA_FILES),
+                    '3.7.4.4': self.release(*self.DATA_FILES, *self.ITEM_FILES)}, local='3.7.4.4')
+                self.assertIsNone(row['error'])
+                self.assertFalse(row['changed'])
+                self.assertEqual(('3.7.4.4', '3.7.4.4'), (row['current'], row['available']))
+                self.assertEqual('release files', row['items'])
+
+    def test_a_client_waiting_for_its_release_over_an_older_api_is_no_change(self):
+        row = self.dofusdude_probe('dofus3', '3.7.1.0', '3.7.5.0', {
+            '3.7.1.0': self.release(*self.DATA_FILES),
+            '3.7.4.4': self.release(*self.DATA_FILES, *self.ITEM_FILES)}, local='3.7.4.4')
+        self.assertIsNone(row['error'])
+        self.assertFalse(row['changed'])
+        self.assertEqual('3.7.4.4', row['available'])
+        self.assertEqual({'version': '3.7.4.4', 'archive': '3.7.4.4'}, row['source'])
+        self.assertEqual(1, len(row['warnings']))
+        for number in ('3.7.5.0', '3.7.1.0', '3.7.4.4'):
+            self.assertIn(number, row['warnings'][0])
+        self.assertIn('no change', row['warnings'][0])
+        self.assertEqual([], updater.selection('changed', [row]))
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            updater.show_versions([row])
+        self.assertIn('No change found', output.getvalue())
+
+    def test_an_api_newer_than_the_client_is_imported_with_a_warning(self):
+        row = self.dofusdude_probe('dofus3', '3.7.5.0', '3.7.4.4', {
+            '3.7.5.0': self.release(*self.DATA_FILES),
+            '3.7.4.4': self.release(*self.DATA_FILES, *self.ITEM_FILES)}, local='3.7.1.0')
+        self.assertIsNone(row['error'])
+        self.assertTrue(row['changed'])
+        self.assertEqual('3.7.5.0', row['available'])
+        self.assertEqual('dofusdude API', row['items'])
+        self.assertEqual(['The dofusdude API serves 3.7.5.0, newer than the Ankama client 3.7.4.4.'], row['warnings'])
+        self.assertEqual(['3.7.5.0'], self.fetched_releases)
+
+    def test_a_local_version_newer_than_the_client_and_the_api_is_refused(self):
+        with self.assertRaisesRegex(ValueError, r'3\.7\.4\.4 < 3\.7\.5\.0; downgrade refused'):
+            self.dofusdude_probe('dofus3', '3.7.1.0', '3.7.4.4', {
+                '3.7.1.0': self.release(*self.DATA_FILES),
+                '3.7.4.4': self.release(*self.DATA_FILES, *self.ITEM_FILES)}, local='3.7.5.0')
+
+    def test_dofus2_imports_what_its_api_serves_even_with_a_newer_complete_release(self):
+        row = self.dofusdude_probe('dofus2', '2.73.3.14', '2.73.3.15', {
+            '2.73.3.14': self.release(*self.DATA_FILES, *self.ITEM_FILES),
+            '2.73.3.15': self.release(*self.DATA_FILES, *self.ITEM_FILES)}, local='2.73.3.13')
+        self.assertIsNone(row['error'])
+        self.assertEqual('2.73.3.14', row['available'])
+        self.assertNotIn('items', row)
+        self.assertEqual(['2.73.3.14'], self.fetched_releases)
+
+    def test_the_dofus2_pipeline_reads_its_items_from_the_api_without_a_tag(self):
+        import update_data_dofus2
+        commands = {}
+        def run_step(label, command, cwd=None):
+            commands[label] = [str(part) for part in command]
+            return True, []
+        with mock.patch.object(update_data_dofus2, 'run_step', side_effect=run_step), \
+                mock.patch.object(update_data_dofus2, 'set_dofus2_version', side_effect=lambda version: version), \
+                mock.patch.object(update_data_dofus2.sys, 'argv', ['pipeline', '--version', '2.73.3.14', '--skip-images']), \
+                contextlib.redirect_stdout(io.StringIO()):
+            update_data_dofus2.main()
+        download = commands['items/download']
+        self.assertIn('get_equipments.py', download[1])
+        self.assertIn(updater.APIS['dofus2'], download)
+        self.assertNotIn('--tag', download)
+        self.assertNotIn('--repo', download)
 
     IMAGES = 'https://api.dofusdu.de/dofus3beta/v1/img/item'
     MAPPED_ITEMS = [
@@ -283,6 +361,45 @@ class UpdateLauncherTests(TestCase):
                                               'formatted': '30 Force'}]},
                            'equipment_ids': [10]}], pages['sets', 'fr']['sets'])
 
+    def mapped_item(self, ankama_id, category, item_type, **fields):
+        return dict({'ankama_id': ankama_id, 'name': {'fr': 'Objet %d' % ankama_id}, 'description': {'fr': ''},
+                     'type': {'name': {'fr': 'Type %d' % item_type}, 'itemTypeId': item_type, 'superTypeId': 9,
+                              'categoryId': category},
+                     'level': 1, 'iconId': ankama_id, 'pods': 1, 'conditions': None, 'effects': None}, **fields)
+
+    def mapped_effect(self, minimum, maximum, irrelevant, meta=False):
+        return {'min': minimum, 'max': maximum, 'type': {'fr': 'Effet'}, 'element_id': 1, 'is_meta': meta,
+                'active': True, 'min_max_irrelevant': irrelevant, 'templated': {'fr': 'Effet'}}
+
+    def test_the_release_conversion_keeps_the_api_shape_of_rare_rows(self):
+        items = [
+            self.mapped_item(10, 0, 1, conditions={'is_operand': False, 'relation': 'and', 'children': None},
+                             effects=[self.mapped_effect(5, 0, -2), self.mapped_effect(0, 0, 0, meta=True)]),
+            self.mapped_item(40, 0, 1), self.mapped_item(50, 1, 12),
+            self.mapped_item(60, 0, 242), self.mapped_item(70, 0, 245), self.mapped_item(80, 0, 246),
+        ]
+        recipes = [{'result_id': 10, 'entries': [{'item_id': 40, 'quantity': 1}, {'item_id': 50, 'quantity': 2}]}]
+        sets = [{'ankama_id': 5, 'name': {'fr': 'Panoplie'}, 'items': [10, 40], 'level': 1,
+                 'contains_cosmetics': False, 'contains_cosmetics_only': False,
+                 'effects': {'2': None, '3': [self.mapped_effect(1, 0, -1)]}}]
+        pages = release_items.rebuild(items, sets, recipes, self.IMAGES, ['equipment', 'mounts', 'sets'],
+                                      languages=['fr'])
+        equipment = {row['ankama_id']: row for row in pages['equipment', 'fr']['items']}
+        self.assertEqual([10, 40, 60, 70, 80], sorted(equipment))
+        weapon = equipment[10]
+        self.assertEqual({'is_operand': False, 'relation': 'and'}, weapon['conditions'])
+        self.assertEqual([(True, True, False), (True, True, True)],
+                         [(row['ignore_int_min'], row['ignore_int_max'], row['type']['is_meta'])
+                          for row in weapon['effects']])
+        self.assertEqual([{'item_ankama_id': 40, 'item_subtype': 'equipment', 'quantity': 1},
+                          {'item_ankama_id': 50, 'item_subtype': 'consumables', 'quantity': 2}], weapon['recipe'])
+        self.assertEqual([(60, 242), (70, 245)], [(row['ankama_id'], row['family']['ankama_id'])
+                                                  for row in pages['mounts', 'fr']['mounts']])
+        tiers = pages['sets', 'fr']['sets'][0]['effects']
+        self.assertEqual(['2', '3'], list(tiers))
+        self.assertIsNone(tiers['2'])
+        self.assertEqual([(False, True)], [(row['ignore_int_min'], row['ignore_int_max']) for row in tiers['3']])
+
     def test_an_unhandled_release_shape_stops_the_conversion(self):
         quest = copy.deepcopy(self.MAPPED_ITEMS)
         quest[0]['type']['categoryId'] = 3
@@ -298,21 +415,30 @@ class UpdateLauncherTests(TestCase):
                     release_items.rebuild(items, self.MAPPED_SETS, recipes, self.IMAGES,
                                           ['equipment', 'quest_items', 'resources'], languages=['fr'])
 
-    def item_download(self, served, *arguments):
+    def item_download(self, served, *arguments, failing=None, listed=release_items.ASSETS):
         work = self.root / 'items'
         api_calls = []
+        answers = iter([served] if isinstance(served, str) else served)
+        latest = []
         def download(repo, tag, dest_root, filters=None, skip_existing=True, list_only=False):
             self.assertEqual(sorted(release_items.ASSETS), sorted(filters))
             self.assertFalse(skip_existing)
             folder = dest_root / tag
-            folder.mkdir(parents=True)
+            folder.mkdir(parents=True, exist_ok=True)
             for name, rows in zip(release_items.ASSETS, (self.MAPPED_ITEMS, self.MAPPED_SETS, self.MAPPED_RECIPES)):
-                (folder / name).write_text(json.dumps(rows), encoding='utf-8')
+                if name in listed:
+                    (folder / name).write_text(json.dumps(rows), encoding='utf-8')
             api_calls.append(('release', repo, tag))
+            return list(listed)
         def get(url, timeout):
             api_calls.append(url)
-            body = {'version': served} if url.endswith('/meta/version') else {'items': []}
-            return mock.Mock(status_code=200, json=lambda: body, raise_for_status=lambda: None)
+            if url.endswith('/meta/version'):
+                latest[:] = [next(answers, latest[0] if latest else None)]
+                body = {'version': latest[0]}
+            else:
+                body = {'items': []}
+            status = 500 if failing and url.endswith(failing) else 200
+            return mock.Mock(status_code=status, json=lambda: body, raise_for_status=lambda: None)
         output = io.StringIO()
         with mock.patch.object(get_equipments, 'RAW_DIR', self.root / 'raw'), \
                 mock.patch.object(get_equipments, 'download_assets', side_effect=download), \
@@ -335,13 +461,42 @@ class UpdateLauncherTests(TestCase):
         sets = json.loads((work / 'all_sets_en.json').read_text(encoding='utf-8'))
         self.assertEqual([5], [row['ankama_id'] for row in sets['sets']])
 
+    def test_item_files_left_by_another_repository_are_not_read_for_a_release_without_them(self):
+        other = self.root / 'raw/3.7.4.4'
+        other.mkdir(parents=True)
+        for name in release_items.ASSETS:
+            (other / name).write_text('[]', encoding='utf-8')
+        for listed in ((), ('MAPPED_ITEMS.json', 'MAPPED_SETS.json')):
+            with self.subTest(listed=listed):
+                with self.assertRaises(SystemExit) as stopped:
+                    self.item_download('3.7.1.0', '--tag', '3.7.4.4', listed=listed)
+                self.assertIn('lacks', stopped.exception.code)
+                self.assertIn('MAPPED_RECIPES.json', stopped.exception.code)
+                self.assertEqual([], list((self.root / 'items').glob('all_*.json')))
+
     def test_the_item_download_reads_the_api_when_it_serves_the_tag(self):
         work, calls, output = self.item_download('3.7.4.4', '--tag', '3.7.4.4')
         self.assertEqual('https://api.dofusdu.de/dofus3beta/v1/meta/version', calls[0])
-        self.assertEqual(31, len(calls))
+        self.assertEqual('https://api.dofusdu.de/dofus3beta/v1/meta/version', calls[-1])
+        self.assertEqual(32, len(calls))
         self.assertNotIn('release', [call[0] for call in calls if isinstance(call, tuple)])
         self.assertIn('https://api.dofusdu.de/dofus3beta/v1/fr/items/equipment/all', calls)
         self.assertEqual(30, len(list(work.glob('all_*.json'))))
+
+    def test_a_page_the_api_refuses_ends_the_item_download_with_an_error_code(self):
+        for arguments in (('--tag', '3.7.4.4'), ()):
+            with self.subTest(arguments=arguments):
+                with self.assertRaises(SystemExit) as stopped:
+                    self.item_download('3.7.4.4', *arguments, failing='/fr/items/resources/all')
+                self.assertIsInstance(stopped.exception.code, str)
+                self.assertIn('Failed to retrieve resources data for fr', stopped.exception.code)
+                self.assertIn('Status code: 500', stopped.exception.code)
+
+    def test_an_api_that_changes_version_during_the_item_download_fails_it(self):
+        with self.assertRaises(SystemExit) as stopped:
+            self.item_download(['3.7.4.4', '3.7.5.0'], '--tag', '3.7.4.4')
+        self.assertIsInstance(stopped.exception.code, str)
+        self.assertIn('moved from 3.7.4.4 to 3.7.5.0', stopped.exception.code)
 
     def test_both_dofus3_pipelines_pass_one_tag_to_items_data_and_spells(self):
         import update_data
