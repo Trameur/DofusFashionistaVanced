@@ -997,11 +997,18 @@ def _build_transcendence_rows(structure, game_version, language, trans_t):
 TRANSCENDENCE_UI = {
     'en': {
         'title': 'Transcendence runes (lock smithmagic)',
-        'intro': 'Applied at 100% - they add a powerful bonus but permanently '
-                 'lock the item (no further smithmagic). Only possible if the '
-                 'item has no over and no exotic line, and if the rune\u2019s '
-                 'weight plus the target stat\u2019s current weight stays '
-                 'within 101.',
+        'intro_modern': 'Applied at 100% - they add a powerful bonus and close '
+                        'the item to runes (no further smithmagic). Only '
+                        'possible if the item has no over and no exotic line, '
+                        'and if the rune\u2019s weight plus the target stat\u2019s '
+                        'current weight stays within 101. A New Leaf Orb still '
+                        'resets a transcended item: the transcendence comes off '
+                        'and every line gets a new roll.',
+        'intro_dofus2': 'Applied at 100% - they add a powerful bonus but permanently '
+                        'lock the item (no further smithmagic). Only possible if the '
+                        'item has no over and no exotic line, and if the rune\u2019s '
+                        'weight plus the target stat\u2019s current weight stays '
+                        'within 101.',
         'locked': 'Item transcended by %s - smithmagic locked.',
         'over_block': 'Impossible: the item exceeds its max roll on a line. '
                       'Remove the over before transcending.',
@@ -1013,11 +1020,19 @@ TRANSCENDENCE_UI = {
     },
     'fr': {
         'title': 'Runes de transcendance (verrouillent la FM)',
-        'intro': 'Pos\u00e9es \u00e0 100 % - elles ajoutent un bonus puissant mais '
-                 'verrouillent d\u00e9finitivement l\u2019objet (plus aucune '
-                 'forgemagie). Possible seulement si l\u2019objet n\u2019a ni over '
-                 'ni ligne exotique, et si le poids de la rune plus le poids '
-                 'actuel de la stat vis\u00e9e reste dans les 101.',
+        'intro_modern': 'Pos\u00e9es \u00e0 100 % - elles ajoutent un bonus puissant et '
+                        'ferment l\u2019objet aux runes (plus aucune '
+                        'forgemagie). Possible seulement si l\u2019objet n\u2019a ni '
+                        'over ni ligne exotique, et si le poids de la rune plus '
+                        'le poids actuel de la stat vis\u00e9e reste dans les 101. '
+                        'Un Orbe r\u00e9g\u00e9n\u00e9rant r\u00e9initialise quand m\u00eame un objet '
+                        'transcend\u00e9 : la transcendance part et chaque ligne '
+                        're\u00e7oit un nouveau jet.',
+        'intro_dofus2': 'Pos\u00e9es \u00e0 100 % - elles ajoutent un bonus puissant mais '
+                        'verrouillent d\u00e9finitivement l\u2019objet (plus aucune '
+                        'forgemagie). Possible seulement si l\u2019objet n\u2019a ni over '
+                        'ni ligne exotique, et si le poids de la rune plus le poids '
+                        'actuel de la stat vis\u00e9e reste dans les 101.',
         'locked': 'Objet transcend\u00e9 par %s - forgemagie bloqu\u00e9e.',
         'over_block': 'Impossible : l\u2019objet d\u00e9passe son jet max sur une '
                       'ligne. Retirez l\u2019over avant de transcender.',
@@ -1029,10 +1044,17 @@ TRANSCENDENCE_UI = {
     },
     'es': {
         'title': 'Runas de trascendencia (bloquean la forja)',
-        'intro': 'Se aplican al 100 % - añaden un bono potente pero bloquean el '
-                 'objeto para siempre (no más forja). Solo si el objeto no '
-                 'tiene over ni línea exótica, y si el peso de la runa más el '
-                 'peso actual de la característica elegida no pasa de 101.',
+        'intro_modern': 'Se aplican al 100 % - añaden un bono potente y cierran el '
+                        'objeto a las runas (no más forja). Solo si el objeto no '
+                        'tiene over ni línea exótica, y si el peso de la runa más '
+                        'el peso actual de la característica elegida no pasa de '
+                        '101. Un Orbe regenerativo sigue pudiendo reiniciar un '
+                        'objeto trascendido: la trascendencia desaparece y cada '
+                        'línea recibe una tirada nueva.',
+        'intro_dofus2': 'Se aplican al 100 % - añaden un bono potente pero bloquean el '
+                        'objeto para siempre (no más forja). Solo si el objeto no '
+                        'tiene over ni línea exótica, y si el peso de la runa más el '
+                        'peso actual de la característica elegida no pasa de 101.',
         'locked': 'Objeto trascendido con %s - forja bloqueada.',
         'over_block': 'Imposible: el objeto supera su tirada máxima en una '
                       'línea. Quita el over antes de trascender.',
@@ -1044,10 +1066,16 @@ TRANSCENDENCE_UI = {
     },
     'pt': {
         'title': 'Runas de transcendência (bloqueiam a FM)',
-        'intro': 'Aplicadas a 100% - adicionam um bônus poderoso mas bloqueiam '
-                 'o item para sempre (sem mais forjamagia). Só se o item não '
-                 'tiver over nem linha exótica, e se o peso da runa mais o '
-                 'peso atual do atributo visado não passar de 101.',
+        'intro_modern': 'Aplicadas a 100% - adicionam um bônus poderoso e bloqueiam '
+                        'o item para runas (sem mais forjamagia). Só se o item não '
+                        'tiver over nem linha exótica, e se o peso da runa mais o '
+                        'peso atual do atributo visado não passar de 101. Um Orbe '
+                        'regenerativo ainda reinicia um item transcendido: a '
+                        'transcendência sai e cada linha recebe uma nova rolagem.',
+        'intro_dofus2': 'Aplicadas a 100% - adicionam um bônus poderoso mas bloqueiam '
+                        'o item para sempre (sem mais forjamagia). Só se o item não '
+                        'tiver over nem linha exótica, e se o peso da runa mais o '
+                        'peso atual do atributo visado não passar de 101.',
         'locked': 'Item transcendido por %s - forjamagia bloqueada.',
         'over_block': 'Impossível: o item ultrapassa sua rolagem máxima em uma '
                       'linha. Remova o over antes de transcender.',
@@ -1059,11 +1087,20 @@ TRANSCENDENCE_UI = {
     },
     'de': {
         'title': 'Transzendenz-Runen (sperren die Schmiedemagie)',
-        'intro': 'Mit 100% gesetzt - sie geben einen starken Bonus, sperren den '
-                 'Gegenstand aber dauerhaft (keine Schmiedemagie mehr). Nur '
-                 'möglich, wenn der Gegenstand weder Over noch exotische Linie '
-                 'trägt und das Gewicht der Rune plus das aktuelle Gewicht des '
-                 'Zielwerts 101 nicht übersteigt.',
+        'intro_modern': 'Mit 100% gesetzt - sie geben einen starken Bonus und sperren '
+                        'den Gegenstand für Runen (keine Schmiedemagie mehr). Nur '
+                        'möglich, wenn der Gegenstand weder Over noch exotische '
+                        'Linie trägt und das Gewicht der Rune plus das aktuelle '
+                        'Gewicht des Zielwerts 101 nicht übersteigt. Eine '
+                        'Alles-auf-Anfang-Kristallkugel setzt einen '
+                        'transzendierten Gegenstand trotzdem zurück: Die '
+                        'Transzendenz verschwindet und jede Linie wird neu '
+                        'gewürfelt.',
+        'intro_dofus2': 'Mit 100% gesetzt - sie geben einen starken Bonus, sperren den '
+                        'Gegenstand aber dauerhaft (keine Schmiedemagie mehr). Nur '
+                        'möglich, wenn der Gegenstand weder Over noch exotische Linie '
+                        'trägt und das Gewicht der Rune plus das aktuelle Gewicht des '
+                        'Zielwerts 101 nicht übersteigt.',
         'locked': 'Gegenstand durch %s transzendiert - Schmiedemagie gesperrt.',
         'over_block': 'Unmöglich: Der Gegenstand überschreitet auf einer Linie '
                       'seinen Maximalwurf. Entferne den Over vor dem '
@@ -1076,6 +1113,14 @@ TRANSCENDENCE_UI = {
         'weight_word': 'Gewicht %s',
     },
 }
+
+
+def _transcendence_text(language, ruleset):
+    texts = TRANSCENDENCE_UI.get(language, TRANSCENDENCE_UI['en'])
+    trans_t = {key: value for key, value in texts.items()
+               if not key.startswith('intro_')}
+    trans_t['intro'] = texts.get('intro_%s' % ruleset, texts['intro_modern'])
+    return trans_t
 
 
 def forgemagie(request):
@@ -1099,7 +1144,7 @@ def forgemagie(request):
 
     stat_payload = _build_stat_payload(structure, game_version, language)
     reference_rows = _build_reference_rows(structure, game_version, language, t)
-    trans_t = TRANSCENDENCE_UI.get(language, TRANSCENDENCE_UI['en'])
+    trans_t = _transcendence_text(language, ruleset)
     no_stat_rune_rows = _build_no_stat_rune_rows(game_version, t)
     transcendence_rows = _build_transcendence_rows(
         structure, game_version, language, trans_t)

@@ -3979,9 +3979,136 @@ GUIDES = {
     # No transcendence runes on Touch and Retro
     'transcendence-runes': {
         'published': '2026-08-12',
-        'version_groups': {'touch': 'touch', 'retro': 'retro'},
+        'version_groups': {'dofus2': 'dofus2', 'touch': 'touch', 'retro': 'retro'},
         'i18n_by_group': {
             'modern': {
+                'en': {
+                    'title': 'Transcendence runes: the sure bonus, and the way back',
+                    'desc': 'Transcendence runes never fail and close an item to runes, but a New Leaf Orb can now undo one. When to spend a rune, and on what.',
+                    'lead': 'A transcendence rune is the one forgemagie that cannot fail. It still closes the item to runes, but that is no longer final: a New Leaf Orb takes the item back to fresh rolls, transcendence included.',
+                    'body': '''
+<h2>What they are</h2>
+<p>Transcendence runes add one bonus to an item at <strong>100% success</strong>. There is one for almost every useful line, over three ranks: Ta, Pata and Rata. Rank decides the size, so Rune Ta Ine gives +10 Intelligence, Pata Ine +15 and Rata Ine +20. You will find the four elements, Power, Vitality, damage and resistance per element, critical damage, AP and MP reduction and resistance, lock, dodge, initiative, pods and heals.</p>
+
+<h2>The rules that still hold</h2>
+<p>A transcendence rune only lands on a clean item: no line above its maximum roll, and no exotic line (the hunting line of a hunting weapon is allowed). The rune's weight, added to the weight the target line already carries, must also stay within 101. Once the rune is on, the item is <strong>closed to runes</strong>: no over, no fix, no further forgemagie with runes.</p>
+
+<h2>The way back: a New Leaf Orb</h2>
+<p>A transcended item is no longer set in stone. A <strong>New Leaf Orb</strong> now resets it completely, transcendence and all: the transcendence comes off, every characteristic line takes a new random roll between the item's minimum and maximum, and any element change on a weapon's damage, steal or heal lines is undone. What you get back is a fresh item that takes runes again, or a new transcendence.</p>
+<p>That makes the orb a way out, not a gift. It costs you the transcendence bonus and every roll on the item, the good ones included: a piece with perfect rolls loses them too.</p>
+
+<h2>Which piece deserves one</h2>
+<p>The natural target is still a piece you were going to leave alone: an item whose rolls are already good enough, or one where the over you wanted is too expensive to chase. Putting a rune on a piece you meant to over gives that over up for as long as the rune stays on.</p>
+<p>Weight matters too. A Rata rune is the heaviest of its family, and heavy runes are the expensive ones. If the +15 from a Pata closes the gap you actually needed, the Rata is money spent on a number you will not feel.</p>
+
+<h2>Reading it as a budget</h2>
+<p>See a transcendence rune as one guaranteed bonus per item, kept for as long as the item suits the build. If the build changes, the orb lets you start that piece over, at the price of the rune and of the rolls. It still pays best at finishing a build: settle the build first, then transcend.</p>
+
+<p><em>The <a href="/forgemagie/">forgemagie simulator</a> lists every rune by stat and refuses the ones your item cannot take. Not sure which piece is already final? <a href="/setup/">Solve the build first.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': 'Runes de transcendance : le bonus sûr, et le chemin du retour',
+                    'desc': "Les runes de transcendance ne ratent jamais et ferment l'objet aux runes, mais un Orbe régénérant peut désormais tout défaire. Quand en poser une, et où.",
+                    'lead': "Une rune de transcendance, c'est la seule forgemagie qui ne peut pas rater. Elle ferme toujours l'objet aux runes, mais ce n'est plus définitif : un Orbe régénérant ramène l'objet à des jets neufs, transcendance comprise.",
+                    'body': '''
+<h2>Ce que c'est</h2>
+<p>Une rune de transcendance ajoute un bonus à un objet avec <strong>100 % de réussite</strong>. Il y en a une pour presque chaque ligne utile, en trois rangs : Ta, Pata et Rata. Le rang décide de la taille : la Rune Ta Ine donne +10 Intelligence, la Pata Ine +15 et la Rata Ine +20. On y trouve les quatre éléments, la Puissance, la Vitalité, les dommages et les résistances par élément, les dommages critiques, le retrait et la résistance PA et PM, le tacle, la fuite, l'initiative, les pods et les soins.</p>
+
+<h2>Les règles qui tiennent toujours</h2>
+<p>Une rune de transcendance ne se pose que sur un objet propre : aucune ligne au-dessus de son jet maximum, et aucune ligne exotique (la ligne de chasse d'une arme de chasse est permise). Le poids de la rune, ajouté au poids que porte déjà la ligne visée, doit aussi rester dans les 101. Une fois la rune posée, l'objet est <strong>fermé aux runes</strong> : plus d'over, plus de retouche, plus aucune forgemagie à la rune.</p>
+
+<h2>Le chemin du retour : l'Orbe régénérant</h2>
+<p>Un objet transcendé n'est plus figé pour de bon. Un <strong>Orbe régénérant</strong> le réinitialise désormais entièrement, même transcendé : la transcendance part, chaque ligne de caractéristique reçoit un nouveau jet entre le minimum et le maximum de l'objet, et les changements d'élément sur les lignes de dégâts, de vol et de soin d'une arme sont annulés. Tu récupères un objet neuf, qui reprend les runes, ou une nouvelle transcendance.</p>
+<p>C'est une porte de sortie, pas un cadeau. Tu y laisses le bonus de transcendance et tous les jets de l'objet, les bons compris : une pièce aux jets parfaits les perd aussi.</p>
+
+<h2>Quelle pièce mérite une rune</h2>
+<p>La cible naturelle reste une pièce que tu comptais laisser tranquille : un objet dont les jets sont déjà assez bons, ou un objet dont l'over visé coûte trop cher à courir. Poser une rune sur une pièce que tu voulais overer, c'est renoncer à cet over tant que la rune reste en place.</p>
+<p>Le poids compte aussi. Une Rata est la plus lourde de sa famille, et les runes lourdes sont les chères. Si les +15 d'une Pata comblent le trou dont tu avais vraiment besoin, la Rata est de l'argent mis dans un chiffre que tu ne sentiras pas.</p>
+
+<h2>Le voir comme un budget</h2>
+<p>Vois une rune de transcendance comme un bonus garanti par objet, que tu gardes tant que l'objet sert ton build. Si le build change, l'orbe te laisse repartir de zéro sur la pièce, au prix de la rune et des jets. Elle reste surtout faite pour finir un build : fige le build d'abord, transcende ensuite.</p>
+
+<p><em>Le <a href="/forgemagie/">simulateur de forgemagie</a> liste chaque rune par caractéristique et refuse celles que ton objet ne peut pas prendre. Tu ne sais pas quelle pièce est déjà définitive ? <a href="/setup/">Calcule le build d'abord.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': 'Runas de trascendencia: el bono seguro, y el camino de vuelta',
+                    'desc': 'Las runas de trascendencia nunca fallan y cierran el objeto a las runas, pero un Orbe regenerativo ya puede deshacerlo. Cuándo gastar una, y en qué pieza.',
+                    'lead': 'Una runa de trascendencia es la única forjamagia que no puede fallar. Sigue cerrando el objeto a las runas, pero ya no es definitivo: un Orbe regenerativo devuelve el objeto a tiradas nuevas, trascendencia incluida.',
+                    'body': '''
+<h2>Qué son</h2>
+<p>Una runa de trascendencia añade un bono a un objeto con <strong>100 % de éxito</strong>. Hay una para casi cada línea útil, en tres rangos: Ta, Pata y Rata. El rango decide el tamaño: la Runa Ta Ine da +10 de Inteligencia, la Pata Ine +15 y la Rata Ine +20. Están los cuatro elementos, la Potencia, la Vitalidad, los daños y las resistencias por elemento, los daños críticos, el retiro y la resistencia a PA y PM, el placaje, la huida, la iniciativa, los pods y las curas.</p>
+
+<h2>Las reglas que siguen en pie</h2>
+<p>Una runa de trascendencia solo entra en un objeto limpio: ninguna línea por encima de su tirada máxima y ninguna línea exótica (la línea de caza de un arma de caza sí se permite). El peso de la runa, sumado al peso que ya lleva la línea elegida, también tiene que quedarse en 101 o menos. Una vez puesta la runa, el objeto queda <strong>cerrado a las runas</strong>: ni over, ni retoque, ni más forjamagia con runas.</p>
+
+<h2>El camino de vuelta: el Orbe regenerativo</h2>
+<p>Un objeto trascendido ya no queda fijo para siempre. Un <strong>Orbe regenerativo</strong> ahora lo reinicia por completo, aunque esté trascendido: la trascendencia desaparece, cada línea de característica recibe una tirada nueva entre el mínimo y el máximo del objeto, y se anulan los cambios de elemento en las líneas de daño, robo y cura de un arma. Te queda un objeto nuevo, que vuelve a aceptar runas o una nueva trascendencia.</p>
+<p>Es una salida, no un regalo. Pierdes el bono de trascendencia y todas las tiradas del objeto, las buenas también: una pieza con tiradas perfectas las pierde igual.</p>
+
+<h2>Qué pieza merece una</h2>
+<p>El objetivo natural sigue siendo una pieza que ibas a dejar en paz: un objeto cuyas tiradas ya son suficientes, o uno cuyo over deseado sale demasiado caro de perseguir. Poner una runa en una pieza que querías overear es renunciar a ese over mientras la runa siga puesta.</p>
+<p>El peso también cuenta. Una Rata es la más pesada de su familia, y las runas pesadas son las caras. Si los +15 de una Pata tapan el hueco que de verdad necesitabas, la Rata es dinero puesto en una cifra que no vas a notar.</p>
+
+<h2>Verlo como un presupuesto</h2>
+<p>Piensa en una runa de trascendencia como un bono garantizado por objeto, que conservas mientras el objeto le sirva a tu build. Si la build cambia, el orbe te deja empezar la pieza de cero, a cambio de la runa y de las tiradas. Donde más rinde sigue siendo al rematar una build: cierra la build primero y trasciende después.</p>
+
+<p><em>El <a href="/forgemagie/">simulador de forjamagia</a> lista cada runa por característica y rechaza las que tu objeto no puede aceptar. ¿No sabes qué pieza ya es definitiva? <a href="/setup/">Calcula la build primero.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Runas de transcendência: o bónus garantido, e o caminho de volta',
+                    'desc': 'As runas de transcendência nunca falham e fecham o item às runas, mas um Orbe regenerativo já o pode desfazer. Quando gastar uma, e em que peça.',
+                    'lead': 'Uma runa de transcendência é a única forjamagia que não pode falhar. Continua a fechar o item às runas, mas já não é definitivo: um Orbe regenerativo devolve o item a valores novos, transcendência incluída.',
+                    'body': '''
+<h2>O que são</h2>
+<p>Uma runa de transcendência acrescenta um bónus a um item com <strong>100 % de sucesso</strong>. Há uma para quase cada linha útil, em três patamares: Ta, Pata e Rata. O patamar decide o tamanho: a Runa Ta Ine dá +10 de Inteligência, a Pata Ine +15 e a Rata Ine +20. Estão lá os quatro elementos, a Potência, a Vitalidade, os danos e as resistências por elemento, os danos críticos, a retirada e a resistência a PA e PM, o bloqueio, a fuga, a iniciativa, os pods e as curas.</p>
+
+<h2>As regras que se mantêm</h2>
+<p>Uma runa de transcendência só entra num item limpo: nenhuma linha acima do seu valor máximo e nenhuma linha exótica (a linha de caça de uma arma de caça é permitida). O peso da runa, somado ao peso que a linha visada já tem, também tem de ficar dentro dos 101. Assim que a runa entra, o item fica <strong>fechado às runas</strong>: nem over, nem retoque, nem mais forjamagia com runas.</p>
+
+<h2>O caminho de volta: o Orbe regenerativo</h2>
+<p>Um item transcendido já não fica fixo para sempre. Um <strong>Orbe regenerativo</strong> agora reinicia-o por completo, mesmo transcendido: a transcendência sai, cada linha de característica recebe um valor novo entre o mínimo e o máximo do item, e as mudanças de elemento nas linhas de dano, roubo e cura de uma arma são anuladas. Ficas com um item novo, que volta a aceitar runas ou uma nova transcendência.</p>
+<p>É uma saída, não um presente. Perdes o bónus de transcendência e todos os valores do item, os bons também: uma peça com valores perfeitos perde-os na mesma.</p>
+
+<h2>Que peça merece uma</h2>
+<p>O alvo natural continua a ser uma peça que ias deixar em paz: um item cujos valores já chegam, ou um cujo over desejado sai caro demais para perseguir. Pôr uma runa numa peça que querias overar é abdicar desse over enquanto a runa lá estiver.</p>
+<p>O peso também conta. Uma Rata é a mais pesada da sua família, e as runas pesadas são as caras. Se os +15 de uma Pata tapam o buraco de que precisavas mesmo, a Rata é dinheiro posto num número que não vais sentir.</p>
+
+<h2>Vê-la como um orçamento</h2>
+<p>Vê uma runa de transcendência como um bónus garantido por item, que guardas enquanto o item servir a tua build. Se a build mudar, o orbe deixa-te recomeçar a peça do zero, ao preço da runa e dos valores. Onde mais rende continua a ser no fim de uma build: fecha a build primeiro, transcende depois.</p>
+
+<p><em>O <a href="/forgemagie/">simulador de forjamagia</a> lista cada runa por característica e recusa as que o teu item não pode aceitar. Não sabes que peça já é definitiva? <a href="/setup/">Calcula a build primeiro.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': 'Transzendenz-Runen: der sichere Bonus, und der Weg zurück',
+                    'desc': 'Transzendenz-Runen scheitern nie und sperren das Item für Runen, doch eine Alles-auf-Anfang-Kristallkugel hebt das jetzt auf. Wann sich eine lohnt.',
+                    'lead': 'Eine Transzendenz-Rune ist die einzige Schmiedemagie, die nicht scheitern kann. Sie sperrt das Item weiterhin für Runen, aber das ist nicht mehr endgültig: Eine Alles-auf-Anfang-Kristallkugel setzt das Item auf neue Würfe zurück, Transzendenz inklusive.',
+                    'body': '''
+<h2>Was sie sind</h2>
+<p>Eine Transzendenz-Rune legt einen Bonus mit <strong>100 % Erfolg</strong> auf ein Item. Für fast jede nützliche Zeile gibt es eine, in drei Stufen: Ta, Pata und Rata. Die Stufe bestimmt die Größe: Rune Ta Ine gibt +10 Intelligenz, Pata Ine +15 und Rata Ine +20. Dabei sind die vier Elemente, Schlagkraft, Vitalität, Schaden und Widerstand je Element, kritischer Schaden, AP-Entzug und BP-Entzug samt Widerstand dagegen, Blocken, Ausweichen, Initiative, Pods und Heilung.</p>
+
+<h2>Die Regeln, die bleiben</h2>
+<p>Eine Transzendenz-Rune geht nur auf ein sauberes Item: keine Zeile über ihrem Maximalwurf und keine exotische Zeile (die Jagdzeile einer Jagdwaffe ist erlaubt). Das Gewicht der Rune plus das Gewicht, das die Zielzeile schon trägt, muss außerdem bei höchstens 101 bleiben. Sobald die Rune sitzt, ist das Item <strong>für Runen gesperrt</strong>: kein Over, keine Korrektur, keine Schmiedemagie mit Runen mehr.</p>
+
+<h2>Der Weg zurück: die Alles-auf-Anfang-Kristallkugel</h2>
+<p>Ein transzendiertes Item ist nicht mehr für immer festgelegt. Eine <strong>Alles-auf-Anfang-Kristallkugel</strong> setzt es jetzt vollständig zurück, auch mit Transzendenz: Die Transzendenz verschwindet, jede Eigenschaftszeile bekommt einen neuen Zufallswurf zwischen Minimum und Maximum des Items, und jede Elementänderung an den Schadens-, Raub- und Heilzeilen einer Waffe wird aufgehoben. Zurück bekommst du ein frisches Item, das wieder Runen nimmt oder eine neue Transzendenz.</p>
+<p>Damit ist die Kugel ein Ausweg, kein Geschenk. Sie kostet dich den Transzendenz-Bonus und jeden Wurf auf dem Item, auch die guten: Ein Teil mit perfekten Würfen verliert sie ebenfalls.</p>
+
+<h2>Welches Teil eine verdient</h2>
+<p>Das natürliche Ziel bleibt ein Teil, das du ohnehin in Ruhe lassen wolltest: eines, dessen Werte schon reichen, oder eines, dessen gewünschter Over zu teuer zu jagen ist. Wer eine Rune auf ein Teil setzt, das er overn wollte, verzichtet auf diesen Over, solange die Rune sitzt.</p>
+<p>Auch das Gewicht zählt. Eine Rata ist die schwerste ihrer Familie, und schwere Runen sind die teuren. Wenn die +15 einer Pata die Lücke schließen, die dir wirklich gefehlt hat, ist die Rata Geld in einer Zahl, die du nicht spürst.</p>
+
+<h2>Als Budget lesen</h2>
+<p>Sieh eine Transzendenz-Rune als einen garantierten Bonus pro Item, den du behältst, solange das Item zum Build passt. Ändert sich der Build, lässt dich die Kugel das Teil neu beginnen, zum Preis der Rune und der Würfe. Am meisten bringt sie weiterhin zum Abschluss eines Builds: erst den Build festzurren, dann transzendieren.</p>
+
+<p><em>Der <a href="/forgemagie/">Schmiedemagie-Simulator</a> listet jede Rune nach Wert und lehnt die ab, die dein Item nicht nehmen kann. Du weißt nicht, welches Teil schon endgültig ist? <a href="/setup/">Rechne zuerst den Build.</a></em></p>
+''',
+                },
+            },
+            'dofus2': {
                 'en': {
                     'title': 'Transcendence runes: the last stat, and the last one you get',
                     'desc': 'Transcendence runes never fail, but they only land on an untouched item and they lock it forever. When to spend one, and on what.',
