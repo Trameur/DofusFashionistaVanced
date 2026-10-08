@@ -190,6 +190,13 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
         self.assertIn('wm-section', self._template('weights_minimums_block.html'))
         self.assertIn("game_url 'stats' char_id", self._template('base.html'))
 
+    def test_the_wizard_shows_the_same_weights_and_minimums_rows(self):
+        include = '{% include "chardata/weights_minimums_block.html" %}'
+        self.assertIn(include, self._template('weights_minimums.html'))
+        self.assertIn(include, self._template('wizard.html'))
+        self.assertNotIn('wizard_sliders', self._template('wizard.html'))
+        self.assertNotIn('wizard_min_stats', self._template('wizard.html'))
+
     def test_a_build_copies_between_dofus3_and_the_beta(self):
         from fashionistapulp.game_versions import GAME_VERSIONS
         self.assertEqual(GAME_VERSIONS['dofus3'].family, GAME_VERSIONS['beta'].family)
