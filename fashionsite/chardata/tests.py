@@ -15957,9 +15957,9 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
     # Words that read the same in the target language
     IDENTICAL_IN_LANGUAGE = {
         'es': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Error', 'No',
-               '%(item)s: %(changes)s'},
+               '%(item)s: %(changes)s', '%(item)s: %(element)s, %(rate)d%%', '%(item)s (%(element)s, %(rate)d%%)'},
         'pt': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote',
-               '%(item)s: %(changes)s'},
+               '%(item)s: %(changes)s', '%(item)s: %(element)s, %(rate)d%%', '%(item)s (%(element)s, %(rate)d%%)'},
         'de': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Name', 'Neutral',
                SMITHMAGIC_MARK,
                'Hammer', 'Ring', 'optional', 'E', 'W',
@@ -15968,7 +15968,7 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                'November 2025', 'April - September 2025',
                ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d',
                '%(ap)s AP', '%(item)s: %(changes)s', 'Emblem', 'Element',
-               'Name = %(name)s'},
+               'Name = %(name)s', '%(item)s: %(element)s, %(rate)d%%', '%(item)s (%(element)s, %(rate)d%%)'},
     }
     # Dofus grid labels fall back to the item's official name
     LABELLED_FROM_GAME_DATA = {

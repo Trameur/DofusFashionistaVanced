@@ -48,6 +48,8 @@ _MOTS_FAUX = (
 # Only the verb goes in the link (freischalten is a separable verb)
 _PHRASE_DU_LIEN = '<a href=%(lock_link)s>Unlock</a> some items'
 
+_PLACEHOLDER = re.compile(r'%\([^)]*\)\w')
+
 _ENTREE = re.compile(r'(?m)^msgid ((?:"[^\n]*"\n)+)msgstr ((?:"[^\n]*"\n?)+)')
 
 
@@ -80,10 +82,11 @@ class EveryGermanLabelUsesTheWordTheSiteAlreadyUsesTests(SimpleTestCase):
         for msgid, _ in _catalogue('de'):
             if len(msgid.split()) > _LONGUEUR_LIBELLE:
                 continue
+            mots = _PLACEHOLDER.sub('', msgid)
             for notion, (retenu, _n, ecartes) in _NOTIONS.items():
-                if notion not in msgid.lower():
+                if notion not in mots.lower():
                     continue
-                rendu = _traduit(msgid)
+                rendu = _PLACEHOLDER.sub('', _traduit(msgid))
                 if retenu.lower() in rendu.lower():
                     continue
                 for mauvais in ecartes:
