@@ -52,8 +52,10 @@ Each version is handled alone, one after the other:
    `retro_damage_spells.json` for Dofus Retro, and the shared files as they are
    at that moment (`fashionista_version.py`, `dynamic_translations.py`,
    `dofus_constants*.py`);
-3. record of the JSON files tracked by git under `itemscraper/` (see
-   "Intermediate files");
+3. record of the JSON files tracked by git under `itemscraper/`, inventory of
+   the other files there and of the images when the version downloads them,
+   and copy of those this version wrote in an earlier run (see "Intermediate
+   files");
 4. import by its `update_data*.py` script;
 5. inventory after the import and data checks.
 
@@ -83,10 +85,12 @@ rebuilds it on deployment. Before this backup, the launcher checks that the disk
 has 1.2 times its size free; otherwise it refuses to start and gives both
 numbers.
 
-When a version fails, only the images that were readable before it and became
-missing or unreadable are put back from this backup. New or updated images stay
-in place: they come from Ankama's sources. The images of the versions not chosen
-are checked the same way at the end.
+When a version that downloads images fails, every image it changed goes back to
+what it was before that version: from this backup, or from the copy made at the
+start of the version when an earlier version of the run had already changed it.
+The images it added are deleted. The images of the versions not chosen are
+checked at the end: those that became missing or unreadable are put back from
+this backup.
 
 ## Intermediate files
 
@@ -98,6 +102,21 @@ every file it changed comes back: from the copy if it was already modified,
 otherwise with `git checkout HEAD -- <file>`. A file changed afterwards by a
 later version is kept and listed. Code files (`.py`) are never touched, so that
 an edit made during the import is not lost.
+
+The other files under `itemscraper/` are not tracked by git
+(`transformed_spells*.json`, `raw/`, `retro_raw/`...). Before each version the
+launcher records the size and date of all of them. It copies, at the start of
+the version, those the same version wrote in an earlier run (the list is learned
+from the inventories and kept in `.update-reports/written-files.json`), and,
+before each step, those the step's command names, directly or through a folder
+it names. When the version is restored, the files it created are deleted with
+the folders it created, and the files it changed come back from their copy. The
+files of a release folder (`raw/<version>/`, `wakfu_raw/<build>/`) are not
+copied: a release does not change, so a file of the same size is left as it is.
+A changed file with no copy is left as written and listed in the summary; the
+next run copies it. Undoing a successful import puts back only the files still
+as that version left them; a file changed afterwards by a later version is kept
+and listed.
 
 ## Checks after the imports
 
@@ -156,7 +175,8 @@ Each run keeps a `.update-reports/<date>-<pid>/` folder:
   to finish an incomplete restore, then the command to undo;
 - `report.json`, the `<version>-before.json` and `-after.json` inventories, the
   logs of each step and of the checks;
-- `<version>/`: backup of each version, `images/`: image backup,
+- `<version>/`: backup of each version (`outputs/`: copies of its intermediate
+  files), `images/`: image backup,
   `images-changed.json`: images changed during the run.
 
 Status of a version: `IMPORTED`, `FAILED, RESTORED`, `RESTORE INCOMPLETE` or
@@ -216,8 +236,9 @@ starts normally again.
 
 ## Disk space
 
-Each run with images keeps an image backup. `py update_all.py --clean-reports`
-lists the image backups older than the last three (old runs in the `backup/`
+Each run with images keeps an image backup, and each version keeps the copies of
+its intermediate files (`<version>/outputs/`). `py update_all.py --clean-reports`
+lists these copies older than the last three runs (old runs in the `backup/`
 format included), with their size, and deletes them only after you type `yes`
 (`oui` is accepted too). `--yes` is not enough. A run whose restore is
 unfinished is always kept. Logs, summaries and data backups stay.
