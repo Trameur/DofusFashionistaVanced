@@ -14985,7 +14985,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "2 de daño crítico"
+                        "formatted": "2 de daños críticos"
                     }
                 ],
                 "3": [
@@ -15052,7 +15052,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "4 de daño crítico"
+                        "formatted": "4 de daños críticos"
                     }
                 ],
                 "4": [
@@ -15080,7 +15080,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "6 de daño crítico"
+                        "formatted": "6 de daños críticos"
                     },
                     {
                         "int_minimum": 4,
@@ -15147,7 +15147,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 6,
@@ -15227,7 +15227,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 12,
@@ -15320,7 +15320,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -46581,7 +46581,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 30,
@@ -46661,7 +46661,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 30,
@@ -46767,7 +46767,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "25 de daño crítico"
+                        "formatted": "25 de daños críticos"
                     },
                     {
                         "int_minimum": 40,
@@ -54866,7 +54866,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     }
                 ],
                 "3": [
@@ -54920,7 +54920,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -56110,7 +56110,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 150,
@@ -56190,7 +56190,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 8,
@@ -57044,7 +57044,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 100,
@@ -57111,7 +57111,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -57925,7 +57925,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 7,
@@ -58223,7 +58223,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 5,
@@ -58355,7 +58355,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -59975,7 +59975,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "12 de daño crítico"
+                        "formatted": "12 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -61172,7 +61172,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 3,
@@ -61213,7 +61213,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 20,
@@ -61894,7 +61894,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "50 de daño crítico"
+                        "formatted": "50 de daños críticos"
                     },
                     {
                         "int_minimum": 60,
@@ -65510,7 +65510,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 de daño crítico"
+                        "formatted": "30 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -65564,7 +65564,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 de daño crítico"
+                        "formatted": "30 de daños críticos"
                     },
                     {
                         "int_minimum": 40,
@@ -66748,7 +66748,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 3,
@@ -66815,7 +66815,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 3,
@@ -71596,7 +71596,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     }
                 ],
                 "3": [
@@ -71741,7 +71741,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     }
                 ]
             },
@@ -73380,7 +73380,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -73447,7 +73447,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -74038,7 +74038,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -74144,7 +74144,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -74990,7 +74990,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -75044,7 +75044,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 100,
@@ -76313,7 +76313,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     }
                 ],
                 "3": [
@@ -76367,7 +76367,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -77032,7 +77032,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 5,
@@ -77099,7 +77099,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -79411,7 +79411,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     }
                 ],
                 "3": [
@@ -79478,7 +79478,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     }
                 ]
             },
@@ -80102,7 +80102,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -80156,7 +80156,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -80428,7 +80428,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 de daño crítico"
+                        "formatted": "30 de daños críticos"
                     },
                     {
                         "int_minimum": 150,
@@ -80534,7 +80534,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 de daño crítico"
+                        "formatted": "30 de daños críticos"
                     },
                     {
                         "int_minimum": 150,
@@ -85799,7 +85799,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 2,
@@ -85879,7 +85879,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 40,
@@ -86040,7 +86040,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 20,
@@ -86094,7 +86094,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -86161,7 +86161,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -86434,7 +86434,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 7,
@@ -86475,7 +86475,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 7,
@@ -86991,7 +86991,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 30,
@@ -87032,7 +87032,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -88482,7 +88482,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     }
                 ],
                 "3": [
@@ -88536,7 +88536,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -94301,7 +94301,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 7,
@@ -94355,7 +94355,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 7,
@@ -96558,7 +96558,7 @@
         {
             "ankama_id": 578,
             "name": "Set cosmético forjalanza",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96569,7 +96569,8 @@
                 28344,
                 28428,
                 28429,
-                28430
+                28430,
+                34578
             ]
         },
         {
@@ -96611,7 +96612,7 @@
         },
         {
             "ankama_id": 581,
-            "name": "Set cosmético de tymador",
+            "name": "Set cosmético tymador",
             "items": 8,
             "level": 60,
             "contains_cosmetics": true,
@@ -96721,7 +96722,7 @@
         {
             "ankama_id": 587,
             "name": "Set cosmético pandawa",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96732,7 +96733,8 @@
                 23568,
                 23583,
                 23584,
-                23646
+                23646,
+                34580
             ]
         },
         {
@@ -96828,7 +96830,7 @@
         {
             "ankama_id": 593,
             "name": "Set cosmético anutrof",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96840,7 +96842,8 @@
                 25363,
                 25364,
                 25994,
-                30235
+                30235,
+                34579
             ]
         },
         {
@@ -97005,7 +97008,7 @@
         },
         {
             "ankama_id": 604,
-            "name": "Set cosmético de Lúmino",
+            "name": "Set cosmético de Lúmino Star",
             "items": 3,
             "level": 1,
             "contains_cosmetics": true,
@@ -98894,7 +98897,7 @@
         {
             "ankama_id": 742,
             "name": "Set cosmético del playero",
-            "items": 5,
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -98903,7 +98906,8 @@
                 28564,
                 28565,
                 28566,
-                30812
+                30812,
+                34500
             ]
         },
         {
@@ -99446,14 +99450,13 @@
         {
             "ankama_id": 788,
             "name": "Set cosmético de Golosorak",
-            "items": 3,
+            "items": 2,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 9924,
-                9926,
-                12273
+                9926
             ]
         },
         {
@@ -100200,7 +100203,7 @@
         {
             "ankama_id": 843,
             "name": "Set cosmético de caballero negro",
-            "items": 5,
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -100209,7 +100212,8 @@
                 30062,
                 30063,
                 30064,
-                30066
+                30066,
+                30240
             ]
         },
         {
@@ -100390,7 +100394,7 @@
         },
         {
             "ankama_id": 858,
-            "name": "Set cosmético Retrofus",
+            "name": "Set cosmético retrofus",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -102660,7 +102664,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 5,
@@ -103912,7 +103916,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 20,
@@ -106287,7 +106291,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 de daño crítico"
+                        "formatted": "30 de daños críticos"
                     }
                 ]
             },
@@ -106620,7 +106624,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "5 de daño crítico"
+                        "formatted": "5 de daños críticos"
                     }
                 ]
             },
@@ -106929,7 +106933,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 90,
@@ -107087,7 +107091,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 150,
@@ -107632,7 +107636,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 de daño crítico"
+                        "formatted": "30 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -107956,7 +107960,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     }
                 ],
                 "3": [
@@ -108010,7 +108014,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -108543,7 +108547,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     }
                 ],
                 "3": [
@@ -108636,7 +108640,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     }
                 ]
             },
@@ -108719,7 +108723,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -108773,7 +108777,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 40,
@@ -110660,7 +110664,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -111230,7 +111234,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "4 de daño crítico"
+                        "formatted": "4 de daños críticos"
                     },
                     {
                         "int_minimum": 4,
@@ -111297,7 +111301,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "8 de daño crítico"
+                        "formatted": "8 de daños críticos"
                     },
                     {
                         "int_minimum": 8,
@@ -111570,7 +111574,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -112042,7 +112046,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -112135,7 +112139,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -114021,7 +114025,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 10,
@@ -114101,7 +114105,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 5,
@@ -114263,7 +114267,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     }
                 ],
                 "3": [
@@ -114356,7 +114360,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     }
                 ]
             },
@@ -115057,7 +115061,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 30,
@@ -115150,7 +115154,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño crítico"
+                        "formatted": "15 de daños críticos"
                     },
                     {
                         "int_minimum": 15,
@@ -117572,7 +117576,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 20,
@@ -117652,7 +117656,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "20 de daño crítico"
+                        "formatted": "20 de daños críticos"
                     },
                     {
                         "int_minimum": 20,
@@ -118299,7 +118303,7 @@
         },
         {
             "ankama_id": 1059,
-            "name": "Ankamaset",
+            "name": "Ankamaset cosmético",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -119601,7 +119605,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 5,
@@ -119681,7 +119685,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 5,
@@ -120266,7 +120270,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 7,
@@ -120333,7 +120337,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daño crítico"
+                        "formatted": "10 de daños críticos"
                     },
                     {
                         "int_minimum": 1,
@@ -121303,16 +121307,16 @@
         },
         {
             "ankama_id": 1081,
-            "name": "Set cosmético de la lotería Turquesa",
+            "name": "Set cosmético de la lotería Ébano",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
-                34128,
-                34129,
-                34130,
-                34131
+                34641,
+                34642,
+                34643,
+                34644
             ]
         },
         {
@@ -122222,7 +122226,7 @@
         },
         {
             "ankama_id": 1102,
-            "name": "Set de los 25 años del Krosmoz",
+            "name": "Set cosmético de los 25 años del Krosmoz",
             "items": 18,
             "level": 60,
             "contains_cosmetics": true,
@@ -122249,6 +122253,22 @@
             ]
         },
         {
+            "ankama_id": 1103,
+            "name": "Set cosmético de Gúltar el Maldito",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34552,
+                34553,
+                34554,
+                34555,
+                34556,
+                34557
+            ]
+        },
+        {
             "ankama_id": 1104,
             "name": "Set cosmético de la lotería Marfil",
             "items": 4,
@@ -122260,6 +122280,19 @@
                 34559,
                 34560,
                 34561
+            ]
+        },
+        {
+            "ankama_id": 1105,
+            "name": "Set cosmético de Otomai",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34563,
+                34564,
+                34565
             ]
         },
         {
@@ -122279,6 +122312,21 @@
             ]
         },
         {
+            "ankama_id": 1109,
+            "name": "Set cosmético de jade",
+            "items": 5,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34636,
+                34637,
+                34638,
+                34639,
+                34640
+            ]
+        },
+        {
             "ankama_id": 1110,
             "name": "Set cosmético de Welsh y Shedar",
             "items": 2,
@@ -122288,6 +122336,91 @@
             "equipment_ids": [
                 34622,
                 34623
+            ]
+        },
+        {
+            "ankama_id": 1111,
+            "name": "Set cosmético de la Demonio VII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34676,
+                34677,
+                34678,
+                34679
+            ]
+        },
+        {
+            "ankama_id": 1112,
+            "name": "Set cosmético matizado de la Demonio VII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34680,
+                34681,
+                34682,
+                34683
+            ]
+        },
+        {
+            "ankama_id": 1113,
+            "name": "Set cosmético de guardián de las almas",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34684,
+                34685,
+                34687,
+                34688,
+                34689,
+                34690
+            ]
+        },
+        {
+            "ankama_id": 1125,
+            "name": "Set cosmético de Zabelle",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34795,
+                34796,
+                34797,
+                34798
+            ]
+        },
+        {
+            "ankama_id": 1126,
+            "name": "Set cosmético de Welsh",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34800,
+                34802,
+                34804,
+                34805
+            ]
+        },
+        {
+            "ankama_id": 1127,
+            "name": "Set cosmético de Shedar",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34801,
+                34803,
+                34806
             ]
         }
     ]

@@ -13,26 +13,12 @@
   "fr": "Feu des Ténèbres",
   "pt": "Feu des Ténèbres"
  },
- "105": {
-  "de": "Grozilla-Zustand",
-  "en": "Tyrannised",
-  "es": "Tirasaurinizado",
-  "fr": "Tyrannisé",
-  "pt": "Tiranizado"
- },
  "1057": {
   "de": "Bedrängt",
   "en": "Harassed",
   "es": "Acosado",
   "fr": "Harcelé",
   "pt": "Perseguido"
- },
- "106": {
-  "de": "Grasmera-Zustand",
-  "en": "Meteoroid",
-  "es": "Meteorito",
-  "fr": "Météoroïde",
-  "pt": "Meteoroide"
  },
  "1076": {
   "de": "Martelé I",
@@ -251,13 +237,6 @@
   "fr": "Phase 2",
   "pt": "Fase 2"
  },
- "1453": {
-  "de": "Dragoeuf en songe",
-  "en": "Dragoeuf en songe",
-  "es": "Dragoeuf en songe",
-  "fr": "Dragoeuf en songe",
-  "pt": "Dragoeuf en songe"
- },
  "1480": {
   "de": "0 Miliciens",
   "en": "0 Miliciens",
@@ -447,13 +426,6 @@
   "fr": "Allégeance contraire",
   "pt": "Lealdade Contrária"
  },
- "191": {
-  "de": "Goldesort-Mal",
-  "en": "Mark of the Breatheaters",
-  "es": "Marca de los Auroros",
-  "fr": "Marque des Mangelors",
-  "pt": "Marca dos Devoradouros"
- },
  "2002": {
   "de": "Gehetzt",
   "en": "Tratracked",
@@ -467,20 +439,6 @@
   "es": "Fulgor de Externam",
   "fr": "Lueur d'Externam",
   "pt": "Luz de Externam"
- },
- "2031": {
-  "de": "Emono",
-  "en": "Emono",
-  "es": "Emono",
-  "fr": "Emono",
-  "pt": "Emono"
- },
- "2053": {
-  "de": "Komihoz tu",
-  "en": "Komihoz tu",
-  "es": "Komihoz tu",
-  "fr": "Komihoz tu",
-  "pt": "Komihoz tu"
  },
  "2056": {
   "de": "Aufsteigender Mond",
@@ -566,26 +524,12 @@
   "fr": "Byakou Invisible",
   "pt": "Byako Invisível"
  },
- "2220": {
-  "de": "Doshidorobo - État si lance un sort",
-  "en": "Doshidorobo - État si lance un sort",
-  "es": "Doshidorobo - État si lance un sort",
-  "fr": "Doshidorobo - État si lance un sort",
-  "pt": "Doshidorobo - État si lance un sort"
- },
  "2221": {
   "de": "Papiermassaker",
   "en": "Stationery Slaughter",
   "es": "Hoja Cortante",
   "fr": "Papetuerie",
   "pt": "Papelação"
- },
- "2387": {
-  "de": "A-Gyō",
-  "en": "A-Gyō",
-  "es": "A-Gyō",
-  "fr": "A-Gyō",
-  "pt": "A-Gyō"
  },
  "2388": {
   "de": "Un-Gyō",
@@ -776,13 +720,6 @@
   "fr": "Cavalier neutralisé",
   "pt": "Cavaleiro Neutralizado"
  },
- "268": {
-  "de": "Duell",
-  "en": "Duel",
-  "es": "Duelo",
-  "fr": "Duel",
-  "pt": "Duelo"
- },
  "2690": {
   "de": "Böswillige Träumereien",
   "en": "Malicious Dreams",
@@ -909,33 +846,12 @@
   "fr": "Chassé",
   "pt": "Caçado"
  },
- "334": {
-  "de": "Mutation I",
-  "en": "Mutation I",
-  "es": "Mutación I",
-  "fr": "Mutation I",
-  "pt": "Mutação I"
- },
- "335": {
-  "de": "Mutation II",
-  "en": "Mutation II",
-  "es": "Mutación II",
-  "fr": "Mutation II",
-  "pt": "Mutação II"
- },
  "3355": {
   "de": "Kollagen",
   "en": "Collagen",
   "es": "Colágeno",
   "fr": "Collagène",
   "pt": "Colágeno"
- },
- "336": {
-  "de": "Mutation III",
-  "en": "Mutation III",
-  "es": "Mutación III",
-  "fr": "Mutation III",
-  "pt": "Mutação III"
  },
  "3360": {
   "de": "Bewaffnet",
@@ -1246,46 +1162,46 @@
   "pt": "Javelot-Foudre (ligne)"
  },
  "400": {
-  "de": "Wahnsinn 1",
-  "en": "Madness 1",
-  "es": "Locura 1",
-  "fr": "Folie 1",
-  "pt": "Loucura 1"
+  "de": "Wahnsinn 1/10",
+  "en": "Madness 1/10",
+  "es": "Locura 1/10",
+  "fr": "Folie 1/10",
+  "pt": "Loucura 1/10"
  },
  "4005": {
-  "de": "Hand von Pandawa I",
-  "en": "Pandawa's Hand I",
-  "es": "Mano de Pandawa I",
-  "fr": "Main de Pandawa I",
-  "pt": "Mão de Pandawa I"
+  "de": "Hand von Pandawa 1/1",
+  "en": "Pandawa's Hand 1/1",
+  "es": "Mano de Pandawa 1/1",
+  "fr": "Main de Pandawa 1/1",
+  "pt": "Mão de Pandawa 1/1"
  },
  "401": {
-  "de": "Wahnsinn 2",
-  "en": "Madness 2",
-  "es": "Locura 2",
-  "fr": "Folie 2",
-  "pt": "Loucura 2"
+  "de": "Wahnsinn 2/10",
+  "en": "Madness 2/10",
+  "es": "Locura 2/10",
+  "fr": "Folie 2/10",
+  "pt": "Loucura 2/10"
  },
  "402": {
-  "de": "Wahnsinn 3",
-  "en": "Madness 3",
-  "es": "Locura 3",
-  "fr": "Folie 3",
-  "pt": "Loucura 3"
+  "de": "Wahnsinn 3/10",
+  "en": "Madness 3/10",
+  "es": "Locura 3/10",
+  "fr": "Folie 3/10",
+  "pt": "Loucura 3/10"
  },
  "403": {
-  "de": "Wahnsinn 4",
-  "en": "Madness 4",
-  "es": "Locura 4",
-  "fr": "Folie 4",
-  "pt": "Loucura 4"
+  "de": "Wahnsinn 4/10",
+  "en": "Madness 4/10",
+  "es": "Locura 4/10",
+  "fr": "Folie 4/10",
+  "pt": "Loucura 4/10"
  },
  "404": {
-  "de": "Wahnsinn 5",
-  "en": "Madness 5",
-  "es": "Locura 5",
-  "fr": "Folie 5",
-  "pt": "Loucura 5"
+  "de": "Wahnsinn 5/10",
+  "en": "Madness 5/10",
+  "es": "Locura 5/10",
+  "fr": "Folie 5/10",
+  "pt": "Loucura 5/10"
  },
  "4045": {
   "de": "Instable Méditation Céleste",
@@ -1295,11 +1211,11 @@
   "pt": "Instable Méditation Céleste"
  },
  "405": {
-  "de": "Wahnsinn 6",
-  "en": "Madness 6",
-  "es": "Locura 6",
-  "fr": "Folie 6",
-  "pt": "Loucura 6"
+  "de": "Wahnsinn 6/10",
+  "en": "Madness 6/10",
+  "es": "Locura 6/10",
+  "fr": "Folie 6/10",
+  "pt": "Loucura 6/10"
  },
  "4056": {
   "de": "Ausgangssperre",
@@ -1309,18 +1225,18 @@
   "pt": "Toque de Recolher"
  },
  "406": {
-  "de": "Wahnsinn 7",
-  "en": "Madness 7",
-  "es": "Locura 7",
-  "fr": "Folie 7",
-  "pt": "Loucura 7"
+  "de": "Wahnsinn 7/10",
+  "en": "Madness 7/10",
+  "es": "Locura 7/10",
+  "fr": "Folie 7/10",
+  "pt": "Loucura 7/10"
  },
  "407": {
-  "de": "Wahnsinn 8",
-  "en": "Madness 8",
-  "es": "Locura 8",
-  "fr": "Folie 8",
-  "pt": "Loucura 8"
+  "de": "Wahnsinn 8/10",
+  "en": "Madness 8/10",
+  "es": "Locura 8/10",
+  "fr": "Folie 8/10",
+  "pt": "Loucura 8/10"
  },
  "4077": {
   "de": "Ébriété rang 1",
@@ -1344,11 +1260,11 @@
   "pt": "Ébriété rang 3"
  },
  "408": {
-  "de": "Wahnsinn 9",
-  "en": "Madness 9",
-  "es": "Locura 9",
-  "fr": "Folie 9",
-  "pt": "Loucura 9"
+  "de": "Wahnsinn 9/10",
+  "en": "Madness 9/10",
+  "es": "Locura 9/10",
+  "fr": "Folie 9/10",
+  "pt": "Loucura 9/10"
  },
  "410": {
   "de": "Leiter",
@@ -1447,13 +1363,6 @@
   "es": "Debilitado",
   "fr": "Affaibli",
   "pt": "Enfraquecido"
- },
- "422": {
-  "de": "Begossen",
-  "en": "Drenched",
-  "es": "Empapado",
-  "fr": "Draché",
-  "pt": "Encharcado"
  },
  "424": {
   "de": "Terrpaniert",
@@ -1603,7 +1512,7 @@
   "pt": "Micolobiossonado"
  },
  "513": {
-  "de": "Wut",
+  "de": "Tollwut",
   "en": "Rage",
   "es": "Rabia",
   "fr": "Rage",
@@ -1757,11 +1666,11 @@
   "pt": "Enrascado feito um Milobo"
  },
  "533": {
-  "de": "Goules 1",
-  "en": "Goules 1",
-  "es": "Goules 1",
-  "fr": "Goules 1",
-  "pt": "Goules 1"
+  "de": "Marsch der Ghule",
+  "en": "Ghoulish March",
+  "es": "Marcha de Ghuls",
+  "fr": "Marche des goules",
+  "pt": "Marcha dos Carniçais"
  },
  "5343": {
   "de": "Entfettet",
@@ -1813,18 +1722,18 @@
   "pt": "Infectado (alvo)"
  },
  "5418": {
-  "de": "Puppenhafte Präparation I",
-  "en": "Dollish Decoction I",
-  "es": "Preparación Muñequera I",
-  "fr": "Préparation Poupesque I",
-  "pt": "Preparação Bonecal I"
+  "de": "Puppenhafte Präparation 1/3",
+  "en": "Dollish Decoction 1/3",
+  "es": "Preparación Muñequera 1/3",
+  "fr": "Préparation Poupesque 1/3",
+  "pt": "Preparação Bonecal 1/3"
  },
  "5420": {
-  "de": "Puppenhafte Präparation III",
-  "en": "Dollish Decoction III",
-  "es": "Preparación Muñequera III",
-  "fr": "Préparation Poupesque III",
-  "pt": "Preparação Bonecal III"
+  "de": "Puppenhafte Präparation 3/3",
+  "en": "Dollish Decoction 3/3",
+  "es": "Preparación Muñequera 3/3",
+  "fr": "Préparation Poupesque 3/3",
+  "pt": "Preparação Bonecal 3/3"
  },
  "5424": {
   "de": "Ansteckung (Ziel)",
@@ -1939,7 +1848,7 @@
   "pt": "Quadra de Reis"
  },
  "5488": {
-  "de": "Ass-Vierling",
+  "de": "As-Vierling",
   "en": "Four Aces",
   "es": "Póquer de Ases",
   "fr": "Carré d'As",
@@ -1953,25 +1862,25 @@
   "pt": "Para a Direita"
  },
  "5497": {
-  "de": "Erdrutsch IV",
-  "en": "Collapse IV",
-  "es": "Desprendimiento IV",
-  "fr": "Éboulement IV",
-  "pt": "Desmoronamento IV"
+  "de": "Erdrutsch 4/4",
+  "en": "Collapse 4/4",
+  "es": "Desprendimiento 4/4",
+  "fr": "Éboulement 4/4",
+  "pt": "Desmoronamento 4/4"
  },
  "5498": {
-  "de": "Goldwaschen IV",
-  "en": "Placer Mining IV",
-  "es": "Búsqueda de Oro IV",
-  "fr": "Orpaillage IV",
-  "pt": "Garimpo IV"
+  "de": "Goldwaschen 4/4",
+  "en": "Placer Mining 4/4",
+  "es": "​Búsqueda de Oro 4/4",
+  "fr": "Orpaillage 4/4",
+  "pt": "Garimpo 4/4"
  },
  "5499": {
-  "de": "Klingende Münze IV",
-  "en": "Hard Cash IV",
-  "es": "Moneda Sonante IV",
-  "fr": "Monnaie Sonnante IV",
-  "pt": "Moeda Falsa IV"
+  "de": "Klingende Münze 4/4",
+  "en": "Hard Cash 4/4",
+  "es": "Moneda Sonante 4/4",
+  "fr": "Monnaie Sonnante 4/4",
+  "pt": "Moeda Falsa 4/4"
  },
  "550": {
   "de": "Nach unten",
@@ -2233,18 +2142,18 @@
   "pt": "Necrônix"
  },
  "573": {
-  "de": "Verheerender Pfeil I",
-  "en": "Devouring Arrow I",
-  "es": "Flecha Voraz I",
-  "fr": "Flèche Dévorante I",
-  "pt": "Flecha Devoradora I"
+  "de": "Verheerender Pfeil 1/3",
+  "en": "Devouring Arrow 1/3",
+  "es": "Flecha Voraz 1/3",
+  "fr": "Flèche Dévorante 1/3",
+  "pt": "Flecha Devoradora 1/3"
  },
  "574": {
-  "de": "Verheerender Pfeil II",
-  "en": "Devouring Arrow II",
-  "es": "Flecha Voraz II",
-  "fr": "Flèche Dévorante II",
-  "pt": "Flecha Devoradora II"
+  "de": "Verheerender Pfeil 2/3",
+  "en": "Devouring Arrow 2/3",
+  "es": "Flecha Voraz 2/3",
+  "fr": "Flèche Dévorante 2/3",
+  "pt": "Flecha Devoradora 2/3"
  },
  "5742": {
   "de": "Holmgang (cast)",
@@ -2407,13 +2316,6 @@
   "fr": "Déréglée",
   "pt": "Desregulada"
  },
- "6467": {
-  "de": "Ausschlüpfen II",
-  "en": "Hatching II",
-  "es": "Eclosión II",
-  "fr": "Éclosion II",
-  "pt": "Eclosão II"
- },
  "6470": {
   "de": "Manipulsiert",
   "en": "Manipulsated",
@@ -2506,11 +2408,11 @@
   "pt": "Dark Sônio"
  },
  "662": {
-  "de": "Verheerender Pfeil III",
-  "en": "Devouring Arrow III",
-  "es": "Flecha Voraz III",
-  "fr": "Flèche Dévorante III",
-  "pt": "Flecha Devoradora III"
+  "de": "Verheerender Pfeil 3/3",
+  "en": "Devouring Arrow 3/3",
+  "es": "Flecha Voraz 3/3",
+  "fr": "Flèche Dévorante 3/3",
+  "pt": "Flecha Devoradora 3/3"
  },
  "6626": {
   "de": "Kerker I",
@@ -2653,11 +2555,11 @@
   "pt": "Kolosso solo"
  },
  "7020": {
-  "de": "Wa Wabitt solo",
-  "en": "Wa Wabitt solo",
-  "es": "Wa Wabitt solo",
-  "fr": "Wa Wabitt solo",
-  "pt": "Wa Wabitt solo"
+  "de": "Wa Wabbit solo",
+  "en": "Wa Wabbit solo",
+  "es": "Wa Wabbit solo",
+  "fr": "Wa Wabbit solo",
+  "pt": "Wa Wabbit solo"
  },
  "707": {
   "de": "1 Telefrag verbraucht",
@@ -2702,11 +2604,11 @@
   "pt": "Flecha de Abolição II"
  },
  "713": {
-  "de": "Infiziert III",
-  "en": "Infected III",
-  "es": "Infectado III",
-  "fr": "Infecté III",
-  "pt": "Infectado III"
+  "de": "Infiziert 3/3",
+  "en": "Infected 3/3",
+  "es": "Infectado 3/3",
+  "fr": "Infecté 3/3",
+  "pt": "Infectado 3/3"
  },
  "714": {
   "de": "Graue Faust I",
@@ -2785,13 +2687,6 @@
   "fr": "Porté",
   "pt": "Carregado"
  },
- "816": {
-  "de": "Paradoxon von Hauptmann Rot-Teka",
-  "en": "Captain Scarlight's Paradox",
-  "es": "Paradoja del Capitán Eskarlata",
-  "fr": "Paradoxe du Capitaine Ékarlatte",
-  "pt": "Paradoxo do Capitão Skarlat"
- },
  "864": {
   "de": "Generischer Zustand Sandzecke 01",
   "en": "Tremrus Generic State 01",
@@ -2820,68 +2715,12 @@
   "fr": "Impact 1/4",
   "pt": "Impacto 1/4"
  },
- "915": {
-  "de": "Generischer Zustand Schrotladung 01",
-  "en": "Buckshot Generic State 01",
-  "es": "Estado Genérico Posta 01",
-  "fr": "État générique Chevrotine 01",
-  "pt": "Estado Genérico Chumbo Grosso 01"
- },
- "916": {
-  "de": "Generischer Zustand Schrotladung 02",
-  "en": "Buckshot Generic State 02",
-  "es": "Estado Genérico Posta 02",
-  "fr": "État générique Chevrotine 02",
-  "pt": "Estado Genérico Chumbo Grosso 02"
- },
- "917": {
-  "de": "Generischer Zustand Schrotladung 03",
-  "en": "Buckshot Generic State 03",
-  "es": "Estado Genérico Posta 03",
-  "fr": "État générique Chevrotine 03",
-  "pt": "Estado Genérico Chumbo Grosso 03"
- },
- "918": {
-  "de": "Generischer Zustand Schrotladung 04",
-  "en": "Buckshot Generic State 04",
-  "es": "Estado Genérico Posta 04",
-  "fr": "État générique Chevrotine 04",
-  "pt": "Estado Genérico Chumbo Grosso 04"
- },
- "919": {
-  "de": "Generischer Zustand Schrotladung 05",
-  "en": "Buckshot Generic State 05",
-  "es": "Estado Genérico Posta 05",
-  "fr": "État générique Chevrotine 05",
-  "pt": "Estado Genérico Chumbo Grosso 05"
- },
  "92": {
   "de": "Kaboom",
   "en": "Kaboom",
   "es": "Kabúm",
   "fr": "Kaboom",
   "pt": "Kaboom"
- },
- "920": {
-  "de": "Generischer Zustand Schrotladung 06",
-  "en": "Buckshot Generic State 06",
-  "es": "Estado Genérico Posta 06",
-  "fr": "État générique Chevrotine 06",
-  "pt": "Estado Genérico Chumbo Grosso 06"
- },
- "921": {
-  "de": "Generischer Zustand Schrotladung 07",
-  "en": "Buckshot Generic State 07",
-  "es": "Estado Genérico Posta 07",
-  "fr": "État générique Chevrotine 07",
-  "pt": "Estado Genérico Chumbo Grosso 07"
- },
- "922": {
-  "de": "Generischer Zustand Schrotladung 08",
-  "en": "Buckshot Generic State 08",
-  "es": "Estado Genérico Posta 08",
-  "fr": "État générique Chevrotine 08",
-  "pt": "Estado Genérico Chumbo Grosso 08"
  },
  "932": {
   "de": "Verbrennung ersten Grades",

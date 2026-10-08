@@ -41142,7 +41142,7 @@
         },
         {
             "ankama_id": 21769,
-            "name": "Capa osamodas",
+            "name": "Adorno osamodas",
             "type": {
                 "name": "Capa de apariencia",
                 "id": 18
@@ -41874,7 +41874,7 @@
         },
         {
             "ankama_id": 21787,
-            "name": "Tocado steamer",
+            "name": "Pañuelo steamer",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -42279,7 +42279,7 @@
         },
         {
             "ankama_id": 21796,
-            "name": "Tocado ocra",
+            "name": "Diadema ocra",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -42365,7 +42365,7 @@
         },
         {
             "ankama_id": 21798,
-            "name": "Hombreras ocras",
+            "name": "Escudombrera ocra",
             "type": {
                 "name": "Escudo de apariencia",
                 "id": 19
@@ -42375,7 +42375,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82253-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82253-128.png"
             },
-            "description": "Estas hombreras son unas piezas escasas y muy codiciadas que confieren a quien las lleve una elegancia sin par.",
+            "description": "Esta hombrera es una pieza excepcional, muy codiciada por la elegancia sin par que confiere a quien la lleva.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -44249,7 +44249,7 @@
         },
         {
             "ankama_id": 22362,
-            "name": "Tocado feca",
+            "name": "Casco feca",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -44259,7 +44259,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16613-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16613-128.png"
             },
-            "description": "Con este sombrero de cuernos dorados sobre la cabeza, todo el mundo verá que llevas una vida de lujo y elegancia, pero nadie se atreverá a hacerte el más mínimo comentario.",
+            "description": "Con este casco de cuernos dorados sobre la cabeza, todo el mundo verá que llevas una vida de lujo y elegancia, pero nadie se atreverá a hacerte el más mínimo comentario.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -44292,7 +44292,7 @@
         },
         {
             "ankama_id": 22363,
-            "name": "Capa feca",
+            "name": "Velo feca",
             "type": {
                 "name": "Capa de apariencia",
                 "id": 18
@@ -44624,7 +44624,7 @@
         },
         {
             "ankama_id": 22452,
-            "name": "Tocado zobal",
+            "name": "Máscara zobal",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -46221,7 +46221,7 @@
         },
         {
             "ankama_id": 23040,
-            "name": "Sombrero sadida",
+            "name": "Diadema sadida",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -47947,7 +47947,7 @@
         },
         {
             "ankama_id": 23463,
-            "name": "Tocado xelor",
+            "name": "Casco xelor",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -52422,7 +52422,7 @@
         },
         {
             "ankama_id": 24972,
-            "name": "Alas de aniripsa",
+            "name": "Alas aniripsa",
             "type": {
                 "name": "Alas",
                 "id": 218
@@ -54836,7 +54836,7 @@
         },
         {
             "ankama_id": 25173,
-            "name": "Tocado hipermago",
+            "name": "Diadema hipermago",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -67926,7 +67926,7 @@
         },
         {
             "ankama_id": 27429,
-            "name": "Capa de Lúmino",
+            "name": "Capa de Lúmino Star",
             "type": {
                 "name": "Capa de apariencia",
                 "id": 18
@@ -85191,7 +85191,7 @@
         },
         {
             "ankama_id": 30235,
-            "name": "Alas de Anutrof",
+            "name": "Alas anutrof",
             "type": {
                 "name": "Alas",
                 "id": 218
@@ -85446,7 +85446,7 @@
         },
         {
             "ankama_id": 30244,
-            "name": "Alas de sacrógrito",
+            "name": "Alas sacrógritas",
             "type": {
                 "name": "Alas",
                 "id": 218
@@ -100363,7 +100363,7 @@
         },
         {
             "ankama_id": 33677,
-            "name": "Alas de steamer",
+            "name": "Tentáculos steamer",
             "type": {
                 "name": "Alas",
                 "id": 218
@@ -100393,7 +100393,7 @@
         },
         {
             "ankama_id": 33678,
-            "name": "Alas de feca",
+            "name": "Pavés dorsales feca",
             "type": {
                 "name": "Alas",
                 "id": 218
@@ -100423,7 +100423,7 @@
         },
         {
             "ankama_id": 33679,
-            "name": "Alas de ocra",
+            "name": "Flechas aladas ocra",
             "type": {
                 "name": "Alas",
                 "id": 218
@@ -101002,14 +101002,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ligado a un personaje",
-                        "id": 81,
+                        "name": "Intercambiable:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ligado a un personaje"
+                    "formatted": "Intercambiable: 0"
                 },
                 {
                     "int_minimum": 0,
@@ -103694,7 +103694,7 @@
         },
         {
             "ankama_id": 34406,
-            "name": "Coraza de zobal",
+            "name": "Coraza zobal",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -103748,6 +103748,36 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34408,
+            "name": "El Rambotón cosmético",
+            "type": {
+                "name": "Arma de apariencia",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/4071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/4071-128.png"
+            },
+            "description": "Un arma de apariencia en honor a un famoso guerrero feca de antaño. Su frase favorita era: «Para ganar la guerra, hay que ser la guerra». Y vaya que sí lo logró, pues acabó entrando en la leyenda.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
                 }
             ],
             "pods": 1
@@ -105743,6 +105773,135 @@
             "pods": 1
         },
         {
+            "ankama_id": 34529,
+            "name": "Tofu Kontatrás",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18950-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18950-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34530,
+            "name": "Tofu Julith",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18949-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18949-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34531,
+            "name": "Belihoja",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16920-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16920-128.png"
+            },
+            "description": "Los belíades han elegido para ti esta suave hoja para que pases página de una vez.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34532,
             "name": "Cinturón sadida",
             "type": {
@@ -105875,6 +106034,264 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18947-128.png"
             },
             "description": "¡Krozti, despierta el dragón que hay en ti!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34552,
+            "name": "Traje de maldito",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164322-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164322-128.png"
+            },
+            "description": "Aunque Gúltar tiene, más o menos, pinta de yopuka, ya le queda poco de humano... En otro tiempo, el corazón de este guerrero era tan grande como sus músculos, pero una serie de acontecimientos trágicos lo llevaron por el camino del caos y la destrucción. Aún hoy, Gúltar sigue siendo, sin duda, el guerrero más poderoso del Mundo de los Doce.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34553,
+            "name": "Medorror",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121186-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121186-128.png"
+            },
+            "description": "Antes de poder entrar en simbiosis con criaturas más evolucionadas, Medoroziam debió de tener toda clase de animales. Este animal fue una de sus víctimas y aún conserva las secuelas.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34554,
+            "name": "«La Espada»",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18952-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18952-128.png"
+            },
+            "description": "Esta espada fue el primer regalo que su padre, el dios Yopuka, le hizo a Gúltar. Lo acompañó hasta el final, tanto en los buenos momentos como en los malos.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34555,
+            "name": "Escudo de maldito",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82603-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82603-128.png"
+            },
+            "description": "Parece que este mimobionte aún no está saciado. Podría devorarte un brazo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34556,
+            "name": "Velo de maldito",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17706-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17706-128.png"
+            },
+            "description": "Esta es la pinta que tiene un mimobionte antes de copiar la apariencia de la capa que devora.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34557,
+            "name": "Pelambrera de maldito",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16924-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16924-128.png"
+            },
+            "description": "¿Siempre soñaste con parecerte al guapo y valiente Gúltar? Con estas greñas, por desgracia, lo más probable es que parezca que ya no eres humano... y que tienes sed de destrucción.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -106073,6 +106490,242 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34563,
+            "name": "Peluca de Otomai",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16923-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16923-128.png"
+            },
+            "description": "Si siempre soñaste con parecerte a Otomai, necesitas esta peluca. Aunque pronto te darás cuenta de que, desde luego, no es nada práctica de llevar.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34564,
+            "name": "Capa de Otomai",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17705-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17705-128.png"
+            },
+            "description": "No todos los alquimistas llevan capa.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34565,
+            "name": "Ropajes de Otomai",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164321-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164321-128.png"
+            },
+            "description": "Otomai es un poderoso alquimista, creador de la famosa pócima contra la mixomawosis. Hechicero especializado en el estudio de las criaturas vivas, fue el descubridor de la isla que hoy lleva su nombre. Y fue precisamente allí donde intentó reunir las distintas especies de animales del Mundo de los Doce para llevar a cabo sus misteriosos experimentos...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34578,
+            "name": "Cuello forjalanza",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164325-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164325-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34579,
+            "name": "Coraza anutrof",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164323-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164323-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34580,
+            "name": "Correas pandawa",
+            "type": {
+                "name": "Alas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164324-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164324-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34582,
+            "name": "Capa del cuarto de siglo",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17693-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17693-128.png"
+            },
+            "description": "Se ha tejido desde el albor de los tiempos, ha atravesado las eras y ha evolucionado junto a los encarnados. Cada uno de sus pliegues recuerda que incluso el tiempo respeta las leyendas.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
                 }
             ],
             "pods": 1
@@ -106392,6 +107045,62 @@
             "pods": 1
         },
         {
+            "ankama_id": 34620,
+            "name": "[!] WIP NO_TRAD - Montilier Préhistoire",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121184-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34622,
             "name": "[!] Minimou",
             "type": {
@@ -106478,6 +107187,587 @@
             "pods": 1
         },
         {
+            "ankama_id": 34626,
+            "name": "Dragopavo krameleón",
+            "type": {
+                "name": "Montura de apariencia",
+                "id": 241
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/97016-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/97016-128.png"
+            },
+            "description": "Este dragopavo tiene la capacidad de imitar perfectamente los colores de su propietario.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34627,
+            "name": "Mulagua krameleona",
+            "type": {
+                "name": "Montura de apariencia",
+                "id": 241
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/97097-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/97097-128.png"
+            },
+            "description": "Esta mulagua tiene la capacidad de imitar perfectamente los colores de su propietario.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34628,
+            "name": "Vueloceronte krameleón",
+            "type": {
+                "name": "Montura de apariencia",
+                "id": 241
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/97182-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/97182-128.png"
+            },
+            "description": "Este vueloceronte tiene la capacidad de imitar perfectamente los colores de su propietario.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34636,
+            "name": "Corona de jade",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16928-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16928-128.png"
+            },
+            "description": "El jade pulido con el que se ha tallado esta corona parece poseer un extraño campo magnético, lo que le permite incorporar adornos que parecen flotar en el aire.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34637,
+            "name": "Capa de jade",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17710-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17710-128.png"
+            },
+            "description": "Esta capa con forma de cola de grulla se divide en dos para facilitar los movimientos de quien la lleva. La delicadeza de sus costuras la hace prácticamente transparente y la convierte en un atuendo lujoso digno de una obra de arte.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34638,
+            "name": "Escudo de jade",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82608-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82608-128.png"
+            },
+            "description": "Este escudo grabado muestra una grulla alzando el vuelo. Símbolo de inmortalidad y buena fortuna, parece especialmente adecuada para garantizar la protección de quien lo lleva.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34639,
+            "name": "Grulla de jade",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18956-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18956-128.png"
+            },
+            "description": "Este pájaro místico te aportará felicidad mientras lo cuides con cariño. Pero, atención, un simple descuido a la hora de alimentarlo podría provocar la ira de esta divina ave.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34640,
+            "name": "Traje de jade",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648908-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648908-128.png"
+            },
+            "description": "Esta armadura de jade se transmite de generación en generación. Al ponértela, sientes sobre tus hombros todo el peso de un linaje que recae sobre ti. Te corresponde cuidarla para que tu descendencia la herede cuando ya no puedas honrarla.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34641,
+            "name": "Punta del crepúsculo",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16930-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16930-128.png"
+            },
+            "description": "¿Son pensamientos sombríos o ideas malvadas lo que se escapa en volutas de tu cubrecabezas? Sea como sea, ¡ese tono ébano te va de maravilla! Revela a la perfección tu parte oscura...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34642,
+            "name": "Velo de las tinieblas",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17712-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17712-128.png"
+            },
+            "description": "¿Será esta capa los vestigios del último combate aéreo del dragón negro: las alas rotas de Azalar? ¿O simplemente el estado en el que el guardián del dofus Ébano dejó esta capa después de haberle puesto sus garras encima? En ambos casos, es lo más.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34643,
+            "name": "Égida oscura",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82611-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82611-128.png"
+            },
+            "description": "No mires demasiado tiempo este círculo infernal: ¡podría vaciar tu cuerpo aspirándote el alma! Bueno, nadie ha comprobado si esa maldición existe de verdad, pero conozco a dos o tres yopukas que miraron un eclipse sin gafas de protección. Es mejor evitarlo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34644,
+            "name": "Grugalú",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18958-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18958-128.png"
+            },
+            "description": "¡No te fíes de las apariencias! Este oscuro dragonito tiene el carácter y el apetito normales en una criatura así: ¡destructores! No le tiendas la mano, cuéntate los dedos con frecuencia y, si eso, acaríciale la cabeza cuando esté de espaldas: es la única parte que no te hará sangrar.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34645,
             "name": "Brazos de porceluna",
             "type": {
@@ -106503,6 +107793,1188 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34676,
+            "name": "Cuernos de la Demonio VII",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16921-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16921-128.png"
+            },
+            "description": "VII concede mucha importancia a sus cuernos: son uno de sus principales encantos para ganarse el favor de los demás demonios del Horamundo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34677,
+            "name": "Capa de la Demonio VII",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17703-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17703-128.png"
+            },
+            "description": "Imagina la cantidad de pobres miaumiaus inocentes que le han hecho falta a VII para confeccionar esta capa. Ahora, imagínate todo su vestuario...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34678,
+            "name": "Escudo de la Demonio VII",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82601-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82601-128.png"
+            },
+            "description": "Entre los miaumiaus disecados y los cuernos afilados, este escudo debería ahuyentar fácilmente a tus pretendientes indeseados.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34679,
+            "name": "Polainas de la Demonio VII",
+            "type": {
+                "name": "Hombrera",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164979-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164979-128.png"
+            },
+            "description": "Estas polainas de piel de miaumiau combinarán a la perfección con tus atuendos más atrevidos, realzando tu actitud sensual y misteriosa en las veladas mundanas del Horamundo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34680,
+            "name": "Set cosmético matizado de la Demonio VII",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16922-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16922-128.png"
+            },
+            "description": "VII concede mucha importancia a sus cuernos: son uno de sus principales encantos para ganarse el favor de los demás demonios del Horamundo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34681,
+            "name": "Capa matizada de la Demonio VII",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17704-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17704-128.png"
+            },
+            "description": "Imagina la cantidad de pobres miaumiaus inocentes que le han hecho falta a VII para confeccionar esta capa. Ahora, imagínate todo su vestuario...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34682,
+            "name": "Escudo matizado de la Demonio VII",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82602-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82602-128.png"
+            },
+            "description": "Entre los miaumiaus disecados y los cuernos afilados, este escudo debería ahuyentar fácilmente a tus pretendientes indeseados.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34683,
+            "name": "Polainas matizadas de la Demonio VII",
+            "type": {
+                "name": "Hombrera",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164980-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164980-128.png"
+            },
+            "description": "Estas polainas de piel de miaumiau combinarán a la perfección con tus atuendos más atrevidos, realzando tu actitud sensual y misteriosa en las veladas mundanas del Horamundo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34684,
+            "name": "Taranterna",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18953-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18953-128.png"
+            },
+            "description": "Cuando tu alma se dispone a partir hacia Externam, oyes el repiqueteo de las patas de la taranterna, que viene a guiarte. Su presencia te reconforta y libera tu espíritu. Puedes partir en paz.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34685,
+            "name": "Tarantemor",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121187-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121187-128.png"
+            },
+            "description": "Cuando una taranterna acumula una enorme cantidad de almas, se transforma en tarantemor. Aunque los vivos la temen, encarna la devoción con la que ha guiado a los muertos durante toda su vida.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34687,
+            "name": "Cinta de guardián de las almas",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16926-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16926-128.png"
+            },
+            "description": "Ante la muerte, todas las almas son iguales. Con esta cinta, el guardián de las almas garantiza una imparcialidad absoluta. Será el peso de los actos del difunto lo que determine cómo continúa su historia.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34688,
+            "name": "Capa de guardián de las almas",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17708-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17708-128.png"
+            },
+            "description": "Nunca es sencillo abandonar el mundo de los vivos, y algunas almas no consiguen resignarse a partir hacia Externam. Atrapadas entre dos mundos, se aferran a la capa del guardián de las almas con la vana e infinita esperanza de recuperar algún día un pasado que ya quedó atrás.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34689,
+            "name": "Espejo de guardián de las almas",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82605-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82605-128.png"
+            },
+            "description": "Dicen que los ojos son el espejo del alma y que reflejan nuestras emociones. Pero este escudo va mucho más allá: es un espejo de verdad en el que las almas pueden contemplarse por última vez antes de partir. En lo más profundo de tu ser, sin artificios, ¿quién eres realmente?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34690,
+            "name": "Traje de guardián de las almas",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164326-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164326-128.png"
+            },
+            "description": "Hay que tener mucha sangre fría para ser guardián de las almas, pues no es sencillo enfrentarse a diario al sufrimiento de las almas perdidas. Este traje te mantendrá el cuerpo calentito y, quién sabe, quizá también ese corazoncito.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34795,
+            "name": "Corona de Zabelle",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16936-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16936-128.png"
+            },
+            "description": "Parece que llevar esta corona acelera la aparición de canas. El poder siempre tiene un precio.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34796,
+            "name": "Capa de Zabelle",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17718-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17718-128.png"
+            },
+            "description": "Esta capa no merece ir arrastrándose por el suelo. Procura llevar siempre unos cuantos sirvientes detrás para evitar semejante desgracia.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34797,
+            "name": "Sombra de Zabelle",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82616-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82616-128.png"
+            },
+            "description": "La sombra que emana de este escudo refleja el color del alma de una reina que perdió su humanidad hace mucho tiempo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34798,
+            "name": "Traje de Zabelle",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164331-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164331-128.png"
+            },
+            "description": "Todo gobernante que se precie debe saber gobernar con clase. Ponte este traje y presume ante el mundo entero de tu eterna juventud.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34800,
+            "name": "Peluca de Welsh",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16934-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16934-128.png"
+            },
+            "description": "Este pelo está fuerte y bien nutrido: simboliza una infancia feliz y con el estómago lleno.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34801,
+            "name": "Peluca de Shedar",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16935-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16935-128.png"
+            },
+            "description": "Son los pequeños detalles los que hacen que un peinado sea todo un éxito. En este caso, una pluma de un azul tan intenso como el de tus ojos te confiere un encanto sin igual.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34802,
+            "name": "Capa de Welsh",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17716-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17716-128.png"
+            },
+            "description": "Esta capa parece un delantal de cocina que un niño se hubiera puesto a la espalda.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34803,
+            "name": "Capa de Shedar",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17717-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17717-128.png"
+            },
+            "description": "El pelaje que adorna esta capa reconforta el corazón de quien la lleva, incluso cuando la soledad lo corroe.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34804,
+            "name": "Escudo de Welsh",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82615-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82615-128.png"
+            },
+            "description": "Aunque está pensado para el invierno, parece que este escudo es mucho más efectivo cuando aprieta el calor. Por una cuestión de olores, al parecer.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34805,
+            "name": "Traje de Welsh",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164329-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164329-128.png"
+            },
+            "description": "Has crecido entre fogones y la cocina se ha convertido en tu refugio. Cuando parece que todo va mal, te enfundas el traje de cocina y todas tus preocupaciones se esfuman.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34806,
+            "name": "Traje de Shedar",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164330-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164330-128.png"
+            },
+            "description": "Este traje es tu armadura. Nunca has encontrado tu lugar, pero has aprendido a mostrar a los demás lo que quieren ver de ti. Pero, en el fondo, todo son apariencias y sueñas con una vida muy distinta.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34807,
+            "name": "Brazos de Zabelle",
+            "type": {
+                "name": "Alas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164332-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164332-128.png"
+            },
+            "description": "Zabelle había llegado a dominar a la perfección sus seis brazos, lo que la convertía en una luchadora excepcional cuando empuñaba sus espadas. Ahora apenas te sirven para fregar los platos un poco más rápido. Vas a necesitar mucha práctica antes de alcanzar su nivel.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34837,
+            "name": "[!] Asalar",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121190-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121190-128.png"
+            },
+            "description": "[!] L'état de ce montilier est assez préoccupant, son énergie vitale semble avoir été drainée. À force de trop partager sa puissance, elle pourrait avoir décliné.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34839,
+            "name": "[!] Sipho",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18960-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18960-128.png"
+            },
+            "description": "[!] Sous son apparence toute mignonne, ce familier cache une honte profonde de sa véritable forme. Peut-être qu'au fil des aventures, en créant un lien avec lui, vous pourriez découvrir à quoi il ressemble et un jour lui permettre de retrouver confiance.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34840,
+            "name": "[!] Crâne réanimé",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18961-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18961-128.png"
+            },
+            "description": "[!] Ce crâne appartenant à un soldat du passé, a été ramené dans le monde des vivants par un pouvoir qui dépasse l'entendement. Il vous suivra partout et ne demande aucun entretien.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
                 }
             ],
             "pods": 1

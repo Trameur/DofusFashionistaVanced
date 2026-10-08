@@ -4466,7 +4466,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 }
             ]
         },
@@ -4783,7 +4783,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 }
             ]
         },
@@ -5219,7 +5219,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 },
                 {
                     "int_minimum": 1,
@@ -5536,7 +5536,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "40 de daño crítico"
+                    "formatted": "40 de daños críticos"
                 },
                 {
                     "int_minimum": 1,
@@ -5734,7 +5734,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 }
             ]
         },
@@ -6051,7 +6051,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 }
             ]
         },
@@ -6236,7 +6236,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 }
             ]
         },
@@ -6553,7 +6553,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 }
             ]
         },
@@ -6910,7 +6910,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 },
                 {
                     "int_minimum": 8,
@@ -7636,7 +7636,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 },
                 {
                     "int_minimum": 1,
@@ -8230,7 +8230,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 }
             ]
         },
@@ -17144,7 +17144,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 },
                 {
                     "int_minimum": 30,
@@ -18068,7 +18068,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 },
                 {
                     "int_minimum": 30,
@@ -18926,7 +18926,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 },
                 {
                     "int_minimum": 30,
@@ -19718,7 +19718,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de daño crítico"
+                    "formatted": "30 de daños críticos"
                 },
                 {
                     "int_minimum": 30,

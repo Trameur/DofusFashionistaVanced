@@ -4459,7 +4459,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -4776,7 +4776,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -5212,7 +5212,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -5529,7 +5529,7 @@
                     "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -5727,7 +5727,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -6044,7 +6044,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -6229,7 +6229,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -6546,7 +6546,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -6903,7 +6903,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -7629,7 +7629,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -8223,7 +8223,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -17137,7 +17137,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -18061,7 +18061,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -18919,7 +18919,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false
@@ -19711,7 +19711,7 @@
                     "int_minimum": 30,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommage Critiques",
+                        "name": "Dommage Critique",
                         "id": 38,
                         "is_meta": false,
                         "is_active": false

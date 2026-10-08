@@ -1,7 +1,7 @@
 """Centralized version metadata for Dofus Fashionista."""
 from __future__ import annotations
 
-FASHIONISTA_VERSION = "3.6.12.16"
+FASHIONISTA_VERSION = "3.7.4.4"
 FASHIONISTA_BETA_VERSION = "3.7.3.3"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
 FASHIONISTA_RETRO_VERSION = "1.49.6"
@@ -70,6 +70,7 @@ PATCH_TIMELINE = {
         ('2025-12-09', '3.4'),
         ('2026-03-05', '3.5'),
         ('2026-06-23', '3.6'),
+        ('2026-10-08', '3.7'),
     ],
     'beta': [
         ('2026-05-22', '3.5'),

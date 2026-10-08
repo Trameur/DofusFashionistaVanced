@@ -96558,7 +96558,7 @@
         {
             "ankama_id": 578,
             "name": "Forgelance Ceremonial Set",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96569,7 +96569,8 @@
                 28344,
                 28428,
                 28429,
-                28430
+                28430,
+                34578
             ]
         },
         {
@@ -96721,7 +96722,7 @@
         {
             "ankama_id": 587,
             "name": "Pandawa Ceremonial Set",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96732,7 +96733,8 @@
                 23568,
                 23583,
                 23584,
-                23646
+                23646,
+                34580
             ]
         },
         {
@@ -96828,7 +96830,7 @@
         {
             "ankama_id": 593,
             "name": "Enutrof Ceremonial Set",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96840,7 +96842,8 @@
                 25363,
                 25364,
                 25994,
-                30235
+                30235,
+                34579
             ]
         },
         {
@@ -97005,7 +97008,7 @@
         },
         {
             "ankama_id": 604,
-            "name": "Lumino Ceremonial Set",
+            "name": "Lumino Star Ceremonial Set",
             "items": 3,
             "level": 1,
             "contains_cosmetics": true,
@@ -98894,7 +98897,7 @@
         {
             "ankama_id": 742,
             "name": "Beachgoer Ceremonial Set",
-            "items": 5,
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -98903,7 +98906,8 @@
                 28564,
                 28565,
                 28566,
-                30812
+                30812,
+                34500
             ]
         },
         {
@@ -99446,14 +99450,13 @@
         {
             "ankama_id": 788,
             "name": "Bearendizer Ceremonial Set",
-            "items": 3,
+            "items": 2,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 9924,
-                9926,
-                12273
+                9926
             ]
         },
         {
@@ -100200,7 +100203,7 @@
         {
             "ankama_id": 843,
             "name": "Black Knight Ceremonial Set",
-            "items": 5,
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -100209,7 +100212,8 @@
                 30062,
                 30063,
                 30064,
-                30066
+                30066,
+                30240
             ]
         },
         {
@@ -100390,7 +100394,7 @@
         },
         {
             "ankama_id": 858,
-            "name": "Retrofus Set",
+            "name": "Retrofus Ceremonial Set",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -118299,7 +118303,7 @@
         },
         {
             "ankama_id": 1059,
-            "name": "Ankamaset",
+            "name": "Ceremonial Ankamaset",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121303,16 +121307,16 @@
         },
         {
             "ankama_id": 1081,
-            "name": "Turquoise Lottery Ceremonial Set",
+            "name": "Ebony Lottery Ceremonial Set",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
-                34128,
-                34129,
-                34130,
-                34131
+                34641,
+                34642,
+                34643,
+                34644
             ]
         },
         {
@@ -122222,7 +122226,7 @@
         },
         {
             "ankama_id": 1102,
-            "name": "Krosmoz 25th Anniversary Set",
+            "name": "Krosmoz 25th Anniversary Ceremonial Set",
             "items": 18,
             "level": 60,
             "contains_cosmetics": true,
@@ -122249,6 +122253,22 @@
             ]
         },
         {
+            "ankama_id": 1103,
+            "name": "Goultard the Cursed Ceremonial Set",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34552,
+                34553,
+                34554,
+                34555,
+                34556,
+                34557
+            ]
+        },
+        {
             "ankama_id": 1104,
             "name": "Ivory Lottery Ceremonial Set",
             "items": 4,
@@ -122260,6 +122280,19 @@
                 34559,
                 34560,
                 34561
+            ]
+        },
+        {
+            "ankama_id": 1105,
+            "name": "Otomai Ceremonial Set",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34563,
+                34564,
+                34565
             ]
         },
         {
@@ -122279,6 +122312,21 @@
             ]
         },
         {
+            "ankama_id": 1109,
+            "name": "Jade Ceremonial Set",
+            "items": 5,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34636,
+                34637,
+                34638,
+                34639,
+                34640
+            ]
+        },
+        {
             "ankama_id": 1110,
             "name": "Welsh and Shedar Ceremonial Set",
             "items": 2,
@@ -122288,6 +122336,91 @@
             "equipment_ids": [
                 34622,
                 34623
+            ]
+        },
+        {
+            "ankama_id": 1111,
+            "name": "Demon VII Ceremonial Set",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34676,
+                34677,
+                34678,
+                34679
+            ]
+        },
+        {
+            "ankama_id": 1112,
+            "name": "Many-Hued Demon VII Ceremonial Set",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34680,
+                34681,
+                34682,
+                34683
+            ]
+        },
+        {
+            "ankama_id": 1113,
+            "name": "Soul Guardian Ceremonial Set",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34684,
+                34685,
+                34687,
+                34688,
+                34689,
+                34690
+            ]
+        },
+        {
+            "ankama_id": 1125,
+            "name": "Zabelle Ceremonial Set",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34795,
+                34796,
+                34797,
+                34798
+            ]
+        },
+        {
+            "ankama_id": 1126,
+            "name": "Welsh Ceremonial Set",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34800,
+                34802,
+                34804,
+                34805
+            ]
+        },
+        {
+            "ankama_id": 1127,
+            "name": "Shedar Ceremonial Set",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34801,
+                34803,
+                34806
             ]
         }
     ]

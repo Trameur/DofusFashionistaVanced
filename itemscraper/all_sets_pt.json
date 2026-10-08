@@ -14978,7 +14978,7 @@
                         "int_minimum": 2,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15045,7 +15045,7 @@
                         "int_minimum": 4,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15073,7 +15073,7 @@
                         "int_minimum": 6,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15140,7 +15140,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15220,7 +15220,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15313,7 +15313,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -46574,7 +46574,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -46654,7 +46654,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -46760,7 +46760,7 @@
                         "int_minimum": 25,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -54859,7 +54859,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -54913,7 +54913,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -56103,7 +56103,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -56183,7 +56183,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -57037,7 +57037,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -57104,7 +57104,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -57918,7 +57918,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -58216,7 +58216,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -58348,7 +58348,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -59968,7 +59968,7 @@
                         "int_minimum": 12,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -61165,7 +61165,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -61206,7 +61206,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -61887,7 +61887,7 @@
                         "int_minimum": 50,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -65503,7 +65503,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -65557,7 +65557,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -66741,7 +66741,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -66808,7 +66808,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -71589,7 +71589,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -71734,7 +71734,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -73373,7 +73373,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -73440,7 +73440,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -74031,7 +74031,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -74137,7 +74137,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -74983,7 +74983,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -75037,7 +75037,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -76306,7 +76306,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -76360,7 +76360,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -77025,7 +77025,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -77092,7 +77092,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -79404,7 +79404,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -79471,7 +79471,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -80095,7 +80095,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -80149,7 +80149,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -80421,7 +80421,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -80527,7 +80527,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -85792,7 +85792,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -85872,7 +85872,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86033,7 +86033,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86087,7 +86087,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86154,7 +86154,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86427,7 +86427,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86468,7 +86468,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86984,7 +86984,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -87025,7 +87025,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -88475,7 +88475,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -88529,7 +88529,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -94294,7 +94294,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -94348,7 +94348,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -96558,7 +96558,7 @@
         {
             "ankama_id": 578,
             "name": "Conjunto de Aparência Forjalança",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96569,7 +96569,8 @@
                 28344,
                 28428,
                 28429,
-                28430
+                28430,
+                34578
             ]
         },
         {
@@ -96721,7 +96722,7 @@
         {
             "ankama_id": 587,
             "name": "Conjunto de Aparência Pandawa",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96732,7 +96733,8 @@
                 23568,
                 23583,
                 23584,
-                23646
+                23646,
+                34580
             ]
         },
         {
@@ -96828,7 +96830,7 @@
         {
             "ankama_id": 593,
             "name": "Conjunto de Aparência Enutrof",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96840,7 +96842,8 @@
                 25363,
                 25364,
                 25994,
-                30235
+                30235,
+                34579
             ]
         },
         {
@@ -97005,7 +97008,7 @@
         },
         {
             "ankama_id": 604,
-            "name": "Conjunto de Aparência Lumino",
+            "name": "Conjunto de Aparência de Lumino Star",
             "items": 3,
             "level": 1,
             "contains_cosmetics": true,
@@ -98894,7 +98897,7 @@
         {
             "ankama_id": 742,
             "name": "Conjunto de Aparência do Praiano",
-            "items": 5,
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -98903,7 +98906,8 @@
                 28564,
                 28565,
                 28566,
-                30812
+                30812,
+                34500
             ]
         },
         {
@@ -99446,14 +99450,13 @@
         {
             "ankama_id": 788,
             "name": "Conjunto de Aparência de Glurdorak",
-            "items": 3,
+            "items": 2,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 9924,
-                9926,
-                12273
+                9926
             ]
         },
         {
@@ -100200,7 +100203,7 @@
         {
             "ankama_id": 843,
             "name": "Conjunto de Aparência de Cavaleiro Negro",
-            "items": 5,
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -100209,7 +100212,8 @@
                 30062,
                 30063,
                 30064,
-                30066
+                30066,
+                30240
             ]
         },
         {
@@ -100390,7 +100394,7 @@
         },
         {
             "ankama_id": 858,
-            "name": "Conjunto Retrofus",
+            "name": "Conjunto de Aparência Retrofus",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -102653,7 +102657,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -103905,7 +103909,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -106280,7 +106284,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -106613,7 +106617,7 @@
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -106922,7 +106926,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -107080,7 +107084,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -107625,7 +107629,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -107949,7 +107953,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -108003,7 +108007,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -108536,7 +108540,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -108629,7 +108633,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -108712,7 +108716,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -108766,7 +108770,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -110653,7 +110657,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -111223,7 +111227,7 @@
                         "int_minimum": 4,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -111290,7 +111294,7 @@
                         "int_minimum": 8,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -111563,7 +111567,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -112035,7 +112039,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -112128,7 +112132,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -114014,7 +114018,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -114094,7 +114098,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -114256,7 +114260,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -114349,7 +114353,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -115050,7 +115054,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -115143,7 +115147,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -117565,7 +117569,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -117645,7 +117649,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -118299,7 +118303,7 @@
         },
         {
             "ankama_id": 1059,
-            "name": "Ankamonjunto",
+            "name": "Ankamonjunto de Aparência",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -119594,7 +119598,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -119674,7 +119678,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -120259,7 +120263,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -120326,7 +120330,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano críticos",
+                            "name": "de dano crítico",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -121303,16 +121307,16 @@
         },
         {
             "ankama_id": 1081,
-            "name": "Conjunto de Aparência da Loteria Turquesa",
+            "name": "Conjunto de Aparência da Loteria Ébano",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
-                34128,
-                34129,
-                34130,
-                34131
+                34641,
+                34642,
+                34643,
+                34644
             ]
         },
         {
@@ -122222,7 +122226,7 @@
         },
         {
             "ankama_id": 1102,
-            "name": "Conjunto dos 25 Anos do Krosmoz",
+            "name": "Conjunto de Aparência dos 25 Anos do Krosmoz",
             "items": 18,
             "level": 60,
             "contains_cosmetics": true,
@@ -122249,6 +122253,22 @@
             ]
         },
         {
+            "ankama_id": 1103,
+            "name": "Conjunto de Aparência de Gultar, o Maldito",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34552,
+                34553,
+                34554,
+                34555,
+                34556,
+                34557
+            ]
+        },
+        {
             "ankama_id": 1104,
             "name": "Conjunto de Aparência da Loteria Marfim",
             "items": 4,
@@ -122260,6 +122280,19 @@
                 34559,
                 34560,
                 34561
+            ]
+        },
+        {
+            "ankama_id": 1105,
+            "name": "Conjunto de Aparência de Otomai",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34563,
+                34564,
+                34565
             ]
         },
         {
@@ -122279,6 +122312,21 @@
             ]
         },
         {
+            "ankama_id": 1109,
+            "name": "Conjunto de Aparência de Jade",
+            "items": 5,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34636,
+                34637,
+                34638,
+                34639,
+                34640
+            ]
+        },
+        {
             "ankama_id": 1110,
             "name": "Conjunto de Aparência de Welsh e Shedar",
             "items": 2,
@@ -122288,6 +122336,91 @@
             "equipment_ids": [
                 34622,
                 34623
+            ]
+        },
+        {
+            "ankama_id": 1111,
+            "name": "Conjunto de Aparência da Demônia VII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34676,
+                34677,
+                34678,
+                34679
+            ]
+        },
+        {
+            "ankama_id": 1112,
+            "name": "Conjunto de Aparência Matizado da Demônia VII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34680,
+                34681,
+                34682,
+                34683
+            ]
+        },
+        {
+            "ankama_id": 1113,
+            "name": "Conjunto de Aparência do Guardião das Almas",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34684,
+                34685,
+                34687,
+                34688,
+                34689,
+                34690
+            ]
+        },
+        {
+            "ankama_id": 1125,
+            "name": "Conjunto de Aparência de Zabelle",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34795,
+                34796,
+                34797,
+                34798
+            ]
+        },
+        {
+            "ankama_id": 1126,
+            "name": "Conjunto de Aparência de Welsh",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34800,
+                34802,
+                34804,
+                34805
+            ]
+        },
+        {
+            "ankama_id": 1127,
+            "name": "Conjunto de Aparência de Shedar",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34801,
+                34803,
+                34806
             ]
         }
     ]
