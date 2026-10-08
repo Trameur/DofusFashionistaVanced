@@ -91,7 +91,7 @@
             {% trans "Allow Dofuses and Trophies" %}<br>
             <label><input type="radio" name="dofus" class="change-modifies-state" value="yes">{% trans "Yes" %}</label>
             <label><input type="radio" name="dofus" class="change-modifies-state" value="no">{% trans "No" %}</label>
-            <label><input type="radio" name="dofus" class="change-modifies-state" value="lightset">{% trans "Remove only <3" %}</label>
+            {% if version_options.set_limit_trophies %}<label><input type="radio" name="dofus" class="change-modifies-state" value="lightset">{% trans "Remove only trophies that limit sets" %}</label>{% endif %}
             <br>
             <label><input type="radio" name="dofus" class="change-modifies-state" value="cawwot">{% trans "Allow only Cawwot Dofus" %}</label>
         </td>

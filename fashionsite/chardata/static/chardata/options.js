@@ -56,8 +56,11 @@ function optionsInit(options) {
     $seemyoolCheckbox.prop('checked', options.seemyool);
     
     var $dofusRadios = $('input:radio[name=dofus]');
-    $dofusRadios.filter('[value=' + optionsBooleanTrophiesToYesNo(options['dofus']) + ']')
-        .prop('checked', true);
+    var $dofusChoice = $dofusRadios.filter('[value=' + optionsBooleanTrophiesToYesNo(options['dofus']) + ']');
+    if (!$dofusChoice.length && options['dofus'] === 'lightset') {
+        $dofusChoice = $dofusRadios.filter('[value=yes]');
+    }
+    $dofusChoice.prop('checked', true);
         
     var $ochreCheckbox = $('input:checkbox[name=ochre]');
     $ochreCheckbox.prop('checked', options.dofuses.ochre);

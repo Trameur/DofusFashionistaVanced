@@ -70,11 +70,18 @@ class TheCatalogueAgreesTests(SimpleTestCase):
         _structure, objet = self._objet('dofus3', 'Emerald Dofus')
         self.assertEqual({}, objet.spell_tooltips)
 
-    def test_its_german_line_would_name_nothing_even_so(self):
-        structure, objet = self._objet('dofus3', 'Emerald Dofus')
-        lignes = [ligne for ligne in (objet.localized_extras.get('de') or [])
-                  if 'Nahkampf' in ligne]
-        self.assertTrue(lignes, 'the reference line changed in the catalogue')
+    def test_every_german_item_line_with_the_compound_word_names_nothing(self):
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        lignes = sorted({ligne
+                         for niveau in structure.types
+                         for items in structure.types[niveau].values()
+                         for item in items if not item.removed
+                         for ligne in (item.localized_extras.get('de') or [])
+                         if 'Nahkampf' in ligne})
+        self.assertTrue(lignes, 'no German item line uses the word any more')
         for ligne in lignes:
             with self.subTest(ligne=ligne[:40]):
                 self.assertNotIn('Nahkampf ', ligne,

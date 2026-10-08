@@ -69,10 +69,12 @@ class ABetaHealingBowTakesThePotionThatServesItTests(_WithAWornWeapon):
         super().setUp()
         self.bow = self.structure.get_item_by_ankama_id(_HIDSAD_BOW)
 
-    def test_an_intelligence_character_shoots_fire_beside_the_neutral_heal(self):
+    def test_an_intelligence_character_shoots_and_heals_in_fire(self):
         result, weapon = self._worn(self.bow, Intelligence=500)
         stats = result.get_stats_total()
         self.assertEqual(FIRE, weapon.element_maged)
+        self.assertEqual([FIRE], [hit.element for hit in weapon.non_crit_hits[FIRE]
+                                  if hit.heals])
         damage, heal = _damage_and_heal(weapon, FIRE, stats)
         neutral_damage, neutral_heal = _damage_and_heal(weapon, NEUTRAL, stats)
         self.assertGreater(damage, neutral_damage)
@@ -83,7 +85,7 @@ class ABetaHealingBowTakesThePotionThatServesItTests(_WithAWornWeapon):
         result, weapon = self._worn(self.bow, Intelligence=500)
         stats = result.get_stats_total()
         castable = _weapon_castable(result)
-        self.assertEqual([(12, 42, FIRE, False), (12, 42, NEUTRAL, True)],
+        self.assertEqual([(12, 42, FIRE, False), (12, 42, FIRE, True)],
                          _rows(castable.hits))
         swung = _scaled(castable.hits, stats)
         self.assertEqual(

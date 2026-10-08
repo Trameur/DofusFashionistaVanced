@@ -299,11 +299,12 @@ def get_picker_cache_key(char, item_type, search_term, order_by_stats,
     # The epoch lives in local memory (per worker), modified_time is shared
     stamp = getattr(char, 'modified_time', None)
     # Search matches translated names, so the language is part of the key
-    raw = '%s|%s|%s|%s|%s|%s|%s|%s' % (get_char_cache_epoch(char_id), char_id,
-                                       stamp.isoformat() if stamp else '',
-                                       item_type, search_term, order_by_stats,
-                                       stat_filters,
-                                       get_supported_language())
+    raw = '%s|%s|%s|%s|%s|%s|%s|%s|%s' % (get_char_cache_epoch(char_id), char_id,
+                                          stamp.isoformat() if stamp else '',
+                                          getattr(char, 'weapon_forge', ''),
+                                          item_type, search_term, order_by_stats,
+                                          stat_filters,
+                                          get_supported_language())
     return 'picker-%s' % hashlib.sha1(raw.encode('utf-8')).hexdigest()
 
 

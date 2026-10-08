@@ -70,14 +70,17 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
         class_spells + shared_spells, game_version,
         list(reference.values()) + list(shared_reference.values()))
     modifiers = worn_spell_modifiers(solution, game_version)
-    from chardata.spell_combo import hp_share_hits_for_version
+    from chardata.spell_combo import damage_taken_for_version, hp_share_hits_for_version
     hp_shares = hp_share_hits_for_version(game_version)
+    taken_by_bucket = damage_taken_for_version(game_version)
     for index, spell in enumerate(class_spells + shared_spells):
         spell_id = getattr(spell, 'spell_id', None)
         bucket = char_class if index < len(class_spells) else 'default'
         web_digest = _create_spell_web_digest(
             spell, game_version, char.level, modifiers.get(spell_id),
-            hp_share=hp_shares.get(bucket, {}).get(spell_id))
+            hp_share=hp_shares.get(bucket, {}).get(spell_id),
+            taken=next((entry for entry in taken_by_bucket.get(bucket) or []
+                        if entry['spell_id'] == spell_id), None))
         web_digest['variant_partner'] = partenaires.get(spell_id)
         entry = reference.get(spell_id) or shared_reference.get(spell_id)
         if entry is not None:
@@ -858,6 +861,27 @@ def _hp_share_digest(entry, ranks, language):
             'critical': drawn(entry.get('critical'))}
 
 
+def _damage_taken_digest(entry, level_req, language):
+    """{'normal', 'critical', 'waits'}: per rank, Ankama's damage taken line and its wait."""
+    if not entry:
+        return None
+    from chardata.spell_combo import DamageTaken, damage_taken_rank
+    digest = {'normal': [], 'critical': [], 'waits': []}
+    for rank in range(len(level_req)):
+        index = damage_taken_rank(entry, level_req, rank)
+        if index is None or not entry['percent'][index]:
+            for lines in digest.values():
+                lines.append('')
+            continue
+        taken = DamageTaken(entry, index)
+        digest['normal'].append(_taken_line(taken, 1, language))
+        digest['critical'].append(_taken_line(taken, 1, language, taken.critical))
+        placed = (entry.get('placed') or [None] * (index + 1))[index]
+        wait = _CONDITIONAL_LABELS.get(placed) or _DELAYED_LABELS.get(placed)
+        digest['waits'].append(str(wait) if placed and wait else '')
+    return digest
+
+
 def _hp_share_rows_at_full_hp(castable):
     """The rows of shares of HP a cast deals at full HP, at its rank."""
     from chardata.spell_combo import lands_at_full_hp
@@ -887,7 +911,7 @@ def _hp_share_lines(castable, language):
 
 
 def _create_spell_web_digest(spell, game_version='dofus3', char_level=None,
-                             modifiers=None, hp_share=None):
+                             modifiers=None, hp_share=None, taken=None):
     web_digest = {}
     digest = spell.get_effects_digest()
     current_language = get_supported_language()
@@ -938,6 +962,7 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None,
     web_digest['buff_scaling'] = spell.buff_scaling
     web_digest['hp_share'] = _hp_share_digest(hp_share, len(spell.level_req),
                                               current_language)
+    web_digest['taken'] = _damage_taken_digest(taken, spell.level_req, current_language)
     return web_digest
 
 def best_combo_json(request, char_id=0):

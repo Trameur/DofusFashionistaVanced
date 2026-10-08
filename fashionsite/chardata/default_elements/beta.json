@@ -15,8 +15,8 @@
    "50": {"element": "str", "inputs": "bd45b86a126f", "turns": {"agi": 235.7, "cha": 196.9, "int": 225.2, "str": 247.2}},
    "100": {"element": "agi", "inputs": "0214ff51fd48", "turns": {"agi": 567.4, "cha": 495.8, "int": 504.1, "str": 505.9}},
    "150": {"element": "int", "inputs": "199df2a79d2f", "turns": {"agi": 993.6, "cha": 928.0, "int": 1382.5, "str": 1074.3}},
-   "180": {"element": "int", "inputs": "7df04c5a328e", "turns": {"agi": 1350.8, "cha": 1274.9, "int": 1756.8, "str": 1736.6}},
-   "200": {"element": "int", "inputs": "61bc1a7d2091", "turns": {"agi": 1740.3, "cha": 1675.0, "int": 2266.7, "str": 2235.2}}
+   "180": {"element": "int", "inputs": "3c49be34d01c", "turns": {"agi": 1651.0, "cha": 1274.9, "int": 1756.8, "str": 1736.6}},
+   "200": {"element": "int", "inputs": "0953a3a9cca1", "turns": {"agi": 2099.5, "cha": 1675.0, "int": 2266.7, "str": 2235.2}}
   },
   "Ecaflip": {
    "20": {"element": "agi", "inputs": "25f035874556", "turns": {"agi": 167.7, "cha": 78.4, "int": 128.4, "str": 128.3}},

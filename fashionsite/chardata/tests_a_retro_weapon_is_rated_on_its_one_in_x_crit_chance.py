@@ -59,7 +59,7 @@ class _Mocked(SimpleTestCase):
                 mock.patch('chardata.item_exchange.get_solution',
                            return_value=solution):
             structure.return_value.game_version = version
-            structure.return_value.get_weapon_by_name.return_value = \
+            structure.return_value.get_weapon_for_item.return_value = \
                 _weapon(base_crit)
             rate = _get_weapon_rate(_named('Any Weapon'), None, solution)
             info = _get_weapon_info(_named('Any Weapon'), None)

@@ -19,6 +19,7 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404
 from django.db.models import Count, F
 from django.core.cache import cache
+import hashlib
 import ipaddress
 import json
 import math
@@ -529,10 +530,12 @@ def _get_shared_solution_cache_key(char):
     modified_marker = 'none'
     if char.modified_time is not None:
         modified_marker = str(int(char.modified_time.timestamp() * 1000000))
-    return 'shared-solution-%s-%s-%s-%s' % (char.pk,
-                                            modified_marker,
-                                            char.gender or 0,
-                                            get_supported_language())
+    forge = (getattr(char, 'weapon_forge', '') or '').encode('utf-8')
+    return 'shared-solution-%s-%s-%s-%s-%s' % (char.pk,
+                                               modified_marker,
+                                               char.gender or 0,
+                                               get_supported_language(),
+                                               hashlib.sha1(forge).hexdigest()[:12])
 
 
 def _get_shared_solution_params(char):

@@ -4,6 +4,7 @@
 from django.test import SimpleTestCase, TestCase
 
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
+REPRISAL = 32472
 
 
 class _Lancable(object):
@@ -63,6 +64,12 @@ class ADamageTakenDebuffIsReadFromTheGameTests(SimpleTestCase):
         with override('en'):
             return _cast_note(castable, castable.name, {}, 0, 'dofus3')
 
+    def _debuff_with_reprisals_share(self):
+        from chardata.spell_combo import add_hp_share_hits, hp_share_hits_for_version
+        entry = hp_share_hits_for_version('dofus3')['Cra'][REPRISAL]
+        self.assertEqual({'target_eroded_hp'}, {row['of'] for row in entry['normal']})
+        return add_hp_share_hits(self._castable('Piercing Shot'), entry, 0)
+
     def test_a_debuff_with_no_hit_says_it_raises_the_casts_that_follow(self):
         castable = self._castable('Piercing Shot')
         self.assertIsNotNone(castable.taken)
@@ -72,7 +79,7 @@ class ADamageTakenDebuffIsReadFromTheGameTests(SimpleTestCase):
 
     def test_a_debuff_whose_own_share_of_hp_is_listed_apart_is_not_called_damageless(self):
         from chardata.spells_view import _hp_share_lines
-        castable = self._castable('Reprisal')
+        castable = self._debuff_with_reprisals_share()
         self.assertIsNotNone(castable.taken)
         self.assertFalse(castable.hits)
         self.assertTrue(_hp_share_lines(castable, 'en')[1])
@@ -81,15 +88,15 @@ class ADamageTakenDebuffIsReadFromTheGameTests(SimpleTestCase):
     def test_the_share_of_hp_decides_it_even_when_no_language_has_its_text(self):
         import copy
         from chardata.spells_view import _hp_share_lines
-        reprisal = self._castable('Reprisal')
-        without_text = copy.deepcopy(reprisal.hp_share)
+        debuff = self._debuff_with_reprisals_share()
+        without_text = copy.deepcopy(debuff.hp_share)
         for row in without_text['normal']:
             row['text'] = []
         castable = _Lancable()
-        castable.name = reprisal.name
-        castable.taken = reprisal.taken
+        castable.name = debuff.name
+        castable.taken = debuff.taken
         castable.hp_share = without_text
-        castable.hp_share_level = reprisal.hp_share_level
+        castable.hp_share_level = debuff.hp_share_level
         self.assertEqual(([], []), _hp_share_lines(castable, 'en'))
         self.assertEqual('', self._note(castable))
 

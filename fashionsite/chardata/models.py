@@ -64,6 +64,7 @@ class Char(models.Model):
     solved_time = models.DateTimeField(null=True, blank=True)
     # When the stored set last changed; a plain save leaves it alone
     stuff_time = models.DateTimeField(null=True, blank=True)
+    weapon_forge = models.CharField(max_length=255, blank=True, default='', db_default='')
 
     class Meta:
         # Shared-builds page filter, newest first

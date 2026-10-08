@@ -16668,7 +16668,7 @@ class MonsterSpellQueryTests(SimpleTestCase):
                     """SELECT ap_cost, range_min, range_max
                        FROM monster_spell_levels
                        WHERE spell_ankama_id = ? AND grade = ?""",
-                    (spell['id'], grades[0] if grades else 1)).fetchone()
+                    (spell['id'], next((g for g in grades if g), 0) if grades else 1)).fetchone()
                 self.assertEqual(
                     tuple(expected),
                     (spell['ap_cost'], spell['range_min'], spell['range_max']))
@@ -22941,7 +22941,7 @@ class WeaponWithoutApTests(TestCase):
             name = 'Mercenary\'s Sword'
 
         with mock.patch('chardata.item_exchange.get_structure') as structure:
-            structure.return_value.get_weapon_by_name.return_value = Hitless()
+            structure.return_value.get_weapon_for_item.return_value = Hitless()
             self.assertEqual(_get_weapon_rate(Named(), None, Solution()), 0)
 
     def test_a_header_without_an_ap_cost_states_what_is_known(self):

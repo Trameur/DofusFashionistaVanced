@@ -4247,7 +4247,7 @@ msgid "Allow Dofuses and Trophies"
 msgstr ""
 
 #: .\chardata\templates\chardata\options.html:79
-msgid "Remove only <3"
+msgid "Remove only trophies that limit sets"
 msgstr ""
 
 #: .\chardata\templates\chardata\options.html:81
@@ -4339,6 +4339,10 @@ msgstr ""
 #: .\chardata\templates\chardata\solution.html
 #: .\chardata\templates\chardata\shared_builds.html
 msgid "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3"
 msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html
@@ -8213,6 +8217,22 @@ msgstr ""
 
 #: chardata/templates/chardata/changelog_content.html
 msgid "October 2026"
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3.7 update"
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Strong smithmagic potions now turn a weapon's neutral damage lines into their element at full strength, and leave its steal and heal lines as they are."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Trophies that limit sets now allow one equipped set of any size: the optimizer respects it, and a build that breaks it shows the condition in red."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Monster pages show the 3.7 bestiary, with power and pushback resistance wherever the game gives them."
 msgstr ""
 
 #: chardata/templates/chardata/changelog_content.html

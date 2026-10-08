@@ -21,6 +21,8 @@ DEVOURING_ARROW = 32446
 JORMUN = 23268
 PERSECUTING_ARROW = 32433
 HARMPIT = 14651
+RAINING_ARROWS = 32431
+RAINING_ARROWS_AREA = 32481
 
 # {spell id: (versions, {row: when})}
 LATE = {
@@ -28,6 +30,7 @@ LATE = {
     SANDGLASS: (MODERN, {1: 'later_turn'}),
     DEVOURING_ARROW: (MODERN, {5: 'later_turn', 7: 'later_turn', 9: 'later_turn',
                                10: 'later_turn'}),
+    RAINING_ARROWS: (MODERN, {1: 'later_turn'}),
 }
 
 # Ankama's words for each rule, lower case; a tuple when the versions word it apart
@@ -46,6 +49,8 @@ SAYS = {
                       'es': ('próximos turnos', 'retardado'),
                       'pt': ('turnos seguintes', 'atraso'),
                       'de': ('nächsten runden', 'verzögerung')},
+    RAINING_ARROWS: {'en': 'following turn', 'fr': 'tour suivant', 'es': 'siguiente turno',
+                     'pt': 'turno seguinte', 'de': 'nächsten runde'},
 }
 
 INITIAL_ENEMY = {'en': 'initial enemy', 'fr': 'ennemi initial', 'es': 'enemigo inicial',
@@ -177,6 +182,7 @@ class TheGeneratorReadsTheDelayOfEachEffectTests(SimpleTestCase):
 
     def test_the_client_still_puts_a_delay_on_those_rows(self):
         found = {}
+        recasts = {}
         for version, name in RAW.items():
             path = os.path.join(REPO, 'itemscraper', name)
             if not os.path.exists(path):
@@ -192,12 +198,21 @@ class TheGeneratorReadsTheDelayOfEachEffectTests(SimpleTestCase):
                     if spell.get('ankama_id') in (SWORD_OF_JUDGEMENT, SANDGLASS, PLOTTER,
                                                   DEVOURING_ARROW):
                         found[(version, spell['ankama_id'])] = delays
+                    if spell.get('ankama_id') == RAINING_ARROWS:
+                        recasts[version] = sorted(
+                            (effect.get('delay') or 0, effect['dice']['max'])
+                            for level in spell.get('levels') or []
+                            for effect in level.get('effects') or []
+                            if effect.get('effect_id') == 2794
+                            and effect['dice']['min'] == RAINING_ARROWS_AREA)
         self.assertEqual({2}, found[('dofus3', SWORD_OF_JUDGEMENT)])
         self.assertEqual({2}, found[('dofus2', SWORD_OF_JUDGEMENT)])
         self.assertEqual({2}, found[('beta', SANDGLASS)])
         self.assertEqual(set(), found[('dofus2', SANDGLASS)])
         self.assertEqual({3}, found[('dofus2', PLOTTER)])
         self.assertEqual({3}, found[('dofus3', DEVOURING_ARROW)])
+        for version in MODERN:
+            self.assertEqual([(0, 2), (1, 1)], recasts[version])
 
 
 class EachSpellCarriesItsLateRowsTests(SimpleTestCase):
@@ -280,11 +295,13 @@ class TheTurnCountsLateDamageApartTests(SimpleTestCase):
         return cast, total, later.get(cast.name, 0.0), burst, delayed_moments([cast], order)
 
     def test_the_burst_leaves_out_the_late_row_and_the_turn_keeps_it(self):
-        for spell_id in (SWORD_OF_JUDGEMENT, SANDGLASS):
+        for spell_id, stats in ((SWORD_OF_JUDGEMENT, {'int': 800, 'cha': 800}),
+                                (SANDGLASS, {'int': 800, 'cha': 800}),
+                                (RAINING_ARROWS, {'agi': 800})):
             for version in LATE[spell_id][0]:
                 with self.subTest(version=version, spell=spell_id):
                     cast, total, later, burst, moments = self._turn(
-                        version, spell_id, int=800, cha=800)
+                        version, spell_id, **stats)
                     self.assertGreater(later, 0)
                     self.assertGreater(burst, 0)
                     self.assertAlmostEqual(total, burst + later, delta=1)

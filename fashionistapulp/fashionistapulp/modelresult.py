@@ -20,8 +20,9 @@ from django.utils.translation import gettext as _
 
 from .exo_options import EXO_OPTIONS, exo_count, exo_per_item
 from .dofus_constants import (ALL_TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER,
-                             DAMAGE_TYPES, BASE_STATS, STAT_KEY_TO_NAME,
-                             calculate_damage, SLOT_NAME_TO_TYPE, slots_for)
+                             BASE_STATS, STAT_KEY_TO_NAME, NEUTRAL,
+                             SLOT_NAME_TO_TYPE, slots_for)
+from . import weapon_forge
 from .item_flags import flag_lines
 from .spell_text import fold_spell_blocks
 from .structure import get_structure, get_current_game_version
@@ -172,12 +173,13 @@ def get_item_in_slot(structure, item_id, slot):
     return moved
 
 
-def model_result_from_minimal(minimal, stat_overrides=None):
+def model_result_from_minimal(minimal, stat_overrides=None, forge_choice=None):
     structure = get_structure()
     if hasattr(minimal, 'stats'):
         result = ModelResult(minimal.input, minimal.stats)
     else:
         result = ModelResult(minimal.input)
+    result.forge_choice = forge_choice
     result.exo_assumed = getattr(minimal, 'exo_assumed', None)
     result.exo_option_tops_owned = getattr(minimal, 'exo_option_tops_owned', False)
 
@@ -202,6 +204,7 @@ class ModelResult():
 
     exo_assumed = None
     exo_option_tops_owned = True
+    forge_choice = None
     # {stat key: exo points worn}, on exo_per_item versions
     exo_points = None
     
@@ -714,12 +717,18 @@ class ModelResult():
         self.get_stats_gear()
         self.get_stats_total()
         if self.items['Weapon'] and self.items['Weapon'][0].item_added:
-            self.items['Weapon'][0].mage_weapon_smartly(self.get_stats_total())
+            self.items['Weapon'][0].mage_weapon_smartly(self.get_stats_total(),
+                                                        self.forge_choice)
 
 
 class ModelResultItem():
 
     assumed_exo = None
+    forge_base = None
+    conversions = None
+    steal_element = None
+    heal_element = None
+    forge_key = ()
 
     def __init__(self, item, stat_overrides=None):
         # Legacy pickles can be missing the newer weapon fields.
@@ -853,17 +862,27 @@ class ModelResultItem():
         if not self.localized_name:
             self.localized_name = _(SLOT_NAME_TO_TYPE[slot])
         
-    def mage_weapon_smartly(self, char_stats):
-        if not getattr(self, 'is_mageable', False):
+    def mage_weapon_smartly(self, char_stats, forge_choice=None):
+        if getattr(self, 'non_crit_hits', None) is None:
             return
-        best_worth = None
-        for element in DAMAGE_TYPES:
-            hits = calculate_damage(self.non_crit_hits[element], char_stats,
-                                    critical_hit=False, is_spell=False)
-            worth = sum(hit.average() for hit in hits)
-            if best_worth is None or worth > best_worth:
-                best_worth = worth
-                self.element_maged = element
+        if self.forge_base is None:
+            self.forge_base = self.non_crit_hits[NEUTRAL]
+        version = get_current_game_version()
+        chosen = weapon_forge.choose(version, getattr(self, 'ankama_id', None),
+                                     self.forge_base, char_stats, forge_choice)
+        self.conversions = chosen
+        self.forge_key = tuple(sorted(chosen.items()))
+        self.steal_element = chosen.get('steal', (None,))[0]
+        self.heal_element = chosen.get('heal', (None,))[0]
+        self.is_mageable = 'damage' in chosen
+        if not chosen:
+            return
+        crit_bonus = (getattr(self, 'crit_bonus', None)
+                      if getattr(self, 'crit_hits', None) is not None else None)
+        self.non_crit_hits, self.crit_hits = weapon_forge.compose_tabs(
+            version, self.forge_base, crit_bonus, chosen)
+        if self.is_mageable:
+            self.element_maged = chosen['damage'][0]
 
 
 class ModelResultSet():

@@ -537,23 +537,29 @@ def _get_difference(item, slot, char, stat_overrides=None):
         stats_lines.append(AttributeLine(stat_key, stat_value, stat_name))
     return stats_lines
 
+def _weapon_of(structure, item):
+    return structure.get_weapon_for_item(item) or structure.get_weapon_by_name(item.name)
+
+def _swung(result_item, weapon_obj, result, stats):
+    if getattr(result_item, 'non_crit_hits', None) is None:
+        return NEUTRAL, weapon_obj.non_crit_hits, weapon_obj.crit_hits
+    result_item.mage_weapon_smartly(stats, getattr(result, 'forge_choice', None))
+    element = result_item.element_maged if result_item.is_mageable else NEUTRAL
+    return element, result_item.non_crit_hits, result_item.crit_hits
+
 def _get_weapon_rate(weapon, char, result, stat_overrides=None):
     structure = get_structure()
     result_item = result.switch_item(weapon, 'weapon', stat_overrides)
     new_stats = result.stats_total.copy()
-    weapon_obj = structure.get_weapon_by_name(weapon.name)
+    weapon_obj = _weapon_of(structure, weapon)
     if weapon_obj is None:
         return 0
 
-    if result_item.is_mageable:
-        result_item.mage_weapon_smartly(new_stats)
-        element = result_item.element_maged
-    else:
-        element = NEUTRAL
+    element, hits, crit_hits = _swung(result_item, weapon_obj, result, new_stats)
 
     calculated_damage = {}
     for elementnew in DAMAGE_TYPES:
-        calculated_damage[elementnew] = calculate_damage(weapon_obj.non_crit_hits[element],
+        calculated_damage[elementnew] = calculate_damage(hits[element],
                                                          new_stats, critical_hit=False, is_spell=False)
     
     total_damage = 0
@@ -570,7 +576,7 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
     if weapon_obj.has_crits:
         calculated_crit_damage = {}
         for elementnew in DAMAGE_TYPES:
-            calculated_crit_damage[elementnew] = calculate_damage(weapon_obj.crit_hits[element],
+            calculated_crit_damage[elementnew] = calculate_damage(crit_hits[element],
                                                              new_stats, critical_hit=True, is_spell=False)
          
         total_damage = 0
@@ -617,22 +623,18 @@ def _get_weapon_info(weapon, char, stat_overrides=None):
     result = get_solution(char)
     result_item = result.switch_item(weapon, 'weapon', stat_overrides)
     new_stats = result.stats_total.copy()
-    weapon_obj = structure.get_weapon_by_name(weapon.name)
+    weapon_obj = _weapon_of(structure, weapon)
     if weapon_obj is None:
         return weapon_info
 
-    if result_item.is_mageable:
-        result_item.mage_weapon_smartly(new_stats)
-        element = result_item.element_maged
-    else:
-        element = NEUTRAL
+    element, hits, crit_hits = _swung(result_item, weapon_obj, result, new_stats)
 
     weapon_info['is_mageable'] = result_item.is_mageable
     weapon_info['element'] = _(ELEMENT_KEY_TO_NAME[element])
         
     calculated_damage = {}
     for elementnew in DAMAGE_TYPES:
-        calculated_damage[elementnew] = calculate_damage(weapon_obj.non_crit_hits[element],
+        calculated_damage[elementnew] = calculate_damage(hits[element],
                                                          new_stats, critical_hit=False, is_spell=False)
     
     min_noncrit_dam = 0
@@ -657,7 +659,7 @@ def _get_weapon_info(weapon, char, stat_overrides=None):
     
         calculated_crit_damage = {}
         for elementnew in DAMAGE_TYPES:
-            calculated_crit_damage[elementnew] = calculate_damage(weapon_obj.crit_hits[element],
+            calculated_crit_damage[elementnew] = calculate_damage(crit_hits[element],
                                                          new_stats, critical_hit=True, is_spell=False)
     
         min_crit_dam = 0

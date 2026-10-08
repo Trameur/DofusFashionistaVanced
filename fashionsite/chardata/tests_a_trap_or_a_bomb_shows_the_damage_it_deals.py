@@ -6,6 +6,7 @@ from django.test import SimpleTestCase, TestCase
 from django.utils.translation import override
 
 from chardata.spell_buffs import get_damage_spells_for_version
+from chardata.spells_view import _create_spell_web_digest
 from fashionistapulp.dofus_constants import AIR, EARTH, FIRE, WATER
 
 VERSIONS = ('dofus3', 'beta')
@@ -20,6 +21,8 @@ REFUGE = 13021
 BLACK_ICE = 13023
 PRESSURE = 13106
 SCURVION_TOXICITY = 12505
+FRAGMENTATION_TRAP = 12941
+PESTILENTIAL_FOG = 18898
 
 
 def _spell(version, char_class, spell_id):
@@ -112,15 +115,38 @@ class ThePlacedThingsDamageIsReadFromItsOwnRecordTests(SimpleTestCase):
                 self.assertEqual({'Glyph damage - State 5260'}, heads)
 
     def test_a_best_element_hit_renumbered_between_grades_is_one_hit(self):
-        spell = _spell('beta', 'default', SCURVION_TOXICITY)
-        self.assertEqual([[(8, 8)] * 3] * 8, _rows(spell.effects.non_crit_ranges))
-        self.assertEqual([EARTH, FIRE, WATER, AIR] * 2, spell.effects.elements)
-        self.assertEqual([('Hit in best element', [0]), ('', [1]), ('', [2]),
-                          ('', [3]), ('Hit in best element', [4]), ('', [5]),
-                          ('', [6]), ('', [7])], spell.aggregates)
-        spell = _spell('dofus3', 'default', SCURVION_TOXICITY)
-        self.assertEqual([[(0, 0), (8, 8), (8, 8)]] * 4,
-                         _rows(spell.effects.non_crit_ranges))
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                spell = _spell(version, 'default', SCURVION_TOXICITY)
+                self.assertEqual([[(0, 0), (8, 8), (8, 8)]] * 4,
+                                 _rows(spell.effects.non_crit_ranges))
+                self.assertEqual([EARTH, FIRE, WATER, AIR], spell.effects.elements)
+                self.assertEqual([('Hit in best element', [0]), ('', [1]), ('', [2]),
+                                  ('', [3])], spell.aggregates)
+
+    def test_a_trap_hitting_by_distance_from_its_centre_hits_an_enemy_at_one_distance(self):
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                trap = _spell(version, 'Sram', FRAGMENTATION_TRAP)
+                self.assertEqual([[(48, 52)], [(27, 31)], [(37, 41)], [(47, 51)]],
+                                 _rows(trap.effects.non_crit_ranges))
+                self.assertEqual([FIRE] * 4, trap.effects.elements)
+                self.assertEqual([('Trap damage', [0]), ('', [1]), ('', [2]), ('', [3])],
+                                 trap.aggregates)
+                self.assertEqual({0: 'trap', 1: 'trap', 2: 'trap', 3: 'trap'},
+                                 trap.conditional)
+
+    def test_the_pestilential_fog_row_comes_from_the_spell_that_deals_it(self):
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                fogs = [spell for spell in get_damage_spells_for_version(version)['default']
+                        if spell.name == 'Pestilential Fog']
+                self.assertEqual([PESTILENTIAL_FOG], [spell.spell_id for spell in fogs])
+                self.assertEqual([[(0, 0), (18, 18), (18, 18)]] * 4,
+                                 _rows(fogs[0].effects.non_crit_ranges))
+                self.assertEqual([EARTH, FIRE, WATER, AIR], fogs[0].effects.elements)
+                self.assertEqual({0: 'turn_begin', 1: 'turn_begin', 2: 'turn_begin',
+                                  3: 'turn_begin'}, fogs[0].delayed)
 
     def test_a_spell_that_was_complete_is_untouched(self):
         for version in VERSIONS:
@@ -141,6 +167,26 @@ class ThePlacedThingsDamageIsReadFromItsOwnRecordTests(SimpleTestCase):
                                  spell.casting)
                 self.assertEqual({}, spell.conditional)
                 self.assertEqual({}, spell.delayed)
+
+
+class EachDistanceFromTheCentreIsACaseTests(SimpleTestCase):
+
+    def _aggregates(self, *situations):
+        from chardata.tests import itemscraper_module
+        generator = itemscraper_module('generate_damage_spells')
+        rows = [{'element': 'FIRE', 'ranges': ['%d-%d' % (10 * index, 10 * index + 2)],
+                 'situation': situation} for index, situation in enumerate(situations, 1)]
+        return generator._build_situation_aggregates(rows, len(rows))
+
+    def test_the_centre_and_each_ring_are_cases(self):
+        self.assertEqual([('', [0]), ('', [1]), ('', [2])],
+                         self._aggregates('A|80,1,0', 'a,A|79,1,0', 'a,A|79,2,0'))
+
+    def test_a_zone_covering_several_distances_or_one_distance_twice_adds_its_hit(self):
+        for situations in (('A|80,1,0', 'a,A|67,3,1'), ('a,A|79,2,1', 'a,A|79,1,0'),
+                           ('a,A|79,1,0', 'A|79,1,0')):
+            with self.subTest(situations=situations):
+                self.assertIsNone(self._aggregates(*situations))
 
 
 class TheReaderAndTheSiteAgreeOnTheHeadsTests(SimpleTestCase):
@@ -191,6 +237,26 @@ class ThePageNamesThePlacedThingInEachLanguageTests(SimpleTestCase):
                 self.assertEqual([[label, [0]]], digest['aggregates'])
                 self.assertEqual({'0': wait}, digest['conditional'])
                 self.assertEqual({}, digest['delayed'])
+
+    def test_vendettas_card_says_its_damage_taken_waits_for_the_trap(self):
+        from chardata.spell_combo import damage_taken_for_version
+        sustained = {'en': 'x110% damage sustained', 'fr': 'Dommages subis x110%',
+                     'es': 'Daños sufridos x110%', 'pt': 'Danos sofridos x110%',
+                     'de': 'Erlittener Schaden x110%'}
+        for version in VERSIONS:
+            entry = next(entry for entry in damage_taken_for_version(version)['Cra']
+                         if entry['spell_id'] == VENDETTA)
+            for language, (_label, wait) in self.EXPECTED.items():
+                with self.subTest(version=version, language=language):
+                    with override(language):
+                        digest = _create_spell_web_digest(
+                            _spell(version, 'Cra', VENDETTA), version, taken=entry)
+                    self.assertEqual({'normal': [sustained[language]],
+                                      'critical': [sustained[language]],
+                                      'waits': [wait]}, digest['taken'])
+
+    def test_a_card_without_damage_taken_carries_none(self):
+        self.assertIsNone(self._digest(_spell('dofus3', 'Sram', TRICKY_TRAP), 'en')['taken'])
 
     def test_a_best_element_trap_shows_one_face_under_the_trap_label(self):
         digest = self._digest(_spell('dofus3', 'Cra', VENDETTA), 'fr')
@@ -283,11 +349,19 @@ class TheBestTurnLeavesAPlacedThingsDamageOutTests(SimpleTestCase):
                                  [when for _row, when in spell.waiting_plain])
 
     def test_a_placed_block_never_passes_for_a_face_of_the_hit_before(self):
+        from types import SimpleNamespace
         from chardata.spell_combo import element_runs
-        spell = _spell('beta', 'Cra', 32431)
-        digest = spell.get_effects_digest()
-        self.assertEqual([('', [0]), ('Glyph damage', [1])], spell.aggregates)
-        self.assertEqual([], element_runs(spell.aggregates, digest.non_crit_dams[0]))
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                spell = _spell(version, 'Feca', PASTURELAND)
+                digest = spell.get_effects_digest()
+                self.assertEqual([('', [0]), ('Glyph damage - State 5260', [1])],
+                                 spell.aggregates)
+                self.assertEqual([], element_runs(spell.aggregates, digest.non_crit_dams[0]))
+        faces = [SimpleNamespace(element=element) for element in (AIR, FIRE)]
+        self.assertEqual([], element_runs([('', [0]), ('Glyph damage', [1])], faces))
+        self.assertEqual([[('', [0]), ('', [1])]],
+                         element_runs([('', [0]), ('', [1])], faces))
 
 
 class TheDofus2TablesReadTheTrapsAndTheGlyphsTests(SimpleTestCase):
@@ -344,7 +418,7 @@ class TheDofus2TablesReadTheTrapsAndTheGlyphsTests(SimpleTestCase):
 
 class TheSpellsPageCarriesTheLabelTests(TestCase):
 
-    def _build(self):
+    def _build(self, char_class='Sram'):
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         from chardata.models import Char
@@ -357,7 +431,7 @@ class TheSpellsPageCarriesTheLabelTests(TestCase):
             names.append(structure.get_item_name_in_language(item, 'en'))
         self.client.post('/import/text/', {
             'text': '\n'.join(names), 'confirm': '1',
-            'char_class': 'Sram', 'level': '200'})
+            'char_class': char_class, 'level': '200'})
         return Char.objects.order_by('-id').first()
 
     def _digests(self, char, language):
@@ -381,3 +455,13 @@ class TheSpellsPageCarriesTheLabelTests(TestCase):
                 digest = self._digests(char, language)['Tricky Trap']
                 self.assertEqual([[label, [0]]], digest['aggregates'])
                 self.assertEqual({'0': wait}, digest['conditional'])
+
+    def test_the_page_puts_vendettas_damage_taken_on_its_card(self):
+        char = self._build('Cra')
+        for language, line, wait in (
+                ('en', 'x110% damage sustained', 'only when an enemy sets off the trap'),
+                ('fr', 'Dommages subis x110%', 'seulement si un ennemi déclenche le piège')):
+            with self.subTest(language=language):
+                digest = self._digests(char, language)['Vendetta']
+                self.assertEqual({'normal': [line], 'critical': [line], 'waits': [wait]},
+                                 digest['taken'])

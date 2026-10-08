@@ -26,6 +26,7 @@ sys.path.insert(0, current_directory)
 # Icon filenames are normalized separately (get_equipments4/image_store).
 from untranslated_tag import clean_display_name  # noqa: E402
 import item_criteria  # noqa: E402
+import item_effect_texts  # noqa: E402
 
 _parser = argparse.ArgumentParser(description="Transform downloaded equipment JSON files")
 _parser.add_argument("--work-dir", default=None, help="Directory to read/write JSON files (default: script directory)")
@@ -299,6 +300,16 @@ mount_ankama_ids = {
 
 set_data = {lang: load_data_for_language(lang, 'sets') for lang in LANGUAGES}
 
+effect_texts = None
+if _args.raw_dir:
+    effect_texts, missing_raw = item_effect_texts.load(
+        _args.raw_dir, LANGUAGES, item_effect_texts.linked_spells(
+            eff.get('formatted') for data in equipment_data.values()
+            for item in data.get('items', []) for eff in item.get('effects') or []))
+    if missing_raw:
+        print(f"Item texts kept as the source wrote them, missing or unreadable in "
+              f"{_args.raw_dir}: {', '.join(missing_raw)}")
+
 # Create a list to store the new formatted items
 new_data = []
 
@@ -381,6 +392,17 @@ for item in equipment_data['en']['items']:
                             if lang_special_spell:
                                 transformed_item[f"special_spell_{lang}"] = lang_special_spell
 
+        if effect_texts is not None:
+            special = {lang: transformed_item[f"special_spell_{lang}"] for lang in LANGUAGES
+                       if transformed_item.get(f"special_spell_{lang}")}
+            for lang, text in effect_texts.rebuild_numbers(special).items():
+                if text != special[lang]:
+                    for before, after in zip(special[lang].split('\n'), text.split('\n')):
+                        if before != after:
+                            print(f"Number rebuilt from its effect in {item.get('ankama_id')} ({lang}): "
+                                  f"{before!r} -> {after!r}")
+                    transformed_item[f"special_spell_{lang}"] = text
+
         if any(is_spell_modifier(eff) for eff in item["effects"]):
             for lang in LANGUAGES:
                 lang_item = items_by_ankama_id[lang].get(item.get('ankama_id'))
@@ -391,6 +413,8 @@ for item in equipment_data['en']['items']:
                          if is_spell_modifier(e)]
                 if not lines:
                     continue
+                if effect_texts is not None:
+                    lines = [effect_texts.agree_with_count(line, lang) for line in lines]
                 key = f"special_spell_{lang}"
                 if transformed_item.get(key):
                     lines.insert(0, transformed_item[key])

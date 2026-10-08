@@ -9,7 +9,8 @@ from django.utils.translation import override
 from chardata import default_elements
 from chardata.management.commands import store_default_elements as generator
 from chardata.spell_buffs import get_damage_spells_for_version
-from chardata.spell_combo import HpShare, best_turn, castable_spells, hp_share_hits_for_version
+from chardata.spell_combo import (HpShare, best_turn, castable_spells, damage_taken_for_version,
+                                  hp_share_hits_for_version)
 from chardata.spells_view import _create_spell_web_digest, _hp_share_lines
 from chardata.version_compat import filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES, NEUTRAL
@@ -333,24 +334,29 @@ class TheTurnCountsTheBuildsHpTests(SimpleTestCase):
                 self.assertEqual([[HpShare]], [[type(row) for row in alternative]
                                                for alternative in spell.plain_alternatives])
 
-    def test_retribution_and_reprisal_leave_the_turn_where_the_hp_puts_it(self):
-        cases = [(version, 'Sacrier', RETRIBUTION) for version in VERSIONS]
-        cases.append(('dofus3', 'Cra', REPRISAL))
-        for version, char_class, spell_id in cases:
+    def test_retribution_leaves_the_turn_where_the_hp_puts_it(self):
+        for version in VERSIONS:
             _in(self, version)
-            with self.subTest(version=version, spell_id=spell_id):
-                spell = _castable(version, char_class, spell_id)
+            with self.subTest(version=version):
+                spell = _castable(version, 'Sacrier', RETRIBUTION)
                 self.assertFalse([row for alternative in spell.plain_alternatives
                                   + spell.crit_alternatives for row in alternative
                                   if isinstance(row, HpShare)])
-                self.assertEqual(_alone(version, spell, _stats(version, char_class, 0)),
-                                 _alone(version, spell, _stats(version, char_class, HP)))
+                self.assertEqual(_alone(version, spell, _stats(version, 'Sacrier', 0)),
+                                 _alone(version, spell, _stats(version, 'Sacrier', HP)))
 
-    def test_reprisal_stays_castable_for_its_damage_taken_on_dofus3(self):
-        _in(self, 'dofus3')
-        spell = _castable('dofus3', 'Cra', REPRISAL)
-        self.assertIsNotNone(spell.taken)
-        self.assertEqual([], spell.hits)
+    def test_reprisal_without_its_damage_taken_leaves_the_turn(self):
+        for version in ('dofus3', 'beta'):
+            _in(self, version)
+            with self.subTest(version=version):
+                self.assertEqual({'target_eroded_hp'}, {
+                    row['of'] for row in hp_share_hits_for_version(version)['Cra'][REPRISAL]
+                    ['normal']})
+                self.assertEqual([], _table_spell(version, 'Cra', REPRISAL).effects.elements)
+                self.assertNotIn(REPRISAL, [entry['spell_id'] for entry
+                                            in damage_taken_for_version(version)['Cra']])
+                self.assertNotIn(REPRISAL, [spell.spell_id for spell
+                                            in castable_spells('Cra', LEVEL, version)])
 
 
 class AClassWithoutThemTests(SimpleTestCase):
@@ -413,8 +419,8 @@ class TheSpellPageShowsAnkamasLineTests(SimpleTestCase):
                   (["Neutral damage: 25% of the caster's HP"], [])),
                  ('dofus2', 'Sacrier', RETRIBUTION, 'en',
                   ([], ["35% of the caster's eroded HP inflicted as Neutral damage"])),
-                 ('dofus3', 'Cra', REPRISAL, 'es',
-                  ([], ['Daños neutrales: 20% PdV erosionados del objetivo'])))
+                 ('dofus3', 'Sacrier', RETRIBUTION, 'es',
+                  ([], ['Daños neutrales: 35% PdV erosionados del lanzador'])))
         for version, char_class, spell_id, language, expected in cases:
             _in(self, version)
             with self.subTest(version=version, spell_id=spell_id):

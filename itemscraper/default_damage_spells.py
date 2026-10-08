@@ -102,8 +102,8 @@ DEFAULT_DAMAGE_SPELL_SPECS: Sequence[DefaultSpellSpec] = (
                                             conditional_trigger='melee_and_ranged',
                                             cast_by_the_player=False)),
     DefaultSpellSpec("Crocobur's Appetite"),
-    DefaultSpellSpec("Pestilential Fog"),
-    DefaultSpellSpec("Scurvion Toxicity"),
+    DefaultSpellSpec("Pestilential Fog", ankama_id=18898),
+    DefaultSpellSpec("Scurvion Toxicity", ankama_id=12505),
 )
 
 

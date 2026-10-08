@@ -134,10 +134,14 @@ def get_available_options(structure=None):
     avail = {key for key, name in DOFUS_OPTIONS.items() if s.get_item_by_name(name)}
     prysmaradite = False
     has_trophy = False
+    set_limit_trophies = False
     mounts = {'Dragoturkey': False, 'Seemyool': False, 'Rhineetle': False}
     for it in s.get_items_list():
-        if getattr(it, 'weird_conditions', {}).get('prysmaradite'):
+        conditions = getattr(it, 'weird_conditions', {})
+        if conditions.get('prysmaradite'):
             prysmaradite = True
+        if conditions.get('light_set') or conditions.get('sets_equipped'):
+            set_limit_trophies = True
         if 'Trophy' in getattr(it, 'flags', ()):
             has_trophy = True
         # The slot, not the name alone: Dofus 2 has a Rhineetle Helmet and no
@@ -153,6 +157,7 @@ def get_available_options(structure=None):
                     for k, english, lbl in DOFUS_DISPLAY if k in avail],
         'prysmaradite': prysmaradite,
         'trophies': has_trophy,
+        'set_limit_trophies': set_limit_trophies,
         'dragoturkey': mounts['Dragoturkey'],
         'seemyool': mounts['Seemyool'],
         'rhineetle': mounts['Rhineetle'],

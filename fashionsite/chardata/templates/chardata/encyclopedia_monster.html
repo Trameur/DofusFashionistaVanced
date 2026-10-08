@@ -58,6 +58,8 @@
 .dark-theme-active .monster-grades td.monster-weak,
 html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
 .monster-weakest-hint { margin: 6px 0 0; font-size: 0.85em; opacity: 0.75; }
+.monster-spells-list .spell-tip-text + .spell-tip-text { margin-top: 5px; }
+.monster-spells-list .spell-tip-grades { display: block; font-size: 0.9em; opacity: 0.7; }
 .encyclopedia-drops-more { margin-top: 6px; }
 .encyclopedia-drops-more > summary { cursor: pointer; padding-left: 20px; font-size: 0.95em; opacity: 0.85; }
 .dark-theme-active .encyclopedia-monster-card { border-color: #5a5a5a; background: #1f1f1f; }
@@ -181,7 +183,14 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                 {% for spell in spells %}
                 <li>
                     <span class="monster-spell-name">{{ spell.name }}</span>
-                    {% if spell.spell_tip %}{% include 'chardata/spell_tip.html' with tip=spell.spell_tip %}{% endif %}
+                    {% if spell.descriptions %}<span class="spell-tip" tabindex="0" role="button"
+                          aria-label="{% blocktrans with spell=spell.name %}What {{ spell }} does{% endblocktrans %}">
+                        <span class="spell-tip-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg></span>
+                        <span class="spell-tip-panel" role="tooltip">
+                            <b class="spell-tip-name">{{ spell.name }}</b>
+                            {% for line in spell.descriptions %}<span class="spell-tip-text">{% if line.grades %}<span class="spell-tip-grades">{{ mt.grade_label }} {{ line.grades|join:", " }}</span>{% endif %}{{ line.text }}</span>{% endfor %}
+                        </span>
+                    </span>{% endif %}
                     {% if spell.ap_cost %}<span class="monster-spell-ap">{{ spell.ap_cost }} {{ mt.ap_label }}</span>{% endif %}
                     {% if spell.has_range %}<span class="monster-spell-range">{{ mt.range_label }} {{ spell.range_min }}-{{ spell.range_max }}</span>{% endif %}
                 </li>

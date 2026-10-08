@@ -57,6 +57,9 @@ PLACED_BY_EFFECT = {
 BOMB_EFFECT_ID = 1008
 # Damage that waits for something (an enemy, a detonation, a state); the rest is only late
 PLACED_WAITS = frozenset(("trap", "bomb", "glyph", "aura", "state"))
+CAST_EFFECT_IDS = frozenset((792, 1160, 2794, 2960))
+TOOLTIP_FLAG = 1
+CLIENT_ONLY_FLAG = 16
 SUMMON_STACK_CAP = 10
 STACKABLE_TIMES_PATTERN = re.compile(r"stackable\s*(?:up to\s*)?(\d+)", re.IGNORECASE)
 
@@ -89,6 +92,16 @@ def _zone_signature(zone: Optional[Mapping[str, Any]]) -> str:
     if not zone:
         return ""
     return ",".join(str(zone.get(key)) for key in ZONE_SIGNATURE_KEYS)
+
+
+def _client_only(effect: Mapping[str, Any]) -> bool:
+    return bool((effect.get("flags") or 0) & CLIENT_ONLY_FLAG)
+
+
+def _hit_signature(effect: Mapping[str, Any]) -> tuple:
+    dice = effect.get("dice") or {}
+    return (effect.get("effect_id"), dice.get("min"), dice.get("max"),
+            effect.get("target_mask"), _zone_signature(effect.get("zone")))
 
 
 def _unwrap_array(value: Any) -> List[Any]:
@@ -460,7 +473,8 @@ class SpellTransformer:
         return f"{min_val}-{max_val}"
 
     def _collect_damage_rows(self, levels: Sequence[Mapping[str, Any]],
-                             critical: bool) -> List[Dict[str, Any]]:
+                             critical: bool,
+                             copies: frozenset = frozenset()) -> List[Dict[str, Any]]:
         rows: List[Dict[str, Any]] = []
         key_to_idx: Dict[tuple, int] = {}
         level_count = len(levels)
@@ -472,6 +486,10 @@ class SpellTransformer:
                 if not metadata or metadata.get("category") != 2:
                     continue
                 if hp_share_of(metadata):
+                    continue
+                if _client_only(effect) and (
+                        not (effect.get("flags") or 0) & TOOLTIP_FLAG
+                        or _hit_signature(effect) in copies):
                     continue
                 dice = self._format_range(effect.get("dice"))
                 if not dice:
@@ -614,6 +632,62 @@ class SpellTransformer:
             self._levels_cache[spell_id] = levels
         return levels
 
+    def _cast_grades(self, level: Mapping[str, Any],
+                     spell_id: Any = None) -> List[Tuple[Mapping[str, Any], int]]:
+        """(grade, delay) of each cast the level makes, of spell_id or of any spell."""
+        out: List[Tuple[Mapping[str, Any], int]] = []
+        for effect in level.get("effects") or []:
+            dice = effect.get("dice") or {}
+            target = dice.get("min")
+            if (effect.get("effect_id") not in CAST_EFFECT_IDS or target not in self.spells
+                    or (spell_id is not None and target != spell_id)):
+                continue
+            by_grade = {lvl.get("grade"): lvl for lvl in self._levels_of(target)}
+            grade = by_grade.get(dice.get("max"))
+            if grade is not None:
+                out.append((grade, int(effect.get("delay") or 0)))
+        return out
+
+    def _hits_cast_by(self, levels: Sequence[Mapping[str, Any]], spell_id: Any,
+                      key: str) -> frozenset:
+        """What the grades of spell_id these levels cast land, which a tooltip copy repeats."""
+        return frozenset(
+            _hit_signature(hit)
+            for level in levels
+            for grade, _delay in self._cast_grades(level, spell_id)
+            for hit in grade.get(key) or []
+            if not _client_only(hit))
+
+    def _previewed_late_rows(
+        self, levels: Sequence[Mapping[str, Any]],
+    ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+        """Rows of what a cast with a delay lands, when a client-only copy previews it."""
+        synthetic = [{"effects": [], "critical_effects": []} for _level in levels]
+        delay = 0
+        for level_idx, level in enumerate(levels):
+            shown = list(level.get("effects") or [])
+            for effect in level.get("effects") or []:
+                child = self._placed_child(effect)
+                if child is not None:
+                    by_grade = {lvl.get("grade"): lvl for lvl in self._levels_of(child[0])}
+                    shown.extend((by_grade.get(child[1]) or {}).get("effects") or [])
+            previews = {_hit_signature(effect) for effect in shown if _client_only(effect)}
+            for grade, cast_delay in self._cast_grades(level):
+                hits = [hit for hit in grade.get("effects") or [] if not _client_only(hit)]
+                if cast_delay <= 0 or not previews & {_hit_signature(hit) for hit in hits}:
+                    continue
+                synthetic[level_idx]["effects"].extend(hits)
+                synthetic[level_idx]["critical_effects"].extend(
+                    hit for hit in grade.get("critical_effects") or [] if not _client_only(hit))
+                delay = max(delay, cast_delay)
+        if not delay:
+            return [], []
+        normal = self._collect_damage_rows(synthetic, critical=False)
+        critical = self._collect_damage_rows(synthetic, critical=True)
+        for row in normal + critical:
+            row["delay"] = delay
+        return normal, critical
+
     def _placed_blocks(self, levels: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
         """One block per placed thing, its rows read at the grade each parent level places."""
         placements: Dict[Tuple[int, int], List[Optional[int]]] = {}
@@ -642,7 +716,9 @@ class SpellTransformer:
                     "effects": (child_level or {}).get("effects") or [],
                     "critical_effects": (child_level or {}).get("critical_effects") or [],
                 })
-            normal = self._collect_damage_rows(synthetic, critical=False)
+            normal = self._collect_damage_rows(
+                synthetic, critical=False,
+                copies=self._hits_cast_by(levels, child_id, "effects"))
             if not normal:
                 continue
             kind, when = PLACED_BY_EFFECT[effect_id]
@@ -654,7 +730,9 @@ class SpellTransformer:
             # One gate for every grade can be named; a gate per grade cannot
             if states and len(states) == 1:
                 placed["state_group"] = next(iter(states))
-            critical = self._collect_damage_rows(synthetic, critical=True)
+            critical = self._collect_damage_rows(
+                synthetic, critical=True,
+                copies=self._hits_cast_by(levels, child_id, "critical_effects"))
             for row in normal + critical:
                 row["placed"] = dict(placed)
             block = dict(placed)
@@ -671,8 +749,15 @@ class SpellTransformer:
         stack_cap_override: Optional[int] = None,
         placed: Optional[Sequence[Mapping[str, Any]]] = None,
     ) -> Optional[Dict[str, Any]]:
-        normal = self._collect_damage_rows(levels, critical=False)
-        critical = self._collect_damage_rows(levels, critical=True)
+        spell_id = levels[0].get("spell_id") if levels else None
+        normal = self._collect_damage_rows(
+            levels, critical=False, copies=self._hits_cast_by(levels, spell_id, "effects"))
+        critical = self._collect_damage_rows(
+            levels, critical=True,
+            copies=self._hits_cast_by(levels, spell_id, "critical_effects"))
+        late_normal, late_critical = self._previewed_late_rows(levels)
+        normal += late_normal
+        critical += late_critical
         if not normal and not critical and not placed:
             return None
         template: Dict[str, Any] = {

@@ -4638,8 +4638,8 @@ msgid "Allow Dofuses and Trophies"
 msgstr "Erlaube Dofuses und Trophäen"
 
 #: .\chardata\templates\chardata\options.html:79
-msgid "Remove only <3"
-msgstr "Nur <3 entfernen"
+msgid "Remove only trophies that limit sets"
+msgstr "Nur Trophäen entfernen, die Sets begrenzen"
 
 #: .\chardata\templates\chardata\options.html:81
 msgid "Allow only Cawwot Dofus"
@@ -4731,6 +4731,10 @@ msgstr "Exo: Dieses Teil trägt eine Zeile oder einen AP-, BP- oder Reichweitenp
 #: .\chardata\templates\chardata\shared_builds.html
 msgid "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit."
 msgstr "Nach den TemporiX-Regeln berechnet: glänzende Teile und keine Grenze für AP, BP, Reichweite oder Beschwörungen."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3"
+msgstr "Dofus 3"
 
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Dofus Touch"
@@ -9252,6 +9256,22 @@ msgstr "Kein Set geht in dieser Version über %(cap)s hinaus"
 #: chardata/templates/chardata/changelog_content.html
 msgid "October 2026"
 msgstr "Oktober 2026"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3.7 update"
+msgstr "Dofus 3.7 Update"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Strong smithmagic potions now turn a weapon's neutral damage lines into their element at full strength, and leave its steal and heal lines as they are."
+msgstr "Starke Schmiedemagie-Tränke wandeln die Neutralschaden-Zeilen einer Waffe jetzt vollständig in ihr Element um, die Raub- und Heilungszeilen der Waffe bleiben unverändert."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Trophies that limit sets now allow one equipped set of any size: the optimizer respects it, and a build that breaks it shows the condition in red."
+msgstr "Trophäen, die Sets begrenzen, erlauben jetzt ein einziges ausgerüstetes Set beliebiger Größe: Der Optimierer hält sich an diese Regel, und ein Build, der sie bricht, zeigt die Bedingung in Rot."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Monster pages show the 3.7 bestiary, with power and pushback resistance wherever the game gives them."
+msgstr "Die Monsterseiten folgen dem Bestiarium von 3.7, mit Schlagkraft und Schubsresistenz, wo das Spiel sie angibt."
 
 #: chardata/templates/chardata/changelog_content.html
 msgid "Weights and minimums on one page"

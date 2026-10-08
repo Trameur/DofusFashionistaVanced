@@ -580,15 +580,23 @@ def damage_taken_for_version(game_version):
     return kept
 
 
-def _damage_taken_at(entry, level_req, level_index):
-    """DamageTaken of entry at the spell's rank level_index, or None."""
-    if entry is None:
-        return None
+def damage_taken_rank(entry, level_req, level_index):
+    """The index in entry of the spell's rank level_index, or None."""
     # Touch ranks can share a required level, so a rank is its place in the ladder
     if list(entry['levels']) != list(level_req):
         if level_req[level_index] not in entry['levels']:
             return None
-        level_index = entry['levels'].index(level_req[level_index])
+        return entry['levels'].index(level_req[level_index])
+    return level_index
+
+
+def _damage_taken_at(entry, level_req, level_index):
+    """DamageTaken of entry at the spell's rank level_index, or None."""
+    if entry is None:
+        return None
+    level_index = damage_taken_rank(entry, level_req, level_index)
+    if level_index is None:
+        return None
     # A placed thing's row lands with its hit, after the turn's casts if ever
     if (entry.get('placed') or [None] * (level_index + 1))[level_index]:
         return None

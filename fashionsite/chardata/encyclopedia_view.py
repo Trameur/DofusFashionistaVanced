@@ -15,7 +15,7 @@ from chardata.pagination import pagination_items
 from chardata.image_store import get_image_url, _static_exists, list_static_dir
 from chardata.official_site import (
     get_item_link, get_monster_link, get_resource_link, get_set_link)
-from chardata.spell_tips import SpellTip, spell_tip_for
+from chardata.spell_tips import spell_tip_for
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
 from chardata.util import shared_build_path
@@ -3801,13 +3801,34 @@ def _consistent_weakest(grades):
     return next(iter(elements)) if len(elements) == 1 else None
 
 
-def _monster_spells(cursor, monster_ankama_id, language):
-    """Monster spells in order, with AP cost and range at the first grade."""
+def _spell_description_lines(spell_grades, monster_grades, describe, fallback):
+    """[{'text', 'grades'}] at the monster grades casting each; no grades if one covers all."""
+    lines = []
+    for grade in monster_grades:
+        spell_grade = spell_grades[grade - 1] if 0 < grade <= len(spell_grades) else None
+        text = describe(spell_grade) if spell_grade else None
+        if not text:
+            continue
+        line = next((line for line in lines if line['text'] == text), None)
+        if line is None:
+            line = {'text': text, 'grades': []}
+            lines.append(line)
+        line['grades'].append(grade)
+    if not lines and fallback:
+        lines = [{'text': fallback, 'grades': []}]
+    if len(lines) == 1 and len(lines[0]['grades']) == len(monster_grades):
+        lines[0]['grades'] = []
+    return lines
+
+
+def _monster_spells(cursor, monster_ankama_id, language, monster_grades=None,
+                    grade_texts=False):
+    """Monster spells in order, with cost and range at the first grade casting each, and texts."""
     rows = cursor.execute(
         """
         SELECT ms.spell_ankama_id, ms.grade_mapping,
                COALESCE(mine.name, fallback.name),
-               COALESCE(mine.description, fallback.description)
+               mine.description, fallback.description
         FROM monster_spells ms
         LEFT JOIN monster_spell_names mine
           ON mine.spell_ankama_id = ms.spell_ankama_id AND mine.language = ?
@@ -3817,33 +3838,65 @@ def _monster_spells(cursor, monster_ankama_id, language):
         ORDER BY ms.position
         """, (language, monster_ankama_id)).fetchall()
     wanted = {}
-    for spell_id, mapping, name, _description in rows:
+    for spell_id, mapping, name, _mine, _fallback in rows:
         if not name:
             continue
         grades = [int(grade) for grade in (mapping or '').split(',') if grade.isdigit()]
-        wanted[spell_id] = grades[0] if grades else 1
+        wanted[spell_id] = next((grade for grade in grades if grade), 0) if grades else 1
 
     details = {}
+    by_grade = {}
     if wanted:
         placeholders = ','.join('?' * len(wanted))
-        for row in cursor.execute(
-                """
-                SELECT spell_ankama_id, grade, ap_cost, range_min, range_max
+        if grade_texts:
+            query = """
+                SELECT l.spell_ankama_id, l.grade, l.ap_cost, l.range_min, l.range_max,
+                       mine.description, fallback.description
+                FROM monster_spell_levels l
+                LEFT JOIN monster_spell_grade_descriptions mine
+                  ON mine.spell_ankama_id = l.spell_ankama_id AND mine.grade = l.grade
+                 AND mine.language = ?
+                LEFT JOIN monster_spell_grade_descriptions fallback
+                  ON fallback.spell_ankama_id = l.spell_ankama_id AND fallback.grade = l.grade
+                 AND fallback.language = 'en'
+                WHERE l.spell_ankama_id IN (%s)
+                """ % placeholders
+            params = [language] + list(wanted)
+        else:
+            query = """
+                SELECT spell_ankama_id, grade, ap_cost, range_min, range_max, NULL, NULL
                 FROM monster_spell_levels
                 WHERE spell_ankama_id IN (%s)
-                """ % placeholders, list(wanted)):
+                """ % placeholders
+            params = list(wanted)
+        for row in cursor.execute(query, params):
             if wanted.get(row[0]) == row[1]:
-                details[row[0]] = row[2:]
+                details[row[0]] = row[2:5]
+            for index, text in enumerate(row[5:]):
+                if text:
+                    by_grade.setdefault((row[0], index), {})[row[1]] = text
 
     spells = []
-    for spell_id, mapping, name, description in rows:
+    for spell_id, mapping, name, mine, fallback in rows:
         if not name:
             continue
         ap_cost, range_min, range_max = details.get(spell_id, (None, None, None))
+        spell_grades = [int(grade) for grade in (mapping or '').split(',') if grade.isdigit()]
+        graded = (spell_id, 0) in by_grade or (spell_id, 1) in by_grade
+        if (spell_id, 0) in by_grade:
+            describe = by_grade[(spell_id, 0)].get
+        elif mine:
+            describe = lambda _grade, text=mine: text
+        elif (spell_id, 1) in by_grade:
+            describe = by_grade[(spell_id, 1)].get
+        else:
+            describe = lambda _grade, text=fallback: text
         spells.append({
             'id': spell_id,
             'name': name,
-            'spell_tip': SpellTip(name, description) if description else None,
+            'descriptions': _spell_description_lines(
+                spell_grades, monster_grades or range(1, len(spell_grades) + 1),
+                describe, None if graded else mine or fallback),
             'ap_cost': ap_cost,
             'range_min': range_min,
             'range_max': range_max,
@@ -3942,10 +3995,12 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     """, (target_monster_id,)).fetchall()
             subareas = [row[0] for row in rows]
 
-        # Cost and reach at the monster's first grade.
         spells = []
         if _db_table_exists(cursor, 'monster_spells'):
-            spells = _monster_spells(cursor, target_monster_id, language)
+            spells = _monster_spells(
+                cursor, target_monster_id, language,
+                [grade['grade'] for grade in grades],
+                _db_table_exists(cursor, 'monster_spell_grade_descriptions'))
 
         if monster_name.startswith('#'):
             return _monster_not_found_response(request, target_monster_id, slug)

@@ -1,0 +1,279 @@
+{
+ "conversions": [
+  {
+   "ankama_id": 1333,
+   "element": "fire",
+   "kind": "damage",
+   "level": 1,
+   "names": {
+    "en": "Spark Potion",
+    "es": "Pócima de Chispa",
+    "fr": "Potion d'Etincelle",
+    "pt": "Poção de Fagulha"
+   },
+   "rate": 0.5,
+   "tier": "weak",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1335,
+   "element": "water",
+   "kind": "damage",
+   "level": 1,
+   "names": {
+    "en": "Drizzle Potion",
+    "es": "Pócima de Llovizna",
+    "fr": "Potion de Crachin",
+    "pt": "Poção de Chuvisco"
+   },
+   "rate": 0.5,
+   "tier": "weak",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1337,
+   "element": "air",
+   "kind": "damage",
+   "level": 1,
+   "names": {
+    "en": "Draught Potion",
+    "es": "Pócima de Corriente de Aire",
+    "fr": "Potion de Courant d'Air",
+    "pt": "Poção de Corrente de AR"
+   },
+   "rate": 0.5,
+   "tier": "weak",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1338,
+   "element": "earth",
+   "kind": "damage",
+   "level": 1,
+   "names": {
+    "en": "Tremor Potion",
+    "es": "Pócima de Sacudida",
+    "fr": "Potion de Secousse",
+    "pt": "Poção do Tremor"
+   },
+   "rate": 0.5,
+   "tier": "weak",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1340,
+   "element": "earth",
+   "kind": "damage",
+   "level": 25,
+   "names": {
+    "en": "Landslide Potion",
+    "es": "Pócima de Derrumbamiento",
+    "fr": "Potion d'Eboulement",
+    "pt": "Poção de Deslizamento"
+   },
+   "rate": 0.68,
+   "tier": "medium",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1341,
+   "element": "water",
+   "kind": "damage",
+   "level": 25,
+   "names": {
+    "en": "Shower Potion",
+    "es": "Pócima de Chaparrón",
+    "fr": "Potion d'Averse",
+    "pt": "Poção Propagadora"
+   },
+   "rate": 0.68,
+   "tier": "medium",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1342,
+   "element": "air",
+   "kind": "damage",
+   "level": 25,
+   "names": {
+    "en": "Gust Potion",
+    "es": "Pócima de Ráfaga",
+    "fr": "Potion de Rafale",
+    "pt": "Poção de Vento"
+   },
+   "rate": 0.68,
+   "tier": "medium",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1343,
+   "element": "fire",
+   "kind": "damage",
+   "level": 25,
+   "names": {
+    "en": "Blaze Potion",
+    "es": "Pócima de Flameación",
+    "fr": "Potion de Flambée",
+    "pt": "Poção Chama de Fogo"
+   },
+   "rate": 0.68,
+   "tier": "medium",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1345,
+   "element": "fire",
+   "kind": "damage",
+   "level": 50,
+   "names": {
+    "en": "Fire Potion",
+    "es": "Pócima de Incendio",
+    "fr": "Potion d'Incendie",
+    "pt": "Poção do Fogo"
+   },
+   "rate": 0.85,
+   "tier": "strong",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1346,
+   "element": "water",
+   "kind": "damage",
+   "level": 50,
+   "names": {
+    "en": "Tsunami Potion",
+    "es": "Pócima de Tsunami",
+    "fr": "Potion de Tsunami",
+    "pt": "Poção de Tsunami"
+   },
+   "rate": 0.85,
+   "tier": "strong",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1347,
+   "element": "air",
+   "kind": "damage",
+   "level": 50,
+   "names": {
+    "en": "Hurricane Potion",
+    "es": "Pócima de Huracán",
+    "fr": "Potion d'Ouragan",
+    "pt": "Poção da Tempestade"
+   },
+   "rate": 0.85,
+   "tier": "strong",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1348,
+   "element": "earth",
+   "kind": "damage",
+   "level": 50,
+   "names": {
+    "en": "Earthquake Potion",
+    "es": "Pócima de Seísmo",
+    "fr": "Potion de Séisme",
+    "pt": "Poção de Terremoto"
+   },
+   "rate": 0.85,
+   "tier": "strong",
+   "type_id": 26
+  }
+ ],
+ "game_version": "touch",
+ "gems": [],
+ "languages": [
+  "en",
+  "es",
+  "fr",
+  "pt"
+ ],
+ "rate_published": true,
+ "unforgeable": [
+  2361,
+  7187,
+  8992,
+  8993,
+  9544,
+  9545,
+  9546,
+  9547,
+  9548,
+  9706,
+  9707,
+  9708,
+  9709,
+  9710,
+  9711,
+  9712,
+  9713,
+  9716,
+  9717,
+  9724,
+  9725,
+  9726,
+  9727,
+  9728,
+  9729,
+  9730,
+  9731,
+  9735,
+  9736,
+  9739,
+  9741,
+  9742,
+  9743,
+  9744,
+  9745,
+  9746,
+  9747,
+  9748,
+  9749,
+  9750,
+  9751,
+  9752,
+  9753,
+  9754,
+  9755,
+  9756,
+  9757,
+  9758,
+  9759,
+  10125,
+  10126,
+  10127,
+  10133,
+  10622,
+  10626,
+  10630,
+  10634,
+  10638,
+  10642,
+  10856,
+  10857,
+  10858,
+  10899,
+  10962,
+  10975,
+  10979,
+  11349,
+  11353,
+  11357,
+  11361,
+  11365,
+  11366,
+  11872,
+  11873,
+  11874,
+  11875,
+  12022,
+  12026,
+  12030,
+  12034,
+  12038,
+  12042,
+  17754
+ ],
+ "unforgeable_source": "enhanceable"
+}

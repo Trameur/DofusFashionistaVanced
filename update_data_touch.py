@@ -112,6 +112,10 @@ def main() -> None:
         PY, "itemscraper/store_starting_stats.py", "--game-version", "touch",
     ])
 
+    step("items/weapon-conversions", [
+        PY, "itemscraper/store_weapon_conversions.py", "--game-version", "touch",
+    ])
+
     step("items/transform", [
         PY, "get_equipments_touch.py",
         "--raw-dir", TOUCH_RAW_DIR, "--out-dir", TOUCH_WORK_DIR,

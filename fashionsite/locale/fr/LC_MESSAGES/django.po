@@ -4667,8 +4667,8 @@ msgid "Allow Dofuses and Trophies"
 msgstr "Autoriser les dofus et trophées"
 
 #: .\chardata\templates\chardata\options.html:79
-msgid "Remove only <3"
-msgstr "Supprimer les <3"
+msgid "Remove only trophies that limit sets"
+msgstr "Retirer seulement les trophées qui limitent les panoplies"
 
 #: .\chardata\templates\chardata\options.html:81
 msgid "Allow only Cawwot Dofus"
@@ -4760,6 +4760,10 @@ msgstr "Exo : cette pièce porte une ligne, ou un PA, PM ou PO, au-delà de ses 
 #: .\chardata\templates\chardata\shared_builds.html
 msgid "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit."
 msgstr "Calculé selon les règles TemporiX : pièces rayonnantes, et aucune limite de PA, PM, PO ni d’invocations."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3"
+msgstr "Dofus 3"
 
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Dofus Touch"
@@ -9304,6 +9308,22 @@ msgstr "Aucun équipement ne dépasse %(cap)s sur cette version"
 #: chardata/templates/chardata/changelog_content.html
 msgid "October 2026"
 msgstr "Octobre 2026"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3.7 update"
+msgstr "Mise à jour Dofus 3.7"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Strong smithmagic potions now turn a weapon's neutral damage lines into their element at full strength, and leave its steal and heal lines as they are."
+msgstr "Les potions de forgemagie fortes convertissent désormais intégralement les lignes de dommages Neutre d’une arme en leur élément, et laissent ses lignes de vol et de soin telles quelles."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Trophies that limit sets now allow one equipped set of any size: the optimizer respects it, and a build that breaks it shows the condition in red."
+msgstr "Les trophées qui limitent les panoplies autorisent désormais une seule panoplie équipée, quelle que soit sa taille : l’optimiseur respecte cette règle, et un build qui l’enfreint affiche la condition en rouge."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Monster pages show the 3.7 bestiary, with power and pushback resistance wherever the game gives them."
+msgstr "Les pages de monstres suivent le bestiaire 3.7, avec la Puissance et la Résistance Poussée partout où le jeu les donne."
 
 #: chardata/templates/chardata/changelog_content.html
 msgid "Weights and minimums on one page"

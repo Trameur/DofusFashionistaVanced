@@ -14,6 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from fashionistapulp import weapon_forge
 from fashionistapulp.modelresult import model_result_from_minimal, ModelResultMinimal
 
 import pickle
@@ -49,7 +50,9 @@ def get_solution_from_minimal(char, minimal_solution, refresh_base_stats=True):
             spent, scrolled = get_stats_and_scrolled(char)
             minimal_solution.update_base_stats(spent, scrolled)
         stat_overrides = get_effective_stat_overrides(char) or None
-        return model_result_from_minimal(minimal_solution, stat_overrides)
+        return model_result_from_minimal(
+            minimal_solution, stat_overrides,
+            weapon_forge.read_choice(getattr(char, 'weapon_forge', '')))
     return None
 
 

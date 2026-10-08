@@ -17,6 +17,8 @@ TEMPLATE = os.path.join(settings.BASE_DIR, 'chardata', 'templates',
                         'chardata', 'changelog_content.html')
 _TRANS = re.compile(r'\{%\s*trans\s+"((?:[^"\\]|\\.)*)"\s*%\}')
 MAX_PUCES = 4
+HIDSAD_BOW = 1355
+CRICK_HAMMER = 6509
 
 
 def _entrees():
@@ -43,8 +45,9 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
     def test_three_entries_of_at_most_four_bullets(self):
         entrees = _entrees()
         self.assertEqual(NOUVEAU_MOIS, entrees[0][0])
-        self.assertEqual('Weights and minimums on one page', entrees[0][1])
-        self.assertEqual(1, len([e for e in entrees if e[0] == NOUVEAU_MOIS]))
+        self.assertEqual(['Dofus 3.7 update', 'Weights and minimums on one page'],
+                         [e[1] for e in entrees if e[0] == NOUVEAU_MOIS])
+        self.assertEqual('Dofus 3.7 update', entrees[0][1])
         de_ce_mois = [e for e in entrees if e[0] == MOIS]
         self.assertEqual(4, len(de_ce_mois), [e[1] for e in de_ce_mois])
         self.assertEqual('A workshop that knows your stock', de_ce_mois[0][1])
@@ -193,3 +196,68 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
         self.assertTrue(reverse('copy_to_version', args=[1]))
         self.assertIn('These pieces do not exist here and were left out',
                       self._template('main-header.html'))
+
+    def test_the_site_runs_dofus3_on_the_3_7_data(self):
+        import fashionista_version as ours
+        self.assertTrue(ours.FASHIONISTA_VERSION.startswith('3.7.'))
+
+    def test_a_strong_potion_moves_the_whole_neutral_roll_and_no_steal_or_heal(self):
+        from fashionistapulp.dofus_constants import FIRE, NEUTRAL
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        rows = []
+        for ankama_id in (HIDSAD_BOW, CRICK_HAMMER):
+            weapon = structure.get_weapon_for_item(
+                structure.get_item_by_ankama_id(ankama_id))
+            rows += [((base.min_dam, base.max_dam, base.element,
+                       bool(base.steals), bool(base.heals)),
+                      (maged.min_dam, maged.max_dam, maged.element,
+                       bool(maged.steals), bool(maged.heals)))
+                     for base, maged in zip(weapon.base_hit,
+                                            weapon.non_crit_hits[FIRE])]
+        self.assertEqual({(False, False), (True, False), (False, True)},
+                         {(base[3], base[4]) for base, _maged in rows
+                          if base[2] == NEUTRAL})
+        for base, maged in rows:
+            kept = base[3] or base[4] or base[2] != NEUTRAL
+            expected = base if kept else (base[0], base[1], FIRE, False, False)
+            self.assertEqual(expected, maged)
+
+    def test_a_trophy_that_limits_sets_allows_one_and_paints_a_second_red(self):
+        from types import SimpleNamespace
+        from chardata.solution_result import SetsEquippedConditionLine
+        from fashionistapulp.model import Model
+        from fashionistapulp.modelresult import ModelResult
+        from fashionistapulp.structure import get_structure
+        caps = {item.weird_conditions.get('sets_equipped')
+                for item in get_structure('dofus3').get_items_list()
+                if 'Trophy' in item.flags}
+        self.assertIn(1, caps)
+        self.assertTrue(callable(Model.create_sets_equipped_constraints))
+        for sets, formatting in (([1], ''), ([1, 2], '#r')):
+            result = SimpleNamespace(sets=sets)
+            result.check_sets_equipped = ModelResult.check_sets_equipped.__get__(result)
+            self.assertEqual(formatting,
+                             SetsEquippedConditionLine(result, 1).formatting)
+        self.assertIn("{% if '#r' in line.formatting %}solution-negative-stat-text",
+                      self._template('solution_item.html'))
+
+    def test_a_monster_page_shows_power_and_pushback_resistance(self):
+        import sqlite3
+        from chardata.official_site import get_monster_link
+        from fashionistapulp.fashionista_config import get_items_db_path
+        connection = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            row = connection.execute(
+                "SELECT g.monster_ankama_id, n.name FROM monster_grades g"
+                " JOIN monster_names n ON n.monster_ankama_id = g.monster_ankama_id"
+                " WHERE g.push_damage_reduction < 0 AND g.percent_damage_bonus <> 0"
+                " AND n.language = 'en' ORDER BY g.monster_ankama_id").fetchone()
+        finally:
+            connection.close()
+        self.assertIsNotNone(row)
+        response = self.client.get(get_monster_link(row[0], row[1]), follow=True)
+        self.assertEqual(200, response.status_code)
+        page = response.content.decode('utf-8')
+        self.assertIn('<th>Power</th>', page)
+        self.assertIn('<th>Pushback Resistance</th>', page)

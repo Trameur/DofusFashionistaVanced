@@ -997,7 +997,30 @@
         }
         appendScalingBuffRows(spell, table);
         appendHpShareRows(spell, table, isCrit, rank);
+        appendDamageTakenRows(spell, table, isCrit, rank);
         return table;
+    }
+
+    function appendDamageTakenRows(spell, table, isCrit, rank) {
+        var taken = spell.taken;
+        var text = taken && (taken[isCrit ? 'critical' : 'normal'] || [])[rank];
+        if (!text) {
+            return;
+        }
+        var label = $("<tr></tr>");
+        var labelCell = $("<td></td>");
+        table.append(label);
+        label.append(labelCell);
+        labelCell.append($("<span class='aggregate'><sub></sub></span>")
+                             .find('sub').text(text).end());
+        var waits = (taken.waits || [])[rank];
+        if (waits) {
+            var note = $("<tr></tr>");
+            var noteCell = $("<td align='center' class='waiting-row'></td>");
+            noteCell.text(waits);
+            table.append(note);
+            note.append(noteCell);
+        }
     }
 
     function hasCritBlock(spell) {

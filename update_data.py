@@ -22,6 +22,7 @@ Pipeline steps:
     spells/duplicates   find_duplicated_damage_rows.py -> itemscraper/duplicated_damage_rows.json
     spells/reference    store_spell_reference.py -> spell_reference/dofus3.json
     stats/starting      store_starting_stats.py -> starting_stats/dofus3.json
+    items/weapon-conversions store_weapon_conversions.py -> weapon_conversions/dofus3.json
     spells/states       store_spell_states.py -> spell_states/dofus3.json
     spells/constants    generate_damage_spells.py -> dofus_constants.py
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
@@ -228,6 +229,13 @@ def main() -> None:
             "--filter", "items.json",
             "--filter", "breeds.json",
             "--filter", "en.json",
+            "--filter", "effects.json",
+            "--filter", "spells.json",
+            "--filter", "spell_levels.json",
+            "--filter", "fr.json",
+            "--filter", "es.json",
+            "--filter", "pt.json",
+            "--filter", "de.json",
             *refetch_if_cut_short(ITEMSCRAPER / "raw" / version),
         ])
         step("items/transform",  [PY, "get_equipments2.py",
@@ -278,6 +286,10 @@ def main() -> None:
         ])
         step("stats/starting", [
             PY, "itemscraper/store_starting_stats.py",
+            "--game-version", "dofus3", "--tag", version,
+        ])
+        step("items/weapon-conversions", [
+            PY, "itemscraper/store_weapon_conversions.py",
             "--game-version", "dofus3", "--tag", version,
         ])
         # State names for damage rows, reads the transform

@@ -14,7 +14,7 @@ ONE_STACK = {
     ('dofus3', TUMULT): (39, 41),
     ('beta', TUMULT): (39, 41),
     ('dofus2', TUMULT): (39, 41),
-    ('dofus3', SLAUGHTERING_ARROW): (37, 41),
+    ('dofus3', SLAUGHTERING_ARROW): (35, 39),
     ('beta', SLAUGHTERING_ARROW): (35, 39),
 }
 
@@ -110,6 +110,18 @@ class TheGeneratorReadsTheCountFromTheClientTests(SimpleTestCase):
     def test_a_cast_on_other_cells_than_the_hit_counts_nothing(self):
         spell, lookup = _shape([_cast(zone=_zone(67, 2)), _hit()])
         self.assertFalse(_generator()._counts_its_own_target(spell, lookup))
+
+    def test_a_row_without_a_zone_is_read_on_the_raw_zone_of_the_dofus2_client(self):
+        generator = _generator()
+        self.addCleanup(setattr, generator, 'RAW_ZONES', generator.RAW_ZONES)
+        cast, hit = dict(_cast(), effect_uid=1), dict(_hit(), effect_uid=2)
+        cast['zone'] = hit['zone'] = None
+        spell, lookup = _shape([cast, hit])
+        for zones, counted in (({1: 'X1', 2: 'X1'}, True), ({1: 'C2', 2: 'X1'}, False),
+                               ({}, False)):
+            generator.RAW_ZONES = zones
+            with self.subTest(zones=zones):
+                self.assertEqual(counted, generator._counts_its_own_target(spell, lookup))
 
     def test_a_raise_only_the_tooltip_shows_counts_nothing(self):
         generator = _generator()

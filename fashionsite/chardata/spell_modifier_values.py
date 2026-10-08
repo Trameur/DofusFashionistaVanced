@@ -135,7 +135,8 @@ def item_gains(game_version, char_class, level, stats, elements, ap, weapon=None
     of turn_prices) at one AP total."""
     worn_weapon = getattr(weapon, 'weapon', None)
     key = (game_version, char_class, level, tuple(sorted(stats.items())), elements, ap,
-           getattr(worn_weapon, 'id', None), getattr(worn_weapon, 'element_maged', None))
+           getattr(worn_weapon, 'id', None), getattr(worn_weapon, 'element_maged', None),
+           getattr(worn_weapon, 'forge_key', ()))
     if key in _GAINS:
         return _GAINS[key]
     gains, overlaps, per_unit = {}, {}, {}

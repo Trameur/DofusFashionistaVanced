@@ -16,8 +16,10 @@
 
 """Detect icon drift between the committed files and their live sources.
 
-The download pipelines skip files that already exist. Retro is not audited:
-its icons are rendered from the client via Cytrus, not fetched from a URL.
+The monster image pipeline skips files that already exist; the resource icon
+one fetches an icon again only when its recorded source changes, so a picture
+redrawn under the same source still drifts. Retro is not audited: its icons
+are rendered from the client via Cytrus, not fetched from a URL.
 
 Usage (from itemscraper/):
     python audit_icon_drift.py [--sample 12] [--threshold 8.0]

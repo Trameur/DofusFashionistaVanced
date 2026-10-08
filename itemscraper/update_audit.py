@@ -90,6 +90,8 @@ def version_files(version):
         files.add(ROOT / 'fashionsite/chardata' / directory / (version + '.json'))
     if version == 'wakfu':
         files.add(ROOT / 'itemscraper/transformed_wakfu.json')
+    else:
+        files.add(DATA / 'weapon_conversions' / (version + '.json'))
     if version == 'retro':
         files.add(ROOT / 'itemscraper/retro/retro_damage_spells.json')
     return files

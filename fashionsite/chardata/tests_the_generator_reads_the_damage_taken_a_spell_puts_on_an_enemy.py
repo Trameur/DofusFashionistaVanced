@@ -209,7 +209,7 @@ class TheClientRowsTests(SimpleTestCase):
             self.skipTest('no Dofus 2 class spell file')
         generator = _generator()
         try:
-            client_only = generator._client_only_effects('dofus2')
+            client_only = generator._client_only_effects(generator._dofus2_effect_rows('dofus2'))
         except SystemExit:
             self.skipTest('no Dofus 2 raw spell levels')
         before = generator.CLIENT_ONLY_EFFECTS

@@ -398,9 +398,13 @@ CLIENT_ONLY_FLAG = 16
 DIRECT_DAMAGE_TRIGGERS = frozenset(("D", "DBE"))
 # Rows casting the spell in dice min at the grade in dice max
 CASTS_A_SPELL_EFFECT_IDS = frozenset((792, 1160, 2960))
+POINT_ZONE_SHAPE = ord("P")
+RING_ZONE_SHAPE = ord("O")
 
 # Effect uids the Dofus 2 client marks forClientOnly, read in main
 CLIENT_ONLY_EFFECTS: frozenset = frozenset()
+# {effect uid: rawZone} of the Dofus 2 rows, read in main
+RAW_ZONES: Dict[Any, str] = {}
 # {bomb monster id: its explosion spell}, read in main
 BOMB_SPELLS: Dict[int, int] = {}
 
@@ -1151,14 +1155,18 @@ def _raises_the_owner_now(child_level: Mapping[str, Any], owner_id: Any) -> bool
                for effect in child_level.get("effects") or [])
 
 
+def _zone_cells(effect: Mapping[str, Any]) -> str:
+    return _zone_signature(effect.get("zone")) or RAW_ZONES.get(effect.get("effect_uid"), "")
+
+
 def _counted_before_the_hit(effects: Sequence[Mapping[str, Any]],
                             spell_lookup: Mapping[int, Mapping[str, Any]], owner_id: Any) -> bool:
     hits = [effect for effect in effects if _lands_a_hit_now(effect)]
     if not hits or not all("A" in str(hit.get("target_mask") or "").split(",") for hit in hits):
         return False
     for effect in effects[:effects.index(hits[0])]:
-        cells = _zone_signature(effect.get("zone"))
-        if not cells or any(_zone_signature(hit.get("zone")) != cells for hit in hits):
+        cells = _zone_cells(effect)
+        if not cells or any(_zone_cells(hit) != cells for hit in hits):
             continue
         if any(_raises_the_owner_now(child_level, owner_id)
                for _, child_level in _cast_at_once({"effects": [effect]}, spell_lookup)):
@@ -1461,10 +1469,10 @@ def build_hp_share_map(class_data: Mapping[str, Any],
     return out
 
 
-def _client_only_effects(game_version: str) -> frozenset:
-    """Uids of the rows the 2.73 client marks forClientOnly; empty for the other versions."""
+def _dofus2_effect_rows(game_version: str) -> List[Mapping[str, Any]]:
+    """Every effect row of the 2.73 spell levels; empty for the other versions."""
     if game_version != "dofus2":
-        return frozenset()
+        return []
     root = Path(__file__).resolve().parents[1]
     if str(root) not in sys.path:
         sys.path.insert(0, str(root))
@@ -1472,13 +1480,21 @@ def _client_only_effects(game_version: str) -> frozenset:
     path = (root / "itemscraper" / "raw" / fashionista_version.FASHIONISTA_DOFUS2_VERSION
             / "spell_levels.json")
     if not path.exists():
-        raise SystemExit("missing %s: the Dofus 2 rows the tooltip alone shows are read there"
+        raise SystemExit("missing %s: the Dofus 2 client-only rows and zones are read there"
                          % path)
-    return frozenset(effect.get("effectUid")
-                     for level in load_json(path)
-                     for key in ("effects", "criticalEffect")
-                     for effect in level.get(key) or []
-                     if effect.get("forClientOnly"))
+    return [effect for level in load_json(path)
+            for key in ("effects", "criticalEffect")
+            for effect in level.get(key) or []]
+
+
+def _client_only_effects(rows: Iterable[Mapping[str, Any]]) -> frozenset:
+    """Uids of the 2.73 rows the client marks forClientOnly."""
+    return frozenset(effect.get("effectUid") for effect in rows if effect.get("forClientOnly"))
+
+
+def _raw_zones(rows: Iterable[Mapping[str, Any]]) -> Dict[Any, str]:
+    """{uid: rawZone} of the 2.73 rows."""
+    return {effect.get("effectUid"): effect.get("rawZone") or "" for effect in rows}
 
 
 def _bomb_spells(game_version: str) -> Dict[int, int]:
@@ -1997,6 +2013,20 @@ def _build_duplicated_row_aggregates(
     return aggregates
 
 
+def _one_distance_from_the_centre(situation: Any) -> Optional[int]:
+    """The distance a point or a ring zone covers, None for a zone covering several."""
+    _mask, _sep, zone = str(situation or "").partition("|")
+    try:
+        shape, size, inner = (int(part) for part in zone.split(","))
+    except ValueError:
+        return None
+    if shape == POINT_ZONE_SHAPE:
+        return 0
+    if shape == RING_ZONE_SHAPE and not inner:
+        return size
+    return None
+
+
 def _build_situation_aggregates(
     rows: Sequence[Mapping[str, Any]],
     total_row_count: int,
@@ -2020,7 +2050,9 @@ def _build_situation_aggregates(
             continue
         break
     else:
-        return None
+        distances = [_one_distance_from_the_centre(situation) for situation in groups]
+        if None in distances or len(set(distances)) != len(distances):
+            return None
     aggregates = [("", sorted(indexes)) for _situation, indexes in
                   sorted(groups.items(), key=lambda pair: min(pair[1]))]
     for idx in range(len(rows), total_row_count):
@@ -3000,7 +3032,7 @@ def _version_named(suffix: str) -> str:
 def main(argv: Optional[Sequence[str]] = None) -> int:
     global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
     global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER, ONE_ELEMENT_FACES, DELAYED_WHEN, DELAYED_ROWS
-    global CLIENT_ONLY_EFFECTS, BOMB_SPELLS
+    global CLIENT_ONLY_EFFECTS, RAW_ZONES, BOMB_SPELLS
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -3015,7 +3047,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ONE_ELEMENT_FACES = ONE_ELEMENT_FACES_BY_VERSION[args.game_version]
     DELAYED_WHEN = DELAYED_WHEN_BY_VERSION[args.game_version]
     DELAYED_ROWS = DELAYED_ROWS_BY_VERSION[args.game_version]
-    CLIENT_ONLY_EFFECTS = _client_only_effects(args.game_version)
+    dofus2_rows = _dofus2_effect_rows(args.game_version)
+    CLIENT_ONLY_EFFECTS = _client_only_effects(dofus2_rows)
+    RAW_ZONES = _raw_zones(dofus2_rows)
     BOMB_SPELLS = _bomb_spells(args.game_version)
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)

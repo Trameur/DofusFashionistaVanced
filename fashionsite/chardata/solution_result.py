@@ -472,7 +472,7 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
             result_item.crit_chance, result_item.crit_bonus)
         if header:
             damage_lines.append(header)
-        for hit in result_item.non_crit_hits[NEUTRAL]:
+        for hit in result_item.forge_base or result_item.non_crit_hits[NEUTRAL]:
             damage_lines.append(format_weapon_hit(get_current_game_version(),
                                                   hit, LOCALIZED_ELEMENTS))
         result_item.damage_text = '<br>'.join(damage_lines)

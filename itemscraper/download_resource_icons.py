@@ -17,6 +17,8 @@
 """Download the icons of every recipe ingredient into chardata/resources/.
 
 Icons are named by Ankama id: resource names carry characters filenames cannot.
+Each version records the source of every icon it wrote; an icon whose source
+changed is fetched again and replaced when its picture differs.
 
 Usage (from itemscraper/):
     python download_resource_icons.py [--game-version dofus3|touch|retro|dofus2]
@@ -47,7 +49,15 @@ TOUCH_CONFIG_URL = 'https://dt-proxy-production-login.ankama-games.com/config.js
 TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
                              '3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5')
 
+TOUCH_ICON_PATH = 'gfx/items/%d.png'
+
 RETRO_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_retro.db')
+
+SOURCE_RECORDS = {
+    'dofus3': os.path.join(CURRENT_DIR, 'resource_icon_sources.json'),
+    'touch': os.path.join(CURRENT_DIR, 'touch', 'resource_icon_sources.json'),
+    'dofus2': os.path.join(CURRENT_DIR, 'dofus2', 'resource_icon_sources.json'),
+}
 
 
 def target_dirs(version_subdir):
@@ -93,17 +103,103 @@ def icon_urls(raw_dirs=RAW_DIRS):
     return urls
 
 
-def touch_icon_urls():
+def touch_assets_url():
     try:
         assets = requests.get(TOUCH_CONFIG_URL, timeout=30).json().get('assetsUrl')
     except Exception:
         assets = None
-    assets = assets or TOUCH_FALLBACK_ASSETS_URL
+    return assets or TOUCH_FALLBACK_ASSETS_URL
+
+
+def touch_icon_paths():
+    """ankama id -> the icon path under the Touch assets, which a client update does not move."""
     path = os.path.join(CURRENT_DIR, 'touch_raw', 'Items_fr.json')
     with open(path, encoding='utf-8') as fh:
         items = json.load(fh)
-    return {int(item_id): '%s/gfx/items/%d.png' % (assets, item['iconId'])
+    return {int(item_id): TOUCH_ICON_PATH % item['iconId']
             for item_id, item in items.items() if item.get('iconId')}
+
+
+def touch_icon_urls():
+    assets = touch_assets_url()
+    return {ankama_id: '%s/%s' % (assets, path) for ankama_id, path in touch_icon_paths().items()}
+
+
+def read_sources(path):
+    """ankama id -> the source its icon was written from; empty when nothing was recorded."""
+    try:
+        with open(path, encoding='utf-8') as fh:
+            return {int(key): source for key, source in json.load(fh).items()}
+    except (OSError, ValueError, AttributeError):
+        return {}
+
+
+def write_sources(path, sources):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    partial = path + '.part'
+    with open(partial, 'w', encoding='utf-8', newline='\n') as fh:
+        json.dump({str(key): sources[key] for key in sorted(sources)}, fh, indent=1)
+        fh.write('\n')
+    os.replace(partial, path)
+
+
+def http_fetch():
+    session = requests.Session()
+
+    def fetch(url):
+        resp = session.get(url, timeout=30)
+        return resp.status_code, resp.content
+    return fetch
+
+
+def icon_picture(content):
+    return Image.open(io.BytesIO(content)).convert('RGBA').resize((60, 60))
+
+
+def same_picture(path, picture):
+    """Equal pixels whatever the encoding; colour under full transparency does not count."""
+    try:
+        with Image.open(path) as stored:
+            stored = stored.convert('RGBA').convert('RGBa')
+            return (stored.size == picture.size
+                    and stored.tobytes() == picture.convert('RGBa').tobytes())
+    except (OSError, ValueError):
+        return False
+
+
+def sync_icons(ids, urls, targets_root, sources, fetch, force=False, keys=None):
+    """Fetch each icon whose recorded source changed or whose file is missing; write it where the picture differs."""
+    keys = keys or urls
+    counts = {'written': 0, 'same': 0, 'kept': 0, 'absent': 0, 'failed': 0}
+    record = dict(sources)
+    todo = sorted(i for i in ids if i in urls)
+    for ankama_id in todo:
+        key = keys.get(ankama_id, urls[ankama_id])
+        targets = [os.path.join(t, '%d-60-60.png' % ankama_id) for t in targets_root]
+        if (not force and sources.get(ankama_id) == key
+                and all(os.path.exists(t) for t in targets)):
+            counts['kept'] += 1
+            continue
+        try:
+            status, content = fetch(urls[ankama_id])
+            if status == 404:
+                counts['absent'] += 1
+                continue
+            if status >= 400:
+                raise IOError('HTTP %d for %s' % (status, urls[ankama_id]))
+            picture = icon_picture(content)
+            stale = [t for t in targets if not same_picture(t, picture)]
+            for target in stale:
+                picture.save(target)
+            record[ankama_id] = key
+            counts['written' if stale else 'same'] += 1
+        except Exception as exc:
+            counts['failed'] += 1
+            print('failed %s: %s' % (ankama_id, exc))
+        fetched = counts['written'] + counts['same']
+        if fetched and fetched % 200 == 0:
+            print('fetched %d/%d' % (fetched, len(todo)))
+    return counts, record
 
 
 def retro_icon_keys():
@@ -204,16 +300,19 @@ def main():
                         choices=['dofus3', 'touch', 'retro', 'dofus2'],
                         help='dofus3 (default, shared with beta), touch, retro or dofus2')
     parser.add_argument('--force', action='store_true',
-                        help='Redownload icons that already exist')
+                        help='Fetch every icon again, whatever source it was written from')
     args = parser.parse_args()
 
     if args.game_version == 'retro':
         run_retro(args.force)
         return
 
+    keys = None
     if args.game_version == 'touch':
         ids = ingredient_ids([TOUCH_DB_PATH])
-        urls = touch_icon_urls()
+        keys = touch_icon_paths()
+        assets = touch_assets_url()
+        urls = {ankama_id: '%s/%s' % (assets, path) for ankama_id, path in keys.items()}
         targets_root = target_dirs('touch')
     elif args.game_version == 'dofus2':
         dofus2_db = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_dofus2.db')
@@ -235,34 +334,14 @@ def main():
         print('no icon url (left without image): %s%s'
               % (missing[:20], '...' if len(missing) > 20 else ''))
 
-    done = skipped = failed = absent = 0
-    session = requests.Session()
-    for ankama_id in todo:
-        fname = '%d-60-60.png' % ankama_id
-        targets = [os.path.join(t, fname) for t in targets_root]
-        if not args.force and all(os.path.exists(t) for t in targets):
-            skipped += 1
-            continue
-        try:
-            resp = session.get(urls[ankama_id], timeout=30)
-            if resp.status_code == 404:
-                # 404 means the source has no icon for this item, not an error
-                absent += 1
-                continue
-            resp.raise_for_status()
-            img = Image.open(io.BytesIO(resp.content)).convert('RGBA')
-            img = img.resize((60, 60))
-            for target in targets:
-                img.save(target)
-            done += 1
-        except Exception as exc:
-            failed += 1
-            print('failed %s: %s' % (ankama_id, exc))
-        if done and done % 200 == 0:
-            print('downloaded %d/%d' % (done, len(todo)))
-    print('done: %d downloaded, %d already present, %d absent at source, %d failed'
-          % (done, skipped, absent, failed))
-    if failed and failed > len(todo) // 10:
+    record_path = SOURCE_RECORDS[args.game_version]
+    counts, record = sync_icons(ids, urls, targets_root, read_sources(record_path),
+                                http_fetch(), force=args.force, keys=keys)
+    write_sources(record_path, record)
+    print('done: %(written)d written, %(same)d fetched with the same picture, '
+          '%(kept)d kept from the same source, %(absent)d absent at source, '
+          '%(failed)d failed' % counts)
+    if counts['failed'] and counts['failed'] > len(todo) // 10:
         sys.exit(1)
 
 

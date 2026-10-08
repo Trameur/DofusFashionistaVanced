@@ -84,8 +84,12 @@ _SPELL_LINK = re.compile(r'\{\{spell,[^:}]*::(.*?)\}\}')
 _DISPLAY_TAG = re.compile(r'</?(?:sprite|color)\b[^>]*>')
 _LETTER = re.compile(r'[^\W\d_]', re.UNICODE)
 
-# On these effects "#1" holds a monster id, not an amount.
+# On these effects "#1" holds a monster id, not an amount; summon_effects finds the others.
 _SUMMON_EFFECTS = frozenset([181, 185])
+_TARGET_MONSTER = re.compile(r'([Ff])(\d+)$')
+_EXCEPT = {'en': 'except', 'fr': 'sauf', 'es': 'excepto', 'pt': 'exceto', 'de': 'außer'}
+_SEPARATORS = {'fr': (' : ', ' ; ')}
+_DEFAULT_SEPARATORS = (': ', '; ')
 
 
 def _agree(text, plural):
@@ -149,29 +153,147 @@ def strip_display_markup(text):
     return _HORIZONTAL.sub(' ', text).strip()
 
 
-def spell_description(spell, levels, effects, entries, monsters):
-    """What a monster spell does, in one line: Ankama's prose description, or
-    failing that the effect rows of the spell's first grade."""
-    prose = strip_display_markup(
-        entries.get(str(spell.get('descriptionId'))) or '')
-    if prose:
-        return prose
+def summon_effects(effects, entries):
+    """The summon effects plus those sharing their icon whose text holds only #1."""
+    icons = {(effects.get(effect_id) or {}).get('textIconReferenceId')
+             for effect_id in _SUMMON_EFFECTS} - {None, 0}
+    found = set(_SUMMON_EFFECTS)
+    for effect_id, effect in effects.items():
+        if effect.get('textIconReferenceId') not in icons:
+            continue
+        text = entries.get(str(effect.get('descriptionId'))) or ''
+        if '#1' in text and '#2' not in text and '#3' not in text:
+            found.add(effect_id)
+    return frozenset(found)
+
+
+def _mask_monsters(mask):
+    only, spared = [], []
+    for part in (mask or '').split(','):
+        match = _TARGET_MONSTER.match(part.strip())
+        if match:
+            (only if match.group(1) == 'F' else spared).append(int(match.group(2)))
+    return only, spared
+
+
+def target_monsters(mask, monsters, language):
+    """'Artand' for a row its mask limits to F<id>, 'except Artand' for one kept off f<id>."""
+    labels = []
+    for ids in _mask_monsters(mask):
+        names = []
+        for monster_id in ids:
+            name = (monsters or {}).get(monster_id)
+            if name and name not in names:
+                names.append(name)
+        labels.append(', '.join(names))
+    only, spared = labels
+    if spared:
+        spared = '%s %s' % (_EXCEPT.get(language, _EXCEPT['en']), spared)
+    return ', '.join(label for label in (only, spared) if label) or None
+
+
+def _targets_nobody(mask, monsters):
+    only = _mask_monsters(mask)[0]
+    return bool(only) and not any(monster_id in (monsters or {}) for monster_id in only)
+
+
+def _join_groups(groups, language):
+    colon, semicolon = _SEPARATORS.get(language, _DEFAULT_SEPARATORS)
+    text = semicolon.join('%s%s%s' % (label, colon, ', '.join(lines)) if label
+                          else ', '.join(lines) for label, lines in groups)
+    if groups and groups[0][0]:
+        text = text[:1].upper() + text[1:]
+    return text or None
+
+
+def grade_description(level, effects, entries, monsters, language='en',
+                      summons=_SUMMON_EFFECTS):
+    """One spell grade's effect rows in one line, under the monsters they target, or None."""
+    groups = []
+    for row in (level.get('effects') or {}).get('Array') or []:
+        if not isinstance(row, dict) or _targets_nobody(row.get('targetMask'), monsters):
+            continue
+        effect_id = effect_id_of(row)
+        effect = effects.get(effect_id) or {}
+        names = monsters if effect_id in summons else None
+        line = render_effect(entries.get(str(effect.get('descriptionId'))),
+                             row.get('diceNum'), row.get('diceSide'), names)
+        if not line:
+            continue
+        label = target_monsters(row.get('targetMask'), monsters, language)
+        lines = next((lines for target, lines in groups if target == label), None)
+        if lines is None:
+            lines = []
+            groups.append((label, lines))
+        if line not in lines:
+            lines.append(line)
+    return _join_groups(groups, language)
+
+
+def _prose(spell, entries):
+    return strip_display_markup(entries.get(str(spell.get('descriptionId'))) or '')
+
+
+def _grade_texts(spell, levels, effects, entries, monsters, language, summons):
+    """[(grade, text)] in level order; a grade without text reads the grades it casts or draws."""
+    graded = []
     for level_id in (spell.get('spellLevels') or {}).get('Array') or []:
         level = levels.get(level_id) or {}
-        rendered = []
+        graded.append((level.get('grade'), level, grade_description(
+            level, effects, entries, monsters, language, summons)))
+    by_grade = {grade: (level, text) for grade, level, text in graded if grade is not None}
+    colon, semicolon = _SEPARATORS.get(language, _DEFAULT_SEPARATORS)
+
+    def relayed(grade, seen):
+        level, text = by_grade[grade]
+        if text:
+            return text
+        chances = {}
         for row in (level.get('effects') or {}).get('Array') or []:
             if not isinstance(row, dict):
                 continue
-            effect_id = effect_id_of(row)
-            effect = effects.get(effect_id) or {}
-            names = monsters if effect_id in _SUMMON_EFFECTS else None
-            line = render_effect(entries.get(str(effect.get('descriptionId'))),
-                                 row.get('diceNum'), row.get('diceSide'), names)
-            if line and line not in rendered:
-                rendered.append(line)
-        if rendered:
-            return ', '.join(rendered)
-    return None
+            target = row.get('diceSide')
+            effect = effects.get(effect_id_of(row)) or {}
+            if (row.get('diceNum') == spell.get('id') and target in by_grade
+                    and target not in seen and (row.get('triggers') or 'I') == 'I'
+                    and (entries.get(str(effect.get('descriptionId'))) or '').strip() == '#1'):
+                chances[target] = chances.get(target, 0) + (row.get('random') or 0)
+        if len(chances) == 1:
+            return relayed(next(iter(chances)), seen | set(chances))
+        if not chances or not all(chances.values()):
+            return None
+        parts = []
+        for target, chance in chances.items():
+            text = relayed(target, seen | {target})
+            if text:
+                parts.append('%d%%%s%s' % (round(chance), colon, text))
+        return semicolon.join(parts) or None
+
+    return [(grade, relayed(grade, {grade}) if grade is not None else text)
+            for grade, _level, text in graded]
+
+
+def spell_description(spell, levels, effects, entries, monsters, language='en',
+                      summons=_SUMMON_EFFECTS):
+    """What a monster spell does, in one line: Ankama's prose description, or
+    failing that the effect rows of the spell's first grade."""
+    prose = _prose(spell, entries)
+    if prose:
+        return prose
+    return next((text for _grade, text in _grade_texts(
+        spell, levels, effects, entries, monsters, language, summons) if text), None)
+
+
+def grade_descriptions(spell, levels, effects, entries, monsters, language='en',
+                       summons=_SUMMON_EFFECTS):
+    """{spell grade: text} when the grades of a spell without prose read differently, else {}."""
+    if _prose(spell, entries):
+        return {}
+    by_grade = {grade: text for grade, text in _grade_texts(
+        spell, levels, effects, entries, monsters, language, summons) if grade is not None}
+    if len(set(by_grade.values())) < 2:
+        return {}
+    return {grade: text for grade, text in by_grade.items() if text}
 
 
 def parse_grade_mapping(raw):
@@ -213,7 +335,8 @@ def main():
         'SELECT DISTINCT monster_ankama_id FROM monster_names')}
     print('%s: %d monsters in db' % (args.game_version, len(known)))
 
-    for table in ('monster_spells', 'monster_spell_names', 'monster_spell_levels'):
+    for table in ('monster_spells', 'monster_spell_names', 'monster_spell_levels',
+                  'monster_spell_grade_descriptions'):
         cursor.execute('DROP TABLE IF EXISTS %s' % table)
     cursor.execute("""
         CREATE TABLE monster_spells (
@@ -239,6 +362,14 @@ def main():
             range_min INTEGER,
             range_max INTEGER,
             PRIMARY KEY (spell_ankama_id, grade)
+        )""")
+    cursor.execute("""
+        CREATE TABLE monster_spell_grade_descriptions (
+            spell_ankama_id INTEGER NOT NULL,
+            grade INTEGER NOT NULL,
+            language TEXT NOT NULL,
+            description TEXT NOT NULL,
+            PRIMARY KEY (spell_ankama_id, grade, language)
         )""")
 
     used = set()
@@ -267,7 +398,8 @@ def main():
                    for mid, monster in monsters.items()}
         for language in LANGUAGES}
 
-    named = priced = 0
+    summons = summon_effects(effects, labels['en'])
+    named = priced = graded = 0
     for spell_id in sorted(used):
         spell = spells.get(spell_id)
         if not spell:
@@ -277,13 +409,20 @@ def main():
             name = labels[language].get(name_id)
             if not name:
                 continue
+            reading = (spell, levels, effects, labels[language], monster_names[language],
+                       language, summons)
             cursor.execute(
                 'INSERT OR REPLACE INTO monster_spell_names VALUES (?, ?, ?, ?)',
                 (spell_id, language, clean_display_name(name),
-                 clean_description(
-                     spell_description(spell, levels, effects, labels[language],
-                                       monster_names[language]))))
+                 clean_description(spell_description(*reading))))
             named += 1
+            for grade, text in sorted(grade_descriptions(*reading).items()):
+                text = clean_description(text)
+                if text:
+                    cursor.execute(
+                        'INSERT OR REPLACE INTO monster_spell_grade_descriptions '
+                        'VALUES (?, ?, ?, ?)', (spell_id, grade, language, text))
+                    graded += 1
         for level_id in (spell.get('spellLevels') or {}).get('Array') or []:
             level = levels.get(level_id)
             if not level:
@@ -299,8 +438,8 @@ def main():
     sys.path.insert(0, CURRENT_DIR)
     from store_item_obtainment import _save_db_to_dump
     _save_db_to_dump(db_path, args.game_version)
-    print('stored %d monster spells, %d names, %d grades'
-          % (linked, named, priced))
+    print('stored %d monster spells, %d names, %d grades, %d grade descriptions'
+          % (linked, named, priced, graded))
     if unknown:
         print('skipped %d spell ids the dump does not describe: %s'
               % (len(unknown), ', '.join(str(i) for i in sorted(unknown)[:10])))

@@ -1,0 +1,486 @@
+{
+ "conversions": [
+  {
+   "ankama_id": 1333,
+   "element": "fire",
+   "kind": "damage",
+   "level": 20,
+   "names": {
+    "de": "Elementartrank: Fünkchen",
+    "en": "Spark Potion",
+    "es": "Pócima de chispa",
+    "fr": "Potion d'Étincelle",
+    "pt": "Poção de fagulha"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1335,
+   "element": "water",
+   "kind": "damage",
+   "level": 20,
+   "names": {
+    "de": "Elementartrank: Nieselregen",
+    "en": "Drizzle Potion",
+    "es": "Pócima de llovizna",
+    "fr": "Potion de Crachin",
+    "pt": "Poção de Garoa"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1337,
+   "element": "air",
+   "kind": "damage",
+   "level": 20,
+   "names": {
+    "de": "Elementartrank: Windhauch",
+    "en": "Draught Potion",
+    "es": "Pócima de corriente de aire",
+    "fr": "Potion de Courant d'Air",
+    "pt": "Poção de Corrente de Ar"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1338,
+   "element": "earth",
+   "kind": "damage",
+   "level": 20,
+   "names": {
+    "de": "Elementartrank: Erschütterung",
+    "en": "Tremor Potion",
+    "es": "Pócima de sacudida",
+    "fr": "Potion de Secousse",
+    "pt": "Poção de Tremor"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1345,
+   "element": "fire",
+   "kind": "damage",
+   "level": 80,
+   "names": {
+    "de": "Elementartrank: Flächenbrand",
+    "en": "Wildfire Potion",
+    "es": "Pócima de incendio",
+    "fr": "Potion d'Incendie",
+    "pt": "Poção de incêndio"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1346,
+   "element": "water",
+   "kind": "damage",
+   "level": 80,
+   "names": {
+    "de": "Elementartrank: Tsunami",
+    "en": "Tsunami Potion",
+    "es": "Pócima de tsunami",
+    "fr": "Potion de Tsunami",
+    "pt": "Poção de tsunami"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1347,
+   "element": "air",
+   "kind": "damage",
+   "level": 80,
+   "names": {
+    "de": "Elementartrank: Hurrikan",
+    "en": "Hurricane Potion",
+    "es": "Pócima de huracán",
+    "fr": "Potion d'Ouragan",
+    "pt": "Poção da Tempestade"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 1348,
+   "element": "earth",
+   "kind": "damage",
+   "level": 80,
+   "names": {
+    "de": "Elementartrank: Erdbeben",
+    "en": "Earthquake Potion",
+    "es": "Pócima de seísmo",
+    "fr": "Potion de Séisme",
+    "pt": "Poção de Terremoto"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 26
+  },
+  {
+   "ankama_id": 26345,
+   "element": "water",
+   "kind": "steal",
+   "level": 80,
+   "names": {
+    "de": "Tsunami-Gravur",
+    "en": "Tsunami Engraving",
+    "es": "Grabado de tsunami",
+    "fr": "Gravure de Tsunami",
+    "pt": "Gravura de Tsunami"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 258
+  },
+  {
+   "ankama_id": 26347,
+   "element": "earth",
+   "kind": "steal",
+   "level": 80,
+   "names": {
+    "de": "Erdbeben-Gravur",
+    "en": "Quake Engraving",
+    "es": "Grabado de seísmo",
+    "fr": "Gravure de Séisme",
+    "pt": "Gravura de Terremoto"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 258
+  },
+  {
+   "ankama_id": 26348,
+   "element": "fire",
+   "kind": "steal",
+   "level": 80,
+   "names": {
+    "de": "Feuersbrunst-Gravur",
+    "en": "Blazing Engraving",
+    "es": "Grabado de incendio",
+    "fr": "Gravure d'Incendie",
+    "pt": "Gravura de Incêndio"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 258
+  },
+  {
+   "ankama_id": 26349,
+   "element": "air",
+   "kind": "steal",
+   "level": 80,
+   "names": {
+    "de": "Orkan-Gravur",
+    "en": "Hurricane Engraving",
+    "es": "Grabado de huracán",
+    "fr": "Gravure d'Ouragan",
+    "pt": "Gravura de Furacão"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 258
+  },
+  {
+   "ankama_id": 26353,
+   "element": "fire",
+   "kind": "steal",
+   "level": 20,
+   "names": {
+    "de": "Funken-Gravur",
+    "en": "Spark Engraving",
+    "es": "Grabado de chispa",
+    "fr": "Gravure d'Étincelle",
+    "pt": "Gravura de Centelha"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 258
+  },
+  {
+   "ankama_id": 26354,
+   "element": "air",
+   "kind": "steal",
+   "level": 20,
+   "names": {
+    "de": "Luftzug-Gravur",
+    "en": "Draught Engraving",
+    "es": "Grabado de corriente de aire",
+    "fr": "Gravure de Courant d'Air",
+    "pt": "Gravura de Corrente de Ar"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 258
+  },
+  {
+   "ankama_id": 26355,
+   "element": "water",
+   "kind": "steal",
+   "level": 20,
+   "names": {
+    "de": "Sprühregen-Gravur",
+    "en": "Spittle Engraving",
+    "es": "Grabado de llovizna",
+    "fr": "Gravure de Crachin",
+    "pt": "Gravura de Garoa"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 258
+  },
+  {
+   "ankama_id": 26358,
+   "element": "earth",
+   "kind": "steal",
+   "level": 20,
+   "names": {
+    "de": "Schüttel-Gravur",
+    "en": "Tremor Engraving",
+    "es": "Grabado de sacudida",
+    "fr": "Gravure de Secousse",
+    "pt": "Gravura de Abalo"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 258
+  },
+  {
+   "ankama_id": 34539,
+   "element": "water",
+   "kind": "heal",
+   "level": 80,
+   "names": {
+    "de": "Tsunamisplitter",
+    "en": "Tsunami Shard",
+    "es": "Esquirla de tsunami",
+    "fr": "Éclat de Tsunami",
+    "pt": "Fragmento de Tsunami"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 335
+  },
+  {
+   "ankama_id": 34540,
+   "element": "earth",
+   "kind": "heal",
+   "level": 80,
+   "names": {
+    "de": "Bebensplitter",
+    "en": "Earthquake Shard",
+    "es": "Esquirla de seísmo",
+    "fr": "Éclat de Séisme",
+    "pt": "Fragmento de Terremoto"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 335
+  },
+  {
+   "ankama_id": 34541,
+   "element": "earth",
+   "kind": "heal",
+   "level": 20,
+   "names": {
+    "de": "Schüttelsplitter",
+    "en": "Tremor Shard",
+    "es": "Esquirla de sacudida",
+    "fr": "Éclat de Secousse",
+    "pt": "Fragmento de Abalo"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 335
+  },
+  {
+   "ankama_id": 34542,
+   "element": "water",
+   "kind": "heal",
+   "level": 20,
+   "names": {
+    "de": "Sprühregensplitter",
+    "en": "Spittle Shard",
+    "es": "Esquirla de llovizna",
+    "fr": "Éclat de Crachin",
+    "pt": "Fragmento de Garoa"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 335
+  },
+  {
+   "ankama_id": 34543,
+   "element": "air",
+   "kind": "heal",
+   "level": 20,
+   "names": {
+    "de": "Luftzugsplitter",
+    "en": "Draught Shard",
+    "es": "Esquirla de corriente de aire",
+    "fr": "Éclat de Courant d'Air",
+    "pt": "Fragmento de Corrente de Ar"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 335
+  },
+  {
+   "ankama_id": 34544,
+   "element": "fire",
+   "kind": "heal",
+   "level": 20,
+   "names": {
+    "de": "Funkensplitter",
+    "en": "Spark Shard",
+    "es": "Esquirla de chispa",
+    "fr": "Éclat d'Étincelle",
+    "pt": "Fragmento de Centelha"
+   },
+   "rate": 0.1,
+   "tier": "weak",
+   "type_id": 335
+  },
+  {
+   "ankama_id": 34545,
+   "element": "air",
+   "kind": "heal",
+   "level": 80,
+   "names": {
+    "de": "Orkansplitter",
+    "en": "Hurricane Shard",
+    "es": "Esquirla de huracán",
+    "fr": "Éclat d'Ouragan",
+    "pt": "Fragmento de Furacão"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 335
+  },
+  {
+   "ankama_id": 34546,
+   "element": "fire",
+   "kind": "heal",
+   "level": 80,
+   "names": {
+    "de": "Feuersbrunstsplitter",
+    "en": "Blaze Shard",
+    "es": "Esquirla de incendio",
+    "fr": "Éclat d'Incendie",
+    "pt": "Fragmento de Incêndio"
+   },
+   "rate": 1.0,
+   "tier": "strong",
+   "type_id": 335
+  }
+ ],
+ "data_version": "3.7.3.3",
+ "game_version": "beta",
+ "gems": [
+  {
+   "ankama_id": 34547,
+   "level": 60,
+   "max_weapon_level": 60,
+   "names": {
+    "de": "Kleine Alles-auf-Anfang-Gemme",
+    "en": "Minor Regenerating Gem",
+    "es": "Gema regenerativa menor",
+    "fr": "Gemme régénérante mineure",
+    "pt": "Gema Regenerativa Menor"
+   },
+   "type_id": 336
+  },
+  {
+   "ankama_id": 34548,
+   "level": 120,
+   "max_weapon_level": 120,
+   "names": {
+    "de": "Alles-auf-Anfang-Gemme",
+    "en": "Regenerating Gem",
+    "es": "Gema regenerativa",
+    "fr": "Gemme régénérante",
+    "pt": "Gema Regenerativa"
+   },
+   "type_id": 336
+  },
+  {
+   "ankama_id": 34549,
+   "level": 180,
+   "max_weapon_level": 180,
+   "names": {
+    "de": "Große Alles-auf-Anfang-Gemme",
+    "en": "Major Regenerating Gem",
+    "es": "Gema regenerativa mayor",
+    "fr": "Gemme régénérante majeure",
+    "pt": "Gema Regenerativa Maior"
+   },
+   "type_id": 336
+  },
+  {
+   "ankama_id": 34550,
+   "level": 200,
+   "max_weapon_level": 200,
+   "names": {
+    "de": "Mächtige Alles-auf-Anfang-Gemme",
+    "en": "Masterly Regenerating Gem",
+    "es": "Gema regenerativa magistral",
+    "fr": "Gemme régénérante magistrale",
+    "pt": "Gema Regenerativa Magistral"
+   },
+   "type_id": 336
+  }
+ ],
+ "languages": [
+  "de",
+  "en",
+  "es",
+  "fr",
+  "pt"
+ ],
+ "rate_published": true,
+ "unforgeable": [
+  2341,
+  2361,
+  8627,
+  10223,
+  15282,
+  15660,
+  16541,
+  17460,
+  17809,
+  18350,
+  18853,
+  19105,
+  19415,
+  19482,
+  19637,
+  20210,
+  20213,
+  21506,
+  21507,
+  21508,
+  21509,
+  21510,
+  23522,
+  23578,
+  25235,
+  25245,
+  25248,
+  25952,
+  26198,
+  27268,
+  30832
+ ],
+ "unforgeable_source": "m_flags bit 0x40"
+}

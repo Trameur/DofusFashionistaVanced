@@ -41,6 +41,7 @@ from .set import Set
 from .translation import NON_EN_LANGUAGES
 from .wakfu_db import (ITEM_PICTURE_TABLE, ITEM_RARITY_TABLE,
                        ITEM_TYPE_POSITION_TABLE, STAT_ELEMENT_COUNT_TABLE)
+from . import weapon_forge
 from .weapon import Weapon, WeaponType
 from django.templatetags.i18n import language
 from django.utils.translation import gettext as _
@@ -892,7 +893,7 @@ class Structure:
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
             w.weapon_type = weapon_type
                 
-        rate = get_game_version(self.game_version).weapon_element_rate
+        rate = weapon_forge.applied_rate(self.game_version, 'damage', weapon_forge.STRONG)
         # By key: the name index only holds the first weapon under each name.
         for weapon_name, w in itertools.chain(iter(self.weapons_by_key.items()),
                                               iter(self.dt_weapons_by_key.items())):
@@ -921,16 +922,16 @@ class Structure:
                 if w.has_crits:
                     w.crit_base_hit.append(_with_crit_bonus(hit, w.crit_bonus))
 
-            w.is_mageable = any([self._takes_element_potion(hit)
-                                 for hit in w.base_hit])
+            ankama_id = weapon_name if isinstance(weapon_name, int) else None
+            forgeable = weapon_forge.can_forge(self.game_version, ankama_id)
+            kinds = weapon_forge.convertible(self.game_version, ankama_id, w.base_hit)
+            w.convertible = {kind: kind in kinds for kind in weapon_forge.KINDS}
+            w.is_mageable = (forgeable and rate is not None
+                             and any([self._takes_element_potion(hit) for hit in w.base_hit]))
 
             if w.is_mageable:
-                w.maged_hit = [DamageDigest(int((hit.min_dam - 1) * rate + 1),
-                                            int((hit.min_dam - 1) * rate)
-                                            + int((hit.max_dam - hit.min_dam + 1) * rate),
-                                            hit.element,
-                                            hit.steals,
-                                            hit.heals) for hit in w.base_hit]
+                w.maged_hit = [weapon_forge.convert(hit, hit.element, rate)
+                               for hit in w.base_hit]
                 if w.has_crits:
                     w.crit_maged_hit = [_with_crit_bonus(hit, w.crit_bonus)
                                         for hit in w.maged_hit]

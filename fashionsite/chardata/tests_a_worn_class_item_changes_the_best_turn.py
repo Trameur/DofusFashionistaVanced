@@ -286,11 +286,16 @@ class AClassItemGivesTheExtraCastTests(SimpleTestCase):
                          (worn[0].per_turn, worn[0].per_target, worn[0].limit))
 
     def test_the_critical_bonus_follows_each_versions_rule(self):
+        from chardata.spell_buffs import (_decide_spell_level,
+                                          get_damage_spells_for_version)
         stats = _stats(ch=10)
+        arrow = next(spell for spell in get_damage_spells_for_version('dofus3')['Cra']
+                     if spell.spell_id == EXPLOSIVE_ARROW)
+        base = arrow.casting['crit'][_decide_spell_level(arrow.level_req, 200)]
         worn = _only('Cra', 'dofus3', {EXPLOSIVE_ARROW},
                      _worn('dofus3', HONOH_RING))[0]
         own = dict(stats, ch=stats['ch'] + worn.bonus_stats['ch'])
-        self.assertEqual((20 + 30 + 10) / 100.0,
+        self.assertEqual((base + 30 + 10) / 100.0,
                          crit_chance(worn.crit_rate, own, 'dofus3'))
         retro = _only('Cra', 'retro', {RETRO_EXPLOSIVE_ARROW},
                       _worn('retro', HONOH_RING))[0]
@@ -399,9 +404,9 @@ class ACooldownTakenToZeroLiftsTheOneCastLimitTests(SimpleTestCase):
 
 class EachVersionReadsItsOwnRowForTheSameItemTests(SimpleTestCase):
 
-    def test_the_sash_adds_a_cast_of_renown_on_beta_only(self):
+    def test_the_sash_adds_a_cast_of_renown_on_dofus3_and_beta(self):
         from chardata.spells_view import _reference_digest
-        for version, kinds, per_turn in (('dofus3', ['cooldown'], [1]),
+        for version, kinds, per_turn in (('dofus3', ['per_turn'], [2]),
                                          ('beta', ['per_turn'], [2])):
             with self.subTest(version=version):
                 entry = _entry(version, 'Forgelance', RENOWN)
@@ -516,11 +521,11 @@ class ThePanelMatchesAHandCalculationTests(SimpleTestCase):
     def test_the_ring_puts_the_arrow_of_judgement_in_three_ap(self):
         combo = self._combo([_Piece(HONOH_RING, 'Honoh Ring')])
         plain = (36 * 1100 // 100 + 40 * 1100 // 100) / 2.0 \
-            + (25 * 1100 // 100 + 27 * 1100 // 100) / 2.0
+            + (20 * 1100 // 100 + 22 * 1100 // 100) / 2.0
         critical = (43 * 1100 // 100 + 48 * 1100 // 100) / 2.0 \
-            + (30 * 1100 // 100 + 32 * 1100 // 100) / 2.0
+            + (24 * 1100 // 100 + 26 * 1100 // 100) / 2.0
         by_hand = 0.8 * plain + 0.2 * critical
-        self.assertEqual(731.5, by_hand)
+        self.assertAlmostEqual(674.3, by_hand)
         self.assertEqual(1, len(combo['casts']))
         cast = combo['casts'][0]
         self.assertEqual('Arrow of Judgement', cast['name'])
@@ -532,12 +537,13 @@ class ThePanelMatchesAHandCalculationTests(SimpleTestCase):
             self.assertEqual([gettext('%(item)s: %(changes)s') % {
                 'item': 'Honoh Ring', 'changes': '-1 AP'}], cast['item_notes'])
 
-    def test_without_the_ring_three_ap_cast_eye_for_eye(self):
+    def test_without_the_ring_three_ap_cast_the_vagabond_arrow(self):
         combo = self._combo([])
         plain = (27 * 1100 // 100 + 30 * 1100 // 100) / 2.0
         critical = (32 * 1100 // 100 + 36 * 1100 // 100) / 2.0
-        by_hand = 0.85 * plain + 0.15 * critical
-        self.assertEqual(['Eye for Eye'], [c['name'] for c in combo['casts']])
+        by_hand = 0.9 * plain + 0.1 * critical
+        self.assertAlmostEqual(319.55, by_hand)
+        self.assertEqual(['Vagabond Arrow'], [c['name'] for c in combo['casts']])
         self.assertEqual(int(round(by_hand)), combo['total'])
         self.assertEqual([], combo['casts'][0]['item_notes'])
 

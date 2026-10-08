@@ -57723,10 +57723,10 @@
                 ": +% Critical"
             ]
         ],
-        "special_spell_en": "Reflex: +1 casts per target\nLapping Up: +35% Critical\nYahtzee: +1 casts per target\nRough Tongue: +35% Critical\nTopkaj: +1 casts per target\nPlayful Claw: +35% Critical\nHeads or Tails: +1 casts per target\nBravado: +30% Critical",
-        "special_spell_fr": "Réflexes : +1 lancers par cible\nLapement : +35% Critique\nYams : +1 lancers par cible\nLangue Râpeuse : +35% Critique\nTopkaj : +1 lancers par cible\nGriffe Joueuse : +35% Critique\nPile ou Face : +1 lancers par cible\nFanfaronnade : +30% Critique",
-        "special_spell_es": "Reflejos: +1 lanzamientos por objetivo\nLametazo: +35% de crítico\nYams: +1 lanzamientos por objetivo\nLengua Raspadora: +35% de crítico\nTopkaj: +1 lanzamientos por objetivo\nGarra Juguetona: +35% de crítico\nCara o Cruz: +1 lanzamientos por objetivo\nFantasmada: +30% de crítico",
-        "special_spell_pt": "Reflexos: +1 lançamentos por alvo\nLambidela: +35% de crítico\nGeneral: +1 lançamentos por alvo\nLíngua Áspera: +35% de crítico\nTopkaj: +1 lançamentos por alvo\nGarra Brincalhona: +35% de crítico\nCara ou Coroa: +1 lançamentos por alvo\nFanfarronice: +30% de crítico",
+        "special_spell_en": "Reflex: +1 cast per target\nLapping Up: +35% Critical\nYahtzee: +1 cast per target\nRough Tongue: +35% Critical\nTopkaj: +1 cast per target\nPlayful Claw: +35% Critical\nHeads or Tails: +1 cast per target\nBravado: +30% Critical",
+        "special_spell_fr": "Réflexes : +1 lancer par cible\nLapement : +35% Critique\nYams : +1 lancer par cible\nLangue Râpeuse : +35% Critique\nTopkaj : +1 lancer par cible\nGriffe Joueuse : +35% Critique\nPile ou Face : +1 lancer par cible\nFanfaronnade : +30% Critique",
+        "special_spell_es": "Reflejos: +1 lanzamiento por objetivo\nLametazo: +35% de crítico\nYams: +1 lanzamiento por objetivo\nLengua Raspadora: +35% de crítico\nTopkaj: +1 lanzamiento por objetivo\nGarra Juguetona: +35% de crítico\nCara o Cruz: +1 lanzamiento por objetivo\nFantasmada: +30% de crítico",
+        "special_spell_pt": "Reflexos: +1 lançamento por alvo\nLambidela: +35% de crítico\nGeneral: +1 lançamento por alvo\nLíngua Áspera: +35% de crítico\nTopkaj: +1 lançamento por alvo\nGarra Brincalhona: +35% de crítico\nCara ou Coroa: +1 lançamento por alvo\nFanfarronice: +30% de crítico",
         "special_spell_de": "Reflexe: +1 Zauber pro Ziel\nSchlecken: +35 % Kritische Treffer\nYams: +1 Zauber pro Ziel\nRaue Zunge: +35 % Kritische Treffer\nTopkaj: +1 Zauber pro Ziel\nSpielkralle: +35 % Kritische Treffer\nKopf oder Zahl: +1 Zauber pro Ziel\nPrahlerei: +30 % Kritische Treffer",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16185-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16185-64.png",
@@ -57971,10 +57971,10 @@
                 ": - cooldown"
             ]
         ],
-        "special_spell_en": "Burning Bush: +3 Maximum Range\nBush Fire: -1 AP\nHemlock: +3 Maximum Range\nPoisoned Wind: +1 casts per turn\nParalysing Sap: -1 AP\nMiasmas: -1 AP\nThe Block: -1 cooldown\nTransmuted Block: -1 cooldown",
-        "special_spell_fr": "Buisson Ardent : +3 Portée maximale\nFeu de Brousse : -1 PA\nCigüe : +3 Portée maximale\nVent Empoisonné : +1 lancers par tour\nSève Paralysante : -1 PA\nMiasmes : -1 PA\nLa Bloqueuse : -1 de relance\nLa Bloqueuse Transmutée : -1 de relance",
-        "special_spell_es": "Matorral Ardiente: +3 de alcance máximo\nFuego Montés: -1 PA\nCicuta: +3 de alcance máximo\nViento Envenenado: +1 lanzamientos por turno\nSavia Paralizante: -1 PA\nMiasmas: -1 PA\nLa Bloqueadora: -1 de reactivación\nLa Bloqueadora Transmutada: -1 de reactivación",
-        "special_spell_pt": "Arbusto Ardente: +3 de alcance máximo\nIncêndio Florestal: -1 PA\nCicuta: +3 de alcance máximo\nVento Envenenado: +1 lançamentos por turno\nSeiva Paralisante: -1 PA\nMiasmas: -1 PA\nA Bloqueadora: -1 de relançamento\nA Bloqueadora Transmutada: -1 de relançamento",
+        "special_spell_en": "Burning Bush: +3 Maximum Range\nBush Fire: -1 AP\nHemlock: +3 Maximum Range\nPoisoned Wind: +1 cast per turn\nParalysing Sap: -1 AP\nMiasmas: -1 AP\nThe Block: -1 cooldown\nTransmuted Block: -1 cooldown",
+        "special_spell_fr": "Buisson Ardent : +3 Portée maximale\nFeu de Brousse : -1 PA\nCigüe : +3 Portée maximale\nVent Empoisonné : +1 lancer par tour\nSève Paralysante : -1 PA\nMiasmes : -1 PA\nLa Bloqueuse : -1 de relance\nLa Bloqueuse Transmutée : -1 de relance",
+        "special_spell_es": "Matorral Ardiente: +3 de alcance máximo\nFuego Montés: -1 PA\nCicuta: +3 de alcance máximo\nViento Envenenado: +1 lanzamiento por turno\nSavia Paralizante: -1 PA\nMiasmas: -1 PA\nLa Bloqueadora: -1 de reactivación\nLa Bloqueadora Transmutada: -1 de reactivación",
+        "special_spell_pt": "Arbusto Ardente: +3 de alcance máximo\nIncêndio Florestal: -1 PA\nCicuta: +3 de alcance máximo\nVento Envenenado: +1 lançamento por turno\nSeiva Paralisante: -1 PA\nMiasmas: -1 PA\nA Bloqueadora: -1 de relançamento\nA Bloqueadora Transmutada: -1 de relançamento",
         "special_spell_de": "Brennender Dornbusch: +3 Maximale Reichweite\nBuschfeuer: –1 AP\nSchierling: +3 Maximale Reichweite\nGiftiger Windstrom: +1 Zauber pro Runde\nLähmharz: –1 AP\nAusdünstungen: –1 AP\nBlockpüppchen: Abklingzeit verringert um –1\nDas Verwandelte Blockpüppchen: Abklingzeit verringert um –1",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16178-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16178-64.png",
@@ -58095,10 +58095,10 @@
                 ": modifiable Range"
             ]
         ],
-        "special_spell_en": "Tofu: +2 Maximum Range\nChtiger Claws: modifiable Range\nGobball: +2 Maximum Range\nVulture Talons: +2 Maximum Range\nSweetoad: +2 Maximum Range\nGolden Fleece: +1 casts per turn\nDragoone: +2 Maximum Range\nSnake Bite: modifiable Range",
-        "special_spell_fr": "Tofu : +2 Portée maximale\nGriffes du Chtigre : Portée modifiable\nBouftou : +2 Portée maximale\nSerres du Vautour : +2 Portée maximale\nCrapipou : +2 Portée maximale\nToison d'Or : +1 lancers par tour\nDragoune : +2 Portée maximale\nMorsure du Serpent : Portée modifiable",
-        "special_spell_es": "Tofu: +2 de alcance máximo\nGarras de Chtigre: alcance modificable\nJalató: +2 de alcance máximo\nGarras de Buitre: +2 de alcance máximo\nSaponito: +2 de alcance máximo\nVellocino de Oro: +1 lanzamientos por turno\nDragún: +2 de alcance máximo\nMordedura de Serpiente: alcance modificable",
-        "special_spell_pt": "Tofu: +2 de alcance máximo\nGarras do Tigraxé: alcance modificável\nPapatudo: +2 de alcance máximo\nGarras do Abutre: +2 de alcance máximo\nSapeca: +2 de alcance máximo\nTosão de Ouro: +1 lançamentos por turno\nDraguna: +2 de alcance máximo\nMordida da Serpente: alcance modificável",
+        "special_spell_en": "Tofu: +2 Maximum Range\nChtiger Claws: modifiable Range\nGobball: +2 Maximum Range\nVulture Talons: +2 Maximum Range\nSweetoad: +2 Maximum Range\nGolden Fleece: +1 cast per turn\nDragoone: +2 Maximum Range\nSnake Bite: modifiable Range",
+        "special_spell_fr": "Tofu : +2 Portée maximale\nGriffes du Chtigre : Portée modifiable\nBouftou : +2 Portée maximale\nSerres du Vautour : +2 Portée maximale\nCrapipou : +2 Portée maximale\nToison d'Or : +1 lancer par tour\nDragoune : +2 Portée maximale\nMorsure du Serpent : Portée modifiable",
+        "special_spell_es": "Tofu: +2 de alcance máximo\nGarras de Chtigre: alcance modificable\nJalató: +2 de alcance máximo\nGarras de Buitre: +2 de alcance máximo\nSaponito: +2 de alcance máximo\nVellocino de Oro: +1 lanzamiento por turno\nDragún: +2 de alcance máximo\nMordedura de Serpiente: alcance modificable",
+        "special_spell_pt": "Tofu: +2 de alcance máximo\nGarras do Tigraxé: alcance modificável\nPapatudo: +2 de alcance máximo\nGarras do Abutre: +2 de alcance máximo\nSapeca: +2 de alcance máximo\nTosão de Ouro: +1 lançamento por turno\nDraguna: +2 de alcance máximo\nMordida da Serpente: alcance modificável",
         "special_spell_de": "Tofu: +2 Maximale Reichweite\nTiguarkrallen: Veränderbare Reichweite\nFresssack: +2 Maximale Reichweite\nGeierfänge: +2 Maximale Reichweite\nKrötlein: +2 Maximale Reichweite\nGoldenes Vlies: +1 Zauber pro Runde\nDragooner: +2 Maximale Reichweite\nSchlangenbiss: Veränderbare Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16181-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16181-64.png",
@@ -58219,10 +58219,10 @@
                 ": + Maximum Range"
             ]
         ],
-        "special_spell_en": "Abolition Arrow: +1 casts per turn\nPersecuting Arrow: -1 AP\nLashing Arrow: +1 casts per turn\nAssailing Arrow: modifiable Range\nExploding Arrow: +1 casts per turn\nSlow-Down Arrow: +6 base damage\nImmobilising Arrow: +1 casts per target\nTyrannical Arrow: +3 Maximum Range",
-        "special_spell_fr": "Flèche d'Abolition : +1 lancers par tour\nFlèche Persécutrice : -1 PA\nFlèche Cinglante : +1 lancers par tour\nFlèche Assaillante : Portée modifiable\nFlèche Détonante : +1 lancers par tour\nFlèche Ralentissante : +6 dégâts de base\nFlèche d'Immobilisation : +1 lancers par cible\nFlèche Tyrannique : +3 Portée maximale",
-        "special_spell_es": "Flecha de Abolición: +1 lanzamientos por turno\nFlecha Perseguidora: -1 PA\nFlecha Azotadora: +1 lanzamientos por turno\nFlecha Asaltante: alcance modificable\nFlecha Detonadora: +1 lanzamientos por turno\nFlecha Ralentizante: +6 de daños básicos\nFlecha Inmovilizadora: +1 lanzamientos por objetivo\nFlecha Tiránica: +3 de alcance máximo",
-        "special_spell_pt": "Flecha de Abolição: +1 lançamentos por turno\nFlecha Perseguidora: -1 PA\nFlecha Fustigante: +1 lançamentos por turno\nFlecha Agressora: alcance modificável\nFlecha Detonante: +1 lançamentos por turno\nFlecha Desaceleradora: +6 de danos de base\nFlecha de Imobilização: +1 lançamentos por alvo\nFlecha Tirânica: +3 de alcance máximo",
+        "special_spell_en": "Abolition Arrow: +1 cast per turn\nPersecuting Arrow: -1 AP\nLashing Arrow: +1 cast per turn\nAssailing Arrow: modifiable Range\nExploding Arrow: +1 cast per turn\nSlow-Down Arrow: +6 base damage\nImmobilising Arrow: +1 cast per target\nTyrannical Arrow: +3 Maximum Range",
+        "special_spell_fr": "Flèche d'Abolition : +1 lancer par tour\nFlèche Persécutrice : -1 PA\nFlèche Cinglante : +1 lancer par tour\nFlèche Assaillante : Portée modifiable\nFlèche Détonante : +1 lancer par tour\nFlèche Ralentissante : +6 dégâts de base\nFlèche d'Immobilisation : +1 lancer par cible\nFlèche Tyrannique : +3 Portée maximale",
+        "special_spell_es": "Flecha de Abolición: +1 lanzamiento por turno\nFlecha Perseguidora: -1 PA\nFlecha Azotadora: +1 lanzamiento por turno\nFlecha Asaltante: alcance modificable\nFlecha Detonadora: +1 lanzamiento por turno\nFlecha Ralentizante: +6 de daños básicos\nFlecha Inmovilizadora: +1 lanzamiento por objetivo\nFlecha Tiránica: +3 de alcance máximo",
+        "special_spell_pt": "Flecha de Abolição: +1 lançamento por turno\nFlecha Perseguidora: -1 PA\nFlecha Fustigante: +1 lançamento por turno\nFlecha Agressora: alcance modificável\nFlecha Detonante: +1 lançamento por turno\nFlecha Desaceleradora: +6 de danos de base\nFlecha de Imobilização: +1 lançamento por alvo\nFlecha Tirânica: +3 de alcance máximo",
         "special_spell_de": "Pfeil der Abschaffung: +1 Zauber pro Runde\nHeimsuchender Pfeil: –1 AP\nPeitschender Pfeil: +1 Zauber pro Runde\nAngriffspfeil: Veränderbare Reichweite\nDetonationspfeil: +1 Zauber pro Runde\nVerlangsamungspfeil: +6 Grundschaden\nLähmpfeil: +1 Zauber pro Ziel\nTyrannischer Pfeil: +3 Maximale Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16186-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16186-64.png",
@@ -58343,10 +58343,10 @@
                 ": + Maximum Range"
             ]
         ],
-        "special_spell_en": "Mound: +2 Maximum Range\nMine Fire: +35% Critical\nShovel Kiss: +2 Maximum Range\nCollapse: +2 Maximum Range\nTreasure Key: -1 cooldown\nArmlock: +1 casts per turn\nLiving Shovel: +3 Maximum Range\nLiving Spade: +3 Maximum Range",
-        "special_spell_fr": "Remblai : +2 Portée maximale\nFeu de Mine : +35% Critique\nRoulage de Pelle : +2 Portée maximale\nÉboulement : +2 Portée maximale\nClef du Trésor : -1 de relance\nClef de Bras : +1 lancers par tour\nPelle Animée : +3 Portée maximale\nBêche Animée : +3 Portée maximale",
-        "special_spell_es": "Terraplenado: +2 de alcance máximo\nFuego de Mina: +35% de crítico\nJarabe de Pala: +2 de alcance máximo\nDesprendimiento: +2 de alcance máximo\nLlave del Tesoro: -1 de reactivación\nLlave de Brazo: +1 lanzamientos por turno\nPalas animadas: +3 de alcance máximo\nLaya Animada: +3 de alcance máximo",
-        "special_spell_pt": "Aterro: +2 de alcance máximo\nFogo de Mina: +35% de crítico\nPá Virada: +2 de alcance máximo\nDesmoronamento: +2 de alcance máximo\nChave do Tesouro: -1 de relançamento\nChave de Braço: +1 lançamentos por turno\nPá Animada: +3 de alcance máximo\nEnxada Animada: +3 de alcance máximo",
+        "special_spell_en": "Mound: +2 Maximum Range\nMine Fire: +35% Critical\nShovel Kiss: +2 Maximum Range\nCollapse: +2 Maximum Range\nTreasure Key: -1 cooldown\nArmlock: +1 cast per turn\nLiving Shovel: +3 Maximum Range\nLiving Spade: +3 Maximum Range",
+        "special_spell_fr": "Remblai : +2 Portée maximale\nFeu de Mine : +35% Critique\nRoulage de Pelle : +2 Portée maximale\nÉboulement : +2 Portée maximale\nClef du Trésor : -1 de relance\nClef de Bras : +1 lancer par tour\nPelle Animée : +3 Portée maximale\nBêche Animée : +3 Portée maximale",
+        "special_spell_es": "Terraplenado: +2 de alcance máximo\nFuego de Mina: +35% de crítico\nJarabe de Pala: +2 de alcance máximo\nDesprendimiento: +2 de alcance máximo\nLlave del Tesoro: -1 de reactivación\nLlave de Brazo: +1 lanzamiento por turno\nPalas animadas: +3 de alcance máximo\nLaya Animada: +3 de alcance máximo",
+        "special_spell_pt": "Aterro: +2 de alcance máximo\nFogo de Mina: +35% de crítico\nPá Virada: +2 de alcance máximo\nDesmoronamento: +2 de alcance máximo\nChave do Tesouro: -1 de relançamento\nChave de Braço: +1 lançamento por turno\nPá Animada: +3 de alcance máximo\nEnxada Animada: +3 de alcance máximo",
         "special_spell_de": "Aufhäufen: +2 Maximale Reichweite\nMinenfeuer: +35 % Kritische Treffer\nHerumwirbelnde Schaufel: +2 Maximale Reichweite\nErdrutsch: +2 Maximale Reichweite\nSchlüssel zum Schatz: Abklingzeit verringert um –1\nArmschlüssel: +1 Zauber pro Runde\nBelebte Schaufel: +3 Maximale Reichweite\nBelebter Spaten: +3 Maximale Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16183-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16183-64.png",
@@ -58405,10 +58405,10 @@
                 ": modifiable Range"
             ]
         ],
-        "special_spell_en": "Breath: +1 casts per turn\nGathering: +1 casts per turn\nStrengthstorm: modifiable Range\nPounding: +2 Maximum Range\nCelestial Sword: +2 Maximum Range\nZenith: -1 AP\nSword of Fate: straight-line casting off\nTumult: modifiable Range",
-        "special_spell_fr": "Souffle : +1 lancers par tour\nRassemblement : +1 lancers par tour\nTempête de Puissance : Portée modifiable\nTannée : +2 Portée maximale\nÉpée Céleste : +2 Portée maximale\nZénith : -1 PA\nÉpée du Destin : lancer en ligne désactivé\nTumulte : Portée modifiable",
-        "special_spell_es": "Soplido: +1 lanzamientos por turno\nCongregación: +1 lanzamientos por turno\nTempestad de Potencia: alcance modificable\nCasca: +2 de alcance máximo\nEspada Celeste: +2 de alcance máximo\nCénit: -1 PA\nEspada del Destino: lanzamiento en línea desactivado\nTumulto: alcance modificable",
-        "special_spell_pt": "Sopro: +1 lançamentos por turno\nAjuntamento: +1 lançamentos por turno\nTempestade de Poder: alcance modificável\nZurzidela: +2 de alcance máximo\nEspada Celestial: +2 de alcance máximo\nZênite: -1 PA\nEspada do Destino: lançamento em linha desativado\nTumulto: alcance modificável",
+        "special_spell_en": "Breath: +1 cast per turn\nGathering: +1 cast per turn\nStrengthstorm: modifiable Range\nPounding: +2 Maximum Range\nCelestial Sword: +2 Maximum Range\nZenith: -1 AP\nSword of Fate: straight-line casting off\nTumult: modifiable Range",
+        "special_spell_fr": "Souffle : +1 lancer par tour\nRassemblement : +1 lancer par tour\nTempête de Puissance : Portée modifiable\nTannée : +2 Portée maximale\nÉpée Céleste : +2 Portée maximale\nZénith : -1 PA\nÉpée du Destin : lancer en ligne désactivé\nTumulte : Portée modifiable",
+        "special_spell_es": "Soplido: +1 lanzamiento por turno\nCongregación: +1 lanzamiento por turno\nTempestad de Potencia: alcance modificable\nCasca: +2 de alcance máximo\nEspada Celeste: +2 de alcance máximo\nCénit: -1 PA\nEspada del Destino: lanzamiento en línea desactivado\nTumulto: alcance modificable",
+        "special_spell_pt": "Sopro: +1 lançamento por turno\nAjuntamento: +1 lançamento por turno\nTempestade de Poder: alcance modificável\nZurzidela: +2 de alcance máximo\nEspada Celestial: +2 de alcance máximo\nZênite: -1 PA\nEspada do Destino: lançamento em linha desativado\nTumulto: alcance modificável",
         "special_spell_de": "Hauch: +1 Zauber pro Runde\nAufmarsch: +1 Zauber pro Runde\nSturm der Macht: Veränderbare Reichweite\nDresche: +2 Maximale Reichweite\nHimmlisches Schwert: +2 Maximale Reichweite\nZenit: –1 AP\nSchicksalsschwert: Lineare Wirkungsweise deaktiviert\nTumult: Veränderbare Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17131-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17131-64.png",
@@ -58653,10 +58653,10 @@
                 ": + cast per turn"
             ]
         ],
-        "special_spell_en": "Life-Giving Word: line of sight off\nGalvanising Word: line of sight off\nProfanity: +40% Critical\nTribal Paintbrush: +1 casts per target\nPilfering: +40% Critical\nDistracting Word: +1 casts per turn\nAncestral Ointment: +35% Critical\nShrill Choir: +1 casts per turn",
-        "special_spell_fr": "Mot Vivifiant : ligne de vue désactivée\nMot Galvanisant : ligne de vue désactivée\nJuron : +40% Critique\nPinceau Tribal : +1 lancers par cible\nChapardage : +40% Critique\nMot Distrayant : +1 lancers par tour\nOnguent Ancestral : +35% Critique\nChœur Strident : +1 lancers par tour",
-        "special_spell_es": "Palabra Revitalizante: línea de visión desactivada\nPalabra Galvanizadora: línea de visión desactivada\nBlasfemia: +40% de crítico\nPincel Tribal: +1 lanzamientos por objetivo\nLadronceo: +40% de crítico\nPalabra Entretenida: +1 lanzamientos por turno\nUngüento Ancestral: +35% de crítico\nCoro Estridente: +1 lanzamientos por turno",
-        "special_spell_pt": "Palavra Vivificante: linha de visão desativada\nPalavra Galvanizadora: linha de visão desativada\nXingamento: +40% de crítico\nPincel Tribal: +1 lançamentos por alvo\nLatrocínio: +40% de crítico\nPalavra Distrativa: +1 lançamentos por turno\nUnguento Ancestral: +35% de crítico\nCoro Estridente: +1 lançamentos por turno",
+        "special_spell_en": "Life-Giving Word: line of sight off\nGalvanising Word: line of sight off\nProfanity: +40% Critical\nTribal Paintbrush: +1 cast per target\nPilfering: +40% Critical\nDistracting Word: +1 cast per turn\nAncestral Ointment: +35% Critical\nShrill Choir: +1 cast per turn",
+        "special_spell_fr": "Mot Vivifiant : ligne de vue désactivée\nMot Galvanisant : ligne de vue désactivée\nJuron : +40% Critique\nPinceau Tribal : +1 lancer par cible\nChapardage : +40% Critique\nMot Distrayant : +1 lancer par tour\nOnguent Ancestral : +35% Critique\nChœur Strident : +1 lancer par tour",
+        "special_spell_es": "Palabra Revitalizante: línea de visión desactivada\nPalabra Galvanizadora: línea de visión desactivada\nBlasfemia: +40% de crítico\nPincel Tribal: +1 lanzamiento por objetivo\nLadronceo: +40% de crítico\nPalabra Entretenida: +1 lanzamiento por turno\nUngüento Ancestral: +35% de crítico\nCoro Estridente: +1 lanzamiento por turno",
+        "special_spell_pt": "Palavra Vivificante: linha de visão desativada\nPalavra Galvanizadora: linha de visão desativada\nXingamento: +40% de crítico\nPincel Tribal: +1 lançamento por alvo\nLatrocínio: +40% de crítico\nPalavra Distrativa: +1 lançamento por turno\nUnguento Ancestral: +35% de crítico\nCoro Estridente: +1 lançamento por turno",
         "special_spell_de": "Leben spendendes Wort: Sichtlinie deaktiviert\nElektrisierendes Wort: Sichtlinie deaktiviert\nSchimpfwort: +40 % Kritische Treffer\nStammespinsel: +1 Zauber pro Ziel\nDiebstahl: +40 % Kritische Treffer\nUnterhaltsames Wort: +1 Zauber pro Runde\nSalbe der Ahnen: +35 % Kritische Treffer\nSchriller Chor: +1 Zauber pro Runde",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17134-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17134-64.png",
@@ -58901,10 +58901,10 @@
                 ": modifiable Range"
             ]
         ],
-        "special_spell_en": "Explosive Palm: +40% Critical\nPandilongation: +1 Maximum Range\nLiqueur: +40% Critical\nExplosive Flask: +40% Critical\nPandatak: +35% Critical\nTerror: +1 casts per target\nConsolation: +1 casts per turn\nDistillation: modifiable Range",
-        "special_spell_fr": "Paume Explosive : +40% Critique\nPandikulation : +1 Portée maximale\nLiqueur : +40% Critique\nFlasque Explosive : +40% Critique\nPandatak : +35% Critique\nÉpouvante : +1 lancers par cible\nConsolation : +1 lancers par tour\nDistillation : Portée modifiable",
-        "special_spell_es": "Palma Explosiva: +40% de crítico\nPandikulación: +1 de alcance máximo\nLicor: +40% de crítico\nFrasco Explosivo: +40% de crítico\nPandatak: +35% de crítico\nTerror: +1 lanzamientos por objetivo\nConsuelo: +1 lanzamientos por turno\nDestilación: alcance modificable",
-        "special_spell_pt": "Palma Explosiva: +40% de crítico\nPandikulação: +1 de alcance máximo\nLicor: +40% de crítico\nFrasco Explosivo: +40% de crítico\nPandatak: +35% de crítico\nPavor: +1 lançamentos por alvo\nConsolação: +1 lançamentos por turno\nDestilação: alcance modificável",
+        "special_spell_en": "Explosive Palm: +40% Critical\nPandilongation: +1 Maximum Range\nLiqueur: +40% Critical\nExplosive Flask: +40% Critical\nPandatak: +35% Critical\nTerror: +1 cast per target\nConsolation: +1 cast per turn\nDistillation: modifiable Range",
+        "special_spell_fr": "Paume Explosive : +40% Critique\nPandikulation : +1 Portée maximale\nLiqueur : +40% Critique\nFlasque Explosive : +40% Critique\nPandatak : +35% Critique\nÉpouvante : +1 lancer par cible\nConsolation : +1 lancer par tour\nDistillation : Portée modifiable",
+        "special_spell_es": "Palma Explosiva: +40% de crítico\nPandikulación: +1 de alcance máximo\nLicor: +40% de crítico\nFrasco Explosivo: +40% de crítico\nPandatak: +35% de crítico\nTerror: +1 lanzamiento por objetivo\nConsuelo: +1 lanzamiento por turno\nDestilación: alcance modificable",
+        "special_spell_pt": "Palma Explosiva: +40% de crítico\nPandikulação: +1 de alcance máximo\nLicor: +40% de crítico\nFrasco Explosivo: +40% de crítico\nPandatak: +35% de crítico\nPavor: +1 lançamento por alvo\nConsolação: +1 lançamento por turno\nDestilação: alcance modificável",
         "special_spell_de": "Explosive Handfläche: +40 % Kritische Treffer\nPandikulation: +1 Maximale Reichweite\nLikör: +40 % Kritische Treffer\nExplosiver Flachmann: +40 % Kritische Treffer\nPandattak: +35 % Kritische Treffer\nGrusel: +1 Zauber pro Ziel\nTrost: +1 Zauber pro Runde\nDestillation: Veränderbare Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17142-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17142-64.png",
@@ -58963,10 +58963,10 @@
                 ": + base damage"
             ]
         ],
-        "special_spell_en": "Retreat Arrow: +1 casts per target\nRadiant Arrow: +1 casts per turn\nDispersing Arrow: +1 casts per turn\nBurning Arrows: modifiable Range\nVagabond Arrow: +1 casts per turn\nEvasive Arrow: +1 casts per target\nEye for Eye: +3 Maximum Range\nParalysing Arrow: +6 base damage",
-        "special_spell_fr": "Flèche de Recul : +1 lancers par cible\nFlèche Éclatante : +1 lancers par tour\nFlèche de Dispersion : +1 lancers par tour\nFlèches Enflammées : Portée modifiable\nFlèche Vagabonde : +1 lancers par tour\nFlèche Évasive : +1 lancers par cible\nŒil pour Œil : +3 Portée maximale\nFlèche Paralysante : +6 dégâts de base",
-        "special_spell_es": "Flecha de Retroceso: +1 lanzamientos por objetivo\nFlecha Impactante: +1 lanzamientos por turno\nFlecha de Dispersión: +1 lanzamientos por turno\nFlechas Flamígeras: alcance modificable\nFlecha Vagabunda: +1 lanzamientos por turno\nFlecha Evasiva: +1 lanzamientos por objetivo\nOjo por Ojo: +3 de alcance máximo\nFlecha Paralizadora: +6 de daños básicos",
-        "special_spell_pt": "Flecha de Recuo: +1 lançamentos por alvo\nFlecha Brilhante: +1 lançamentos por turno\nFlecha Dispersante: +1 lançamentos por turno\nFlechas Flamejantes: alcance modificável\nFlecha Andarilha: +1 lançamentos por turno\nFlecha Evasiva: +1 lançamentos por alvo\nOlho por Olho: +3 de alcance máximo\nFlecha Paralisante: +6 de danos de base",
+        "special_spell_en": "Retreat Arrow: +1 cast per target\nRadiant Arrow: +1 cast per turn\nDispersing Arrow: +1 cast per turn\nBurning Arrows: modifiable Range\nVagabond Arrow: +1 cast per turn\nEvasive Arrow: +1 cast per target\nEye for Eye: +3 Maximum Range\nParalysing Arrow: +6 base damage",
+        "special_spell_fr": "Flèche de Recul : +1 lancer par cible\nFlèche Éclatante : +1 lancer par tour\nFlèche de Dispersion : +1 lancer par tour\nFlèches Enflammées : Portée modifiable\nFlèche Vagabonde : +1 lancer par tour\nFlèche Évasive : +1 lancer par cible\nŒil pour Œil : +3 Portée maximale\nFlèche Paralysante : +6 dégâts de base",
+        "special_spell_es": "Flecha de Retroceso: +1 lanzamiento por objetivo\nFlecha Impactante: +1 lanzamiento por turno\nFlecha de Dispersión: +1 lanzamiento por turno\nFlechas Flamígeras: alcance modificable\nFlecha Vagabunda: +1 lanzamiento por turno\nFlecha Evasiva: +1 lanzamiento por objetivo\nOjo por Ojo: +3 de alcance máximo\nFlecha Paralizadora: +6 de daños básicos",
+        "special_spell_pt": "Flecha de Recuo: +1 lançamento por alvo\nFlecha Brilhante: +1 lançamento por turno\nFlecha Dispersante: +1 lançamento por turno\nFlechas Flamejantes: alcance modificável\nFlecha Andarilha: +1 lançamento por turno\nFlecha Evasiva: +1 lançamento por alvo\nOlho por Olho: +3 de alcance máximo\nFlecha Paralisante: +6 de danos de base",
         "special_spell_de": "Rückstoßpfeil: +1 Zauber pro Ziel\nLeuchtpfeil: +1 Zauber pro Runde\nZerstreuungspfeil: +1 Zauber pro Runde\nFlammenpfeile: Veränderbare Reichweite\nLandstreicherpfeil: +1 Zauber pro Runde\nAusweichpfeil: +1 Zauber pro Ziel\nAuge um Auge: +3 Maximale Reichweite\nLähmender Pfeil: +6 Grundschaden",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17132-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17132-64.png",
@@ -59025,10 +59025,10 @@
                 ": + Maximum Range"
             ]
         ],
-        "special_spell_en": "Lethargy: line of sight off\nGather the Flock: -1 AP\nBackup: +1 casts per turn\nAtaraxia: -1 AP\nBastion: -1 AP\nTruce: -1 AP\nSudden Shower: -1 AP\nShiver: +2 Maximum Range",
-        "special_spell_fr": "Léthargie : ligne de vue désactivée\nRegroupement : -1 PA\nRenfort : +1 lancers par tour\nAtaraxie : -1 PA\nBastion : -1 PA\nTrêve : -1 PA\nGiboulée : -1 PA\nFrisson : +2 Portée maximale",
-        "special_spell_es": "Letargo: línea de visión desactivada\nReagrupamiento: -1 PA\nRefuerzo: +1 lanzamientos por turno\nAtaraxia: -1 PA\nBastión: -1 PA\nTregua: -1 PA\nChaparrón: -1 PA\nEscalofrío: +2 de alcance máximo",
-        "special_spell_pt": "Letargia: linha de visão desativada\nAgrupamento: -1 PA\nReforço: +1 lançamentos por turno\nAtaraxia: -1 PA\nBastião: -1 PA\nTrégua: -1 PA\nBátega: -1 PA\nCalafrio: +2 de alcance máximo",
+        "special_spell_en": "Lethargy: line of sight off\nGather the Flock: -1 AP\nBackup: +1 cast per turn\nAtaraxia: -1 AP\nBastion: -1 AP\nTruce: -1 AP\nSudden Shower: -1 AP\nShiver: +2 Maximum Range",
+        "special_spell_fr": "Léthargie : ligne de vue désactivée\nRegroupement : -1 PA\nRenfort : +1 lancer par tour\nAtaraxie : -1 PA\nBastion : -1 PA\nTrêve : -1 PA\nGiboulée : -1 PA\nFrisson : +2 Portée maximale",
+        "special_spell_es": "Letargo: línea de visión desactivada\nReagrupamiento: -1 PA\nRefuerzo: +1 lanzamiento por turno\nAtaraxia: -1 PA\nBastión: -1 PA\nTregua: -1 PA\nChaparrón: -1 PA\nEscalofrío: +2 de alcance máximo",
+        "special_spell_pt": "Letargia: linha de visão desativada\nAgrupamento: -1 PA\nReforço: +1 lançamento por turno\nAtaraxia: -1 PA\nBastião: -1 PA\nTrégua: -1 PA\nBátega: -1 PA\nCalafrio: +2 de alcance máximo",
         "special_spell_de": "Lethargie: Sichtlinie deaktiviert\nVersammeln: –1 AP\nVerstärkung: +1 Zauber pro Runde\nSeelenruhe: –1 AP\nBastion: –1 AP\nWaffenstillstand: –1 AP\nSchauer: –1 AP\nSchauder: +2 Maximale Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17136-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17136-64.png",
@@ -59087,10 +59087,10 @@
                 ": +% Critical"
             ]
         ],
-        "special_spell_en": "Coin Throwing: +3 Maximum Range\nHard Cash: +2 Maximum Range\nBankruptcy: +35% Critical\nDecadence: +1 casts per turn\nMiserliness: -1 AP\nLiving Bag: +3 Maximum Range\nLiving Satchel: -1 cooldown\nShovel Throwing: +35% Critical",
-        "special_spell_fr": "Lancer de Pièces : +3 Portée maximale\nMonnaie Sonnante : +2 Portée maximale\nBanqueroute : +35% Critique\nDécadence : +1 lancers par tour\nAvarice : -1 PA\nSac Animé : +3 Portée maximale\nMusette Animée : -1 de relance\nLancer de Pelle : +35% Critique",
-        "special_spell_es": "Lanzamiento de Monedas: +3 de alcance máximo\nMoneda sonante: +2 de alcance máximo\nBancarrota: +35% de crítico\nDecadencia: +1 lanzamientos por turno\nAvaricia: -1 PA\nMochila Animada: +3 de alcance máximo\nMorral Animado: -1 de reactivación\nLanzamiento de Pala: +35% de crítico",
-        "special_spell_pt": "Arremesso de Moedas: +3 de alcance máximo\nMoeda Falsa: +2 de alcance máximo\nFalência: +35% de crítico\nDecadência: +1 lançamentos por turno\nAvareza: -1 PA\nMochila Animada: +3 de alcance máximo\nBolsa Animada: -1 de relançamento\nArremesso de Pá: +35% de crítico",
+        "special_spell_en": "Coin Throwing: +3 Maximum Range\nHard Cash: +2 Maximum Range\nBankruptcy: +35% Critical\nDecadence: +1 cast per turn\nMiserliness: -1 AP\nLiving Bag: +3 Maximum Range\nLiving Satchel: -1 cooldown\nShovel Throwing: +35% Critical",
+        "special_spell_fr": "Lancer de Pièces : +3 Portée maximale\nMonnaie Sonnante : +2 Portée maximale\nBanqueroute : +35% Critique\nDécadence : +1 lancer par tour\nAvarice : -1 PA\nSac Animé : +3 Portée maximale\nMusette Animée : -1 de relance\nLancer de Pelle : +35% Critique",
+        "special_spell_es": "Lanzamiento de Monedas: +3 de alcance máximo\nMoneda sonante: +2 de alcance máximo\nBancarrota: +35% de crítico\nDecadencia: +1 lanzamiento por turno\nAvaricia: -1 PA\nMochila Animada: +3 de alcance máximo\nMorral Animado: -1 de reactivación\nLanzamiento de Pala: +35% de crítico",
+        "special_spell_pt": "Arremesso de Moedas: +3 de alcance máximo\nMoeda Falsa: +2 de alcance máximo\nFalência: +35% de crítico\nDecadência: +1 lançamento por turno\nAvareza: -1 PA\nMochila Animada: +3 de alcance máximo\nBolsa Animada: -1 de relançamento\nArremesso de Pá: +35% de crítico",
         "special_spell_de": "Münzenwurf: +3 Maximale Reichweite\nKlingende Münze: +2 Maximale Reichweite\nBankrott: +35 % Kritische Treffer\nDekadenz: +1 Zauber pro Runde\nGeiz: –1 AP\nBelebter Rucksack: +3 Maximale Reichweite\nBelebter Beutel: Abklingzeit verringert um –1\nSchaufelwurf: +35 % Kritische Treffer",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17135-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17135-64.png",
@@ -59149,10 +59149,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Fervour: line of sight off\nThreat: +2 Maximum Range\nEndurance: +2 Maximum Range\nPygmachia: +1 casts per turn\nSword of Iop: modifiable Range\nCleaver: modifiable Range\nFit of Rage: +2 Maximum Range\nIop's Wrath: -1 AP",
-        "special_spell_fr": "Ferveur : ligne de vue désactivée\nMenace : +2 Portée maximale\nEndurance : +2 Portée maximale\nPugilat : +1 lancers par tour\nÉpée de Iop : Portée modifiable\nFendoir : Portée modifiable\nFureur : +2 Portée maximale\nColère de Iop : -1 PA",
-        "special_spell_es": "Fervor: línea de visión desactivada\nAmenaza: +2 de alcance máximo\nAguante: +2 de alcance máximo\nPugilato: +1 lanzamientos por turno\nEspada de Yopuka: alcance modificable\nCuchillo de Carnicero: alcance modificable\nFuror: +2 de alcance máximo\nIra de Yopuka: -1 PA",
-        "special_spell_pt": "Fervor: linha de visão desativada\nAmeaça: +2 de alcance máximo\nResistência: +2 de alcance máximo\nPugilato: +1 lançamentos por turno\nEspada de Iop: alcance modificável\nRachador: alcance modificável\nFuror: +2 de alcance máximo\nIra de Iop: -1 PA",
+        "special_spell_en": "Fervour: line of sight off\nThreat: +2 Maximum Range\nEndurance: +2 Maximum Range\nPygmachia: +1 cast per turn\nSword of Iop: modifiable Range\nCleaver: modifiable Range\nFit of Rage: +2 Maximum Range\nIop's Wrath: -1 AP",
+        "special_spell_fr": "Ferveur : ligne de vue désactivée\nMenace : +2 Portée maximale\nEndurance : +2 Portée maximale\nPugilat : +1 lancer par tour\nÉpée de Iop : Portée modifiable\nFendoir : Portée modifiable\nFureur : +2 Portée maximale\nColère de Iop : -1 PA",
+        "special_spell_es": "Fervor: línea de visión desactivada\nAmenaza: +2 de alcance máximo\nAguante: +2 de alcance máximo\nPugilato: +1 lanzamiento por turno\nEspada de Yopuka: alcance modificable\nCuchillo de Carnicero: alcance modificable\nFuror: +2 de alcance máximo\nIra de Yopuka: -1 PA",
+        "special_spell_pt": "Fervor: linha de visão desativada\nAmeaça: +2 de alcance máximo\nResistência: +2 de alcance máximo\nPugilato: +1 lançamento por turno\nEspada de Iop: alcance modificável\nRachador: alcance modificável\nFuror: +2 de alcance máximo\nIra de Iop: -1 PA",
         "special_spell_de": "Eifer: Sichtlinie deaktiviert\nBedrohung: +2 Maximale Reichweite\nAusdauer: +2 Maximale Reichweite\nFaustkampf: +1 Zauber pro Runde\nIops Schwert: Veränderbare Reichweite\nHackmesser: Veränderbare Reichweite\nZorn: +2 Maximale Reichweite\nIops Wut: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10116-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10116-64.png",
@@ -59335,10 +59335,10 @@
                 ": + cast per turn"
             ]
         ],
-        "special_spell_en": "Shrivelling: +2 Maximum Range\nHand: +1 casts per turn\nSlow Down: line of sight off\nXelor's Sandglass: +1 casts per turn\nRegulator: +2 Maximum Range\nPetrification: +1 casts per target\nHarmpit: +1 casts per target\nRefraction: +1 casts per turn",
-        "special_spell_fr": "Flétrissement : +2 Portée maximale\nAiguille : +1 lancers par tour\nRalentissement : ligne de vue désactivée\nSablier de Xélor : +1 lancers par tour\nRégulateur : +2 Portée maximale\nPétrification : +1 lancers par cible\nGousset : +1 lancers par cible\nRéfraction : +1 lancers par tour",
-        "special_spell_es": "Marchitación: +2 de alcance máximo\nAguja: +1 lanzamientos por turno\nRalentización: línea de visión desactivada\nReloj de Arena de Xelor: +1 lanzamientos por turno\nRegulador: +2 de alcance máximo\nPetrificación: +1 lanzamientos por objetivo\nReloj de Bolsillo: +1 lanzamientos por objetivo\nRefracción: +1 lanzamientos por turno",
-        "special_spell_pt": "Murchidão: +2 de alcance máximo\nPonteiro: +1 lançamentos por turno\nDesaceleração: linha de visão desativada\nAmpulheta de Xelor: +1 lançamentos por turno\nRegulador: +2 de alcance máximo\nPetrificação: +1 lançamentos por alvo\nRelógio de Bolso: +1 lançamentos por alvo\nRefração: +1 lançamentos por turno",
+        "special_spell_en": "Shrivelling: +2 Maximum Range\nHand: +1 cast per turn\nSlow Down: line of sight off\nXelor's Sandglass: +1 cast per turn\nRegulator: +2 Maximum Range\nPetrification: +1 cast per target\nHarmpit: +1 cast per target\nRefraction: +1 cast per turn",
+        "special_spell_fr": "Flétrissement : +2 Portée maximale\nAiguille : +1 lancer par tour\nRalentissement : ligne de vue désactivée\nSablier de Xélor : +1 lancer par tour\nRégulateur : +2 Portée maximale\nPétrification : +1 lancer par cible\nGousset : +1 lancer par cible\nRéfraction : +1 lancer par tour",
+        "special_spell_es": "Marchitación: +2 de alcance máximo\nAguja: +1 lanzamiento por turno\nRalentización: línea de visión desactivada\nReloj de Arena de Xelor: +1 lanzamiento por turno\nRegulador: +2 de alcance máximo\nPetrificación: +1 lanzamiento por objetivo\nReloj de Bolsillo: +1 lanzamiento por objetivo\nRefracción: +1 lanzamiento por turno",
+        "special_spell_pt": "Murchidão: +2 de alcance máximo\nPonteiro: +1 lançamento por turno\nDesaceleração: linha de visão desativada\nAmpulheta de Xelor: +1 lançamento por turno\nRegulador: +2 de alcance máximo\nPetrificação: +1 lançamento por alvo\nRelógio de Bolso: +1 lançamento por alvo\nRefração: +1 lançamento por turno",
         "special_spell_de": "Verwelken: +2 Maximale Reichweite\nZeiger: +1 Zauber pro Runde\nVerlangsamen: Sichtlinie deaktiviert\nSanduhr von Xélor: +1 Zauber pro Runde\nRegulator: +2 Maximale Reichweite\nVersteinerung: +1 Zauber pro Ziel\nTaschenzauber: +1 Zauber pro Ziel\nRefraktion: +1 Zauber pro Runde",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10119-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10119-64.png",
@@ -59397,10 +59397,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Overwhelming Word: line of sight off\nDiscouraging Word: line of sight off\nMischievous Word: +1 casts per turn\nMalicious Word: +35% Critical\nWar Cry: -1 AP\nRitual Word: -1 cooldown\nWarpaint: line of sight off\nSecret Word: -1 AP",
-        "special_spell_fr": "Mot Accablant : ligne de vue désactivée\nMot Décourageant : ligne de vue désactivée\nMot Espiègle : +1 lancers par tour\nMot Malicieux : +35% Critique\nCri de Guerre : -1 PA\nMot Rituel : -1 de relance\nPeinture de Guerre : ligne de vue désactivée\nMot Secret : -1 PA",
-        "special_spell_es": "Palabra Abrumadora: línea de visión desactivada\nPalabra Desanimadora: línea de visión desactivada\nPalabra Juguetona: +1 lanzamientos por turno\nPalabra Maliciosa: +35% de crítico\nGrito de Guerra: -1 PA\nPalabra Ritual: -1 de reactivación\nPintura de Guerra: línea de visión desactivada\nPalabra Secreta: -1 PA",
-        "special_spell_pt": "Palavra Arrasadora: linha de visão desativada\nPalavra Desencorajadora: linha de visão desativada\nPalavra Maliciosa: +1 lançamentos por turno\nPalavra Insidiosa: +35% de crítico\nGrito de Guerra: -1 PA\nPalavra Ritual: -1 de relançamento\nPintura de Guerra: linha de visão desativada\nPalavra Secreta: -1 PA",
+        "special_spell_en": "Overwhelming Word: line of sight off\nDiscouraging Word: line of sight off\nMischievous Word: +1 cast per turn\nMalicious Word: +35% Critical\nWar Cry: -1 AP\nRitual Word: -1 cooldown\nWarpaint: line of sight off\nSecret Word: -1 AP",
+        "special_spell_fr": "Mot Accablant : ligne de vue désactivée\nMot Décourageant : ligne de vue désactivée\nMot Espiègle : +1 lancer par tour\nMot Malicieux : +35% Critique\nCri de Guerre : -1 PA\nMot Rituel : -1 de relance\nPeinture de Guerre : ligne de vue désactivée\nMot Secret : -1 PA",
+        "special_spell_es": "Palabra Abrumadora: línea de visión desactivada\nPalabra Desanimadora: línea de visión desactivada\nPalabra Juguetona: +1 lanzamiento por turno\nPalabra Maliciosa: +35% de crítico\nGrito de Guerra: -1 PA\nPalabra Ritual: -1 de reactivación\nPintura de Guerra: línea de visión desactivada\nPalabra Secreta: -1 PA",
+        "special_spell_pt": "Palavra Arrasadora: linha de visão desativada\nPalavra Desencorajadora: linha de visão desativada\nPalavra Maliciosa: +1 lançamento por turno\nPalavra Insidiosa: +35% de crítico\nGrito de Guerra: -1 PA\nPalavra Ritual: -1 de relançamento\nPintura de Guerra: linha de visão desativada\nPalavra Secreta: -1 PA",
         "special_spell_de": "Belastendes Wort: Sichtlinie deaktiviert\nEntmutigendes Wort: Sichtlinie deaktiviert\nNeckisches Wort: +1 Zauber pro Runde\nTückisches Wort: +35 % Kritische Treffer\nKriegsschrei: –1 AP\nRitualwort: Abklingzeit verringert um –1\nKriegsgemälde: Sichtlinie deaktiviert\nGeheimes Wort: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10120-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10120-64.png",
@@ -59459,10 +59459,10 @@
                 ": - cooldown"
             ]
         ],
-        "special_spell_en": "Wild Grass: -1 AP\nVoodoo Curse: -1 AP\nVoodoo Sacrifice: +1 casts per target\nArdent Thistles: -1 cooldown\nSoothing Bramble: straight-line casting off\nRepotting: modifiable Range\nSacrificial Doll: -1 cooldown\nTransmuted Sacrificial Doll: -1 cooldown",
-        "special_spell_fr": "Herbes Folles : -1 PA\nMalédiction Vaudou : -1 PA\nSacrifice Vaudou : +1 lancers par cible\nChardons Ardents : -1 de relance\nRonce Apaisante : lancer en ligne désactivé\nRempotage : Portée modifiable\nLa Sacrifiée : -1 de relance\nLa Sacrifiée Transmutée : -1 de relance",
-        "special_spell_es": "Hierbas Locas: -1 PA\nMaldición Vudú: -1 PA\nSacrificio Vudú: +1 lanzamientos por objetivo\nCardos Ardientes: -1 de reactivación\nZarza Tranquilizadora: lanzamiento en línea desactivado\nTrasplante: alcance modificable\nLa Sacrificada: -1 de reactivación\nLa Sacrificada Transmutada: -1 de reactivación",
-        "special_spell_pt": "Ervas Daninhas: -1 PA\nMaldição Vodu: -1 PA\nSacrifício Vodu: +1 lançamentos por alvo\nCardos Ardentes: -1 de relançamento\nSarça Calmante: lançamento em linha desativado\nTransplante: alcance modificável\nA Sacrificada: -1 de relançamento\nA Sacrificada Transmutada: -1 de relançamento",
+        "special_spell_en": "Wild Grass: -1 AP\nVoodoo Curse: -1 AP\nVoodoo Sacrifice: +1 cast per target\nArdent Thistles: -1 cooldown\nSoothing Bramble: straight-line casting off\nRepotting: modifiable Range\nSacrificial Doll: -1 cooldown\nTransmuted Sacrificial Doll: -1 cooldown",
+        "special_spell_fr": "Herbes Folles : -1 PA\nMalédiction Vaudou : -1 PA\nSacrifice Vaudou : +1 lancer par cible\nChardons Ardents : -1 de relance\nRonce Apaisante : lancer en ligne désactivé\nRempotage : Portée modifiable\nLa Sacrifiée : -1 de relance\nLa Sacrifiée Transmutée : -1 de relance",
+        "special_spell_es": "Hierbas Locas: -1 PA\nMaldición Vudú: -1 PA\nSacrificio Vudú: +1 lanzamiento por objetivo\nCardos Ardientes: -1 de reactivación\nZarza Tranquilizadora: lanzamiento en línea desactivado\nTrasplante: alcance modificable\nLa Sacrificada: -1 de reactivación\nLa Sacrificada Transmutada: -1 de reactivación",
+        "special_spell_pt": "Ervas Daninhas: -1 PA\nMaldição Vodu: -1 PA\nSacrifício Vodu: +1 lançamento por alvo\nCardos Ardentes: -1 de relançamento\nSarça Calmante: lançamento em linha desativado\nTransplante: alcance modificável\nA Sacrificada: -1 de relançamento\nA Sacrificada Transmutada: -1 de relançamento",
         "special_spell_de": "Wuchernde Gräser: –1 AP\nWuddu-Fluch: –1 AP\nWuddu-Opfer: +1 Zauber pro Ziel\nBrennende Disteln: Abklingzeit verringert um –1\nBesänftigende Ranken: Lineare Wirkungsweise deaktiviert\nUmtopfen: Veränderbare Reichweite\nOpferpüppchen: Abklingzeit verringert um –1\nDas Verwandelte Opferpüppchen: Abklingzeit verringert um –1",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10121-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10121-64.png",
@@ -59707,10 +59707,10 @@
                 ": + cast per turn"
             ]
         ],
-        "special_spell_en": "Frozen Arrow: +4 base damage\nPlaguing Arrow: -1 AP\nBat's Eye: -1 AP\nRaining Arrows: +35% Critical\nAtonement Arrow: -5 Minimum Range\nRedemption Arrow: -3 Minimum Range\nPiercing Arrow: +3 Maximum Range\nBoomerang Arrow: +1 casts per turn",
-        "special_spell_fr": "Flèche Glacée : +4 dégâts de base\nFlèche Harcelante : -1 PA\nŒil de Taupe : -1 PA\nPluie de Flèches : +35% Critique\nFlèche d'Expiation : -5 Portée minimale\nFlèche de Rédemption : -3 Portée minimale\nFlèche Perforante : +3 Portée maximale\nFlèche Boomerang : +1 lancers par tour",
-        "special_spell_es": "Flecha Helada: +4 de daños básicos\nFlecha Acosante: -1 PA\nOjo de Topo: -1 PA\nLluvia de Flechas: +35% de crítico\nFlecha de Expiación: -5 de alcance mínimo\nFlecha de Redención: -3 de alcance mínimo\nFlecha Percutiente: +3 de alcance máximo\nFlecha Búmeran: +1 lanzamientos por turno",
-        "special_spell_pt": "Flecha Congelada: +4 de danos de base\nFlecha Inconveniente: -1 PA\nOlho de Toupeira: -1 PA\nChuva de Flechas: +35% de crítico\nFlecha de Expiação: -5 de alcance mínimo\nFlecha de Redenção: -3 de alcance mínimo\nFlecha Perfurante: +3 de alcance máximo\nFlecha Bumerangue: +1 lançamentos por turno",
+        "special_spell_en": "Frozen Arrow: +4 base damage\nPlaguing Arrow: -1 AP\nBat's Eye: -1 AP\nRaining Arrows: +35% Critical\nAtonement Arrow: -5 Minimum Range\nRedemption Arrow: -3 Minimum Range\nPiercing Arrow: +3 Maximum Range\nBoomerang Arrow: +1 cast per turn",
+        "special_spell_fr": "Flèche Glacée : +4 dégâts de base\nFlèche Harcelante : -1 PA\nŒil de Taupe : -1 PA\nPluie de Flèches : +35% Critique\nFlèche d'Expiation : -5 Portée minimale\nFlèche de Rédemption : -3 Portée minimale\nFlèche Perforante : +3 Portée maximale\nFlèche Boomerang : +1 lancer par tour",
+        "special_spell_es": "Flecha Helada: +4 de daños básicos\nFlecha Acosante: -1 PA\nOjo de Topo: -1 PA\nLluvia de Flechas: +35% de crítico\nFlecha de Expiación: -5 de alcance mínimo\nFlecha de Redención: -3 de alcance mínimo\nFlecha Percutiente: +3 de alcance máximo\nFlecha Búmeran: +1 lanzamiento por turno",
+        "special_spell_pt": "Flecha Congelada: +4 de danos de base\nFlecha Inconveniente: -1 PA\nOlho de Toupeira: -1 PA\nChuva de Flechas: +35% de crítico\nFlecha de Expiação: -5 de alcance mínimo\nFlecha de Redenção: -3 de alcance mínimo\nFlecha Perfurante: +3 de alcance máximo\nFlecha Bumerangue: +1 lançamento por turno",
         "special_spell_de": "Eispfeil: +4 Grundschaden\nPlagender Pfeil: –1 AP\nMaulwurfssicht: –1 AP\nPfeilregen: +35 % Kritische Treffer\nSühnepfeil: –5 Minimale Reichweite\nErlösungspfeil: –3 Minimale Reichweite\nDurchdringender Pfeil: +3 Maximale Reichweite\nBoomerangpfeil: +1 Zauber pro Runde",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10125-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10125-64.png",
@@ -59831,10 +59831,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Ghostly Shovel: +2 Maximum Range\nLast Resort: modifiable Range\nOpportuneness: +1 casts per turn\nFiredamp Explosion: modifiable Range\nPandora's Box: -1 AP\nToolbox: -1 AP\nLiving Chest: -1 AP\nLiving Trunk: -1 AP",
-        "special_spell_fr": "Pelle Fantomatique : +2 Portée maximale\nDernier Recours : Portée modifiable\nOpportunité : +1 lancers par tour\nCoup de Grisou : Portée modifiable\nBoîte de Pandore : -1 PA\nBoîte à Outils : -1 PA\nCoffre Animé : -1 PA\nMalle Animée : -1 PA",
-        "special_spell_es": "Pala Fantomática: +2 de alcance máximo\nÚltimo Recurso: alcance modificable\nOportunidad: +1 lanzamientos por turno\nExplosión de Grisú: alcance modificable\nCaja de Pandora: -1 PA\nCaja de Herramientas: -1 PA\nCofre Animado: -1 PA\nArcón Animado: -1 PA",
-        "special_spell_pt": "Pá Fantasmagórica: +2 de alcance máximo\nÚltimo Recurso: alcance modificável\nOportunidade: +1 lançamentos por turno\nExplosão de Grisu: alcance modificável\nCaixa de Pandora: -1 PA\nCaixa de Ferramentas: -1 PA\nBaú Animado: -1 PA\nMala Animada: -1 PA",
+        "special_spell_en": "Ghostly Shovel: +2 Maximum Range\nLast Resort: modifiable Range\nOpportuneness: +1 cast per turn\nFiredamp Explosion: modifiable Range\nPandora's Box: -1 AP\nToolbox: -1 AP\nLiving Chest: -1 AP\nLiving Trunk: -1 AP",
+        "special_spell_fr": "Pelle Fantomatique : +2 Portée maximale\nDernier Recours : Portée modifiable\nOpportunité : +1 lancer par tour\nCoup de Grisou : Portée modifiable\nBoîte de Pandore : -1 PA\nBoîte à Outils : -1 PA\nCoffre Animé : -1 PA\nMalle Animée : -1 PA",
+        "special_spell_es": "Pala Fantomática: +2 de alcance máximo\nÚltimo Recurso: alcance modificable\nOportunidad: +1 lanzamiento por turno\nExplosión de Grisú: alcance modificable\nCaja de Pandora: -1 PA\nCaja de Herramientas: -1 PA\nCofre Animado: -1 PA\nArcón Animado: -1 PA",
+        "special_spell_pt": "Pá Fantasmagórica: +2 de alcance máximo\nÚltimo Recurso: alcance modificável\nOportunidade: +1 lançamento por turno\nExplosão de Grisu: alcance modificável\nCaixa de Pandora: -1 PA\nCaixa de Ferramentas: -1 PA\nBaú Animado: -1 PA\nMala Animada: -1 PA",
         "special_spell_de": "Phantomschaufel: +2 Maximale Reichweite\nLetzter Ausweg: Veränderbare Reichweite\nGelegenheit: +1 Zauber pro Runde\nSchlagwetterexplosion: Veränderbare Reichweite\nPandoras Box: –1 AP\nWerkzeugkasten: –1 AP\nBelebte Truhe: –1 AP\nBelebter Koffer: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10127-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10127-64.png",
@@ -59965,10 +59965,10 @@
                 ": - cooldown"
             ]
         ],
-        "special_spell_en": "Feline Spirit: +1 Maximum Range\nKraps: modifiable Range\nFelintion: +35% Critical\nMisadventure: line of sight off\nCatnip: +1 casts per turn\nLeap: +1 casts per turn\nSummoning Claw: -1 cooldown\nSummoning Stroke: -1 cooldown",
-        "special_spell_fr": "Esprit Félin : +1 Portée maximale\nKraps : Portée modifiable\nFélintion : +35% Critique\nMésaventure : ligne de vue désactivée\nBond du Félin : +1 lancers par tour\nEntrechat : +1 lancers par tour\nGriffe Invocatrice : -1 de relance\nCaresse Invocatrice : -1 de relance",
-        "special_spell_es": "Espíritu Felino: +1 de alcance máximo\nKraps: alcance modificable\nFeliación: +35% de crítico\nDesventura: línea de visión desactivada\nSalto del Felino: +1 lanzamientos por turno\nTrenzado: +1 lanzamientos por turno\nGarra Invocadora: -1 de reactivación\nCaricia Invocadora: -1 de reactivación",
-        "special_spell_pt": "Espírito Felino: +1 de alcance máximo\nJogo de Dados: alcance modificável\nFelinação: +35% de crítico\nDesventura: linha de visão desativada\nSalto do Felino: +1 lançamentos por turno\nSaltitante: +1 lançamentos por turno\nGarra Invocadora: -1 de relançamento\nCarícia Invocadora: -1 de relançamento",
+        "special_spell_en": "Feline Spirit: +1 Maximum Range\nKraps: modifiable Range\nFelintion: +35% Critical\nMisadventure: line of sight off\nCatnip: +1 cast per turn\nLeap: +1 cast per turn\nSummoning Claw: -1 cooldown\nSummoning Stroke: -1 cooldown",
+        "special_spell_fr": "Esprit Félin : +1 Portée maximale\nKraps : Portée modifiable\nFélintion : +35% Critique\nMésaventure : ligne de vue désactivée\nBond du Félin : +1 lancer par tour\nEntrechat : +1 lancer par tour\nGriffe Invocatrice : -1 de relance\nCaresse Invocatrice : -1 de relance",
+        "special_spell_es": "Espíritu Felino: +1 de alcance máximo\nKraps: alcance modificable\nFeliación: +35% de crítico\nDesventura: línea de visión desactivada\nSalto del Felino: +1 lanzamiento por turno\nTrenzado: +1 lanzamiento por turno\nGarra Invocadora: -1 de reactivación\nCaricia Invocadora: -1 de reactivación",
+        "special_spell_pt": "Espírito Felino: +1 de alcance máximo\nJogo de Dados: alcance modificável\nFelinação: +35% de crítico\nDesventura: linha de visão desativada\nSalto do Felino: +1 lançamento por turno\nSaltitante: +1 lançamento por turno\nGarra Invocadora: -1 de relançamento\nCarícia Invocadora: -1 de relançamento",
         "special_spell_de": "Katzengeist: +1 Maximale Reichweite\nKraps: Veränderbare Reichweite\nFelienchen: +35 % Kritische Treffer\nMissgeschick: Sichtlinie deaktiviert\nKatzensprung: +1 Zauber pro Runde\nKreuzsprung: +1 Zauber pro Runde\nBeschwörungskralle: Abklingzeit verringert um –1\nHeilende Tatzen: Abklingzeit verringert um –1",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11105-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11105-64.png",
@@ -60099,10 +60099,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Drying Up: -1 AP\nDistortion: +2 Maximum Range\nSands of Time: -1 AP\nTemporal Haze: -1 AP\nConservation: -1 cooldown\nPassage of Time: +1 casts per target\nPremonition: -1 AP\nDark Ray: -1 AP",
-        "special_spell_fr": "Dessèchement : -1 PA\nDistorsion : +2 Portée maximale\nSables du Temps : -1 PA\nFlou Temporel : -1 PA\nConservation : -1 de relance\nFuite du Temps : +1 lancers par cible\nPrémonition : -1 PA\nRayon Obscur : -1 PA",
-        "special_spell_es": "Desecamiento: -1 PA\nDistorsión: +2 de alcance máximo\nArenas del Tiempo: -1 PA\nBorroso Temporal: -1 PA\nConservación: -1 de reactivación\nEl Tiempo Vuela: +1 lanzamientos por objetivo\nPremonición: -1 PA\nRayo Oscuro: -1 PA",
-        "special_spell_pt": "Ressecamento: -1 PA\nDistorção: +2 de alcance máximo\nAreias do Tempo: -1 PA\nDesfocado Temporal: -1 PA\nConservação: -1 de relançamento\nFuga do Tempo: +1 lançamentos por alvo\nPremonição: -1 PA\nRaio Obscuro: -1 PA",
+        "special_spell_en": "Drying Up: -1 AP\nDistortion: +2 Maximum Range\nSands of Time: -1 AP\nTemporal Haze: -1 AP\nConservation: -1 cooldown\nPassage of Time: +1 cast per target\nPremonition: -1 AP\nDark Ray: -1 AP",
+        "special_spell_fr": "Dessèchement : -1 PA\nDistorsion : +2 Portée maximale\nSables du Temps : -1 PA\nFlou Temporel : -1 PA\nConservation : -1 de relance\nFuite du Temps : +1 lancer par cible\nPrémonition : -1 PA\nRayon Obscur : -1 PA",
+        "special_spell_es": "Desecamiento: -1 PA\nDistorsión: +2 de alcance máximo\nArenas del Tiempo: -1 PA\nBorroso Temporal: -1 PA\nConservación: -1 de reactivación\nEl Tiempo Vuela: +1 lanzamiento por objetivo\nPremonición: -1 PA\nRayo Oscuro: -1 PA",
+        "special_spell_pt": "Ressecamento: -1 PA\nDistorção: +2 de alcance máximo\nAreias do Tempo: -1 PA\nDesfocado Temporal: -1 PA\nConservação: -1 de relançamento\nFuga do Tempo: +1 lançamento por alvo\nPremonição: -1 PA\nRaio Obscuro: -1 PA",
         "special_spell_de": "Austrocknung: –1 AP\nVerzerrung: +2 Maximale Reichweite\nSande der Zeit: –1 AP\nVergängliche Verschwommenheit: –1 AP\nBewahrung: Abklingzeit verringert um –1\nZeitleck: +1 Zauber pro Ziel\nVorhersehung: –1 AP\nDunkelstrahl: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11103-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11103-64.png",
@@ -60233,10 +60233,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Bramble: +3 Maximum Range\nInsolent Bramble: -1 AP\nSadida's Tear: straight-line casting off\nRise of Sap: +1 casts per turn\nBane: modifiable Range\nHaunted Forest: straight-line casting off\nTree: -1 AP\nLeafy Tree: -1 AP",
-        "special_spell_fr": "Ronce : +3 Portée maximale\nRonce Insolente : -1 PA\nLarme de Sadida : lancer en ligne désactivé\nMontée de Sève : +1 lancers par tour\nFléau : Portée modifiable\nForêt Hantée : lancer en ligne désactivé\nArbre : -1 PA\nArbre Feuillu : -1 PA",
-        "special_spell_es": "Zarza: +3 de alcance máximo\nZarza Insolente: -1 PA\nLágrima de Sadida: lanzamiento en línea desactivado\nSubida de Savia: +1 lanzamientos por turno\nPlaga: alcance modificable\nBosque Encantado: lanzamiento en línea desactivado\nÁrbol: -1 PA\nÁrbol Frondoso: -1 PA",
-        "special_spell_pt": "Sarça: +3 de alcance máximo\nSarça Insolente: -1 PA\nLágrima de Sadida: lançamento em linha desativado\nInundação de Seiva: +1 lançamentos por turno\nFlagelo: alcance modificável\nFloresta Mal-Assombrada: lançamento em linha desativado\nÁrvore: -1 PA\nÁrvore Frondosa: -1 PA",
+        "special_spell_en": "Bramble: +3 Maximum Range\nInsolent Bramble: -1 AP\nSadida's Tear: straight-line casting off\nRise of Sap: +1 cast per turn\nBane: modifiable Range\nHaunted Forest: straight-line casting off\nTree: -1 AP\nLeafy Tree: -1 AP",
+        "special_spell_fr": "Ronce : +3 Portée maximale\nRonce Insolente : -1 PA\nLarme de Sadida : lancer en ligne désactivé\nMontée de Sève : +1 lancer par tour\nFléau : Portée modifiable\nForêt Hantée : lancer en ligne désactivé\nArbre : -1 PA\nArbre Feuillu : -1 PA",
+        "special_spell_es": "Zarza: +3 de alcance máximo\nZarza Insolente: -1 PA\nLágrima de Sadida: lanzamiento en línea desactivado\nSubida de Savia: +1 lanzamiento por turno\nPlaga: alcance modificable\nBosque Encantado: lanzamiento en línea desactivado\nÁrbol: -1 PA\nÁrbol Frondoso: -1 PA",
+        "special_spell_pt": "Sarça: +3 de alcance máximo\nSarça Insolente: -1 PA\nLágrima de Sadida: lançamento em linha desativado\nInundação de Seiva: +1 lançamento por turno\nFlagelo: alcance modificável\nFloresta Mal-Assombrada: lançamento em linha desativado\nÁrvore: -1 PA\nÁrvore Frondosa: -1 PA",
         "special_spell_de": "Ranken: +3 Maximale Reichweite\nBodenlose Rankenheit: –1 AP\nSadida-Träne: Lineare Wirkungsweise deaktiviert\nHarzstoß: +1 Zauber pro Runde\nGeißel: Veränderbare Reichweite\nVerwunschener Wald: Lineare Wirkungsweise deaktiviert\nBaum: –1 AP\nLaubbaum: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11101-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11101-64.png",
@@ -60300,10 +60300,10 @@
                 ": +% Critical"
             ]
         ],
-        "special_spell_en": "Assault: line of sight off\nAversion: +1 casts per turn\nImmolation: +2 Maximum Range\nSacrifice: -1 cooldown\nPenitence: -1 cooldown\nAbsorption: +1 Maximum Range\nFury: +2 Maximum Range\nBlood Bath: +25% Critical",
-        "special_spell_fr": "Assaut : ligne de vue désactivée\nAversion : +1 lancers par tour\nImmolation : +2 Portée maximale\nSacrifice : -1 de relance\nPénitence : -1 de relance\nAbsorption : +1 Portée maximale\nFurie : +2 Portée maximale\nBain de Sang : +25% Critique",
-        "special_spell_es": "Asalto: línea de visión desactivada\nAversión: +1 lanzamientos por turno\nInmolación: +2 de alcance máximo\nSacrificio: -1 de reactivación\nPenitencia: -1 de reactivación\nAbsorción: +1 de alcance máximo\nFuria: +2 de alcance máximo\nBaño de Sangre: +25% de crítico",
-        "special_spell_pt": "Assalto: linha de visão desativada\nAversão: +1 lançamentos por turno\nImolação: +2 de alcance máximo\nSacrifício: -1 de relançamento\nPenitência: -1 de relançamento\nAbsorção: +1 de alcance máximo\nFúria: +2 de alcance máximo\nBanho de Sangue: +25% de crítico",
+        "special_spell_en": "Assault: line of sight off\nAversion: +1 cast per turn\nImmolation: +2 Maximum Range\nSacrifice: -1 cooldown\nPenitence: -1 cooldown\nAbsorption: +1 Maximum Range\nFury: +2 Maximum Range\nBlood Bath: +25% Critical",
+        "special_spell_fr": "Assaut : ligne de vue désactivée\nAversion : +1 lancer par tour\nImmolation : +2 Portée maximale\nSacrifice : -1 de relance\nPénitence : -1 de relance\nAbsorption : +1 Portée maximale\nFurie : +2 Portée maximale\nBain de Sang : +25% Critique",
+        "special_spell_es": "Asalto: línea de visión desactivada\nAversión: +1 lanzamiento por turno\nInmolación: +2 de alcance máximo\nSacrificio: -1 de reactivación\nPenitencia: -1 de reactivación\nAbsorción: +1 de alcance máximo\nFuria: +2 de alcance máximo\nBaño de Sangre: +25% de crítico",
+        "special_spell_pt": "Assalto: linha de visão desativada\nAversão: +1 lançamento por turno\nImolação: +2 de alcance máximo\nSacrifício: -1 de relançamento\nPenitência: -1 de relançamento\nAbsorção: +1 de alcance máximo\nFúria: +2 de alcance máximo\nBanho de Sangue: +25% de crítico",
         "special_spell_de": "Sturmangriff: Sichtlinie deaktiviert\nAversion: +1 Zauber pro Runde\nFlammenschlag: +2 Maximale Reichweite\nOpfer: Abklingzeit verringert um –1\nBuße: Abklingzeit verringert um –1\nAbsorption: +1 Maximale Reichweite\nRaserei: +2 Maximale Reichweite\nBlutbad: +25 % Kritische Treffer",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11106-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11106-64.png",
@@ -60856,10 +60856,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Barricade Arrow: +3 Maximum Range\nDestructive Bolts: +2 Maximum Range\nExplosive Arrow: +30% Critical\nSlaughtering Arrow: +3 Maximum Range\nPunitive Arrow: +1 casts per turn\nArrow of Judgement: -1 AP\nDevouring Arrow: +1 casts per turn\nFulminating Arrow: -1 AP",
-        "special_spell_fr": "Flèche de Barrage : +3 Portée maximale\nCarreaux Destructeurs : +2 Portée maximale\nFlèche Explosive : +30% Critique\nFlèche Massacrante : +3 Portée maximale\nFlèche Punitive : +1 lancers par tour\nFlèche du Jugement : -1 PA\nFlèche Dévorante : +1 lancers par tour\nFlèche Fulminante : -1 PA",
-        "special_spell_es": "Flecha de Pelea: +3 de alcance máximo\nDiamantes Destructores: +2 de alcance máximo\nFlecha Explosiva: +30% de crítico\nFlecha Masacrante: +3 de alcance máximo\nFlecha Castigadora: +1 lanzamientos por turno\nFlecha del Juicio: -1 PA\nFlecha Voraz: +1 lanzamientos por turno\nFlecha Fulminante: -1 PA",
-        "special_spell_pt": "Flecha de Barricada: +3 de alcance máximo\nLadrilhos Destruidores: +2 de alcance máximo\nFlecha Explosiva: +30% de crítico\nFlecha Massacrante: +3 de alcance máximo\nFlecha Punitiva: +1 lançamentos por turno\nFlecha do Julgamento: -1 PA\nFlecha Devoradora: +1 lançamentos por turno\nFlecha Fulminante: -1 PA",
+        "special_spell_en": "Barricade Arrow: +3 Maximum Range\nDestructive Bolts: +2 Maximum Range\nExplosive Arrow: +30% Critical\nSlaughtering Arrow: +3 Maximum Range\nPunitive Arrow: +1 cast per turn\nArrow of Judgement: -1 AP\nDevouring Arrow: +1 cast per turn\nFulminating Arrow: -1 AP",
+        "special_spell_fr": "Flèche de Barrage : +3 Portée maximale\nCarreaux Destructeurs : +2 Portée maximale\nFlèche Explosive : +30% Critique\nFlèche Massacrante : +3 Portée maximale\nFlèche Punitive : +1 lancer par tour\nFlèche du Jugement : -1 PA\nFlèche Dévorante : +1 lancer par tour\nFlèche Fulminante : -1 PA",
+        "special_spell_es": "Flecha de Pelea: +3 de alcance máximo\nDiamantes Destructores: +2 de alcance máximo\nFlecha Explosiva: +30% de crítico\nFlecha Masacrante: +3 de alcance máximo\nFlecha Castigadora: +1 lanzamiento por turno\nFlecha del Juicio: -1 PA\nFlecha Voraz: +1 lanzamiento por turno\nFlecha Fulminante: -1 PA",
+        "special_spell_pt": "Flecha de Barricada: +3 de alcance máximo\nLadrilhos Destruidores: +2 de alcance máximo\nFlecha Explosiva: +30% de crítico\nFlecha Massacrante: +3 de alcance máximo\nFlecha Punitiva: +1 lançamento por turno\nFlecha do Julgamento: -1 PA\nFlecha Devoradora: +1 lançamento por turno\nFlecha Fulminante: -1 PA",
         "special_spell_de": "Sperrpfeil: +3 Maximale Reichweite\nZerstörerische Karos: +2 Maximale Reichweite\nExplosionspfeil: +30 % Kritische Treffer\nMörderpfeil: +3 Maximale Reichweite\nStrafender Pfeil: +1 Zauber pro Runde\nPfeil der Verurteilung: –1 AP\nVerheerender Pfeil: +1 Zauber pro Runde\nTobender Pfeil: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9126-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9126-64.png",
@@ -60918,10 +60918,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Second Chance: -1 cooldown\nNine Lives: -1 AP\nAll or Nothing: +2 Maximum Range\nTrickery: +1 casts per target\nBluff: +40% Critical\nRekop: +40% Critical\nSmell: -1 AP\nWheel of Fortune: -1 AP",
-        "special_spell_fr": "Seconde Chance : -1 de relance\nNeuf Vies : -1 PA\nTout ou Rien : +2 Portée maximale\nTromperie : +1 lancers par cible\nBluff : +40% Critique\nRekop : +40% Critique\nOdorat : -1 PA\nRoue de la Fortune : -1 PA",
-        "special_spell_es": "Segunda Oportunidad: -1 de reactivación\nNueve Vidas: -1 PA\nTodo o Nada: +2 de alcance máximo\nTruco: +1 lanzamientos por objetivo\nFarol: +40% de crítico\nRekop: +40% de crítico\nOlfato: -1 PA\nRueda de la Fortuna: -1 PA",
-        "special_spell_pt": "Segunda Chance: -1 de relançamento\nSete Vidas: -1 PA\nTudo ou Nada: +2 de alcance máximo\nEnganação: +1 lançamentos por alvo\nBlefe: +40% de crítico\nRekop: +40% de crítico\nOlfato: -1 PA\nRoda da Fortuna: -1 PA",
+        "special_spell_en": "Second Chance: -1 cooldown\nNine Lives: -1 AP\nAll or Nothing: +2 Maximum Range\nTrickery: +1 cast per target\nBluff: +40% Critical\nRekop: +40% Critical\nSmell: -1 AP\nWheel of Fortune: -1 AP",
+        "special_spell_fr": "Seconde Chance : -1 de relance\nNeuf Vies : -1 PA\nTout ou Rien : +2 Portée maximale\nTromperie : +1 lancer par cible\nBluff : +40% Critique\nRekop : +40% Critique\nOdorat : -1 PA\nRoue de la Fortune : -1 PA",
+        "special_spell_es": "Segunda Oportunidad: -1 de reactivación\nNueve Vidas: -1 PA\nTodo o Nada: +2 de alcance máximo\nTruco: +1 lanzamiento por objetivo\nFarol: +40% de crítico\nRekop: +40% de crítico\nOlfato: -1 PA\nRueda de la Fortuna: -1 PA",
+        "special_spell_pt": "Segunda Chance: -1 de relançamento\nSete Vidas: -1 PA\nTudo ou Nada: +2 de alcance máximo\nEnganação: +1 lançamento por alvo\nBlefe: +40% de crítico\nRekop: +40% de crítico\nOlfato: -1 PA\nRoda da Fortuna: -1 PA",
         "special_spell_de": "Zweite Chance: Abklingzeit verringert um –1\nNeun Leben: –1 AP\nAlles oder nichts: +2 Maximale Reichweite\nBlendwerk: +1 Zauber pro Ziel\nBluff: +40 % Kritische Treffer\nRekop: +40 % Kritische Treffer\nGeruchssinn: –1 AP\nGlücksrad: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9127-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9127-64.png",
@@ -61104,10 +61104,10 @@
                 ": + Maximum Range"
             ]
         ],
-        "special_spell_en": "Shepherd's Crook: line of sight off\nTorpor: modifiable Range\nDistrust: line of sight off\nBarrier: line of sight off\nGreener Pastures: +2 Maximum Range\nAegis: modifiable Range\nSilbo: +1 casts per turn\nGetaway: +3 Maximum Range",
-        "special_spell_fr": "Houlette : ligne de vue désactivée\nTorpeur : Portée modifiable\nDéfiance : ligne de vue désactivée\nBarrière : ligne de vue désactivée\nTranshumance : +2 Portée maximale\nÉgide : Portée modifiable\nSilbo : +1 lancers par tour\nEscapade : +3 Portée maximale",
-        "special_spell_es": "Cayado: línea de visión desactivada\nSopor: alcance modificable\nRecelo: línea de visión desactivada\nParapeto: línea de visión desactivada\nTrashumancia: +2 de alcance máximo\nÉgida: alcance modificable\nSilbo: +1 lanzamientos por turno\nEscapadita: +3 de alcance máximo",
-        "special_spell_pt": "Cajado: linha de visão desativada\nTorpor: alcance modificável\nReserva: linha de visão desativada\nBarreira: linha de visão desativada\nTransumância: +2 de alcance máximo\nÉgide: alcance modificável\nSilbo: +1 lançamentos por turno\nEscapada: +3 de alcance máximo",
+        "special_spell_en": "Shepherd's Crook: line of sight off\nTorpor: modifiable Range\nDistrust: line of sight off\nBarrier: line of sight off\nGreener Pastures: +2 Maximum Range\nAegis: modifiable Range\nSilbo: +1 cast per turn\nGetaway: +3 Maximum Range",
+        "special_spell_fr": "Houlette : ligne de vue désactivée\nTorpeur : Portée modifiable\nDéfiance : ligne de vue désactivée\nBarrière : ligne de vue désactivée\nTranshumance : +2 Portée maximale\nÉgide : Portée modifiable\nSilbo : +1 lancer par tour\nEscapade : +3 Portée maximale",
+        "special_spell_es": "Cayado: línea de visión desactivada\nSopor: alcance modificable\nRecelo: línea de visión desactivada\nParapeto: línea de visión desactivada\nTrashumancia: +2 de alcance máximo\nÉgida: alcance modificable\nSilbo: +1 lanzamiento por turno\nEscapadita: +3 de alcance máximo",
+        "special_spell_pt": "Cajado: linha de visão desativada\nTorpor: alcance modificável\nReserva: linha de visão desativada\nBarreira: linha de visão desativada\nTransumância: +2 de alcance máximo\nÉgide: alcance modificável\nSilbo: +1 lançamento por turno\nEscapada: +3 de alcance máximo",
         "special_spell_de": "Hirtenstab: Sichtlinie deaktiviert\nDahindämmern: Veränderbare Reichweite\nArgwohn: Sichtlinie deaktiviert\nBarriere: Sichtlinie deaktiviert\nVermenschwandlung: +2 Maximale Reichweite\nSchirmherrschaft: Veränderbare Reichweite\nSilbo: +1 Zauber pro Runde\nSpritztour: +3 Maximale Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9130-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9130-64.png",
@@ -61166,10 +61166,10 @@
                 ": + Maximum Range"
             ]
         ],
-        "special_spell_en": "Loafylactic: +2 Maximum Range\nTunnel: straight-line casting off\nSpade of the Ancients: modifiable Range\nShovel of the Ancients: +2 Maximum Range\nDeposit: modifiable Range\nExpiry: -1 AP\nSieving: +1 casts per turn\nObsolescence: +2 Maximum Range",
-        "special_spell_fr": "Abattement : +2 Portée maximale\nSouterrain : lancer en ligne désactivé\nBêche des Anciens : Portée modifiable\nPelle des Anciens : +2 Portée maximale\nGisement : Portée modifiable\nPéremption : -1 PA\nTamisage : +1 lancers par tour\nObsolescence : +2 Portée maximale",
-        "special_spell_es": "Debilitación: +2 de alcance máximo\nSubterráneo: lanzamiento en línea desactivado\nLaya de los Ancianos: alcance modificable\nPala de los Ancianos: +2 de alcance máximo\nFilón: alcance modificable\nCaducidad: -1 PA\nTamizado: +1 lanzamientos por turno\nObsolescencia: +2 de alcance máximo",
-        "special_spell_pt": "Abate: +2 de alcance máximo\nSubterrâneo: lançamento em linha desativado\nEnxada dos Antigos: alcance modificável\nPá dos Antigos: +2 de alcance máximo\nJazida: alcance modificável\nExpiração: -1 PA\nPeneirar: +1 lançamentos por turno\nObsolescência: +2 de alcance máximo",
+        "special_spell_en": "Loafylactic: +2 Maximum Range\nTunnel: straight-line casting off\nSpade of the Ancients: modifiable Range\nShovel of the Ancients: +2 Maximum Range\nDeposit: modifiable Range\nExpiry: -1 AP\nSieving: +1 cast per turn\nObsolescence: +2 Maximum Range",
+        "special_spell_fr": "Abattement : +2 Portée maximale\nSouterrain : lancer en ligne désactivé\nBêche des Anciens : Portée modifiable\nPelle des Anciens : +2 Portée maximale\nGisement : Portée modifiable\nPéremption : -1 PA\nTamisage : +1 lancer par tour\nObsolescence : +2 Portée maximale",
+        "special_spell_es": "Debilitación: +2 de alcance máximo\nSubterráneo: lanzamiento en línea desactivado\nLaya de los Ancianos: alcance modificable\nPala de los Ancianos: +2 de alcance máximo\nFilón: alcance modificable\nCaducidad: -1 PA\nTamizado: +1 lanzamiento por turno\nObsolescencia: +2 de alcance máximo",
+        "special_spell_pt": "Abate: +2 de alcance máximo\nSubterrâneo: lançamento em linha desativado\nEnxada dos Antigos: alcance modificável\nPá dos Antigos: +2 de alcance máximo\nJazida: alcance modificável\nExpiração: -1 PA\nPeneirar: +1 lançamento por turno\nObsolescência: +2 de alcance máximo",
         "special_spell_de": "Schlag lass nach!: +2 Maximale Reichweite\nUntergrund: Lineare Wirkungsweise deaktiviert\nSpaten der Alten: Veränderbare Reichweite\nSchaufel der Alten: +2 Maximale Reichweite\nErzvorkommen: Veränderbare Reichweite\nVerfall: –1 AP\nSieben: +1 Zauber pro Runde\nVeralterung: +2 Maximale Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9131-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9131-64.png",
@@ -61228,10 +61228,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Frightening Word: line of sight off\nScalpel: -1 cooldown\nWord of Recovery: line of sight off\nUniting Word: line of sight off\nPrankster's Word: +1 casts per target\nDefensive Word: -1 AP\nTurbulent Word: -1 AP\nFurious Word: -1 AP",
-        "special_spell_fr": "Mot de Frayeur : ligne de vue désactivée\nScalpel : -1 de relance\nMot de Reconstitution : ligne de vue désactivée\nMot de Solidarité : ligne de vue désactivée\nMot Farceur : +1 lancers par cible\nMot Défendu : -1 PA\nMot Turbulent : -1 PA\nMot Furieux : -1 PA",
-        "special_spell_es": "Palabra de Pavor: línea de visión desactivada\nEscalpelo: -1 de reactivación\nPalabra de Reconstitución: línea de visión desactivada\nPalabra de Solidaridad: línea de visión desactivada\nPalabra Bromista: +1 lanzamientos por objetivo\nPalabra Censurada: -1 PA\nPalabra Turbulenta: -1 PA\nPalabra Furiosa: -1 PA",
-        "special_spell_pt": "Palavra de Medo: linha de visão desativada\nBisturi: -1 de relançamento\nPalavra de Reconstituição: linha de visão desativada\nPalavra de Solidariedade: linha de visão desativada\nPalavra Farsesca: +1 lançamentos por alvo\nPalavra Vetada: -1 PA\nPalavra Turbulenta: -1 PA\nPalavra Furiosa: -1 PA",
+        "special_spell_en": "Frightening Word: line of sight off\nScalpel: -1 cooldown\nWord of Recovery: line of sight off\nUniting Word: line of sight off\nPrankster's Word: +1 cast per target\nDefensive Word: -1 AP\nTurbulent Word: -1 AP\nFurious Word: -1 AP",
+        "special_spell_fr": "Mot de Frayeur : ligne de vue désactivée\nScalpel : -1 de relance\nMot de Reconstitution : ligne de vue désactivée\nMot de Solidarité : ligne de vue désactivée\nMot Farceur : +1 lancer par cible\nMot Défendu : -1 PA\nMot Turbulent : -1 PA\nMot Furieux : -1 PA",
+        "special_spell_es": "Palabra de Pavor: línea de visión desactivada\nEscalpelo: -1 de reactivación\nPalabra de Reconstitución: línea de visión desactivada\nPalabra de Solidaridad: línea de visión desactivada\nPalabra Bromista: +1 lanzamiento por objetivo\nPalabra Censurada: -1 PA\nPalabra Turbulenta: -1 PA\nPalabra Furiosa: -1 PA",
+        "special_spell_pt": "Palavra de Medo: linha de visão desativada\nBisturi: -1 de relançamento\nPalavra de Reconstituição: linha de visão desativada\nPalavra de Solidariedade: linha de visão desativada\nPalavra Farsesca: +1 lançamento por alvo\nPalavra Vetada: -1 PA\nPalavra Turbulenta: -1 PA\nPalavra Furiosa: -1 PA",
         "special_spell_de": "Wort der Furcht: Sichtlinie deaktiviert\nSkalpell: Abklingzeit verringert um –1\nWort der Genesung: Sichtlinie deaktiviert\nSolidarisches Wort: Sichtlinie deaktiviert\nSchelmisches Wort: +1 Zauber pro Ziel\nVerbotenes Wort: –1 AP\nUngestümes Wort: –1 AP\nZorniges Wort: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9132-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9132-64.png",
@@ -61290,10 +61290,10 @@
                 ": +% Critical"
             ]
         ],
-        "special_spell_en": "Tipple: +40% Critical\nEviction: +1 casts per turn\nBrandy: +2 Maximum Range\nFilthipint: +35% Critical\nBamboo Milk: -1 cooldown\nProhibition: straight-line casting off\nNumbness: -1 AP\nAlcoholic Breath: +40% Critical",
-        "special_spell_fr": "Ethylo : +40% Critique\nÉviction : +1 lancers par tour\nEau-de-vie : +2 Portée maximale\nBistouille : +35% Critique\nLait de Bambou : -1 de relance\nProhibition : lancer en ligne désactivé\nEngourdissement : -1 PA\nSouffle Alcoolisé : +40% Critique",
-        "special_spell_es": "Etilo: +40% de crítico\nDesalojo: +1 lanzamientos por turno\nAguardiente: +2 de alcance máximo\nAguachirle: +35% de crítico\nLeche de Bambú: -1 de reactivación\nInterdicción: lanzamiento en línea desactivado\nEntumecimiento: -1 PA\nSoplido Alcoholizado: +40% de crítico",
-        "special_spell_pt": "Etílico: +40% de crítico\nDespejo: +1 lançamentos por turno\nLimonada: +2 de alcance máximo\nZurrapa: +35% de crítico\nLeite de Bambu: -1 de relançamento\nLei Seca: lançamento em linha desativado\nDormência: -1 PA\nSopro Alcoolizado: +40% de crítico",
+        "special_spell_en": "Tipple: +40% Critical\nEviction: +1 cast per turn\nBrandy: +2 Maximum Range\nFilthipint: +35% Critical\nBamboo Milk: -1 cooldown\nProhibition: straight-line casting off\nNumbness: -1 AP\nAlcoholic Breath: +40% Critical",
+        "special_spell_fr": "Ethylo : +40% Critique\nÉviction : +1 lancer par tour\nEau-de-vie : +2 Portée maximale\nBistouille : +35% Critique\nLait de Bambou : -1 de relance\nProhibition : lancer en ligne désactivé\nEngourdissement : -1 PA\nSouffle Alcoolisé : +40% Critique",
+        "special_spell_es": "Etilo: +40% de crítico\nDesalojo: +1 lanzamiento por turno\nAguardiente: +2 de alcance máximo\nAguachirle: +35% de crítico\nLeche de Bambú: -1 de reactivación\nInterdicción: lanzamiento en línea desactivado\nEntumecimiento: -1 PA\nSoplido Alcoholizado: +40% de crítico",
+        "special_spell_pt": "Etílico: +40% de crítico\nDespejo: +1 lançamento por turno\nLimonada: +2 de alcance máximo\nZurrapa: +35% de crítico\nLeite de Bambu: -1 de relançamento\nLei Seca: lançamento em linha desativado\nDormência: -1 PA\nSopro Alcoolizado: +40% de crítico",
         "special_spell_de": "Ethyllo: +40 % Kritische Treffer\nVerdrängung: +1 Zauber pro Runde\nWasser des Lebens: +2 Maximale Reichweite\nKaffee mit Schuss: +35 % Kritische Treffer\nBambusmilch: Abklingzeit verringert um –1\nProhibition: Lineare Wirkungsweise deaktiviert\nBenommenheit: –1 AP\nAlkoholatem: +40 % Kritische Treffer",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9133-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9133-64.png",
@@ -61414,10 +61414,10 @@
                 ": modifiable Range"
             ]
         ],
-        "special_spell_en": "Teleportation: -1 cooldown\nAstrolabe: -1 cooldown\nAccomplice: +1 casts per turn\nXelor's Dial: -1 cooldown\nParadox: -1 AP\nRift: -1 AP\nSynchro: modifiable Range\nKnell: modifiable Range",
-        "special_spell_fr": "Téléportation : -1 de relance\nAstrolabe : -1 de relance\nComplice : +1 lancers par tour\nCadran de Xélor : -1 de relance\nParadoxe : -1 PA\nFaille : -1 PA\nSynchro : Portée modifiable\nGlas : Portée modifiable",
-        "special_spell_es": "Teletransportación: -1 de reactivación\nAstrolabio: -1 de reactivación\nCómplice: +1 lanzamientos por turno\nEsfera de Xelor: -1 de reactivación\nParadoja: -1 PA\nFalla: -1 PA\nSyncro: alcance modificable\nTañido: alcance modificable",
-        "special_spell_pt": "Teletransporte: -1 de relançamento\nAstrolábio: -1 de relançamento\nCúmplice: +1 lançamentos por turno\nQuadrante de Xelor: -1 de relançamento\nParadoxo: -1 PA\nFalha: -1 PA\nSincro: alcance modificável\nDobre Fúnebre: alcance modificável",
+        "special_spell_en": "Teleportation: -1 cooldown\nAstrolabe: -1 cooldown\nAccomplice: +1 cast per turn\nXelor's Dial: -1 cooldown\nParadox: -1 AP\nRift: -1 AP\nSynchro: modifiable Range\nKnell: modifiable Range",
+        "special_spell_fr": "Téléportation : -1 de relance\nAstrolabe : -1 de relance\nComplice : +1 lancer par tour\nCadran de Xélor : -1 de relance\nParadoxe : -1 PA\nFaille : -1 PA\nSynchro : Portée modifiable\nGlas : Portée modifiable",
+        "special_spell_es": "Teletransportación: -1 de reactivación\nAstrolabio: -1 de reactivación\nCómplice: +1 lanzamiento por turno\nEsfera de Xelor: -1 de reactivación\nParadoja: -1 PA\nFalla: -1 PA\nSyncro: alcance modificable\nTañido: alcance modificable",
+        "special_spell_pt": "Teletransporte: -1 de relançamento\nAstrolábio: -1 de relançamento\nCúmplice: +1 lançamento por turno\nQuadrante de Xelor: -1 de relançamento\nParadoxo: -1 PA\nFalha: -1 PA\nSincro: alcance modificável\nDobre Fúnebre: alcance modificável",
         "special_spell_de": "Teleportation: Abklingzeit verringert um –1\nAstrolabium: Abklingzeit verringert um –1\nKomplize: +1 Zauber pro Runde\nZifferblatt von Xélor: Abklingzeit verringert um –1\nParadoxon: –1 AP\nRiss: –1 AP\nSynchro: Veränderbare Reichweite\nTotenglocke: Veränderbare Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9135-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9135-64.png",
@@ -61476,10 +61476,10 @@
                 ": - cooldown"
             ]
         ],
-        "special_spell_en": "Aggressive Bramble: +1 casts per target\nCharred Charms: +3 Maximum Range\nContagion: +1 casts per turn\nMangrove: -1 AP\nInflatable Doll: -1 cooldown\nTransmuted Inflatable: -1 cooldown\nThe Ultra-Powerful: -1 cooldown\nTransmuted Ultra-Powerful: -1 cooldown",
-        "special_spell_fr": "Ronces Agressives : +1 lancers par cible\nFétiches Calcinés : +3 Portée maximale\nContagion : +1 lancers par tour\nMangrove : -1 PA\nLa Gonflable : -1 de relance\nLa Gonflable Transmutée : -1 de relance\nLa Surpuissante : -1 de relance\nLa Surpuissante Transmutée : -1 de relance",
-        "special_spell_es": "Zarzas Agresivas: +1 lanzamientos por objetivo\nFetiches Calcinados: +3 de alcance máximo\nContagio: +1 lanzamientos por turno\nManglar: -1 PA\nLa Hinchable: -1 de reactivación\nLa Hinchable Transmutada: -1 de reactivación\nLa Superpoderosa: -1 de reactivación\nLa Superpoderosa Transmutada: -1 de reactivación",
-        "special_spell_pt": "Sarças Agressivas: +1 lançamentos por alvo\nFetiches Calcinados: +3 de alcance máximo\nContágio: +1 lançamentos por turno\nMangue: -1 PA\nA Inflável: -1 de relançamento\nA Inflável Transmutada: -1 de relançamento\nA Superpoderosa: -1 de relançamento\nA Superpoderosa Transmutada: -1 de relançamento",
+        "special_spell_en": "Aggressive Bramble: +1 cast per target\nCharred Charms: +3 Maximum Range\nContagion: +1 cast per turn\nMangrove: -1 AP\nInflatable Doll: -1 cooldown\nTransmuted Inflatable: -1 cooldown\nThe Ultra-Powerful: -1 cooldown\nTransmuted Ultra-Powerful: -1 cooldown",
+        "special_spell_fr": "Ronces Agressives : +1 lancer par cible\nFétiches Calcinés : +3 Portée maximale\nContagion : +1 lancer par tour\nMangrove : -1 PA\nLa Gonflable : -1 de relance\nLa Gonflable Transmutée : -1 de relance\nLa Surpuissante : -1 de relance\nLa Surpuissante Transmutée : -1 de relance",
+        "special_spell_es": "Zarzas Agresivas: +1 lanzamiento por objetivo\nFetiches Calcinados: +3 de alcance máximo\nContagio: +1 lanzamiento por turno\nManglar: -1 PA\nLa Hinchable: -1 de reactivación\nLa Hinchable Transmutada: -1 de reactivación\nLa Superpoderosa: -1 de reactivación\nLa Superpoderosa Transmutada: -1 de reactivación",
+        "special_spell_pt": "Sarças Agressivas: +1 lançamento por alvo\nFetiches Calcinados: +3 de alcance máximo\nContágio: +1 lançamento por turno\nMangue: -1 PA\nA Inflável: -1 de relançamento\nA Inflável Transmutada: -1 de relançamento\nA Superpoderosa: -1 de relançamento\nA Superpoderosa Transmutada: -1 de relançamento",
         "special_spell_de": "Aggressive Ranken: +1 Zauber pro Ziel\nVerkohlte Glücksbringer: +3 Maximale Reichweite\nAnsteckung: +1 Zauber pro Runde\nMangrove: –1 AP\nAufblaspüppchen: Abklingzeit verringert um –1\nDas Verwandelte Aufblaspüppchen: Abklingzeit verringert um –1\nSuperpüppchen: Abklingzeit verringert um –1\nDas Verwandelte Superpüppchen: Abklingzeit verringert um –1",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9136-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9136-64.png",
@@ -61538,10 +61538,10 @@
                 ": + Maximum Range"
             ]
         ],
-        "special_spell_en": "Clobbering: +2 Maximum Range\nCondensation: +2 Maximum Range\nInflux: +1 casts per turn\nLibation: -1 cooldown\nPunishment: -1 cooldown\nTorture: +2 Maximum Range\nNervousness: +2 Maximum Range\nDesolation: +2 Maximum Range",
-        "special_spell_fr": "Déchaînement : +2 Portée maximale\nCondensation : +2 Portée maximale\nAfflux : +1 lancers par tour\nLibation : -1 de relance\nChâtiment : -1 de relance\nSupplice : +2 Portée maximale\nNervosité : +2 Portée maximale\nDésolation : +2 Portée maximale",
-        "special_spell_es": "Desencadenamiento: +2 de alcance máximo\nCondensación: +2 de alcance máximo\nAflujo: +1 lanzamientos por turno\nLibación: -1 de reactivación\nCastigo: -1 de reactivación\nSuplicio: +2 de alcance máximo\nNerviosismo: +2 de alcance máximo\nDesolación: +2 de alcance máximo",
-        "special_spell_pt": "Desencadeamento: +2 de alcance máximo\nCondensação: +2 de alcance máximo\nAfluxo: +1 lançamentos por turno\nLibação: -1 de relançamento\nCastigo: -1 de relançamento\nSuplício: +2 de alcance máximo\nNervosismo: +2 de alcance máximo\nDesolação: +2 de alcance máximo",
+        "special_spell_en": "Clobbering: +2 Maximum Range\nCondensation: +2 Maximum Range\nInflux: +1 cast per turn\nLibation: -1 cooldown\nPunishment: -1 cooldown\nTorture: +2 Maximum Range\nNervousness: +2 Maximum Range\nDesolation: +2 Maximum Range",
+        "special_spell_fr": "Déchaînement : +2 Portée maximale\nCondensation : +2 Portée maximale\nAfflux : +1 lancer par tour\nLibation : -1 de relance\nChâtiment : -1 de relance\nSupplice : +2 Portée maximale\nNervosité : +2 Portée maximale\nDésolation : +2 Portée maximale",
+        "special_spell_es": "Desencadenamiento: +2 de alcance máximo\nCondensación: +2 de alcance máximo\nAflujo: +1 lanzamiento por turno\nLibación: -1 de reactivación\nCastigo: -1 de reactivación\nSuplicio: +2 de alcance máximo\nNerviosismo: +2 de alcance máximo\nDesolación: +2 de alcance máximo",
+        "special_spell_pt": "Desencadeamento: +2 de alcance máximo\nCondensação: +2 de alcance máximo\nAfluxo: +1 lançamento por turno\nLibação: -1 de relançamento\nCastigo: -1 de relançamento\nSuplício: +2 de alcance máximo\nNervosismo: +2 de alcance máximo\nDesolação: +2 de alcance máximo",
         "special_spell_de": "Entfesselung: +2 Maximale Reichweite\nKondensation: +2 Maximale Reichweite\nZustrom: +1 Zauber pro Runde\nTrankopfer: Abklingzeit verringert um –1\nStrafe: Abklingzeit verringert um –1\nTortur: +2 Maximale Reichweite\nNervosität: +2 Maximale Reichweite\nVerzweiflung: +2 Maximale Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9137-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9137-64.png",
@@ -61739,10 +61739,10 @@
                 "MP"
             ]
         ],
-        "special_spell_en": "Sidestep: +1 Maximum Range\nTactical Beacon: -1 cooldown\nDistant Shots: -1 cooldown\nPiercing Shot: +1 casts per target\nSurvival Beacon: -1 AP\nReprisal: -1 AP\nWithdrawal Shot: +1 casts per target\nVendetta: +1 casts per turn",
-        "special_spell_fr": "Pas Chassé : +1 Portée maximale\nBalise Tactique : -1 de relance\nTirs Éloignés : -1 de relance\nTir Perçant : +1 lancers par cible\nBalise de Survie : -1 PA\nReprésailles : -1 PA\nTir de Repli : +1 lancers par cible\nVendetta : +1 lancers par tour",
-        "special_spell_es": "Paso de Cacería: +1 de alcance máximo\nBaliza Táctica: -1 de reactivación\nDisparos Lejanos: -1 de reactivación\nTiro Penetrante: +1 lanzamientos por objetivo\nBaliza de Supervivencia: -1 PA\nRepresalias: -1 PA\nTiro de Repliegue: +1 lanzamientos por objetivo\nVendetta: +1 lanzamientos por turno",
-        "special_spell_pt": "Passinho do Caçador: +1 de alcance máximo\nBaliza Tática: -1 de relançamento\nTiros Distantes: -1 de relançamento\nTiro Perfurante: +1 lançamentos por alvo\nBaliza de Sobrevivência: -1 PA\nRepresália: -1 PA\nTiro de Retirada: +1 lançamentos por alvo\nVendetta: +1 lançamentos por turno",
+        "special_spell_en": "Sidestep: +1 Maximum Range\nTactical Beacon: -1 cooldown\nDistant Shots: -1 cooldown\nPiercing Shot: +1 cast per target\nSurvival Beacon: -1 AP\nReprisal: -1 AP\nWithdrawal Shot: +1 cast per target\nVendetta: +1 cast per turn",
+        "special_spell_fr": "Pas Chassé : +1 Portée maximale\nBalise Tactique : -1 de relance\nTirs Éloignés : -1 de relance\nTir Perçant : +1 lancer par cible\nBalise de Survie : -1 PA\nReprésailles : -1 PA\nTir de Repli : +1 lancer par cible\nVendetta : +1 lancer par tour",
+        "special_spell_es": "Paso de Cacería: +1 de alcance máximo\nBaliza Táctica: -1 de reactivación\nDisparos Lejanos: -1 de reactivación\nTiro Penetrante: +1 lanzamiento por objetivo\nBaliza de Supervivencia: -1 PA\nRepresalias: -1 PA\nTiro de Repliegue: +1 lanzamiento por objetivo\nVendetta: +1 lanzamiento por turno",
+        "special_spell_pt": "Passinho do Caçador: +1 de alcance máximo\nBaliza Tática: -1 de relançamento\nTiros Distantes: -1 de relançamento\nTiro Perfurante: +1 lançamento por alvo\nBaliza de Sobrevivência: -1 PA\nRepresália: -1 PA\nTiro de Retirada: +1 lançamento por alvo\nVendetta: +1 lançamento por turno",
         "special_spell_de": "Gehetzter Schritt: +1 Maximale Reichweite\nTaktische Markierung: Abklingzeit verringert um –1\nWeitschüsse: Abklingzeit verringert um –1\nDurchbohrender Schuss: +1 Zauber pro Ziel\nMarkierung des Überlebens: –1 AP\nVergeltungsmaßnahmen: –1 AP\nRückzugsschuss: +1 Zauber pro Ziel\nVendetta: +1 Zauber pro Runde",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11111-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11111-64.png",
@@ -95745,10 +95745,10 @@
                 ": + Maximum Range"
             ]
         ],
-        "special_spell_en": "Apostasy: +2 Maximum Range\nIntrepid Mask: modifiable Range\nTireless Mask: modifiable Range\nCatalepsy: +1 casts per turn\nInferno: +2 Maximum Range\nDistance: line of sight off\nParafuso: +2 Maximum Range\nMartelo: +2 Maximum Range",
-        "special_spell_fr": "Apostasie : +2 Portée maximale\nMasque de l'Intrépide : Portée modifiable\nMasque de l'Infatigable : Portée modifiable\nCatalepsie : +1 lancers par tour\nInferno : +2 Portée maximale\nDistance : ligne de vue désactivée\nParafuso : +2 Portée maximale\nMartelo : +2 Portée maximale",
-        "special_spell_es": "Apostasía: +2 de alcance máximo\nMáscara de Intrépido: alcance modificable\nMáscara de Incansable: alcance modificable\nCatalepsia: +1 lanzamientos por turno\nInfernus: +2 de alcance máximo\nDistancia: línea de visión desactivada\nParafuso: +2 de alcance máximo\nMartelo: +2 de alcance máximo",
-        "special_spell_pt": "Apostasia: +2 de alcance máximo\nMáscara do Intrépido: alcance modificável\nMáscara do Incansável: alcance modificável\nCatalepsia: +1 lançamentos por turno\nInferno: +2 de alcance máximo\nDistância: linha de visão desativada\nParafuso: +2 de alcance máximo\nMartelo: +2 de alcance máximo",
+        "special_spell_en": "Apostasy: +2 Maximum Range\nIntrepid Mask: modifiable Range\nTireless Mask: modifiable Range\nCatalepsy: +1 cast per turn\nInferno: +2 Maximum Range\nDistance: line of sight off\nParafuso: +2 Maximum Range\nMartelo: +2 Maximum Range",
+        "special_spell_fr": "Apostasie : +2 Portée maximale\nMasque de l'Intrépide : Portée modifiable\nMasque de l'Infatigable : Portée modifiable\nCatalepsie : +1 lancer par tour\nInferno : +2 Portée maximale\nDistance : ligne de vue désactivée\nParafuso : +2 Portée maximale\nMartelo : +2 Portée maximale",
+        "special_spell_es": "Apostasía: +2 de alcance máximo\nMáscara de Intrépido: alcance modificable\nMáscara de Incansable: alcance modificable\nCatalepsia: +1 lanzamiento por turno\nInfernus: +2 de alcance máximo\nDistancia: línea de visión desactivada\nParafuso: +2 de alcance máximo\nMartelo: +2 de alcance máximo",
+        "special_spell_pt": "Apostasia: +2 de alcance máximo\nMáscara do Intrépido: alcance modificável\nMáscara do Incansável: alcance modificável\nCatalepsia: +1 lançamento por turno\nInferno: +2 de alcance máximo\nDistância: linha de visão desativada\nParafuso: +2 de alcance máximo\nMartelo: +2 de alcance máximo",
         "special_spell_de": "Apostasie: +2 Maximale Reichweite\nMaske des Unerschrockenen: Veränderbare Reichweite\nMaske des Unermüdlichen: Veränderbare Reichweite\nKatalepsie: +1 Zauber pro Runde\nInferno: +2 Maximale Reichweite\nAbstand: Sichtlinie deaktiviert\nParafuso: +2 Maximale Reichweite\nEinbläuen: +2 Maximale Reichweite",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17229-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17229-64.png",
@@ -95941,10 +95941,10 @@
                 ": line of sight off"
             ]
         ],
-        "special_spell_en": "Powder: line of sight off\nSticky Bomb: +1 casts per turn\nDeception: -1 AP\nArquebus: straight-line casting off\nExtraction: straight-line casting off\nCadence: -1 AP\nDetonator: +2 Maximum Range\nFuze: line of sight off",
-        "special_spell_fr": "Poudre : ligne de vue désactivée\nBombe Collante : +1 lancers par tour\nResquille : -1 PA\nArquebuse : lancer en ligne désactivé\nExtraction : lancer en ligne désactivé\nCadence : -1 PA\nDétonateur : +2 Portée maximale\nÉtoupille : ligne de vue désactivée",
-        "special_spell_es": "Polvo: línea de visión desactivada\nBomba Pegajosa: +1 lanzamientos por turno\nColado: -1 PA\nArcabuz: lanzamiento en línea desactivado\nExtracción: lanzamiento en línea desactivado\nCadencia: -1 PA\nDetonador: +2 de alcance máximo\nEstopín: línea de visión desactivada",
-        "special_spell_pt": "Pólvora: linha de visão desativada\nBomba Pegajosa: +1 lançamentos por turno\nTrapaça: -1 PA\nArcabuz: lançamento em linha desativado\nExtração: lançamento em linha desativado\nCadência: -1 PA\nDetonador: +2 de alcance máximo\nPavio-Curto: linha de visão desativada",
+        "special_spell_en": "Powder: line of sight off\nSticky Bomb: +1 cast per turn\nDeception: -1 AP\nArquebus: straight-line casting off\nExtraction: straight-line casting off\nCadence: -1 AP\nDetonator: +2 Maximum Range\nFuze: line of sight off",
+        "special_spell_fr": "Poudre : ligne de vue désactivée\nBombe Collante : +1 lancer par tour\nResquille : -1 PA\nArquebuse : lancer en ligne désactivé\nExtraction : lancer en ligne désactivé\nCadence : -1 PA\nDétonateur : +2 Portée maximale\nÉtoupille : ligne de vue désactivée",
+        "special_spell_es": "Polvo: línea de visión desactivada\nBomba Pegajosa: +1 lanzamiento por turno\nColado: -1 PA\nArcabuz: lanzamiento en línea desactivado\nExtracción: lanzamiento en línea desactivado\nCadencia: -1 PA\nDetonador: +2 de alcance máximo\nEstopín: línea de visión desactivada",
+        "special_spell_pt": "Pólvora: linha de visão desativada\nBomba Pegajosa: +1 lançamento por turno\nTrapaça: -1 PA\nArcabuz: lançamento em linha desativado\nExtração: lançamento em linha desativado\nCadência: -1 PA\nDetonador: +2 de alcance máximo\nPavio-Curto: linha de visão desativada",
         "special_spell_de": "Pulverladung: Sichtlinie deaktiviert\nKlebrige Bombe: +1 Zauber pro Runde\nPrellen: –1 AP\nHakenbüchse: Lineare Wirkungsweise deaktiviert\nExtrahieren: Lineare Wirkungsweise deaktiviert\nSprengrhythmus: –1 AP\nZünder: +2 Maximale Reichweite\nLeitfeuer: Sichtlinie deaktiviert",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10210-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10210-64.png",
@@ -96065,10 +96065,10 @@
                 ": + cast per turn"
             ]
         ],
-        "special_spell_en": "Kaboom: -1 cooldown\nImposture: +1 Maximum Range\nDirty Trick: -1 cooldown\nWalking Bomb: +2 Maximum Range\nRoguery: -1 cooldown\nStrategy: +2 Maximum Range\nLast Breath: -1 AP\nMagnetic Trap: +1 casts per turn",
-        "special_spell_fr": "Kaboom : -1 de relance\nImposture : +1 Portée maximale\nEntourloupe : -1 de relance\nBombe Ambulante : +2 Portée maximale\nRoublardise : -1 de relance\nStratagème : +2 Portée maximale\nDernier Souffle : -1 PA\nPiège Magnétique : +1 lancers par tour",
-        "special_spell_es": "Kabúm: -1 de reactivación\nImpostura: +1 de alcance máximo\nJugarreta: -1 de reactivación\nBomba Ambulante: +2 de alcance máximo\nTymadura: -1 de reactivación\nArgucia: +2 de alcance máximo\nÚltimo Aliento: -1 PA\nTrampa Magnética: +1 lanzamientos por turno",
-        "special_spell_pt": "Kaboom: -1 de relançamento\nImpostura: +1 de alcance máximo\nTruque Sujo: -1 de relançamento\nBomba Ambulante: +2 de alcance máximo\nLadinagem: -1 de relançamento\nEstratagema: +2 de alcance máximo\nÚltimo Suspiro: -1 PA\nArmadilha Magnética: +1 lançamentos por turno",
+        "special_spell_en": "Kaboom: -1 cooldown\nImposture: +1 Maximum Range\nDirty Trick: -1 cooldown\nWalking Bomb: +2 Maximum Range\nRoguery: -1 cooldown\nStrategy: +2 Maximum Range\nLast Breath: -1 AP\nMagnetic Trap: +1 cast per turn",
+        "special_spell_fr": "Kaboom : -1 de relance\nImposture : +1 Portée maximale\nEntourloupe : -1 de relance\nBombe Ambulante : +2 Portée maximale\nRoublardise : -1 de relance\nStratagème : +2 Portée maximale\nDernier Souffle : -1 PA\nPiège Magnétique : +1 lancer par tour",
+        "special_spell_es": "Kabúm: -1 de reactivación\nImpostura: +1 de alcance máximo\nJugarreta: -1 de reactivación\nBomba Ambulante: +2 de alcance máximo\nTymadura: -1 de reactivación\nArgucia: +2 de alcance máximo\nÚltimo Aliento: -1 PA\nTrampa Magnética: +1 lanzamiento por turno",
+        "special_spell_pt": "Kaboom: -1 de relançamento\nImpostura: +1 de alcance máximo\nTruque Sujo: -1 de relançamento\nBomba Ambulante: +2 de alcance máximo\nLadinagem: -1 de relançamento\nEstratagema: +2 de alcance máximo\nÚltimo Suspiro: -1 PA\nArmadilha Magnética: +1 lançamento por turno",
         "special_spell_de": "Kaboom: Abklingzeit verringert um –1\nVorgaukelung: +1 Maximale Reichweite\nFauler Trick: Abklingzeit verringert um –1\nWanderbombe: +2 Maximale Reichweite\nHalsabschneiderei: Abklingzeit verringert um –1\nList und Tücke: +2 Maximale Reichweite\nLetzter Atemzug: –1 AP\nMagnetische Falle: +1 Zauber pro Runde",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9234-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9234-64.png",
@@ -104072,10 +104072,10 @@
                 ": line of sight off"
             ]
         ],
-        "special_spell_en": "Turbine: +2 Maximum Range\nPilfer: +2 Maximum Range\nFroth: +3 Maximum Range\nBackwash: line of sight off\nSonar: +1 casts per turn\nAmbush: modifiable Range\nHarpooner: line of sight off\nTrawler: line of sight off",
-        "special_spell_fr": "Turbine : +2 Portée maximale\nFlibuste : +2 Portée maximale\nÉcume : +3 Portée maximale\nRessac : ligne de vue désactivée\nSonar : +1 lancers par tour\nEmbuscade : Portée modifiable\nHarponneuse : ligne de vue désactivée\nChalutier : ligne de vue désactivée",
-        "special_spell_es": "Turbina: +2 de alcance máximo\nPiratería: +2 de alcance máximo\nEspuma de Mar: +3 de alcance máximo\nResacón: línea de visión desactivada\nSónar: +1 lanzamientos por turno\nEmboscada: alcance modificable\nArponeras: línea de visión desactivada\nArrastrero: línea de visión desactivada",
-        "special_spell_pt": "Turbina: +2 de alcance máximo\nPirataria: +2 de alcance máximo\nEspuma: +3 de alcance máximo\nRefluxo: linha de visão desativada\nSonar: +1 lançamentos por turno\nEmboscada: alcance modificável\nArpoadora: linha de visão desativada\nPescador: linha de visão desativada",
+        "special_spell_en": "Turbine: +2 Maximum Range\nPilfer: +2 Maximum Range\nFroth: +3 Maximum Range\nBackwash: line of sight off\nSonar: +1 cast per turn\nAmbush: modifiable Range\nHarpooner: line of sight off\nTrawler: line of sight off",
+        "special_spell_fr": "Turbine : +2 Portée maximale\nFlibuste : +2 Portée maximale\nÉcume : +3 Portée maximale\nRessac : ligne de vue désactivée\nSonar : +1 lancer par tour\nEmbuscade : Portée modifiable\nHarponneuse : ligne de vue désactivée\nChalutier : ligne de vue désactivée",
+        "special_spell_es": "Turbina: +2 de alcance máximo\nPiratería: +2 de alcance máximo\nEspuma de Mar: +3 de alcance máximo\nResacón: línea de visión desactivada\nSónar: +1 lanzamiento por turno\nEmboscada: alcance modificable\nArponeras: línea de visión desactivada\nArrastrero: línea de visión desactivada",
+        "special_spell_pt": "Turbina: +2 de alcance máximo\nPirataria: +2 de alcance máximo\nEspuma: +3 de alcance máximo\nRefluxo: linha de visão desativada\nSonar: +1 lançamento por turno\nEmboscada: alcance modificável\nArpoadora: linha de visão desativada\nPescador: linha de visão desativada",
         "special_spell_de": "Turbine: +2 Maximale Reichweite\nBukanier: +2 Maximale Reichweite\nGischt: +3 Maximale Reichweite\nBrandung: Sichtlinie deaktiviert\nSonar: +1 Zauber pro Runde\nHinterhalt: Veränderbare Reichweite\nGeschützturm: Sichtlinie deaktiviert\nKutter: Sichtlinie deaktiviert",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10230-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10230-64.png",
@@ -104134,10 +104134,10 @@
                 ": line of sight off"
             ]
         ],
-        "special_spell_en": "Spyglass: +2 Maximum Range\nCorrosion: +2 Maximum Range\nHarmattan: -1 AP\nTorrent: line of sight off\nDive: +1 casts per turn\nSubmersion: +1 casts per turn\nTacturret: line of sight off\nBathyscaphe: line of sight off",
-        "special_spell_fr": "Longue-vue : +2 Portée maximale\nCorrosion : +2 Portée maximale\nHarmattan : -1 PA\nCourant : ligne de vue désactivée\nPlongée : +1 lancers par tour\nSubmersion : +1 lancers par tour\nTactirelle : ligne de vue désactivée\nBathyscaphe : ligne de vue désactivée",
-        "special_spell_es": "Catalejo: +2 de alcance máximo\nCorrosión: +2 de alcance máximo\nHarmatán: -1 PA\nCorriente: línea de visión desactivada\nBuceo: +1 lanzamientos por turno\nZambullida: +1 lanzamientos por turno\nTactiquillas: línea de visión desactivada\nBatiscafo: línea de visión desactivada",
-        "special_spell_pt": "Luneta: +2 de alcance máximo\nCorrosão: +2 de alcance máximo\nHarmatão: -1 PA\nCorrente: linha de visão desativada\nMergulho: +1 lançamentos por turno\nSubmersão: +1 lançamentos por turno\nEstratorre: linha de visão desativada\nBatiscafo: linha de visão desativada",
+        "special_spell_en": "Spyglass: +2 Maximum Range\nCorrosion: +2 Maximum Range\nHarmattan: -1 AP\nTorrent: line of sight off\nDive: +1 cast per turn\nSubmersion: +1 cast per turn\nTacturret: line of sight off\nBathyscaphe: line of sight off",
+        "special_spell_fr": "Longue-vue : +2 Portée maximale\nCorrosion : +2 Portée maximale\nHarmattan : -1 PA\nCourant : ligne de vue désactivée\nPlongée : +1 lancer par tour\nSubmersion : +1 lancer par tour\nTactirelle : ligne de vue désactivée\nBathyscaphe : ligne de vue désactivée",
+        "special_spell_es": "Catalejo: +2 de alcance máximo\nCorrosión: +2 de alcance máximo\nHarmatán: -1 PA\nCorriente: línea de visión desactivada\nBuceo: +1 lanzamiento por turno\nZambullida: +1 lanzamiento por turno\nTactiquillas: línea de visión desactivada\nBatiscafo: línea de visión desactivada",
+        "special_spell_pt": "Luneta: +2 de alcance máximo\nCorrosão: +2 de alcance máximo\nHarmatão: -1 PA\nCorrente: linha de visão desativada\nMergulho: +1 lançamento por turno\nSubmersão: +1 lançamento por turno\nEstratorre: linha de visão desativada\nBatiscafo: linha de visão desativada",
         "special_spell_de": "Fernrohr: +2 Maximale Reichweite\nKorrosion: +2 Maximale Reichweite\nHarmattan: –1 AP\nStrömung: Sichtlinie deaktiviert\nTauchgang: +1 Zauber pro Runde\nÜberflutung: +1 Zauber pro Runde\nKontrollturm: Sichtlinie deaktiviert\nBathyskaph: Sichtlinie deaktiviert",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9250-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9250-64.png",
@@ -133184,10 +133184,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Neutral: line of sight off\nInterruption: +1 casts per turn\nPortal: +1 Maximum Range\nWandering: +1 Maximum Range\nTranscendence: -1 cooldown\nExile: +2 Maximum Range\nStupor: +1 Maximum Range\nChoppy Wake: -1 AP",
-        "special_spell_fr": "Neutral : ligne de vue désactivée\nInterruption : +1 lancers par tour\nPortail : +1 Portée maximale\nErrance : +1 Portée maximale\nTranscendance : -1 de relance\nExil : +2 Portée maximale\nStupeur : +1 Portée maximale\nSillage : -1 PA",
-        "special_spell_es": "Neutral: línea de visión desactivada\nInterrupción: +1 lanzamientos por turno\nPortal: +1 de alcance máximo\nErrancia: +1 de alcance máximo\nTrascendencia: -1 de reactivación\nExilio: +2 de alcance máximo\nEstupor: +1 de alcance máximo\nEstela: -1 PA",
-        "special_spell_pt": "Neutral: linha de visão desativada\nInterrupção: +1 lançamentos por turno\nPortal: +1 de alcance máximo\nErrância: +1 de alcance máximo\nTranscendência: -1 de relançamento\nExílio: +2 de alcance máximo\nEstupor: +1 de alcance máximo\nRastro: -1 PA",
+        "special_spell_en": "Neutral: line of sight off\nInterruption: +1 cast per turn\nPortal: +1 Maximum Range\nWandering: +1 Maximum Range\nTranscendence: -1 cooldown\nExile: +2 Maximum Range\nStupor: +1 Maximum Range\nChoppy Wake: -1 AP",
+        "special_spell_fr": "Neutral : ligne de vue désactivée\nInterruption : +1 lancer par tour\nPortail : +1 Portée maximale\nErrance : +1 Portée maximale\nTranscendance : -1 de relance\nExil : +2 Portée maximale\nStupeur : +1 Portée maximale\nSillage : -1 PA",
+        "special_spell_es": "Neutral: línea de visión desactivada\nInterrupción: +1 lanzamiento por turno\nPortal: +1 de alcance máximo\nErrancia: +1 de alcance máximo\nTrascendencia: -1 de reactivación\nExilio: +2 de alcance máximo\nEstupor: +1 de alcance máximo\nEstela: -1 PA",
+        "special_spell_pt": "Neutral: linha de visão desativada\nInterrupção: +1 lançamento por turno\nPortal: +1 de alcance máximo\nErrância: +1 de alcance máximo\nTranscendência: -1 de relançamento\nExílio: +2 de alcance máximo\nEstupor: +1 de alcance máximo\nRastro: -1 PA",
         "special_spell_de": "Neutral: Sichtlinie deaktiviert\nUnterbrechung: +1 Zauber pro Runde\nPortal: +1 Maximale Reichweite\nIrrfahrt: +1 Maximale Reichweite\nTranszendenz: Abklingzeit verringert um –1\nExil: +2 Maximale Reichweite\nStupor: +1 Maximale Reichweite\nNachbeben: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17340-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17340-64.png",
@@ -139258,10 +139258,10 @@
                 ": + cast per target"
             ]
         ],
-        "special_spell_en": "Burning Stroke: -1 AP\nStalactite: +1 casts per target\nGlacier: -1 AP\nHurricane: +1 casts per target\nFlurry: -1 AP\nBreach: +1 casts per target\nStorm: -1 AP\nVolcano: +1 casts per target",
-        "special_spell_fr": "Trait Ardent : -1 PA\nStalactite : +1 lancers par cible\nGlacier : -1 PA\nOuragan : +1 lancers par cible\nRafale : -1 PA\nBrèche : +1 lancers par cible\nOrage : -1 PA\nVolcan : +1 lancers par cible",
-        "special_spell_es": "Trazo Flamígero: -1 PA\nEstalactita: +1 lanzamientos por objetivo\nGlaciar: -1 PA\nHuracán: +1 lanzamientos por objetivo\nRáfaga: -1 PA\nBrecha: +1 lanzamientos por objetivo\nTormenta: -1 PA\nVolcán: +1 lanzamientos por objetivo",
-        "special_spell_pt": "Tiro Ardente: -1 PA\nEstalactite: +1 lançamentos por alvo\nGeleira: -1 PA\nFuracão: +1 lançamentos por alvo\nRajada: -1 PA\nViolação: +1 lançamentos por alvo\nOrage: -1 PA\nVulcão: +1 lançamentos por alvo",
+        "special_spell_en": "Burning Stroke: -1 AP\nStalactite: +1 cast per target\nGlacier: -1 AP\nHurricane: +1 cast per target\nFlurry: -1 AP\nBreach: +1 cast per target\nStorm: -1 AP\nVolcano: +1 cast per target",
+        "special_spell_fr": "Trait Ardent : -1 PA\nStalactite : +1 lancer par cible\nGlacier : -1 PA\nOuragan : +1 lancer par cible\nRafale : -1 PA\nBrèche : +1 lancer par cible\nOrage : -1 PA\nVolcan : +1 lancer par cible",
+        "special_spell_es": "Trazo Flamígero: -1 PA\nEstalactita: +1 lanzamiento por objetivo\nGlaciar: -1 PA\nHuracán: +1 lanzamiento por objetivo\nRáfaga: -1 PA\nBrecha: +1 lanzamiento por objetivo\nTormenta: -1 PA\nVolcán: +1 lanzamiento por objetivo",
+        "special_spell_pt": "Tiro Ardente: -1 PA\nEstalactite: +1 lançamento por alvo\nGeleira: -1 PA\nFuracão: +1 lançamento por alvo\nRajada: -1 PA\nViolação: +1 lançamento por alvo\nOrage: -1 PA\nVulcão: +1 lançamento por alvo",
         "special_spell_de": "Feuriger Zug: –1 AP\nStalaktit: +1 Zauber pro Ziel\nGletscher: –1 AP\nOrkan: +1 Zauber pro Ziel\nRattschlag: –1 AP\nBresche: +1 Zauber pro Ziel\nGewitter: –1 AP\nVulkan: +1 Zauber pro Ziel",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11303-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11303-64.png",
@@ -148899,10 +148899,10 @@
                 ": - cooldown"
             ]
         ],
-        "special_spell_en": "Mastiff: +1 casts per target\nStripping: line of sight off\nCarcass: +1 casts per target\nBeaten: line of sight off\nBark: -1 AP\nGnaw: -1 cooldown\nCall of the Pack: -1 cooldown\nNew Moon: -1 cooldown",
-        "special_spell_fr": "Dogue : +1 lancers par cible\nDépouille : ligne de vue désactivée\nCarcasse : +1 lancers par cible\nBattue : ligne de vue désactivée\nAboiement : -1 PA\nRogne : -1 de relance\nAppel de la Meute : -1 de relance\nNouvelle Lune : -1 de relance",
-        "special_spell_es": "Dogo: +1 lanzamientos por objetivo\nRestos: línea de visión desactivada\nCarcasa: +1 lanzamientos por objetivo\nBatida: línea de visión desactivada\nLadrido: -1 PA\nEnojo: -1 de reactivación\nClamor de la Manada: -1 de reactivación\nLuna Nueva: -1 de reactivación",
-        "special_spell_pt": "Dogue: +1 lançamentos por alvo\nEsfoladura: linha de visão desativada\nCarcaça: +1 lançamentos por alvo\nCaça de Batida: linha de visão desativada\nLatido: -1 PA\nRanço: -1 de relançamento\nChamado da Matilha: -1 de relançamento\nLua Nova: -1 de relançamento",
+        "special_spell_en": "Mastiff: +1 cast per target\nStripping: line of sight off\nCarcass: +1 cast per target\nBeaten: line of sight off\nBark: -1 AP\nGnaw: -1 cooldown\nCall of the Pack: -1 cooldown\nNew Moon: -1 cooldown",
+        "special_spell_fr": "Dogue : +1 lancer par cible\nDépouille : ligne de vue désactivée\nCarcasse : +1 lancer par cible\nBattue : ligne de vue désactivée\nAboiement : -1 PA\nRogne : -1 de relance\nAppel de la Meute : -1 de relance\nNouvelle Lune : -1 de relance",
+        "special_spell_es": "Dogo: +1 lanzamiento por objetivo\nRestos: línea de visión desactivada\nCarcasa: +1 lanzamiento por objetivo\nBatida: línea de visión desactivada\nLadrido: -1 PA\nEnojo: -1 de reactivación\nClamor de la Manada: -1 de reactivación\nLuna Nueva: -1 de reactivación",
+        "special_spell_pt": "Dogue: +1 lançamento por alvo\nEsfoladura: linha de visão desativada\nCarcaça: +1 lançamento por alvo\nCaça de Batida: linha de visão desativada\nLatido: -1 PA\nRanço: -1 de relançamento\nChamado da Matilha: -1 de relançamento\nLua Nova: -1 de relançamento",
         "special_spell_de": "Dogge: +1 Zauber pro Ziel\nAbräumer: Sichtlinie deaktiviert\nKadaver: +1 Zauber pro Ziel\nTreibjagd: Sichtlinie deaktiviert\nGebell: –1 AP\nWeißglut: Abklingzeit verringert um –1\nRuf des Rudels: Abklingzeit verringert um –1\nNeumond: Abklingzeit verringert um –1",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9325-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9325-64.png",
@@ -148966,10 +148966,10 @@
                 ": + cast per target"
             ]
         ],
-        "special_spell_en": "Tally Ho: line of sight off\nBloodhound: line of sight off\nTetanisation: line of sight off\nProtective Pelt: -1 AP\nFerocity: -1 AP\nSniff: -1 AP\nDoggedness: straight-line casting off\nWoof: +1 casts per target",
-        "special_spell_fr": "Rabattage : ligne de vue désactivée\nLimier : ligne de vue désactivée\nTétanisation : ligne de vue désactivée\nPelage Protecteur : -1 PA\nFérocité : -1 PA\nFlair : -1 PA\nAcharnement : lancer en ligne désactivé\nAboi : +1 lancers par cible",
-        "special_spell_es": "Ojeo: línea de visión desactivada\nSabueso: línea de visión desactivada\nTetanización: línea de visión desactivada\nPelaje Protector: -1 PA\nFerocidad: -1 PA\nOlfacción: -1 PA\nEnsañamiento: lanzamiento en línea desactivado\nLadrar: +1 lanzamientos por objetivo",
-        "special_spell_pt": "Abatimento: linha de visão desativada\nSabujo: linha de visão desativada\nTetanização: linha de visão desativada\nPelagem Protetora: -1 PA\nFerocidade: -1 PA\nFaro: -1 PA\nCasmurrice: lançamento em linha desativado\nLadrido: +1 lançamentos por alvo",
+        "special_spell_en": "Tally Ho: line of sight off\nBloodhound: line of sight off\nTetanisation: line of sight off\nProtective Pelt: -1 AP\nFerocity: -1 AP\nSniff: -1 AP\nDoggedness: straight-line casting off\nWoof: +1 cast per target",
+        "special_spell_fr": "Rabattage : ligne de vue désactivée\nLimier : ligne de vue désactivée\nTétanisation : ligne de vue désactivée\nPelage Protecteur : -1 PA\nFérocité : -1 PA\nFlair : -1 PA\nAcharnement : lancer en ligne désactivé\nAboi : +1 lancer par cible",
+        "special_spell_es": "Ojeo: línea de visión desactivada\nSabueso: línea de visión desactivada\nTetanización: línea de visión desactivada\nPelaje Protector: -1 PA\nFerocidad: -1 PA\nOlfacción: -1 PA\nEnsañamiento: lanzamiento en línea desactivado\nLadrar: +1 lanzamiento por objetivo",
+        "special_spell_pt": "Abatimento: linha de visão desativada\nSabujo: linha de visão desativada\nTetanização: linha de visão desativada\nPelagem Protetora: -1 PA\nFerocidade: -1 PA\nFaro: -1 PA\nCasmurrice: lançamento em linha desativado\nLadrido: +1 lançamento por alvo",
         "special_spell_de": "Treiben: Sichtlinie deaktiviert\nSpürhund: Sichtlinie deaktiviert\nVerkrampfung: Sichtlinie deaktiviert\nSchützendes Fell: –1 AP\nWildheit: –1 AP\nGespür: –1 AP\nVitatox: Lineare Wirkungsweise deaktiviert\nKläffer: +1 Zauber pro Ziel",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11322-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11322-64.png",
@@ -149028,10 +149028,10 @@
                 ": + cast per turn"
             ]
         ],
-        "special_spell_en": "Tibia: +25% Critical\nHumerus: +1 Maximum Range\nAmarok: line of sight off\nCerberus: -1 AP\nConvergence: straight-line casting off\nTailing: straight-line casting off\nR-Canine: +1 casts per turn\nSnuggletooth: +1 casts per turn",
-        "special_spell_fr": "Tibia : +25% Critique\nHumérus : +1 Portée maximale\nAmarok : ligne de vue désactivée\nCerbère : -1 PA\nConvergence : lancer en ligne désactivé\nPistage : lancer en ligne désactivé\nArcanin : +1 lancers par tour\nCaninos : +1 lancers par tour",
-        "special_spell_es": "Tibia: +25% de crítico\nHúmero: +1 de alcance máximo\nAmarok: línea de visión desactivada\nCerbero: -1 PA\nConvergencia: lanzamiento en línea desactivado\nBusca: lanzamiento en línea desactivado\nArcanino: +1 lanzamientos por turno\nCaninos: +1 lanzamientos por turno",
-        "special_spell_pt": "Tíbia: +25% de crítico\nÚmero: +1 de alcance máximo\nAmarok: linha de visão desativada\nCérbero: -1 PA\nConvergência: lançamento em linha desativado\nRastreamento: lançamento em linha desativado\nArcanino: +1 lançamentos por turno\nCaninos: +1 lançamentos por turno",
+        "special_spell_en": "Tibia: +25% Critical\nHumerus: +1 Maximum Range\nAmarok: line of sight off\nCerberus: -1 AP\nConvergence: straight-line casting off\nTailing: straight-line casting off\nR-Canine: +1 cast per turn\nSnuggletooth: +1 cast per turn",
+        "special_spell_fr": "Tibia : +25% Critique\nHumérus : +1 Portée maximale\nAmarok : ligne de vue désactivée\nCerbère : -1 PA\nConvergence : lancer en ligne désactivé\nPistage : lancer en ligne désactivé\nArcanin : +1 lancer par tour\nCaninos : +1 lancer par tour",
+        "special_spell_es": "Tibia: +25% de crítico\nHúmero: +1 de alcance máximo\nAmarok: línea de visión desactivada\nCerbero: -1 PA\nConvergencia: lanzamiento en línea desactivado\nBusca: lanzamiento en línea desactivado\nArcanino: +1 lanzamiento por turno\nCaninos: +1 lanzamiento por turno",
+        "special_spell_pt": "Tíbia: +25% de crítico\nÚmero: +1 de alcance máximo\nAmarok: linha de visão desativada\nCérbero: -1 PA\nConvergência: lançamento em linha desativado\nRastreamento: lançamento em linha desativado\nArcanino: +1 lançamento por turno\nCaninos: +1 lançamento por turno",
         "special_spell_de": "Schienbein: +25 % Kritische Treffer\nHumbus: +1 Maximale Reichweite\nAmarok: Sichtlinie deaktiviert\nZerberus: –1 AP\nKonvergenz: Lineare Wirkungsweise deaktiviert\nVerfolgung: Lineare Wirkungsweise deaktiviert\nBogenhund: +1 Zauber pro Runde\nCaninos: +1 Zauber pro Runde",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17381-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17381-64.png",
@@ -149090,10 +149090,10 @@
                 ": straight-line casting off"
             ]
         ],
-        "special_spell_en": "Watchdog: +30% Critical\nJaw: line of sight off\nMarrow Bone: +1 casts per target\nMuzzle: -1 AP\nCarrion: line of sight off\nRadius: line of sight off\nTracking: straight-line casting off\nCarving Up: straight-line casting off",
-        "special_spell_fr": "Molosse : +30% Critique\nMâchoire : ligne de vue désactivée\nOs à Moelle : +1 lancers par cible\nMuselière : -1 PA\nCharogne : ligne de vue désactivée\nRadius : ligne de vue désactivée\nTraque : lancer en ligne désactivé\nDépeçage : lancer en ligne désactivé",
-        "special_spell_es": "Moloso: +30% de crítico\nMandíbula: línea de visión desactivada\nHueso con Tuétano: +1 lanzamientos por objetivo\nBozal: -1 PA\nCarroña: línea de visión desactivada\nRadio: línea de visión desactivada\nRastreo: lanzamiento en línea desactivado\nDespiece: lanzamiento en línea desactivado",
-        "special_spell_pt": "Molosso: +30% de crítico\nMandíbula: linha de visão desativada\nTutano: +1 lançamentos por alvo\nMordaça: -1 PA\nCadáver: linha de visão desativada\nRádio: linha de visão desativada\nAssédio: lançamento em linha desativado\nDesmembramento: lançamento em linha desativado",
+        "special_spell_en": "Watchdog: +30% Critical\nJaw: line of sight off\nMarrow Bone: +1 cast per target\nMuzzle: -1 AP\nCarrion: line of sight off\nRadius: line of sight off\nTracking: straight-line casting off\nCarving Up: straight-line casting off",
+        "special_spell_fr": "Molosse : +30% Critique\nMâchoire : ligne de vue désactivée\nOs à Moelle : +1 lancer par cible\nMuselière : -1 PA\nCharogne : ligne de vue désactivée\nRadius : ligne de vue désactivée\nTraque : lancer en ligne désactivé\nDépeçage : lancer en ligne désactivé",
+        "special_spell_es": "Moloso: +30% de crítico\nMandíbula: línea de visión desactivada\nHueso con Tuétano: +1 lanzamiento por objetivo\nBozal: -1 PA\nCarroña: línea de visión desactivada\nRadio: línea de visión desactivada\nRastreo: lanzamiento en línea desactivado\nDespiece: lanzamiento en línea desactivado",
+        "special_spell_pt": "Molosso: +30% de crítico\nMandíbula: linha de visão desativada\nTutano: +1 lançamento por alvo\nMordaça: -1 PA\nCadáver: linha de visão desativada\nRádio: linha de visão desativada\nAssédio: lançamento em linha desativado\nDesmembramento: lançamento em linha desativado",
         "special_spell_de": "Molosser: +30 % Kritische Treffer\nKiefer: Sichtlinie deaktiviert\nMarkknochen: +1 Zauber pro Ziel\nMaulkorb: –1 AP\nAas: Sichtlinie deaktiviert\nRadius: Sichtlinie deaktiviert\nTreibjagd: Lineare Wirkungsweise deaktiviert\nZerlegung: Lineare Wirkungsweise deaktiviert",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16514-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16514-64.png",
@@ -149152,10 +149152,10 @@
                 ": line of sight off"
             ]
         ],
-        "special_spell_en": "Vertebra: -1 AP\nUlna: line of sight off\nCalcaneus: straight-line casting off\nAppeasement: -1 AP\nAffection: -1 AP\nPanic: +1 casts per turn\nPursuit: straight-line casting off\nHunt: line of sight off",
-        "special_spell_fr": "Vertèbre : -1 PA\nCubitus : ligne de vue désactivée\nCalcanéus : lancer en ligne désactivé\nApaisement : -1 PA\nAffection : -1 PA\nPanique : +1 lancers par tour\nPoursuite : lancer en ligne désactivé\nChasse : ligne de vue désactivée",
-        "special_spell_es": "Vértebra: -1 PA\nCúbito: línea de visión desactivada\nCalcáneo: lanzamiento en línea desactivado\nAmaine: -1 PA\nAfección: -1 PA\nPánico: +1 lanzamientos por turno\nCaza: lanzamiento en línea desactivado\nCacería: línea de visión desactivada",
-        "special_spell_pt": "Vértebra: -1 PA\nCúbito: linha de visão desativada\nCalcâneo: lançamento em linha desativado\nApaziguamento: -1 PA\nAfeição: -1 PA\nPânico: +1 lançamentos por turno\nPerseguição: lançamento em linha desativado\nCaça: linha de visão desativada",
+        "special_spell_en": "Vertebra: -1 AP\nUlna: line of sight off\nCalcaneus: straight-line casting off\nAppeasement: -1 AP\nAffection: -1 AP\nPanic: +1 cast per turn\nPursuit: straight-line casting off\nHunt: line of sight off",
+        "special_spell_fr": "Vertèbre : -1 PA\nCubitus : ligne de vue désactivée\nCalcanéus : lancer en ligne désactivé\nApaisement : -1 PA\nAffection : -1 PA\nPanique : +1 lancer par tour\nPoursuite : lancer en ligne désactivé\nChasse : ligne de vue désactivée",
+        "special_spell_es": "Vértebra: -1 PA\nCúbito: línea de visión desactivada\nCalcáneo: lanzamiento en línea desactivado\nAmaine: -1 PA\nAfección: -1 PA\nPánico: +1 lanzamiento por turno\nCaza: lanzamiento en línea desactivado\nCacería: línea de visión desactivada",
+        "special_spell_pt": "Vértebra: -1 PA\nCúbito: linha de visão desativada\nCalcâneo: lançamento em linha desativado\nApaziguamento: -1 PA\nAfeição: -1 PA\nPânico: +1 lançamento por turno\nPerseguição: lançamento em linha desativado\nCaça: linha de visão desativada",
         "special_spell_de": "Wirbel: –1 AP\nElle: Sichtlinie deaktiviert\nCalcaneus: Lineare Wirkungsweise deaktiviert\nBeschwichtigung: –1 AP\nGroße Schwäche: –1 AP\nPanik: +1 Zauber pro Runde\nVerfolgung: Lineare Wirkungsweise deaktiviert\nWilde Hatz: Sichtlinie deaktiviert",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10321-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10321-64.png",
@@ -176642,10 +176642,10 @@
                 ": + cast per turn"
             ]
         ],
-        "special_spell_en": "Lance of the Lake: +3 Maximum Range\nSeismic Pike: +3 Maximum Range\nSlingshot: +2 Maximum Range\nLightning-Javelin: +2 Maximum Range\nFire Lance: modifiable Range\nBrass Rain: +2 Maximum Range\nNo Myr Javelin: +3 Maximum Range\nSpicy Mill: +1 casts per turn",
-        "special_spell_fr": "Lance du Lac : +3 Portée maximale\nÉpieu Sismique : +3 Portée maximale\nLance-pierre : +2 Portée maximale\nJavelot-foudre : +2 Portée maximale\nLance à Incendie : Portée modifiable\nPluie d'Airain : +2 Portée maximale\nJaveline de Myr : +3 Portée maximale\nMoulin Rouge : +1 lancers par tour",
-        "special_spell_es": "Lanza del Lago: +3 de alcance máximo\nChuzo Sísmico: +3 de alcance máximo\nLanzapiedras: +2 de alcance máximo\nJabalina Rayo: +2 de alcance máximo\nLanza de Incendios: alcance modificable\nLluvia Dorena: +2 de alcance máximo\nJabalina Keatina: +3 de alcance máximo\nMolino Rojo: +1 lanzamientos por turno",
-        "special_spell_pt": "Lança do Lago: +3 de alcance máximo\nDardo Sísmico: +3 de alcance máximo\nCatapulta: +2 de alcance máximo\nDardo-Relâmpago: +2 de alcance máximo\nLança Incendiária: alcance modificável\nChuva de Bronze: +2 de alcance máximo\nDardo de Tyro: +3 de alcance máximo\nMoinho Vermelho: +1 lançamentos por turno",
+        "special_spell_en": "Lance of the Lake: +3 Maximum Range\nSeismic Pike: +3 Maximum Range\nSlingshot: +2 Maximum Range\nLightning-Javelin: +2 Maximum Range\nFire Lance: modifiable Range\nBrass Rain: +2 Maximum Range\nNo Myr Javelin: +3 Maximum Range\nSpicy Mill: +1 cast per turn",
+        "special_spell_fr": "Lance du Lac : +3 Portée maximale\nÉpieu Sismique : +3 Portée maximale\nLance-pierre : +2 Portée maximale\nJavelot-foudre : +2 Portée maximale\nLance à Incendie : Portée modifiable\nPluie d'Airain : +2 Portée maximale\nJaveline de Myr : +3 Portée maximale\nMoulin Rouge : +1 lancer par tour",
+        "special_spell_es": "Lanza del Lago: +3 de alcance máximo\nChuzo Sísmico: +3 de alcance máximo\nLanzapiedras: +2 de alcance máximo\nJabalina Rayo: +2 de alcance máximo\nLanza de Incendios: alcance modificable\nLluvia Dorena: +2 de alcance máximo\nJabalina Keatina: +3 de alcance máximo\nMolino Rojo: +1 lanzamiento por turno",
+        "special_spell_pt": "Lança do Lago: +3 de alcance máximo\nDardo Sísmico: +3 de alcance máximo\nCatapulta: +2 de alcance máximo\nDardo-Relâmpago: +2 de alcance máximo\nLança Incendiária: alcance modificável\nChuva de Bronze: +2 de alcance máximo\nDardo de Tyro: +3 de alcance máximo\nMoinho Vermelho: +1 lançamento por turno",
         "special_spell_de": "Wurfspeer des Sees: +3 Maximale Reichweite\nSeismischer Speer: +3 Maximale Reichweite\nSteinschleuder: +2 Maximale Reichweite\nWurfspeer-Blitz: +2 Maximale Reichweite\nFlammender Wurfspeer: Veränderbare Reichweite\nBronzeregen: +2 Maximale Reichweite\nWurfspeer von Myr: +3 Maximale Reichweite\nRote Mühle: +1 Zauber pro Runde",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16753-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16753-64.png",
@@ -176704,10 +176704,10 @@
                 ": - AP"
             ]
         ],
-        "special_spell_en": "Balestra: -1 AP\nWindmill: -1 AP\nEarthen Weakness: +2 Maximum Range\nLunge: +1 casts per turn\nMuspel: -1 AP\nYdra: -1 AP\nNoa: modifiable Range\nElding: -1 AP",
-        "special_spell_fr": "Balestra : -1 PA\nMoulin à Vent : -1 PA\nTalon d'Argile : +2 Portée maximale\nFente : +1 lancers par tour\nMuspel : -1 PA\nYdra : -1 PA\nNoa : Portée modifiable\nElding : -1 PA",
-        "special_spell_es": "Balestra: -1 PA\nMolino de Viento: -1 PA\nTalón de Barro: +2 de alcance máximo\nPosición de Fondo: +1 lanzamientos por turno\nMuspel: -1 PA\nYdra: -1 PA\nNoa: alcance modificable\nElding: -1 PA",
-        "special_spell_pt": "Balestra: -1 PA\nMoinho de Vento: -1 PA\nCalcanhar de Argila: +2 de alcance máximo\nFresta: +1 lançamentos por turno\nMuspel: -1 PA\nYdra: -1 PA\nNoa: alcance modificável\nElding: -1 PA",
+        "special_spell_en": "Balestra: -1 AP\nWindmill: -1 AP\nEarthen Weakness: +2 Maximum Range\nLunge: +1 cast per turn\nMuspel: -1 AP\nYdra: -1 AP\nNoa: modifiable Range\nElding: -1 AP",
+        "special_spell_fr": "Balestra : -1 PA\nMoulin à Vent : -1 PA\nTalon d'Argile : +2 Portée maximale\nFente : +1 lancer par tour\nMuspel : -1 PA\nYdra : -1 PA\nNoa : Portée modifiable\nElding : -1 PA",
+        "special_spell_es": "Balestra: -1 PA\nMolino de Viento: -1 PA\nTalón de Barro: +2 de alcance máximo\nPosición de Fondo: +1 lanzamiento por turno\nMuspel: -1 PA\nYdra: -1 PA\nNoa: alcance modificable\nElding: -1 PA",
+        "special_spell_pt": "Balestra: -1 PA\nMoinho de Vento: -1 PA\nCalcanhar de Argila: +2 de alcance máximo\nFresta: +1 lançamento por turno\nMuspel: -1 PA\nYdra: -1 PA\nNoa: alcance modificável\nElding: -1 PA",
         "special_spell_de": "Balestraff: –1 AP\nWindmühle: –1 AP\nTonferse: +2 Maximale Reichweite\nSpalt: +1 Zauber pro Runde\nMuspel: –1 AP\nYdra: –1 AP\nNoa: Veränderbare Reichweite\nElding: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17567-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17567-64.png",
@@ -176766,10 +176766,10 @@
                 ": + cast per turn"
             ]
         ],
-        "special_spell_en": "Biting Trident: +3 Maximum Range\nMaelstrom: +2 Maximum Range\nBurning Estoc: +2 Maximum Range\nOctave: modifiable Range\nJormun: +1 casts per turn\nHot Iron: +2 Maximum Range\nChivalry: -1 cooldown\nRenown: +1 casts per turn",
-        "special_spell_fr": "Trident de la Mer : +3 Portée maximale\nMaelstrom : +2 Portée maximale\nEstoc Brûlant : +2 Portée maximale\nOctave : Portée modifiable\nJormun : +1 lancers par tour\nFer Rouge : +2 Portée maximale\nChevalerie : -1 de relance\nRenommée : +1 lancers par tour",
-        "special_spell_es": "Al Tridente: +3 de alcance máximo\nMaelstrom: +2 de alcance máximo\nEstocada Ardiente: +2 de alcance máximo\nOctava: alcance modificable\nJormun: +1 lanzamientos por turno\nCadena Candente: +2 de alcance máximo\nCaballería: -1 de reactivación\nRenombre: +1 lanzamientos por turno",
-        "special_spell_pt": "Tridente do Mar: +3 de alcance máximo\nMaelstrom: +2 de alcance máximo\nEstoque Ardente: +2 de alcance máximo\nOitava: alcance modificável\nJormun: +1 lançamentos por turno\nFerro Vermelho: +2 de alcance máximo\nCavalaria: -1 de relançamento\nFama: +1 lançamentos por turno",
+        "special_spell_en": "Biting Trident: +3 Maximum Range\nMaelstrom: +2 Maximum Range\nBurning Estoc: +2 Maximum Range\nOctave: modifiable Range\nJormun: +1 cast per turn\nHot Iron: +2 Maximum Range\nChivalry: -1 cooldown\nRenown: +1 cast per turn",
+        "special_spell_fr": "Trident de la Mer : +3 Portée maximale\nMaelstrom : +2 Portée maximale\nEstoc Brûlant : +2 Portée maximale\nOctave : Portée modifiable\nJormun : +1 lancer par tour\nFer Rouge : +2 Portée maximale\nChevalerie : -1 de relance\nRenommée : +1 lancer par tour",
+        "special_spell_es": "Al Tridente: +3 de alcance máximo\nMaelstrom: +2 de alcance máximo\nEstocada Ardiente: +2 de alcance máximo\nOctava: alcance modificable\nJormun: +1 lanzamiento por turno\nCadena Candente: +2 de alcance máximo\nCaballería: -1 de reactivación\nRenombre: +1 lanzamiento por turno",
+        "special_spell_pt": "Tridente do Mar: +3 de alcance máximo\nMaelstrom: +2 de alcance máximo\nEstoque Ardente: +2 de alcance máximo\nOitava: alcance modificável\nJormun: +1 lançamento por turno\nFerro Vermelho: +2 de alcance máximo\nCavalaria: -1 de relançamento\nFama: +1 lançamento por turno",
         "special_spell_de": "Dreizack des Meeres: +3 Maximale Reichweite\nMahlstrom: +2 Maximale Reichweite\nBrennender Stoßdegen: +2 Maximale Reichweite\nOktave: Veränderbare Reichweite\nJormun: +1 Zauber pro Runde\nGlühendes Eisen: +2 Maximale Reichweite\nRitterlichkeit: Abklingzeit verringert um –1\nRenommiert: +1 Zauber pro Runde",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10354-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10354-64.png",
@@ -176833,10 +176833,10 @@
                 "MP"
             ]
         ],
-        "special_spell_en": "Collapse: +2 Maximum Range\nCyclone Lancer: modifiable Range\nBrass Volley: +3 Maximum Range\nUpheaval: +1 Maximum Range\nMiddle Earth: +1 casts per turn\nDisengaging: -1 AP\nPhalanx: -1 AP\nOriflamme: -1 AP",
-        "special_spell_fr": "Effondrement : +2 Portée maximale\nLance-cyclone : Portée modifiable\nVolée d'Airain : +3 Portée maximale\nSoulèvement : +1 Portée maximale\nTerre du Milieu : +1 lancers par tour\nDégagement : -1 PA\nPhalange : -1 PA\nOriflamme : -1 PA",
-        "special_spell_es": "Colapso: +2 de alcance máximo\nLanza Ciclón: alcance modificable\nGolpiza de Bronce: +3 de alcance máximo\nSublevación: +1 de alcance máximo\nTierra Media: +1 lanzamientos por turno\nDespeje: -1 PA\nFalange: -1 PA\nOriflama: -1 PA",
-        "special_spell_pt": "Colapso: +2 de alcance máximo\nLança-Ciclone: alcance modificável\nSaraivada de Bronze: +3 de alcance máximo\nAlívio: +1 de alcance máximo\nTerra do Meio: +1 lançamentos por turno\nDesprendimento: -1 PA\nFalange: -1 PA\nOrichama: -1 PA",
+        "special_spell_en": "Collapse: +2 Maximum Range\nCyclone Lancer: modifiable Range\nBrass Volley: +3 Maximum Range\nUpheaval: +1 Maximum Range\nMiddle Earth: +1 cast per turn\nDisengaging: -1 AP\nPhalanx: -1 AP\nOriflamme: -1 AP",
+        "special_spell_fr": "Effondrement : +2 Portée maximale\nLance-cyclone : Portée modifiable\nVolée d'Airain : +3 Portée maximale\nSoulèvement : +1 Portée maximale\nTerre du Milieu : +1 lancer par tour\nDégagement : -1 PA\nPhalange : -1 PA\nOriflamme : -1 PA",
+        "special_spell_es": "Colapso: +2 de alcance máximo\nLanza Ciclón: alcance modificable\nGolpiza de Bronce: +3 de alcance máximo\nSublevación: +1 de alcance máximo\nTierra Media: +1 lanzamiento por turno\nDespeje: -1 PA\nFalange: -1 PA\nOriflama: -1 PA",
+        "special_spell_pt": "Colapso: +2 de alcance máximo\nLança-Ciclone: alcance modificável\nSaraivada de Bronze: +3 de alcance máximo\nAlívio: +1 de alcance máximo\nTerra do Meio: +1 lançamento por turno\nDesprendimento: -1 PA\nFalange: -1 PA\nOrichama: -1 PA",
         "special_spell_de": "Zusammenbruch: +2 Maximale Reichweite\nWurfspeer-Zyklon: Veränderbare Reichweite\nEinen Schwung Erz: +3 Maximale Reichweite\nErleichterung: +1 Maximale Reichweite\nErde der Mitte: +1 Zauber pro Runde\nFreiraum: –1 AP\nPhalanx: –1 AP\nOriflamme: –1 AP",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11379-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11379-64.png",
@@ -183629,11 +183629,11 @@
                 "(Pushes back cell)"
             ]
         ],
-        "special_spell_en": "{{spell,31859,1::Order of Thunder}}:\n• The bearer gains 8 Pushback Damage for 2 turns for each MP they use.\n• At the end of each turn, the bearer gives 1 MP to all allies in their line of sight for 1 turn (stackable 1 time).",
+        "special_spell_en": "{{spell,31859,1::Order of Thunder}}:\n• The bearer gains 6 Pushback Damage for 2 turns for each MP they use.\n• At the end of each turn, the bearer gives 1 MP to all allies in their line of sight for 1 turn (stackable 1 time).",
         "special_spell_fr": "{{spell,31859,1::Ordre du Tonnerre}} :\n• Le porteur gagne 6 Dommages Poussée pendant 2 tours pour chaque PM qu'il utilise.\n• À chaque fin de tour, le porteur donne 1 PM pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois).",
-        "special_spell_es": "{{spell,31859,1::Orden del Trueno}}:\n• El portador gana 8 de daños de empuje durante 2 turnos por cada PM que use.\n• Al final de cada turno, el portador da 1 PM durante 1 turno a todos los aliados en su línea de visión (acumulable 1 vez).",
-        "special_spell_pt": "{{spell,31859,1::Ordem do Trovão}}:\n• O portador ganha 8 de danos de empurrão durante 2 turnos para cada PM que ele utilizar.\n• No fim de cada turno, o portador concede 1 PM durante 1 turno a todos os aliados em sua linha de visão (acumula até 1 vez).",
-        "special_spell_de": "{{spell,31859,1::Orden des Donners}}:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 8 Schubsschaden.\n• Am Ende jeder Runde gewährt der Träger allen Verbündeten in seiner Sichtlinie 1 Runde lang 1 BP und 40 Schubsschaden (1-mal kumulierbar).",
+        "special_spell_es": "{{spell,31859,1::Orden del Trueno}}:\n• El portador gana 6 de daños de empuje durante 2 turnos por cada PM que use.\n• Al final de cada turno, el portador da 1 PM durante 1 turno a todos los aliados en su línea de visión (acumulable 1 vez).",
+        "special_spell_pt": "{{spell,31859,1::Ordem do Trovão}}:\n• O portador ganha 6 de danos de empurrão durante 2 turnos para cada PM que ele utilizar.\n• No fim de cada turno, o portador concede 1 PM durante 1 turno a todos os aliados em sua linha de visão (acumula até 1 vez).",
+        "special_spell_de": "{{spell,31859,1::Orden des Donners}}:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 6 Schubsschaden.\n• Am Ende jeder Runde gewährt der Träger allen Verbündeten in seiner Sichtlinie 1 Runde lang 1 BP und 40 Schubsschaden (1-mal kumulierbar).",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/183011-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/183011-64.png",
         "dofustouch": false,

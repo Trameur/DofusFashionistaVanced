@@ -25,6 +25,7 @@ Pipeline steps:
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
     spells/modifiers    store_spell_modifiers.py -> spell_modifiers/dofus2.json
     stats/starting      store_starting_stats.py -> starting_stats/dofus2.json
+    items/weapon-conversions store_weapon_conversions.py -> weapon_conversions/dofus2.json
     spell-icons         store_dofus2_spell_icons.py -> spells/dofus2/ (the renamed ones)
     resize              resize_images.py      -> 60x60 thumbnails
 """
@@ -239,6 +240,13 @@ def main() -> None:
             "--filter", "items.json",
             "--filter", "breeds.json",
             "--filter", "en.json",
+            "--filter", "effects.json",
+            "--filter", "spells.json",
+            "--filter", "spell_levels.json",
+            "--filter", "fr.json",
+            "--filter", "es.json",
+            "--filter", "pt.json",
+            "--filter", "de.json",
             *refetch_if_cut_short(ITEMSCRAPER / "raw" / version),
         ])
         step("items/transform", [PY, "get_equipments2.py", "--work-dir", DOFUS2_WORK_DIR,
@@ -315,6 +323,10 @@ def main() -> None:
         ])
         step("stats/starting", [
             PY, "itemscraper/store_starting_stats.py",
+            "--game-version", "dofus2", "--tag", version,
+        ])
+        step("items/weapon-conversions", [
+            PY, "itemscraper/store_weapon_conversions.py",
             "--game-version", "dofus2", "--tag", version,
         ])
         # Monster drops -> item_drops / monster_names in items_dofus2.db (encyclopedia "Dropped by").

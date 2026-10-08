@@ -229,15 +229,16 @@ def _pushes_by_spell(spells):
     return out
 
 
-def read_modern(path):
+def read_modern(path, tag=None, dump_name='transformed_spells.json'):
     """dofus3 and beta, from the transformed class-spell dump."""
     with open(path, encoding='utf-8') as handle:
         classes = json.load(handle)
     # A summon's push is on the summon's own spell
-    raw_dir = os.path.join(CURRENT_DIRECTORY, 'raw', latest_tag(os.path.join(CURRENT_DIRECTORY, 'raw')))
+    raw_root = os.path.join(CURRENT_DIRECTORY, 'raw')
+    raw_dir = os.path.join(raw_root, tag or latest_tag(raw_root))
     monsters = _monsters_by_id(raw_dir)
     every_spell = []
-    dump = os.path.join(CURRENT_DIRECTORY, 'transformed_spells.json')
+    dump = os.path.join(CURRENT_DIRECTORY, dump_name)
     if monsters and os.path.exists(dump):
         with open(dump, encoding='utf-8') as handle:
             every_spell = json.load(handle)
@@ -498,10 +499,15 @@ def read_touch():
 
 
 def build(game_version, tag=None):
-    if game_version in ('dofus3', 'beta'):
-        name = ('transformed_class_spells.json' if game_version == 'dofus3'
-                else 'transformed_class_spells_beta.json')
-        return read_modern(os.path.join(CURRENT_DIRECTORY, name))
+    if game_version == 'dofus3':
+        return read_modern(
+            os.path.join(CURRENT_DIRECTORY, 'transformed_class_spells.json'),
+            tag or fashionista_version.FASHIONISTA_VERSION)
+    if game_version == 'beta':
+        return read_modern(
+            os.path.join(CURRENT_DIRECTORY, 'transformed_class_spells_beta.json'),
+            tag or fashionista_version.FASHIONISTA_BETA_VERSION,
+            'transformed_spells_beta.json')
     if game_version == 'dofus2':
         return read_dofus2(tag or fashionista_version.FASHIONISTA_DOFUS2_VERSION)
     if game_version == 'retro':

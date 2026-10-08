@@ -146,6 +146,11 @@ def main() -> None:
                 "--dest", RETRO_RAW_DIR,
             ], cwd=ITEMSCRAPER)
 
+    step("items/weapon-conversions", [
+        PY, "itemscraper/store_weapon_conversions.py", "--game-version", "retro",
+        "--lang", args.lang,
+    ])
+
     # Set bonuses are server-side: solomonk.fr, then the Dofus Retro Tools API
     step("sets/bonuses", [
         PY, "get_retro_set_bonuses.py",

@@ -20,7 +20,6 @@ AP = 12
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
 PIERCING_SHOT = 32471
-REPRISAL = 32472
 VENDETTA = 32473
 VOLCANO = 13718
 JUMP = 13107
@@ -36,7 +35,7 @@ MUMMIFICATION = 7983
 
 # {version: {(class, spell id): (percent, stack cap, ends on the next hit)}} at level 200
 EXPECTED = {
-    'dofus3': {('Cra', PIERCING_SHOT): (115, 1, True), ('Cra', REPRISAL): (110, 1, False),
+    'dofus3': {('Cra', PIERCING_SHOT): (115, 1, True),
                ('Huppermage', VOLCANO): (104, 1, False), ('Iop', JUMP): (115, 1, False),
                ('Iop', MASSACRE): (115, 1, False), ('Osamodas', SNAKE_BITE): (104, 1, False),
                ('Ouginak', VENISON): (107, 1, False), ('Sacrier', DECIMATION): (103, 2, False),
@@ -73,6 +72,14 @@ def _castables(version, char_class):
 
 def _by_id(spells, spell_id):
     return next(spell for spell in spells if spell.spell_id == spell_id)
+
+
+def _lasting_one_stack_debuffs(version):
+    return [(char_class, spell)
+            for char_class in filter_classes_for_version(CHARACTER_CLASSES, version)
+            for spell in _castables(version, char_class)
+            if spell.taken is not None and spell.taken.stacks == 1
+            and not spell.taken.ends_on_hit]
 
 
 def _one_row_hits(spell):
@@ -132,14 +139,19 @@ class APlacedDebuffWaitsWithItsHitTests(SimpleTestCase):
 
     def test_vendetta_puts_its_debuff_on_a_trap_whose_hit_the_turn_leaves_out(self):
         from chardata.spell_buffs import get_damage_spells_for_version
-        _in(self, 'beta')
-        entry = next(entry for entry in damage_taken_for_version('beta')['Cra']
-                     if entry['spell_id'] == VENDETTA)
-        self.assertEqual(['trap'], entry['placed'])
-        vendetta = next(spell for spell in get_damage_spells_for_version('beta')['Cra']
-                        if spell.spell_id == VENDETTA)
-        self.assertEqual({'trap'}, set(vendetta.conditional.values()))
-        self.assertNotIn(VENDETTA, [spell.spell_id for spell in _castables('beta', 'Cra')])
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                _in(self, version)
+                entry = next(entry for entry in damage_taken_for_version(version)['Cra']
+                             if entry['spell_id'] == VENDETTA)
+                self.assertEqual(['trap'], entry['placed'])
+                self.assertEqual([110], entry['percent'])
+                vendetta = next(spell
+                                for spell in get_damage_spells_for_version(version)['Cra']
+                                if spell.spell_id == VENDETTA)
+                self.assertEqual({'trap'}, set(vendetta.conditional.values()))
+                self.assertNotIn(VENDETTA,
+                                 [spell.spell_id for spell in _castables(version, 'Cra')])
 
     def test_a_debuff_on_any_placed_thing_attaches_nothing(self):
         from chardata.spell_combo import _damage_taken_at
@@ -173,8 +185,16 @@ class TheDebuffRaisesTheNextHitsTests(SimpleTestCase):
         self.assertEqual([[], [(debuff, 1)]], damage_taken_by_cast(
             spells, [(debuff.name, 0.0), (probe.name, 0.0)]))
 
-    def test_reprisal_then_a_cra_hit_deals_ten_percent_more_on_dofus3(self):
-        self._then_a_hit('dofus3', 'Cra', REPRISAL, 1.10)
+    def test_every_lasting_one_stack_debuff_raises_the_next_hit_by_its_percent(self):
+        for version in ('dofus3', 'beta'):
+            _in(self, version)
+            found = _lasting_one_stack_debuffs(version)
+            self.assertEqual(7, len(found))
+            for char_class, debuff in found:
+                with self.subTest(version=version, char_class=char_class,
+                                  spell_id=debuff.spell_id):
+                    self._then_a_hit(version, char_class, debuff.spell_id,
+                                     debuff.taken.percent / 100.0)
 
     def test_piercing_shot_raises_the_next_hit_only(self):
         for version in ('dofus3', 'beta'):
@@ -356,14 +376,23 @@ class AClassWithoutADebuffTurnsAsBeforeTests(SimpleTestCase):
 
 class ThePanelNamesTheDebuffTests(SimpleTestCase):
 
-    def test_the_debuff_cast_and_the_hit_it_raises_say_it_in_ankama_words(self):
+    def test_each_debuff_cast_and_the_hit_it_raises_say_it_in_ankama_words(self):
+        from chardata.spell_reference import get_spell_reference, localized
         _in(self, 'dofus3')
-        spells = _castables('dofus3', 'Cra')
-        reprisal = _by_id(spells, REPRISAL)
-        self.assertEqual(['Dommages subis x110%'], _taken_notes(reprisal, [], 'fr', 'dofus3', {}))
-        probe = next(spell for spell in spells if spell.hits and spell.taken is None)
-        self.assertEqual(['x110% damage sustained (Reprisal)'],
-                         _taken_notes(probe, [(reprisal, 1)], 'en', 'dofus3', {}))
+        found = _lasting_one_stack_debuffs('dofus3')
+        self.assertTrue(found)
+        for char_class, debuff in found:
+            with self.subTest(char_class=char_class, spell_id=debuff.spell_id):
+                entry = next(entry for entry in get_spell_reference('dofus3')[char_class]
+                             if entry.get('id') == debuff.spell_id)
+                percent = debuff.taken.percent
+                self.assertEqual(['Dommages subis x%d%%' % percent],
+                                 _taken_notes(debuff, [], 'fr', 'dofus3', {}))
+                probe = next(spell for spell in _castables('dofus3', char_class)
+                             if spell.hits and spell.taken is None)
+                self.assertEqual(['x%d%% damage sustained (%s)'
+                                  % (percent, localized(entry, 'name', 'en'))],
+                                 _taken_notes(probe, [(debuff, 1)], 'en', 'dofus3', {}))
 
     def test_spanish_and_portuguese_get_their_own_line_and_spell_name(self):
         _in(self, 'beta')
