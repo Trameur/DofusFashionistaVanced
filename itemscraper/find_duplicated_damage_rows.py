@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
-from itemscraper.get_spells import _load_datacenter_table, _unwrap_array
+from itemscraper.get_spells import _load_datacenter_table, _unwrap_array, effect_id_of
 
 RAW_ROOT = Path("itemscraper/raw")
 DEFAULT_OUTPUT = Path("itemscraper/duplicated_damage_rows.json")
@@ -35,10 +35,10 @@ def _snapshot(directory: Path) -> Dict[int, Tuple[List[Any], Any]]:
         if not level:
             continue
         rows = [
-            (effect.get("effectId"), effect.get("diceNum"), effect.get("diceSide"),
+            (effect_id_of(effect), effect.get("diceNum"), effect.get("diceSide"),
              effect.get("targetMask"))
             for effect in _unwrap_array(level.get("effects"))
-            if effect.get("effectId") in DAMAGE_EFFECT_IDS and effect.get("diceNum")
+            if effect_id_of(effect) in DAMAGE_EFFECT_IDS and effect.get("diceNum")
         ]
         if rows:
             out[int(spell_id)] = (rows, level.get("apCost"))

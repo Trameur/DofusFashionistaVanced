@@ -102,6 +102,15 @@ def _unwrap_array(value: Any) -> List[Any]:
     return [value]
 
 
+def effect_id_of(effect: Mapping[str, Any]) -> int:
+    """EffectData id of an effect instance, filed under actionId or effectId depending on the dump."""
+    effect_id = effect.get("actionId", effect.get("effectId"))
+    if not effect_id:
+        raise ValueError(f"Effect instance of spell {effect.get('spellId')} without an effect id: "
+                         f"{', '.join(sorted(effect))}")
+    return int(effect_id)
+
+
 def _load_json(path: Path) -> Dict[str, Any]:
     with path.open("r", encoding="utf-8") as fh:
         return json.load(fh)
@@ -343,7 +352,7 @@ class SpellTransformer:
         return {k: v for k, v in block.items() if v not in (None, [])}
 
     def _convert_effect(self, effect: Mapping[str, Any]) -> Dict[str, Any]:
-        effect_id = int(effect.get("effectId", 0))
+        effect_id = effect_id_of(effect)
         converted: Dict[str, Any] = {
             "effect_uid": effect.get("effectUid"),
             "effect_id": effect_id,

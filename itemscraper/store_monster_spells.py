@@ -34,6 +34,7 @@ if CURRENT_DIR not in sys.path:
 
 from version_tags import latest_tag as _latest_tag  # noqa: E402  (sys.path set above)
 from untranslated_tag import clean_description, clean_display_name  # noqa: E402
+from get_spells import effect_id_of  # noqa: E402
 
 RAW_ROOT = os.path.join(CURRENT_DIR, 'raw')
 DB_FILES = {
@@ -161,7 +162,7 @@ def spell_description(spell, levels, effects, entries, monsters):
         for row in (level.get('effects') or {}).get('Array') or []:
             if not isinstance(row, dict):
                 continue
-            effect_id = row.get('effectId')
+            effect_id = effect_id_of(row)
             effect = effects.get(effect_id) or {}
             names = monsters if effect_id in _SUMMON_EFFECTS else None
             line = render_effect(entries.get(str(effect.get('descriptionId'))),
