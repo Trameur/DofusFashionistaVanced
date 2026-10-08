@@ -1,0 +1,48 @@
+{% load i18n l10n %}
+    <input type="hidden" name="weights_reset" id="weights_reset" value="0">
+    <p class="small-explain wm-intro">{% trans "A weight is what one point of a characteristic is worth to this build: raising it makes the Fashionista give up other characteristics for it. A minimum is a value every set must reach. Leave a minimum empty when it does not matter." %}</p>
+    <span id="wm-col-weight" hidden>{% trans "Weight" %}</span>
+    <span id="wm-col-min" hidden>{% trans "Minimum" %}</span>
+    <div class="wm-tools">
+        <button type="button" class="button-thin-foreground" id="button-reset-weights">{% trans "Reset to default" %}</button>
+    </div>
+
+    {% for section in sections %}
+    <details class="wm-section" id="section-{{ section.key }}" data-section="{{ section.key }}"{% if section.open %} open{% endif %}>
+        <summary><span class="wm-section-label">{{ section.label }}</span> <span class="wm-count"></span></summary>
+        {% if section.key == 'apmprange' and temporix_on or section.key == 'apmprange' and temporix_switch %}<p class="small-explain wm-note"{% if not temporix_on %} hidden{% endif %}>{% trans "TemporiX mode is on: no AP, MP, Range or summon limit." %}</p>{% endif %}
+        <div class="wm-head" aria-hidden="true"><span></span><span></span><span class="wm-slider-gap"></span><span>{% trans "Weight" %}</span><span>{% trans "Minimum" %}</span></div>
+        {% for row in section.rows %}{% include "chardata/weights_minimums_row.html" %}{% endfor %}
+    </details>
+    {% endfor %}
+
+    <details class="wm-section" id="section-combined" data-section="combined"{% if combined_open %} open{% endif %}>
+        <summary><span class="wm-section-label">{% trans "Combined minimums" %}</span> <span class="wm-count"></span></summary>
+        <div class="wm-head" aria-hidden="true"><span></span><span></span><span class="wm-slider-gap"></span><span></span><span>{% trans "Minimum" %}</span></div>
+        {% for adv in combined %}
+        <div class="wm-row weight-stat-line wm-no-weight" id="row-{{ adv.key }}" data-key="{{ adv.key }}">
+            <span class="wm-name wm-name-wide" id="wm-name-{{ adv.key }}"><span class="min-stat-icon-group wm-icon-group">{% for icon_url in adv.icon_urls %}<img class="min-stat-icon" src="{{ icon_url }}" alt="" loading="lazy" width="16" height="16">{% endfor %}</span> {{ adv.local_name }}</span>
+            <span class="wm-min"><input type="number" id="min_{{ adv.key }}" name="min_{{ adv.key }}" class="white-pretty-input change-modifies-state wm-input wm-min-input" step="1" min="-50000" inputmode="numeric" enterkeyhint="next" autocomplete="off" aria-labelledby="wm-name-{{ adv.key }} wm-col-min"></span>
+        </div>
+        {% endfor %}
+    </details>
+
+    {% if others %}
+    <details class="wm-section" id="section-others" data-section="others" open>
+        <summary><span class="wm-section-label">{% trans "Other saved minimums" %}</span> <span class="wm-count"></span></summary>
+        <p class="small-explain wm-note">{% trans "No item of this version gives these characteristics. Empty a box to remove its minimum." %}</p>
+        <div class="wm-head" aria-hidden="true"><span></span><span></span><span class="wm-slider-gap"></span><span></span><span>{% trans "Minimum" %}</span></div>
+        {% for other in others %}
+        <div class="wm-row weight-stat-line wm-no-weight" id="row-{{ other.key }}" data-key="{{ other.key }}">
+            {% if other.icon_url %}<img class="wm-icon min-stat-icon" src="{{ other.icon_url }}" alt="" loading="lazy" width="16" height="16">{% else %}<span class="wm-icon"></span>{% endif %}
+            <span class="wm-name" id="wm-name-{{ other.key }}">{{ other.label }}</span>
+            <span class="wm-slider-gap"></span>
+            <span class="wm-weight"></span>
+            <span class="wm-min"><input type="number" id="min_{{ other.key }}" name="min_{{ other.key }}" class="white-pretty-input change-modifies-state wm-input wm-min-input" step="1" min="-50000" inputmode="numeric" enterkeyhint="next" autocomplete="off" aria-labelledby="wm-name-{{ other.key }} wm-col-min"></span>
+        </div>
+        {% endfor %}
+    </details>
+    {% endif %}
+
+{{ wm_state|json_script:"wm-state" }}
+{{ wm_defaults|json_script:"wm-defaults" }}

@@ -83,8 +83,9 @@ def _weight_keys(game_version):
     return {key for _key, _label_text, keys in _sections(game_version) for key in keys}
 
 
-def _caps(char):
-    caps = get_stat_maximum(_version(char), temporix=char_uses_temporix(char))
+def _caps(char, classic=False):
+    caps = get_stat_maximum(_version(char),
+                            temporix=False if classic else char_uses_temporix(char))
     return {STAT_NAME_TO_KEY[name]: cap for name, cap in caps.items()
             if name in STAT_NAME_TO_KEY}
 
@@ -95,13 +96,13 @@ def _stored_minimums(char):
     return {key: value for key, value in stored.items() if _kept_minimum(key, value)}
 
 
-def edit_sections(char):
+def edit_sections(char, classic_caps=False):
     game_version = _version(char)
     unreachable = _unreachable_stats(game_version)
     derived = _damage_is_derived(unreachable)
     weight_keys = _weight_keys(game_version)
     min_keys = minimum_keys(game_version)
-    caps = _caps(char)
+    caps = _caps(char, classic_caps)
     stored = _stored_minimums(char)
     placed = {key for _key, _label_text, keys in _raw_sections() for key in keys}
     unplaced = [key for key in min_keys if key not in placed]
@@ -179,6 +180,29 @@ def other_saved_rows(char):
              'icon_url': _get_stat_icon_url(key)}
             for key in sorted(_stored_minimums(char))
             if key not in offered and key in names]
+
+
+def block_context(char, classic_caps=False):
+    from chardata.presets import default_build_weights
+    sections = edit_sections(char, classic_caps)
+    default_keys = {row['key'] for section in sections for row in section['rows']
+                    if row['weight'] and not row['aggregate']}
+    defaults = default_build_weights(char)
+    return {'sections': sections,
+            'combined': combined_rows(char),
+            'combined_open': combined_open(char),
+            'others': other_saved_rows(char),
+            'temporix_on': char_uses_temporix(char),
+            'wm_state': page_state(char),
+            'wm_defaults': {key: _shown_value(defaults.get(key, 0))
+                            for key in sorted(default_keys)}}
+
+
+def temporix_lifted_keys(game_version):
+    classic = get_stat_maximum(game_version)
+    lifted = get_stat_maximum(game_version, temporix=True)
+    return [STAT_NAME_TO_KEY[name] for name in classic
+            if name not in lifted and name in STAT_NAME_TO_KEY]
 
 
 def page_state(char):

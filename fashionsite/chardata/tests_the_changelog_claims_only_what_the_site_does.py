@@ -187,7 +187,7 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
 
     def test_weights_and_minimums_share_a_page_the_sidebar_and_set_page_open(self):
         self.assertTrue(reverse('weights_mins_post', args=[1]))
-        self.assertIn('wm-section', self._template('weights_minimums.html'))
+        self.assertIn('wm-section', self._template('weights_minimums_block.html'))
         self.assertIn("game_url 'stats' char_id", self._template('base.html'))
 
     def test_a_build_copies_between_dofus3_and_the_beta(self):
