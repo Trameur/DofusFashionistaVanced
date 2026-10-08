@@ -1908,6 +1908,48 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         self.assertIn('itemscraper/drops.json', next(line for line in output.splitlines()
                                                      if line.startswith('Files kept')))
 
+    def test_a_version_stopped_while_copying_its_files_leaves_a_later_import_alone(self):
+        path = self.scraper_file('drops.json', 'before')
+        updater.write_json(updater.REPORTS / updater.WRITTEN, {'dofus3': ['itemscraper/drops.json']})
+        original = audit.save_outputs
+        def save(destination, before, names):
+            if destination.name == 'dofus3':
+                raise OSError(28, 'No space left on device')
+            return original(destination, before, names)
+        with mock.patch.object(audit, 'save_outputs', side_effect=save):
+            report = self.outputs_run({'dofus3': {}, 'beta': {'drops.json': 'beta drops', 'beta.json': 'created'}})
+        self.assertEqual(['NOT STARTED', 'IMPORTED'], [row['status'] for row in report['versions']])
+        code, output = self.restore(report['directory'], '--versions', 'dofus3')
+        self.assertEqual(0, code, output)
+        self.assertEqual('beta drops', path.read_text(encoding='utf-8'))
+        self.assertTrue((self.root / 'itemscraper/beta.json').exists())
+
+    def test_undoing_an_imported_version_keeps_the_images_and_release_files_it_added(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta'])
+        self.image('chardata/resources/1-60-60.png')
+        path = self.scraper_file('spells.json', 'before')
+        updater.write_json(updater.REPORTS / updater.WRITTEN, {'dofus3': ['itemscraper/spells.json']})
+        failure = ("FAIL: test_each_dofus_version_can_generate_and_render_a_build (chardata.tests_update_generation."
+                   "UpdateGenerationTests.test_each_dofus_version_can_generate_and_render_a_build) (version='dofus3')")
+        def run(command, log, **kwargs):
+            result = self.succeed(command, log)
+            if '--worker' in command and updater.read_json(Path(command[-1]))['key'] == 'dofus3':
+                self.image('chardata/resources/2-60-60.png', 'green')
+                self.scraper_file('raw/3.6.12.16/items.json', 'release')
+                self.scraper_file('spells.json', 'dofus3 spells')
+                self.scraper_file('dofus3.json', 'created')
+            if log.stem == 'generation':
+                log.write_text(failure, encoding='utf-8')
+                return dict(result, exit_code=1)
+            return result
+        code, report, recap, output = self.execute(rows, ['dofus3', 'beta'], {'dofus3': True, 'beta': True},
+                                                   run, by_key)
+        self.assertEqual(['FAILED, RESTORED', 'IMPORTED'], [row['status'] for row in report['versions']])
+        self.assertTrue((audit.STATIC / 'chardata/resources/2-60-60.png').is_file())
+        self.assertTrue((self.root / 'itemscraper/raw/3.6.12.16/items.json').is_file())
+        self.assertEqual('before', path.read_text(encoding='utf-8'))
+        self.assertFalse((self.root / 'itemscraper/dofus3.json').exists())
+
     def test_a_failed_version_puts_back_the_tracked_data_files_it_changed(self):
         rows, by_key = self.versions_run(['dofus3', 'beta'])
         files = self.tracked_files()

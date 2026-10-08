@@ -1079,9 +1079,9 @@ def learn_outputs(key, names):
     write_json(REPORTS / WRITTEN, written)
 
 
-def restore_outputs(directory, key):
+def restore_outputs(directory, key, keep_added=False):
     result = audit.restore_outputs(directory / key, read_json(directory / 'images/manifest.json'),
-                                   directory / 'images')
+                                   directory / 'images', keep_added)
     learn_outputs(key, result['written'])
     return result
 
@@ -1187,7 +1187,7 @@ def restore_under_later(directory, key, shared_after):
             kept.append(name)
     unrestored += restore_label(key, backup)
     tracked_unrestored, tracked_kept = audit.restore_tracked(backup)
-    outputs = restore_outputs(directory, key)
+    outputs = restore_outputs(directory, key, keep_added=True)
     return (unrestored + tracked_unrestored + outputs['unrestored'], kept + tracked_kept + outputs['kept'],
             outputs['without_copy'])
 

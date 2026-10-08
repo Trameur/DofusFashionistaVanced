@@ -455,15 +455,15 @@ def save_outputs(destination, before, names):
 def record_outputs(destination, images, exclude, written=(), image_manifest=None, image_source=None):
     before, directories = output_inventory(images, exclude)
     record = {'images': images, 'exclude': sorted(exclude), 'before': before, 'directories': directories}
-    destination.mkdir(parents=True, exist_ok=True)
-    (destination / 'outputs.json').write_text(json.dumps(record), encoding='utf-8')
     names = copied_outputs(written)
     if images and image_manifest is not None:
         backup, prefixes = {}, image_prefixes()
         for root in image_roots():
             backup.update(scan(image_source, image_source / relative_name(root))[0])
         names.update(name for name, stat in before.items() if name.startswith(prefixes) and backup.get(name) != stat)
+    destination.mkdir(parents=True, exist_ok=True)
     save_outputs(destination, before, names)
+    (destination / 'outputs.json').write_text(json.dumps(record), encoding='utf-8')
     return record
 
 
@@ -524,7 +524,7 @@ def put_back_output(name, old, destination, saved, image_manifest, image_source)
     return True
 
 
-def restore_outputs(destination, image_manifest=None, image_source=None):
+def restore_outputs(destination, image_manifest=None, image_source=None, keep_added=False):
     result = {'unrestored': [], 'kept': [], 'without_copy': [], 'written': []}
     record = read_record(destination / 'outputs.json')
     if record is None:
@@ -534,12 +534,15 @@ def restore_outputs(destination, image_manifest=None, image_source=None):
     before = record['before']
     current, directories = output_inventory(record['images'], record['exclude'])
     result['written'] = written_outputs(before, current if after is None else after)
+    images = image_prefixes()
     for name in sorted(set(before) | set(current)):
         old, now = before.get(name), current.get(name)
         if now == old or (after is not None and after.get(name) == old):
             continue
         if after is not None and now != after.get(name):
             result['kept'].append(name)
+            continue
+        if old is None and keep_added and (name.startswith(images) or is_cached(name)):
             continue
         try:
             if not put_back_output(name, old, destination, saved, image_manifest, image_source):

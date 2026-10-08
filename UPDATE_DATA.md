@@ -88,9 +88,10 @@ numbers.
 When a version that downloads images fails, every image it changed goes back to
 what it was before that version: from this backup, or from the copy made at the
 start of the version when an earlier version of the run had already changed it.
-The images it added are deleted. The images of the versions not chosen are
-checked at the end: those that became missing or unreadable are put back from
-this backup.
+The images it added are deleted. Undoing a version already imported, when the
+build generation fails, keeps the images it added: a later version of the run
+may use them. The images of the versions not chosen are checked at the end:
+those that became missing or unreadable are put back from this backup.
 
 ## Intermediate files
 
@@ -116,7 +117,8 @@ copied: a release does not change, so a file of the same size is left as it is.
 A changed file with no copy is left as written and listed in the summary; the
 next run copies it. Undoing a successful import puts back only the files still
 as that version left them; a file changed afterwards by a later version is kept
-and listed.
+and listed. When later versions of the run stay imported, the release files it
+added stay too, like its new images.
 
 ## Checks after the imports
 
