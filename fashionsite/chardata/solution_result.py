@@ -574,7 +574,7 @@ class LightSetConditionLine:
         self.text = _('Set bonus < 2') if cap <= 1 else _('Set bonus < 3')
         self.formatting = ''
         if model_result:
-            if not model_result.check_if_set_is_light():
+            if not model_result.check_if_set_is_light(cap):
                 self.formatting = '#r'
 
 class SetsEquippedConditionLine:

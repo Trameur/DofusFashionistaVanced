@@ -1211,7 +1211,7 @@ class Model:
         # Count 2 for each bonus 3 for all item sets tested
         matrix += [(2, 'ss', '%d_%d' % (item_set.id, 3 + 1)) for item_set in self.sets_list]
         matrix.append((-N_TOTAL_SETS, 'ytrophy', 1))
-        # Light-set trophy cap: dofus3 "Set bonus < 3" allows 2, touch "Set bonus < 2" allows 1.
+        # Light-set trophy cap: "Set bonus < 3" allows 2, "Set bonus < 2" allows 1.
         light_set_caps = []
         for item in self.items_list:
             cap = item.weird_conditions['light_set']

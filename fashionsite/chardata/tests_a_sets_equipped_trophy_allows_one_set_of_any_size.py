@@ -14,6 +14,8 @@ from chardata.models import Char
 from chardata.official_site import get_item_link
 from chardata.solution import get_solution
 from chardata.tests import itemscraper_module
+from chardata.tests_a_piece_for_one_sex_or_one_name_is_worn_only_by_that_character import (
+    condition_lines)
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.modelresult import ModelResultMinimal, sets_equipped_text
@@ -78,7 +80,7 @@ class TheCriteriaAreReadByTheirCodeTests(SimpleTestCase):
 
     def test_each_version_reads_its_own_trophy_condition(self):
         expected = (('beta', MINOR_OBSTRUCTOR, 1, False),
-                    ('dofus3', MINOR_OBSTRUCTOR, None, 2),
+                    ('dofus3', MINOR_OBSTRUCTOR, 1, False),
                     ('dofus2', MINOR_OBSTRUCTOR, None, 1),
                     ('touch', TOUCH_MINOR_BLOODTHIRST, None, 1))
         for version, ankama_id, sets_equipped, light_set in expected:
@@ -88,16 +90,19 @@ class TheCriteriaAreReadByTheirCodeTests(SimpleTestCase):
                 self.assertEqual(sets_equipped, weird.get('sets_equipped'))
                 self.assertEqual(light_set, weird['light_set'])
 
-    def test_only_beta_trophies_carry_a_sets_equipped_condition(self):
-        for version in ('dofus3', 'dofus2', 'touch', 'retro'):
+    def test_only_dofus3_and_beta_trophies_carry_a_sets_equipped_condition(self):
+        for version in ('dofus2', 'touch', 'retro'):
             with self.subTest(version=version):
                 self.assertEqual([], [
                     item.id for item in get_structure(version).get_items_list()
                     if item.weird_conditions.get('sets_equipped')])
-        beta = [item for item in get_structure('beta').get_items_list()
-                if item.weird_conditions.get('sets_equipped')]
-        self.assertTrue(beta)
-        self.assertEqual([], [item.id for item in beta if 'Trophy' not in item.flags])
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                capped = [item for item in get_structure(version).get_items_list()
+                          if item.weird_conditions.get('sets_equipped')]
+                self.assertTrue(capped)
+                self.assertEqual([], [item.id for item in capped
+                                      if 'Trophy' not in item.flags])
 
 
 class _Solves(SimpleTestCase):
@@ -118,65 +123,79 @@ class _Solves(SimpleTestCase):
         return model
 
 
-class TheBetaSolverCountsEquippedSetsTests(_Solves):
+class TheDofus3AndBetaSolversCountEquippedSetsTests(_Solves):
 
     def test_a_capped_trophy_and_the_full_crimson_dawn_relics_are_solved(self):
-        structure = get_structure('beta')
-        locked = dict(_pieces(structure, CRIMSON_DAWN),
-                      dofus1=_trophy(structure).id)
-        self.assertEqual(6, len(locked) - 1)
-        model = self._solve('beta', locked)
-        self.assertIn('ysets_1', model.problem.pulp_vars)
-        self.assertEqual('Optimal', model.get_solved_status())
-        worn = model.get_result_minimal().item_per_slot
-        for slot, item_id in locked.items():
-            with self.subTest(slot=slot):
-                self.assertEqual(item_id, worn[slot])
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                structure = get_structure(version)
+                locked = dict(_pieces(structure, CRIMSON_DAWN),
+                              dofus1=_trophy(structure).id)
+                self.assertEqual(6, len(locked) - 1)
+                model = self._solve(version, locked)
+                self.assertIn('ysets_1', model.problem.pulp_vars)
+                self.assertEqual('Optimal', model.get_solved_status())
+                worn = model.get_result_minimal().item_per_slot
+                for slot, item_id in locked.items():
+                    with self.subTest(slot=slot):
+                        self.assertEqual(item_id, worn[slot])
 
     def test_a_capped_trophy_and_two_sets_of_two_pieces_are_refused(self):
-        structure = get_structure('beta')
-        locked = dict(_pieces(structure, KWISMAS, PINK),
-                      dofus1=_trophy(structure).id)
-        self.assertEqual(4, len(locked) - 1)
-        self.assertEqual('Infeasible',
-                         self._solve('beta', locked).get_solved_status())
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                structure = get_structure(version)
+                locked = dict(_pieces(structure, KWISMAS, PINK),
+                              dofus1=_trophy(structure).id)
+                self.assertEqual(4, len(locked) - 1)
+                self.assertEqual('Infeasible',
+                                 self._solve(version, locked).get_solved_status())
 
     def test_a_capped_trophy_one_set_and_a_lone_piece_of_another_are_solved(self):
-        structure = get_structure('beta')
-        locked = dict(_pieces(structure, KWISMAS),
-                      belt=_pieces(structure, PINK)['belt'],
-                      dofus1=_trophy(structure).id)
-        model = self._solve('beta', locked)
-        self.assertEqual('Optimal', model.get_solved_status())
-        worn = model.get_result_minimal().item_per_slot
-        for slot, item_id in locked.items():
-            with self.subTest(slot=slot):
-                self.assertEqual(item_id, worn[slot])
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                structure = get_structure(version)
+                locked = dict(_pieces(structure, KWISMAS),
+                              belt=_pieces(structure, PINK)['belt'],
+                              dofus1=_trophy(structure).id)
+                model = self._solve(version, locked)
+                self.assertEqual('Optimal', model.get_solved_status())
+                worn = model.get_result_minimal().item_per_slot
+                for slot, item_id in locked.items():
+                    with self.subTest(slot=slot):
+                        self.assertEqual(item_id, worn[slot])
 
     def test_the_same_two_sets_without_the_trophy_are_solved(self):
-        structure = get_structure('beta')
-        locked = _pieces(structure, KWISMAS, PINK)
-        self.assertEqual('Optimal',
-                         self._solve('beta', locked).get_solved_status())
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                locked = _pieces(get_structure(version), KWISMAS, PINK)
+                self.assertEqual('Optimal',
+                                 self._solve(version, locked).get_solved_status())
 
 
-class TheDofus3SolverStillCountsSetBonusesTests(_Solves):
+class TheDofus2SolverStillCountsSetBonusesTests(_Solves):
 
-    def test_a_capped_trophy_and_two_sets_of_two_pieces_are_solved(self):
-        structure = get_structure('dofus3')
-        locked = dict(_pieces(structure, KWISMAS, PINK),
-                      dofus1=_trophy(structure).id)
-        model = self._solve('dofus3', locked)
+    def test_a_capped_trophy_and_one_set_of_two_pieces_are_solved(self):
+        structure = get_structure('dofus2')
+        locked = dict(_pieces(structure, KWISMAS), dofus1=_trophy(structure).id)
+        model = self._solve('dofus2', locked)
         self.assertNotIn('ysets_1', model.problem.pulp_vars)
         self.assertEqual('Optimal', model.get_solved_status())
 
+    def test_a_capped_trophy_and_three_pieces_of_one_set_are_refused(self):
+        structure = get_structure('dofus2')
+        crimson = _pieces(structure, CRIMSON_DAWN)
+        locked = {slot: crimson[slot] for slot in ('ring1', 'amulet', 'hat')}
+        locked['dofus1'] = _trophy(structure).id
+        self.assertEqual('Infeasible',
+                         self._solve('dofus2', locked).get_solved_status())
+
     def test_a_capped_trophy_and_four_pieces_of_one_set_are_refused(self):
-        structure = get_structure('dofus3')
+        structure = get_structure('dofus2')
         crimson = _pieces(structure, CRIMSON_DAWN)
         locked = {slot: crimson[slot] for slot in ('ring1', 'ring2', 'amulet', 'hat')}
         locked['dofus1'] = _trophy(structure).id
         self.assertEqual('Infeasible',
-                         self._solve('dofus3', locked).get_solved_status())
+                         self._solve('dofus2', locked).get_solved_status())
 
 
 class _StoredBuilds(TestCase):
@@ -217,7 +236,11 @@ class _StoredBuilds(TestCase):
 class TheResultCheckReadsTheRuleTests(_StoredBuilds):
 
     def _trophy_violations(self, version, *set_ids):
-        char = self._char(version, *set_ids)
+        return self._trophy_violations_wearing(
+            version, _pieces(get_structure(version), *set_ids))
+
+    def _trophy_violations_wearing(self, version, slots):
+        char = self._char_wearing(version, slots)
         set_current_game_version(version)
         solution = get_solution(char)
         trophy = next(item for item in solution.item_list
@@ -227,25 +250,42 @@ class TheResultCheckReadsTheRuleTests(_StoredBuilds):
                 for violation in solution.get_violations_on_item(trophy)]
 
     def test_one_full_set_is_no_violation(self):
-        self.assertEqual([], self._trophy_violations('beta', CRIMSON_DAWN))
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                self.assertEqual([], self._trophy_violations(version, CRIMSON_DAWN))
 
-    def test_two_sets_of_two_pieces_violate_the_beta_trophy(self):
-        self.assertEqual(['Number of sets equipped < 2'],
-                         self._trophy_violations('beta', KWISMAS, PINK))
+    def test_two_sets_of_two_pieces_violate_the_dofus3_and_beta_trophy(self):
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                self.assertEqual(['Number of sets equipped < 2'],
+                                 self._trophy_violations(version, KWISMAS, PINK))
 
-    def test_the_same_two_sets_do_not_violate_the_dofus3_trophy(self):
-        self.assertEqual([], self._trophy_violations('dofus3', KWISMAS, PINK))
+    def test_a_set_of_two_pieces_keeps_the_dofus2_trophy_and_the_full_crimson_dawn_breaks_it(self):
+        self.assertEqual([], self._trophy_violations('dofus2', KWISMAS))
+        self.assertEqual(['Set bonus < 2'],
+                         self._trophy_violations('dofus2', CRIMSON_DAWN))
+
+    def test_two_sets_of_two_pieces_violate_the_dofus2_trophy_on_its_set_bonus_line(self):
+        self.assertEqual(['Set bonus < 2'],
+                         self._trophy_violations('dofus2', KWISMAS, PINK))
+
+    def test_three_pieces_of_one_set_violate_the_dofus2_trophy_on_its_set_bonus_line(self):
+        crimson = _pieces(get_structure('dofus2'), CRIMSON_DAWN)
+        self.assertEqual(['Set bonus < 2'], self._trophy_violations_wearing(
+            'dofus2', {slot: crimson[slot] for slot in ('ring1', 'amulet', 'hat')}))
 
     def test_one_set_and_a_lone_piece_of_another_is_no_violation(self):
-        structure = get_structure('beta')
-        char = self._char_wearing('beta', dict(
-            _pieces(structure, KWISMAS), belt=_pieces(structure, PINK)['belt']))
-        set_current_game_version('beta')
-        solution = get_solution(char)
-        trophy = next(item for item in solution.item_list
-                      if getattr(item, 'item_added', False)
-                      and item.id == _trophy(structure).id)
-        self.assertEqual([], solution.get_violations_on_item(trophy))
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                structure = get_structure(version)
+                char = self._char_wearing(version, dict(
+                    _pieces(structure, KWISMAS), belt=_pieces(structure, PINK)['belt']))
+                set_current_game_version(version)
+                solution = get_solution(char)
+                trophy = next(item for item in solution.item_list
+                              if getattr(item, 'item_added', False)
+                              and item.id == _trophy(structure).id)
+                self.assertEqual([], solution.get_violations_on_item(trophy))
 
 
 class TheWholeBuildCheckReadsTheRuleTests(_StoredBuilds):
@@ -263,16 +303,19 @@ class TheWholeBuildCheckReadsTheRuleTests(_StoredBuilds):
         return ([violation.stat_name for violation in before],
                 [violation.stat_name for violation in after])
 
-    def test_a_second_set_swapped_into_a_beta_build_breaks_the_trophy(self):
-        before, after = self._labels_after_adding_the_pink_slippers('beta')
-        self.assertNotIn(LABELS['en'], before)
-        self.assertIn(LABELS['en'], after)
+    def test_a_second_set_swapped_into_a_dofus3_or_beta_build_breaks_the_trophy(self):
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                before, after = self._labels_after_adding_the_pink_slippers(version)
+                self.assertNotIn(LABELS['en'], before)
+                self.assertIn(LABELS['en'], after)
 
-    def test_the_same_swap_keeps_the_dofus3_trophy(self):
-        before, after = self._labels_after_adding_the_pink_slippers('dofus3')
+    def test_the_same_swap_breaks_the_dofus2_trophy_on_its_set_bonus_line(self):
+        before, after = self._labels_after_adding_the_pink_slippers('dofus2')
+        self.assertNotIn('Set bonus < 2', before)
+        self.assertIn('Set bonus < 2', after)
         for labels in (before, after):
             self.assertNotIn(LABELS['en'], labels)
-            self.assertNotIn('Set bonus < 3', labels)
 
 
 class ThePagesPrintTheGameLabelTests(_StoredBuilds):
@@ -282,29 +325,43 @@ class ThePagesPrintTheGameLabelTests(_StoredBuilds):
             with self.subTest(language=language), translation.override(language):
                 self.assertEqual(label, sets_equipped_text(1))
 
-    def test_the_beta_item_page_prints_the_new_line_in_every_language(self):
+    def test_the_dofus3_and_beta_item_pages_print_the_new_line_in_every_language(self):
         self.client.logout()
-        structure = get_structure('beta')
-        trophy = _trophy(structure)
-        for language, label in LABELS.items():
-            with self.subTest(language=language), translation.override(language):
-                url = get_item_link(trophy.ankama_type, trophy.ankama_id,
-                                    structure.get_item_name_in_language(trophy, language),
-                                    'beta')
-                page = self._page(url, language)
-                self.assertIn(label, page)
+        for version in ('dofus3', 'beta'):
+            structure = get_structure(version)
+            trophy = _trophy(structure)
+            for language, label in LABELS.items():
+                with self.subTest(version=version, language=language), \
+                        translation.override(language):
+                    url = get_item_link(trophy.ankama_type, trophy.ankama_id,
+                                        structure.get_item_name_in_language(trophy, language),
+                                        version)
+                    page = self._page(url, language)
+                    self.assertIn(label, page)
 
-    def test_the_dofus3_item_page_keeps_the_set_bonus_line(self):
-        page = self._page('/encyclopedia/item/equipment/%d-x/' % MINOR_OBSTRUCTOR)
-        self.assertIn('Set bonus < 3', page)
+    def test_the_dofus2_item_page_keeps_the_set_bonus_line(self):
+        page = self._page('/dofus2/encyclopedia/item/equipment/%d-x/' % MINOR_OBSTRUCTOR)
+        self.assertIn('Set bonus < 2', page)
         self.assertNotIn(LABELS['en'], page)
 
-    def test_the_beta_solution_page_prints_the_new_line(self):
-        page = self._page('/beta/solution/%d/' % self._char('beta', CRIMSON_DAWN).id)
-        self.assertIn(LABELS['en'], page)
-        self.assertNotIn('Set bonus <', page)
+    def test_the_dofus3_and_beta_solution_pages_print_the_new_line(self):
+        for version, prefix in (('dofus3', ''), ('beta', '/beta')):
+            with self.subTest(version=version):
+                page = self._page('%s/solution/%d/' % (
+                    prefix, self._char(version, CRIMSON_DAWN).id))
+                self.assertIn(LABELS['en'], page)
+                self.assertNotIn('Set bonus <', page)
 
-    def test_the_dofus3_solution_page_keeps_the_set_bonus_line(self):
-        page = self._page('/solution/%d/' % self._char('dofus3', CRIMSON_DAWN).id)
-        self.assertIn('Set bonus < 3', page)
+    def test_the_dofus2_solution_page_keeps_the_set_bonus_line(self):
+        page = self._page('/dofus2/solution/%d/' % self._char('dofus2', CRIMSON_DAWN).id)
+        self.assertIn('Set bonus < 2', page)
         self.assertNotIn(LABELS['en'], page)
+
+    def test_the_dofus2_solution_page_paints_the_set_bonus_line_red_past_one_bonus(self):
+        self.client.cookies['django_language'] = 'en'
+        for set_ids, red in (((KWISMAS,), False), ((KWISMAS, PINK), True)):
+            with self.subTest(sets=set_ids):
+                page = self.client.get('/dofus2/solution/%d/' % self._char(
+                    'dofus2', *set_ids).id, follow=True)
+                self.assertEqual(200, page.status_code)
+                self.assertIn(('Set bonus < 2', red), condition_lines(page))

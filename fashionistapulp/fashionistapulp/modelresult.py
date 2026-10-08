@@ -573,13 +573,12 @@ class ModelResult():
     def _get_weird_violations(self):
         violations = []
 
-        is_set_light = self.check_if_set_is_light()
-        if not is_set_light:
-            for item in self.item_list:
-                if item.item_added:  
-                    if item.weird_conditions['light_set']:
-                        cap = item.weird_conditions['light_set']
-                        cap = 2 if cap is True else cap
+        for item in self.item_list:
+            if item.item_added:
+                if item.weird_conditions['light_set']:
+                    cap = item.weird_conditions['light_set']
+                    cap = 2 if cap is True else cap
+                    if not self.check_if_set_is_light(cap):
                         violation = Violation()
                         violation.item_name = item.localized_name
                         violation.stat_name = (_("Set bonus < 2") if cap <= 1
@@ -631,11 +630,10 @@ class ModelResult():
 #             violations.append(violation)
 #         return violations
     
-    def check_if_set_is_light(self):
-        is_set_light = (len(self.sets) == 0 or
-                        (len(self.sets) == 1 and self.sets[0].number_of_items <= 3) or
-                        (len(self.sets) == 2 and self.sets[0].number_of_items <= 2 and self.sets[1].number_of_items <= 2))
-        return is_set_light
+    def check_if_set_is_light(self, cap=2):
+        if any(item_set.number_of_items > 3 for item_set in self.sets):
+            return False
+        return sum(item_set.number_of_items - 1 for item_set in self.sets) <= cap
     
     def check_sets_equipped(self, cap):
         """Whether at most cap sets have two pieces or more worn."""
@@ -673,9 +671,9 @@ class ModelResult():
         for vio in self._check_items_stat_conditions(item):
             violations.append(vio)
         if item.weird_conditions['light_set']:
-            if not self.check_if_set_is_light():
-                cap = item.weird_conditions['light_set']
-                cap = 2 if cap is True else cap
+            cap = item.weird_conditions['light_set']
+            cap = 2 if cap is True else cap
+            if not self.check_if_set_is_light(cap):
                 violation = Violation()
                 violation.item_name = item.localized_name
                 violation.stat_name = (_("Set bonus < 2") if cap <= 1
