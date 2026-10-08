@@ -7,9 +7,10 @@ from unittest import mock
 from django.test import SimpleTestCase
 
 import chardata.spell_combo as spell_combo
-from chardata.spell_combo import castable_spells, get_damage_spells_for_version
+from chardata.spell_combo import (HpShare, best_turn, castable_spells,
+                                  get_damage_spells_for_version)
 from chardata.version_compat import filter_classes_for_version
-from fashionistapulp.dofus_constants import CHARACTER_CLASSES
+from fashionistapulp.dofus_constants import CHARACTER_CLASSES, NEUTRAL
 from fashionistapulp.structure import get_structure, set_current_game_version
 
 
@@ -40,6 +41,24 @@ def _classes(version):
     known = set(get_damage_spells_for_version(version))
     return [char_class for char_class in filter_classes_for_version(CHARACTER_CLASSES, version)
             if char_class in known]
+
+
+class _Cast(object):
+    is_spell = True
+    spell_id = None
+    taken = None
+    limit = None
+    stacks = 1
+
+    def __init__(self, name, cost, share=None, hp=0):
+        self.name = name
+        self.cost = cost
+        self.alternatives = [[HpShare(NEUTRAL, share)]] if share else []
+        self.buffs = ['hp'] if hp else []
+        self.hp = hp
+
+    def buff_deltas(self, count):
+        return {'hp': self.hp * min(count, self.stacks)} if self.hp else {}
 
 
 class TheTurnSearchStaysSmallTests(SimpleTestCase):
@@ -106,3 +125,31 @@ class TheBoundGivesTheFullSearchAnswerTests(SimpleTestCase):
                                  game_version='dofus3', caster_level=200)
         self.assertEqual(0, calls['bounded'])
         self.assertGreater(calls['search'], 0)
+
+    def test_a_stack_standing_below_zero_counts_casts_past_its_cap(self):
+        for ap, strikes in ((5, 2), (7, 3)):
+            with self.subTest(ap=ap):
+                turn = best_turn({'hp': 1000},
+                                 [_Cast('Rise', 1, hp=1500), _Cast('Strike', 2, share='10')],
+                                 ap, standing={'Rise': -2}, game_version='dofus3')
+                self.assertEqual((550.0 * strikes, [('Rise', 0.0)] + [('Strike', 550.0)] * strikes),
+                                 turn)
+
+    def test_a_fractional_debuff_stack_count_gives_the_whole_counts_turn(self):
+        set_current_game_version('dofus3')
+        stats = _stats('dofus3')
+        spells = castable_spells('Cra', 200, 'dofus3')
+        fractional = []
+        for spell in spells:
+            if spell.taken is not None:
+                spell = copy.copy(spell)
+                spell.taken = copy.copy(spell.taken)
+                spell.taken.stacks = float(spell.taken.cap())
+            fractional.append(spell)
+        self.assertNotEqual(spells, fractional)
+        for ap in (6, 9):
+            with self.subTest(ap=ap):
+                self.assertEqual(
+                    repr(best_turn(stats, spells, ap, game_version='dofus3', caster_level=200)),
+                    repr(best_turn(stats, fractional, ap, game_version='dofus3',
+                                   caster_level=200)))

@@ -1155,6 +1155,13 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
     capped = tuple((index, spells[index].taken.cap()) for index in lasting)
     affordable = {}
     best = {}
+    try:
+        folding = all(0 <= standing.get(spell.name, 0) for spell in spells)
+    except TypeError:
+        folding = False
+
+    def fold(counts):
+        return tuple(min(count, cap) for count, cap in zip(counts, caps))
 
     def candidates_at(ap_left):
         found = affordable.get(ap_left)
@@ -1176,7 +1183,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         return gained
 
     def search(ap_left, counts, depth, pending):
-        key = (ap_left, counts, pending)
+        key = (ap_left, counts if folding else fold(counts), pending)
         found = best.get(key)
         if found is not None:
             return found
@@ -1197,8 +1204,10 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                         signature = signature_of(counts, pending)
                     gained = gain_of(index, counts, pending, signature)
                 count = counts[index]
-                after = (counts[:index] + ((count + 1) if count < caps[index] else count,)
-                         + counts[index + 1:])
+                if folding and count >= caps[index]:
+                    after = counts
+                else:
+                    after = counts[:index] + (count + 1,) + counts[index + 1:]
                 total, order = search(ap_left - costs[index], after, depth + 1,
                                       pending_after(index, pending))
                 total += gained
@@ -1228,9 +1237,13 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             return max(0, most)
 
         tracked = sorted(set(buff_indexes) | set(lasting))
-        tracked_ranges = [range(min(casts_of(index), caps[index]) + 1) for index in tracked]
-        pending_ranges = [range(min(spells[index].taken.cap(), casts_of(index)) + 1)
-                          for index in ending]
+        try:
+            tracked_ranges = [range(min(casts_of(index), caps[index]) + 1)
+                              for index in tracked]
+            pending_ranges = [range(min(spells[index].taken.cap(), casts_of(index)) + 1)
+                              for index in ending]
+        except TypeError:
+            return None
         scoring = [index for index in range(len(spells)) if not scoreless[index]]
         counted = sorted(set(tracked) | set(ending))
         seeds = []
