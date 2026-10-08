@@ -19,8 +19,10 @@
 """Best order of casts in one turn: one target, no positioning."""
 
 import copy
+import itertools
 import math
 import re
+from operator import itemgetter
 
 from fashionistapulp.dofus_constants import (AIR, EARTH, FIRE, NEUTRAL,
                                              NON_ELEMENTAL_HIT_TYPES, WATER,
@@ -35,6 +37,8 @@ from chardata.spell_modifiers import (base_damage_bonus, bonus_stats,
 from chardata.spell_variants import variant_of
 
 MAX_CASTS = 8
+CEILING_SCORES = 4096
+CEILING_MARGIN = 1 + 1e-9
 
 # Retro spells that can only hit a summon, with the words of their description
 ONLY_HITS_A_SUMMON = {
@@ -982,6 +986,33 @@ def damage_taken_by_cast(spells, order):
     return out
 
 
+class _Unbounded(Exception):
+    pass
+
+
+def _whole(value):
+    try:
+        return value == int(value)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+
+def _most_casts(costs, limits, ap):
+    if (not _whole(ap) or not all(_whole(cost) and cost > 0 for cost in costs)
+            or not all(limit is None or _whole(limit) for limit in limits)):
+        return None
+    left = int(ap)
+    casts = 0
+    for cost, limit in sorted(zip(costs, limits), key=itemgetter(0)):
+        cost = int(cost)
+        cast = left // cost
+        if limit:
+            cast = max(0, min(cast, int(limit)))
+        casts += cast
+        left -= cast * cost
+    return casts
+
+
 def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
               pushback=False, caster_level=0):
     """(total, [(spell name, damage), ...]) for the best order fitting the AP."""
@@ -1006,22 +1037,6 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
                            spells[index], stats, game_version)))
                for index in lasting + ending}
     scores = {}
-
-    def damage_of(spell, counts, pending):
-        if not spell.alternatives and not (pushback
-                                           and getattr(spell, 'push_cells', 0)):
-            return 0.0
-        key = (spell.name,
-               tuple(min(counts[index], spells[index].stacks)
-                     for index in buff_indexes),
-               tuple(min(counts[index], spells[index].taken.cap())
-                     for index in lasting),
-               pending)
-        if key in scores:
-            return scores[key]
-        value = _damage_of(spell, counts, pending)
-        scores[key] = value
-        return value
 
     def taken_factors(counts, pending):
         """(factor on every hit now, factor on the first one) of the debuffs standing."""
@@ -1121,38 +1136,198 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
             return plain + pushed
         return plain * (1 - odds) + critical * odds + pushed
 
-    best = {}
     # Counts past a spell's stack cap and cast limit change nothing: fold them
-    caps =tuple(max(spell.stacks or 1, spell.limit or 0, 1,
+    caps = tuple(max(spell.stacks or 1, spell.limit or 0, 1,
                      spell.taken.cap() if index in lasting else 0)
                  for index, spell in enumerate(spells))
+    names = tuple(spell.name for spell in spells)
+    costs = tuple(spell.cost for spell in spells)
+    limits = tuple(spell.limit for spell in spells)
+    blockers = tuple(partners.get(index, ()) for index in range(len(spells)))
+    scoreless = tuple(not spell.alternatives
+                      and not (pushback and getattr(spell, 'push_cells', 0))
+                      for spell in spells)
+    stacked = tuple((index, spells[index].stacks) for index in buff_indexes)
+    capped = tuple((index, spells[index].taken.cap()) for index in lasting)
+    affordable = {}
+    best = {}
 
-    def fold(counts):
-        return tuple(min(count, cap) for count, cap in zip(counts, caps))
+    def candidates_at(ap_left):
+        found = affordable.get(ap_left)
+        if found is None:
+            found = affordable[ap_left] = tuple(
+                index for index, cost in enumerate(costs) if cost <= ap_left)
+        return found
+
+    def signature_of(counts, pending):
+        return (tuple(min(counts[other], cap) for other, cap in stacked),
+                tuple(min(counts[other], cap) for other, cap in capped),
+                pending)
+
+    def gain_of(index, counts, pending, signature):
+        key = (names[index], signature)
+        gained = scores.get(key)
+        if gained is None:
+            gained = scores[key] = _damage_of(spells[index], counts, pending)
+        return gained
 
     def search(ap_left, counts, depth, pending):
-        key = (ap_left, fold(counts), pending)
-        if key in best:
-            return best[key]
+        key = (ap_left, counts, pending)
+        found = best.get(key)
+        if found is not None:
+            return found
         outcome = (0.0, ())
         if depth < MAX_CASTS:
-            for index, spell in enumerate(spells):
-                if spell.cost > ap_left:
+            signature = None
+            for index in candidates_at(ap_left):
+                limit = limits[index]
+                if limit and counts[index] >= limit:
                     continue
-                if spell.limit and counts[index] >= spell.limit:
+                blocked = blockers[index]
+                if blocked and any(counts[other] for other in blocked):
                     continue
-                if any(counts[other] for other in partners.get(index, ())):
-                    continue
-                gained = damage_of(spell, counts, pending)
-                after = list(counts)
-                after[index] += 1
-                total, order = search(ap_left - spell.cost, tuple(after),
-                                      depth + 1, pending_after(index, pending))
+                if scoreless[index]:
+                    gained = 0.0
+                else:
+                    if signature is None:
+                        signature = signature_of(counts, pending)
+                    gained = gain_of(index, counts, pending, signature)
+                count = counts[index]
+                after = (counts[:index] + ((count + 1) if count < caps[index] else count,)
+                         + counts[index + 1:])
+                total, order = search(ap_left - costs[index], after, depth + 1,
+                                      pending_after(index, pending))
                 total += gained
                 if total > outcome[0]:
                     outcome = (total, ((index, gained),) + order)
         best[key] = outcome
         return outcome
 
-    total, order = search(ap, (0,) * len(spells), 0, (0,) * len(ending))
+    def ceilings():
+        most_casts = _most_casts(costs, limits, ap)
+        if (most_casts is None or most_casts > MAX_CASTS
+                or len(set(names)) < len(names)):
+            return None
+        try:
+            if (any(type(spell) not in (Castable, WeaponCastable) or not 1 <= spell.stacks
+                    or not 0 <= standing.get(spell.name, 0) for spell in spells)
+                    or any(not 1 <= spells[index].taken.cap() for index in lasting)):
+                return None
+        except TypeError:
+            return None
+        room = int(ap)
+
+        def casts_of(index):
+            most = room // int(costs[index])
+            if limits[index]:
+                most = min(most, int(limits[index]))
+            return max(0, most)
+
+        tracked = sorted(set(buff_indexes) | set(lasting))
+        tracked_ranges = [range(min(casts_of(index), caps[index]) + 1) for index in tracked]
+        pending_ranges = [range(min(spells[index].taken.cap(), casts_of(index)) + 1)
+                          for index in ending]
+        scoring = [index for index in range(len(spells)) if not scoreless[index]]
+        counted = sorted(set(tracked) | set(ending))
+        seeds = []
+        calls = 0
+        for combo in itertools.product(*tracked_ranges):
+            counts = [0] * len(spells)
+            for index, count in zip(tracked, combo):
+                counts[index] = count
+            counts = tuple(counts)
+            for pending in itertools.product(*pending_ranges):
+                cast = list(counts)
+                for index, stacks in zip(ending, pending):
+                    cast[index] = max(cast[index], stacks)
+                if any(cast[index] and any(cast[other] for other in blockers[index])
+                       for index in counted):
+                    continue
+                spent = sum(cast[index] * int(costs[index]) for index in counted)
+                fitting = [index for index in scoring if spent + int(costs[index]) <= room]
+                if not fitting:
+                    continue
+                seeds.append((counts, pending, fitting))
+                calls += len(fitting)
+                if calls > CEILING_SCORES:
+                    return None
+        most = [0.0] * len(spells)
+        rows = {}
+        try:
+            for counts, pending, fitting in seeds:
+                signature = signature_of(counts, pending)
+                row = rows.setdefault(signature, [None] * len(spells))
+                for index in fitting:
+                    gained = row[index] = gain_of(index, counts, pending, signature)
+                    if not 0.0 <= gained < float('inf'):
+                        raise ValueError(gained)
+                    most[index] = max(most[index], gained)
+        except Exception:
+            scores.clear()
+            return None
+        bound = [0.0] * (room + 1)
+        for index in scoring:
+            cost = int(costs[index])
+            for _copy in range(casts_of(index)):
+                for left in range(room, cost - 1, -1):
+                    bound[left] = max(bound[left], bound[left - cost] + most[index])
+        return dict(enumerate(bound)), rows
+
+    ceilings_and_rows = ceilings()
+
+    def bounded(ap_left, counts, pending):
+        key = (ap_left, counts, pending)
+        found = best.get(key)
+        if found is not None:
+            return found
+        row = None
+        options = []
+        for index in candidates_at(ap_left):
+            limit = limits[index]
+            if limit and counts[index] >= limit:
+                continue
+            blocked = blockers[index]
+            if blocked and any(counts[other] for other in blocked):
+                continue
+            if scoreless[index]:
+                gained = 0.0
+            else:
+                if row is None:
+                    row = rows.get(signature_of(counts, pending))
+                    if row is None:
+                        raise _Unbounded()
+                gained = row[index]
+                if gained is None:
+                    raise _Unbounded()
+            left = ap_left - costs[index]
+            options.append(((gained + ceiling[left]) * CEILING_MARGIN, index, gained, left))
+        options.sort(key=itemgetter(0), reverse=True)
+        top = 0.0
+        chosen = None
+        for hope, index, gained, left in options:
+            if hope < top:
+                break
+            count = counts[index]
+            after = (counts[:index] + ((count + 1) if count < caps[index] else count,)
+                     + counts[index + 1:])
+            total, order = bounded(left, after, pending_after(index, pending))
+            total += gained
+            if total > top or (total == top and chosen is not None and index < chosen[0]):
+                top = total
+                chosen = (index, gained, order)
+        outcome = ((top, ((chosen[0], chosen[1]),) + chosen[2]) if chosen is not None
+                   else (0.0, ()))
+        best[key] = outcome
+        return outcome
+
+    total = None
+    if ceilings_and_rows is not None:
+        ceiling, rows = ceilings_and_rows
+        try:
+            total, order = bounded(ap, (0,) * len(spells), (0,) * len(ending))
+        except _Unbounded:
+            best.clear()
+            total = None
+    if total is None:
+        total, order = search(ap, (0,) * len(spells), 0, (0,) * len(ending))
     return total, [(spells[index].name, gained) for index, gained in order]
