@@ -9322,6 +9322,54 @@ msgstr "Exo %(stat)s"
 msgid "On Dofus Retro, every forgeable piece can take one exo, so the build page marks the piece where the optimizer counted each one. Move it to a cheaper piece if you like: any forgeable piece works."
 msgstr "No Dofus Retro, cada peça forjamagificável pode receber um exo, então a página do build marca a peça onde o otimizador contou cada um. Mude para uma peça mais barata se quiser: qualquer peça forjamagificável serve."
 
+#: chardata/weapon_forge_text.py
+#, python-format
+msgid "%(item)s: %(element)s, %(rate)d%%"
+msgstr "%(item)s: %(element)s, %(rate)d%%"
+
+#: chardata/weapon_forge_text.py
+#, python-format
+msgid "%(item)s: %(element)s, %(rate)d%% (assumed, the game does not publish this rate)"
+msgstr "%(item)s: %(element)s, %(rate)d%% (suposto, o jogo não publica esta taxa)"
+
+#: chardata/weapon_forge_text.py
+#, python-format
+msgid "%(item)s (%(element)s, %(rate)d%%)"
+msgstr "%(item)s (%(element)s, %(rate)d%%)"
+
+#: chardata/weapon_forge_text.py
+msgid "Smithmagic Potion"
+msgstr "Poção de forjamagia"
+
+#: chardata/weapon_forge_text.py
+msgid "Smithmagic Engraving"
+msgstr "Gravura de forjamagia"
+
+#: chardata/weapon_forge_text.py
+msgid "Smithmagic Shard"
+msgstr "Fragmento de Forjamagia"
+
+#: chardata/weapon_forge_text.py
+msgid "Auto: best element for this build"
+msgstr "Auto: melhor elemento para este build"
+
+#: chardata/weapon_forge_text.py
+#, python-format
+msgid "The game does not publish this rate: the site assumes %(rate)d%%."
+msgstr "O jogo não publica esta taxa: o site supõe %(rate)d%%."
+
+#: chardata/templates/chardata/solution_item.html
+msgid "Weapon element"
+msgstr "Elemento da arma"
+
+#: chardata/templates/chardata/text_build.html
+msgid "Weapon element read from the link:"
+msgstr "Elemento da arma lido do link:"
+
+#: chardata/templates/chardata/dofusbook_export.html
+msgid "Their link format has no room for the weapon element, so set it on DofusBook by hand:"
+msgstr "O formato de link deles não tem espaço para o elemento da arma, então ajuste-o à mão no DofusBook:"
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este jogo não tem exos: eles ficam de fora."
 

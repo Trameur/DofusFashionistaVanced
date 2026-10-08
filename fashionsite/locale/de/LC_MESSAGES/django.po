@@ -9325,6 +9325,54 @@ msgstr "Exo %(stat)s"
 msgid "On Dofus Retro, every forgeable piece can take one exo, so the build page marks the piece where the optimizer counted each one. Move it to a cheaper piece if you like: any forgeable piece works."
 msgstr "In Dofus Retro kann jedes schmiedemagische Teil ein Exo bekommen, deshalb markiert die Build-Seite das Teil, auf dem der Optimierer jedes gezählt hat. Verschieb es ruhig auf ein günstigeres Teil: Jedes schmiedemagische Teil geht."
 
+#: chardata/weapon_forge_text.py
+#, python-format
+msgid "%(item)s: %(element)s, %(rate)d%%"
+msgstr "%(item)s: %(element)s, %(rate)d%%"
+
+#: chardata/weapon_forge_text.py
+#, python-format
+msgid "%(item)s: %(element)s, %(rate)d%% (assumed, the game does not publish this rate)"
+msgstr "%(item)s: %(element)s, %(rate)d%% (angenommen, das Spiel veröffentlicht diesen Satz nicht)"
+
+#: chardata/weapon_forge_text.py
+#, python-format
+msgid "%(item)s (%(element)s, %(rate)d%%)"
+msgstr "%(item)s (%(element)s, %(rate)d%%)"
+
+#: chardata/weapon_forge_text.py
+msgid "Smithmagic Potion"
+msgstr "Trank der Schmiedmagie"
+
+#: chardata/weapon_forge_text.py
+msgid "Smithmagic Engraving"
+msgstr "Schmiedmagier-Gravur"
+
+#: chardata/weapon_forge_text.py
+msgid "Smithmagic Shard"
+msgstr "Schmiedmagie-Splitter"
+
+#: chardata/weapon_forge_text.py
+msgid "Auto: best element for this build"
+msgstr "Auto: bestes Element für diesen Build"
+
+#: chardata/weapon_forge_text.py
+#, python-format
+msgid "The game does not publish this rate: the site assumes %(rate)d%%."
+msgstr "Das Spiel veröffentlicht diesen Satz nicht: Die Seite nimmt %(rate)d%% an."
+
+#: chardata/templates/chardata/solution_item.html
+msgid "Weapon element"
+msgstr "Element der Waffe"
+
+#: chardata/templates/chardata/text_build.html
+msgid "Weapon element read from the link:"
+msgstr "Element der Waffe aus dem Link gelesen:"
+
+#: chardata/templates/chardata/dofusbook_export.html
+msgid "Their link format has no room for the weapon element, so set it on DofusBook by hand:"
+msgstr "Ihr Linkformat hat keinen Platz für das Element der Waffe, stell es also auf DofusBook von Hand ein:"
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Dieses Spiel hat keine Exos: Sie bleiben außen vor."
 
