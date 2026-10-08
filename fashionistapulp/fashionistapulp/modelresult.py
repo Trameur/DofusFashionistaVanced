@@ -729,6 +729,7 @@ class ModelResultItem():
     steal_element = None
     heal_element = None
     forge_key = ()
+    forge_explicit = False
 
     def __init__(self, item, stat_overrides=None):
         # Legacy pickles can be missing the newer weapon fields.
@@ -871,6 +872,7 @@ class ModelResultItem():
         chosen = weapon_forge.choose(version, getattr(self, 'ankama_id', None),
                                      self.forge_base, char_stats, forge_choice)
         self.conversions = chosen
+        self.forge_explicit = bool(forge_choice)
         self.forge_key = tuple(sorted(chosen.items()))
         self.steal_element = chosen.get('steal', (None,))[0]
         self.heal_element = chosen.get('heal', (None,))[0]

@@ -68,7 +68,7 @@ def _worn_items(solution):
 def _weapon_by_hand(solution, game_version):
     for item in _worn_items(solution).get('Weapon', []):
         conversions = getattr(item, 'conversions', None)
-        if not conversions:
+        if not conversions or not getattr(item, 'forge_explicit', False):
             continue
         codes = dofusbook_export.weapon_codes(game_version, conversions)
         lines = []

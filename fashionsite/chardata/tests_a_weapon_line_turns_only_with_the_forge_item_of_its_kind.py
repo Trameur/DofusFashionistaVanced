@@ -323,23 +323,34 @@ class TheItemPickerRatesTheBuildsOwnRowsTests(SimpleTestCase):
                            _get_weapon_rate(sacrier, None, result))
 
 
-class TheWeaponCardNamesOnlyTheConversionsItAppliesTests(SimpleTestCase):
+class TheWeaponCardNamesOnlyWhatTheBuildChoseTests(SimpleTestCase):
 
-    def test_auto_names_the_engraving_and_the_shard_and_neutral_names_none(self):
-        _result, auto = _worn(self, 'beta', _MALLEFISK_WAND, Intelligence=500)
-        _result, neutral = _worn(self, 'beta', _MALLEFISK_WAND,
-                                 {'steal': None, 'heal': None}, Intelligence=500)
-        self.assertEqual((FIRE, NEUTRAL), (auto.steal_element, neutral.steal_element))
+    def test_an_empty_choice_shows_the_card_it_always_showed(self):
+        for version, ankama_id, base in (('beta', _MALLEFISK_WAND, {'Intelligence': 500}),
+                                         ('dofus3', _HIDSAD_BOW, {'Agility': 500}),
+                                         ('retro', 88, {'Agility': 500})):
+            _result, auto = _worn(self, version, ankama_id, None, **base)
+            _result, neutral = _worn(self, version, ankama_id,
+                                     {'damage': None, 'steal': None, 'heal': None}, **base)
+            with translation.override('en'):
+                evolve_result_item(auto)
+                evolve_result_item(neutral)
+            with self.subTest(version=version):
+                self.assertEqual(neutral.damage_text, auto.damage_text)
+
+    def test_an_explicit_choice_names_the_engraving_and_the_shard(self):
+        _result, weapon = _worn(self, 'beta', _MALLEFISK_WAND,
+                                {'steal': (FIRE, 'strong'), 'heal': None}, Intelligence=500)
+        _result, other = _worn(self, 'beta', _MALLEFISK_WAND,
+                               {'steal': None, 'heal': None}, Intelligence=500)
         with translation.override('en'):
-            evolve_result_item(auto)
-            evolve_result_item(neutral)
-        for kind in ('steal', 'heal'):
-            name = escape(weapon_forge.item_name('beta', kind, FIRE, 'strong', 'en'))
-            with self.subTest(kind=kind):
-                self.assertIn(name, auto.damage_text)
-                self.assertNotIn(name, neutral.damage_text)
-        self.assertEqual(auto.damage_text.split('<br>')[0],
-                         neutral.damage_text.split('<br>')[0])
+            evolve_result_item(weapon)
+            evolve_result_item(other)
+        steal = escape(weapon_forge.item_name('beta', 'steal', FIRE, 'strong', 'en'))
+        heal = escape(weapon_forge.item_name('beta', 'heal', FIRE, 'strong', 'en'))
+        self.assertIn(steal, weapon.damage_text)
+        self.assertNotIn(heal, weapon.damage_text)
+        self.assertNotIn(steal, other.damage_text)
 
 
 class EachChoiceKeepsItsOwnTurnGainsTests(SimpleTestCase):

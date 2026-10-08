@@ -98,8 +98,10 @@ class EachConversionHasItsLineThenTheRowsTests(SimpleTestCase):
                         self.assertNotIn(escape(_name(version, kind, element, tier, 'en')),
                                          weapon.damage_text)
 
-    def test_an_auto_build_names_the_conversion_it_computes_with(self):
-        weapon = _worn(self, 'beta', _MALLEFISK_WAND, Intelligence=500)
+    def test_an_explicit_build_names_the_conversion_it_computes_with(self):
+        weapon = _worn(self, 'beta', _MALLEFISK_WAND,
+                       {'steal': (FIRE, 'strong'), 'heal': (FIRE, 'strong')},
+                       Intelligence=500)
         lines = _card(weapon)
         for kind in ('steal', 'heal'):
             with self.subTest(kind=kind):
@@ -189,8 +191,15 @@ class TheSpellsPageNamesTheStealAndHealTests(SimpleTestCase):
         self.assertEqual(['%s: Water, 10%%' % _name('dofus3', 'heal', WATER, 'weak', 'en')],
                          digest['item_notes'])
 
-    def test_a_staff_that_steals_and_heals_names_both(self):
+    def test_an_auto_build_adds_no_note(self):
         weapon = _worn(self, 'beta', _MALLEFISK_WAND, Intelligence=500)
+        with translation.override('en'):
+            self.assertEqual([], _create_weapon_web_digest(weapon)['item_notes'])
+
+    def test_a_staff_that_steals_and_heals_names_both(self):
+        weapon = _worn(self, 'beta', _MALLEFISK_WAND,
+                       {'steal': (FIRE, 'strong'), 'heal': (FIRE, 'strong')},
+                       Intelligence=500)
         with translation.override('en'):
             digest = _create_weapon_web_digest(weapon)
         self.assertEqual(['%s: Fire, 100%%' % _name('beta', kind, FIRE, 'strong', 'en')

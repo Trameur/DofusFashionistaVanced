@@ -309,9 +309,9 @@ def _create_weapon_web_digest(weapon):
         web_digest['type'] = 'weapon_non_mageable'
     web_digest['name'] = weapon.localized_name
     web_digest['level'] = weapon.level
-    web_digest['item_notes'] = conversion_lines(
+    web_digest['item_notes'] = (conversion_lines(
         get_current_game_version(), getattr(weapon, 'conversions', None),
-        kinds=('steal', 'heal'))
+        kinds=('steal', 'heal')) if getattr(weapon, 'forge_explicit', False) else [])
     web_digest['image_url'] = static(get_image_url(weapon.type, weapon.name))
     # Same fields as a spell's reference
     web_digest['reference'] = {

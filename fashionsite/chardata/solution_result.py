@@ -476,7 +476,8 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
             damage_lines.append(header)
         version = get_current_game_version()
         conversions = getattr(result_item, 'conversions', None)
-        forge_lines = conversion_lines(version, conversions)
+        forge_lines = (conversion_lines(version, conversions)
+                       if getattr(result_item, 'forge_explicit', False) else [])
         damage_lines.extend(escape(line) for line in forge_lines)
         if forge_lines:
             shown = result_item.non_crit_hits[result_item.element_maged
