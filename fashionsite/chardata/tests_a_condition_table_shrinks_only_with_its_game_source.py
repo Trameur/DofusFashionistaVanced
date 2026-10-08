@@ -57,6 +57,15 @@ class AConditionTableShrinksOnlyWithItsGameSourceTests(TestCase):
                 self.assertIn(CLASS_ERROR, result['errors'])
                 self.assertFalse(any('Ankama source' in warning for warning in result['warnings']))
 
+    def test_rows_lost_past_the_pieces_the_source_lost_and_the_tolerance_are_an_error(self):
+        result = audit.compare(*pair(112, 95, 87, 73, table='item_weird_conditions'))
+        self.assertEqual([], result['errors'])
+        for rows in (94, 91):
+            with self.subTest(rows=rows):
+                result = audit.compare(*pair(112, rows, 87, 73, table='item_weird_conditions'))
+                self.assertIn('item_weird_conditions: lost more than 3%% or table deleted (112 -> %d)' % rows,
+                              result['errors'])
+
     def test_a_deleted_condition_table_stays_an_error_even_when_its_source_emptied(self):
         before, after = pair(4, 0, 4, 0)
         del after['tables']['item_class_conditions']

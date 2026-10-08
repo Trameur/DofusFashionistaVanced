@@ -632,6 +632,8 @@ def compare(before, after):
             result['changes'].append('%s: %d -> %d rows (%+d)' % (table, old, new, new - old))
         shrink = source_shrink(before, after, table) if table in after['tables'] else None
         explained = bool(shrink) and old > 0 and (old - new) / old <= (shrink[1] - shrink[2]) / shrink[1] + LOSS_TOLERANCE
+        if explained and table in CRITERIA_TABLES:
+            explained = old - new <= shrink[1] - shrink[2] + old * LOSS_TOLERANCE
         if table in before['tables'] and (table not in after['tables'] or (old and new < old * (1 - LOSS_TOLERANCE))):
             if explained:
                 result['warnings'].append('%s: %d -> %d rows, the Ankama source %s shrank too (%d -> %d)'
