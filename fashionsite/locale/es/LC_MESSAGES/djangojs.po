@@ -396,9 +396,8 @@ msgid "Select"
 msgstr "Seleccionar"
 
 #: .\chardata\static\chardata\solution_popup.js:646
-msgid "The average damage/AP of this weapon while %(element)s maged would be"
-msgstr ""
-"El promedio de daño/PA de esta arma forjamagueada a %(element)s sería de"
+msgid "The average damage/AP of this weapon with %(item)s (%(element)s) would be"
+msgstr "El promedio de daño/PA de esta arma con %(item)s (%(element)s) sería de"
 
 #: .\chardata\static\chardata\solution_popup.js:652
 msgid "The average damage/AP of this weapon would be"

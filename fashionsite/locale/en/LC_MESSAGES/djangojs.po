@@ -395,7 +395,7 @@ msgstr ""
 
 #: chardata/static/chardata/solution_popup.js:515
 #: staticfiles/chardata/solution_popup.js:515
-msgid "The average damage/AP of this weapon while %(element)s maged would be"
+msgid "The average damage/AP of this weapon with %(item)s (%(element)s) would be"
 msgstr ""
 
 #: chardata/static/chardata/solution_popup.js:521

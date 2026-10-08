@@ -697,11 +697,12 @@ function populateItems(items, violations, char_id, searchTerm, slot, differences
 
 function createWeaponHitDescription(weaponInfo, item){
     string = '';
-    if (weaponInfo[item.id].is_mageable && weaponInfo[item.id].element != 'neut'){
-        var ele = weaponInfo[item.id].element;
-        transRatingString = gettext("The average damage/AP of this weapon while %(element)s maged would be");
+    if (weaponInfo[item.id].is_mageable && weaponInfo[item.id].element_key != 'neut'
+        && weaponInfo[item.id].forge_item){
+        transRatingString = gettext("The average damage/AP of this weapon with %(item)s (%(element)s) would be");
         d = {
-            element: ele
+            item: weaponInfo[item.id].forge_item,
+            element: weaponInfo[item.id].element
         };
         string += interpolate(transRatingString, d, true);
     } else {

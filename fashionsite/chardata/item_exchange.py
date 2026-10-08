@@ -42,12 +42,14 @@ from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,
     get_picker_cache_key, remove_cache_for_char, safe_int
 from fashionistapulp.dofus_constants import STAT_ORDER, SLOT_NAME_TO_TYPE, calculate_damage,\
     DAMAGE_TYPES, NEUTRAL, ELEMENT_KEY_TO_NAME, slots_for
+from fashionistapulp import weapon_forge
 from fashionistapulp.modelresult import ModelResultItem
 from fashionistapulp.structure import (fits_the_class, fits_the_level,
                                        fits_the_wearer, get_structure)
 from fashionistapulp.temporix import as_worn, temporix_only_item_ids
 from fashionistapulp.translation import get_supported_language
 from chardata.temporix_mode import solution_uses_temporix
+from django.utils.html import escape
 from django.utils.translation import gettext as _
 
 
@@ -630,7 +632,13 @@ def _get_weapon_info(weapon, char, stat_overrides=None):
     element, hits, crit_hits = _swung(result_item, weapon_obj, result, new_stats)
 
     weapon_info['is_mageable'] = result_item.is_mageable
+    weapon_info['element_key'] = element
     weapon_info['element'] = _(ELEMENT_KEY_TO_NAME[element])
+    damage = (getattr(result_item, 'conversions', None) or {}).get('damage')
+    forge_item = (weapon_forge.item_name(structure.game_version, 'damage', damage[0],
+                                         damage[1], get_supported_language())
+                  if damage and damage[0] == element else None)
+    weapon_info['forge_item'] = escape(forge_item) if forge_item else None
         
     calculated_damage = {}
     for elementnew in DAMAGE_TYPES:
