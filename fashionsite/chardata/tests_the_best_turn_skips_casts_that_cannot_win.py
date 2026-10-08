@@ -7,8 +7,7 @@ from unittest import mock
 from django.test import SimpleTestCase
 
 import chardata.spell_combo as spell_combo
-from chardata.spell_combo import (best_turn, castable_spells,
-                                  get_damage_spells_for_version)
+from chardata.spell_combo import castable_spells, get_damage_spells_for_version
 from chardata.version_compat import filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.structure import get_structure, set_current_game_version
@@ -22,7 +21,7 @@ def _stats(version):
 
 
 def _searched(*args, **kwargs):
-    """(turn, {search function: calls}) of one best_turn."""
+    """(turn, {search function: calls}) of one uncached best_turn."""
     calls = {'search': 0, 'bounded': 0}
 
     def counted(frame, event, _arg):
@@ -31,7 +30,7 @@ def _searched(*args, **kwargs):
 
     sys.setprofile(counted)
     try:
-        turn = best_turn(*args, **kwargs)
+        turn = spell_combo._search_best_turn(*args, **kwargs)
     finally:
         sys.setprofile(None)
     return turn, calls
@@ -65,7 +64,7 @@ class TheBoundGivesTheFullSearchAnswerTests(SimpleTestCase):
     def _both(self, *args, **kwargs):
         turn, calls = _searched(*args, **kwargs)
         with mock.patch.object(spell_combo, 'CEILING_SCORES', 0):
-            full = best_turn(*args, **kwargs)
+            full = spell_combo._search_best_turn(*args, **kwargs)
         self.assertEqual(repr(full), repr(turn))
         return calls['bounded'] > 0
 

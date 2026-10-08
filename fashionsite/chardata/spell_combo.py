@@ -19,21 +19,26 @@
 """Best order of casts in one turn: one target, no positioning."""
 
 import copy
+import hashlib
 import itertools
 import math
 import re
 from operator import itemgetter
 
+from django.conf import settings
+from django.core.cache import cache
+
 from fashionistapulp.dofus_constants import (AIR, EARTH, FIRE, NEUTRAL,
                                              NON_ELEMENTAL_HIT_TYPES, WATER,
                                              Effects, Spell, calculate_damage,
                                              get_stat_maximum)
+from fashionistapulp.structure import get_current_game_version
 
 from chardata.pushback import pushback_damage
 from chardata.spell_buffs import (_buff_value, _decide_spell_level,
                                   get_damage_spells_for_version)
-from chardata.spell_modifiers import (base_damage_bonus, bonus_stats,
-                                      modified_cast, raised_row)
+from chardata.spell_modifiers import (SpellModifier, base_damage_bonus,
+                                      bonus_stats, modified_cast, raised_row)
 from chardata.spell_variants import variant_of
 
 MAX_CASTS = 8
@@ -1013,9 +1018,8 @@ def _most_casts(costs, limits, ap):
     return casts
 
 
-def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
-              pushback=False, caster_level=0):
-    """(total, [(spell name, damage), ...]) for the best order fitting the AP."""
+def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
+                      pushback=False, caster_level=0):
     stats = dict(stats)
     # Ticked buffs are already in stats: a recast adds only the difference
     standing = standing or {}
@@ -1331,3 +1335,133 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
     if total is None:
         total, order = search(ap, (0,) * len(spells), 0, (0,) * len(ending))
     return total, [(spells[index].name, gained) for index, gained in order]
+
+
+BEST_TURN_CACHE_SECONDS = 6 * 60 * 60
+_PLAIN_TYPES = (type(None), bool, int, float, str)
+_DAMAGE_ROW_MODULES = ('dofus_constants', 'dofus_constants_beta', 'dofus_constants_dofus2')
+
+
+class _Unkeyed(Exception):
+    pass
+
+
+def _keyed_class(kind):
+    if kind in (DamageTaken, HpShare, SpellModifier):
+        return True
+    return (kind.__qualname__ in ('BaseDamage', 'DamageDigest')
+            and kind.__module__.rsplit('.', 1)[-1] in _DAMAGE_ROW_MODULES)
+
+
+class _TurnKey(object):
+
+    def __init__(self):
+        self.parts = []
+        self.places = {}
+        self.kept = []
+
+    def _place(self, value):
+        place = self.places.get(id(value))
+        if place is not None:
+            self.parts.append(('place', place))
+            return False
+        self.places[id(value)] = len(self.kept)
+        self.kept.append(value)
+        return True
+
+    def add(self, value):
+        kind = type(value)
+        if kind in _PLAIN_TYPES:
+            self.parts.append((kind.__name__, value))
+        elif not self._place(value):
+            return
+        elif kind is list or kind is tuple:
+            self.parts.append((kind.__name__, len(value)))
+            for item in value:
+                self.add(item)
+        elif kind is dict:
+            self.parts.append(('dict', len(value)))
+            for name, item in value.items():
+                self.add(name)
+                self.add(item)
+        elif kind is set or kind is frozenset:
+            if any(type(item) not in _PLAIN_TYPES for item in value):
+                raise _Unkeyed(kind)
+            self.parts.append((kind.__name__, sorted(repr((type(item).__name__, item))
+                                                     for item in value)))
+        elif _keyed_class(kind):
+            self._fields(value, vars(value))
+        else:
+            raise _Unkeyed(kind)
+
+    def _fields(self, value, fields):
+        self.parts.append(('object', type(value).__module__, type(value).__qualname__,
+                           len(fields)))
+        for name, item in fields.items():
+            self.add(name)
+            self.add(item)
+
+    def add_castable(self, castable):
+        kind = type(castable)
+        if kind is not Castable and kind is not WeaponCastable:
+            raise _Unkeyed(kind)
+        if not self._place(castable):
+            return
+        fields = dict(vars(castable))
+        fields.pop('late_by_effect', None)
+        if kind is Castable:
+            fields['spell'] = castable.spell.buff_scaling
+        else:
+            fields.pop('weapon', None)
+        self._fields(castable, fields)
+
+    def add_late(self, castable):
+        late = vars(castable).get('late_by_effect')
+        if late is None:
+            self.parts.append(('late', None))
+            return
+        if type(late) is not dict:
+            raise _Unkeyed(type(late))
+        self.parts.append(('late', len(late)))
+        for found, when in late.items():
+            self.parts.append(('at', self.places.get(found, -1)))
+            self.add(when)
+
+
+def _turn_key(stats, spells, ap, crit, standing, game_version, pushback, caster_level):
+    kept = [spell for spell in spells if spell.cost and spell.cost <= ap]
+    key = _TurnKey()
+    key.parts.append(('best_turn', 1))
+    for value in (game_version, get_current_game_version(),
+                  getattr(settings, 'SITE_VERSIONS', {}).get(game_version, ''),
+                  ap, crit, pushback, caster_level, standing, dict(stats)):
+        key.add(value)
+    key.add(sorted((index, sorted(others))
+                   for index, others in _variant_partners(kept, game_version).items()))
+    key.add(len(kept))
+    for castable in kept:
+        key.add_castable(castable)
+    for castable in kept:
+        key.add_late(castable)
+    return 'best_turn:' + hashlib.sha256(repr(key.parts).encode('utf-8')).hexdigest()
+
+
+def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
+              pushback=False, caster_level=0):
+    """(total, [(spell name, damage), ...]) for the best order fitting the AP."""
+    key = None
+    if type(spells) in (list, tuple) and type(stats) is dict:
+        try:
+            key = _turn_key(stats, spells, ap, crit, standing, game_version, pushback,
+                            caster_level)
+        except Exception:
+            key = None
+    if key is not None:
+        found = cache.get(key)
+        if found is not None:
+            return found
+    turn = _search_best_turn(stats, spells, ap, crit, standing, game_version, pushback,
+                             caster_level)
+    if key is not None:
+        cache.set(key, turn, BEST_TURN_CACHE_SECONDS)
+    return turn
