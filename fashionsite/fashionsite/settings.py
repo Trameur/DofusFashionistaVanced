@@ -376,7 +376,12 @@ CACHES = {
         # The shared-build meta alone can ask for more than that in one
         # request, so the six hour TTL was recomputing constantly.
         'OPTIONS': {'MAX_ENTRIES': 5000},
-    }
+    },
+    'best_turn': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'fashionista-best-turn',
+        'OPTIONS': {'MAX_ENTRIES': 5000},
+    },
 }
 
 

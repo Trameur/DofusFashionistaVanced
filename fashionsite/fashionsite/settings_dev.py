@@ -349,7 +349,12 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'fashionista-cache',
-    }
+    },
+    'best_turn': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'fashionista-best-turn',
+        'OPTIONS': {'MAX_ENTRIES': 5000},
+    },
 }
 
 

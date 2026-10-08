@@ -5,8 +5,8 @@ from types import SimpleNamespace
 from unittest import mock
 
 from django.conf import settings
-from django.core.cache import cache
-from django.test import SimpleTestCase, override_settings
+from django.core.cache import cache, caches
+from django.test import SimpleTestCase, TestCase, override_settings
 
 import chardata.spell_combo as spell_combo
 from chardata.spell_combo import (WeaponCastable, best_turn, castable_spells,
@@ -50,8 +50,8 @@ class TheTurnCacheTests(SimpleTestCase):
 
     def setUp(self):
         set_current_game_version('dofus3')
-        cache.clear()
-        self.addCleanup(cache.clear)
+        caches['best_turn'].clear()
+        self.addCleanup(caches['best_turn'].clear)
         self.stats = _stats('dofus3')
         self.spells = castable_spells('Cra', 200, 'dofus3') + [_weapon()]
 
@@ -116,6 +116,17 @@ class TheTurnCacheTests(SimpleTestCase):
                 self.assertEqual(1, self._turn(**kwargs)[1])
                 self.assertEqual(0, self._turn(**kwargs)[1])
 
+    def test_a_turn_is_kept_apart_from_the_page_cache(self):
+        self._turn()
+        key = spell_combo._turn_key(self.stats, self.spells, 9, False, None, 'dofus3', False,
+                                    200)
+        self.assertIsNotNone(caches['best_turn'].get(key))
+        self.assertIsNone(cache.get(key))
+
+    def test_the_turn_cache_never_outlives_the_process(self):
+        self.assertEqual('django.core.cache.backends.locmem.LocMemCache',
+                         settings.CACHES['best_turn']['BACKEND'])
+
     def test_a_variant_pair_change_searches_again(self):
         self._turn()
         with mock.patch('chardata.spell_combo.variant_of', return_value=None):
@@ -162,3 +173,38 @@ class TheTurnCacheTests(SimpleTestCase):
                                                   caster_level=200)
         self.assertEqual({'buff_scaling'}, read)
         self.assertEqual(set(), weapon_read)
+
+
+class AWornBuildTests(TestCase):
+
+    def test_a_worn_build_turn_is_searched_once(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from chardata.solution import get_solution
+        from chardata.spell_modifiers import item_spell_modifiers, worn_spell_modifiers
+        from chardata.spells_view import _best_combo, _weapon_castable
+        self.client.force_login(User.objects.create_user('author', 'a@x.test', 'pw'))
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        cra_spells = {spell.spell_id for spell in castable_spells('Cra', 200, 'dofus3')}
+        names = []
+        for type_name in ('Weapon', 'Hat', 'Cloak', 'Belt', 'Boots', 'Amulet'):
+            items = [item for item in structure.types[200][type_name]
+                     if not item.removed and item.ankama_id]
+            item = next((item for item in items
+                         if any(spell_id in cra_spells for spell_id, _kind, _amount
+                                in item_spell_modifiers('dofus3', item.ankama_id))), items[0])
+            names.append(structure.get_item_name_in_language(item, 'en'))
+        self.client.post('/import/text/', {'text': '\n'.join(names), 'confirm': '1',
+                                           'char_class': 'Cra', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        searches = []
+        for _view in range(2):
+            solution = get_solution(char)
+            self.assertTrue(worn_spell_modifiers(solution, 'dofus3'))
+            self.assertIsNotNone(_weapon_castable(solution))
+            with mock.patch.object(spell_combo, '_search_best_turn',
+                                   wraps=spell_combo._search_best_turn) as searched:
+                self.assertTrue(_best_combo(char, solution, 'dofus3', note_without_buffs=False))
+            searches.append(searched.call_count)
+        self.assertEqual([1, 0], searches)

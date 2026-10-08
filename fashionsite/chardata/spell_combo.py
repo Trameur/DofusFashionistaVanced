@@ -26,7 +26,7 @@ import re
 from operator import itemgetter
 
 from django.conf import settings
-from django.core.cache import cache
+from django.core.cache import caches
 
 from fashionistapulp.dofus_constants import (AIR, EARTH, FIRE, NEUTRAL,
                                              NON_ELEMENTAL_HIT_TYPES, WATER,
@@ -1469,12 +1469,14 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
                             caster_level)
         except Exception:
             key = None
-    if key is not None:
-        found = cache.get(key)
-        if found is not None:
-            return found
+    if key is None:
+        return _search_best_turn(stats, spells, ap, crit, standing, game_version, pushback,
+                                 caster_level)
+    turns = caches['best_turn']
+    found = turns.get(key)
+    if found is not None:
+        return found
     turn = _search_best_turn(stats, spells, ap, crit, standing, game_version, pushback,
                              caster_level)
-    if key is not None:
-        cache.set(key, turn, BEST_TURN_CACHE_SECONDS)
+    turns.set(key, turn, BEST_TURN_CACHE_SECONDS)
     return turn
