@@ -75,6 +75,7 @@ HEARTBEAT_SECONDS = 30
 IMAGE_SECONDS_PER_FILE = .005
 DISK_MARGIN = 1.2
 KEPT_IMAGE_BACKUPS = 3
+WRITTEN = 'written-files.json'
 MARKER = re.compile(r'update_all pid=(\d+) (\S+)(?: (?:run|restore)=(.+))?')
 STEP_TITLES = {
     'items/download': 'Downloading items', 'data/download': 'Downloading data',
@@ -755,6 +756,16 @@ def run_pipeline_step(label, command, cwd, log, timeout, title):
     return retry, lines
 
 
+def named_paths(command, cwd):
+    paths = []
+    for part in map(str, command):
+        if part.startswith('-'):
+            part = part.partition('=')[2]
+        if part:
+            paths.append(Path(cwd) / part)
+    return paths
+
+
 def worker(job_path):
     job = read_json(job_path)
     key = job['key']
@@ -792,6 +803,8 @@ def worker(job_path):
         if label == 'verify/rebuild':
             return True, []
         command = job_command(key, label, command, job)
+        if job.get('backup'):
+            audit.save_named_outputs(Path(job['backup']), named_paths(command, cwd or ROOT))
         log = report_dir / ('%s-%02d-%s.log' % (key, number, label.replace('/', '-')))
         result, lines = run_pipeline_step(label, command, cwd or ROOT, log, job['timeout'], title)
         record(result)
@@ -983,9 +996,14 @@ def prepare_version(run, row):
     write_json(directory / (key + '-before.json'), before)
     with phase(name + ': backing up the data'):
         manifest = audit.backup_runtime([key], False, directory / key)
-        tracked = audit.record_tracked(directory / key, exclude=audit.manifest_names(manifest))
+        excluded = audit.manifest_names(manifest)
+        tracked = audit.record_tracked(directory / key, exclude=excluded)
     if tracked is None and (ROOT / '.git').exists():
         row['warnings'].append('intermediate files tracked by git not backed up: git unavailable.')
+    with phase(name + ': listing and backing up the intermediate files'):
+        audit.record_outputs(directory / key, row['images'], excluded | set((tracked or {}).get('before', {})),
+                             read_json(REPORTS / WRITTEN, {}).get(key, []), run['image_manifest'],
+                             directory / 'images')
     row['backup'] = str(directory / key)
     return before
 
@@ -1053,6 +1071,21 @@ def publish_version(row, directory):
     return None
 
 
+def learn_outputs(key, names):
+    if not names:
+        return
+    written = read_json(REPORTS / WRITTEN, {})
+    written[key] = sorted(set(written.get(key, [])) | set(names))
+    write_json(REPORTS / WRITTEN, written)
+
+
+def restore_outputs(directory, key):
+    result = audit.restore_outputs(directory / key, read_json(directory / 'images/manifest.json'),
+                                   directory / 'images')
+    learn_outputs(key, result['written'])
+    return result
+
+
 def repair_images(run, row, before):
     manifest = run['image_manifest']
     if not manifest or not before:
@@ -1074,6 +1107,9 @@ def restore_version(run, row, before):
             row['unrestored'] += audit.restore_runtime(read_json(backup / 'manifest.json'), backup)
             row['unrestored'] += audit.restore_tracked(backup)[0]
             row['unrestored'] += repair_images(run, row, before)
+            outputs = restore_outputs(run['directory'], key)
+            row['unrestored'] += outputs['unrestored']
+            row['written_without_copy'] = outputs['without_copy']
     except KeyboardInterrupt:
         row['restore_error'] = 'restore interrupted by Ctrl+C'
         raise
@@ -1115,6 +1151,7 @@ def import_version(run, key):
         row['status'] = IMPORTED
         row['shared_after'] = shared_digests()
         audit.record_tracked_after(run['directory'] / key)
+        learn_outputs(key, audit.record_outputs_after(run['directory'] / key))
         progress(NAMES[key] + ': imported')
         return row
     finally:
@@ -1150,7 +1187,9 @@ def restore_under_later(directory, key, shared_after):
             kept.append(name)
     unrestored += restore_label(key, backup)
     tracked_unrestored, tracked_kept = audit.restore_tracked(backup)
-    return unrestored + tracked_unrestored, kept + tracked_kept
+    outputs = restore_outputs(directory, key)
+    return (unrestored + tracked_unrestored + outputs['unrestored'], kept + tracked_kept + outputs['kept'],
+            outputs['without_copy'])
 
 
 def restore_late(run, row):
@@ -1158,7 +1197,8 @@ def restore_late(run, row):
     marker = importing_path(run['directory'], key)
     marker.write_text('update_all pid=%d\n' % os.getpid(), encoding='utf-8')
     row['status'] = RESTORE_INCOMPLETE
-    row['unrestored'], row['kept_shared'] = restore_under_later(run['directory'], key, row.get('shared_after', {}))
+    row['unrestored'], row['kept_shared'], row['written_without_copy'] = restore_under_later(
+        run['directory'], key, row.get('shared_after', {}))
     revert_state(run, key)
     row['unrestored'] += repair_images(run, row, read_json(run['directory'] / (key + '-before.json')))
     if not row['unrestored']:
@@ -1435,6 +1475,10 @@ def version_block(row):
         lines.append('- Lost images put back from the backup: %d' % len(row['images_restored']))
     if row.get('kept_shared'):
         lines.append('- Files kept, also changed by a later version: ' + ', '.join(row['kept_shared']))
+    if row.get('written_without_copy'):
+        names = row['written_without_copy']
+        lines.append('- Written without a backup copy, left as they are (copied from the next run on): %d (%s%s)'
+                     % (len(names), ', '.join(names[:10]), ', ...' if len(names) > 10 else ''))
     return lines
 
 
@@ -1667,22 +1711,26 @@ def imported_in_run(directory):
 def restore_key(directory, key, scoped):
     backup = directory / key
     manifest = read_json(backup / 'manifest.json')
-    unrestored, kept = [], []
+    unrestored, kept, without_copy = [], [], []
     if manifest is not None:
         later = [other for other in imported_in_run(directory)
                  if scoped and other not in scoped and VERSIONS.index(other) > VERSIONS.index(key)]
         if later:
             rows = {row['key']: row for row in (read_json(directory / 'report.json') or {}).get('versions', [])}
-            unrestored, kept = restore_under_later(directory, key, rows.get(key, {}).get('shared_after', {}))
+            unrestored, kept, without_copy = restore_under_later(directory, key,
+                                                                 rows.get(key, {}).get('shared_after', {}))
         else:
             unrestored = audit.restore_runtime(manifest, backup)
             unrestored += audit.restore_tracked(backup)[0]
+            outputs = restore_outputs(directory, key)
+            unrestored += outputs['unrestored']
+            kept, without_copy = outputs['kept'], outputs['without_copy']
     before = read_json(directory / (key + '-before.json'))
     image_manifest = read_json(directory / 'images/manifest.json')
     if scoped and before and image_manifest:
         names = audit.backed_up_images(audit.lost_images(before), image_manifest)
         unrestored += audit.restore_runtime(image_manifest, directory / 'images', only=names)
-    return unrestored, kept
+    return unrestored, kept, without_copy
 
 
 def restore_run(directory, running_file, versions=None, force=False):
@@ -1709,15 +1757,16 @@ def restore_run(directory, running_file, versions=None, force=False):
             print('%s: a newer run imported this version: %s' % (NAMES[key], other))
         print('Undo the newest run first, or add --force to overwrite its data.')
         return 1
-    by_key, kept, restored, whole = {}, [], [], []
+    by_key, kept, restored, whole, without_copy = {}, [], [], [], []
     with exclusive(running_file, 'restore=%s' % directory):
         try:
             for key in reversed(keys):
                 with phase('Restoring: ' + NAMES[key]):
-                    by_key[key], more = restore_key(directory, key, versions)
+                    by_key[key], more, written = restore_key(directory, key, versions)
                 if key in available:
                     restored.append(key)
                 kept += more
+                without_copy += written
                 if not by_key[key]:
                     importing_path(directory, key).unlink(missing_ok=True)
             if not versions and legacy.exists():
@@ -1730,6 +1779,8 @@ def restore_run(directory, running_file, versions=None, force=False):
     unrestored = sorted(set(whole + [name for names in by_key.values() for name in names]))
     if kept:
         print('Files kept, also changed by a newer version: ' + ', '.join(sorted(set(kept))))
+    if without_copy:
+        print('Files written without a backup copy, left as they are: ' + ', '.join(sorted(set(without_copy))))
     if unrestored:
         print('Files not restored:')
         for name in unrestored:
@@ -1743,7 +1794,7 @@ def restore_run(directory, running_file, versions=None, force=False):
 
 def image_backup_paths(directory):
     candidates = [directory / 'images', directory / 'backup/fashionsite/chardata/static',
-                  directory / 'backup/fashionsite/staticfiles']
+                  directory / 'backup/fashionsite/staticfiles'] + [directory / key / 'outputs' for key in VERSIONS]
     return [path for path in candidates if path.is_dir()]
 
 
@@ -1751,8 +1802,8 @@ def image_backups():
     found = []
     for directory in REPORTS.iterdir() if REPORTS.is_dir() else []:
         paths = image_backup_paths(directory)
-        manifests = [path for path in (directory / 'images/manifest.json', directory / 'backup/manifest.json')
-                     if path.is_file()]
+        manifests = [path for path in [directory / 'images/manifest.json', directory / 'backup/manifest.json']
+                     + [directory / key / 'outputs.json' for key in VERSIONS] if path.is_file()]
         if paths and manifests:
             found.append((max(path.stat().st_mtime for path in manifests), directory, paths))
     return [(directory, paths) for _, directory, paths in sorted(found, key=lambda entry: entry[0], reverse=True)]
@@ -1776,16 +1827,17 @@ def clean_reports():
     for directory in pending:
         print('Kept, restore unfinished: ' + str(directory))
     if not old:
-        print('No image backup to delete: the %d most recent are kept.' % KEPT_IMAGE_BACKUPS)
+        print('No copy of images or intermediate files to delete: the %d most recent are kept.'
+              % KEPT_IMAGE_BACKUPS)
         return 0
     total = 0
-    print('Image backups older than the last %d:' % KEPT_IMAGE_BACKUPS)
+    print('Copies of images and intermediate files older than the last %d:' % KEPT_IMAGE_BACKUPS)
     for directory, paths in old:
         files, size = map(sum, zip(*(folder_size(path) for path in paths)))
         total += size
         print('  %s: %s, %s' % (directory, files_text(files), size_text(size)))
     try:
-        answer = input('Delete these %d image backups (%s)? Type yes to confirm: '
+        answer = input('Delete these %d copies (%s)? Type yes to confirm: '
                        % (len(old), size_text(total)))
     except EOFError:
         answer = ''
@@ -1796,7 +1848,7 @@ def clean_reports():
         for directory, paths in old:
             for path in paths:
                 shutil.rmtree(path)
-            print('Deleted: images of ' + str(directory))
+            print('Deleted: copies of ' + str(directory))
     return 0
 
 
@@ -1833,7 +1885,7 @@ def main(argv=None):
     parser.add_argument('--force', action='store_true',
                         help='with --restore: restore even if a newer run imported these versions')
     parser.add_argument('--clean-reports', action='store_true',
-                        help='delete the image backups of old runs, after confirmation')
+                        help='delete the image and intermediate file copies of old runs, after confirmation')
     parser.add_argument('--running-file', type=Path, default=Path.home() / 'Documents/fashionista-loop/RUNNING.md')
     parser.add_argument('--worker', type=Path, help=argparse.SUPPRESS)
     args = parser.parse_args(argv)

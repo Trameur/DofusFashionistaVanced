@@ -1160,7 +1160,7 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         self.assertEqual('FAILED, RESTORED', report['versions'][0]['status'])
         self.assertFalse((self.root / '.update-data.lock').exists())
 
-    def test_a_failed_version_gets_its_lost_images_back_and_keeps_new_downloads(self):
+    def test_a_failed_version_gets_its_images_back_and_loses_its_new_downloads(self):
         rows, by_key = self.versions_run(['dofus3'])
         lost = self.image('chardata/items/60x60/Old-60-60.png')
         updated = self.image('chardata/items/60x60/Kept-60-60.png')
@@ -1169,21 +1169,115 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
             self.fake_import(command)
             lost.unlink()
             self.image('chardata/items/60x60/Kept-60-60.png', 'blue')
+            os.utime(updated, ns=(time.time_ns() + 10 ** 9,) * 2)
             self.image('chardata/items/60x60/New-60-60.png', 'green')
             return {'exit_code': 1, 'log': str(log), 'error': 'download failed'}
         code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': True}, run, by_key, before)
         self.assertEqual(1, code)
+        self.assertEqual('FAILED, RESTORED', report['versions'][0]['status'])
         self.assertTrue(lost.is_file())
         self.assertIsNone(audit.image_problem(lost))
-        self.assertTrue((audit.STATIC / 'chardata/items/60x60/New-60-60.png').is_file())
+        self.assertFalse((audit.STATIC / 'chardata/items/60x60/New-60-60.png').exists())
         from PIL import Image
         with Image.open(updated) as image:
-            self.assertEqual((0, 0, 255), image.getpixel((0, 0)))
+            self.assertEqual((255, 0, 0), image.getpixel((0, 0)))
         self.assertEqual(['fashionsite/chardata/static/chardata/items/60x60/Old-60-60.png'],
                          report['versions'][0]['images_restored'])
-        changed = updater.read_json(next(updater.REPORTS.glob('2*')) / 'images-changed.json')
-        self.assertIn('fashionsite/chardata/static/chardata/items/60x60/New-60-60.png', changed)
-        self.assertNotIn('fashionsite/chardata/static/chardata/items/60x60/Old-60-60.png', changed)
+        self.assertEqual([], updater.read_json(next(updater.REPORTS.glob('2*')) / 'images-changed.json'))
+
+    def pipeline_steps(self, steps):
+        scraper = self.root / 'itemscraper'
+        def worker(command, log):
+            module = SimpleNamespace(__file__='pipeline.py')
+            def main():
+                for label, cwd, arguments in steps[updater.read_json(Path(command[-1]))['key']]:
+                    module.run_step(label, ['python'] + arguments, scraper if cwd else None)
+            module.main = main
+            with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
+                    mock.patch.object(updater.sys, 'argv', []):
+                try:
+                    updater.worker(Path(command[-1]))
+                except RuntimeError as exc:
+                    return {'exit_code': 1, 'log': str(log), 'error': str(exc)}
+            return {'exit_code': 0, 'log': str(log)}
+        return worker
+
+    def scraper_file(self, name, text):
+        path = self.root / 'itemscraper' / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding='utf-8')
+        return path
+
+    def test_a_failed_version_leaves_the_files_its_steps_wrote_as_they_were(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta'])
+        shared = self.image('chardata/items/60x60/Shared-60-60.png')
+        kept = self.image('chardata/items/60x60/Kept-60-60.png')
+        files = {name: self.scraper_file(name, 'before ' + name) for name in (
+            'transformed_spells.json', 'transformed_spells_beta.json', 'transformed_drops_beta.json',
+            'beta/cache.json', 'extracted/a.json', 'surprise.json', 'raw/3.7.1.0/items.json')}
+        updater.write_json(updater.REPORTS / updater.WRITTEN, {'beta': ['itemscraper/beta/cache.json']})
+        writes = {
+            'dofus3-spells': {'transformed_spells.json': 'dofus3 spells'},
+            'dofus3-images': {'image': ('Shared', 'blue')},
+            'beta-download': {'raw/3.7.1.1/en.json': 'new release',
+                              'raw/3.7.1.0/items.json': 'redone raw/3.7.1.0/items.json'},
+            'beta-spells': {'transformed_spells_beta.json': 'beta spells, longer'},
+            'beta-drops': {'transformed_drops_beta.json': 'beta drops, longer', 'beta/cache.json': 'beta cache, longer',
+                           'surprise.json': 'beta surprise, longer'},
+            'beta-extract': {'extracted/a.json': 'beta extract, longer', 'extracted/new/b.json': 'created'},
+            'beta-images': {'image': ('Shared', 'green'), 'new': ('New', 'green'), 'kept': ('Kept', 'yellow')},
+        }
+        steps = {
+            'dofus3': [('spells/transform', None,
+                        ['step:dofus3-spells', '--output', 'itemscraper/transformed_spells.json']),
+                       ('item-images', 'itemscraper', ['step:dofus3-images'])],
+            'beta': [('data/download', None, ['step:beta-download', '--tag', '3.7.1.1']),
+                     ('spells/transform', None,
+                      ['step:beta-spells', '--output', 'itemscraper/transformed_spells_beta.json']),
+                     ('drops/transform', 'itemscraper', ['step:beta-drops', '--output=transformed_drops_beta.json']),
+                     ('data/extract', None, ['step:beta-extract', '--dest', str(self.root / 'itemscraper/extracted')]),
+                     ('item-images', 'itemscraper', ['step:beta-images']),
+                     ('spells/states', None, ['step:fail'])],
+        }
+        worker = self.pipeline_steps(steps)
+        clock = iter(range(time.time_ns() + 10 ** 9, time.time_ns() + 10 ** 11, 10 ** 9))
+        def run(command, log, *args, **kwargs):
+            log.write_text('ok', encoding='utf-8')
+            if '--worker' in command:
+                return worker(command, log)
+            step = command[1].partition(':')[2] if command[1].startswith('step:') else None
+            if step == 'fail':
+                return {'exit_code': 1, 'log': str(log), 'error': 'no state name found'}
+            for name, value in writes.get(step, {}).items():
+                if isinstance(value, tuple):
+                    path = self.image('chardata/items/60x60/%s-60-60.png' % value[0], value[1])
+                else:
+                    path = self.scraper_file(name, value)
+                stamp = next(clock)
+                os.utime(path, ns=(stamp, stamp))
+            return {'exit_code': 0, 'log': str(log), 'seconds': .1}
+        code, report, recap, output = self.execute(rows, ['dofus3', 'beta'], {'dofus3': True, 'beta': True},
+                                                   run, by_key)
+        self.assertEqual(['IMPORTED', 'FAILED, RESTORED'], [row['status'] for row in report['versions']])
+        for name in ('transformed_spells_beta.json', 'transformed_drops_beta.json', 'beta/cache.json',
+                     'extracted/a.json'):
+            self.assertEqual('before ' + name, files[name].read_text(encoding='utf-8'), name)
+        self.assertEqual('dofus3 spells', files['transformed_spells.json'].read_text(encoding='utf-8'))
+        self.assertFalse((self.root / 'itemscraper/raw/3.7.1.1').exists())
+        self.assertFalse((self.root / 'itemscraper/extracted/new').exists())
+        self.assertFalse((audit.STATIC / 'chardata/items/60x60/New-60-60.png').exists())
+        from PIL import Image
+        for image, colour in ((shared, (0, 0, 255)), (kept, (255, 0, 0))):
+            with Image.open(image) as opened:
+                self.assertEqual(colour, opened.getpixel((0, 0)), image.name)
+        self.assertEqual('beta surprise, longer', files['surprise.json'].read_text(encoding='utf-8'))
+        self.assertEqual('redone raw/3.7.1.0/items.json', files['raw/3.7.1.0/items.json'].read_text(encoding='utf-8'))
+        self.assertEqual(['itemscraper/surprise.json'], report['versions'][1]['written_without_copy'])
+        self.assertIn('Written without a backup copy, left as they are (copied from the next run on): 1 '
+                      '(itemscraper/surprise.json)', recap)
+        self.assertIn('itemscraper/surprise.json', updater.read_json(updater.REPORTS / updater.WRITTEN)['beta'])
+        self.assertEqual(['itemscraper/transformed_spells.json'],
+                         updater.read_json(updater.REPORTS / updater.WRITTEN)['dofus3'])
 
     def test_a_locked_database_is_refused_before_any_import(self):
         rows, by_key = self.versions_run(['dofus3'])
@@ -1738,6 +1832,82 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         self.assertEqual('beta output, longer', files['all_sets.json'].read_text(encoding='utf-8'))
         self.assertEqual([], checkouts)
 
+    def test_undoing_an_imported_version_keeps_the_files_a_later_version_wrote_again(self):
+        first, second = self.scraper_file('a.json', 'a'), self.scraper_file('b.json', 'b')
+        backup = self.root / 'run/dofus3'
+        audit.record_outputs(backup, False, set(), ['itemscraper/a.json', 'itemscraper/b.json'])
+        first.write_text('a by dofus3', encoding='utf-8')
+        second.write_text('b by dofus3', encoding='utf-8')
+        created = self.scraper_file('new/c.json', 'c by dofus3')
+        self.assertEqual(['itemscraper/a.json', 'itemscraper/b.json', 'itemscraper/new/c.json'],
+                         audit.record_outputs_after(backup))
+        second.write_text('b by beta, longer', encoding='utf-8')
+        result = audit.restore_outputs(backup)
+        self.assertEqual(([], ['itemscraper/b.json'], []),
+                         (result['unrestored'], result['kept'], result['without_copy']))
+        self.assertEqual('a', first.read_text(encoding='utf-8'))
+        self.assertEqual('b by beta, longer', second.read_text(encoding='utf-8'))
+        self.assertFalse(created.parent.exists())
+
+    def test_a_finished_restore_leaves_files_written_after_it_alone(self):
+        path = self.scraper_file('a.json', 'a')
+        backup = self.root / 'run/beta'
+        audit.record_outputs(backup, False, set(), ['itemscraper/a.json'])
+        path.write_text('a by beta', encoding='utf-8')
+        self.scraper_file('n.json', 'n by beta')
+        self.assertEqual([], audit.restore_outputs(backup)['unrestored'])
+        self.assertEqual('a', path.read_text(encoding='utf-8'))
+        self.assertFalse((self.root / 'itemscraper/n.json').exists())
+        path.write_text('edited later', encoding='utf-8')
+        self.scraper_file('n.json', 'written later')
+        audit.restore_outputs(backup)
+        self.assertEqual('edited later', path.read_text(encoding='utf-8'))
+        self.assertTrue((self.root / 'itemscraper/n.json').exists())
+
+    def outputs_run(self, writes):
+        rows, by_key = self.versions_run(['dofus3', 'beta'])
+        clock = iter(range(time.time_ns() + 10 ** 9, time.time_ns() + 10 ** 11, 10 ** 9))
+        def run(command, log, **kwargs):
+            result = self.succeed(command, log)
+            if '--worker' in command:
+                for name, text in writes[updater.read_json(Path(command[-1]))['key']].items():
+                    path = self.scraper_file(name, text)
+                    stamp = next(clock)
+                    os.utime(path, ns=(stamp, stamp))
+            return result
+        code, report, recap, output = self.execute(rows, ['dofus3', 'beta'], {'dofus3': False, 'beta': False},
+                                                   run, by_key)
+        return report
+
+    def test_undoing_a_run_puts_back_the_files_its_versions_wrote(self):
+        files = {name: self.scraper_file(name, 'before ' + name) for name in ('spells.json', 'spells_beta.json')}
+        updater.write_json(updater.REPORTS / updater.WRITTEN,
+                           {'dofus3': ['itemscraper/spells.json'], 'beta': ['itemscraper/spells_beta.json']})
+        report = self.outputs_run({'dofus3': {'spells.json': 'dofus3 spells', 'new/dofus3.json': 'created'},
+                                   'beta': {'spells_beta.json': 'beta spells', 'new/beta.json': 'created'}})
+        self.assertEqual(['IMPORTED', 'IMPORTED'], [row['status'] for row in report['versions']])
+        code, output = self.restore(report['directory'])
+        self.assertEqual(0, code, output)
+        for name, path in files.items():
+            self.assertEqual('before ' + name, path.read_text(encoding='utf-8'), name)
+        self.assertFalse((self.root / 'itemscraper/new').exists())
+
+    def test_a_scoped_restore_of_an_earlier_version_puts_back_only_its_own_files(self):
+        files = {name: self.scraper_file(name, 'before ' + name) for name in ('spells.json', 'drops.json')}
+        updater.write_json(updater.REPORTS / updater.WRITTEN,
+                           {'dofus3': ['itemscraper/spells.json', 'itemscraper/drops.json']})
+        report = self.outputs_run({
+            'dofus3': {'spells.json': 'dofus3 spells', 'drops.json': 'dofus3 drops', 'dofus3.json': 'created'},
+            'beta': {'drops.json': 'beta drops, longer', 'beta.json': 'created'}})
+        code, output = self.restore(report['directory'], '--versions', 'dofus3')
+        self.assertEqual(0, code, output)
+        self.assertEqual('before spells.json', files['spells.json'].read_text(encoding='utf-8'))
+        self.assertEqual('beta drops, longer', files['drops.json'].read_text(encoding='utf-8'))
+        self.assertFalse((self.root / 'itemscraper/dofus3.json').exists())
+        self.assertTrue((self.root / 'itemscraper/beta.json').exists())
+        self.assertIn('itemscraper/drops.json', next(line for line in output.splitlines()
+                                                     if line.startswith('Files kept')))
+
     def test_a_failed_version_puts_back_the_tracked_data_files_it_changed(self):
         rows, by_key = self.versions_run(['dofus3', 'beta'])
         files = self.tracked_files()
@@ -1884,6 +2054,21 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         code, output = self.main_output('--clean-reports', answer='yes')
         self.assertEqual(0, code)
         self.assertEqual([False, True, True, True, True, True], [(run / 'images').is_dir() for run in runs])
+
+    def test_old_copies_of_intermediate_files_are_deleted_like_old_images(self):
+        runs = []
+        for number in range(4):
+            directory = updater.REPORTS / ('2026100%dT000000000000-1' % number)
+            (directory / 'dofus3/outputs/itemscraper').mkdir(parents=True)
+            (directory / 'dofus3/outputs/itemscraper/transformed_spells.json').write_bytes(b'{}')
+            (directory / 'dofus3/outputs.json').write_text('{}', encoding='utf-8')
+            os.utime(directory / 'dofus3/outputs.json', (1_000_000 + number, 1_000_000 + number))
+            runs.append(directory)
+        code, output = self.main_output('--clean-reports', answer='yes')
+        self.assertEqual(0, code)
+        self.assertEqual([False, True, True, True], [(run / 'dofus3/outputs').is_dir() for run in runs])
+        self.assertTrue((runs[0] / 'dofus3/outputs.json').is_file())
+        self.assertIn('Deleted: copies of ' + str(runs[0]), output)
 
     def test_kept_dofusdb_steps_are_stated_once_and_zero_counts_collapse(self):
         row = {'key': 'dofus3', 'status': updater.IMPORTED, 'current': 'a', 'available': 'b', 'images': False,

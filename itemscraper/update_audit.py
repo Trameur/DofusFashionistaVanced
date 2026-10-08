@@ -7,6 +7,7 @@ import os
 import json
 from contextlib import contextmanager
 from pathlib import Path
+import re
 import shutil
 import sqlite3
 import subprocess
@@ -32,6 +33,8 @@ CRITERIA_TABLES = {'item_criteria': (),
                    'max_level_to_equip': (item_criteria.LEVEL,),
                    'unusable_items': (item_criteria.UNUSABLE,),
                    'items_not_worn_together': (item_criteria.NOT_WORN_WITH,)}
+CACHE_DIRECTORY = re.compile(r'\d+(?:\.\d+){2,4}')
+SOURCE_SUFFIXES = ('.py', '.pyc')
 
 
 def database_path(version):
@@ -383,6 +386,175 @@ def put_back_tracked(name, digest, destination):
     except OSError:
         temp.unlink(missing_ok=True)
         raise
+
+
+def scan(base, top):
+    files, directories, stack = {}, [], [top]
+    while stack:
+        try:
+            entries = list(os.scandir(stack.pop()))
+        except (FileNotFoundError, NotADirectoryError):
+            continue
+        for entry in entries:
+            name = Path(entry.path).relative_to(base).as_posix()
+            if entry.is_dir(follow_symlinks=False):
+                if entry.name != '__pycache__':
+                    stack.append(entry.path)
+                    directories.append(name)
+            elif entry.is_file(follow_symlinks=False) and not entry.name.endswith(SOURCE_SUFFIXES):
+                stat = entry.stat(follow_symlinks=False)
+                files[name] = [stat.st_size, stat.st_mtime_ns]
+    return files, directories
+
+
+def image_roots():
+    return [STATIC / 'chardata' / directory for directory in IMAGE_DIRECTORIES]
+
+
+def image_prefixes():
+    return tuple(relative_name(root) + '/' for root in image_roots())
+
+
+def is_cached(name):
+    return any(CACHE_DIRECTORY.fullmatch(part) for part in name.split('/')[:-1])
+
+
+def copied_outputs(names):
+    images = image_prefixes()
+    return {name for name in names if not name.startswith(images) and not is_cached(name)}
+
+
+def output_inventory(images, exclude=()):
+    files, directories = {}, []
+    for top in [ROOT / TRACKED_DIRECTORY] + (image_roots() if images else []):
+        found, folders = scan(ROOT, top)
+        files.update(found)
+        directories += folders
+    for name in exclude:
+        files.pop(name, None)
+    return files, directories
+
+
+def save_outputs(destination, before, names):
+    index = destination / 'outputs-saved.json'
+    saved = read_record(index) or {}
+    for name in sorted(names):
+        path = ROOT / name
+        if name in saved or name not in before or file_stat(path) != before[name]:
+            continue
+        copy = destination / 'outputs' / name
+        copy.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(path, copy)
+        saved[name] = file_digest(copy)
+    temp = index.with_name(index.name + '.tmp')
+    temp.write_text(json.dumps(saved, indent=1), encoding='utf-8')
+    os.replace(temp, index)
+    return saved
+
+
+def record_outputs(destination, images, exclude, written=(), image_manifest=None, image_source=None):
+    before, directories = output_inventory(images, exclude)
+    record = {'images': images, 'exclude': sorted(exclude), 'before': before, 'directories': directories}
+    destination.mkdir(parents=True, exist_ok=True)
+    (destination / 'outputs.json').write_text(json.dumps(record), encoding='utf-8')
+    names = copied_outputs(written)
+    if images and image_manifest is not None:
+        backup, prefixes = {}, image_prefixes()
+        for root in image_roots():
+            backup.update(scan(image_source, image_source / relative_name(root))[0])
+        names.update(name for name, stat in before.items() if name.startswith(prefixes) and backup.get(name) != stat)
+    save_outputs(destination, before, names)
+    return record
+
+
+def save_named_outputs(destination, paths):
+    record = read_record(destination / 'outputs.json')
+    if record is None:
+        return
+    before, names = record['before'], set()
+    for path in paths:
+        try:
+            name = Path(os.path.normpath(path)).relative_to(ROOT).as_posix()
+        except ValueError:
+            continue
+        if name in before:
+            names.add(name)
+        elif name not in ('.', TRACKED_DIRECTORY):
+            names.update(other for other in before if other.startswith(name + '/'))
+    save_outputs(destination, before, copied_outputs(names))
+
+
+def written_outputs(before, after):
+    return sorted(copied_outputs(name for name in set(before) | set(after) if before.get(name) != after.get(name)))
+
+
+def record_outputs_after(destination):
+    record = read_record(destination / 'outputs.json')
+    if record is None:
+        return []
+    after = output_inventory(record['images'], record['exclude'])[0]
+    (destination / 'outputs-after.json').write_text(json.dumps(after), encoding='utf-8')
+    return written_outputs(record['before'], after)
+
+
+def put_back_output(name, old, destination, saved, image_manifest, image_source):
+    path = ROOT / name
+    if old is None:
+        path.unlink(missing_ok=True)
+        return True
+    if name in saved:
+        source, digest = destination / 'outputs' / name, saved[name]
+    elif image_manifest and image_manifest['files'].get(name) and file_stat(image_source / name) == old:
+        source, digest = image_source / name, image_manifest['files'][name]
+    elif is_cached(name):
+        now = file_stat(path)
+        return now is not None and now[0] == old[0]
+    else:
+        return False
+    if file_digest(source) != digest:
+        raise FileNotFoundError('Copy missing or corrupted: ' + name)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(path.name + '.restore-tmp')
+    shutil.copy2(source, temp)
+    try:
+        replace_file(temp, path, timeout=0)
+    except OSError:
+        temp.unlink(missing_ok=True)
+        raise
+    return True
+
+
+def restore_outputs(destination, image_manifest=None, image_source=None):
+    result = {'unrestored': [], 'kept': [], 'without_copy': [], 'written': []}
+    record = read_record(destination / 'outputs.json')
+    if record is None:
+        return result
+    saved = read_record(destination / 'outputs-saved.json') or {}
+    after = read_record(destination / 'outputs-after.json')
+    before = record['before']
+    current, directories = output_inventory(record['images'], record['exclude'])
+    result['written'] = written_outputs(before, current if after is None else after)
+    for name in sorted(set(before) | set(current)):
+        old, now = before.get(name), current.get(name)
+        if now == old or (after is not None and after.get(name) == old):
+            continue
+        if after is not None and now != after.get(name):
+            result['kept'].append(name)
+            continue
+        try:
+            if not put_back_output(name, old, destination, saved, image_manifest, image_source):
+                result['without_copy'].append(name)
+        except OSError:
+            result['unrestored'].append(name)
+    for folder in sorted(set(directories) - set(record['directories']), key=lambda name: name.count('/'),
+                         reverse=True):
+        try:
+            (ROOT / folder).rmdir()
+        except OSError:
+            pass
+    if after is None and not result['unrestored']:
+        (destination / 'outputs-after.json').write_text(json.dumps(before), encoding='utf-8')
+    return result
 
 
 def lost_images(before):
