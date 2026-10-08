@@ -38,7 +38,7 @@
     <tr>
     <td>
         <div class="wizard-div min-stat-name wm-page" align="center">
-            <b>{% trans "Weights and Minimums" %}:</b><br><br>
+            <b>{% trans "Weights and Minimums" %}</b><br><br>
             {% include "chardata/weights_minimums_block.html" %}
         </div>
     </td>
@@ -109,11 +109,13 @@ constantData.inclusions.images_urls);
             var $field = $(this);
             if ($field.data('limit') === undefined) {
                 $field.data('limit', $field.attr('max'));
+                $field.data('limit-title', $field.attr('title'));
             }
             if (lifted) {
-                $field.removeAttr('max');
+                $field.removeAttr('max').removeAttr('title');
             } else {
                 $field.attr('max', $field.data('limit'));
+                $field.attr('title', $field.data('limit-title'));
             }
             $field.siblings('.wm-cap').toggle(!lifted);
         });

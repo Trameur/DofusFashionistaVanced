@@ -1,6 +1,7 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """The wizard's reset button gives back the weights of the build's boxes and priority together."""
 import json
+import re
 
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -11,12 +12,8 @@ from fashionistapulp.structure import set_current_game_version
 PRIORITY_BOXES = (('damage', {'glasscannon'}), ('defense', {'vit', 'res'}), ('heals', {'heal'}))
 
 
-def _slider(sliders, key):
-    for section in sliders:
-        for slider in section['subsliders']:
-            if slider['key'] == key:
-                return slider['abs_value']
-    raise KeyError(key)
+def _slider(defaults, key):
+    return defaults[key]
 
 
 class TheWizardResetWeighsThePriorityTooTests(TestCase):
@@ -37,9 +34,12 @@ class TheWizardResetWeighsThePriorityTooTests(TestCase):
         return Char.objects.order_by('-id').first()
 
     def reset(self, char):
-        response = self.client.post('/wizardgetsliders/%d/' % char.id)
+        response = self.client.get('/wizard/%d/' % char.id)
         self.assertEqual(200, response.status_code)
-        return json.loads(response.content.decode('utf-8'))
+        found = re.search(r'<script id="wm-defaults" type="application/json">(.*?)</script>',
+                          response.content.decode('utf-8'), re.S)
+        self.assertIsNotNone(found)
+        return json.loads(found.group(1))
 
     def test_each_priority_resets_to_the_sliders_of_its_boxes(self):
         plain = self.reset(self.create({'int'}))

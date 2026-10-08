@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The wizard offers a slider for every weight the version's gear can use."""
+"""The wizard slider data offers a slider for every weight the version's gear can use."""
 from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
 
