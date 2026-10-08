@@ -65,7 +65,7 @@ KINDS = {
         ('PX', '='): ACCOUNT_RIGHTS,
         ('Qa', '='): QUEST, ('Qf', '='): QUEST, ('Qo', '>'): QUEST,
         ('Qo', '<'): QUEST, ('Qo', '='): QUEST,
-        ('Sc', '='): SERVER,
+        ('Sc', '='): SERVER, ('SC', '='): SERVER, ('ST', '='): SERVER,
         ('SG', '='): DATE, ('Sd', '>'): DATE, ('Sd', '<'): DATE,
         ('Pm', '='): MAP,
         ('PO', '!'): INVENTORY,

@@ -29,6 +29,7 @@ KOOLICH_HEADGEAR = 18447
 FIRST_BLOOD_STAFF = 8575
 APPRENTICE_PILGRIM_STAFF = 9627
 THE_ENUTROFION = 1499
+YINGNITIATE_SWORD = 6839
 BELLADONNAS_CRUELTY = 27547
 BELLADONNAS_BITTERNESS = 27548
 JIVA_NECKLACE = 2155
@@ -152,13 +153,23 @@ class TheImportRefusesWhatTheBuildCannotWearTests(_Build):
         self.assertEqual({}, self._rejected(
             'dofus3', [APPRENTICE_PILGRIM_STAFF], char_level=5, char_class='Iop'))
 
-    def test_a_class_ring_is_rejected_for_another_class_in_every_version(self):
-        for version in ('dofus3', 'dofus2', 'touch', 'retro'):
+    def test_a_class_piece_is_rejected_for_another_class_in_every_version(self):
+        for version, piece, char_class in (('dofus3', YINGNITIATE_SWORD, 'Ecaflip'),
+                                           ('beta', YINGNITIATE_SWORD, 'Ecaflip'),
+                                           ('dofus2', THE_ENUTROFION, 'Enutrof'),
+                                           ('touch', THE_ENUTROFION, 'Enutrof'),
+                                           ('retro', THE_ENUTROFION, 'Enutrof')):
             with self.subTest(version=version):
-                self.assertEqual({THE_ENUTROFION: WRONG_CLASS}, self._rejected(
-                    version, [THE_ENUTROFION], char_level=200, char_class='Iop'))
+                self.assertEqual({piece: WRONG_CLASS}, self._rejected(
+                    version, [piece], char_level=200, char_class='Iop'))
                 self.assertEqual({}, self._rejected(
-                    version, [THE_ENUTROFION], char_level=200, char_class='Enutrof'))
+                    version, [piece], char_level=200, char_class=char_class))
+
+    def test_the_enutrofion_fits_any_class_on_dofus3_and_the_beta(self):
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                self.assertEqual({}, self._rejected(
+                    version, [THE_ENUTROFION], char_level=200, char_class='Iop'))
 
     def test_the_second_belladonna_ring_is_rejected(self):
         self.assertEqual({BELLADONNAS_BITTERNESS: NOT_WORN_TOGETHER}, self._rejected(

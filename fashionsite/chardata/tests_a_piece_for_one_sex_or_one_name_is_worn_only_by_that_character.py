@@ -31,6 +31,8 @@ GROOM_HAT = 6660
 BRIDE_HAT = 6662
 DE_SENDARS_RING = 2154
 LORDSOTH_DAGGERS = 6713
+AMOURLET_ERNAL = 12237
+AMOURLETTE_ERNAL = 12238
 
 OPTIONS = {'ap_exo': False, 'mp_exo': False, 'range_exo': False,
            'dofus': True, 'trophies': True, 'dragoturkey': True,
@@ -95,13 +97,29 @@ class TheDatabaseHoldsTheSexAndTheNameTests(SimpleTestCase):
                 self.assertTrue(names)
 
     def test_the_groom_hat_is_for_a_male_and_the_bride_hat_for_a_female(self):
-        for version in ('dofus3', 'dofus2', 'retro'):
+        for version in ('dofus2', 'retro'):
             with self.subTest(version=version):
                 structure = get_structure(version)
                 self.assertEqual((0,), structure.get_item_by_ankama_id(GROOM_HAT).sexes)
                 self.assertEqual((1,), structure.get_item_by_ankama_id(BRIDE_HAT).sexes)
         self.assertEqual(('Lordsoth',),
                          get_structure('touch').get_item_by_ankama_id(LORDSOTH_DAGGERS).names)
+
+    def test_the_wedding_hats_fit_either_sex_on_dofus3_and_the_beta(self):
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                structure = get_structure(version)
+                for hat in (GROOM_HAT, BRIDE_HAT):
+                    item = structure.get_item_by_ankama_id(hat)
+                    self.assertTrue(fits_the_wearer(item, 0))
+                    self.assertTrue(fits_the_wearer(item, 1))
+
+    def test_the_ernal_amulets_are_for_a_male_and_a_female_in_every_version_that_has_them(self):
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            with self.subTest(version=version):
+                structure = get_structure(version)
+                self.assertEqual((0,), structure.get_item_by_ankama_id(AMOURLET_ERNAL).sexes)
+                self.assertEqual((1,), structure.get_item_by_ankama_id(AMOURLETTE_ERNAL).sexes)
 
 
 class TheSolverReadsTheSexAndTheNameTests(SimpleTestCase):

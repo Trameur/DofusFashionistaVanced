@@ -156,6 +156,14 @@ class EveryConditionKindIsHandledTests(SimpleTestCase):
                                   if handled is None})
                 self.assertEqual([], unknown)
 
+    def test_dofus3_reads_the_server_gates_of_the_beta_pieces_as_the_beta_does(self):
+        criteria = _criteria()
+        gated = [tree for tree in _trees('beta').values()
+                 if {('SC', '='), ('ST', '=')} & set(criteria.kinds('beta', tree))]
+        self.assertTrue(gated)
+        for tree in gated:
+            self.assertEqual(criteria.kinds('beta', tree), criteria.kinds('dofus3', tree))
+
     def test_a_kind_the_registry_drops_is_reported(self):
         criteria = _criteria()
         tree = criteria.parse('PG=3&Zz>2')
@@ -358,10 +366,16 @@ class RealPiecesAreReadAsTheGameWritesThemTests(SimpleTestCase):
         finally:
             connection.close()
 
-    def test_the_enutrofion_is_an_enutrof_ring_in_every_version_that_has_it(self):
-        for version in ('dofus3', 'dofus2', 'touch', 'retro'):
+    def test_the_enutrofion_is_an_enutrof_ring_on_dofus2_touch_and_retro_only(self):
+        for version, classes in (('dofus3', []), ('beta', []), ('dofus2', ['Enutrof']),
+                                 ('touch', ['Enutrof']), ('retro', ['Enutrof'])):
             with self.subTest(version=version):
-                self.assertEqual(['Enutrof'], self._classes(version, 1499))
+                self.assertEqual(classes, self._classes(version, 1499))
+
+    def test_the_yingnitiate_sword_is_an_ecaflip_sword_in_every_version_that_has_it(self):
+        for version in ('dofus3', 'beta', 'dofus2', 'retro'):
+            with self.subTest(version=version):
+                self.assertEqual(['Ecaflip'], self._classes(version, 6839))
 
     def test_a_retro_hat_barred_to_the_sadida_is_offered_to_the_eleven_others(self):
         classes = self._classes('retro', 700)
