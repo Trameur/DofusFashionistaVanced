@@ -4,8 +4,8 @@ from __future__ import annotations
 FASHIONISTA_VERSION = "3.6.12.16"
 FASHIONISTA_BETA_VERSION = "3.7.3.3"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
-FASHIONISTA_RETRO_VERSION = "1.49.5"
-FASHIONISTA_TOUCH_VERSION = "1.74.6"
+FASHIONISTA_RETRO_VERSION = "1.49.6"
+FASHIONISTA_TOUCH_VERSION = "1.74.7"
 
 # (UTC day, patch): Ankama's release day up to 2.68, the day our data went in from 2.69 on; retro and touch by hand
 PATCH_TIMELINE = {
@@ -108,8 +108,8 @@ PATCH_TIMELINE = {
 # seven lang categories and all 9428 rendered clips standing still. Both were
 # re-scraped on 2026-09-15 and both databases came out identical, every table
 # compared as a set of rows.
-WATCHED_RETRO_BUILD = "1.49.5.5656.445-401e092"
-WATCHED_TOUCH_ASSETS = "3.3.7_meNHHi-AVDj19_oqTfwz,1P0gs1iMqto"
+WATCHED_RETRO_BUILD = "1.49.6.5670.450-6ca3187"
+WATCHED_TOUCH_ASSETS = "3.3.8_eFhB.d1ZCmd*3ahHrGKEPMC9-Mnrpc1m"
 
 # Retro item data comes from the lang CDN, not from the client build, and that
 # is now measured twice rather than argued: 1.49.0 and then 1.49.1 both shipped
@@ -145,8 +145,8 @@ WATCHED_RETRO_LANG = {
 #
 # NEVER type this by hand. `python itemscraper/check_game_versions.py
 # --emit-snapshot` reads the live manifest and prints the two lines below.
-WATCHED_RETRO_ASSET_DIGEST = "157fe4018312a20cda74b5d3f26002569de619cf"
-WATCHED_RETRO_ASSET_COUNT = 9447
+WATCHED_RETRO_ASSET_DIGEST = "ff5060a006f9a0d5c13b915ebe74d023ca897727"
+WATCHED_RETRO_ASSET_COUNT = 9454
 
 
 def get_version() -> str:
