@@ -24,7 +24,8 @@ EARLY = datetime(2026, 9, 17, 10, 0, tzinfo=utc_zone.utc)
 LATE = datetime(2026, 9, 18, 10, 0, tzinfo=utc_zone.utc)
 AUGUST = datetime(2026, 8, 1, 12, 0, tzinfo=utc_zone.utc)
 SOLUTION = pickle.dumps(ModelResultMinimal({}, {'origin': 'generated'}, {}))
-UP_TO_THREE_SEVEN = [('2026-03-05', '3.5'), ('2026-06-23', '3.6'), ('2026-09-17', '3.7')]
+UP_TO_THREE_SIX = [('2026-03-05', '3.5'), ('2026-06-23', '3.6')]
+UP_TO_THREE_SEVEN = UP_TO_THREE_SIX + [('2026-09-17', '3.7')]
 UP_TO_THREE_EIGHT = UP_TO_THREE_SEVEN + [('2026-09-19', '3.8')]
 TITLE = "Game update at the build's last change"
 OLDER_TITLE = "Game update at the build's last change; the game is now on %s"
@@ -127,10 +128,11 @@ class TheHomePicksBuildsOfTheCurrentUpdateTests(_Featured, TestCase):
         self._shared('dotted', '3.x.1', views=50)
         self.assertEqual(['current'], self._featured())
 
-    def test_a_build_never_solved_is_not_featured(self):
+    def test_an_unstamped_build_is_not_featured_while_the_update_has_no_start_date(self):
         self._shared('current', '3.7.0.4', views=1)
         self._shared('unsolved', '', views=50)
-        self.assertEqual(['current'], self._featured())
+        with _timeline(UP_TO_THREE_SIX):
+            self.assertEqual(['current'], self._featured())
 
     def test_a_build_without_a_stored_solution_is_not_featured(self):
         self._shared('current', '3.7.0.4', views=1)
@@ -223,7 +225,8 @@ class TheHomeSectionReadsPopularTests(_Featured, TestCase):
     def test_the_section_is_hidden_when_nothing_qualifies(self):
         self._shared('unsolved', '', views=50)
         self._shared('nosolution', '3.7.0.4', views=50, minimal_solution=b'')
-        page = self._home()
+        with _timeline(UP_TO_THREE_SIX):
+            page = self._home()
         self.assertEqual([], _cards(page))
         self.assertNotIn('Popular community builds', page)
 

@@ -67,10 +67,12 @@ class TheCanonicalFollowsWhatThePageSaysTests(SimpleTestCase):
 
     def test_the_lock_and_dodge_and_trophy_pages(self):
         from chardata.guides_content import canonical_versions, guide_canonical_version
-        from fashionistapulp.game_versions import version_keys
-        self.assertEqual(list(version_keys()), canonical_versions('lock-and-dodge'))
-        self.assertEqual(['dofus3', 'beta', 'dofus2', 'touch'],
+        self.assertEqual(['dofus3', 'dofus2', 'touch', 'retro'],
+                         canonical_versions('lock-and-dodge'))
+        self.assertEqual('dofus3', guide_canonical_version('lock-and-dodge', 'beta'))
+        self.assertEqual(['dofus3', 'dofus2', 'touch'],
                          canonical_versions('dofus-and-trophies'))
+        self.assertEqual('dofus3', guide_canonical_version('dofus-and-trophies', 'beta'))
         self.assertEqual('dofus3', guide_canonical_version('dofus-and-trophies', 'retro'))
         self.assertEqual(['dofus3'], canonical_versions('getting-started'))
 
@@ -147,7 +149,8 @@ class TheSitemapAndTheHeadFollowTheCanonicalTests(TestCase):
         from chardata.url_language import SITE_URL
         for path, canonical in (
                 ('/touch/guides/lock-and-dodge/', '/touch/guides/lock-and-dodge/'),
-                ('/beta/guides/dofus-and-trophies/', '/beta/guides/dofus-and-trophies/'),
+                ('/dofus2/guides/dofus-and-trophies/', '/dofus2/guides/dofus-and-trophies/'),
+                ('/beta/guides/dofus-and-trophies/', '/guides/dofus-and-trophies/'),
                 ('/retro/guides/dofus-and-trophies/', '/guides/dofus-and-trophies/')):
             links = _Links()
             links.feed(self.client.get(path).content.decode('utf-8'))
@@ -203,7 +206,7 @@ class EachSelfCanonicalPageHasItsOwnHeadTests(TestCase):
     def test_the_served_head_is_the_one_that_names_its_version(self):
         from chardata.guides_content import _version_name, head_title_and_desc, slug_for
         from chardata.guides_view import _guide_url
-        for key, version in (('dofus-and-trophies', 'beta'), ('dofus-and-trophies', 'touch'),
+        for key, version in (('dofus-and-trophies', 'dofus2'), ('dofus-and-trophies', 'touch'),
                              ('lock-and-dodge', 'dofus2'), ('dofus-and-trophies', 'dofus3')):
             for language in ('en', 'fr'):
                 title, desc = head_title_and_desc(key, language, version)

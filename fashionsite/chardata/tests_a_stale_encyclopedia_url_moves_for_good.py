@@ -132,7 +132,7 @@ class TheSiteLinksNoAddressThatMoves(TestCase):
 
     def test_the_version_links_of_an_item_page(self):
         response = self.client.get(
-            '/encyclopedia/item/equipment/16314-carapace-terre-mineur/')
+            '/encyclopedia/item/equipment/16314-carapace-terre-mineure/')
         self.assertEqual(response.status_code, 200)
         html = response.content.decode('utf-8')
         switcher = re.findall(r'<a class="version-link[^"]*" href="([^"]+)"', html)
@@ -140,6 +140,8 @@ class TheSiteLinksNoAddressThatMoves(TestCase):
         self.assertIsNotNone(block, 'no other versions block')
         also_in = re.findall(r'href="([^"]+)"', block.group(0))
         self.assertIn('/beta/encyclopedia/item/equipment/16314-carapace-terre-mineure/',
+                      also_in)
+        self.assertIn('/dofus2/encyclopedia/item/equipment/16314-carapace-terre-mineur/',
                       also_in)
         self._answers_at_once(switcher + also_in)
 

@@ -14,9 +14,9 @@ from fashionistapulp.structure import get_structure, set_current_game_version
 
 LEVEL = 60
 
-TROPHY_CHANGED_ON_THE_BETA = 12640
+SHARED_TROPHY = 12640
 BETA_ONLY_PIECE = 27228
-BETA_ONLY_PIECE_BANNED_BY_DEFAULT = 34569
+BETA_ONLY_PIECE_BANNED_BY_DEFAULT = 16340
 
 _PREFIX = {'dofus3': '', 'beta': '/beta'}
 
@@ -152,7 +152,7 @@ class _Builds(TestCase):
 
     def _dofus3_build(self):
         char = self._import('dofus3', _shared_pieces(LEVEL)
-                            + [_name('dofus3', TROPHY_CHANGED_ON_THE_BETA)])
+                            + [_name('dofus3', SHARED_TROPHY)])
         CharBaseStats.objects.filter(char=char, stat='Vitality').update(
             total_value=40, scrolled_value=10)
         Char.objects.filter(pk=char.pk).update(link_shared=False, auto_publish=False)
@@ -229,21 +229,23 @@ class ACopyLandsOnTheSiblingVersionTests(_Builds):
         self.assertEqual(before, _row(char))
 
     def test_the_copy_reads_its_numbers_from_the_beta(self):
+        beta_trophy = get_structure('beta').get_item_by_ankama_id(SHARED_TROPHY)
+        self.enterContext(mock.patch.object(
+            beta_trophy, 'stats', [(stat_id, value + 1) for stat_id, value in beta_trophy.stats]))
         before = _by_key(get_structure('dofus3'),
-                         get_structure('dofus3').get_item_by_ankama_id(TROPHY_CHANGED_ON_THE_BETA))
-        after = _by_key(get_structure('beta'),
-                        get_structure('beta').get_item_by_ankama_id(TROPHY_CHANGED_ON_THE_BETA))
+                         get_structure('dofus3').get_item_by_ankama_id(SHARED_TROPHY))
+        after = _by_key(get_structure('beta'), beta_trophy)
         self.assertNotEqual(before, after,
-                            'the trophy no longer differs between the versions')
+                            'the Beta trophy did not take its own numbers')
         char = self._dofus3_build()
         self._copy(char, 'beta')
         copy = self._newest('beta')
         source_worn, source_set = _worn(char)
         copy_worn, copy_set = _worn(copy)
         self.assertEqual(before, {key: value for key, value
-                                  in source_worn[TROPHY_CHANGED_ON_THE_BETA].stats.items() if value})
+                                  in source_worn[SHARED_TROPHY].stats.items() if value})
         self.assertEqual(after, {key: value for key, value
-                                 in copy_worn[TROPHY_CHANGED_ON_THE_BETA].stats.items() if value})
+                                 in copy_worn[SHARED_TROPHY].stats.items() if value})
         source_gear, copy_gear = source_set.get_stats_gear(), copy_set.get_stats_gear()
         for key in set(before) | set(after):
             self.assertEqual(after.get(key, 0) - before.get(key, 0),
