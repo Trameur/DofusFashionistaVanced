@@ -49,6 +49,22 @@
         <div id="stats-display-sol-{{item.slot}}">
         {% if item.slot == 'weapon' %}
             {% autoescape off %}{{item.damage_text}}{% endautoescape %}<br>
+            {% if item.forge_controls and not is_guest and not disable_solution_item_actions %}
+            <div class="solution-weapon-forge" id="weapon-forge-sol">
+                <div class="solution-weapon-forge-title">{% trans "Weapon element" %}</div>
+                {% for control in item.forge_controls %}
+                <div class="solution-weapon-forge-row">
+                    <label class="solution-weapon-forge-label" for="weapon-forge-{{ control.kind }}">{{ control.label }}</label>
+                    <select id="weapon-forge-{{ control.kind }}" class="solution-weapon-forge-select" data-kind="{{ control.kind }}">
+                        {% for option in control.options %}
+                        <option value="{{ option.value }}"{% if option.value == control.current %} selected{% endif %}>{{ option.text }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% if control.note %}<div class="solution-weapon-forge-note">{{ control.note }}</div>{% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
             <hr class="solution-item-hr" />
         {% endif %}
         <div id="stat-lines-{{item.slot}}">

@@ -46,7 +46,8 @@ FORM_PATHS = (
     '/wizardgetsliders/%d/', '/setup/%d/', '/save_char/%d/',
     '/initbasestatspost/%d/', '/saveproject/%d/', '/addtag/%d/',
     '/setitemstatoverride/%d/', '/setchargender/%d/', '/setcharcolors/%d/',
-    '/setcharhidden/%d/', '/getsharinglink/%d/', '/hidesharinglink/%d/',
+    '/setcharhidden/%d/', '/setweaponforge/%d/', '/getsharinglink/%d/',
+    '/hidesharinglink/%d/',
     '/duplicatemyproject/%d/', '/workshop/addsolution/%d/',
 )
 WORKSHOP_PATHS = (

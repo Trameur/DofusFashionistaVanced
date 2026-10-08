@@ -98,3 +98,6 @@ html:not(.fm-modern) .solution-level-warning {
 .solution-item-violates {
     color: #AA0000;
 }
+html:not(.fm-modern) .solution-weapon-forge {
+    color: #3D200D;
+}

@@ -77,6 +77,7 @@ BUILD_PATHS = (
     '/save_char/%s/', '/saveproject/%s/', '/setcharcolors/%s/',
     '/setchargender/%s/', '/setcharhidden/%s/', '/setitemforbidden/%s/',
     '/setitemlocked/%s/', '/setitemstatoverride/%s/', '/setslotlockempty/%s/',
+    '/setweaponforge/%s/',
     '/copytoversion/%s/',
 )
 

@@ -59,6 +59,7 @@ from chardata.url_language import SITE_URL
 import chardata.smart_build
 from chardata.solution import (get_solution, get_solver_facts,
                                set_minimal_solution)
+from fashionistapulp import weapon_forge
 from fashionistapulp.lpproblem import TIME_LIMIT_SECONDS as SOLVER_TIME_LIMIT_SECONDS
 from chardata.stats_weights import get_stats_weights
 from chardata.solution_history import get_generation_preview_items, get_generation_solution
@@ -73,7 +74,7 @@ from chardata.solution_result import SolutionResult
 from chardata import build_sites, dofusbook_export
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
     HttpResponseText, HttpResponseJson, get_base_stats_by_attr, \
-    version_reverse, get_stats_and_scrolled
+    version_reverse, get_stats_and_scrolled, remove_cache_for_char
 from fashionistapulp.dofus_constants import (STAT_ORDER, STATS_NAMES,
                                              TYPE_NAME_TO_SLOT,
                                              TYPE_NAME_TO_SLOT_NUMBER,
@@ -1143,6 +1144,32 @@ def set_char_gender(request, char_id):
         item.item_added and getattr(item, 'sexes', ())
         for item in getattr(solution, 'item_list', None) or ())
     return HttpResponseJson(json.dumps(look))
+
+
+@require_POST
+def set_weapon_forge(request, char_id):
+    char = get_char_or_raise(request, char_id)
+    version = char.game_version
+    choice = weapon_forge.read_choice(char.weapon_forge)
+    for kind in weapon_forge.KINDS:
+        if kind not in request.POST:
+            continue
+        if kind not in weapon_forge.kinds(version):
+            return HttpResponseBadRequest()
+        value = request.POST[kind]
+        if value == '':
+            choice.pop(kind, None)
+        elif value == 'none':
+            choice[kind] = None
+        else:
+            entry = weapon_forge.read_option(version, kind, value)
+            if entry is None:
+                return HttpResponseBadRequest()
+            choice[kind] = entry
+    char.weapon_forge = weapon_forge.write_choice(choice)
+    char.save(update_fields=['weapon_forge'])
+    remove_cache_for_char(char.id)
+    return HttpResponseText('ok')
 
 
 @require_POST

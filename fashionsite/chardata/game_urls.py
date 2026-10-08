@@ -126,6 +126,7 @@ urlpatterns = [
     re_path(r'^setchargender/(?P<char_id>\d+)/', solution_view.set_char_gender, name='set_char_gender'),
     re_path(r'^setcharcolors/(?P<char_id>\d+)/', solution_view.set_char_colors, name='set_char_colors'),
     re_path(r'^setcharhidden/(?P<char_id>\d+)/', solution_view.set_char_hidden, name='set_char_hidden'),
+    re_path(r'^setweaponforge/(?P<char_id>\d+)/', solution_view.set_weapon_forge, name='set_weapon_forge'),
     re_path(r'^setitemlocked/(?P<char_id>\d+)/', solution_view.set_item_locked, name='set_item_locked'),
     re_path(r'^setitemforbidden/(?P<char_id>\d+)/', solution_view.set_item_forbidden, name='set_item_forbidden'),
     re_path(r'^setslotlockempty/(?P<char_id>\d+)/', solution_view.set_slot_lock_empty, name='set_slot_lock_empty'),

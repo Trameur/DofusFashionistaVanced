@@ -1909,6 +1909,20 @@
                 updateLockEmptyState(lockEmptyButton);
             });
 
+            $(".solution-weapon-forge-select").click(function(e) {
+                e.stopPropagation();
+            }).change(function() {
+                var selects = $(".solution-weapon-forge-select");
+                var choice = {};
+                choice[$(this).data('kind')] = $(this).val();
+                selects.prop('disabled', true);
+                $.post(apiBase + "/setweaponforge/{{char_id}}/", choice, function() {
+                    location.reload();
+                }).fail(function() {
+                    selects.prop('disabled', false);
+                });
+            });
+
             $(".item-external-link").click(function(e) {
                 e.stopPropagation();
             });

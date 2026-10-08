@@ -324,6 +324,33 @@
     padding-top: 2px;
 }
 
+.solution-weapon-forge {
+    margin: 6px 0 2px;
+}
+
+.solution-weapon-forge-title {
+    font-weight: bold;
+}
+
+.solution-weapon-forge-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    margin-top: 4px;
+}
+
+.solution-weapon-forge-select {
+    font-size: 0.85em;
+    max-width: 100%;
+}
+
+.solution-weapon-forge-note {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-top: 2px;
+}
+
 .solution-history-notice,
 .solution-history-panel {
     max-width: 1180px;

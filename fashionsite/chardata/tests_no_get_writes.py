@@ -111,7 +111,8 @@ class NoGetRequestWritesToTheCharacterTests(TestCase):
                    '/inclusionspost/%s/', '/setitemlocked/%s/',
                    '/setchargender/%s/', '/setcharcolors/%s/',
                    '/setcharhidden/%s/', '/setitemforbidden/%s/',
-                   '/setslotlockempty/%s/', '/setitemstatoverride/%s/')
+                   '/setslotlockempty/%s/', '/setitemstatoverride/%s/',
+                   '/setweaponforge/%s/')
         mauvaises = []
         for route in DURCIES:
             code = self.client.get(route % self.char.id).status_code
