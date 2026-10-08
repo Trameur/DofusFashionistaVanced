@@ -110,13 +110,14 @@ class TheSnapshotReadsTheArchiveCriteriaTests(TestCase):
         records = [{'data': {'id': ankama, 'criterions': text}} for ankama, text in criteria.items()]
         path.write_text(json.dumps({'references': {'RefIds': records}}), encoding='utf-8')
 
-    def read(self, stored=None, extra_pieces=()):
+    def read(self, stored=None, extra_pieces=(), hidden=()):
         stored = {**{ankama: text for ankama, text in self.PIECES.items() if text}, **(stored or {})}
         connection = sqlite3.connect(':memory:')
         self.addCleanup(connection.close)
         connection.execute('CREATE TABLE items (id INTEGER, ankama_id INTEGER, ankama_type TEXT, removed INTEGER)')
         connection.execute('CREATE TABLE item_criteria (item INTEGER, criteria TEXT)')
         pieces = [(ankama, ankama, 'equipment', None) for ankama in list(self.PIECES) + list(extra_pieces)]
+        pieces += [(ankama, ankama, 'equipment', 1) for ankama in hidden]
         connection.executemany('INSERT INTO items VALUES (?, ?, ?, ?)',
                                pieces + [(1000010, 10, 'mounts', None)])
         connection.executemany('INSERT INTO item_criteria VALUES (?, ?)',
@@ -129,6 +130,19 @@ class TheSnapshotReadsTheArchiveCriteriaTests(TestCase):
                                      'item_name_conditions': 1, 'item_weird_conditions': 2,
                                      'max_level_to_equip': 0, 'unusable_items': 0, 'items_not_worn_together': 0}},
                          self.read())
+
+    def test_the_count_reads_the_archive_of_the_version_data_not_a_newer_dump(self):
+        newer = self.root / 'itemscraper/raw/9.9.9.99/items.json'
+        newer.parent.mkdir(parents=True)
+        newer.write_text(json.dumps({'references': {'RefIds': [{'data': {'id': ankama, 'criterions': ''}}
+                                                               for ankama in self.PIECES]}}), encoding='utf-8')
+        record = self.read()
+        self.assertEqual('itemscraper/raw/9.9.9.9/items.json', record['file'])
+        self.assertEqual(2, record['counts']['item_class_conditions'])
+
+    def test_a_hidden_piece_the_archive_no_longer_lists_is_left_out_of_the_count(self):
+        record = self.read({20: 'PG=7'}, hidden=(20,))
+        self.assertEqual(2, record['counts']['item_class_conditions'])
 
     def test_criteria_that_differ_from_the_archive_get_no_counts(self):
         for stored, extra in (({10: 'PG=4'}, ()), ({14: 'PG=3'}, ()), ({}, (16,))):
