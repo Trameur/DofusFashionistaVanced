@@ -1,6 +1,6 @@
 {
  "game_version": "dofus3",
- "data_version": "3.7.5.5",
+ "data_version": "3.7.7.6",
  "effects": {
   "281": {"kind": "max_range", "sign": 1, "text": "#1 : +#3 Portée maximale"},
   "282": {"kind": "modifiable_range", "sign": 0, "text": "#1 : Portée modifiable"},
