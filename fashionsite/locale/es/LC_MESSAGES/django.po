@@ -342,7 +342,7 @@ msgstr "%s no dirige a un build válido."
 #: .\chardata\compare_sets_view.py:508 .\chardata\compare_sets_view.py:518
 #, python-format
 msgid "%s refers to someone else's build"
-msgstr "%s dirige al build de otro usuario quien no lo ha compartido."
+msgstr "%s dirige al build de otro usuario que no lo ha compartido."
 
 #: .\chardata\compare_sets_view.py:533
 #, python-format
@@ -746,7 +746,7 @@ msgstr "Ballesta"
 
 #: .\chardata\dynamic_translations.py:84 .\chardata\translation_util.py:118
 msgid "Dagger"
-msgstr "Dagas"
+msgstr "Daga"
 
 #: .\chardata\dynamic_translations.py:85
 #: .\chardata\templates\chardata\compare_sets.html:187
@@ -1005,7 +1005,7 @@ msgstr "Máx."
 
 #: .\chardata\dynamic_translations.py:116 .\chardata\translation_util.py:46
 msgid "Neutral"
-msgstr "Neutro"
+msgstr "Neutral"
 
 #: .\chardata\dynamic_translations.py:117
 #: .\chardata\templates\chardata\compare_sets.html:188
@@ -1334,14 +1334,7 @@ msgid ""
 "{link}\n"
 "\n"
 "If you don't want to reset your password, just ignore this email."
-msgstr ""
-"¡Has pedido un cambio de contraseña para el sitio fan Dofus Fashionista!\n"
-"Tu nombre de usuario es: {username}\n"
-"Por favor presiona clic sobre el enlace de abajo para generar una nueva "
-"contraseña para tu cuenta.\n"
-"{link}\n"
-"\n"
-"Si no deseas cambiar tu contraseña, solamente ignora este correo."
+msgstr "¡Has pedido un cambio de contraseña para el sitio fan Dofus Fashionista!\nTu nombre de usuario es: {username}\nPor favor haz clic en el enlace de abajo para generar una nueva contraseña para tu cuenta.\n{link}\n\nSi no deseas cambiar tu contraseña, solamente ignora este correo."
 
 #: .\chardata\login_view.py:292
 msgid "You need to enter a new password."
@@ -1384,7 +1377,7 @@ msgstr "farmeo"
 
 #: .\chardata\nl_build_view.py:98
 msgid "Tell us which class, e.g. \"Iop 200 earth PvM\"."
-msgstr "Dinos qué clase, por ejemplo \"Iop 200 tierra PvM\"."
+msgstr "Dinos qué clase, por ejemplo \"Yopuka 200 tierra PvM\"."
 
 #: .\chardata\nl_build_view.py:115
 #, python-format
@@ -1784,11 +1777,7 @@ msgid ""
 "bottom of their Outfit Suggestion page instead. If that is not the case and "
 "this keeps happening, you can contact us <a href=\"%(contact_url)s\">here</"
 "a>."
-msgstr ""
-"Si alguien te envió este enlace, pídele que te envíen el enlace de "
-"'Compartir' en la parte superior de la página Equipamiento Sugerido. Si ese "
-"no es el caso y esto continúa ocurriendo, puedes contactarnos <a "
-"href=\"%(contact_url)s\">aquí</a>."
+msgstr "Si alguien te envió este enlace, pídele que te envíe el enlace de 'Compartir' en la parte inferior de la página Equipamiento Sugerido. Si ese no es el caso y esto continúa ocurriendo, puedes contactarnos <a href=\"%(contact_url)s\">aquí</a>."
 
 #: .\chardata\templates\chardata\403.html:25
 #, python-format
@@ -1801,7 +1790,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\404.html:11
 msgid "404 - Page Not Found"
-msgstr "404 - Página no encontrada."
+msgstr "404 - Página no encontrada"
 
 #: .\chardata\templates\chardata\404.html:18
 msgid "We could not find the page you are looking for."
@@ -1813,10 +1802,7 @@ msgid ""
 "You can go back to the <a href=\"%(home_url)s\">home</a> page instead, or "
 "send us a message <a href=\"%(contact_url)s\">here</a> if this keeps "
 "happening."
-msgstr ""
-"Puedes volver a la página de <a href=\"%(home_url)s\">inicio</a>, o "
-"enviarnos un mensaje <a href=\"%(contact_url)s\">aquí</a> si el problema "
-"continua."
+msgstr "Puedes volver a la página de <a href=\"%(home_url)s\">inicio</a>, o enviarnos un mensaje <a href=\"%(contact_url)s\">aquí</a> si el problema continúa."
 
 #: .\chardata\templates\chardata\500.html:11
 msgid "500 - Application Error"
@@ -1863,21 +1849,13 @@ msgid ""
 "for example, the HP too low despite the good Agility. Tweaking can be done "
 "by going back to the wizard and playing with the sliders, or going hardcore "
 "and fiddling directly with the value the attributed to each stat."
-msgstr ""
-"El set sugerido puede no ser lo que estás buscando. Puedes encontrarte, por "
-"ejemplo, con unos Puntos de Vida muy mediocres a pesar de tener una buena "
-"Agilidad. Puedes modificarlo (enchular/personalizar) según tus preferencias "
-"volviendo al Wizard y probando a mover las diferentes barras, o incluso "
-"hacerlo más exacto determinando el valor preciso que desear ver reflejado en "
-"cualquier atributo o característica."
+msgstr "El set sugerido puede no ser lo que estás buscando. Puedes encontrarte, por ejemplo, con unos Puntos de Vida muy mediocres a pesar de tener una buena Agilidad. Puedes modificarlo (enchular/personalizar) según tus preferencias volviendo al Wizard y probando a mover las diferentes barras, o incluso hacerlo más exacto determinando el valor preciso que desees ver reflejado en cualquier atributo o característica."
 
 #: .\chardata\templates\chardata\about.html:25
 msgid ""
 "If items that are too expensive or not available to you are suggested, you "
 "can always forbid them and ask for a new set."
-msgstr ""
-"Si hay objetos que te parecen muy costosos o no están a ti alcance en "
-"nuestras sugerencias, puedes prohibirlos y pedirnos un nuevo set."
+msgstr "Si hay objetos que te parecen muy costosos o no están a tu alcance en nuestras sugerencias, puedes prohibirlos y pedirnos un nuevo set."
 
 #: .\chardata\templates\chardata\about.html:29
 #: .\chardata\templates\chardata\license.html:21
@@ -2206,7 +2184,7 @@ msgstr "Menos"
 #: .\chardata\templates\chardata\solution.html:346
 #: .\chardata\templates\chardata\wizard.html:46
 msgid "Tailor a New Set"
-msgstr "Tejer un nuevo set"
+msgstr "Confeccionar un nuevo set"
 
 #: .\chardata\templates\chardata\base.html:282
 #: .\chardata\templates\chardata\solution.html:8
@@ -2383,7 +2361,7 @@ msgstr "Los oficios de fabricación en la enciclopedia"
 
 #: .\chardata\templates\chardata\changelog_content.html:44
 msgid "Item pages now show which profession crafts each recipe."
-msgstr "Las páginas de items ahora muestran el oficio que fabrica cada receta."
+msgstr "Las páginas de objetos ahora muestran el oficio que fabrica cada receta."
 
 #: .\chardata\templates\chardata\changelog_content.html:53
 msgid "Maxed pets on Dofus Touch"
@@ -2457,9 +2435,7 @@ msgstr "Daño de hechizos en las comparaciones de sets"
 msgid ""
 "Compare Sets now shows spell and weapon damage previews, with class and "
 "spell selectors, so you can quickly see which build hits harder."
-msgstr ""
-"Comparar sets ahora muestra previsiones de daño de hechizos y armas, con "
-"selectores de clase y hechizo, para ver rápidamente qué build pega más."
+msgstr "Comparar sets ahora muestra vistas previas del daño de hechizos y armas, con selectores de clase y hechizo, para ver rápidamente qué build pega más."
 
 #: .\chardata\templates\chardata\changelog_content.html:110
 msgid "Retro fixes and better item search"
@@ -2677,7 +2653,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:235
 msgid "Characteristics rework and Crâ overhaul reflected in the data"
-msgstr "Rediseño de características y revisión del Cra reflejados en los datos"
+msgstr "Rediseño de características y revisión del Ocra reflejados en los datos"
 
 #: .\chardata\templates\chardata\changelog_content.html:244
 msgid "Smithmagic Lab & My Inventory"
@@ -2853,7 +2829,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:318
 msgid "Added Gelano AP/PM ring variant"
-msgstr "Añadida variante del anillo Gelano PA/PM"
+msgstr "Añadida variante PA/PM del Gelanillo"
 
 #: .\chardata\templates\chardata\changelog_content.html:319
 msgid "Better leech and prospecting preset"
@@ -3023,8 +2999,7 @@ msgstr "Descripciones de hechizos traducidas en los 5 idiomas"
 
 #: .\chardata\templates\chardata\changelog_content.html:406
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
-msgstr ""
-"Bloquear/Prohibir Seemyool Salvaje añadido a las restricciones de objetos"
+msgstr "Bloquear/Prohibir Mulagua salvaje añadido a las restricciones de objetos"
 
 #: .\chardata\templates\chardata\changelog_content.html:407
 msgid "Fixed weapon damage display"
@@ -3255,7 +3230,7 @@ msgstr "Scrollear todo"
 
 #: .\chardata\templates\chardata\chardata.html:46
 msgid "Proceed to Wizard"
-msgstr "Continuar hacia el Wizard"
+msgstr "Continuar hacia el Asistente"
 
 #: .\chardata\templates\chardata\chardata.html:55
 msgid "Soft Caps"
@@ -3264,11 +3239,11 @@ msgstr "Soft Caps (Franjas)"
 #: .\chardata\templates\chardata\chardata.html:190
 #, python-format
 msgid "Use %%pointsUsed%% points to increase to %%newTotal%% at %%ratio%%:1"
-msgstr "Utilizar %%pointsUsed%% puntos para aumentar %%newTotal%% a %%ratio%%:1."
+msgstr "Utilizar %%pointsUsed%% puntos para aumentar a %%newTotal%% a razón de %%ratio%%:1"
 
 #: .\chardata\templates\chardata\chardata.html:187
 msgid "Use %pointsUsed% points to increase to %newTotal% at %ratio%:1"
-msgstr "Utilizar %pointsUsed% puntos para aumentar %newTotal% a %ratio%:1."
+msgstr "Utilizar %pointsUsed% puntos para aumentar a %newTotal% a razón de %ratio%:1"
 
 #: .\chardata\templates\chardata\chardata.html:312
 #, python-format
@@ -3309,9 +3284,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:88
 msgid "Select 2 to 4 builds below, or paste solution/share links manually."
-msgstr ""
-"Selecciona de 2 a 4 builds abajo, o pega enlaces de solucion/compartidos "
-"manualmente."
+msgstr "Selecciona de 2 a 4 builds abajo, o pega enlaces de solución/compartidos manualmente."
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:100
 #: .\chardata\templates\chardata\solution.html:10
@@ -3594,7 +3567,7 @@ msgstr "Bonus de conjunto"
 #: .\chardata\templates\chardata\encyclopedia_set.html:106
 #: .\chardata\templates\chardata\solution_set.html:8
 msgid "pieces"
-msgstr "partes"
+msgstr "piezas"
 
 #: .\chardata\templates\chardata\encyclopedia_monster.html:8
 #: .\chardata\templates\chardata\encyclopedia_monster.html:14
@@ -3694,10 +3667,7 @@ msgid ""
 "Declare items that cannot be used on your character's set. By doing this you "
 "can avoid items that are expensive, hard to obtain, require a dungeon to be "
 "complete, or are just plain ugly."
-msgstr ""
-"Menciona qué objetos no pueden ser utilizados en tu set. De esta manera "
-"puedes evitar los objetos costosos, díficiles de obtener, con condiciones de "
-"pasar una mazmorra, o simplemente fuera de moda para tu gusto."
+msgstr "Menciona qué objetos no pueden ser utilizados en tu set. De esta manera puedes evitar los objetos costosos, difíciles de obtener, con condiciones de pasar una mazmorra, o simplemente fuera de moda para tu gusto."
 
 #: .\chardata\templates\chardata\exclusions.html:28
 #: .\chardata\templates\chardata\solution_item.html:28
@@ -3751,10 +3721,7 @@ msgstr "¿Qué versión de Dofus debo elegir?"
 msgid ""
 "Pick the one you play from the buttons at the top: Dofus 3, Beta, Dofus 2, "
 "Touch or Retro. Each is a different game with its own items and rules."
-msgstr ""
-"Elige a la que juegas con los botones de arriba: Dofus 3, Beta, Dofus 2, "
-"Touch o Retro. Cada una es un juego distinto con sus propios objetos y "
-"reglas."
+msgstr "Elige la versión a la que juegas con los botones de arriba: Dofus 3, Beta, Dofus 2, Touch o Retro. Cada una es un juego distinto con sus propios objetos y reglas."
 
 #: .\chardata\templates\chardata\faq.html:33
 msgid "I am new here. Where do I start?"
@@ -3775,20 +3742,14 @@ msgstr ""
 msgid ""
 "What are the numbers by the sliders? And why does each slider have a "
 "different range?"
-msgstr ""
-"¿Qué rayos son esos números junto a las barras? ¿Y por qué Fab'huritus cada "
-"barra tiene diferentes rangos?"
+msgstr "¿Qué rayos son esos números junto a las barras? ¿Y por qué cada barra tiene un rango diferente?"
 
 #: .\chardata\templates\chardata\faq.html:37
 msgid ""
 "Each of those numbers indicate how many points each of the attributes is "
 "worth to you. The program will then choose the equipment that sum the most "
 "points in total. For example, suppose you have the following equipment:"
-msgstr ""
-"Cada uno de esos números indica cuántos puntos de importancia tienen cada "
-"uno de esos atributos para ti. Entonces el programa escogerá el equipamiento "
-"(set) que acumule la mayoría de esos puntos. Por ejemplo, supongamos que "
-"tienes el siguiente equipamiento:"
+msgstr "Cada uno de esos números indica cuántos puntos de importancia tiene cada uno de esos atributos para ti. Entonces el programa escogerá el equipamiento (set) que acumule más puntos en total. Por ejemplo, supongamos que tienes el siguiente equipamiento:"
 
 #: .\chardata\templates\chardata\faq.html:44
 msgid "Item A"
@@ -3813,11 +3774,7 @@ msgid ""
 "If you say each intelligence is worth 10 points and each initiative is worth "
 "10 points, equipment A will have a score of 2100 points, while equipment B "
 "will have a score of 1400 points, and the program will choose Item A."
-msgstr ""
-"Si estableces que cada punto de  inteligencia te importa el valor de 10 "
-"puntos y que cada punto de iniciativa te importa el valor de 10 puntos, el "
-"objeto A tendría un puntaje de 2100 puntos, mientras el objeto B tendría un "
-"puntaje de 1400 puntos; entonces el programa te sugerirá el Objeto A."
+msgstr "Si estableces que cada punto de inteligencia vale 10 puntos para ti y que cada punto de iniciativa vale 10 puntos para ti, el objeto A tendría un puntaje de 2100 puntos, mientras el objeto B tendría un puntaje de 1400 puntos; entonces el programa te sugerirá el Objeto A."
 
 #: .\chardata\templates\chardata\faq.html:66
 msgid ""
@@ -3871,9 +3828,7 @@ msgstr ""
 msgid ""
 "We assume that, if you don’t check either of the PVP options, the set you "
 "are building is a PVM set."
-msgstr ""
-"Ya lo teníamos fríamente calculado, si no seleccionas ninguna de las "
-"opciones de PvP, el set que estás diseñando es un set de PvM."
+msgstr "Partimos del supuesto de que, si no seleccionas ninguna de las opciones de PvP, el set que estás diseñando es un set de PvM."
 
 #: .\chardata\templates\chardata\faq.html:77
 msgid "How does the site choose a weapon?"
@@ -3887,14 +3842,7 @@ msgid ""
 "which tend to hit the element you chose. It is common to get AP weapons that "
 "aren’t really for hitting with. Forbid them and run again to see the next "
 "better option. "
-msgstr ""
-"Si no aseguras algún arma, el sitio no toma en consideración los daños del "
-"arma sino que la trata como cualquier otro objeto, por eso no siempre "
-"conseguirás una opción que cause buenos daños. Generalmente te sugeriremos "
-"un arma con buenos bonus para tus requerimientos, lo cual tiene a "
-"relacionarse con un daño al elemento que has escogido. Es común que obtengas "
-"armas de PA que no pegan muy bien. Te aconsejamos Prohibirlas y tejer "
-"nuevamente un set y esperar una mejor opción."
+msgstr "Si no aseguras algún arma, el sitio no toma en consideración los daños del arma sino que la trata como cualquier otro objeto, por eso no siempre conseguirás una opción que cause buenos daños. Generalmente te sugeriremos un arma con buenos bonus para tus requerimientos, lo cual tiende a relacionarse con un daño al elemento que has escogido. Es común que obtengas armas de PA que no pegan muy bien. Te aconsejamos Prohibirlas y tejer nuevamente un set y esperar una mejor opción. "
 
 #: .\chardata\templates\chardata\faq.html:82
 msgid "Why can I focus on vitality and resists? Doesn't every char need them?"
@@ -3911,16 +3859,7 @@ msgid ""
 "and that's how they declare that defense is more important to them. Checking "
 "a focus box trades points in your main element (and other stats) for a boost "
 "on the focus you chose."
-msgstr ""
-"Esas opciones están pensadas en los personajes que necesitan especialmente "
-"mucha Vitalidad (o resistencias). Por ejemplo, Sacrógritos, Zobal y Steamers "
-"probablemente prefieran demasiada Vitalidad y no tanto de su elemento "
-"principal. Otros, como Osamodas, podrían necesitar una build de Vita/Resis "
-"con solo un poco de inteligencia, y de esta manera es que el jugador puede "
-"establecer que la defensa es más importante para ellos. El hecho de "
-"seleccionar una casilla de enfoque hace que los puntos de peso atribuidos a "
-"tu elemento principal (y otras características) sean cambiados hacia los "
-"otros atributos en los que has decidido enfocarte."
+msgstr "Esas opciones están pensadas en los personajes que necesitan especialmente mucha Vitalidad (o resistencias). Por ejemplo, Sacrógritos, Zobal y Steamers probablemente prefieran mucha Vitalidad y no tanto de su elemento principal. Otros, como Osamodas, podrían necesitar una build de Vita/Resis con solo un poco de inteligencia, y de esta manera es que el jugador puede establecer que la defensa es más importante para ellos. El hecho de seleccionar una casilla de enfoque hace que los puntos de peso atribuidos a tu elemento principal (y otras características) sean cambiados hacia los otros atributos en los que has decidido enfocarte."
 
 #: .\chardata\templates\chardata\faq.html:84
 msgid ""
@@ -4039,7 +3978,7 @@ msgstr "El theorycraft de Dofus al alcance de todos"
 
 #: .\chardata\templates\chardata\home.html:45
 msgid "Dofus Fashionista is a free theorycrafting tool. Tell it your class, level and what you want, and it works out the best set it can find, usually in a few seconds. No spreadsheets, no three-hour item hunts. It's beginner-friendly, but also a serious optimizer: fine-tune every stat, compare builds, and min-max across all five versions of the game: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch. Save your characters, share your builds, and become a better theorycrafter, fast."
-msgstr "Dofus Fashionista es una herramienta de theorycraft gratuita. Indique su clase, su nivel y lo que busca, y determina el mejor equipo que es capaz de encontrar, normalmente en unos segundos. Sin hojas de cálculo, sin horas perdidas buscando objetos. Fácil para empezar, pero también un optimizador de verdad: ajuste cada característica, compare builds y exprimalo en las cinco versiones del juego: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro y Dofus Touch. Guarde sus personajes, comparta sus builds y hagáse un crack del theorycraft."
+msgstr "Dofus Fashionista es una herramienta de theorycraft gratuita. Indique su clase, su nivel y lo que busca, y determina el mejor equipo que es capaz de encontrar, normalmente en unos segundos. Sin hojas de cálculo, sin horas perdidas buscando objetos. Fácil para empezar, pero también un optimizador de verdad: ajuste cada característica, compare builds y exprímalo en las cinco versiones del juego: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro y Dofus Touch. Guarde sus personajes, comparta sus builds y hágase un crack del theorycraft."
 
 #: .\chardata\templates\chardata\home.html:77
 msgid "New to Dofus Fashionista?"
@@ -4285,27 +4224,21 @@ msgstr "generado en"
 
 #: .\chardata\templates\chardata\license.html:60
 msgid "Privacy Policy:"
-msgstr "Politica de privacidad:"
+msgstr "Política de privacidad:"
 
 #: .\chardata\templates\chardata\license.html:61
 msgid ""
 "The Dofus Fashionista uses Google OAuth to authenticate users. This means "
 "that the Dofus Fashionista does not store your password. However, the Dofus "
 "Fashionista does store your email address and your Google ID."
-msgstr ""
-"Dofus Fashionista usa Google OAuth para autenticar usuarios. Esto significa "
-"que Dofus Fashionista no almacena tu contrasena. Sin embargo, Dofus "
-"Fashionista si almacena tu direccion de correo y tu ID de Google."
+msgstr "Dofus Fashionista usa Google OAuth para autenticar usuarios. Esto significa que Dofus Fashionista no almacena tu contraseña. Sin embargo, Dofus Fashionista sí almacena tu dirección de correo y tu ID de Google."
 
 #: .\chardata\templates\chardata\license.html:62
 msgid ""
 "If you prefer not to use Google OAuth, you can still use the Dofus "
 "Fashionista. You can create an account with a username and password. The "
 "Dofus Fashionista stores your password in an encrypted form."
-msgstr ""
-"Si prefieres no usar Google OAuth, aun puedes usar Dofus Fashionista. Puedes "
-"crear una cuenta con nombre de usuario y contrasena. Dofus Fashionista "
-"almacena tu contrasena de forma cifrada."
+msgstr "Si prefieres no usar Google OAuth, aún puedes usar Dofus Fashionista. Puedes crear una cuenta con nombre de usuario y contraseña. Dofus Fashionista almacena tu contraseña de forma cifrada."
 
 #: .\chardata\templates\chardata\license.html:63
 msgid ""
@@ -4404,7 +4337,7 @@ msgstr "¿Estás seguro(a) de querer eliminarlo?"
 
 #: .\chardata\templates\chardata\load_projects.html:129
 msgid "An error has occurred"
-msgstr "Ha ocurrido un errorcirijillo."
+msgstr "Ha ocurrido un error"
 
 #: .\chardata\templates\chardata\loading.html:12
 #, python-format
@@ -5056,7 +4989,7 @@ msgstr "Detalles del build"
 
 #: .\chardata\templates\chardata\projdetails.html:28
 msgid "Get started by providing details about your character."
-msgstr "Comenzar con dar detalles sobre tu personaje."
+msgstr "Empieza dando detalles sobre tu personaje."
 
 #: .\chardata\templates\chardata\projdetails.html:30
 msgid "Modify the build and character configuration."
@@ -5164,9 +5097,7 @@ msgstr ""
 msgid ""
 "Changing the priority or the mode in the Options column always restarts the "
 "wizard."
-msgstr ""
-"Cambiar la prioridad o el modo en la columna Opciones siempre reinicia el "
-"Wizard."
+msgstr "Cambiar la prioridad o el modo en la columna Opciones siempre reinicia el Asistente."
 
 #, python-format
 msgid "Check at most %(limit)d boxes in the focus column."
@@ -5178,11 +5109,11 @@ msgstr "Crear un set a mano"
 
 #: .\chardata\templates\chardata\projdetails.html:86
 msgid "Continue to Wizard"
-msgstr "Continuar hacia el Wizard"
+msgstr "Continuar hacia el Asistente"
 
 #: .\chardata\templates\chardata\projdetails.html:89
 msgid "Restart wizard upon saving"
-msgstr "Reiniciar el Wizard tras guardar"
+msgstr "Reiniciar el Asistente tras guardar"
 
 #: .\chardata\templates\chardata\projdetails.html:103
 #, python-format
@@ -5220,9 +5151,7 @@ msgstr ""
 #: .\chardata\templates\chardata\projdetails.html:137
 msgid ""
 "Avoids critical hits. Useful to fight enemies with high critical resist."
-msgstr ""
-"Evita composiciones con buena propabilidad de golpes críticos. Útil para "
-"luchar contra enemigos con alta resistencia a críticos."
+msgstr "Evita composiciones con buena probabilidad de golpes críticos. Útil para luchar contra enemigos con alta resistencia a críticos."
 
 #: .\chardata\templates\chardata\projdetails.html:138
 msgid ""
@@ -5317,11 +5246,7 @@ msgid ""
 "trophy, unless Prospecting or Pods is checked without an element. "
 "Without an element, the other stats get almost no importance and there "
 "is no AP, MP or Range minimum."
-msgstr ""
-"Solo para mulas de leveo. La sabiduría pasa a ser muy importante y, si "
-"pasas por el Wizard, solo se permite el Dofus Zanahowia, sin trofeos, "
-"salvo si marcas Prospección o Pods sin elemento. Sin elemento, las demás "
-"características casi no cuentan y no hay mínimo de PA, PM ni alcance."
+msgstr "Solo para mulas de leveo. La sabiduría pasa a ser muy importante y, si pasas por el Asistente, solo se permite el Dofus Zanahowia, sin trofeos, salvo si marcas Prospección o Pods sin elemento. Sin elemento, las demás características casi no cuentan y no hay mínimo de PA, PM ni alcance."
 
 #: .\chardata\templates\chardata\projdetails.html:149
 msgid ""
@@ -5343,10 +5268,7 @@ msgstr ""
 msgid ""
 "Srams that focus on traps should check this, though there isn't much trap "
 "equipment. Importance of Power (Traps) and +Trap Damage will be increased."
-msgstr ""
-"Recomendado para Srams enfocados en el daño por trampas, a pesar que no hay "
-"mucho equipamiento con este tipo de bonus. Otorga importancia a la Potencia "
-"(daños generales con trampas) y +Daños fijos (Trampas)."
+msgstr "Recomendado para Srams enfocados en el daño por trampas, a pesar de que no hay mucho equipamiento con este tipo de bonus. Otorga importancia a la Potencia (daños generales con trampas) y +Daños fijos (Trampas)."
 
 #: .\chardata\templates\chardata\projdetails.html:152
 msgid ""
@@ -5522,7 +5444,7 @@ msgstr "Sin TemporiX"
 
 #: .\chardata\templates\chardata\shared_builds.html:140
 msgid "Hide invalid or outdated builds"
-msgstr "Ocultar builds invalidos u obsoletos"
+msgstr "Ocultar builds inválidos u obsoletos"
 
 #: .\chardata\templates\chardata\shared_builds.html:146
 msgid "Apply Filters"
@@ -5555,7 +5477,7 @@ msgstr "Creador"
 
 #: .\chardata\templates\chardata\shared_builds.html:239
 msgid "Outdated slot layout"
-msgstr "Distribucion de ranuras obsoleta"
+msgstr "Distribución de ranuras obsoleta"
 
 #: .\chardata\templates\chardata\shared_builds.html:242
 msgid "Conditions not met"
@@ -5788,7 +5710,7 @@ msgstr "Algunos objetos podrían tener mejores opciones para tu build:"
 
 #: .\chardata\templates\chardata\solution.html:149
 msgid "This is a saved solution. Restore it to edit it, or compare it with your current build."
-msgstr "Esta es una solución guardada. Restauréla para editarla, o compárela con su build actual."
+msgstr "Esta es una solución guardada. Restáurela para editarla, o compárela con su build actual."
 
 #: .\chardata\templates\chardata\solution.html:154
 #, python-format
@@ -6233,8 +6155,7 @@ msgstr "Bloquear vacío"
 #: .\chardata\templates\chardata\solution_item.html:59
 msgid ""
 "This rune always lands, and locks the item against any further smithmagic."
-msgstr ""
-"Esta runa entra siempre y bloquea el objeto contra cualquier forja posterior."
+msgstr "Esta runa entra siempre y bloquea el objeto contra cualquier forjamagia posterior."
 
 #: .\chardata\templates\chardata\solution_set.html:10
 #: .\chardata\templates\chardata\solution_set.html:12
@@ -6291,11 +6212,11 @@ msgstr "Un solo turno sobre un objetivo: daño medio, con los buffs propios y la
 
 #: .\chardata\templates\chardata\spells.html:57
 msgid "Fully Buff"
-msgstr "Full Boosts"
+msgstr "Todos los buffs"
 
 #: .\chardata\templates\chardata\spells.html:58
 msgid "Clean Buffs"
-msgstr "Remover Boosts"
+msgstr "Quitar todos los buffs"
 
 #: .\chardata\templates\chardata\spells.html:68
 msgid "Agi"
@@ -6353,7 +6274,7 @@ msgstr "(excepto glifos)"
 
 #: .\chardata\templates\chardata\spells.html:727
 msgid "(glyphs)"
-msgstr "(con glifos)"
+msgstr "(glifos)"
 
 #: .\chardata\templates\chardata\spells.html:729
 msgid "(traps)"
@@ -6445,11 +6366,7 @@ msgid ""
 "attributes. Increasing the weight of an attribute will cause others to be "
 "sacrificed for it. Decreasing the weight of an attribute will cause it to be "
 "sacrificed for others."
-msgstr ""
-"Dofus Fashionista maximiza el valor total de todos los atributos de tu "
-"personaje. Incrementar el peso de un atributo conlleva a un sacrificio de "
-"los otros. Disminuir el peso de un atributo causará que este sea sacrificado "
-"por otros."
+msgstr "Dofus Fashionista maximiza el valor total de todos los atributos de tu personaje. Incrementar el peso de un atributo conlleva el sacrificio de los otros. Disminuir el peso de un atributo causará que este sea sacrificado por otros."
 
 #: .\chardata\templates\chardata\stats.html:39
 #, python-format
@@ -6561,7 +6478,7 @@ msgstr "Tema oscuro"
 
 #: .\chardata\templates\chardata\theme-selector.html:9
 msgid "Auto"
-msgstr "Automatico"
+msgstr "Automático"
 
 #: .\chardata\templates\chardata\user_profile.html:86
 msgid "follower"
@@ -7048,11 +6965,11 @@ msgstr "¿Borrar todos los objetos de tu taller?"
 
 #: .\chardata\tests.py:200
 msgid "Charged 3 times"
-msgstr "Cargada dos veces"
+msgstr "Cargada 3 veces"
 
 #: .\chardata\tests.py:201
 msgid "Charged 12 times"
-msgstr "Cargada dos veces"
+msgstr "Cargada 12 veces"
 
 #: .\chardata\translation_util.py:22
 msgid "Eniripsa"
@@ -7463,7 +7380,7 @@ msgstr "Dofus Retro y Touch: una comparación puede sumar las resistencias PvP c
 
 #: .\chardata\templates\chardata\changelog_content.html:8
 msgid "Every forgeable item in a build opens straight in the smithmagic workbench."
-msgstr "Cada objeto forjable de un build se abre directamente en el taller de forja."
+msgstr "Cada objeto forjamagueable de un build se abre directamente en el taller de forjamagia."
 
 #: .\chardata\templates\chardata\changelog_content.html:11
 msgid "A comparison can now show each build with its class buffs on."
@@ -7964,7 +7881,7 @@ msgstr "Importar un build"
 
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "outside %(low)s to %(high)s, check it"
-msgstr "fuera de %(low)s a %(high)s, compruebélo"
+msgstr "fuera de %(low)s a %(high)s, compruébelo"
 
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "These rolls were left out, because the item does not carry that stat:"
@@ -8375,8 +8292,8 @@ msgstr[1] "Favoritos"
 msgctxt "counter"
 msgid "piece"
 msgid_plural "pieces"
-msgstr[0] "parte"
-msgstr[1] "partes"
+msgstr[0] "pieza"
+msgstr[1] "piezas"
 
 msgctxt "counter"
 msgid "set"
