@@ -16,5 +16,8 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.3"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
   }
 }
