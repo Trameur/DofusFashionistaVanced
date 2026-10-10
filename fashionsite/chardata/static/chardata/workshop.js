@@ -686,7 +686,7 @@
         var nameEl = document.createElement('span');
         nameEl.className = 'ws-row-name';
         var link = meta.local_item_url || meta.resource_url;
-        if (link) {
+        if (link && /^(https?:\/\/|\/[^\/\\])/i.test(link)) {
             var a = document.createElement('a');
             a.href = link;
             a.textContent = meta.name;

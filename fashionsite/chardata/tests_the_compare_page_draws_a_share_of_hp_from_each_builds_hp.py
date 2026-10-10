@@ -229,8 +229,8 @@ class TheComparePageNumbersTheShareTests(TestCase):
                 '%s/compare_sets/%d/%d/' % (_prefix(version), first.pk, second.pk),
                 {'spell_class': char_class}, HTTP_ACCEPT_LANGUAGE=language)
         self.assertEqual(200, page.status_code)
-        scripts = [body for body in re.findall(r'<script[^>]*>(.*?)</script>',
-                                               page.content.decode('utf-8'), re.S)
+        scripts = [body for body in re.findall(r'<script\b[^>]*>(.*?)</script\b[^>]*>',
+                                               page.content.decode('utf-8'), re.S | re.I)
                    if 'var compareSpellDigests' in body]
         self.assertEqual(1, len(scripts))
         driver = (_DRIVER.replace('SPELL_TIP', json.dumps(SPELL_TIP_JS))

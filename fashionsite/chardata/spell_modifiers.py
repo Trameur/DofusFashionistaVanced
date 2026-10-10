@@ -6,7 +6,7 @@ import os
 
 from fashionistapulp.dofus_constants import NON_ELEMENTAL_HIT_TYPES
 
-_DIRECTORY = os.path.join(os.path.dirname(__file__), 'spell_modifiers')
+_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'spell_modifiers')
 _CACHE = {}
 
 APPLIED_KINDS = ('ap_cost', 'per_turn', 'per_target', 'cooldown',
@@ -33,8 +33,10 @@ class SpellModifier(object):
 def spell_modifier_table(game_version):
     """The version's file, empty when it has none."""
     if game_version not in _CACHE:
-        path = os.path.join(_DIRECTORY, '%s.json' % game_version)
+        path = os.path.normpath(os.path.join(_DIRECTORY, '%s.json' % game_version))
         try:
+            if not path.startswith(_DIRECTORY + os.sep):
+                raise ValueError(game_version)
             with open(path, encoding='utf-8') as handle:
                 _CACHE[game_version] = json.load(handle)
         except (IOError, OSError, ValueError):

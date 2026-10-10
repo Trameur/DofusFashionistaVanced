@@ -110,9 +110,9 @@ class TheComparePreviewCountsEachBuildsWornItemsTests(TestCase):
                 {'spell_class': char_class, 'spell_name': spell_name},
                 HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(200, page.status_code)
-        scripts = [body for body in re.findall(r'<script[^>]*>(.*?)</script>',
+        scripts = [body for body in re.findall(r'<script\b[^>]*>(.*?)</script\b[^>]*>',
                                                page.content.decode('utf-8'),
-                                               re.S)
+                                               re.S | re.I)
                    if 'var compareSpellDigests' in body]
         self.assertEqual(1, len(scripts))
         driver = _DRIVER.replace('STATS', json.dumps(stats or {}))

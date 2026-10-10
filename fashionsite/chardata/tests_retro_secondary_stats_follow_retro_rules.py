@@ -437,7 +437,7 @@ class TheSpellsPageLabelTests(TestCase):
         page = self.client.get('/retro/spells/%d/' % char.pk)
         self.assertEqual(200, page.status_code)
         scripts = [body for body in re.findall(
-            r'<script[^>]*>(.*?)</script>', page.content.decode('utf-8'), re.S)
+            r'<script\b[^>]*>(.*?)</script\b[^>]*>', page.content.decode('utf-8'), re.S | re.I)
             if 'function critRateLabel' in body]
         self.assertEqual(1, len(scripts))
         driver = _LABEL_DRIVER.replace('CASES', json.dumps(LABEL_CASES))

@@ -8,7 +8,7 @@ from .dofus_constants import (AIR, DAMAGE_TYPES, EARTH, FIRE, NEUTRAL,
                               NON_ELEMENTAL_HIT_TYPES, WATER, calculate_damage)
 from .game_versions import get_game_version
 
-_DIRECTORY = os.path.join(os.path.dirname(__file__), 'weapon_conversions')
+_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'weapon_conversions')
 KINDS = ('damage', 'steal', 'heal')
 TIERS = ('strong', 'medium', 'weak')
 STRONG = TIERS[0]
@@ -18,8 +18,8 @@ FALLBACK_LANGUAGE = 'en'
 
 @lru_cache(maxsize=None)
 def _table(version):
-    path = os.path.join(_DIRECTORY, '%s.json' % version)
-    if not os.path.isfile(path):
+    path = os.path.normpath(os.path.join(_DIRECTORY, '%s.json' % version))
+    if not path.startswith(_DIRECTORY + os.sep) or not os.path.isfile(path):
         return {'game_version': version, 'languages': [], 'conversions': [],
                 'gems': [], 'unforgeable': []}
     with open(path, encoding='utf-8') as handle:

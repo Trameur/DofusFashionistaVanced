@@ -83,7 +83,7 @@ class _SpellsPage(TestCase):
         page = self.client.get('%s/spells/%d/' % (prefix, char.pk))
         self.assertEqual(200, page.status_code)
         scripts = [body for body in re.findall(
-            r'<script[^>]*>(.*?)</script>', page.content.decode('utf-8'), re.S)
+            r'<script\b[^>]*>(.*?)</script\b[^>]*>', page.content.decode('utf-8'), re.S | re.I)
             if 'function critRateLabel' in body]
         self.assertEqual(1, len(scripts))
         driver = _DRIVER.replace('CASES', json.dumps(cases))

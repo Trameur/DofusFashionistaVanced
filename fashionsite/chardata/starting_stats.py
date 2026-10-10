@@ -3,7 +3,7 @@
 import json
 import os
 
-_DIRECTORY = os.path.join(os.path.dirname(__file__), 'starting_stats')
+_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'starting_stats')
 _CACHE = {}
 
 # Hand values: set by the server, stated by no client text of the version
@@ -16,8 +16,10 @@ def starting_stats_table(game_version):
     if not game_version or not game_version.isalnum():
         return {}
     if game_version not in _CACHE:
-        path = os.path.join(_DIRECTORY, '%s.json' % game_version)
+        path = os.path.normpath(os.path.join(_DIRECTORY, '%s.json' % game_version))
         try:
+            if not path.startswith(_DIRECTORY + os.sep):
+                raise ValueError(game_version)
             with open(path, encoding='utf-8') as handle:
                 _CACHE[game_version] = json.load(handle)
         except (IOError, OSError, ValueError):

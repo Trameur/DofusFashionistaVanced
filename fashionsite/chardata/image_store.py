@@ -30,7 +30,9 @@ def _static_exists(path):
         return True
     static_root = getattr(settings, 'STATIC_ROOT', None)
     if static_root:
-        return os.path.exists(os.path.join(static_root, path))
+        root = os.path.normpath(static_root)
+        full = os.path.normpath(os.path.join(root, path))
+        return full.startswith(root + os.sep) and os.path.exists(full)
     return False
 
 
@@ -39,7 +41,12 @@ def list_static_dir(path):
     directory = finders.find(path)
     if not directory or not os.path.isdir(directory):
         static_root = getattr(settings, 'STATIC_ROOT', None)
-        candidate = os.path.join(static_root, path) if static_root else None
+        candidate = None
+        if static_root:
+            root = os.path.normpath(static_root)
+            candidate = os.path.normpath(os.path.join(root, path))
+            if not candidate.startswith(root + os.sep):
+                candidate = None
         directory = candidate if candidate and os.path.isdir(candidate) else None
     if not directory:
         return []

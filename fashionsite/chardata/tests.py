@@ -21866,12 +21866,14 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     ' WHERE COALESCE(i.removed, 0) = 0').fetchall()
             finally:
                 connection.close()
-            missing = [
-                (type_name, item_name)
-                for type_name, item_name in rows
-                if not os.path.exists(os.path.join(
-                    static,
-                    get_image_url(type_name, item_name, version).replace('/', os.sep)))]
+            root = os.path.normpath(static)
+            missing = []
+            for type_name, item_name in rows:
+                full = os.path.normpath(os.path.join(
+                    root,
+                    get_image_url(type_name, item_name, version).replace('/', os.sep)))
+                if not (full.startswith(root + os.sep) and os.path.exists(full)):
+                    missing.append((type_name, item_name))
             with self.subTest(version=version):
                 self.assertEqual(missing[:5], [])
 

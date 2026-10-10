@@ -170,8 +170,8 @@ class TheNoCritBlockStaysTests(TestCase):
         page = self.client.get('/%sspells/%d/' % (prefix, char.pk),
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(200, page.status_code)
-        scripts = [body for body in re.findall(r'<script[^>]*>(.*?)</script>',
-                                               page.content.decode('utf-8'), re.S)
+        scripts = [body for body in re.findall(r'<script\b[^>]*>(.*?)</script\b[^>]*>',
+                                               page.content.decode('utf-8'), re.S | re.I)
                    if 'var spellDigests' in body]
         self.assertEqual(1, len(scripts))
         with tempfile.NamedTemporaryFile('w', suffix='.js', encoding='utf-8',

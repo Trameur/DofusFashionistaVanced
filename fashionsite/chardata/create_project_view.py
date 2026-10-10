@@ -294,8 +294,8 @@ def create_project(request):
             rapport = apply_ankama_ids(char, structure, [voulu])
             if rapport['rejected']:
                 # Usually an item above the chosen level; the project is still created
-                logger.info('build-around item %s not locked on char %s: %s',
-                            voulu, char.id, rapport['rejected'])
+                logger.info('build-around item %s not locked on char %s: %d rejected',
+                            voulu, char.id, len(rapport['rejected']))
         except Exception:
             # Better a project without the item than an error
             logger.warning('build-around item %s could not be applied',
