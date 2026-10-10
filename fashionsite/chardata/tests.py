@@ -1937,12 +1937,13 @@ class SocialAuthCancelTests(TestCase):
     def test_auth_missing_parameter_redirects_to_login(self):
         # Bots and stale redirects hit /complete/ without the state param.
         from django.test import RequestFactory
-        from social_core.exceptions import AuthMissingParameter
+        from social_core.exceptions import AuthInputError
         from chardata.SocialAuthExceptionMiddleware import SocialAuthExceptionMiddleware
         mw = SocialAuthExceptionMiddleware(lambda r: None)
         resp = mw.process_exception(
             RequestFactory().get('/complete/google-oauth2/'),
-            AuthMissingParameter('google-oauth2', 'state'))
+            AuthInputError('google-oauth2', parameter='state',
+                           code='missing_parameter'))
         self.assertEqual(resp.status_code, 302)
         self.assertIn('/login', resp['Location'])
 

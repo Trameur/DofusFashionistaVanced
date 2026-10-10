@@ -4,10 +4,10 @@
 from unittest import mock
 
 from django.test import RequestFactory, SimpleTestCase, TestCase
-from social_core.exceptions import (AuthCanceled, AuthFailed, AuthForbidden,
-                                    AuthMissingParameter, AuthStateForbidden,
-                                    AuthStateMissing, AuthTokenError,
-                                    AuthUnknownError)
+from social_core.exceptions import (AuthCanceled, AuthCredentialError,
+                                    AuthInputError, AuthPolicyError,
+                                    AuthProviderError, AuthResponseError,
+                                    AuthSessionError, AuthUnknownError)
 
 from chardata.SocialAuthExceptionMiddleware import (
     SOCIAL_FAILED_PARAM, SOCIAL_FAILED_VALUE, SocialAuthExceptionMiddleware)
@@ -34,23 +34,26 @@ class TheMiddlewareTurnsEveryAuthFailureIntoARedirectTests(SimpleTestCase):
     def test_the_forbidden_of_the_eighth_of_september_redirects_with_the_flag(self):
         with self.assertLogs(JOURNAL, level='ERROR') as journal:
             reponse = _middleware().process_exception(
-                _requete(), AuthForbidden('google-oauth2'))
+                _requete(), AuthPolicyError('google-oauth2'))
         self.assertEqual(302, reponse.status_code)
         self.assertTrue(reponse['Location'].startswith('/login_page/?'),
                         reponse['Location'])
         self.assertIn('%s=%s' % (SOCIAL_FAILED_PARAM, SOCIAL_FAILED_VALUE),
                       reponse['Location'])
-        # The error stays visible to the owner: class, backend, message
+        # The error stays visible to the owner: class, code, backend, message
         ligne = '\n'.join(journal.output)
-        self.assertIn('AuthForbidden', ligne)
+        self.assertIn('AuthPolicyError', ligne)
+        self.assertIn('authentication_disallowed', ligne)
         self.assertIn('google-oauth2', ligne)
-        self.assertIn("Your credentials aren't allowed", ligne)
+        self.assertIn('Authentication is not allowed', ligne)
 
     def test_the_other_auth_failures_take_the_same_door(self):
-        for exception in (AuthFailed('google-oauth2', 'boom'),
-                          AuthTokenError('google-oauth2', 'expired'),
-                          AuthUnknownError('google-oauth2', 'odd')):
-            with self.subTest(exception=type(exception).__name__):
+        for exception in (AuthResponseError('google-oauth2', 'boom'),
+                          AuthCredentialError('google-oauth2', 'expired'),
+                          AuthUnknownError('google-oauth2', 'odd'),
+                          AuthInputError('google-oauth2', parameter='code',
+                                         code='invalid_parameter')):
+            with self.subTest(exception=exception.code):
                 with self.assertLogs(JOURNAL, level='ERROR'):
                     reponse = _middleware().process_exception(_requete(),
                                                               exception)
@@ -59,10 +62,13 @@ class TheMiddlewareTurnsEveryAuthFailureIntoARedirectTests(SimpleTestCase):
 
     def test_client_noise_stays_silent_as_before(self):
         for exception in (AuthCanceled('google-oauth2'),
-                          AuthMissingParameter('google-oauth2', 'state'),
-                          AuthStateMissing('google-oauth2'),
-                          AuthStateForbidden('google-oauth2')):
-            with self.subTest(exception=type(exception).__name__):
+                          AuthInputError('google-oauth2', parameter='state',
+                                         code='missing_parameter'),
+                          AuthSessionError('google-oauth2', 'state',
+                                           code='session_context_missing'),
+                          AuthSessionError('google-oauth2',
+                                           code='state_mismatch')):
+            with self.subTest(exception=exception.code):
                 with self.assertNoLogs(JOURNAL, level='ERROR'):
                     reponse = _middleware().process_exception(_requete(),
                                                               exception)
@@ -78,7 +84,7 @@ class TheCallbackItselfLandsOnTheLoginPageTests(TestCase):
 
     def test_a_forbidden_callback_is_a_redirect_not_a_500(self):
         with mock.patch('social_core.backends.oauth.BaseOAuth2.auth_complete',
-                        side_effect=AuthForbidden('google-oauth2')):
+                        side_effect=AuthPolicyError('google-oauth2')):
             with self.assertLogs(JOURNAL, level='ERROR'):
                 reponse = self.client.get('/complete/google-oauth2/',
                                           {'state': 'x', 'code': 'y'})
@@ -147,6 +153,27 @@ class TheProviderBeingUnreachableTakesTheSameDoorTests(SimpleTestCase):
                                                       erreur)
         self.assertEqual(302, reponse.status_code)
         self.assertIn(SOCIAL_FAILED_PARAM + '=', reponse['Location'])
+
+    def test_a_timeout_social_core_wrapped_names_its_cause(self):
+        import requests
+        try:
+            try:
+                raise requests.exceptions.ReadTimeout('accounts.google.com: '
+                                                      'Read timed out.')
+            except requests.exceptions.ReadTimeout as cause:
+                raise AuthProviderError('google-oauth2', code='timeout',
+                                        stage='token_exchange') from cause
+        except AuthProviderError as enveloppe:
+            erreur = enveloppe
+        with self.assertLogs(JOURNAL, level='ERROR') as journal:
+            reponse = _middleware().process_exception(_requete(), erreur)
+        self.assertEqual(302, reponse.status_code)
+        self.assertIn('/login_page/?%s=%s' % (SOCIAL_FAILED_PARAM,
+                                              SOCIAL_FAILED_VALUE),
+                      reponse['Location'])
+        ligne = '\n'.join(journal.output)
+        self.assertIn('could not reach the provider', ligne)
+        self.assertIn('ReadTimeout', ligne)
 
     def test_a_network_error_outside_the_social_views_is_left_alone(self):
         import requests
