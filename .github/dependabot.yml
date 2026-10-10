@@ -16,6 +16,12 @@ updates:
         patterns:
           - "boto3"
           - "botocore"
+      # social-auth-app-django requires the social-auth-core of its own
+      # major: 7.0.0 alone did not install over core 5.2.0.
+      social-auth:
+        patterns:
+          - "social-auth-app-django"
+          - "social-auth-core"
     # PuLP 4 drops the bundled CBC solver and the LpStatus names the
     # optimizer imports, so a major bump needs a port, not a merge.
     ignore:
@@ -27,8 +33,13 @@ updates:
         versions: [">=6.1"]
     open-pull-requests-limit: 10
 
-  # JavaScript dependencies (assumes package.json is at the root)
+  # JavaScript dependencies: the Capacitor shell of the mobile app. Its
+  # core, cli and platform packages are meant to share one version.
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/mobile"
     schedule:
       interval: "weekly"
+    groups:
+      capacitor:
+        patterns:
+          - "@capacitor/*"
