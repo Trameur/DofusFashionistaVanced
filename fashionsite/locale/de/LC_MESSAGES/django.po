@@ -9250,8 +9250,8 @@ msgid "No item of this version gives these characteristics. Empty a box to remov
 msgstr "Kein Gegenstand dieser Version gibt diese Eigenschaften. Ein geleertes Feld entfernt seinen Mindestwert."
 
 #: chardata/templates/chardata/weights_minimums_row.html
-msgid "Follows the elemental damages"
-msgstr "Folgt dem Elementarschaden"
+msgid "Sum of the elemental damages: 1 Damage adds 1 to each element"
+msgstr "Summe der Elementarschäden: 1 Schaden fügt jedem Element 1 hinzu"
 
 #: chardata/templates/chardata/weights_minimums_row.html
 #, python-format

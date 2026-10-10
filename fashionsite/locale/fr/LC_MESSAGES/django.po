@@ -9302,8 +9302,8 @@ msgid "No item of this version gives these characteristics. Empty a box to remov
 msgstr "Aucun objet de cette version ne donne ces caractéristiques. Vide une case pour retirer son minimum."
 
 #: chardata/templates/chardata/weights_minimums_row.html
-msgid "Follows the elemental damages"
-msgstr "Suit les dommages élémentaires"
+msgid "Sum of the elemental damages: 1 Damage adds 1 to each element"
+msgstr "Somme des dommages élémentaires : 1 Dommage ajoute 1 à chaque élément"
 
 #: chardata/templates/chardata/weights_minimums_row.html
 #, python-format

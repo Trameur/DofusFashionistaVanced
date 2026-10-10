@@ -8212,7 +8212,7 @@ msgid "No item of this version gives these characteristics. Empty a box to remov
 msgstr ""
 
 #: chardata/templates/chardata/weights_minimums_row.html
-msgid "Follows the elemental damages"
+msgid "Sum of the elemental damages: 1 Damage adds 1 to each element"
 msgstr ""
 
 #: chardata/templates/chardata/weights_minimums_row.html

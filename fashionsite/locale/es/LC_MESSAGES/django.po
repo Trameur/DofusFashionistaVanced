@@ -9270,8 +9270,8 @@ msgid "No item of this version gives these characteristics. Empty a box to remov
 msgstr "Ningún objeto de esta versión da estas características. Vacía una casilla para quitar su mínimo."
 
 #: chardata/templates/chardata/weights_minimums_row.html
-msgid "Follows the elemental damages"
-msgstr "Sigue los daños elementales"
+msgid "Sum of the elemental damages: 1 Damage adds 1 to each element"
+msgstr "Suma de los daños elementales: 1 Daño añade 1 a cada elemento"
 
 #: chardata/templates/chardata/weights_minimums_row.html
 #, python-format
