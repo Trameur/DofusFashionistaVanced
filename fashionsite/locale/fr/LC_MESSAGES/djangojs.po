@@ -73,7 +73,7 @@ msgstr ""
 
 #: .\admin\js\SelectFilter2.js:80
 msgid "Remove all"
-msgstr "Retirer "
+msgstr "Tout retirer"
 
 #: .\admin\js\SelectFilter2.js:80
 #, javascript-format
@@ -83,8 +83,8 @@ msgstr "Click to remove all chosen %s at once."
 #: .\admin\js\actions.js:18 .\admin\js\actions.min.js:1
 msgid "%(sel)s of %(cnt)s selected"
 msgid_plural "%(sel)s of %(cnt)s selected"
-msgstr[0] "%(sel)s sur %(cnt)s selectionne"
-msgstr[1] "%(sel)s sur %(cnt)s selectionnes"
+msgstr[0] "%(sel)s sur %(cnt)s sélectionné"
+msgstr[1] "%(sel)s sur %(cnt)s sélectionnés"
 
 #: .\admin\js\actions.js:109 .\admin\js\actions.min.js:5
 msgid ""
@@ -197,7 +197,7 @@ msgstr "Nom de compte ou mot de passe incorrect."
 
 #: .\chardata\static\chardata\login.js:15
 msgid "Confirm your email to log in."
-msgstr "Confirmer votre email pour vous connectez."
+msgstr "Confirmez votre email pour vous connecter."
 
 #: .\chardata\static\chardata\login.js:17
 msgid "Error while logging in."
@@ -233,7 +233,7 @@ msgstr "Entrer un email valide."
 
 #: .\chardata\static\chardata\options.js:139
 msgid "You need to be a higher level to equip this Dofus"
-msgstr "Vous devez être un niveau plus élevé d'équiper ce Dofus"
+msgstr "Vous devez avoir un niveau plus élevé pour équiper ce Dofus"
 
 #: .\chardata\static\chardata\solution_popup.js:50
 msgid "AP"
@@ -286,7 +286,7 @@ msgstr "Retirer "
 #: .\chardata\static\chardata\solution_popup.js:133
 #: .\chardata\static\chardata\solution_popup.js:215
 msgid "Adding Item"
-msgstr "Ajout de Item"
+msgstr "Ajout d’un objet"
 
 #: .\chardata\static\chardata\solution_popup.js:140
 msgid "Loading"
@@ -318,11 +318,11 @@ msgstr "Seulement mes objets"
 
 #: .\chardata\static\chardata\solution_popup.js:281
 msgid "Order by stats"
-msgstr "Commander par caractéristiques"
+msgstr "Trier par caractéristiques"
 
 #: .\chardata\static\chardata\solution_popup.js:282
 msgid "Order by hits"
-msgstr "Commander par dommage"
+msgstr "Trier par dommages"
 
 #: .\chardata\static\chardata\solution_popup.js:410
 msgid "This item no longer exists"
@@ -349,7 +349,7 @@ msgstr "Vous ne pouvez pas équiper cet item."
 #: .\chardata\static\chardata\solution_popup.js:493
 #, javascript-format
 msgid " To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> and tailor a new set."
-msgstr " Pour trouver un équipement qui l’inclut, verrouillez-le <a href=\\\"/inclusions/%s/\\\">ici</a> et créez un nouvel équipement."
+msgstr " Pour trouver un équipement qui l’inclut, verrouillez-le <a href=\"/inclusions/%s/\">ici</a> et créez un nouvel équipement."
 
 #: .\chardata\static\chardata\solution_popup.js:501
 msgid ""
@@ -361,7 +361,7 @@ msgstr ""
 #: .\chardata\static\chardata\solution_popup.js:503
 #, javascript-format
 msgid " To find a set including it that fulfills these conditions, lock it <a href=\"/inclusions/%s/\">here</a> and tailor a new set."
-msgstr " Pour trouver un équipement qui l’inclut et remplit ces conditions, verrouillez-le <a href=\\\"/inclusions/%s/\\\">ici</a> et créez un nouvel équipement."
+msgstr " Pour trouver un équipement qui l’inclut et remplit ces conditions, verrouillez-le <a href=\"/inclusions/%s/\">ici</a> et créez un nouvel équipement."
 
 #: .\chardata\static\chardata\solution_popup.js:569
 msgid "There are no differences."
@@ -381,7 +381,7 @@ msgstr "Comparaison"
 
 #: .\chardata\static\chardata\solution_popup.js:597
 msgid "Attributes"
-msgstr "Attributs"
+msgstr "Caractéristiques"
 
 #: .\chardata\static\chardata\solution_popup.js:603
 msgid "Select"
@@ -447,23 +447,23 @@ msgstr "Dommages"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Neutral Resistance"
-msgstr "Resistance Neutre"
+msgstr "Résistance Neutre"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Earth Resistance"
-msgstr "Resistance Terre"
+msgstr "Résistance Terre"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Fire Resistance"
-msgstr "Resistance Feu"
+msgstr "Résistance Feu"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Water Resistance"
-msgstr "Resistance Eau"
+msgstr "Résistance Eau"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Air Resistance"
-msgstr "Resistance Air"
+msgstr "Résistance Air"
 
 #: staticfiles/admin/js/SelectFilter2.js:105
 #, javascript-format
@@ -474,8 +474,8 @@ msgstr "Type into this box to filter down the list of selected %s."
 #, javascript-format
 msgid "%s selected option not visible"
 msgid_plural "%s selected options not visible"
-msgstr[0] "L'option selectionnee %s n'est pas visible"
-msgstr[1] "Les options selectionnees %s ne sont pas visibles"
+msgstr[0] "L'option sélectionnée %s n'est pas visible"
+msgstr[1] "Les options sélectionnées %s ne sont pas visibles"
 
 #: staticfiles/admin/js/actions.js:174
 msgid ""

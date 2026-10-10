@@ -744,7 +744,7 @@ msgstr "Arbalète"
 
 #: .\chardata\dynamic_translations.py:84 .\chardata\translation_util.py:118
 msgid "Dagger"
-msgstr "Dagues"
+msgstr "Dague"
 
 #: .\chardata\dynamic_translations.py:85
 #: .\chardata\templates\chardata\compare_sets.html:187
@@ -1785,8 +1785,8 @@ msgid ""
 "this keeps happening, you can contact us <a href=\"%(contact_url)s\">here</"
 "a>."
 msgstr ""
-"Si quelqu'un vous a envoyé ce lien, demandez lui plutôt de vous envoyer le "
-"lien 'de partage' au-dessus de sa page de suggestion d'équipement. Si ce "
+"Si quelqu'un vous a envoyé ce lien, demandez-lui plutôt de vous envoyer le "
+"lien de partage situé en bas de sa page de suggestion d'équipement. Si ce "
 "n'est pas le cas et que cela continue à se produire, vous pouvez nous "
 "contacter <a href=\"%(contact_url)s\">ici</a>."
 
@@ -1865,9 +1865,9 @@ msgid ""
 msgstr ""
 "Les équipements proposés ne vont pas forcément vous plaire. Vous pouvez, par "
 "exemple, trouver les points de vie trop bas malgré une bonne agilité. Vous "
-"pouvez affiner vos critères en retournant à la page où vous avez configuré "
-"votre nombre de PA, PM, PO, etc. (Page 'Assistant'), puis peaufiner vos "
-"critères ou en jouant avec les curseurs en bas de page."
+"pouvez affiner le résultat en retournant à l'assistant pour jouer avec les "
+"curseurs, ou en réglant directement la valeur attribuée à chaque "
+"caractéristique."
 
 #: .\chardata\templates\chardata\about.html:25
 msgid ""
@@ -2408,7 +2408,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:76
 msgid "Saved builds in set comparisons"
-msgstr "Builds enregistres dans les comparatifs"
+msgstr "Builds enregistrés dans les comparatifs"
 
 #: .\chardata\templates\chardata\changelog_content.html:78
 msgid ""
@@ -2530,8 +2530,8 @@ msgid ""
 "A new Guides section with hand-written articles: first build, stats and "
 "weights, game modes, reading items, comparing builds and more"
 msgstr ""
-"Une nouvelle section Guides avec des articles écrits main : premier build, "
-"stats et poids, modes de jeu, lire un item, comparer des builds et plus"
+"Une nouvelle section Guides avec des articles écrits à la main : premier build, "
+"stats et poids, modes de jeu, lire un objet, comparer des builds et plus"
 
 #: .\chardata\templates\chardata\changelog_content.html:151
 msgid "Available in all five languages, linked from the menu and the home page"
@@ -3702,9 +3702,9 @@ msgid ""
 "can avoid items that are expensive, hard to obtain, require a dungeon to be "
 "complete, or are just plain ugly."
 msgstr ""
-"Déclarez les items qui ne peuvent être utilisés dans votre équipement. En "
-"faisant cela vous pouvez éviter les items chers, difficiles d'obtention, "
-"requiérant un donjon pour être équipables, ou simplement moches."
+"Déclarez les objets que votre personnage ne peut pas utiliser dans son "
+"équipement. Ainsi, vous pouvez éviter les objets chers, difficiles à "
+"obtenir, nécessitant d'avoir terminé un donjon, ou simplement moches."
 
 #: .\chardata\templates\chardata\exclusions.html:28
 #: .\chardata\templates\chardata\solution_item.html:28
@@ -3783,8 +3783,8 @@ msgid ""
 "What are the numbers by the sliders? And why does each slider have a "
 "different range?"
 msgstr ""
-"Quels sont les numéros à côté des curseurs ? Et pourquoi ont-ils tous une "
-"valeur différente ?"
+"Que sont les nombres à côté des curseurs ? Et pourquoi chaque curseur a-t-il "
+"une plage différente ?"
 
 #: .\chardata\templates\chardata\faq.html:37
 msgid ""
@@ -3871,16 +3871,16 @@ msgid ""
 "I need a PVM set, but I only see PVP options. Is there a way to build a PVM "
 "set?"
 msgstr ""
-"J’ai besoin d’une panoplie pour le PVM mais je ne vois qu’une option pour le "
-"PvP. Y-a-t’il une façon d’avoir une panoplie pour le PvM ?"
+"J’ai besoin d’une panoplie pour le PvM mais je ne vois qu’une option pour le "
+"PvP. Y a-t-il une façon d’avoir une panoplie pour le PvM ?"
 
 #: .\chardata\templates\chardata\faq.html:74
 msgid ""
 "We assume that, if you don’t check either of the PVP options, the set you "
 "are building is a PVM set."
 msgstr ""
-"Nous suggérons que si vous ne cherchez pas une panoplie spécialement pour le "
-"PvP alors par défaut la panoplie recherchée sera pour le PvM."
+"Nous partons du principe que, si vous ne cochez aucune des options PvP, la "
+"panoplie que vous construisez est destinée au PvM."
 
 #: .\chardata\templates\chardata\faq.html:77
 msgid "How does the site choose a weapon?"
@@ -3926,9 +3926,10 @@ msgstr ""
 "zobals et steamers peuvent rechercher beaucoup de vitalité et ne pas trop se "
 "soucier de leur élément principal. Sinon, les Osamodas peuvent avoir besoin "
 "d’une panoplie avec beaucoup de vitalité / résistance avec un petit peu "
-"d’intelligence ; c’est comme cela qu’ils démontrent que la défense est "
-"importante pour eux. Sélectionnez la case de votre élément principal (et "
-"celles d’autres stats) pour la (les) mettre en priorité."
+"d’intelligence ; c’est ainsi qu’ils indiquent que la défense compte "
+"davantage pour eux. Cocher une case de priorité sacrifie des points de votre "
+"élément principal (et d’autres caractéristiques) au profit de la priorité "
+"choisie."
 
 #: .\chardata\templates\chardata\faq.html:84
 msgid ""
@@ -4048,7 +4049,7 @@ msgstr "Le theorycraft Dofus à la portée de tous"
 
 #: .\chardata\templates\chardata\home.html:45
 msgid "Dofus Fashionista is a free theorycrafting tool. Tell it your class, level and what you want, and it works out the best set it can find, usually in a few seconds. No spreadsheets, no three-hour item hunts. It's beginner-friendly, but also a serious optimizer: fine-tune every stat, compare builds, and min-max across all five versions of the game: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch. Save your characters, share your builds, and become a better theorycrafter, fast."
-msgstr "Dofus Fashionista est un outil de theorycraft gratuit. Indiquez votre classe, votre niveau et ce que vous recherchez, et il determine le meilleur équipement qu’il puisse trouver, en general en quelques secondes. Sans tableur, sans heures perdues à fouiller les objets. Facile pour débuter, mais aussi un vrai outil d’optimisation : ajustez chaque caractéristique, comparez vos builds et poussez l’opti sur les cinq versions du jeu : Dofus 3, Dofus 3 Bêta, Dofus 2, Dofus Retro et Dofus Touch. Sauvegardez vos personnages, partagez vos builds et devenez vite un crack du theorycraft."
+msgstr "Dofus Fashionista est un outil de theorycraft gratuit. Indiquez votre classe, votre niveau et ce que vous recherchez, et il détermine le meilleur équipement qu’il puisse trouver, en général en quelques secondes. Sans tableur, sans heures perdues à fouiller les objets. Facile pour débuter, mais aussi un vrai outil d’optimisation : ajustez chaque caractéristique, comparez vos builds et poussez l’opti sur les cinq versions du jeu : Dofus 3, Dofus 3 Bêta, Dofus 2, Dofus Retro et Dofus Touch. Sauvegardez vos personnages, partagez vos builds et devenez vite un crack du theorycraft."
 
 #: .\chardata\templates\chardata\home.html:77
 msgid "New to Dofus Fashionista?"
@@ -4087,7 +4088,7 @@ msgstr "par"
 
 #: .\chardata\templates\chardata\home.html:105
 msgid "Browse all shared builds →"
-msgstr "Parcourir toutes les builds partagées →"
+msgstr "Parcourir tous les builds partagés →"
 
 #: .\chardata\templates\chardata\home.html:159
 msgid "What is the Dofus Fashionista?"
@@ -4134,7 +4135,7 @@ msgid ""
 "here:"
 msgstr ""
 "Si certains items <b>doivent</b> apparaître dans l'équipement final, "
-"verrouillez les ici :"
+"verrouillez-les ici :"
 
 #: .\chardata\templates\chardata\inclusions.html:21
 msgid ""
@@ -4415,7 +4416,7 @@ msgstr "Vous devez vous connecter avant de pouvoir ouvrir un build."
 
 #: .\chardata\templates\chardata\load_projects.html:97
 msgid "Are you sure you want to delete?"
-msgstr "Êtes-vous sur de vouloir l'effacer ?"
+msgstr "Êtes-vous sûr de vouloir l'effacer ?"
 
 #: .\chardata\templates\chardata\load_projects.html:129
 msgid "An error has occurred"
@@ -4457,12 +4458,12 @@ msgstr ""
 msgid ""
 "Your email had already been confirmed. Please type your password to enter."
 msgstr ""
-"Votre email a déjà été confirmé. Tapez votre mot de de passe pour entrer."
+"Votre email a déjà été confirmé. Tapez votre mot de passe pour entrer."
 
 #: .\chardata\templates\chardata\login.html:49
 msgid "Thanks for confirming your email. Please type your password to enter."
 msgstr ""
-"Merci d'avoir confirmer votre email. Tapez votre mot de passe pour entrer."
+"Merci d'avoir confirmé votre email. Tapez votre mot de passe pour entrer."
 
 #: .\chardata\templates\chardata\login.html:56
 #: .\chardata\templates\chardata\login.html:102
@@ -4505,7 +4506,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\login.html:93
 msgid "New here? Register:"
-msgstr "Nouveau ici ? Inscris toi :"
+msgstr "Nouveau ici ? Inscris-toi :"
 
 #: .\chardata\templates\chardata\login.html:96
 msgid ""
@@ -4517,7 +4518,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\login.html:113
 msgid "Confirm Password"
-msgstr "Confimer le mot de passe"
+msgstr "Confirmer le mot de passe"
 
 #: .\chardata\templates\chardata\login.html:127
 #: .\chardata\templates\chardata\login.html:133
@@ -4623,7 +4624,7 @@ msgstr "Cliquez <a href=\"%(home_url)s\">ici</a> pour revenir en arrière"
 msgid ""
 "Choose what expensive or uncommon options can be used in your character's "
 "set."
-msgstr "Choisissez la valeur et les options pour votre futur stuff."
+msgstr "Choisissez quelles options coûteuses ou peu courantes peuvent être utilisées dans le stuff de votre personnage."
 
 #: .\chardata\templates\chardata\options.html:29
 #: .\chardata\templates\chardata\wizard_options.html:11
@@ -5230,7 +5231,7 @@ msgid ""
 "are much better on a critical hit."
 msgstr ""
 "Focus sur les coups critiques. Utile pour les personnages avec des sorts/"
-"armes qui frappe bien mieux en coup critique."
+"armes qui frappent bien mieux en coup critique."
 
 #: .\chardata\templates\chardata\projdetails.html:137
 msgid ""
@@ -5279,7 +5280,7 @@ msgid ""
 "Hitters who want damage as high as possible ignoring defense should check "
 "this."
 msgstr ""
-"Si vous désirez faire le plus de dégats possibles en ignorant les "
+"Si vous désirez faire le plus de dégâts possible en ignorant les "
 "caractéristiques de défense, cochez cette case."
 
 #: .\chardata\templates\chardata\projdetails.html:143
@@ -5288,8 +5289,8 @@ msgid ""
 "percentage resists."
 msgstr ""
 "Si vous désirez de très hautes résistances, cochez cette case. Cela va "
-"augmenter l'importance des résistances linéaires et des résistances en "
-"pourcents pendant la recherche."
+"augmenter l'importance des résistances fixes et des résistances en "
+"pourcentage pendant la recherche."
 
 #: .\chardata\templates\chardata\projdetails.html:144
 msgid ""
@@ -5348,7 +5349,7 @@ msgid ""
 "Check this to get a prospecting set, with mediocre stats but high "
 "prospecting."
 msgstr ""
-"Cochez cette case pour obtenir un stuff prospection, avec des statitistiques "
+"Cochez cette case pour obtenir un stuff prospection, avec des statistiques "
 "médiocres mais beaucoup de prospection."
 
 #: .\chardata\templates\chardata\projdetails.html:150
@@ -5406,7 +5407,7 @@ msgstr "Récupération de mot de passe demandée"
 #: .\chardata\templates\chardata\recover_password.html:20
 #, python-format
 msgid "There is already an account registered for %(email)s."
-msgstr "Il y a déjà un compte existant pour cet %(email)s."
+msgstr "Il existe déjà un compte enregistré pour %(email)s."
 
 #: .\chardata\templates\chardata\recover_password.html:25
 msgid ""
@@ -5423,9 +5424,8 @@ msgid ""
 "We have sent an email to %(email)s with a password recovery link. That link "
 "can be used to set a new password."
 msgstr ""
-"Nous vous avons envoyé un message sur votre %(email)s avec un lien pour "
-"récupérer votre mot de passe perdu. Ce lien peut être utilisé pour "
-"configurer un nouveau mot de passe."
+"Nous avons envoyé un email à %(email)s avec un lien de récupération du mot "
+"de passe. Ce lien vous permet de définir un nouveau mot de passe."
 
 #: .\chardata\templates\chardata\shared_builds.html:9
 msgid ""
@@ -5515,7 +5515,7 @@ msgstr "Plus Aimés"
 
 #: .\chardata\templates\chardata\shared_builds.html:113
 msgid "Most Favorited"
-msgstr "Plus Favoris"
+msgstr "Plus Ajoutés aux Favoris"
 
 #: .\chardata\templates\chardata\shared_builds.html:124
 msgid "Show only my liked builds"
@@ -5576,11 +5576,11 @@ msgstr "Créateur"
 
 #: .\chardata\templates\chardata\shared_builds.html:239
 msgid "Outdated slot layout"
-msgstr "Disposition des emplacements obsolete"
+msgstr "Disposition des emplacements obsolète"
 
 #: .\chardata\templates\chardata\shared_builds.html:242
 msgid "Conditions not met"
-msgstr "Conditions non respectees"
+msgstr "Conditions non respectées"
 
 #: .\chardata\templates\chardata\shared_builds.html:250
 msgid "Views"
@@ -5842,7 +5842,7 @@ msgstr ""
 "sur le bouton (<img style='position: relative; bottom: -1px; left: 0px;' "
 "src=%(lock)s title='Verrouiller'>) verrouillage. Vous pouvez aussi échanger "
 "n'importe quel item pour celui que vous préférez en cliquant sur le bouton "
-"modifier (<img class='solution-item-button' style='position: relative; "
+"changer (<img class='solution-item-button' style='position: relative; "
 "bottom: -5px; left: 0px;' src=%(switch)s title='Changer'>)."
 
 #: .\chardata\templates\chardata\solution.html:165
@@ -6141,7 +6141,7 @@ msgstr "Hors sujet"
 
 #: .\chardata\templates\chardata\solution.html:633
 msgid "Other"
-msgstr "Autres"
+msgstr "Autre"
 
 #: .\chardata\templates\chardata\solution.html:639
 msgid "Send report"
@@ -6273,8 +6273,8 @@ msgid ""
 "How much damage %(charname)s's weapon and spells will deal with the "
 "suggested set. "
 msgstr ""
-"Combien de dégats vont faire les sorts et l'arme de %(charname)s avec cet "
-"équipement."
+"Combien de dégâts vont faire les sorts et l'arme de %(charname)s avec cet "
+"équipement. "
 
 #: .\chardata\templates\chardata\spells.html:21
 msgid ""
@@ -7455,7 +7455,7 @@ msgstr "Un nouveau guide sur les emplacements familier, monture et bouclier, et 
 
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "Only items from my inventory works again, and the item list refreshes after you switch a piece."
-msgstr "Seulement les objets de mon inventaire refonctionne, et la liste d'objets se rafraîchit après un changement de pièce."
+msgstr "L'option « Uniquement les objets de mon inventaire » refonctionne, et la liste d'objets se rafraîchit après un changement de pièce."
 
 #: .\chardata\weapon_header.py:0
 msgid "CH: 1/%(crit_chance)d (+%(crit_bonus)d)"
@@ -7802,7 +7802,7 @@ msgstr "%(part)s des builds qui peuvent l’équiper portent le même : %(nom)s.
 
 #: chardata/templates/chardata/encyclopedia_most_used.html
 msgid "Counts last rebuilt on %(jour)s."
-msgstr "Comptes reconstruits le %(jour)s."
+msgstr "Décomptes recalculés le %(jour)s."
 
 #: chardata/templates/chardata/encyclopedia_most_used.html
 msgid "The gear that comes up most often in Fashionista builds: the most used hat, cloak, ring, weapon and dofus, with the share of builds that use each one."
@@ -7821,7 +7821,7 @@ msgstr "Compté sur %(n)s builds calculés sur ce site. Pour chaque objet, la pa
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 msgid "The usage counts have not been built yet."
-msgstr "Les comptes d'utilisation n'ont pas encore été construits."
+msgstr "Les décomptes d'utilisation n'ont pas encore été calculés."
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 msgid "Build a set of your own"
@@ -8106,7 +8106,7 @@ msgid "Bring your build in"
 msgstr "Importez votre build"
 
 msgid "and %(count)d more"
-msgstr "et %(count)d de plus"
+msgstr "et encore %(count)d"
 
 msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
 msgstr "La connexion avec Google n’a pas abouti. Vous pouvez réessayer, ou entrer avec votre nom d’utilisateur et votre mot de passe."
@@ -8291,7 +8291,7 @@ msgid "Not shown in the gallery: some pieces sit in a slot that no longer takes 
 msgstr "Pas montré dans la galerie : des pièces occupent un emplacement qui ne les accepte plus. Ouvrez le build et reposez-les."
 
 msgid "Not shown in the gallery: the build does not meet its own conditions. Open it to see which ones."
-msgstr "Pas montré dans la galerie : le build ne tient pas ses propres conditions. Ouvrez-le pour voir lesquelles."
+msgstr "Pas montré dans la galerie : le build ne respecte pas ses propres conditions. Ouvrez-le pour voir lesquelles."
 
 msgid "Not shown in the gallery: this build has no saved gear yet."
 msgstr "Pas montré dans la galerie : ce build n’a pas encore de stuff enregistré."
@@ -8589,7 +8589,7 @@ msgstr "Donne à Dofus Fashionista ta classe, ton niveau et ce que tu cherches :
 
 #: chardata/templates/chardata/home.html
 msgid "Then make it yours: swap items by hand, test your spell damage, compare builds side by side, save your characters and share your builds. Free, for Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch."
-msgstr "Ensuite, fais-le à ta main : change des objets, teste tes dégâts de sorts, compare des builds côte à côte, sauvegarde tes personnages et partage tes builds. Gratuit, pour Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro et Dofus Touch."
+msgstr "Ensuite, personnalise-le : change des objets à la main, teste tes dégâts de sorts, compare des builds côte à côte, sauvegarde tes personnages et partage tes builds. Gratuit, pour Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro et Dofus Touch."
 
 #: chardata/templates/chardata/home.html
 msgid "Looking for ideas?"
@@ -8885,7 +8885,7 @@ msgstr "Un objet"
 
 #: chardata/templates/chardata/send_a_build.html
 msgid "An id alone brings the piece at its best roll. An object can add stats: the final value of each line, with the keys listed below. A line on a stat the piece does not carry is read as an exo."
-msgstr "Un identifiant seul apporte la pièce avec son meilleur jet. Un objet JSON peut ajouter stats : la valeur finale de chaque ligne, avec les clés listées plus bas. Une ligne sur une stat que la pièce ne porte pas est lue comme un exo."
+msgstr "Un identifiant seul apporte la pièce avec son meilleur jet. Un objet JSON peut ajouter des stats : la valeur finale de chaque ligne, avec les clés listées plus bas. Une ligne sur une stat que la pièce ne porte pas est lue comme un exo."
 
 #: chardata/templates/chardata/send_a_build.html
 msgid "Add <code>\"type\": \"mount\"</code> when the id is a mount: Dofus Touch numbers its mounts apart from its items."
