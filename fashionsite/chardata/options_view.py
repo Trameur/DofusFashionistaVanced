@@ -26,6 +26,7 @@ from chardata.util import safe_int, set_response, get_char_or_raise, HttpRespons
 from django.views.decorators.http import require_POST
 from fashionistapulp.exo_options import EXO_OPTIONS
 from fashionistapulp.structure import get_structure
+from chardata.temporix_mode import temporix_window
 from chardata.views import forbidden
 
 
@@ -82,6 +83,7 @@ def options(request, char_id):
                'options_dict': options,
                'version_options': get_available_options(),
                'char_id': char_id}
+    context.update(temporix_window())
     context.update(inventory_source_context(request, char))
     return set_response(request,
                         'chardata/options.html',

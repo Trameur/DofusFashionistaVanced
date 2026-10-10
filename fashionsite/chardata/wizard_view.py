@@ -26,6 +26,7 @@ from chardata.options_view import parse_options_post, parse_inventory_options, \
     inventory_source_context
 from chardata.presets import default_build_weights, reapply_build_weights
 from chardata.solution_view import get_class_avatar
+from chardata.temporix_mode import temporix_window
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
 from chardata.weights_minimums import block_context, merge_minimum_fields, temporix_lifted_keys
 from chardata.wizard_sliders import apply_weight_fields, get_wizard_sliders, set_wizard_sliders
@@ -54,6 +55,7 @@ def wizard(request, char_id):
                'scroll_max': max_scroll_for_version(char.game_version, char.level),
                'scroll_hundred': HUNDRED,
                'temporix_switch': bool(version_options.get('temporix'))}
+    context.update(temporix_window())
     context.update(block_context(char, classic_caps=True))
     context.update(inventory_source_context(request, char))
     return set_response(request,

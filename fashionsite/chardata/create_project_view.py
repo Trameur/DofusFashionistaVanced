@@ -51,6 +51,7 @@ from fashionistapulp.temporix import version_has_temporix
 logger = logging.getLogger(__name__)
 from fashionistapulp.dofus_constants import (STATS_NAMES, CHARACTER_CLASSES,
                                              max_scroll_for_version)
+from chardata.temporix_mode import temporix_window
 from chardata.themes import get_questionmark_URL
 
 
@@ -115,6 +116,7 @@ def setup(request, char_id=0):
                          'questionmark': json.dumps(get_questionmark_URL(request)),
                          'temporix_available': (
                              is_new_char and version_has_temporix(game_version)),
+                         **temporix_window(),
                          'is_new_char': is_new_char},
                         char)
 

@@ -4696,9 +4696,14 @@ msgstr "Füge einen Gegenstand über seine Seite hinzu, ein ganzes Set über die
 msgid "TemporiX mode"
 msgstr "TemporiX-Modus"
 
+#: chardata/templates/chardata/options.html
+#, python-format
+msgid "Valid from %(start)s to %(end)s"
+msgstr "Gültig vom %(start)s bis %(end)s"
+
 #: .\chardata\templates\chardata\options.html
-msgid "For the TemporiX servers (15 September to 13 October 2026): shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build."
-msgstr "Für die TemporiX-Server (15. September bis 13. Oktober 2026): glänzende Hüte, Umhänge, Amulette, Ringe, Gürtel, Stiefel und Dofus, die Monster fallen lassen (jeder Wert mal 1,5, aufgerundet, Mali eingeschlossen), der Bouclier de l'infini auf Rang 1000 und keine Grenze für AP, BP, Reichweite oder Beschwörungen. Verbieten Sie die Teile, die Sie nicht haben, wie bei jedem Build."
+msgid "For the TemporiX servers: shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build."
+msgstr "Für die TemporiX-Server: glänzende Hüte, Umhänge, Amulette, Ringe, Gürtel, Stiefel und Dofus, die Monster fallen lassen (jeder Wert mal 1,5, aufgerundet, Mali eingeschlossen), der Bouclier de l'infini auf Rang 1000 und keine Grenze für AP, BP, Reichweite oder Beschwörungen. Verbieten Sie die Teile, die Sie nicht haben, wie bei jedem Build."
 
 #: .\chardata\templates\chardata\solution_item.html
 msgctxt "smithmagic mark on an item"

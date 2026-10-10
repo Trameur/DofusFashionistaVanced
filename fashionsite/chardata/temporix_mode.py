@@ -20,8 +20,17 @@ The rules themselves live in fashionistapulp/temporix.py. This only reads the
 switch a build carries in its options, for the pages that need to know it:
 the minimums, the spell panel, the solution and the gallery.
 """
+from datetime import date
+
 from chardata.char_blobs import read_char_blob
 from fashionistapulp import temporix
+
+TEMPORIX_START = date(2026, 9, 15)
+TEMPORIX_END = date(2026, 10, 13)
+
+
+def temporix_window():
+    return {'temporix_start': TEMPORIX_START, 'temporix_end': TEMPORIX_END}
 
 
 def char_uses_temporix(char):
