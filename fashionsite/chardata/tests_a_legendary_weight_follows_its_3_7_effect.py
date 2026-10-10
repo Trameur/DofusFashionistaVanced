@@ -3,10 +3,13 @@
 from django.test import SimpleTestCase
 
 from chardata.data_versions import current_data_version, patch_key, patch_of
+from fashionistapulp.item_effects import versions_with_effect_table
 from fashionistapulp.model import Model
 from fashionistapulp.structure import get_structure, set_current_game_version
 
 VERSIONS = ('dofus3', 'beta')
+HAND_WRITTEN = tuple(version for version in VERSIONS
+                     if version not in versions_with_effect_table())
 TEN_STACK_CAPPED_BUHORADO_FACTOR = 45
 
 
@@ -47,7 +50,7 @@ class ALegendaryWeightFollowsIts37EffectTests(SimpleTestCase):
         self.addCleanup(set_current_game_version, 'dofus3')
 
     def test_buhorado_feather_weighs_more_with_more_crit_without_a_ten_stack_cap(self):
-        for version in VERSIONS:
+        for version in HAND_WRITTEN:
             with self.subTest(version=version):
                 low = item_weight(version, 'Buhorado Feather',
                                   {'pshdam': 200, 'ch': 240})
@@ -59,7 +62,7 @@ class ALegendaryWeightFollowsIts37EffectTests(SimpleTestCase):
     def test_buhorado_feather_weighs_more_than_with_a_ten_stack_cap(self):
         pshdam, ch = 200, 240
         capped = pshdam * TEN_STACK_CAPPED_BUHORADO_FACTOR * ch / 100
-        for version in VERSIONS:
+        for version in HAND_WRITTEN:
             with self.subTest(version=version):
                 self.assertGreater(
                     item_weight(version, 'Buhorado Feather',
@@ -67,7 +70,7 @@ class ALegendaryWeightFollowsIts37EffectTests(SimpleTestCase):
                     capped)
 
     def test_crocobur_weighs_more_hp_for_a_melee_bearer(self):
-        for version in VERSIONS:
+        for version in HAND_WRITTEN:
             with self.subTest(version=version):
                 ranged = item_weight(version, 'Crocobur 3',
                                      {'hp': 30, 'permedam': 100, 'perrandam': 900})
