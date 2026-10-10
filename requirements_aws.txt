@@ -44,7 +44,7 @@ requests-oauthlib==2.0.0
 requests==2.34.2
 s3transfer==0.19.2
 six==1.17.0
-social-auth-app-django==6.0.1
+social-auth-app-django==7.0.0
 social-auth-core==5.2.0
 soupsieve==2.10
 sqlparse==0.6.0
