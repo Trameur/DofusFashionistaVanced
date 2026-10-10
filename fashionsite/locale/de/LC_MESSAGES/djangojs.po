@@ -84,8 +84,8 @@ msgstr "Click to remove all chosen %s at once."
 #: .\admin\js\actions.js:18 .\admin\js\actions.min.js:1
 msgid "%(sel)s of %(cnt)s selected"
 msgid_plural "%(sel)s of %(cnt)s selected"
-msgstr[0] "%(sel)s von %(cnt)s ausgewahlt"
-msgstr[1] "%(sel)s von %(cnt)s ausgewahlt"
+msgstr[0] "%(sel)s von %(cnt)s ausgewählt"
+msgstr[1] "%(sel)s von %(cnt)s ausgewählt"
 
 #: .\admin\js\actions.js:109 .\admin\js\actions.min.js:5
 msgid ""
@@ -252,7 +252,7 @@ msgstr "Reichweite"
 
 #: .\chardata\static\chardata\solution_popup.js:53
 msgid "Summons"
-msgstr "Ladung"
+msgstr "Beschwörungen"
 
 #: .\chardata\static\chardata\solution_popup.js:54
 msgid "Vitality"
@@ -406,14 +406,14 @@ msgstr "Der durchschnittliche Schaden pro AP dieser Waffe wäre"
 
 #: .\chardata\static\chardata\solution_popup.js:661
 msgid "With the current set this weapon would hit "
-msgstr "Mit dem aktuellen Set würde diese Waffe treffen "
+msgstr "Mit dem aktuellen Set würde diese Waffe folgenden Schaden verursachen: "
 
 #: .\chardata\static\chardata\solution_popup.js:663
 msgid ""
 "With the current set this weapon would <font color=\"#CC0000\">heal</font> "
 msgstr ""
 "Mit dem aktuellen Set würde diese Waffe <font "
-"color=\"#CC0000\">heilen</font> "
+"color=\"#CC0000\">heilen</font>: "
 
 #: .\chardata\static\chardata\solution_popup.js:684
 msgid ""
@@ -460,23 +460,23 @@ msgstr "Schaden"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Neutral Resistance"
-msgstr "Neutraler Widerstand"
+msgstr "Neutralwiderstand"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Earth Resistance"
-msgstr "Erd-Widerstand"
+msgstr "Erdwiderstand"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Fire Resistance"
-msgstr "Feuer-Widerstand"
+msgstr "Feuerwiderstand"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Water Resistance"
-msgstr "Wasser-Widerstand"
+msgstr "Wasserwiderstand"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Air Resistance"
-msgstr "Luft-Widerstand"
+msgstr "Luftwiderstand"
 
 #: staticfiles/admin/js/SelectFilter2.js:105
 #, javascript-format
@@ -487,8 +487,8 @@ msgstr "Type into this box to filter down the list of selected %s."
 #, javascript-format
 msgid "%s selected option not visible"
 msgid_plural "%s selected options not visible"
-msgstr[0] "Die ausgewahlte Option %s ist nicht sichtbar"
-msgstr[1] "Die ausgewahlten Optionen %s sind nicht sichtbar"
+msgstr[0] "%s ausgewählte Option ist nicht sichtbar"
+msgstr[1] "%s ausgewählte Optionen sind nicht sichtbar"
 
 #: staticfiles/admin/js/actions.js:174
 msgid ""

@@ -55,7 +55,7 @@ msgstr "Choose"
 
 #: .\admin\js\SelectFilter2.js:69
 msgid "Remove"
-msgstr "Remover "
+msgstr "Remover"
 
 #: .\admin\js\SelectFilter2.js:75
 #, javascript-format
@@ -73,7 +73,7 @@ msgstr ""
 
 #: .\admin\js\SelectFilter2.js:80
 msgid "Remove all"
-msgstr "Removendo "
+msgstr "Remover todos"
 
 #: .\admin\js\SelectFilter2.js:80
 #, javascript-format
@@ -205,7 +205,7 @@ msgstr "Erro no login."
 
 #: .\chardata\static\chardata\login.js:29
 msgid "Your password has been changed."
-msgstr "Sua senha foi alterada com sucessso."
+msgstr "Sua senha foi alterada com sucesso."
 
 #: .\chardata\static\chardata\login.js:35
 msgid "Your password did not match our records."
@@ -233,7 +233,7 @@ msgstr "Você precisa digitar um email válido."
 
 #: .\chardata\static\chardata\options.js:139
 msgid "You need to be a higher level to equip this Dofus"
-msgstr "Você precisa ser nível mais alto para equipar este Dofus"
+msgstr "Você precisa ter um nível mais alto para equipar este Dofus"
 
 #: .\chardata\static\chardata\solution_popup.js:50
 msgid "AP"
@@ -294,7 +294,7 @@ msgstr "Carregando"
 
 #: .\chardata\static\chardata\solution_popup.js:155
 msgid "Any stat"
-msgstr "Qualquer stat"
+msgstr "Qualquer característica"
 
 #: .\chardata\static\chardata\solution_popup.js:168
 msgid "Minimum"
@@ -352,7 +352,7 @@ msgid ""
 " To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> "
 "and tailor a new set."
 msgstr ""
-" Para encontrar um set que o inclui, tranque ele  <a "
+" Para encontrar um set que o inclua, trave o item <a "
 "href=\"/inclusions/%s/\">aqui</a> e crie um novo set."
 
 #: .\chardata\static\chardata\solution_popup.js:501
@@ -368,12 +368,12 @@ msgid ""
 " To find a set including it that fulfills these conditions, lock it <a "
 "href=\"/inclusions/%s/\">here</a> and tailor a new set."
 msgstr ""
-" Para encontrar um set que obedeça estas condicões, trave o item <a "
+" Para encontrar um set que o inclua e atenda a estas condições, trave o item <a "
 "href=\"/inclusions/%s/\">aqui</a> e crie um novo set."
 
 #: .\chardata\static\chardata\solution_popup.js:569
 msgid "There are no differences."
-msgstr "Não há diferença"
+msgstr "Não há diferenças."
 
 #: .\chardata\static\chardata\solution_popup.js:580
 msgid "No items found containing"
@@ -447,7 +447,7 @@ msgstr "Não foi possível salvar as alterações. Tente de novo."
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Stat filters"
-msgstr "Filtros de stats"
+msgstr "Filtros de características"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Damage"
@@ -482,8 +482,8 @@ msgstr "Type into this box to filter down the list of selected %s."
 #, javascript-format
 msgid "%s selected option not visible"
 msgid_plural "%s selected options not visible"
-msgstr[0] "A opcao selecionada %s nao esta visivel"
-msgstr[1] "As opcoes selecionadas %s nao estao visiveis"
+msgstr[0] "%s opção selecionada não está visível"
+msgstr[1] "%s opções selecionadas não estão visíveis"
 
 #: staticfiles/admin/js/actions.js:174
 msgid ""
@@ -514,18 +514,18 @@ msgstr "6 p.m."
 msgid "Note: You are %s hour ahead of server time."
 msgid_plural "Note: You are %s hours ahead of server time."
 msgstr[0] ""
-"Nota: voce esta %s hora adiantado em relacao ao horario do servidor."
+"Nota: você está %s hora adiantado em relação ao horário do servidor."
 msgstr[1] ""
-"Nota: voce esta %s horas adiantado em relacao ao horario do servidor."
+"Nota: você está %s horas adiantado em relação ao horário do servidor."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:86
 #, javascript-format
 msgid "Note: You are %s hour behind server time."
 msgid_plural "Note: You are %s hours behind server time."
 msgstr[0] ""
-"Nota: voce esta %s hora atrasado em relacao ao horario do servidor."
+"Nota: você está %s hora atrasado em relação ao horário do servidor."
 msgstr[1] ""
-"Nota: voce esta %s horas atrasado em relacao ao horario do servidor."
+"Nota: você está %s horas atrasado em relação ao horário do servidor."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:128
 msgid "Choose a Time"
@@ -607,7 +607,7 @@ msgstr "Apr"
 #: staticfiles/admin/js/calendar.js:29
 msgctxt "abbrev. month May"
 msgid "May"
-msgstr "maio"
+msgstr "Mai"
 
 #: staticfiles/admin/js/calendar.js:30
 msgctxt "abbrev. month June"

@@ -55,7 +55,7 @@ msgstr "Choose"
 
 #: .\admin\js\SelectFilter2.js:69
 msgid "Remove"
-msgstr "Eliminar "
+msgstr "Eliminar"
 
 #: .\admin\js\SelectFilter2.js:75
 #, javascript-format
@@ -73,7 +73,7 @@ msgstr ""
 
 #: .\admin\js\SelectFilter2.js:80
 msgid "Remove all"
-msgstr "Reemplazar "
+msgstr "Eliminar todos"
 
 #: .\admin\js\SelectFilter2.js:80
 #, javascript-format
@@ -233,7 +233,7 @@ msgstr "Debes ingresar un correo electrónico válido."
 
 #: .\chardata\static\chardata\options.js:139
 msgid "You need to be a higher level to equip this Dofus"
-msgstr "Tienes que ser un nivel más alto para equipar este Dofus"
+msgstr "Necesitas un nivel más alto para equipar este Dofus"
 
 #: .\chardata\static\chardata\solution_popup.js:50
 msgid "AP"
@@ -281,7 +281,7 @@ msgstr "Agilidad"
 #: .\chardata\static\chardata\solution_popup.js:131
 #: .\chardata\static\chardata\solution_popup.js:213
 msgid "Removing "
-msgstr "Reemplazar "
+msgstr "Quitando "
 
 #: .\chardata\static\chardata\solution_popup.js:133
 #: .\chardata\static\chardata\solution_popup.js:215
@@ -294,7 +294,7 @@ msgstr "Cargando"
 
 #: .\chardata\static\chardata\solution_popup.js:155
 msgid "Any stat"
-msgstr "Cualquier stat"
+msgstr "Cualquier característica"
 
 #: .\chardata\static\chardata\solution_popup.js:168
 msgid "Minimum"
@@ -336,11 +336,11 @@ msgstr "Este objeto ya no existe"
 #: .\chardata\static\chardata\solution_popup.js:467
 #: .\chardata\static\chardata\solution_popup.js:476
 msgid "Violates %(item)s's condition:"
-msgstr "Viola las condiciones del %(item)s:"
+msgstr "No cumple la condición de %(item)s:"
 
 #: .\chardata\static\chardata\solution_popup.js:450
 msgid "%(item)s is already equipped"
-msgstr "%(item)s ya está equipado."
+msgstr "%(item)s ya está en el equipamiento"
 
 #: .\chardata\static\chardata\solution_popup.js:491
 msgid "You cannot equip this item."
@@ -352,7 +352,7 @@ msgid ""
 " To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> "
 "and tailor a new set."
 msgstr ""
-"Para encontrar un set que lo incluya, asegúralo <a "
+" Para encontrar un set que lo incluya, asegúralo <a "
 "href=\"/inclusions/%s/\">aquí</a> y teje un nuevo set."
 
 #: .\chardata\static\chardata\solution_popup.js:501
@@ -368,7 +368,7 @@ msgid ""
 " To find a set including it that fulfills these conditions, lock it <a "
 "href=\"/inclusions/%s/\">here</a> and tailor a new set."
 msgstr ""
-"Para encontrar un set que cumpla tus condiciones elegidas, asegúralo <a "
+" Para encontrar un set que lo incluya y cumpla estas condiciones, asegúralo <a "
 "href=\"/inclusions/%s/\">aquí</a> y teje un nuevo set."
 
 #: .\chardata\static\chardata\solution_popup.js:569
@@ -377,7 +377,7 @@ msgstr "No hay diferencias."
 
 #: .\chardata\static\chardata\solution_popup.js:580
 msgid "No items found containing"
-msgstr "No se encontró ningún objeto que contenga "
+msgstr "No se encontró ningún objeto que contenga"
 
 #: .\chardata\static\chardata\solution_popup.js:587
 msgid "In my inventory"
@@ -450,7 +450,7 @@ msgstr "No se pudieron guardar los cambios. Inténtalo de nuevo."
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Stat filters"
-msgstr "Filtros de stats"
+msgstr "Filtros de características"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Damage"
@@ -485,8 +485,8 @@ msgstr "Type into this box to filter down the list of selected %s."
 #, javascript-format
 msgid "%s selected option not visible"
 msgid_plural "%s selected options not visible"
-msgstr[0] "La opcion seleccionada %s no esta visible"
-msgstr[1] "Las opciones seleccionadas %s no estan visibles"
+msgstr[0] "%s opción seleccionada no visible"
+msgstr[1] "%s opciones seleccionadas no visibles"
 
 #: staticfiles/admin/js/actions.js:174
 msgid ""
@@ -516,15 +516,15 @@ msgstr "6 p.m."
 #, javascript-format
 msgid "Note: You are %s hour ahead of server time."
 msgid_plural "Note: You are %s hours ahead of server time."
-msgstr[0] "Nota: estas %s hora por delante de la hora del servidor."
-msgstr[1] "Nota: estas %s horas por delante de la hora del servidor."
+msgstr[0] "Nota: estás %s hora por delante de la hora del servidor."
+msgstr[1] "Nota: estás %s horas por delante de la hora del servidor."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:86
 #, javascript-format
 msgid "Note: You are %s hour behind server time."
 msgid_plural "Note: You are %s hours behind server time."
-msgstr[0] "Nota: estas %s hora por detras de la hora del servidor."
-msgstr[1] "Nota: estas %s horas por detras de la hora del servidor."
+msgstr[0] "Nota: estás %s hora por detrás de la hora del servidor."
+msgstr[1] "Nota: estás %s horas por detrás de la hora del servidor."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:128
 msgid "Choose a Time"
