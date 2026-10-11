@@ -42,8 +42,6 @@ ALL_ASPECTS_LIST = ['str', 'int', 'cha', 'agi',
 VERSION_WEIGHT_TUNING = {
     'dofus3': {
         'ap_per_char': {1: 184, 2: 371, 3: 570, 4: 581},
-        'crit_per_char': {'Cra': {1: 7, 2: 16, 3: 20, 4: 7}, 'Iop': 10,
-                          'Masqueraider': 8, 'Sacrier': 7, 'Xelor': 8},
     },
     'beta': {},
     'dofus2': {
@@ -1100,13 +1098,6 @@ def _set_weights(char, aspects, apply=True):
         w['cridam'] = 0
     else:
         w['ch'] = 12 * b
-        crit_per_char = (tuning.get('crit_per_char', {}).get(race, 0)
-                         if level >= 200 else 0)
-        if isinstance(crit_per_char, dict):
-            crit_per_char = crit_per_char.get(element_count, 0)
-        if crit_per_char * attack_factor * b > w['ch']:
-            w['ch_before_floor'] = w['ch']
-            w['ch'] = crit_per_char * attack_factor * b
         w['cridam'] = w['dam'] * pfb(race, elements, 'cridam', 'float_avg')
 
     marginal_final_damage_effect = _lerp(2, 12, level_pct)

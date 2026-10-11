@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Dofus 3 alone takes the AP and crit floor tuning of its weights."""
+"""Dofus 3 alone takes the AP tuning of its weights, and no version floors the crit weight."""
 from types import SimpleNamespace
 
 from django.test import SimpleTestCase, TestCase
@@ -10,13 +10,7 @@ ELEMENTS = {1: {'int'}, 2: {'str', 'int'}, 3: {'str', 'int', 'agi'},
 CLASSES = ('Feca', 'Osamodas', 'Enutrof', 'Sram', 'Xelor', 'Ecaflip', 'Eniripsa',
            'Iop', 'Cra', 'Sadida', 'Sacrier', 'Pandawa', 'Rogue', 'Masqueraider',
            'Foggernaut', 'Eliotrope', 'Huppermage', 'Ouginak', 'Forgelance')
-CRIT_FLOORS = {
-    'Cra': {1: 840, 2: 1600, 3: 1200, 4: 280},
-    'Iop': {1: 1200, 2: 1000, 3: 600, 4: 400},
-    'Masqueraider': {1: 960, 2: 800, 3: 480, 4: 320},
-    'Sacrier': {1: 840, 2: 700, 3: 420, 4: 280},
-    'Xelor': {1: 960, 2: 800, 3: 480, 4: 320},
-}
+FORMER_CRIT_FLOOR_CLASSES = ('Cra', 'Iop', 'Masqueraider', 'Sacrier', 'Xelor')
 
 
 def weights(version, aspects, race='Feca', level=200):
@@ -59,32 +53,28 @@ class TheApWeightFollowsTheElementCountOnDofus3Tests(SimpleTestCase):
                     self.assertNotIn('ap_before_floor', w)
 
 
-class TheCritFloorIsPerClassOnDofus3Tests(SimpleTestCase):
+class TheCritWeightHasNoFloorOnDofus3Tests(SimpleTestCase):
 
-    def test_dofus3_crit_floor_per_class_and_element_count(self):
-        for race, by_count in CRIT_FLOORS.items():
-            for count, expected in by_count.items():
+    def test_the_former_floor_classes_keep_the_crit_weight_for_every_element_count(self):
+        for race in FORMER_CRIT_FLOOR_CLASSES:
+            for count in ELEMENTS:
                 with self.subTest(race=race, elements=count):
                     w = weights('dofus3', ELEMENTS[count], race=race)
-                    self.assertEqual(expected, w['ch'])
-                    self.assertEqual(240, w['ch_before_floor'])
+                    self.assertEqual(240, w['ch'])
+                    self.assertNotIn('ch_before_floor', w)
 
-    def test_below_level_200_no_class_takes_the_crit_floor(self):
-        for level in (1, 60, 100, 150, 199):
-            for race in CRIT_FLOORS:
+    def test_no_class_takes_a_crit_floor_at_any_level(self):
+        for level in (1, 60, 100, 150, 199, 200):
+            for race in CLASSES:
                 with self.subTest(level=level, race=race):
                     w = weights('dofus3', {'int'}, race=race, level=level)
                     self.assertEqual(240, w['ch'])
                     self.assertNotIn('ch_before_floor', w)
 
-    def test_other_dofus3_classes_keep_the_crit_weight(self):
-        for race in CLASSES:
-            if race in CRIT_FLOORS:
-                continue
-            with self.subTest(race=race):
-                w = weights('dofus3', {'int'}, race=race)
-                self.assertEqual(240, w['ch'])
-                self.assertNotIn('ch_before_floor', w)
+    def test_the_dofus3_tuning_carries_no_crit_floor(self):
+        from chardata.smart_build import VERSION_WEIGHT_TUNING
+        self.assertIn('ap_per_char', VERSION_WEIGHT_TUNING['dofus3'])
+        self.assertNotIn('crit_per_char', VERSION_WEIGHT_TUNING['dofus3'])
 
     def test_other_versions_keep_the_crit_weight_for_every_class(self):
         for version in OTHER_VERSIONS:
@@ -162,18 +152,18 @@ class ItemEffectsReadTheBuildWeightsOnDofus3Tests(SimpleTestCase):
                 return entry['equivalents_by_elements'][str(element_count)]
         raise KeyError(name)
 
-    def test_dofus3_pays_the_table_ap_and_crit_at_the_floored_weights(self):
+    def test_dofus3_pays_the_table_ap_at_the_floored_weight_and_crit_at_the_weight(self):
         w = weights('dofus3', {'int'}, race='Iop')
         term = self._terms('dofus3', w)
         self.assertEqual(22080, w['ap'])
-        self.assertEqual(1200, w['ch'])
+        self.assertEqual(240, w['ch'])
         self.assertAlmostEqual(self._equivalents('Prysipitate-O-Mat', 1)['ap'] * w['ap'],
                                term('Prysipitate-O-Mat'))
         self.assertAlmostEqual(self._equivalents('Surpryz', 1)['ch'] * w['ch'],
                                term('Surpryz'))
 
     def test_dofus3_ignores_the_keys_before_the_floors(self):
-        w = weights('dofus3', {'int'}, race='Iop')
+        w = dict(weights('dofus3', {'int'}, race='Iop'), ch_before_floor=240)
         bare = {k: v for k, v in w.items() if k not in ('ap_before_floor', 'ch_before_floor')}
         with_keys = self._terms('dofus3', w).terms
         self.assertTrue(with_keys)
@@ -202,13 +192,22 @@ class TheKeysBeforeTheFloorsSurviveTheWeightsStoreTests(TestCase):
             owner=owner, link_shared=False, game_version='dofus3')
         return owner, char
 
+    def _stored_with_the_old_crit_floor(self):
+        return dict(weights('dofus3', {'int'}, race='Iop'), ch=1200, ch_before_floor=240)
+
+    def test_a_new_build_stores_the_ap_key_and_no_crit_key(self):
+        w = weights('dofus3', {'int'}, race='Iop')
+        self.assertEqual(2400, w['ap_before_floor'])
+        self.assertNotIn('ch_before_floor', w)
+
     def test_get_and_set_keep_the_keys_and_the_objective_skips_them(self):
         from chardata.char_blobs import read_char_blob
         from chardata.stats_weights import get_stats_weights, set_stats_weights
         from fashionistapulp.dofus_constants import NON_STAT_WEIGHT_KEYS
-        _owner, char = self._char(weights('dofus3', {'int'}, race='Iop'))
+        _owner, char = self._char(self._stored_with_the_old_crit_floor())
         stored = get_stats_weights(char)
         self.assertEqual(2400, stored['ap_before_floor'])
+        self.assertEqual(1200, stored['ch'])
         self.assertEqual(240, stored['ch_before_floor'])
         set_stats_weights(char, stored)
         char.refresh_from_db()
@@ -223,7 +222,7 @@ class TheKeysBeforeTheFloorsSurviveTheWeightsStoreTests(TestCase):
         from chardata.models import Char
         from chardata.stats_weights import get_stats_weights
         from fashionistapulp.dofus_constants import NON_STAT_WEIGHT_KEYS
-        w = weights('dofus3', {'int'}, race='Iop')
+        w = self._stored_with_the_old_crit_floor()
         owner, char = self._char(w)
         shown = get_stats_weights(char)
         posted = {'weight_%s' % key: str(int(value)) for key, value in shown.items()
@@ -242,3 +241,19 @@ class TheKeysBeforeTheFloorsSurviveTheWeightsStoreTests(TestCase):
         for key in NON_STAT_WEIGHT_KEYS:
             with self.subTest(key=key):
                 self.assertEqual(w[key], after[key])
+
+    def test_saving_the_weights_page_of_a_new_build_stores_no_crit_key(self):
+        from chardata.char_blobs import read_char_blob
+        from chardata.models import Char
+        from chardata.stats_weights import get_stats_weights
+        from fashionistapulp.dofus_constants import NON_STAT_WEIGHT_KEYS
+        owner, char = self._char(weights('dofus3', {'int'}, race='Iop'))
+        shown = get_stats_weights(char)
+        posted = {'weight_%s' % key: str(int(value)) for key, value in shown.items()
+                  if key not in NON_STAT_WEIGHT_KEYS}
+        self.client.force_login(owner)
+        self.assertEqual(200, self.client.post('/statspost/%d/' % char.id, posted).status_code)
+        after = read_char_blob(Char.objects.get(id=char.id).stats_weight, {}, 'stats_weight')
+        self.assertEqual(240, after['ch'])
+        self.assertEqual(2400, after['ap_before_floor'])
+        self.assertNotIn('ch_before_floor', after)
