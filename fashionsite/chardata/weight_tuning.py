@@ -12,6 +12,7 @@ import json
 import logging
 import math
 import os
+import re
 import statistics
 import subprocess
 import time
@@ -75,6 +76,10 @@ DEV_SPLITS = ('dev_a', 'dev_b')
 TIER_FORBIDDEN = {'high': 0, 'mid': 3, 'low': 6}
 META_MINIMUMS = {'AP': 12, 'MP': 6}
 SMOKE_INSTANCES = (('Iop', ('str',), 'glasscannon', 'door', 'high'), ('Cra', ('agi',), 'plain', 'meta', 'high'))
+
+#: the words of a reference text that says a spell summons something that hits
+SUMMONS = re.compile(r'\bsummons?\b|\breplaces\b')
+HITS = re.compile(r'\b(?:inflicts?|steals?)\b')
 
 #: the equivalents of an effect-table item that reach the panel's turn
 CREDITED_STATS = ELEMENT_KEYS + ('pow', 'dam', 'perspedam', 'ch', 'ap')
@@ -340,26 +345,63 @@ def power_share(char, solution, effect_table=None):
     return (raised - turn) / float(STEP) * solution.get_stats_total().get('pow', 0) / turn
 
 
+def _unpriced_summons(entries, priced_ids):
+    """The reference spells that summon something that hits, when the damage data holds no rows for them."""
+    return [entry for entry in entries
+            if entry.get('id') not in priced_ids
+            and (entry.get('summon_push') or (SUMMONS.search(_english(entry)) and HITS.search(_english(entry))))]
+
+
+def _english(entry):
+    return ((entry.get('description') or {}).get('en') or '').lower()
+
+
 def visible_damage_share(char_class, level, game_version):
-    """Share of the class's damage that best_turn evaluates, None when the data cannot say."""
-    from chardata.spell_combo import castable_spells
+    """Share of the class's damage per AP that best_turn evaluates, None when the data cannot price all of it.
+
+    The rest is what the data holds but the turn leaves out: bombs, traps and glyphs, which wait, and the spells the
+    turn cannot cast. A summon that hits has no rows in the data, so the share is unknown.
+    """
+    from chardata.spell_buffs import get_damage_spells_for_version
+    from chardata.spell_combo import ONLY_HITS_A_SUMMON, Castable, _chosen_level, castable_spells
     from chardata.spell_reference import get_spell_reference
     entries = (get_spell_reference(game_version) or {}).get(char_class)
+    spells = (get_damage_spells_for_version(game_version) or {}).get(char_class) or []
     if not entries:
         return None
-    # The reference says the class places summons; their damage is not in the data
-    if any(entry.get('summon_push') for entry in entries):
+    if _unpriced_summons(entries, {spell.spell_id for spell in spells}):
         return None
 
     def worth(effect):
         return (getattr(effect, 'min_dam', 0) + getattr(effect, 'max_dam', 0)) / 2.0
 
-    seen = waiting = 0.0
-    for castable in castable_spells(char_class, level, game_version):
+    def per_ap(castable):
+        """What a cast is worth per AP, as (landing now, waiting).
+
+        Both read the best alternative, as best_turn does: the rows that wait for the same trigger are one per element
+        or per stage, so only the best of them lands.
+        """
         cost = castable.cost or 1
-        seen += (sum(worth(effect) for effect in castable.hits)
-                 + sum(worth(row[0]) for row in castable.delayed_plain or [])) / cost
-        waiting += sum(worth(row[0]) for row in castable.waiting_plain or []) / cost
+        best = max([sum(worth(effect) for effect in alternative)
+                    for alternative in castable.plain_alternatives or castable.alternatives or []] or [0.0])
+        by_trigger = {}
+        for effect, trigger in castable.waiting_plain or []:
+            by_trigger[trigger] = max(by_trigger.get(trigger, 0.0), worth(effect))
+        return best / cost, sum(by_trigger.values()) / cost
+
+    seen = waiting = 0.0
+    evaluated = set()
+    for castable in castable_spells(char_class, level, game_version):
+        evaluated.add(castable.spell_id)
+        landed, later = per_ap(castable)
+        seen += landed
+        waiting += later
+    for spell in spells:
+        if (spell.spell_id in evaluated or not spell.casting or level < spell.level_req[0]
+                or spell.spell_id in (ONLY_HITS_A_SUMMON.get(game_version) or {})):
+            continue
+        landed, later = per_ap(Castable(spell, _chosen_level(None, spell, level), False))
+        waiting += landed + later
     return seen / (seen + waiting) if seen + waiting else None
 
 
