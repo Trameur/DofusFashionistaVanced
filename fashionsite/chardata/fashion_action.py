@@ -492,7 +492,11 @@ def solve_with_weapon_hits(char, solve_once, model_input, deadline=None, longest
     """A second solve with the weapons' hits and the crit prices read on the first set, when the version has them."""
     solved = solve_once(model_input, deadline, longest)
     terms = weapon_hit_terms(char, solved[2], model_input)
-    reading = crit_hinges(char, solved[2], model_input, terms)
+    try:
+        reading = crit_hinges(char, solved[2], model_input, terms)
+    except Exception:
+        logger.exception('could not read the crit curve of char %s', getattr(char, 'id', '?'))
+        reading = None
     if not terms and reading is None:
         return solved
     weighed_input = copy.copy(model_input)

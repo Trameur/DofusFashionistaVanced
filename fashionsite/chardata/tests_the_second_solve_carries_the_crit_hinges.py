@@ -39,7 +39,7 @@ def _minimal(weapon_id):
     return ModelResultMinimal({'weapon': weapon_id}, given, {})
 
 
-def _run(char, model_input, first='first', second='second', terms=None, reading=None):
+def _run(char, model_input, first='first', second='second', terms=None, reading=None, fails=None):
     """(the solved triple, the inputs the solves were called with, the arguments the reading was asked with)."""
     calls = []
 
@@ -51,6 +51,8 @@ def _run(char, model_input, first='first', second='second', terms=None, reading=
 
     def read_it(*args):
         asked.append(args)
+        if fails is not None:
+            raise fails
         return reading
 
     with mock.patch('chardata.fashion_action.weapon_hit_terms', return_value=terms or {}), \
@@ -122,6 +124,21 @@ class TheSecondSolvePricesCritFromTheFirstSetTests(SimpleTestCase):
         self.assertEqual('first', solved[2])
         self.assertEqual(2, len(calls))
 
+    def test_a_reading_that_raises_leaves_the_first_solve_as_it_is(self):
+        with self.assertLogs('chardata.fashion_action', 'ERROR'):
+            solved, calls, asked = _run(_char(), _input(), fails=ValueError('bad hull'))
+        self.assertEqual(1, len(asked))
+        self.assertEqual('first', solved[2])
+        self.assertEqual(1, len(calls))
+
+    def test_a_reading_that_raises_still_solves_again_with_the_terms(self):
+        with self.assertLogs('chardata.fashion_action', 'ERROR'):
+            solved, calls, _asked = _run(_char(), _input(), terms=TERMS, fails=ValueError('bad hull'))
+        self.assertEqual('second', solved[2])
+        self.assertEqual(TERMS, calls[1][0].item_terms)
+        self.assertEqual(WEIGHTS, calls[1][0].objective_values)
+        self.assertFalse(hasattr(calls[1][0], 'crit_hinges'))
+
 
 class TheReadingComesFromTheCurveTests(SimpleTestCase):
 
@@ -164,6 +181,26 @@ class TheReadingComesFromTheCurveTests(SimpleTestCase):
                 _solved, calls, expected = self.run_solves(_char(game_version, level), _input())
                 self.assertIsNone(expected)
                 self.assertEqual(1, len(calls))
+
+    def test_a_curve_that_breaks_while_it_is_read_solves_once(self):
+        first, calls = _minimal(MINOTOT_SCEPTRE), []
+
+        def solve_once(solve_input, deadline=None, longest=None):
+            calls.append(copy.copy(solve_input))
+            return 'Optimal', {}, first
+
+        with mock.patch('chardata.crit_curve.get_char_aspects', return_value={'str'}), \
+                mock.patch('chardata.crit_curve.get_standard_weights', return_value=dict(WEIGHTS)), \
+                mock.patch('chardata.crit_curve.get_stats_weights', return_value=dict(WEIGHTS)), \
+                mock.patch('chardata.solution.get_solution_from_minimal',
+                           side_effect=lambda char, minimal, refresh_base_stats=True:
+                           model_result_from_minimal(minimal)), \
+                mock.patch('chardata.crit_curve.concave_hull', side_effect=ValueError('no hull')), \
+                mock.patch('chardata.fashion_action.weapon_hit_terms', return_value={}), \
+                self.assertLogs('chardata.fashion_action', 'ERROR'):
+            solved = solve_with_weapon_hits(_char(), solve_once, _input(), 5, 6)
+        self.assertIs(first, solved[2])
+        self.assertEqual(1, len(calls))
 
     def test_a_char_the_curve_cannot_read_solves_once(self):
         with mock.patch('chardata.fashion_action.weapon_hit_terms', return_value={}):
