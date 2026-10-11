@@ -48,6 +48,10 @@ SPLIT_TOLERANCE = 0.10
 SHARE_MARGIN = 0.02
 SHARD_WEAK_LIMIT = 0.25
 SHARD_MIN_CELLS = 8
+#: the E1a gate: the shares of instances that converge and of fold pairs that agree, and the ceiling breaches allowed
+E1A_CONVERGED = 0.70
+E1A_FOLDS_AGREE = 0.75
+E1A_CEILING_CELLS = 1
 SWITCH_SHARE = 0.5
 DRY_ROUNDS = 2
 PROBE_RUNS = 3
@@ -179,13 +183,19 @@ def ap_gain(view):
     return reader.cast(view.worn, None, reader.ap + 1)[0] - here
 
 
+def share_bounds():
+    """(lowest, highest) share of a duo's two: far enough apart that both stay played once the weights are whole."""
+    low = 2 * PLAYED_SHARE / (1 + PLAYED_SHARE) + SHARE_MARGIN
+    return low, 2 - low
+
+
 def clamp_shares(shares):
-    """A duo's shares kept far enough apart that both stay played once the weights are whole."""
+    """A duo's shares kept inside share_bounds, still summing to 2."""
     if len(shares) != 2:
         return dict(shares)
-    low = 2 * PLAYED_SHARE / (1 + PLAYED_SHARE) + SHARE_MARGIN
+    low, high = share_bounds()
     first, second = sorted(shares)
-    value = min(max(shares[first], low), 2 - low)
+    value = min(max(shares[first], low), high)
     return {first: value, second: 2 - value}
 
 
@@ -799,49 +809,67 @@ def _switched_runs(runs, stat):
     return sum(1 for run in runs if run.usable and stat in run.best_round.read.switched)
 
 
+def _pool_stat(stat, engine, usable, group, unit, stamp, limits=None):
+    """The entry of one stat; `limits` is (lowest, highest) in place of the bounds around the engine value."""
+    values, folds = _fold_values(usable, stat)
+    entry = {'builds': values, 'n': len(values), 'engine': engine, 'folds': [folds['dev_a'], folds['dev_b']],
+             'weak': False}
+    if stamp:
+        entry.update(stamp)
+    if not values:
+        entry.update(value=engine, spread=None, weak=True, reason='no_runs')
+        return entry
+    entry['spread'] = [min(values.values()), max(values.values())]
+    value = _median(list(values.values()))
+    reason = None
+    if _switched_runs(usable, stat) > SWITCH_SHARE * len(usable):
+        value, reason = engine, 'switch'
+        entry['weak'] = True
+    elif _folds_disagree(folds['dev_a'], folds['dev_b'], engine):
+        pooled = _pooled_value(group, stat, engine) if group else None
+        if pooled is None:
+            value, reason = engine, 'folds'
+            entry['weak'] = True
+        else:
+            value, reason = pooled, 'pooled'
+    if not entry['weak']:
+        low, high = limits or (BOUNDS[0] * engine, BOUNDS[1] * engine)
+        if value < low or value > high:
+            value, reason = min(max(value, low), high), 'bound'
+        if abs(value - engine) * unit < 1:
+            value = engine
+            reason = reason or 'unchanged'
+    entry['value'] = value
+    if reason:
+        entry['reason'] = reason
+    return entry
+
+
+def _tie_shares(head, tail):
+    """A duo's two shares are one measure: the first element's entry sets the second's, so that they sum to 2."""
+    tail['value'] = 2 - head['value']
+    tail['weak'] = head['weak']
+    if 'reason' in head:
+        tail['reason'] = head['reason']
+    else:
+        tail.pop('reason', None)
+
+
 def pool_cell(runs, engine_ratios_, group=None, stamp=None):
     """{stat: entry} of one cell from its dev runs; a weak stat is read over the group's runs, else it keeps the engine.
 
-    `group` is the dev runs of every cell sharing the class, the number of elements and the scenario.
+    `group` is the dev runs of every cell sharing the class, the number of elements and the scenario. A duo's shares
+    are pooled as one stat, the first element's, and the other takes the rest of 2.
     """
     unit = unit_of(runs[0].instance.elements, runs[0].instance.scenario) if runs else 1
     usable = [run for run in runs if run.usable]
+    pair = [stat for stat in SHARE_STATS if stat in engine_ratios_]
     entries = {}
     for stat in sorted(engine_ratios_):
-        engine = engine_ratios_[stat]
-        values, folds = _fold_values(usable, stat)
-        entry = {'builds': values, 'n': len(values), 'engine': engine, 'folds': [folds['dev_a'], folds['dev_b']],
-                 'weak': False}
-        if stamp:
-            entry.update(stamp)
-        if not values:
-            entry.update(value=engine, spread=None, weak=True, reason='no_runs')
-            entries[stat] = entry
-            continue
-        entry['spread'] = [min(values.values()), max(values.values())]
-        value = _median(list(values.values()))
-        reason = None
-        if _switched_runs(usable, stat) > SWITCH_SHARE * len(usable):
-            value, reason = engine, 'switch'
-            entry['weak'] = True
-        elif _folds_disagree(folds['dev_a'], folds['dev_b'], engine):
-            pooled = _pooled_value(group, stat, engine) if group else None
-            if pooled is None:
-                value, reason = engine, 'folds'
-                entry['weak'] = True
-            else:
-                value, reason = pooled, 'pooled'
-        if not entry['weak']:
-            low, high = BOUNDS[0] * engine, BOUNDS[1] * engine
-            if value < low or value > high:
-                value, reason = min(max(value, low), high), 'bound'
-            if abs(value - engine) * unit < 1:
-                value = engine
-                reason = reason or 'unchanged'
-        entry['value'] = value
-        if reason:
-            entry['reason'] = reason
-        entries[stat] = entry
+        limits = share_bounds() if len(pair) == 2 and stat in pair else None
+        entries[stat] = _pool_stat(stat, engine_ratios_[stat], usable, group, unit, stamp, limits)
+    if len(pair) == 2:
+        _tie_shares(entries[pair[0]], entries[pair[1]])
     return entries
 
 
@@ -854,12 +882,17 @@ def _over_engine(run, stat):
     return value / engine
 
 
+def _sets_the_pair(run, stat):
+    """Whether a stat is no share, or the share that sets its duo's pair: the first element's."""
+    return stat not in SHARE_STATS or run.instance.elements[0] == stat
+
+
 def _pooled_value(group, stat, engine):
     """The group's median move of a stat, applied to this cell's engine weight, when its two folds agree, else None.
 
     Only the runs of cells that weigh the stat count, so a cell that plays another element does not pull it to zero.
     """
-    runs = [run for run in group if run.usable and _over_engine(run, stat) is not None]
+    runs = [run for run in group if run.usable and _over_engine(run, stat) is not None and _sets_the_pair(run, stat)]
     if not runs or _switched_runs(runs, stat) > SWITCH_SHARE * len(runs):
         return None
     moves = {split: [_over_engine(run, stat) for run in runs if run.instance.split == split] for split in DEV_SPLITS}
@@ -1189,6 +1222,48 @@ def shard_stopped(records):
     finished = [record for record in records if record.get('reason') != 'blind']
     kept = [record for record in finished if record.get('status') != 'shipped']
     return len(finished) >= SHARD_MIN_CELLS and len(kept) > SHARD_WEAK_LIMIT * len(finished)
+
+
+def _cell_gained(record):
+    """Whether a cell gained on the credited score at both ends of lambda, on its dev median and on the test."""
+    gains = list((record.get('u_acc_gain') or {}).values()) + list((record.get('test_gain') or {}).values())
+    return len(gains) == 4 and all(gain is not None and gain > 0 for gain in gains)
+
+
+def _fold_agreements(record):
+    """One bool per stat of a cell: whether its two folds agree. A stat both folds weigh at zero is left out."""
+    agreements = []
+    for entry in (record.get('ratios') or {}).values():
+        first, second = entry.get('folds') or (None, None)
+        if not (first == 0 and second == 0):
+            agreements.append(not _folds_disagree(first, second, entry['engine']))
+    return agreements
+
+
+def e1a_verdict(records):
+    """The E1a gate over the records of its cells, {'passed', 'checks', ...}.
+
+    A class the blind gate cannot price keeps the engine whatever the tuner finds, so it cannot gain. The gains, the
+    convergence, the fold agreement and the ceiling are counted over the live cells, all but one of which must gain,
+    and the blind cells must have kept the engine without a run.
+    """
+    blind = [record for record in records if record.get('reason') == 'blind']
+    live = [record for record in records if record.get('reason') != 'blind']
+    gained = sum(1 for record in live if _cell_gained(record))
+    needed = max(len(live) - 1, 1)
+    runs = [run for record in live for run in record.get('instances') or ()]
+    agreements = [agree for record in live for agree in _fold_agreements(record)]
+    converged = sum(1 for run in runs if run.get('converged')) / float(len(runs)) if runs else 0.0
+    agreeing = sum(agreements) / float(len(agreements)) if agreements else 0.0
+    ceiling = sum(1 for record in live if record.get('reason') == 'ceiling')
+    checks = {'live': bool(live), 'gains': gained >= needed, 'converged': converged >= E1A_CONVERGED,
+              'folds': agreeing >= E1A_FOLDS_AGREE, 'ceiling': ceiling <= E1A_CEILING_CELLS,
+              'blind': (all(record.get('status') == 'engine' and not record.get('instances') for record in blind)
+                        and all((record.get('blind_share') or 0) >= BLIND_SHARE for record in live))}
+    return {'live': len(live), 'blind': len(blind), 'gained': gained, 'needed': needed, 'converged': converged,
+            'folds_agree': agreeing, 'ceiling_cells': ceiling,
+            'repeated_sets': sum(1 for record in live if 'repeated_dev_sets' in (record.get('notes') or ())),
+            'checks': checks, 'passed': all(checks.values())}
 
 
 def repository_root():

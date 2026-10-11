@@ -166,6 +166,110 @@ class AGroupPoolsOnlyTheCellsThatWeighTheStatTests(SimpleTestCase):
         self.assertEqual('pooled', entry['reason'])
 
 
+DUO = ('str', 'int')
+DUO_ENGINE = dict(ENGINE, str=1.0, int=1.0)
+FOLDS = (('dev_a', 0), ('dev_a', 1), ('dev_b', 0), ('dev_b', 1))
+
+
+def _duo_cell(elements, lead_values, **more):
+    """The four dev runs of a duo cell, in the order of the plan: `lead_values` are the first element's shares."""
+    first, second = elements
+    engine = dict(ENGINE, **{first: 1.0, second: 1.0})
+    return [_run(split, which, elements=elements, engine=engine, **dict({first: value, second: 2 - value}, **more))
+            for (split, which), value in zip(FOLDS, lead_values)]
+
+
+def _shipped_shares(entries, duo=DUO):
+    """What the table would write for the two shares: the engine's 1.0 where an entry is weak."""
+    return {stat: (1.0 if entries[stat]['weak'] else entries[stat]['value']) for stat in duo}
+
+
+class ADuosSharesArePooledAsOneTests(SimpleTestCase):
+
+    def test_a_pair_inside_the_bounds_whose_folds_agree_ships_and_sums_to_two(self):
+        entries = tuning.pool_cell(_duo_cell(DUO, [1.04, 1.04, 1.10, 1.10]), DUO_ENGINE)
+        self.assertEqual([False, False], [entries[stat]['weak'] for stat in DUO])
+        self.assertAlmostEqual(1.07, entries['str']['value'])
+        self.assertAlmostEqual(0.93, entries['int']['value'])
+        self.assertAlmostEqual(2.0, sum(_shipped_shares(entries).values()))
+        self.assertEqual({'str', 'int'}, {stat for stat in tuning.applied_ratios(entries) if stat in DUO})
+
+    def test_asymmetric_folds_do_not_leave_one_share_weak_and_the_other_not(self):
+        entries = tuning.pool_cell(_duo_cell(DUO, [1.12, 1.12, 1.38, 1.38]), DUO_ENGINE)
+        self.assertFalse(tuning._folds_disagree(*entries['str']['folds'], 1.0))
+        self.assertTrue(tuning._folds_disagree(*entries['int']['folds'], 1.0))
+        self.assertEqual([False, False], [entries[stat]['weak'] for stat in DUO])
+        self.assertAlmostEqual(2.0, sum(_shipped_shares(entries).values()))
+
+    def test_asymmetric_folds_that_pass_one_share_and_fail_the_other_make_both_weak_at_the_engine(self):
+        entries = tuning.pool_cell(_duo_cell(DUO, [0.7, 0.7, 0.9, 0.9]), DUO_ENGINE)
+        self.assertTrue(tuning._folds_disagree(*entries['str']['folds'], 1.0))
+        self.assertFalse(tuning._folds_disagree(*entries['int']['folds'], 1.0))
+        self.assertEqual([(True, 'folds', 1.0), (True, 'folds', 1.0)],
+                         [(entries[stat]['weak'], entries[stat]['reason'], entries[stat]['value']) for stat in DUO])
+        self.assertEqual({}, {stat: value for stat, value in tuning.applied_ratios(entries).items() if stat in DUO})
+
+    def test_a_pair_pushed_past_the_bounds_is_clamped_with_both_elements_still_played(self):
+        entries = tuning.pool_cell(_duo_cell(DUO, [1.9] * 4), DUO_ENGINE)
+        low, high = tuning.share_bounds()
+        self.assertEqual({'str': (high, 'bound'), 'int': (low, 'bound')},
+                         {stat: (entries[stat]['value'], entries[stat]['reason']) for stat in DUO})
+        self.assertAlmostEqual(2.0, entries['str']['value'] + entries['int']['value'])
+        self.assertGreaterEqual(entries['int']['value'] / entries['str']['value'], tuning.PLAYED_SHARE)
+        self.assertEqual(tuning.clamp_shares({'str': 1.9, 'int': 0.1}), {stat: entries[stat]['value'] for stat in DUO})
+
+    def test_a_change_of_less_than_a_unit_leaves_both_shares_at_the_engine(self):
+        entries = tuning.pool_cell(_duo_cell(DUO, [1.0 + 0.4 / UNIT] * 4), DUO_ENGINE)
+        self.assertEqual([(1.0, 'unchanged'), (1.0, 'unchanged')],
+                         [(entries[stat]['value'], entries[stat]['reason']) for stat in DUO])
+        self.assertEqual({}, {stat: value for stat, value in tuning.applied_ratios(entries).items() if stat in DUO})
+
+    def test_no_usable_run_leaves_both_shares_weak_at_the_engine(self):
+        entries = tuning.pool_cell(_duo_cell(DUO, [1.05] * 4, proven=False), DUO_ENGINE)
+        self.assertEqual([(True, 'no_runs', 1.0), (True, 'no_runs', 1.0)],
+                         [(entries[stat]['weak'], entries[stat]['reason'], entries[stat]['value']) for stat in DUO])
+
+    def test_the_second_share_keeps_its_own_measurement(self):
+        runs = _duo_cell(DUO, [1.12, 1.12, 1.38, 1.38])
+        entries = tuning.pool_cell(runs, DUO_ENGINE)
+        self.assertEqual(4, entries['int']['n'])
+        for got, wanted in zip(entries['int']['spread'] + entries['int']['folds'], [0.62, 0.88, 0.88, 0.62]):
+            self.assertAlmostEqual(wanted, got)
+        self.assertEqual({tuning.instance_key(run.instance): run.best_round.ratios['int'] for run in runs},
+                         entries['int']['builds'])
+
+    def test_a_cell_that_plays_one_element_holds_no_shares(self):
+        self.assertFalse(set(DUO) & set(tuning.pool_cell(_four(1.4, 1.6, 1.5, 1.7), ENGINE)))
+
+    def test_whatever_the_folds_the_shipped_pair_sums_to_two(self):
+        for first, second in ((1.12, 1.38), (0.7, 0.9), (1.0, 1.9), (1.3, 1.3), (0.5, 1.5), (1.9, 1.9), (1.04, 1.1)):
+            entries = tuning.pool_cell(_duo_cell(DUO, [first, first, second, second]), DUO_ENGINE)
+            with self.subTest(first=first, second=second):
+                self.assertAlmostEqual(2.0, sum(_shipped_shares(entries).values()))
+                self.assertEqual(entries['str']['weak'], entries['int']['weak'])
+                self.assertEqual(entries['str'].get('reason'), entries['int'].get('reason'))
+
+
+class AGroupPoolsAShareOnlyWhereItSetsThePairTests(SimpleTestCase):
+
+    def test_a_weak_first_share_is_pooled_over_the_cells_it_leads(self):
+        cell = _duo_cell(DUO, [0.95, 0.95, 1.1, 1.1])
+        sibling = _duo_cell(('str', 'cha'), [1.06] * 4)
+        entries = tuning.pool_cell(cell, DUO_ENGINE, cell + sibling)
+        self.assertEqual([(False, 'pooled'), (False, 'pooled')],
+                         [(entries[stat]['weak'], entries[stat]['reason']) for stat in DUO])
+        self.assertAlmostEqual(1.06, entries['str']['value'])
+        self.assertAlmostEqual(0.94, entries['int']['value'])
+
+    def test_the_second_share_of_another_cell_does_not_pool_into_a_first_share(self):
+        cell = _duo_cell(('int', 'cha'), [0.95, 0.95, 1.1, 1.1])
+        follower = _duo_cell(DUO, [0.9] * 4)
+        entries = tuning.pool_cell(cell, dict(ENGINE, int=1.0, cha=1.0), cell + follower)
+        self.assertEqual([(True, 'folds'), (True, 'folds')],
+                         [(entries[stat]['weak'], entries[stat]['reason']) for stat in ('int', 'cha')])
+        self.assertEqual([1.0, 1.0], [entries[stat]['value'] for stat in ('int', 'cha')])
+
+
 class ASwitchedStatKeepsTheEngineTests(SimpleTestCase):
 
     def test_a_stat_that_switched_on_more_than_half_the_runs_is_weak(self):
