@@ -16,12 +16,13 @@ PLAN = {split: [(minimums, tier) for minimums, tier, planned in tuning.INSTANCE_
         for split in tuning.DEV_SPLITS}
 
 
-def _run(split, which, pow=1.5, hp=0.2, switched=(), proven=True):
+def _run(split, which, pow=1.5, hp=0.2, switched=(), proven=True, elements=ELEMENTS, engine=None, **more):
     minimums, tier = PLAN[split][which]
-    instance = tuning.Instance('Iop', ELEMENTS, 'plain', '200', minimums, tier, split)
+    instance = tuning.Instance('Iop', elements, 'plain', '200', minimums, tier, split)
     run = tuning.TuneRun(instance)
+    run.engine_ratios = dict(ENGINE if engine is None else engine)
     read = tuning.Read({}, set(switched), 1000.0, 5000.0, 2.0)
-    run.rounds = [tuning.Round(0, {'pow': pow, 'hp': hp}, SimpleNamespace(proven=proven), read, 1.0, {})]
+    run.rounds = [tuning.Round(0, dict({'pow': pow, 'hp': hp}, **more), SimpleNamespace(proven=proven), read, 1.0, {})]
     run.best = 0
     return run
 
@@ -109,6 +110,62 @@ class AWeakStatKeepsTheEngineUnlessTheSiblingsAgreeTests(SimpleTestCase):
         entries = tuning.pool_cell(cell, ENGINE, cell + siblings)
         self.assertEqual({'pow': entries['pow']['value']}, {stat: value for stat, value in
                                                             tuning.applied_ratios(entries).items() if stat == 'pow'})
+
+
+class AGroupPoolsOnlyTheCellsThatWeighTheStatTests(SimpleTestCase):
+
+    def _cell(self, stat, engine, values, elements=ELEMENTS):
+        """The four dev runs of a cell: `values` are its stat's ratios in the order of the plan."""
+        runs = []
+        for (split, which), value in zip([('dev_a', 0), ('dev_a', 1), ('dev_b', 0), ('dev_b', 1)], values):
+            runs.append(_run(split, which, elements=elements, engine=dict(ENGINE, **{stat: engine}), **{stat: value}))
+        return runs
+
+    def test_a_fixed_damage_the_cell_weighs_is_not_pulled_to_zero_by_cells_that_play_another_element(self):
+        engine = dict(ENGINE, earthdam=6.0)
+        cell = self._cell('earthdam', 6.0, [9.0, 9.0, 5.7, 5.7])
+        others = [run for element in ('int', 'cha', 'agi') for run in self._cell('earthdam', 0.0, [0.0] * 4,
+                                                                                (element,))]
+        entry = tuning.pool_cell(cell, engine, cell + others)['earthdam']
+        self.assertEqual((True, 'folds', 6.0), (entry['weak'], entry['reason'], entry['value']))
+        self.assertNotEqual('bound', entry.get('reason'))
+        self.assertNotIn('earthdam', tuning.applied_ratios(tuning.pool_cell(cell, engine, cell + others)))
+
+    def test_the_move_of_the_cells_that_weigh_it_is_applied_to_this_cells_engine_weight(self):
+        engine = dict(ENGINE, neutdam=3.0)
+        duo = ('str', 'int')
+        cell = self._cell('neutdam', 3.0, [3.6, 3.6, 5.1, 5.1], duo)
+        weighing = self._cell('neutdam', 2.0, [2.8] * 4, ('str', 'cha'))
+        silent = self._cell('neutdam', 0.0, [0.0] * 4, ('agi', 'int'))
+        entry = tuning.pool_cell(cell, engine, cell + weighing + silent)['neutdam']
+        self.assertEqual((False, 'pooled'), (entry['weak'], entry['reason']))
+        self.assertAlmostEqual(1.4 * 3.0, entry['value'])
+
+    def test_a_cell_that_does_not_weigh_the_stat_keeps_zero(self):
+        engine = dict(ENGINE, neutdam=0.0)
+        cell = self._cell('neutdam', 0.0, [0.0] * 4)
+        weighing = self._cell('neutdam', 2.0, [2.8] * 4, ('int',))
+        entry = tuning.pool_cell(cell, engine, cell + weighing)['neutdam']
+        self.assertEqual(0.0, entry['value'])
+        self.assertEqual({}, {stat: value for stat, value in tuning.applied_ratios(
+            tuning.pool_cell(cell, engine, cell + weighing)).items() if stat == 'neutdam'})
+
+    def test_the_folds_of_the_group_are_read_on_the_moves_not_on_the_weights(self):
+        engine = dict(ENGINE, neutdam=3.0)
+        cell = self._cell('neutdam', 3.0, [3.6, 3.6, 5.1, 5.1])
+        large = self._cell('neutdam', 30.0, [36.0, 36.0, 66.0, 66.0], ('int',))
+        entry = tuning.pool_cell(cell, engine, cell + large)['neutdam']
+        self.assertEqual((True, 'folds', 3.0), (entry['weak'], entry['reason'], entry['value']))
+
+    def test_cells_that_switched_on_the_stat_count_only_among_the_cells_that_weigh_it(self):
+        engine = dict(ENGINE, neutdam=3.0)
+        cell = self._cell('neutdam', 3.0, [3.6, 3.6, 5.1, 5.1])
+        weighing = self._cell('neutdam', 2.0, [2.8] * 4, ('int',))
+        silent = [_run(split, which, elements=('cha',), engine=dict(ENGINE, neutdam=0.0), neutdam=0.0,
+                       switched=('neutdam',)) for split, which in (('dev_a', 0), ('dev_a', 1), ('dev_b', 0),
+                                                                    ('dev_b', 1))] * 4
+        entry = tuning.pool_cell(cell, engine, cell + weighing + silent)['neutdam']
+        self.assertEqual('pooled', entry['reason'])
 
 
 class ASwitchedStatKeepsTheEngineTests(SimpleTestCase):

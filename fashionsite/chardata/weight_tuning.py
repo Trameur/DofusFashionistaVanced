@@ -601,6 +601,7 @@ class TuneRun(object):
 
     def __init__(self, instance):
         self.instance = instance
+        self.engine_ratios = {}
         self.rounds = []
         self.dropped = []
         self.best = None
@@ -672,6 +673,7 @@ def tune_instance(runner, instance, start=None, max_rounds=MAX_ROUNDS, forbid=()
     unit = unit_of(instance.elements, instance.scenario)
     run = TuneRun(instance)
     base = engine_ratios(instance.char_class, instance.elements, instance.scenario, runner.game_version)
+    run.engine_ratios = dict(base)
     current = dict(start) if start else dict(base)
     fed = dict(start) if start else None
     seen = []
@@ -795,15 +797,27 @@ def pool_cell(runs, engine_ratios_, group=None, stamp=None):
     return entries
 
 
+def _over_engine(run, stat):
+    """A run's ratio of a stat over the engine's ratio in its own cell, None where that cell weighs it at zero."""
+    engine = run.engine_ratios.get(stat)
+    value = run.best_round.ratios.get(stat)
+    if not engine or value is None:
+        return None
+    return value / engine
+
+
 def _pooled_value(group, stat, engine):
-    """The median of a stat over a group's usable dev runs when its two folds agree, else None."""
-    runs = [run for run in group if run.usable]
-    if _switched_runs(runs, stat) > SWITCH_SHARE * len(runs):
+    """The group's median move of a stat, applied to this cell's engine weight, when its two folds agree, else None.
+
+    Only the runs of cells that weigh the stat count, so a cell that plays another element does not pull it to zero.
+    """
+    runs = [run for run in group if run.usable and _over_engine(run, stat) is not None]
+    if not runs or _switched_runs(runs, stat) > SWITCH_SHARE * len(runs):
         return None
-    _values, folds = _fold_values(runs, stat)
-    if _folds_disagree(folds['dev_a'], folds['dev_b'], engine):
+    moves = {split: [_over_engine(run, stat) for run in runs if run.instance.split == split] for split in DEV_SPLITS}
+    if _folds_disagree(_median(moves['dev_a']), _median(moves['dev_b']), 1.0):
         return None
-    return _median([run.best_round.ratios[stat] for run in runs if stat in run.best_round.ratios])
+    return _median(moves['dev_a'] + moves['dev_b']) * engine
 
 
 def applied_ratios(entries):
