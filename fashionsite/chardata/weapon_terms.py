@@ -67,9 +67,13 @@ class TurnReader(object):
         return self.best_turn(used, castables, ap, standing={}, game_version=self.game_version,
                               pushback=False, caster_level=self.level)
 
-    def full(self, weapon=None, deltas=None):
+    def cast(self, weapon=None, deltas=None, ap=None):
+        """(best turn, its cast order) on the spells and the weapon, on `ap` when given."""
         castables = self.spells + ([weapon] if weapon is not None else [])
-        return self._cast(castables, self.ap, deltas=deltas)[0]
+        return self._cast(castables, self.ap if ap is None else ap, deltas=deltas)
+
+    def full(self, weapon=None, deltas=None):
+        return self.cast(weapon, deltas)[0]
 
     def spells_only(self, ap):
         """(best spell-only turn within ap, the stats once its buffs are cast)."""

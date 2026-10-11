@@ -393,10 +393,10 @@ def guard_plan(char):
     return GUARD_KIND[priority], stored_guard(char)
 
 
-def _standard_weights(char, aspects):
+def _standard_weights(char, aspects, table=True):
     build = Char(char_class=char.char_class, level=char.level, game_version=char.game_version,
                  aspects=pickle.dumps(set(aspects)))
-    build.stats_weight = pickle.dumps(get_standard_weights(build))
+    build.stats_weight = pickle.dumps(get_standard_weights(build, table=table))
     return get_stats_weights(build, persist=False)
 
 
@@ -404,10 +404,17 @@ def balanced_weights(char, weights):
     """The build's weights less what its priority adds, so the player's own changes stay."""
     priority, _play_mode = stored_choices(char)
     boxes = get_char_aspects(char)
-    balanced = _standard_weights(char, boxes)
-    with_priority = _standard_weights(char, solved_aspects(boxes, priority))
-    if weights == with_priority:
-        return balanced
+    solved = solved_aspects(boxes, priority)
+    variants = []
+    # A build saved before the weight table, or after it, still counts as untouched
+    for table in (True, False):
+        balanced = _standard_weights(char, boxes, table)
+        with_priority = _standard_weights(char, solved, table)
+        if weights == with_priority:
+            return balanced
+        variants.append((balanced, with_priority))
+    balanced, with_priority = min(variants, key=lambda pair: sum(
+        1 for key, value in weights.items() if value != pair[1].get(key)))
     shifted = {}
     for key, value in weights.items():
         if not isinstance(value, (int, float)):
@@ -474,8 +481,8 @@ def guarded_stats(char, balanced):
     """Stat keys valued in the balanced weights that the build's priority does not push, plus AP, MP and Range unless weighed below zero."""
     priority, _play_mode = stored_choices(char)
     boxes = get_char_aspects(char)
-    plain = _standard_weights(char, boxes)
-    raised = _standard_weights(char, solved_aspects(boxes, priority))
+    plain = _standard_weights(char, boxes, table=False)
+    raised = _standard_weights(char, solved_aspects(boxes, priority), table=False)
     pushed = {key for key, value in raised.items()
               if _is_number(value) and value > (plain.get(key) if _is_number(plain.get(key)) else 0)}
     pushed = (pushed | PRIORITY_PUSHES.get(priority, frozenset())) - ALWAYS_GUARDED

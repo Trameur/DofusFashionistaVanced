@@ -24,6 +24,7 @@ import pickle
 from chardata.char_blobs import read_char_blob
 
 from chardata.options import get_options, set_options
+from chardata.weight_table import apply_weight_table
 from fashionistapulp.dofus_constants import (DAMAGE_TYPES, STAT_KEY_TO_NAME, MAIN_STATS,
                                              NON_STAT_WEIGHT_KEYS)
 from fashionistapulp.modelresult import characteristic_passives, wisdom_per_ap_mp_dodge_point
@@ -989,11 +990,32 @@ def _set_minimums(char, aspects):
     # Set result in char
     char.minimum_stats = pickle.dumps(mins_by_name)
 
-def get_standard_weights(char):
-    w = _set_weights(char, get_char_aspects(char), apply=False)
+def get_standard_weights(char, table=True):
+    w = _set_weights(char, get_char_aspects(char), apply=False, table=table)
     return w
 
-def _set_weights(char, aspects, apply=True):
+def _dodge_lock_floors(w, tuning, keys=None):
+    """Agility (or the version's dodge stat) is worth a tenth of the dodge and lock it brings."""
+    if tuning.get('dodge_from', 'agi') == 'agi':
+        floors = [('agi', (w['dodge'] + w['lock']) / 10)]
+    else:
+        floors = [('agi', w['lock'] / 10), (tuning['dodge_from'], w['dodge'] / 10)]
+    for stat, floor in floors:
+        if keys is None or stat in keys:
+            w[stat] = max(w[stat], floor)
+
+def _prospecting_floor(w, tuning, keys=None):
+    """Chance is worth a tenth of the prospecting it brings, and the prospecting weight comes on top."""
+    if tuning.get('pp_from_cha', True) and (keys is None or 'cha' in keys):
+        w['cha'] = max(w['cha'], w['pp'] / 10.0)
+        w['cha'] += 0.1 * w['pp']
+
+def _characteristic_floors(w, tuning, keys):
+    """The floors of the characteristics in `keys`, once the table has written their weights."""
+    _dodge_lock_floors(w, tuning, keys)
+    _prospecting_floor(w, tuning, keys)
+
+def _set_weights(char, aspects, apply=True, table=True):
     race = char.char_class
     level = char.level
     level_pct = level / 200.0
@@ -1051,11 +1073,7 @@ def _set_weights(char, aspects, apply=True):
     w['int'] = attack_factor * b if 'int' in elements else 0
     w['agi'] = attack_factor * b if 'agi' in elements else 0
     w['cha'] = attack_factor * b if 'cha' in elements else 0
-    if tuning.get('dodge_from', 'agi') == 'agi':
-        w['agi'] = max(w['agi'], (w['dodge'] + w['lock']) / 10)
-    else:
-        w['agi'] = max(w['agi'], w['lock'] / 10)
-        w[tuning['dodge_from']] = max(w[tuning['dodge_from']], w['dodge'] / 10)
+    _dodge_lock_floors(w, tuning)
     # Power counts for every element played
     w['pow'] = params['pow_per_elements'][element_count] * b
     if 'glasscannon' in aspects:
@@ -1125,10 +1143,7 @@ def _set_weights(char, aspects, apply=True):
 
     pp_box, pp_base, pp_pvp = params['pp']
     w['pp'] = pp_box * b if 'pp' in aspects else pp_base * b if 'pvp' not in aspects else pp_pvp
-    pp_from_cha = tuning.get('pp_from_cha', True)
-    if pp_from_cha:
-        w['cha'] = max(w['cha'], w['pp'] / 10.0)
-        w['cha'] += 0.1 * w['pp']
+    _prospecting_floor(w, tuning)
 
     init_duel, init_pvp, init_base = params['init']
     w['init'] = (init_duel * b if 'duel' in aspects else
@@ -1203,6 +1218,10 @@ def _set_weights(char, aspects, apply=True):
     w['meleeness'] = meleeness
 
     w['resperwea'] = chance_of_melee_def * resper_w * final_res_mult
+
+    if table:
+        written = apply_weight_table(w, char, aspects, attack_factor * b, tuning)
+        _characteristic_floors(w, tuning, written)
 
     mule = mule_stats(aspects)
     if mule:
