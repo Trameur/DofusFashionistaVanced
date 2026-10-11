@@ -30,7 +30,7 @@ from fashionistapulp.item_effects import (COST_ONLY_STATUSES, ELEMENT_KEYS, PLAY
 logger = logging.getLogger(__name__)
 
 #: bumped by hand when the reader, the score, the instances or the acceptance change
-GENERATOR_VERSION = 1
+GENERATOR_VERSION = 2
 
 STEP = CHARACTERISTIC_STEP
 MAX_ROUNDS = 4
@@ -68,14 +68,13 @@ SCENARIO_DOOR = {'plain': (None, 'balanced'), 'glasscannon': ('solo_pvm', 'balan
                  'tank': ('group_pvm', 'balanced')}
 #: scenario: the priority of its guarded door, which has no style
 GUARDED_PRIORITY = {'glasscannon': 'damage', 'tank': 'defense'}
-#: (minimums, tier, split) of the five instances of a cell
-INSTANCE_PLAN = (('door', 'high', 'dev_a'), ('meta', 'mid', 'dev_a'), ('meta', 'high', 'dev_b'),
-                 ('door', 'mid', 'dev_b'), ('door', 'low', 'test'))
+#: (tier, split) of the five instances of a cell
+INSTANCE_PLAN = (('high', 'dev_a'), ('mid', 'dev_a'), ('rest', 'dev_b'), ('tail', 'dev_b'), ('low', 'test'))
 DEV_SPLITS = ('dev_a', 'dev_b')
-#: tier: how many of the heaviest pieces of the first engine set it forbids
-TIER_FORBIDDEN = {'high': 0, 'mid': 3, 'low': 6}
-META_MINIMUMS = {'AP': 12, 'MP': 6}
-SMOKE_INSTANCES = (('Iop', ('str',), 'glasscannon', 'door', 'high'), ('Cra', ('agi',), 'plain', 'meta', 'high'))
+#: tier: (heaviest pieces of the first engine set it skips, pieces it forbids after them)
+#: No two instances of a cell forbid the same pieces, so that none of them repeats another's solve.
+TIER_FORBIDDEN = {'high': (0, 0), 'mid': (0, 3), 'rest': (6, 3), 'tail': (9, 3), 'low': (0, 6)}
+SMOKE_INSTANCES = (('Iop', ('str',), 'glasscannon', 'high'), ('Cra', ('agi',), 'plain', 'high'))
 
 #: the words of a reference text that says a spell summons something that hits
 SUMMONS = re.compile(r'\bsummons?\b|\breplaces\b')
@@ -92,7 +91,7 @@ PERCENT_RESIST_KEYS = RESIST_STATS
 READ_STATS = TABLE_STATS + SHARE_STATS
 
 Cell = namedtuple('Cell', 'char_class elements scenario band')
-Instance = namedtuple('Instance', 'char_class elements scenario band minimums tier split')
+Instance = namedtuple('Instance', 'char_class elements scenario band tier split')
 Read = namedtuple('Read', 'ratios switched turn ehp g_char')
 Credit = namedtuple('Credit', 'turn ehp')
 
@@ -102,7 +101,7 @@ def cell_key(cell):
 
 
 def instance_key(instance):
-    return '/'.join((cell_key(instance), instance.minimums, instance.tier))
+    return '/'.join((cell_key(instance), instance.tier))
 
 
 def lot1_cells(classes=None, elements=None, scenarios=None):
@@ -119,8 +118,8 @@ def lot1_cells(classes=None, elements=None, scenarios=None):
 
 
 def instances_for(cell):
-    return [Instance(cell.char_class, cell.elements, cell.scenario, cell.band, minimums, tier, split)
-            for minimums, tier, split in INSTANCE_PLAN]
+    return [Instance(cell.char_class, cell.elements, cell.scenario, cell.band, tier, split)
+            for tier, split in INSTANCE_PLAN]
 
 
 def split_digest(instances):
@@ -544,7 +543,6 @@ class DoorRunner(object):
     def _build(self, instance, forbid, guarded):
         from chardata.coaching_view import create_build
         from chardata.lock_forbid import add_items_to_exclusions
-        from chardata.min_stats import get_min_stats, set_min_stats
         from chardata.presets import STYLE_BY_KEY, apply_setup_choices
         style, priority = SCENARIO_DOOR[instance.scenario]
         if guarded:
@@ -553,10 +551,6 @@ class DoorRunner(object):
         char = create_build(self.request, instance.char_class, GRID_LEVEL, set(boxes), self.game_version,
                             name='tuner %s' % instance_key(instance))
         apply_setup_choices(char, set(boxes), priority=priority, reset=True, set_minimums=False)
-        if instance.minimums == 'meta':
-            minimums = dict(get_min_stats(char))
-            minimums.update(META_MINIMUMS)
-            set_min_stats(char, minimums)
         if forbid:
             add_items_to_exclusions(char, sorted(forbid))
         return char
@@ -618,9 +612,10 @@ class DoorRunner(object):
 
 
 def forbid_for(tier, engine_result):
-    """The heaviest pieces of the first engine set that a tier takes away."""
+    """The pieces of the first engine set that a tier takes away, the set ranked by weight in the objective."""
     ranked = sorted(engine_result.contributions, key=lambda item_id: (-engine_result.contributions[item_id], item_id))
-    return set(ranked[:TIER_FORBIDDEN[tier]])
+    skipped, count = TIER_FORBIDDEN[tier]
+    return set(ranked[skipped:skipped + count])
 
 
 # The loop
@@ -1033,8 +1028,16 @@ def _fit_gain(run):
     return run.rounds[run.best].u_fit - run.rounds[0].u_fit
 
 
+def _repeated_sets(runs):
+    """How many dev runs gave, on the engine's weights, a set another dev run had already given."""
+    sets = [run.engine.set_ids for run in runs if run.engine is not None]
+    return len(sets) - len(set(sets))
+
+
 def _notes(cell, runs):
     notes = ['bluff_rows'] if cell.char_class == 'Ecaflip' else []
+    if _repeated_sets(runs):
+        notes.append('repeated_dev_sets')
     notes.extend(sorted({note for run in runs for item in run.rounds for note in item.result.notes}))
     return notes
 

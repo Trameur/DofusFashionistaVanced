@@ -206,9 +206,9 @@ class ADryRunWritesNoTableTests(_Command):
         self.assertIn('dry run: 2 instances, no table written', text)
         with open(os.path.join(self.out, 'dry.json'), encoding='utf-8') as handle:
             report = json.load(handle)
-        self.assertEqual(['Iop/str/glasscannon/200/door/high', 'Cra/agi/plain/200/meta/high'],
+        self.assertEqual(['Iop/str/glasscannon/200/high', 'Cra/agi/plain/200/high'],
                          [item['instance'] for item in report])
-        self.assertEqual(['Iop/str/glasscannon/200/door/high', 'Cra/agi/plain/200/meta/high'], self.runner.calls)
+        self.assertEqual(['Iop/str/glasscannon/200/high', 'Cra/agi/plain/200/high'], self.runner.calls)
 
     def test_it_writes_no_cell_and_no_table_and_closes_the_runner(self):
         self.call('--out', self.out, '--dry-run', '--processes', '1')
@@ -252,8 +252,8 @@ class ARunWritesRecordsAndOnlyShipWritesTheTableTests(_Command):
 
     def test_a_run_solves_the_four_dev_instances_and_nothing_else_when_nothing_changes(self):
         self.call('--out', self.out, '--cells', 'Iop/str/plain', '--processes', '1')
-        self.assertEqual(['Iop/str/plain/200/door/high', 'Iop/str/plain/200/meta/mid', 'Iop/str/plain/200/meta/high',
-                          'Iop/str/plain/200/door/mid'], self.runner.calls)
+        self.assertEqual(['Iop/str/plain/200/high', 'Iop/str/plain/200/mid', 'Iop/str/plain/200/rest',
+                          'Iop/str/plain/200/tail'], self.runner.calls)
 
     def test_the_run_keeps_its_solver_settings_and_the_table_carries_them(self):
         self.call('--out', self.out, '--cells', 'Iop/str/plain', '--processes', '1', '--time-limit', '77')

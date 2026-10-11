@@ -11,7 +11,7 @@ VERSION = 'dofus3'
 CELL = tuning.Cell('Iop', ('str',), 'plain', '200')
 ENGINE = engine_ratios(CELL.char_class, CELL.elements, CELL.scenario, VERSION)
 #: what each dev instance reads for power, as a multiple of the engine's: no instance reads the median of them
-FACTORS = {('door', 'high'): 1.3, ('meta', 'mid'): 1.45, ('meta', 'high'): 1.6, ('door', 'mid'): 1.55}
+FACTORS = {'high': 1.3, 'mid': 1.45, 'rest': 1.6, 'tail': 1.55}
 POOLED = ENGINE['pow'] * 1.5
 
 
@@ -24,7 +24,7 @@ class _Result(object):
         self.ratios = ratios
         self.set_ids = tuple(ids)
         self.score = score
-        self.contributions = {item_id: 10.0 - item_id for item_id in range(1, 8)}
+        self.contributions = {item_id: 20.0 - item_id for item_id in range(1, 13)}
         self.proven = proven
         self.infeasible = False
         self.turn = 1000.0
@@ -36,7 +36,7 @@ class _Result(object):
         self.guard = None
 
     def read(self, lam):
-        factor = self.factors.get((self.instance.minimums, self.instance.tier), 1.0)
+        factor = self.factors.get(self.instance.tier, 1.0)
         return tuning.Read(dict(ENGINE, pow=ENGINE['pow'] * factor), set(), self.turn, self.ehp, 2.0)
 
     def u_fit(self, lam):
@@ -100,12 +100,11 @@ class TheDevInstancesAreSolvedAgainTests(SimpleTestCase):
     def test_each_dev_instance_is_solved_again_on_the_pooled_ratios_with_its_own_forbidden_pieces(self):
         runner, record = _tune()
         again = _pooled_calls(runner)[:4]
-        self.assertEqual([('door', 'high'), ('meta', 'mid'), ('meta', 'high'), ('door', 'mid')],
-                         [(call.instance.minimums, call.instance.tier) for call in again])
+        self.assertEqual(['high', 'mid', 'rest', 'tail'], [call.instance.tier for call in again])
         for call in again:
             self.assertAlmostEqual(POOLED, call.ratios['pow'])
             self.assertEqual({'pow'}, set(call.ratios))
-            self.assertEqual(tuning.TIER_FORBIDDEN[call.instance.tier], len(call.forbid))
+            self.assertEqual(tuning.TIER_FORBIDDEN[call.instance.tier][1], len(call.forbid))
         self.assertEqual(4, len(record['dev']))
 
     def test_the_test_instance_is_solved_on_the_engine_and_on_the_pooled_ratios_as_before(self):

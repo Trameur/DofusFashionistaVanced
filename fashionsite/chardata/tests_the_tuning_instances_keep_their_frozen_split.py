@@ -13,9 +13,8 @@ from chardata.weight_table import BANDS, SCENARIOS, grid_element_sets
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES, MAIN_STATS
 
 #: moves only with GENERATOR_VERSION: change the plan, bump the version, pin the new digest
-PINNED_SPLIT_DIGEST = 'fffd8f5a36e7f66105a9654c95a32dcbe480dae3'
-PLAN = [('door', 'high', 'dev_a'), ('meta', 'mid', 'dev_a'), ('meta', 'high', 'dev_b'), ('door', 'mid', 'dev_b'),
-        ('door', 'low', 'test')]
+PINNED_SPLIT_DIGEST = 'fb8d408c1c4d33e4fc666ce4da5073dcb20bebf3'
+PLAN = [('high', 'dev_a'), ('mid', 'dev_a'), ('rest', 'dev_b'), ('tail', 'dev_b'), ('low', 'test')]
 
 
 def _all_instances():
@@ -28,7 +27,7 @@ class TheSplitIsPinnedTests(SimpleTestCase):
         self.assertEqual(PINNED_SPLIT_DIGEST, tuning.split_digest(_all_instances()))
 
     def test_the_generator_version_the_digest_belongs_to(self):
-        self.assertEqual(1, tuning.GENERATOR_VERSION)
+        self.assertEqual(2, tuning.GENERATOR_VERSION)
 
     def test_the_digest_does_not_depend_on_the_order_of_the_instances(self):
         instances = _all_instances()
@@ -40,9 +39,9 @@ class TheSplitIsPinnedTests(SimpleTestCase):
         moved = [instances[0]._replace(split='dev_b')] + instances[1:]
         self.assertNotEqual(tuning.split_digest(instances), tuning.split_digest(moved))
 
-    def test_changing_a_tier_or_a_minimum_moves_the_digest(self):
+    def test_changing_a_tier_or_a_band_moves_the_digest(self):
         instances = _all_instances()
-        for field, value in (('tier', 'low'), ('minimums', 'meta'), ('band', '230')):
+        for field, value in (('tier', 'low'), ('band', '230')):
             changed = [instances[0]._replace(**{field: value})] + instances[1:]
             with self.subTest(field=field):
                 self.assertNotEqual(tuning.split_digest(instances), tuning.split_digest(changed))
@@ -56,41 +55,42 @@ class TheFivePerCellTests(SimpleTestCase):
 
     def test_the_plan_is_two_dev_folds_of_two_and_one_held_out(self):
         self.assertEqual(PLAN, list(tuning.INSTANCE_PLAN))
-        self.assertEqual({'dev_a': 2, 'dev_b': 2, 'test': 1}, Counter(split for _m, _t, split in tuning.INSTANCE_PLAN))
+        self.assertEqual({'dev_a': 2, 'dev_b': 2, 'test': 1}, Counter(split for _tier, split in tuning.INSTANCE_PLAN))
         self.assertEqual(('dev_a', 'dev_b'), tuning.DEV_SPLITS)
 
     def test_a_cell_has_its_five_instances_in_the_order_of_the_plan(self):
         cell = tuning.Cell('Iop', ('str',), 'plain', BANDS[0])
         instances = tuning.instances_for(cell)
-        self.assertEqual(PLAN, [(i.minimums, i.tier, i.split) for i in instances])
+        self.assertEqual(PLAN, [(i.tier, i.split) for i in instances])
         for instance in instances:
             self.assertEqual((cell.char_class, cell.elements, cell.scenario, cell.band),
                              (instance.char_class, instance.elements, instance.scenario, instance.band))
 
-    def test_each_fold_has_a_door_instance_and_a_meta_instance_at_different_tiers(self):
+    def test_each_fold_holds_two_different_tiers(self):
         for split in tuning.DEV_SPLITS:
-            rows = [(minimums, tier) for minimums, tier, planned in PLAN if planned == split]
+            tiers = [tier for tier, planned in PLAN if planned == split]
             with self.subTest(split=split):
-                self.assertEqual({'door', 'meta'}, {minimums for minimums, _tier in rows})
-                self.assertEqual(2, len({tier for _minimums, tier in rows}))
+                self.assertEqual(2, len(set(tiers)))
 
-    def test_the_held_out_instance_is_a_door_on_the_cheapest_tier(self):
-        self.assertEqual(('door', 'low'), PLAN[4][:2])
+    def test_the_held_out_instance_is_on_the_low_tier(self):
+        self.assertEqual(('low', 'test'), PLAN[4])
 
-    def test_the_first_instance_is_the_door_the_tiers_are_cut_from(self):
-        self.assertEqual(('door', 'high', 'dev_a'), PLAN[0])
-        self.assertEqual(0, tuning.TIER_FORBIDDEN['high'])
+    def test_the_first_instance_forbids_nothing_and_the_tiers_are_cut_from_its_set(self):
+        self.assertEqual(('high', 'dev_a'), PLAN[0])
+        self.assertEqual((0, 0), tuning.TIER_FORBIDDEN['high'])
 
-    def test_the_instance_key_names_the_cell_the_minimums_and_the_tier(self):
+    def test_the_instance_key_names_the_cell_and_the_tier(self):
         instance = tuning.instances_for(tuning.Cell('Iop', ('str', 'int'), 'tank', BANDS[0]))[1]
-        self.assertEqual('Iop/str+int/tank/200/meta/mid', tuning.instance_key(instance))
+        self.assertEqual('Iop/str+int/tank/200/mid', tuning.instance_key(instance))
 
     def test_the_instance_keys_of_the_grid_are_all_different(self):
         keys = [tuning.instance_key(instance) for instance in _all_instances()]
         self.assertEqual(len(keys), len(set(keys)))
 
-    def test_the_meta_minimums_are_twelve_ap_and_six_mp(self):
-        self.assertEqual({'AP': 12, 'MP': 6}, tuning.META_MINIMUMS)
+    def test_no_instance_changes_the_minimums_of_the_door(self):
+        self.assertNotIn('minimums', tuning.Instance._fields)
+        self.assertFalse(hasattr(tuning, 'META_MINIMUMS'))
+        self.assertNotIn('min_stats', inspect.getsource(tuning.DoorRunner._build))
 
 
 class TheGridTests(SimpleTestCase):
@@ -132,12 +132,10 @@ class TheGridTests(SimpleTestCase):
 class TheInstancesReadOnlyDoorInputsTests(SimpleTestCase):
 
     def test_an_instance_holds_nothing_but_the_inputs_of_a_door(self):
-        self.assertEqual(('char_class', 'elements', 'scenario', 'band', 'minimums', 'tier', 'split'),
-                         tuning.Instance._fields)
+        self.assertEqual(('char_class', 'elements', 'scenario', 'band', 'tier', 'split'), tuning.Instance._fields)
 
-    def test_the_minimums_and_the_tiers_are_the_ones_the_door_knows(self):
-        self.assertEqual({'door', 'meta'}, {minimums for minimums, _tier, _split in tuning.INSTANCE_PLAN})
-        self.assertEqual(set(tuning.TIER_FORBIDDEN), {tier for _minimums, tier, _split in tuning.INSTANCE_PLAN})
+    def test_the_tiers_of_the_plan_are_the_tiers_that_forbid_pieces(self):
+        self.assertEqual(set(tuning.TIER_FORBIDDEN), {tier for tier, _split in tuning.INSTANCE_PLAN})
 
     def test_the_door_of_each_scenario_is_a_style_and_a_priority_of_the_setup_page(self):
         from chardata.presets import PRIORITY_BY_KEY, STYLE_BY_KEY
@@ -157,23 +155,25 @@ class TheInstancesReadOnlyDoorInputsTests(SimpleTestCase):
 
     def test_the_door_runner_builds_from_the_instance_alone(self):
         source = inspect.getsource(tuning.DoorRunner._build)
-        for name in ('instance.char_class', 'instance.elements', 'instance.scenario', 'instance.minimums'):
+        for name in ('instance.char_class', 'instance.elements', 'instance.scenario'):
             self.assertIn(name, source)
         for word in ('stats_weight', 'set_stats_weights', 'inclusions'):
             self.assertNotIn(word, source)
 
     def test_the_smoke_instances_are_two_cells_of_the_spec(self):
-        self.assertEqual((('Iop', ('str',), 'glasscannon', 'door', 'high'), ('Cra', ('agi',), 'plain', 'meta', 'high')),
+        self.assertEqual((('Iop', ('str',), 'glasscannon', 'high'), ('Cra', ('agi',), 'plain', 'high')),
                          tuning.SMOKE_INSTANCES)
         self.assertEqual(2, tuning.DRY_ROUNDS)
 
 
-class TheTiersTakeAwayTheHeaviestPiecesTests(SimpleTestCase):
+class TheTiersTakePiecesOfTheFirstSetTests(SimpleTestCase):
 
-    def test_high_forbids_nothing_mid_three_and_low_six(self):
-        engine = SimpleNamespace(contributions={index: 100 - index for index in range(10)})
+    def test_each_tier_forbids_its_own_pieces_of_the_first_set(self):
+        engine = SimpleNamespace(contributions={index: 100 - index for index in range(12)})
         self.assertEqual(set(), tuning.forbid_for('high', engine))
         self.assertEqual({0, 1, 2}, tuning.forbid_for('mid', engine))
+        self.assertEqual({6, 7, 8}, tuning.forbid_for('rest', engine))
+        self.assertEqual({9, 10, 11}, tuning.forbid_for('tail', engine))
         self.assertEqual({0, 1, 2, 3, 4, 5}, tuning.forbid_for('low', engine))
 
     def test_the_heaviest_by_contribution_not_by_id(self):
@@ -188,8 +188,56 @@ class TheTiersTakeAwayTheHeaviestPiecesTests(SimpleTestCase):
         engine = SimpleNamespace(contributions={1: 5.0, 2: 3.0})
         self.assertEqual({1, 2}, tuning.forbid_for('low', engine))
 
-    def test_the_numbers_of_pieces_are_the_specs(self):
-        self.assertEqual({'high': 0, 'mid': 3, 'low': 6}, tuning.TIER_FORBIDDEN)
+    def test_the_pieces_of_each_tier_are_the_plans(self):
+        self.assertEqual({'high': (0, 0), 'mid': (0, 3), 'rest': (6, 3), 'tail': (9, 3), 'low': (0, 6)},
+                         tuning.TIER_FORBIDDEN)
+
+    def test_a_set_too_short_for_a_tier_leaves_it_with_the_pieces_there_are(self):
+        engine = SimpleNamespace(contributions={index: 20 - index for index in range(10)})
+        self.assertEqual({9}, tuning.forbid_for('tail', engine))
+        self.assertEqual(set(), tuning.forbid_for('tail', SimpleNamespace(contributions={1: 5.0, 2: 3.0})))
+
+
+class TheTwoFoldsSolveDifferentProblemsTests(SimpleTestCase):
+    """The agreement of two folds says something only when they do not repeat each other's solve."""
+
+    def test_no_instance_of_a_cell_is_in_both_folds(self):
+        for cell in tuning.lot1_cells():
+            instances = tuning.instances_for(cell)
+            folds = {split: {instance.tier for instance in instances if instance.split == split}
+                     for split in tuning.DEV_SPLITS}
+            self.assertEqual(set(), folds['dev_a'] & folds['dev_b'], tuning.cell_key(cell))
+
+    def test_no_two_instances_of_a_cell_forbid_the_same_pieces(self):
+        engine = SimpleNamespace(contributions={index: 100 - index for index in range(17)})
+        forbidden = {tier: frozenset(tuning.forbid_for(tier, engine)) for tier, _split in tuning.INSTANCE_PLAN}
+        self.assertEqual(len(forbidden), len(set(forbidden.values())))
+        dev = [forbidden[tier] for tier, split in tuning.INSTANCE_PLAN if split in tuning.DEV_SPLITS]
+        self.assertEqual(4, len(set(dev)))
+        self.assertTrue(all(dev[1:]))
+
+    def test_every_forbidding_instance_loses_a_piece_of_the_first_engine_set(self):
+        engine = SimpleNamespace(contributions={index: 100 - index for index in range(17)})
+        for tier, _split in tuning.INSTANCE_PLAN[1:]:
+            with self.subTest(tier=tier):
+                self.assertTrue(tuning.forbid_for(tier, engine) <= set(engine.contributions))
+                self.assertTrue(tuning.forbid_for(tier, engine))
+
+    def _run(self, set_ids):
+        item = SimpleNamespace(result=SimpleNamespace(set_ids=set_ids, notes=[]))
+        run = tuning.TuneRun(None)
+        run.rounds = [item]
+        return run
+
+    def test_dev_runs_that_gave_the_same_set_are_counted(self):
+        self.assertEqual(0, tuning._repeated_sets([self._run((1, 2)), self._run((1, 3)), self._run((2, 3))]))
+        self.assertEqual(1, tuning._repeated_sets([self._run((1, 2)), self._run((1, 2)), self._run((2, 3))]))
+        self.assertEqual(2, tuning._repeated_sets([self._run((1, 2))] * 3))
+
+    def test_a_cell_whose_dev_runs_repeat_a_set_says_so_in_its_notes(self):
+        cell = tuning.Cell('Iop', ('str',), 'plain', '200')
+        self.assertIn('repeated_dev_sets', tuning._notes(cell, [self._run((1, 2)), self._run((1, 2))]))
+        self.assertNotIn('repeated_dev_sets', tuning._notes(cell, [self._run((1, 2)), self._run((1, 3))]))
 
 
 class TheScenariosAreFixedTests(SimpleTestCase):

@@ -189,8 +189,8 @@ class Command(BaseCommand):
         try:
             if options['warm']:
                 self._warm(runner, options['time_limit'])
-            for char_class, played, scenario, minimums, tier in tuning.SMOKE_INSTANCES:
-                instance = tuning.Instance(char_class, played, scenario, tuning.BANDS[0], minimums, tier, 'dry')
+            for char_class, played, scenario, tier in tuning.SMOKE_INSTANCES:
+                instance = tuning.Instance(char_class, played, scenario, tuning.BANDS[0], tier, 'dry')
                 started = time.monotonic()
                 run = tuning.tune_instance(runner, instance, max_rounds=min(options['max_rounds'], tuning.DRY_ROUNDS),
                                            time_limit=options['time_limit'],
@@ -207,9 +207,8 @@ class Command(BaseCommand):
 
     @staticmethod
     def _warm(runner, time_limit):
-        char_class, played, scenario, minimums, tier = tuning.SMOKE_INSTANCES[0]
-        runner.run(tuning.Instance(char_class, played, scenario, tuning.BANDS[0], minimums, tier, 'warm'), None, (),
-                   time_limit)
+        char_class, played, scenario, tier = tuning.SMOKE_INSTANCES[0]
+        runner.run(tuning.Instance(char_class, played, scenario, tuning.BANDS[0], tier, 'warm'), None, (), time_limit)
 
     def _probe(self, game_version, cells, out, options):
         instances = [tuning.instances_for(cell)[0] for cell in cells][:options['probe']]

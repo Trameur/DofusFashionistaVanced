@@ -6,8 +6,8 @@ from chardata import weight_tuning as tuning
 from chardata.weight_table import TABLE_STATS, engine_ratios, unit_of
 
 VERSION = 'dofus3'
-INSTANCE = tuning.Instance('Iop', ('str',), 'plain', '200', 'door', 'high', 'dev_a')
-DUO = tuning.Instance('Cra', ('agi', 'int'), 'plain', '200', 'door', 'high', 'dev_a')
+INSTANCE = tuning.Instance('Iop', ('str',), 'plain', '200', 'high', 'dev_a')
+DUO = tuning.Instance('Cra', ('agi', 'int'), 'plain', '200', 'high', 'dev_a')
 ENGINE = engine_ratios(INSTANCE.char_class, INSTANCE.elements, INSTANCE.scenario, VERSION)
 UNIT = unit_of(INSTANCE.elements, INSTANCE.scenario)
 

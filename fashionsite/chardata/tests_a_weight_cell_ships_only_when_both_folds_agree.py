@@ -12,13 +12,11 @@ from chardata.weight_table import unit_of
 ELEMENTS = ('str',)
 UNIT = unit_of(ELEMENTS, 'plain')
 ENGINE = {'pow': 1.0, 'hp': 0.2}
-PLAN = {split: [(minimums, tier) for minimums, tier, planned in tuning.INSTANCE_PLAN if planned == split]
-        for split in tuning.DEV_SPLITS}
+PLAN = {split: [tier for tier, planned in tuning.INSTANCE_PLAN if planned == split] for split in tuning.DEV_SPLITS}
 
 
 def _run(split, which, pow=1.5, hp=0.2, switched=(), proven=True, elements=ELEMENTS, engine=None, **more):
-    minimums, tier = PLAN[split][which]
-    instance = tuning.Instance('Iop', elements, 'plain', '200', minimums, tier, split)
+    instance = tuning.Instance('Iop', elements, 'plain', '200', PLAN[split][which], split)
     run = tuning.TuneRun(instance)
     run.engine_ratios = dict(ENGINE if engine is None else engine)
     read = tuning.Read({}, set(switched), 1000.0, 5000.0, 2.0)
