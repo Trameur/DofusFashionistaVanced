@@ -21,14 +21,16 @@ become the hinges of the objective. One turn, one target, no effect triggered by
 resistance, and the weapon stays the one worn. Dofus 3 at level 200 is the only scope the bench covers.
 """
 
+import copy
 import logging
 import pickle
 from collections import namedtuple
 
 from chardata.smart_build import get_char_aspects, get_standard_weights
 from chardata.stats_weights import get_stats_weights
-from chardata.weapon_terms import CHARACTERISTIC_STEP, TurnReader
+from chardata.weapon_terms import CHARACTERISTIC_STEP, TurnReader, stat_lines_value
 from fashionistapulp.item_effects import played_characteristics
+from fashionistapulp.structure import get_structure
 
 logger = logging.getLogger(__name__)
 
@@ -83,10 +85,12 @@ class SetView(object):
         self.reader = reader
         self.worn = worn
         self.crit = stats.get('ch', 0) or 0
+        self.cridam = stats.get('cridam', 0) or 0
         self.breaks = crit_breakpoints(list(reader.spells) + ([worn] if worn is not None else []))
 
-    def turn(self, crit):
-        return self.reader.full(self.worn, {'ch': crit - self.crit})
+    def turn(self, crit, cridam=None):
+        cridam = self.cridam if cridam is None else cridam
+        return self.reader.full(self.worn, {'ch': crit - self.crit, 'cridam': cridam - self.cridam})
 
     def per_point(self, played):
         base = self.reader.full(self.worn)
@@ -94,8 +98,11 @@ class SetView(object):
         return (raised - base) / float(CHARACTERISTIC_STEP * len(played))
 
 
-def read_curve(view, weights):
-    """The weight of a crit point on the first slope and the hinges above it; None when no crit point pays."""
+def read_curve(view, weights, cridam=None):
+    """The weight of a crit point on the first slope and the hinges above it; None when no crit point pays.
+
+    The turn is read at the critical damage `cridam`, the one of the view when None.
+    """
     played = played_characteristics(weights)
     if not played:
         return None
@@ -103,7 +110,7 @@ def read_curve(view, weights):
     if per_point <= 0:
         return None
     paid = sum(weights.get(key, 0) for key in played) / float(len(played))
-    hull = concave_hull([(crit, view.turn(crit)) for crit in view.breaks])
+    hull = concave_hull([(crit, view.turn(crit, cridam)) for crit in view.breaks])
     slopes = [value / per_point * paid for value in slopes_of(hull)]
     if not any(value > 0 for value in slopes):
         return None
@@ -150,12 +157,48 @@ def _set_view(char, solution):
                    _weapon_castable(solution), stats)
 
 
-def crit_hinges(char, result, model_input):
-    """The crit curve read on the first set `result`; None when the build is out of scope."""
+def top_weapon(terms, model_input, game_version):
+    """The weapon the objective of the second solve ranks first: its term plus the value of its stat lines."""
+    structure = get_structure(game_version)
+    weights = model_input.objective_values
+    forbidden = model_input.forbidden_equips or ()
+    top, top_value = None, None
+    for item_id, term in terms.items():
+        if item_id in forbidden:
+            continue
+        value = term + stat_lines_value(structure.get_item_by_id(item_id), weights, structure)
+        if top_value is None or value > top_value:
+            top, top_value = item_id, value
+    return top
+
+
+def anchor_solution(char, result, solution, terms, model_input):
+    """The first set wearing the weapon the terms rank first, `solution` if none can be swapped in."""
+    if not terms:
+        return solution
+    if 'weapon' in (model_input.empty_slot_types or []) or (model_input.locked_equips or {}).get('weapon'):
+        return solution
+    top = top_weapon(terms, model_input, char.game_version)
+    if top is None or top == result.item_per_slot.get('weapon'):
+        return solution
+    swapped = copy.copy(result)
+    swapped.item_per_slot = dict(result.item_per_slot, weapon=top)
+    return _solution_of(char, swapped) or solution
+
+
+def crit_hinges(char, result, model_input, terms=None):
+    """The crit curve read on the first set `result` wearing the weapon the weapon `terms` rank first.
+
+    None when the build is out of scope. The turn is read at the critical damage of the first set.
+    """
     if result is None or getattr(char, 'game_version', None) not in VERSIONS:
         return None
     if char.level < SCOPE_LEVEL or not _weighs_crit_itself(char):
         return None
     solution = _solution_of(char, result)
-    view = _set_view(char, solution) if solution is not None else None
-    return read_curve(view, model_input.objective_values) if view is not None else None
+    first = _set_view(char, solution) if solution is not None else None
+    if first is None:
+        return None
+    anchor = anchor_solution(char, result, solution, terms, model_input)
+    view = first if anchor is solution else (_set_view(char, anchor) or first)
+    return read_curve(view, model_input.objective_values, first.cridam)
