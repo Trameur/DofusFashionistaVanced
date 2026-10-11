@@ -46,7 +46,7 @@ class OneExoPerStatTests(SimpleTestCase):
                 model.modify_exo_constraints({'ap_exo': option})
                 self.assertEqual(-bound, model.restrictions.exo_constraints['ap'].constant)
 
-    def test_a_solve_with_the_three_options_adds_one_point_each(self):
+    def test_a_solve_adds_one_point_to_each_stat_under_its_cap(self):
         with mock.patch.object(Model, '_create_exo_per_item_constraints', _never), \
                 mock.patch.object(ModelResult, 'place_assumed_exos', _never):
             model = Model()
@@ -61,12 +61,18 @@ class OneExoPerStatTests(SimpleTestCase):
         self.assertIsNone(result.exo_points)
         worn = [item for item in result.item_list if item.item_added]
         self.assertFalse([item.name for item in worn if item.assumed_exo])
+        under_cap = []
         for key in _EXO_KEYS:
             with self.subTest(stat=key):
-                self.assertEqual(1, round(values['exo_%d' % self.structure.get_stat_by_key(key).id]))
+                stat = self.structure.get_stat_by_key(key)
+                exo = round(values['exo_%d' % stat.id])
                 pieces = sum(item.stats.get(key, 0) for item in worn)
                 sets = sum(item_set.get_bonus().get(key, 0) for item_set in result.sets)
                 self.assertEqual(pieces + sets + 1, gear[key])
+                if pieces + sets < model.stat_maximum[stat.name]:
+                    under_cap.append(key)
+                    self.assertEqual(1, exo)
+        self.assertTrue(under_cap)
 
     def test_saving_a_count_on_dofus3_is_refused(self):
         char = SimpleNamespace(game_version='dofus3', options=None)
