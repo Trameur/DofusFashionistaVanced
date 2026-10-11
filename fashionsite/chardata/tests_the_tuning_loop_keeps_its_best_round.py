@@ -116,6 +116,24 @@ class TheBlendTests(SimpleTestCase):
         self.assertAlmostEqual(2.0, out['agi'] + out['int'])
         self.assertEqual(tuning.clamp_shares({'agi': 1.9, 'int': 0.5}), {'agi': out['agi'], 'int': out['int']})
 
+    def test_a_stat_flagged_as_switched_keeps_its_ratio(self):
+        out = tuning.blend({'pow': 1.0, 'dam': 1.0}, {'pow': 1.6, 'dam': 1.6}, 0, UNIT, {'dam'})
+        self.assertEqual(1.0, out['dam'])
+        self.assertAlmostEqual(1.6, out['pow'])
+
+    def test_every_stat_flagged_as_switched_is_held_at_its_current_weight(self):
+        current = {'pow': 1.0, 'dam': 1.0, 'ap': 2.0, 'perspedam': 0.5}
+        read = {'pow': 1.8, 'dam': 1.8, 'ap': 3.5, 'perspedam': 0.9}
+        out = tuning.blend(current, read, 0, UNIT, {'dam', 'perspedam'})
+        self.assertEqual((1.0, 0.5), (out['dam'], out['perspedam']))
+        self.assertEqual(tuning.blend(current, read, 0, UNIT, set())['pow'], out['pow'])
+        self.assertNotEqual(2.0, out['ap'])
+
+    def test_no_flag_leaves_the_blend_as_it_was(self):
+        read = {'pow': 1.6, 'dam': 0.7}
+        self.assertEqual(tuning.blend({'pow': 1.0, 'dam': 1.0}, read, 1, UNIT),
+                         tuning.blend({'pow': 1.0, 'dam': 1.0}, read, 1, UNIT, ()))
+
     def test_every_stat_the_blend_returns_was_given(self):
         out = tuning.blend(dict(ENGINE), _read(pow=2.0), 0, UNIT)
         self.assertEqual(set(ENGINE), set(out))
@@ -177,6 +195,13 @@ class TheLoopStopsTests(SimpleTestCase):
         run, runner = _tune(_Result(_read(), ids=(1,)), _Result(_read(), ids=(2,)), max_rounds=4)
         self.assertEqual((True, 'fixed', 1), (run.converged, run.stop, len(run.rounds)))
         self.assertEqual(1, len(runner.calls))
+
+    def test_a_switched_stat_stays_at_the_weight_the_door_was_fed_through_the_rounds(self):
+        run, runner = _tune(_Result(_read(pow=3.0, dam=9.0), ids=(1,), switched=('dam',)),
+                            _Result(_read(pow=3.0, dam=9.0), ids=(2,), switched=('dam',)),
+                            _Result(_read(pow=3.0, dam=9.0), ids=(3,), switched=('dam',)), max_rounds=2)
+        self.assertEqual([ENGINE['dam']] * 3, [item.ratios['dam'] for item in run.rounds])
+        self.assertNotEqual(ENGINE['pow'], run.rounds[1].ratios['pow'])
 
     def test_it_stops_after_the_rounds_it_was_given(self):
         results = [_Result(_read(pow=3.0 + index), ids=(index + 1,)) for index in range(6)]

@@ -10,7 +10,7 @@ from chardata.crit_curve import SetView
 from chardata.spell_combo import best_turn, castable_spells
 from chardata.weapon_terms import CHARACTERISTIC_STEP, TurnReader
 from chardata.weight_table import DAMAGE_STATS, RESIST_STATS, SHARE_STATS, TABLE_STATS
-from fashionistapulp.dofus_constants import MAIN_STATS, STAT_NAME_TO_KEY
+from fashionistapulp.dofus_constants import MAIN_STATS, STAT_NAME_TO_KEY, get_stat_maximum
 from fashionistapulp.item_effects import PLAYED_SHARE
 
 AP = 12
@@ -33,14 +33,16 @@ PLAYED = ['str', 'int']
 LAM = 0.25
 
 
-def _view(char_class, stats=STATS):
+def _view(char_class, stats=STATS, ap=AP):
     spells = castable_spells(char_class, 200, 'dofus3')
-    return SetView(TurnReader(dict(stats), spells, AP, 'dofus3', 200), None, stats)
+    stats = dict(stats, ap=ap)
+    return SetView(TurnReader(stats, spells, ap, 'dofus3', 200), None, stats)
 
 
 def _turn(char_class, stats, ap=AP):
     spells = castable_spells(char_class, 200, 'dofus3')
-    return best_turn(stats, spells, ap, standing={}, game_version='dofus3', pushback=False, caster_level=200)[0]
+    return best_turn(dict(stats, ap=ap), spells, ap, standing={}, game_version='dofus3', pushback=False,
+                     caster_level=200)[0]
 
 
 class _Reader(object):
@@ -53,6 +55,7 @@ class _Reader(object):
         self.per_ap = per_ap
         self.joint = joint
         self.flips = flips
+        self.game_version = 'dofus3'
 
     def cast(self, weapon=None, deltas=None, ap=None):
         deltas = deltas or {}
@@ -66,6 +69,17 @@ class _Reader(object):
 
     def full(self, weapon=None, deltas=None):
         return self.cast(weapon, deltas)[0]
+
+
+class _Curve(_Reader):
+    """A turn that depends on the AP alone, by the table `curve`, for a set that has `ap` points."""
+
+    def __init__(self, curve, ap):
+        super().__init__({}, base=curve[ap], ap=ap)
+        self.curve = curve
+
+    def cast(self, weapon=None, deltas=None, ap=None):
+        return self.curve[self.ap if ap is None else ap], [('hit', 1.0)]
 
 
 class _View(object):
@@ -116,10 +130,22 @@ class ThePowerIsTheSumOfTheCharacteristicsTests(SimpleTestCase):
         raised = _turn('Iop', dict(STATS, str=STATS['str'] + 20, int=STATS['int'] + 20))
         self.assertAlmostEqual((raised - _turn('Iop', STATS)) / 40.0, view.per_point(PLAYED), places=9)
 
-    def test_the_ap_gain_is_the_turn_on_one_more_ap_less_the_turn(self):
-        view = _view('Iop')
-        self.assertAlmostEqual(_turn('Iop', STATS, AP + 1) - _turn('Iop', STATS), tuning.ap_gain(view), places=9)
+    def test_below_the_ap_cap_the_ap_gain_is_the_turn_on_one_more_ap_less_the_turn(self):
+        self.assertLess(AP - 2, get_stat_maximum('dofus3')['AP'])
+        view = _view('Iop', ap=AP - 2)
+        self.assertAlmostEqual(_turn('Iop', STATS, AP - 1) - _turn('Iop', STATS, AP - 2), tuning.ap_gain(view),
+                               places=9)
         self.assertGreater(tuning.ap_gain(view), 0)
+
+    def test_at_the_ap_cap_the_ap_gain_is_the_turn_less_the_turn_on_one_less_ap(self):
+        self.assertEqual(AP, get_stat_maximum('dofus3')['AP'])
+        view = _view('Iop')
+        self.assertAlmostEqual(_turn('Iop', STATS, AP) - _turn('Iop', STATS, AP - 1), tuning.ap_gain(view), places=9)
+        self.assertGreater(tuning.ap_gain(view), 0)
+
+    def test_the_ap_gain_at_the_cap_is_not_the_one_of_an_ap_the_set_cannot_have(self):
+        beyond = _turn('Iop', STATS, AP + 1) - _turn('Iop', STATS, AP)
+        self.assertNotAlmostEqual(beyond, tuning.ap_gain(_view('Iop')), places=3)
 
 
 class TheRatioIsTheGainOverTheGainOfACharacteristicTests(SimpleTestCase):
@@ -168,7 +194,16 @@ class TheRatioIsTheGainOverTheGainOfACharacteristicTests(SimpleTestCase):
     def test_the_ap_ratio_is_the_secant_over_the_characteristic_gain(self):
         read, _view_ = self._read({'pow': 0.5}, per_ap=40.0)
         self.assertAlmostEqual(20.0, read.ratios['ap'])
-        self.assertEqual((40.0, False), tuning._ap_read(_View(_Reader({}, per_ap=40.0))))
+        self.assertEqual(40.0, tuning.ap_gain(_View(_Reader({}, per_ap=40.0))))
+
+    def test_the_ap_ratio_reads_the_last_ap_of_a_set_at_the_cap_and_the_next_one_below_it(self):
+        curve = {AP - 2: 1000.0, AP - 1: 1100.0, AP: 1250.0, AP + 1: 1700.0}
+        at_cap = tuning.read_ratios(_View(_Curve(curve, AP)), _totals(), PLAYED[:1], LAM)
+        below = tuning.read_ratios(_View(_Curve(curve, AP - 1)), _totals(), PLAYED[:1], LAM)
+        self.assertAlmostEqual(150.0 / 2.0, at_cap.ratios['ap'])
+        self.assertAlmostEqual(150.0 / 2.0, below.ratios['ap'])
+        lower = tuning.read_ratios(_View(_Curve(curve, AP - 2)), _totals(), PLAYED[:1], LAM)
+        self.assertAlmostEqual(100.0 / 2.0, lower.ratios['ap'])
 
     def test_only_the_stats_the_table_reads_come_back(self):
         read, _view_ = self._read({'pow': 0.5})
@@ -201,13 +236,13 @@ class ASwitchedReadIsFlaggedTests(SimpleTestCase):
         view = _View(_Reader({'pow': 0.5, 'dam': 1.0}, flips=('dam',)))
         self.assertEqual({'dam'}, tuning.read_ratios(view, _totals(), PLAYED[:1], LAM).switched)
 
-    def test_one_more_ap_that_changes_the_cast_list_flags_ap(self):
+    def test_one_more_ap_that_changes_the_cast_list_does_not_flag_ap(self):
         class Casting(_Reader):
             def cast(self, weapon=None, deltas=None, ap=None):
                 total, order = super().cast(weapon, deltas, ap)
-                return total, order + ([('extra', 1.0)] if ap is not None and ap > AP else [])
+                return total, order + ([('extra', 1.0)] if ap is not None and ap != AP else [])
         view = _View(Casting({'pow': 0.5}))
-        self.assertEqual({'ap'}, tuning.read_ratios(view, _totals(), PLAYED[:1], LAM).switched)
+        self.assertEqual(set(), tuning.read_ratios(view, _totals(), PLAYED[:1], LAM).switched)
 
 
 class TheSplitOfADuoTests(SimpleTestCase):

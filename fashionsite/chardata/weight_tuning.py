@@ -23,7 +23,7 @@ from chardata.weapon_terms import CHARACTERISTIC_STEP
 from chardata.weight_table import (BANDS, DAMAGE_STATS, GRID_LEVEL, RESIST_STATS, SCENARIOS, SHARE_STATS, TABLE_STATS,
                                    cell_table, element_key, engine_ratios, grid_element_sets, override_weight_table,
                                    unit_of)
-from fashionistapulp.dofus_constants import CHARACTER_CLASSES
+from fashionistapulp.dofus_constants import CHARACTER_CLASSES, get_stat_maximum
 from fashionistapulp.item_effects import (COST_ONLY_STATUSES, ELEMENT_KEYS, PLAYED_SHARE, is_valued,
                                           load_effect_table, played_characteristics)
 
@@ -163,15 +163,17 @@ def read_gains(view, keys, step=STEP):
     return gains, switched
 
 
-def _ap_read(view):
-    base, order = view.reader.cast(view.worn)
-    raised, raised_order = view.reader.cast(view.worn, None, view.reader.ap + 1)
-    return raised - base, _order_counts(order) != _order_counts(raised_order)
-
-
 def ap_gain(view):
-    """The secant of one more AP: the turn on ap + 1 less the turn on ap."""
-    return _ap_read(view)[0]
+    """The turn of a point of AP: the next one below the AP cap, the last one worn at the cap.
+
+    The turn is read on the AP the set has. Above the cap a next point does not exist, so the secant goes backwards.
+    """
+    reader = view.reader
+    cap = get_stat_maximum(reader.game_version, temporix=False).get('AP')
+    here = reader.full(view.worn)
+    if cap and reader.ap >= cap:
+        return here - reader.cast(view.worn, None, reader.ap - 1)[0]
+    return reader.cast(view.worn, None, reader.ap + 1)[0] - here
 
 
 def clamp_shares(shares):
@@ -211,9 +213,7 @@ def read_ratios(view, totals, played, lam):
     if not (turn > 0 and g_char > 0 and ehp > 0 and hp > 0):
         return None
     gains, switched = read_gains(view, TURN_STATS, STEP)
-    gains['ap'], ap_switched = _ap_read(view)
-    if ap_switched:
-        switched.add('ap')
+    gains['ap'] = ap_gain(view)
     mean = sum(totals.get(key, 0) for key in PERCENT_RESIST_KEYS) / 5.0
     life = lam * turn / ehp * (ehp / hp) / g_char
     resist = lam * turn / ehp * (ehp / (5 * (100 - mean))) / g_char
@@ -669,16 +669,17 @@ class TuneRun(object):
                 'rounds': [item.record() for item in self.rounds]}
 
 
-def blend(current, read, index, unit):
+def blend(current, read, index, unit, switched=()):
     """The next ratios: Frank-Wolfe step 2 / (k + 2) towards the read, at most TRUST_FACTOR times either way.
 
-    A change smaller than one unit of weight leaves the ratio as it was.
+    A change smaller than one unit of weight leaves the ratio as it was, and so does a stat whose raise changed the cast
+    list: its gain was read on a turn that another cast list replaces.
     """
     step = 2.0 / (index + 2)
     out = {}
     for stat, value in current.items():
         target = read.get(stat)
-        if target is None or (value == 0 and stat in TABLE_STATS):
+        if target is None or stat in switched or (value == 0 and stat in TABLE_STATS):
             out[stat] = value
             continue
         moved = value + step * (target - value)
@@ -749,7 +750,7 @@ def tune_instance(runner, instance, start=None, max_rounds=MAX_ROUNDS, forbid=()
         if index == max_rounds:
             run.stop = 'rounds'
             break
-        following = blend(current, read.ratios, index, unit)
+        following = blend(current, read.ratios, index, unit, read.switched)
         if integer_weights(following, unit) == now:
             run.converged, run.stop = True, 'fixed'
             break
