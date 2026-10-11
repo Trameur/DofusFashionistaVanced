@@ -30,6 +30,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 import pickle
 from chardata.char_blobs import read_char_blob
+from chardata.crit_curve import crit_hinges
 from chardata.data_versions import current_data_version
 
 from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
@@ -488,13 +489,23 @@ def _closest_found(model, shortfalls):
             'values': model.get_search_state()['values']}
 
 def solve_with_weapon_hits(char, solve_once, model_input, deadline=None, longest=None):
-    """A second solve with the weapons' hits read on the first set, when the version has them."""
+    """A second solve with the weapons' hits and the crit prices read on the first set, when the version has them."""
     solved = solve_once(model_input, deadline, longest)
     terms = weapon_hit_terms(char, solved[2], model_input)
-    if not terms:
+    reading = crit_hinges(char, solved[2], model_input, terms)
+    if not terms and reading is None:
         return solved
     weighed_input = copy.copy(model_input)
-    weighed_input.item_terms = terms
+    if terms:
+        weighed_input.item_terms = terms
+    if reading is not None:
+        objective = dict(model_input.objective_values)
+        if reading.ch is not None:
+            objective['ch'] = reading.ch
+            weighed_input.crit_hinges = reading.hinges
+        if reading.cridam is not None:
+            objective['cridam'] = reading.cridam
+        weighed_input.objective_values = objective
     weighed = solve_once(weighed_input, deadline, longest)
     return weighed if weighed[2] is not None else solved
 
@@ -613,7 +624,8 @@ def _new_search(state, solve_input, limit):
             'start': _pack_start(state['values']), 'limit': limit,
             'minimum_stats': solve_input.minimum_stats,
             'objective_values': solve_input.objective_values,
-            'item_terms': getattr(solve_input, 'item_terms', None) or None}
+            'item_terms': getattr(solve_input, 'item_terms', None) or None,
+            'crit_hinges': getattr(solve_input, 'crit_hinges', None) or None}
 
 
 def _bind_search(result, model_input, plan):
@@ -622,7 +634,7 @@ def _bind_search(result, model_input, plan):
     if not search:
         return
     search = dict(search, key=model_input.cache_key(), plan=plan)
-    for field in ('minimum_stats', 'objective_values', 'item_terms'):
+    for field in ('minimum_stats', 'objective_values', 'item_terms', 'crit_hinges'):
         if search.get(field) == getattr(model_input, field, None):
             search[field] = None
     result.search = search
@@ -651,7 +663,7 @@ def continuation_input(request, char, minimal):
     if model_input.cache_key() != search['key'] or guard_plan(char) != search.get('plan'):
         return None
     solve_input = copy.copy(model_input)
-    for field in ('minimum_stats', 'objective_values', 'item_terms'):
+    for field in ('minimum_stats', 'objective_values', 'item_terms', 'crit_hinges'):
         if search.get(field) is not None:
             setattr(solve_input, field, search[field])
     return solve_input
