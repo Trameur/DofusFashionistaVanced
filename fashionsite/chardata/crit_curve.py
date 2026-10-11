@@ -24,6 +24,7 @@ resistance. Dofus 3 at level 200 is the only scope the bench covers.
 
 import copy
 import logging
+import math
 import pickle
 from collections import namedtuple
 
@@ -132,6 +133,21 @@ def _style_of(aspects, game_version):
     return BALANCED
 
 
+def _value_of(reading, aspects, game_version):
+    """The value of a reading for the style of the aspects, balanced when no entry is per style."""
+    style = _style_of(aspects, game_version) if set(reading) - {ALL_PRESETS} else BALANCED
+    return reading.get(style) or reading.get(ALL_PRESETS)
+
+
+def _scale_is_sound(entry):
+    """An entry without a scale, or with a positive number as its scale value."""
+    if 'scale' not in entry:
+        return True
+    scale = entry['scale']
+    number = scale.get('value') if isinstance(scale, dict) else None
+    return isinstance(number, (int, float)) and not isinstance(number, bool) and math.isfinite(number) and number > 0
+
+
 def class_reading(char_class, aspects, game_version='dofus3'):
     """The entry {'anchor', 'scale'} of the class table for these elements and this style, {} for the default.
 
@@ -143,9 +159,13 @@ def class_reading(char_class, aspects, game_version='dofus3'):
     keys = ([elements[0]] if len(elements) == 1 else ['/'.join(elements)]) if elements else []
     for key in keys + ['all']:
         reading = (by_class.get(key) or {}).get('crit_reading')
-        value = reading and (reading.get(_style_of(aspects, game_version)) or reading.get(ALL_PRESETS))
+        value = reading and _value_of(reading, aspects, game_version)
         if value:
-            return value
+            if _scale_is_sound(value):
+                return value
+            logger.error('the crit reading of %s for %s has a scale that is not a positive number',
+                         char_class, key)
+            return {}
     return {}
 
 
@@ -297,11 +317,11 @@ def crit_hinges(char, result, model_input, terms=None):
     critical damage point is priced up to the first break of that set. The class table of the version can read the
     best of the first weapons instead and scale the reading.
     """
-    if result is None or getattr(char, 'game_version', None) not in VERSIONS:
+    if result is None or getattr(char, 'game_version', None) not in VERSIONS or char.level < SCOPE_LEVEL:
         return None
     aspects = get_char_aspects(char)
     weighs_crit, weighs_cridam = _engine_weighs(char, aspects)
-    if char.level < SCOPE_LEVEL or not weighs_crit:
+    if not weighs_crit:
         return None
     solution = _solution_of(char, result)
     first = _set_view(char, solution) if solution is not None else None

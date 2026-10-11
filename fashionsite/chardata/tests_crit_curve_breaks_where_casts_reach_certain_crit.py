@@ -232,6 +232,15 @@ class TheCurveStaysInItsScopeTests(_DofusThree):
             with self.subTest(level=level):
                 self.assertIsNone(_read(level=level))
 
+    def test_a_level_under_two_hundred_reads_no_weights(self):
+        char = SimpleNamespace(id=1, game_version='dofus3', char_class='Sram', level=199)
+        with mock.patch('chardata.crit_curve.get_char_aspects') as aspects, \
+                mock.patch('chardata.crit_curve.get_standard_weights') as standard, \
+                mock.patch('chardata.crit_curve.get_stats_weights') as stored:
+            self.assertIsNone(crit_hinges(char, object(), SimpleNamespace(objective_values=WEIGHTS)))
+        for read in (aspects, standard, stored):
+            read.assert_not_called()
+
     def test_the_other_versions_have_no_curve_and_read_no_turn(self):
         for game_version in ('beta', 'dofus2', 'touch', 'retro'):
             with self.subTest(game_version=game_version):

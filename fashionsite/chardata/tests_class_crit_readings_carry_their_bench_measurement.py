@@ -7,7 +7,7 @@ from unittest import mock
 
 from django.test import SimpleTestCase
 
-from chardata.crit_curve import ANCHORS, ENVELOPE_WIDTH, class_reading, crit_hinges
+from chardata.crit_curve import ANCHORS, ENVELOPE_WIDTH, _style_of, class_reading, crit_hinges
 from chardata.data_versions import current_data_version
 from chardata.presets import STYLE_BY_KEY, VERSION_PRESETS
 from chardata.smart_build import RACE_PROFILE_OVERRIDES_BY_VERSION
@@ -103,6 +103,13 @@ class TheTableHoldsOnlyKnownReadingsTests(SimpleTestCase):
                 with self.subTest(char_class=char_class, key=key, style=style):
                     self.assertEqual([], _measurement_flaws(value['scale']))
 
+    def test_every_scale_is_a_positive_number(self):
+        for char_class, key, style, value in _readings(TABLE):
+            if 'scale' in value:
+                with self.subTest(char_class=char_class, key=key, style=style):
+                    self.assertIsInstance(value['scale']['value'], (int, float))
+                    self.assertGreater(value['scale']['value'], 0)
+
     def test_the_one_entry_the_bench_kept_is_the_xelor_envelope(self):
         self.assertEqual([('Xelor', 'agi/int', 'all_presets', {'anchor': 'weapon_envelope'})],
                          list(_readings(TABLE)))
@@ -195,6 +202,37 @@ class TheResolutionTests(SimpleTestCase):
         with mock.patch.dict(TABLE, table):
             self.assertEqual({'anchor': 'weapon_envelope'}, class_reading('Iop', {'str', 'glasscannon'}))
             self.assertEqual({'anchor': 'weapon_envelope'}, class_reading('Iop', {'str'}))
+
+    def test_an_entry_for_all_presets_is_read_as_balanced_whatever_the_style(self):
+        table = {'Iop': {'str': {'crit_reading': {'all_presets': {'anchor': 'weapon_envelope'}}}}}
+        with mock.patch.dict(TABLE, table), mock.patch('chardata.crit_curve._style_of') as style_of:
+            for aspects in ({'str'}, {'str', 'glasscannon'}, {'str', 'vit', 'res'}, {'str', 'wis', 'pp'}):
+                self.assertEqual({'anchor': 'weapon_envelope'}, class_reading('Iop', aspects))
+        style_of.assert_not_called()
+
+    def test_the_style_is_the_first_of_the_version_whose_aspects_the_build_holds(self):
+        for aspects, style in (({'glasscannon'}, 'solo_pvm'), ({'vit', 'res'}, 'group_pvm'),
+                               ({'pvp', 'crit'}, 'pvp'), ({'wis', 'pp'}, 'farm'),
+                               ({'glasscannon', 'wis', 'pp'}, 'solo_pvm'), ({'vit'}, 'balanced'), (set(), 'balanced')):
+            with self.subTest(aspects=aspects):
+                self.assertEqual(style, _style_of(aspects, 'dofus3'))
+
+    def test_a_scale_that_is_not_a_positive_number_gives_the_default(self):
+        for scale in (_measured(value=0), _measured(value=-1.5), _measured(value=float('nan')),
+                      _measured(value=float('inf')), _measured(value=True), _measured(value='2'),
+                      {}, 1.3, None):
+            table = {'Iop': {'str': {'crit_reading': {'all_presets': {'anchor': 'weapon_envelope',
+                                                                      'scale': scale}}}}}
+            with self.subTest(scale=scale), mock.patch.dict(TABLE, table), \
+                    self.assertLogs('chardata.crit_curve', 'ERROR'):
+                self.assertEqual({}, class_reading('Iop', {'str'}))
+
+    def test_a_positive_scale_is_served_with_its_entry(self):
+        scale = _measured()
+        entry = {'anchor': 'weapon_envelope', 'scale': scale}
+        table = {'Iop': {'str': {'crit_reading': {'all_presets': entry}}}}
+        with mock.patch.dict(TABLE, table):
+            self.assertEqual(entry, class_reading('Iop', {'str'}))
 
 
 class _Xelor(SimpleTestCase):

@@ -242,6 +242,44 @@ class TheKeysBeforeTheFloorsSurviveTheWeightsStoreTests(TestCase):
             with self.subTest(key=key):
                 self.assertEqual(w[key], after[key])
 
+    def _post(self, url, owner, char, **changes):
+        from chardata.stats_weights import get_stats_weights
+        from fashionistapulp.dofus_constants import NON_STAT_WEIGHT_KEYS
+        posted = {'weight_%s' % key: str(int(value)) for key, value in get_stats_weights(char).items()
+                  if key not in NON_STAT_WEIGHT_KEYS}
+        posted.update({'weight_%s' % key: str(value) for key, value in changes.items()})
+        self.client.force_login(owner)
+        self.assertEqual(200, self.client.post(url % char.id, posted).status_code)
+        from chardata.models import Char
+        return Char.objects.get(id=char.id)
+
+    def _stored_after_posting_the_crit(self, url):
+        from chardata.char_blobs import read_char_blob
+        owner, char = self._char(self._stored_with_the_old_crit_floor())
+        return read_char_blob(self._post(url, owner, char, ch=500).stats_weight, {}, 'stats_weight')
+
+    def test_a_crit_weight_posted_on_the_weights_page_drops_the_key_before_the_floor(self):
+        after = self._stored_after_posting_the_crit('/statspost/%d/')
+        self.assertEqual(500, after['ch'])
+        self.assertNotIn('ch_before_floor', after)
+        self.assertEqual(2400, after['ap_before_floor'])
+
+    def test_a_crit_weight_posted_with_the_minimums_drops_the_key_before_the_floor(self):
+        after = self._stored_after_posting_the_crit('/weightsminspost/%d/')
+        self.assertEqual(500, after['ch'])
+        self.assertNotIn('ch_before_floor', after)
+        self.assertEqual(2400, after['ap_before_floor'])
+
+    def test_the_crit_weight_a_floor_raised_is_the_engines_until_it_is_posted(self):
+        from chardata.crit_curve import _engine_weighs
+        from chardata.models import Char
+        owner, char = self._char(self._stored_with_the_old_crit_floor())
+        self.assertEqual((True, True), _engine_weighs(char, {'int'}))
+        kept = self._post('/statspost/%d/', owner, char, vit=77)
+        self.assertEqual((True, True), _engine_weighs(kept, {'int'}))
+        posted = self._post('/statspost/%d/', owner, Char.objects.get(id=char.id), ch=500)
+        self.assertEqual((False, False), _engine_weighs(posted, {'int'}))
+
     def test_saving_the_weights_page_of_a_new_build_stores_no_crit_key(self):
         from chardata.char_blobs import read_char_blob
         from chardata.models import Char

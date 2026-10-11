@@ -89,6 +89,10 @@ def _fill_defaults(char, weights):
 MAX_STAT_WEIGHT = 50000
 
 def set_stats_weights(char, weights):
+    if 'ch_before_floor' in weights:
+        stored = read_char_blob(char.stats_weight, {}, 'stats_weight', char)
+        if weights.get('ch') != stored.get('ch'):
+            del weights['ch_before_floor']
     for stat_key in list(weights.keys()):
         if stat_key in DEPRECATED_STATS or stat_key in NON_STAT_WEIGHT_KEYS:
             continue
