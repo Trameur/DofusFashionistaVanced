@@ -139,7 +139,7 @@ class AConnection(object):
 
     def _table(self, name):
         if name not in self.server.tables:
-            raise pymysql.err.ProgrammingError(1146, "Table 'fashionista.%s' doesn't exist" % name)
+            raise pymysql.ProgrammingError(1146, "Table 'fashionista.%s' doesn't exist" % name)
         return self.server.tables[name]
 
     def _empty(self, table, truncate):
@@ -148,12 +148,12 @@ class AConnection(object):
             if parent != table or not self.foreign_key_checks:
                 continue
             if truncate:
-                raise pymysql.err.OperationalError(
+                raise pymysql.OperationalError(
                     1701, 'Cannot truncate a table referenced in a foreign key constraint')
             child_columns, child_rows = self.server.tables[child]
             used = {row[child_columns.index(child_column)] for row in child_rows}
             if used & {row[columns.index(parent_column)] for row in rows}:
-                raise pymysql.err.IntegrityError(
+                raise pymysql.IntegrityError(
                     1451, 'Cannot delete or update a parent row: a foreign key constraint fails')
         deleted = len(rows)
         del rows[:]
@@ -174,7 +174,7 @@ class AConnection(object):
                 parent_columns, parent_rows = self.server.tables[parent]
                 keys = {parent_row[parent_columns.index(parent_column)] for parent_row in parent_rows}
                 if row[columns.index(child_column)] not in keys:
-                    raise pymysql.err.IntegrityError(
+                    raise pymysql.IntegrityError(
                         1452, 'Cannot add or update a child row: a foreign key constraint fails')
             rows.append(row)
         self._values = []
