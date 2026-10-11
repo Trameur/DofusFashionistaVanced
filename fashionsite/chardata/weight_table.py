@@ -62,8 +62,8 @@ def weight_scenario(aspects, game_version):
 
 
 def level_band(level):
-    """The band of a level, None below the grid."""
-    return str(GRID_LEVEL) if level is not None and level >= GRID_LEVEL else None
+    """The band of a level, None for any level but the grid's."""
+    return str(GRID_LEVEL) if level == GRID_LEVEL else None
 
 
 def load_weight_table(game_version):

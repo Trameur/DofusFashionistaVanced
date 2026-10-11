@@ -257,6 +257,33 @@ class ATableShippedFromARunCarriesItsDigestsTests(SimpleTestCase):
     def test_the_shipped_table_passes_every_check(self):
         self.assertEqual([], table_flaws(self._shipped()))
 
+    def _shipped_with(self, meta=None, **options):
+        with tempfile.TemporaryDirectory() as parent:
+            folder = os.path.join(parent, 'run-7')
+            os.makedirs(folder)
+            self._run_folder(folder)
+            if meta is not None:
+                with open(os.path.join(folder, 'run.json'), 'w', encoding='utf-8') as handle:
+                    json.dump(meta, handle)
+            return tuning.ship_table(folder, VERSION, **options)
+
+    def test_the_header_names_the_solver_the_run_was_made_on(self):
+        solver = {'name': 'PULP_CBC_CMD', 'time_limit': 77, 'threads': None}
+        self.assertEqual(solver, self._shipped_with({'solver': solver})['header']['solver'])
+
+    def test_a_solver_given_to_the_ship_wins_over_the_one_of_the_run(self):
+        table = self._shipped_with({'solver': {'time_limit': 77}}, solver={'time_limit': 120})
+        self.assertEqual({'time_limit': 120}, table['header']['solver'])
+
+    def test_a_run_that_kept_no_solver_ships_an_empty_one(self):
+        self.assertEqual({}, self._shipped_with({})['header']['solver'])
+        self.assertEqual({}, self._shipped()['header']['solver'])
+
+    def test_the_solver_facts_hold_the_limit_and_the_threads(self):
+        facts = tuning.solver_facts(61)
+        self.assertEqual({'name', 'time_limit', 'threads'}, set(facts))
+        self.assertEqual(61, facts['time_limit'])
+
     def test_each_ratio_is_stamped_with_its_run(self):
         table = self._shipped()
         ratios = table['cells']['Iop']['str']['plain']['200']['ratios']

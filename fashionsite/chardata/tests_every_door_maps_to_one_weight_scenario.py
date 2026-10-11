@@ -23,6 +23,11 @@ LISTED_DOORS = {'plain': [(None, 'balanced')],
                 'tank': [('group_pvm', 'balanced'), ('group_pvm', 'defense'), (None, 'defense')]}
 
 
+# The "other aspects" column of the table of doors, and the boxes the map ignores
+SPEC_ROWS = {frozenset(): 'plain', frozenset({'glasscannon'}): 'glasscannon', frozenset({'vit', 'res'}): 'tank'}
+SPEC_IGNORED = frozenset({'str', 'int', 'cha', 'agi', 'omni', 'balanced'})
+
+
 def _door(elements, style, priority, mode, focus):
     """The aspects the weights of a door are solved from."""
     boxes = set(elements) | (STYLE_BY_KEY[style].aspects if style else set()) | set(focus)
@@ -66,15 +71,30 @@ class TheListedDoorsMapToTheirScenarioTests(SimpleTestCase):
 
 class EveryOtherDoorMapsToNoScenarioTests(SimpleTestCase):
 
-    def test_a_door_maps_only_when_its_other_aspects_are_exactly_a_scenario(self):
-        wanted = {frozenset(aspects): name for name, aspects in SCENARIO_ASPECTS.items()}
+    def test_a_door_without_a_focus_maps_only_when_the_spec_table_lists_it(self):
+        listed = {(style, priority, mode): scenario for scenario, doors in LISTED_DOORS.items()
+                  for style, priority in doors for mode in NO_MODE_BOXES}
         mapped = 0
         for elements, style, priority, mode, focus in _doors():
+            if focus:
+                continue
+            expected = listed.get((style, priority, mode))
+            found = weight_scenario(_door(elements, style, priority, mode, focus), VERSION)
+            if found != expected:
+                self.fail('%s maps to %s, not %s' % ((elements, style, priority, mode), found, expected))
+            mapped += expected is not None
+        self.assertEqual(len(listed) * len(ELEMENT_CHOICES), mapped)
+
+    def test_a_door_with_a_focus_maps_by_the_other_aspects_column_of_the_spec_table(self):
+        mapped = 0
+        for elements, style, priority, mode, focus in _doors():
+            if not focus:
+                continue
             aspects = _door(elements, style, priority, mode, focus)
-            others = frozenset(aspects) - set(MAIN_STATS) - {'omni', 'balanced'}
-            expected = wanted.get(others)
-            if weight_scenario(aspects, VERSION) != expected:
-                self.fail('%s maps to %s, not %s' % (sorted(aspects), weight_scenario(aspects, VERSION), expected))
+            expected = SPEC_ROWS.get(frozenset(aspects) - SPEC_IGNORED)
+            found = weight_scenario(aspects, VERSION)
+            if found != expected:
+                self.fail('%s maps to %s, not %s' % ((elements, style, priority, mode, focus), found, expected))
             mapped += expected is not None
         self.assertGreater(mapped, 0)
 
@@ -128,9 +148,10 @@ class AScenarioFindsItsCellOnlyAtTheGridTests(SimpleTestCase):
             for version in OTHER_VERSIONS:
                 self.assertIsNone(table_cell('Iop', {'str'}, 200, version))
 
-    def test_the_level_band_starts_at_the_grid_level(self):
+    def test_the_level_band_is_the_grid_level_alone(self):
         self.assertEqual(BANDS[0], level_band(200))
-        self.assertEqual(BANDS[0], level_band(230))
+        self.assertIsNone(level_band(230))
+        self.assertIsNone(level_band(201))
         self.assertIsNone(level_band(199))
         self.assertIsNone(level_band(None))
 

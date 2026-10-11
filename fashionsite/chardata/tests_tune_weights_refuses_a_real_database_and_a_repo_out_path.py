@@ -6,7 +6,7 @@ import json
 import os
 import tempfile
 from types import SimpleNamespace
-from unittest import mock
+from unittest import mock, skipUnless
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -113,6 +113,19 @@ class TheOutFolderIsOutsideTheRepositoryTests(_Command):
         beside = tuning.repository_root().rstrip('/\\') + '_beside'
         self.assertFalse(tuning.path_is_inside(beside, tuning.repository_root()))
         self.assertTrue(tuning.path_is_inside(os.path.join(tuning.repository_root(), 'a'), tuning.repository_root()))
+
+    def test_a_folder_on_another_drive_is_outside(self):
+        with mock.patch('os.path.commonpath', side_effect=ValueError("Paths don't have the same drive")):
+            self.assertFalse(tuning.path_is_inside('D:/tuner', tuning.repository_root()))
+
+    @skipUnless(os.name == 'nt', 'drive letters')
+    def test_the_command_accepts_a_folder_on_a_drive_the_repository_is_not_on(self):
+        repository_drive = os.path.splitdrive(os.path.abspath(tuning.repository_root()))[0].upper()
+        other = next(letter + ':' for letter in 'ZYXWV' if letter + ':' != repository_drive)
+        folder = other + '/tuner_out_that_must_not_exist'
+        self.assertFalse(tuning.path_is_inside(folder, tuning.repository_root()))
+        self.assertIn('570 cells', self.call('--out', folder, '--plan'))
+        self.assertFalse(os.path.exists(folder))
 
     def test_a_folder_outside_is_made_and_used(self):
         self.call('--out', self.out, '--dry-run', '--processes', '1')
@@ -241,6 +254,18 @@ class ARunWritesRecordsAndOnlyShipWritesTheTableTests(_Command):
         self.call('--out', self.out, '--cells', 'Iop/str/plain', '--processes', '1')
         self.assertEqual(['Iop/str/plain/200/door/high', 'Iop/str/plain/200/meta/mid', 'Iop/str/plain/200/meta/high',
                           'Iop/str/plain/200/door/mid'], self.runner.calls)
+
+    def test_the_run_keeps_its_solver_settings_and_the_table_carries_them(self):
+        self.call('--out', self.out, '--cells', 'Iop/str/plain', '--processes', '1', '--time-limit', '77')
+        with open(os.path.join(self.out, 'run.json'), encoding='utf-8') as handle:
+            solver = json.load(handle)['solver']
+        self.assertEqual(77, solver['time_limit'])
+        with tempfile.TemporaryDirectory() as tables:
+            with mock.patch.object(tune_weights, 'DIRECTORY', tables):
+                self.call('--out', os.path.join(os.path.dirname(self.out), 'ship'), '--ship', self.out)
+            with open(os.path.join(tables, '%s.json' % VERSION), encoding='utf-8') as handle:
+                table = json.load(handle)
+        self.assertEqual(solver, table['header']['solver'])
 
     def test_ship_writes_the_table_of_a_run_folder_into_the_directory_of_tables(self):
         self.call('--out', self.out, '--cells', 'Iop/str/plain', '--processes', '1')

@@ -254,6 +254,7 @@ class Command(BaseCommand):
     def _write_meta(game_version, out, options):
         meta = {'version': game_version, 'generator_version': tuning.GENERATOR_VERSION,
                 'engine_digest': engine_digest(game_version), 'repository_head': tuning.repository_head(),
+                'solver': tuning.solver_facts(options['time_limit']),
                 'options': {name: value for name, value in options.items()
                             if name in ('scenarios', 'classes', 'elements', 'cells', 'processes', 'max_rounds',
                                         'time_limit')}}

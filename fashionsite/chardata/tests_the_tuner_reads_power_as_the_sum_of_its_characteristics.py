@@ -82,11 +82,14 @@ class _Curve(_Reader):
         return self.curve[self.ap if ap is None else ap], [('hit', 1.0)]
 
 
+WEAPON = object()
+
+
 class _View(object):
 
-    def __init__(self, reader, per_point=2.0):
+    def __init__(self, reader, per_point=2.0, worn=WEAPON):
         self.reader = reader
-        self.worn = None
+        self.worn = worn
         self._per_point = per_point
 
     def per_point(self, played):
@@ -210,6 +213,17 @@ class TheRatioIsTheGainOverTheGainOfACharacteristicTests(SimpleTestCase):
         self.assertEqual(set(TABLE_STATS), set(read.ratios))
         for stat in NOT_READ:
             self.assertNotIn(stat, read.ratios)
+
+    def test_a_set_with_no_weapon_reads_nothing_for_the_stats_only_a_weapon_moves(self):
+        view = _View(_Reader({'pow': 0.5, 'perweadam': 2.0}), worn=None)
+        read = tuning.read_ratios(view, _totals(), PLAYED[:1], LAM)
+        self.assertEqual(('perweadam',), tuning.WEAPON_ONLY_STATS)
+        self.assertEqual(set(TABLE_STATS) - set(tuning.WEAPON_ONLY_STATS), set(read.ratios))
+        self.assertAlmostEqual(0.25, read.ratios['pow'])
+
+    def test_a_set_with_a_weapon_reads_them(self):
+        read = tuning.read_ratios(_View(_Reader({'pow': 0.5, 'perweadam': 2.0})), _totals(), PLAYED[:1], LAM)
+        self.assertAlmostEqual(1.0, read.ratios['perweadam'])
 
     def test_a_duo_reads_its_shares_too_and_a_single_element_none(self):
         view = _View(_Reader({'str': 1.1, 'int': 0.9}, joint=0.0))

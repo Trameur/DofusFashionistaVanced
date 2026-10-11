@@ -85,6 +85,8 @@ HITS = re.compile(r'\b(?:inflicts?|steals?)\b')
 CREDITED_STATS = ELEMENT_KEYS + ('pow', 'dam', 'perspedam', 'ch', 'ap')
 TURN_STATS = ('pow',) + DAMAGE_STATS + ('perspedam', 'perweadam')
 LIFE_STATS = ('hp', 'vit')
+#: the stats only a worn weapon can move
+WEAPON_ONLY_STATS = ('perweadam',)
 PERCENT_RESIST_KEYS = RESIST_STATS
 #: every stat a cell can hold: the table's, and a duo's shares on its characteristics
 READ_STATS = TABLE_STATS + SHARE_STATS
@@ -136,7 +138,9 @@ def groups_of(cells):
 
 
 def integer_weights(ratios, unit):
-    return {stat: int(round(value * unit)) for stat, value in ratios.items()}
+    """The whole weights the door sees: the ratios over the unit, rounded and clamped like the stored ones."""
+    from chardata.stats_weights import MAX_STAT_WEIGHT as cap
+    return {stat: max(-cap, min(cap, int(round(value * unit)))) for stat, value in ratios.items()}
 
 
 # The reader
@@ -204,7 +208,8 @@ def element_split(view, played):
 def read_ratios(view, totals, played, lam):
     """Read(ratios, switched, turn, ehp, g_char) on one set, None when it has no turn to read.
 
-    r_k = (g_k + lam * (T / E) * e_k) / g_char, with e the gain in effective HP of a point of the stat.
+    r_k = (g_k + lam * (T / E) * e_k) / g_char, with e the gain in effective HP of a point of the stat. A set with no
+    weapon reads nothing for the stats only a weapon moves, so the blend leaves them where they are.
     """
     ehp = effective_hp(totals)
     hp = totals.get('hp', 0)
@@ -212,7 +217,8 @@ def read_ratios(view, totals, played, lam):
     g_char = view.per_point(played)
     if not (turn > 0 and g_char > 0 and ehp > 0 and hp > 0):
         return None
-    gains, switched = read_gains(view, TURN_STATS, STEP)
+    keys = TURN_STATS if view.worn is not None else tuple(key for key in TURN_STATS if key not in WEAPON_ONLY_STATS)
+    gains, switched = read_gains(view, keys, STEP)
     gains['ap'] = ap_gain(view)
     mean = sum(totals.get(key, 0) for key in PERCENT_RESIST_KEYS) / 5.0
     life = lam * turn / ehp * (ehp / hp) / g_char
@@ -415,7 +421,11 @@ def database_is_in_memory(database):
 
 def path_is_inside(path, folder):
     path, folder = os.path.realpath(path), os.path.realpath(folder)
-    return os.path.commonpath([path, folder]) == folder
+    try:
+        return os.path.commonpath([path, folder]) == folder
+    except ValueError:
+        # Another drive: the path cannot be under the folder
+        return False
 
 
 class DoorResult(object):
@@ -940,10 +950,28 @@ def accept_cell(value, dev, test, guarded, blind_share):
 
 # A cell and a group
 
-def _evaluation(result):
+def _evaluation(result, dropped=None):
+    """The evaluation of a door result; a solve that was dropped gives an invalid one that names why."""
+    if result is None:
+        return {'valid': False, 'dropped': dropped}
     evaluation = result.evaluation()
     evaluation['guard'] = result.guard
     return evaluation
+
+
+def _dev_pairs(runner, runs, applied, forbids, time_limit):
+    """The dev instances solved again on the weights the cell applies, each beside its engine run.
+
+    The rounds of a run only propose values. What the acceptance reads is these solves, so that the weights it judges
+    are the ones that would ship.
+    """
+    pairs = []
+    for run in runs:
+        if run.engine is None:
+            continue
+        result, reason = _solve_proven(runner, run.instance, applied, forbids[run.instance.tier], time_limit)
+        pairs.append({'engine': _evaluation(run.engine), 'table': _evaluation(result, reason)})
+    return pairs
 
 
 def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=None):
@@ -975,8 +1003,7 @@ def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=
         stamp = {'data': _data_version(version), 'date': date.today().isoformat(), 'source': 'tune'}
         entries = pool_cell(runs, base, group, stamp)
         applied = applied_ratios(entries)
-        dev = [{'engine': _evaluation(run.engine), 'table': _evaluation(run.best_round.result)}
-               for run in runs if run.usable and run.engine is not None]
+        dev = _dev_pairs(runner, runs, applied, forbids, time_limit) if applied else []
         test_instance = instances[4]
         test = None
         if applied:
@@ -996,7 +1023,7 @@ def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=
                             converged=all(run.converged for run in runs),
                             u_fit_gain={instance_key(run.instance): _fit_gain(run) for run in runs},
                             notes=_notes(cell, runs), instances=[run.record() for run in runs],
-                            test=test, guarded=guarded, seconds=time.monotonic() - started))
+                            dev=dev, test=test, guarded=guarded, seconds=time.monotonic() - started))
     return records
 
 
@@ -1103,9 +1130,27 @@ def table_header(game_version, run_sha1, solver):
             'run_sha1': run_sha1, 'created': date.today().isoformat()}
 
 
+def solver_facts(time_limit):
+    """The solver settings of a run: the limit of one solve and the threads the solver was given."""
+    from fashionistapulp import lpproblem
+    solver = lpproblem.SOLVER
+    return {'name': type(solver).__name__, 'time_limit': time_limit, 'threads': getattr(solver, 'threads', None)}
+
+
+def read_meta(run_path):
+    """The options file of a run folder, {} when it has none."""
+    try:
+        with open(os.path.join(run_path, 'run.json'), encoding='utf-8') as handle:
+            return json.load(handle)
+    except (OSError, ValueError):
+        return {}
+
+
 def ship_table(run_path, game_version, solver=None):
-    """The table file's content from a run folder: its cells and the header."""
+    """The table file's content from a run folder: its cells and the header, with the solver the run was made on."""
     records = read_records(run_path)
+    if solver is None:
+        solver = read_meta(run_path).get('solver')
     digest = hashlib.sha1(json.dumps(records, sort_keys=True, default=_plain).encode('utf-8')).hexdigest()
     cells = {}
     for record in records:
@@ -1121,11 +1166,13 @@ def ship_table(run_path, game_version, solver=None):
 
 
 def cell_seconds(scenario, call_seconds=CALL_SECONDS, read_seconds=READ_SECONDS, rounds=EXPECTED_ROUNDS):
-    """Seconds of one process on a cell: its dev instances, its test instance and, when it has one, the guarded pair."""
+    """Seconds of one process on a cell: its dev instances, their solves on the pooled weights, its test instance and,
+    when it has one, the guarded pair."""
     per_round = call_seconds + read_seconds
     dev = (1 + rounds) * per_round * RESOLVE_MARGIN
+    pooled = per_round * RESOLVE_MARGIN
     guarded = 2 * (2 * call_seconds + GUARDED_READ_SECONDS) if scenario in GUARDED_PRIORITY else 0
-    return DEV_INSTANCES * dev + 2 * per_round + guarded
+    return DEV_INSTANCES * (dev + pooled) + 2 * per_round + guarded
 
 
 def projection(cells, processes, call_seconds=CALL_SECONDS, rounds=EXPECTED_ROUNDS):

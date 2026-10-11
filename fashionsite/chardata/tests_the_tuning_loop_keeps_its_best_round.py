@@ -108,6 +108,12 @@ class TheBlendTests(SimpleTestCase):
         out = tuning.blend({'earthdam': 0.0, 'pow': 1.0}, {'earthdam': 3.0, 'pow': 1.5}, 0, UNIT)
         self.assertEqual(0.0, out['earthdam'])
 
+    def test_a_stat_a_set_without_a_weapon_cannot_read_keeps_its_ratio_through_the_rounds(self):
+        engine = ENGINE['perweadam']
+        read = {stat: value for stat, value in _read(pow=3.0).items() if stat not in tuning.WEAPON_ONLY_STATS}
+        run, _runner_ = _tune(_Result(read, ids=(1,)), _Result(read, ids=(2,)), _Result(read, ids=(3,)), max_rounds=2)
+        self.assertEqual([engine] * 3, [item.ratios['perweadam'] for item in run.rounds])
+
     def test_a_stat_the_read_leaves_out_keeps_its_ratio(self):
         self.assertEqual({'pow': 1.0, 'hp': 0.7}, tuning.blend({'pow': 1.0, 'hp': 0.7}, {}, 0, UNIT))
 
@@ -202,6 +208,20 @@ class TheLoopStopsTests(SimpleTestCase):
                             _Result(_read(pow=3.0, dam=9.0), ids=(3,), switched=('dam',)), max_rounds=2)
         self.assertEqual([ENGINE['dam']] * 3, [item.ratios['dam'] for item in run.rounds])
         self.assertNotEqual(ENGINE['pow'], run.rounds[1].ratios['pow'])
+
+    def test_it_stops_when_the_clamped_weights_no_longer_change(self):
+        from chardata.stats_weights import MAX_STAT_WEIGHT
+        huge = MAX_STAT_WEIGHT * 4.0 / UNIT
+        start = _read(ap=huge)
+        run, runner = _tune(_Result(_read(ap=huge * 2), ids=(1,)), _Result(_read(ap=huge * 2), ids=(2,)),
+                            max_rounds=4, start=start)
+        self.assertEqual((True, 'fixed', 1), (run.converged, run.stop, len(run.rounds)))
+
+    def test_the_whole_weights_are_clamped_like_the_stored_ones(self):
+        from chardata.stats_weights import MAX_STAT_WEIGHT
+        huge = MAX_STAT_WEIGHT * 3.0 / UNIT
+        out = tuning.integer_weights({'ap': huge, 'pow': 1.0, 'dam': -huge}, UNIT)
+        self.assertEqual({'ap': MAX_STAT_WEIGHT, 'pow': int(round(UNIT)), 'dam': -MAX_STAT_WEIGHT}, out)
 
     def test_it_stops_after_the_rounds_it_was_given(self):
         results = [_Result(_read(pow=3.0 + index), ids=(index + 1,)) for index in range(6)]
