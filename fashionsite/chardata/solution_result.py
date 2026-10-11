@@ -47,6 +47,7 @@ from chardata.weapon_header import format_weapon_header, format_weapon_hit
 from chardata.weapon_forge_text import controls as forge_controls, conversion_lines
 from chardata.wear_conditions import (class_condition_text,
                                       max_level_condition_text,
+                                      min_level_condition_text,
                                       name_condition_text,
                                       not_worn_with_condition_text,
                                       other_item_name,
@@ -315,6 +316,16 @@ def _add_exos_per_piece(model_result, add):
             add(result_item.assumed_exo, label, 1, 'exo')
 
 
+def _wearer_level(model_result):
+    """The level the page checks: the character's, else the one the build was solved at."""
+    if model_result is None:
+        return None
+    wearer = getattr(model_result, 'wearer', None)
+    if wearer is not None and wearer.level:
+        return wearer.level
+    return (model_result.input or {}).get('char_level')
+
+
 def _worn_ids(model_result):
     if not model_result:
         return set()
@@ -422,6 +433,12 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
         line = TextConditionLine(unusable_condition_text())
         line.formatting = '#r'
         result_item.condition_lines.append(line)
+    level = _wearer_level(r)
+    item_level = getattr(result_item, 'level', None) or 0
+    if level is not None and item_level > level:
+        line = TextConditionLine(min_level_condition_text(item_level))
+        line.formatting = '#r'
+        result_item.condition_lines.append(line)
     classes = getattr(result_item, 'classes', ())
     if classes:
         line = TextConditionLine(class_condition_text(classes))
@@ -431,7 +448,7 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
     max_level = getattr(result_item, 'max_level', None)
     if max_level is not None:
         line = TextConditionLine(max_level_condition_text(max_level))
-        if r and (r.input or {}).get('char_level', max_level) > max_level:
+        if level is not None and level > max_level:
             line.formatting = '#r'
         result_item.condition_lines.append(line)
     worn_ids = _worn_ids(r)
@@ -458,7 +475,7 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
     for spell_id, rank, min_level in getattr(result_item, 'spell_conditions', ()):
         line = TextConditionLine(spell_rank_condition_text(
             get_current_game_version(), classes, spell_id, rank))
-        if r and (r.input or {}).get('char_level', min_level) < min_level:
+        if level is not None and level < min_level:
             line.formatting = '#r'
         result_item.condition_lines.append(line)
 

@@ -53,8 +53,8 @@ def refusal_sentence(reason, names=None):
         return _('Not shown in the gallery: some pieces sit in a slot that no '
                  'longer takes them. Open the build and place them again.')
     if reason == 'conditions':
-        return _('Not shown in the gallery: the build does not meet its own '
-                 'conditions. Open it to see which ones.')
+        return _('Not shown in the gallery: some pieces cannot be worn as the '
+                 'build stands. Open it to see which ones.')
     if reason == 'no_solution':
         return _('Not shown in the gallery: this build has no saved gear yet.')
     return ''

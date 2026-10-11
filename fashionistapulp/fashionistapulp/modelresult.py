@@ -42,6 +42,19 @@ def sets_equipped_text(cap):
     return _('Number of sets equipped < %(limit)s') % {'limit': cap + 1}
 
 
+def or_conditions_text(branches):
+    """"AP < 12 or MP < 6": a branch holds when all its gates do, a piece needs one branch."""
+    structure = get_structure()
+
+    def gate_text(stat_key, is_max, value):
+        label = _(structure.get_stat_by_key(stat_key).name)
+        return ('%s < %d' % (label, value + 1) if is_max
+                else '%s > %d' % (label, value - 1))
+
+    return (' %s ' % _('or')).join(
+        ', '.join(gate_text(*gate) for gate in gates) for gates in branches)
+
+
 def wisdom_per_ap_mp_dodge_point(game_version):
     """Wisdom behind one point of AP/MP dodge and of AP/MP reduction."""
     return 4 if game_version == 'retro' else 10
@@ -207,7 +220,9 @@ class ModelResult():
     forge_choice = None
     # {stat key: exo points worn}, on exo_per_item versions
     exo_points = None
-    
+    # The character wearing it; None leaves level, class, sex and name unchecked
+    wearer = None
+
     def __init__(self, input_, stats=None):
         self.input = input_        
         
@@ -642,6 +657,24 @@ class ModelResult():
         """Whether at most cap sets have two pieces or more worn."""
         return len(self.sets) <= cap
 
+    def _or_conditions_violation(self, item):
+        """The piece's OR conditions when no branch holds, else None."""
+        branches = getattr(item, 'or_conditions', None)
+        if not branches:
+            return None
+        totals = self.get_stats_total()
+        for gates in branches:
+            if all(totals[stat_key] <= value if is_max else totals[stat_key] >= value
+                   for stat_key, is_max, value in gates):
+                return None
+        violation = Violation()
+        violation.item_name = item.localized_name
+        violation.stat_name = or_conditions_text(branches)
+        violation.condition_type = 'or'
+        violation.is_red = True
+        violation.cant_equip = False
+        return violation
+
     def _sets_equipped_violation(self, item):
         cap = (getattr(item, 'weird_conditions', None) or {}).get('sets_equipped')
         if not cap or self.check_sets_equipped(cap):
@@ -673,6 +706,9 @@ class ModelResult():
             violations.append(self._create_removed_item_violation(item))
         for vio in self._check_items_stat_conditions(item):
             violations.append(vio)
+        violation = self._or_conditions_violation(item)
+        if violation is not None:
+            violations.append(violation)
         if item.weird_conditions['light_set']:
             cap = item.weird_conditions['light_set']
             cap = 2 if cap is True else cap
@@ -697,6 +733,9 @@ class ModelResult():
                 violation.is_red = True
                 violation.cant_equip = True
                 violations.append(violation)
+        if self.wearer is not None:
+            worn_ids = {worn.id for worn in self.item_list if worn.item_added}
+            violations.extend(self.wearer.violations_on(item, worn_ids))
         item_type_id = get_structure().get_type_id_by_name(item.type)
         repeat = self._get_repeat_violations(item_type_id)
         for vio in repeat:
@@ -723,6 +762,7 @@ class ModelResult():
 
 class ModelResultItem():
 
+    or_conditions = ()
     assumed_exo = None
     forge_base = None
     conversions = None
@@ -812,6 +852,10 @@ class ModelResultItem():
             self.max_stats_to_equip = {}
             for stat_id, stat_value in item.max_stats_to_equip:
                 self.max_stats_to_equip[structure.get_stat_by_id(stat_id).key] = stat_value
+            self.or_conditions = tuple(
+                tuple((structure.get_stat_by_id(stat_id).key, is_max, value)
+                      for stat_id, is_max, value in gates)
+                for gates in getattr(item, 'or_conditions', None) or ())
             
     
             localized_extras = item.localized_extras.get(get_supported_language())

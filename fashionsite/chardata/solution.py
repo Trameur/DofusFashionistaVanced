@@ -16,6 +16,7 @@
 
 from fashionistapulp import weapon_forge
 from fashionistapulp.modelresult import model_result_from_minimal, ModelResultMinimal
+from fashionistapulp.wearer import Wearer
 
 import pickle
 from django.utils import timezone
@@ -50,9 +51,11 @@ def get_solution_from_minimal(char, minimal_solution, refresh_base_stats=True):
             spent, scrolled = get_stats_and_scrolled(char)
             minimal_solution.update_base_stats(spent, scrolled)
         stat_overrides = get_effective_stat_overrides(char) or None
-        return model_result_from_minimal(
+        result = model_result_from_minimal(
             minimal_solution, stat_overrides,
             weapon_forge.read_choice(getattr(char, 'weapon_forge', '')))
+        result.wearer = Wearer.of(char)
+        return result
     return None
 
 

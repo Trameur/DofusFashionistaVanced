@@ -119,7 +119,7 @@ class TheBuildReadsBackWholeTests(TestCase):
         self.assertFalse(repair_minimal_solution(char, mini))
         self.assertEqual({'hat': chapeau.id}, mini.item_per_slot)
 
-    def test_the_gallery_stops_refusing_a_build_the_repair_fixes(self):
+    def test_the_gallery_no_longer_calls_a_repaired_piece_missing(self):
         from chardata.gallery_visibility import refusal_reason
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
@@ -138,5 +138,5 @@ class TheBuildReadsBackWholeTests(TestCase):
         char.minimal_solution = pickle.dumps(mini)
         char.link_shared = True
         char.save()
-        self.assertIsNone(refusal_reason(char),
-                          'the gallery still refuses a repairable build')
+        self.assertNotIn(refusal_reason(char), ('missing_items', 'outdated_slots'),
+                         'the gallery still calls a repaired piece missing')

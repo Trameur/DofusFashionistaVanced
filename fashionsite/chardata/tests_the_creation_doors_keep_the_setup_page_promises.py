@@ -384,7 +384,7 @@ class AnImportWeighsTheElementsItsGearCarriesTests(_DoorMixin, TestCase):
                 self.assertEqual(level_minimums(char, {'str'}),
                                  self.blob(char, 'minimum_stats', {}))
 
-    def test_only_a_solved_set_is_hidden_for_missing_its_minimums(self):
+    def test_a_set_missing_its_minimums_is_not_hidden_whatever_its_origin(self):
         char = self.import_strength_pieces(200)
         self.assertLess(get_solution(char).get_stats_total()['ap'],
                         self.blob(char, 'minimum_stats', {})['AP'])
@@ -397,7 +397,7 @@ class AnImportWeighsTheElementsItsGearCarriesTests(_DoorMixin, TestCase):
         char.minimal_solution = pickle.dumps(solution)
         char.save()
         cache.clear()
-        self.assertEqual('conditions', refusal_reason(char))
+        self.assertIsNone(refusal_reason(char))
 
 
 SOLVED_SETS = (

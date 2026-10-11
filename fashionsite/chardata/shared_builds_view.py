@@ -35,7 +35,6 @@ from chardata.data_versions import build_patch_info
 from chardata.models import BuildComment, BuildTag, BuildVote, Char, UserAlias
 from chardata.official_site import _slugify_name
 from chardata.version_compat import class_exists_in_version
-from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.pagination import pagination_items
 from chardata.url_language import SITE_URL
 from chardata.util import set_response, version_reverse
@@ -46,7 +45,6 @@ from chardata.image_store import get_image_url
 from chardata.item_sources import (format_acquisition_counts,
                                    summarize_by_ankama_id)
 from chardata.solution import get_solution
-from chardata.solution_result import IMPORT_ORIGINS
 from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
 from chardata.presets import option_box_labels, setup_columns
@@ -89,16 +87,18 @@ def _get_valid_slots_for_type(type_name):
     return {slot_name}
 
 
-def _meta_cache_key(pk, modified_time, game_version='dofus3'):
+def _meta_cache_key(pk, modified_time, game_version='dofus3', gender=0):
     modified_marker = 'none'
     if modified_time is not None:
         modified_marker = str(int(modified_time.timestamp() * 1000000))
-    return 'shared-build-meta-v3-%s-%s-%s-%s' % (
-        pk, game_version or 'dofus3', modified_marker, get_supported_language())
+    return 'shared-build-meta-v4-%s-%s-%s-%s-%s' % (
+        pk, game_version or 'dofus3', modified_marker, gender or 0,
+        get_supported_language())
 
 
 def _get_shared_build_meta_cache_key(char):
-    return _meta_cache_key(char.pk, char.modified_time, char.game_version)
+    return _meta_cache_key(char.pk, char.modified_time, char.game_version,
+                           char.gender)
 
 
 def _get_preview_items(minimal_solution, structure, game_version):
@@ -223,7 +223,6 @@ def _get_shared_build_meta(char):
             solution = get_solution(char)
         except Exception:
             solution = None
-            meta['has_condition_issues'] = True
 
         if solution is None:
             meta['cannot_render'] = True
@@ -240,20 +239,9 @@ def _get_shared_build_meta(char):
             meta['public_score'] = 0
             meta['compact_stats'] = []
 
-        item_condition_violations = False
-        for item in solution.item_list:
-            if item.item_added and solution.get_violations_on_item(item):
-                item_condition_violations = True
-                break
-
-        # An imported set was never solved under the build's minimums
-        if solved_input.get('origin') in IMPORT_ORIGINS:
-            project_min_violations = []
-        else:
-            project_min_violations = solution._get_min_violations(
-                get_min_stats_digested_by_key(char))
-        meta['has_condition_issues'] = (
-            item_condition_violations or bool(project_min_violations))
+        meta['has_condition_issues'] = any(
+            item.item_added and solution.get_violations_on_item(item)
+            for item in solution.item_list)
         meta['is_invalid'] = (
             meta['has_outdated_slots'] or meta['has_condition_issues'])
         cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
@@ -536,12 +524,13 @@ def _gallery(request, forced_class=None):
     if hide_invalid or temporix_filter:
         # Validity and the TemporiX flag both come from the per-build meta
         # cache: one pass over it serves both filters.
-        id_rows = list(builds.values_list('id', 'modified_time', 'game_version'))
+        id_rows = list(builds.values_list(
+            'id', 'modified_time', 'game_version', 'gender'))
         metas = {}
         miss_ids = []
-        for row_id, row_modified, row_game_version in id_rows:
+        for row_id, row_modified, row_game_version, row_gender in id_rows:
             cached = cache.get(_meta_cache_key(
-                row_id, row_modified, row_game_version))
+                row_id, row_modified, row_game_version, row_gender))
             if cached is not None:
                 metas[row_id] = cached
             else:
@@ -563,8 +552,7 @@ def _gallery(request, forced_class=None):
                 return False
             return True
 
-        valid_ids = [row_id for row_id, _row_modified, _row_game_version in id_rows
-                     if _passes_filters(row_id)]
+        valid_ids = [row[0] for row in id_rows if _passes_filters(row[0])]
 
         paginator = Paginator(valid_ids, SHARED_BUILDS_PAGE_SIZE)
         try:
