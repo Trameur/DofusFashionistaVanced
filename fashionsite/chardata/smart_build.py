@@ -601,7 +601,6 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
     # How the crit curve is read, by class, element and style (see crit_curve.class_reading)
     'dofus3': {
         'default': {'crit_reading': None},
-        # A weapon without crit leads the terms at low crit; the best of the first three reads the slope.
         'Xelor': {
             'agi/int': {'crit_reading': {'all_presets': {'anchor': 'weapon_envelope'}}},
         },

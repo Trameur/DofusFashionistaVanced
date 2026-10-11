@@ -14,13 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""What a crit point and a critical damage point are worth in the best turn of the first set of a two-solve run.
-
-The turn is read where a throw reaches a certain crit (100 less its rate) and the slopes between those crits
-become the hinges of the objective. The set wears the weapon the weapon terms rank first, or the best of the
-first three for a class that asks for it. One turn, one target, no effect triggered by a critical, no critical
-resistance. Dofus 3 at level 200 is the only scope the bench covers.
-"""
+"""What a crit point and a critical damage point are worth in the best turn of the first set of a two-solve run."""
 
 import copy
 import logging
@@ -63,10 +57,7 @@ def crit_breakpoints(castables):
 
 
 def concave_hull(points):
-    """Upper concave envelope of (x, y) points, cut at the first vertex that reaches the top.
-
-    A point on or under the chord of its neighbours is dropped; what is left has strictly falling slopes.
-    """
+    """Upper concave envelope of (x, y) points, cut at the first vertex that reaches the top."""
     out = []
     for point in sorted(points):
         while len(out) >= 2:
@@ -149,11 +140,7 @@ def _scale_is_sound(entry):
 
 
 def class_reading(char_class, aspects, game_version='dofus3'):
-    """The entry {'anchor', 'scale'} of the class table for these elements and this style, {} for the default.
-
-    One element played: the entry of that element. Several: the entry of their sorted combination ('agi/int'). Then
-    'all'. The value of an entry is by style of the version, balanced when none is set, or for 'all_presets'.
-    """
+    """The entry {'anchor', 'scale'} of the class table for these elements and this style, {} for the default."""
     by_class = RACE_PROFILE_OVERRIDES_BY_VERSION.get(game_version, {}).get(char_class) or {}
     elements = sorted(get_elements(aspects))
     keys = ([elements[0]] if len(elements) == 1 else ['/'.join(elements)]) if elements else []
@@ -182,13 +169,7 @@ def _cridam_gain(view, crit, cridam):
 
 
 def read_curve(view, weights, first=None, price_break=None, priced=True, scale=1.0):
-    """The weight of a crit point on the first slope, the hinges above it and the weight of a critical damage point.
-
-    `first` is the first set when the view is read on another weapon, the turn is read at its critical damage. A
-    critical damage point is priced at the mean of its gain at the crit of the first set and at the crit
-    `price_break`, the first break of the view when None. `scale` multiplies the slopes and the price. Without a
-    slope the crit weight stays; None when no characteristic is played or none pays.
-    """
+    """The weight of a crit point on the first slope, the hinges above it and the weight of a critical damage point."""
     played = played_characteristics(weights)
     if not played:
         return None
@@ -214,10 +195,7 @@ def read_curve(view, weights, first=None, price_break=None, priced=True, scale=1
 
 
 def _engine_weighs(char, aspects):
-    """(whether the engine weighs the crit of the build, whether it weighs its critical damage).
-
-    Neither under a crit aspect or a weight picked by hand; the weight of an old floor counts as the engine's.
-    """
+    """(whether the engine weighs the crit of the build, whether it weighs its critical damage)."""
     if aspects & {'crit', 'noncrit'}:
         return False, False
     stored = get_stats_weights(char, persist=False)
@@ -256,10 +234,7 @@ def _set_view(char, solution):
 
 
 def ranked_weapons(terms, model_input, game_version):
-    """The weapons the objective of the second solve ranks first, best first: the term plus the value of the stat lines.
-
-    A forbidden weapon is left out and the first of equal values stays ahead.
-    """
+    """The weapons the objective of the second solve ranks first, best first: the term plus the value of the stat lines."""
     structure = get_structure(game_version)
     weights = model_input.objective_values
     forbidden = model_input.forbidden_equips or ()
@@ -311,12 +286,7 @@ def envelope_view(char, result, first, terms, model_input):
 
 
 def crit_hinges(char, result, model_input, terms=None):
-    """The crit curve and the critical damage price read on the first set `result` wearing the top weapon of `terms`.
-
-    None when the build is out of scope. The turn is read at the critical damage of the first set, and the
-    critical damage point is priced up to the first break of that set. The class table of the version can read the
-    best of the first weapons instead and scale the reading.
-    """
+    """The crit curve and the critical damage price read on the first set `result` wearing the top weapon of `terms`."""
     if result is None or getattr(char, 'game_version', None) not in VERSIONS or char.level < SCOPE_LEVEL:
         return None
     aspects = get_char_aspects(char)
