@@ -10,7 +10,7 @@ from django.test import SimpleTestCase
 from chardata.crit_curve import ANCHORS, ENVELOPE_WIDTH, _style_of, class_reading, crit_hinges, ranked_weapons
 from chardata.data_versions import current_data_version
 from chardata.presets import STYLE_BY_KEY, VERSION_PRESETS
-from chardata.smart_build import RACE_PROFILE_OVERRIDES_BY_VERSION
+from chardata.smart_build import RACE_PROFILE_OVERRIDES_BY_VERSION, _set_weights
 from chardata.weapon_terms import TurnReader, weapon_hit_terms, weapon_swing
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, MAIN_STATS, STAT_KEY_TO_NAME, STAT_NAME_TO_KEY,
                                              STATS_NAMES)
@@ -22,11 +22,14 @@ MEASUREMENT = {'value', 'builds', 'n', 'spread', 'data', 'date', 'source', 'weak
 READING_FIELDS = {'anchor', 'scale'}
 STYLE_KEYS = {'balanced', 'all_presets'} | set(STYLE_BY_KEY)
 ELEMENTS = {'agi', 'int'}
+PRESET_ASPECTS = {'balanced': ELEMENTS, 'solo_pvm': ELEMENTS | {'glasscannon'}}
 
 CAPTAIN_CHAFERS_DAGGERS = 30855
-DREGGON_DAGGERS = 8414
-OWN = {'agi': 800, 'int': 800, 'pow': 250, 'dam': 200, 'ch': -14, 'cridam': 40, 'ap': 12}
-WEIGHTS = {'str': 0, 'int': 110, 'cha': 0, 'agi': 120, 'ch': 240, 'cridam': 100}
+# The first set of a level 200 Xelor agi/int solve, and the points its build holds on top of the pieces
+FIRST_SET = {'dofus1': 694, 'dofus2': 7043, 'dofus3': 7112, 'dofus4': 7754, 'dofus5': 18043, 'dofus6': 22013,
+             'shield': 18715, 'cloak': 19979, 'hat': 19980, 'ring1': 24035, 'ring2': 24035, 'belt': 30856,
+             'boots': 30857, 'weapon': 33607, 'amulet': 33608, 'pet': 1033285}
+OWN = {'ap': 8, 'mp': 4, 'agi': 365, 'int': 366, 'str': 100, 'cha': 100, 'vit': 100, 'wis': 100, 'summon': 1}
 
 
 def _measurement_flaws(scale):
@@ -242,27 +245,31 @@ class _Xelor(SimpleTestCase):
         set_current_game_version('dofus3')
         self.addCleanup(set_current_game_version, 'dofus3')
 
-    def the_set(self, game_version='dofus3'):
+    def the_set(self, game_version='dofus3', preset='balanced'):
         base = {name: 0 for name, _key in STATS_NAMES}
         base.update({STAT_KEY_TO_NAME[key]: value for key, value in OWN.items()})
         given = {'options': {'ap_exo': False, 'mp_exo': False, 'range_exo': False},
                  'base_stats_by_attr': base, 'char_level': 200, 'origin': 'generated'}
-        result = ModelResultMinimal({'weapon': DREGGON_DAGGERS}, given, {})
-        model_input = SimpleNamespace(objective_values=dict(WEIGHTS), forbidden_equips=set(), locked_equips={},
+        result = ModelResultMinimal(dict(FIRST_SET), given, {})
+        weights = _set_weights(SimpleNamespace(char_class='Xelor', level=200, game_version='dofus3'),
+                               PRESET_ASPECTS[preset], apply=False)
+        model_input = SimpleNamespace(objective_values=weights, forbidden_equips=set(), locked_equips={},
                                       empty_slot_types=[])
         char = SimpleNamespace(id=1, game_version=game_version, char_class='Xelor', level=200)
         return char, result, model_input
 
-    def terms(self):
-        char, result, model_input = self.the_set()
+    def terms(self, preset='balanced'):
+        char, result, model_input = self.the_set(preset=preset)
         with mock.patch('chardata.solution.get_solution_from_minimal', side_effect=_solved_as_it_stands):
             return weapon_hit_terms(char, result, model_input)
 
-    def read(self, game_version='dofus3', table=None, aspects=ELEMENTS):
-        char, result, model_input = self.the_set(game_version)
+    def read(self, game_version='dofus3', table=None, aspects=None, preset='balanced'):
+        char, result, model_input = self.the_set(game_version, preset)
+        weights = model_input.objective_values
+        aspects = PRESET_ASPECTS[preset] if aspects is None else aspects
         with mock.patch('chardata.crit_curve.get_char_aspects', return_value=set(aspects)), \
-                mock.patch('chardata.crit_curve.get_standard_weights', return_value=dict(WEIGHTS)), \
-                mock.patch('chardata.crit_curve.get_stats_weights', return_value=dict(WEIGHTS)), \
+                mock.patch('chardata.crit_curve.get_standard_weights', return_value=dict(weights)), \
+                mock.patch('chardata.crit_curve.get_stats_weights', return_value=dict(weights)), \
                 mock.patch('chardata.solution.get_solution_from_minimal', side_effect=_solved_as_it_stands), \
                 mock.patch.dict(TABLE, table or {}):
             return crit_hinges(char, result, model_input, weapon_hit_terms(char, result, model_input))
@@ -270,29 +277,35 @@ class _Xelor(SimpleTestCase):
 
 class TheEnvelopeIsWorthItTests(_Xelor):
 
-    def alone(self):
-        return self.read(table={'Xelor': {}})
+    def alone(self, preset='balanced'):
+        return self.read(table={'Xelor': {}}, preset=preset)
 
     def test_a_weapon_without_crit_leads_the_terms_over_weapons_with_crit(self):
-        char, _result, model_input = self.the_set()
-        ranked = ranked_weapons(self.terms(), model_input, char.game_version)
         stats = {key: 0 for key in STAT_NAME_TO_KEY.values()}
         structure = get_structure('dofus3')
-        crit_rates = [weapon_swing(structure.get_item_by_id(item_id), stats).crit_rate
-                      for item_id in ranked[:ENVELOPE_WIDTH]]
-        self.assertEqual(CAPTAIN_CHAFERS_DAGGERS, ranked[0])
-        self.assertEqual(0, crit_rates[0])
-        self.assertTrue(all(rate > 0 for rate in crit_rates[1:]))
+        for preset in PRESET_ASPECTS:
+            with self.subTest(preset=preset):
+                char, _result, model_input = self.the_set(preset=preset)
+                ranked = ranked_weapons(self.terms(preset), model_input, char.game_version)
+                crit_rates = [weapon_swing(structure.get_item_by_id(item_id), stats).crit_rate
+                              for item_id in ranked[:ENVELOPE_WIDTH]]
+                self.assertEqual(CAPTAIN_CHAFERS_DAGGERS, ranked[0])
+                self.assertEqual(0, crit_rates[0])
+                self.assertTrue(all(rate > 0 for rate in crit_rates[1:]))
 
     def test_the_first_slope_of_the_envelope_exceeds_the_one_of_the_weapon_alone(self):
-        envelope, alone = self.read(), self.alone()
-        self.assertGreater(envelope.ch, alone.ch)
-        self.assertGreater(envelope.cridam, alone.cridam)
+        for preset in PRESET_ASPECTS:
+            with self.subTest(preset=preset):
+                envelope, alone = self.read(preset=preset), self.alone(preset)
+                self.assertGreater(envelope.ch, alone.ch)
+                self.assertGreater(envelope.cridam, alone.cridam)
 
     def test_the_envelope_is_the_reading_the_class_entry_asks_for(self):
         table = {'Xelor': {'agi/int': {'crit_reading': {'all_presets': {'anchor': 'top_weapon'}}}}}
-        self.assertEqual(self.alone(), self.read(table=table))
-        self.assertNotEqual(self.alone(), self.read())
+        for preset in PRESET_ASPECTS:
+            with self.subTest(preset=preset):
+                self.assertEqual(self.alone(preset), self.read(table=table, preset=preset))
+                self.assertNotEqual(self.alone(preset), self.read(preset=preset))
 
     def test_the_entry_does_not_reach_another_element_or_version(self):
         self.assertEqual(self.alone(), self.read(aspects={'agi'}))
