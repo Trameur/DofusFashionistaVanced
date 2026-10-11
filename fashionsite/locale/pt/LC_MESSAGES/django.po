@@ -329,7 +329,7 @@ msgstr "Escolha no máximo 4 builds para comparar"
 #: .\chardata\compare_sets_view.py:501 .\chardata\compare_sets_view.py:527
 #, python-format
 msgid "%s is not a valid share link"
-msgstr "%s não é um link válido de comparação"
+msgstr "%s não é um link de compartilhamento válido"
 
 #: .\chardata\compare_sets_view.py:505 .\chardata\compare_sets_view.py:515
 #: .\chardata\compare_sets_view.py:530
@@ -359,7 +359,7 @@ msgstr "O build %s não está nesta versão do jogo."
 #: .\chardata\compare_sets_view.py:577
 #, python-format
 msgid "Build %s is not shared."
-msgstr "O build %s não está compartilhado"
+msgstr "O build %s não está compartilhado."
 
 #: .\chardata\dynamic_translations.py:9
 #: .\chardata\templates\chardata\compare_sets.html:213
@@ -1310,7 +1310,7 @@ msgstr[1] "%(count)s peças sem origem conhecida"
 
 #: .\chardata\login_view.py:120
 msgid "Welcome to The Dofus Fashionista!"
-msgstr "Bem vindo ao Dofus Fashionista!"
+msgstr "Bem-vindo ao Dofus Fashionista!"
 
 #: .\chardata\login_view.py:121
 msgid ""
@@ -1667,7 +1667,7 @@ msgstr "Número de conjuntos equipados < %(limit)s"
 
 #: .\chardata\solution_result.py:376
 msgid "Prysmaradite < 1"
-msgstr "Prysmaradite < 1"
+msgstr "Prismaradita < 1"
 
 #: .\chardata\solution_result.py:386
 #, python-format
@@ -1781,11 +1781,7 @@ msgid ""
 "bottom of their Outfit Suggestion page instead. If that is not the case and "
 "this keeps happening, you can contact us <a href=\"%(contact_url)s\">here</"
 "a>."
-msgstr ""
-"Se alguém o enviou est link, peça para a pessoa enviar o link obtido através "
-"do botão 'Compartilhar' no topo da página de sugestão de set. Se este não é "
-"o caso e isso continua acontecendo, você pode nos contatar <a "
-"href=\"%(contact_url)s\">aqui</a>."
+msgstr "Se alguém enviou este link para você, peça para a pessoa enviar o link obtido através do botão 'Compartilhar' no final da página de sugestão de set. Se este não é o caso e isso continua acontecendo, você pode nos contatar <a href=\"%(contact_url)s\">aqui</a>."
 
 #: .\chardata\templates\chardata\403.html:25
 #, python-format
@@ -1832,9 +1828,7 @@ msgstr "Por favor volte à página anterior e tente novamente."
 msgid ""
 "If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a> "
 "and tell us all about this problem."
-msgstr ""
-"Se isso náo funcionar, nos mande uma mensagem <a "
-"href=\"%(contact_url)s\">aqui</a> e nos conte sobre seu problema."
+msgstr "Se isso não funcionar, nos mande uma mensagem <a href=\"%(contact_url)s\">aqui</a> e nos conte sobre seu problema."
 
 #: .\chardata\templates\chardata\about.html:7
 msgid "About"
@@ -1860,20 +1854,13 @@ msgid ""
 "for example, the HP too low despite the good Agility. Tweaking can be done "
 "by going back to the wizard and playing with the sliders, or going hardcore "
 "and fiddling directly with the value the attributed to each stat."
-msgstr ""
-"A sugestão de equipamentos pode não ser o que você está procurando. Você "
-"pode achar, por exemplo, que a vitalidade está muito baixa apesar da "
-"agilidade alta. Ajustes podem ser feitos voltando no Wizard e brincando com "
-"as barras, ou sendo hardcore e modificando diretamente o valor atribuido a "
-"cada atributo."
+msgstr "A sugestão de equipamentos pode não ser o que você está procurando. Você pode achar, por exemplo, que os PV estão muito baixos apesar da agilidade alta. Ajustes podem ser feitos voltando no Wizard e brincando com as barras, ou sendo hardcore e modificando diretamente o valor atribuído a cada atributo."
 
 #: .\chardata\templates\chardata\about.html:25
 msgid ""
 "If items that are too expensive or not available to you are suggested, you "
 "can always forbid them and ask for a new set."
-msgstr ""
-"Se algum item que é muito caro ou que não está disponível é sugerido, você "
-"sempre proibí-lo e pedir um novo set."
+msgstr "Se algum item que seja muito caro ou que não esteja disponível for sugerido, você sempre pode proibi-lo e pedir um novo set."
 
 #: .\chardata\templates\chardata\about.html:29
 #: .\chardata\templates\chardata\license.html:21
@@ -1886,9 +1873,7 @@ msgstr ""
 msgid ""
 "To report problems, suggest new features, or rant about the lack of skill of "
 "your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
-msgstr ""
-"Para reportar problemas, sugerir novas features, ou reclamas sobre como o "
-"seu time de koli é ruim, <a href=\"%(contact_url)s\">contate a gente</a>."
+msgstr "Para reportar problemas, sugerir novas features, ou reclamar sobre como o seu time de koli é ruim, <a href=\"%(contact_url)s\">contate a gente</a>."
 
 #: .\chardata\templates\chardata\about.html:31
 #: .\chardata\templates\chardata\base.html:329
@@ -2077,9 +2062,7 @@ msgstr "Comparação"
 msgid ""
 "Welcome, <a id=\"logged_user_alias\" "
 "href=\"%(manage_account_link)s\">%(user)s</a>! "
-msgstr ""
-"Bem vindo, <a id=\"logged_user_alias\" "
-"href=\"%(manage_account_link)s\">%(user)s</a>! "
+msgstr "Bem-vindo, <a id=\"logged_user_alias\" href=\"%(manage_account_link)s\">%(user)s</a>! "
 
 #: .\chardata\templates\chardata\base.html:169
 msgid "Logout"
@@ -2157,7 +2140,7 @@ msgstr "Assistente"
 #: .\chardata\templates\chardata\chardata.html:7
 #: .\chardata\templates\chardata\chardata.html:13
 msgid "Base Characteristics"
-msgstr "Pontos de Característica"
+msgstr "Características de Base"
 
 #: .\chardata\templates\chardata\base.html:246
 #: .\chardata\templates\chardata\options.html:6
@@ -2171,7 +2154,7 @@ msgstr "Opções"
 #: .\chardata\templates\chardata\inclusions.html:5
 #: .\chardata\templates\chardata\inclusions.html:18
 msgid "Lock Items"
-msgstr "Travar Items"
+msgstr "Travar Itens"
 
 #: .\chardata\templates\chardata\base.html:252
 #: .\chardata\templates\chardata\exclusions.html:7
@@ -2302,7 +2285,7 @@ msgstr "Adicione pelo menos 2 builds para comparar"
 #: .\chardata\templates\chardata\changelog_content.html:145
 #: .\chardata\templates\chardata\changelog_content.html:157
 msgid "July 2026"
-msgstr "Julho 2026"
+msgstr "Julho de 2026"
 
 #: .\chardata\templates\chardata\changelog_content.html:6
 #: .\chardata\templates\chardata\changelog_content.html:18
@@ -2411,7 +2394,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:76
 msgid "Saved builds in set comparisons"
-msgstr "Builds salvas nas comparacoes"
+msgstr "Builds salvas nas comparações de sets"
 
 #: .\chardata\templates\chardata\changelog_content.html:78
 msgid ""
@@ -2819,9 +2802,7 @@ msgstr ""
 msgid ""
 "New: Customize Stats. Modify the stats of a specific item for your build "
 "(undercrafted items, familiars below max level)"
-msgstr ""
-"Novo: Personalizar Estatísticas. Modifique as stats de um item específico "
-"para a sua build (itens subcraftados, familiares abaixo do nível máximo)"
+msgstr "Novo: Personalizar Estatísticas. Modifique as stats de um item específico para a sua build (itens subcraftados, mascotes abaixo do nível máximo)"
 
 #: .\chardata\templates\chardata\changelog_content.html:315
 msgid "Exo mage stats now handled correctly in the custom stats editor"
@@ -2929,9 +2910,7 @@ msgstr "Login e logout do Google OAuth corrigidos após migração HTTPS"
 msgid ""
 "Fixed XSS reflected injection, DOM text reinterpretation, and "
 "deserialization vulnerabilities"
-msgstr ""
-"Corrigidas vulnerabilidades de injeção XSS, reinterpretação de texto DOM e "
-"deserialização"
+msgstr "Corrigidas vulnerabilidades de injeção XSS, reinterpretação de texto DOM e desserialização"
 
 #: .\chardata\templates\chardata\changelog_content.html:364
 msgid "jQuery upgraded to 3.6.4; Django updated to 5.1.14"
@@ -3010,8 +2989,7 @@ msgstr "Descrições de feitiços traduzidas em todos os 5 idiomas"
 
 #: .\chardata\templates\chardata\changelog_content.html:406
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
-msgstr ""
-"Bloqueio/Proibição do Seemyool Selvagem adicionado às restrições de itens"
+msgstr "Bloqueio/Proibição da Marmula Selvagem adicionado às restrições de itens"
 
 #: .\chardata\templates\chardata\changelog_content.html:407
 msgid "Fixed weapon damage display"
@@ -3059,9 +3037,7 @@ msgstr "Melhor elemento, custo em PM e dano base exibidos por feitiço"
 #: .\chardata\templates\chardata\changelog_content.html:433
 msgid ""
 "Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
-msgstr ""
-"Simulador de feitiços extendido: curas, roubos, acúmulos, buffs de poder e "
-"glifos"
+msgstr "Simulador de feitiços estendido: curas, roubos, acúmulos, buffs de poder e glifos"
 
 #: .\chardata\templates\chardata\changelog_content.html:442
 #: .\chardata\templates\chardata\user_profile.html:120
@@ -3072,9 +3048,7 @@ msgstr "Builds compartilhados"
 msgid ""
 "Shared builds: publish your build with a unique link, visible to the "
 "community"
-msgstr ""
-"Builds compartilhados: publique sua build com um link único, visível para a "
-"comunidade"
+msgstr "Builds compartilhados: publique seu build com um link único, visível para a comunidade"
 
 #: .\chardata\templates\chardata\changelog_content.html:445
 msgid "Community voting system for shared builds"
@@ -3082,7 +3056,7 @@ msgstr "Sistema de votação da comunidade para builds compartilhados"
 
 #: .\chardata\templates\chardata\changelog_content.html:446
 msgid "Build creator attribution shown on each shared build"
-msgstr "Atribuição do criador da build exibida em cada build compartilhado"
+msgstr "Atribuição do criador do build exibida em cada build compartilhado"
 
 #: .\chardata\templates\chardata\changelog_content.html:447
 msgid ""
@@ -3161,7 +3135,7 @@ msgstr "Dezembro de 2023"
 
 #: .\chardata\templates\chardata\changelog_content.html:494
 msgid "Site relaunch on AWS"
-msgstr "Relaçamento do site na AWS"
+msgstr "Relançamento do site na AWS"
 
 #: .\chardata\templates\chardata\changelog_content.html:496
 msgid "Site relaunched as DofusFashionistaVanced on AWS"
@@ -3229,7 +3203,7 @@ msgstr "Total"
 
 #: .\chardata\templates\chardata\chardata.html:38
 msgid "Characteristics points:"
-msgstr "Pontos de Base:"
+msgstr "Pontos de Característica:"
 
 #: .\chardata\templates\chardata\chardata.html:42
 msgid "Reset to Zero"
@@ -3298,9 +3272,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:88
 msgid "Select 2 to 4 builds below, or paste solution/share links manually."
-msgstr ""
-"Selecione de 2 a 4 builds abaixo, ou cole links de solucao/compartilhamento "
-"manualmente."
+msgstr "Selecione de 2 a 4 builds abaixo, ou cole links de solução/compartilhamento manualmente."
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:100
 #: .\chardata\templates\chardata\solution.html:10
@@ -3555,7 +3527,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\encyclopedia.html:23
 msgid "Browse sets (panoplies)"
-msgstr "Explorar os sets (panóplias)"
+msgstr "Explorar os sets (conjuntos)"
 
 #: .\chardata\templates\chardata\encyclopedia_item.html:8
 #: .\chardata\templates\chardata\encyclopedia_item.html:16
@@ -3682,10 +3654,7 @@ msgid ""
 "Declare items that cannot be used on your character's set. By doing this you "
 "can avoid items that are expensive, hard to obtain, require a dungeon to be "
 "complete, or are just plain ugly."
-msgstr ""
-"Declare aqui quais itens não podem ser usados no set do seu personagem. "
-"Fazendo isto, você pode evitar itens que são muito caros, difíceis de obter, "
-"que precisam de um calabouço para serem equipados, ou que são feios mesmo."
+msgstr "Declare aqui quais itens não podem ser usados no set do seu personagem. Fazendo isto, você pode evitar itens que são muito caros, difíceis de obter, que exigem a conclusão de um calabouço ou que são feios mesmo."
 
 #: .\chardata\templates\chardata\exclusions.html:28
 #: .\chardata\templates\chardata\solution_item.html:28
@@ -3799,12 +3768,7 @@ msgid ""
 "If you say each intelligence is worth 10 points and each initiative is worth "
 "10 points, equipment A will have a score of 2100 points, while equipment B "
 "will have a score of 1400 points, and the program will choose Item A."
-msgstr ""
-"Se você estabelecer que cada ponto de inteligência tem 10 pontos de "
-"importância para você e cada ponto de iniciativa vale 10 pontos de "
-"importância também, o item A terá uma pontuação de 2100 pontos, enquanto o "
-"item B pontuará 1400 pontos. Assim, o programa escolheris o item A para seu "
-"set."
+msgstr "Se você estabelecer que cada ponto de inteligência tem 10 pontos de importância para você e cada ponto de iniciativa vale 10 pontos de importância também, o item A terá uma pontuação de 2100 pontos, enquanto o item B pontuará 1400 pontos. Assim, o programa escolherá o item A para seu set."
 
 #: .\chardata\templates\chardata\faq.html:66
 msgid ""
@@ -3857,9 +3821,7 @@ msgstr ""
 msgid ""
 "We assume that, if you don’t check either of the PVP options, the set you "
 "are building is a PVM set."
-msgstr ""
-"A  gente assume que, se você não escolheu nenhuma das opções de PVP, o set é "
-"de PVM."
+msgstr "A gente assume que, se você não escolheu nenhuma das opções de PVP, o set é de PVM."
 
 #: .\chardata\templates\chardata\faq.html:77
 msgid "How does the site choose a weapon?"
@@ -3896,23 +3858,13 @@ msgid ""
 "and that's how they declare that defense is more important to them. Checking "
 "a focus box trades points in your main element (and other stats) for a boost "
 "on the focus you chose."
-msgstr ""
-"Estas opções estão lá para os personagens que precisam de vitalidade (ou "
-"resistências) especialmente altas. Por exemplo, Sacriers, Zobals e Steamers "
-"podem querer muita vitalidade e não se importar muito com o elemento "
-"principal deles. Outros, como Osamodas, podem estar atrás de um set com "
-"muita vitalidade e resistência com só um pouquinho de inteligência - e essas "
-"opções são a forma de declarar que defesa é mais importante para eles. "
-"Checar uma dessa opções troca pontos do seu elemento principal (e das outras "
-"características) por um aumento no foco que você escolheu."
+msgstr "Estas opções estão lá para os personagens que precisam de vitalidade (ou resistências) especialmente altas. Por exemplo, Sacriers, Zobals e Steamers podem querer muita vitalidade e não se importar muito com o elemento principal deles. Outros, como Osamodas, podem estar atrás de um set com muita vitalidade e resistência com só um pouquinho de inteligência - e essas opções são a forma de declarar que defesa é mais importante para eles. Checar uma dessas opções troca pontos do seu elemento principal (e das outras características) por um aumento no foco que você escolheu."
 
 #: .\chardata\templates\chardata\faq.html:84
 msgid ""
 "Not checking any focus boxes is fine and correct for a lot of cases. It will "
 "give you an all-around set."
-msgstr ""
-"Não checar nenhuma opção de foco é ok e correto em vários casos. Isto gera "
-"um set mais equilibrado entre ofensa e defesa."
+msgstr "Não checar nenhuma opção de foco é ok e correto em vários casos. Isto gera um set mais equilibrado entre ataque e defesa."
 
 #: .\chardata\templates\chardata\feed.html:32
 #, python-format
@@ -4269,7 +4221,7 @@ msgstr "gerado em"
 
 #: .\chardata\templates\chardata\license.html:60
 msgid "Privacy Policy:"
-msgstr "Politica de privacidade:"
+msgstr "Política de privacidade:"
 
 #: .\chardata\templates\chardata\license.html:61
 msgid ""
@@ -4396,7 +4348,7 @@ msgstr "Pensando em um set"
 #: .\chardata\templates\chardata\login.html:25
 #, python-format
 msgid "Welcome, you are logged in as %(user_alias)s!"
-msgstr "Bem vindo, você está logado como %(user_alias)s!"
+msgstr "Bem-vindo, você está logado como %(user_alias)s!"
 
 #: .\chardata\templates\chardata\login.html:30
 #, python-format
@@ -5186,9 +5138,7 @@ msgstr ""
 msgid ""
 "Focus on critical hits. Useful for characters that have spells/weapons that "
 "are much better on a critical hit."
-msgstr ""
-"Foca em critical hits. Útil para personagens que têm feitiços/armas que são "
-"muito melhores em um golpe crítico."
+msgstr "Foca em golpes críticos. Útil para personagens que têm feitiços/armas que são muito melhores em um golpe crítico."
 
 #: .\chardata\templates\chardata\projdetails.html:137
 msgid ""
@@ -5234,17 +5184,13 @@ msgstr ""
 msgid ""
 "Hitters who want damage as high as possible ignoring defense should check "
 "this."
-msgstr ""
-"Atacantes que querem o dano mais alto o possível, ignorando a defesa, devem "
-"assinalar aqui."
+msgstr "Atacantes que querem o dano mais alto possível, ignorando a defesa, devem assinalar aqui."
 
 #: .\chardata\templates\chardata\projdetails.html:143
 msgid ""
 "Tankers that want very high resists. Increases importance of linear and "
 "percentage resists."
-msgstr ""
-"Para personagens 'tanque' que querem resistências muito altas. Aumenta a "
-"importância de resistências lineares e de porcentagem."
+msgstr "Para personagens 'tanque' que querem resistências muito altas. Aumenta a importância de resistências fixas e de porcentagem."
 
 #: .\chardata\templates\chardata\projdetails.html:144
 msgid ""
@@ -5271,17 +5217,13 @@ msgstr ""
 msgid ""
 "Disablers that want to focus on AP reduction rather than dealing damage "
 "should check this."
-msgstr ""
-"Personagens incapacitadores que querem focar em redução de PA ao invés de "
-"causar dano dever checar aqui."
+msgstr "Personagens incapacitadores que querem focar em redução de PA ao invés de causar dano devem assinalar aqui."
 
 #: .\chardata\templates\chardata\projdetails.html:147
 msgid ""
 "Disablers that want to focus on MP reduction rather than dealing damage "
 "should check this."
-msgstr ""
-"Personagens incapacitadores que querem focar em redução de PM ao invés de "
-"causar dano dever checar aqui."
+msgstr "Personagens incapacitadores que querem focar em redução de PM ao invés de causar dano devem assinalar aqui."
 
 #: .\chardata\templates\chardata\projdetails.html:148
 msgid ""
@@ -5301,9 +5243,7 @@ msgstr ""
 msgid ""
 "Check this to get a prospecting set, with mediocre stats but high "
 "prospecting."
-msgstr ""
-"Assinale aqui para fazer um set de prospecção - com atributos medíocres, mas "
-"propecção alta."
+msgstr "Assinale aqui para fazer um set de prospecção - com atributos medíocres, mas prospecção alta."
 
 #: .\chardata\templates\chardata\projdetails.html:150
 msgid ""
@@ -5317,19 +5257,13 @@ msgstr ""
 msgid ""
 "Srams that focus on traps should check this, though there isn't much trap "
 "equipment. Importance of Power (Traps) and +Trap Damage will be increased."
-msgstr ""
-"Srams que focam em armadilhas devem assinalar aqui, embora não existam mais "
-"muitos equipamentos de armadilhas. A importancia de Potência (Armadilhas) e "
-"+Danos para Armadilhas será aumentada."
+msgstr "Srams que focam em armadilhas devem assinalar aqui, embora não existam mais muitos equipamentos de armadilhas. A importância de Potência (Armadilhas) e +Danos para Armadilhas será aumentada."
 
 #: .\chardata\templates\chardata\projdetails.html:152
 msgid ""
 "Summon spammers should check this. It will increase the minimum summons by 1 "
 "and increase importance of summons."
-msgstr ""
-"Personagens que gostam de fazer invocações devem assinalar aqui. Esta opção "
-"aumenta o número mínimos de invocações em 1 e aumenta a importância das "
-"invocações."
+msgstr "Personagens que gostam de fazer invocações devem assinalar aqui. Esta opção aumenta o número mínimo de invocações em 1 e aumenta a importância das invocações."
 
 #: .\chardata\templates\chardata\projdetails.html:153
 msgid ""
@@ -5495,7 +5429,7 @@ msgstr "Sem TemporiX"
 
 #: .\chardata\templates\chardata\shared_builds.html:140
 msgid "Hide invalid or outdated builds"
-msgstr "Ocultar builds invalidos ou desatualizados"
+msgstr "Ocultar builds inválidos ou desatualizados"
 
 #: .\chardata\templates\chardata\shared_builds.html:146
 msgid "Apply Filters"
@@ -5576,7 +5510,7 @@ msgstr "Anterior"
 #: .\chardata\templates\chardata\shared_builds.html:320
 #: .\chardata\templates\chardata\shared_builds.html:323
 msgid "Next"
-msgstr "Próximo"
+msgstr "Próxima"
 
 #: .\chardata\templates\chardata\shared_builds.html:321
 #: .\chardata\templates\chardata\shared_builds.html:324
@@ -5680,7 +5614,7 @@ msgstr "Sexo"
 
 #: .\chardata\templates\chardata\solution.html:58
 msgid "Pick your character colours"
-msgstr "Escolhe as cores do seu personagem"
+msgstr "Escolha as cores do seu personagem"
 
 #: .\chardata\templates\chardata\solution.html:58
 msgid "Colours"
@@ -5783,17 +5717,7 @@ msgid ""
 "for another you like best by clicking the switch (<img class='solution-item-"
 "button' style='position: relative; bottom: -5px; left: 0px;' src=%(switch)s "
 "title='Switch'>) button."
-msgstr ""
-"Se você não gostou de algum item, clique no botão de excluir ( <img "
-"style='position: relative; bottom: -3px; left: -2px;' src=%(delete)s "
-"title='Proibir'> ) embaixo de seu nome e <a href=\"%(run_again_link)s\" "
-"class=\"rerun-button\">rode novamente</a>. Se, ao contrário, você quer "
-"trancar um item para futuras sugestões neste personagem, clique no botão de "
-"travar (<img style='position: relative; bottom: -1px; left: 0px;' "
-"src=%(lock)s title='Travar'>). Você também pode trocar qualquer item "
-"manualmente por outro que você prefira clicando no botão de troca (<img "
-"class='solution-item-button' style='position: relative; bottom: -5px; left: "
-"0px;' src=%(switch)s title='Trocar'>)."
+msgstr "Se você não gostou de algum item, clique no botão de proibir ( <img style='position: relative; bottom: -3px; left: -2px;' src=%(delete)s title='Proibir'> ) embaixo de seu nome e <a href=\"%(run_again_link)s\" class=\"rerun-button\">rode novamente</a>. Se, ao contrário, você quer travar um item para futuras sugestões neste personagem, clique no botão de travar (<img style='position: relative; bottom: -1px; left: 0px;' src=%(lock)s title='Travar'>). Você também pode trocar qualquer item manualmente por outro que você prefira clicando no botão de troca (<img class='solution-item-button' style='position: relative; bottom: -5px; left: 0px;' src=%(switch)s title='Trocar'>)."
 
 #: .\chardata\templates\chardata\solution.html:165
 #, python-format
@@ -5926,22 +5850,22 @@ msgstr "Ponderada com os valores de atributos deste build."
 #: .\chardata\templates\chardata\solution.html:426
 #, python-format
 msgid "%% Melee Damage"
-msgstr "%% danos corpo a corpo"
+msgstr "%% de danos no corpo a corpo"
 
 #: .\chardata\templates\chardata\solution.html:428
 #, python-format
 msgid "%% Ranged Damage"
-msgstr "%% danos distância"
+msgstr "%% de danos à distância"
 
 #: .\chardata\templates\chardata\solution.html:430
 #, python-format
 msgid "%% Weapon Damage"
-msgstr "%% danos armas"
+msgstr "%% de danos de armas"
 
 #: .\chardata\templates\chardata\solution.html:432
 #, python-format
 msgid "%% Spell Damage"
-msgstr "%% danos feitiços"
+msgstr "%% de danos de feitiços"
 
 #: .\chardata\templates\chardata\solution.html:477
 #, python-format
@@ -6429,11 +6353,11 @@ msgstr ""
 #: .\chardata\templates\chardata\stats.html:39
 #, python-format
 msgid "%% Spells Damage"
-msgstr "%% danos feitiços"
+msgstr "%% de danos de feitiços"
 
 #: .\chardata\templates\chardata\stats.html:34
 msgid "% Spells Damage"
-msgstr "% danos feitiços"
+msgstr "% de danos de feitiços"
 
 #: .\chardata\templates\chardata\stats.html:67
 msgid "All Resists"
@@ -6536,7 +6460,7 @@ msgstr "Tema escuro"
 
 #: .\chardata\templates\chardata\theme-selector.html:9
 msgid "Auto"
-msgstr "Automatico"
+msgstr "Automático"
 
 #: .\chardata\templates\chardata\user_profile.html:86
 msgid "follower"
@@ -6640,11 +6564,7 @@ msgid ""
 "If you wish to set your base stats yourself, you can do it at the <i><a "
 "href=\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> "
 "page, under <i>More</i>"
-msgstr ""
-"Se você deseja configurar os seus pontos base de característica sozinho, "
-"você pode fazer isso na página de <i><a href=\"%(base_stats_url)s\" "
-"target=\"_blank\">Pontos de Característica</a></i>, depois de clicar em "
-"<i>Mais</i>"
+msgstr "Se você deseja configurar os seus pontos base de característica sozinho, você pode fazer isso na página de <i><a href=\"%(base_stats_url)s\" target=\"_blank\">Características de Base</a></i>, depois de clicar em <i>Mais</i>"
 
 #: .\chardata\templates\chardata\wizard_sliders.html:3
 msgid "Fine tune stat weights"
@@ -6655,12 +6575,7 @@ msgid ""
 "The sliders below are pre-tuned according to your class and build. They can "
 "be used to fine tune a set to suit your particular needs. Increasing one "
 "stat weight means it will go up, but the others will go down."
-msgstr ""
-"As barras abaixo vêm pré-configuradas de acordo com sua classe e build. Elas "
-"podem ser utilizadas para configurar mais finamente um set de modo a "
-"corresponder melhor às suas necessidades. Aumentar o peso de uma "
-"característica faz ela vai aumentar no conjunto final, mas faz as outras "
-"descerem."
+msgstr "As barras abaixo vêm pré-configuradas de acordo com sua classe e build. Elas podem ser utilizadas para configurar mais finamente um set de modo a corresponder melhor às suas necessidades. Aumentar o peso de uma característica faz com que ela aumente no conjunto final, mas faz as outras diminuírem."
 
 #: .\chardata\templates\chardata\wizard_sliders.html:18
 msgid "Reset to default"
@@ -6680,7 +6595,7 @@ msgstr "Adicionar um item"
 
 #: .\chardata\templates\chardata\workshop.html:44
 msgid "Type an item name (example: Gelano)"
-msgstr "Nome do item (exemplo: Gelano)"
+msgstr "Nome do item (exemplo: Gelanel)"
 
 #: .\chardata\templates\chardata\workshop.html:49
 msgid "Filter by status"
@@ -6889,7 +6804,7 @@ msgstr "Adicionar como cartão à parte"
 
 #: .\chardata\templates\chardata\workshop.html:205
 msgid "{name} added as its own card."
-msgstr "{name} adicionado como cartão à parte."
+msgstr "Adicionado como cartão à parte: {name}."
 
 #: .\chardata\templates\chardata\workshop.html:206
 msgid "No sub-recipe found."
@@ -7025,11 +6940,11 @@ msgstr "Limpar todos os itens da sua oficina?"
 
 #: .\chardata\tests.py:200
 msgid "Charged 3 times"
-msgstr "Carregado duas vezes"
+msgstr "Carregado 3 vezes"
 
 #: .\chardata\tests.py:201
 msgid "Charged 12 times"
-msgstr "Carregado duas vezes"
+msgstr "Carregado 12 vezes"
 
 #: .\chardata\translation_util.py:22
 msgid "Eniripsa"
@@ -7121,7 +7036,7 @@ msgstr "Soma de todas as resistências %, exceto a neutra"
 
 #: .\chardata\translation_util.py:55
 msgid "Sum of all % Resists"
-msgstr "Soma de todas resistências %"
+msgstr "Soma de todas as resistências %"
 
 #: .\chardata\translation_util.py:56
 msgid "Sum of all Linear Resists"
@@ -7400,7 +7315,7 @@ msgstr "Um novo guia sobre os espaços de mascote, montaria e escudo, e os links
 
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "Only items from my inventory works again, and the item list refreshes after you switch a piece."
-msgstr "Apenas itens do meu inventário volta a funcionar, e a lista de itens é atualizada depois de trocar uma peça."
+msgstr "A opção \"Apenas itens do meu inventário\" volta a funcionar, e a lista de itens é atualizada depois de trocar uma peça."
 
 #: .\chardata\weapon_header.py:0
 msgid "CH: 1/%(crit_chance)d (+%(crit_bonus)d)"
@@ -8033,7 +7948,7 @@ msgid "solver answers"
 msgstr "respostas do solver"
 
 msgid "September 2026"
-msgstr "Setembro 2026"
+msgstr "Setembro de 2026"
 
 msgid "Proof, not guesswork"
 msgstr "Uma prova, não um palpite"
@@ -9257,7 +9172,7 @@ msgstr "Nenhum set passa de %(cap)s nesta versão"
 
 #: chardata/templates/chardata/changelog_content.html
 msgid "October 2026"
-msgstr "Outubro 2026"
+msgstr "Outubro de 2026"
 
 #: chardata/templates/chardata/changelog_content.html
 msgid "Dofus 3.7 update"
