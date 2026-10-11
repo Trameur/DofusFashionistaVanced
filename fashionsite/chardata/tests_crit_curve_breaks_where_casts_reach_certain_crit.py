@@ -132,7 +132,7 @@ class TheBreaksAreWhereACastReachesCertainCritTests(_DofusThree):
 
 
 class TheBreakFollowsTheRankOfTheLevelTests(SimpleTestCase):
-    """No rate of Dofus 3 changes with the rank of a spell, so the rank of the level is read on Retro's."""
+    """On Retro the break of a throw follows the rank of the spell the level reaches."""
 
     def setUp(self):
         from fashionistapulp.structure import set_current_game_version

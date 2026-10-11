@@ -1,6 +1,7 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """The second solve prices crit and critical damage from the first set, and a stopped search carries that pricing."""
 import copy
+import pickle
 from types import SimpleNamespace
 from unittest import mock
 
@@ -9,6 +10,7 @@ from django.test import SimpleTestCase
 from chardata.crit_curve import CritReading, crit_hinges
 from chardata.fashion_action import _bind_search, _new_search, continuation_input, solve_with_weapon_hits
 from fashionistapulp.dofus_constants import STAT_KEY_TO_NAME, STATS_NAMES
+from fashionistapulp.model import ModelInput
 from fashionistapulp.modelresult import ModelResultMinimal, model_result_from_minimal
 from fashionistapulp.structure import set_current_game_version
 
@@ -219,12 +221,32 @@ class AStoppedSearchCarriesTheHingesTests(SimpleTestCase):
     STATE = {'objective': 10.0, 'bound': 12.0, 'values': {'x_1': 1}}
     PLAN = ('turn', 10)
 
-    def weighed(self):
-        return _input(objective_values=dict(WEIGHTS, ch=READING.ch, cridam=READING.cridam), item_terms=TERMS,
-                      crit_hinges=READING.hinges, cache_key=lambda: 'key')
+    def setUp(self):
+        set_current_game_version('dofus3')
+        self.addCleanup(set_current_game_version, 'dofus3')
 
     def plain(self):
-        return _input(crit_hinges=(), cache_key=lambda: 'key')
+        return ModelInput(200, {'str': 900, 'int': 700}, {'ap': 12}, {}, {7, 9}, dict(WEIGHTS),
+                          {'ap_exo': False}, 'Iop', 0)
+
+    def weighed(self):
+        return _run(_char(), self.plain(), terms=TERMS, reading=READING)[1][1][0]
+
+    def stopped(self, solve_input):
+        minimal = ModelResultMinimal({'weapon': MINOTOT_SCEPTRE}, {}, {})
+        minimal.proven = False
+        minimal.data_version = '3.7'
+        minimal.search = _new_search(self.STATE, solve_input, 90)
+        _bind_search(minimal, self.plain(), self.PLAN)
+        return pickle.loads(pickle.dumps(minimal))
+
+    def continued(self, solve_input):
+        stored = self.stopped(solve_input)
+        with mock.patch('chardata.fashion_action.current_data_version', return_value='3.7'), \
+                mock.patch('chardata.fashion_action.get_stats_weights', return_value=dict(WEIGHTS)), \
+                mock.patch('chardata.fashion_action._model_input', return_value=self.plain()), \
+                mock.patch('chardata.fashion_action.guard_plan', return_value=self.PLAN):
+            return continuation_input(None, _char(), stored)
 
     def test_the_search_keeps_the_hinges_its_input_had(self):
         self.assertEqual(READING.hinges, _new_search(self.STATE, self.weighed(), 90)['crit_hinges'])
@@ -232,28 +254,24 @@ class AStoppedSearchCarriesTheHingesTests(SimpleTestCase):
         self.assertIsNone(_new_search(self.STATE, _input(), 90)['crit_hinges'])
 
     def test_the_hinges_are_bound_to_the_input_they_differ_from(self):
-        result = SimpleNamespace(search=_new_search(self.STATE, self.weighed(), 90))
-        _bind_search(result, self.plain(), self.PLAN)
-        self.assertEqual(READING.hinges, result.search['crit_hinges'])
-        self.assertEqual(dict(WEIGHTS, ch=READING.ch, cridam=READING.cridam), result.search['objective_values'])
-        same = SimpleNamespace(search=_new_search(self.STATE, self.weighed(), 90))
-        _bind_search(same, self.weighed(), self.PLAN)
-        self.assertIsNone(same.search['crit_hinges'])
+        stored = self.stopped(self.weighed())
+        self.assertEqual(READING.hinges, stored.search['crit_hinges'])
+        self.assertEqual(dict(WEIGHTS, ch=READING.ch, cridam=READING.cridam), stored.search['objective_values'])
+        self.assertIsNone(self.stopped(self.plain()).search['crit_hinges'])
 
-    def continued(self, solve_input):
-        result = SimpleNamespace(search=_new_search(self.STATE, solve_input, 90))
-        _bind_search(result, self.plain(), self.PLAN)
-        minimal = SimpleNamespace(proven=False, data_version='3.7', search=result.search)
-        char = _char()
-        with mock.patch('chardata.fashion_action.current_data_version', return_value='3.7'), \
-                mock.patch('chardata.fashion_action.get_stats_weights', return_value=dict(WEIGHTS)), \
-                mock.patch('chardata.fashion_action._model_input', return_value=self.plain()), \
-                mock.patch('chardata.fashion_action.guard_plan', return_value=self.PLAN):
-            return continuation_input(None, char, minimal)
+    def test_the_hinges_change_the_key_of_the_input(self):
+        weighed = self.weighed()
+        unhinged = copy.copy(weighed)
+        unhinged.crit_hinges = ()
+        self.assertNotEqual(unhinged.cache_key(), weighed.cache_key())
+        self.assertNotEqual(hash(unhinged), hash(weighed))
 
     def test_a_continued_search_gets_the_hinges_and_the_prices_back(self):
-        solve_input = self.continued(self.weighed())
+        weighed, solve_input = self.weighed(), self.continued(self.weighed())
+        self.assertEqual(weighed.cache_key(), solve_input.cache_key())
+        self.assertEqual(hash(weighed), hash(solve_input))
         self.assertEqual(READING.hinges, solve_input.crit_hinges)
+        self.assertTrue(all(isinstance(hinge, tuple) for hinge in solve_input.crit_hinges))
         self.assertEqual(dict(WEIGHTS, ch=READING.ch, cridam=READING.cridam), solve_input.objective_values)
         self.assertEqual(TERMS, solve_input.item_terms)
 
@@ -261,3 +279,4 @@ class AStoppedSearchCarriesTheHingesTests(SimpleTestCase):
         solve_input = self.continued(self.plain())
         self.assertEqual((), solve_input.crit_hinges)
         self.assertEqual(WEIGHTS, solve_input.objective_values)
+        self.assertEqual(self.plain().cache_key(), solve_input.cache_key())

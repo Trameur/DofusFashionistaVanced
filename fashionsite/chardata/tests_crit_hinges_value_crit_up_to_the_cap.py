@@ -5,7 +5,7 @@ import pulp
 from django.test import SimpleTestCase
 
 from fashionistapulp.dofus_constants import STATS_NAMES
-from fashionistapulp.model import ModelInput
+from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.model_pool import borrow_model, return_model
 from fashionistapulp.structure import get_structure, set_current_game_version
 
@@ -13,6 +13,7 @@ OPTIONS = {'ap_exo': False, 'mp_exo': False, 'range_exo': False, 'dofus': True, 
            'dragoturkey': True, 'seemyool': True, 'rhineetle': True, 'prysmaradite': False,
            'shields': True}
 WEIGHT = 100
+KEY_WITHOUT_HINGES = 716856835884310526
 
 
 def _input(hinges=None):
@@ -90,6 +91,38 @@ class TheHingesPayTheCritUpToTheirBreakpointTests(_Dofus3Model):
         finally:
             return_model(model)
 
+    def hinge_row(self, breakpoint=10):
+        model = borrow_model()
+        self.addCleanup(return_model, model)
+        model.setup(_input(((breakpoint, WEIGHT),)))
+        lp = model.problem.pulp_lp
+        for variable in lp.variables():
+            variable.varValue = 0
+        return model, lp.constraints['crit_hinge_0']
+
+    def test_the_row_of_a_hinge_keeps_the_crit_over_its_breakpoint_in_the_hinge_column(self):
+        _model, row = self.hinge_row(10)
+        self.assertEqual({'crithinge_0': 1, self.crit_column: -1},
+                         {variable.name: coefficient for variable, coefficient in row.items()})
+        self.assertEqual(pulp.LpConstraintGE, row.sense)
+        self.assertEqual(10, row.value())
+
+    def test_a_crit_above_the_breakpoint_holds_the_hinge_column_at_the_excess(self):
+        model, row = self.hinge_row(10)
+        model.problem.pulp_vars[self.crit_column].varValue = 25
+        hinge = model.problem.pulp_vars['crithinge_0']
+        for value, holds in ((14.5, False), (15, True), (15.5, True)):
+            with self.subTest(hinge=value):
+                hinge.varValue = value
+                self.assertEqual(holds, row.valid())
+
+    def test_a_crit_under_the_breakpoint_holds_the_row_with_the_hinge_column_at_zero(self):
+        model, row = self.hinge_row(10)
+        for crit in (10, 9, 0, -7):
+            with self.subTest(crit=crit):
+                model.problem.pulp_vars[self.crit_column].varValue = crit
+                self.assertTrue(row.valid())
+
     def test_a_rising_slope_is_refused(self):
         model = borrow_model()
         try:
@@ -99,7 +132,34 @@ class TheHingesPayTheCritUpToTheirBreakpointTests(_Dofus3Model):
             return_model(model)
 
 
-class ThePooledModelForgetsTheHingesTests(_Dofus3Model):
+class TheModelForgetsTheHingesOfItsLastSetupTests(_Dofus3Model):
+
+    def shape(self, model):
+        lp = model.problem.pulp_lp
+        return {'rows': len(lp.constraints), 'columns': len(lp.variables()),
+                'hinge_rows': sorted(name for name in lp.constraints if name.startswith('crit_hinge_')),
+                'hinge_columns': sorted(variable.name for variable in lp.variables()
+                                        if variable.name.startswith('crithinge_')),
+                'hinge_vars': sorted(name for name in model.problem.pulp_vars if name.startswith('crithinge_'))}
+
+    def test_each_setup_has_the_rows_and_columns_of_its_own_hinges_only(self):
+        model = Model()
+        model.setup(_input())
+        plain = self.shape(model)
+        self.assertEqual([], plain['hinge_rows'] + plain['hinge_columns'] + plain['hinge_vars'])
+        model.setup(_input(((10, 5.5), (20, 3))))
+        two = self.shape(model)
+        self.assertEqual(['crit_hinge_0', 'crit_hinge_1'], two['hinge_rows'])
+        self.assertEqual(['crithinge_0', 'crithinge_1'], two['hinge_columns'])
+        self.assertEqual(['crithinge_0', 'crithinge_1'], two['hinge_vars'])
+        self.assertEqual((plain['rows'] + 2, plain['columns'] + 2), (two['rows'], two['columns']))
+        model.setup(_input())
+        self.assertEqual(plain, self.shape(model))
+        model.setup(_input(((30, 4),)))
+        one = self.shape(model)
+        self.assertEqual((['crit_hinge_0'], ['crithinge_0'], ['crithinge_0']),
+                         (one['hinge_rows'], one['hinge_columns'], one['hinge_vars']))
+        self.assertEqual((plain['rows'] + 1, plain['columns'] + 1), (one['rows'], one['columns']))
 
     def test_a_solve_after_a_hinged_one_reads_the_same_problem(self):
         before = self.solve()
@@ -119,8 +179,13 @@ class TheHingesChangeTheKeysTests(SimpleTestCase):
         self.addCleanup(set_current_game_version, 'dofus3')
 
     def test_no_hinge_keeps_the_keys_of_before(self):
-        self.assertEqual(_input().cache_key(), _input(()).cache_key())
-        self.assertEqual(hash(_input()), hash(_input(())))
+        """An input without hinges keeps its stored cache key."""
+        old = _input()
+        del old.crit_hinges
+        for plain in (_input(), _input(()), _input(None), old):
+            with self.subTest(hinges=getattr(plain, 'crit_hinges', 'absent')):
+                self.assertEqual(KEY_WITHOUT_HINGES, plain.cache_key())
+                self.assertEqual(hash(_input()), hash(plain))
 
     def test_hinges_change_the_keys(self):
         plain, hinged = _input(), _input(((10, 5.5),))
