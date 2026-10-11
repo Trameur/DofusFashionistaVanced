@@ -36,11 +36,13 @@ logger = logging.getLogger(__name__)
 
 VERSIONS = ('dofus3',)
 SCOPE_LEVEL = 200
+CERTAIN = 100
 TOLERANCE = 1e-9
 DIGITS = 6
 
-#: ch is the weight of a crit point up to the first break, hinges are ((crit, drop in the weight above it), ...)
-CritReading = namedtuple('CritReading', 'ch hinges')
+#: ch is the weight of a crit point up to the first break and hinges are ((crit, drop in the weight above it), ...),
+#: cridam is the weight of a critical damage point; each is None or empty when the weight of the build stays
+CritReading = namedtuple('CritReading', 'ch hinges cridam')
 
 
 def crit_breakpoints(castables):
@@ -48,8 +50,8 @@ def crit_breakpoints(castables):
     points = {0}
     for castable in castables:
         rate = getattr(castable, 'crit_rate', 0) or 0
-        if 0 < rate < 100 and getattr(castable, 'plain_alternatives', None):
-            points.add(100 - rate)
+        if 0 < rate < CERTAIN and getattr(castable, 'plain_alternatives', None):
+            points.add(CERTAIN - rate)
     return sorted(points)
 
 
@@ -87,10 +89,14 @@ class SetView(object):
         self.crit = stats.get('ch', 0) or 0
         self.cridam = stats.get('cridam', 0) or 0
         self.breaks = crit_breakpoints(list(reader.spells) + ([worn] if worn is not None else []))
+        self._turns = {}
 
     def turn(self, crit, cridam=None):
         cridam = self.cridam if cridam is None else cridam
-        return self.reader.full(self.worn, {'ch': crit - self.crit, 'cridam': cridam - self.cridam})
+        if (crit, cridam) not in self._turns:
+            self._turns[(crit, cridam)] = self.reader.full(
+                self.worn, {'ch': crit - self.crit, 'cridam': cridam - self.cridam})
+        return self._turns[(crit, cridam)]
 
     def per_point(self, played):
         base = self.reader.full(self.worn)
@@ -98,10 +104,25 @@ class SetView(object):
         return (raised - base) / float(CHARACTERISTIC_STEP * len(played))
 
 
-def read_curve(view, weights, cridam=None):
-    """The weight of a crit point on the first slope and the hinges above it; None when no crit point pays.
+def _hull_of(view, cridam):
+    return concave_hull([(crit, view.turn(crit, cridam)) for crit in view.breaks])
 
-    The turn is read at the critical damage `cridam`, the one of the view when None.
+
+def _first_break(hull):
+    return hull[1][0] if len(hull) > 1 else CERTAIN
+
+
+def _cridam_gain(view, crit, cridam):
+    return (view.turn(crit, cridam + CHARACTERISTIC_STEP) - view.turn(crit, cridam)) / float(CHARACTERISTIC_STEP)
+
+
+def read_curve(view, weights, first=None, price_break=None, priced=True):
+    """The weight of a crit point on the first slope, the hinges above it and the weight of a critical damage point.
+
+    `first` is the first set when the view is read on another weapon, the turn is read at its critical damage. A
+    critical damage point is priced at the mean of its gain at the crit of the first set and at the crit
+    `price_break`, the first break of the view when None. Without a slope the crit weight stays; None when no
+    characteristic is played or none pays.
     """
     played = played_characteristics(weights)
     if not played:
@@ -109,23 +130,35 @@ def read_curve(view, weights, cridam=None):
     per_point = view.per_point(played)
     if per_point <= 0:
         return None
+    first = first or view
     paid = sum(weights.get(key, 0) for key in played) / float(len(played))
-    hull = concave_hull([(crit, view.turn(crit, cridam)) for crit in view.breaks])
+    hull = _hull_of(view, first.cridam)
+    cridam = None
+    if priced:
+        top = _first_break(hull) if price_break is None else price_break
+        gain = (_cridam_gain(view, first.crit, first.cridam) + _cridam_gain(view, top, first.cridam)) / 2.0
+        cridam = round(gain / per_point * paid, DIGITS)
     slopes = [value / per_point * paid for value in slopes_of(hull)]
     if not any(value > 0 for value in slopes):
-        return None
+        return CritReading(None, (), cridam) if cridam is not None else None
     follows = slopes[1:] + [0.0]
     return CritReading(round(slopes[0], DIGITS),
                        tuple((hull[k + 1][0], round(slopes[k] - follows[k], DIGITS))
-                             for k in range(len(slopes))))
+                             for k in range(len(slopes))),
+                       cridam)
 
 
-def _weighs_crit_itself(char):
-    """Whether the engine weighs the crit of the build: no crit aspect and no weight picked by hand."""
+def _engine_weighs(char):
+    """(whether the engine weighs the crit of the build, whether it weighs its critical damage).
+
+    Neither under a crit aspect or a weight picked by hand; the weight of an old floor counts as the engine's.
+    """
     if get_char_aspects(char) & {'crit', 'noncrit'}:
-        return False
+        return False, False
     stored = get_stats_weights(char, persist=False)
-    return stored.get('ch') == get_standard_weights(char).get('ch') or 'ch_before_floor' in stored
+    engine = get_standard_weights(char)
+    crit = stored.get('ch') == engine.get('ch') or 'ch_before_floor' in stored
+    return crit, crit and stored.get('cridam') == engine.get('cridam')
 
 
 def _solution_of(char, result):
@@ -187,13 +220,15 @@ def anchor_solution(char, result, solution, terms, model_input):
 
 
 def crit_hinges(char, result, model_input, terms=None):
-    """The crit curve read on the first set `result` wearing the weapon the weapon `terms` rank first.
+    """The crit curve and the critical damage price read on the first set `result` wearing the top weapon of `terms`.
 
-    None when the build is out of scope. The turn is read at the critical damage of the first set.
+    None when the build is out of scope. The turn is read at the critical damage of the first set, and the
+    critical damage point is priced up to the first break of that set.
     """
     if result is None or getattr(char, 'game_version', None) not in VERSIONS:
         return None
-    if char.level < SCOPE_LEVEL or not _weighs_crit_itself(char):
+    weighs_crit, weighs_cridam = _engine_weighs(char)
+    if char.level < SCOPE_LEVEL or not weighs_crit:
         return None
     solution = _solution_of(char, result)
     first = _set_view(char, solution) if solution is not None else None
@@ -201,4 +236,5 @@ def crit_hinges(char, result, model_input, terms=None):
         return None
     anchor = anchor_solution(char, result, solution, terms, model_input)
     view = first if anchor is solution else (_set_view(char, anchor) or first)
-    return read_curve(view, model_input.objective_values, first.cridam)
+    price_break = _first_break(_hull_of(first, first.cridam)) if weighs_cridam and view is not first else None
+    return read_curve(view, model_input.objective_values, first, price_break, weighs_cridam)

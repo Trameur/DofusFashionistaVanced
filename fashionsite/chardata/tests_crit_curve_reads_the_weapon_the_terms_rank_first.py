@@ -48,6 +48,10 @@ def _lines(item_id):
     return stat_lines_value(_structure().get_item_by_id(item_id), WEIGHTS, _structure())
 
 
+def _slopes(reading):
+    return None if reading is None else (reading.ch, reading.hinges)
+
+
 class _DofusThree(SimpleTestCase):
 
     def setUp(self):
@@ -56,7 +60,7 @@ class _DofusThree(SimpleTestCase):
         self.addCleanup(set_current_game_version, 'dofus3')
 
     def read(self, terms, worn=MINOTOT_SCEPTRE, model_input=None):
-        """(the reading, the weapons of the sets the reading asked for)."""
+        """(the slopes of the reading, the weapons of the sets the reading asked for)."""
         built = []
 
         def solution_from(char, minimal, refresh_base_stats=True):
@@ -67,7 +71,7 @@ class _DofusThree(SimpleTestCase):
                 mock.patch('chardata.crit_curve.get_standard_weights', return_value=dict(WEIGHTS)), \
                 mock.patch('chardata.crit_curve.get_stats_weights', return_value=dict(WEIGHTS)), \
                 mock.patch('chardata.solution.get_solution_from_minimal', side_effect=solution_from):
-            return crit_hinges(CHAR, _minimal(worn), model_input or _input(), terms), built
+            return _slopes(crit_hinges(CHAR, _minimal(worn), model_input or _input(), terms)), built
 
 
 class TheTermsRankTheWeaponsTests(_DofusThree):
@@ -105,8 +109,8 @@ class TheCurveIsReadOnTheTopWeaponTests(_DofusThree):
 
     def expected_on(self, weapon_id):
         """The curve called on the first set with `weapon_id` swapped in, at the critical damage of the first set."""
-        return read_curve(_set_view(CHAR, _solution(weapon_id)), WEIGHTS,
-                          _solution(MINOTOT_SCEPTRE).get_stats_total()['cridam'])
+        first = _set_view(CHAR, _solution(MINOTOT_SCEPTRE))
+        return _slopes(read_curve(_set_view(CHAR, _solution(weapon_id)), WEIGHTS, first, priced=False))
 
     def test_the_slope_is_the_one_read_by_calling_the_curve_on_the_swapped_set(self):
         reading, built = self.read(self.TERMS)
@@ -124,8 +128,9 @@ class TheCurveIsReadOnTheTopWeaponTests(_DofusThree):
         first = _solution(MINOTOT_SCEPTRE).get_stats_total()['cridam']
         self.assertNotEqual(first, swapped)
         view = _set_view(CHAR, _solution(CHAOTIC_SCYTHE))
-        self.assertNotEqual(read_curve(view, WEIGHTS, first), read_curve(view, WEIGHTS))
-        self.assertEqual(read_curve(view, WEIGHTS, first), self.read(self.TERMS)[0])
+        at_first = _slopes(read_curve(view, WEIGHTS, _set_view(CHAR, _solution(MINOTOT_SCEPTRE)), priced=False))
+        self.assertNotEqual(at_first, _slopes(read_curve(view, WEIGHTS, priced=False)))
+        self.assertEqual(at_first, self.read(self.TERMS)[0])
 
     def test_the_first_set_stays_when_it_already_wears_the_top_weapon(self):
         reading, built = self.read({MINOTOT_SCEPTRE: 100000.0, CHAOTIC_SCYTHE: 1.0})
