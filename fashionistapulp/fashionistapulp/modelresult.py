@@ -83,7 +83,7 @@ class ModelResultMinimal():
         item_id_list_left = list(item_id_list)
         for locked_slot, locked_id in input_['locked_equips'].items():
             for variation in structure.get_items_by_or_id(locked_id):
-                if variation.id in item_id_list_left:
+                if variation is not None and variation.id in item_id_list_left:
                     item_id_list_left.remove(variation.id)
                     locked_slots[locked_slot] = locked_id
                     break
