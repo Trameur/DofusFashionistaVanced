@@ -768,6 +768,10 @@ class Model:
                                               or {}).items()):
             self.problem.add_to_of(category, key, value)
 
+        for (category, key), value in sorted((getattr(self, '_crit_hinge_terms', None)
+                                              or {}).items()):
+            self.problem.add_to_of(category, key, value)
+
         self.problem.finish_objective_function()
         shortfalls = getattr(self, '_shortfall_objective', None)
         if shortfalls:
@@ -842,6 +846,40 @@ class Model:
                            picks[(first, ap)] + picks[(second, ap)] - both <= 1)
                 self._modifier_terms[('modboth', key)] = value
     
+    def modify_crit_hinges(self, hinges):
+        """hinges is ((breakpoint, drop), ...): a crit point above a breakpoint is paid drop less."""
+        lp = self.problem.pulp_lp
+        for name in getattr(self, '_crit_hinge_constraints', ()):
+            constraint = lp.constraints.pop(name, None)
+            if constraint is not None:
+                lp.modifiedConstraints = [c for c in lp.modifiedConstraints
+                                          if c is not constraint]
+        stale = set(getattr(self, '_crit_hinge_variables', ()))
+        if stale:
+            lp._variables = [v for v in lp._variables if v.name not in stale]
+            lp._variable_ids = {key: v for key, v in lp._variable_ids.items()
+                                if v.name not in stale}
+            for name in stale:
+                self.problem.pulp_vars.pop(name, None)
+        self._crit_hinge_constraints = []
+        self._crit_hinge_variables = []
+        self._crit_hinge_terms = {}
+
+        if not hinges:
+            return
+        if any(drop < 0 for _breakpoint, drop in hinges):
+            raise ValueError('the crit slopes must not rise')
+        crit = self.problem.pulp_vars['stat_%s' % self.structure.get_stat_by_key('ch').id]
+        for number, (breakpoint, drop) in enumerate(hinges):
+            name = 'crithinge_%d' % number
+            over = pulp.LpVariable(name, 0)
+            self.problem.pulp_vars[name] = over
+            self._crit_hinge_variables.append(name)
+            constraint_name = 'crit_hinge_%d' % number
+            lp.addConstraint(over - crit >= -breakpoint, constraint_name)
+            self._crit_hinge_constraints.append(constraint_name)
+            self._crit_hinge_terms[('crithinge', number)] = -drop
+
     #def add_objective_term(self, stat_name, weight):
     #    for item in self.items_list:
     #        for stat_id, value in item.stats:
@@ -901,6 +939,7 @@ class Model:
         self.modify_empty_slot_constraints(model_input.empty_slot_types)
         self.modify_spell_modifier_terms(modifier_values,
                                          getattr(model_input, 'modifier_overlaps', None))
+        self.modify_crit_hinges(getattr(model_input, 'crit_hinges', None))
 
         self.item_terms = dict(getattr(model_input, 'item_terms', None) or {})
         self.write_objective_function(model_input.objective_values, model_input.char_level,
@@ -1755,7 +1794,7 @@ class ModelInput(object):
                  forbidden_equips, objective_values, options, char_class,
                  stat_points_to_distribute, empty_slot_types=None, stat_overrides=None,
                  modifier_values=None, modifier_overlaps=None, gender=None,
-                 char_name=None, item_terms=None):
+                 char_name=None, item_terms=None, crit_hinges=None):
         self.char_level = char_level
         self.base_stats_by_attr = base_stats_by_attr
         self.minimum_stats = minimum_stats
@@ -1775,6 +1814,8 @@ class ModelInput(object):
         self.char_name = char_name
         # {item id: objective term} added to what the weights give
         self.item_terms = item_terms or {}
+        # ((crit breakpoint, drop in the weight above it), ...), see Model.modify_crit_hinges
+        self.crit_hinges = tuple(tuple(hinge) for hinge in crit_hinges or ())
 
     def _barred_to_the_wearer(self):
         """The pieces the sex and name rule out, None when neither is checked."""
@@ -1825,6 +1866,9 @@ class ModelInput(object):
         item_terms = getattr(self, 'item_terms', None)
         if item_terms:
             parts.append(item_terms)
+        crit_hinges = getattr(self, 'crit_hinges', None)
+        if crit_hinges:
+            parts.append(['crit hinges', crit_hinges])
         return _stable_digest(parts)
 
     def __hash__(self, *args, **kwargs):
@@ -1858,6 +1902,9 @@ class ModelInput(object):
         item_terms = getattr(self, 'item_terms', None)
         if item_terms:
             key += (freeze(item_terms),)
+        crit_hinges = getattr(self, 'crit_hinges', None)
+        if crit_hinges:
+            key += (('crit hinges', tuple(crit_hinges)),)
         return key.__hash__()
 
 def _is_number(value):
