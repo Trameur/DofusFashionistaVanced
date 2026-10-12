@@ -54,7 +54,9 @@ class TheDumpWritesEachWeaponRangeTests(SimpleTestCase):
             dump = os.path.join(directory, 'items.dump')
             done = subprocess.run([sys.executable, 'get_equipments3.py', '--input-dir', directory,
                                    '--dump-output', dump], cwd=ITEMSCRAPER, capture_output=True,
-                                  text=True, timeout=120)
+                                  text=True, timeout=120,
+                                  env={key: value for key, value in os.environ.items()
+                                       if key != 'PYTHONPATH'})
             self.assertEqual(0, done.returncode, done.stderr)
             database = sqlite3.connect(':memory:')
             with open(dump, encoding='utf-8') as handle:
