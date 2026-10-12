@@ -140,10 +140,8 @@ def _shipped_flaws(where, cell):
     ratios = cell.get('ratios') or {}
     if any(not ratios.get(stat, {'weak': True}).get('weak') for stat in tuning.HELD_STATS):
         flaws.append('held')
-    played = len(where.split('/')[1].split('+'))
-    if tuning.BLUFF_NOTE in (cell.get('notes') or ()) and 'pow' in ratios and (
-            ratios['pow']['value'] > max(played, ratios['pow']['engine']) + TOLERANCE):
-        flaws.append('bluff pow')
+    if tuning.BLUFF_NOTE in (cell.get('notes') or ()):
+        flaws.append('bluff')
     if not cell.get('numeraire'):
         flaws.append('numeraire')
     entries = ratios.values()
@@ -367,15 +365,18 @@ class ATableShippedFromARunCarriesItsDigestsTests(SimpleTestCase):
         table['cells']['Iop']['str']['plain']['200']['ratios']['ap'] = dict(_entry(), source='tune/run-7')
         self.assertEqual([('Iop/str/plain/200', 'held')], table_flaws(table))
 
-    def test_a_shipped_cell_with_the_bluff_note_holds_power_to_its_elements(self):
+    def test_a_shipped_cell_with_the_bluff_note_fails(self):
         table = self._shipped()
         cell = table['cells']['Iop']['str']['plain']['200']
         cell['notes'] = [tuning.BLUFF_NOTE]
-        cell['ratios']['pow'].update(engine=0.5, value=1.4, builds={'a': 1.4, 'b': 1.4, 'c': 1.4, 'd': 1.4},
-                                     spread=[1.4, 1.4], limits=[0.125, 1.0], folds=[1.4, 1.4])
-        self.assertIn(('Iop/str/plain/200', 'bluff pow'), table_flaws(table))
-        cell['ratios']['pow'].update(value=1.0, builds={'a': 1.0, 'b': 1.0, 'c': 1.0, 'd': 1.0}, spread=[1.0, 1.0],
-                                     folds=[1.0, 1.0])
+        self.assertEqual([('Iop/str/plain/200', 'bluff')], table_flaws(table))
+        cell['notes'] = []
+        self.assertEqual([], table_flaws(table))
+
+    def test_a_cell_with_the_bluff_note_may_stay_on_the_engine(self):
+        table = self._shipped()
+        cell = table['cells']['Iop']['str']['plain']['200']
+        cell.update(status='engine', reason=tuning.BLUFF_NOTE, notes=[tuning.BLUFF_NOTE])
         self.assertEqual([], table_flaws(table))
 
     def test_a_shipped_cell_without_its_numeraire_fails(self):

@@ -360,10 +360,10 @@ def _entries(**changes):
     return entries
 
 
-def _accept(dev=None, test=None, guarded=None, blind=0.9, value=None):
+def _accept(dev=None, test=None, guarded=None, blind=0.9, value=None, notes=()):
     dev = [_pair() for _ in range(4)] if dev is None else dev
     test = _pair() if test is None else test
-    return tuning.accept_cell(_entries() if value is None else value, dev, test, guarded, blind)
+    return tuning.accept_cell(_entries() if value is None else value, dev, test, guarded, blind, notes)
 
 
 class AGainingCellShipsTests(SimpleTestCase):
@@ -567,3 +567,30 @@ class TheRecordsAreNotMutatedTests(SimpleTestCase):
         before = copy.deepcopy(value)
         _accept(value=value)
         self.assertEqual(before, value)
+
+
+class ACellWhoseSpellRowsAreUnverifiedKeepsTheEngineTests(SimpleTestCase):
+
+    NOTED = (tuning.BLUFF_NOTE,)
+
+    def test_a_cell_that_gains_everywhere_is_held_on_the_engine(self):
+        verdict = _accept(notes=self.NOTED)
+        self.assertEqual(('engine', tuning.BLUFF_NOTE), (verdict['status'], verdict['reason']))
+
+    def test_the_gains_of_the_held_cell_are_kept_in_the_verdict(self):
+        verdict = _accept(notes=self.NOTED)
+        self.assertAlmostEqual(0.03, verdict['u_acc_gain']['lo'])
+        self.assertAlmostEqual(0.03, verdict['test_gain']['hi'])
+
+    def test_another_note_holds_nothing(self):
+        self.assertEqual('shipped', _accept(notes=('repeated_dev_sets',))['status'])
+
+    def test_a_reason_that_comes_first_is_kept(self):
+        verdict = _accept(notes=self.NOTED, test=_pair(gain_hi=-0.001))
+        self.assertEqual('test_gain', verdict['reason'])
+        verdict = _accept(notes=self.NOTED, dev=[_pair(gain_lo=-0.002)] * 3 + [_pair()])
+        self.assertEqual('dev_gain', verdict['reason'])
+
+    def test_the_guarded_door_is_judged_before_the_hold(self):
+        guarded = _guard(valid=False)
+        self.assertEqual('guarded_run', _accept(notes=self.NOTED, guarded=guarded)['reason'])

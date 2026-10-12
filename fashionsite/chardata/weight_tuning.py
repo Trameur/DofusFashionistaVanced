@@ -63,7 +63,8 @@ HELD_STATS = ('ap',)
 BLIND_STATS = ('range', 'mp', 'init', 'lock', 'dodge')
 #: the guard facts of a safeguarded solve that say it was not the comparison it stands for
 GUARD_UNFIT = ('fallback', 'out_of_time')
-#: the note of a cell whose spell rows are priced as if they all landed, which the power ceiling answers
+#: the note of a cell whose spell rows are priced as if they all landed: its power is held to the elements played and
+#: it keeps the engine's weights
 BLUFF_NOTE = 'bluff_rows'
 DRY_ROUNDS = 2
 PROBE_RUNS = 3
@@ -1049,11 +1050,12 @@ def _guard_unfit(evaluation):
     return [name for name in GUARD_UNFIT if facts.get(name)]
 
 
-def accept_cell(value, dev, test, guarded, blind_share):
+def accept_cell(value, dev, test, guarded, blind_share, notes=()):
     """{'status': 'shipped' or 'engine', 'reason', ...} from the pooled entries and the evaluations.
 
     dev and test hold {'engine': evaluation, 'table': evaluation} per instance; guarded the same plus the guard facts,
-    None when the scenario has no guarded door.
+    None when the scenario has no guarded door. A cell with the bluff note passes every check and still keeps the
+    engine's weights: its spell rows are priced as if they all landed, which no first-hand source has settled.
     """
     out = {'status': 'engine', 'reason': None, 'blind_share': blind_share}
     if blind_share is None or blind_share < BLIND_SHARE:
@@ -1104,6 +1106,9 @@ def accept_cell(value, dev, test, guarded, blind_share):
         if any(gain is not None and gain < -MAX_LOSS for gain in _gains(guarded).values()):
             out['reason'] = 'guarded_loss'
             return out
+    if BLUFF_NOTE in notes:
+        out['reason'] = BLUFF_NOTE
+        return out
     out['status'] = 'shipped'
     return out
 
@@ -1230,7 +1235,7 @@ def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=
             test = _test_pair(runner, instances[4], applied, symmetric[instances[4].tier], time_limit)
             if cell.scenario in GUARDED_PRIORITY:
                 guarded = _guarded_pair(runner, instances[0], applied, time_limit)
-        verdict = accept_cell(entries, dev, test, guarded, share)
+        verdict = accept_cell(entries, dev, test, guarded, share, notes)
         clamped = sorted(stat for stat, value in applied.items() if value * unit > MAX_STAT_WEIGHT)
         records.append(dict(verdict, cell=cell_key(cell), ratios=entries, applied=sorted(applied), clamped=clamped,
                             numeraire=numeraire, rounds=max((len(run.rounds) for run in runs), default=0),

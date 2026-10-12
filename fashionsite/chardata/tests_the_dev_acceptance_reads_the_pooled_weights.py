@@ -323,3 +323,55 @@ class ThePooledPricesAreNeverRescaledTests(SimpleTestCase):
         self.assertEqual(1.0, record['numeraire']['factor'])
         self.assertAlmostEqual(POOLED, record['ratios']['pow']['value'])
 
+
+ECAFLIP = tuning.Cell('Ecaflip', ('int',), 'plain', '200')
+ECAFLIP_DUO = tuning.Cell('Ecaflip', ('int', 'agi'), 'plain', '200')
+#: power read at 1.8 times the engine's on every dev instance: 1.2 for the mono cell, 2.88 for the duo
+RISING = {'high': 1.8, 'mid': 1.8, 'rest': 1.8, 'tail': 1.8}
+
+
+class ABluffCellHoldsPowerThroughTheTuningTests(SimpleTestCase):
+    """The limit on power reaches a real cell only through the notes `tune_group` hands to the pooling."""
+
+    def test_a_mono_cell_holds_power_at_one_and_records_the_limits(self):
+        runner, record = _tune(ECAFLIP, factors=RISING)
+        entry = record['ratios']['pow']
+        self.assertEqual(1.0, entry['limits'][1])
+        self.assertEqual((1.0, 'bound'), (entry['value'], entry['reason']))
+        self.assertIn(tuning.BLUFF_NOTE, record['notes'])
+        for call in _pooled_calls(runner):
+            self.assertEqual(1.0, call.ratios['pow'])
+
+    def test_a_duo_cell_holds_power_at_two(self):
+        _runner_, record = _tune(ECAFLIP_DUO, factors=RISING)
+        entry = record['ratios']['pow']
+        self.assertEqual(2.0, entry['limits'][1])
+        self.assertEqual((2.0, 'bound'), (entry['value'], entry['reason']))
+
+    def test_a_class_without_the_note_is_not_held(self):
+        _runner_, record = _tune(factors=RISING)
+        self.assertNotIn(tuning.BLUFF_NOTE, record['notes'])
+        self.assertNotIn('limits', record['ratios']['pow'])
+        self.assertGreater(record['ratios']['pow']['value'], 1.0)
+
+
+class ABluffCellKeepsTheEngineUntilItsRowsAreVerifiedTests(SimpleTestCase):
+
+    def test_a_cell_that_gains_everywhere_is_held_with_its_reason(self):
+        _runner_, record = _tune(ECAFLIP, factors=RISING)
+        self.assertEqual(('engine', tuning.BLUFF_NOTE), (record['status'], record['reason']))
+
+    def test_the_evidence_of_the_held_cell_is_kept(self):
+        _runner_, record = _tune(ECAFLIP, factors=RISING)
+        self.assertEqual(['pow'], record['applied'])
+        self.assertEqual(4, len(record['dev']))
+        self.assertAlmostEqual(0.05, record['u_acc_gain']['lo'])
+        self.assertAlmostEqual(0.05, record['test_gain']['lo'])
+
+    def test_a_cell_that_would_not_ship_anyway_keeps_its_own_reason(self):
+        _runner_, record = _tune(ECAFLIP, factors=RISING, dev_pooled=0.95)
+        self.assertEqual(('engine', 'dev_gain'), (record['status'], record['reason']))
+
+    def test_a_class_without_the_note_still_ships(self):
+        _runner_, record = _tune(factors=RISING)
+        self.assertEqual(('shipped', None), (record['status'], record['reason']))
