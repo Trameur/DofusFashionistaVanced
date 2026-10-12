@@ -87,11 +87,11 @@ class AnUnfitGuardedSolveIsMadeAgainOnAFreshDoubleBudgetTests(SimpleTestCase):
         self.assertTrue(tuning._guarded_solve(runner, INSTANCE, APPLIED, 90).evaluation()['valid'])
         self.assertEqual(2, len(runner.calls))
 
-    def test_it_is_made_again_once_only(self):
-        runner = _Runner(_door(guard=FELL_BACK), _door(guard=FELL_BACK))
+    def test_it_is_made_again_twice_only(self):
+        runner = _Runner(_door(guard=FELL_BACK), _door(guard=FELL_BACK), _door(guard=FELL_BACK))
         result = tuning._guarded_solve(runner, INSTANCE, APPLIED, 90)
         self.assertFalse(result.evaluation()['valid'])
-        self.assertEqual(2, len(runner.calls))
+        self.assertEqual(3, len(runner.calls))
 
     def test_an_infeasible_solve_is_not_made_again(self):
         infeasible = _door(proven=None, credit=False)
@@ -108,7 +108,7 @@ class AnUnfitGuardedSolveIsMadeAgainOnAFreshDoubleBudgetTests(SimpleTestCase):
         self.assertEqual((True, True), (pair['engine']['valid'], pair['table']['valid']))
 
     def test_a_side_that_stays_unfit_makes_the_pair_no_comparison(self):
-        runner = _Runner(_door(), _door(guard=FELL_BACK), _door(guard=FELL_BACK))
+        runner = _Runner(_door(), _door(guard=FELL_BACK), _door(guard=FELL_BACK), _door(guard=FELL_BACK))
         pair = tuning._guarded_pair(runner, INSTANCE, APPLIED, 90)
         self.assertEqual((True, False), (pair['engine']['valid'], pair['table']['valid']))
 

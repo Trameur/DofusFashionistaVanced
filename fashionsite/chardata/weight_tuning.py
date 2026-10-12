@@ -19,6 +19,7 @@ import time
 from collections import Counter, namedtuple
 from contextlib import contextmanager
 from datetime import date
+from functools import partial
 
 from chardata.weapon_terms import CHARACTERISTIC_STEP
 from chardata.weight_table import (BANDS, DAMAGE_STATS, GRID_LEVEL, RESIST_STATS, SCENARIOS, SHARE_STATS, TABLE_STATS,
@@ -37,6 +38,8 @@ STEP = CHARACTERISTIC_STEP
 MAX_ROUNDS = 4
 TIME_LIMIT = 90
 RETRY_FACTOR = 2
+#: the guard budget of the last attempt at a guarded solve that the retry left no comparison
+LAST_ATTEMPT_BUDGET = 4
 TRUST_FACTOR = 2
 BOUNDS = (0.25, 4)
 FOLD_AGREEMENT = 1.25
@@ -67,6 +70,8 @@ HELD_STATS = ('ap',)
 BLIND_STATS = ('range', 'mp', 'init', 'lock', 'dodge')
 #: the guard facts of a safeguarded solve that say it was not the comparison it stands for
 GUARD_UNFIT = ('fallback', 'out_of_time')
+#: what the guarded pair of a cell that stopped before the guarded check says it was dropped for
+GUARDED_NOT_RUN = 'not_run'
 #: the note of a cell whose spell rows are priced as if they all landed: its power is held to the elements played and
 #: it keeps the engine's weights
 BLUFF_NOTE = 'bluff_rows'
@@ -1160,11 +1165,12 @@ def accept_cell(value, dev, test, guarded, blind_share, notes=()):
     """{'status': 'shipped' or 'engine', 'reason', ...} from the pooled entries and the evaluations.
 
     dev and test hold {'engine': evaluation, 'table': evaluation} per instance; guarded the same plus the guard facts,
-    None when the scenario has no guarded door. The table's sets must keep the engine's range (the median of the dev
-    pairs and the test pair give up at most MAX_RANGE_LOSS) and its MP (no pair changes it), which no score sees, and
-    the test pair must hold on the panel's turn alone as the dev median does. A cell with the bluff note passes every
-    check and still keeps the engine's weights: its spell rows are priced as if they all landed, which no first-hand
-    source has settled.
+    None when the scenario has no guarded door, or a function that makes the pair, which is called only when the cell
+    reaches the guarded check and whose pair the verdict then holds under 'guarded'. The table's sets must keep the
+    engine's range (the median of the dev pairs and the test pair give up at most MAX_RANGE_LOSS) and its MP (no pair
+    changes it), which no score sees, and the test pair must hold on the panel's turn alone as the dev median does. A
+    cell with the bluff note passes every check and still keeps the engine's weights: its spell rows are priced as if
+    they all landed, which no first-hand source has settled.
     """
     out = {'status': 'engine', 'reason': None, 'blind_share': blind_share}
     if blind_share is None or blind_share < BLIND_SHARE:
@@ -1215,6 +1221,8 @@ def accept_cell(value, dev, test, guarded, blind_share, notes=()):
     if not all(_ceiling_holds(pairs) for pairs in valid + [test_pairs]):
         out['reason'] = 'ceiling'
         return out
+    if callable(guarded):
+        guarded = out['guarded'] = guarded()
     if guarded is not None:
         facts = guarded['table'].get('guard') or {}
         if (not guarded['engine']['valid'] or not guarded['table']['valid'] or _guard_unfit(guarded['engine'])
@@ -1263,6 +1271,11 @@ def _pair(engine, table, dropped=None):
     pair = {'engine': _evaluation(engine, dropped), 'table': _evaluation(table, dropped)}
     pair['delta'] = _delta(pair['engine'], pair['table'])
     return pair
+
+
+def guarded_not_run():
+    """The guarded pair of a cell that stopped before the guarded check: neither solve was made, so none compares."""
+    return _pair(None, None, GUARDED_NOT_RUN)
 
 
 def symmetric_forbids(engine_high, table_high):
@@ -1328,12 +1341,21 @@ def _test_pair(runner, instance, applied, forbid, time_limit):
     return _pair(runner.run(instance, None, forbid, time_limit), runner.run(instance, applied, forbid, time_limit))
 
 
+def _guarded_fit(result):
+    return result.infeasible or (result.credit is not None and result.judgeable)
+
+
 def _guarded_solve(runner, instance, ratios, time_limit):
-    """A guarded solve, made once more on a budget of twice the time when it ran short, fell back or ran out of time."""
+    """A guarded solve, made once more on a budget of twice the time when it ran short, fell back or ran out of time,
+    and a last time on LAST_ATTEMPT_BUDGET times the budget, with the limit of the retry, when that is no comparison."""
     result = runner.run(instance, ratios, (), time_limit, guarded=True)
-    if result.infeasible or (result.credit is not None and result.judgeable):
+    if _guarded_fit(result):
         return result
-    return runner.run(instance, ratios, (), time_limit * RETRY_FACTOR, guarded=True, budget_factor=RETRY_FACTOR)
+    result = runner.run(instance, ratios, (), time_limit * RETRY_FACTOR, guarded=True, budget_factor=RETRY_FACTOR)
+    if _guarded_fit(result):
+        return result
+    return runner.run(instance, ratios, (), time_limit * RETRY_FACTOR, guarded=True,
+                      budget_factor=LAST_ATTEMPT_BUDGET)
 
 
 def _guarded_pair(runner, instance, applied, time_limit):
@@ -1392,12 +1414,13 @@ def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=
                     step, fallback['chosen'] = 'damped', 'damped'
                     entries, applied, dev = damped, damped_applied, damped_dev
         numeraire = numeraire_factor(entries, base, runs[0].engine.item_sums)
-        test = guarded = None
+        test = make_guarded = None
         if len(_usable_pairs(dev)) >= MIN_DEV_RUNS:
             test = _test_pair(runner, instances[4], applied, symmetric[instances[4].tier], time_limit)
             if cell.scenario in GUARDED_PRIORITY:
-                guarded = _guarded_pair(runner, instances[0], applied, time_limit)
-        verdict = accept_cell(entries, dev, test, guarded, share, notes)
+                make_guarded = partial(_guarded_pair, runner, instances[0], applied, time_limit)
+        verdict = accept_cell(entries, dev, test, make_guarded, share, notes)
+        guarded = verdict.pop('guarded', guarded_not_run() if cell.scenario in GUARDED_PRIORITY else None)
         clamped = sorted(stat for stat, value in applied.items() if value * unit > MAX_STAT_WEIGHT)
         records.append(dict(verdict, cell=cell_key(cell), ratios=entries, applied=sorted(applied), clamped=clamped,
                             step=step, fallback=fallback, numeraire=numeraire,
