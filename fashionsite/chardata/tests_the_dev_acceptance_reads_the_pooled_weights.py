@@ -18,14 +18,16 @@ POOLED = ENGINE['pow'] * 1.5
 class _Result(object):
     """A door's answer: its read moves power by the factor of its instance, and its score is scripted."""
 
-    def __init__(self, instance, ratios, ids, score, proven=True, factors=FACTORS, contributions=None):
+    def __init__(self, instance, ratios, ids, score, proven=True, factors=FACTORS, contributions=None, item_sums=None,
+                 moves=None):
         self.instance = instance
         self.factors = factors
+        self.moves = moves or {}
         self.ratios = ratios
         self.set_ids = tuple(ids)
         self.score = score
         self.contributions = contributions or {item_id: 20.0 - item_id for item_id in range(1, 13)}
-        self.item_sums = {}
+        self.item_sums = dict(item_sums or {})
         self.proven = proven
         self.infeasible = False
         self.turn = 1000.0
@@ -38,7 +40,10 @@ class _Result(object):
 
     def read(self, lam):
         factor = self.factors.get(self.instance.tier, 1.0)
-        return tuning.Read(dict(ENGINE, pow=ENGINE['pow'] * factor), set(), self.turn, self.ehp, 2.0)
+        base = engine_ratios(self.instance.char_class, self.instance.elements, self.instance.scenario, VERSION)
+        read = dict(base, pow=base['pow'] * factor)
+        read.update({stat: base[stat] * move for stat, move in self.moves.items()})
+        return tuning.Read(read, set(), self.turn, self.ehp, 2.0)
 
     def u_fit(self, lam):
         return 1.0 if self.ratios is None else 1.2
@@ -55,12 +60,16 @@ class _Result(object):
 
 class _Runner(object):
     """Solves nothing: every instance gets 1.0 on the engine's weights, 1.1 in a tuning round and `pooled` on the
-    pooled ratios, which are the only call fed power alone."""
+    pooled ratios, which are the only call fed the moved stats alone: power and those of `moves`, a stat's multiple of
+    the engine's ratio that the read gives."""
     game_version = VERSION
 
     def __init__(self, dev_pooled=1.05, test_pooled=1.05, unproven=0, factors=FACTORS, table_contributions=None,
-                 unproven_tiers=None):
+                 unproven_tiers=None, item_sums=None, moves=None):
         self.calls = []
+        self.item_sums = item_sums
+        self.moves = moves
+        self.pooled_stats = {'pow'} | set(moves or ())
         self.table_contributions = table_contributions
         self.pooled = {'dev_a': dev_pooled, 'dev_b': dev_pooled, 'test': test_pooled}
         self.unproven = unproven
@@ -72,25 +81,27 @@ class _Runner(object):
         self.calls.append(SimpleNamespace(instance=instance, ratios=dict(ratios) if ratios else None,
                                           forbid=set(forbid), time_limit=time_limit, guarded=guarded))
         ids = (len(self.calls),)
+        facts = {'factors': self.factors, 'item_sums': self.item_sums, 'moves': self.moves}
         if ratios is None:
-            return _Result(instance, None, ids, 1.0, factors=self.factors)
-        if set(ratios) == {'pow'}:
+            return _Result(instance, None, ids, 1.0, **facts)
+        if set(ratios) == self.pooled_stats:
             key = tuning.instance_key(instance)
             self.attempts[key] = self.attempts.get(key, 0) + 1
             proven = (self.attempts[key] > self.unproven or instance.split == 'test'
                       or (self.unproven_tiers is not None and instance.tier not in self.unproven_tiers))
             contributions = self.table_contributions if instance.tier == 'high' else None
-            return _Result(instance, ratios, ids, self.pooled[instance.split], proven, self.factors, contributions)
-        return _Result(instance, ratios, ids, 1.1, factors=self.factors)
+            return _Result(instance, ratios, ids, self.pooled[instance.split], proven, contributions=contributions,
+                           **facts)
+        return _Result(instance, ratios, ids, 1.1, **facts)
 
 
-def _tune(**runner_options):
+def _tune(cell=CELL, **runner_options):
     runner = _Runner(**runner_options)
-    return runner, tuning.tune_group(runner, [CELL], max_rounds=1)[0]
+    return runner, tuning.tune_group(runner, [cell], max_rounds=1)[0]
 
 
 def _pooled_calls(runner):
-    return [call for call in runner.calls if call.ratios is not None and set(call.ratios) == {'pow'}]
+    return [call for call in runner.calls if call.ratios is not None and set(call.ratios) == runner.pooled_stats]
 
 
 class TheDevInstancesAreSolvedAgainTests(SimpleTestCase):
@@ -260,3 +271,55 @@ class EveryEvaluationRecordsWhatTheScoreCannotSeeTests(SimpleTestCase):
     def test_the_record_keeps_the_panel_gain_the_acceptance_read(self):
         _runner_, record = _tune()
         self.assertAlmostEqual(0.05, record['panel_gain']['lo'])
+
+
+#: what the engine's high set brings; its fixed damage is half of what it is worth under the read
+SUMS = {'pow': 100, 'earthdam': 200, 'hp': 600}
+HALVED = {'earthdam': 0.5}
+
+
+class ThePooledPricesAreNeverRescaledTests(SimpleTestCase):
+    """Every ratio is read against the played characteristic, which is in no basket: one factor over the owned stats
+    would move all their prices against it."""
+
+    def _record(self):
+        return _tune(item_sums=SUMS, moves=HALVED)[1]
+
+    def test_the_prices_keep_the_value_the_runs_read_when_the_tables_set_is_worth_less(self):
+        record = self._record()
+        self.assertAlmostEqual(POOLED, record['ratios']['pow']['value'])
+        self.assertAlmostEqual(ENGINE['earthdam'] * 0.5, record['ratios']['earthdam']['value'])
+        self.assertEqual(ENGINE['hp'], record['ratios']['hp']['value'])
+        self.assertEqual(['earthdam', 'pow'], record['applied'])
+
+    def test_a_stat_the_pooling_left_at_the_engine_stays_there(self):
+        record = self._record()
+        for stat in ('hp', 'vit', 'airresper', 'perspedam'):
+            with self.subTest(stat=stat):
+                self.assertEqual(ENGINE[stat], record['ratios'][stat]['value'])
+                self.assertEqual('unchanged', record['ratios'][stat]['reason'])
+                self.assertNotIn('pooled', record['ratios'][stat])
+
+    def test_the_dev_instances_are_solved_on_the_pooled_prices(self):
+        runner, _record = _tune(item_sums=SUMS, moves=HALVED)
+        fed = _pooled_calls(runner)
+        self.assertEqual(5, len(fed))
+        for call in fed:
+            self.assertAlmostEqual(POOLED, call.ratios['pow'])
+            self.assertAlmostEqual(ENGINE['earthdam'] * 0.5, call.ratios['earthdam'])
+
+    def test_the_factor_is_recorded_as_a_diagnostic(self):
+        numeraire = self._record()['numeraire']
+        engine_value = sum(ENGINE[stat] * SUMS[stat] for stat in SUMS)
+        table_value = POOLED * SUMS['pow'] + ENGINE['earthdam'] * 0.5 * SUMS['earthdam'] + ENGINE['hp'] * SUMS['hp']
+        self.assertAlmostEqual(engine_value, numeraire['engine_value'])
+        self.assertAlmostEqual(table_value, numeraire['table_value'])
+        self.assertAlmostEqual(engine_value / table_value, numeraire['factor'])
+        self.assertGreater(numeraire['factor'], 1.0)
+        self.assertTrue({'pow', 'earthdam', 'hp'} <= set(numeraire['owned']))
+
+    def test_a_cell_with_no_item_sums_records_a_factor_of_one(self):
+        _runner_, record = _tune(moves=HALVED)
+        self.assertEqual(1.0, record['numeraire']['factor'])
+        self.assertAlmostEqual(POOLED, record['ratios']['pow']['value'])
+

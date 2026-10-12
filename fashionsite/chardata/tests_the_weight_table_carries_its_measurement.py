@@ -19,7 +19,7 @@ from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 VERSION = 'dofus3'
 PATH = os.path.join(DIRECTORY, '%s.json' % VERSION)
 MEASUREMENT = {'value', 'builds', 'n', 'spread', 'data', 'date', 'source', 'weak', 'folds', 'engine'}
-OPTIONAL = {'reason', 'pooled', 'limits', 'read'}
+OPTIONAL = {'reason', 'limits', 'read'}
 REASONS = {None, 'bound', 'pooled', 'unchanged', 'folds', 'switch', 'no_runs', 'held'}
 WEAK_REASONS = {'folds', 'switch', 'no_runs', 'held'}
 HEADER = {'generated', 'game_version', 'generator_version', 'engine_digest', 'split_digest', 'game_data_sha1',
@@ -67,12 +67,11 @@ def entry_flaws(entry, applied_needs_runs=True):
     if reason in WEAK_REASONS:
         flaws.append('weak')
     low, high = entry.get('limits') or (tuning.BOUNDS[0] * engine, tuning.BOUNDS[1] * engine)
-    pooled = entry.get('pooled', value)
-    if pooled < low - TOLERANCE or pooled > high + TOLERANCE:
+    if value < low - TOLERANCE or value > high + TOLERANCE:
         flaws.append('bounds')
-    if reason is None and builds and not _close(pooled, statistics.median(builds)):
+    if reason is None and builds and not _close(value, statistics.median(builds)):
         flaws.append('median')
-    if reason == 'bound' and not any(_close(found, edge) for found in (value, pooled) for edge in (low, high)):
+    if reason == 'bound' and not (_close(value, low) or _close(value, high)):
         flaws.append('bound')
     if reason == 'unchanged' and not _close(value, engine):
         flaws.append('unchanged')

@@ -1007,13 +1007,12 @@ def owned_stats(entries):
     return sorted(stat for stat, entry in entries.items() if stat in TABLE_STATS and not entry.get('weak'))
 
 
-def rescale_to_numeraire(entries, engine, sums, unit):
-    """Rescales every owned stat by one factor, so that the engine's high set is worth as much under the table.
+def numeraire_factor(entries, engine, sums):
+    """What the engine's high set is worth over what it is worth under the pooled prices, kept as a diagnostic.
 
-    The value of a set is its item sums times the weights of the owned stats. The factor is the engine's value over the
-    table's: the relative prices among the owned stats stay as they were pooled and only their level moves, and a stat
-    left to rise past its limits stops there. A change under one unit of weight is no change. The record is {'factor',
-    'owned', 'engine_value', 'table_value'}; the factor is 1 when nothing is applied or a value is not positive.
+    Every ratio is read against the played characteristic, which is in no basket, so the factor is no correction: the
+    pooled prices are already in that numeraire and none is rescaled. The record is {'factor', 'owned', 'engine_value',
+    'table_value'}, over the owned stats; the factor is 1 when nothing is applied or a value is not positive.
     """
     owned = owned_stats(entries)
     record = {'factor': 1.0, 'owned': owned, 'engine_value': None, 'table_value': None}
@@ -1021,25 +1020,8 @@ def rescale_to_numeraire(entries, engine, sums, unit):
         return record
     record['engine_value'] = sum(engine[stat] * sums.get(stat, 0) for stat in owned)
     record['table_value'] = sum(entries[stat]['value'] * sums.get(stat, 0) for stat in owned)
-    if record['engine_value'] <= 0 or record['table_value'] <= 0:
-        return record
-    record['factor'] = record['engine_value'] / record['table_value']
-    for stat in owned:
-        entry = entries[stat]
-        pooled = entry['value']
-        value, reason = pooled * record['factor'], entry.get('reason')
-        if entry.get('limits') and value > entry['limits'][1]:
-            value, reason = entry['limits'][1], 'bound'
-        if abs(value - entry['engine']) * unit < 1:
-            value, reason = entry['engine'], reason or 'unchanged'
-        elif reason == 'unchanged':
-            reason = None
-        entry['pooled'] = pooled
-        entry['value'] = value
-        if reason:
-            entry['reason'] = reason
-        else:
-            entry.pop('reason', None)
+    if record['engine_value'] > 0 and record['table_value'] > 0:
+        record['factor'] = record['engine_value'] / record['table_value']
     return record
 
 
@@ -1240,7 +1222,7 @@ def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=
         stamp = {'data': _data_version(version), 'date': date.today().isoformat(), 'source': 'tune'}
         notes = _notes(cell, runs)
         entries = pool_cell(runs, base, group, stamp, notes)
-        numeraire = rescale_to_numeraire(entries, base, runs[0].engine.item_sums, unit)
+        numeraire = numeraire_factor(entries, base, runs[0].engine.item_sums)
         applied = applied_ratios(entries)
         dev, symmetric = _dev_pairs(runner, runs, applied, time_limit) if applied else ([], {})
         test = guarded = None
