@@ -32,7 +32,7 @@ from fashionistapulp.item_effects import (COST_ONLY_STATUSES, ELEMENT_KEYS, PLAY
 logger = logging.getLogger(__name__)
 
 #: bumped by hand when the reader, the score, the instances or the acceptance change
-GENERATOR_VERSION = 4
+GENERATOR_VERSION = 5
 
 STEP = CHARACTERISTIC_STEP
 MAX_ROUNDS = 4
@@ -45,6 +45,8 @@ BOUNDS = (0.25, 4)
 FOLD_AGREEMENT = 1.25
 MIN_DEV_RUNS = 4
 MAX_LOSS = 0.01
+#: the gain a pair must beat for a dev median held at zero by identical sets to count as weak dominance
+DOMINANCE_GAIN = 0.01
 #: the range a table's set may give up against the engine's: the dev median and the test pair, no more
 MAX_RANGE_LOSS = 1
 CEILING_FACTOR = 1.5
@@ -1132,6 +1134,28 @@ def _gain_missing(gains):
     return any(gains[end] is None or gains[end] <= 0 for end in gains)
 
 
+def _same_set(pairs):
+    """Whether the table's set of a pair is the engine's own, so that the two cannot differ in score."""
+    engine = pairs['engine'].get('set')
+    return bool(engine) and engine == pairs['table'].get('set')
+
+
+def _dev_gain_missing(valid, dev_gains, median):
+    """Whether the dev median fails to gain at one end, weak dominance being read where it is held at zero.
+
+    A median of exactly zero, where every pair that gains exactly zero at that end has the engine's own set, passes
+    the end when no pair loses more than MAX_LOSS at either and a pair gains more than DOMINANCE_GAIN at this one.
+    """
+    for end, gain in median.items():
+        if gain is not None and gain > 0:
+            continue
+        zero = [pairs for pairs, gains in zip(valid, dev_gains) if gains[end] == 0]
+        if (gain != 0 or not zero or not all(_same_set(pairs) for pairs in zero) or _loses(dev_gains)
+                or not any(gains[end] is not None and gains[end] > DOMINANCE_GAIN for gains in dev_gains)):
+            return True
+    return False
+
+
 def _loses(gains_per_pair):
     return any(gain is not None and gain < -MAX_LOSS for gains in gains_per_pair for gain in gains.values())
 
@@ -1146,7 +1170,7 @@ def dev_failure(dev):
     if len(valid) < MIN_DEV_RUNS:
         return 'dev_runs'
     dev_gains = [_gains(pairs) for pairs in valid]
-    if _gain_missing(_median_gains(dev_gains)):
+    if _dev_gain_missing(valid, dev_gains, _median_gains(dev_gains)):
         return 'dev_gain'
     if any(gain is None or gain < 0 for gain in _median_gains([_gains(pairs, 'u_panel') for pairs in valid]).values()):
         return 'panel_gain'
@@ -1197,9 +1221,11 @@ def accept_cell(value, dev, test, guarded, blind_share, notes=()):
     out.update(u_acc_gain=median, panel_gain=panel, test_gain=test_gain, test_panel_gain=test_panel,
                range_delta=range_delta, mp_delta=mp_delta,
                pow_share={'engine': test_pairs['engine']['pow_share'], 'table': test_pairs['table']['pow_share']})
-    if _gain_missing(median):
+    if _dev_gain_missing(valid, dev_gains, median):
         out['reason'] = 'dev_gain'
         return out
+    if _gain_missing(median):
+        out['weak_dominance'] = True
     if any(panel[end] is None or panel[end] < 0 for end in panel):
         out['reason'] = 'panel_gain'
         return out
@@ -1572,7 +1598,7 @@ def ship_table(run_path, game_version, solver=None):
         entry = {name: record[name] for name in ('status', 'reason', 'blind_share', 'rounds', 'converged',
                                                   'u_fit_gain', 'u_acc_gain', 'panel_gain', 'test_gain',
                                                   'test_panel_gain', 'range_delta', 'mp_delta', 'pow_share',
-                                                  'clamped', 'step', 'numeraire', 'notes')
+                                                  'clamped', 'step', 'numeraire', 'notes', 'weak_dominance')
                  if name in record}
         entry['ratios'] = {stat: dict(ratio, source='tune/%s' % os.path.basename(os.path.normpath(run_path)))
                            for stat, ratio in (record.get('ratios') or {}).items()}

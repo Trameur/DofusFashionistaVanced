@@ -133,15 +133,22 @@ def table_flaws(table):
     return out
 
 
+def _gain_whole(gain, weak=False):
+    """Whether the gain of a shipped cell is one: above zero, or zero for a median that weak dominance passed."""
+    return gain is not None and (gain > 0 or (weak and gain == 0))
+
+
 def _shipped_flaws(where, cell):
     flaws = []
+    weak = cell.get('weak_dominance') is True
     if cell.get('reason') is not None:
         flaws.append('reason')
     if (cell.get('blind_share') or 0) < tuning.BLIND_SHARE:
         flaws.append('blind')
     for name in ('u_acc_gain', 'test_gain'):
         gains = cell.get(name) or {}
-        if set(gains) != {'lo', 'hi'} or any(gain is None or gain <= 0 for gain in gains.values()):
+        if set(gains) != {'lo', 'hi'} or not all(_gain_whole(gain, weak and name == 'u_acc_gain')
+                                                 for gain in gains.values()):
             flaws.append(name)
     panel = cell.get('panel_gain') or {}
     if set(panel) != {'lo', 'hi'} or any(gain is None or gain < 0 for gain in panel.values()):
@@ -419,6 +426,41 @@ class ATableShippedFromARunCarriesItsDigestsTests(SimpleTestCase):
         cell = table['cells']['Iop']['str']['plain']['200']
         self.assertEqual('damped', cell['step'])
         self.assertEqual(2.5, cell['ratios']['pow']['full'])
+
+    def _shipped_weak(self, **changes):
+        with tempfile.TemporaryDirectory() as parent:
+            folder = os.path.join(parent, 'run-9')
+            os.makedirs(folder)
+            fields = dict({'u_acc_gain': {'lo': 0.0, 'hi': 0.0}, 'weak_dominance': True}, **changes)
+            tuning.write_record(folder, _record('Iop/str/plain/200', {'pow': _entry(), 'hp': _entry()}, **fields))
+            return tuning.ship_table(folder, VERSION)
+
+    def test_a_cell_shipped_on_weak_dominance_passes_every_check_and_names_it(self):
+        table = self._shipped_weak()
+        self.assertEqual([], table_flaws(table))
+        self.assertIs(True, table['cells']['Iop']['str']['plain']['200']['weak_dominance'])
+
+    def test_a_cell_shipped_on_its_own_gain_carries_no_weak_dominance(self):
+        self.assertNotIn('weak_dominance', self._shipped()['cells']['Iop']['str']['plain']['200'])
+
+    def test_a_cell_that_gained_nothing_and_does_not_name_weak_dominance_fails(self):
+        for flag in (False, 'yes', 1):
+            with self.subTest(flag=flag):
+                table = self._shipped_weak(weak_dominance=flag)
+                self.assertEqual([('Iop/str/plain/200', 'u_acc_gain')], table_flaws(table))
+        table = self._shipped_weak()
+        del table['cells']['Iop']['str']['plain']['200']['weak_dominance']
+        self.assertEqual([('Iop/str/plain/200', 'u_acc_gain')], table_flaws(table))
+
+    def test_weak_dominance_excuses_no_loss_and_no_missing_gain(self):
+        for gains in ({'lo': -0.001, 'hi': 0.0}, {'lo': 0.0, 'hi': None}, {'lo': 0.0}):
+            with self.subTest(gains=gains):
+                table = self._shipped_weak(u_acc_gain=gains)
+                self.assertEqual([('Iop/str/plain/200', 'u_acc_gain')], table_flaws(table))
+
+    def test_weak_dominance_does_not_excuse_the_test_pair(self):
+        table = self._shipped_weak(test_gain={'lo': 0.0, 'hi': 0.02})
+        self.assertEqual([('Iop/str/plain/200', 'test_gain')], table_flaws(table))
 
     def test_a_shipped_cell_that_names_no_step_fails(self):
         table = self._shipped()
