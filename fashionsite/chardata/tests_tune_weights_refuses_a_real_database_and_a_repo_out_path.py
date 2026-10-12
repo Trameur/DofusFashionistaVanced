@@ -256,6 +256,15 @@ class ARunWritesRecordsAndOnlyShipWritesTheTableTests(_Command):
         self.assertEqual(['Iop/str/plain/200/high', 'Iop/str/plain/200/mid', 'Iop/str/plain/200/rest',
                           'Iop/str/plain/200/tail'], self.runner.calls)
 
+    def test_the_run_keeps_the_item_data_it_was_tuned_on(self):
+        self.call('--out', self.out, '--cells', 'Iop/str/plain', '--processes', '1')
+        with open(os.path.join(self.out, 'run.json'), encoding='utf-8') as handle:
+            meta = json.load(handle)
+        self.assertEqual(tuning._data_version(VERSION), meta['data_version'])
+        self.assertTrue(meta['data_version'])
+        self.assertEqual(tuning.game_data_sha1(VERSION), meta['game_data_sha1'])
+        self.assertTrue(meta['game_data_sha1'])
+
     def test_the_run_keeps_its_solver_settings_and_the_table_carries_them(self):
         self.call('--out', self.out, '--cells', 'Iop/str/plain', '--processes', '1', '--time-limit', '77')
         with open(os.path.join(self.out, 'run.json'), encoding='utf-8') as handle:
