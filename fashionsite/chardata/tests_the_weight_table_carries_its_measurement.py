@@ -19,7 +19,7 @@ from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 VERSION = 'dofus3'
 PATH = os.path.join(DIRECTORY, '%s.json' % VERSION)
 MEASUREMENT = {'value', 'builds', 'n', 'spread', 'data', 'date', 'source', 'weak', 'folds', 'engine'}
-OPTIONAL = {'reason', 'limits', 'read', 'full'}
+OPTIONAL = {'reason', 'limits', 'read', 'full', 'pooled', 'group'}
 REASONS = {None, 'bound', 'pooled', 'unchanged', 'folds', 'switch', 'no_runs', 'held', 'damped'}
 WEAK_REASONS = {'folds', 'switch', 'no_runs', 'held'}
 HEADER = {'generated', 'game_version', 'generator_version', 'engine_digest', 'split_digest', 'game_data_sha1',
@@ -33,6 +33,12 @@ BUILDS = {'a': 2.0, 'b': 2.4, 'c': 2.2, 'd': 2.6}
 
 def _close(first, second):
     return abs(first - second) <= TOLERANCE * max(1.0, abs(first), abs(second))
+
+
+def _group_whole(pooled, group):
+    """Whether the provenance of a pooled value is a true flag and a [class, element count, scenario] group."""
+    return (pooled is True and isinstance(group, list) and len(group) == 3 and isinstance(group[0], str)
+            and isinstance(group[1], int) and isinstance(group[2], str))
 
 
 def entry_flaws(entry, applied_needs_runs=True):
@@ -51,6 +57,8 @@ def entry_flaws(entry, applied_needs_runs=True):
         flaws.append('spread')
     if not isinstance(entry['folds'], list) or len(entry['folds']) != 2:
         flaws.append('folds')
+    if ('pooled' in entry or 'group' in entry) and not _group_whole(entry.get('pooled'), entry.get('group')):
+        flaws.append('pooled')
     try:
         date.fromisoformat(entry['date'])
     except (TypeError, ValueError):
@@ -213,6 +221,12 @@ class AWholeMeasurementPassesTests(SimpleTestCase):
     def test_a_value_pooled_over_the_siblings_may_differ_from_the_median_of_its_own_builds(self):
         self.assertEqual([], entry_flaws(_entry(value=3.1, reason='pooled')))
 
+    def test_a_pooled_value_with_the_group_it_was_pooled_over_is_whole(self):
+        pooled = {'pooled': True, 'group': ['Iop', 1, 'plain']}
+        self.assertEqual([], entry_flaws(_entry(value=3.1, reason='pooled', **pooled)))
+        self.assertEqual([], entry_flaws(_entry(value=tuning.BOUNDS[1] * ENGINE, reason='bound', **pooled)))
+        self.assertEqual([], entry_flaws(_entry(value=2.2, reason='damped', full=2.5, **pooled)))
+
     def test_a_damped_value_between_the_engine_and_its_full_value_is_whole(self):
         self.assertEqual([], entry_flaws(_entry(value=2.2, reason='damped', full=2.5)))
         self.assertEqual([], entry_flaws(_entry(value=1.8, reason='damped', full=1.6)))
@@ -285,6 +299,17 @@ class EveryDefectOfAMeasurementIsFlaggedTests(SimpleTestCase):
     def test_a_full_value_on_an_entry_the_damping_did_not_touch(self):
         self.assertIn('full', self._flags(full=2.5))
         self.assertIn('full', self._flags(value=3.1, reason='pooled', full=3.5))
+
+    def test_a_pooled_flag_that_is_not_true_or_has_no_group(self):
+        group = ['Iop', 1, 'plain']
+        self.assertIn('pooled', self._flags(value=3.1, reason='pooled', pooled=False, group=group))
+        self.assertIn('pooled', self._flags(value=3.1, reason='pooled', pooled=True))
+        self.assertIn('pooled', self._flags(value=3.1, reason='pooled', group=group))
+
+    def test_a_group_that_is_not_a_class_a_count_and_a_scenario(self):
+        for group in ('Iop/1/plain', ['Iop', 1], ['Iop', '1', 'plain'], [1, 1, 'plain'], None):
+            with self.subTest(group=group):
+                self.assertIn('pooled', self._flags(value=3.1, reason='pooled', pooled=True, group=group))
 
     def test_a_reason_the_pooling_never_gives(self):
         self.assertIn('reason', self._flags(reason='because'))

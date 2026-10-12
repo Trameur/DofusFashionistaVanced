@@ -891,6 +891,11 @@ def _held_read(usable, stat):
     return {'builds': builds, 'median': _median(list(builds.values()))}
 
 
+def _group_key(instance):
+    """[class, number of elements, scenario]: the cells whose dev runs are pooled together, as groups_of keys them."""
+    return [instance.char_class, len(instance.elements), instance.scenario]
+
+
 def _pool_stat(stat, engine, usable, group, unit, stamp, limits=None):
     """The entry of one stat; `limits` is (lowest, highest) in place of the bounds around the engine value."""
     values, folds = _fold_values(usable, stat)
@@ -920,6 +925,7 @@ def _pool_stat(stat, engine, usable, group, unit, stamp, limits=None):
             entry['weak'] = True
         else:
             value, reason = pooled, 'pooled'
+            entry.update(pooled=True, group=_group_key(usable[0].instance))
     if not entry['weak']:
         low, high = limits or (BOUNDS[0] * engine, BOUNDS[1] * engine)
         if value < low or value > high:
@@ -937,10 +943,11 @@ def _tie_shares(head, tail):
     """A duo's two shares are one measure: the first element's entry sets the second's, so that they sum to 2."""
     tail['value'] = 2 - head['value']
     tail['weak'] = head['weak']
-    if 'reason' in head:
-        tail['reason'] = head['reason']
-    else:
-        tail.pop('reason', None)
+    for name in ('reason', 'pooled', 'group'):
+        if name in head:
+            tail[name] = head[name]
+        else:
+            tail.pop(name, None)
 
 
 def power_limits(engine, count):
