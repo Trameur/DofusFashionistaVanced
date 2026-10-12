@@ -292,3 +292,15 @@ class ThePlanIsAProjectionTests(_Command):
     def test_a_filter_narrows_it(self):
         text = self.call('--out', self.out, '--plan', '--scenarios', 'plain', '--classes', 'Iop')
         self.assertIn('10 cells', text)
+
+
+def apps_ready_in_the_worker(job):
+    from django.apps import apps
+    return apps.ready
+
+
+class TheSpawnedWorkersSetDjangoUpTests(SimpleTestCase):
+
+    def test_every_worker_of_a_two_process_pool_has_its_apps_loaded_before_its_first_job(self):
+        results = list(tune_weights._pool_map(apps_ready_in_the_worker, [1, 2, 3, 4], 2))
+        self.assertEqual([True] * 4, results)

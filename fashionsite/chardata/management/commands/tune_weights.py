@@ -71,6 +71,12 @@ def _close_runner():
         close()
 
 
+def _init_worker():
+    """Sets Django up in a spawned worker, whose runner imports models before it sets anything up itself."""
+    import django
+    django.setup()
+
+
 def _pool_map(function, jobs, processes):
     """Results of the jobs as they finish, on this process alone or on a pool of spawned ones."""
     if processes <= 1:
@@ -81,7 +87,7 @@ def _pool_map(function, jobs, processes):
             _close_runner()
         return
     context = multiprocessing.get_context('spawn')
-    with context.Pool(processes) as pool:
+    with context.Pool(processes, initializer=_init_worker) as pool:
         for result in pool.imap_unordered(function, jobs, chunksize=1):
             yield result
 
