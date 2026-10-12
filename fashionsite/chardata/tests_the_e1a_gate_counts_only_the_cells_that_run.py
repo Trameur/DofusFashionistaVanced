@@ -9,11 +9,17 @@ def _entry(first=1.4, second=1.5, engine=1.0):
     return {'folds': [first, second], 'engine': engine}
 
 
-def _live(gained=True, reason=None, converged=4, total=4, ratios=None, notes=()):
+def _shares(engine, table):
+    """A pair of evaluations that were judged on both sides, with the power share of each set."""
+    return {'engine': {'valid': True, 'pow_share': engine}, 'table': {'valid': True, 'pow_share': table}}
+
+
+def _live(gained=True, reason=None, converged=4, total=4, ratios=None, notes=(), dev=(), test=None):
     """The record of a cell that ran: it gained at both ends of lambda on its dev median and on its test, or not."""
     record = {'cell': 'Iop/str/glasscannon/200', 'status': 'shipped' if gained else 'engine', 'reason': reason,
               'blind_share': 0.9, 'instances': [{'converged': index < converged} for index in range(total)],
-              'ratios': {'pow': _entry(), 'hp': _entry()} if ratios is None else ratios, 'notes': list(notes)}
+              'ratios': {'pow': _entry(), 'hp': _entry()} if ratios is None else ratios, 'notes': list(notes),
+              'dev': list(dev), 'test': test}
     if gained:
         record.update(u_acc_gain={'lo': 0.03, 'hi': 0.03}, test_gain={'lo': 0.02, 'hi': 0.04})
     return record
@@ -122,9 +128,41 @@ class TheOtherCountsTests(SimpleTestCase):
         ratios = {'pow': _entry(None, None), 'hp': _entry(1.4, 1.5)}
         self.assertEqual(0.5, tuning.e1a_verdict([_live(ratios=ratios)])['folds_agree'])
 
+    def test_the_five_resistances_are_one_fold_pair(self):
+        ratios = {'pow': _entry(1.4, 1.5)}
+        ratios.update({stat: _entry(1.2, 2.0) for stat in tuning.RESIST_STATS})
+        self.assertEqual(0.5, tuning.e1a_verdict([_live(ratios=ratios)])['folds_agree'])
+
+    def test_hp_and_vit_are_one_fold_pair(self):
+        ratios = {'pow': _entry(1.4, 1.5), 'hp': _entry(1.2, 2.0), 'vit': _entry(1.2, 2.0)}
+        self.assertEqual(0.5, tuning.e1a_verdict([_live(ratios=ratios)])['folds_agree'])
+
+    def test_resistances_that_read_different_pairs_stay_different_pairs(self):
+        ratios = {'airresper': _entry(1.4, 1.5), 'fireresper': _entry(1.2, 2.0), 'waterresper': _entry(1.2, 2.0)}
+        self.assertEqual(0.5, tuning.e1a_verdict([_live(ratios=ratios)])['folds_agree'])
+
     def test_the_ceiling_may_be_breached_in_one_cell_only(self):
-        self.assertTrue(tuning.e1a_verdict(_eight(4) + [_live(False, 'ceiling')])['checks']['ceiling'])
-        self.assertFalse(tuning.e1a_verdict(_eight(4) + [_live(False, 'ceiling')] * 2)['checks']['ceiling'])
+        breach = _live(False, 'ceiling', test=_shares(0.1, 0.5))
+        self.assertTrue(tuning.e1a_verdict(_eight(4) + [breach])['checks']['ceiling'])
+        self.assertFalse(tuning.e1a_verdict(_eight(4) + [breach] * 2)['checks']['ceiling'])
+
+    def test_a_breach_counts_whatever_reason_the_cell_kept_the_engine_for(self):
+        breach = _live(False, 'loss', test=_shares(0.1, 0.5))
+        verdict = tuning.e1a_verdict(_eight(4) + [breach] * 2)
+        self.assertEqual(2, verdict['ceiling_cells'])
+        self.assertFalse(verdict['checks']['ceiling'])
+
+    def test_a_breach_on_a_dev_pair_counts_too(self):
+        breach = _live(False, 'dev_gain', dev=[_shares(0.1, 0.1), _shares(0.1, 0.5)])
+        self.assertEqual(1, tuning.e1a_verdict([breach])['ceiling_cells'])
+
+    def test_the_cell_that_kept_the_ceiling_reason_but_whose_pairs_hold_is_not_a_breach(self):
+        record = _live(False, 'ceiling', test=_shares(0.1, 0.19))
+        self.assertEqual(0, tuning.e1a_verdict([record])['ceiling_cells'])
+
+    def test_a_pair_that_was_not_judged_on_both_sides_is_no_breach(self):
+        unjudged = {'engine': {'valid': True, 'pow_share': 0.1}, 'table': {'valid': False, 'pow_share': 0.5}}
+        self.assertEqual(0, tuning.e1a_verdict([_live(False, 'test_run', test=unjudged)])['ceiling_cells'])
 
     def test_the_cells_whose_folds_shared_a_set_are_reported(self):
         records = _eight(5) + [_live(notes=['repeated_dev_sets'])]

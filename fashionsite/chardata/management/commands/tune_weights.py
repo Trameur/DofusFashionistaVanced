@@ -252,7 +252,7 @@ class Command(BaseCommand):
             by_scenario.setdefault(scenario, []).extend(records)
             if tuning.shard_stopped(by_scenario[scenario]):
                 open(os.path.join(out, STOP_FILE % scenario), 'w').close()
-                self.stdout.write('shard %s stopped: too many cells kept the engine weights' % scenario)
+                self.stdout.write('shard %s stopped: too many cells could not be judged' % scenario)
         self.stdout.write('%d of %d groups finished' % (finished, len(groups)))
 
     @staticmethod

@@ -27,7 +27,7 @@ class TheSplitIsPinnedTests(SimpleTestCase):
         self.assertEqual(PINNED_SPLIT_DIGEST, tuning.split_digest(_all_instances()))
 
     def test_the_generator_version_the_digest_belongs_to(self):
-        self.assertEqual(2, tuning.GENERATOR_VERSION)
+        self.assertEqual(3, tuning.GENERATOR_VERSION)
 
     def test_the_digest_does_not_depend_on_the_order_of_the_instances(self):
         instances = _all_instances()

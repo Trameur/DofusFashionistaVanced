@@ -18,13 +18,14 @@ POOLED = ENGINE['pow'] * 1.5
 class _Result(object):
     """A door's answer: its read moves power by the factor of its instance, and its score is scripted."""
 
-    def __init__(self, instance, ratios, ids, score, proven=True, factors=FACTORS):
+    def __init__(self, instance, ratios, ids, score, proven=True, factors=FACTORS, contributions=None):
         self.instance = instance
         self.factors = factors
         self.ratios = ratios
         self.set_ids = tuple(ids)
         self.score = score
-        self.contributions = {item_id: 20.0 - item_id for item_id in range(1, 13)}
+        self.contributions = contributions or {item_id: 20.0 - item_id for item_id in range(1, 13)}
+        self.item_sums = {}
         self.proven = proven
         self.infeasible = False
         self.turn = 1000.0
@@ -43,8 +44,12 @@ class _Result(object):
         return 1.0 if self.ratios is None else 1.2
 
     def evaluation(self):
-        return {'valid': self.proven is True, 'proven': self.proven, 'T': self.turn, 'E': self.ehp,
-                'u_acc': {'lo': self.score, 'hi': self.score}, 'pow_share': 0.5, 'seconds': 1.0,
+        table = self.ratios is not None
+        return {'valid': self.proven is True, 'proven': self.proven, 'T': self.turn + (100.0 if table else 0.0),
+                'E': self.ehp, 'T_panel': self.turn - 10.0 + (60.0 if table else 0.0),
+                'credit': 10.0 + (40.0 if table else 0.0), 'u_acc': {'lo': self.score, 'hi': self.score},
+                'u_panel': {'lo': self.score, 'hi': self.score}, 'pow_share': 0.5, 'seconds': 1.0,
+                'stats': {name: (3 if table else 5) if name == 'range' else 0 for name in tuning.BLIND_STATS},
                 'set': list(self.set_ids)}
 
 
@@ -53,14 +58,17 @@ class _Runner(object):
     pooled ratios, which are the only call fed power alone."""
     game_version = VERSION
 
-    def __init__(self, dev_pooled=1.05, test_pooled=1.05, unproven=0, factors=FACTORS):
+    def __init__(self, dev_pooled=1.05, test_pooled=1.05, unproven=0, factors=FACTORS, table_contributions=None,
+                 unproven_tiers=None):
         self.calls = []
+        self.table_contributions = table_contributions
         self.pooled = {'dev_a': dev_pooled, 'dev_b': dev_pooled, 'test': test_pooled}
         self.unproven = unproven
+        self.unproven_tiers = unproven_tiers
         self.factors = factors
         self.attempts = {}
 
-    def run(self, instance, ratios=None, forbid=(), time_limit=tuning.TIME_LIMIT, guarded=False):
+    def run(self, instance, ratios=None, forbid=(), time_limit=tuning.TIME_LIMIT, guarded=False, budget_factor=1):
         self.calls.append(SimpleNamespace(instance=instance, ratios=dict(ratios) if ratios else None,
                                           forbid=set(forbid), time_limit=time_limit, guarded=guarded))
         ids = (len(self.calls),)
@@ -69,8 +77,10 @@ class _Runner(object):
         if set(ratios) == {'pow'}:
             key = tuning.instance_key(instance)
             self.attempts[key] = self.attempts.get(key, 0) + 1
-            proven = self.attempts[key] > self.unproven or instance.split == 'test'
-            return _Result(instance, ratios, ids, self.pooled[instance.split], proven, self.factors)
+            proven = (self.attempts[key] > self.unproven or instance.split == 'test'
+                      or (self.unproven_tiers is not None and instance.tier not in self.unproven_tiers))
+            contributions = self.table_contributions if instance.tier == 'high' else None
+            return _Result(instance, ratios, ids, self.pooled[instance.split], proven, self.factors, contributions)
         return _Result(instance, ratios, ids, 1.1, factors=self.factors)
 
 
@@ -114,7 +124,7 @@ class TheDevInstancesAreSolvedAgainTests(SimpleTestCase):
         self.assertIsNone(test[0].ratios)
         self.assertEqual({'pow'}, set(test[1].ratios))
         self.assertAlmostEqual(POOLED, test[1].ratios['pow'])
-        self.assertEqual({'engine', 'table'}, set(record['test']))
+        self.assertEqual({'engine', 'table', 'delta'}, set(record['test']))
 
     def test_nothing_is_solved_again_when_nothing_is_applied(self):
         runner, record = _tune(factors={})
@@ -153,5 +163,100 @@ class TheAcceptanceReadsTheSolvesOnThePooledRatiosTests(SimpleTestCase):
     def test_a_solve_that_stays_unproven_leaves_the_pair_out_and_the_cell_on_the_engine(self):
         runner, record = _tune(unproven=2)
         self.assertEqual(('engine', 'dev_runs'), (record['status'], record['reason']))
-        self.assertEqual([False] * 4, [pairs['table']['valid'] for pairs in record['dev']])
-        self.assertEqual(['unproven'] * 4, [pairs['table']['dropped'] for pairs in record['dev']])
+        self.assertEqual([False], [pairs['table']['valid'] for pairs in record['dev']])
+        self.assertEqual(['unproven'], [pairs['table']['dropped'] for pairs in record['dev']])
+
+    def test_a_lower_tier_that_stays_unproven_leaves_its_pair_out_and_the_cell_on_the_engine(self):
+        runner, record = _tune(unproven=2, unproven_tiers=('rest',))
+        self.assertEqual(('engine', 'dev_runs'), (record['status'], record['reason']))
+        self.assertEqual([True, True, False, True], [pairs['table']['valid'] for pairs in record['dev']])
+        self.assertEqual([], [call for call in runner.calls if call.instance.split == 'test'])
+
+
+#: a table high set whose pieces are not the engine's: its best six are 101 to 106, the engine's are 1 to 6
+OTHER_SET = {item_id: 130.0 - item_id for item_id in range(101, 113)}
+
+
+def _forbids(runner, tier, table):
+    """The pieces the engine solves (table False) or the pooled solves of the tier's dev instance were denied."""
+    calls = [call for call in runner.calls if call.instance.tier == tier and call.instance.split != 'test'
+             and (call.ratios is not None) == table and (not table or set(call.ratios) == {'pow'})]
+    return [call.forbid for call in calls]
+
+
+class ThePiecesAPairGivesUpAreTheSameOnBothSidesTests(SimpleTestCase):
+
+    def test_the_test_pair_forbids_both_high_sets_best_six_to_both_sides(self):
+        runner, _record = _tune(table_contributions=OTHER_SET)
+        test = [call for call in runner.calls if call.instance.split == 'test']
+        self.assertEqual(2, len(test))
+        wanted = set(range(1, 7)) | set(range(101, 107))
+        self.assertEqual([wanted, wanted], [call.forbid for call in test])
+
+    def test_the_test_pair_forbids_the_engine_sets_best_six_when_both_sets_agree(self):
+        runner, _record = _tune()
+        test = [call for call in runner.calls if call.instance.split == 'test']
+        self.assertEqual([set(range(1, 7))] * 2, [call.forbid for call in test])
+
+    def test_each_dev_pair_loses_its_tiers_cut_of_both_high_sets_on_both_sides(self):
+        runner, record = _tune(table_contributions=OTHER_SET)
+        cuts = {'mid': {1, 2, 3, 101, 102, 103}, 'rest': {7, 8, 9, 107, 108, 109},
+                'tail': {10, 11, 12, 110, 111, 112}}
+        for tier, wanted in cuts.items():
+            with self.subTest(tier=tier):
+                self.assertEqual(wanted, _forbids(runner, tier, table=True)[0])
+                self.assertEqual(wanted, _forbids(runner, tier, table=False)[-1])
+        self.assertEqual(4, len(record['dev']))
+
+    def test_the_high_pair_forbids_nothing(self):
+        runner, _record = _tune(table_contributions=OTHER_SET)
+        self.assertEqual([set()], _forbids(runner, 'high', table=True))
+
+    def test_the_tables_high_set_is_solved_before_the_tiers_that_cut_it(self):
+        runner, _record = _tune(table_contributions=OTHER_SET)
+        pooled = _pooled_calls(runner)
+        self.assertEqual(['high', 'mid', 'rest', 'tail'], [call.instance.tier for call in pooled[:4]])
+        later = [call for call in runner.calls[runner.calls.index(pooled[0]):] if call.ratios is None
+                 and call.instance.split != 'test']
+        self.assertEqual(['mid', 'rest', 'tail'], [call.instance.tier for call in later])
+
+    def test_an_engine_run_is_kept_when_both_high_sets_cut_the_same_pieces(self):
+        runner, _record = _tune()
+        after = runner.calls[runner.calls.index(_pooled_calls(runner)[0]):]
+        self.assertEqual([], [call for call in after if call.ratios is None and call.instance.split != 'test'])
+
+    def test_the_cell_records_the_pieces_it_forbade_per_tier(self):
+        _runner_, record = _tune(table_contributions=OTHER_SET)
+        self.assertEqual([1, 2, 3, 101, 102, 103], record['forbids']['mid'])
+        self.assertEqual([1, 2, 3, 4, 5, 6, 101, 102, 103, 104, 105, 106], record['forbids']['low'])
+
+    def test_a_high_pair_that_is_not_proven_leaves_the_tiers_without_a_table_set_to_cut(self):
+        runner, record = _tune(unproven=2)
+        self.assertEqual(('engine', 'dev_runs'), (record['status'], record['reason']))
+        self.assertEqual({}, record['forbids'])
+        self.assertEqual(1, len(record['dev']))
+        self.assertEqual([], [call for call in runner.calls if call.instance.split == 'test'])
+
+
+class EveryEvaluationRecordsWhatTheScoreCannotSeeTests(SimpleTestCase):
+
+    def test_a_pair_carries_the_panel_turn_against_the_effect_credit(self):
+        _runner_, record = _tune()
+        for pair in record['dev'] + [record['test']]:
+            delta = pair['delta']
+            self.assertEqual((100.0, 60.0, 40.0), (delta['T'], delta['T_panel'], delta['credit']))
+
+    def test_a_pair_carries_the_change_of_the_stats_the_score_cannot_see(self):
+        _runner_, record = _tune()
+        stats = record['dev'][0]['delta']['stats']
+        self.assertEqual(set(tuning.BLIND_STATS), set(stats))
+        self.assertEqual(-2, stats['range'])
+        self.assertEqual(0, stats['mp'])
+
+    def test_a_pair_with_a_dropped_side_has_no_delta(self):
+        _runner_, record = _tune(unproven=2)
+        self.assertIsNone(record['dev'][0]['delta'])
+
+    def test_the_record_keeps_the_panel_gain_the_acceptance_read(self):
+        _runner_, record = _tune()
+        self.assertAlmostEqual(0.05, record['panel_gain']['lo'])

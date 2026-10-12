@@ -341,13 +341,17 @@ class OnlyProvenRunsCountTests(SimpleTestCase):
         self.assertEqual({}, tuning.applied_ratios(weak))
 
 
-def _evaluation(lo=1.0, hi=1.0, valid=True, pow_share=0.5, **more):
-    return dict({'valid': valid, 'u_acc': {'lo': lo, 'hi': hi}, 'pow_share': pow_share}, **more)
+def _evaluation(lo=1.0, hi=1.0, valid=True, pow_share=0.5, panel_lo=None, panel_hi=None, **more):
+    panel = {'lo': lo if panel_lo is None else panel_lo, 'hi': hi if panel_hi is None else panel_hi}
+    return dict({'valid': valid, 'u_acc': {'lo': lo, 'hi': hi}, 'u_panel': panel, 'pow_share': pow_share}, **more)
 
 
-def _pair(gain_lo=0.03, gain_hi=0.03, valid=True, engine_share=0.5, table_share=0.55):
+def _pair(gain_lo=0.03, gain_hi=0.03, valid=True, engine_share=0.5, table_share=0.55, panel_lo=None, panel_hi=None):
+    """A pair whose panel score gains like the credited one unless `panel_lo` and `panel_hi` say otherwise."""
     return {'engine': _evaluation(1.0, 1.0, valid, engine_share),
-            'table': _evaluation(1.0 + gain_lo, 1.0 + gain_hi, valid, table_share)}
+            'table': _evaluation(1.0 + gain_lo, 1.0 + gain_hi, valid, table_share,
+                                 1.0 + (gain_lo if panel_lo is None else panel_lo),
+                                 1.0 + (gain_hi if panel_hi is None else panel_hi))}
 
 
 def _entries(**changes):
@@ -398,6 +402,20 @@ class ACellThatDoesNotGainKeepsTheEngineTests(SimpleTestCase):
         verdict = tuning.accept_cell(_entries(), [_pair() for _ in range(4)], None, None, 0.9)
         self.assertEqual('test_run', verdict['reason'])
 
+    def test_a_dev_median_that_gains_only_through_the_effect_table_credit(self):
+        self.assertEqual('panel_gain', self._reason(dev=[_pair(panel_lo=-0.02)] * 3 + [_pair()]))
+        self.assertEqual('panel_gain', self._reason(dev=[_pair(panel_hi=-0.02)] * 3 + [_pair()]))
+
+    def test_a_panel_gain_of_zero_is_allowed(self):
+        self.assertEqual('shipped', _accept(dev=[_pair(panel_lo=0.0, panel_hi=0.0) for _ in range(4)])['status'])
+
+    def test_a_panel_gain_is_the_median_of_the_dev_pairs(self):
+        dev = [_pair(panel_lo=-0.05), _pair(), _pair(), _pair()]
+        self.assertEqual('shipped', _accept(dev=dev)['status'])
+        verdict = _accept(dev=[_pair(panel_lo=-0.05)] * 2 + [_pair()] * 2)
+        self.assertEqual(('engine', 'panel_gain'), (verdict['status'], verdict['reason']))
+        self.assertAlmostEqual(-0.01, verdict['panel_gain']['lo'])
+
     def test_a_dev_median_that_does_not_gain_at_either_end(self):
         self.assertEqual('dev_gain', self._reason(dev=[_pair(gain_lo=-0.002)] * 3 + [_pair()]))
         self.assertEqual('dev_gain', self._reason(dev=[_pair(gain_hi=-0.002)] * 3 + [_pair()]))
@@ -440,9 +458,15 @@ class ThePowerShareCeilingTests(SimpleTestCase):
         self.assertEqual('shipped', self._ships(0.4, 0.6)['status'])
         self.assertEqual('ceiling', self._ships(0.4, 0.61)['reason'])
 
-    def test_a_small_share_may_rise_by_five_points(self):
-        self.assertEqual('shipped', self._ships(0.02, 0.07)['status'])
-        self.assertEqual('ceiling', self._ships(0.02, 0.08)['reason'])
+    def test_a_share_may_always_rise_to_a_fifth(self):
+        self.assertEqual(0.20, tuning.CEILING_FLOOR)
+        self.assertEqual('shipped', self._ships(0.0, 0.20)['status'])
+        self.assertEqual('shipped', self._ships(0.02, 0.20)['status'])
+        self.assertEqual('ceiling', self._ships(0.02, 0.21)['reason'])
+
+    def test_the_floor_does_not_lift_a_share_that_is_already_above_it(self):
+        self.assertEqual('shipped', self._ships(0.5, 0.75)['status'])
+        self.assertEqual('ceiling', self._ships(0.5, 0.76)['reason'])
 
     def test_the_ceiling_is_read_on_the_dev_instances_too(self):
         self.assertEqual('ceiling', self._ships(0.4, 0.9, 'dev')['reason'])
@@ -473,8 +497,18 @@ class TheGuardedCheckTests(SimpleTestCase):
         self.assertEqual('guarded_run', _accept(guarded=_guard(valid=False))['reason'])
         self.assertEqual('guarded_run', _accept(guarded=_guard(engine_valid=False))['reason'])
 
-    def test_a_guard_that_fell_back_fails(self):
-        self.assertEqual('guarded_floor', _accept(guarded=_guard(fallback=True))['reason'])
+    def test_a_guard_that_fell_back_is_no_comparison(self):
+        self.assertEqual('guarded_run', _accept(guarded=_guard(fallback=True))['reason'])
+
+    def test_a_guard_that_ran_out_of_time_is_no_comparison(self):
+        self.assertEqual('guarded_run', _accept(guarded=_guard(out_of_time=True))['reason'])
+
+    def test_the_facts_are_read_on_the_engine_side_too(self):
+        for name in tuning.GUARD_UNFIT:
+            with self.subTest(name=name):
+                guarded = _guard()
+                guarded['engine']['guard'] = {name: True}
+                self.assertEqual('guarded_run', _accept(guarded=guarded)['reason'])
 
     def test_a_guard_that_came_up_short_fails(self):
         self.assertEqual('guarded_floor', _accept(guarded=_guard(short=['ap']))['reason'])
@@ -489,17 +523,34 @@ class TheGuardedCheckTests(SimpleTestCase):
 
 class TheShardGateTests(SimpleTestCase):
 
-    def _records(self, shipped, kept, blind=0):
-        return ([{'status': 'shipped'}] * shipped + [{'status': 'engine', 'reason': 'no_change'}] * kept
+    def _records(self, shipped, unjudged, blind=0, judged=0):
+        return ([{'status': 'shipped'}] * shipped + [{'status': 'engine', 'reason': 'test_run'}] * unjudged
+                + [{'status': 'engine', 'reason': 'ceiling'}] * judged
                 + [{'status': 'engine', 'reason': 'blind'}] * blind)
 
-    def test_a_shard_stops_when_more_than_a_quarter_of_its_finished_cells_kept_the_engine(self):
+    def test_a_shard_stops_when_more_than_a_quarter_of_its_finished_cells_could_not_be_judged(self):
         self.assertTrue(tuning.shard_stopped(self._records(5, 3)))
         self.assertFalse(tuning.shard_stopped(self._records(6, 2)))
 
     def test_it_waits_for_eight_finished_cells(self):
         self.assertFalse(tuning.shard_stopped(self._records(0, 7)))
         self.assertTrue(tuning.shard_stopped(self._records(0, 8)))
+
+    def test_a_cell_that_was_judged_and_kept_the_engine_is_no_sign_of_a_broken_run(self):
+        self.assertFalse(tuning.shard_stopped(self._records(0, 0, judged=8)))
+        self.assertFalse(tuning.shard_stopped(self._records(0, 2, judged=6)))
+
+    def test_the_four_reasons_that_say_a_cell_was_not_judged(self):
+        self.assertEqual(('engine_run', 'dev_runs', 'test_run', 'guarded_run'), tuning.UNJUDGEABLE)
+        for reason in tuning.UNJUDGEABLE:
+            with self.subTest(reason=reason):
+                records = [{'status': 'engine', 'reason': reason}] * 3 + [{'status': 'shipped'}] * 5
+                self.assertTrue(tuning.shard_stopped(records))
+        for reason in ('dev_gain', 'panel_gain', 'test_gain', 'loss', 'ceiling', 'guarded_floor', 'guarded_loss',
+                       'no_change'):
+            with self.subTest(reason=reason):
+                records = [{'status': 'engine', 'reason': reason}] * 8
+                self.assertFalse(tuning.shard_stopped(records))
 
     def test_blind_cells_do_not_count_either_way(self):
         self.assertFalse(tuning.shard_stopped(self._records(6, 2, blind=20)))

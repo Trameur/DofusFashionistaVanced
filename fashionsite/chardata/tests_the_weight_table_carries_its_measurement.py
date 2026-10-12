@@ -19,8 +19,9 @@ from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 VERSION = 'dofus3'
 PATH = os.path.join(DIRECTORY, '%s.json' % VERSION)
 MEASUREMENT = {'value', 'builds', 'n', 'spread', 'data', 'date', 'source', 'weak', 'folds', 'engine'}
-REASONS = {None, 'bound', 'pooled', 'unchanged', 'folds', 'switch', 'no_runs'}
-WEAK_REASONS = {'folds', 'switch', 'no_runs'}
+OPTIONAL = {'reason', 'pooled', 'limits', 'read'}
+REASONS = {None, 'bound', 'pooled', 'unchanged', 'folds', 'switch', 'no_runs', 'held'}
+WEAK_REASONS = {'folds', 'switch', 'no_runs', 'held'}
 HEADER = {'generated', 'game_version', 'generator_version', 'engine_digest', 'split_digest', 'game_data_sha1',
           'data_version', 'repository_head', 'solver', 'lambda', 'run_sha1', 'created'}
 CELL_KEYS = {class_name + '/' + element_key(played) + '/' + scenario + '/' + BANDS[0]
@@ -36,7 +37,7 @@ def _close(first, second):
 
 def entry_flaws(entry, applied_needs_runs=True):
     """What is wrong with the measurement behind one ratio, [] when it is whole."""
-    if not isinstance(entry, dict) or not MEASUREMENT <= set(entry) or not set(entry) <= MEASUREMENT | {'reason'}:
+    if not isinstance(entry, dict) or not MEASUREMENT <= set(entry) or not set(entry) <= MEASUREMENT | OPTIONAL:
         return ['not a measurement']
     flaws = []
     builds = list(entry['builds'].values()) if isinstance(entry['builds'], dict) else []
@@ -65,12 +66,13 @@ def entry_flaws(entry, applied_needs_runs=True):
         return flaws
     if reason in WEAK_REASONS:
         flaws.append('weak')
-    low, high = tuning.BOUNDS[0] * engine, tuning.BOUNDS[1] * engine
-    if value < low - TOLERANCE or value > high + TOLERANCE:
+    low, high = entry.get('limits') or (tuning.BOUNDS[0] * engine, tuning.BOUNDS[1] * engine)
+    pooled = entry.get('pooled', value)
+    if pooled < low - TOLERANCE or pooled > high + TOLERANCE:
         flaws.append('bounds')
-    if reason is None and builds and not _close(value, statistics.median(builds)):
+    if reason is None and builds and not _close(pooled, statistics.median(builds)):
         flaws.append('median')
-    if reason == 'bound' and not (_close(value, low) or _close(value, high)):
+    if reason == 'bound' and not any(_close(found, edge) for found in (value, pooled) for edge in (low, high)):
         flaws.append('bound')
     if reason == 'unchanged' and not _close(value, engine):
         flaws.append('unchanged')
@@ -129,7 +131,23 @@ def _shipped_flaws(where, cell):
         gains = cell.get(name) or {}
         if set(gains) != {'lo', 'hi'} or any(gain is None or gain <= 0 for gain in gains.values()):
             flaws.append(name)
-    entries = (cell.get('ratios') or {}).values()
+    panel = cell.get('panel_gain') or {}
+    if set(panel) != {'lo', 'hi'} or any(gain is None or gain < 0 for gain in panel.values()):
+        flaws.append('panel_gain')
+    shares = cell.get('pow_share') or {}
+    if shares.get('engine') is None or shares.get('table') is None or shares['table'] > max(
+            tuning.CEILING_FACTOR * shares['engine'], tuning.CEILING_FLOOR):
+        flaws.append('ceiling')
+    ratios = cell.get('ratios') or {}
+    if any(not ratios.get(stat, {'weak': True}).get('weak') for stat in tuning.HELD_STATS):
+        flaws.append('held')
+    played = len(where.split('/')[1].split('+'))
+    if tuning.BLUFF_NOTE in (cell.get('notes') or ()) and 'pow' in ratios and (
+            ratios['pow']['value'] > max(played, ratios['pow']['engine']) + TOLERANCE):
+        flaws.append('bluff pow')
+    if not cell.get('numeraire'):
+        flaws.append('numeraire')
+    entries = ratios.values()
     if not any(not entry.get('weak') and entry['value'] != entry['engine'] for entry in entries):
         flaws.append('nothing applied')
     return [(where, flaw) for flaw in flaws]
@@ -147,6 +165,7 @@ def _entry(**changes):
 def _record(cell, ratios, **fields):
     return dict({'cell': cell, 'status': 'shipped', 'reason': None, 'blind_share': 0.9, 'rounds': 2,
                  'converged': True, 'u_acc_gain': {'lo': 0.02, 'hi': 0.03}, 'test_gain': {'lo': 0.01, 'hi': 0.02},
+                 'panel_gain': {'lo': 0.0, 'hi': 0.01}, 'numeraire': {'factor': 0.9, 'owned': ['pow', 'hp']},
                  'pow_share': {'engine': 0.5, 'table': 0.55}, 'clamped': [], 'notes': [], 'ratios': ratios,
                  'applied': sorted(ratios)}, **fields)
 
@@ -330,6 +349,40 @@ class ATableShippedFromARunCarriesItsDigestsTests(SimpleTestCase):
         table = self._shipped()
         table['cells']['Iop']['str']['plain']['200']['u_acc_gain']['lo'] = 0.0
         self.assertEqual([('Iop/str/plain/200', 'u_acc_gain')], table_flaws(table))
+
+    def test_a_shipped_cell_that_gained_only_through_the_effect_credit_fails(self):
+        table = self._shipped()
+        table['cells']['Iop']['str']['plain']['200']['panel_gain']['hi'] = -0.001
+        self.assertEqual([('Iop/str/plain/200', 'panel_gain')], table_flaws(table))
+
+    def test_a_shipped_cell_over_the_power_ceiling_fails(self):
+        table = self._shipped()
+        cell = table['cells']['Iop']['str']['plain']['200']
+        cell['pow_share'] = {'engine': 0.0, 'table': 0.21}
+        self.assertEqual([('Iop/str/plain/200', 'ceiling')], table_flaws(table))
+        cell['pow_share'] = {'engine': 0.0, 'table': 0.2}
+        self.assertEqual([], table_flaws(table))
+
+    def test_a_shipped_cell_that_moved_the_held_stat_fails(self):
+        table = self._shipped()
+        table['cells']['Iop']['str']['plain']['200']['ratios']['ap'] = dict(_entry(), source='tune/run-7')
+        self.assertEqual([('Iop/str/plain/200', 'held')], table_flaws(table))
+
+    def test_a_shipped_cell_with_the_bluff_note_holds_power_to_its_elements(self):
+        table = self._shipped()
+        cell = table['cells']['Iop']['str']['plain']['200']
+        cell['notes'] = [tuning.BLUFF_NOTE]
+        cell['ratios']['pow'].update(engine=0.5, value=1.4, builds={'a': 1.4, 'b': 1.4, 'c': 1.4, 'd': 1.4},
+                                     spread=[1.4, 1.4], limits=[0.125, 1.0], folds=[1.4, 1.4])
+        self.assertIn(('Iop/str/plain/200', 'bluff pow'), table_flaws(table))
+        cell['ratios']['pow'].update(value=1.0, builds={'a': 1.0, 'b': 1.0, 'c': 1.0, 'd': 1.0}, spread=[1.0, 1.0],
+                                     folds=[1.0, 1.0])
+        self.assertEqual([], table_flaws(table))
+
+    def test_a_shipped_cell_without_its_numeraire_fails(self):
+        table = self._shipped()
+        del table['cells']['Iop']['str']['plain']['200']['numeraire']
+        self.assertEqual([('Iop/str/plain/200', 'numeraire')], table_flaws(table))
 
     def test_a_shipped_cell_on_a_blind_class_fails(self):
         table = self._shipped()

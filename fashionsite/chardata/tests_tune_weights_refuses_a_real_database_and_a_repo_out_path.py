@@ -28,6 +28,7 @@ class _Result(object):
         self.read_ratios = engine_ratios(instance.char_class, instance.elements, instance.scenario, VERSION)
         self.set_ids = tuple(ids)
         self.contributions = {item_id: 10.0 - item_id for item_id in range(1, 8)}
+        self.item_sums = {}
         self.proven = True
         self.infeasible = False
         self.turn = 1000.0
@@ -56,7 +57,7 @@ class _Runner(object):
         self.calls = []
         self.closed = False
 
-    def run(self, instance, ratios=None, forbid=(), time_limit=tuning.TIME_LIMIT, guarded=False):
+    def run(self, instance, ratios=None, forbid=(), time_limit=tuning.TIME_LIMIT, guarded=False, budget_factor=1):
         self.calls.append(tuning.instance_key(instance))
         return _Result(instance, (len(self.calls),))
 

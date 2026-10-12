@@ -17,6 +17,7 @@ import statistics
 import subprocess
 import time
 from collections import Counter, namedtuple
+from contextlib import contextmanager
 from datetime import date
 
 from chardata.weapon_terms import CHARACTERISTIC_STEP
@@ -30,7 +31,7 @@ from fashionistapulp.item_effects import (COST_ONLY_STATUSES, ELEMENT_KEYS, PLAY
 logger = logging.getLogger(__name__)
 
 #: bumped by hand when the reader, the score, the instances or the acceptance change
-GENERATOR_VERSION = 2
+GENERATOR_VERSION = 3
 
 STEP = CHARACTERISTIC_STEP
 MAX_ROUNDS = 4
@@ -42,23 +43,36 @@ FOLD_AGREEMENT = 1.25
 MIN_DEV_RUNS = 4
 MAX_LOSS = 0.01
 CEILING_FACTOR = 1.5
-CEILING_MARGIN = 0.05
+CEILING_FLOOR = 0.20
 BLIND_SHARE = 0.75
 SPLIT_TOLERANCE = 0.10
 SHARE_MARGIN = 0.02
+#: a shard stops when more than this share of its finished cells could not be judged, from SHARD_MIN_CELLS of them
 SHARD_WEAK_LIMIT = 0.25
 SHARD_MIN_CELLS = 8
+#: the reasons that say a cell was not judged at all: a cell that was judged and lost is no sign of a broken run
+UNJUDGEABLE = ('engine_run', 'dev_runs', 'test_run', 'guarded_run')
 #: the E1a gate: the shares of instances that converge and of fold pairs that agree, and the ceiling breaches allowed
 E1A_CONVERGED = 0.70
 E1A_FOLDS_AGREE = 0.75
 E1A_CEILING_CELLS = 1
 SWITCH_SHARE = 0.5
+#: the stats no read prices cap-aware yet: they stay at the engine's weight, their read is recorded for later
+HELD_STATS = ('ap',)
+#: the stats the score cannot see, whose change between the engine set and the table set is recorded
+BLIND_STATS = ('range', 'mp', 'init', 'lock', 'dodge')
+#: the guard facts of a safeguarded solve that say it was not the comparison it stands for
+GUARD_UNFIT = ('fallback', 'out_of_time')
+#: the note of a cell whose spell rows are priced as if they all landed, which the power ceiling answers
+BLUFF_NOTE = 'bluff_rows'
 DRY_ROUNDS = 2
 PROBE_RUNS = 3
 #: for the projection of --plan: seconds of one door call, of the reads after it, and of the reads of a guarded pair
 CALL_SECONDS = 18.7
 READ_SECONDS = 2.5
 GUARDED_READ_SECONDS = 3
+#: the share of guarded solves expected to be made again on a longer budget, for the compute projection
+GUARDED_RETRY_SHARE = 0.25
 EXPECTED_ROUNDS = 3
 RESOLVE_MARGIN = 1.1
 DEV_INSTANCES = 4
@@ -91,6 +105,8 @@ LIFE_STATS = ('hp', 'vit')
 #: the stats only a worn weapon can move
 WEAPON_ONLY_STATS = ('perweadam',)
 PERCENT_RESIST_KEYS = RESIST_STATS
+#: stats that carry one measurement under several names: a fold pair is counted once per group
+FOLD_GROUPS = (LIFE_STATS, RESIST_STATS)
 #: every stat a cell can hold: the table's, and a duo's shares on its characteristics
 READ_STATS = TABLE_STATS + SHARE_STATS
 
@@ -437,6 +453,29 @@ def path_is_inside(path, folder):
         return False
 
 
+@contextmanager
+def guard_budget(factor):
+    """The wall clock of a guarded request, and of its balanced phase, multiplied by `factor` while the block runs."""
+    from chardata import fashion_action
+    saved = (fashion_action.GUARD_BUDGET_SECONDS, fashion_action.BALANCED_SECONDS)
+    fashion_action.GUARD_BUDGET_SECONDS = saved[0] * factor
+    fashion_action.BALANCED_SECONDS = saved[1] * factor
+    try:
+        yield
+    finally:
+        fashion_action.GUARD_BUDGET_SECONDS, fashion_action.BALANCED_SECONDS = saved
+
+
+def item_stat_sums(structure, item_ids):
+    """{stat key: the sum of that stat over the items}: what a set brings before the character's own points."""
+    sums = {}
+    for item_id in item_ids:
+        for stat_id, value in structure.get_item_by_id(item_id).stats:
+            key = structure.get_stat_by_id(stat_id).key
+            sums[key] = sums.get(key, 0) + value
+    return sums
+
+
 class DoorResult(object):
     """A solve through a door and what the tuner reads from the set."""
 
@@ -452,8 +491,10 @@ class DoorResult(object):
         self.wall = None
         self.view = None
         self.credit = None
+        self.panel_turn = None
         self.power_share = None
         self.contributions = {}
+        self.item_sums = {}
         self.guard = None
         self.guarded = False
         self.infeasible = False
@@ -481,12 +522,35 @@ class DoorResult(object):
             return None
         return math.log(self.credit.turn) + lam * math.log(self.credit.ehp)
 
+    def u_panel(self, lam):
+        """The score on the panel's turn alone, the effect-table credit left out: ln T + lam * ln E of the set."""
+        if not (self.panel_turn and self.panel_turn > 0 and self.totals and self.ehp and self.ehp > 0):
+            return None
+        return math.log(self.panel_turn) + lam * math.log(self.ehp)
+
+    @property
+    def credit_turn(self):
+        """What the effect table adds to the panel's turn on this set, None when either is unknown."""
+        if self.credit is None or self.panel_turn is None:
+            return None
+        return self.credit.turn - self.panel_turn
+
+    @property
+    def judgeable(self):
+        """Whether the solve is a comparison: proven, and a guarded one did not fall back or run out of time."""
+        facts = self.guard or {}
+        return self.proven is True and not (self.guarded and any(facts.get(name) for name in GUARD_UNFIT))
+
     def evaluation(self):
-        """What the acceptance reads: the credited score at both ends of lambda, the power share, the facts."""
+        """What the acceptance reads: the credited and the panel score at both ends of lambda, the power share, the
+        facts, and the stats the score cannot see."""
         ends = SCENARIO_LAMBDA[self.instance.scenario]
-        return {'valid': self.credit is not None and (self.proven is True or self.guarded), 'proven': self.proven,
+        return {'valid': self.credit is not None and self.judgeable, 'proven': self.proven,
                 'T': self.credit.turn if self.credit else None, 'E': self.credit.ehp if self.credit else None,
-                'u_acc': {end: self.u_acc(ends[end]) for end in ('lo', 'hi')}, 'pow_share': self.power_share,
+                'T_panel': self.panel_turn, 'credit': self.credit_turn,
+                'u_acc': {end: self.u_acc(ends[end]) for end in ('lo', 'hi')},
+                'u_panel': {end: self.u_panel(ends[end]) for end in ('lo', 'hi')}, 'pow_share': self.power_share,
+                'stats': {name: self.totals.get(name, 0) for name in BLIND_STATS},
                 'seconds': self.seconds, 'set': list(self.set_ids)}
 
 
@@ -565,7 +629,7 @@ class DoorRunner(object):
             add_items_to_exclusions(char, sorted(forbid))
         return char
 
-    def _solve(self, char, time_limit):
+    def _solve(self, char, time_limit, budget_factor=1):
         from fashionistapulp import lpproblem
         from chardata.fashion_action import fashion
         previous = lpproblem.SOLVER.timeLimit
@@ -573,18 +637,22 @@ class DoorRunner(object):
         retries = self.retries
         started = time.monotonic()
         try:
-            response = fashion(self.request, char.id)
+            with guard_budget(budget_factor):
+                response = fashion(self.request, char.id)
         finally:
             lpproblem.SOLVER.timeLimit = previous
         return (time.monotonic() - started, 'infeasible' in str(getattr(response, 'url', '')),
                 self.retries - retries)
 
-    def run(self, instance, ratios=None, forbid=(), time_limit=TIME_LIMIT, guarded=False):
-        """DoorResult of the instance with `ratios` as its cell (the engine's weights when None)."""
+    def run(self, instance, ratios=None, forbid=(), time_limit=TIME_LIMIT, guarded=False, budget_factor=1):
+        """DoorResult of the instance with `ratios` as its cell (the engine's weights when None).
+
+        `budget_factor` stretches the wall clock a guarded request shares between its solves.
+        """
         table = cell_table(instance.char_class, instance.elements, instance.scenario, ratios) if ratios else None
         with override_weight_table(self.game_version, table):
             char = self._build(instance, forbid, guarded)
-            wall, infeasible, retries = self._solve(char, time_limit)
+            wall, infeasible, retries = self._solve(char, time_limit, budget_factor)
             result = DoorResult(instance, dict(ratios) if ratios else None, wall=wall, infeasible=infeasible,
                                 guarded=guarded)
             if infeasible:
@@ -595,7 +663,7 @@ class DoorRunner(object):
 
     def _read(self, char, result, retries):
         from chardata.crit_curve import _set_view
-        from chardata.presets import guard_facts
+        from chardata.presets import _panel_turn, guard_facts
         from chardata.solution import get_solution, get_solver_facts
         from chardata.stats_weights import get_stats_weights
         from chardata.weapon_terms import stat_lines_value
@@ -617,6 +685,8 @@ class DoorRunner(object):
         result.view = _set_view(char, solution)
         if result.view is not None and result.view.worn is None:
             result.notes.append('no_weapon')
+        result.item_sums = item_stat_sums(self.structure, result.slots.values())
+        result.panel_turn = _panel_turn(char, solution)
         result.credit = credited_parts(char, solution, self.effect_table)
         result.power_share = power_share(char, solution, self.effect_table)
 
@@ -765,7 +835,7 @@ def tune_instance(runner, instance, start=None, max_rounds=MAX_ROUNDS, forbid=()
         if index == max_rounds:
             run.stop = 'rounds'
             break
-        following = blend(current, read.ratios, index, unit, read.switched)
+        following = blend(current, read.ratios, index, unit, set(read.switched) | set(HELD_STATS))
         if integer_weights(following, unit) == now:
             run.converged, run.stop = True, 'fixed'
             break
@@ -809,13 +879,26 @@ def _switched_runs(runs, stat):
     return sum(1 for run in runs if run.usable and stat in run.best_round.read.switched)
 
 
+def _held_read(usable, stat):
+    """What the runs read for a held stat, kept for the day a read can price it: {'builds': per run, 'median'}."""
+    builds = {instance_key(run.instance): run.best_round.read.ratios[stat] for run in usable
+              if run.best_round.read is not None and run.best_round.read.ratios.get(stat) is not None}
+    return {'builds': builds, 'median': _median(list(builds.values()))}
+
+
 def _pool_stat(stat, engine, usable, group, unit, stamp, limits=None):
     """The entry of one stat; `limits` is (lowest, highest) in place of the bounds around the engine value."""
     values, folds = _fold_values(usable, stat)
     entry = {'builds': values, 'n': len(values), 'engine': engine, 'folds': [folds['dev_a'], folds['dev_b']],
              'weak': False}
+    if limits:
+        entry['limits'] = list(limits)
     if stamp:
         entry.update(stamp)
+    if stat in HELD_STATS:
+        entry.update(value=engine, spread=[min(values.values()), max(values.values())] if values else None,
+                     weak=True, reason='held', read=_held_read(usable, stat))
+        return entry
     if not values:
         entry.update(value=engine, spread=None, weak=True, reason='no_runs')
         return entry
@@ -855,11 +938,21 @@ def _tie_shares(head, tail):
         tail.pop('reason', None)
 
 
-def pool_cell(runs, engine_ratios_, group=None, stamp=None):
+def power_limits(engine, count):
+    """(lowest, highest) ratio of power on a cell whose spell rows are priced as if they all landed.
+
+    A point of power is worth the played characteristic's point once per played element, so no more than `count` times
+    it. A cell whose engine weight is above that keeps its engine weight as the highest.
+    """
+    return BOUNDS[0] * engine, max(min(BOUNDS[1] * engine, count), engine)
+
+
+def pool_cell(runs, engine_ratios_, group=None, stamp=None, notes=()):
     """{stat: entry} of one cell from its dev runs; a weak stat is read over the group's runs, else it keeps the engine.
 
     `group` is the dev runs of every cell sharing the class, the number of elements and the scenario. A duo's shares
-    are pooled as one stat, the first element's, and the other takes the rest of 2.
+    are pooled as one stat, the first element's, and the other takes the rest of 2. On a cell with the bluff note
+    power is held to the number of played elements.
     """
     unit = unit_of(runs[0].instance.elements, runs[0].instance.scenario) if runs else 1
     usable = [run for run in runs if run.usable]
@@ -867,6 +960,8 @@ def pool_cell(runs, engine_ratios_, group=None, stamp=None):
     entries = {}
     for stat in sorted(engine_ratios_):
         limits = share_bounds() if len(pair) == 2 and stat in pair else None
+        if stat == 'pow' and BLUFF_NOTE in notes and runs:
+            limits = power_limits(engine_ratios_[stat], len(runs[0].instance.elements))
         entries[stat] = _pool_stat(stat, engine_ratios_[stat], usable, group, unit, stamp, limits)
     if len(pair) == 2:
         _tie_shares(entries[pair[0]], entries[pair[1]])
@@ -907,20 +1002,69 @@ def applied_ratios(entries):
             if not entry.get('weak') and entry['value'] != entry['engine']}
 
 
-def _gains(pairs):
+def owned_stats(entries):
+    """The stats the table writes: the entries of a table stat that are not weak."""
+    return sorted(stat for stat, entry in entries.items() if stat in TABLE_STATS and not entry.get('weak'))
+
+
+def rescale_to_numeraire(entries, engine, sums, unit):
+    """Rescales every owned stat by one factor, so that the engine's high set is worth as much under the table.
+
+    The value of a set is its item sums times the weights of the owned stats. The factor is the engine's value over the
+    table's: the relative prices among the owned stats stay as they were pooled and only their level moves, and a stat
+    left to rise past its limits stops there. A change under one unit of weight is no change. The record is {'factor',
+    'owned', 'engine_value', 'table_value'}; the factor is 1 when nothing is applied or a value is not positive.
+    """
+    owned = owned_stats(entries)
+    record = {'factor': 1.0, 'owned': owned, 'engine_value': None, 'table_value': None}
+    if not sums or not owned or not applied_ratios(entries):
+        return record
+    record['engine_value'] = sum(engine[stat] * sums.get(stat, 0) for stat in owned)
+    record['table_value'] = sum(entries[stat]['value'] * sums.get(stat, 0) for stat in owned)
+    if record['engine_value'] <= 0 or record['table_value'] <= 0:
+        return record
+    record['factor'] = record['engine_value'] / record['table_value']
+    for stat in owned:
+        entry = entries[stat]
+        pooled = entry['value']
+        value, reason = pooled * record['factor'], entry.get('reason')
+        if entry.get('limits') and value > entry['limits'][1]:
+            value, reason = entry['limits'][1], 'bound'
+        if abs(value - entry['engine']) * unit < 1:
+            value, reason = entry['engine'], reason or 'unchanged'
+        elif reason == 'unchanged':
+            reason = None
+        entry['pooled'] = pooled
+        entry['value'] = value
+        if reason:
+            entry['reason'] = reason
+        else:
+            entry.pop('reason', None)
+    return record
+
+
+def _gains(pairs, score='u_acc'):
     """{end: table minus engine} of one instance, None when either side has no score."""
     out = {}
     for end in ('lo', 'hi'):
-        engine, table = pairs['engine']['u_acc'][end], pairs['table']['u_acc'][end]
+        engine = (pairs['engine'].get(score) or {}).get(end)
+        table = (pairs['table'].get(score) or {}).get(end)
         out[end] = None if engine is None or table is None else table - engine
     return out
 
 
 def _ceiling_holds(pairs):
+    """Whether the table's set keeps its power share under max(1.5 x the engine's, 0.20)."""
     engine, table = pairs['engine']['pow_share'], pairs['table']['pow_share']
     if engine is None or table is None:
         return False
-    return table <= max(CEILING_FACTOR * engine, engine + CEILING_MARGIN)
+    return table <= max(CEILING_FACTOR * engine, CEILING_FLOOR)
+
+
+def _guard_unfit(evaluation):
+    """The guard facts of a guarded solve that say it is no comparison, [] when it is one or has no guard."""
+    facts = evaluation.get('guard') or {}
+    return [name for name in GUARD_UNFIT if facts.get(name)]
 
 
 def accept_cell(value, dev, test, guarded, blind_share):
@@ -947,10 +1091,15 @@ def accept_cell(value, dev, test, guarded, blind_share):
         return out
     test_gain = _gains(test_pairs)
     median = {end: _median([gains[end] for gains in dev_gains]) for end in ('lo', 'hi')}
-    out.update(u_acc_gain=median, test_gain=test_gain,
+    panel = {end: _median([gains[end] for gains in (_gains(pairs, 'u_panel') for pairs in valid)
+                           if gains[end] is not None]) for end in ('lo', 'hi')}
+    out.update(u_acc_gain=median, panel_gain=panel, test_gain=test_gain,
                pow_share={'engine': test_pairs['engine']['pow_share'], 'table': test_pairs['table']['pow_share']})
     if any(median[end] is None or median[end] <= 0 for end in median):
         out['reason'] = 'dev_gain'
+        return out
+    if any(panel[end] is None or panel[end] < 0 for end in panel):
+        out['reason'] = 'panel_gain'
         return out
     if any(test_gain[end] is None or test_gain[end] <= 0 for end in test_gain):
         out['reason'] = 'test_gain'
@@ -963,10 +1112,11 @@ def accept_cell(value, dev, test, guarded, blind_share):
         return out
     if guarded is not None:
         facts = guarded['table'].get('guard') or {}
-        if not guarded['engine']['valid'] or not guarded['table']['valid']:
+        if (not guarded['engine']['valid'] or not guarded['table']['valid'] or _guard_unfit(guarded['engine'])
+                or _guard_unfit(guarded['table'])):
             out['reason'] = 'guarded_run'
             return out
-        if facts.get('fallback') or facts.get('short'):
+        if facts.get('short'):
             out['reason'] = 'guarded_floor'
             return out
         if any(gain is not None and gain < -MAX_LOSS for gain in _gains(guarded).values()):
@@ -987,19 +1137,77 @@ def _evaluation(result, dropped=None):
     return evaluation
 
 
-def _dev_pairs(runner, runs, applied, forbids, time_limit):
-    """The dev instances solved again on the weights the cell applies, each beside its engine run.
+def _difference(table, engine):
+    return None if table is None or engine is None else table - engine
 
-    The rounds of a run only propose values. What the acceptance reads is these solves, so that the weights it judges
-    are the ones that would ship.
+
+def _delta(engine, table):
+    """Table minus engine: the credited turn, the panel turn, the effect credit and the stats the score cannot see."""
+    if engine.get('T') is None or table.get('T') is None:
+        return None
+    return {'T': table['T'] - engine['T'], 'T_panel': _difference(table.get('T_panel'), engine.get('T_panel')),
+            'credit': _difference(table.get('credit'), engine.get('credit')),
+            'stats': {name: table['stats'][name] - engine['stats'][name] for name in BLIND_STATS}}
+
+
+def _pair(engine, table, dropped=None):
+    """{'engine', 'table', 'delta'}: the evaluations of the two solves of one instance and what the table changed."""
+    pair = {'engine': _evaluation(engine, dropped), 'table': _evaluation(table, dropped)}
+    pair['delta'] = _delta(pair['engine'], pair['table'])
+    return pair
+
+
+def symmetric_forbids(engine_high, table_high):
+    """{tier: the pieces both sides of a pair give up}: the tier's cut of the engine's high set and of the table's."""
+    return {tier: forbid_for(tier, engine_high) | forbid_for(tier, table_high) for tier in TIER_FORBIDDEN}
+
+
+def _dev_pairs(runner, runs, applied, time_limit):
+    """(pairs, forbids): the dev instances solved on the engine's weights and on the cell's, with the same pieces taken
+    away from both sides.
+
+    The table's high set is solved first; each tier then loses its cut of that set as well as of the engine's, so that
+    neither side keeps a piece the other was denied. The rounds of a run only propose values: what the acceptance reads
+    are these solves, so that the weights it judges are the ones that would ship.
     """
-    pairs = []
-    for run in runs:
-        if run.engine is None:
-            continue
-        result, reason = _solve_proven(runner, run.instance, applied, forbids[run.instance.tier], time_limit)
-        pairs.append({'engine': _evaluation(run.engine), 'table': _evaluation(result, reason)})
-    return pairs
+    runs = [run for run in runs if run.engine is not None]
+    head = runs[0]
+    table_high, reason = _solve_proven(runner, head.instance, applied, (), time_limit)
+    pairs = [_pair(head.engine, table_high, reason)]
+    if table_high is None:
+        return pairs, {}
+    forbids = symmetric_forbids(head.engine, table_high)
+    for run in runs[1:]:
+        tier = run.instance.tier
+        engine, reason = run.engine, None
+        if forbids[tier] != forbid_for(tier, head.engine):
+            engine, reason = _solve_proven(runner, run.instance, None, forbids[tier], time_limit)
+        table = None
+        if engine is not None:
+            table, reason = _solve_proven(runner, run.instance, applied, forbids[tier], time_limit)
+        pairs.append(_pair(engine, table, reason))
+    return pairs, forbids
+
+
+def _test_pair(runner, instance, applied, forbid, time_limit):
+    return _pair(runner.run(instance, None, forbid, time_limit), runner.run(instance, applied, forbid, time_limit))
+
+
+def _guarded_solve(runner, instance, ratios, time_limit):
+    """A guarded solve, made once more on a budget of twice the time when it ran short, fell back or ran out of time."""
+    result = runner.run(instance, ratios, (), time_limit, guarded=True)
+    if result.infeasible or (result.credit is not None and result.judgeable):
+        return result
+    return runner.run(instance, ratios, (), time_limit * RETRY_FACTOR, guarded=True, budget_factor=RETRY_FACTOR)
+
+
+def _guarded_pair(runner, instance, applied, time_limit):
+    return _pair(_guarded_solve(runner, instance, None, time_limit),
+                 _guarded_solve(runner, instance, applied, time_limit))
+
+
+def _usable_pairs(pairs):
+    return [pair for pair in pairs if pair['engine']['valid'] and pair['table']['valid']]
 
 
 def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=None):
@@ -1024,34 +1232,31 @@ def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=
         runs = [first] + [tune_instance(runner, instance, max_rounds=max_rounds, forbid=forbids[instance.tier],
                                         time_limit=time_limit, on_round=_logger(log, instance))
                           for instance in instances[1:4]]
-        tuned.append((cell, instances, runs, forbids, share, started))
-    group = [run for _cell, _instances, runs, _forbids, _share, _started in tuned for run in runs]
-    for cell, instances, runs, forbids, share, started in tuned:
+        tuned.append((cell, instances, runs, share, started))
+    group = [run for _cell, _instances, runs, _share, _started in tuned for run in runs]
+    for cell, instances, runs, share, started in tuned:
         base = engine_ratios(cell.char_class, cell.elements, cell.scenario, version)
-        stamp = {'data': _data_version(version), 'date': date.today().isoformat(), 'source': 'tune'}
-        entries = pool_cell(runs, base, group, stamp)
-        applied = applied_ratios(entries)
-        dev = _dev_pairs(runner, runs, applied, forbids, time_limit) if applied else []
-        test_instance = instances[4]
-        test = None
-        if applied:
-            test_engine = runner.run(test_instance, None, forbids[test_instance.tier], time_limit)
-            test_table = runner.run(test_instance, applied, forbids[test_instance.tier], time_limit)
-            test = {'engine': _evaluation(test_engine), 'table': _evaluation(test_table)}
-        guarded = None
-        if applied and cell.scenario in GUARDED_PRIORITY:
-            engine_result = runner.run(instances[0], None, (), time_limit, guarded=True)
-            table_result = runner.run(instances[0], applied, (), time_limit, guarded=True)
-            guarded = {'engine': _evaluation(engine_result), 'table': _evaluation(table_result)}
-        verdict = accept_cell(entries, dev, test, guarded, share)
         unit = unit_of(cell.elements, cell.scenario)
+        stamp = {'data': _data_version(version), 'date': date.today().isoformat(), 'source': 'tune'}
+        notes = _notes(cell, runs)
+        entries = pool_cell(runs, base, group, stamp, notes)
+        numeraire = rescale_to_numeraire(entries, base, runs[0].engine.item_sums, unit)
+        applied = applied_ratios(entries)
+        dev, symmetric = _dev_pairs(runner, runs, applied, time_limit) if applied else ([], {})
+        test = guarded = None
+        if len(_usable_pairs(dev)) >= MIN_DEV_RUNS:
+            test = _test_pair(runner, instances[4], applied, symmetric[instances[4].tier], time_limit)
+            if cell.scenario in GUARDED_PRIORITY:
+                guarded = _guarded_pair(runner, instances[0], applied, time_limit)
+        verdict = accept_cell(entries, dev, test, guarded, share)
         clamped = sorted(stat for stat, value in applied.items() if value * unit > MAX_STAT_WEIGHT)
         records.append(dict(verdict, cell=cell_key(cell), ratios=entries, applied=sorted(applied), clamped=clamped,
-                            rounds=max((len(run.rounds) for run in runs), default=0),
+                            numeraire=numeraire, rounds=max((len(run.rounds) for run in runs), default=0),
                             converged=all(run.converged for run in runs),
                             u_fit_gain={instance_key(run.instance): _fit_gain(run) for run in runs},
-                            notes=_notes(cell, runs), instances=[run.record() for run in runs],
-                            dev=dev, test=test, guarded=guarded, seconds=time.monotonic() - started))
+                            notes=notes, instances=[run.record() for run in runs], dev=dev, test=test,
+                            guarded=guarded, forbids={tier: sorted(ids) for tier, ids in symmetric.items()},
+                            seconds=time.monotonic() - started))
     return records
 
 
@@ -1192,8 +1397,8 @@ def ship_table(run_path, game_version, solver=None):
     for record in records:
         char_class, key, scenario, band = record['cell'].split('/')
         entry = {name: record[name] for name in ('status', 'reason', 'blind_share', 'rounds', 'converged',
-                                                  'u_fit_gain', 'u_acc_gain', 'test_gain', 'pow_share', 'clamped',
-                                                  'notes')
+                                                  'u_fit_gain', 'u_acc_gain', 'panel_gain', 'test_gain',
+                                                  'pow_share', 'clamped', 'numeraire', 'notes')
                  if name in record}
         entry['ratios'] = {stat: dict(ratio, source='tune/%s' % os.path.basename(os.path.normpath(run_path)))
                            for stat, ratio in (record.get('ratios') or {}).items()}
@@ -1202,13 +1407,16 @@ def ship_table(run_path, game_version, solver=None):
 
 
 def cell_seconds(scenario, call_seconds=CALL_SECONDS, read_seconds=READ_SECONDS, rounds=EXPECTED_ROUNDS):
-    """Seconds of one process on a cell: its dev instances, their solves on the pooled weights, its test instance and,
-    when it has one, the guarded pair."""
+    """Seconds of one process on a cell: its dev instances, their solves on the pooled weights and the engine's again
+    under the symmetric forbids, its test instance and, when it has one, the guarded pair with the share of them made
+    again."""
     per_round = call_seconds + read_seconds
     dev = (1 + rounds) * per_round * RESOLVE_MARGIN
-    pooled = per_round * RESOLVE_MARGIN
-    guarded = 2 * (2 * call_seconds + GUARDED_READ_SECONDS) if scenario in GUARDED_PRIORITY else 0
-    return DEV_INSTANCES * (dev + pooled) + 2 * per_round + guarded
+    pooled = 2 * per_round * RESOLVE_MARGIN
+    guarded = 0
+    if scenario in GUARDED_PRIORITY:
+        guarded = 2 * (2 * call_seconds + GUARDED_READ_SECONDS) * (1 + RETRY_FACTOR * GUARDED_RETRY_SHARE)
+    return DEV_INSTANCES * (dev + pooled) - per_round * RESOLVE_MARGIN + 2 * per_round + guarded
 
 
 def projection(cells, processes, call_seconds=CALL_SECONDS, rounds=EXPECTED_ROUNDS):
@@ -1218,10 +1426,13 @@ def projection(cells, processes, call_seconds=CALL_SECONDS, rounds=EXPECTED_ROUN
 
 
 def shard_stopped(records):
-    """Whether more than SHARD_WEAK_LIMIT of the finished cells kept the engine, the blind classes left out."""
+    """Whether more than SHARD_WEAK_LIMIT of the finished cells could not be judged, the blind classes left out.
+
+    A cell that was judged and kept the engine's weights is the tuner doing its job, not a broken run.
+    """
     finished = [record for record in records if record.get('reason') != 'blind']
-    kept = [record for record in finished if record.get('status') != 'shipped']
-    return len(finished) >= SHARD_MIN_CELLS and len(kept) > SHARD_WEAK_LIMIT * len(finished)
+    unjudged = [record for record in finished if record.get('reason') in UNJUDGEABLE]
+    return len(finished) >= SHARD_MIN_CELLS and len(unjudged) > SHARD_WEAK_LIMIT * len(finished)
 
 
 def _cell_gained(record):
@@ -1231,13 +1442,26 @@ def _cell_gained(record):
 
 
 def _fold_agreements(record):
-    """One bool per stat of a cell: whether its two folds agree. A stat both folds weigh at zero is left out."""
-    agreements = []
-    for entry in (record.get('ratios') or {}).values():
+    """One bool per distinct fold pair of a cell: whether its two folds agree.
+
+    A stat both folds weigh at zero is left out, and the stats of a group that carry the same pair (the five
+    resistances, hp and vit) are one measure and count once.
+    """
+    agreements = {}
+    for stat, entry in sorted((record.get('ratios') or {}).items()):
         first, second = entry.get('folds') or (None, None)
-        if not (first == 0 and second == 0):
-            agreements.append(not _folds_disagree(first, second, entry['engine']))
-    return agreements
+        if first == 0 and second == 0:
+            continue
+        group = next((position for position, members in enumerate(FOLD_GROUPS) if stat in members), stat)
+        agreements[(group, first, second, entry['engine'])] = not _folds_disagree(first, second, entry['engine'])
+    return list(agreements.values())
+
+
+def _ceiling_breached(record):
+    """Whether a pair of the cell, judged on both sides, put the table's set over the power ceiling."""
+    pairs = list(record.get('dev') or ()) + [record.get('test')]
+    return any(pair and pair['engine'].get('valid') and pair['table'].get('valid') and not _ceiling_holds(pair)
+               for pair in pairs)
 
 
 def e1a_verdict(records):
@@ -1255,7 +1479,7 @@ def e1a_verdict(records):
     agreements = [agree for record in live for agree in _fold_agreements(record)]
     converged = sum(1 for run in runs if run.get('converged')) / float(len(runs)) if runs else 0.0
     agreeing = sum(agreements) / float(len(agreements)) if agreements else 0.0
-    ceiling = sum(1 for record in live if record.get('reason') == 'ceiling')
+    ceiling = sum(1 for record in live if _ceiling_breached(record))
     checks = {'live': bool(live), 'gains': gained >= needed, 'converged': converged >= E1A_CONVERGED,
               'folds': agreeing >= E1A_FOLDS_AGREE, 'ceiling': ceiling <= E1A_CEILING_CELLS,
               'blind': (all(record.get('status') == 'engine' and not record.get('instances') for record in blind)
