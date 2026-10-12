@@ -54,6 +54,8 @@ SHARD_WEAK_LIMIT = 0.25
 SHARD_MIN_CELLS = 8
 #: the reasons that say a cell was not judged at all: a cell that was judged and lost is no sign of a broken run
 UNJUDGEABLE = ('engine_run', 'dev_runs', 'test_run', 'guarded_run')
+#: the checks the dev pairs alone can fail, in the order they are read
+DEV_CHECKS = ('dev_gain', 'panel_gain', 'loss', 'range', 'mp', 'ceiling')
 #: the E1a gate: the shares of instances that converge and of fold pairs that agree, and the ceiling breaches allowed
 E1A_CONVERGED = 0.70
 E1A_FOLDS_AGREE = 0.75
@@ -1028,6 +1030,39 @@ def numeraire_factor(entries, engine, sums):
     return record
 
 
+def _damp(entry, unit):
+    """Moves an applied entry to the geometric midpoint of the engine's ratio and its pooled one, keeping the pooled
+    value as `full`; a move of less than a unit of weight at the midpoint is dropped, as in the pooling."""
+    entry['full'] = entry['value']
+    half = math.sqrt(entry['engine'] * entry['value'])
+    if abs(half - entry['engine']) * unit < 1:
+        entry['value'], entry['reason'] = entry['engine'], 'unchanged'
+    else:
+        entry['value'], entry['reason'] = half, 'damped'
+
+
+def damped_entries(entries, unit):
+    """The entries of a cell with each applied stat halfway to the engine's ratio, in the geometric sense.
+
+    A duo's first share goes to the midpoint and the second takes the rest of 2, as the pooling ties them. The entries
+    nothing applied are as they were, and `entries` is not changed.
+    """
+    damped = {stat: dict(entry) for stat, entry in entries.items()}
+    applied = applied_ratios(entries)
+    shares = [stat for stat in SHARE_STATS if stat in entries]
+    if len(shares) == 2:
+        if shares[0] in applied:
+            _damp(damped[shares[0]], unit)
+            damped[shares[1]]['full'] = entries[shares[1]]['value']
+            _tie_shares(damped[shares[0]], damped[shares[1]])
+    else:
+        shares = []
+    for stat in applied:
+        if stat not in shares:
+            _damp(damped[stat], unit)
+    return damped
+
+
 def _gains(pairs, score='u_acc'):
     """{end: table minus engine} of one instance, None when either side has no score."""
     out = {}
@@ -1087,6 +1122,31 @@ def _gain_missing(gains):
 
 def _loses(gains_per_pair):
     return any(gain is not None and gain < -MAX_LOSS for gains in gains_per_pair for gain in gains.values())
+
+
+def dev_failure(dev):
+    """The first check on the dev pairs alone that a step fails, in the order accept_cell reads them: 'dev_runs' when
+    fewer than MIN_DEV_RUNS pairs are comparisons, one of DEV_CHECKS, or None when it passes them all.
+
+    The test pair is not read, so that a step can be chosen without it.
+    """
+    valid = _usable_pairs(dev)
+    if len(valid) < MIN_DEV_RUNS:
+        return 'dev_runs'
+    dev_gains = [_gains(pairs) for pairs in valid]
+    if _gain_missing(_median_gains(dev_gains)):
+        return 'dev_gain'
+    if any(gain is None or gain < 0 for gain in _median_gains([_gains(pairs, 'u_panel') for pairs in valid]).values()):
+        return 'panel_gain'
+    if _loses(dev_gains):
+        return 'loss'
+    if not _range_kept(_dev_range(valid)):
+        return 'range'
+    if not _mp_kept(_stat_deltas(valid, 'mp')):
+        return 'mp'
+    if not all(_ceiling_holds(pairs) for pairs in valid):
+        return 'ceiling'
+    return None
 
 
 def accept_cell(value, dev, test, guarded, blind_share, notes=()):
@@ -1230,6 +1290,33 @@ def _dev_pairs(runner, runs, applied, time_limit):
     return pairs, forbids
 
 
+def _damped_dev_pairs(runner, runs, pairs, applied, forbids, time_limit):
+    """The dev pairs of a damped step: the engine sides and the forbidden pieces of the full step's pairs are kept, and
+    only the table sides are solved again, on the damped ratios."""
+    runs = [run for run in runs if run.engine is not None]
+    out = []
+    for run, pair in zip(runs, pairs):
+        if not pair['engine']['valid']:
+            out.append(pair)
+            continue
+        table, reason = _solve_proven(runner, run.instance, applied, forbids[run.instance.tier], time_limit)
+        damped = {'engine': pair['engine'], 'table': _evaluation(table, reason)}
+        damped['delta'] = _delta(damped['engine'], damped['table'])
+        out.append(damped)
+    return out
+
+
+def _dev_reading(dev, applied):
+    """What the dev pairs of a step said: the check they failed (None when none), the ratios applied and the medians."""
+    valid = _usable_pairs(dev)
+    reading = {'failure': dev_failure(dev), 'applied': dict(applied), 'pairs': len(valid)}
+    if valid:
+        reading.update(u_acc_gain=_median_gains([_gains(pairs) for pairs in valid]),
+                       panel_gain=_median_gains([_gains(pairs, 'u_panel') for pairs in valid]),
+                       range_delta=_dev_range(valid))
+    return reading
+
+
 def _test_pair(runner, instance, applied, forbid, time_limit):
     return _pair(runner.run(instance, None, forbid, time_limit), runner.run(instance, applied, forbid, time_limit))
 
@@ -1281,9 +1368,23 @@ def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=
         stamp = {'data': _data_version(version), 'date': date.today().isoformat(), 'source': 'tune'}
         notes = _notes(cell, runs)
         entries = pool_cell(runs, base, group, stamp, notes)
-        numeraire = numeraire_factor(entries, base, runs[0].engine.item_sums)
         applied = applied_ratios(entries)
         dev, symmetric = _dev_pairs(runner, runs, applied, time_limit) if applied else ([], {})
+        step, fallback = 'full', None
+        failure = dev_failure(dev) if applied else None
+        if failure in DEV_CHECKS and BLUFF_NOTE not in notes:
+            # the step is chosen on the dev pairs alone; the test pair is solved once, for the step chosen
+            damped = damped_entries(entries, unit)
+            damped_applied = applied_ratios(damped)
+            fallback = {'trigger': failure, 'chosen': 'full', 'full': dict(_dev_reading(dev, applied), dev=dev),
+                        'damped': None}
+            if damped_applied:
+                damped_dev = _damped_dev_pairs(runner, runs, dev, damped_applied, symmetric, time_limit)
+                fallback['damped'] = dict(_dev_reading(damped_dev, damped_applied), dev=damped_dev)
+                if fallback['damped']['failure'] is None:
+                    step, fallback['chosen'] = 'damped', 'damped'
+                    entries, applied, dev = damped, damped_applied, damped_dev
+        numeraire = numeraire_factor(entries, base, runs[0].engine.item_sums)
         test = guarded = None
         if len(_usable_pairs(dev)) >= MIN_DEV_RUNS:
             test = _test_pair(runner, instances[4], applied, symmetric[instances[4].tier], time_limit)
@@ -1292,7 +1393,8 @@ def tune_group(runner, cells, max_rounds=MAX_ROUNDS, time_limit=TIME_LIMIT, log=
         verdict = accept_cell(entries, dev, test, guarded, share, notes)
         clamped = sorted(stat for stat, value in applied.items() if value * unit > MAX_STAT_WEIGHT)
         records.append(dict(verdict, cell=cell_key(cell), ratios=entries, applied=sorted(applied), clamped=clamped,
-                            numeraire=numeraire, rounds=max((len(run.rounds) for run in runs), default=0),
+                            step=step, fallback=fallback, numeraire=numeraire,
+                            rounds=max((len(run.rounds) for run in runs), default=0),
                             converged=all(run.converged for run in runs),
                             u_fit_gain={instance_key(run.instance): _fit_gain(run) for run in runs},
                             notes=notes, instances=[run.record() for run in runs], dev=dev, test=test,
@@ -1440,7 +1542,7 @@ def ship_table(run_path, game_version, solver=None):
         entry = {name: record[name] for name in ('status', 'reason', 'blind_share', 'rounds', 'converged',
                                                   'u_fit_gain', 'u_acc_gain', 'panel_gain', 'test_gain',
                                                   'test_panel_gain', 'range_delta', 'mp_delta', 'pow_share',
-                                                  'clamped', 'numeraire', 'notes')
+                                                  'clamped', 'step', 'numeraire', 'notes')
                  if name in record}
         entry['ratios'] = {stat: dict(ratio, source='tune/%s' % os.path.basename(os.path.normpath(run_path)))
                            for stat, ratio in (record.get('ratios') or {}).items()}

@@ -19,8 +19,8 @@ from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 VERSION = 'dofus3'
 PATH = os.path.join(DIRECTORY, '%s.json' % VERSION)
 MEASUREMENT = {'value', 'builds', 'n', 'spread', 'data', 'date', 'source', 'weak', 'folds', 'engine'}
-OPTIONAL = {'reason', 'limits', 'read'}
-REASONS = {None, 'bound', 'pooled', 'unchanged', 'folds', 'switch', 'no_runs', 'held'}
+OPTIONAL = {'reason', 'limits', 'read', 'full'}
+REASONS = {None, 'bound', 'pooled', 'unchanged', 'folds', 'switch', 'no_runs', 'held', 'damped'}
 WEAK_REASONS = {'folds', 'switch', 'no_runs', 'held'}
 HEADER = {'generated', 'game_version', 'generator_version', 'engine_digest', 'split_digest', 'game_data_sha1',
           'data_version', 'repository_head', 'solver', 'lambda', 'run_sha1', 'created'}
@@ -75,6 +75,11 @@ def entry_flaws(entry, applied_needs_runs=True):
         flaws.append('bound')
     if reason == 'unchanged' and not _close(value, engine):
         flaws.append('unchanged')
+    full = entry.get('full')
+    if reason == 'damped' and not (isinstance(full, (int, float)) and min(engine, full) < value < max(engine, full)):
+        flaws.append('damped')
+    if full is not None and reason not in ('damped', 'unchanged'):
+        flaws.append('full')
     if applied_needs_runs and not _close(value, engine) and entry['n'] < tuning.MIN_DEV_RUNS:
         flaws.append('runs')
     return flaws
@@ -148,6 +153,10 @@ def _shipped_flaws(where, cell):
             tuning.CEILING_FACTOR * shares['engine'], tuning.CEILING_FLOOR):
         flaws.append('ceiling')
     ratios = cell.get('ratios') or {}
+    if cell.get('step') not in ('full', 'damped'):
+        flaws.append('step')
+    if (cell.get('step') == 'damped') != any(entry.get('reason') == 'damped' for entry in ratios.values()):
+        flaws.append('damped')
     if any(not ratios.get(stat, {'weak': True}).get('weak') for stat in tuning.HELD_STATS):
         flaws.append('held')
     if tuning.BLUFF_NOTE in (cell.get('notes') or ()):
@@ -175,7 +184,8 @@ def _record(cell, ratios, **fields):
                  'panel_gain': {'lo': 0.0, 'hi': 0.01}, 'test_panel_gain': {'lo': 0.0, 'hi': 0.01},
                  'range_delta': {'dev_median': 0, 'test': -1}, 'mp_delta': {'dev': [0, 0, 0, 0], 'test': 0},
                  'numeraire': {'factor': 0.9, 'owned': ['pow', 'hp']},
-                 'pow_share': {'engine': 0.5, 'table': 0.55}, 'clamped': [], 'notes': [], 'ratios': ratios,
+                 'pow_share': {'engine': 0.5, 'table': 0.55}, 'clamped': [], 'step': 'full', 'notes': [],
+                 'ratios': ratios,
                  'applied': sorted(ratios)}, **fields)
 
 
@@ -202,6 +212,14 @@ class AWholeMeasurementPassesTests(SimpleTestCase):
 
     def test_a_value_pooled_over_the_siblings_may_differ_from_the_median_of_its_own_builds(self):
         self.assertEqual([], entry_flaws(_entry(value=3.1, reason='pooled')))
+
+    def test_a_damped_value_between_the_engine_and_its_full_value_is_whole(self):
+        self.assertEqual([], entry_flaws(_entry(value=2.2, reason='damped', full=2.5)))
+        self.assertEqual([], entry_flaws(_entry(value=1.8, reason='damped', full=1.6)))
+
+    def test_a_value_dropped_by_the_damping_keeps_the_full_value_it_came_from(self):
+        builds = {'a': 2.0, 'b': 2.0, 'c': 2.0, 'd': 2.0}
+        self.assertEqual([], entry_flaws(_entry(value=ENGINE, reason='unchanged', full=2.01, builds=builds)))
 
     def test_a_zero_engine_stat_stays_zero(self):
         self.assertEqual([], entry_flaws(_entry(engine=0.0, value=0.0, reason='unchanged', builds={'a': 0.0, 'b': 0.0,
@@ -254,6 +272,19 @@ class EveryDefectOfAMeasurementIsFlaggedTests(SimpleTestCase):
         self.assertIn('date', self._flags(date='soon'))
         self.assertIn('source', self._flags(source='bench/run'))
         self.assertIn('source', self._flags(source='tune'))
+
+    def test_a_damped_value_outside_the_engine_and_its_full_value(self):
+        self.assertIn('damped', self._flags(value=2.6, reason='damped', full=2.5))
+        self.assertIn('damped', self._flags(value=1.9, reason='damped', full=2.5))
+        self.assertIn('damped', self._flags(value=ENGINE, reason='damped', full=2.5))
+        self.assertIn('damped', self._flags(value=2.5, reason='damped', full=2.5))
+
+    def test_a_damped_value_without_its_full_value(self):
+        self.assertIn('damped', self._flags(value=2.2, reason='damped'))
+
+    def test_a_full_value_on_an_entry_the_damping_did_not_touch(self):
+        self.assertIn('full', self._flags(full=2.5))
+        self.assertIn('full', self._flags(value=3.1, reason='pooled', full=3.5))
 
     def test_a_reason_the_pooling_never_gives(self):
         self.assertIn('reason', self._flags(reason='because'))
@@ -348,6 +379,35 @@ class ATableShippedFromARunCarriesItsDigestsTests(SimpleTestCase):
             flaws = table_flaws(table)
         self.assertEqual([], flaws)
         self.assertTrue(any('data_version' in str(item.message) for item in caught))
+
+    def _shipped_damped(self, **changes):
+        with tempfile.TemporaryDirectory() as parent:
+            folder = os.path.join(parent, 'run-9')
+            os.makedirs(folder)
+            ratios = {'pow': _entry(value=2.2, reason='damped', full=2.5), 'hp': _entry()}
+            tuning.write_record(folder, _record('Iop/str/plain/200', ratios, **dict({'step': 'damped'}, **changes)))
+            return tuning.ship_table(folder, VERSION)
+
+    def test_a_cell_shipped_at_the_damped_step_passes_every_check_and_names_it(self):
+        table = self._shipped_damped()
+        self.assertEqual([], table_flaws(table))
+        cell = table['cells']['Iop']['str']['plain']['200']
+        self.assertEqual('damped', cell['step'])
+        self.assertEqual(2.5, cell['ratios']['pow']['full'])
+
+    def test_a_shipped_cell_that_names_no_step_fails(self):
+        table = self._shipped()
+        del table['cells']['Iop']['str']['plain']['200']['step']
+        self.assertEqual([('Iop/str/plain/200', 'step')], table_flaws(table))
+        table['cells']['Iop']['str']['plain']['200']['step'] = 'half'
+        self.assertEqual([('Iop/str/plain/200', 'step')], table_flaws(table))
+
+    def test_a_cell_at_the_damped_step_with_no_damped_value_fails(self):
+        table = self._shipped_damped(step='full')
+        self.assertEqual([('Iop/str/plain/200', 'damped')], table_flaws(table))
+        table = self._shipped()
+        table['cells']['Iop']['str']['plain']['200']['step'] = 'damped'
+        self.assertEqual([('Iop/str/plain/200', 'damped')], table_flaws(table))
 
     def test_a_cell_off_the_grid_fails(self):
         table = self._shipped()
