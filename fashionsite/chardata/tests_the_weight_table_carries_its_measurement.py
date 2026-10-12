@@ -133,6 +133,16 @@ def _shipped_flaws(where, cell):
     panel = cell.get('panel_gain') or {}
     if set(panel) != {'lo', 'hi'} or any(gain is None or gain < 0 for gain in panel.values()):
         flaws.append('panel_gain')
+    test_panel = cell.get('test_panel_gain') or {}
+    if set(test_panel) != {'lo', 'hi'} or any(gain is None or gain < -tuning.MAX_LOSS for gain in test_panel.values()):
+        flaws.append('test_panel_gain')
+    range_delta = cell.get('range_delta') or {}
+    if set(range_delta) != {'dev_median', 'test'} or any(delta is None or delta < -tuning.MAX_RANGE_LOSS
+                                                         for delta in range_delta.values()):
+        flaws.append('range_delta')
+    mp_delta = cell.get('mp_delta') or {}
+    if set(mp_delta) != {'dev', 'test'} or any(delta != 0 for delta in list(mp_delta['dev']) + [mp_delta['test']]):
+        flaws.append('mp_delta')
     shares = cell.get('pow_share') or {}
     if shares.get('engine') is None or shares.get('table') is None or shares['table'] > max(
             tuning.CEILING_FACTOR * shares['engine'], tuning.CEILING_FLOOR):
@@ -162,7 +172,9 @@ def _entry(**changes):
 def _record(cell, ratios, **fields):
     return dict({'cell': cell, 'status': 'shipped', 'reason': None, 'blind_share': 0.9, 'rounds': 2,
                  'converged': True, 'u_acc_gain': {'lo': 0.02, 'hi': 0.03}, 'test_gain': {'lo': 0.01, 'hi': 0.02},
-                 'panel_gain': {'lo': 0.0, 'hi': 0.01}, 'numeraire': {'factor': 0.9, 'owned': ['pow', 'hp']},
+                 'panel_gain': {'lo': 0.0, 'hi': 0.01}, 'test_panel_gain': {'lo': 0.0, 'hi': 0.01},
+                 'range_delta': {'dev_median': 0, 'test': -1}, 'mp_delta': {'dev': [0, 0, 0, 0], 'test': 0},
+                 'numeraire': {'factor': 0.9, 'owned': ['pow', 'hp']},
                  'pow_share': {'engine': 0.5, 'table': 0.55}, 'clamped': [], 'notes': [], 'ratios': ratios,
                  'applied': sorted(ratios)}, **fields)
 
@@ -351,6 +363,39 @@ class ATableShippedFromARunCarriesItsDigestsTests(SimpleTestCase):
         table = self._shipped()
         table['cells']['Iop']['str']['plain']['200']['panel_gain']['hi'] = -0.001
         self.assertEqual([('Iop/str/plain/200', 'panel_gain')], table_flaws(table))
+
+    def test_a_shipped_cell_whose_test_pair_lost_on_the_panel_fails(self):
+        table = self._shipped()
+        cell = table['cells']['Iop']['str']['plain']['200']
+        cell['test_panel_gain']['lo'] = -0.011
+        self.assertEqual([('Iop/str/plain/200', 'test_panel_gain')], table_flaws(table))
+        cell['test_panel_gain']['lo'] = -0.01
+        self.assertEqual([], table_flaws(table))
+
+    def test_a_shipped_cell_that_lost_more_than_a_range_fails(self):
+        table = self._shipped()
+        cell = table['cells']['Iop']['str']['plain']['200']
+        cell['range_delta']['test'] = -2
+        self.assertEqual([('Iop/str/plain/200', 'range_delta')], table_flaws(table))
+        cell['range_delta'] = {'dev_median': -1.5, 'test': 0}
+        self.assertEqual([('Iop/str/plain/200', 'range_delta')], table_flaws(table))
+
+    def test_a_shipped_cell_that_changed_the_mp_fails(self):
+        table = self._shipped()
+        cell = table['cells']['Iop']['str']['plain']['200']
+        cell['mp_delta']['test'] = 1
+        self.assertEqual([('Iop/str/plain/200', 'mp_delta')], table_flaws(table))
+        cell['mp_delta'] = {'dev': [0, -1, 0, 0], 'test': 0}
+        self.assertEqual([('Iop/str/plain/200', 'mp_delta')], table_flaws(table))
+
+    def test_a_shipped_cell_without_its_blind_stat_readings_fails(self):
+        table = self._shipped()
+        cell = table['cells']['Iop']['str']['plain']['200']
+        for name in ('test_panel_gain', 'range_delta', 'mp_delta'):
+            with self.subTest(name=name):
+                kept = cell.pop(name)
+                self.assertEqual([('Iop/str/plain/200', name)], table_flaws(table))
+                cell[name] = kept
 
     def test_a_shipped_cell_over_the_power_ceiling_fails(self):
         table = self._shipped()

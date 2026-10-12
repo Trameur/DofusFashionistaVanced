@@ -19,8 +19,11 @@ class _Result(object):
     """A door's answer: its read moves power by the factor of its instance, and its score is scripted."""
 
     def __init__(self, instance, ratios, ids, score, proven=True, factors=FACTORS, contributions=None, item_sums=None,
-                 moves=None):
+                 moves=None, table_range=5, table_mp=0, panel_shift=0.0):
         self.instance = instance
+        self.table_range = table_range
+        self.table_mp = table_mp
+        self.panel_shift = panel_shift
         self.factors = factors
         self.moves = moves or {}
         self.ratios = ratios
@@ -53,8 +56,10 @@ class _Result(object):
         return {'valid': self.proven is True, 'proven': self.proven, 'T': self.turn + (100.0 if table else 0.0),
                 'E': self.ehp, 'T_panel': self.turn - 10.0 + (60.0 if table else 0.0),
                 'credit': 10.0 + (40.0 if table else 0.0), 'u_acc': {'lo': self.score, 'hi': self.score},
-                'u_panel': {'lo': self.score, 'hi': self.score}, 'pow_share': 0.5, 'seconds': 1.0,
-                'stats': {name: (3 if table else 5) if name == 'range' else 0 for name in tuning.BLIND_STATS},
+                'u_panel': {end: self.score + (self.panel_shift if table else 0.0) for end in ('lo', 'hi')},
+                'pow_share': 0.5, 'seconds': 1.0,
+                'stats': {name: {'range': self.table_range if table else 5, 'mp': self.table_mp if table else 0}.get(
+                    name, 0) for name in tuning.BLIND_STATS},
                 'set': list(self.set_ids)}
 
 
@@ -65,8 +70,11 @@ class _Runner(object):
     game_version = VERSION
 
     def __init__(self, dev_pooled=1.05, test_pooled=1.05, unproven=0, factors=FACTORS, table_contributions=None,
-                 unproven_tiers=None, item_sums=None, moves=None):
+                 unproven_tiers=None, item_sums=None, moves=None, table_range=5, table_mp=0, test_panel_shift=0.0):
         self.calls = []
+        self.table_range = table_range
+        self.table_mp = table_mp
+        self.panel_shift = {'dev_a': 0.0, 'dev_b': 0.0, 'test': test_panel_shift}
         self.item_sums = item_sums
         self.moves = moves
         self.pooled_stats = {'pow'} | set(moves or ())
@@ -81,7 +89,9 @@ class _Runner(object):
         self.calls.append(SimpleNamespace(instance=instance, ratios=dict(ratios) if ratios else None,
                                           forbid=set(forbid), time_limit=time_limit, guarded=guarded))
         ids = (len(self.calls),)
-        facts = {'factors': self.factors, 'item_sums': self.item_sums, 'moves': self.moves}
+        facts = {'factors': self.factors, 'item_sums': self.item_sums, 'moves': self.moves,
+                 'table_range': self.table_range, 'table_mp': self.table_mp,
+                 'panel_shift': self.panel_shift[instance.split]}
         if ratios is None:
             return _Result(instance, None, ids, 1.0, **facts)
         if set(ratios) == self.pooled_stats:
@@ -160,7 +170,7 @@ class TheAcceptanceReadsTheSolvesOnThePooledRatiosTests(SimpleTestCase):
         self.assertTrue(all(run['rounds'][run['best']]['u_acc']['lo'] == 1.1 for run in record['instances']))
 
     def test_the_test_instance_decides_as_before(self):
-        _runner_, record = _tune(test_pooled=0.95)
+        _runner_, record = _tune(test_pooled=0.95, test_panel_shift=0.05)
         self.assertEqual(('engine', 'test_gain'), (record['status'], record['reason']))
 
     def test_a_solve_that_is_not_proven_is_made_again_at_twice_the_limit(self):
@@ -258,7 +268,7 @@ class EveryEvaluationRecordsWhatTheScoreCannotSeeTests(SimpleTestCase):
             self.assertEqual((100.0, 60.0, 40.0), (delta['T'], delta['T_panel'], delta['credit']))
 
     def test_a_pair_carries_the_change_of_the_stats_the_score_cannot_see(self):
-        _runner_, record = _tune()
+        _runner_, record = _tune(table_range=3)
         stats = record['dev'][0]['delta']['stats']
         self.assertEqual(set(tuning.BLIND_STATS), set(stats))
         self.assertEqual(-2, stats['range'])
@@ -271,6 +281,30 @@ class EveryEvaluationRecordsWhatTheScoreCannotSeeTests(SimpleTestCase):
     def test_the_record_keeps_the_panel_gain_the_acceptance_read(self):
         _runner_, record = _tune()
         self.assertAlmostEqual(0.05, record['panel_gain']['lo'])
+
+
+class TheTestPanelAndTheBlindStatsReachTheRecordTests(SimpleTestCase):
+
+    def test_a_cell_whose_sets_keep_the_range_and_the_mp_ships(self):
+        _runner_, record = _tune()
+        self.assertEqual(('shipped', None), (record['status'], record['reason']))
+        self.assertEqual({'dev_median': 0, 'test': 0}, record['range_delta'])
+        self.assertEqual({'dev': [0, 0, 0, 0], 'test': 0}, record['mp_delta'])
+
+    def test_a_cell_whose_table_sets_lose_two_range_keeps_the_engine(self):
+        _runner_, record = _tune(table_range=3)
+        self.assertEqual(('engine', 'range'), (record['status'], record['reason']))
+        self.assertEqual({'dev_median': -2, 'test': -2}, record['range_delta'])
+
+    def test_a_cell_whose_table_sets_gain_an_mp_keeps_the_engine(self):
+        _runner_, record = _tune(table_mp=1)
+        self.assertEqual(('engine', 'mp'), (record['status'], record['reason']))
+
+    def test_a_test_pair_that_gains_only_through_the_effect_credit_keeps_the_engine(self):
+        _runner_, record = _tune(test_panel_shift=-0.2)
+        self.assertEqual(('engine', 'test_panel'), (record['status'], record['reason']))
+        self.assertAlmostEqual(-0.15, record['test_panel_gain']['lo'])
+        self.assertAlmostEqual(0.05, record['test_gain']['lo'])
 
 
 #: what the engine's high set brings; its fixed damage is half of what it is worth under the read

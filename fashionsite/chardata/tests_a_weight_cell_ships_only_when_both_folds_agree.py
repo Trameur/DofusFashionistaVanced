@@ -341,17 +341,21 @@ class OnlyProvenRunsCountTests(SimpleTestCase):
         self.assertEqual({}, tuning.applied_ratios(weak))
 
 
-def _evaluation(lo=1.0, hi=1.0, valid=True, pow_share=0.5, panel_lo=None, panel_hi=None, **more):
+def _evaluation(lo=1.0, hi=1.0, valid=True, pow_share=0.5, panel_lo=None, panel_hi=None, range_=6, mp=6, **more):
     panel = {'lo': lo if panel_lo is None else panel_lo, 'hi': hi if panel_hi is None else panel_hi}
-    return dict({'valid': valid, 'u_acc': {'lo': lo, 'hi': hi}, 'u_panel': panel, 'pow_share': pow_share}, **more)
+    stats = {'range': range_, 'mp': mp, 'init': 0, 'lock': 0, 'dodge': 0}
+    return dict({'valid': valid, 'u_acc': {'lo': lo, 'hi': hi}, 'u_panel': panel, 'pow_share': pow_share,
+                 'stats': stats}, **more)
 
 
-def _pair(gain_lo=0.03, gain_hi=0.03, valid=True, engine_share=0.5, table_share=0.55, panel_lo=None, panel_hi=None):
-    """A pair whose panel score gains like the credited one unless `panel_lo` and `panel_hi` say otherwise."""
+def _pair(gain_lo=0.03, gain_hi=0.03, valid=True, engine_share=0.5, table_share=0.55, panel_lo=None, panel_hi=None,
+          range_delta=0, mp_delta=0):
+    """A pair whose panel score gains like the credited one unless `panel_lo` and `panel_hi` say otherwise, and whose
+    table set has `range_delta` more range and `mp_delta` more MP than the engine's."""
     return {'engine': _evaluation(1.0, 1.0, valid, engine_share),
             'table': _evaluation(1.0 + gain_lo, 1.0 + gain_hi, valid, table_share,
                                  1.0 + (gain_lo if panel_lo is None else panel_lo),
-                                 1.0 + (gain_hi if panel_hi is None else panel_hi))}
+                                 1.0 + (gain_hi if panel_hi is None else panel_hi), 6 + range_delta, 6 + mp_delta)}
 
 
 def _entries(**changes):
@@ -445,6 +449,112 @@ class ACellThatDoesNotGainKeepsTheEngineTests(SimpleTestCase):
     def test_the_blind_gate_comes_before_everything_else(self):
         verdict = tuning.accept_cell(_entries(), [], None, None, 0.1)
         self.assertEqual('blind', verdict['reason'])
+
+
+class TheTestPairKeepsItsPanelTurnTests(SimpleTestCase):
+    """The held-out pair is judged on the panel's turn alone too: a gain made of effect credit does not stand for it."""
+
+    def _verdict(self, **panel):
+        return _accept(test=_pair(0.1, 0.1, **panel))
+
+    def test_a_test_pair_that_gains_only_through_the_effect_credit_keeps_the_engine(self):
+        for end in ('panel_lo', 'panel_hi'):
+            with self.subTest(end=end):
+                verdict = self._verdict(**{end: -0.05})
+                self.assertEqual(('engine', 'test_panel'), (verdict['status'], verdict['reason']))
+
+    def test_a_panel_loss_of_a_hundredth_is_allowed_on_the_test_pair(self):
+        self.assertEqual('shipped', self._verdict(panel_lo=-0.0099, panel_hi=-0.0099)['status'])
+        self.assertEqual('test_panel', self._verdict(panel_lo=-0.0101)['reason'])
+        self.assertEqual('test_panel', self._verdict(panel_hi=-0.0101)['reason'])
+
+    def test_a_test_pair_with_no_panel_score_keeps_the_engine(self):
+        test = _pair(0.1, 0.1)
+        test['table']['u_panel'] = {'lo': None, 'hi': None}
+        self.assertEqual('test_panel', _accept(test=test)['reason'])
+
+    def test_the_dev_panel_median_is_judged_first(self):
+        verdict = _accept(dev=[_pair(panel_lo=-0.02)] * 3 + [_pair()], test=_pair(0.1, 0.1, panel_lo=-0.05))
+        self.assertEqual('panel_gain', verdict['reason'])
+
+    def test_the_test_panel_is_judged_before_the_test_gain(self):
+        self.assertEqual('test_panel', _accept(test=_pair(-0.001, -0.001, panel_lo=-0.05))['reason'])
+
+    def test_the_verdict_keeps_the_panel_gain_of_the_test_pair(self):
+        verdict = self._verdict(panel_lo=-0.05, panel_hi=0.04)
+        self.assertAlmostEqual(-0.05, verdict['test_panel_gain']['lo'])
+        self.assertAlmostEqual(0.04, verdict['test_panel_gain']['hi'])
+        self.assertAlmostEqual(0.03, _accept()['test_panel_gain']['lo'])
+
+
+class TheBlindStatsOfAPairHoldTests(SimpleTestCase):
+    """Range and MP are in no score: the table's set must not give up the engine's."""
+
+    def _dev(self, *range_deltas):
+        return [_pair(range_delta=delta) for delta in range_deltas]
+
+    def test_a_dev_median_of_one_range_lost_is_allowed(self):
+        self.assertEqual('shipped', _accept(dev=self._dev(-2, -1, -1, 0))['status'])
+        self.assertEqual('shipped', _accept(dev=self._dev(-2, -2, 0, 0))['status'])
+
+    def test_a_dev_median_of_more_than_one_range_lost_keeps_the_engine(self):
+        for deltas in ((-3, -2, -2, 0), (-2, -2, -1, 0), (-1, -2, -2, -2)):
+            with self.subTest(deltas=deltas):
+                verdict = _accept(dev=self._dev(*deltas))
+                self.assertEqual(('engine', 'range'), (verdict['status'], verdict['reason']))
+
+    def test_one_dev_pair_that_loses_more_range_than_the_median_does_is_no_fault(self):
+        self.assertEqual('shipped', _accept(dev=self._dev(-4, 0, 0, 0))['status'])
+
+    def test_a_test_pair_that_loses_more_than_one_range_keeps_the_engine(self):
+        self.assertEqual('shipped', _accept(test=_pair(range_delta=-1))['status'])
+        self.assertEqual('range', _accept(test=_pair(range_delta=-2))['reason'])
+
+    def test_range_gained_is_no_fault(self):
+        self.assertEqual('shipped', _accept(dev=self._dev(3, 3, 3, 3), test=_pair(range_delta=2))['status'])
+
+    def test_a_range_that_could_not_be_read_keeps_the_engine(self):
+        dev = self._dev(0, 0, 0, 0)
+        del dev[2]['engine']['stats']['range']
+        self.assertEqual('range', _accept(dev=dev)['reason'])
+        test = _pair()
+        del test['table']['stats']
+        self.assertEqual('range', _accept(test=test)['reason'])
+
+    def test_the_verdict_keeps_the_range_it_judged(self):
+        verdict = _accept(dev=self._dev(-2, -1, -1, 0), test=_pair(range_delta=-1))
+        self.assertEqual({'dev_median': -1, 'test': -1}, verdict['range_delta'])
+
+    def test_an_mp_change_on_a_dev_pair_keeps_the_engine(self):
+        for delta in (-1, 1):
+            with self.subTest(delta=delta):
+                verdict = _accept(dev=[_pair(mp_delta=delta), _pair(), _pair(), _pair()])
+                self.assertEqual(('engine', 'mp'), (verdict['status'], verdict['reason']))
+
+    def test_an_mp_change_on_the_test_pair_keeps_the_engine(self):
+        for delta in (-1, 1):
+            with self.subTest(delta=delta):
+                self.assertEqual('mp', _accept(test=_pair(mp_delta=delta))['reason'])
+
+    def test_an_mp_that_could_not_be_read_keeps_the_engine(self):
+        test = _pair()
+        test['engine']['stats'] = {'range': 6}
+        self.assertEqual('mp', _accept(test=test)['reason'])
+
+    def test_the_verdict_keeps_the_mp_it_judged(self):
+        verdict = _accept(dev=[_pair(mp_delta=1), _pair(), _pair(), _pair()])
+        self.assertEqual({'dev': [1, 0, 0, 0], 'test': 0}, verdict['mp_delta'])
+
+    def test_initiative_lock_and_dodge_are_recorded_and_hold_nothing(self):
+        test = _pair()
+        test['table']['stats'].update(init=-2000, lock=-5, dodge=-5)
+        self.assertEqual('shipped', _accept(test=test)['status'])
+
+    def test_the_loss_is_judged_before_the_range_and_the_range_before_the_mp_and_the_ceiling(self):
+        lossy = [_pair(gain_lo=-0.02, gain_hi=0.1), _pair(), _pair(), _pair()]
+        self.assertEqual('loss', _accept(dev=lossy, test=_pair(range_delta=-2))['reason'])
+        self.assertEqual('range', _accept(test=_pair(range_delta=-2, mp_delta=1))['reason'])
+        self.assertEqual('mp', _accept(test=_pair(mp_delta=1, table_share=0.99))['reason'])
 
 
 class ThePowerShareCeilingTests(SimpleTestCase):
@@ -546,8 +656,8 @@ class TheShardGateTests(SimpleTestCase):
             with self.subTest(reason=reason):
                 records = [{'status': 'engine', 'reason': reason}] * 3 + [{'status': 'shipped'}] * 5
                 self.assertTrue(tuning.shard_stopped(records))
-        for reason in ('dev_gain', 'panel_gain', 'test_gain', 'loss', 'ceiling', 'guarded_floor', 'guarded_loss',
-                       'no_change'):
+        for reason in ('dev_gain', 'panel_gain', 'test_panel', 'test_gain', 'loss', 'range', 'mp', 'ceiling',
+                       'guarded_floor', 'guarded_loss', 'no_change'):
             with self.subTest(reason=reason):
                 records = [{'status': 'engine', 'reason': reason}] * 8
                 self.assertFalse(tuning.shard_stopped(records))

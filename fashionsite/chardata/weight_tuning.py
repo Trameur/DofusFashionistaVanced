@@ -31,7 +31,7 @@ from fashionistapulp.item_effects import (COST_ONLY_STATUSES, ELEMENT_KEYS, PLAY
 logger = logging.getLogger(__name__)
 
 #: bumped by hand when the reader, the score, the instances or the acceptance change
-GENERATOR_VERSION = 3
+GENERATOR_VERSION = 4
 
 STEP = CHARACTERISTIC_STEP
 MAX_ROUNDS = 4
@@ -42,6 +42,8 @@ BOUNDS = (0.25, 4)
 FOLD_AGREEMENT = 1.25
 MIN_DEV_RUNS = 4
 MAX_LOSS = 0.01
+#: the range a table's set may give up against the engine's: the dev median and the test pair, no more
+MAX_RANGE_LOSS = 1
 CEILING_FACTOR = 1.5
 CEILING_FLOOR = 0.20
 BLIND_SHARE = 0.75
@@ -1044,18 +1046,58 @@ def _ceiling_holds(pairs):
     return table <= max(CEILING_FACTOR * engine, CEILING_FLOOR)
 
 
+def _stat_deltas(pairs, stat):
+    """Table minus engine of a stat the score cannot see, one per pair, None where either side did not report it."""
+    out = []
+    for pair in pairs:
+        engine = (pair['engine'].get('stats') or {}).get(stat)
+        table = (pair['table'].get('stats') or {}).get(stat)
+        out.append(None if engine is None or table is None else table - engine)
+    return out
+
+
+def _dev_range(valid):
+    """The median change of range over the dev pairs, None when a pair did not report it."""
+    deltas = _stat_deltas(valid, 'range')
+    return None if None in deltas else _median(deltas)
+
+
+def _range_kept(delta):
+    return delta is not None and delta >= -MAX_RANGE_LOSS
+
+
+def _mp_kept(deltas):
+    return all(delta == 0 for delta in deltas)
+
+
 def _guard_unfit(evaluation):
     """The guard facts of a guarded solve that say it is no comparison, [] when it is one or has no guard."""
     facts = evaluation.get('guard') or {}
     return [name for name in GUARD_UNFIT if facts.get(name)]
 
 
+def _median_gains(gains_per_pair):
+    """{end: median over the pairs}, an end a pair has no gain at being left out."""
+    return {end: _median([gains[end] for gains in gains_per_pair if gains[end] is not None]) for end in ('lo', 'hi')}
+
+
+def _gain_missing(gains):
+    return any(gains[end] is None or gains[end] <= 0 for end in gains)
+
+
+def _loses(gains_per_pair):
+    return any(gain is not None and gain < -MAX_LOSS for gains in gains_per_pair for gain in gains.values())
+
+
 def accept_cell(value, dev, test, guarded, blind_share, notes=()):
     """{'status': 'shipped' or 'engine', 'reason', ...} from the pooled entries and the evaluations.
 
     dev and test hold {'engine': evaluation, 'table': evaluation} per instance; guarded the same plus the guard facts,
-    None when the scenario has no guarded door. A cell with the bluff note passes every check and still keeps the
-    engine's weights: its spell rows are priced as if they all landed, which no first-hand source has settled.
+    None when the scenario has no guarded door. The table's sets must keep the engine's range (the median of the dev
+    pairs and the test pair give up at most MAX_RANGE_LOSS) and its MP (no pair changes it), which no score sees, and
+    the test pair must hold on the panel's turn alone as the dev median does. A cell with the bluff note passes every
+    check and still keeps the engine's weights: its spell rows are priced as if they all landed, which no first-hand
+    source has settled.
     """
     out = {'status': 'engine', 'reason': None, 'blind_share': blind_share}
     if blind_share is None or blind_share < BLIND_SHARE:
@@ -1064,7 +1106,7 @@ def accept_cell(value, dev, test, guarded, blind_share, notes=()):
     if not applied_ratios(value):
         out['reason'] = 'no_change'
         return out
-    valid = [pairs for pairs in dev if pairs['engine']['valid'] and pairs['table']['valid']]
+    valid = _usable_pairs(dev)
     if len(valid) < MIN_DEV_RUNS:
         out['reason'] = 'dev_runs'
         return out
@@ -1074,22 +1116,34 @@ def accept_cell(value, dev, test, guarded, blind_share, notes=()):
         out['reason'] = 'test_run'
         return out
     test_gain = _gains(test_pairs)
-    median = {end: _median([gains[end] for gains in dev_gains]) for end in ('lo', 'hi')}
-    panel = {end: _median([gains[end] for gains in (_gains(pairs, 'u_panel') for pairs in valid)
-                           if gains[end] is not None]) for end in ('lo', 'hi')}
-    out.update(u_acc_gain=median, panel_gain=panel, test_gain=test_gain,
+    test_panel = _gains(test_pairs, 'u_panel')
+    median = _median_gains(dev_gains)
+    panel = _median_gains([_gains(pairs, 'u_panel') for pairs in valid])
+    range_delta = {'dev_median': _dev_range(valid), 'test': _stat_deltas([test_pairs], 'range')[0]}
+    mp_delta = {'dev': _stat_deltas(valid, 'mp'), 'test': _stat_deltas([test_pairs], 'mp')[0]}
+    out.update(u_acc_gain=median, panel_gain=panel, test_gain=test_gain, test_panel_gain=test_panel,
+               range_delta=range_delta, mp_delta=mp_delta,
                pow_share={'engine': test_pairs['engine']['pow_share'], 'table': test_pairs['table']['pow_share']})
-    if any(median[end] is None or median[end] <= 0 for end in median):
+    if _gain_missing(median):
         out['reason'] = 'dev_gain'
         return out
     if any(panel[end] is None or panel[end] < 0 for end in panel):
         out['reason'] = 'panel_gain'
         return out
-    if any(test_gain[end] is None or test_gain[end] <= 0 for end in test_gain):
+    if any(test_panel[end] is None or test_panel[end] < -MAX_LOSS for end in test_panel):
+        out['reason'] = 'test_panel'
+        return out
+    if _gain_missing(test_gain):
         out['reason'] = 'test_gain'
         return out
-    if any(gain is not None and gain < -MAX_LOSS for gains in dev_gains + [test_gain] for gain in gains.values()):
+    if _loses(dev_gains + [test_gain]):
         out['reason'] = 'loss'
+        return out
+    if not (_range_kept(range_delta['dev_median']) and _range_kept(range_delta['test'])):
+        out['reason'] = 'range'
+        return out
+    if not _mp_kept(mp_delta['dev'] + [mp_delta['test']]):
+        out['reason'] = 'mp'
         return out
     if not all(_ceiling_holds(pairs) for pairs in valid + [test_pairs]):
         out['reason'] = 'ceiling'
@@ -1385,7 +1439,8 @@ def ship_table(run_path, game_version, solver=None):
         char_class, key, scenario, band = record['cell'].split('/')
         entry = {name: record[name] for name in ('status', 'reason', 'blind_share', 'rounds', 'converged',
                                                   'u_fit_gain', 'u_acc_gain', 'panel_gain', 'test_gain',
-                                                  'pow_share', 'clamped', 'numeraire', 'notes')
+                                                  'test_panel_gain', 'range_delta', 'mp_delta', 'pow_share',
+                                                  'clamped', 'numeraire', 'notes')
                  if name in record}
         entry['ratios'] = {stat: dict(ratio, source='tune/%s' % os.path.basename(os.path.normpath(run_path)))
                            for stat, ratio in (record.get('ratios') or {}).items()}

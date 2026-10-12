@@ -12,7 +12,8 @@ from chardata.management.commands import tune_weights
 from chardata.weight_table import BANDS, SCENARIOS, grid_element_sets
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES, MAIN_STATS
 
-#: moves only with GENERATOR_VERSION: change the plan, bump the version, pin the new digest
+#: moves only with the plan: change the plan, bump the version, pin the new digest (the version also moves with the
+#: acceptance, which leaves the digest where it is)
 PINNED_SPLIT_DIGEST = 'fb8d408c1c4d33e4fc666ce4da5073dcb20bebf3'
 PLAN = [('high', 'dev_a'), ('mid', 'dev_a'), ('rest', 'dev_b'), ('tail', 'dev_b'), ('low', 'test')]
 
@@ -27,7 +28,7 @@ class TheSplitIsPinnedTests(SimpleTestCase):
         self.assertEqual(PINNED_SPLIT_DIGEST, tuning.split_digest(_all_instances()))
 
     def test_the_generator_version_the_digest_belongs_to(self):
-        self.assertEqual(3, tuning.GENERATOR_VERSION)
+        self.assertEqual(4, tuning.GENERATOR_VERSION)
 
     def test_the_digest_does_not_depend_on_the_order_of_the_instances(self):
         instances = _all_instances()
