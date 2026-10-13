@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The /setup/ page draws the read-only weights and minimums panel and sends nothing new with the form."""
+"""The /setup/ page draws the editable weights and minimums panel and sends nothing with the form until the script adds the touched fields."""
 import json
 import os
 import re
@@ -138,8 +138,11 @@ class ThePanelSendsNothingWithTheFormTests(_Versioned, TestCase):
                         problems.append((version, 'inside the form', attrs.get('id')))
                     if 'name' in attrs:
                         problems.append((version, 'named', attrs['name']))
-                    if tag == 'input' and 'disabled' not in attrs:
-                        problems.append((version, 'editable', attrs.get('id')))
+                    if tag == 'input' and 'disabled' in attrs and attrs.get('id') != 'weight_dam':
+                        problems.append((version, 'disabled', attrs.get('id')))
+                    if tag == 'input' and 'disabled' not in attrs and not attrs.get('id', '').startswith(
+                            ('weight_', 'min_')):
+                        problems.append((version, 'not a weight or a minimum', attrs.get('id')))
             self.assertEqual([], [a for a, ancestors in page.find('form')
                                   if page.inside(ancestors, 'aside', 'setup-preview')])
         self.assertEqual([], problems)
@@ -248,14 +251,14 @@ class TheFieldsTheScriptReadsAreInTheFormTests(_Versioned, TestCase):
 
 class TheSafeguardLineTests(_Versioned, TestCase):
 
-    def test_the_line_waits_hidden_inside_the_panel_body(self):
+    def test_the_line_sits_rendered_and_empty_inside_the_panel_body(self):
         for version in VERSIONS:
             with self.subTest(version=version):
                 _html, page = setup_page(self.client, version)
                 lines = page.find('p', id='setup-preview-guard')
                 self.assertEqual(1, len(lines))
                 attrs, ancestors = lines[0]
-                self.assertIn('hidden', attrs)
+                self.assertNotIn('hidden', attrs)
                 self.assertTrue(page.inside(ancestors, 'aside', 'setup-preview'))
                 self.assertTrue(page.inside(ancestors, 'div', 'setup-preview-body'))
 
@@ -290,7 +293,7 @@ class ThePanelContextTests(_Versioned, TestCase):
         for version in VERSIONS:
             with self.subTest(version=version):
                 context = panel_context(version)
-                self.assertTrue(context['wm_readonly'])
+                self.assertTrue(context['wm_setup'])
                 self.assertEqual([], context['others'])
                 self.assertFalse(context['combined_open'])
                 self.assertFalse(context['temporix_on'])

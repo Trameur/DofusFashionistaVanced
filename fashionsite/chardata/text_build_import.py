@@ -3,6 +3,7 @@
 
 import re
 
+from chardata.fashionista_build import MAX_STAT_VALUE
 from chardata.forgemagie_view import (_closest_pool_entry, _normalized_text,
                                       _search_level, _search_types)
 from chardata.inventory_view import _ocr_normalize, _ocr_stat_lexicon
@@ -206,7 +207,10 @@ def _lit_ligne_de_stat(ligne, lexique):
         chiffres = groupes[1]
     else:
         return None
-    valeur = signe * int(chiffres)
+    try:
+        valeur = signe * int(chiffres)
+    except ValueError:
+        return None
     if valeur == 0:
         return None
     etiquette = _ocr_normalize(m.group(4))
@@ -253,8 +257,9 @@ def _jets_de_la_piece(structure, item, jets, game_version,
         detail = {'key': jet['key'], 'value': jet['value'],
                   'name': localized_stat_name(stat.name, game_version),
                   'applied': False, 'out_of_range': False, 'exo': exo,
-                  'low': None, 'high': None}
-        if stat.id not in portees and not exo:
+                  'low': None, 'high': None,
+                  'too_large': abs(jet['value']) > MAX_STAT_VALUE}
+        if detail['too_large'] or (stat.id not in portees and not exo):
             lignes.append(detail)
             continue
         if stat.id not in portees:
@@ -385,7 +390,7 @@ def read_items(text, game_version, language):
         for d in detail:
             if not d['applied']:
                 refuses.append({'name': piece['name'], 'stat': d['name'],
-                                'value': d['value']})
+                                'value': d['value'], 'too_large': d['too_large']})
         del piece['item']
         del piece['jets_lus']
 

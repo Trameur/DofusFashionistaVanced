@@ -28,11 +28,17 @@ SETUP_TEMPLATES = ('projdetails.html', 'weights_minimums_block.html', 'weights_m
 PAGE_STRINGS = (
     'What the optimizer will look for',
     'Pick a class to see the weights and minimums the optimizer will use.',
-    'Preview only, it updates as you choose. Once the build exists, you can change any weight or minimum.',
+    'These values update as you choose. Edit any weight or minimum and your build starts with your values.',
     'The preview could not be updated. You can still create your build.',
-    'Minimums are saved when you continue to the Wizard. Creating a set by hand saves the weights only.',
+    '"Optimize now" and "Continue to Wizard" save the weights and the minimums. "Create a set by hand" saves the weights and only the minimums you edited.',
+    'Back to the preset values',
+    'Keep your edits?',
+    'Your last choice changes the preset values.',
+    'Keep my edits',
+    'Recompute from the preset',
 )
 INTRO = 'Get started by providing details about your character.'
+FORM_STRINGS = ('Optimize now',)
 SCRIPT_STRINGS = (
     ('Your last choice changed %(count)s characteristic: %(names)s.',
      'Your last choice changed %(count)s characteristics: %(names)s.'),
@@ -42,6 +48,7 @@ SCRIPT_STRINGS = (
     ('Weight was %s', None),
     ('Minimum was %s', None),
     ('There was no minimum', None),
+    ('You edited %s value.', 'You edited %s values.'),
     ('Safeguard: effective HP, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch.', None),
     ('Safeguard: damage stats, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch.', None),
 )
@@ -73,8 +80,8 @@ class TheScriptAsksForTheStringsTheCataloguesCarryTests(SimpleTestCase):
     def test_the_page_template_uses_exactly_the_panel_strings_this_module_lists(self):
         source = open(TEMPLATE, encoding='utf-8').read()
         panel = source[source.index('<aside id="setup-preview"'):source.index('</aside>')]
-        self.assertEqual(set(PAGE_STRINGS),
-                         set(re.findall(r'\{%\s*trans\s+"([^"]+)"\s*%\}', panel)))
+        found = re.findall(r'\{%\s*trans\s+(?:"([^"]+)"|\'([^\']+)\')\s*%\}', panel)
+        self.assertEqual(set(PAGE_STRINGS), {double or single for double, single in found})
 
 
 class EveryLanguageTranslatesTheScriptStringsTests(SimpleTestCase):
@@ -139,7 +146,7 @@ class EveryLanguageTranslatesThePageStringsTests(TestCase):
     def test_the_catalogues_carry_each_string_with_the_template_as_its_source(self):
         for lang in LANGUAGES:
             catalog = catalogue(lang, 'django')
-            for msgid in PAGE_STRINGS + (INTRO,):
+            for msgid in PAGE_STRINGS + FORM_STRINGS + (INTRO,):
                 with self.subTest(lang=lang, msgid=msgid):
                     entry = catalog.find(msgid)
                     self.assertIsNotNone(entry)
@@ -147,37 +154,37 @@ class EveryLanguageTranslatesThePageStringsTests(TestCase):
                     self.assertFalse(entry.obsolete)
                     if lang != 'en':
                         self.assertTrue(entry.msgstr.strip())
-                    if msgid in PAGE_STRINGS:
+                    if msgid in PAGE_STRINGS + FORM_STRINGS:
                         self.assertIn('chardata/templates/chardata/projdetails.html',
                                       [path for path, _line in entry.occurrences])
 
     def test_each_foreign_language_differs_from_english_when_the_string_is_looked_up(self):
         for lang in TRANSLATED:
             with translation.override(lang):
-                for msgid in PAGE_STRINGS + (INTRO,):
+                for msgid in PAGE_STRINGS + FORM_STRINGS + (INTRO,):
                     with self.subTest(lang=lang, msgid=msgid):
                         self.assertNotEqual(msgid, translation.gettext(msgid))
         with translation.override('en'):
-            for msgid in PAGE_STRINGS + (INTRO,):
+            for msgid in PAGE_STRINGS + FORM_STRINGS + (INTRO,):
                 self.assertEqual(msgid, translation.gettext(msgid))
 
     def test_the_setup_page_shows_the_strings_in_the_language_of_the_reader(self):
         for lang in LANGUAGES:
             body = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE=lang).content.decode('utf-8')
             with translation.override(lang):
-                for msgid in PAGE_STRINGS + (INTRO,):
+                for msgid in PAGE_STRINGS + FORM_STRINGS + (INTRO,):
                     with self.subTest(lang=lang, msgid=msgid):
                         self.assertIn(translation.gettext(msgid), body)
 
     def test_nothing_the_page_says_in_french_uses_vous_where_the_panel_speaks(self):
         with translation.override('fr'):
-            for msgid in PAGE_STRINGS + (INTRO,):
+            for msgid in PAGE_STRINGS + FORM_STRINGS + (INTRO,):
                 self.assertIsNone(FRENCH_FORMAL.search(translation.gettext(msgid)))
 
     def test_no_translation_has_a_dash_or_an_emoji(self):
         for lang in TRANSLATED:
             with translation.override(lang):
-                for msgid in PAGE_STRINGS + (INTRO,):
+                for msgid in PAGE_STRINGS + FORM_STRINGS + (INTRO,):
                     text = translation.gettext(msgid)
                     with self.subTest(lang=lang, msgid=msgid):
                         self.assertIsNone(DASH.search(text))
@@ -190,6 +197,7 @@ def template_message_ids(name):
     source = open(os.path.join(HERE, 'templates', 'chardata', name), encoding='utf-8').read()
     ids = set(re.findall(r'\{%\s*trans\s+"((?:[^"\\]|\\.)*)"', source))
     ids |= set(re.findall(r"_\('((?:[^'\\]|\\.)*)'\)", source))
+    ids |= set(re.findall(r"\{%\s*trans\s+'((?:[^'\\]|\\.)*)'", source))
     ids = {text.replace('\\"', '"').replace('%', '%%') for text in ids}
     for body in re.findall(r'\{%\s*blocktrans[^%]*%\}(.*?)\{%\s*endblocktrans', source, re.S):
         ids.add(re.sub(r'\{\{\s*(\w+)\s*\}\}', r'%(\1)s', body.replace('%', '%%')))
@@ -238,7 +246,7 @@ vm.runInContext(fs.readFileSync(process.argv[2], 'utf8'), sandbox);
 const django = sandbox.django;
 const source = fs.readFileSync(process.argv[3], 'utf8');
 const script = new Function('gettext', 'ngettext', 'interpolate', '$', 'document', 'window',
-    source + '; return {summary: setupPreviewSummary, badge: setupPreviewBadge, title: setupPreviewTitle, guard: setupPreviewGuard};')(
+    source + '; return {summary: setupPreviewSummary, badge: setupPreviewBadge, title: setupPreviewTitle, guard: setupPreviewGuard, edits: setupPreviewEdits};')(
     django.gettext, django.ngettext, django.interpolate, function() { return {ready: function() {}}; }, {}, {});
 const names = ['AP', 'Damage', 'Range', 'MP', 'HP'];
 const kinds = {damage: 'effective_hp', defense: 'turn', heals: 'turn'};
@@ -256,7 +264,9 @@ process.stdout.write(JSON.stringify({
     noMinimum: script.title({min: true, minWas: ''}),
     guardHp: script.guard('damage', '10', kinds),
     guardTurn: script.guard('heals', '15', kinds),
-    guardNothing: script.guard('balanced', '10', kinds)
+    guardNothing: script.guard('balanced', '10', kinds),
+    editedOne: script.edits(1),
+    editedMany: script.edits(4)
 }));
 """
 
@@ -301,7 +311,8 @@ class TheScriptSpeaksEachLanguageTests(TestCase):
             'guardTurn': 'Safeguard: damage stats, AP, MP, Range and the other stats the priority '
                          'does not aim for keep at least 85% of their value in the balanced build. '
                          'The exact values are computed at launch.',
-            'guardNothing': None}, said)
+            'guardNothing': None,
+            'editedOne': 'You edited 1 value.', 'editedMany': 'You edited 4 values.'}, said)
 
     def test_every_foreign_language_replaces_every_sentence_and_leaves_no_placeholder(self):
         english = self.spoken('en')
@@ -325,6 +336,9 @@ class TheScriptSpeaksEachLanguageTests(TestCase):
             self.assertIn('11', said['minimum'])
             self.assertIn('90%', said['guardHp'])
             self.assertIn('85%', said['guardTurn'])
+            self.assertIn('1', said['editedOne'])
+            self.assertIn('4', said['editedMany'])
+            self.assertNotEqual(said['editedOne'], said['editedMany'])
             self.assertNotEqual(said['guardHp'], said['guardTurn'])
 
     def test_french_picks_the_singular_for_one_and_the_plural_after(self):
@@ -336,18 +350,25 @@ class TheScriptSpeaksEachLanguageTests(TestCase):
         self.assertTrue(said['five'].endswith('Range et 2 autres.'), said['five'])
         self.assertEqual('1 modifié', said['badgeOne'])
         self.assertEqual('7 modifiés', said['badgeMany'])
+        self.assertEqual('Tu as modifié 1 valeur.', said['editedOne'])
+        self.assertEqual('Tu as modifié 4 valeurs.', said['editedMany'])
         self.assertIsNone(FRENCH_FORMAL.search(' '.join(text for text in said.values() if text)))
 
     def test_the_other_languages_pick_the_plural_from_two_up(self):
         wanted = {
             'es': ('Tu última elección ha cambiado 1 característica: AP.',
-                   'Tu última elección ha cambiado 2 características: AP, Damage.'),
+                   'Tu última elección ha cambiado 2 características: AP, Damage.',
+                   'Has cambiado 1 valor.', 'Has cambiado 4 valores.'),
             'pt': ('A sua última escolha alterou 1 característica: AP.',
-                   'A sua última escolha alterou 2 características: AP, Damage.'),
+                   'A sua última escolha alterou 2 características: AP, Damage.',
+                   'Alterou 1 valor.', 'Alterou 4 valores.'),
             'de': ('Ihre letzte Auswahl hat 1 Eigenschaft geändert: AP.',
-                   'Ihre letzte Auswahl hat 2 Eigenschaften geändert: AP, Damage.')}
-        for lang, (one, two) in wanted.items():
+                   'Ihre letzte Auswahl hat 2 Eigenschaften geändert: AP, Damage.',
+                   'Sie haben 1 Wert geändert.', 'Sie haben 4 Werte geändert.')}
+        for lang, (one, two, edited_one, edited_many) in wanted.items():
             said = self.spoken(lang)
             with self.subTest(lang=lang):
                 self.assertEqual(one, said['one'])
                 self.assertEqual(two, said['two'])
+                self.assertEqual(edited_one, said['editedOne'])
+                self.assertEqual(edited_many, said['editedMany'])

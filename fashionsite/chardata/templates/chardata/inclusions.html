@@ -129,6 +129,7 @@ $.ajaxSetup({
 // Version prefix used by solution_popup.js for AJAX calls (e.g. '/retro').
 // Empty for dofus3. Without this the item picker throws and never opens.
 var apiBase = '{{ api_base }}';
+var MAX_STAT_VALUE = {{ max_stat_value|stringformat:"d" }};
 
 var allItemsPerType = {{ types_json | safe }};
 var allItemsPerTypeAndName = {{ names_and_types_json | safe }};
@@ -259,6 +260,11 @@ function renderStatOverrideSection(slot, itemId, itemStats) {
                 var inp = $(this);
                 var fb = inp.siblings('.save-feedback');
                 var newVal = inp.val().trim();
+                if (newVal !== '' && Math.abs(parseInt(newVal)) > MAX_STAT_VALUE) {
+                    var kept = (statOverrides[String(itemId)] || {})[String(capturedStatId)];
+                    inp.val(kept !== undefined ? kept : capturedOriginalValue);
+                    return;
+                }
                 if (newVal === '' || parseInt(newVal) === capturedOriginalValue) {
                     newVal = '';
                     inp.css('outline', '');
@@ -272,7 +278,7 @@ function renderStatOverrideSection(slot, itemId, itemStats) {
                 }
                 $.post("{% game_url 'set_item_stat_override' char_id %}",
                     {item_id: itemId, stat_id: capturedStatId, value: newVal},
-                    function() { fb.stop(true).show().delay(1200).fadeOut(400); });
+                    function(answer) { if (answer === 'ok') fb.stop(true).show().delay(1200).fadeOut(400); });
             };
         })(stat.stat_id, stat.value));
         row.append(label).append(input).append(feedback);

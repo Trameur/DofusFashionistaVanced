@@ -141,9 +141,13 @@
                 <div class="small-explain">{% trans "You can change this at any time from the build page." %}</div>
             </div>
             {% endif %}
-            <div id="submit-mode">
-                <input class='submit-button button-generic' name="byhand" type='submit' value="{{ _('Create a set by hand') }}" style='margin-right: 10px;' />
-                <input class='submit-button button-generic' name="wizard" type='submit' value="{{ _('Continue to Wizard') }}" style="margin-left: 10px;"/>
+            <div id="submit-mode" class="setup-doors">
+                <input class="setup-default-door" name="byhand" type="submit" value="{{ _('Create a set by hand') }}" tabindex="-1" aria-hidden="true" />
+                <input class='submit-button button-generic setup-primary' name="optimize" type='submit' value="{{ _('Optimize now') }}" />
+                <div class="setup-doors-secondary">
+                    <input class='submit-button button-thin-foreground setup-secondary' name="byhand" type='submit' value="{{ _('Create a set by hand') }}" />
+                    <input class='submit-button button-thin-foreground setup-secondary' name="wizard" type='submit' value="{{ _('Continue to Wizard') }}" />
+                </div>
             </div>
             <div id="save-mode">
                 <label><input type="checkbox" class="click-modifies-state" name="reapply" value="reapply" id="reapply-cb"><span class='input-name'>{% trans "Restart wizard upon saving" %}</span></label><br>
@@ -156,12 +160,24 @@
             <details id="setup-preview-details" open>
                 <summary class="setup-preview-summary big-text"><span id="setup-preview-title">{% trans "What the optimizer will look for" %}</span><span id="setup-preview-badge" class="setup-badge" hidden></span></summary>
                 <div id="setup-preview-body" class="setup-preview-body" aria-busy="true">
-                    <p class="small-explain setup-preview-note">{% trans "Preview only, it updates as you choose. Once the build exists, you can change any weight or minimum." %}</p>
-                    <p id="setup-preview-door" class="small-explain setup-preview-door">{% trans "Minimums are saved when you continue to the Wizard. Creating a set by hand saves the weights only." %}</p>
+                    <p id="setup-preview-note" class="small-explain setup-preview-note">{% trans "These values update as you choose. Edit any weight or minimum and your build starts with your values." %}</p>
+                    <p id="setup-preview-door" class="small-explain setup-preview-door">{% trans '"Optimize now" and "Continue to Wizard" save the weights and the minimums. "Create a set by hand" saves the weights and only the minimums you edited.' %}</p>
                     <p id="setup-preview-empty" class="small-explain setup-preview-empty">{% trans "Pick a class to see the weights and minimums the optimizer will use." %}</p>
+                    <div id="setup-preview-edits" class="setup-preview-edits">
+                        <p id="setup-preview-edited" class="small-explain setup-preview-edited" aria-live="polite"></p>
+                        <button type="button" id="setup-preview-reset" class="button-thin-foreground setup-preview-reset" hidden>{% trans "Back to the preset values" %}</button>
+                    </div>
+                    <div id="setup-preview-keep" class="setup-preview-keep" role="group" aria-labelledby="setup-preview-keep-question" hidden>
+                        <p id="setup-preview-keep-question" class="setup-preview-keep-question" role="alert">{% trans "Keep your edits?" %}</p>
+                        <p class="small-explain setup-preview-keep-hint">{% trans "Your last choice changes the preset values." %}</p>
+                        <div class="setup-preview-keep-buttons">
+                            <button type="button" id="setup-preview-keep-yes" class="button-thin-foreground">{% trans "Keep my edits" %}</button>
+                            <button type="button" id="setup-preview-keep-no" class="button-thin-foreground">{% trans "Recompute from the preset" %}</button>
+                        </div>
+                    </div>
                     <p id="setup-preview-changes" class="small-explain setup-preview-changes" aria-live="polite"></p>
                     <p id="setup-preview-notice" class="small-explain setup-preview-notice" role="status" hidden>{% trans "The preview could not be updated. You can still create your build." %}</p>
-                    <p id="setup-preview-guard" class="small-explain setup-preview-guard" aria-live="polite" hidden></p>
+                    <p id="setup-preview-guard" class="small-explain setup-preview-guard" aria-live="polite"></p>
                     {{ guard_kinds|json_script:"setup-guard-kinds" }}
                     <div id="setup-preview-block" class="wm-page setup-preview-block" hidden>
                         {% include "chardata/weights_minimums_block.html" %}

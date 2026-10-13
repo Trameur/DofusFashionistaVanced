@@ -18,6 +18,7 @@ import json
 import jsonpickle
 
 from chardata.translation_util import localized_stat_name
+from chardata.fashionista_build import MAX_STAT_VALUE
 from chardata.lock_forbid import (get_inclusions_dict,
     set_inclusions_dict_and_check_exclusions, the_build_can_wear,
     get_stat_overrides, set_item_stat_override, remove_item_stat_override)
@@ -89,7 +90,8 @@ def inclusions(request, char_id):
                          'images_json': json.dumps(images_urls),
                          'slot_to_type_json': json.dumps(SLOT_NAME_TO_TYPE),
                          'ajax_loader': json.dumps(get_ajax_loader_URL(request)),
-                         'stat_overrides_json': json.dumps(stat_overrides_json)},
+                         'stat_overrides_json': json.dumps(stat_overrides_json),
+                         'max_stat_value': MAX_STAT_VALUE},
                         char)
 
 @require_POST
@@ -190,6 +192,9 @@ def set_item_stat_override_view(request, char_id):
         stat_id = int(stat_id)
         override = None if value is None or value == '' else int(value)
     except ValueError:
+        return HttpResponseText('error')
+
+    if override is not None and abs(override) > MAX_STAT_VALUE:
         return HttpResponseText('error')
 
     if override is None:

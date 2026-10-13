@@ -4588,7 +4588,7 @@ msgid "Pick a class to see the weights and minimums the optimizer will use."
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html
-msgid "Preview only, it updates as you choose. Once the build exists, you can change any weight or minimum."
+msgid "These values update as you choose. Edit any weight or minimum and your build starts with your values."
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html
@@ -4596,7 +4596,31 @@ msgid "The preview could not be updated. You can still create your build."
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html
-msgid "Minimums are saved when you continue to the Wizard. Creating a set by hand saves the weights only."
+msgid "\"Optimize now\" and \"Continue to Wizard\" save the weights and the minimums. \"Create a set by hand\" saves the weights and only the minimums you edited."
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Optimize now"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Back to the preset values"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Keep your edits?"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Your last choice changes the preset values."
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Keep my edits"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Recompute from the preset"
 msgstr ""
 
 #: .\chardata\templates\chardata\projdetails.html:28
@@ -6937,6 +6961,10 @@ msgstr ""
 
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "These rolls were left out, because the item does not carry that stat:"
+msgstr ""
+
+#: chardata/templates/chardata/text_build.html
+msgid "These rolls were left out, because the value is too large:"
 msgstr ""
 
 #: .\chardata\templates\chardata\text_build.html:104

@@ -37,6 +37,7 @@ from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS
                               posted_choices, posted_guard, priorities, setup_boxes,
                               setup_columns, shown_play_mode, stored_choices, stored_guard,
                               within_focus_limit)
+from chardata.setup_edits import apply_touched_fields
 from chardata.setup_preview import panel_context
 from chardata.smart_build import (get_char_aspects, ALL_ASPECTS,
                                   inert_aspects,
@@ -256,7 +257,7 @@ def create_project(request):
     
     priority, play_mode = posted_choices(request.POST, char)
     apply_setup_choices(char, state['char_build_aspects_set'], priority, play_mode,
-                        True, state['where_to_go'] == 'wizard',
+                        True, state['where_to_go'] in ('wizard', 'optimize'),
                         guard_pct=posted_guard(request.POST, char))
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     initial_options = initial_exo_options(char.game_version, char.level)
@@ -268,6 +269,7 @@ def create_project(request):
     if version_has_temporix(char.game_version):
         initial_options['temporix'] = request.POST.get('temporix') == 'on'
     set_options(char, initial_options)
+    apply_touched_fields(char, request.POST)
 
     char.save()
 
@@ -306,8 +308,9 @@ def create_project(request):
     
     if state['where_to_go'] == 'wizard':
         return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))
-    else:
-        return HttpResponseRedirect(version_reverse(request, 'solution', char.id, True))
+    if state['where_to_go'] == 'optimize':
+        return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+    return HttpResponseRedirect(version_reverse(request, 'solution', char.id, True))
 
 # TODO: This state should be a class.
 def _get_state_from_char(char):
@@ -327,7 +330,12 @@ def _get_state_from_char(char):
 
 def _get_state_from_post(request, game_version):
     
-    where_to_go = 'solution' if request.POST.get('byhand', None) else 'wizard'
+    if request.POST.get('byhand', None):
+        where_to_go = 'solution'
+    elif request.POST.get('optimize', None):
+        where_to_go = 'optimize'
+    else:
+        where_to_go = 'wizard'
     aspects_set = set()
     for aspect in ALL_ASPECTS & setup_boxes(game_version):
         if on_off_to_bool(request.POST.get('check_%s' % aspect, 'off')):

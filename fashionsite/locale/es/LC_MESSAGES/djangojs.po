@@ -764,6 +764,13 @@ msgstr "Margen de seguridad: los PdV efectivos, los PA, los PM, el alcance y las
 msgid "Safeguard: damage stats, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
 msgstr "Margen de seguridad: las características de daño, los PA, los PM, el alcance y las demás características que la prioridad no busca conservan al menos el %(share)s de su valor en el build equilibrado. Los valores exactos se calculan al lanzar la búsqueda."
 
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "You edited %s value."
+msgid_plural "You edited %s values."
+msgstr[0] "Has cambiado %s valor."
+msgstr[1] "Has cambiado %s valores."
+
 #: chardata/static/chardata/weights_minimums.js
 #, javascript-format
 msgid "%s minimum"

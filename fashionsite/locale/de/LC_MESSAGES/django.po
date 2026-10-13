@@ -5051,16 +5051,40 @@ msgid "Pick a class to see the weights and minimums the optimizer will use."
 msgstr "Wählen Sie eine Klasse, um die Gewichte und Mindestwerte zu sehen, die der Optimierer verwendet."
 
 #: chardata/templates/chardata/projdetails.html
-msgid "Preview only, it updates as you choose. Once the build exists, you can change any weight or minimum."
-msgstr "Nur eine Vorschau, sie aktualisiert sich bei jeder Auswahl. Sobald der Build erstellt ist, können Sie jedes Gewicht und jeden Mindestwert ändern."
+msgid "These values update as you choose. Edit any weight or minimum and your build starts with your values."
+msgstr "Diese Werte aktualisieren sich bei jeder Auswahl. Ändern Sie ein beliebiges Gewicht oder einen Mindestwert, und Ihr Build startet mit Ihren Werten."
 
 #: chardata/templates/chardata/projdetails.html
 msgid "The preview could not be updated. You can still create your build."
 msgstr "Die Vorschau konnte nicht aktualisiert werden. Sie können Ihren Build trotzdem erstellen."
 
 #: chardata/templates/chardata/projdetails.html
-msgid "Minimums are saved when you continue to the Wizard. Creating a set by hand saves the weights only."
-msgstr "Die Mindestwerte werden gespeichert, wenn Sie zum Assistenten weitergehen. Wenn Sie ein Set von Hand erstellen, werden nur die Gewichte gespeichert."
+msgid "\"Optimize now\" and \"Continue to Wizard\" save the weights and the minimums. \"Create a set by hand\" saves the weights and only the minimums you edited."
+msgstr "„Jetzt optimieren“ und „Weiter zum Assistenten“ speichern die Gewichte und die Mindestwerte. „Erstellen Sie ein Set von Hand“ speichert die Gewichte und nur die Mindestwerte, die Sie geändert haben."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Optimize now"
+msgstr "Jetzt optimieren"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Back to the preset values"
+msgstr "Zurück zu den voreingestellten Werten"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Keep your edits?"
+msgstr "Ihre Änderungen behalten?"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Your last choice changes the preset values."
+msgstr "Ihre letzte Auswahl ändert die voreingestellten Werte."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Keep my edits"
+msgstr "Meine Änderungen behalten"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Recompute from the preset"
+msgstr "Aus den voreingestellten Werten neu berechnen"
 
 #: .\chardata\templates\chardata\projdetails.html:28
 msgid "Get started by providing details about your character."
@@ -7969,6 +7993,10 @@ msgstr "außerhalb von %(low)s bis %(high)s, bitte prüfen"
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "These rolls were left out, because the item does not carry that stat:"
 msgstr "Diese Werte wurden ausgelassen, weil das Item diesen Wert nicht trägt:"
+
+#: chardata/templates/chardata/text_build.html
+msgid "These rolls were left out, because the value is too large:"
+msgstr "Diese Werte wurden ausgelassen, weil der Wert zu groß ist:"
 
 #: .\chardata\templates\chardata\text_build.html:104
 msgid "%(n)s scrolled"

@@ -78,7 +78,7 @@ def panel_context(game_version):
         context['wm_state'] = dict(context['wm_state'], caps=_caps(char))
     for section in context['sections']:
         section['open'] = section['key'] == 'apmprange'
-    context.update(combined_open=False, others=[], temporix_on=False, wm_readonly=True,
+    context.update(combined_open=False, others=[], temporix_on=False, wm_setup=True,
                    temporix_switch=version_has_temporix(game_version), guard_kinds=dict(GUARD_KIND))
     return context
 

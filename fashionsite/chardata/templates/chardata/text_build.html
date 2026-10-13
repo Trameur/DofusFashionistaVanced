@@ -203,6 +203,15 @@
         </div>
         {% endif %}
 
+        {% if oversized_rolls %}
+        <div class="import-ignored" id="import-oversized-rolls">
+            <p>{% trans "These rolls were left out, because the value is too large:" %}</p>
+            <ul>
+                {% for roll in oversized_rolls %}<li>{{ roll.name }}: {{ roll.value|truncatechars:12 }} {{ roll.stat }}</li>{% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
         {% if unreadable_links %}
         <div class="import-ignored" id="import-unreadable-links">
             <p>{% trans "Links from sites we cannot read yet, left out:" %}</p>

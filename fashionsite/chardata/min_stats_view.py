@@ -18,7 +18,7 @@ import json
 
 from chardata.min_stats import get_min_stats, set_min_stats, convert_dict_index_name_to_key
 from chardata.util import safe_int, get_char_or_raise, HttpResponseJson
-from chardata.weights_minimums import _get_stat_icon_url, _get_adv_stat_icon_urls  # noqa: F401
+from chardata.weights_minimums import MINIMUM_LIMIT, _get_stat_icon_url, _get_adv_stat_icon_urls  # noqa: F401
 from fashionistapulp.structure import get_structure
 from django.views.decorators.http import require_POST
 
@@ -44,12 +44,12 @@ def min_stats_post(request, char_id):
             continue
         if field_name in request.POST:
             minimum = safe_int(request.POST.get(field_name, ''))
-            if minimum is not None:
+            if minimum is not None and abs(minimum) <= MINIMUM_LIMIT:
                 minimum_values[stat.name] = minimum
 
     if 'min_hp' in request.POST:
         minimum = safe_int(request.POST.get('min_hp'))
-        if minimum is not None:
+        if minimum is not None and abs(minimum) <= MINIMUM_LIMIT:
             minimum_values['HP'] = minimum
 
     minimum_values['adv_mins'] = {}
@@ -57,7 +57,7 @@ def min_stats_post(request, char_id):
         field_name = 'min_%s' % stat['key']
         if field_name in request.POST:
             minimum = safe_int(request.POST.get(field_name, ''))
-            if minimum is not None:
+            if minimum is not None and abs(minimum) <= MINIMUM_LIMIT:
                 minimum_values['adv_mins'][stat['name']] = minimum
     
     set_min_stats(char, minimum_values)        

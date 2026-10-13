@@ -343,7 +343,7 @@ def _pieces_du_lien(build, structure, version):
         for d in detail:
             if not d['applied']:
                 refuses.append({'name': piece['name'], 'stat': d['name'],
-                                'value': d['value']})
+                                'value': d['value'], 'too_large': d['too_large']})
     return pieces, overrides, refuses
 
 
@@ -660,7 +660,8 @@ def _lis(request, texte, version_page, formulaire, action=None):
             'unreadable_links': illisibles[:12],
             'truncated': lu['truncated'],
             'max_lines': MAX_LIGNES,
-            'refused_rolls': refuses[:12],
+            'refused_rolls': [roll for roll in refuses if not roll['too_large']][:12],
+            'oversized_rolls': [roll for roll in refuses if roll['too_large']][:12],
             'level': niveau,
             'char_class': char_class,
             'base_points': _caracteristiques_pour_apercu(caracteristiques),

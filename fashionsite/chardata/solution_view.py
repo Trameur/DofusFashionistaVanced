@@ -43,6 +43,7 @@ from chardata.char_blobs import read_char_blob
 from chardata.closest_set import closest_set_facts
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import continuation_input, fashion, get_options, search_gap
+from chardata.fashionista_build import MAX_STAT_VALUE
 from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
                                   get_all_inclusions_en_names,
@@ -917,6 +918,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     params.update(vote_data)
     params.update(solution_params)
     params['build_patch'] = build_patch_info(char, generation)
+    params['max_stat_value'] = MAX_STAT_VALUE
 
     if not is_guest:
         from chardata.inventory_solver import get_effective_stat_overrides

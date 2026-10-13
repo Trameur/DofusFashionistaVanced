@@ -123,6 +123,14 @@ function wmInit(postUrl, options) {
             var cap = caps[rowOf(this).attr('data-key')];
             $(this).text(cap === undefined || cap === null ? '' : '/' + cap);
         });
+        $('.wm-min-input').each(function() {
+            var cap = caps[rowOf(this).attr('data-key')];
+            if (cap === undefined || cap === null) {
+                $(this).removeAttr('max');
+            } else {
+                $(this).attr('max', cap);
+            }
+        });
     }
 
     function applyState(newState) {
@@ -277,7 +285,18 @@ function wmInit(postUrl, options) {
         }, 0);
     }
 
+    function wholeNumber($input) {
+        var number = Number($input.val());
+        if (!previewMode || $input.val() === '' || !isFinite(number)) {
+            return;
+        }
+        if (String(Math.round(number)) !== $input.val()) {
+            $input.val(Math.round(number));
+        }
+    }
+
     function weightChanged() {
+        wholeNumber($(this));
         if ($(this).val() === '' && !mixedAndLeftBlank(this)) {
             $(this).val(0);
         }
@@ -285,6 +304,7 @@ function wmInit(postUrl, options) {
     }
 
     function minimumChanged() {
+        wholeNumber($(this));
         clampToCap($(this));
         afterEdit(this);
     }
@@ -311,19 +331,17 @@ function wmInit(postUrl, options) {
         }
     }
 
-    if (!previewMode) {
-        $('.wm-input').on('focus', selectOnFocus).on('mouseup', function(event) {
-            if ($(this).data('wm-focused')) {
-                $(this).data('wm-focused', false);
-                event.preventDefault();
-            }
-        }).on('blur', function() {
+    $('.wm-input').on('focus', selectOnFocus).on('mouseup', function(event) {
+        if ($(this).data('wm-focused')) {
             $(this).data('wm-focused', false);
-        });
-        $('.wm-weight-input').on('change', weightChanged);
-        $('.wm-min-input').on('change', minimumChanged);
-        $('.wm-input').on('keydown', onEnter);
-    }
+            event.preventDefault();
+        }
+    }).on('blur', function() {
+        $(this).data('wm-focused', false);
+    });
+    $('.wm-weight-input').on('change', weightChanged);
+    $('.wm-min-input').on('change', minimumChanged);
+    $('.wm-input').on('keydown', onEnter);
 
     $('.wm-section').on('toggle', function() {
         if (this.open) {
@@ -376,5 +394,5 @@ function wmInit(postUrl, options) {
     if ($form.attr('data-focus') === 'minimums' && media('(min-width: 901px)') && !window.location.hash) {
         $('#min_ap').trigger('focus');
     }
-    return {applyState: applyState};
+    return {applyState: applyState, refresh: refreshAll};
 }

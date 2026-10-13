@@ -13,9 +13,11 @@ from django.test import SimpleTestCase
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.path.join(HERE, 'static', 'chardata', 'weights_minimums.js')
 FUNCTIONS = ('rememberFocus', 'changedSinceFocus', 'mixedAndLeftBlank', 'clampToCap',
-             'afterEdit', 'selectOnFocus', 'weightChanged', 'minimumChanged', 'onEnter')
+             'afterEdit', 'selectOnFocus', 'wholeNumber', 'weightChanged', 'minimumChanged',
+             'onEnter')
 
 PAGE_STUB = r"""
+var previewMode = false;
 var changesPendingStateEngine = false;
 var saves = 0, selected = [], timers = [];
 var document = {activeElement: null};
