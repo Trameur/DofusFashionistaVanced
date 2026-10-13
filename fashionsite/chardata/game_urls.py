@@ -8,7 +8,7 @@ from chardata import (
     encyclopedia_view, login_view, manage_account_view, contact_view,
     comment_view, coaching_view, workshop_view, profile_view,
     tag_view, nl_build_view, dofusbook_view, dofusbook_export_view, text_build_view, forgemagie_view, inventory_view, guides_view,
-    fashionista_build_view,
+    fashionista_build_view, setup_preview,
 )
 
 urlpatterns = [
@@ -52,6 +52,7 @@ urlpatterns = [
     re_path(r'^initbasestatspost/(?P<char_id>\d+)/', base_stats_view.init_base_stats_post, name='init_base_stats_post'),
 
     re_path(r'^setup/$', create_project_view.setup, name='setup'),
+    re_path(r'^setuppreview/$', setup_preview.setup_preview, name='setup_preview'),
     re_path(r'^quickstart/$', coaching_view.coaching, name='quickstart'),
     re_path(r'^smartbuild/$', nl_build_view.smart_build, name='smart_build'),
     re_path(r'^import/dofusbook/$', dofusbook_view.dofusbook, name='dofusbook_import'),

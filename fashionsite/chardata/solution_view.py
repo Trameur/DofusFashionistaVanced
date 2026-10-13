@@ -1044,6 +1044,7 @@ RESERVED_PATH_WORDS = frozenset((
     'remove', 'removetag', 'reportcomment', 'save_char', 'saveaccount',
     'saveproject', 'saveprojecttouser', 'send', 'setitemforbidden',
     'setitemlocked', 'setitemstatoverride', 'setslotlockempty', 'setup',
+    'setuppreview',
     'solution', 'spells', 'statspost', 'unfollow', 'update_item',
     'update_set', 'votebuild', 'weightsminspost', 'wizard', 'wizardgetsliders',
     'wizardpost', 'workshop',
