@@ -1591,8 +1591,17 @@ def read_meta(run_path):
         return {}
 
 
+def refuse_other_generator(run_path):
+    """Raises ValueError when the run folder was made by another generator version than this one."""
+    stamped = read_meta(run_path).get('generator_version')
+    if stamped is not None and stamped != GENERATOR_VERSION:
+        raise ValueError('%s holds records of generator %s and this is generator %s' % (run_path, stamped,
+                                                                                         GENERATOR_VERSION))
+
+
 def ship_table(run_path, game_version, solver=None):
     """The table file's content from a run folder: its cells and the header, with the solver the run was made on."""
+    refuse_other_generator(run_path)
     records = read_records(run_path)
     if solver is None:
         solver = read_meta(run_path).get('solver')

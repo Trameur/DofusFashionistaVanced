@@ -177,6 +177,7 @@ class Command(BaseCommand):
     def _ship(self, run_path, game_version):
         if not os.path.isdir(os.path.join(run_path, 'cells')):
             raise CommandError('not a run folder: %s' % run_path)
+        self._refuse_other_generator(run_path)
         table = tuning.ship_table(run_path, game_version)
         path = os.path.join(DIRECTORY, '%s.json' % game_version)
         os.makedirs(DIRECTORY, exist_ok=True)
@@ -235,6 +236,8 @@ class Command(BaseCommand):
         held = set(os.listdir(folder)) if os.path.isdir(folder) else set()
         if held and not options['resume']:
             raise CommandError('%s already holds a run: pass --resume or choose another folder' % out)
+        if held:
+            self._refuse_other_generator(out)
         groups = [group for group in tuning.groups_of(cells)
                   if not all(os.path.basename(tuning.cell_path(out, tuning.cell_key(cell))) in held
                              for cell in group)]
@@ -254,6 +257,13 @@ class Command(BaseCommand):
                 open(os.path.join(out, STOP_FILE % scenario), 'w').close()
                 self.stdout.write('shard %s stopped: too many cells could not be judged' % scenario)
         self.stdout.write('%d of %d groups finished' % (finished, len(groups)))
+
+    @staticmethod
+    def _refuse_other_generator(run_path):
+        try:
+            tuning.refuse_other_generator(run_path)
+        except ValueError as error:
+            raise CommandError(str(error))
 
     @staticmethod
     def _write_meta(game_version, out, options):
