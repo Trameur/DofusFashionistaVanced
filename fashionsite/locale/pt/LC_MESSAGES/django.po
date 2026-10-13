@@ -4980,6 +4980,26 @@ msgstr ""
 msgid "Build Details"
 msgstr "Detalhes do build"
 
+#: chardata/templates/chardata/projdetails.html
+msgid "What the optimizer will look for"
+msgstr "O que o otimizador vai procurar"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Pick a class to see the weights and minimums the optimizer will use."
+msgstr "Escolha uma classe para ver os pesos e mínimos que o otimizador vai usar."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Preview only, it updates as you choose. Once the build exists, you can change any weight or minimum."
+msgstr "Apenas uma pré-visualização: atualiza-se a cada escolha. Depois de o build existir, pode alterar qualquer peso ou mínimo."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "The preview could not be updated. You can still create your build."
+msgstr "Não foi possível atualizar a pré-visualização. Pode criar o seu build na mesma."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Minimums are saved when you continue to the Wizard. Creating a set by hand saves the weights only."
+msgstr "Os mínimos são guardados ao continuar para o Wizard. Criar um conjunto à mão guarda apenas os pesos."
+
 #: .\chardata\templates\chardata\projdetails.html:28
 msgid "Get started by providing details about your character."
 msgstr "Comece aqui, descrevendo seu personagem."

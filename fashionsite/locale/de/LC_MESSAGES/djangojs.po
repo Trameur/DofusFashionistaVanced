@@ -716,6 +716,55 @@ msgstr "Aus dem Vergleich entfernen"
 msgid "Too many attempts. Wait a few minutes and try again."
 msgstr "Zu viele Versuche. Warte ein paar Minuten und probier es erneut."
 
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Your last choice changed %(count)s characteristic: %(names)s."
+msgid_plural "Your last choice changed %(count)s characteristics: %(names)s."
+msgstr[0] "Ihre letzte Auswahl hat %(count)s Eigenschaft geändert: %(names)s."
+msgstr[1] "Ihre letzte Auswahl hat %(count)s Eigenschaften geändert: %(names)s."
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "and %s more"
+msgid_plural "and %s more"
+msgstr[0] "und %s weitere"
+msgstr[1] "und %s weitere"
+
+#: chardata/static/chardata/setup.js
+msgid "Your last choice left the weights and minimums unchanged."
+msgstr "Ihre letzte Auswahl hat kein Gewicht und keinen Mindestwert geändert."
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "%s changed"
+msgid_plural "%s changed"
+msgstr[0] "%s geändert"
+msgstr[1] "%s geändert"
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "Weight was %s"
+msgstr "Das Gewicht war %s"
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "Minimum was %s"
+msgstr "Der Mindestwert war %s"
+
+#: chardata/static/chardata/setup.js
+msgid "There was no minimum"
+msgstr "Es gab keinen Mindestwert"
+
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Safeguard: effective HP, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
+msgstr "Sicherheitsmarge: effektive LP, AP, BP, Reichweite und die übrigen Stats, auf die die Priorität nicht abzielt, behalten mindestens %(share)s ihres Werts im ausgewogenen Build. Die genauen Werte werden beim Start der Suche berechnet."
+
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Safeguard: damage stats, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
+msgstr "Sicherheitsmarge: Schadensstats, AP, BP, Reichweite und die übrigen Stats, auf die die Priorität nicht abzielt, behalten mindestens %(share)s ihres Werts im ausgewogenen Build. Die genauen Werte werden beim Start der Suche berechnet."
+
 #: chardata/static/chardata/weights_minimums.js
 #, javascript-format
 msgid "%s minimum"

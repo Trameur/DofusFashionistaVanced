@@ -1,0 +1,231 @@
+.setup-layout {
+    display: block;
+}
+
+.setup-form-col {
+    min-width: 0;
+}
+
+.setup-preview {
+    --setup-flash: rgba(227, 191, 77, 0.34);
+    box-sizing: border-box;
+    max-width: 780px;
+    margin: 18px auto 0;
+    padding: 4px 12px 12px;
+    border: 1px solid rgba(128, 128, 128, 0.4);
+    border-radius: 8px;
+    text-align: left;
+}
+
+html.fm-light .setup-preview {
+    --setup-flash: rgba(190, 130, 20, 0.36);
+}
+
+html:not(.fm-modern):not(.fm-light) .setup-preview {
+    --setup-flash: rgba(227, 191, 77, 0.26);
+}
+
+html.fm-modern .setup-preview {
+    background: var(--fm-surface);
+    border-color: var(--fm-border);
+    border-radius: var(--fm-radius);
+    box-shadow: var(--fm-shadow-sm);
+}
+
+.setup-preview[hidden],
+.setup-preview [hidden] {
+    display: none !important;
+}
+
+.setup-preview-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: bold;
+}
+
+.setup-preview-summary::-webkit-details-marker {
+    display: none;
+}
+
+.setup-preview-summary::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 7px;
+    border-color: transparent transparent transparent currentColor;
+    transition: transform 0.15s;
+}
+
+#setup-preview-details[open] > .setup-preview-summary::before {
+    transform: rotate(90deg);
+}
+
+.setup-badge {
+    flex: 0 0 auto;
+    padding: 0 7px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+details[open] > summary > .setup-badge {
+    display: none;
+}
+
+.setup-preview-note,
+.setup-preview-door,
+.setup-preview-empty,
+.setup-preview-changes,
+.setup-preview-guard,
+.setup-preview-notice {
+    margin: 4px 0 8px;
+    font-size: 12px;
+    text-align: left;
+}
+
+.setup-preview-notice {
+    font-style: italic;
+}
+
+.setup-preview-changes:empty {
+    display: none;
+}
+
+#setup-preview .wm-page {
+    max-width: none;
+}
+
+#setup-preview .wm-intro {
+    margin: 0 0 8px;
+    font-size: 12px;
+    text-align: left;
+}
+
+#setup-preview .wm-section {
+    margin-bottom: 8px;
+}
+
+#setup-preview .wm-section > summary {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#setup-preview .wm-row,
+#setup-preview .wm-head {
+    grid-template-columns: 18px minmax(0, 1fr) 76px 84px;
+    gap: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#setup-preview .wm-slider,
+#setup-preview .wm-slider-gap {
+    display: none;
+}
+
+#setup-preview .wm-name-wide {
+    grid-column: 1 / 4;
+}
+
+#setup-preview .wm-name-wide + .wm-min {
+    grid-column: 4;
+}
+
+#setup-preview .wm-row input.wm-input {
+    padding: 2px 4px !important;
+}
+
+#setup-preview .wm-row {
+    position: relative;
+    isolation: isolate;
+}
+
+#setup-preview .wm-row::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background: var(--setup-flash);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+}
+
+#setup-preview .wm-row.setup-changed::after {
+    opacity: 1;
+}
+
+#setup-preview .wm-row.setup-changed .wm-name {
+    color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #setup-preview .wm-row::after,
+    .setup-preview-summary::before {
+        transition: none;
+    }
+}
+
+@media (max-width: 480px) {
+    #setup-preview .wm-row .wm-input {
+        min-height: 0 !important;
+        font-size: 14px !important;
+    }
+}
+
+@media (min-width: 901px) {
+    .setup-layout {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .setup-form-col {
+        flex: 1 1 0;
+    }
+
+    .setup-preview {
+        flex: 0 0 372px;
+        width: 372px;
+        margin: 0;
+        position: sticky;
+        top: 12px;
+        max-height: calc(100vh - 24px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .setup-form-col .build-boxes-section {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .setup-form-col .build-boxes-section td,
+    .setup-form-col .build-boxes-section th {
+        padding: 2px;
+        font-size: 12px;
+        overflow-wrap: anywhere;
+        vertical-align: top;
+    }
+
+    .setup-form-col .build-boxes-section label {
+        font-size: 12px;
+        line-height: 1.25;
+    }
+
+    .setup-form-col .build-boxes-column {
+        width: auto;
+    }
+}

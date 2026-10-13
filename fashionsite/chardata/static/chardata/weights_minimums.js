@@ -1,10 +1,11 @@
 function wmInit(postUrl, options) {
     var formMode = !!(options && options.mode === 'form');
+    var previewMode = !!(options && options.mode === 'preview');
     var $form = $((options && options.form) || '#main_form');
     var state = JSON.parse(document.getElementById('wm-state').textContent);
     var defaults = JSON.parse(document.getElementById('wm-defaults').textContent);
     var ranges = state.ranges || {};
-    var STORE_KEY = 'fm_wm_sections';
+    var STORE_KEY = previewMode ? 'fm_setup_sections' : 'fm_wm_sections';
 
     function media(query) {
         return window.matchMedia ? window.matchMedia(query).matches : true;
@@ -117,6 +118,13 @@ function wmInit(postUrl, options) {
         refreshCounts();
     }
 
+    function refreshCaps(caps) {
+        $('.wm-cap').each(function() {
+            var cap = caps[rowOf(this).attr('data-key')];
+            $(this).text(cap === undefined || cap === null ? '' : '/' + cap);
+        });
+    }
+
     function applyState(newState) {
         ranges = newState.ranges || ranges;
         $('.wm-weight-input').each(function() {
@@ -130,6 +138,9 @@ function wmInit(postUrl, options) {
             $(this).val(value === undefined || value === null ? '' : value);
         });
         $('#weights_reset').val('0');
+        if (previewMode && newState.caps) {
+            refreshCaps(newState.caps);
+        }
         refreshAll();
     }
 
@@ -228,7 +239,7 @@ function wmInit(postUrl, options) {
             var key = $(this).attr('data-section');
             if (stored && typeof stored[key] === 'boolean') {
                 this.open = stored[key];
-            } else if (!stored && media('(min-width: 901px)')) {
+            } else if (!stored && !previewMode && media('(min-width: 901px)')) {
                 this.open = true;
             }
         });
@@ -300,17 +311,19 @@ function wmInit(postUrl, options) {
         }
     }
 
-    $('.wm-input').on('focus', selectOnFocus).on('mouseup', function(event) {
-        if ($(this).data('wm-focused')) {
+    if (!previewMode) {
+        $('.wm-input').on('focus', selectOnFocus).on('mouseup', function(event) {
+            if ($(this).data('wm-focused')) {
+                $(this).data('wm-focused', false);
+                event.preventDefault();
+            }
+        }).on('blur', function() {
             $(this).data('wm-focused', false);
-            event.preventDefault();
-        }
-    }).on('blur', function() {
-        $(this).data('wm-focused', false);
-    });
-    $('.wm-weight-input').on('change', weightChanged);
-    $('.wm-min-input').on('change', minimumChanged);
-    $('.wm-input').on('keydown', onEnter);
+        });
+        $('.wm-weight-input').on('change', weightChanged);
+        $('.wm-min-input').on('change', minimumChanged);
+        $('.wm-input').on('keydown', onEnter);
+    }
 
     $('.wm-section').on('toggle', function() {
         if (this.open) {
@@ -350,15 +363,18 @@ function wmInit(postUrl, options) {
     clearTheBar();
 
     openSections();
-    if (formMode) {
+    if (formMode || previewMode) {
         applyState(state);
     } else {
         setupStateEngine(applyState, postUrl, state, null, applyState);
     }
     $('.wm-section[open]').each(function() { buildSliders($(this)); });
-    openHash();
+    if (!previewMode) {
+        openHash();
+    }
 
     if ($form.attr('data-focus') === 'minimums' && media('(min-width: 901px)') && !window.location.hash) {
         $('#min_ap').trigger('focus');
     }
+    return {applyState: applyState};
 }

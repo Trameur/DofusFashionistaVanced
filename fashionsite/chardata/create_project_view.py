@@ -37,6 +37,7 @@ from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS
                               posted_choices, posted_guard, priorities, setup_boxes,
                               setup_columns, shown_play_mode, stored_choices, stored_guard,
                               within_focus_limit)
+from chardata.setup_preview import panel_context
 from chardata.smart_build import (get_char_aspects, ALL_ASPECTS,
                                   inert_aspects,
                                   ASPECT_TO_NAME)
@@ -91,6 +92,7 @@ def setup(request, char_id=0):
 
     # Item from an encyclopedia page to build around, checked against the catalogue
     lock_item = _wanted_item(request, game_version)
+    preview_panel = panel_context(game_version) if is_new_char and can_create else {}
 
     return set_response(request,
                         'chardata/projdetails.html',
@@ -117,6 +119,7 @@ def setup(request, char_id=0):
                          'temporix_available': (
                              is_new_char and version_has_temporix(game_version)),
                          **temporix_window(),
+                         **preview_panel,
                          'is_new_char': is_new_char},
                         char)
 

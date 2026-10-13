@@ -4733,7 +4733,7 @@ msgstr "Valable du %(start)s au %(end)s"
 
 #: .\chardata\templates\chardata\options.html
 msgid "For the TemporiX servers: shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build."
-msgstr "Pour les serveurs TemporiX : coiffes, capes, amulettes, anneaux, ceintures, bottes et Dofus rayonnants que lâchent les monstres (chaque valeur multipliée par 1,5, arrondie au supérieur, malus compris), le Bouclier de l'infini au rang 1000, et aucune limite de PA, PM, PO ni d’invocations. Interdisez les pièces que vous n’avez pas, comme sur n’importe quel build."
+msgstr "Pour les serveurs TemporiX : coiffes, capes, amulettes, anneaux, ceintures, bottes et Dofus rayonnants que lâchent les monstres (chaque valeur multipliée par 1,5, arrondie au supérieur, malus compris), le Bouclier de l'infini au rang 1000, et aucune limite de PA, PM, PO ni d’invocations. Interdis les pièces que tu n’as pas, comme sur n’importe quel build."
 
 #: .\chardata\templates\chardata\solution_item.html
 msgctxt "smithmagic mark on an item"
@@ -5069,9 +5069,29 @@ msgstr ""
 msgid "Build Details"
 msgstr "Détails du build"
 
+#: chardata/templates/chardata/projdetails.html
+msgid "What the optimizer will look for"
+msgstr "Ce que l’optimiseur va chercher"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Pick a class to see the weights and minimums the optimizer will use."
+msgstr "Choisis une classe pour voir les poids et les minimums que l’optimiseur utilisera."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Preview only, it updates as you choose. Once the build exists, you can change any weight or minimum."
+msgstr "Simple aperçu : il se met à jour à chaque choix. Une fois le build créé, tu peux modifier chaque poids et chaque minimum."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "The preview could not be updated. You can still create your build."
+msgstr "L’aperçu n’a pas pu être mis à jour. Tu peux quand même créer ton build."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Minimums are saved when you continue to the Wizard. Creating a set by hand saves the weights only."
+msgstr "Les minimums sont enregistrés quand tu continues vers l’Assistant. Créer un stuff manuellement n’enregistre que les poids."
+
 #: .\chardata\templates\chardata\projdetails.html:28
 msgid "Get started by providing details about your character."
-msgstr "Commencez en fournissant des détails sur votre personnage."
+msgstr "Commence par donner les détails de ton personnage."
 
 #: .\chardata\templates\chardata\projdetails.html:30
 msgid "Modify the build and character configuration."
@@ -5091,7 +5111,7 @@ msgstr "Classe du Personnage"
 
 #: .\chardata\templates\chardata\projdetails.html:53 .\chardata\tests.py:299
 msgid "Not sure which class to pick? Read the guide"
-msgstr "Vous hésitez sur la classe ? Lisez le guide"
+msgstr "Tu hésites sur la classe ? Lis le guide"
 
 #: .\chardata\templates\chardata\projdetails.html:70
 #: .\chardata\templates\chardata\shared_builds.html:70
@@ -5110,8 +5130,8 @@ msgid ""
 "No element checked: the build will not look for any damage. Click again "
 "to continue anyway."
 msgstr ""
-"Aucun élément coché : le build ne cherchera pas à faire de dégâts. "
-"Cliquez à nouveau pour continuer quand même."
+"Aucun élément coché : le build ne cherchera pas à faire de dégâts. Clique à "
+"nouveau pour continuer quand même."
 
 #: chardata/templates/chardata/projdetails.html
 msgid "Advanced options"
@@ -5221,9 +5241,8 @@ msgid ""
 " You have reached the maximum number of builds allowed. To create a new "
 "build, please delete some old ones <a href=\"%(load_proj_link)s\">here</a>."
 msgstr ""
-" Vous avez atteint le nombre maximal de builds permis. Pour créer un "
-"nouveau build, veuillez effacer de vieux builds <a "
-"href=\"%(load_proj_link)s\">ici</a>."
+" Tu as atteint le nombre maximal de builds permis. Pour créer un nouveau "
+"build, efface de vieux builds <a href=\"%(load_proj_link)s\">ici</a>."
 
 #: .\chardata\templates\chardata\projdetails.html:136
 msgid ""
@@ -5280,26 +5299,26 @@ msgid ""
 "Hitters who want damage as high as possible ignoring defense should check "
 "this."
 msgstr ""
-"Si vous désirez faire le plus de dégâts possible en ignorant les "
-"caractéristiques de défense, cochez cette case."
+"Si tu veux faire le plus de dégâts possible en ignorant les caractéristiques "
+"de défense, coche cette case."
 
 #: .\chardata\templates\chardata\projdetails.html:143
 msgid ""
 "Tankers that want very high resists. Increases importance of linear and "
 "percentage resists."
 msgstr ""
-"Si vous désirez de très hautes résistances, cochez cette case. Cela va "
-"augmenter l'importance des résistances fixes et des résistances en "
-"pourcentage pendant la recherche."
+"Si tu veux de très hautes résistances, coche cette case. Cela va augmenter "
+"l'importance des résistances fixes et des résistances en pourcentage pendant "
+"la recherche."
 
 #: .\chardata\templates\chardata\projdetails.html:144
 msgid ""
 "Chars that want +Damage over the main stat, for hitting with low base damage "
 "attacks. Increases importance of +Damage and +Elemental Damages."
 msgstr ""
-"Si vous désirez beaucoup de dommages en plus des caractéristiques, pour "
-"taper plus fort avec des attaques faibles, cochez cette case. Cela va "
-"augmenter l'importance des dommages fixes durant la recherche."
+"Si tu veux beaucoup de dommages en plus des caractéristiques, pour taper "
+"plus fort avec des attaques faibles, coche cette case. Cela va augmenter "
+"l'importance des dommages fixes durant la recherche."
 
 #: .\chardata\templates\chardata\projdetails.html:145
 msgid ""
@@ -5308,18 +5327,18 @@ msgid ""
 "primarily with Healing Word and Revitalizing Word rather than Word of "
 "Sacrifice and Word of Altruism."
 msgstr ""
-"Nous conseillons de cocher cette case aux classes pouvant soigner, ou si "
-"vous désirez un CàC de soin. Cela va augmenter l'importance des soins "
-"pendant la recherche. Par exemple, les Eniripsa devraient cocher cette case "
-"s'ils veulent soigner plus avec les sorts 'Mot Soignant' et 'Mot "
-"revitalisant' qu'avec les sorts 'Mot de Sacrifice' ou 'Mot d'altruisme'."
+"On conseille de cocher cette case aux classes qui peuvent soigner, ou si tu "
+"veux un CàC de soin. Cela va augmenter l'importance des soins pendant la "
+"recherche. Par exemple, les Eniripsa devraient cocher cette case s'ils "
+"veulent soigner plus avec les sorts 'Mot Soignant' et 'Mot revitalisant' "
+"qu'avec les sorts 'Mot de Sacrifice' ou 'Mot d'altruisme'."
 
 #: .\chardata\templates\chardata\projdetails.html:146
 msgid ""
 "Disablers that want to focus on AP reduction rather than dealing damage "
 "should check this."
 msgstr ""
-"Cochez cette case si vous aimez retirer des PA aux adversaires plutôt que de "
+"Coche cette case si tu aimes retirer des PA aux adversaires plutôt que de "
 "leur occasionner des dommages."
 
 #: .\chardata\templates\chardata\projdetails.html:147
@@ -5327,7 +5346,7 @@ msgid ""
 "Disablers that want to focus on MP reduction rather than dealing damage "
 "should check this."
 msgstr ""
-"Cochez cette case si vous aimez retirer des PM aux adversaires plutôt que de "
+"Coche cette case si tu aimes retirer des PM aux adversaires plutôt que de "
 "leur occasionner des dommages."
 
 #: .\chardata\templates\chardata\projdetails.html:148
@@ -5349,7 +5368,7 @@ msgid ""
 "Check this to get a prospecting set, with mediocre stats but high "
 "prospecting."
 msgstr ""
-"Cochez cette case pour obtenir un stuff prospection, avec des statistiques "
+"Coche cette case pour obtenir un stuff prospection, avec des statistiques "
 "médiocres mais beaucoup de prospection."
 
 #: .\chardata\templates\chardata\projdetails.html:150
@@ -5357,7 +5376,7 @@ msgid ""
 "Check this to get a pod set, pretty much ignoring the rest, primarily for "
 "professions."
 msgstr ""
-"Cochez cette case pour obtenir un stuff 'pods', en ignorant le reste, "
+"Coche cette case pour obtenir un stuff 'pods', en ignorant le reste, "
 "principalement pour les métiers."
 
 #: .\chardata\templates\chardata\projdetails.html:151
@@ -5382,9 +5401,9 @@ msgid ""
 "Chars that deal significant pushback damage should check this. This "
 "increases the +Pushback Damage importance."
 msgstr ""
-"Cochez cette case si vous possédez un personnage capable d'infliger de "
-"lourds dommages de poussée, et désirez vous en servir. Cela augmentera "
-"l'importance des dommages de poussée."
+"Coche cette case si tu as un personnage capable d'infliger de lourds "
+"dommages de poussée et que tu veux t'en servir. Cela augmentera l'importance "
+"des dommages de poussée."
 
 #: .\chardata\templates\chardata\pw_recovery_email.html:6
 #: .\chardata\templates\chardata\pw_recovery_email.html:13
@@ -7733,7 +7752,7 @@ msgstr "Créateur de stuff Dofus"
 
 #: .\chardata\templates\chardata\projdetails.html
 msgid "Tell the optimizer your class, your level and what you want from your set. It picks the gear for you, on every version of Dofus. No account needed to try."
-msgstr "Donnez à l'optimiseur votre classe, votre niveau et ce que vous attendez de votre stuff. Il choisit l'équipement pour vous, sur toutes les versions de Dofus. Aucun compte n'est nécessaire pour essayer."
+msgstr "Donne à l'optimiseur ta classe, ton niveau et ce que tu attends de ton stuff. Il choisit l'équipement pour toi, sur toutes les versions de Dofus. Aucun compte n'est nécessaire pour essayer."
 
 #: .\chardata\templates\chardata\load_projects.html
 msgid "Your Saved Dofus Sets"
@@ -8246,7 +8265,7 @@ msgid "Show this build in the gallery once it has gear"
 msgstr "Montrer ce build dans la galerie une fois qu’il a un stuff"
 
 msgid "You can change this at any time from the build page."
-msgstr "Vous pouvez changer d’avis à tout moment depuis la page du build."
+msgstr "Tu peux changer d’avis à tout moment depuis la page du build."
 
 msgid "Visible to everyone: this build is in the gallery and anyone with the link can open it."
 msgstr "Visible par tout le monde : ce build est dans la galerie et n’importe qui avec le lien peut l’ouvrir."

@@ -12,6 +12,7 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% if is_new_char and can_create %}<link rel="stylesheet" type="text/css" href="{% static "chardata/setup.css" %}">{% endif %}
     <style>
     .advanced-options { max-width: 560px; margin: 0 auto 12px; text-align: left; }
     .advanced-options > summary { cursor: pointer; padding: 6px 4px; font-size: 15px; }
@@ -49,6 +50,7 @@
         <p class='big-text'>{% trans "Modify the build and character configuration." %}</p>
         {% endif %}
     
+        {% if is_new_char %}<div class="setup-layout"><div class="setup-form-col">{% endif %}
         <form id="main_form" action="{% game_url 'create_project' %}" method="post">
         {% if lock_item %}<input type="hidden" name="lock_item" value="{{ lock_item }}">{% endif %}
             {% csrf_token %}
@@ -149,6 +151,25 @@
                 {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
             </div>
         </form>
+        {% if is_new_char %}</div>
+        <aside id="setup-preview" class="setup-preview" aria-labelledby="setup-preview-title" data-preview-url="{% game_url 'setup_preview' %}" hidden>
+            <details id="setup-preview-details" open>
+                <summary class="setup-preview-summary big-text"><span id="setup-preview-title">{% trans "What the optimizer will look for" %}</span><span id="setup-preview-badge" class="setup-badge" hidden></span></summary>
+                <div id="setup-preview-body" class="setup-preview-body" aria-busy="true">
+                    <p class="small-explain setup-preview-note">{% trans "Preview only, it updates as you choose. Once the build exists, you can change any weight or minimum." %}</p>
+                    <p id="setup-preview-door" class="small-explain setup-preview-door">{% trans "Minimums are saved when you continue to the Wizard. Creating a set by hand saves the weights only." %}</p>
+                    <p id="setup-preview-empty" class="small-explain setup-preview-empty">{% trans "Pick a class to see the weights and minimums the optimizer will use." %}</p>
+                    <p id="setup-preview-changes" class="small-explain setup-preview-changes" aria-live="polite"></p>
+                    <p id="setup-preview-notice" class="small-explain setup-preview-notice" role="status" hidden>{% trans "The preview could not be updated. You can still create your build." %}</p>
+                    <p id="setup-preview-guard" class="small-explain setup-preview-guard" aria-live="polite" hidden></p>
+                    {{ guard_kinds|json_script:"setup-guard-kinds" }}
+                    <div id="setup-preview-block" class="wm-page setup-preview-block" hidden>
+                        {% include "chardata/weights_minimums_block.html" %}
+                    </div>
+                </div>
+            </details>
+        </aside>
+        </div>{% endif %}
     {% else %}
         <table role="presentation">
         <tr>
@@ -625,4 +646,8 @@ $(document).ready(function() {
 });
 
 </script>
+{% if is_new_char and can_create %}
+<script src="{% static "chardata/weights_minimums.js" %}"></script>
+<script src="{% static "chardata/setup.js" %}"></script>
+{% endif %}
 {% endblock %}

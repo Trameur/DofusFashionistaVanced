@@ -704,6 +704,55 @@ msgstr "Retirer de la comparaison"
 msgid "Too many attempts. Wait a few minutes and try again."
 msgstr "Trop de tentatives. Attends quelques minutes et réessaie."
 
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Your last choice changed %(count)s characteristic: %(names)s."
+msgid_plural "Your last choice changed %(count)s characteristics: %(names)s."
+msgstr[0] "Ton dernier choix a changé %(count)s caractéristique : %(names)s."
+msgstr[1] "Ton dernier choix a changé %(count)s caractéristiques : %(names)s."
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "and %s more"
+msgid_plural "and %s more"
+msgstr[0] "et %s autre"
+msgstr[1] "et %s autres"
+
+#: chardata/static/chardata/setup.js
+msgid "Your last choice left the weights and minimums unchanged."
+msgstr "Ton dernier choix n’a modifié aucun poids ni aucun minimum."
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "%s changed"
+msgid_plural "%s changed"
+msgstr[0] "%s modifié"
+msgstr[1] "%s modifiés"
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "Weight was %s"
+msgstr "Poids avant : %s"
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "Minimum was %s"
+msgstr "Minimum avant : %s"
+
+#: chardata/static/chardata/setup.js
+msgid "There was no minimum"
+msgstr "Aucun minimum avant"
+
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Safeguard: effective HP, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
+msgstr "Garde-fou : les PV effectifs, les PA, les PM, la PO et les autres stats que la priorité ne vise pas gardent au moins %(share)s de leur valeur dans le build équilibré. Les valeurs exactes sont calculées au lancement."
+
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Safeguard: damage stats, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
+msgstr "Garde-fou : les stats de dégâts, les PA, les PM, la PO et les autres stats que la priorité ne vise pas gardent au moins %(share)s de leur valeur dans le build équilibré. Les valeurs exactes sont calculées au lancement."
+
 #: chardata/static/chardata/weights_minimums.js
 #, javascript-format
 msgid "%s minimum"

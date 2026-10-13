@@ -3,6 +3,7 @@
 import json
 import pickle
 import re
+from contextlib import contextmanager
 from functools import lru_cache
 
 from django.http import HttpResponse, JsonResponse
@@ -11,13 +12,13 @@ from django.views.decorators.http import require_safe
 
 from chardata.data_versions import current_data_version
 from chardata.models import Char
-from chardata.presets import (DEFAULT_PLAY_MODE, DEFAULT_PRIORITY, PRIORITY_BY_KEY,
+from chardata.presets import (DEFAULT_PLAY_MODE, DEFAULT_PRIORITY, GUARD_KIND, PRIORITY_BY_KEY,
                               play_modes, setup_boxes, solved_aspects, with_mode_boxes,
                               within_focus_limit)
 from chardata.smart_build import (ALL_ASPECTS, get_standard_weights, inert_aspects,
                                   level_minimums)
 from chardata.version_compat import class_exists_in_version
-from chardata.weights_minimums import _caps, page_state
+from chardata.weights_minimums import _caps, block_context, page_state
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.structure import get_current_game_version, set_current_game_version
 from fashionistapulp.temporix import version_has_temporix
@@ -36,22 +37,50 @@ class _InvalidPreview(Exception):
         self.field = field
 
 
-def preview_state(game_version, char_class, level, aspects,
-                  priority=DEFAULT_PRIORITY, play_mode=DEFAULT_PLAY_MODE, temporix=False):
+@contextmanager
+def _in_version(game_version):
+    previous = get_current_game_version()
+    set_current_game_version(game_version)
+    try:
+        yield
+    finally:
+        set_current_game_version(previous)
+
+
+def _preview_char(game_version, char_class, level, aspects, priority, play_mode, temporix):
     boxes = with_mode_boxes(aspects, play_mode)
     solved = solved_aspects(boxes, priority)
     char = Char(char_class=char_class, level=level, game_version=game_version,
                 aspects=pickle.dumps(solved), minimum_stats=pickle.dumps({}),
                 options=pickle.dumps({'temporix': True} if temporix else {}))
-    previous = get_current_game_version()
-    set_current_game_version(game_version)
-    try:
-        char.stats_weight = pickle.dumps(get_standard_weights(char))
-        char.minimum_stats = pickle.dumps(level_minimums(char, solved))
-        char.aspects = pickle.dumps(boxes)
+    char.stats_weight = pickle.dumps(get_standard_weights(char))
+    char.minimum_stats = pickle.dumps(level_minimums(char, solved))
+    char.aspects = pickle.dumps(boxes)
+    return char
+
+
+def preview_state(game_version, char_class, level, aspects,
+                  priority=DEFAULT_PRIORITY, play_mode=DEFAULT_PLAY_MODE, temporix=False):
+    with _in_version(game_version):
+        char = _preview_char(game_version, char_class, level, aspects, priority, play_mode,
+                             temporix)
         return dict(page_state(char), caps=_caps(char))
-    finally:
-        set_current_game_version(previous)
+
+
+def panel_context(game_version):
+    """What the read-only panel on /setup/ renders: the rows of the version, filled in by the first preview."""
+    char_class = sorted(name for name in CHARACTER_CLASSES
+                        if class_exists_in_version(name, game_version))[0]
+    with _in_version(game_version):
+        char = _preview_char(game_version, char_class, MAX_LEVEL, frozenset(),
+                             DEFAULT_PRIORITY, DEFAULT_PLAY_MODE, False)
+        context = block_context(char)
+        context['wm_state'] = dict(context['wm_state'], caps=_caps(char))
+    for section in context['sections']:
+        section['open'] = section['key'] == 'apmprange'
+    context.update(combined_open=False, others=[], temporix_on=False, wm_readonly=True,
+                   temporix_switch=version_has_temporix(game_version), guard_kinds=dict(GUARD_KIND))
+    return context
 
 
 @lru_cache(maxsize=CACHE_ENTRIES)

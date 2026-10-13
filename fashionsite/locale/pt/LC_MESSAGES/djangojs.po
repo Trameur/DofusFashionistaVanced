@@ -716,6 +716,55 @@ msgstr "Remover da comparação"
 msgid "Too many attempts. Wait a few minutes and try again."
 msgstr "Tentativas demais. Espere alguns minutos e tente de novo."
 
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Your last choice changed %(count)s characteristic: %(names)s."
+msgid_plural "Your last choice changed %(count)s characteristics: %(names)s."
+msgstr[0] "A sua última escolha alterou %(count)s característica: %(names)s."
+msgstr[1] "A sua última escolha alterou %(count)s características: %(names)s."
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "and %s more"
+msgid_plural "and %s more"
+msgstr[0] "e mais %s"
+msgstr[1] "e mais %s"
+
+#: chardata/static/chardata/setup.js
+msgid "Your last choice left the weights and minimums unchanged."
+msgstr "A sua última escolha não alterou nenhum peso nem mínimo."
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "%s changed"
+msgid_plural "%s changed"
+msgstr[0] "%s alterado"
+msgstr[1] "%s alterados"
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "Weight was %s"
+msgstr "O peso era %s"
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "Minimum was %s"
+msgstr "O mínimo era %s"
+
+#: chardata/static/chardata/setup.js
+msgid "There was no minimum"
+msgstr "Não havia mínimo"
+
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Safeguard: effective HP, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
+msgstr "Margem de segurança: os PV efetivos, os PA, os PM, o alcance e as outras stats que a prioridade não busca mantêm pelo menos %(share)s do seu valor no build equilibrado. Os valores exatos são calculados ao iniciar a pesquisa."
+
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Safeguard: damage stats, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
+msgstr "Margem de segurança: as stats de dano, os PA, os PM, o alcance e as outras stats que a prioridade não busca mantêm pelo menos %(share)s do seu valor no build equilibrado. Os valores exatos são calculados ao iniciar a pesquisa."
+
 #: chardata/static/chardata/weights_minimums.js
 #, javascript-format
 msgid "%s minimum"

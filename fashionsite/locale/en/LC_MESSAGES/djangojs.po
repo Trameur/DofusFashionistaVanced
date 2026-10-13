@@ -731,6 +731,55 @@ msgstr ""
 msgid "Too many attempts. Wait a few minutes and try again."
 msgstr "Too many attempts. Wait a few minutes and try again."
 
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Your last choice changed %(count)s characteristic: %(names)s."
+msgid_plural "Your last choice changed %(count)s characteristics: %(names)s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "and %s more"
+msgid_plural "and %s more"
+msgstr[0] ""
+msgstr[1] ""
+
+#: chardata/static/chardata/setup.js
+msgid "Your last choice left the weights and minimums unchanged."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "%s changed"
+msgid_plural "%s changed"
+msgstr[0] ""
+msgstr[1] ""
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "Weight was %s"
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "Minimum was %s"
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "There was no minimum"
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Safeguard: effective HP, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+#, python-format
+msgid "Safeguard: damage stats, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
+msgstr ""
+
 #: chardata/static/chardata/weights_minimums.js
 #, javascript-format
 msgid "%s minimum"
