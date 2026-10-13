@@ -43,7 +43,7 @@ def get_stats_weights(char, persist=True):
     # Call smart_build if necessary
     if stats_to_calculate:
         changed = True
-        stan_w = get_standard_weights(char)
+        stan_w = get_standard_weights(char, table=False)
         for stat_key in stats_to_calculate:
             weights[stat_key] = stan_w[stat_key]
     
