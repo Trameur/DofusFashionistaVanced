@@ -11,7 +11,8 @@ from chardata import presets
 from chardata.coaching_view import create_build
 from chardata.crit_curve import _engine_weighs
 from chardata.stats_weights import get_stats_weights, set_stats_weights
-from chardata.weight_table import TABLE_STATS, cell_table, engine_weights, override_weight_table, unit_of
+from chardata.weight_table import (TABLE_STATS, cell_table, engine_stat_weight, engine_weights, override_weight_table,
+                                   unit_of)
 
 VERSION = 'dofus3'
 BOXES = {'str'}
@@ -23,7 +24,8 @@ def _cell(scenario, factor=FACTOR, only=None, only_factor=None):
     """The shipped cell of Iop on earth whose ratios are a multiple of the engine's."""
     engine = engine_weights('Iop', ('str',), scenario, VERSION)
     unit = unit_of(('str',), scenario)
-    ratios = {stat: (only_factor if only and stat in only else factor) * engine[stat] / unit for stat in TABLE_STATS}
+    ratios = {stat: (only_factor if only and stat in only else factor) * engine_stat_weight(engine, stat) / unit
+              for stat in TABLE_STATS}
     return cell_table('Iop', ('str',), scenario, ratios)['cells']['Iop']['str'][scenario]
 
 

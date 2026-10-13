@@ -239,8 +239,9 @@ class TheKeysBeforeTheFloorsSurviveTheWeightsStoreTests(TestCase):
         self.assertEqual(2400, after['ap_before_floor'])
         self.assertEqual(240, after['ch_before_floor'])
         for key in NON_STAT_WEIGHT_KEYS:
-            with self.subTest(key=key):
-                self.assertEqual(w[key], after[key])
+            if key in w:
+                with self.subTest(key=key):
+                    self.assertEqual(w[key], after[key])
 
     def _post(self, url, owner, char, **changes):
         from chardata.stats_weights import get_stats_weights

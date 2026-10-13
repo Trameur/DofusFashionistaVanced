@@ -28,8 +28,10 @@ NEUTRAL_ASPECTS = frozenset(MAIN_STATS) | {'omni', 'balanced'}
 
 DAMAGE_STATS = ('dam', 'neutdam', 'earthdam', 'firedam', 'waterdam', 'airdam')
 RESIST_STATS = tuple('%sresper' % kind for kind in DAMAGE_TYPES)
+FINAL_STAT = 'final'
 #: the stats the table reads, apart from the characteristic shares of a duo
-TABLE_STATS = (('pow',) + DAMAGE_STATS + ('perspedam', 'perweadam', 'ap', 'hp', 'vit') + RESIST_STATS)
+TABLE_STATS = (('pow',) + DAMAGE_STATS + ('perspedam', 'perweadam', 'ap', 'hp', 'vit') + RESIST_STATS
+               + (FINAL_STAT,))
 #: a duo's shares sit on its characteristics and sum to the number of elements
 SHARE_STATS = tuple(MAIN_STATS)
 
@@ -128,7 +130,8 @@ def apply_weight_table(w, char, aspects, unit, tuning):
     written = []
     zeroed = tuning.get('zero_stats', ())
     for stat, entry in (cell.get('ratios') or {}).items():
-        if stat not in TABLE_STATS + SHARE_STATS or stat not in w or stat in zeroed or entry.get('weak'):
+        if (stat not in TABLE_STATS + SHARE_STATS or (stat not in w and stat != FINAL_STAT) or stat in zeroed
+                or entry.get('weak')):
             continue
         value = entry.get('value')
         if isinstance(value, bool) or not isinstance(value, (int, float)):
@@ -154,11 +157,18 @@ def unit_of(elements, scenario):
     return factor * ENGINE_PARAMS['b']
 
 
+def engine_stat_weight(weights, stat):
+    """The engine's weight of a table stat: final damage is the melee and the ranged lines together."""
+    if stat == FINAL_STAT:
+        return weights['permedam'] + weights['perrandam']
+    return weights[stat]
+
+
 def engine_ratios(char_class, elements, scenario, game_version):
     """{stat: the engine's weight over the unit} for the read stats, and a duo's equal shares."""
     weights = engine_weights(char_class, elements, scenario, game_version)
     unit = float(unit_of(elements, scenario))
-    ratios = {stat: weights[stat] / unit for stat in TABLE_STATS}
+    ratios = {stat: engine_stat_weight(weights, stat) / unit for stat in TABLE_STATS}
     if len(elements) == 2:
         ratios.update({element: 1.0 for element in elements})
     return ratios

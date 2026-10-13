@@ -93,6 +93,11 @@ def set_stats_weights(char, weights):
         stored = read_char_blob(char.stats_weight, {}, 'stats_weight', char)
         if weights.get('ch') != stored.get('ch'):
             del weights['ch_before_floor']
+    if 'final' in weights:
+        stored = read_char_blob(char.stats_weight, {}, 'stats_weight', char)
+        if (weights['final'] == stored.get('final')
+                and any(weights.get(key) != stored.get(key) for key in ('permedam', 'perrandam'))):
+            del weights['final']
     for stat_key in list(weights.keys()):
         if stat_key in DEPRECATED_STATS or stat_key in NON_STAT_WEIGHT_KEYS:
             continue

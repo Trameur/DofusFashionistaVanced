@@ -101,6 +101,8 @@ def played_characteristics(weights):
 
 def _weight(stat, weights, played, level):
     if stat == 'final':
+        if 'final' in weights:
+            return weights['final']
         return weights.get('permedam', 0) + weights.get('perrandam', 0)
     if stat == 'played_char':
         return sum(weights[key] for key in played) / float(len(played)) if played else 0

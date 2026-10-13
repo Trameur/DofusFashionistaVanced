@@ -310,7 +310,7 @@ DEPRECATED_STATS = {
 #    'pvpairresper',
 }
 
-NON_STAT_WEIGHT_KEYS = ('meleeness', 'ap_before_floor', 'ch_before_floor')
+NON_STAT_WEIGHT_KEYS = ('meleeness', 'ap_before_floor', 'ch_before_floor', 'final')
 
 BASE_STATS = ['vit', 'wis', 'str', 'int', 'cha', 'agi']
 MAIN_STATS = ['str', 'int', 'cha', 'agi']

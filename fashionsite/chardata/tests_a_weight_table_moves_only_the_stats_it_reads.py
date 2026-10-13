@@ -10,7 +10,7 @@ from django.test import SimpleTestCase
 from chardata.smart_build import MULE_STATS, VERSION_WEIGHT_TUNING, _set_weights
 from chardata.stats_weights import MAX_STAT_WEIGHT, set_stats_weights
 from chardata.weight_table import (SCENARIO_ASPECTS, SHARE_STATS, TABLE_STATS, apply_weight_table, cell_table,
-                                   engine_weights, override_weight_table, unit_of)
+                                   engine_stat_weight, engine_weights, override_weight_table, unit_of)
 
 VERSION = 'dofus3'
 CELLS = (('Iop', ('str',), 'plain'), ('Cra', ('agi',), 'glasscannon'), ('Ecaflip', ('int', 'agi'), 'tank'),
@@ -37,7 +37,7 @@ def _doubled(char_class, played, scenario):
     """The cell whose ratios put every read stat at twice the engine's weight, a duo's shares left equal."""
     engine = engine_weights(char_class, played, scenario, VERSION)
     unit = _unit(len(played), scenario)
-    ratios = {stat: 2.0 * engine[stat] / unit for stat in TABLE_STATS}
+    ratios = {stat: 2.0 * engine_stat_weight(engine, stat) / unit for stat in TABLE_STATS}
     if len(played) == 2:
         ratios.update({element: 1.0 for element in played})
     return engine, ratios
@@ -51,13 +51,13 @@ class TheReadStatsTakeTheTableTests(SimpleTestCase):
             table = _weights(char_class, played, scenario, cell_table(char_class, played, scenario, ratios))
             for stat in TABLE_STATS:
                 with self.subTest(char_class=char_class, elements=played, scenario=scenario, stat=stat):
-                    self.assertEqual(2 * engine[stat], table[stat])
+                    self.assertEqual(2 * engine_stat_weight(engine, stat), table[stat])
 
     def test_every_other_weight_is_the_engine_weight(self):
         for char_class, played, scenario in CELLS:
             engine, ratios = _doubled(char_class, played, scenario)
             table = _weights(char_class, played, scenario, cell_table(char_class, played, scenario, ratios))
-            self.assertEqual(set(engine), set(table))
+            self.assertEqual(set(engine) | {'final'}, set(table))
             for stat in set(engine) - set(TABLE_STATS):
                 with self.subTest(char_class=char_class, elements=played, scenario=scenario, stat=stat):
                     self.assertEqual(engine[stat], table[stat])

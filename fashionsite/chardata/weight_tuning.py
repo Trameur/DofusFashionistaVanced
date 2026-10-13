@@ -22,9 +22,9 @@ from datetime import date
 from functools import partial
 
 from chardata.weapon_terms import CHARACTERISTIC_STEP
-from chardata.weight_table import (BANDS, DAMAGE_STATS, GRID_LEVEL, RESIST_STATS, SCENARIOS, SHARE_STATS, TABLE_STATS,
-                                   cell_table, element_key, engine_ratios, grid_element_sets, override_weight_table,
-                                   unit_of)
+from chardata.weight_table import (BANDS, DAMAGE_STATS, FINAL_STAT, GRID_LEVEL, RESIST_STATS, SCENARIOS, SHARE_STATS,
+                                   TABLE_STATS, cell_table, element_key, engine_ratios, grid_element_sets,
+                                   override_weight_table, unit_of)
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES, get_stat_maximum
 from fashionistapulp.item_effects import (COST_ONLY_STATUSES, ELEMENT_KEYS, PLAYED_SHARE, is_valued,
                                           load_effect_table, played_characteristics)
@@ -32,7 +32,7 @@ from fashionistapulp.item_effects import (COST_ONLY_STATUSES, ELEMENT_KEYS, PLAY
 logger = logging.getLogger(__name__)
 
 #: bumped by hand when the reader, the score, the instances or the acceptance change
-GENERATOR_VERSION = 5
+GENERATOR_VERSION = 6
 
 STEP = CHARACTERISTIC_STEP
 MAX_ROUNDS = 4
@@ -242,17 +242,19 @@ def element_split(view, played):
     return clamp_shares({key: count * gain / total for key, gain in single.items()})
 
 
-def read_ratios(view, totals, played, lam):
+def read_ratios(view, totals, played, lam, final=0):
     """Read(ratios, switched, turn, ehp, g_char) on one set, None when it has no turn to read.
 
     r_k = (g_k + lam * (T / E) * e_k) / g_char, with e the gain in effective HP of a point of the stat. A set with no
-    weapon reads nothing for the stats only a weapon moves, so the blend leaves them where they are.
+    weapon reads nothing for the stats only a weapon moves, so the blend leaves them where they are. The credited turn
+    is T * (1 + F / 100), F the final damage the worn effect-table items give and T the reader's turn, so a point of
+    final damage is T / 100 and a point of characteristic is g_char * (1 + F / 100): r = T / ((100 + F) * g_char).
     """
     ehp = effective_hp(totals)
     hp = totals.get('hp', 0)
     turn = view.reader.full(view.worn)
     g_char = view.per_point(played)
-    if not (turn > 0 and g_char > 0 and ehp > 0 and hp > 0):
+    if not (turn > 0 and g_char > 0 and ehp > 0 and hp > 0 and 100 + final > 0):
         return None
     keys = TURN_STATS if view.worn is not None else tuple(key for key in TURN_STATS if key not in WEAPON_ONLY_STATS)
     gains, switched = read_gains(view, keys, STEP)
@@ -263,18 +265,19 @@ def read_ratios(view, totals, played, lam):
     ratios = {stat: gain / g_char for stat, gain in gains.items()}
     ratios.update({stat: life for stat in LIFE_STATS})
     ratios.update({stat: resist for stat in PERCENT_RESIST_KEYS})
+    ratios[FINAL_STAT] = turn / (100.0 + final) / g_char
     if len(played) == 2:
         ratios.update(element_split(view, played))
     return Read(ratios, switched, turn, ehp, g_char)
 
 
-def fit_score(view, totals, lam):
-    """ln T + lam * ln E on the set, None when either is not positive."""
+def fit_score(view, totals, lam, final=0):
+    """ln T + ln(1 + F / 100) + lam * ln E on the set, None when the turn, the final factor or E is not positive."""
     turn = view.reader.full(view.worn)
     ehp = effective_hp(totals)
-    if not (turn > 0 and ehp > 0):
+    if not (turn > 0 and ehp > 0 and 100 + final > 0):
         return None
-    return math.log(turn) + lam * math.log(ehp)
+    return math.log(turn) + math.log1p(final / 100.0) + lam * math.log(ehp)
 
 
 # The credited score
@@ -503,6 +506,7 @@ class DoorResult(object):
         self.wall = None
         self.view = None
         self.credit = None
+        self.final_worn = 0
         self.panel_turn = None
         self.power_share = None
         self.contributions = {}
@@ -522,12 +526,12 @@ class DoorResult(object):
         return effective_hp(self.totals) if self.totals else None
 
     def u_fit(self, lam):
-        return fit_score(self.view, self.totals, lam) if self.view is not None else None
+        return fit_score(self.view, self.totals, lam, self.final_worn) if self.view is not None else None
 
     def read(self, lam):
         if self.view is None:
             return None
-        return read_ratios(self.view, self.totals, list(self.instance.elements), lam)
+        return read_ratios(self.view, self.totals, list(self.instance.elements), lam, self.final_worn)
 
     def u_acc(self, lam):
         if self.credit is None:
@@ -700,6 +704,7 @@ class DoorRunner(object):
         result.item_sums = item_stat_sums(self.structure, result.slots.values())
         result.panel_turn = _panel_turn(char, solution)
         result.credit = credited_parts(char, solution, self.effect_table)
+        result.final_worn = worn_equivalents(char, solution, self.effect_table, result.weights)[1]
         result.power_share = power_share(char, solution, self.effect_table)
 
 

@@ -417,6 +417,8 @@ def balanced_weights(char, weights):
         1 for key, value in weights.items() if value != pair[1].get(key)))
     shifted = {}
     for key, value in weights.items():
+        if key == 'final' and 'final' not in balanced:
+            continue
         if not isinstance(value, (int, float)):
             shifted[key] = value
             continue
