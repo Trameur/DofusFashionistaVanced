@@ -28,7 +28,8 @@ from chardata.presets import default_build_weights, reapply_build_weights
 from chardata.solution_view import get_class_avatar
 from chardata.temporix_mode import temporix_window
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
-from chardata.weights_minimums import block_context, merge_minimum_fields, temporix_lifted_keys
+from chardata.weights_minimums import (MINIMUM_LIMIT, block_context, merge_minimum_fields,
+                                       temporix_lifted_keys)
 from chardata.wizard_sliders import apply_weight_fields, get_wizard_sliders, set_wizard_sliders
 from fashionistapulp.dofus_constants import STATS_NAMES, SLOT_NAME_TO_TYPE, max_scroll_for_version
 from fashionistapulp.structure import get_structure
@@ -85,7 +86,9 @@ def wizard_post(request, char_id):
     for stat_name in STATS_WITH_CONFIG_MINS:
         field_name = 'min_%s' % stat_name
         if field_name in request.POST:
-            minimum_values[stat_name] = safe_int(request.POST[field_name]) or 0
+            minimum = safe_int(request.POST[field_name]) or 0
+            if abs(minimum) <= MINIMUM_LIMIT:
+                minimum_values[stat_name] = minimum
     set_min_stats(char, minimum_values)
     merge_minimum_fields(char, request.POST)
     
