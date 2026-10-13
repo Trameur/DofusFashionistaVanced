@@ -1220,7 +1220,14 @@ def _set_weights(char, aspects, apply=True, table=True):
     w['resperwea'] = chance_of_melee_def * resper_w * final_res_mult
 
     if table:
-        written = apply_weight_table(w, char, aspects, attack_factor * b, tuning)
+        tabled = dict(w)
+        try:
+            written = apply_weight_table(tabled, char, aspects, attack_factor * b, tuning)
+        except Exception:
+            logger.exception('unreadable weight table cell for %s: the engine weighs it', race)
+            written = []
+        else:
+            w.update(tabled)
         _characteristic_floors(w, tuning, written)
 
     mule = mule_stats(aspects)

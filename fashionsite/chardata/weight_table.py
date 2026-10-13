@@ -6,6 +6,7 @@
 import hashlib
 import json
 import logging
+import math
 import os
 from contextlib import contextmanager
 from types import SimpleNamespace
@@ -131,7 +132,7 @@ def apply_weight_table(w, char, aspects, unit, tuning):
         if stat not in TABLE_STATS + SHARE_STATS or stat not in w or stat in zeroed or entry.get('weak'):
             continue
         value = entry.get('value')
-        if isinstance(value, bool) or not isinstance(value, (int, float)):
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
             continue
         w[stat] = value * unit
         written.append(stat)
