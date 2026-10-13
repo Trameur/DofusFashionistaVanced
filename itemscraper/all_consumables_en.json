@@ -131662,7 +131662,7 @@
         },
         {
             "ankama_id": 34624,
-            "name": "[!] Malédiction de Médoroziam",
+            "name": "Mongrelamus's Curse",
             "type": {
                 "name": "Emote scroll",
                 "id": 46
@@ -131672,7 +131672,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25285-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25285-128.png"
             },
-            "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam.",
+            "description": "Use this scroll to learn the Mongrelamus's Curse emote.",
             "effects": [
                 {
                     "int_minimum": 0,
