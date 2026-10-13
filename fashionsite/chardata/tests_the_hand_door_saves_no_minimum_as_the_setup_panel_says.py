@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The /setup/ panel says minimums are saved through the Wizard door only, and the two creation doors do exactly that."""
+"""The /setup/ panel says which creation doors save the minimums, and the three doors do exactly that."""
 from django.test import TestCase
 from django.utils import translation
 
@@ -15,7 +15,8 @@ from chardata.weights_minimums import page_state
 from fashionistapulp.structure import set_current_game_version
 
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
-DOOR_NOTE = 'Minimums are saved when you continue to the Wizard. Creating a set by hand saves the weights only.'
+DOOR_NOTE = ('"Optimize now" and "Continue to Wizard" save the weights and the minimums. '
+             '"Create a set by hand" saves the weights and only the minimums you edited.')
 
 
 def shown(values):
@@ -27,7 +28,7 @@ def one_element_box(version):
     return frozenset({sorted(offered & set(ELEMENT_BOXES))[0]})
 
 
-class TheTwoDoorsSaveMinimumsAsThePanelSaysTests(_DoorBuilds, TestCase):
+class TheThreeDoorsSaveMinimumsAsThePanelSaysTests(_DoorBuilds, TestCase):
 
     def saved(self, version, door):
         char_class = sorted(classes_of(version))[0]
@@ -46,7 +47,14 @@ class TheTwoDoorsSaveMinimumsAsThePanelSaysTests(_DoorBuilds, TestCase):
                 self.assertTrue(shown(preview['minimums']))
                 self.assertEqual(shown(preview['minimums']), shown(saved['minimums']))
 
-    def test_the_hand_door_saves_the_weights_the_preview_shows_and_no_minimum(self):
+    def test_the_optimize_door_saves_every_minimum_the_preview_shows(self):
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                preview, saved = self.saved(version, 'optimize')
+                self.assertTrue(shown(preview['minimums']))
+                self.assertEqual(shown(preview['minimums']), shown(saved['minimums']))
+
+    def test_the_hand_door_saves_the_weights_the_preview_shows_and_no_minimum_nobody_edited(self):
         for version in VERSIONS:
             with self.subTest(version=version):
                 preview, saved = self.saved(version, 'byhand')

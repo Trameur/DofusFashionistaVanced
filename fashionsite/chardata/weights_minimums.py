@@ -17,6 +17,7 @@ from fashionistapulp.structure import get_structure
 from static_s3.templatetags.static_s3 import static
 
 CAP_SHOWN = ('ap', 'mp', 'range')
+MINIMUM_LIMIT = 50000
 
 
 def _get_stat_icon_url(stat_key):
@@ -250,7 +251,7 @@ def merge_minimum_fields(char, post):
             target.pop(name, None)
             return
         value = safe_int(raw)
-        if value is not None:
+        if value is not None and abs(value) <= MINIMUM_LIMIT:
             target[name] = value
 
     adv_stats = structure.get_adv_mins()
