@@ -4,6 +4,8 @@ import contextlib
 import io
 import json
 import os
+import subprocess
+import sys
 import tempfile
 from types import SimpleNamespace
 from unittest import mock, skipUnless
@@ -309,8 +311,26 @@ def apps_ready_in_the_worker(job):
     return apps.ready
 
 
+_POOL_SCRIPT = '''
+import json
+import os
+import sys
+sys.path.append(os.path.join(os.getcwd(), '..', 'fashionistapulp'))
+import django
+django.setup()
+from chardata.management.commands import tune_weights
+from chardata.tests_tune_weights_refuses_a_real_database_and_a_repo_out_path import apps_ready_in_the_worker
+print(json.dumps(list(tune_weights._pool_map(apps_ready_in_the_worker, [1, 2, 3, 4], 2))))
+'''
+
+
 class TheSpawnedWorkersSetDjangoUpTests(SimpleTestCase):
 
     def test_every_worker_of_a_two_process_pool_has_its_apps_loaded_before_its_first_job(self):
-        results = list(tune_weights._pool_map(apps_ready_in_the_worker, [1, 2, 3, 4], 2))
-        self.assertEqual([True] * 4, results)
+        site = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        env = dict(os.environ, DJANGO_SETTINGS_MODULE='fashionsite.settings_test')
+        out = subprocess.run([sys.executable, '-c', _POOL_SCRIPT], capture_output=True, env=env, cwd=site,
+                             timeout=300)
+        lines = [line for line in out.stdout.decode('utf-8', 'replace').splitlines() if line.startswith('[')]
+        self.assertTrue(lines, out.stderr.decode('utf-8', 'replace')[-800:])
+        self.assertEqual([True] * 4, json.loads(lines[-1]))
