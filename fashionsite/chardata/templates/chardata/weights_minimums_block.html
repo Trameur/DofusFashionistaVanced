@@ -1,9 +1,9 @@
 {% load i18n l10n %}
-    {% if not wm_readonly %}<input type="hidden" name="weights_reset" id="weights_reset" value="0">{% endif %}
+    {% if not wm_setup %}<input type="hidden" name="weights_reset" id="weights_reset" value="0">{% endif %}
     <p class="small-explain wm-intro">{% trans "A weight is what one point of a characteristic is worth to this build: raising it makes the Fashionista give up other characteristics for it. A minimum is a value every set must reach. Leave a minimum empty when it does not matter." %}</p>
     <span id="wm-col-weight" hidden>{% trans "Weight" %}</span>
     <span id="wm-col-min" hidden>{% trans "Minimum" %}</span>
-    {% if not wm_readonly %}<div class="wm-tools">
+    {% if not wm_setup %}<div class="wm-tools">
         <button type="button" class="button-thin-foreground" id="button-reset-weights">{% trans "Reset to default" %}</button>
     </div>{% endif %}
 
@@ -22,7 +22,7 @@
         {% for adv in combined %}
         <div class="wm-row weight-stat-line wm-no-weight" id="row-{{ adv.key }}" data-key="{{ adv.key }}">
             <span class="wm-name wm-name-wide" id="wm-name-{{ adv.key }}"><span class="min-stat-icon-group wm-icon-group">{% for icon_url in adv.icon_urls %}<img class="min-stat-icon" src="{{ icon_url }}" alt="" loading="lazy" width="16" height="16">{% endfor %}</span> {{ adv.local_name }}</span>
-            <span class="wm-min"><input type="number" id="min_{{ adv.key }}"{% if wm_readonly %} class="disabled-pretty-input wm-input wm-min-input" disabled{% else %} name="min_{{ adv.key }}" class="white-pretty-input change-modifies-state wm-input wm-min-input" step="1" min="-50000" inputmode="numeric" enterkeyhint="next" autocomplete="off"{% endif %} aria-labelledby="wm-name-{{ adv.key }} wm-col-min"></span>
+            <span class="wm-min"><input type="number" id="min_{{ adv.key }}"{% if wm_setup %} class="white-pretty-input wm-input wm-min-input" step="1" min="-50000" inputmode="numeric" enterkeyhint="next" autocomplete="off"{% else %} name="min_{{ adv.key }}" class="white-pretty-input change-modifies-state wm-input wm-min-input" step="1" min="-50000" inputmode="numeric" enterkeyhint="next" autocomplete="off"{% endif %} aria-labelledby="wm-name-{{ adv.key }} wm-col-min"></span>
         </div>
         {% endfor %}
     </details>

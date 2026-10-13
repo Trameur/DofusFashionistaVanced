@@ -8,6 +8,7 @@
 
 .setup-preview {
     --setup-flash: rgba(227, 191, 77, 0.34);
+    --setup-edit: #e3bf4d;
     box-sizing: border-box;
     max-width: 780px;
     margin: 18px auto 0;
@@ -19,6 +20,7 @@
 
 html.fm-light .setup-preview {
     --setup-flash: rgba(190, 130, 20, 0.36);
+    --setup-edit: #8a5a00;
 }
 
 html:not(.fm-modern):not(.fm-light) .setup-preview {
@@ -26,6 +28,7 @@ html:not(.fm-modern):not(.fm-light) .setup-preview {
 }
 
 html.fm-modern .setup-preview {
+    --setup-edit: var(--fm-accent-text);
     background: var(--fm-surface);
     border-color: var(--fm-border);
     border-radius: var(--fm-radius);
@@ -81,6 +84,10 @@ details[open] > summary > .setup-badge {
     display: none;
 }
 
+details[open] > summary > .setup-badge.setup-asking {
+    display: inline-block;
+}
+
 .setup-preview-note,
 .setup-preview-door,
 .setup-preview-empty,
@@ -94,6 +101,62 @@ details[open] > summary > .setup-badge {
 
 .setup-preview-notice {
     font-style: italic;
+}
+
+.setup-preview-edits {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 12px;
+    margin: 0;
+}
+
+.setup-preview-edits .setup-preview-edited {
+    margin: 0;
+}
+
+.setup-preview-edits .setup-preview-reset {
+    margin: 6px 0;
+}
+
+.setup-preview-keep {
+    margin: 4px 0 10px;
+    padding: 8px 10px;
+    border: 2px solid var(--setup-edit);
+    border-radius: 8px;
+    text-align: left;
+}
+
+.setup-preview-keep-question {
+    margin: 0 0 2px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.setup-preview-keep .setup-preview-keep-hint {
+    margin: 0 0 8px;
+}
+
+.setup-preview-keep-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.setup-preview button.button-thin-foreground {
+    white-space: normal;
+    min-height: 32px;
+}
+
+.setup-preview-keep:not([hidden]) ~ .setup-preview-changes {
+    display: none !important;
+}
+
+#setup-preview .wm-row input.setup-edited {
+    outline: 2px solid var(--setup-edit);
+    outline-offset: -1px;
 }
 
 .setup-preview-changes:empty {
@@ -171,6 +234,91 @@ details[open] > summary > .setup-badge {
     color: inherit;
 }
 
+.setup-doors {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.setup-doors-secondary {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 100%;
+}
+
+#submit-mode input.setup-default-door {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.setup-doors .setup-primary,
+.setup-doors .setup-secondary {
+    box-sizing: border-box;
+    max-width: 100%;
+    white-space: normal;
+}
+
+.setup-doors .setup-primary {
+    padding: 8px 26px;
+    font-size: 16px;
+}
+
+html:not(.fm-modern):not(.fm-light) .setup-doors .setup-secondary,
+html:not(.fm-modern):not(.fm-light) .setup-preview button.button-thin-foreground {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #9a9a9a;
+}
+
+html.fm-light:not(.fm-modern) .setup-doors .setup-secondary,
+html.fm-light:not(.fm-modern) .setup-preview button.button-thin-foreground {
+    background: transparent;
+    color: #3d200d;
+    border: 1px solid #3d200d;
+}
+
+html.fm-modern .setup-doors input.setup-primary {
+    padding: 11px 26px !important;
+    font-size: 16px;
+    white-space: normal;
+}
+
+html.fm-modern .setup-doors input.setup-secondary {
+    background: var(--fm-surface) !important;
+    color: var(--fm-accent-text) !important;
+    border: 1px solid var(--fm-accent-line) !important;
+    box-shadow: none !important;
+    letter-spacing: normal;
+    white-space: normal;
+}
+
+html.fm-modern .setup-preview button.button-thin-foreground {
+    white-space: normal;
+}
+
+html.fm-modern:not(.fm-dark) .setup-doors input.setup-secondary,
+html.fm-modern:not(.fm-dark) .setup-preview button.button-thin-foreground {
+    border-color: var(--fm-accent-text) !important;
+}
+
+html.fm-modern .setup-doors input.setup-secondary:hover {
+    background: var(--fm-accent-soft) !important;
+    filter: none !important;
+    box-shadow: none !important;
+    transform: translateY(-1px);
+}
+
 @media (prefers-reduced-motion: reduce) {
     #setup-preview .wm-row::after,
     .setup-preview-summary::before {
@@ -182,6 +330,20 @@ details[open] > summary > .setup-badge {
     #setup-preview .wm-row .wm-input {
         min-height: 0 !important;
         font-size: 14px !important;
+    }
+
+    .setup-doors {
+        align-items: stretch;
+    }
+
+    .setup-doors-secondary .setup-secondary {
+        flex: 1 1 auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .setup-preview button.button-thin-foreground {
+        min-height: 44px;
     }
 }
 
