@@ -39,12 +39,19 @@ def _first_weapon(path):
 
 class DeletingAWeaponLeavesNoWeaponRowTests(SimpleTestCase):
 
-    def _delete_in_a_copy(self, version, item_id=None):
+    def _delete_in_a_copy(self, version, item_id=None, drop=()):
         from fashionistapulp import modify_items_db
         from fashionistapulp.fashionista_config import get_items_db_path
         with tempfile.TemporaryDirectory() as directory:
             copy = os.path.join(directory, 'items.db')
             shutil.copyfile(get_items_db_path(version), copy)
+            conn = sqlite3.connect(copy)
+            try:
+                for table in drop:
+                    conn.execute('DROP TABLE IF EXISTS %s' % table)
+                conn.commit()
+            finally:
+                conn.close()
             if item_id is None:
                 item_id = _first_weapon(copy)
             before = _rows_by_table(copy, item_id)
@@ -62,15 +69,9 @@ class DeletingAWeaponLeavesNoWeaponRowTests(SimpleTestCase):
         self.assertEqual({table: 0 for table in before}, after)
 
     def test_a_database_without_the_range_table_still_deletes_every_weapon_row(self):
-        from fashionistapulp.fashionista_config import get_items_db_path
         for version in OTHER_VERSIONS:
             with self.subTest(version=version):
-                conn = sqlite3.connect(get_items_db_path(version))
-                try:
-                    tables = _weapon_tables(conn)
-                finally:
-                    conn.close()
-                self.assertNotIn('weapon_range', tables)
-                before, after = self._delete_in_a_copy(version)
+                before, after = self._delete_in_a_copy(version, drop=('weapon_range',))
+                self.assertNotIn('weapon_range', before)
                 self.assertTrue(any(before.values()))
                 self.assertEqual({table: 0 for table in before}, after)

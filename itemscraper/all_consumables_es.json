@@ -131662,7 +131662,7 @@
         },
         {
             "ankama_id": 34624,
-            "name": "[!] Malédiction de Médoroziam",
+            "name": "Maldición de Medoroziam",
             "type": {
                 "name": "Pergamino de actitud",
                 "id": 46
@@ -131672,7 +131672,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25285-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25285-128.png"
             },
-            "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam.",
+            "description": "Con este pergamino, podrás aprender la actitud Maldición de Medoroziam.",
             "effects": [
                 {
                     "int_minimum": 0,

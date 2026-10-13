@@ -1,11 +1,11 @@
 """Centralized version metadata for Dofus Fashionista."""
 from __future__ import annotations
 
-FASHIONISTA_VERSION = "3.7.8.7"
+FASHIONISTA_VERSION = "3.7.10.10"
 FASHIONISTA_BETA_VERSION = "3.7.3.3"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
-FASHIONISTA_RETRO_VERSION = "1.49.6"
-FASHIONISTA_TOUCH_VERSION = "1.74.7"
+FASHIONISTA_RETRO_VERSION = "1.49.7"
+FASHIONISTA_TOUCH_VERSION = "1.74.8"
 
 # (UTC day, patch): Ankama's release day up to 2.68, the day our data went in from 2.69 on; retro and touch by hand
 PATCH_TIMELINE = {
@@ -109,8 +109,8 @@ PATCH_TIMELINE = {
 # seven lang categories and all 9428 rendered clips standing still. Both were
 # re-scraped on 2026-09-15 and both databases came out identical, every table
 # compared as a set of rows.
-WATCHED_RETRO_BUILD = "1.49.6.5670.450-6ca3187"
-WATCHED_TOUCH_ASSETS = "3.3.8_eFhB.d1ZCmd*3ahHrGKEPMC9-Mnrpc1m"
+WATCHED_RETRO_BUILD = "1.49.7.5678.456-230e87f"
+WATCHED_TOUCH_ASSETS = "3.3.9_znDI1I3e76AsBAbi3QoRVb_02piQ7P1x"
 
 # Retro item data comes from the lang CDN, not from the client build, and that
 # is now measured twice rather than argued: 1.49.0 and then 1.49.1 both shipped
@@ -146,8 +146,8 @@ WATCHED_RETRO_LANG = {
 #
 # NEVER type this by hand. `python itemscraper/check_game_versions.py
 # --emit-snapshot` reads the live manifest and prints the two lines below.
-WATCHED_RETRO_ASSET_DIGEST = "ff5060a006f9a0d5c13b915ebe74d023ca897727"
-WATCHED_RETRO_ASSET_COUNT = 9454
+WATCHED_RETRO_ASSET_DIGEST = "5870845ca67faa2b22380b8b2b82c8218ecd1259"
+WATCHED_RETRO_ASSET_COUNT = 9490
 
 
 def get_version() -> str:
