@@ -966,6 +966,7 @@
         var options = {{options_json | safe}};
         var baseOptions = {% if base_options_json %}{{base_options_json | safe}}{% else %}options{% endif %};
         var EXO_PER_ITEM = {% if exo_per_item %}true{% else %}false{% endif %};
+        var MAX_STAT_VALUE = {{ max_stat_value|stringformat:"d" }};
         var EXO_POINTS = {{ exo_points_json|default:"null"|safe }};
         var external = {{link_external_image | safe}};
         var loader = {{ ajax_loader | safe }};
@@ -1395,6 +1396,10 @@
                         var fb = inp.siblings('.save-feedback');
                         var newVal = inp.val().trim();
                         var prevOverride = (statOverrides[String(itemId)] || {})[String(capturedStatId)];
+                        if (newVal !== '' && Math.abs(parseInt(newVal)) > MAX_STAT_VALUE) {
+                            inp.val(prevOverride !== undefined ? prevOverride : capturedOriginalValue);
+                            return;
+                        }
                         var gearKey = statIdToKey[String(capturedStatId)];
                         var isExoStat = !!exoStatIds[String(capturedStatId)];
                         var exoMaxVal = capturedIsAdded ? 1 : capturedOriginalValue + 1;
@@ -1486,7 +1491,7 @@
                         update_stats();
                         $.post(apiBase + "/setitemstatoverride/{{char_id}}/",
                             {item_id: itemId, stat_id: capturedStatId, value: newVal},
-                            function() { fb.stop(true).show().delay(1200).fadeOut(400); });
+                            function(answer) { if (answer === 'ok') fb.stop(true).show().delay(1200).fadeOut(400); });
                     };
                 })(stat.stat_id, stat.value, stat.isAdded));
 
@@ -1515,7 +1520,7 @@
             addBtn.click(function() {
                 var newStatId = parseInt(statSelect.val());
                 var newVal = parseInt(addInput.val());
-                if (!newStatId || isNaN(newVal)) return;
+                if (!newStatId || isNaN(newVal) || Math.abs(newVal) > MAX_STAT_VALUE) return;
                 if (exoStatIds[String(newStatId)] && newVal > 1) newVal = 1;
                 if (EXO_PER_ITEM && exoStatIds[String(newStatId)] && holdsAnotherExo(itemId, newStatId)) return;
                 var iconUrl = null, statName = '';
@@ -1540,7 +1545,8 @@
                 }
                 $.post(apiBase + "/setitemstatoverride/{{char_id}}/",
                     {item_id: itemId, stat_id: newStatId, value: newVal},
-                    function() {
+                    function(answer) {
+                        if (answer !== 'ok') return;
                         addFeedback.stop(true).show().delay(1200).fadeOut(400);
                         itemStats.push({stat_id: newStatId, name: statName, value: newVal, icon_url: iconUrl, isAdded: true});
                         showEditMode(slot, itemId, itemStats);

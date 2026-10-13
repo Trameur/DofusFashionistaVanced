@@ -8045,6 +8045,10 @@ msgstr "hors de %(low)s à %(high)s, à vérifier"
 msgid "These rolls were left out, because the item does not carry that stat:"
 msgstr "Ces jets ont été laissés de côté, parce que l’objet ne porte pas cette caractéristique :"
 
+#: chardata/templates/chardata/text_build.html
+msgid "These rolls were left out, because the value is too large:"
+msgstr "Ces jets ont été laissés de côté, parce que la valeur est trop grande :"
+
 #: .\chardata\templates\chardata\text_build.html:104
 msgid "%(n)s scrolled"
 msgstr "%(n)s parchotés"

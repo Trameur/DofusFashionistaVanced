@@ -7931,6 +7931,10 @@ msgstr "fuera de %(low)s a %(high)s, compruébelo"
 msgid "These rolls were left out, because the item does not carry that stat:"
 msgstr "Estos valores se han dejado fuera, porque el objeto no lleva esa característica:"
 
+#: chardata/templates/chardata/text_build.html
+msgid "These rolls were left out, because the value is too large:"
+msgstr "Estos valores se han dejado fuera, porque el valor es demasiado grande:"
+
 #: .\chardata\templates\chardata\text_build.html:104
 msgid "%(n)s scrolled"
 msgstr "%(n)s con pergaminos"
