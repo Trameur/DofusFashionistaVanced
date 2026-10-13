@@ -765,6 +765,13 @@ msgstr "Sicherheitsmarge: effektive LP, AP, BP, Reichweite und die übrigen Stat
 msgid "Safeguard: damage stats, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
 msgstr "Sicherheitsmarge: Schadensstats, AP, BP, Reichweite und die übrigen Stats, auf die die Priorität nicht abzielt, behalten mindestens %(share)s ihres Werts im ausgewogenen Build. Die genauen Werte werden beim Start der Suche berechnet."
 
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "You edited %s value."
+msgid_plural "You edited %s values."
+msgstr[0] "Sie haben %s Wert geändert."
+msgstr[1] "Sie haben %s Werte geändert."
+
 #: chardata/static/chardata/weights_minimums.js
 #, javascript-format
 msgid "%s minimum"

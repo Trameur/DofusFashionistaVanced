@@ -753,6 +753,13 @@ msgstr "Garde-fou : les PV effectifs, les PA, les PM, la PO et les autres stats 
 msgid "Safeguard: damage stats, AP, MP, Range and the other stats the priority does not aim for keep at least %(share)s of their value in the balanced build. The exact values are computed at launch."
 msgstr "Garde-fou : les stats de dégâts, les PA, les PM, la PO et les autres stats que la priorité ne vise pas gardent au moins %(share)s de leur valeur dans le build équilibré. Les valeurs exactes sont calculées au lancement."
 
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "You edited %s value."
+msgid_plural "You edited %s values."
+msgstr[0] "Tu as modifié %s valeur."
+msgstr[1] "Tu as modifié %s valeurs."
+
 #: chardata/static/chardata/weights_minimums.js
 #, javascript-format
 msgid "%s minimum"

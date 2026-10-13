@@ -4996,16 +4996,40 @@ msgid "Pick a class to see the weights and minimums the optimizer will use."
 msgstr "Elige una clase para ver los pesos y mínimos que usará el optimizador."
 
 #: chardata/templates/chardata/projdetails.html
-msgid "Preview only, it updates as you choose. Once the build exists, you can change any weight or minimum."
-msgstr "Solo una vista previa: se actualiza con cada elección. Cuando el build exista, podrás cambiar cualquier peso o mínimo."
+msgid "These values update as you choose. Edit any weight or minimum and your build starts with your values."
+msgstr "Estos valores se actualizan con cada elección. Cambia cualquier peso o mínimo y tu build empezará con tus valores."
 
 #: chardata/templates/chardata/projdetails.html
 msgid "The preview could not be updated. You can still create your build."
 msgstr "No se pudo actualizar la vista previa. Aun así puedes crear tu build."
 
 #: chardata/templates/chardata/projdetails.html
-msgid "Minimums are saved when you continue to the Wizard. Creating a set by hand saves the weights only."
-msgstr "Los mínimos se guardan al continuar hacia el Asistente. Crear un set a mano guarda solo los pesos."
+msgid "\"Optimize now\" and \"Continue to Wizard\" save the weights and the minimums. \"Create a set by hand\" saves the weights and only the minimums you edited."
+msgstr "«Optimizar ahora» y «Continuar hacia el Asistente» guardan los pesos y los mínimos. «Crear un set a mano» guarda los pesos y solo los mínimos que hayas cambiado."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Optimize now"
+msgstr "Optimizar ahora"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Back to the preset values"
+msgstr "Volver a los valores predefinidos"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Keep your edits?"
+msgstr "¿Quieres conservar tus cambios?"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Your last choice changes the preset values."
+msgstr "Tu última elección cambia los valores predefinidos."
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Keep my edits"
+msgstr "Conservar mis cambios"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Recompute from the preset"
+msgstr "Recalcular desde los valores predefinidos"
 
 #: .\chardata\templates\chardata\projdetails.html:28
 msgid "Get started by providing details about your character."
