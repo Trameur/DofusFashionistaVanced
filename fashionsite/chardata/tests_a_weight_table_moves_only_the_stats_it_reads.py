@@ -1,12 +1,12 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """A weight table sets the weights of the stats it reads, and nothing else changes, floors and clamps included."""
-import pickle
 from itertools import combinations
 from types import SimpleNamespace
 from unittest import mock
 
 from django.test import SimpleTestCase
 
+from chardata.char_blobs import read_char_blob
 from chardata.smart_build import MULE_STATS, VERSION_WEIGHT_TUNING, _set_weights
 from chardata.stats_weights import MAX_STAT_WEIGHT, set_stats_weights
 from chardata.weight_table import (SCENARIO_ASPECTS, SHARE_STATS, TABLE_STATS, apply_weight_table, cell_table,
@@ -164,7 +164,7 @@ class TheSitesOwnRulesStillRunAfterTheTableTests(SimpleTestCase):
         self.assertGreater(weights['ap'], MAX_STAT_WEIGHT)
         char = SimpleNamespace(stats_weight=None, id=1, save=lambda: None)
         set_stats_weights(char, dict(weights))
-        stored = pickle.loads(char.stats_weight)
+        stored = read_char_blob(char.stats_weight, {}, 'stats_weight')
         self.assertEqual(MAX_STAT_WEIGHT, stored['ap'])
         self.assertTrue(all(abs(value) <= MAX_STAT_WEIGHT for value in stored.values()))
         self.assertEqual(weights['pow'], stored['pow'])
