@@ -298,7 +298,7 @@ def parse_custom_stats(raw, structure):
             continue
         try:
             value = int(value)
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):
             continue
         cleaned[str(key)] = max(-9999, min(99999, value))
     return cleaned
