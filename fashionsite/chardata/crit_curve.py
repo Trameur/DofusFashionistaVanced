@@ -199,9 +199,9 @@ def _engine_weighs(char, aspects):
     if aspects & {'crit', 'noncrit'}:
         return False, False
     stored = get_stats_weights(char, persist=False)
-    engine = get_standard_weights(char)
-    crit = stored.get('ch') == engine.get('ch') or 'ch_before_floor' in stored
-    return crit, crit and stored.get('cridam') == engine.get('cridam')
+    engines = [get_standard_weights(char, table=table) for table in (True, False)]
+    crit = 'ch_before_floor' in stored or any(stored.get('ch') == engine.get('ch') for engine in engines)
+    return crit, crit and any(stored.get('cridam') == engine.get('cridam') for engine in engines)
 
 
 def _solution_of(char, result):

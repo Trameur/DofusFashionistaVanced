@@ -24,6 +24,7 @@ import pickle
 from chardata.char_blobs import read_char_blob
 
 from chardata.options import get_options, set_options
+from chardata.weight_table import apply_weight_table
 from fashionistapulp.dofus_constants import (DAMAGE_TYPES, STAT_KEY_TO_NAME, MAIN_STATS,
                                              NON_STAT_WEIGHT_KEYS)
 from fashionistapulp.modelresult import characteristic_passives, wisdom_per_ap_mp_dodge_point
@@ -67,6 +68,55 @@ VERSION_WEIGHT_TUNING = {
         'wis_rape_floor': 12,
         'init_mult': 3,
     },
+}
+
+# Hand-set weight literals of _set_weights, which keeps its own operand order;
+# pairs and triples are read by position
+ENGINE_PARAMS = {
+    'b': 20,
+    'ap_weight': (20, 100),
+    'mp_weight': (20, 100),
+    'range_weight': (16, 80),
+    'attack_factor': {0: 0, 1: 6, 2: 5, 3: 3, 4: 2},
+    'glasscannon_attack': 1.5,
+    'ap_floor_divisor': 120,
+    'dam_box': 2,
+    'res_per_factor': (2, 10),
+    'lock_dodge_mult': 10,
+    'vit_box': 1.5,
+    'vit_offset': 0.5,
+    'wis_box': 25,
+    'wis_base': 2,
+    'pow_per_elements': {0: 0, 1: 4, 2: 8, 3: 8, 4: 8.5},
+    'glasscannon_pow': 1.5,
+    'res_box': 3,
+    'glasscannon_res': 0.5,
+    'fireres_bonus': (0.5, 0.5),
+    'reduction_mult': 12,
+    'apres': (5, 1),
+    'mpres': (2, 1),
+    'reduction_floor': (20, 5),
+    'rape_mult': 2.5,
+    'dam_box_floor': 30,
+    'heals_mult': 8,
+    'heal_box': (4, 1.5),
+    'int_per_heals': 5,
+    'trapdam': (10, 3),
+    'trapdamper': (3, 1),
+    'pp': (10, 0.2, 0),
+    'init': (0.3, 0.1, 0.03),
+    'pods_box': 10,
+    'pshdam': (15, 10),
+    'summon': ((40, 10), (20, 0)),
+    'pshres': 0.1,
+    'crires': (2, 0.2),
+    'ch': {'crit': 140, 'noncrit': -4, 'plain': 12},
+    'crit_box_cridam': 1.85,
+    'final_damage_effect': (2, 12),
+    'melee_attack_share': (0.1, 0.7),
+    'weapon_share': (0.0, 0.25),
+    'melee_defense_share': (0.2, 0.4),
+    'final_res_mult': 5,
 }
 
 ALL_ASPECTS = set(ALL_ASPECTS_LIST)
@@ -940,11 +990,32 @@ def _set_minimums(char, aspects):
     # Set result in char
     char.minimum_stats = pickle.dumps(mins_by_name)
 
-def get_standard_weights(char):
-    w = _set_weights(char, get_char_aspects(char), apply=False)
+def get_standard_weights(char, table=True):
+    w = _set_weights(char, get_char_aspects(char), apply=False, table=table)
     return w
 
-def _set_weights(char, aspects, apply=True):
+def _dodge_lock_floors(w, tuning, keys=None):
+    """Agility (or the version's dodge stat) is worth a tenth of the dodge and lock it brings."""
+    if tuning.get('dodge_from', 'agi') == 'agi':
+        floors = [('agi', (w['dodge'] + w['lock']) / 10)]
+    else:
+        floors = [('agi', w['lock'] / 10), (tuning['dodge_from'], w['dodge'] / 10)]
+    for stat, floor in floors:
+        if keys is None or stat in keys:
+            w[stat] = max(w[stat], floor)
+
+def _prospecting_floor(w, tuning, keys=None):
+    """Chance is worth a tenth of the prospecting it brings, and the prospecting weight comes on top."""
+    if tuning.get('pp_from_cha', True) and (keys is None or 'cha' in keys):
+        w['cha'] = max(w['cha'], w['pp'] / 10.0)
+        w['cha'] += 0.1 * w['pp']
+
+def _characteristic_floors(w, tuning, keys):
+    """The floors of the characteristics in `keys`, once the table has written their weights."""
+    _dodge_lock_floors(w, tuning, keys)
+    _prospecting_floor(w, tuning, keys)
+
+def _set_weights(char, aspects, apply=True, table=True):
     race = char.char_class
     level = char.level
     level_pct = level / 200.0
@@ -952,6 +1023,7 @@ def _set_weights(char, aspects, apply=True):
     element_count = len(elements)
     game_version = getattr(char, 'game_version', 'dofus3') or 'dofus3'
     tuning = VERSION_WEIGHT_TUNING.get(game_version, {})
+    params = ENGINE_PARAMS
 
     def pfb(*args, **kwargs):
         kwargs.setdefault('game_version', game_version)
@@ -960,47 +1032,52 @@ def _set_weights(char, aspects, apply=True):
     w = {}
 
     # Weights
-    b = 20
+    b = params['b']
 
-    w['ap'] = (20 + 100 * level_pct) * b
-    w['mp'] = (20 + 100 * level_pct) * b
+    ap_base, ap_slope = params['ap_weight']
+    mp_base, mp_slope = params['mp_weight']
+    range_base, range_slope = params['range_weight']
+    w['ap'] = (ap_base + ap_slope * level_pct) * b
+    w['mp'] = (mp_base + mp_slope * level_pct) * b
     range_importance = pfb(race, elements, 'range_importance', 'float_avg')
-    w['range'] = (16 + 80 * level_pct) * range_importance * b
-    attack_factor = {0: 0, 1: 6, 2: 5, 3: 3, 4: 2}[element_count]
+    w['range'] = (range_base + range_slope * level_pct) * range_importance * b
+    attack_factor = params['attack_factor'][element_count]
     if 'glasscannon' in aspects:
-        attack_factor *= 1.5
+        attack_factor *= params['glasscannon_attack']
     ap_per_char = (tuning.get('ap_per_char', {}).get(element_count, 0)
                    if level >= 200 else 0)
-    if ap_per_char * attack_factor * w['ap'] / 120 > w['ap']:
+    ap_floor_divisor = params['ap_floor_divisor']
+    if ap_per_char * attack_factor * w['ap'] / ap_floor_divisor > w['ap']:
         w['ap_before_floor'] = w['ap']
-        w['ap'] = ap_per_char * attack_factor * w['ap'] / 120
-    dam_mult = 2 if 'dam' in aspects else 1
+        w['ap'] = ap_per_char * attack_factor * w['ap'] / ap_floor_divisor
+    dam_mult = params['dam_box'] if 'dam' in aspects else 1
     if 'res_per_factor' in tuning:
         res_per_factor = tuning['res_per_factor'](level_pct)
     else:
-        res_per_factor = 2 + (10 * level_pct * level_pct)
-    w['lock'] = pfb(race, elements, 'lock_importance', 'float_avg') * 10 * b
-    w['dodge'] = pfb(race, elements, 'dodge_importance', 'float_avg') * 10 * b
+        res_base, res_slope = params['res_per_factor']
+        res_per_factor = res_base + (res_slope * level_pct * level_pct)
+    w['lock'] = (pfb(race, elements, 'lock_importance', 'float_avg')
+                 * params['lock_dodge_mult'] * b)
+    w['dodge'] = (pfb(race, elements, 'dodge_importance', 'float_avg')
+                  * params['lock_dodge_mult'] * b)
     if 'vit' in aspects:
-        w['vit'] = 1.5  * b
+        w['vit'] = params['vit_box'] * b
     else:
-        w['vit'] = (pfb(race, elements, 'vit_importance', 'float_avg') + 0.5) * b
+        w['vit'] = (pfb(race, elements, 'vit_importance', 'float_avg')
+                    + params['vit_offset']) * b
     w['hp'] = w['vit']
 
-    w['wis'] = (25 if 'wis' in aspects else tuning.get('wis_base', 2)) * b
+    w['wis'] = (params['wis_box'] if 'wis' in aspects
+                else tuning.get('wis_base', params['wis_base'])) * b
     w['str'] = attack_factor * b if 'str' in elements else 0
     w['int'] = attack_factor * b if 'int' in elements else 0
     w['agi'] = attack_factor * b if 'agi' in elements else 0
     w['cha'] = attack_factor * b if 'cha' in elements else 0
-    if tuning.get('dodge_from', 'agi') == 'agi':
-        w['agi'] = max(w['agi'], (w['dodge'] + w['lock']) / 10)
-    else:
-        w['agi'] = max(w['agi'], w['lock'] / 10)
-        w[tuning['dodge_from']] = max(w[tuning['dodge_from']], w['dodge'] / 10)
+    _dodge_lock_floors(w, tuning)
     # Power counts for every element played
-    w['pow'] = {0: 0, 1: 4, 2: 8, 3: 8, 4: 8.5}[element_count] * b
+    w['pow'] = params['pow_per_elements'][element_count] * b
     if 'glasscannon' in aspects:
-        w['pow'] *= 1.5
+        w['pow'] *= params['glasscannon_pow']
     w['pow'] *= pfb(race, elements, 'pow_power', 'float_avg')
 
     w['earthdam'] = w['str'] * pfb(race, elements, 'earthdam') * dam_mult
@@ -1009,28 +1086,35 @@ def _set_weights(char, aspects, apply=True):
     w['waterdam'] = w['cha'] * pfb(race, elements, 'waterdam') * dam_mult
     w['neutdam'] = pfb(race, elements, 'neutdam') * w['earthdam']
     w['dam'] = w['neutdam'] + w['earthdam'] + w['firedam'] + w['airdam'] + w['waterdam']
-    res_w = ((3 if 'res' in aspects else 1)
-             * (0.5 if 'glasscannon' in aspects else 1)
+    res_w = ((params['res_box'] if 'res' in aspects else 1)
+             * (params['glasscannon_res'] if 'glasscannon' in aspects else 1)
              * b)
     resper_w = res_per_factor * res_w
     for damage_type in DAMAGE_TYPES:
         w['%sres' % damage_type] = res_w
         w['%sresper' % damage_type] = resper_w
     
-    linear_res_bonus_factor = (0.5 * level_pct + 0.5)
+    fireres_slope, fireres_base = params['fireres_bonus']
+    linear_res_bonus_factor = (fireres_slope * level_pct + fireres_base)
     w['fireres'] *= (1 + pfb(race, elements, 'fireres', 'float_avg') * linear_res_bonus_factor)
     w['fireresper'] *= (1 + pfb(race, elements, '%fireres', 'float_avg'))
     
-    w['apred'] = pfb(race, elements, 'apred_importance', 'float_avg') * 12 * b
-    w['mpred'] = pfb(race, elements, 'mpred_importance', 'float_avg') * 12 * b
-    w['apres'] = 5 * b if 'pvp' in aspects else 1 * b
-    w['mpres'] = 2 * b if 'pvp' in aspects else 1 * b
+    w['apred'] = (pfb(race, elements, 'apred_importance', 'float_avg')
+                  * params['reduction_mult'] * b)
+    w['mpred'] = (pfb(race, elements, 'mpred_importance', 'float_avg')
+                  * params['reduction_mult'] * b)
+    apres_pvp, apres_pve = params['apres']
+    mpres_pvp, mpres_pve = params['mpres']
+    w['apres'] = apres_pvp * b if 'pvp' in aspects else apres_pve * b
+    w['mpres'] = mpres_pvp * b if 'pvp' in aspects else mpres_pve * b
     
-    minimum_red = 20 * b if len(elements) == 0 else 5 * b
+    reduction_floor_bare, reduction_floor_played = params['reduction_floor']
+    minimum_red = (reduction_floor_bare * b if len(elements) == 0
+                   else reduction_floor_played * b)
     if 'aprape' in aspects:
-        w['apred'] = max(2.5 * w['apred'], minimum_red)
+        w['apred'] = max(params['rape_mult'] * w['apred'], minimum_red)
     if 'mprape' in aspects:
-        w['mpred'] = max(2.5 * w['mpred'], minimum_red)
+        w['mpred'] = max(params['rape_mult'] * w['mpred'], minimum_red)
     w['wis'] = max(w['wis'], (w['apred'] + w['mpred'] + w['apres'] + w['mpres'])
                    / float(wisdom_per_ap_mp_dodge_point(game_version)))
     # In 1.29 wisdom is itself the AP/MP defense stat.
@@ -1038,49 +1122,54 @@ def _set_weights(char, aspects, apply=True):
         w['wis'] = max(w['wis'], tuning['wis_rape_floor'] * b)
     
     if 'dam' in aspects:
-        w['dam'] = max(w['dam'], 30 * b)
+        w['dam'] = max(w['dam'], params['dam_box_floor'] * b)
 
-    w['heals'] = pfb(race, elements, 'heals_importance', 'float_avg') * 8 * b
+    w['heals'] = pfb(race, elements, 'heals_importance', 'float_avg') * params['heals_mult'] * b
     if 'heal' in aspects:
-        w['heals'] = 4 * b + w['heals'] * 1.5
-        int_per_heals_factor = 5 # TODO: Depend on class
+        heal_box, heal_share = params['heal_box']
+        w['heals'] = heal_box * b + w['heals'] * heal_share
+        int_per_heals_factor = params['int_per_heals'] # TODO: Depend on class
         w['int'] = max(w['int'], w['heals'] / int_per_heals_factor)
 
     if pfb(race, elements, 'traps_are_important'):
+        trapdam_box, trapdam_base = params['trapdam']
+        trapdamper_box, trapdamper_base = params['trapdamper']
         if 'trap' in aspects:
-            w['trapdam'] = 10 * b
-            w['trapdamper'] = 3 * b
+            w['trapdam'] = trapdam_box * b
+            w['trapdamper'] = trapdamper_box * b
         else:
-            w['trapdam'] = 3 * b
-            w['trapdamper'] = 1 * b
+            w['trapdam'] = trapdam_base * b
+            w['trapdamper'] = trapdamper_base * b
 
-    w['pp'] = 10 * b if 'pp' in aspects else 0.2 * b if 'pvp' not in aspects else 0
-    pp_from_cha = tuning.get('pp_from_cha', True)
-    if pp_from_cha:
-        w['cha'] = max(w['cha'], w['pp'] / 10.0)
-        w['cha'] += 0.1 * w['pp']
+    pp_box, pp_base, pp_pvp = params['pp']
+    w['pp'] = pp_box * b if 'pp' in aspects else pp_base * b if 'pvp' not in aspects else pp_pvp
+    _prospecting_floor(w, tuning)
 
-    w['init'] = (0.3 * b if 'duel' in aspects else
-                 0.1 * b if 'pvp' in aspects else 0.03 * b)
+    init_duel, init_pvp, init_base = params['init']
+    w['init'] = (init_duel * b if 'duel' in aspects else
+                 init_pvp * b if 'pvp' in aspects else init_base * b)
     w['init'] *= tuning.get('init_mult', 1)
 
     if 'pods' in aspects:
-        w['pod'] = 10 * b
+        w['pod'] = params['pods_box'] * b
         if tuning.get('pods_from_str', True):
             w['str'] = max(w['str'], w['pod'] / 5.0)
 
+    pshdam_box, pshdam_base = params['pshdam']
     if 'pushback' in aspects:
-        w['pshdam'] = 15 * b
+        w['pshdam'] = pshdam_box * b
     else:
-        w['pshdam'] = pfb(race, elements, 'pshdam_importance', 'float_avg') * 10 * b
+        w['pshdam'] = pfb(race, elements, 'pshdam_importance', 'float_avg') * pshdam_base * b
 
+    summons_important, summons_minor = params['summon']
     if pfb(race, elements, 'summons_are_important'):
-        w['summon'] = 40 * b if 'summon' in aspects else 10 * b
+        w['summon'] = summons_important[0] * b if 'summon' in aspects else summons_important[1] * b
     else:
-        w['summon'] = 20 * b if 'summon' in aspects else 0 * b
+        w['summon'] = summons_minor[0] * b if 'summon' in aspects else summons_minor[1] * b
 
-    w['pshres'] = 0.1 * b
-    w['crires'] = 2 * res_w if 'pvp' in aspects else 0.2 * res_w
+    w['pshres'] = params['pshres'] * b
+    crires_pvp, crires_base = params['crires']
+    w['crires'] = crires_pvp * res_w if 'pvp' in aspects else crires_base * res_w
 
     # Retro has "vs players" resistances, gone from Dofus 3.
     if 'pvp' in aspects or 'duel' in aspects:
@@ -1090,22 +1179,22 @@ def _set_weights(char, aspects, apply=True):
 
     # Crits
     if 'crit' in aspects:
-        w['ch'] = 140 * b
-        w['cridam'] = 1.85 * w['dam'] * pfb(race, elements, 'cridam', 'float_avg')
+        w['ch'] = params['ch']['crit'] * b
+        w['cridam'] = (params['crit_box_cridam'] * w['dam']
+                       * pfb(race, elements, 'cridam', 'float_avg'))
     elif 'noncrit' in aspects:
-        w['ch'] = -4 * b
+        w['ch'] = params['ch']['noncrit'] * b
         w['cridam'] = 0
     else:
-        w['ch'] = 12 * b
+        w['ch'] = params['ch']['plain'] * b
         w['cridam'] = w['dam'] * pfb(race, elements, 'cridam', 'float_avg')
 
-    marginal_final_damage_effect = _lerp(2, 12, level_pct)
+    marginal_final_damage_effect = _lerp(*params['final_damage_effect'], level_pct)
     marginal_final_damage_w = w['pow'] * marginal_final_damage_effect
     meleeness = pfb(race, elements, 'meleeness', 'float_avg')
 
     # Melee vs ranged % final damage
-    chance_of_melee_atk_for_cras = 0.1
-    chance_of_melee_atk_for_sacs = 0.7
+    chance_of_melee_atk_for_cras, chance_of_melee_atk_for_sacs = params['melee_attack_share']
     chance_of_melee_atk = _lerp(chance_of_melee_atk_for_cras,
                                 chance_of_melee_atk_for_sacs,
                                 meleeness)
@@ -1113,22 +1202,26 @@ def _set_weights(char, aspects, apply=True):
     w['perrandam'] = (1.0 - chance_of_melee_atk) * marginal_final_damage_w
     
     # Weapon vs spell % final damage
-    chance_of_weapon = _lerp(0.0, 0.25, level_pct)
+    chance_of_weapon = _lerp(*params['weapon_share'], level_pct)
     w['perweadam'] = chance_of_weapon * marginal_final_damage_w
     w['perspedam'] = (1.0 - chance_of_weapon) * marginal_final_damage_w
 
     # Melee vs ranged % final damage taken
-    chance_of_melee_def_for_cras = 0.2
-    chance_of_melee_def_for_sacs = 0.4
+    chance_of_melee_def_for_cras, chance_of_melee_def_for_sacs = params['melee_defense_share']
     chance_of_melee_def = _lerp(chance_of_melee_def_for_cras,
                                 chance_of_melee_def_for_sacs,
                                 meleeness)
-    w['respermee'] = chance_of_melee_def * resper_w * 5
-    w['resperran'] = (1.0 - chance_of_melee_def) * resper_w * 5
+    final_res_mult = params['final_res_mult']
+    w['respermee'] = chance_of_melee_def * resper_w * final_res_mult
+    w['resperran'] = (1.0 - chance_of_melee_def) * resper_w * final_res_mult
     
     w['meleeness'] = meleeness
 
-    w['resperwea'] = chance_of_melee_def * resper_w * 5
+    w['resperwea'] = chance_of_melee_def * resper_w * final_res_mult
+
+    if table:
+        written = apply_weight_table(w, char, aspects, attack_factor * b, tuning)
+        _characteristic_floors(w, tuning, written)
 
     mule = mule_stats(aspects)
     if mule:
