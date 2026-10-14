@@ -809,6 +809,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                     part for part in (_combo.get('buff_note'),
                                       _combo.get('rank_note'),
                                       _combo.get('melee_note'),
+                                      _combo.get('item_effects_note'),
                                       _combo.get('crit_failure_note'))
                     if part)
     except Exception:

@@ -7309,6 +7309,14 @@ msgstr ""
 msgid "%(melee)s and %(ranged)s are not counted here: on most casts the caster chooses the range."
 msgstr ""
 
+#, python-format
+msgid "Special effects of worn items are not counted here: %(items)s."
+msgstr ""
+
+#, python-format
+msgid "Special effects of worn items, such as final damage, are not counted here: %(items)s."
+msgstr ""
+
 msgid "at the most one turn on one target allows"
 msgstr ""
 

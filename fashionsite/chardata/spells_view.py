@@ -573,6 +573,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             # standing holds the buffs really in force, not every ticked box
             'buff_note': str(_BUFF_NOTES['on' if standing else 'off']),
             'melee_note': _melee_note(stats),
+            'item_effects_note': _item_effects_note([solution], game_version),
             'crit_failure_note': (str(_CRIT_FAILURE_NOTE)
                                   if game_version == 'retro' else ''),
             'later': late,
@@ -619,6 +620,30 @@ def _melee_note(stats):
         return ''
     return str(_MELEE_NOTE) % {'melee': _('% Melee Damage'),
                                'ranged': _('% Ranged Damage')}
+
+
+def _item_effects_note(solutions, game_version):
+    """The sentence naming the worn items whose special effects would change the total, or ''."""
+    from fashionistapulp.item_effects import EQUIVALENT_KEYS, load_effect_table
+    entries = ((load_effect_table(game_version) or {}).get('items') or {}).values()
+    final_by_id = {}
+    for entry in entries:
+        keys = [key for key, amount in (entry.get('equivalents') or {}).items()
+                if amount and key in EQUIVALENT_KEYS
+                and key not in _EQUIVALENTS_WITHOUT_DAMAGE]
+        if keys and entry.get('rule') not in _RULES_THE_TURN_APPLIES:
+            for item_id in entry.get('site_ids') or ():
+                final_by_id[item_id] = 'final' in keys
+    names = {}
+    for solution in solutions:
+        for piece in getattr(solution, 'item_list', None) or ():
+            if getattr(piece, 'item_added', False) and piece.id in final_by_id:
+                name = piece.localized_name or piece.name
+                names[name] = names.get(name) or final_by_id[piece.id]
+    if not names:
+        return ''
+    note = _ITEM_FINAL_DAMAGE_NOTE if any(names.values()) else _ITEM_EFFECTS_NOTE
+    return str(note) % {'items': ', '.join(names)}
 
 
 def _cast_note(castable, name, later, damage, game_version=None):
@@ -1174,6 +1199,19 @@ _MELEE_NOTE = _lazy('%(melee)s and %(ranged)s are not counted here: on most '
                     'casts the caster chooses the range.')
 
 _UNCOUNTED_STATS = ('permedam', 'perrandam')
+
+_ITEM_EFFECTS_NOTE = _lazy('Special effects of worn items are not counted '
+                           'here: %(items)s.')
+
+_ITEM_FINAL_DAMAGE_NOTE = _lazy('Special effects of worn items, such as final '
+                                'damage, are not counted here: %(items)s.')
+
+# worn_spell_modifiers applies these to the spells
+_RULES_THE_TURN_APPLIES = ('class_item_spell_modifiers',)
+
+# The table's hp is effective HP from shields, heals and reductions, not max HP
+_EQUIVALENTS_WITHOUT_DAMAGE = ('hp', 'mp', 'lock', 'dodge', 'apres', 'mpres',
+                               'apred', 'mpred')
 
 _BUFF_NOTES = {
     'off': _lazy('One turn on a single target: average damage and critical '

@@ -105,6 +105,7 @@
             <span class="best-combo-rank-note">{{ best_combo.rank_note }}</span>
             <span class="best-combo-without-buffs-note">{{ best_combo.without_buffs_note }}</span>
             <span class="best-combo-melee-note">{{ best_combo.melee_note }}</span>
+            <span class="best-combo-item-effects-note">{{ best_combo.item_effects_note }}</span>
             <span class="best-combo-crit-failure-note">{{ best_combo.crit_failure_note }}</span>
         </p>
     </div>
@@ -1698,6 +1699,8 @@
                      .text(combo.without_buffs_note || '');
                 // Refreshed with the other two so the panel has a single path.
                 panel.find('.best-combo-melee-note').text(combo.melee_note || '');
+                panel.find('.best-combo-item-effects-note')
+                     .text(combo.item_effects_note || '');
                 panel.find('.best-combo-crit-failure-note')
                      .text(combo.crit_failure_note || '');
             });

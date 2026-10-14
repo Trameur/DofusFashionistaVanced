@@ -14,6 +14,10 @@ LIGNE_BUILD = re.compile(r'<tr[^>]*solution-best-turn-row[^>]*>(.*?)</tr>',
                          re.S)
 NOTE_COMPARE = re.compile(r'<td[^>]*compare-best-turn-note[^>]*>(.*?)</td>',
                           re.S)
+LIGNE_COMPARE = re.compile(r'<tr[^>]*compare-best-turn-row[^>]*>(.*?)</tr>',
+                           re.S)
+VALEUR_COMPARE = re.compile(
+    r'<td[^>]*solution-stat-summary-value-cell[^>]*>(.*?)</td>', re.S)
 TITRE = re.compile(r'title="([^"]*)"')
 
 PHRASE = ('%(melee)s and %(ranged)s are not counted here: on most casts the '
@@ -237,3 +241,19 @@ class TheThreePagesSayTheSameTests(_AvecDesBuilds):
         note = NOTE_COMPARE.search(compare)
         self.assertIsNotNone(note)
         self.assertIn(attendu, _texte(note.group(1)))
+
+    def test_the_comparison_says_it_when_only_the_second_set_carries_it(self):
+        char, _noms = self._build_concerne()
+        autre = self._build_ordinaire()
+        compare = self.client.get(
+            '/compare_sets/%d/%d/' % (autre.id, char.id),
+            follow=True).content.decode('utf-8')
+        ligne = LIGNE_COMPARE.search(compare)
+        self.assertIsNotNone(ligne)
+        valeurs = [_texte(cellule)
+                   for cellule in VALEUR_COMPARE.findall(ligne.group(1))]
+        self.assertTrue(valeurs and '-' not in valeurs,
+                        'a set has no best turn: %s' % valeurs)
+        note = NOTE_COMPARE.search(compare)
+        self.assertIsNotNone(note)
+        self.assertIn(_attendu('en'), _texte(note.group(1)))

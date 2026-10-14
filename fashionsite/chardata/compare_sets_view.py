@@ -44,7 +44,8 @@ from chardata.spell_buffs import (compute_full_buff_stats,
 from chardata.spell_combo import hp_share_hits_for_version
 from chardata.spell_modifiers import worn_spell_modifiers
 from chardata.spells_view import (_best_combo, _create_spell_web_digest,
-                                  _create_weapon_web_digest)
+                                  _create_weapon_web_digest,
+                                  _item_effects_note)
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.url_language import SITE_URL
 from chardata.util import (set_response, get_char_possibly_encoded_or_raise, get_or_none,
@@ -243,7 +244,7 @@ def compare_sets(request, sets_params):
 def _best_turn_rows(builds, game_version):
     """The best-turn row, one value per set, a dash when it cannot be computed."""
     valeurs = {}
-    note = ''
+    combos = []
     for build in builds:
         try:
             set_current_game_version(game_version)
@@ -253,13 +254,24 @@ def _best_turn_rows(builds, game_version):
             logger.exception('best turn failed for compared build %s', build.id)
             combo = None
         valeurs[build.id] = combo['total'] if combo else None
-        if combo and not note:
-            # Same notes as the spells page; no buff or level is picked here
-            note = ' '.join(part for part in (combo.get('buff_note'),
-                                              combo.get('rank_note'),
-                                              combo.get('melee_note'),
-                                              combo.get('crit_failure_note'))
-                            if part)
+        if combo:
+            combos.append(combo)
+    note = ''
+    if combos:
+        # Same notes as the spells page; no buff or level is picked here.
+        # The build-dependent ones cover every set that has a total.
+        first_combo = combos[0]
+        melee_note = next((combo['melee_note'] for combo in combos
+                           if combo.get('melee_note')), '')
+        effects_note = _item_effects_note(
+            [build.solution for build in builds if valeurs[build.id] is not None],
+            game_version)
+        note = ' '.join(part for part in (first_combo.get('buff_note'),
+                                          first_combo.get('rank_note'),
+                                          melee_note,
+                                          effects_note,
+                                          first_combo.get('crit_failure_note'))
+                        if part)
     # Diff is set 2 minus set 1, like the other tables
     diff = None
     if len(builds) == 2:

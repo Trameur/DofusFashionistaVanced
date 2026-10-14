@@ -8253,6 +8253,14 @@ msgstr "Peças acima do nível do personagem"
 msgid "%(melee)s and %(ranged)s are not counted here: on most casts the caster chooses the range."
 msgstr "%(melee)s e %(ranged)s não são contados aqui: na maioria dos lançamentos, quem lança escolhe a distância."
 
+#, python-format
+msgid "Special effects of worn items are not counted here: %(items)s."
+msgstr "Os efeitos especiais dos itens equipados não são contados aqui: %(items)s."
+
+#, python-format
+msgid "Special effects of worn items, such as final damage, are not counted here: %(items)s."
+msgstr "Os efeitos especiais dos itens equipados, como o dano final, não são contados aqui: %(items)s."
+
 msgid "at the most one turn on one target allows"
 msgstr "no máximo que um turno permite num alvo"
 
