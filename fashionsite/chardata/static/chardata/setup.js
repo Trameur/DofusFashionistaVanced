@@ -771,6 +771,88 @@ function setupRestore(state, now, page, env) {
     env.finished();
 }
 
+function setupMoreOwn(object, key) {
+    return Object.prototype.hasOwnProperty.call(object, key);
+}
+
+function setupMoreDefaults(table, level) {
+    var values = {};
+    var key;
+    for (key in table.base) {
+        if (setupMoreOwn(table.base, key)) {
+            values[key] = table.base[key];
+        }
+    }
+    for (var i = 0; i < table.ladder.length && table.ladder[i][0] <= level; i++) {
+        var row = table.ladder[i][1];
+        for (key in row) {
+            if (setupMoreOwn(row, key)) {
+                values[key] = row[key];
+            }
+        }
+    }
+    for (key in table.levels) {
+        if (setupMoreOwn(table.levels, key) && table.levels[key] > level) {
+            values[key] = null;
+        }
+    }
+    return values;
+}
+
+function setupMoreSame(wanted, found) {
+    var blank = wanted === null || wanted === undefined;
+    if (blank !== (found === null || found === undefined)) {
+        return false;
+    }
+    return blank || setupSameValue(wanted, found);
+}
+
+function setupMoreChanged(groups, defaults, current) {
+    var changed = [];
+    for (var i = 0; i < groups.length; i++) {
+        var fields = groups[i][1];
+        for (var j = 0; j < fields.length; j++) {
+            if (!setupMoreSame(defaults[fields[j]], current[fields[j]])) {
+                changed.push(groups[i][0]);
+                break;
+            }
+        }
+    }
+    return changed;
+}
+
+function setupMoreFollow(table, before, after, current, kept, touched) {
+    var was = setupMoreDefaults(table, before);
+    var next = setupMoreDefaults(table, after);
+    var values = {};
+    var stored = {};
+    var set = touched || {};
+    var key;
+    for (key in kept || {}) {
+        if (setupMoreOwn(kept, key)) {
+            stored[key] = kept[key];
+        }
+    }
+    for (var i = 0; i < table.groups.length; i++) {
+        for (var j = 0; j < table.groups[i][1].length; j++) {
+            key = table.groups[i][1][j];
+            var needed = setupMoreOwn(table.levels, key) ? table.levels[key] : 0;
+            if (needed > after) {
+                if (needed <= before) {
+                    stored[key] = current[key];
+                }
+                values[key] = null;
+            } else if (needed > before) {
+                values[key] = setupMoreOwn(stored, key) ? stored[key] : next[key];
+                delete stored[key];
+            } else if (!setupMoreOwn(set, key) && setupMoreSame(was[key], current[key])) {
+                values[key] = next[key];
+            }
+        }
+    }
+    return {values: values, kept: stored};
+}
+
 $(document).ready(function() {
     var $panel = $('#setup-preview');
     var $form = $('#main_form');
@@ -1440,4 +1522,135 @@ $(document).ready(function() {
     restoreFromAddress(false);
     refreshChips();
     $section.prop('hidden', false);
+});
+
+$(document).ready(function() {
+    var $section = $('#setup-more');
+    var source = document.getElementById('setup-more-table');
+    if (!$section.length || !source) {
+        return;
+    }
+    var table = JSON.parse(source.textContent);
+    var $badge = $('#setup-more-badge');
+    var $level = $('#input-char-level');
+    var shownLevel = Number($section.attr('data-level'));
+    var kept = {};
+    var touched = {};
+    var $wisdom = $(document.getElementById('check_wis'));
+    var $cawwot = $('#setup-more-cawwot');
+    var names = [];
+    $.each(table.groups, function(i, group) {
+        names = names.concat(group[1]);
+    });
+
+    function field(name) {
+        return $section.find('[name="' + name + '"]');
+    }
+
+    function read() {
+        var values = {};
+        $.each(names, function(i, name) {
+            var value = null;
+            field(name).each(function() {
+                if (this.disabled) {
+                    return;
+                }
+                if (this.type === 'radio' || this.type === 'checkbox') {
+                    if (this.checked) {
+                        value = this.value;
+                    }
+                } else {
+                    value = this.value;
+                }
+            });
+            values[name] = value;
+        });
+        return values;
+    }
+
+    function write(values) {
+        $.each(values, function(name, value) {
+            field(name).each(function() {
+                if (this.type === 'radio') {
+                    this.checked = this.value === value;
+                } else if (this.type === 'checkbox') {
+                    this.checked = value !== null && value !== undefined;
+                } else {
+                    this.value = value === null || value === undefined ? '' : value;
+                }
+            });
+        });
+    }
+
+    function currentLevel() {
+        var text = $.trim($level.val());
+        if (!/^[0-9]{1,3}$/.test(text) || Number(text) < SETUP_PREVIEW.minLevel
+                || Number(text) > SETUP_PREVIEW.maxLevel) {
+            return null;
+        }
+        return Number(text);
+    }
+
+    function markUsable(level) {
+        $.each(table.levels, function(key, needed) {
+            var $box = field(key);
+            var tooHigh = needed > level;
+            $box.prop('disabled', tooHigh);
+            $box.closest('.setup-more-box').toggleClass('setup-more-too-high', tooHigh);
+        });
+    }
+
+    function changedGroups() {
+        return setupMoreChanged(table.groups, setupMoreDefaults(table, shownLevel), read());
+    }
+
+    function showChanges() {
+        var groups = changedGroups();
+        $section.find('input.setup-more-group').remove();
+        $.each(groups, function(i, group) {
+            $('<input type="hidden" class="setup-more-group">').attr({name: 'setup_options', value: group})
+                .appendTo($section);
+        });
+        $badge.text(groups.length ? setupPreviewBadge(groups.length) : '').prop('hidden', !groups.length);
+    }
+
+    function follow() {
+        var level = currentLevel();
+        if (level === null || level === shownLevel) {
+            return;
+        }
+        var moved = setupMoreFollow(table, shownLevel, level, read(), kept, touched);
+        kept = moved.kept;
+        shownLevel = level;
+        markUsable(level);
+        write(moved.values);
+        showChanges();
+    }
+
+    function showCawwot() {
+        $cawwot.prop('hidden', !$wisdom.prop('checked'));
+    }
+
+    $section.on('click', '[data-check]', function() {
+        var on = $(this).attr('data-check') === 'true';
+        $section.find('.setup-more-grid input[type="checkbox"]').each(function() {
+            if (!this.disabled) {
+                this.checked = on;
+                touched[this.name] = true;
+            }
+        });
+        showChanges();
+    });
+    $section.on('change input', function(event) {
+        if (event.target.name) {
+            touched[event.target.name] = true;
+        }
+        showChanges();
+    });
+    $level.on('change', follow);
+    $section.closest('form').on('change', showCawwot);
+    markUsable(shownLevel);
+    follow();
+    showChanges();
+    showCawwot();
 });

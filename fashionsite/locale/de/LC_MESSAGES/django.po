@@ -4617,11 +4617,11 @@ msgstr "Ja"
 #: .\chardata\templates\chardata\wizard_options.html:13
 #: .\chardata\templates\chardata\wizard_options.html:21
 msgid "No"
-msgstr "NEIN"
+msgstr "Nein"
 
 #: .\chardata\templates\chardata\options.html:45
 msgid "Allow Range Exo"
-msgstr "Range Exo zulassen"
+msgstr "Reichweiten-Exo zulassen"
 
 #: .\chardata\templates\chardata\options.html:61
 #: .\chardata\templates\chardata\wizard_options.html:18
@@ -4653,17 +4653,17 @@ msgstr "Mounts zulassen"
 #: .\chardata\templates\chardata\options.html:98
 #: .\chardata\templates\chardata\wizard_options.html:29
 msgid "Dragoturkeys"
-msgstr "Dragotruter"
+msgstr "Dracotruter"
 
 #: .\chardata\templates\chardata\options.html:99
 #: .\chardata\templates\chardata\wizard_options.html:30
 msgid "Seemyools"
-msgstr "Scheint myools"
+msgstr "Seequaggas"
 
 #: .\chardata\templates\chardata\options.html:100
 #: .\chardata\templates\chardata\wizard_options.html:31
 msgid "Rhineetles"
-msgstr "Rhineetles"
+msgstr "Naskäfer"
 
 #: .\chardata\templates\chardata\options.html:125
 msgid "Allow dofuses, prysmaradite and trophies:"
@@ -9509,6 +9509,46 @@ msgstr "Diese Einstellung speichern"
 #: chardata/templates/chardata/load_projects.html
 msgid "You have copied too many builds for now. Please try again later or log in."
 msgstr "Sie haben vorerst zu viele Builds kopiert. Bitte versuchen Sie es später erneut oder melden Sie sich an."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "More options"
+msgstr "Weitere Optionen"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Left as they are, these options start your build like any new build. You can change them later from the build page."
+msgstr "Lässt du sie unverändert, startet dein Build wie jeder neue Build. Du kannst sie später auf der Seite des Builds ändern."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Exos"
+msgstr "Exos"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Mounts"
+msgstr "Reittiere"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Check all"
+msgstr "Alle auswählen"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Uncheck all"
+msgstr "Alle abwählen"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Uncheck what the build must not use. A Dofus above the level of the build stays greyed out."
+msgstr "Entferne den Haken bei allem, was der Build nicht verwenden soll. Ein Dofus über der Stufe des Builds bleibt ausgegraut."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Characteristic points"
+msgstr "Eigenschaftspunkte"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "With Wisdom checked, Optimize now and the wizard keep only the Cawwot among the Dofus, with no trophy, unless Prospecting or Pods is checked without an element."
+msgstr "Ist Weisheit angekreuzt, erlauben Jetzt optimieren und der Assistent nur den Kawott-Dofus und keine Trophäe, es sei denn, Prospektion oder Pods ist ohne Element angekreuzt."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
+msgstr "Ohne Haken verteilst du sie selbst: Jetzt optimieren und der Assistent öffnen zuerst die Seite der Basiseigenschaften."
 
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Dieses Spiel hat keine Exos: Sie bleiben außen vor."

@@ -147,6 +147,7 @@
                     </div>
                 </div>
             </details>
+            {% if more %}{% include "chardata/setup_more_options.html" %}{% endif %}
 
             {% if temporix_available %}
             <div id="temporix-choice" class="temporix-box" style="margin-bottom: 10px;">

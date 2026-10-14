@@ -9449,6 +9449,46 @@ msgstr "Guardar este ajuste"
 msgid "You have copied too many builds for now. Please try again later or log in."
 msgstr "Has copiado demasiados builds por ahora. Inténtalo de nuevo más tarde o inicia sesión."
 
+#: chardata/templates/chardata/setup_more_options.html
+msgid "More options"
+msgstr "Más opciones"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Left as they are, these options start your build like any new build. You can change them later from the build page."
+msgstr "Si las dejas como están, tu build empieza como cualquier build nuevo. Puedes cambiarlas más tarde desde la página del build."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Exos"
+msgstr "Exos"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Mounts"
+msgstr "Monturas"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Check all"
+msgstr "Marcar todo"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Uncheck all"
+msgstr "Desmarcar todo"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Uncheck what the build must not use. A Dofus above the level of the build stays greyed out."
+msgstr "Desmarca lo que el build no debe usar. Un Dofus por encima del nivel del build se queda en gris."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Characteristic points"
+msgstr "Puntos de características"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "With Wisdom checked, Optimize now and the wizard keep only the Cawwot among the Dofus, with no trophy, unless Prospecting or Pods is checked without an element."
+msgstr "Con Sabiduría marcada, Optimizar ahora y el asistente solo permiten el Dofus Zanahowia, sin trofeos, salvo si marcas Prospección o Pods sin elemento."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
+msgstr "Si la desmarcas, los colocas tú: Optimizar ahora y el asistente abren primero la página de características."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este juego no tiene exos: se quedan fuera."
 

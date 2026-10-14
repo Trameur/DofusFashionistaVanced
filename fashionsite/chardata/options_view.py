@@ -97,7 +97,13 @@ def options_post(request, char_id):
     options = parse_options_post(request)
     parse_inventory_options(request, char, options)
     set_options(char, options)
+    apply_posted_dofus(request, char)
     
+    return HttpResponseJson(json.dumps(get_options(char)))
+
+
+def apply_posted_dofus(request, char):
+    """Forbids each Dofus whose box was not posted and allows the others, leaving the ones above the level alone."""
     too_high = get_dofus_not_for_char(char)
     forbidden_dofus = []
     allowed_dofus = []
@@ -114,8 +120,6 @@ def options_post(request, char_id):
                 allowed_dofus.append(int(dofus.id))
     add_items_to_exclusions(char, forbidden_dofus)
     remove_items_from_exclusions(char, allowed_dofus)
-    
-    return HttpResponseJson(json.dumps(get_options(char)))
 
 def parse_options_post(request):
     options = {}

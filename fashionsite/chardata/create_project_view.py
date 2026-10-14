@@ -31,13 +31,14 @@ from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
                                     get_anon_char_ids, remember_anon_char)
 from chardata.build_name import cleaned_at_creation
 from chardata.models import Char, CharBaseStats
-from chardata.options import initial_exo_options, set_options
+from chardata.options import initial_build_options, set_options
 from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS,
                               apply_setup_choices, mode_boxes, option_column_modes,
                               posted_choices, posted_guard, priorities, setup_boxes,
                               setup_columns, setup_recipes, shown_play_mode, stored_choices,
                               stored_guard, within_focus_limit)
 from chardata.setup_edits import apply_touched_fields
+from chardata.setup_options import apply_option_groups, creation_scroll, more_options_context
 from chardata.setup_preview import panel_context
 from chardata.smart_build import (get_char_aspects, ALL_ASPECTS,
                                   inert_aspects,
@@ -94,6 +95,7 @@ def setup(request, char_id=0):
     # Item from an encyclopedia page to build around, checked against the catalogue
     lock_item = _wanted_item(request, game_version)
     preview_panel = panel_context(game_version) if is_new_char and can_create else {}
+    more = more_options_context(request, char, game_version) if is_new_char and can_create else None
 
     return set_response(request,
                         'chardata/projdetails.html',
@@ -122,6 +124,7 @@ def setup(request, char_id=0):
                              is_new_char and version_has_temporix(game_version)),
                          **temporix_window(),
                          **preview_panel,
+                         'more': more,
                          'is_new_char': is_new_char},
                         char)
 
@@ -261,26 +264,23 @@ def create_project(request):
                         True, state['where_to_go'] in ('wizard', 'optimize'),
                         guard_pct=posted_guard(request.POST, char))
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
-    initial_options = initial_exo_options(char.game_version, char.level)
-    initial_options.update({'turq_dofus': char.level >= 199,
-                            'dragoturkey': True,
-                            'rhineetle': True,
-                            'seemyool': True,
-                            'prysmaradite': char.level >= 200})
+    initial_options = initial_build_options(char.game_version, char.level)
     if version_has_temporix(char.game_version):
         initial_options['temporix'] = request.POST.get('temporix') == 'on'
     set_options(char, initial_options)
+    apply_option_groups(request, char)
     apply_touched_fields(char, request.POST)
 
     char.save()
 
     full_scroll = max_scroll_for_version(char.game_version, char.level)
+    scroll = creation_scroll(request.POST, full_scroll)
     for element_name, _ in STATS_NAMES:
         basestats = CharBaseStats()
         basestats.char = char
         basestats.stat = element_name
-        basestats.scrolled_value = full_scroll
-        basestats.total_value = full_scroll
+        basestats.scrolled_value = scroll
+        basestats.total_value = scroll
         basestats.save()
     
     if request.user.is_anonymous:
@@ -307,6 +307,8 @@ def create_project(request):
             logger.warning('build-around item %s could not be applied',
                            voulu, exc_info=True)
     
+    if state['where_to_go'] in ('wizard', 'optimize') and not char.allow_points_distribution:
+        return HttpResponseRedirect(version_reverse(request, 'init_base_stats', char.id))
     if state['where_to_go'] == 'wizard':
         return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))
     if state['where_to_go'] == 'optimize':

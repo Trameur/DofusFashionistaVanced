@@ -112,15 +112,17 @@ def _post(request, char_id):
         basestats.scrolled_value = scrolled
         basestats.save()
         
-    # An unchecked box posts nothing: presence is the signal
-    raw = request.POST.get('choose_stats')
-    allow_point_distribution = (raw is not None and
-                                str(raw).strip().lower()
-                                not in ('false', '0', 'no', 'off'))
-    char.allow_points_distribution = allow_point_distribution
+    char.allow_points_distribution = posted_distribution(request.POST)
     char.save()
     
     return char
+
+
+def posted_distribution(post):
+    """Whether the posted form asks for the points to be distributed; an unchecked box posts nothing."""
+    raw = post.get('choose_stats')
+    return (raw is not None and
+            str(raw).strip().lower() not in ('false', '0', 'no', 'off'))
 
 def _clamped_to_what_the_game_allows(stats, max_scroll):
     """Bring a scroll above the game's cap back down, without touching distributed points."""

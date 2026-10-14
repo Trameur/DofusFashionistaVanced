@@ -565,3 +565,139 @@ html.fm-modern .setup-chip[aria-pressed="true"] {
         width: auto;
     }
 }
+
+.setup-more {
+    --setup-ink: #ffffff;
+    --setup-line: #9a9a9a;
+    --setup-on: #e3bf4d;
+}
+
+html.fm-light .setup-more {
+    --setup-ink: #3d200d;
+    --setup-line: #3d200d;
+    --setup-on: #8a5a00;
+}
+
+html.fm-modern .setup-more {
+    --setup-ink: var(--fm-text);
+    --setup-line: var(--fm-muted);
+    --setup-on: var(--fm-accent-text);
+}
+
+.setup-more [hidden] {
+    display: none !important;
+}
+
+.setup-more-badge {
+    margin-left: 8px;
+}
+
+.setup-more-note {
+    margin: 0 4px 6px;
+    font-size: 12px;
+}
+
+.setup-more .setup-more-field > label,
+.setup-more-choice > label,
+.setup-more-count {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 0;
+}
+
+.setup-more-choice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 16px;
+    margin-bottom: 4px;
+}
+
+.setup-more-label {
+    display: flex;
+    flex: 0 0 100%;
+    align-items: center;
+    gap: 6px;
+}
+
+.setup-more-icon {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+}
+
+.setup-more-count input {
+    width: 56px;
+}
+
+.setup-more .setup-more-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 16px;
+}
+
+.setup-more-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    margin: 2px 0 8px;
+}
+
+.setup-more-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+    gap: 6px;
+}
+
+.setup-more .setup-more-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 4px 2px;
+    border: 1px solid rgba(128, 128, 128, 0.35);
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.2;
+    text-align: center;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+
+html.fm-modern .setup-more .setup-more-box {
+    border-color: var(--fm-border);
+    border-radius: var(--fm-radius);
+}
+
+.setup-more-box-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.setup-more-box input {
+    margin: 0;
+}
+
+.setup-more .setup-more-box.setup-more-too-high {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 767px) {
+    .setup-more .setup-more-field > label,
+    .setup-more-choice > label,
+    .setup-more-count {
+        min-height: 44px;
+    }
+
+    .setup-more-field input[type="radio"],
+    .setup-more-field input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+    }
+}

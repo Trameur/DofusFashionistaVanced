@@ -1,0 +1,94 @@
+{% load i18n %}
+{% load static_s3 %}
+{% load get_item %}
+<details id="setup-more" class="advanced-options setup-more" data-level="{{ more.level }}">
+    <summary>{% trans "More options" %}<span id="setup-more-badge" class="setup-badge setup-more-badge" hidden></span></summary>
+    <p class="small-explain setup-more-note">{% trans "Left as they are, these options start your build like any new build. You can change them later from the build page." %}</p>
+    <div class="advanced-options-row" role="group" aria-labelledby="setup-more-exos">
+        <span id="setup-more-exos" class="advanced-options-name">{% trans "Exos" %}</span>
+        <div class="advanced-options-field setup-more-field">
+            {% if more.per_item %}
+            <label class="setup-more-count"><img src="{% static "chardata/Ga_Pa_Rune.png" %}" class="setup-more-icon" alt=""><span>{% trans "Pieces with an AP exo" %}</span><input class="pretty-input" type="number" name="ap_exo" min="0" max="{{ more.exo_slots }}" step="1" inputmode="numeric" value="{{ more.defaults.ap_exo }}" autocomplete="off"></label>
+            <label class="setup-more-count"><img src="{% static "chardata/Ga_Pme_Rune.png" %}" class="setup-more-icon" alt=""><span>{% trans "Pieces with an MP exo" %}</span><input class="pretty-input" type="number" name="mp_exo" min="0" max="{{ more.exo_slots }}" step="1" inputmode="numeric" value="{{ more.defaults.mp_exo }}" autocomplete="off"></label>
+            <label class="setup-more-count"><img src="{% static "chardata/Po_Rune.png" %}" class="setup-more-icon" alt=""><span>{% trans "Pieces with a Range exo" %}</span><input class="pretty-input" type="number" name="range_exo" min="0" max="{{ more.exo_slots }}" step="1" inputmode="numeric" value="{{ more.defaults.range_exo }}" autocomplete="off"></label>
+            <p class="small-explain">{% blocktrans with slots=more.exo_slots %}Each forgeable piece can carry one exo, AP, MP or Range, with no limit for the whole build ({{ slots }} pieces at most). Exos already recorded on your own pieces count on top.{% endblocktrans %}</p>
+            {% else %}
+            <div class="setup-more-choice" role="radiogroup" aria-labelledby="setup-more-ap">
+                <span id="setup-more-ap" class="setup-more-label"><img src="{% static "chardata/Ga_Pa_Rune.png" %}" class="setup-more-icon" alt="">{% trans "Allow AP Exo" %}</span>
+                <label><input type="radio" name="ap_exo" value="yes"{% if more.defaults.ap_exo == 'yes' %} checked{% endif %} autocomplete="off"> {% trans "Yes" %}</label>
+                <label><input type="radio" name="ap_exo" value="no"{% if more.defaults.ap_exo == 'no' %} checked{% endif %} autocomplete="off"> {% trans "No" %}</label>
+            </div>
+            <div class="setup-more-choice" role="radiogroup" aria-labelledby="setup-more-mp">
+                <span id="setup-more-mp" class="setup-more-label"><img src="{% static "chardata/Ga_Pme_Rune.png" %}" class="setup-more-icon" alt="">{% trans "Allow MP Exo" %}</span>
+                <label><input type="radio" name="mp_exo" value="yes"{% if more.defaults.mp_exo == 'yes' %} checked{% endif %} autocomplete="off"> {% trans "Yes" %}</label>
+                {% if more.gelano %}<label><input type="radio" name="mp_exo" value="gelano"{% if more.defaults.mp_exo == 'gelano' %} checked{% endif %} autocomplete="off"> {% trans "Only Gelano" %}</label>{% endif %}
+                <label><input type="radio" name="mp_exo" value="no"{% if more.defaults.mp_exo == 'no' %} checked{% endif %} autocomplete="off"> {% trans "No" %}</label>
+            </div>
+            <div class="setup-more-choice" role="radiogroup" aria-labelledby="setup-more-range">
+                <span id="setup-more-range" class="setup-more-label"><img src="{% static "chardata/Po_Rune.png" %}" class="setup-more-icon" alt="">{% trans "Allow Range Exo" %}</span>
+                <label><input type="radio" name="range_exo" value="yes"{% if more.defaults.range_exo == 'yes' %} checked{% endif %} autocomplete="off"> {% trans "Yes" %}</label>
+                <label><input type="radio" name="range_exo" value="no"{% if more.defaults.range_exo == 'no' %} checked{% endif %} autocomplete="off"> {% trans "No" %}</label>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if more.mounts %}
+    <div class="advanced-options-row" role="group" aria-labelledby="setup-more-mounts">
+        <span id="setup-more-mounts" class="advanced-options-name">{% trans "Mounts" %}</span>
+        <div class="advanced-options-field setup-more-field setup-more-inline">
+            {% if 'dragoturkey' in more.mounts %}<label><input type="checkbox" name="dragoturkey"{% if more.defaults.dragoturkey %} checked{% endif %} autocomplete="off"> {% trans "Dragoturkeys" %}</label>{% endif %}
+            {% if 'seemyool' in more.mounts %}<label><input type="checkbox" name="seemyool"{% if more.defaults.seemyool %} checked{% endif %} autocomplete="off"> {% trans "Seemyools" %}</label>{% endif %}
+            {% if 'rhineetle' in more.mounts %}<label><input type="checkbox" name="rhineetle"{% if more.defaults.rhineetle %} checked{% endif %} autocomplete="off"> {% trans "Rhineetles" %}</label>{% endif %}
+        </div>
+    </div>
+    {% endif %}
+    {% if more.dofuses or more.prysmaradite or more.trophies %}
+    <div class="advanced-options-row" role="group" aria-labelledby="setup-more-dofus">
+        <span id="setup-more-dofus" class="advanced-options-name">{% trans "Dofus" %}</span>
+        <div class="advanced-options-field setup-more-field">
+            <div class="setup-more-actions">
+                <button type="button" class="setup-action" data-check="true">{% trans "Check all" %}</button>
+                <button type="button" class="setup-action" data-check="false">{% trans "Uncheck all" %}</button>
+            </div>
+            <div class="setup-more-grid">
+                {% for d in more.dofuses %}<label class="setup-more-box"><img src="{% static d.img %}" class="setup-more-box-icon" alt=""><input type="checkbox" name="{{ d.key }}"{% if more.defaults|get_item:d.key %} checked{% endif %} autocomplete="off"><span>{{ d.label }}</span></label>
+                {% endfor %}{% if more.prysmaradite %}<label class="setup-more-box"><img src="{% static "chardata/prysmaradite.png" %}" class="setup-more-box-icon" alt=""><input type="checkbox" name="prysmaradite"{% if more.defaults.prysmaradite %} checked{% endif %} autocomplete="off"><span>{% trans "Prysmaradite" %}</span></label>
+                {% endif %}{% if more.trophies %}<label class="setup-more-box"><img src="{% static "chardata/Major_Scholar.png" %}" class="setup-more-box-icon" alt=""><input type="checkbox" name="trophies"{% if more.defaults.trophies %} checked{% endif %} autocomplete="off"><span>{% trans "Trophies" %}</span></label>
+                {% endif %}
+            </div>
+            <p class="small-explain">{% trans "Uncheck what the build must not use. A Dofus above the level of the build stays greyed out." %}</p>
+            <p id="setup-more-cawwot" class="small-explain" hidden>{% trans "With Wisdom checked, Optimize now and the wizard keep only the Cawwot among the Dofus, with no trophy, unless Prospecting or Pods is checked without an element." %}</p>
+        </div>
+    </div>
+    {% endif %}
+    <div class="advanced-options-row" role="radiogroup" aria-labelledby="setup-more-scrolls">
+        <span id="setup-more-scrolls" class="advanced-options-name">{% trans "Scrolling" %}</span>
+        <div class="advanced-options-field setup-more-field">
+            <label><input type="radio" name="scrolling" value="fully"{% if more.defaults.scrolling == 'fully' %} checked{% endif %} autocomplete="off"> {% trans "Fully scroll my character" %}</label>
+            {% if more.hundred %}<label><input type="radio" name="scrolling" value="hundred"{% if more.defaults.scrolling == 'hundred' %} checked{% endif %} autocomplete="off"> {% trans "Scroll every characteristic to 100" %}</label>{% endif %}
+            <label><input type="radio" name="scrolling" value="clean"{% if more.defaults.scrolling == 'clean' %} checked{% endif %} autocomplete="off"> {% trans "Don't scroll any characteristics" %}</label>
+        </div>
+    </div>
+    <div class="advanced-options-row" role="group" aria-labelledby="setup-more-points">
+        <span id="setup-more-points" class="advanced-options-name">{% trans "Characteristic points" %}</span>
+        <div class="advanced-options-field setup-more-field">
+            <label><input type="checkbox" name="choose_stats" value="choose_stats"{% if more.defaults.choose_stats %} checked{% endif %} autocomplete="off"> {% trans "Distribute the points for me (the points will be applied when designing a set)" %}</label>
+            <p class="small-explain">{% trans "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first." %}</p>
+        </div>
+    </div>
+    {% if more.folders %}
+    <div class="advanced-options-row" role="radiogroup" aria-labelledby="setup-more-items">
+        <span id="setup-more-items" class="advanced-options-name">{% trans "Items" %}</span>
+        <div class="advanced-options-field setup-more-field">
+            <label><input type="radio" name="inventory_mode" value="all"{% if more.defaults.inventory_mode == 'all' %} checked{% endif %} autocomplete="off"> {% trans "Only encyclopedia items" %}</label>
+            <label><input type="radio" name="inventory_mode" value="mixed"{% if more.defaults.inventory_mode == 'mixed' %} checked{% endif %} autocomplete="off"> {% trans "Encyclopedia items + my inventory" %}</label>
+            <label><input type="radio" name="inventory_mode" value="only"{% if more.defaults.inventory_mode == 'only' %} checked{% endif %} autocomplete="off"> {% trans "Only items from my inventory" %}</label>
+            <select name="inventory_folder" class="pretty-input" aria-label="{% trans 'Inventory' %}" autocomplete="off">
+                {% for folder in more.folders %}<option value="{{ folder.id }}">{{ folder.name }} ({{ folder.count }})</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    {% endif %}
+    {{ more.table|json_script:"setup-more-table" }}
+</details>

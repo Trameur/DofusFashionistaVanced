@@ -9561,6 +9561,46 @@ msgstr "Enregistrer ce réglage"
 msgid "You have copied too many builds for now. Please try again later or log in."
 msgstr "Tu as copié trop de builds pour le moment. Réessaie plus tard ou connecte-toi."
 
+#: chardata/templates/chardata/setup_more_options.html
+msgid "More options"
+msgstr "Plus d’options"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Left as they are, these options start your build like any new build. You can change them later from the build page."
+msgstr "Laissées telles quelles, ces options démarrent ton build comme tout nouveau build. Tu peux les changer plus tard depuis la page du build."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Exos"
+msgstr "Exos"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Mounts"
+msgstr "Montures"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Check all"
+msgstr "Tout cocher"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Uncheck all"
+msgstr "Tout décocher"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Uncheck what the build must not use. A Dofus above the level of the build stays greyed out."
+msgstr "Décoche ce que le build ne doit pas utiliser. Un Dofus au-dessus du niveau du build reste grisé."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Characteristic points"
+msgstr "Points de caractéristiques"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "With Wisdom checked, Optimize now and the wizard keep only the Cawwot among the Dofus, with no trophy, unless Prospecting or Pods is checked without an element."
+msgstr "Avec Sagesse cochée, Optimiser maintenant et l’assistant n’autorisent que le Dofus Cawotte, sans trophée, sauf si Prospection ou Pods est coché sans élément."
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
+msgstr "Décochée, tu les places toi-même : Optimiser maintenant et l’assistant ouvrent d’abord la page des caractéristiques."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Ce jeu n’a pas d’exos : ils restent de côté."
 

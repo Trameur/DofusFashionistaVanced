@@ -202,6 +202,17 @@ def initial_exo_options(game_version, level):
     return {'ap_exo': level >= 200, 'mp_exo': level >= 200}
 
 
+def initial_build_options(game_version, level):
+    """The options a new build starts with, before the setup page's own choices."""
+    options = initial_exo_options(game_version, level)
+    options.update({'turq_dofus': level >= 199,
+                    'dragoturkey': True,
+                    'rhineetle': True,
+                    'seemyool': True,
+                    'prysmaradite': level >= 200})
+    return options
+
+
 def _is_exo_count(char, value):
     return (get_game_version(getattr(char, 'game_version', 'dofus3')).exo_per_item
             and type(value) == int and value >= 0)
