@@ -35,8 +35,8 @@ from chardata.options import initial_exo_options, set_options
 from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS,
                               apply_setup_choices, mode_boxes, option_column_modes,
                               posted_choices, posted_guard, priorities, setup_boxes,
-                              setup_columns, shown_play_mode, stored_choices, stored_guard,
-                              within_focus_limit)
+                              setup_columns, setup_recipes, shown_play_mode, stored_choices,
+                              stored_guard, within_focus_limit)
 from chardata.setup_edits import apply_touched_fields
 from chardata.setup_preview import panel_context
 from chardata.smart_build import (get_char_aspects, ALL_ASPECTS,
@@ -115,6 +115,7 @@ def setup(request, char_id=0):
                          'mode_boxes': json.dumps(mode_boxes(game_version)),
                          'guard_percents': GUARD_PERCENTS,
                          'guard_default': GUARD_DEFAULT_PERCENT,
+                         'recipes': setup_recipes(game_version) if is_new_char else [],
                          'is_new_char_json': json.dumps(is_new_char),
                          'questionmark': json.dumps(get_questionmark_URL(request)),
                          'temporix_available': (

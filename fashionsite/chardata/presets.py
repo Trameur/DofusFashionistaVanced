@@ -19,7 +19,7 @@ from chardata.default_elements import version_element
 from chardata.models import Char
 from chardata.options import set_setup_choices
 from chardata.smart_build import (ASPECT_TO_NAME, get_char_aspects, get_elements,
-                                  get_standard_weights, set_char_aspects)
+                                  get_standard_weights, inert_aspects, set_char_aspects)
 from chardata.stats_weights import get_stats_weights
 from chardata.translation_util import localized_stat_name
 from chardata.version_compat import class_exists_in_version, filter_classes_for_version
@@ -141,8 +141,65 @@ VERSION_PRESETS = {
 }
 
 
+MULE_BOXES = frozenset({'wis', 'pp', 'pods'})
+
+
+class Recipe(namedtuple('Recipe', 'key label focus priority mode guard_pct')):
+    """What a preset chip fills in on the setup page: focus boxes, priority, mode and safeguard, never an element."""
+
+    @property
+    def mule(self):
+        return bool(self.focus) and set(self.focus) <= MULE_BOXES
+
+
+def _recipe(key, label, focus=(), priority=DEFAULT_PRIORITY, mode=DEFAULT_PLAY_MODE,
+            guard_pct=None):
+    return Recipe(key, label, tuple(focus), priority, mode, guard_pct)
+
+
+RECIPES = (
+    _recipe('balanced', gettext_lazy('All-round')),
+    _recipe('damage', gettext_lazy('Damage dealer'), priority='damage'),
+    _recipe('glass_cannon', ASPECT_TO_NAME['glasscannon'], focus=('glasscannon',)),
+    _recipe('tank', gettext_lazy('Tank'), priority='defense'),
+    _recipe('healer', gettext_lazy('Healer'), priority='heals'),
+    _recipe('critical', ASPECT_TO_NAME['crit'], focus=('crit',), priority='damage'),
+    _recipe('fixed_damage', ASPECT_TO_NAME['dam'], focus=('dam',)),
+    _recipe('no_crit', ASPECT_TO_NAME['noncrit'], focus=('noncrit',)),
+    _recipe('ap_removal', ASPECT_TO_NAME['aprape'], focus=('aprape',)),
+    _recipe('mp_removal', ASPECT_TO_NAME['mprape'], focus=('mprape',)),
+    _recipe('pusher', gettext_lazy('Pusher'), focus=('pushback',)),
+    _recipe('summoner', gettext_lazy('Summoner'), focus=('summon',)),
+    _recipe('trapper', gettext_lazy('Trapper'), focus=('trap',)),
+) + tuple(_recipe(mode.key, mode.label, mode=mode.key) for mode in PLAY_MODES if mode.boxes) + (
+    _recipe('xp_mule', gettext_lazy('XP mule'), focus=('wis',)),
+    _recipe('prospecting_mule', gettext_lazy('Prospecting mule'), focus=('pp',)),
+    _recipe('farm', gettext_lazy('Farm'), focus=('wis', 'pp')),
+    _recipe('pod_carrier', gettext_lazy('Pod carrier'), focus=('pods',)),
+)
+
+
+def _offers(recipe, game_version, entry):
+    """Whether the setup page of the version shows every control the recipe sets."""
+    focus_boxes_offered = {aspect for column in FOCUS_COLUMNS for aspect in column
+                           if aspect not in inert_aspects(game_version)}
+    modes_offered = entry.get('modes', (DEFAULT_PLAY_MODE,))
+    return (set(recipe.focus) <= focus_boxes_offered
+            and recipe.priority in PRIORITY_BY_KEY
+            and recipe.mode in modes_offered)
+
+
+for _version, _entry in VERSION_PRESETS.items():
+    _entry['recipes'] = tuple(recipe for recipe in RECIPES if _offers(recipe, _version, _entry))
+
+
 def version_presets(game_version):
     return VERSION_PRESETS.get(game_version, VERSION_PRESETS[DEFAULT_VERSION])
+
+
+def setup_recipes(game_version):
+    """The recipes the setup page of the version shows as preset chips, in display order."""
+    return list(version_presets(game_version).get('recipes', ()))
 
 
 def play_styles(game_version):
