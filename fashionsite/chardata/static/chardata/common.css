@@ -33,6 +33,16 @@ a, img {
    border: 0;
 }
 
+.link-button {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .button-img {
     height: 15px;
     width: 15px;

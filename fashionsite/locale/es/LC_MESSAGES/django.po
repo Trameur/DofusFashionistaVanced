@@ -5818,11 +5818,13 @@ msgid "This is someone else's set."
 msgstr "Este es el set de otro usuario."
 
 #: .\chardata\templates\chardata\solution.html:210
-#, python-format
 msgid ""
-"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-"
-"link\">copy</a> it to your workspace.</p>"
-msgstr "Si deseas modificarlo, <a href=\"%(copy_link)s\" class=\"copy-action-link\">cópialo</a> a tu área de trabajo.</p>"
+"If you wish to modify it, <button type=\"submit\" form=\"copy-build-form\" "
+"class=\"copy-action-link link-button\">copy</button> it to your workspace.</p>"
+msgstr ""
+"Si deseas modificarlo, <button type=\"submit\" form=\"copy-build-form\" "
+"class=\"copy-action-link link-button\">cópialo</button> a tu área de "
+"trabajo.</p>"
 
 #: .\chardata\templates\chardata\solution.html:222
 msgid "Compare to another set"
@@ -9434,6 +9436,10 @@ msgstr "Nombre de este ajuste"
 #: chardata/templates/chardata/projdetails.html
 msgid "Save this setup"
 msgstr "Guardar este ajuste"
+
+#: chardata/templates/chardata/load_projects.html
+msgid "You have copied too many builds for now. Please try again later or log in."
+msgstr "Has copiado demasiados builds por ahora. Inténtalo de nuevo más tarde o inicia sesión."
 
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este juego no tiene exos: se quedan fuera."

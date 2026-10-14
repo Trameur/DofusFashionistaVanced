@@ -15,7 +15,7 @@
     <br>
 
     {% if error_message %}<p class='text'><strong>{{ error_message }}</strong></p>{% endif %}
-    <span id='login-error-top' class='error-message'>{% if error_msg == 'too_many' %}{% trans "You have reached the maximum number of builds. Please delete some old builds and try again." %}{% endif %}</span>
+    <span id='login-error-top' class='error-message'>{% if error_msg == 'too_many' %}{% trans "You have reached the maximum number of builds. Please delete some old builds and try again." %}{% elif error_msg == 'copy_limit' %}{% trans "You have copied too many builds for now. Please try again later or log in." %}{% endif %}</span>
     {% if error_msg == 'guest_has_one' %}
     <p class='text guest-has-a-build'>
         {% game_url 'login_page' as login_link %}

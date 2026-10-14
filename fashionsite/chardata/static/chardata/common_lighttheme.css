@@ -29,3 +29,7 @@ html:not(.fm-modern) a.button-thin-chardata {
 html:not(.fm-modern) .version-link:not(.active) {
     color: #5E2A06;
 }
+
+html:not(.fm-modern) .link-button {
+    color: #9d4e1a;
+}

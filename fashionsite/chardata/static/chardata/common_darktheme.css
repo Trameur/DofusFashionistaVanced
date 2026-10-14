@@ -40,3 +40,7 @@ html:not(.fm-modern) a.button-thin-foreground,
 html:not(.fm-modern) a.button-thin-chardata {
     color: #FFFFFF;
 }
+
+html:not(.fm-modern) .link-button {
+    color: #FFFFFF;
+}

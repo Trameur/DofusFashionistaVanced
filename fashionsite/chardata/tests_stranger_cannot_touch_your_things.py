@@ -31,8 +31,8 @@ class AStrangerCannotTouchYourThings(TestCase):
     def test_a_build_that_is_not_shared_cannot_be_duplicated(self):
         self.client.force_login(self.stranger)
         before = Char.objects.count()
-        response = self.client.get('/duplicatesomeonesproject/%s/'
-                                   % encode_char_id(self.char.id))
+        response = self.client.post('/duplicatesomeonesproject/%s/'
+                                    % encode_char_id(self.char.id))
         self.assertEqual(403, response.status_code)
         self.assertEqual(before, Char.objects.count(), 'a copy was made anyway')
 
@@ -41,8 +41,8 @@ class AStrangerCannotTouchYourThings(TestCase):
         self.share()
         self.client.force_login(self.stranger)
         before = Char.objects.count()
-        response = self.client.get('/duplicatesomeonesproject/%s/'
-                                   % encode_char_id(self.char.id), follow=True)
+        response = self.client.post('/duplicatesomeonesproject/%s/'
+                                    % encode_char_id(self.char.id), follow=True)
         self.assertEqual(200, response.status_code)
         self.assertEqual(before + 1, Char.objects.count())
         copy = Char.objects.order_by('-id').first()
@@ -53,7 +53,7 @@ class AStrangerCannotTouchYourThings(TestCase):
 
     def test_a_made_up_encoded_id_is_refused(self):
         self.client.force_login(self.stranger)
-        self.assertEqual(403, self.client.get(
+        self.assertEqual(403, self.client.post(
             '/duplicatesomeonesproject/not-a-real-id/').status_code)
 
     # -- tags -------------------------------------------------------------
