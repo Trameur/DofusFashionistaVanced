@@ -4226,7 +4226,7 @@ class BuildIdIsNotAPasswordTests(TestCase):
         self.client.force_login(self.attacker)
         before = Char.objects.filter(owner=self.attacker).count()
 
-        resp = self.client.get('/duplicatemyproject/%d/' % self.private.id)
+        resp = self.client.post('/duplicatemyproject/%d/' % self.private.id)
         self.assertEqual(resp.status_code, 403)
         self.client.post('/duplicateproject/',
                          {'project_id': str(self.private.id)})
@@ -4240,7 +4240,7 @@ class BuildIdIsNotAPasswordTests(TestCase):
         mine = self._make_char(self.attacker, 'My Build')
         self.client.force_login(self.attacker)
         before = Char.objects.filter(owner=self.attacker).count()
-        resp = self.client.get('/duplicatemyproject/%d/' % mine.id)
+        resp = self.client.post('/duplicatemyproject/%d/' % mine.id)
         self.assertEqual(resp.status_code, 302)
         self.assertEqual(Char.objects.filter(owner=self.attacker).count(),
                          before + 1)
