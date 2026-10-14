@@ -11948,6 +11948,81 @@ class RobotsTxtTests(TestCase):
         self.assertIn('Content-Signal: search=yes,ai-train=no,use=reference',
                       body)
 
+    BLOCKED_AT_ANY_DEPTH = (
+        'setup/', 'random/', 'wizard/', 'wizardpost/', 'wizardgetsliders/',
+        'setuppreview/', 'fashion/', 'solution/', 'spells/', 'loadproject/',
+        'saveproject/', 'saveprojecttouser/', 'createproject/',
+        'duplicateproject/', 'duplicatemyproject/',
+        'duplicatesomeonesproject/', 'copytoversion/', 'copysharedtoversion/',
+        'deleteprojects/', 'project/', 'initbasestats/', 'initbasestatspost/',
+        'statspost/', 'minstatspost/', 'weightsminspost/', 'inclusions/',
+        'inclusionspost/', 'exclusions/', 'exclusionspost/', 'options/',
+        'optionspost/', 'exchange/', 'itemexchange/', 'remove/',
+        'setitemlocked/', 'setitemforbidden/', 'setslotlockempty/',
+        'setitemstatoverride/', 'getitemdetails/', 'get_item_stats_compare/',
+        'getsharinglink/', 'get_compare_sharing_link/', 'hidesharinglink/',
+        'choose_item/', 'choose_set/', 'edit_item/', 'edit_set/',
+        'update_item/', 'update_set/', 'delete_item/', 'delete_set/',
+        'itemadd/', 'addtag/', 'removetag/', 'postcomment/', 'deletecomment/',
+        'reportcomment/', 'votebuild/', 'follow/', 'unfollow/', 'workshop/',
+        'inventory/', 'feed/', 'out/', 'manageaccount/', 'saveaccount/',
+        'save_char/', 'login/', 'login_page/', 'local_login/', 'register/',
+        'confirm_email/', 'email_confirmed/', 'check_username/',
+        'check_your_email/', 'change_password/', 'recover_password',
+        'do_recover_password/', 'send/',
+    )
+
+    def _rule_groups(self):
+        body = self.client.get('/robots.txt').content.decode('utf-8')
+        groups = []
+        for raw in body.splitlines():
+            line = raw.split('#', 1)[0].strip()
+            if ':' not in line:
+                continue
+            field, value = [part.strip() for part in line.split(':', 1)]
+            field = field.lower()
+            if field == 'user-agent':
+                if not groups or groups[-1][1]:
+                    groups.append(([], []))
+                groups[-1][0].append(value)
+            elif field in ('allow', 'disallow') and groups:
+                groups[-1][1].append((field, value))
+        return groups
+
+    def test_no_rule_starts_with_a_wildcard(self):
+        """A path pattern starts with a slash in RFC 9309, so a strict parser skips a rule that starts with a star."""
+        for agents, rules in self._rule_groups():
+            for kind, path in rules:
+                self.assertFalse(path.startswith('*'),
+                                 '%s: %s in the group of %s' % (kind, path, agents))
+
+    def test_a_path_blocked_at_any_depth_is_written_for_the_root_and_for_a_prefix(self):
+        everyone = [rules for agents, rules in self._rule_groups()
+                    if agents == ['*']]
+        self.assertEqual(1, len(everyone))
+        rules = everyone[0]
+        for path in self.BLOCKED_AT_ANY_DEPTH:
+            plain = ('disallow', '/' + path)
+            prefixed = ('disallow', '/*/' + path)
+            self.assertIn(plain, rules)
+            self.assertIn(prefixed, rules)
+            self.assertEqual(rules.index(plain) + 1, rules.index(prefixed), path)
+
+    def test_a_path_blocked_at_any_depth_is_blocked_under_every_version_prefix(self):
+        p, _ = self._parser()
+        for prefix in ('', '/beta', '/dofus2', '/retro', '/touch'):
+            for path in self.BLOCKED_AT_ANY_DEPTH:
+                url = '%s/%s' % (prefix, path)
+                if path.endswith('/'):
+                    url += '1/'
+                self.assertFalse(p.can_fetch('Googlebot', url),
+                                 'robots.txt must block %s' % url)
+
+    def test_the_setup_landing_of_every_version_stays_crawlable(self):
+        p, _ = self._parser()
+        for prefix in ('', '/beta', '/dofus2', '/retro', '/touch'):
+            self.assertTrue(p.can_fetch('Googlebot', prefix + '/setup/'), prefix)
+
 
 class DataPipelineImportsTests(SimpleTestCase):
     """Paths resolve under the pipelines' fashionistapulp.fashionistapulp layout."""

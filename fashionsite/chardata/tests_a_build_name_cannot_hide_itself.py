@@ -66,10 +66,10 @@ class BuildNameCannotHideItself(TestCase):
     def test_the_word_list_matches_the_file(self):
         written = set()
         for key, value in self.rules:
-            match = re.fullmatch(r'\*/([A-Za-z0-9_-]+)/', value)
+            match = re.fullmatch(r'/\*/([A-Za-z0-9_-]+)/', value)
             if key == 'disallow' and match:
                 written.add(match.group(1))
-        self.assertTrue(written, 'no */word/ rule found: the reader is broken')
+        self.assertTrue(written, 'no /*/word/ rule found: the reader is broken')
         self.assertEqual(written, set(RESERVED_PATH_WORDS))
 
     def test_a_build_named_after_an_endpoint_stays_crawlable(self):

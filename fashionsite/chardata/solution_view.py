@@ -1028,7 +1028,7 @@ def solution_linked(request, char_name, encoded_char_id):
     
     return _solution(request, char.pk, True, encoded_char_id, char=char)
 
-# robots.txt `Disallow: */word/` words, matched at any depth, so also in /s/<name>/
+# robots.txt `Disallow: /*/word/` words, matched at any depth, so also in /s/<name>/
 RESERVED_PATH_WORDS = frozenset((
     'addtag', 'change_password', 'check_username', 'check_your_email',
     'choose_item', 'choose_set', 'confirm_email', 'copysharedtoversion',

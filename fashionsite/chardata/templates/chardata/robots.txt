@@ -52,17 +52,17 @@ Content-Signal: search=yes,ai-train=no,use=reference
 # /s/<build>/, /user/<name>/, /compare_sets/... : all crawlable.
 # Everything below is an action endpoint or a per-project/private page: not
 # indexable content. Crawling them only wastes crawl budget and fills Search
-# Console with 403 / soft-404 / noindex "errors". The */path/ form also covers
-# the version-prefixed copies (/beta/…, /dofus2/…, /retro/…, /touch/…).
+# Console with 403 / soft-404 / noindex "errors". Each /path/ rule has a /*/path/
+# twin for the version-prefixed copies (/beta/…, /dofus2/…, /retro/…, /touch/…).
 
 # Keep the public "create a project" landing, block the per-project editors.
 # Every version has its own landing and the sitemap submits all five, so the
-# Allow has to cover the prefixed ones too: */setup/ alone was telling crawlers
+# Allow has to cover the prefixed ones too: /setup/$ alone was telling crawlers
 # to skip four pages we ask them to index.
 Allow: /setup/$
 Allow: /*/setup/$
 Disallow: /setup/
-Disallow: */setup/
+Disallow: /*/setup/
 
 Disallow: /understandbuild/
 
@@ -71,97 +71,173 @@ Disallow: /understandbuild/
 # 1 980 shared builds are submitted by name in sitemap-pages.xml, each with its
 # own lastmod. Crawling this only produces redirect entries in Search Console.
 Disallow: /random/
-Disallow: */random/
+Disallow: /*/random/
 
 # Project workflow (solver, wizard, edition, per-project pages)
-Disallow: */wizard/
-Disallow: */wizardpost/
-Disallow: */wizardgetsliders/
-Disallow: */setuppreview/
-Disallow: */fashion/
-Disallow: */solution/
-Disallow: */spells/
-Disallow: */loadproject/
-Disallow: */saveproject/
-Disallow: */saveprojecttouser/
-Disallow: */createproject/
-Disallow: */duplicateproject/
-Disallow: */duplicatemyproject/
-Disallow: */duplicatesomeonesproject/
-Disallow: */copytoversion/
-Disallow: */copysharedtoversion/
-Disallow: */deleteprojects/
-Disallow: */project/
-Disallow: */initbasestats/
-Disallow: */initbasestatspost/
-Disallow: */statspost/
-Disallow: */minstatspost/
-Disallow: */weightsminspost/
-Disallow: */inclusions/
-Disallow: */inclusionspost/
-Disallow: */exclusions/
-Disallow: */exclusionspost/
-Disallow: */options/
-Disallow: */optionspost/
+Disallow: /wizard/
+Disallow: /*/wizard/
+Disallow: /wizardpost/
+Disallow: /*/wizardpost/
+Disallow: /wizardgetsliders/
+Disallow: /*/wizardgetsliders/
+Disallow: /setuppreview/
+Disallow: /*/setuppreview/
+Disallow: /fashion/
+Disallow: /*/fashion/
+Disallow: /solution/
+Disallow: /*/solution/
+Disallow: /spells/
+Disallow: /*/spells/
+Disallow: /loadproject/
+Disallow: /*/loadproject/
+Disallow: /saveproject/
+Disallow: /*/saveproject/
+Disallow: /saveprojecttouser/
+Disallow: /*/saveprojecttouser/
+Disallow: /createproject/
+Disallow: /*/createproject/
+Disallow: /duplicateproject/
+Disallow: /*/duplicateproject/
+Disallow: /duplicatemyproject/
+Disallow: /*/duplicatemyproject/
+Disallow: /duplicatesomeonesproject/
+Disallow: /*/duplicatesomeonesproject/
+Disallow: /copytoversion/
+Disallow: /*/copytoversion/
+Disallow: /copysharedtoversion/
+Disallow: /*/copysharedtoversion/
+Disallow: /deleteprojects/
+Disallow: /*/deleteprojects/
+Disallow: /project/
+Disallow: /*/project/
+Disallow: /initbasestats/
+Disallow: /*/initbasestats/
+Disallow: /initbasestatspost/
+Disallow: /*/initbasestatspost/
+Disallow: /statspost/
+Disallow: /*/statspost/
+Disallow: /minstatspost/
+Disallow: /*/minstatspost/
+Disallow: /weightsminspost/
+Disallow: /*/weightsminspost/
+Disallow: /inclusions/
+Disallow: /*/inclusions/
+Disallow: /inclusionspost/
+Disallow: /*/inclusionspost/
+Disallow: /exclusions/
+Disallow: /*/exclusions/
+Disallow: /exclusionspost/
+Disallow: /*/exclusionspost/
+Disallow: /options/
+Disallow: /*/options/
+Disallow: /optionspost/
+Disallow: /*/optionspost/
 
 # Item / set editing and switching
-Disallow: */exchange/
-Disallow: */itemexchange/
-Disallow: */remove/
-Disallow: */setitemlocked/
-Disallow: */setitemforbidden/
-Disallow: */setslotlockempty/
-Disallow: */setitemstatoverride/
-Disallow: */getitemdetails/
-Disallow: */get_item_stats_compare/
-Disallow: */getsharinglink/
-Disallow: */get_compare_sharing_link/
-Disallow: */hidesharinglink/
-Disallow: */choose_item/
-Disallow: */choose_set/
-Disallow: */edit_item/
-Disallow: */edit_set/
-Disallow: */update_item/
-Disallow: */update_set/
-Disallow: */delete_item/
-Disallow: */delete_set/
-Disallow: */itemadd/
+Disallow: /exchange/
+Disallow: /*/exchange/
+Disallow: /itemexchange/
+Disallow: /*/itemexchange/
+Disallow: /remove/
+Disallow: /*/remove/
+Disallow: /setitemlocked/
+Disallow: /*/setitemlocked/
+Disallow: /setitemforbidden/
+Disallow: /*/setitemforbidden/
+Disallow: /setslotlockempty/
+Disallow: /*/setslotlockempty/
+Disallow: /setitemstatoverride/
+Disallow: /*/setitemstatoverride/
+Disallow: /getitemdetails/
+Disallow: /*/getitemdetails/
+Disallow: /get_item_stats_compare/
+Disallow: /*/get_item_stats_compare/
+Disallow: /getsharinglink/
+Disallow: /*/getsharinglink/
+Disallow: /get_compare_sharing_link/
+Disallow: /*/get_compare_sharing_link/
+Disallow: /hidesharinglink/
+Disallow: /*/hidesharinglink/
+Disallow: /choose_item/
+Disallow: /*/choose_item/
+Disallow: /choose_set/
+Disallow: /*/choose_set/
+Disallow: /edit_item/
+Disallow: /*/edit_item/
+Disallow: /edit_set/
+Disallow: /*/edit_set/
+Disallow: /update_item/
+Disallow: /*/update_item/
+Disallow: /update_set/
+Disallow: /*/update_set/
+Disallow: /delete_item/
+Disallow: /*/delete_item/
+Disallow: /delete_set/
+Disallow: /*/delete_set/
+Disallow: /itemadd/
+Disallow: /*/itemadd/
 
 # Community / social actions
-Disallow: */addtag/
-Disallow: */removetag/
-Disallow: */postcomment/
-Disallow: */deletecomment/
-Disallow: */reportcomment/
-Disallow: */votebuild/
-Disallow: */follow/
-Disallow: */unfollow/
-Disallow: */workshop/
-Disallow: */inventory/
-Disallow: */feed/
+Disallow: /addtag/
+Disallow: /*/addtag/
+Disallow: /removetag/
+Disallow: /*/removetag/
+Disallow: /postcomment/
+Disallow: /*/postcomment/
+Disallow: /deletecomment/
+Disallow: /*/deletecomment/
+Disallow: /reportcomment/
+Disallow: /*/reportcomment/
+Disallow: /votebuild/
+Disallow: /*/votebuild/
+Disallow: /follow/
+Disallow: /*/follow/
+Disallow: /unfollow/
+Disallow: /*/unfollow/
+Disallow: /workshop/
+Disallow: /*/workshop/
+Disallow: /inventory/
+Disallow: /*/inventory/
+Disallow: /feed/
+Disallow: /*/feed/
 
 # Staff-only tools
 Disallow: /admin-tools/
 Disallow: /out/
-Disallow: */out/
+Disallow: /*/out/
 Disallow: /admin-comment-action/
 
 # Account / auth
-Disallow: */manageaccount/
-Disallow: */saveaccount/
-Disallow: */save_char/
-Disallow: */login/
-Disallow: */login_page/
-Disallow: */local_login/
-Disallow: */register/
-Disallow: */confirm_email/
-Disallow: */email_confirmed/
-Disallow: */check_username/
-Disallow: */check_your_email/
-Disallow: */change_password/
-Disallow: */recover_password
-Disallow: */do_recover_password/
-Disallow: */send/
+Disallow: /manageaccount/
+Disallow: /*/manageaccount/
+Disallow: /saveaccount/
+Disallow: /*/saveaccount/
+Disallow: /save_char/
+Disallow: /*/save_char/
+Disallow: /login/
+Disallow: /*/login/
+Disallow: /login_page/
+Disallow: /*/login_page/
+Disallow: /local_login/
+Disallow: /*/local_login/
+Disallow: /register/
+Disallow: /*/register/
+Disallow: /confirm_email/
+Disallow: /*/confirm_email/
+Disallow: /email_confirmed/
+Disallow: /*/email_confirmed/
+Disallow: /check_username/
+Disallow: /*/check_username/
+Disallow: /check_your_email/
+Disallow: /*/check_your_email/
+Disallow: /change_password/
+Disallow: /*/change_password/
+Disallow: /recover_password
+Disallow: /*/recover_password
+Disallow: /do_recover_password/
+Disallow: /*/do_recover_password/
+Disallow: /send/
+Disallow: /*/send/
 
 # Sitemap location
 Sitemap: https://dofusfashionista.gg/sitemap.xml
