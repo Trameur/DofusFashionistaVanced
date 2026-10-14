@@ -171,17 +171,23 @@ def _unchecked_duplicate_project(request, proj_id_to_copy):
     return True
 
 
-def _copy_to_version(request, char):
+def _copy_to_version(request, char, guest_capped=False):
     target = request.POST.get('version', '')
     if target not in sibling_versions(char.game_version):
         raise Http404
     if guest_holds_a_build_there(request, target):
         return HttpResponseRedirect(version_path(target, 'load_projects_error',
                                                  'guest_has_one'))
+    capped = guest_capped and (request.user is None or request.user.is_anonymous)
+    if capped and _guest_copy_limit_reached(request):
+        return HttpResponseRedirect(version_path(target, 'load_projects_error',
+                                                 'copy_limit'))
     new_char, _missing = copy_build(request, char, target)
     if new_char is None:
         return HttpResponseRedirect(version_path(target, 'load_projects_error',
                                                  'too_many'))
+    if capped:
+        _note_guest_copy(request)
     return HttpResponseRedirect(version_path(target, 'load_a_project', new_char.id))
 
 
@@ -198,4 +204,4 @@ def copy_someones_build_to_version(request, encoded_char_id):
     char = get_object_or_404(Char, pk=char_id)
     if not char.link_shared or char.deleted:
         raise PermissionDenied
-    return _copy_to_version(request, char)
+    return _copy_to_version(request, char, guest_capped=True)
