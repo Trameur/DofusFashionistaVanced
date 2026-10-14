@@ -5874,13 +5874,13 @@ msgid "This is someone else's set."
 msgstr "Ceci est l'équipement de quelqu'un d'autre."
 
 #: .\chardata\templates\chardata\solution.html:210
-#, python-format
 msgid ""
-"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-"
-"link\">copy</a> it to your workspace.</p>"
+"If you wish to modify it, <button type=\"submit\" form=\"copy-build-form\" "
+"class=\"copy-action-link link-button\">copy</button> it to your workspace.</p>"
 msgstr ""
-"Si vous souhaitez le modifier, <a href=\"%(copy_link)s\" class=\"copy-action-"
-"link\">copiez</a> le sur votre espace de travail.</p>"
+"Si tu souhaites le modifier, <button type=\"submit\" form=\"copy-build-form\" "
+"class=\"copy-action-link link-button\">copie-le</button> dans ton espace de "
+"travail.</p>"
 
 #: .\chardata\templates\chardata\solution.html:222
 msgid "Compare to another set"
@@ -9433,6 +9433,10 @@ msgstr "Élément de l’arme lu dans le lien :"
 #: chardata/templates/chardata/dofusbook_export.html
 msgid "Their link format has no room for the weapon element, so set it on DofusBook by hand:"
 msgstr "Leur format de lien n’a pas de place pour l’élément de l’arme, règle-le à la main sur DofusBook :"
+
+#: chardata/templates/chardata/load_projects.html
+msgid "You have copied too many builds for now. Please try again later or log in."
+msgstr "Tu as copié trop de builds pour le moment. Réessaie plus tard ou connecte-toi."
 
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Ce jeu n’a pas d’exos : ils restent de côté."

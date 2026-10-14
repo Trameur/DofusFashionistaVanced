@@ -248,7 +248,8 @@
         {% endif %}
     {% endif %}
     {% game_url 'duplicate_someones_project' encoded_char_id as copy_link %}
-    {% blocktrans %}If you wish to modify it, <a href="{{copy_link}}" class="copy-action-link">copy</a> it to your workspace.</p>{% endblocktrans %}
+    {% blocktrans %}If you wish to modify it, <button type="submit" form="copy-build-form" class="copy-action-link link-button">copy</button> it to your workspace.</p>{% endblocktrans %}
+    <form id="copy-build-form" class="hidden-form" action="{{ copy_link }}" method="post" style="display: none;">{% csrf_token %}</form>
     
     <div align="center">
     <form id="compare_form" class="hidden-form" action="{% game_url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{initial_link}}" name="char0"></input></form>

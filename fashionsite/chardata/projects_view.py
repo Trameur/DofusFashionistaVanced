@@ -19,17 +19,24 @@
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods, require_POST
 import json
 
 from chardata.anon_projects import forget_anon_char, remember_anon_char
 from chardata.create_project_view import MAXIMUM_NUMBER_OF_PROJECTS
 from chardata.encoded_char_id import decode_char_id
+from chardata.fashionista_build_view import _caller as trusted_client_address
 from chardata.models import CharBaseStats, Char
+from chardata.rate_limit import hits, note_hit
+from chardata.solution_view import shared_build_path
 from chardata.util import get_char_or_raise, TESTER_USERS, HttpResponseText, version_reverse
 from chardata.version_copy import (copy_build, guest_holds_a_build_there,
                                    version_path)
 from fashionistapulp.game_versions import sibling_versions
+
+GUEST_COPY_WINDOW = 60 * 60
+GUEST_COPIES_PER_IP = 10
+GUEST_COPIES_ALL = 300
 
 
 @require_POST
@@ -83,17 +90,45 @@ def duplicate_my_project(request, char_id):
         return HttpResponseRedirect(version_reverse(request, 'load_projects_error',
                                                     'too_many'))
 
+
+def _guest_copy_limits(request):
+    address = trusted_client_address(request)
+    return (('guest-copy-ip:%s' % address, GUEST_COPIES_PER_IP),
+            ('guest-copy-all', GUEST_COPIES_ALL))
+
+
+def _guest_copy_limit_reached(request):
+    return any(hits(key, GUEST_COPY_WINDOW) >= ceiling
+               for key, ceiling in _guest_copy_limits(request))
+
+
+def _note_guest_copy(request):
+    for key, _ceiling in _guest_copy_limits(request):
+        note_hit(key, GUEST_COPY_WINDOW)
+
+
+@require_http_methods(['GET', 'HEAD', 'POST'])
 def duplicate_someones_project(request, encoded_char_id):
     char_id = decode_char_id(encoded_char_id)
     if char_id is None:
         raise PermissionDenied
 
     char = get_object_or_404(Char, pk=char_id)
-    if not char.link_shared:
+    if not char.link_shared or char.deleted:
         raise PermissionDenied
+
+    if request.method != 'POST':
+        return HttpResponseRedirect(shared_build_path(char))
+
+    signed_out = (request.user is None or request.user.is_anonymous)
+    if signed_out and _guest_copy_limit_reached(request):
+        return HttpResponseRedirect(version_reverse(request, 'load_projects_error',
+                                                    'copy_limit'))
 
     worked = _unchecked_duplicate_project(request, char_id)
     if worked:
+        if signed_out:
+            _note_guest_copy(request)
         return HttpResponseRedirect(version_reverse(request, 'load_projects'))
     else:
         return HttpResponseRedirect(version_reverse(request, 'load_projects_error',

@@ -50,7 +50,7 @@ html.fm-modern body.body-base::before{
 /* No z-index: it would trap the theme/language popups under the blanket */
 html.fm-modern .add-banner, html.fm-modern .everything{ position:relative; }
 html.fm-modern *{ font-family:var(--fm-font); }
-html.fm-modern a{ color:var(--fm-accent-text); }
+html.fm-modern a, html.fm-modern .link-button{ color:var(--fm-accent-text); }
 html.fm-modern ::selection{ background:rgba(227,191,77,.30); color:inherit; }
 html.fm-modern.fm-dark *::-webkit-scrollbar{ width:11px; height:11px; }
 html.fm-modern.fm-dark *::-webkit-scrollbar-thumb{ background:#3c2f1b; border-radius:8px; border:2px solid var(--fm-bg); }
@@ -277,7 +277,7 @@ html.fm-modern.fm-light .menu_link:hover, html.fm-modern.fm-light .menu-collapse
 }
 html.fm-modern.fm-light .menu_link, html.fm-modern.fm-light .menu_link:link, html.fm-modern.fm-light .menu_link:visited,
 html.fm-modern.fm-light .menu-collapse-link, html.fm-modern.fm-light .menu-collapse-link:link, html.fm-modern.fm-light .menu-collapse-link:visited{ color:var(--fm-text) !important; }
-html.fm-modern.fm-light a:hover{ color:var(--fm-accent-strong); }
+html.fm-modern.fm-light a:hover, html.fm-modern.fm-light .link-button:hover{ color:var(--fm-accent-strong); }
 html.fm-modern.fm-light .version-link:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; }
 html.fm-modern.fm-light .build-link:hover, html.fm-modern.fm-light .filter-button:hover{ color:#2a2010 !important; }
 
