@@ -20,7 +20,6 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Count, F
 from django.core.cache import cache
 import hashlib
-import ipaddress
 import json
 import math
 import logging
@@ -968,19 +967,10 @@ def hide_sharing_link(request, char_id):
     return HttpResponseText('hid')
 
 def get_client_ip(request):
-    """Client IP, or None if it doesn't parse (X-Forwarded-For is client-controlled)."""
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0].strip()
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    if not ip:
-        return None
-    try:
-        ipaddress.ip_address(ip)
-    except ValueError:
-        return None
-    return ip
+    """The address our proxies saw, an IPv6 one as its /64, or None; never an X-Forwarded-For entry the caller wrote."""
+    from chardata.fashionista_build_view import _caller
+    address = _caller(request)
+    return None if address == 'unknown' else address
 
 def solution_linked(request, char_name, encoded_char_id):
     char = get_char_encoded_or_raise(encoded_char_id)
@@ -1000,7 +990,7 @@ def solution_linked(request, char_name, encoded_char_id):
     # Increment view count only once per IP per 24 hours, and not for crawlers
     from chardata.middleware import looks_like_a_robot
     try:
-        if looks_like_a_robot(request):
+        if request.method != 'GET' or looks_like_a_robot(request):
             return _solution(request, char.pk, True, encoded_char_id, char=char)
         ip_address = get_client_ip(request)
         if ip_address:  # Only track if we can get an IP

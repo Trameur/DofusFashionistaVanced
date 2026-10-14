@@ -25,6 +25,7 @@ from django.utils.translation import get_language
 from chardata.model_wrappers import WrappedChar
 from chardata.anon_projects import get_anon_char_id
 from chardata.closest_set import failure_context
+from chardata.middleware import looks_like_a_robot
 from chardata.min_stats import minimums_above_their_cap
 from chardata.models import Char
 from chardata.solution import get_solution
@@ -199,12 +200,15 @@ DONATION_SOURCES = frozenset({'support', 'solution', 'footer'})
 
 
 def donate(request, index='0'):
-    """Count the click, then redirect to the donation page from settings, never from the query."""
+    """Count the click of a reader, then redirect to the donation page from settings, never from the query."""
     links = getattr(settings, 'SUPPORT_LINKS', []) or []
     try:
         target = links[int(index)]['url']
     except (IndexError, ValueError, KeyError, TypeError):
         raise Http404
+
+    if request.method == 'HEAD' or looks_like_a_robot(request):
+        return HttpResponseRedirect(target)
 
     try:
         from django.db.models import F

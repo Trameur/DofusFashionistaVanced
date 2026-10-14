@@ -89,6 +89,7 @@ _ROBOT = re.compile(
     r'go-http-client|java/|libwww|scrapy|axios|node-fetch|guzzle|'
     r'ahrefs|semrush|mj12|dotbot|petal|bytespider|gptbot|claudebot|ccbot|'
     r'amazonbot|applebot|google-extended|meta-external|yandex|baidu|sogou|'
+    r'meta-webindexer|'
     r'exabot|seznam|dataprovider|feed|rss|preview|validator|archiver|'
     # Link previews, facebookexternalhit doesn't say bot
     r'externalhit|whatsapp|telegram|discord|slack|embedly|skypeuri|'

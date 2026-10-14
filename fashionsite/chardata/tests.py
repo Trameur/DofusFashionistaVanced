@@ -13252,15 +13252,17 @@ class PostLengthGuardTests(TestCase):
         user.refresh_from_db()
         self.assertEqual(user.email, 'good@test.local')
 
-    def test_client_ip_rejects_a_junk_forwarded_header(self):
+    def test_client_ip_ignores_the_forwarded_header(self):
         from chardata.solution_view import get_client_ip
         from django.test import RequestFactory
-        junk = RequestFactory().get('/', HTTP_X_FORWARDED_FOR='A' * 100)
-        self.assertIsNone(get_client_ip(junk))
-        real = RequestFactory().get('/', HTTP_X_FORWARDED_FOR='203.0.113.9, 10.0.0.1')
-        self.assertEqual(get_client_ip(real), '203.0.113.9')
-        v6 = RequestFactory().get('/', HTTP_X_FORWARDED_FOR='2001:db8::1')
-        self.assertEqual(get_client_ip(v6), '2001:db8::1')
+        junk = RequestFactory().get('/', REMOTE_ADDR='192.0.2.5',
+                                    HTTP_X_FORWARDED_FOR='A' * 100)
+        self.assertEqual(get_client_ip(junk), '192.0.2.5')
+        real = RequestFactory().get('/', REMOTE_ADDR='192.0.2.5',
+                                    HTTP_X_FORWARDED_FOR='203.0.113.9, 10.0.0.1')
+        self.assertEqual(get_client_ip(real), '192.0.2.5')
+        v6 = RequestFactory().get('/', REMOTE_ADDR='2001:db8:1:2::7')
+        self.assertEqual(get_client_ip(v6), '2001:db8:1:2::/64')
 
 
 class MonsterWeaknessGuideTests(SimpleTestCase):
@@ -23775,6 +23777,7 @@ class DonateRedirectTests(TestCase):
     """
 
     URL = '/out/donate/'
+    NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
 
     def _kofi(self):
         links = getattr(settings, 'SUPPORT_LINKS', []) or []
@@ -23788,14 +23791,15 @@ class DonateRedirectTests(TestCase):
     def test_it_counts_the_click(self):
         from chardata.models import SupportClick
         for _ in range(3):
-            self.client.get(self.URL)
+            self.client.get(self.URL, HTTP_USER_AGENT=self.NAVIGATEUR)
         self.assertEqual(SupportClick.objects.count(), 1, 'one row per day')
         self.assertEqual(SupportClick.objects.first().count, 3)
 
     def test_it_counts_the_language_the_reader_was_served(self):
         from chardata.models import SupportClick
         self.client.get('/es/encyclopedia/')
-        self.client.get(self.URL, HTTP_ACCEPT_LANGUAGE='es')
+        self.client.get(self.URL, HTTP_ACCEPT_LANGUAGE='es',
+                        HTTP_USER_AGENT=self.NAVIGATEUR)
         self.assertTrue(SupportClick.objects.exists())
 
     def test_a_visitor_cannot_choose_the_destination(self):
@@ -23822,7 +23826,8 @@ class DonateRedirectTests(TestCase):
         from unittest import mock
         with mock.patch('chardata.models.SupportClick.objects') as faux:
             faux.filter.side_effect = RuntimeError('boom')
-            page = self.client.get(self.URL)
+            page = self.client.get(self.URL, HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertTrue(faux.filter.called)
         self.assertEqual(page.status_code, 302)
         self.assertEqual(page['Location'], self._kofi())
 

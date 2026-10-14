@@ -93,6 +93,9 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
+# Proxies of ours that append to X-Forwarded-For, a load balancer being one; 0 reads CF-Connecting-IP, then X-Real-IP
+CLIENT_ADDRESS_PROXY_HOPS = int(os.environ.get('CLIENT_ADDRESS_PROXY_HOPS', '0'))
+
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

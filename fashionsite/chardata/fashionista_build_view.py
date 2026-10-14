@@ -230,12 +230,23 @@ def _language(request):
     return wanted if wanted in dict(settings.LANGUAGES) else 'en'
 
 
+def _reported_addresses(request):
+    meta = request.META
+    hops = getattr(settings, 'CLIENT_ADDRESS_PROXY_HOPS', 0)
+    if hops > 0:
+        # Each proxy of ours appends the address it saw, so what the caller wrote stays on the left
+        chain = (meta.get('HTTP_X_FORWARDED_FOR') or '').split(',')
+        return [chain[-hops] if len(chain) >= hops else '', meta.get('REMOTE_ADDR')]
+    # Cloudflare sets CF-Connecting-IP and nginx X-Real-IP, each over what the client sent
+    return [meta.get('HTTP_CF_CONNECTING_IP'), meta.get('HTTP_X_REAL_IP'),
+            meta.get('REMOTE_ADDR')]
+
+
 def _caller(request):
     """The caller's address as our proxies saw it, an IPv6 one as its /64."""
-    # Cloudflare sets CF-Connecting-IP and nginx X-Real-IP, each over what the client sent
-    for header in ('HTTP_CF_CONNECTING_IP', 'HTTP_X_REAL_IP', 'REMOTE_ADDR'):
+    for reported in _reported_addresses(request):
         try:
-            address = ipaddress.ip_address((request.META.get(header) or '').strip())
+            address = ipaddress.ip_address((reported or '').strip())
         except ValueError:
             continue
         if address.version == 6:
