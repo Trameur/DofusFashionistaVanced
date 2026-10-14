@@ -430,3 +430,39 @@ class TheSharedPageCopiesWithAPostTests(_Copies):
                 {'csrfmiddlewaretoken': form['inputs']['csrfmiddlewaretoken']})
             self.assertEqual('/loadprojects/', response['Location'], index)
             self.assertEqual(before + 1, Char.objects.count(), index)
+
+class AGuestCopyToAnotherVersionIsCappedTooTests(_Copies):
+    ADDRESS = '203.0.113.40'
+
+    def _post(self, client=None):
+        return (client or Client()).post(
+            '/copysharedtoversion/%s/' % self.encoded, {'version': 'beta'},
+            REMOTE_ADDR=self.ADDRESS)
+
+    def test_a_guest_at_the_cap_lands_on_the_limit_page_of_the_target_version(self):
+        self._seed('guest-copy-ip:%s' % self.ADDRESS, GUEST_COPIES_PER_IP)
+        before = self._written()
+        response = self._post()
+        self.assertEqual(302, response.status_code)
+        self.assertEqual('/beta/loadprojectserror/copy_limit/', response['Location'])
+        self.assertEqual(before, self._written())
+
+    def test_a_guest_copy_to_another_version_counts_against_the_caps(self):
+        response = self._post()
+        self.assertTrue(response['Location'].startswith('/beta/loadproject/'),
+                        response['Location'])
+        self.assertEqual(1, Char.objects.filter(game_version='beta').count())
+        self.assertEqual(1, hits('guest-copy-ip:%s' % self.ADDRESS, GUEST_COPY_WINDOW))
+        self.assertEqual(1, hits('guest-copy-all', GUEST_COPY_WINDOW))
+
+    def test_a_signed_in_user_copying_to_another_version_is_not_capped(self):
+        self._seed('guest-copy-ip:%s' % self.ADDRESS, GUEST_COPIES_PER_IP)
+        self._seed('guest-copy-all', GUEST_COPIES_ALL)
+        reader = User.objects.create_user('versionreader', 'vr@x.test', 'pw-42-solid')
+        client = Client()
+        client.force_login(reader)
+        response = self._post(client)
+        self.assertTrue(response['Location'].startswith('/beta/loadproject/'),
+                        response['Location'])
+        self.assertEqual(1, Char.objects.filter(game_version='beta',
+                                                owner=reader).count())
