@@ -30,8 +30,8 @@ from chardata.models import CharBaseStats, Char
 from chardata.rate_limit import hits, note_hit
 from chardata.solution_view import shared_build_path
 from chardata.util import get_char_or_raise, TESTER_USERS, HttpResponseText, version_reverse
-from chardata.version_copy import (copy_build, guest_holds_a_build_there,
-                                   version_path)
+from chardata.version_copy import (copy_build, copy_publishes,
+                                   guest_holds_a_build_there, version_path)
 from fashionistapulp.game_versions import sibling_versions
 
 GUEST_COPY_WINDOW = 60 * 60
@@ -156,6 +156,8 @@ def _unchecked_duplicate_project(request, proj_id_to_copy):
     name_limit = Char._meta.get_field('name').max_length
     new_char.name = char_to_duplicate.name[:name_limit - len(suffix)] + suffix
     new_char.link_shared = False
+    new_char.auto_publish = copy_publishes(request, char_to_copy)
+    new_char.view_count = 0
     new_char.save()
     
     stats = CharBaseStats.objects.filter(char_id__exact=proj_id_to_copy)

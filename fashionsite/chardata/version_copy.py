@@ -292,17 +292,20 @@ def copy_build(request, source, target_version):
     return new_char, missing
 
 
+def copy_publishes(request, original):
+    from chardata.create_project_view import wants_to_publish
+    if request.user is None or request.user.is_anonymous:
+        return False
+    if original.owner_id == request.user.id:
+        return original.auto_publish
+    return wants_to_publish(request)
+
+
 def _save_the_copy(request, stored, target_version, inclusions, exclusions,
                    overrides, empty_slots, options):
-    from chardata.create_project_view import wants_to_publish
     source_pk = stored.pk
     signed_out = request.user is None or request.user.is_anonymous
-    if signed_out:
-        auto_publish = False
-    elif stored.owner_id == request.user.id:
-        auto_publish = stored.auto_publish
-    else:
-        auto_publish = wants_to_publish(request)
+    auto_publish = copy_publishes(request, stored)
     new_char = stored
     new_char.pk = None
     new_char.id = None
