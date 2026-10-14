@@ -793,3 +793,68 @@ msgid "%s minimum"
 msgid_plural "%s minimums"
 msgstr[0] ""
 msgstr[1] ""
+#: chardata/static/chardata/setup.js
+msgid "Link copied."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Select the link and copy it."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Mules need no element: leave the Elements column unchecked, or pick one if the character also fights."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Presets never choose an element: pick yours in the Elements column."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Setup saved."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Setup deleted."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Setup loaded."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Give the setup a name first."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "You can keep up to %s setups. Delete one to save another."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "This setup could not be loaded."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "No saved setup yet."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Load"
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Delete"
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Your browser did not let this page save the setup."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "This setup has too many edited values to save or share. Reset some of them first."
+msgstr ""
+
+#: chardata/static/chardata/setup.js
+msgid "Your browser did not let this page delete the setup."
+msgstr ""
+

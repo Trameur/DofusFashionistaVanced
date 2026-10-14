@@ -269,6 +269,13 @@ function setupPanelActions(gate, env) {
             gate.drop();
             env.showNotice();
         },
+        clear: function() {
+            env.forgetPending();
+            gate.recompute();
+            if (env.hasBaseline()) {
+                env.restorePreset();
+            }
+        },
         keep: settled(gate.keep),
         recompute: settled(gate.recompute),
         reset: settled(function() {
@@ -369,6 +376,401 @@ function setupPreviewLoop(env) {
     return {refresh: refresh};
 }
 
+var SETUP_RECIPES = {
+    focusLimit: 2,
+    savedLimit: 5,
+    nameLimit: 40,
+    fragmentLimit: 2000,
+    format: '1',
+    storagePrefix: 'fashionista.setups.'
+};
+
+function setupRecipeFromData(data) {
+    var focus = [];
+    var words = String(data.focus || '').split(/\s+/);
+    for (var i = 0; i < words.length; i++) {
+        if (words[i] !== '') {
+            focus.push(words[i]);
+        }
+    }
+    var guard = setupBlank(data.guard) ? null : Number(data.guard);
+    return {
+        key: String(data.key || ''),
+        focus: focus,
+        priority: String(data.priority || ''),
+        mode: String(data.mode || ''),
+        guard: guard !== null && isFinite(guard) ? guard : null,
+        mule: data.mule === 'true'
+    };
+}
+
+function setupRecipeTarget(recipe, page) {
+    var focus = [];
+    for (var i = 0; i < recipe.focus.length; i++) {
+        var aspect = recipe.focus[i];
+        if (page.focus.indexOf(aspect) !== -1 && focus.indexOf(aspect) === -1
+                && focus.length < SETUP_RECIPES.focusLimit) {
+            focus.push(aspect);
+        }
+    }
+    var guarded = recipe.guard !== null && page.guards.indexOf(recipe.guard) !== -1;
+    return {
+        focus: focus,
+        priority: page.priorities.indexOf(recipe.priority) !== -1 ? recipe.priority : page.priorities[0],
+        mode: page.modes.indexOf(recipe.mode) !== -1 ? recipe.mode : page.modes[0],
+        guard: guarded ? recipe.guard : page.guardDefault
+    };
+}
+
+function setupRecipeMatches(target, current) {
+    return JSON.stringify([target.focus.slice().sort(), target.priority, target.mode, String(target.guard)])
+        === JSON.stringify([current.focus.slice().sort(), current.priority, current.mode, String(current.guard)]);
+}
+
+function setupRecipeNote(recipe, hasElement) {
+    if (!recipe) {
+        return '';
+    }
+    if (recipe.mule) {
+        return 'mule';
+    }
+    return hasElement ? '' : 'element';
+}
+
+function setupRecipeNoteText(kind) {
+    if (kind === 'mule') {
+        return gettext('Mules need no element: leave the Elements column unchecked, or pick one if the character also fights.');
+    }
+    if (kind === 'element') {
+        return gettext('Presets never choose an element: pick yours in the Elements column.');
+    }
+    return '';
+}
+
+function setupShareLevel(value) {
+    if (!/^[0-9]{1,3}$/.test(value)) {
+        return null;
+    }
+    var level = Number(value);
+    return level >= SETUP_PREVIEW.minLevel && level <= SETUP_PREVIEW.maxLevel ? String(level) : null;
+}
+
+function setupShareItem(value) {
+    return typeof value === 'string' && /^[0-9]{1,9}$/.test(value) ? value : null;
+}
+
+function setupShareFits(fragment) {
+    return String(fragment).length <= SETUP_RECIPES.fragmentLimit;
+}
+
+function setupShareEncode(state) {
+    var pairs = [['setup', SETUP_RECIPES.format], ['game', state.game]];
+    if (state.className) {
+        pairs.push(['class', state.className]);
+    }
+    var level = setupShareLevel(String(state.level === undefined || state.level === null ? '' : state.level));
+    if (level !== null) {
+        pairs.push(['level', level]);
+    }
+    pairs.push(['boxes', (state.boxes || []).slice().sort().join('.')]);
+    if (state.priority) {
+        pairs.push(['priority', state.priority]);
+    }
+    if (state.mode) {
+        pairs.push(['mode', state.mode]);
+    }
+    if (state.guard !== undefined && state.guard !== null && state.guard !== '') {
+        pairs.push(['guard', String(state.guard)]);
+    }
+    if (state.temporix === true || state.temporix === false) {
+        pairs.push(['temporix', state.temporix ? 'on' : 'off']);
+    }
+    if (setupShareItem(state.item) !== null) {
+        pairs.push(['item', state.item]);
+    }
+    var touched = state.touched || [];
+    for (var i = 0; i < touched.length; i++) {
+        pairs.push([touched[i][0], touched[i][1]]);
+    }
+    var parts = [];
+    for (var j = 0; j < pairs.length; j++) {
+        parts.push(encodeURIComponent(pairs[j][0]) + '=' + encodeURIComponent(pairs[j][1]));
+    }
+    return parts.join('&');
+}
+
+function setupShareBoxes(text, allowed) {
+    if (text === '') {
+        return [];
+    }
+    var boxes = text.split('.');
+    var seen = {};
+    var focus = 0;
+    for (var i = 0; i < boxes.length; i++) {
+        if (allowed.boxes.indexOf(boxes[i]) === -1 || seen[boxes[i]]) {
+            return null;
+        }
+        seen[boxes[i]] = true;
+        if (allowed.focus.indexOf(boxes[i]) !== -1) {
+            focus += 1;
+        }
+    }
+    if (focus > SETUP_RECIPES.focusLimit || (seen.crit && seen.noncrit)) {
+        return null;
+    }
+    return boxes;
+}
+
+function setupShareParse(fragment, allowed) {
+    var text = String(fragment === undefined || fragment === null ? '' : fragment);
+    if (text.charAt(0) === '#') {
+        text = text.substring(1);
+    }
+    if (text === '' || text.length > SETUP_RECIPES.fragmentLimit) {
+        return null;
+    }
+    var fields = Object.create(null);
+    var pieces = text.split('&');
+    for (var i = 0; i < pieces.length; i++) {
+        var at = pieces[i].indexOf('=');
+        var field;
+        var value;
+        if (at < 1) {
+            return null;
+        }
+        try {
+            field = decodeURIComponent(pieces[i].substring(0, at));
+            value = decodeURIComponent(pieces[i].substring(at + 1));
+        } catch (error) {
+            return null;
+        }
+        if (Object.prototype.hasOwnProperty.call(fields, field)) {
+            return null;
+        }
+        fields[field] = value;
+    }
+    if (fields.setup !== SETUP_RECIPES.format || fields.game !== allowed.game) {
+        return null;
+    }
+    var state = {className: null, level: null, boxes: null, priority: null, mode: null,
+                 guard: null, temporix: null, item: null, touched: []};
+    var names = Object.keys(fields).sort();
+    for (var j = 0; j < names.length; j++) {
+        var name = names[j];
+        var given = fields[name];
+        if (name === 'setup' || name === 'game') {
+            continue;
+        } else if (name === 'class') {
+            if (allowed.classes.indexOf(given) === -1) {
+                return null;
+            }
+            state.className = given;
+        } else if (name === 'level') {
+            state.level = setupShareLevel(given);
+            if (state.level === null) {
+                return null;
+            }
+        } else if (name === 'boxes') {
+            state.boxes = setupShareBoxes(given, allowed);
+            if (state.boxes === null) {
+                return null;
+            }
+        } else if (name === 'priority') {
+            if (allowed.priorities.indexOf(given) === -1) {
+                return null;
+            }
+            state.priority = given;
+        } else if (name === 'mode') {
+            if (allowed.modes.indexOf(given) === -1) {
+                return null;
+            }
+            state.mode = given;
+        } else if (name === 'guard') {
+            if (!/^[0-9]{1,3}$/.test(given) || allowed.guards.indexOf(Number(given)) === -1) {
+                return null;
+            }
+            state.guard = Number(given);
+        } else if (name === 'temporix') {
+            if (given !== 'on' && given !== 'off') {
+                return null;
+            }
+            state.temporix = given === 'on';
+        } else if (name === 'item') {
+            state.item = setupShareItem(given);
+            if (state.item === null) {
+                return null;
+            }
+        } else if (/^weight_[A-Za-z0-9_]{1,40}$/.test(name)) {
+            if (!/^-?[0-9]{1,6}$/.test(given)) {
+                return null;
+            }
+            state.touched.push([name, given]);
+        } else if (/^min_[A-Za-z0-9_]{1,40}$/.test(name)) {
+            if (given !== '' && !/^-?[0-9]{1,6}$/.test(given)) {
+                return null;
+            }
+            state.touched.push([name, given]);
+        } else {
+            return null;
+        }
+    }
+    return state;
+}
+
+function setupSharedEdits(touched) {
+    var edits = {};
+    for (var i = 0; i < touched.length; i++) {
+        var weight = touched[i][0].indexOf('weight_') === 0;
+        var key = touched[i][0].substring(weight ? 'weight_'.length : 'min_'.length);
+        var edit = edits[key] || {weight: false, min: false, aggregate: false, now: {}};
+        if (weight) {
+            edit.weight = true;
+            edit.now.weight = Number(touched[i][1]);
+        } else {
+            edit.min = true;
+            edit.now.min = touched[i][1] === '' ? '' : Number(touched[i][1]);
+        }
+        edits[key] = edit;
+    }
+    return edits;
+}
+
+function setupSavedRead(storage, game) {
+    var kept = [];
+    try {
+        var list = JSON.parse(storage.getItem(SETUP_RECIPES.storagePrefix + game));
+        if (!Array.isArray(list)) {
+            return kept;
+        }
+        for (var i = 0; i < list.length && kept.length < SETUP_RECIPES.savedLimit; i++) {
+            var item = list[i];
+            var valid = !!item && typeof item.name === 'string' && typeof item.fragment === 'string'
+                && item.name !== '' && item.name.length <= SETUP_RECIPES.nameLimit
+                && item.fragment.length <= SETUP_RECIPES.fragmentLimit;
+            var twice = false;
+            for (var j = 0; valid && j < kept.length; j++) {
+                twice = twice || kept[j].name === item.name;
+            }
+            if (valid && !twice) {
+                kept.push({name: item.name, fragment: item.fragment});
+            }
+        }
+    } catch (error) {
+        return [];
+    }
+    return kept;
+}
+
+function setupSavedWrite(storage, game, list) {
+    try {
+        storage.setItem(SETUP_RECIPES.storagePrefix + game, JSON.stringify(list));
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+function setupSavedName(text) {
+    return String(text === undefined || text === null ? '' : text).replace(/\s+/g, ' ')
+        .replace(/^ /, '').substring(0, SETUP_RECIPES.nameLimit).replace(/ $/, '');
+}
+
+function setupSavedPut(list, text, fragment) {
+    var name = setupSavedName(text);
+    if (name === '') {
+        return {result: 'blank', list: list};
+    }
+    if (!setupShareFits(fragment)) {
+        return {result: 'long', list: list};
+    }
+    var next = list.slice();
+    for (var i = 0; i < next.length; i++) {
+        if (next[i].name === name) {
+            next[i] = {name: name, fragment: fragment};
+            return {result: 'saved', list: next};
+        }
+    }
+    if (next.length >= SETUP_RECIPES.savedLimit) {
+        return {result: 'full', list: list};
+    }
+    next.push({name: name, fragment: fragment});
+    return {result: 'saved', list: next};
+}
+
+function setupSavedFind(list, name) {
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].name === name) {
+            return list[i];
+        }
+    }
+    return null;
+}
+
+function setupSavedDrop(list, name) {
+    var next = [];
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].name !== name) {
+            next.push(list[i]);
+        }
+    }
+    return next;
+}
+
+function setupOpenStorage(host) {
+    try {
+        var storage = host.localStorage;
+        storage.setItem('fashionista.probe', '1');
+        storage.removeItem('fashionista.probe');
+        return storage;
+    } catch (error) {
+        return null;
+    }
+}
+
+function setupFillControls(fill, env) {
+    if (fill.boxes) {
+        for (var i = 0; i < fill.scope.length; i++) {
+            if (fill.boxes.indexOf(fill.scope[i]) === -1) {
+                env.tick(fill.scope[i], false);
+            }
+        }
+        for (var j = 0; j < fill.boxes.length; j++) {
+            if (fill.scope.indexOf(fill.boxes[j]) !== -1) {
+                env.tick(fill.boxes[j], true);
+            }
+        }
+    }
+    if (fill.priority !== null && fill.priority !== undefined) {
+        env.priority(fill.priority);
+    }
+    if (fill.mode !== null && fill.mode !== undefined) {
+        env.mode(fill.mode);
+    }
+    if (fill.guard !== null && fill.guard !== undefined) {
+        env.guard(fill.guard);
+    }
+}
+
+function setupRestore(state, now, page, env) {
+    env.clearPanel();
+    if (state.level !== null && state.level !== undefined) {
+        env.setLevel(state.level);
+    }
+    if (state.className !== null && state.className !== undefined) {
+        env.setClass(state.className);
+    }
+    if (state.temporix === true || state.temporix === false) {
+        env.setTemporix(state.temporix);
+    }
+    if (setupShareItem(state.item) !== null) {
+        env.setItem(state.item);
+    }
+    setupFillControls({scope: page.boxes, boxes: state.boxes, priority: state.priority,
+                       mode: state.mode, guard: state.guard}, env);
+    env.restorePanel(setupSharedEdits(state.touched || []), now);
+    env.finished();
+}
+
 $(document).ready(function() {
     var $panel = $('#setup-preview');
     var $form = $('#main_form');
@@ -393,6 +795,7 @@ $(document).ready(function() {
     var baseline = null;
     var baselineState = null;
     var badgeBeforeAsking = null;
+    var pendingEdits = null;
     var api = wmInit('', {form: '#main_form', mode: 'preview'});
     var guardKinds = {};
     try {
@@ -548,7 +951,8 @@ $(document).ready(function() {
         syncTemporixNote();
         baselineState = state;
         baseline = readFields();
-        restoreEdits(kept);
+        restoreEdits(pendingEdits || kept);
+        pendingEdits = null;
         if (before) {
             showChanges(before);
         } else {
@@ -603,8 +1007,18 @@ $(document).ready(function() {
         $notice.prop('hidden', true);
     }
 
+    function applyPending() {
+        if (pendingEdits && hasBaseline) {
+            restoreEdits(pendingEdits);
+            pendingEdits = null;
+            markEdits();
+        }
+    }
+
     var actions = setupPanelActions(gate, {
         focusSummary: function() { $details.children('summary').first().trigger('focus'); },
+        forgetPending: function() { pendingEdits = null; },
+        hasBaseline: function() { return hasBaseline; },
         restorePreset: function() {
             api.applyState(baselineState);
             syncTemporixNote();
@@ -646,7 +1060,10 @@ $(document).ready(function() {
             });
         },
         show: show,
-        settled: function() { $notice.prop('hidden', true); },
+        settled: function() {
+            $notice.prop('hidden', true);
+            applyPending();
+        },
         failed: actions.failed
     });
 
@@ -671,10 +1088,356 @@ $(document).ready(function() {
     $('#setup-preview-keep-yes').on('click', actions.keep);
     $('#setup-preview-keep-no').on('click', actions.recompute);
     $form.on('submit', actions.submit);
+    window.SETUP_PANEL = {
+        touched: function() { return setupTouchedFields(currentEdits()); },
+        clear: actions.clear,
+        restore: function(edits, now) {
+            pendingEdits = Object.keys(edits).length ? edits : null;
+            if (now) {
+                window.clearTimeout(timer);
+                loop.refresh();
+            }
+        }
+    };
     $(window).on('load pageshow', function() {
         $form.find('input.setup-touched').remove();
         showGuard();
         schedule();
     });
     schedule();
+});
+
+$(document).ready(function() {
+    var $section = $('#setup-recipes');
+    var $form = $('#main_form');
+    if (!$section.length || !$form.length || typeof aspectLayout === 'undefined'
+            || typeof modeLayout === 'undefined') {
+        return;
+    }
+    var $note = $('#setup-recipes-note');
+    var $shareStatus = $('#setup-share-status');
+    var $shareUrl = $('#setup-share-url');
+    var $saved = $('#setup-saved');
+    var $savedList = $('#setup-saved-list');
+    var $savedStatus = $('#setup-saved-status');
+    var $savedName = $('#setup-saved-name');
+    var game = $section.attr('data-version') || '';
+    var chips = [];
+    var active = null;
+    var storage = null;
+
+    function aspectBox(aspect) {
+        return $(document.getElementById('check_' + aspect));
+    }
+
+    function modeBox(mode) {
+        return $(document.getElementById('mode_' + mode));
+    }
+
+    function describePage() {
+        var focus = [];
+        $.each(aspectLayout[2].concat(aspectLayout[3]), function(i, aspect) {
+            if (aspect !== 'balanced') {
+                focus.push(aspect);
+            }
+        });
+        var boxes = [];
+        $.each(aspectLayout[0].concat(focus), function(i, aspect) {
+            if (aspectBox(aspect).length) {
+                boxes.push(aspect);
+            }
+        });
+        var classes = [];
+        $('#select-char-class option').each(function() { classes.push(this.value); });
+        var priorities = [];
+        $form.find('input[name="priority"]').each(function() { priorities.push(this.value); });
+        var modes = ['general'];
+        $.each(modeLayout, function(i, mode) { modes.push(mode[0]); });
+        var guards = [];
+        $('#guard-percent option').each(function() { guards.push(Number(this.value)); });
+        return {game: game, classes: classes, boxes: boxes, focus: focus, priorities: priorities,
+                modes: modes, guards: guards, guardDefault: Number($section.attr('data-guard-default'))};
+    }
+
+    var page = describePage();
+
+    function readControls() {
+        var focus = [];
+        $.each(page.focus, function(i, aspect) {
+            if (aspectBox(aspect).prop('checked')) {
+                focus.push(aspect);
+            }
+        });
+        return {focus: focus, priority: $form.find('input[name="priority"]:checked').val(),
+                mode: $('#play-mode').val(), guard: $('#guard-percent').val()};
+    }
+
+    function tick(aspect, on) {
+        var $box = aspectBox(aspect);
+        if ($box.length && $box.prop('checked') !== on) {
+            $box.prop('checked', on).trigger('change');
+        }
+    }
+
+    function setPriority(value) {
+        var $radio = $form.find('input[name="priority"]').filter(function() { return this.value === value; });
+        if ($radio.length && !$radio.prop('checked')) {
+            $radio.prop('checked', true).trigger('change');
+        }
+    }
+
+    function setMode(value) {
+        if ($('#play-mode').val() === value) {
+            return;
+        }
+        if (value === 'general') {
+            $.each(modeLayout, function(i, mode) {
+                var $box = modeBox(mode[0]);
+                if ($box.prop('checked')) {
+                    $box.prop('checked', false).trigger('change');
+                }
+            });
+        } else {
+            modeBox(value).prop('checked', true).trigger('change');
+        }
+    }
+
+    function setGuard(value) {
+        var $select = $('#guard-percent');
+        if (String($select.val()) !== String(value) && page.guards.indexOf(Number(value)) !== -1) {
+            $select.val(String(value)).trigger('change');
+        }
+    }
+
+    function setTemporix(on) {
+        var $box = $('#temporix-cb');
+        if ($box.length && $box.prop('checked') !== on) {
+            $box.prop('checked', on).trigger('change');
+        }
+    }
+
+    function lockItem() {
+        return setupShareItem($.trim($form.find('input[name="lock_item"]').val() || ''));
+    }
+
+    function setLockItem(item) {
+        var $input = $form.find('input[name="lock_item"]');
+        if (!$input.length) {
+            $input = $('<input type="hidden" name="lock_item">').appendTo($form);
+        }
+        $input.val(item);
+    }
+
+    var formEnv = {
+        tick: tick,
+        priority: setPriority,
+        mode: setMode,
+        guard: setGuard,
+        clearPanel: function() {
+            if (window.SETUP_PANEL) {
+                window.SETUP_PANEL.clear();
+            }
+        },
+        setLevel: function(level) { $('#input-char-level').val(level).trigger('change'); },
+        setClass: function(name) { $('#select-char-class').val(name).trigger('change'); },
+        setTemporix: setTemporix,
+        setItem: setLockItem,
+        restorePanel: function(edits, now) {
+            if (window.SETUP_PANEL) {
+                window.SETUP_PANEL.restore(edits, now);
+            }
+        },
+        finished: function() {
+            active = null;
+            refreshChips();
+        }
+    };
+
+    function hasElement() {
+        return typeof lacksElement === 'function' ? !lacksElement() : true;
+    }
+
+    function showNote() {
+        setupWriteLive($note, setupRecipeNoteText(setupRecipeNote(active, hasElement())));
+    }
+
+    function refreshChips() {
+        var current = readControls();
+        var found = false;
+        $.each(chips, function(i, chip) {
+            var on = setupRecipeMatches(chip.target, current);
+            chip.$chip.attr('aria-pressed', on ? 'true' : 'false');
+            found = found || (on && !!active && active.key === chip.recipe.key);
+        });
+        if (!found) {
+            active = null;
+        }
+        showNote();
+    }
+
+    function applyRecipe(chip) {
+        setupFillControls({scope: page.focus, boxes: chip.target.focus, priority: chip.target.priority,
+                           mode: chip.target.mode, guard: chip.target.guard}, formEnv);
+        active = chip.recipe;
+        refreshChips();
+        if (!chip.recipe.mule && !hasElement() && typeof flashRed === 'function') {
+            flashRed($('#element_title'));
+        }
+    }
+
+    function collectState(withItem) {
+        var controls = readControls();
+        var boxes = [];
+        $.each(page.boxes, function(i, aspect) {
+            if (aspectBox(aspect).prop('checked')) {
+                boxes.push(aspect);
+            }
+        });
+        var $temporix = $('#temporix-cb');
+        return {game: game, className: $('#select-char-class').val(), level: $.trim($('#input-char-level').val()),
+                boxes: boxes, priority: controls.priority, mode: controls.mode, guard: controls.guard,
+                temporix: $temporix.length ? $temporix.prop('checked') : null,
+                item: withItem ? lockItem() : null,
+                touched: window.SETUP_PANEL ? window.SETUP_PANEL.touched() : []};
+    }
+
+    function restoreSetup(state, now) {
+        setupRestore(state, now, page, formEnv);
+    }
+
+    function shareAddress(fragment) {
+        var origin = window.location.origin
+            || window.location.protocol + '//' + window.location.host;
+        return origin + window.location.pathname + '#' + fragment;
+    }
+
+    function selectAddress(address) {
+        $shareUrl.val(address).prop('hidden', false);
+        var field = $shareUrl.get(0);
+        field.focus();
+        field.select();
+        var copied = false;
+        try {
+            copied = !!document.execCommand && document.execCommand('copy');
+        } catch (error) {
+            copied = false;
+        }
+        setupWriteLive($shareStatus, copied ? gettext('Link copied.') : gettext('Select the link and copy it.'));
+    }
+
+    function copyAddress() {
+        var fragment = setupShareEncode(collectState(true));
+        if (!setupShareFits(fragment)) {
+            $shareUrl.prop('hidden', true);
+            setupWriteLive($shareStatus, gettext('This setup has too many edited values to save or share. Reset some of them first.'));
+            return;
+        }
+        var address = shareAddress(fragment);
+        try {
+            window.navigator.clipboard.writeText(address).then(function() {
+                $shareUrl.prop('hidden', true);
+                setupWriteLive($shareStatus, gettext('Link copied.'));
+            }, function() {
+                selectAddress(address);
+            });
+        } catch (error) {
+            selectAddress(address);
+        }
+    }
+
+    function renderSaved(list) {
+        $savedList.empty();
+        $.each(list, function(i, item) {
+            var nameId = 'setup-saved-item-' + i;
+            var $row = $('<li></li>');
+            $('<span class="input-name setup-saved-label"></span>').attr('id', nameId).text(item.name)
+                .appendTo($row);
+            $('<button type="button" class="setup-action"></button>').attr({'data-load': item.name, 'aria-describedby': nameId})
+                .text(gettext('Load')).appendTo($row);
+            $('<button type="button" class="setup-action"></button>').attr({'data-delete': item.name, 'aria-describedby': nameId})
+                .text(gettext('Delete')).appendTo($row);
+            $row.appendTo($savedList);
+        });
+        if (!list.length) {
+            $('<li class="small-explain setup-saved-empty"></li>').text(gettext('No saved setup yet.'))
+                .appendTo($savedList);
+        }
+    }
+
+    function saveSetup() {
+        var put = setupSavedPut(setupSavedRead(storage, game), $savedName.val(), setupShareEncode(collectState(false)));
+        if (put.result === 'blank') {
+            setupWriteLive($savedStatus, gettext('Give the setup a name first.'));
+        } else if (put.result === 'long') {
+            setupWriteLive($savedStatus, gettext('This setup has too many edited values to save or share. Reset some of them first.'));
+        } else if (put.result === 'full') {
+            setupWriteLive($savedStatus, interpolate(
+                gettext('You can keep up to %s setups. Delete one to save another.'), [SETUP_RECIPES.savedLimit]));
+        } else if (!setupSavedWrite(storage, game, put.list)) {
+            setupWriteLive($savedStatus, gettext('Your browser did not let this page save the setup.'));
+        } else {
+            renderSaved(put.list);
+            $savedName.val('');
+            setupWriteLive($savedStatus, gettext('Setup saved.'));
+        }
+    }
+
+    function loadSetup(name) {
+        var item = setupSavedFind(setupSavedRead(storage, game), name);
+        var state = item ? setupShareParse(item.fragment, page) : null;
+        if (!state) {
+            setupWriteLive($savedStatus, gettext('This setup could not be loaded.'));
+            return;
+        }
+        restoreSetup(state, true);
+        setupWriteLive($savedStatus, gettext('Setup loaded.'));
+    }
+
+    function deleteSetup(name) {
+        var list = setupSavedDrop(setupSavedRead(storage, game), name);
+        var written = setupSavedWrite(storage, game, list);
+        renderSaved(setupSavedRead(storage, game));
+        setupWriteLive($savedStatus, written ? gettext('Setup deleted.')
+                                             : gettext('Your browser did not let this page delete the setup.'));
+    }
+
+    function restoreFromAddress(now) {
+        var state = setupShareParse(window.location.hash, page);
+        if (state) {
+            restoreSetup(state, now);
+        }
+    }
+
+    $section.find('.setup-chip').each(function() {
+        var $chip = $(this);
+        var recipe = setupRecipeFromData({key: $chip.attr('data-recipe'), focus: $chip.attr('data-focus'),
+                                          priority: $chip.attr('data-priority'), mode: $chip.attr('data-mode'),
+                                          guard: $chip.attr('data-guard'), mule: $chip.attr('data-mule')});
+        chips.push({$chip: $chip, recipe: recipe, target: setupRecipeTarget(recipe, page)});
+    });
+    $.each(chips, function(i, chip) {
+        chip.$chip.on('click', function() { applyRecipe(chip); });
+    });
+    $('#setup-share-copy').on('click', copyAddress);
+    $form.on('change', refreshChips);
+    $(window).on('hashchange', function() { restoreFromAddress(true); });
+
+    storage = setupOpenStorage(window);
+    if (storage) {
+        renderSaved(setupSavedRead(storage, game));
+        $('#setup-saved-save').on('click', saveSetup);
+        $savedName.on('keydown', function(event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                saveSetup();
+            }
+        });
+        $savedList.on('click', '[data-load]', function() { loadSetup($(this).attr('data-load')); });
+        $savedList.on('click', '[data-delete]', function() { deleteSetup($(this).attr('data-delete')); });
+        $saved.prop('hidden', false);
+    }
+
+    restoreFromAddress(false);
+    refreshChips();
+    $section.prop('hidden', false);
 });

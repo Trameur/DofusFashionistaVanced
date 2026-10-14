@@ -778,3 +778,68 @@ msgid "%s minimum"
 msgid_plural "%s minimums"
 msgstr[0] "%s Mindestwert"
 msgstr[1] "%s Mindestwerte"
+#: chardata/static/chardata/setup.js
+msgid "Link copied."
+msgstr "Link kopiert."
+
+#: chardata/static/chardata/setup.js
+msgid "Select the link and copy it."
+msgstr "Markieren Sie den Link und kopieren Sie ihn."
+
+#: chardata/static/chardata/setup.js
+msgid "Mules need no element: leave the Elements column unchecked, or pick one if the character also fights."
+msgstr "Ein Mule braucht kein Element: Lassen Sie die Spalte Elemente leer oder wählen Sie eines, wenn der Charakter auch kämpft."
+
+#: chardata/static/chardata/setup.js
+msgid "Presets never choose an element: pick yours in the Elements column."
+msgstr "Voreinstellungen wählen nie ein Element: Wählen Sie Ihres in der Spalte Elemente."
+
+#: chardata/static/chardata/setup.js
+msgid "Setup saved."
+msgstr "Einstellung gespeichert."
+
+#: chardata/static/chardata/setup.js
+msgid "Setup deleted."
+msgstr "Einstellung gelöscht."
+
+#: chardata/static/chardata/setup.js
+msgid "Setup loaded."
+msgstr "Einstellung geladen."
+
+#: chardata/static/chardata/setup.js
+msgid "Give the setup a name first."
+msgstr "Geben Sie der Einstellung zuerst einen Namen."
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "You can keep up to %s setups. Delete one to save another."
+msgstr "Sie können bis zu %s Einstellungen behalten. Löschen Sie eine, um eine andere zu speichern."
+
+#: chardata/static/chardata/setup.js
+msgid "This setup could not be loaded."
+msgstr "Diese Einstellung konnte nicht geladen werden."
+
+#: chardata/static/chardata/setup.js
+msgid "No saved setup yet."
+msgstr "Noch keine Einstellung gespeichert."
+
+#: chardata/static/chardata/setup.js
+msgid "Load"
+msgstr "Laden"
+
+#: chardata/static/chardata/setup.js
+msgid "Delete"
+msgstr "Löschen"
+
+#: chardata/static/chardata/setup.js
+msgid "Your browser did not let this page save the setup."
+msgstr "Ihr Browser hat nicht erlaubt, dass diese Seite die Einstellung speichert."
+
+#: chardata/static/chardata/setup.js
+msgid "This setup has too many edited values to save or share. Reset some of them first."
+msgstr "Diese Einstellung enthält zu viele geänderte Werte, um gespeichert oder geteilt zu werden. Setzen Sie zuerst einige davon zurück."
+
+#: chardata/static/chardata/setup.js
+msgid "Your browser did not let this page delete the setup."
+msgstr "Ihr Browser hat nicht erlaubt, dass diese Seite die Einstellung löscht."
+

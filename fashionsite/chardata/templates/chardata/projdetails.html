@@ -51,6 +51,31 @@
         {% endif %}
     
         {% if is_new_char %}<div class="setup-layout"><div class="setup-form-col">{% endif %}
+        {% if is_new_char and recipes %}
+        <section id="setup-recipes" class="setup-recipes" aria-labelledby="setup-recipes-title" data-version="{{ current_game_version }}" data-guard-default="{{ guard_default }}" hidden>
+            <p id="setup-recipes-title" class="setup-recipes-title big-text">{% trans "Start from a preset" %}</p>
+            <div class="setup-chips" role="group" aria-labelledby="setup-recipes-title">
+                {% for recipe in recipes %}<button type="button" class="setup-chip" data-recipe="{{ recipe.key }}" data-focus="{{ recipe.focus|join:' ' }}" data-priority="{{ recipe.priority }}" data-mode="{{ recipe.mode }}"{% if recipe.guard_pct is not None %} data-guard="{{ recipe.guard_pct }}"{% endif %}{% if recipe.mule %} data-mule="true"{% endif %} aria-pressed="false">{{ recipe.label }}</button>
+                {% endfor %}
+            </div>
+            <p id="setup-recipes-note" class="small-explain setup-recipes-note" role="status"></p>
+            <div class="setup-share">
+                <button type="button" id="setup-share-copy" class="setup-action">{% trans "Copy link" %}</button>
+                <span id="setup-share-status" class="small-explain setup-share-status" role="status"></span>
+            </div>
+            <input id="setup-share-url" class="input-value pretty-input setup-share-url" type="text" readonly aria-label="{% trans 'Link to this setup' %}" hidden>
+            <details id="setup-saved" class="setup-saved" hidden>
+                <summary class="setup-saved-summary big-text">{% trans "My setups" %}</summary>
+                <div class="setup-saved-form">
+                    <label for="setup-saved-name" class="small-explain">{% trans "Name this setup" %}</label>
+                    <input id="setup-saved-name" class="input-value pretty-input setup-saved-name-input" type="text" maxlength="40" autocomplete="off">
+                    <button type="button" id="setup-saved-save" class="setup-action">{% trans "Save this setup" %}</button>
+                </div>
+                <ul id="setup-saved-list" class="setup-saved-list"></ul>
+                <p id="setup-saved-status" class="small-explain setup-saved-status" role="status"></p>
+            </details>
+        </section>
+        {% endif %}
         <form id="main_form" action="{% game_url 'create_project' %}" method="post">
         {% if lock_item %}<input type="hidden" name="lock_item" value="{{ lock_item }}">{% endif %}
             {% csrf_token %}

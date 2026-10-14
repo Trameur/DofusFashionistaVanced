@@ -9342,6 +9342,74 @@ msgstr "Elemento da arma lido do link:"
 msgid "Their link format has no room for the weapon element, so set it on DofusBook by hand:"
 msgstr "O formato de link deles não tem espaço para o elemento da arma, então ajuste-o à mão no DofusBook:"
 
+#: chardata/presets.py
+msgid "All-round"
+msgstr "Versátil"
+
+#: chardata/presets.py
+msgid "Damage dealer"
+msgstr "Dano por turno"
+
+#: chardata/presets.py
+msgid "Tank"
+msgstr "Tanque"
+
+#: chardata/presets.py
+msgid "Healer"
+msgstr "Curandeiro"
+
+#: chardata/presets.py
+msgid "Pusher"
+msgstr "Empurrador"
+
+#: chardata/presets.py
+msgid "Summoner"
+msgstr "Invocador"
+
+#: chardata/presets.py
+msgid "Trapper"
+msgstr "Armadilheiro"
+
+#: chardata/presets.py
+msgid "XP mule"
+msgstr "Mula de XP"
+
+#: chardata/presets.py
+msgid "Prospecting mule"
+msgstr "Mula de prospecção"
+
+#: chardata/presets.py
+msgid "Farm"
+msgstr "Farm"
+
+#: chardata/presets.py
+msgid "Pod carrier"
+msgstr "Carregador de pods"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Start from a preset"
+msgstr "Comece com uma predefinição"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Copy link"
+msgstr "Copiar link"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Link to this setup"
+msgstr "Link para este ajuste"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "My setups"
+msgstr "Meus ajustes"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Name this setup"
+msgstr "Nome deste ajuste"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Save this setup"
+msgstr "Guardar este ajuste"
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este jogo não tem exos: eles ficam de fora."
 

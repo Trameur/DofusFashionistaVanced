@@ -777,3 +777,68 @@ msgid "%s minimum"
 msgid_plural "%s minimums"
 msgstr[0] "%s mínimo"
 msgstr[1] "%s mínimos"
+#: chardata/static/chardata/setup.js
+msgid "Link copied."
+msgstr "Enlace copiado."
+
+#: chardata/static/chardata/setup.js
+msgid "Select the link and copy it."
+msgstr "Selecciona el enlace y cópialo."
+
+#: chardata/static/chardata/setup.js
+msgid "Mules need no element: leave the Elements column unchecked, or pick one if the character also fights."
+msgstr "Una mula no necesita elemento: deja la columna Elementos sin marcar, o elige uno si el personaje también combate."
+
+#: chardata/static/chardata/setup.js
+msgid "Presets never choose an element: pick yours in the Elements column."
+msgstr "Los ajustes predefinidos nunca eligen un elemento: elige el tuyo en la columna Elementos."
+
+#: chardata/static/chardata/setup.js
+msgid "Setup saved."
+msgstr "Ajuste guardado."
+
+#: chardata/static/chardata/setup.js
+msgid "Setup deleted."
+msgstr "Ajuste eliminado."
+
+#: chardata/static/chardata/setup.js
+msgid "Setup loaded."
+msgstr "Ajuste cargado."
+
+#: chardata/static/chardata/setup.js
+msgid "Give the setup a name first."
+msgstr "Ponle primero un nombre al ajuste."
+
+#: chardata/static/chardata/setup.js
+#, javascript-format
+msgid "You can keep up to %s setups. Delete one to save another."
+msgstr "Puedes guardar hasta %s ajustes. Elimina uno para guardar otro."
+
+#: chardata/static/chardata/setup.js
+msgid "This setup could not be loaded."
+msgstr "No se pudo cargar este ajuste."
+
+#: chardata/static/chardata/setup.js
+msgid "No saved setup yet."
+msgstr "Aún no hay ajustes guardados."
+
+#: chardata/static/chardata/setup.js
+msgid "Load"
+msgstr "Cargar"
+
+#: chardata/static/chardata/setup.js
+msgid "Delete"
+msgstr "Eliminar"
+
+#: chardata/static/chardata/setup.js
+msgid "Your browser did not let this page save the setup."
+msgstr "Tu navegador no ha permitido que esta página guarde el ajuste."
+
+#: chardata/static/chardata/setup.js
+msgid "This setup has too many edited values to save or share. Reset some of them first."
+msgstr "Este ajuste tiene demasiados valores modificados para guardarlo o compartirlo. Restablece primero algunos."
+
+#: chardata/static/chardata/setup.js
+msgid "Your browser did not let this page delete the setup."
+msgstr "Tu navegador no ha permitido que esta página elimine el ajuste."
+
