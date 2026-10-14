@@ -272,6 +272,7 @@ def local_login(request):
         note_login_failure(request, username)
         return HttpResponseText('invalid')
 
+@require_POST
 def logout_view(request):
     next_url = request.POST.get('next') or request.GET.get('next')
     
