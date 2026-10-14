@@ -535,7 +535,7 @@ def _readable_char(request, char_id):
         char = Char.objects.get(id=char_id)
     except Char.DoesNotExist:
         return None
-    if char_belongs_to_user(request, char) or char.link_shared:
+    if char_belongs_to_user(request, char) or (char.link_shared and not char.deleted):
         return char
     return None
 

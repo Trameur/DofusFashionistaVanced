@@ -22,7 +22,7 @@ from chardata.util import set_response, version_reverse
 from chardata.data_versions import (build_patch_info, current_data_version, patch_key,
                                     patch_of, patch_started, previous_patch_window)
 from chardata.create_project_view import is_anon_cant_create, has_too_many_projects
-from chardata.encoded_char_id import encode_char_id
+from chardata.encoded_char_id import decode_char_id, encode_char_id
 from chardata.models import Char, UserAlias
 from chardata.views import user_has_projects
 
@@ -53,8 +53,18 @@ def _featured_avatar(char):
     return static('chardata/designs/wizard/%s/myWizard%s%d.png' % (cls, cls, idx))
 
 
+def _still_public(rows):
+    """The cached rows whose build is still shared and not deleted."""
+    if not rows:
+        return rows
+    wanted = {decode_char_id(row['encoded_char_id']) for row in rows}
+    public = set(Char.objects.filter(pk__in=wanted, link_shared=True, deleted=False)
+                 .values_list('pk', flat=True))
+    return [row for row in rows if decode_char_id(row['encoded_char_id']) in public]
+
+
 def _get_featured_builds(request, game_version):
-    """Links and the anonymous name are built per request, never cached."""
+    """Links and the anonymous name are built per request, never cached; a build deleted or unshared since is dropped."""
     cache_key = 'home_featured_builds:5:%s:%s' % (
         game_version, patch_of(current_data_version(game_version)))
     cached = cache.get(cache_key)
@@ -66,7 +76,7 @@ def _get_featured_builds(request, game_version):
                  link=version_reverse(request, 'solution_linked',
                                       build['char_name'],
                                       build['encoded_char_id']))
-            for build in cached]
+            for build in _still_public(cached)]
 
 
 def _featured_versions(shared, game_version):

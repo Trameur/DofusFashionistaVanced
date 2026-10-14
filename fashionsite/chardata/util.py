@@ -253,6 +253,8 @@ def get_char_encoded_or_raise(encoded_char_id):
         raise Http404('Could not decode char id: %s' % encoded_char_id)
 
     char = get_object_or_404(Char, pk=char_id)
+    if char.deleted:
+        raise Http404
     if not char.link_shared:
         raise PermissionDenied
     else:

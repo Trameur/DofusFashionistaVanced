@@ -618,7 +618,8 @@ def choose_compare_sets_post(request):
             if char_id is None:
                 return _rejected_link_error(_('%s is not a valid share link'), links[i])
             char = get_or_none(Char, pk=char_id)
-            if not char or char.game_version != getattr(request, 'game_version', 'dofus3'):
+            if (not char or char.deleted
+                    or char.game_version != getattr(request, 'game_version', 'dofus3')):
                 return _rejected_link_error(_('%s does not refer to a valid build'),
                                             links[i])
             if not char.link_shared:
@@ -665,6 +666,8 @@ def get_sharing_link(request, sets_params):
             # Verify it had a signature and was shared.
             if not was_encoded:
                 raise PermissionDenied
+            if char.deleted:
+                raise Http404
             if not char.link_shared:
                 return _get_text_error_response(
                     _('Build %s is not shared.') % char_str[:120])
