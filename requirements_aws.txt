@@ -35,7 +35,7 @@ mod-wsgi==6.1.0
 oauthlib==4.0.0
 pillow==12.3.0
 PuLP==2.9.0
-pycparser==3.0
+pycparser==3.11
 PyJWT==2.15.1
 PyMySQL==1.2.3
 python-dateutil==2.9.0.post0
