@@ -25201,7 +25201,7 @@ class CrawlersAreNotReadersTests(TestCase):
         'GPTBot/1.2', 'ClaudeBot/1.0', 'CCBot/2.0', 'Bytespider',
         'curl/8.7.1', 'Wget/1.21', 'python-requests/2.31.0',
         'Go-http-client/2.0', 'okhttp/4.12.0', 'Scrapy/2.11',
-        'facebookexternalhit/1.1', 'HeadlessChrome/126.0',
+        'facebookexternalhit/1.1', 'HeadlessChrome/126.0', 'Lightpanda/1.0',
         '',
     )
 

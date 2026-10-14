@@ -84,7 +84,7 @@ def _host_of(url):
 # Crawler user agents, not exhaustive
 _ROBOT = re.compile(
     r'bot\b|bot/|robot|crawl|spider|scrap|slurp|fetch|monitor|uptime|'
-    r'pingdom|lighthouse|headless|phantom|selenium|puppeteer|playwright|'
+    r'pingdom|lighthouse|headless|phantom|selenium|puppeteer|playwright|lightpanda|'
     r'curl/|wget|python-requests|python-urllib|aiohttp|httpx|okhttp|'
     r'go-http-client|java/|libwww|scrapy|axios|node-fetch|guzzle|'
     r'ahrefs|semrush|mj12|dotbot|petal|bytespider|gptbot|claudebot|ccbot|'
