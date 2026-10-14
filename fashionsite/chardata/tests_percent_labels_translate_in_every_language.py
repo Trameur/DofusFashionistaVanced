@@ -46,7 +46,7 @@ class SetupAndStatsPagesShowTranslatedPercentLabelsTests(TestCase):
         char = self._make_char()
         temoins = {
             'fr': ('% Dommages aux Sorts', 'Toutes les Résistances (%)'),
-            'de': ('% Zauberschaden', 'Alle % Widerstände'),
+            'de': ('% Zauberschaden', 'Alle % Resistenzen'),
         }
         for langue, (spells_damage, all_resists) in temoins.items():
             page = self.client.get(

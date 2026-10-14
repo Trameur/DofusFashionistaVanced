@@ -294,7 +294,7 @@ msgstr "Minhas builds"
 
 #: .\chardata\compare_sets_view.py:427
 msgid "No saved builds with a solution yet."
-msgstr "Ainda não há builds salvas com uma solução."
+msgstr "Ainda não há builds salvos com uma solução."
 
 #: .\chardata\compare_sets_view.py:432
 #: .\chardata\templates\chardata\shared_builds.html:258
@@ -304,7 +304,7 @@ msgstr "Favoritos"
 
 #: .\chardata\compare_sets_view.py:433
 msgid "No favorite builds for this version yet."
-msgstr "Ainda não há builds favoritas para esta versão."
+msgstr "Ainda não há builds favoritos para esta versão."
 
 #: .\chardata\compare_sets_view.py:439
 #: .\chardata\templates\chardata\shared_builds.html:254
@@ -314,7 +314,7 @@ msgstr "Curtidas"
 
 #: .\chardata\compare_sets_view.py:440
 msgid "No liked builds for this version yet."
-msgstr "Ainda não há builds curtidas para esta versão."
+msgstr "Ainda não há builds curtidos para esta versão."
 
 #: .\chardata\compare_sets_view.py:479 .\chardata\compare_sets_view.py:489
 #: .\chardata\compare_sets_view.py:493
@@ -1571,7 +1571,7 @@ msgstr "Empurrão"
 
 #: .\chardata\smart_build.py:97
 msgid "Balanced"
-msgstr "Balanceado"
+msgstr "Equilibrado"
 
 #: .\chardata\smart_build.py:98
 msgid "Glass-Cannon"
@@ -1854,7 +1854,7 @@ msgid ""
 "for example, the HP too low despite the good Agility. Tweaking can be done "
 "by going back to the wizard and playing with the sliders, or going hardcore "
 "and fiddling directly with the value the attributed to each stat."
-msgstr "A sugestão de equipamentos pode não ser o que você está procurando. Você pode achar, por exemplo, que os PV estão muito baixos apesar da agilidade alta. Ajustes podem ser feitos voltando no Wizard e brincando com as barras, ou sendo hardcore e modificando diretamente o valor atribuído a cada atributo."
+msgstr "A sugestão de equipamentos pode não ser o que você está procurando. Você pode achar, por exemplo, que os PV estão muito baixos apesar da agilidade alta. Ajustes podem ser feitos voltando ao Assistente e brincando com as barras, ou sendo hardcore e modificando diretamente o valor atribuído a cada atributo."
 
 #: .\chardata\templates\chardata\about.html:25
 msgid ""
@@ -2095,7 +2095,7 @@ msgstr "Abrir um build"
 #: .\chardata\templates\chardata\shared_builds.html:7
 #: .\chardata\templates\chardata\shared_builds.html:19
 msgid "Shared Builds"
-msgstr "Sets Partilhados"
+msgstr "Builds Compartilhados"
 
 #: .\chardata\templates\chardata\base.html:207
 msgid "Random Build"
@@ -2394,14 +2394,14 @@ msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:76
 msgid "Saved builds in set comparisons"
-msgstr "Builds salvas nas comparações de sets"
+msgstr "Builds salvos nas comparações de sets"
 
 #: .\chardata\templates\chardata\changelog_content.html:78
 msgid ""
 "Start a comparison from your saved builds, favorites and likes, or keep "
 "pasting links manually."
 msgstr ""
-"Inicie uma comparação pelas suas builds salvas, favoritos e curtidas, ou "
+"Inicie uma comparação pelos seus builds salvos, favoritos e curtidas, ou "
 "continue colando links manualmente."
 
 #: .\chardata\templates\chardata\changelog_content.html:87
@@ -2703,21 +2703,21 @@ msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:289
 msgid "Community, sharing & tools"
-msgstr "Comunidade, partilha e ferramentas"
+msgstr "Comunidade, compartilhamento e ferramentas"
 
 #: .\chardata\templates\chardata\changelog_content.html:291
 msgid "Comments on builds, with comment counts on shared-build cards"
 msgstr ""
 "Comentários nos builds, com o número de comentários nos cartões de builds "
-"partilhados"
+"compartilhados"
 
 #: .\chardata\templates\chardata\changelog_content.html:292
 msgid ""
 "User profiles with follow / unfollow, a following feed, and author links on "
 "builds"
 msgstr ""
-"Perfis de utilizador com seguir / deixar de seguir, um feed de seguidos e "
-"ligações para o autor nos builds"
+"Perfis de usuário com seguir / deixar de seguir, um feed de seguidos e links"
+" para o autor nos builds"
 
 #: .\chardata\templates\chardata\changelog_content.html:293
 msgid "Free-form tags on builds, with filtering and tag suggestions"
@@ -2728,8 +2728,8 @@ msgid ""
 "Discover builds: top community builds on the home page and a random build "
 "link"
 msgstr ""
-"Descobrir builds: melhores builds da comunidade na página inicial e uma "
-"ligação de build aleatório"
+"Descobrir builds: melhores builds da comunidade na página inicial e um link "
+"de build aleatório"
 
 #: .\chardata\templates\chardata\changelog_content.html:295
 msgid ""
@@ -2742,7 +2742,8 @@ msgstr ""
 #: .\chardata\templates\chardata\changelog_content.html:296
 msgid "Workshop: craft ingredient list, with recipes for every version"
 msgstr ""
-"Oficina: lista de ingredientes de fabrico, com receitas para todas as versões"
+"Oficina: lista de ingredientes de fabricação, com receitas para todas as "
+"versões"
 
 #: .\chardata\templates\chardata\changelog_content.html:297
 msgid "Quick start coaching flow for new players"
@@ -2753,8 +2754,8 @@ msgid ""
 "Share builds anywhere: copy a build as text for Discord/forums, plus richer "
 "link previews"
 msgstr ""
-"Partilhe os seus builds em qualquer lugar: copie o build como texto para "
-"Discord/fóruns, e pré-visualizações de ligações melhoradas"
+"Compartilhe seus builds em qualquer lugar: copie o build como texto para "
+"Discord/fóruns, e pré-visualizações de links melhoradas"
 
 #: .\chardata\templates\chardata\changelog_content.html:299
 msgid "Class avatar banner on the solution page"
@@ -2787,7 +2788,7 @@ msgid ""
 "Cire Momore's Curse set caps now correctly enforced in the optimizer (MP/"
 "Summon/Range hard caps per tier)"
 msgstr ""
-"Os limites da set Maldição de Cire Momore são agora corretamente aplicados "
+"Os limites do set Maldição de Cire Momore são agora corretamente aplicados "
 "no otimizador (PM/Invocações/Alcance por nível)"
 
 #: .\chardata\templates\chardata\changelog_content.html:313
@@ -2795,14 +2796,14 @@ msgid ""
 "Set panel now displays cap effects (e.g. Max. MP 2) when a capping set is "
 "equipped"
 msgstr ""
-"O painel da set exibe agora os efeitos de limite (ex. Máx. PM 2) quando uma "
-"set limitante está equipada"
+"O painel do set exibe agora os efeitos de limite (ex. Máx. PM 2) quando um "
+"set limitante está equipado"
 
 #: .\chardata\templates\chardata\changelog_content.html:314
 msgid ""
 "New: Customize Stats. Modify the stats of a specific item for your build "
 "(undercrafted items, familiars below max level)"
-msgstr "Novo: Personalizar Estatísticas. Modifique as stats de um item específico para a sua build (itens subcraftados, mascotes abaixo do nível máximo)"
+msgstr "Novo: Personalizar Estatísticas. Modifique as stats de um item específico para o seu build (itens subcraftados, mascotes abaixo do nível máximo)"
 
 #: .\chardata\templates\chardata\changelog_content.html:315
 msgid "Exo mage stats now handled correctly in the custom stats editor"
@@ -3215,7 +3216,7 @@ msgstr "Scrollar Tudo"
 
 #: .\chardata\templates\chardata\chardata.html:46
 msgid "Proceed to Wizard"
-msgstr "Ir para o Wizard"
+msgstr "Ir para o Assistente"
 
 #: .\chardata\templates\chardata\chardata.html:55
 msgid "Soft Caps"
@@ -3732,8 +3733,8 @@ msgid ""
 "What are the numbers by the sliders? And why does each slider have a "
 "different range?"
 msgstr ""
-"O que são os números do lado das barras no Wizard? E por que cada barra tem "
-"um intervalo de valores diferente?"
+"O que são os números do lado das barras no Assistente? E por que cada barra "
+"tem um intervalo de valores diferente?"
 
 #: .\chardata\templates\chardata\faq.html:37
 msgid ""
@@ -4014,7 +4015,7 @@ msgstr "por"
 
 #: .\chardata\templates\chardata\home.html:105
 msgid "Browse all shared builds →"
-msgstr "Ver todas as builds partilhadas →"
+msgstr "Ver todos os builds compartilhados →"
 
 #: .\chardata\templates\chardata\home.html:159
 msgid "What is the Dofus Fashionista?"
@@ -4137,7 +4138,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\inventory_source.html:3
 msgid "Which items can the solver use?"
-msgstr "Quais itens o solucionador pode usar?"
+msgstr "Quais itens o solver pode usar?"
 
 #: .\chardata\templates\chardata\inventory_source.html:4
 msgid "Only encyclopedia items"
@@ -4612,12 +4613,12 @@ msgstr "Vulkórnios"
 
 #: .\chardata\templates\chardata\options.html:125
 msgid "Allow dofuses, prysmaradite and trophies:"
-msgstr "Permitir dofus, prysmaradite e troféus:"
+msgstr "Permitir dofus, prismaradita e troféus:"
 
 #: .\chardata\templates\chardata\options.html:141
 #: .\chardata\templates\chardata\wizard_options.html:55
 msgid "Prysmaradite"
-msgstr "Prysmaradite"
+msgstr "Prismaradita"
 
 #: .\chardata\templates\chardata\options.html:150
 #: .\chardata\templates\chardata\wizard_options.html:64
@@ -4744,7 +4745,7 @@ msgstr "Última atualização: setembro de 2026"
 
 #: .\chardata\templates\chardata\privacy.html:23
 msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
-msgstr "O Dofus Fashionista (\"nós\", \"o site\") é um fã-site gratuito e de código aberto que otimiza automaticamente equipamentos para o jogo Dofus. Esta página explica que dados recolhemos, porquê, e as escolhas que tem. Não somos afiliados à Ankama Games."
+msgstr "O Dofus Fashionista (\"nós\", \"o site\") é um fã-site gratuito e de código aberto que otimiza automaticamente equipamentos para o jogo Dofus. Esta página explica quais dados coletamos, por quê, e as escolhas que você tem. Não somos afiliados à Ankama Games."
 
 #: .\chardata\templates\chardata\privacy.html:25
 msgid "Information we collect"
@@ -4990,15 +4991,15 @@ msgstr "Escolha uma classe para ver os pesos e mínimos que o otimizador vai usa
 
 #: chardata/templates/chardata/projdetails.html
 msgid "These values update as you choose. Edit any weight or minimum and your build starts with your values."
-msgstr "Estes valores atualizam-se a cada escolha. Altere qualquer peso ou mínimo e o seu build começa com os seus valores."
+msgstr "Estes valores se atualizam a cada escolha. Altere qualquer peso ou mínimo e o seu build começa com os seus valores."
 
 #: chardata/templates/chardata/projdetails.html
 msgid "The preview could not be updated. You can still create your build."
-msgstr "Não foi possível atualizar a pré-visualização. Pode criar o seu build na mesma."
+msgstr "Não foi possível atualizar a pré-visualização. Você ainda pode criar o seu build."
 
 #: chardata/templates/chardata/projdetails.html
 msgid "\"Optimize now\" and \"Continue to Wizard\" save the weights and the minimums. \"Create a set by hand\" saves the weights and only the minimums you edited."
-msgstr "«Otimizar agora» e «Continuar para o Wizard» guardam os pesos e os mínimos. «Criar um conjunto à mão» guarda os pesos e só os mínimos que alterou."
+msgstr "«Otimizar agora» e «Continuar para o Assistente» salvam os pesos e os mínimos. «Criar um conjunto à mão» salva os pesos e só os mínimos que você alterou."
 
 #: chardata/templates/chardata/projdetails.html
 msgid "Optimize now"
@@ -5135,7 +5136,7 @@ msgid ""
 "Changing the priority or the mode in the Options column always restarts the "
 "wizard."
 msgstr ""
-"Mudar a prioridade ou o modo na coluna Opções sempre reinicia o Wizard."
+"Mudar a prioridade ou o modo na coluna Opções sempre reinicia o Assistente."
 
 #, python-format
 msgid "Check at most %(limit)d boxes in the focus column."
@@ -5147,11 +5148,11 @@ msgstr "Criar um conjunto à mão"
 
 #: .\chardata\templates\chardata\projdetails.html:86
 msgid "Continue to Wizard"
-msgstr "Continuar para o Wizard"
+msgstr "Continuar para o Assistente"
 
 #: .\chardata\templates\chardata\projdetails.html:89
 msgid "Restart wizard upon saving"
-msgstr "Reiniciar o wizard ao salvar"
+msgstr "Reiniciar o assistente ao salvar"
 
 #: .\chardata\templates\chardata\projdetails.html:103
 #, python-format
@@ -5278,10 +5279,9 @@ msgid ""
 "is no AP, MP or Range minimum."
 msgstr ""
 "Só para mulas que estão upando. A sabedoria ganha muita importância e, "
-"passando pelo Wizard, só o Dofus Cenouwa continua permitido, sem troféus, "
-"a não ser que Prospecção ou Pods esteja marcado sem elemento. Sem "
-"elemento, os outros stats quase não contam e não há mínimo de PA, PM nem "
-"AL."
+"passando pelo Assistente, só o Dofus Cenouwa continua permitido, sem "
+"troféus, a não ser que Prospecção ou Pods esteja marcado sem elemento. Sem "
+"elemento, os outros stats quase não contam e não há mínimo de PA, PM nem AL."
 
 #: .\chardata\templates\chardata\projdetails.html:149
 msgid ""
@@ -5487,8 +5487,8 @@ msgstr "Limpar Filtros"
 #, python-format
 msgid "Found %(counter)s shared build"
 msgid_plural "Found %(counter)s shared builds"
-msgstr[0] "%(counter)s set partilhado encontrado"
-msgstr[1] "%(counter)s sets partilhados encontrados"
+msgstr[0] "%(counter)s build compartilhado encontrado"
+msgstr[1] "%(counter)s builds compartilhados encontrados"
 
 #: .\chardata\templates\chardata\shared_builds.html:157
 #: .\chardata\templates\chardata\shared_builds.html:317
@@ -5593,7 +5593,7 @@ msgstr "resoluções"
 #: .\chardata\templates\chardata\sidebar-stats.html:9
 #: .\chardata\templates\chardata\user_profile.html:116
 msgid "shared builds"
-msgstr "sets partilhados"
+msgstr "builds compartilhados"
 
 #: .\chardata\templates\chardata\smart_build.html:7
 msgid "Describe your Dofus build in plain words (like an agility Sram level 200 for PvP), and get a full optimized set in seconds with the Fashionista’s smart build."
@@ -5666,7 +5666,7 @@ msgstr "Cores"
 
 #: .\chardata\templates\chardata\solution.html:60
 msgid "Choose which pieces show"
-msgstr "Escolhe as peças que aparecem"
+msgstr "Escolha as peças que aparecem"
 
 #: .\chardata\templates\chardata\solution.html:60
 msgid "Visible pieces"
@@ -5682,7 +5682,7 @@ msgstr "Voltar às cores predefinidas"
 
 #: .\chardata\templates\chardata\solution.html:69
 msgid "Reset"
-msgstr "Repor"
+msgstr "Redefinir"
 
 #: .\chardata\templates\chardata\solution.html:78
 msgid "No art yet: %(pieces)s."
@@ -5877,7 +5877,7 @@ msgstr "Mostrar ingredientes de fabricação"
 #: .\chardata\templates\chardata\solution.html:383
 msgid "Stats with your class self-buffs fully active."
 msgstr ""
-"Estatísticas com os autobuffs de feitiço da tua classe totalmente ativos."
+"Estatísticas com os autobuffs de feitiço da sua classe totalmente ativos."
 
 #: .\chardata\templates\chardata\solution.html:385
 msgid "With buffs"
@@ -6576,7 +6576,7 @@ msgstr "Exos e Montarias"
 
 #: .\chardata\templates\chardata\wizard_options.html:39
 msgid "Dofuses, Prysmaradite and Trophies"
-msgstr "Dofus, Prysmaradite e Troféus"
+msgstr "Dofus, Prismaradita e Troféus"
 
 #: .\chardata\templates\chardata\wizard_options.html:70
 msgid "Check the dofuses we are allowed to use"
@@ -7199,7 +7199,7 @@ msgstr "Quatro novos guias"
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Transcendence runes, reading the best turn panel, building around the gear you already own, and the six Dofus slots."
-msgstr "As runas de transcendência, como ler o quadro do melhor turno, montar o equipamento à volta do que já tem, e os seis espaços de Dofus."
+msgstr "As runas de transcendência, como ler o quadro do melhor turno, montar o equipamento em torno do que você já tem, e os seis espaços de Dofus."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Each one is written per version where the rule differs between them."
@@ -7375,7 +7375,7 @@ msgstr "GC: %(crit_chance)d%% (+%(crit_bonus)d)"
 
 #: .\chardata\solution_result.py:0
 msgid "Exotic bonus"
-msgstr "Bónus exótico"
+msgstr "Bônus exótico"
 
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "Tap or hover a stat in your build to see which pieces make it."
@@ -7391,7 +7391,7 @@ msgstr "Comparar e depois forjar"
 
 #: .\chardata\templates\chardata\changelog_content.html:8
 msgid "Hover any number in a comparison to see which pieces make it."
-msgstr "Passe o rato por um número de uma comparação para ver que peças o formam."
+msgstr "Passe o mouse sobre um número de uma comparação para ver quais peças o formam."
 
 #: .\chardata\templates\chardata\changelog_content.html:8
 msgid "Dofus Retro and Touch: a comparison can add PvP resistances when your gear carries them."
@@ -7421,11 +7421,11 @@ msgstr "Mostrar esta peça na pré-visualização"
 
 #: .\chardata\templates\chardata\base.html
 msgid "Create optimized Dofus %(version)s equipment sets automatically based on your character's needs."
-msgstr "Crie automaticamente equipamentos de Dofus %(version)s otimizados para as necessidades da sua personagem."
+msgstr "Crie automaticamente equipamentos de Dofus %(version)s otimizados para as necessidades do seu personagem."
 
 #: .\chardata\templates\chardata\base.html
 msgid "Create optimized Dofus equipment sets automatically based on your character's needs."
-msgstr "Crie automaticamente equipamentos de Dofus otimizados para as necessidades da sua personagem."
+msgstr "Crie automaticamente equipamentos de Dofus otimizados para as necessidades do seu personagem."
 
 #: .\chardata\templates\chardata\base.html
 msgid "Please configure the <a href=\"%(error_link)s\">%(page)s</a> page before running the application."
@@ -7439,7 +7439,7 @@ msgstr "Configure a página <a href=\"%(error_link)s\">%(page)s</a> antes de lan
 
 #: .\chardata\templates\chardata\contacts.html:107
 msgid "Join our Discord!"
-msgstr "Entra no nosso Discord!"
+msgstr "Entre no nosso Discord!"
 
 #: .\fashionsite\urls.py:129
 msgid "Offline - Dofus Fashionista"
@@ -7637,11 +7637,11 @@ msgstr "Criador de conjuntos de Dofus"
 
 #: .\chardata\templates\chardata\projdetails.html
 msgid "Tell the optimizer your class, your level and what you want from your set. It picks the gear for you, on every version of Dofus. No account needed to try."
-msgstr "Diga ao otimizador a sua classe, o seu nível e o que quer do seu conjunto. Ele escolhe o equipamento por si, em todas as versões de Dofus. Não é preciso conta para experimentar."
+msgstr "Diga ao otimizador sua classe, seu nível e o que quer do seu conjunto. Ele escolhe o equipamento para você, em todas as versões de Dofus. Não precisa de conta para experimentar."
 
 #: .\chardata\templates\chardata\load_projects.html
 msgid "Your Saved Dofus Sets"
-msgstr "Os seus conjuntos de Dofus guardados"
+msgstr "Seus conjuntos de Dofus salvos"
 
 #: .\chardata\templates\chardata\load_projects.html
 msgid "Find the Dofus sets you have already built and pick up where you left off."
@@ -7673,11 +7673,11 @@ msgstr "%(count)s peças: %(stats)s."
 
 #: .\chardata\encyclopedia_view.py
 msgid "%(name)s: a Dofus %(kind)s used in %(count)s crafting recipes."
-msgstr "%(name)s: %(kind)s de Dofus usado em %(count)s receitas de fabrico."
+msgstr "%(name)s: %(kind)s de Dofus usado em %(count)s receitas de fabricação."
 
 #: .\chardata\templates\chardata\shared_builds.html
 msgid "Community Dofus Builds"
-msgstr "Builds de Dofus partilhados pelos jogadores"
+msgstr "Builds de Dofus compartilhados pelos jogadores"
 
 #: .\chardata\templates\chardata\coaching.html
 msgid "Build a Dofus Set in 3 Clicks"
@@ -7702,7 +7702,7 @@ msgstr "Os itens mais usados nos builds"
 
 #: chardata/templates/chardata/encyclopedia_most_used.html
 msgid "%(part)s of the builds that can equip it wear the same one: %(nom)s."
-msgstr "%(part)s das builds que podem equipá-lo usam o mesmo: %(nom)s."
+msgstr "%(part)s dos builds que podem equipá-lo usam o mesmo: %(nom)s."
 
 #: chardata/templates/chardata/encyclopedia_most_used.html
 msgid "Counts last rebuilt on %(jour)s."
@@ -7721,11 +7721,11 @@ msgstr "O equipamento que aparece com mais frequência nos %(n)s builds calculad
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 msgid "Counted over %(n)s builds calculated on this site. For each item, the share is of the builds that could equip it, meaning those at or above its level. Nothing about who built them is stored or shown."
-msgstr "Contado em %(n)s builds calculados neste site. Para cada item, a percentagem refere-se aos builds que o podiam equipar, ou seja os de nível igual ou superior ao seu. Nada sobre quem os criou é guardado nem mostrado."
+msgstr "Contado em %(n)s builds calculados neste site. Para cada item, a porcentagem se refere aos builds que podiam equipá-lo, ou seja, os de nível igual ou superior ao dele. Nada sobre quem os criou é salvo nem mostrado."
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 msgid "The usage counts have not been built yet."
-msgstr "As contagens de utilização ainda não foram construídas."
+msgstr "As contagens de uso ainda não foram calculadas."
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 msgid "Build a set of your own"
@@ -7852,7 +7852,7 @@ msgstr "O DofusBook recusou o pedido."
 
 #: .\chardata\dofusbook_view.py
 msgid "DofusBook could not be reached. Try again later."
-msgstr "Não foi possível contactar o DofusBook. Tente mais tarde."
+msgstr "Não foi possível contatar o DofusBook. Tente de novo mais tarde."
 
 #: .\chardata\dofusbook_view.py
 msgid "DofusBook answered something we could not read."
@@ -7930,10 +7930,10 @@ msgid "DofusBook has no site for this version of the game."
 msgstr "O DofusBook não tem um site para esta versão do jogo."
 
 msgid "This build has no gear to send."
-msgstr "Esta build não tem nenhum equipamento para enviar."
+msgstr "Este build não tem nenhum equipamento para enviar."
 
 msgid "Open this build on DofusBook"
-msgstr "Abrir esta build no DofusBook"
+msgstr "Abrir este build no DofusBook"
 
 msgid "Send your gear to DofusBook with one link, and see beforehand exactly which pieces travel and which ones do not."
 msgstr "Envie o seu equipamento para o DofusBook com um só link e veja de antemão exatamente que peças vão e quais ficam."
@@ -7951,10 +7951,10 @@ msgid "Open on DofusBook"
 msgstr "Abrir no DofusBook"
 
 msgid "Your build stays here, untouched. The link only fills a draft on their site."
-msgstr "A sua build fica aqui, intacta. O link apenas preenche um rascunho no site deles."
+msgstr "O seu build fica aqui, intacto. O link apenas preenche um rascunho no site deles."
 
 msgid "Back to the build"
-msgstr "Voltar à build"
+msgstr "Voltar ao build"
 
 msgid "DofusBook will show a full Vitality scroll: for a character of this level its link format cannot say anything else."
 msgstr "O DofusBook vai mostrar a Vitalidade totalmente scrollada: para uma personagem deste nível, o formato de link deles não consegue dizer outra coisa."
@@ -7972,7 +7972,7 @@ msgid "Game language"
 msgstr "Idioma do jogo"
 
 msgid "Reading"
-msgstr "A ler"
+msgstr "Lendo"
 
 msgid "Screenshots read. Check the text below, then read it."
 msgstr "Capturas lidas. Verifique o texto abaixo e depois leia-o."
@@ -8145,7 +8145,7 @@ msgid "Their forgemagie field cannot hold these, so they stay here:"
 msgstr "O campo de forjamagia deles não consegue levar estes, por isso ficam aqui:"
 
 msgid "The build name and the class do not travel: their link format has no room for them."
-msgstr "O nome da build e a classe não vão: o formato de link deles não tem espaço para isso."
+msgstr "O nome do build e a classe não vão: o formato de link deles não tem espaço para isso."
 
 msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Retro and Touch)."
 msgstr "Envie seu build para outro site de builds direto da página de solução, forjamagia incluída (Dofus 3, Retro e Touch)."
@@ -8202,7 +8202,7 @@ msgid "Not shown in the gallery: some pieces cannot be worn as the build stands.
 msgstr "Não aparece na galeria: algumas peças não podem ser equipadas tal como o build está. Abra-o para ver quais."
 
 msgid "Not shown in the gallery: this build has no saved gear yet."
-msgstr "Não aparece na galeria: este build ainda não tem equipamento guardado."
+msgstr "Não aparece na galeria: este build ainda não tem equipamento salvo."
 
 msgid "Not shown in the gallery: our catalogue no longer has %(pieces)s. Replace what is missing and it comes back."
 msgstr "Não aparece na galeria: o nosso catálogo já não tem %(pieces)s. Troque o que falta e ele volta."
@@ -8293,8 +8293,8 @@ msgstr[1] "respostas do solver"
 
 msgid "shared build"
 msgid_plural "shared builds"
-msgstr[0] "set partilhado"
-msgstr[1] "sets partilhados"
+msgstr[0] "build compartilhado"
+msgstr[1] "builds compartilhados"
 
 msgctxt "counter"
 msgid "follower"
@@ -8412,18 +8412,18 @@ msgstr "Calculado por volta da %(patch)s"
 #: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
 #: chardata/templates/chardata/home.html
 msgid "Estimated from the build's dates: the solve was not recorded."
-msgstr "Estimativa com base nas datas da build: o cálculo não foi registrado."
+msgstr "Estimativa com base nas datas do build: o cálculo não foi registrado."
 
 #: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
 #: chardata/templates/chardata/home.html
 msgid "Game update at the build's last change"
-msgstr "Atualização do jogo na última alteração da build"
+msgstr "Atualização do jogo na última alteração do build"
 
 #: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
 #: chardata/templates/chardata/home.html
 #, python-format
 msgid "Game update at the build's last change; the game is now on %(current)s"
-msgstr "Atualização do jogo na última alteração da build; o jogo está agora na %(current)s"
+msgstr "Atualização do jogo na última alteração do build; o jogo está agora na %(current)s"
 
 #: chardata/spells_view.py
 msgid "Trap damage"
@@ -9053,7 +9053,7 @@ msgstr "A busca recomeça por outro caminho, por até %(seconds)s segundos."
 
 #: chardata/templates/chardata/infeasible.html
 msgid "This set is no longer available: the build changed or too much time passed."
-msgstr "Este set não está mais disponível: a build mudou ou passou tempo demais."
+msgstr "Este set não está mais disponível: o build mudou ou passou tempo demais."
 
 #: chardata/templates/chardata/infeasible.html
 msgid "Closest set found"
@@ -9416,7 +9416,7 @@ msgstr "Nome deste ajuste"
 
 #: chardata/templates/chardata/projdetails.html
 msgid "Save this setup"
-msgstr "Guardar este ajuste"
+msgstr "Salvar este ajuste"
 
 #: chardata/templates/chardata/load_projects.html
 msgid "You have copied too many builds for now. Please try again later or log in."

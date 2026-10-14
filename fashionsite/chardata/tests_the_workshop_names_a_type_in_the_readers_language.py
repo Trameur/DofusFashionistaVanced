@@ -20,10 +20,10 @@ _TYPES_TRADUITS = {
     'Boots': {'fr': 'Bottes', 'de': 'Stiefel'},
     'Ring': {'fr': 'Anneau', 'es': 'Anillo', 'pt': 'Anel'},
     'Hat': {'fr': 'Coiffe', 'de': 'Hut'},
-    'Cloak': {'fr': 'Cape', 'de': 'Mantel'},
+    'Cloak': {'fr': 'Cape', 'de': 'Umhang'},
     'Belt': {'fr': 'Ceinture', 'de': 'Gürtel'},
     'Shield': {'fr': 'Bouclier', 'de': 'Schild'},
-    'Pet': {'fr': 'Familier', 'de': 'Haustier'},
+    'Pet': {'fr': 'Familier', 'de': 'Vertrauter'},
     'Emblem': {'en': 'Seal', 'fr': 'Emblème', 'es': 'Emblema', 'pt': 'Emblema'},
 }
 

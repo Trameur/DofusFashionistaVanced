@@ -20,7 +20,7 @@ msgstr ""
 #: .\admin\js\SelectFilter2.js:45
 #, javascript-format
 msgid "Available %s"
-msgstr "Available %s"
+msgstr "%s disponíveis"
 
 #: .\admin\js\SelectFilter2.js:46
 #, javascript-format
@@ -28,30 +28,31 @@ msgid ""
 "This is the list of available %s. You may choose some by selecting them in "
 "the box below and then clicking the \"Choose\" arrow between the two boxes."
 msgstr ""
-"This is the list of available %s. You may choose some by selecting them in "
-"the box below and then clicking the \"Choose\" arrow between the two boxes."
+"Esta é a lista de %s disponíveis. Você pode escolher alguns selecionando-os "
+"na caixa abaixo e, em seguida, clicando na seta \"Escolher\" entre as duas "
+"caixas."
 
 #: .\admin\js\SelectFilter2.js:53
 #, javascript-format
 msgid "Type into this box to filter down the list of available %s."
-msgstr "Type into this box to filter down the list of available %s."
+msgstr "Digite nesta caixa para filtrar a lista de %s disponíveis."
 
 #: .\admin\js\SelectFilter2.js:57
 msgid "Filter"
-msgstr "Filter"
+msgstr "Filtro"
 
 #: .\admin\js\SelectFilter2.js:61
 msgid "Choose all"
-msgstr "Choose all"
+msgstr "Escolher todos"
 
 #: .\admin\js\SelectFilter2.js:61
 #, javascript-format
 msgid "Click to choose all %s at once."
-msgstr "Click to choose all %s at once."
+msgstr "Clique para escolher todos os %s de uma vez."
 
 #: .\admin\js\SelectFilter2.js:67
 msgid "Choose"
-msgstr "Choose"
+msgstr "Escolher"
 
 #: .\admin\js\SelectFilter2.js:69
 msgid "Remove"
@@ -60,7 +61,7 @@ msgstr "Remover"
 #: .\admin\js\SelectFilter2.js:75
 #, javascript-format
 msgid "Chosen %s"
-msgstr "Chosen %s"
+msgstr "%s escolhidos"
 
 #: .\admin\js\SelectFilter2.js:76
 #, javascript-format
@@ -68,8 +69,9 @@ msgid ""
 "This is the list of chosen %s. You may remove some by selecting them in the "
 "box below and then clicking the \"Remove\" arrow between the two boxes."
 msgstr ""
-"This is the list of chosen %s. You may remove some by selecting them in the "
-"box below and then clicking the \"Remove\" arrow between the two boxes."
+"Esta é a lista de %s escolhidos. Você pode remover alguns selecionando-os na"
+" caixa abaixo e, em seguida, clicando na seta \"Remover\" entre as duas "
+"caixas."
 
 #: .\admin\js\SelectFilter2.js:80
 msgid "Remove all"
@@ -78,7 +80,7 @@ msgstr "Remover todos"
 #: .\admin\js\SelectFilter2.js:80
 #, javascript-format
 msgid "Click to remove all chosen %s at once."
-msgstr "Click to remove all chosen %s at once."
+msgstr "Clique para remover todos os %s escolhidos de uma vez."
 
 #: .\admin\js\actions.js:18 .\admin\js\actions.min.js:1
 msgid "%(sel)s of %(cnt)s selected"
@@ -91,8 +93,8 @@ msgid ""
 "You have unsaved changes on individual editable fields. If you run an "
 "action, your unsaved changes will be lost."
 msgstr ""
-"You have unsaved changes on individual editable fields. If you run an "
-"action, your unsaved changes will be lost."
+"Você tem alterações não salvas em campos editáveis individuais. Se você "
+"executar uma ação, suas alterações não salvas serão perdidas."
 
 #: .\admin\js\actions.js:121 .\admin\js\actions.min.js:5
 msgid ""
@@ -100,9 +102,9 @@ msgid ""
 "individual fields yet. Please click OK to save. You'll need to re-run the "
 "action."
 msgstr ""
-"You have selected an action, but you haven't saved your changes to "
-"individual fields yet. Please click OK to save. You'll need to re-run the "
-"action."
+"Você selecionou uma ação, mas ainda não salvou suas alterações nos campos "
+"individuais. Clique em OK para salvar. Você precisará executar a ação "
+"novamente."
 
 #: .\admin\js\actions.js:123 .\admin\js\actions.min.js:6
 msgid ""
@@ -110,77 +112,76 @@ msgid ""
 "fields. You're probably looking for the Go button rather than the Save "
 "button."
 msgstr ""
-"You have selected an action, and you haven't made any changes on individual "
-"fields. You're probably looking for the Go button rather than the Save "
-"button."
+"Você selecionou uma ação e não fez nenhuma alteração nos campos individuais."
+" Você provavelmente está procurando o botão Executar em vez do botão Salvar."
 
 #: .\admin\js\admin\DateTimeShortcuts.js:52
 #: .\admin\js\admin\DateTimeShortcuts.js:88
 msgid "Now"
-msgstr "Now"
+msgstr "Agora"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:56
 msgid "Clock"
-msgstr "Clock"
+msgstr "Relógio"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:84
 msgid "Choose a time"
-msgstr "Choose a time"
+msgstr "Escolha uma hora"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:89
 msgid "Midnight"
-msgstr "Midnight"
+msgstr "Meia-noite"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:90
 msgid "6 a.m."
-msgstr "6 a.m."
+msgstr "6 da manhã"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:91
 msgid "Noon"
-msgstr "Noon"
+msgstr "Meio-dia"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:95
 #: .\admin\js\admin\DateTimeShortcuts.js:208
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Cancelar"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:148
 #: .\admin\js\admin\DateTimeShortcuts.js:201
 msgid "Today"
-msgstr "Today"
+msgstr "Hoje"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:152
 msgid "Calendar"
-msgstr "Calendar"
+msgstr "Calendário"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:199
 msgid "Yesterday"
-msgstr "Yesterday"
+msgstr "Ontem"
 
 #: .\admin\js\admin\DateTimeShortcuts.js:203
 msgid "Tomorrow"
-msgstr "Tomorrow"
+msgstr "Amanhã"
 
 #: .\admin\js\calendar.js:8
 msgid ""
 "January February March April May June July August September October November"
 " December"
 msgstr ""
-"January February March April May June July August September October November"
-" December"
+"Janeiro Fevereiro Março Abril Maio Junho Julho Agosto Setembro Outubro "
+"Novembro Dezembro"
 
 #: .\admin\js\calendar.js:9
 msgid "S M T W T F S"
-msgstr "S M T W T F S"
+msgstr "D S T Q Q S S"
 
 #: .\admin\js\collapse.js:8 .\admin\js\collapse.js:19
 #: .\admin\js\collapse.min.js:1
 msgid "Show"
-msgstr "Show"
+msgstr "Mostrar"
 
 #: .\admin\js\collapse.js:16 .\admin\js\collapse.min.js:1
 msgid "Hide"
-msgstr "Hide"
+msgstr "Esconder"
 
 #: .\chardata\static\chardata\compare_sets_popup.js:19
 msgid "Close"
@@ -476,7 +477,7 @@ msgstr "Resistência Ar"
 #: staticfiles/admin/js/SelectFilter2.js:105
 #, javascript-format
 msgid "Type into this box to filter down the list of selected %s."
-msgstr "Type into this box to filter down the list of selected %s."
+msgstr "Digite nesta caixa para filtrar a lista de %s selecionados."
 
 #: staticfiles/admin/js/SelectFilter2.js:211
 #, javascript-format
@@ -491,9 +492,9 @@ msgid ""
 "individual fields yet. Please click OK to save. You’ll need to re-run the "
 "action."
 msgstr ""
-"You have selected an action, but you haven’t saved your changes to "
-"individual fields yet. Please click OK to save. You’ll need to re-run the "
-"action."
+"Você selecionou uma ação, mas ainda não salvou suas alterações nos campos "
+"individuais. Clique em OK para salvar. Você precisará executar a ação "
+"novamente."
 
 #: staticfiles/admin/js/actions.js:175
 msgid ""
@@ -501,13 +502,12 @@ msgid ""
 "fields. You’re probably looking for the Go button rather than the Save "
 "button."
 msgstr ""
-"You have selected an action, and you haven’t made any changes on individual "
-"fields. You’re probably looking for the Go button rather than the Save "
-"button."
+"Você selecionou uma ação e não fez nenhuma alteração nos campos individuais."
+" Você provavelmente está procurando o botão Executar em vez do botão Salvar."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:17
 msgid "6 p.m."
-msgstr "6 p.m."
+msgstr "6 da tarde"
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:78
 #, javascript-format
@@ -529,11 +529,11 @@ msgstr[1] ""
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:128
 msgid "Choose a Time"
-msgstr "Choose a Time"
+msgstr "Escolha um horário"
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:255
 msgid "Choose a Date"
-msgstr "Choose a Date"
+msgstr "Escolha uma data"
 
 #: staticfiles/admin/js/calendar.js:11
 msgid "January"
@@ -592,7 +592,7 @@ msgstr "Jan"
 #: staticfiles/admin/js/calendar.js:26
 msgctxt "abbrev. month February"
 msgid "Feb"
-msgstr "Feb"
+msgstr "Fev"
 
 #: staticfiles/admin/js/calendar.js:27
 msgctxt "abbrev. month March"
@@ -602,7 +602,7 @@ msgstr "Mar"
 #: staticfiles/admin/js/calendar.js:28
 msgctxt "abbrev. month April"
 msgid "Apr"
-msgstr "Apr"
+msgstr "Abr"
 
 #: staticfiles/admin/js/calendar.js:29
 msgctxt "abbrev. month May"
@@ -622,17 +622,17 @@ msgstr "Jul"
 #: staticfiles/admin/js/calendar.js:32
 msgctxt "abbrev. month August"
 msgid "Aug"
-msgstr "Aug"
+msgstr "Ago"
 
 #: staticfiles/admin/js/calendar.js:33
 msgctxt "abbrev. month September"
 msgid "Sep"
-msgstr "Sep"
+msgstr "Set"
 
 #: staticfiles/admin/js/calendar.js:34
 msgctxt "abbrev. month October"
 msgid "Oct"
-msgstr "Oct"
+msgstr "Out"
 
 #: staticfiles/admin/js/calendar.js:35
 msgctxt "abbrev. month November"
@@ -642,17 +642,17 @@ msgstr "Nov"
 #: staticfiles/admin/js/calendar.js:36
 msgctxt "abbrev. month December"
 msgid "Dec"
-msgstr "Dec"
+msgstr "Dez"
 
 #: staticfiles/admin/js/calendar.js:39
 msgctxt "one letter Sunday"
 msgid "S"
-msgstr "S"
+msgstr "D"
 
 #: staticfiles/admin/js/calendar.js:40
 msgctxt "one letter Monday"
 msgid "M"
-msgstr "M"
+msgstr "S"
 
 #: staticfiles/admin/js/calendar.js:41
 msgctxt "one letter Tuesday"
@@ -662,17 +662,17 @@ msgstr "T"
 #: staticfiles/admin/js/calendar.js:42
 msgctxt "one letter Wednesday"
 msgid "W"
-msgstr "W"
+msgstr "Q"
 
 #: staticfiles/admin/js/calendar.js:43
 msgctxt "one letter Thursday"
 msgid "T"
-msgstr "T"
+msgstr "Q"
 
 #: staticfiles/admin/js/calendar.js:44
 msgctxt "one letter Friday"
 msgid "F"
-msgstr "F"
+msgstr "S"
 
 #: staticfiles/admin/js/calendar.js:45
 msgctxt "one letter Saturday"
@@ -796,11 +796,11 @@ msgstr "As predefinições nunca escolhem um elemento: escolha o seu na coluna E
 
 #: chardata/static/chardata/setup.js
 msgid "Setup saved."
-msgstr "Ajuste guardado."
+msgstr "Ajuste salvo."
 
 #: chardata/static/chardata/setup.js
 msgid "Setup deleted."
-msgstr "Ajuste eliminado."
+msgstr "Ajuste excluído."
 
 #: chardata/static/chardata/setup.js
 msgid "Setup loaded."
@@ -813,7 +813,7 @@ msgstr "Dê primeiro um nome ao ajuste."
 #: chardata/static/chardata/setup.js
 #, javascript-format
 msgid "You can keep up to %s setups. Delete one to save another."
-msgstr "Pode guardar até %s ajustes. Elimine um para guardar outro."
+msgstr "Você pode salvar até %s ajustes. Exclua um para salvar outro."
 
 #: chardata/static/chardata/setup.js
 msgid "This setup could not be loaded."
@@ -821,7 +821,7 @@ msgstr "Não foi possível carregar este ajuste."
 
 #: chardata/static/chardata/setup.js
 msgid "No saved setup yet."
-msgstr "Ainda não há ajustes guardados."
+msgstr "Ainda não há ajustes salvos."
 
 #: chardata/static/chardata/setup.js
 msgid "Load"
@@ -829,17 +829,17 @@ msgstr "Carregar"
 
 #: chardata/static/chardata/setup.js
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Excluir"
 
 #: chardata/static/chardata/setup.js
 msgid "Your browser did not let this page save the setup."
-msgstr "O seu navegador não permitiu que esta página guardasse o ajuste."
+msgstr "O seu navegador não permitiu que esta página salvasse o ajuste."
 
 #: chardata/static/chardata/setup.js
 msgid "This setup has too many edited values to save or share. Reset some of them first."
-msgstr "Este ajuste tem demasiados valores alterados para ser guardado ou partilhado. Reponha primeiro alguns deles."
+msgstr "Este ajuste tem valores alterados demais para ser salvo ou compartilhado. Redefina alguns deles primeiro."
 
 #: chardata/static/chardata/setup.js
 msgid "Your browser did not let this page delete the setup."
-msgstr "O seu navegador não permitiu que esta página eliminasse o ajuste."
+msgstr "O seu navegador não permitiu que esta página excluísse o ajuste."
 

@@ -330,13 +330,13 @@ class TranslationRegressionTests(SimpleTestCase):
                   'solveur compare les objets réels de Dofus selon vos '
                   'critères.',
             'es': 'Optimización matemática, no un modelo de lenguaje. El '
-                  'solver compara los objetos reales de Dofus según sus '
+                  'solver compara los objetos reales de Dofus según tus '
                   'criterios.',
             'pt': 'Otimização matemática, não um modelo de linguagem. O '
                   'solver compara os itens reais de Dofus segundo os seus '
                   'critérios.',
             'de': 'Mathematische Optimierung, kein Sprachmodell. Der Solver '
-                  'vergleicht echte Dofus-Gegenstände nach Ihren Kriterien.',
+                  'vergleicht echte Dofus-Gegenstände nach deinen Kriterien.',
         },
     }
 
@@ -381,7 +381,7 @@ class TranslationRegressionTests(SimpleTestCase):
     def test_the_discord_call_to_action_is_translated(self):
         expected = {'fr': 'Rejoins notre Discord !',
                     'es': '¡Únete a nuestro Discord!',
-                    'pt': 'Entra no nosso Discord!',
+                    'pt': 'Entre no nosso Discord!',
                     'de': 'Tritt unserem Discord bei!'}
         for language, text in expected.items():
             with translation.override(language):
@@ -453,7 +453,7 @@ class TranslationRegressionTests(SimpleTestCase):
             'Linked to the character': {'fr': 'Lié au personnage',
                                         'es': 'Vinculado al personaje',
                                         'pt': 'Vinculado ao personagem',
-                                        'de': 'Mit dem Charakter verknüpft'},
+                                        'de': 'An den Charakter gebunden'},
         }
         for msgid, per_lang in expected.items():
             for lang, exp in per_lang.items():
@@ -2026,7 +2026,7 @@ class TheTurnPanelShowsTheWaitingRowTests(TestCase):
         expected = {'fr': 'seulement si la cible subit des dommages de poussée',
                     'es': 'solo si el objetivo sufre daños de empuje',
                     'pt': 'apenas se o alvo sofrer danos de empurrão',
-                    'de': 'nur wenn das Ziel Schubschaden erleidet'}
+                    'de': 'nur wenn das Ziel Schubsschaden erleidet'}
         for language, text in expected.items():
             with translation.override(language):
                 with self.subTest(language=language):
@@ -24704,7 +24704,7 @@ class EncyclopediaPagesInviteTheReaderToTheToolTests(TestCase):
                 ('/encyclopedia/item/equipment/26066-dofus-du-cauchemar/',
                  'Vous cherchez un'),
                 ('/encyclopedia/item/equipment/26066-dofus-des-alptraums/',
-                 'Suchen Sie ein Set')):
+                 'Suchst du ein Set')):
             self.assertIn(attendu, self._page(chemin), chemin)
 
     def test_the_invitation_is_a_link_and_not_a_form(self):

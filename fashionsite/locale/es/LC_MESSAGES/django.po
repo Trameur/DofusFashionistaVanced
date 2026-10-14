@@ -856,7 +856,7 @@ msgstr "Se queda fuera, este build no puede equipar esta pieza: %(reasons)s"
 
 #: .\chardata\dynamic_translations.py:92
 msgid "Emote"
-msgstr "Emote"
+msgstr "Actitud"
 
 #: .\chardata\dynamic_translations.py:93
 msgid "Exchangeable"
@@ -1568,7 +1568,7 @@ msgstr "Daños de empuje"
 
 #: .\chardata\smart_build.py:97
 msgid "Balanced"
-msgstr "Balanceado"
+msgstr "Equilibrado"
 
 #: .\chardata\smart_build.py:98
 msgid "Glass-Cannon"
@@ -1664,7 +1664,7 @@ msgstr "Número de sets equipados < %(limit)s"
 
 #: .\chardata\solution_result.py:376
 msgid "Prysmaradite < 1"
-msgstr "Prysmaradite < 1"
+msgstr "Prismaradita < 1"
 
 #: .\chardata\solution_result.py:386
 #, python-format
@@ -1849,7 +1849,7 @@ msgid ""
 "for example, the HP too low despite the good Agility. Tweaking can be done "
 "by going back to the wizard and playing with the sliders, or going hardcore "
 "and fiddling directly with the value the attributed to each stat."
-msgstr "El set sugerido puede no ser lo que estás buscando. Puedes encontrarte, por ejemplo, con unos Puntos de Vida muy mediocres a pesar de tener una buena Agilidad. Puedes modificarlo (enchular/personalizar) según tus preferencias volviendo al Wizard y probando a mover las diferentes barras, o incluso hacerlo más exacto determinando el valor preciso que desees ver reflejado en cualquier atributo o característica."
+msgstr "El set sugerido puede no ser lo que estás buscando. Puedes encontrarte, por ejemplo, con unos Puntos de Vida muy mediocres a pesar de tener una buena Agilidad. Puedes modificarlo (enchular/personalizar) según tus preferencias volviendo al Asistente y probando a mover las diferentes barras, o incluso hacerlo más exacto determinando el valor preciso que desees ver reflejado en cualquier atributo o característica."
 
 #: .\chardata\templates\chardata\about.html:25
 msgid ""
@@ -2096,7 +2096,7 @@ msgstr "Cargar un build"
 #: .\chardata\templates\chardata\shared_builds.html:7
 #: .\chardata\templates\chardata\shared_builds.html:19
 msgid "Shared Builds"
-msgstr "Sets Compartidos"
+msgstr "Builds Compartidos"
 
 #: .\chardata\templates\chardata\base.html:207
 msgid "Random Build"
@@ -2515,7 +2515,7 @@ msgid ""
 "weights, game modes, reading items, comparing builds and more"
 msgstr ""
 "Una nueva sección de Guías con artículos escritos a mano: primer build, "
-"estadísticas y pesos, modos de juego, leer ítems, comparar builds y más"
+"estadísticas y pesos, modos de juego, leer objetos, comparar builds y más"
 
 #: .\chardata\templates\chardata\changelog_content.html:151
 msgid "Available in all five languages, linked from the menu and the home page"
@@ -3605,8 +3605,9 @@ msgid ""
 "Which Dofus items are crafted with %(resource_name)s. Find every item that "
 "uses this ingredient and optimize your build with the Dofus Fashionista."
 msgstr ""
-"Qué items de Dofus se fabrican con %(resource_name)s. Encuentra todos los "
-"items que usan este ingrediente y optimiza tu build con el Dofus Fashionista."
+"Qué objetos de Dofus se fabrican con %(resource_name)s. Encuentra todos los "
+"objetos que usan este ingrediente y optimiza tu build con el Dofus "
+"Fashionista."
 
 #: .\chardata\templates\chardata\encyclopedia_set.html:8
 #: .\chardata\templates\chardata\encyclopedia_set.html:16
@@ -3842,7 +3843,7 @@ msgid ""
 "which tend to hit the element you chose. It is common to get AP weapons that "
 "aren’t really for hitting with. Forbid them and run again to see the next "
 "better option. "
-msgstr "Si no aseguras algún arma, el sitio no toma en consideración los daños del arma sino que la trata como cualquier otro objeto, por eso no siempre conseguirás una opción que cause buenos daños. Generalmente te sugeriremos un arma con buenos bonus para tus requerimientos, lo cual tiende a relacionarse con un daño al elemento que has escogido. Es común que obtengas armas de PA que no pegan muy bien. Te aconsejamos Prohibirlas y tejer nuevamente un set y esperar una mejor opción. "
+msgstr "Si no aseguras algún arma, el sitio no toma en consideración los daños del arma sino que la trata como cualquier otro objeto, por eso no siempre conseguirás una opción que cause buenos daños. Generalmente te sugeriremos un arma con buenos bonus para tus requerimientos, lo cual tiende a relacionarse con un daño al elemento que has escogido. Es común que obtengas armas de PA que no pegan muy bien. Te aconsejamos prohibirlas, confeccionar un nuevo set y esperar una mejor opción. "
 
 #: .\chardata\templates\chardata\faq.html:82
 msgid "Why can I focus on vitality and resists? Doesn't every char need them?"
@@ -3978,7 +3979,7 @@ msgstr "El theorycraft de Dofus al alcance de todos"
 
 #: .\chardata\templates\chardata\home.html:45
 msgid "Dofus Fashionista is a free theorycrafting tool. Tell it your class, level and what you want, and it works out the best set it can find, usually in a few seconds. No spreadsheets, no three-hour item hunts. It's beginner-friendly, but also a serious optimizer: fine-tune every stat, compare builds, and min-max across all five versions of the game: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch. Save your characters, share your builds, and become a better theorycrafter, fast."
-msgstr "Dofus Fashionista es una herramienta de theorycraft gratuita. Indique su clase, su nivel y lo que busca, y determina el mejor equipo que es capaz de encontrar, normalmente en unos segundos. Sin hojas de cálculo, sin horas perdidas buscando objetos. Fácil para empezar, pero también un optimizador de verdad: ajuste cada característica, compare builds y exprímalo en las cinco versiones del juego: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro y Dofus Touch. Guarde sus personajes, comparta sus builds y hágase un crack del theorycraft."
+msgstr "Dofus Fashionista es una herramienta de theorycraft gratuita. Indica tu clase, tu nivel y lo que buscas, y determina el mejor equipo que es capaz de encontrar, normalmente en unos segundos. Sin hojas de cálculo, sin horas perdidas buscando objetos. Fácil para empezar, pero también un optimizador de verdad: ajusta cada característica, compara builds y exprímelo en las cinco versiones del juego: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro y Dofus Touch. Guarda tus personajes, comparte tus builds y hazte un crack del theorycraft."
 
 #: .\chardata\templates\chardata\home.html:77
 msgid "New to Dofus Fashionista?"
@@ -4045,9 +4046,9 @@ msgid ""
 "Retro and Dofus Touch), each with its own item data, and it's kept up to "
 "date with the latest patch."
 msgstr ""
-"Cubre cinco versiones del juego (Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro "
-"y Dofus Touch), cada una con sus propios datos de ítems, y se mantiene al "
-"día con el último parche."
+"Cubre cinco versiones del juego (Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro"
+" y Dofus Touch), cada una con sus propios datos de objetos, y se mantiene al"
+" día con el último parche."
 
 #: .\chardata\templates\chardata\home.html:167
 msgid "Brand new to it?"
@@ -4101,7 +4102,7 @@ msgstr "No pudimos encontrar un set que cumpla todos tus requerimientos"
 
 #: .\chardata\templates\chardata\infeasible.html:23
 msgid "Try one or more of the following tips and try again:"
-msgstr "Intenta uno o más de los siguientes consejos y teje nuevamente ;) :"
+msgstr "Intenta uno o más de los siguientes consejos y vuelve a intentarlo:"
 
 #: .\chardata\templates\chardata\infeasible.html:25
 #, python-format
@@ -4140,7 +4141,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\inventory_source.html:3
 msgid "Which items can the solver use?"
-msgstr "¿Qué objetos puede usar el solucionador?"
+msgstr "¿Qué objetos puede usar el solver?"
 
 #: .\chardata\templates\chardata\inventory_source.html:4
 msgid "Only encyclopedia items"
@@ -4191,7 +4192,7 @@ msgstr "Alemán"
 #: .\chardata\templates\chardata\license.html:6
 #: .\chardata\templates\chardata\license.html:14
 msgid "License & Copyright Information"
-msgstr "Información sobre las licencias y Copyright."
+msgstr "Información sobre las licencias y Copyright"
 
 #: .\chardata\templates\chardata\license.html:22
 msgid "Item and character images are property of"
@@ -4256,7 +4257,7 @@ msgstr ""
 "Dofus Fashionista utiliza servicios de Google (Analytics, AdSense, OAuth) "
 "para mejorar la experiencia del usuario, mostrar anuncios relevantes y "
 "proporcionar autenticación. Estos servicios pueden recopilar datos de uso "
-"anónimos. Puede gestionar sus preferencias de consentimiento a través del "
+"anónimos. Puedes gestionar tus preferencias de consentimiento a través del "
 "banner de configuración de privacidad."
 
 #: .\chardata\templates\chardata\load_projects.html:16
@@ -4526,7 +4527,7 @@ msgstr "Gracias"
 
 #: .\chardata\templates\chardata\nomessage.html:14
 msgid "Your message could not be sent."
-msgstr "Su mensaje no pudo ser enviado."
+msgstr "Tu mensaje no pudo ser enviado."
 
 #: .\chardata\templates\chardata\nomessage.html:15
 
@@ -4591,7 +4592,7 @@ msgstr "Quitar solo los trofeos que limitan los sets"
 
 #: .\chardata\templates\chardata\options.html:81
 msgid "Allow only Cawwot Dofus"
-msgstr "Permitir sólo Zanahowia"
+msgstr "Permitir solo Zanahowia"
 
 #: .\chardata\templates\chardata\options.html:97
 #: .\chardata\templates\chardata\wizard_options.html:28
@@ -4615,12 +4616,12 @@ msgstr "Vuelocerontes"
 
 #: .\chardata\templates\chardata\options.html:125
 msgid "Allow dofuses, prysmaradite and trophies:"
-msgstr "Permitir dofus, prysmaradite y trofeos:"
+msgstr "Permitir dofus, prismaradita y trofeos:"
 
 #: .\chardata\templates\chardata\options.html:141
 #: .\chardata\templates\chardata\wizard_options.html:55
 msgid "Prysmaradite"
-msgstr "Prysmaradite"
+msgstr "Prismaradita"
 
 #: .\chardata\templates\chardata\options.html:150
 #: .\chardata\templates\chardata\wizard_options.html:64
@@ -4748,7 +4749,7 @@ msgstr "Última actualización: septiembre de 2026"
 
 #: .\chardata\templates\chardata\privacy.html:23
 msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
-msgstr "El Dofus Fashionista (\"nosotros\", \"el sitio\") es un sitio de fans gratuito y de código abierto que optimiza automáticamente equipos para el juego Dofus. Esta página explica qué datos recogemos, por qué, y las opciones que tiene. No estamos afiliados a Ankama Games."
+msgstr "El Dofus Fashionista (\"nosotros\", \"el sitio\") es un sitio de fans gratuito y de código abierto que optimiza automáticamente equipos para el juego Dofus. Esta página explica qué datos recogemos, por qué, y las opciones que tienes. No estamos afiliados a Ankama Games."
 
 #: .\chardata\templates\chardata\privacy.html:25
 msgid "Information we collect"
@@ -5502,8 +5503,8 @@ msgstr "Limpiar Filtros"
 #, python-format
 msgid "Found %(counter)s shared build"
 msgid_plural "Found %(counter)s shared builds"
-msgstr[0] "%(counter)s set compartido encontrado"
-msgstr[1] "%(counter)s sets compartidos encontrados"
+msgstr[0] "%(counter)s build compartido encontrado"
+msgstr[1] "%(counter)s builds compartidos encontrados"
 
 #: .\chardata\templates\chardata\shared_builds.html:157
 #: .\chardata\templates\chardata\shared_builds.html:317
@@ -5608,7 +5609,7 @@ msgstr "resoluciones"
 #: .\chardata\templates\chardata\sidebar-stats.html:9
 #: .\chardata\templates\chardata\user_profile.html:116
 msgid "shared builds"
-msgstr "sets compartidos"
+msgstr "builds compartidos"
 
 #: .\chardata\templates\chardata\smart_build.html:7
 msgid "Describe your Dofus build in plain words (like an agility Sram level 200 for PvP), and get a full optimized set in seconds with the Fashionista’s smart build."
@@ -5754,7 +5755,7 @@ msgstr "Algunos objetos podrían tener mejores opciones para tu build:"
 
 #: .\chardata\templates\chardata\solution.html:149
 msgid "This is a saved solution. Restore it to edit it, or compare it with your current build."
-msgstr "Esta es una solución guardada. Restáurela para editarla, o compárela con su build actual."
+msgstr "Esta es una solución guardada. Restáurala para editarla, o compárala con tu build actual."
 
 #: .\chardata\templates\chardata\solution.html:154
 #, python-format
@@ -5792,7 +5793,7 @@ msgstr ""
 #: .\chardata\templates\chardata\solution.html:165
 #, python-format
 msgid "\n    This set starts empty. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose the items yourself."
-msgstr "\n    Este equipo empieza vacío. Haga clic en los botones de añadir (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Añadir'>) para elegir los objetos usted mismo."
+msgstr "\n    Este equipo empieza vacío. Haz clic en los botones de añadir (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Añadir'>) para elegir los objetos tú mismo."
 
 #: .\chardata\templates\chardata\solution.html:183
 msgid "Compare with my other sets"
@@ -6400,7 +6401,7 @@ msgstr "Guardar"
 
 #: .\chardata\templates\chardata\state_engine_all_buttons.html:6
 msgid "Save and Tailor a New Set"
-msgstr "Guardar y Tejer un nuevo set"
+msgstr "Guardar y Confeccionar un nuevo set"
 
 #: .\chardata\templates\chardata\stats.html:17
 msgid "The value of each attribute point for this character."
@@ -6597,7 +6598,7 @@ msgstr "Exos y Monturas"
 
 #: .\chardata\templates\chardata\wizard_options.html:39
 msgid "Dofuses, Prysmaradite and Trophies"
-msgstr "Dofus, Prysmaradite y Trofeos"
+msgstr "Dofus, Prismaradita y Trofeos"
 
 #: .\chardata\templates\chardata\wizard_options.html:70
 msgid "Check the dofuses we are allowed to use"
@@ -6967,7 +6968,7 @@ msgid ""
 "Your Dofus crafting workshop: collect the items you need from your builds "
 "and get the full list of ingredients to gather, totalled across recipes."
 msgstr ""
-"Tu taller de crafteo de Dofus: reúne los ítems de tus builds y obtén la "
+"Tu taller de crafteo de Dofus: reúne los objetos de tus builds y obtén la "
 "lista completa de ingredientes a conseguir, sumada entre recetas."
 
 #: .\chardata\templates\chardata\workshop.html:21
@@ -7778,13 +7779,13 @@ msgid "The Dofus Fashionista goes back to February 2012, when Kameghan released 
 msgstr "Dofus Fashionista se remonta a febrero de 2012, cuando Kameghan lo publicó como herramienta de escritorio, y es una página web desde 2014. Este sitio es el fork que lo mantiene en marcha, al día con el juego actual y con sus otras cuatro versiones."
 
 msgid "Your set is not written by an AI. It is computed by a mathematical solver: your class, your level, your minimum stats and your priorities become equations and constraints, and the solver searches every item you have not excluded for the best combination it can find. It computes an answer, it does not generate one, and there is no language model anywhere in that path. The code is open source, so you can check for yourself."
-msgstr "Su set no lo escribe una IA. Lo calcula un solver matemático de verdad: su clase, su nivel, sus características mínimas y sus prioridades se convierten en ecuaciones y restricciones, y el solver recorre todos los objetos que usted no haya excluido buscando la mejor combinación que sea capaz de encontrar. Calcula una respuesta, no la genera, y en ningún punto de ese proceso interviene un modelo de lenguaje. El código es abierto, así que puede comprobarlo usted mismo."
+msgstr "Tu set no lo escribe una IA. Lo calcula un solver matemático de verdad: tu clase, tu nivel, tus características mínimas y tus prioridades se convierten en ecuaciones y restricciones, y el solver recorre todos los objetos que no hayas excluido buscando la mejor combinación que sea capaz de encontrar. Calcula una respuesta, no la genera, y en ningún punto de ese proceso interviene un modelo de lenguaje. El código es abierto, así que puedes comprobarlo tú mismo."
 
 msgid "Is this site made with AI?"
 msgstr "¿Este sitio está hecho con IA?"
 
 msgid "No. Your set is computed by a mathematical solver, not written by a language model: your priorities become equations and the solver searches every item you have not excluded for the best combination it can find. The code is open source, so you can check for yourself, and the only bot commits in its history are dependency updates. One optional feature does use character recognition: if you import your inventory from a screenshot, a text reader runs in your browser to pick out item names and stats, and you can edit every value before it is used. It never chooses an item."
-msgstr "No. Su set lo calcula un solver matemático, no lo escribe un modelo de lenguaje: sus prioridades se convierten en ecuaciones y el solver recorre todos los objetos que usted no haya excluido buscando la mejor combinación que sea capaz de encontrar. El código es abierto, así que puede comprobarlo usted mismo, y los únicos commits de bot que hay en su historial son actualizaciones de dependencias. Una función opcional sí usa reconocimiento de caracteres: si importa su inventario desde una captura de pantalla, un lector de texto se ejecuta en su navegador para sacar los nombres y las características de los objetos, y puede corregir cada valor antes de que se utilice. Nunca elige un objeto."
+msgstr "No. Tu set lo calcula un solver matemático, no lo escribe un modelo de lenguaje: tus prioridades se convierten en ecuaciones y el solver recorre todos los objetos que no hayas excluido buscando la mejor combinación que sea capaz de encontrar. El código es abierto, así que puedes comprobarlo tú mismo, y los únicos commits de bot que hay en su historial son actualizaciones de dependencias. Una función opcional sí usa reconocimiento de caracteres: si importas tu inventario desde una captura de pantalla, un lector de texto se ejecuta en tu navegador para sacar los nombres y las características de los objetos, y puedes corregir cada valor antes de que se utilice. Nunca elige un objeto."
 
 #: .\chardata\templates\chardata\base.html:398
 msgid "Dofus Fashionista, set optimization since 2012"
@@ -7796,7 +7797,7 @@ msgstr "Más de diez años de theorycraft de Dofus"
 
 #: .\chardata\templates\chardata\coaching.html:101
 msgid "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria."
-msgstr "Optimización matemática, no un modelo de lenguaje. El solver compara los objetos reales de Dofus según sus criterios."
+msgstr "Optimización matemática, no un modelo de lenguaje. El solver compara los objetos reales de Dofus según tus criterios."
 
 #: .\chardata\templates\chardata\coaching.html:107
 msgid "No magic. Just a lot of math."
@@ -7808,7 +7809,7 @@ msgstr "¿Por qué este resultado?"
 
 #: .\chardata\templates\chardata\solution.html:358
 msgid "Proven optimum. The solver checked that no other legal combination scores higher on your criteria."
-msgstr "Óptimo demostrado. El solver comprobó que ninguna otra combinación válida puntúa más según sus criterios."
+msgstr "Óptimo demostrado. El solver comprobó que ninguna otra combinación válida puntúa más según tus criterios."
 
 #: .\chardata\templates\chardata\solution.html:358
 #, python-format
@@ -7823,12 +7824,12 @@ msgstr "Calculado en %(seconds)s s."
 #: .\chardata\templates\chardata\solution.html:395
 #, python-format
 msgid "Nearly optimal set: a better one may exist, at most %(gap)s%% better on your criteria."
-msgstr "Conjunto casi óptimo: puede que exista uno mejor, pero como mucho un %(gap)s%% mejor según sus criterios."
+msgstr "Conjunto casi óptimo: puede que exista uno mejor, pero como mucho un %(gap)s%% mejor según tus criterios."
 
 #: .\chardata\templates\chardata\solution.html:397
 #, python-format
 msgid "A better set may exist, at most %(gap)s%% better on your criteria."
-msgstr "Puede que exista un conjunto mejor, pero como mucho un %(gap)s%% mejor según sus criterios."
+msgstr "Puede que exista un conjunto mejor, pero como mucho un %(gap)s%% mejor según tus criterios."
 
 #: .\chardata\templates\chardata\solution.html:403
 msgid "Continue the search"
@@ -7846,7 +7847,7 @@ msgstr "Cómo funciona el optimizador"
 #: .\chardata\templates\chardata\solution.html:366
 #, python-format
 msgid "%(items)s items were on offer after your exclusions."
-msgstr "%(items)s objetos estaban disponibles tras sus exclusiones."
+msgstr "%(items)s objetos estaban disponibles tras tus exclusiones."
 
 #: .\chardata\templates\chardata\solution.html:366
 #, python-format
@@ -7859,7 +7860,7 @@ msgstr "Traer este build"
 
 #: .\chardata\dofusbook_view.py
 msgid "Your gear comes in exactly as it is. Nothing is re-optimized unless you ask for it afterwards."
-msgstr "Su equipo llega exactamente tal cual. Nada se reoptimiza mientras no lo pida después."
+msgstr "Tu equipo llega exactamente tal cual. Nada se reoptimiza mientras no lo pidas después."
 
 #: .\chardata\dofusbook_view.py
 msgid "These items are not in our catalogue and will be left out:"
@@ -7871,7 +7872,7 @@ msgstr "Build importado"
 
 #: .\chardata\dofusbook_view.py
 msgid "Short d-bk.net links do not say which game the build belongs to. Open the link and paste the full address."
-msgstr "Los enlaces cortos d-bk.net no dicen a qué juego pertenece el build. Abra el enlace y pegue la dirección completa."
+msgstr "Los enlaces cortos d-bk.net no dicen a qué juego pertenece el build. Abre el enlace y pega la dirección completa."
 
 #: .\chardata\dofusbook_view.py
 msgid "DofusBook refused the request."
@@ -7879,7 +7880,7 @@ msgstr "DofusBook rechazó la petición."
 
 #: .\chardata\dofusbook_view.py
 msgid "DofusBook could not be reached. Try again later."
-msgstr "No se pudo contactar con DofusBook. Inténtelo más tarde."
+msgstr "No se pudo contactar con DofusBook. Inténtalo más tarde."
 
 #: .\chardata\dofusbook_view.py
 msgid "DofusBook answered something we could not read."
@@ -7891,15 +7892,15 @@ msgstr "Ese build volvió sin ningún objeto."
 
 #: .\chardata\dofusbook_view.py
 msgid "Those items do not exist in that version of the game. Check the link."
-msgstr "Esos objetos no existen en esa versión del juego. Compruebe el enlace."
+msgstr "Esos objetos no existen en esa versión del juego. Comprueba el enlace."
 
 #: .\chardata\templates\chardata\privacy.html:57
 msgid "<b>Google reCAPTCHA.</b> The contact form and the sign-in page use reCAPTCHA to tell people apart from bots. Your browser loads it directly from Google, so Google receives your IP address and information about your browser, and may set its own cookies. We send your answer to Google to check it."
-msgstr "<b>Google reCAPTCHA.</b> El formulario de contacto y la página de inicio de sesión usan reCAPTCHA para distinguir a las personas de los bots. Su navegador lo carga directamente desde Google, que por tanto recibe su dirección IP e información sobre su navegador, y puede instalar sus propias cookies. Enviamos su respuesta a Google para comprobarla."
+msgstr "<b>Google reCAPTCHA.</b> El formulario de contacto y la página de inicio de sesión usan reCAPTCHA para distinguir a las personas de los bots. Tu navegador lo carga directamente desde Google, que por tanto recibe tu dirección IP e información sobre tu navegador, y puede instalar sus propias cookies. Enviamos tu respuesta a Google para comprobarla."
 
 #: .\chardata\templates\chardata\privacy.html:57
 msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the inventory page, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match."
-msgstr "<b>Bibliotecas de código.</b> Parte del código que hace funcionar las páginas, como jQuery en todas las páginas y una biblioteca de lectura de texto en la página de inventario, se carga desde Google Hosted Libraries y jsDelivr en lugar de desde nuestro servidor, por lo que esos proveedores reciben su dirección IP. Cada uno de esos archivos lleva asociada una huella, y su navegador se niega a ejecutar una copia que no coincida."
+msgstr "<b>Bibliotecas de código.</b> Parte del código que hace funcionar las páginas, como jQuery en todas las páginas y una biblioteca de lectura de texto en la página de inventario, se carga desde Google Hosted Libraries y jsDelivr en lugar de desde nuestro servidor, por lo que esos proveedores reciben tu dirección IP. Cada uno de esos archivos lleva asociada una huella, y tu navegador se niega a ejecutar una copia que no coincida."
 
 #: .\chardata\templates\chardata\text_build.html:6
 msgid "closest match"
@@ -7915,11 +7916,11 @@ msgstr "Solo se han leído las primeras %(n)s líneas."
 
 #: .\chardata\templates\chardata\text_build.html:6
 msgid "No item in that text matched our catalogue for this version. Check the game version at the top, and that the item names are on their own lines."
-msgstr "Ningún objeto de ese texto coincide con nuestro catálogo para esta versión. Compruebe la versión del juego en la parte superior, y que los nombres de objetos estén cada uno en su línea."
+msgstr "Ningún objeto de ese texto coincide con nuestro catálogo para esta versión. Comprueba la versión del juego en la parte superior, y que los nombres de objetos estén cada uno en su línea."
 
 #: .\chardata\templates\chardata\solution.html:178
 msgid "\n    This is the gear you brought in, exactly as it was. Nothing here was chosen by the solver. Change any piece yourself with the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons, or run the optimizer when you want a suggestion."
-msgstr "\n    Este es el equipo que ha traído, exactamente como estaba. Nada de esto lo ha elegido el solver. Cambie cada pieza usted mismo con los botones de añadir (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Añadir'>), o lance la optimización cuando quiera una sugerencia."
+msgstr "\n    Este es el equipo que has traído, exactamente como estaba. Nada de esto lo ha elegido el solver. Cambia cada pieza tú mismo con los botones de añadir (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Añadir'>), o lanza la optimización cuando quieras una sugerencia."
 
 #: .\chardata\templates\chardata\base.html:275
 msgid "Import a build"
@@ -7927,7 +7928,7 @@ msgstr "Importar un build"
 
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "outside %(low)s to %(high)s, check it"
-msgstr "fuera de %(low)s a %(high)s, compruébelo"
+msgstr "fuera de %(low)s a %(high)s, compruébalo"
 
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "These rolls were left out, because the item does not carry that stat:"
@@ -7943,7 +7944,7 @@ msgstr "%(n)s con pergaminos"
 
 #: .\chardata\text_build_view.py:100
 msgid "This build comes from %(source)s and you are on %(here)s. The same name can be a different item in each game, so nothing was read."
-msgstr "Este build viene de %(source)s y usted está en %(here)s. Un mismo nombre puede designar un objeto distinto en cada juego, así que no se ha leído nada."
+msgstr "Este build viene de %(source)s y tú estás en %(here)s. Un mismo nombre puede designar un objeto distinto en cada juego, así que no se ha leído nada."
 
 #: .\chardata\text_build_view.py:100
 msgid "Open the %(version)s import"
@@ -8008,7 +8009,7 @@ msgid "That image could not be read."
 msgstr "No se ha podido leer esa imagen."
 
 msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the pages that read a screenshot, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match."
-msgstr "<b>Bibliotecas de código.</b> Parte del código que hace funcionar las páginas, como jQuery en todas las páginas y una biblioteca de lectura de texto en las páginas que leen una captura de pantalla, se carga desde Google Hosted Libraries y jsDelivr en lugar de desde nuestro servidor, por lo que esos proveedores reciben su dirección IP. Cada uno de esos archivos lleva asociada una huella, y su navegador se niega a ejecutar una copia que no coincida."
+msgstr "<b>Bibliotecas de código.</b> Parte del código que hace funcionar las páginas, como jQuery en todas las páginas y una biblioteca de lectura de texto en las páginas que leen una captura de pantalla, se carga desde Google Hosted Libraries y jsDelivr en lugar de desde nuestro servidor, por lo que esos proveedores reciben tu dirección IP. Cada uno de esos archivos lleva asociada una huella, y tu navegador se niega a ejecutar una copia que no coincida."
 
 msgid "<b>DofusBook.</b> When you paste a DofusBook link, our server fetches that build from dofusbook.net; when you open one of your builds on their site, our server first asks them which of its items they know. Both calls leave from our address and not from yours, so on those steps they do not receive your address. The link we then hand you carries the gear, the level and the characteristics of that build, and nothing that names you, and your browser only reaches their site if you click it."
 msgstr "<b>DofusBook.</b> Cuando pegas un enlace de DofusBook, nuestro servidor busca ese build en dofusbook.net; cuando abres uno de tus builds en DofusBook, nuestro servidor les pregunta primero cuáles de sus objetos conocen. Las dos llamadas salen de nuestra dirección y no de la tuya, así que en esos pasos no reciben tu dirección. El enlace que te damos después lleva el equipo, el nivel y las características de ese build, y nada que te identifique, y tu navegador solo llega al sitio de ellos si haces clic en él."
@@ -8120,7 +8121,7 @@ msgstr "Ese sitio respondió algo que no pudimos leer."
 
 #: .\chardata\text_build_view.py
 msgid "That link is incomplete or damaged. Copy the full address again."
-msgstr "Ese enlace está incompleto o dañado. Copie de nuevo la dirección completa."
+msgstr "Ese enlace está incompleto o dañado. Copia de nuevo la dirección completa."
 
 msgid "Import it from a link, text or screenshots"
 msgstr "Impórtalo desde un enlace, texto o capturas de pantalla"
@@ -8320,8 +8321,8 @@ msgstr[1] "respuestas del solver"
 
 msgid "shared build"
 msgid_plural "shared builds"
-msgstr[0] "set compartido"
-msgstr[1] "sets compartidos"
+msgstr[0] "build compartido"
+msgstr[1] "builds compartidos"
 
 msgctxt "counter"
 msgid "follower"
@@ -9164,7 +9165,7 @@ msgstr "Revisa que tus mínimos se ajusten al nivel del personaje: un personaje 
 
 #: chardata/templates/chardata/solution.html
 msgid "Closest set to your minimums: it does not meet all of them. The ones it misses are marked below."
-msgstr "Conjunto más cercano a sus mínimos: no los cumple todos. Los que no alcanza están marcados abajo."
+msgstr "Conjunto más cercano a tus mínimos: no los cumple todos. Los que no alcanza están marcados abajo."
 
 #: chardata/templates/chardata/loading.html
 #, python-format
@@ -9182,11 +9183,11 @@ msgstr "Este es el set más cercano a tus mínimos que el solver encontró en %(
 
 #: chardata/templates/chardata/solution.html
 msgid "This set was kept from the search for the set closest to your minimums, and it meets all of them now. Tailor a new set to weigh it against every other set on your criteria."
-msgstr "Este conjunto se conservó de la búsqueda del set más cercano a sus mínimos y ahora los cumple todos. Teja un nuevo set para compararlo con todos los demás según sus criterios."
+msgstr "Este conjunto se conservó de la búsqueda del set más cercano a tus mínimos y ahora los cumple todos. Confecciona un nuevo set para compararlo con todos los demás según tus criterios."
 
 #: chardata/templates/chardata/solution.html
 msgid "Closest set to your minimums the solver found before it ran out of time: it does not meet all of them, and a closer one may exist. The ones it misses are marked below."
-msgstr "Conjunto más cercano a sus mínimos que el solver encontró antes de quedarse sin tiempo: no los cumple todos y puede existir uno más cercano. Los que no alcanza están marcados abajo."
+msgstr "Conjunto más cercano a tus mínimos que el solver encontró antes de quedarse sin tiempo: no los cumple todos y puede existir uno más cercano. Los que no alcanza están marcados abajo."
 
 #: chardata/templates/chardata/main-header.html
 #: chardata/templates/chardata/load_projects.html

@@ -91,7 +91,7 @@ class TheTouchPageCarriesTheSentenceTests(TestCase):
                                    HTTP_ACCEPT_LANGUAGE='de')
         self.assertEqual(200, allemand.status_code)
         page = allemand.content.decode('utf-8')
-        self.assertIn('nicht mehr in Ihrer Sprache', page)
+        self.assertIn('nicht mehr in deiner Sprache', page)
 
         francais = self.client.get('/fr/touch/spells/%d/' % char.id,
                                    HTTP_ACCEPT_LANGUAGE='fr')

@@ -362,9 +362,9 @@ class TheScriptSpeaksEachLanguageTests(TestCase):
             'pt': ('A sua última escolha alterou 1 característica: AP.',
                    'A sua última escolha alterou 2 características: AP, Damage.',
                    'Alterou 1 valor.', 'Alterou 4 valores.'),
-            'de': ('Ihre letzte Auswahl hat 1 Eigenschaft geändert: AP.',
-                   'Ihre letzte Auswahl hat 2 Eigenschaften geändert: AP, Damage.',
-                   'Sie haben 1 Wert geändert.', 'Sie haben 4 Werte geändert.')}
+            'de': ('Deine letzte Auswahl hat 1 Eigenschaft geändert: AP.',
+                   'Deine letzte Auswahl hat 2 Eigenschaften geändert: AP, Damage.',
+                   'Du hast 1 Wert geändert.', 'Du hast 4 Werte geändert.')}
         for lang, (one, two, edited_one, edited_many) in wanted.items():
             said = self.spoken(lang)
             with self.subTest(lang=lang):

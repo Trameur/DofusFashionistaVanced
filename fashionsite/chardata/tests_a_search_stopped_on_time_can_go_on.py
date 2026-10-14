@@ -390,12 +390,12 @@ class TheBuildPageOffersToSearchOnTests(_FlowMixin, TestCase):
                            '0,4 % au plus selon vos critères.', 'Continuer la recherche',
                            'La recherche repart de ce set pour 90 secondes de plus au maximum'),
                     'es': ('Conjunto casi óptimo: puede que exista uno mejor, pero como mucho '
-                           'un 0,4% mejor según sus criterios.', 'Seguir buscando',
+                           'un 0,4% mejor según tus criterios.', 'Seguir buscando',
                            'durante 90 segundos más como máximo'),
                     'pt': ('Conjunto quase ótimo: pode existir um melhor, mas no máximo 0,4% '
                            'melhor segundo os seus critérios.', 'Continuar a busca',
                            'por até 90 segundos a mais'),
-                    'de': ('Fast optimales Set: Ein besseres könnte existieren, wäre nach Ihren '
+                    'de': ('Fast optimales Set: Ein besseres könnte existieren, wäre nach deinen '
                            'Kriterien aber höchstens 0,4 % besser.', 'Suche fortsetzen',
                            'höchstens 90 Sekunden weiter')}
         for language, sentences in expected.items():
@@ -413,10 +413,10 @@ class TheBuildPageOffersToSearchOnTests(_FlowMixin, TestCase):
         expected = {'fr': 'Il existe peut-être un meilleur set, mais de 20 % au plus selon vos '
                           'critères.',
                     'es': 'Puede que exista un conjunto mejor, pero como mucho un 20% mejor según '
-                          'sus criterios.',
+                          'tus criterios.',
                     'pt': 'Pode existir um conjunto melhor, mas no máximo 20% melhor segundo os '
                           'seus critérios.',
-                    'de': 'Es könnte ein besseres Set geben, das nach Ihren Kriterien aber '
+                    'de': 'Es könnte ein besseres Set geben, das nach deinen Kriterien aber '
                           'höchstens 20 % besser wäre.'}
         for language, sentence in expected.items():
             with self.subTest(language=language):
