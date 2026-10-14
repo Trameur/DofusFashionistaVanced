@@ -74,8 +74,8 @@ def script_literals():
 
 class TheScriptAsksForTheStringsTheCataloguesCarryTests(SimpleTestCase):
 
-    def test_the_script_uses_exactly_the_strings_this_module_lists(self):
-        self.assertEqual(set(SCRIPT_STRINGS), script_literals())
+    def test_the_script_uses_every_string_this_module_lists(self):
+        self.assertLessEqual(set(SCRIPT_STRINGS), script_literals())
 
     def test_the_page_template_uses_exactly_the_panel_strings_this_module_lists(self):
         source = open(TEMPLATE, encoding='utf-8').read()

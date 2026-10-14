@@ -8392,6 +8392,74 @@ msgstr ""
 msgid "Their link format has no room for the weapon element, so set it on DofusBook by hand:"
 msgstr ""
 
+#: chardata/presets.py
+msgid "All-round"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Damage dealer"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Tank"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Healer"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Pusher"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Summoner"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Trapper"
+msgstr ""
+
+#: chardata/presets.py
+msgid "XP mule"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Prospecting mule"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Farm"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Pod carrier"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Start from a preset"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Copy link"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Link to this setup"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "My setups"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Name this setup"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Save this setup"
+msgstr ""
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "This game has no exos: they are left out."
 
