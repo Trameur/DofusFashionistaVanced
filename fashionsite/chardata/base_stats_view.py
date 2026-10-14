@@ -15,6 +15,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from django.http import HttpResponseRedirect
+from django.views.decorators.http import require_POST
 
 from chardata.models import CharBaseStats
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
@@ -37,6 +38,7 @@ def _bounded(value, ceiling):
 def setup_base_stats(request, char_id=0):
     return _page(request, char_id, False)
 
+@require_POST
 def save_char(request, char_id):
     char = _post(request, char_id)
     stats = _get_stats(char)
@@ -46,6 +48,7 @@ def save_char(request, char_id):
 def init_base_stats(request, char_id):
     return _page(request, char_id, True)
 
+@require_POST
 def init_base_stats_post(request, char_id):
     char = _post(request, char_id)
     return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))

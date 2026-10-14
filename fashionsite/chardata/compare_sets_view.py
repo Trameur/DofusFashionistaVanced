@@ -639,6 +639,7 @@ def _process_link(l):
             return path_piece
     return None
 
+@require_POST
 def get_sharing_link(request, sets_params):
     char_strs = _process_parameters(sets_params)
     char_ids = []

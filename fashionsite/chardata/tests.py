@@ -7108,9 +7108,11 @@ class CompareSetsSpellPreviewTests(TestCase):
         self.assertIn('spell_class=Cra', resp.context['compare_link_shared'])
         self.assertIn('spell_name=', resp.context['compare_link_shared'])
 
-        share_resp = self.client.get(
-            '/get_compare_sharing_link/%d/%d/' % (first.pk, second.pk),
-            {'spell_class': 'Cra', 'spell_name': cra_spell.name})
+        from urllib.parse import urlencode
+        share_resp = self.client.post(
+            '/get_compare_sharing_link/%d/%d/?%s' % (
+                first.pk, second.pk,
+                urlencode({'spell_class': 'Cra', 'spell_name': cra_spell.name})))
         self.assertEqual(share_resp.status_code, 200)
         self.assertIn('spell_class=Cra', share_resp.content.decode('utf-8'))
         self.assertIn('spell_name=', share_resp.content.decode('utf-8'))
