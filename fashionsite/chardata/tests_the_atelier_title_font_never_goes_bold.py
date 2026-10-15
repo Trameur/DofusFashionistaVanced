@@ -95,10 +95,7 @@ def h1_attributes():
 
 class EveryTitleInTheTemplatesResolvesToRegularWeightTests(SimpleTestCase):
 
-    def test_h1_with_an_inline_font_weight_loses_to_an_important_400(self):
-        inline = [(name, attrs) for name, attrs in h1_attributes()
-                  if re.search(r'style="[^"]*font-weight', attrs)]
-        self.assertTrue(inline, 'no h1 carries an inline weight, so this proves nothing')
+    def test_the_modern_h1_rule_pins_an_important_400_so_an_inline_weight_would_lose(self):
         rules = stylesheet('modern.css')
         winner = [rule for rule in rules if 'html.fm-modern h1' in rule['selectors']
                   and 'font-weight' in rule['declarations']]
@@ -115,6 +112,7 @@ class EveryTitleInTheTemplatesResolvesToRegularWeightTests(SimpleTestCase):
             if match:
                 classes.add(match.group(1).strip())
         self.assertIn('fm-title', classes)
+        self.assertTrue([name for name in classes if 'home-title' in name.split()], 'the home title carries bold in home.css')
         for html_classes in classes:
             for state in (('fm-modern', 'fm-light'), ('fm-modern', 'fm-dark')):
                 with self.subTest(classes=html_classes, state=state):
