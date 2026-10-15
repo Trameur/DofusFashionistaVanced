@@ -9546,6 +9546,19 @@ msgstr "Ist Weisheit angekreuzt, erlauben Jetzt optimieren und der Assistent nur
 msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
 msgstr "Ohne Haken verteilst du sie selbst: Jetzt optimieren und der Assistent öffnen zuerst die Seite der Basiseigenschaften."
 
+# redesign
+#: chardata/templates/chardata/license.html
+msgid "Fonts:"
+msgstr "Schriftarten:"
+
+#: chardata/templates/chardata/license.html
+msgid "SIL Open Font License, version 1.1"
+msgstr "SIL Open Font License, Version 1.1"
+
+#: chardata/templates/chardata/license.html
+msgid "The fonts are hosted on this site, so your browser asks no other server for them."
+msgstr "Die Schriftarten liegen auf dieser Website, dein Browser fragt dafür bei keinem anderen Server an."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Dieses Spiel hat keine Exos: Sie bleiben außen vor."
 

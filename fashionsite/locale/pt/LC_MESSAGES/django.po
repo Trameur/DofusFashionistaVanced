@@ -9462,6 +9462,19 @@ msgstr "Com Sabedoria marcada, Otimizar agora e o Wizard só permitem o Dofus Ce
 msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
 msgstr "Desmarcada, você mesmo os distribui: Otimizar agora e o Wizard abrem primeiro a página de características."
 
+# redesign
+#: chardata/templates/chardata/license.html
+msgid "Fonts:"
+msgstr "Fontes:"
+
+#: chardata/templates/chardata/license.html
+msgid "SIL Open Font License, version 1.1"
+msgstr "SIL Open Font License, versão 1.1"
+
+#: chardata/templates/chardata/license.html
+msgid "The fonts are hosted on this site, so your browser asks no other server for them."
+msgstr "As fontes ficam hospedadas neste site, então seu navegador não as pede a nenhum outro servidor."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este jogo não tem exos: eles ficam de fora."
 

@@ -9601,6 +9601,19 @@ msgstr "Avec Sagesse cochée, Optimiser maintenant et l’assistant n’autorise
 msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
 msgstr "Décochée, tu les places toi-même : Optimiser maintenant et l’assistant ouvrent d’abord la page des caractéristiques."
 
+# redesign
+#: chardata/templates/chardata/license.html
+msgid "Fonts:"
+msgstr "Polices :"
+
+#: chardata/templates/chardata/license.html
+msgid "SIL Open Font License, version 1.1"
+msgstr "SIL Open Font License, version 1.1"
+
+#: chardata/templates/chardata/license.html
+msgid "The fonts are hosted on this site, so your browser asks no other server for them."
+msgstr "Les polices sont hébergées sur ce site : ton navigateur ne les demande à aucun autre serveur."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Ce jeu n’a pas d’exos : ils restent de côté."
 

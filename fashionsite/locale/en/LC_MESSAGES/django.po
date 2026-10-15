@@ -8511,6 +8511,19 @@ msgstr ""
 msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
 msgstr ""
 
+# redesign
+#: chardata/templates/chardata/license.html
+msgid "Fonts:"
+msgstr "Fonts:"
+
+#: chardata/templates/chardata/license.html
+msgid "SIL Open Font License, version 1.1"
+msgstr "SIL Open Font License, version 1.1"
+
+#: chardata/templates/chardata/license.html
+msgid "The fonts are hosted on this site, so your browser asks no other server for them."
+msgstr "The fonts are hosted on this site, so your browser asks no other server for them."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "This game has no exos: they are left out."
 
