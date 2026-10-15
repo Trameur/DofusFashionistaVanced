@@ -15,7 +15,7 @@ html.fm-modern{
   --fm-accent:#e3bf4d; --fm-accent-2:#f4d774; --fm-accent-strong:#b8902a;
   --fm-accent-soft:rgba(227,191,77,.15); --fm-accent-line:rgba(227,191,77,.45);
   --fm-radius:16px; --fm-radius-sm:11px; --fm-radius-xs:8px;
-  --fm-gap:16px; --fm-maxw:1200px;
+  --fm-gap:16px; --fm-maxw:1920px; --fm-gutter:20px; --fm-band-h:clamp(120px,7.8vw,150px);
   --fm-font-display:"IM Fell English SC",Georgia,"Times New Roman",serif;
   --fm-font-body:Barlow,"Segoe UI",Roboto,Arial,sans-serif;
   --fm-font:var(--fm-font-body);
@@ -80,7 +80,7 @@ html.fm-modern .add-banner{
   width:100% !important; max-width:var(--fm-maxw) !important; margin:0 auto !important;
   padding:0 20px !important; box-sizing:border-box; text-align:left;
 }
-html.fm-modern .everything{ width:100% !important; max-width:100% !important; margin:0 !important; box-sizing:border-box; }
+html.fm-modern .everything{ width:100% !important; max-width:100% !important; margin:0 !important; box-sizing:border-box; background-color:transparent; }
 
 /* ---------- Hero / banner ---------- */
 html.fm-modern .banner{
@@ -89,6 +89,8 @@ html.fm-modern .banner{
   box-shadow:var(--fm-shadow); border:1px solid var(--fm-border);
 }
 html.fm-modern .banner br{ display:none; }
+html.fm-modern .banner a{ display:block; }
+html.fm-modern .banner a:focus-visible{ box-shadow:inset 0 0 0 3px var(--fm-accent-text); }
 html.fm-modern .banner::after{ content:""; position:absolute; inset:0; background:var(--fm-banner-grad); pointer-events:none; }
 html.fm-modern .banner img{ width:100% !important; max-width:100% !important; height:auto !important; max-height:190px; object-fit:cover; object-position:center 38%; display:block; }
 html.fm-modern .char-overlay{
@@ -136,6 +138,8 @@ html.fm-modern .version-link{ padding:0 13px !important; height:32px; display:in
 html.fm-modern .version-link + .version-link{ border-left:1px solid var(--fm-border) !important; }
 html.fm-modern .version-link:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; }
 html.fm-modern .version-link.active{ background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important; }
+html.fm-modern .version-link:focus-visible{ box-shadow:inset 0 0 0 2px var(--fm-accent-text); }
+html.fm-modern .version-link.active:focus-visible{ box-shadow:inset 0 0 0 2px #2a2010; }
 /* login pill */
 html.fm-modern .login{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; padding:0 16px; font-size:13px; }
 html.fm-modern .login:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
@@ -381,6 +385,19 @@ html.fm-modern .fm-ad.fm-ad-rail{ display:none; }
   html.fm-modern .fm-ad.fm-ad-rail-left{ left:calc(50% - 920px); }
   html.fm-modern .fm-ad.fm-ad-rail-right{ right:calc(50% - 920px); }
 }
+@media (max-width:2299px){
+  html.fm-modern .fm-ad.fm-ad-rail{ display:none; }
+}
+@media (min-width:2300px) and (min-height:700px){
+  html.fm-modern .fm-ad.fm-ad-rail{ width:160px; }
+  html.fm-modern .fm-ad.fm-ad-rail-left{ left:calc(50% - 1136px); }
+  html.fm-modern .fm-ad.fm-ad-rail-right{ right:calc(50% - 1136px); }
+}
+@media (min-width:2560px) and (min-height:700px){
+  html.fm-modern .fm-ad.fm-ad-rail{ width:300px; }
+  html.fm-modern .fm-ad.fm-ad-rail-left{ left:calc(50% - 1270px); }
+  html.fm-modern .fm-ad.fm-ad-rail-right{ right:calc(50% - 1270px); }
+}
 
 /* ---------- Home ---------- */
 html.fm-modern .main-div{ position:relative; text-align:center; }
@@ -467,6 +484,44 @@ html.fm-modern .encyclopedia-page-link:hover, html.fm-modern .encyclopedia-small
 /* ---------- Wizard / form pages ---------- */
 html.fm-modern .wizard-div{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); }
 html.fm-modern .error-message{ color:#e0584f; }
+
+/* ---------- Wide shell ---------- */
+@media (min-width:1280px){ html.fm-modern{ --fm-gutter:24px; } }
+@media (min-width:1440px){ html.fm-modern{ --fm-gutter:28px; } }
+@media (min-width:1920px){ html.fm-modern{ --fm-gutter:32px; } }
+@media (min-width:901px){
+  html.fm-modern .add-banner{ padding:0 var(--fm-gutter) !important; }
+  html.fm-modern .banner{
+    width:auto !important; height:var(--fm-band-h) !important; margin:0 calc(0px - var(--fm-gutter)) !important; text-align:left;
+    border-width:0 0 1px; border-radius:0 0 var(--fm-radius) var(--fm-radius);
+    background:linear-gradient(90deg,var(--fm-bg-2),var(--fm-surface-3) 50%,var(--fm-bg-2));
+  }
+  html.fm-modern .banner a{ width:100%; height:100%; }
+  /* logo is at the bottom of the webp */
+  html.fm-modern .banner img{
+    width:calc(100% - var(--fm-gutter) - var(--fm-band-h)) !important; height:100% !important; max-height:none;
+    object-fit:cover; object-position:center 100%;
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent); mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);
+  }
+  /* 1024x200 jpg of dofus2 and retro */
+  html.fm-modern .banner img[width="1024"]{
+    width:auto !important; max-width:min(calc(100% - 2 * (var(--fm-gutter) + var(--fm-band-h))),1024px) !important;
+    margin:0 auto; object-fit:contain; object-position:center;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 2.5%,#000 97.5%,transparent); mask-image:linear-gradient(90deg,transparent,#000 2.5%,#000 97.5%,transparent);
+  }
+  html.fm-modern .everything > .char-overlay{ left:auto !important; right:0; top:0 !important; }
+  html.fm-modern .everything > .char-overlay img.char{ height:calc(var(--fm-band-h) - 12px); margin-top:6px; }
+}
+@media (min-width:1280px){
+  html.fm-modern .space.header-controls{ flex-wrap:nowrap; white-space:nowrap; justify-content:safe flex-end; }
+  html.fm-modern .space.header-controls .login{ min-width:0; overflow:hidden; text-overflow:ellipsis; }
+}
+html.fm-modern .maincontent p.big-text,
+html.fm-modern .maincontent .big-text p,
+html.fm-modern .maincontent .big-text li,
+html.fm-modern .main-div .home-intro,
+html.fm-modern .fm-home-about p{ max-width:var(--fm-measure); }
+html.fm-modern .main-div .home-intro{ margin-left:auto; margin-right:auto; }
 
 /* ---------- Responsive: one column ---------- */
 @media (max-width: 900px){
