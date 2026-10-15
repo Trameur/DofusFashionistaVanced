@@ -384,6 +384,33 @@ button.theme-selector:focus-visible {
 .main-div {
     position: relative;
 }
+.home-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 6px 0 4px;
+    line-height: 1.25;
+}
+.home-heritage {
+    margin: 0 0 10px;
+    font-size: 0.86em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.home-intro-text {
+    max-width: 760px;
+    margin: 0 auto 12px;
+    opacity: 0.85;
+    line-height: 1.5;
+}
+.home-intro-last {
+    margin-bottom: 16px;
+}
+.home-links {
+    margin-top: 18px;
+}
+.home-browse {
+    margin-top: 10px;
+}
 .giant-button {
     position:absolute;
     border-radius: 10px;
