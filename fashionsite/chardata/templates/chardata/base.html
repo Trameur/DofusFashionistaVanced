@@ -210,7 +210,7 @@
     <div class='add-banner'>
     <div class='everything'>
     
-        <div class='banner' role="banner" ALIGN=CENTER "position:relative; z-index:1">
+        <div class='banner' role="banner" data-band="{{ game_band }}" ALIGN=CENTER "position:relative; z-index:1">
           <br>   
           {% if current_game_version == 'beta' %}
           <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img></a>

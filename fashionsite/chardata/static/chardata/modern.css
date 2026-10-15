@@ -560,6 +560,29 @@ html.fm-modern .error-message{ color:#e0584f; }
   html.fm-modern .everything > .char-overlay{ left:auto !important; right:0; top:0 !important; }
   html.fm-modern .everything > .char-overlay img.char{ height:calc(var(--fm-band-h) - 12px); margin-top:6px; }
 }
+/* Per-version band, drawn on the link; the img stays for the link name */
+html.fm-modern .banner[data-band] a{ background-position:right center; background-size:cover; background-repeat:no-repeat; }
+html.fm-modern .banner[data-band] img{ width:100% !important; max-width:none !important; height:100% !important; max-height:none; margin:0; opacity:0; -webkit-mask-image:none; mask-image:none; }
+html.fm-modern .banner[data-band]::after{ content:none; }
+@media (max-width:900px){ html.fm-modern .banner[data-band] a{ height:min(120px,calc((100vw - 26px) / 5)); } }
+@media (min-width:901px){
+  html.fm-modern .banner[data-band] a{
+    width:calc(100% - var(--fm-gutter) - var(--fm-band-h));
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent); mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);
+  }
+}
+html.fm-modern.fm-dark .banner[data-band="dofus3"] a{ background-image:url("bands/band_dofus3_dark.webp"); }
+html.fm-modern.fm-dark .banner[data-band="beta"] a{ background-image:url("bands/band_beta_dark.webp"); }
+html.fm-modern.fm-dark .banner[data-band="dofus2"] a{ background-image:url("bands/band_dofus2_dark.webp"); }
+html.fm-modern.fm-dark .banner[data-band="retro"] a{ background-image:url("bands/band_retro_dark.webp"); }
+html.fm-modern.fm-dark .banner[data-band="touch"] a{ background-image:url("bands/band_touch_dark.webp"); }
+html.fm-modern.fm-dark .banner[data-band="wakfu"] a{ background-image:url("bands/band_wakfu_dark.webp"); }
+html.fm-modern.fm-light .banner[data-band="dofus3"] a{ background-image:url("bands/band_dofus3_light.webp"); }
+html.fm-modern.fm-light .banner[data-band="beta"] a{ background-image:url("bands/band_beta_light.webp"); }
+html.fm-modern.fm-light .banner[data-band="dofus2"] a{ background-image:url("bands/band_dofus2_light.webp"); }
+html.fm-modern.fm-light .banner[data-band="retro"] a{ background-image:url("bands/band_retro_light.webp"); }
+html.fm-modern.fm-light .banner[data-band="touch"] a{ background-image:url("bands/band_touch_light.webp"); }
+html.fm-modern.fm-light .banner[data-band="wakfu"] a{ background-image:url("bands/band_wakfu_light.webp"); }
 @media (min-width:1280px){
   html.fm-modern .space.header-controls{ flex-wrap:nowrap; white-space:nowrap; justify-content:safe flex-end; }
   html.fm-modern .space.header-controls .login{ min-width:0; overflow:hidden; text-overflow:ellipsis; }
