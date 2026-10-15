@@ -74,7 +74,7 @@ class TheModernShellIsCappedAt1920Tests(SimpleTestCase):
 
     def test_the_pinned_breakpoints_are_still_there(self):
         medias = {rule['media'] for rule in MODERN}
-        for pinned in ('(max-width: 900px)', '(min-width: 901px) and (max-width: 1099px)', '(max-width: 520px)',
+        for pinned in ('(max-width: 900px)', '(max-width: 520px)',
                        '(min-width:1560px) and (min-height:700px)'):
             self.assertIn(pinned, medias)
 

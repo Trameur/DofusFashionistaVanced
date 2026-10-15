@@ -102,7 +102,9 @@ class TheLootFrameIsAGildedDoubleBorderTests(SimpleTestCase):
         self.assertEqual(('CanvasText', False), declared(MODERN, self.FRAME, 'border-color', media))
         self.assertEqual(('none', False), declared(MODERN, self.FRAME, 'box-shadow', media))
 
-    def test_the_shiny_slot_keeps_its_own_stylesheet_and_is_not_restyled_here(self):
+    def test_the_shiny_slot_keeps_its_own_stylesheet_and_only_the_modern_prefix_restyles_it(self):
         with open(os.path.join(STATIC, 'solution.css'), encoding='utf-8') as handle:
             self.assertIn('.shiny-slot', handle.read())
-        self.assertEqual([], [selector for rule in MODERN for selector in rule['selectors'] if 'shiny' in selector])
+        shiny = [selector for rule in MODERN for selector in rule['selectors'] if 'shiny' in selector]
+        self.assertTrue(shiny)
+        self.assertEqual([], [selector for selector in shiny if not selector.startswith('html.fm-modern ')])
