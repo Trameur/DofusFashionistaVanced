@@ -36,6 +36,7 @@ from chardata.models import BuildComment, BuildTag, BuildVote, Char, UserAlias
 from chardata.official_site import _slugify_name
 from chardata.version_compat import class_exists_in_version
 from chardata.pagination import pagination_items
+from chardata.power_steps import gap_percent
 from chardata.url_language import SITE_URL
 from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id
@@ -148,6 +149,12 @@ def _get_compact_stats(solution, structure):
     return compact_stats
 
 
+def _tolerance_shown(build_meta):
+    """The percent of the best a quick search stopped within, in the reader's language; None for any other verdict."""
+    tolerance = build_meta.get('solver_tolerance')
+    return gap_percent(tolerance) if tolerance and build_meta.get('solver_proven') is False else None
+
+
 def _get_shared_build_meta(char):
     cache_key = _get_shared_build_meta_cache_key(char)
     cached_meta = cache.get(cache_key)
@@ -163,8 +170,9 @@ def _get_shared_build_meta(char):
         # The build page itself can't exist, don't link it
         'cannot_render': False,
         'public_score': 0,
-        # True proven optimum, False stopped at the time limit, None unknown
+        # True proven optimum, False not proven, None unknown
         'solver_proven': None,
+        'solver_tolerance': None,
         'preview_items': [],
         'compact_stats': [],
         'acquisition_summary': '',
@@ -193,6 +201,7 @@ def _get_shared_build_meta(char):
 
         item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
         meta['solver_proven'] = getattr(minimal_solution, 'proven', None)
+        meta['solver_tolerance'] = getattr(minimal_solution, 'tolerance', None)
         solved_input = getattr(minimal_solution, 'input', None) or {}
         # TemporiX builds go past 12 AP and 6 MP
         solved_options = solved_input.get('options') or {}
@@ -639,6 +648,7 @@ def _gallery(request, forced_class=None):
             'public_score': build_meta.get('public_score', 0),
             # .get: older cached metas don't have this key
             'solver_proven': build_meta.get('solver_proven'),
+            'solver_tolerance': _tolerance_shown(build_meta),
             'temporix': build_meta.get('temporix', False),
             # The meta cache key does not follow the data version
             'patch': build_patch_info(char),

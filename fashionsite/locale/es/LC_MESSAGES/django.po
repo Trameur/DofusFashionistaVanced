@@ -9490,6 +9490,48 @@ msgstr "Con Sabiduría marcada, Optimizar ahora y el asistente solo permiten el 
 msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
 msgstr "Si la desmarcas, los colocas tú: Optimizar ahora y el asistente abren primero la página de características."
 
+#: chardata/power_steps.py
+msgid "Flash"
+msgstr "Relámpago"
+
+#: chardata/power_steps.py
+msgid "Fast"
+msgstr "Rápido"
+
+#: chardata/power_steps.py
+msgid "Standard"
+msgstr "Estándar"
+
+#: chardata/templates/chardata/setup_power.html
+msgid "Search effort"
+msgstr "Esfuerzo de búsqueda"
+
+#: chardata/power_steps.py
+#, python-format
+msgid "The search stops as soon as its set is within %(gap)s%% of the best on your criteria, or after %(seconds)s s per search. The build page tells you which."
+msgstr "La búsqueda se detiene en cuanto su conjunto queda como mucho a un %(gap)s%% del mejor según tus criterios, o tras %(seconds)s s por búsqueda. La página del build te dice cuál de las dos."
+
+#: chardata/power_steps.py
+#, python-format
+msgid "Looks for the best set on your criteria for up to %(seconds)s s per search. The build page tells you whether it was proven."
+msgstr "Busca el mejor conjunto según tus criterios durante %(seconds)s s como máximo por búsqueda. La página del build te dice si quedó demostrado."
+
+#: chardata/solution_view.py
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Quick search: the solver stopped as soon as it knew this set is within %(gap)s%% of the best on your criteria. A better set may exist, so this is not a proof."
+msgstr "Búsqueda rápida: el solver se detuvo en cuanto supo que este conjunto queda como mucho a un %(gap)s%% del mejor según tus criterios. Puede que exista uno mejor, así que no es una demostración."
+
+#: chardata/solution_view.py
+#, python-format
+msgid "Within %(gap)s%% of the best, not a proof"
+msgstr "Como mucho a un %(gap)s%% del mejor, no una prueba"
+
+#: chardata/templates/chardata/loading.html
+#, python-format
+msgid "Still searching: %%(elapsed)s s (at most %%(budget)s s)"
+msgstr "Todavía buscando: %%(elapsed)s s (como máximo %%(budget)s s)"
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este juego no tiene exos: se quedan fuera."
 

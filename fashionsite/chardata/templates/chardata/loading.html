@@ -20,8 +20,8 @@
         <img alt="" id="loadingimg"></img>
     </div>
     <br>
-    {% with budget=char|solve_budget_seconds %}
-    <div class="loading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="{{ budget|unlocalize }}" aria-valuenow="0" data-budget="{{ budget|unlocalize }}"><span></span></div>
+    {% with budget=char|solve_budget_seconds further=char|retry_budget_seconds %}
+    <div class="loading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="{{ budget|unlocalize }}" aria-valuenow="0" data-budget="{{ budget|unlocalize }}"{% if further > budget %} data-retry-budget="{{ further|unlocalize }}"{% endif %}><span></span></div>
     {% endwith %}
     <div class="loading-progress-label"></div>
     <div class='marquee'>
@@ -43,16 +43,23 @@ function startSolveProgress(budget) {
     var fill = bar.children('span');
     var label = $('.loading-progress-label');
     {% trans "Searching: %(elapsed)s s (at most %(budget)s s)" as searching_text %}
+    {% trans "Still searching: %(elapsed)s s (at most %(budget)s s)" as still_searching_text %}
     {% trans "Almost done" as almost_done_text %}
     var searching = '{{ searching_text|escapejs }}';
+    var stillSearching = '{{ still_searching_text|escapejs }}';
     var almostDone = '{{ almost_done_text|escapejs }}';
+    var further = Number(bar.attr('data-retry-budget')) || 0;
     var started = Date.now();
     function tick() {
         var elapsed = Math.floor((Date.now() - started) / 1000);
-        var text = budget && elapsed > budget ? almostDone
+        var goingOn = budget && further > budget && elapsed > budget;
+        var limit = goingOn ? further : budget;
+        var text = limit && elapsed > limit ? almostDone
+            : goingOn ? interpolate(stillSearching, {elapsed: elapsed, budget: further}, true)
             : interpolate(searching, {elapsed: elapsed, budget: budget}, true);
-        fill.css('width', (budget ? Math.min(elapsed / budget, 1) * 100 : 0) + '%');
-        bar.attr('aria-valuenow', Math.min(elapsed, budget)).attr('aria-valuetext', text);
+        fill.css('width', (goingOn ? 100 : budget ? Math.min(elapsed / budget, 1) * 100 : 0) + '%');
+        bar.attr('aria-valuemax', limit).attr('aria-valuenow', Math.min(elapsed, limit))
+            .attr('aria-valuetext', text);
         label.text(text);
     }
     clearInterval(solveProgressTimer);

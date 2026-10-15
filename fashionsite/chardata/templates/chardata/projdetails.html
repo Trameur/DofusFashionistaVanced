@@ -146,6 +146,7 @@
                         <div class="small-explain">{% trans "Compared with the balanced build, each stat the priority does not aim for loses at most this share: HP and resistances for Damage, damage stats for Defense and Heals, and for any priority AP, MP, Range and every other stat the build gives a weight to. At 0% none of them drops. The build page shows what was kept." %}</div>
                     </div>
                 </div>
+                {% if power %}{% include "chardata/setup_power.html" %}{% endif %}
             </details>
             {% if more %}{% include "chardata/setup_more_options.html" %}{% endif %}
 
@@ -352,6 +353,11 @@ function showChosenOptions() {
     if (guarded) {
         chosen.push($.trim($("label[for='guard-percent']").text()) + " "
                     + $.trim($("#guard-percent option:selected").text()));
+    }
+    var $power = $("#setup-power-row");
+    if ($power.length && $("#setup-power-key").val() !== $power.attr("data-default")) {
+        chosen.push($.trim($("label[for='setup-power']").text()) + " "
+                    + $.trim($power.find(".setup-power-on").text()));
     }
     $("#advanced-options-chosen").text(chosen.join(" · "));
 }

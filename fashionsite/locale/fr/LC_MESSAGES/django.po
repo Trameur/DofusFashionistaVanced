@@ -9601,6 +9601,48 @@ msgstr "Avec Sagesse cochée, Optimiser maintenant et l’assistant n’autorise
 msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
 msgstr "Décochée, tu les places toi-même : Optimiser maintenant et l’assistant ouvrent d’abord la page des caractéristiques."
 
+#: chardata/power_steps.py
+msgid "Flash"
+msgstr "Éclair"
+
+#: chardata/power_steps.py
+msgid "Fast"
+msgstr "Rapide"
+
+#: chardata/power_steps.py
+msgid "Standard"
+msgstr "Standard"
+
+#: chardata/templates/chardata/setup_power.html
+msgid "Search effort"
+msgstr "Effort de recherche"
+
+#: chardata/power_steps.py
+#, python-format
+msgid "The search stops as soon as its set is within %(gap)s%% of the best on your criteria, or after %(seconds)s s per search. The build page tells you which."
+msgstr "La recherche s’arrête dès que son set ne s’écarte pas de plus de %(gap)s %% du meilleur selon tes critères, ou après %(seconds)s s par recherche. La page du build te dit lequel des deux."
+
+#: chardata/power_steps.py
+#, python-format
+msgid "Looks for the best set on your criteria for up to %(seconds)s s per search. The build page tells you whether it was proven."
+msgstr "Cherche le meilleur set selon tes critères pendant %(seconds)s s au plus par recherche. La page du build te dit s’il est démontré."
+
+#: chardata/solution_view.py
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Quick search: the solver stopped as soon as it knew this set is within %(gap)s%% of the best on your criteria. A better set may exist, so this is not a proof."
+msgstr "Recherche rapide : le solveur s’est arrêté dès qu’il a su que ce set ne s’écarte pas de plus de %(gap)s %% du meilleur selon tes critères. Un meilleur set existe peut-être, ce n’est donc pas une preuve."
+
+#: chardata/solution_view.py
+#, python-format
+msgid "Within %(gap)s%% of the best, not a proof"
+msgstr "À %(gap)s %% du meilleur au plus, pas une preuve"
+
+#: chardata/templates/chardata/loading.html
+#, python-format
+msgid "Still searching: %%(elapsed)s s (at most %%(budget)s s)"
+msgstr "Recherche toujours en cours : %%(elapsed)s s (au plus %%(budget)s s)"
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Ce jeu n’a pas d’exos : ils restent de côté."
 

@@ -41,7 +41,9 @@ from chardata.character_assets import asset_formats, asset_token, preload_links
 from chardata.char_blobs import read_char_blob
 from chardata.closest_set import closest_set_facts
 from chardata.encoded_char_id import encode_char_id
-from chardata.fashion_action import continuation_input, fashion, get_options, search_gap
+from chardata.fashion_action import (continuation_input, fashion, get_options,
+                                     retry_budget_seconds, search_gap)
+from chardata.power_steps import gap_percent
 from chardata.fashionista_build import MAX_STAT_VALUE
 from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
@@ -194,6 +196,12 @@ def _stopped_solve(minimal_solution_blob):
     except Exception:
         return None
     return minimal if getattr(minimal, 'proven', None) is False else None
+
+
+def _tolerance_shown(minimal_solution_blob):
+    """The percent of the best a quick search stopped within; None when it searched to a proof or ran out of time."""
+    tolerance = getattr(_stopped_solve(minimal_solution_blob), 'tolerance', None)
+    return gap_percent(tolerance) if tolerance else None
 
 
 def _gap_percent(gap):
@@ -373,8 +381,8 @@ def _build_check(char, solution):
     }
 
 
-def _build_share_text(request, char, solution, facts=None, time_limit=None):
-    """Plain-text summary for Discord / forums; facts is (proven, seconds) and time_limit a shortened solve's limit, if known."""
+def _build_share_text(request, char, solution, facts=None, time_limit=None, tolerance=None):
+    """Plain-text summary for Discord / forums; facts is (proven, seconds), time_limit a shortened solve's limit and tolerance a quick search's percent, if known."""
     classe = LOCALIZED_CHARACTER_CLASSES.get(char.char_class,
                                              char.char_class or '')
     title = char.char_name or display_name(char) or classe or 'Build'
@@ -427,10 +435,15 @@ def _build_share_text(request, char, solution, facts=None, time_limit=None):
         else:
             proven = get_solver_facts(char.minimal_solution)[0]
             time_limit = (guard_facts(char.minimal_solution) or {}).get('time_limit')
+            tolerance = _tolerance_shown(char.minimal_solution)
         if proven is True:
             lines += ['', _('Proven optimum. The solver checked that no '
                             'other legal combination scores higher on '
                             'your criteria.')]
+        elif proven is False and tolerance:
+            lines += ['', _('Quick search: the solver stopped as soon as it knew this set '
+                            'is within %(gap)s%% of the best on your criteria. A better set '
+                            'may exist, so this is not a proof.') % {'gap': tolerance}]
         elif proven is False:
             lines += ['', _('Best set found in %(limit)s seconds. The '
                             'solver ran out of time before it could prove '
@@ -452,8 +465,8 @@ def _build_share_text(request, char, solution, facts=None, time_limit=None):
 _OG_PIECES_MAX_CHARS = 200
 
 
-def _build_og_description(char, solution, proven):
-    """Class, level, version, pieces and the solver's verdict."""
+def _build_og_description(char, solution, proven, tolerance=None):
+    """Class, level, version, pieces and the solver's verdict; tolerance is a quick search's percent."""
     names = []
     for slot in _SHARE_SLOT_ORDER:
         for item in solution.items.get(slot, []):
@@ -476,6 +489,8 @@ def _build_og_description(char, solution, proven):
     sentence = head + (': ' + ', '.join(kept) if kept else '') + '.'
     if proven is True:
         sentence += ' ' + _('Proven optimum') + '.'
+    elif proven is False and tolerance:
+        sentence += ' ' + _('Within %(gap)s%% of the best, not a proof') % {'gap': tolerance} + '.'
     elif proven is False:
         sentence += ' ' + _('Best found at the time limit, not a proof') + '.'
     return sentence
@@ -745,6 +760,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     stopped_gap = search_gap(stopped_search)
     solver_time_limit = (stopped_search.get('limit') or solver_guard.get('time_limit')
                          or SOLVER_TIME_LIMIT_SECONDS)
+    solver_tolerance = _tolerance_shown(solved_blob)
     continue_search_url = ''
     if stopped is not None and not is_guest and not is_generation_snapshot:
         try:
@@ -774,11 +790,11 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
             share_text = _build_share_text(
                 request, char, _sol_for_text,
                 facts=(solver_proven, solver_seconds),
-                time_limit=solver_time_limit)
+                time_limit=solver_time_limit, tolerance=solver_tolerance)
             if char.link_shared:
                 try:
                     og_description = _build_og_description(
-                        char, _sol_for_text, solver_proven)
+                        char, _sol_for_text, solver_proven, solver_tolerance)
                 except Exception:
                     logger.exception('Failed to build the og description '
                                      '(char %s)', char.id)
@@ -888,10 +904,12 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'solver_seconds': (None if solver_seconds is None
                                  else round(solver_seconds, 1)),
               'solver_time_limit': solver_time_limit,
+              'solver_tolerance': solver_tolerance,
               'search_gap': _gap_percent(stopped_gap),
               'search_gap_is_small': (stopped_gap or 0) <= _NEARLY_OPTIMAL_GAP,
               'continue_search_url': continue_search_url,
               'continue_search_seconds': SOLVER_TIME_LIMIT_SECONDS,
+              'continue_search_budget': retry_budget_seconds(char) if continue_search_url else 0,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:

@@ -8511,6 +8511,48 @@ msgstr ""
 msgid "Unchecked, you place them yourself: Optimize now and the wizard open the characteristics page first."
 msgstr ""
 
+#: chardata/power_steps.py
+msgid "Flash"
+msgstr ""
+
+#: chardata/power_steps.py
+msgid "Fast"
+msgstr ""
+
+#: chardata/power_steps.py
+msgid "Standard"
+msgstr ""
+
+#: chardata/templates/chardata/setup_power.html
+msgid "Search effort"
+msgstr ""
+
+#: chardata/power_steps.py
+#, python-format
+msgid "The search stops as soon as its set is within %(gap)s%% of the best on your criteria, or after %(seconds)s s per search. The build page tells you which."
+msgstr ""
+
+#: chardata/power_steps.py
+#, python-format
+msgid "Looks for the best set on your criteria for up to %(seconds)s s per search. The build page tells you whether it was proven."
+msgstr ""
+
+#: chardata/solution_view.py
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Quick search: the solver stopped as soon as it knew this set is within %(gap)s%% of the best on your criteria. A better set may exist, so this is not a proof."
+msgstr ""
+
+#: chardata/solution_view.py
+#, python-format
+msgid "Within %(gap)s%% of the best, not a proof"
+msgstr ""
+
+#: chardata/templates/chardata/loading.html
+#, python-format
+msgid "Still searching: %%(elapsed)s s (at most %%(budget)s s)"
+msgstr ""
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "This game has no exos: they are left out."
 

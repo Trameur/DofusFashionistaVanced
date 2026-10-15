@@ -30,7 +30,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 import pickle
 from chardata.char_blobs import read_char_blob
-from chardata.crit_curve import crit_hinges
+from chardata.crit_curve import SCOPE_LEVEL as CRIT_SCOPE_LEVEL, VERSIONS as CRIT_VERSIONS, crit_hinges
 from chardata.data_versions import current_data_version
 
 from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
@@ -39,6 +39,7 @@ from chardata.inventory_solver import (get_inventory_solver_settings,
     apply_inventory_restriction, get_effective_stat_overrides)
 from chardata.min_stats import get_min_stats_digested
 from chardata.models import Char, CharBaseStats, SolutionMemory
+from chardata.power_steps import DEFAULT_POWER, POWER_BY_KEY, stored_power
 from chardata.presets import (balanced_weights, cross_reading, guard_minimums, guard_plan,
                               guard_reading, guarded_stats, short_of_floors, stat_floors)
 from chardata.smart_build import get_char_aspects
@@ -51,7 +52,7 @@ from chardata.stats_weights import get_stats_weights
 from chardata.util import get_char_or_raise, get_base_stats_by_attr, \
     remove_cache_for_char, version_reverse
 from chardata.util_views import error
-from chardata.weapon_terms import weapon_hit_terms
+from chardata.weapon_terms import VERSIONS as WEAPON_HIT_VERSIONS, weapon_hit_terms
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp import lpproblem, temporix
 from fashionistapulp.model import Model, ModelInput
@@ -70,17 +71,20 @@ MEMORY = DatabaseSolutionMemory()
 GUARD_BUDGET_SECONDS = 95
 BALANCED_SECONDS = 30
 MIN_SOLVE_SECONDS = 10
+SOLVE_MARGIN_SECONDS = 3
 #: Limits of the two solves looking for the set closest to the minimums
 CLOSEST_SECONDS = 30
 CLOSEST_TIE_BREAK_SECONDS = 30
 #: Seconds a fresh model took to build and set up, per game version; FIRST_BUILD_SECONDS before the first
 _BUILD_SECONDS = {}
 FIRST_BUILD_SECONDS = 20
+#: Seconds the last model of its own (stat overrides, TemporiX) took to build and set up for a solve, per game version
+_SOLVE_BUILD_SECONDS = {}
 
 
-def _warn_if_unproven(char, solved_status, proven):
-    """Log when the solver stopped on time instead of proving the optimum; fresh solves only."""
-    if solved_status != 'Optimal' or proven:
+def _warn_if_unproven(char, solved_status, finished):
+    """Log when the solver stopped on time instead of finishing its search; fresh solves only."""
+    if solved_status != 'Optimal' or finished:
         return
     logger.warning(
         'solver stopped on time for char %s (%s): showing the best set it '
@@ -166,7 +170,8 @@ def _model_input(request, char, weights):
                       stat_overrides,
                       gender=char.gender or 0,
                       char_name=get_structure().name_a_piece_asks_for(
-                          char.char_name or ''))
+                          char.char_name or ''),
+                      gap=stored_power(char).gap)
 
 
 def _prices_spell_modifiers():
@@ -247,18 +252,24 @@ def fashion(request, char_id, spells=False, seed=None):
     model_input = _model_input(request, char, weights)
     model_options = model_input.options
     stat_overrides = model_input.stat_overrides
+    step = stored_power(char)
+    plan = guard_plan(char)
+    solves = solves_per_search(char)
+    budget = request_budget(step, solves, plan is not None)
 
-    def run(model):
+    def run(model, gap):
+        extra = {'gap': gap} if gap else {}
         if seed is None:
-            model.run(2)
+            model.run(2, **extra)
         else:
-            model.run(2, seed=seed)
+            model.run(2, seed=seed, **extra)
 
     def solve_once(model_input, deadline=None, longest=None):
         solved_status = None
         stats = None
         result = None
 
+        gap = getattr(model_input, 'gap', 0)
         memoized_result = MEMORY.get(model_input)
         # Only 'Infeasible' is a proof; a stored search that ran out of time is solved again
         stale = (memoized_result is not None and memoized_result[2] is None
@@ -273,10 +284,12 @@ def fashion(request, char_id, spells=False, seed=None):
             if stat_overrides or is_temporix:
                 model = Model(stat_overrides=stat_overrides, temporix=is_temporix)
                 model.setup(model_input)
+                _SOLVE_BUILD_SECONDS[char.game_version] = time.monotonic() - started
                 with _solver_time_limit(deadline, longest) as time_limit:
-                    run(model)
+                    run(model, gap)
                 solved_status = model.get_solved_status()
                 proven = model.solution_is_proven()
+                finished = model.search_finished() if gap else proven
                 pool = model.get_candidate_pool()
                 state = None if proven else _search_state(model)
                 if solved_status == 'Optimal':
@@ -286,10 +299,11 @@ def fashion(request, char_id, spells=False, seed=None):
                 model = borrow_model()
                 model.setup(model_input)
                 with _solver_time_limit(deadline, longest) as time_limit:
-                    run(model)
+                    run(model, gap)
                 solved_status = model.get_solved_status()
                 # Read before return_model, like solved_status
                 proven = model.solution_is_proven()
+                finished = model.search_finished() if gap else proven
                 pool = model.get_candidate_pool()
                 state = None if proven else _search_state(model)
                 if solved_status == 'Optimal':
@@ -297,10 +311,12 @@ def fashion(request, char_id, spells=False, seed=None):
                     result = model.get_result_minimal()
                 return_model(model)
             # solved_status, not model.get_solved_status(): the model is back in the shared queue
-            _warn_if_unproven(char, solved_status, proven)
+            _warn_if_unproven(char, solved_status, finished)
             if result is not None:
                 # Carried on the pickled result, so no migration; older solutions lack them
                 result.proven = proven
+                if gap and finished:
+                    result.tolerance = gap
                 result.solve_seconds = time.monotonic() - started
                 result.candidate_pool = pool
                 result.data_version = current_data_version(char.game_version)
@@ -311,7 +327,7 @@ def fashion(request, char_id, spells=False, seed=None):
                 if search is not None:
                     result.search = search
             # The memory key has no time limit, so a solve the shortened limit cut is not stored
-            if ((time_limit is None or proven or solved_status == 'Infeasible')
+            if ((time_limit is None or finished or solved_status == 'Infeasible')
                     and (result is not None or solved_status == 'Infeasible')):
                 if stale and result is None:
                     _overwrite_memory(model_input, (solved_status, stats, result))
@@ -322,20 +338,32 @@ def fashion(request, char_id, spells=False, seed=None):
         return solved_status, stats, result
 
     def solve(model_input, deadline=None, longest=None):
-        return solve_with_weapon_hits(char, solve_once, model_input, deadline, longest)
+        return solve_with_weapon_hits(char, solve_once, model_input, deadline,
+                                      _step_longest(step, longest))
 
-    plan = guard_plan(char)
+    def exact_solve(model_input, deadline=None, longest=None, first_deadline=None):
+        return solve_with_weapon_hits(char, solve_once, model_input, deadline, longest,
+                                      first_deadline)
+
+    guard_ended = {}
     if plan is None:
         solved_status, stats, result = _priced_solve(char, model_input, solve(model_input), solve,
-                                                     started + GUARD_BUDGET_SECONDS)
+                                                     started + budget)
     else:
-        solved_status, stats, result = _guarded_solve(char, model_input, plan, solve)
+        solved_status, stats, result = _guarded_solve(char, model_input, plan, solve, budget,
+                                                      _step_longest(step, BALANCED_SECONDS),
+                                                      guard_ended)
+
+    if result is None and solved_status != 'Infeasible' and step.gap:
+        retried = _exact_retry(char, model_input, guard_ended, exact_solve, started, solves)
+        if retried is not None:
+            solved_status, stats, result = retried
 
     if result is None:
         return _without_a_set(request, char, model_input,
                               'proof' if solved_status == 'Infeasible' else 'time',
                               int(round(time.monotonic() - started)), seed,
-                              started + GUARD_BUDGET_SECONDS, spells)
+                              started + budget, spells)
 
     _bind_search(result, model_input, plan)
     _store_set(char, stats, result)
@@ -359,14 +387,71 @@ def _store_set(char, stats, result):
     record_solution_generation(char, result)
 
 
-def solve_budget_seconds(char):
+def solves_per_search(char):
+    """How many solves one search of the build runs at most: the main one, then the weapon hits and crit prices one where the version has them."""
+    version = getattr(char, 'game_version', None)
+    second = version in WEAPON_HIT_VERSIONS or (
+        version in CRIT_VERSIONS and (char.level or 0) >= CRIT_SCOPE_LEVEL)
+    return 2 if second else 1
+
+
+def request_budget(step, solves=1, guarded=False):
+    """Wall clock of all the solves of one /fashion/ request at this power step; a priority runs a balanced and a guarded search, each with the step's budget, never past Standard's."""
+    if not step.gap:
+        return GUARD_BUDGET_SECONDS
+    budget = solves * (step.seconds + SOLVE_MARGIN_SECONDS)
+    return min(2 * budget if guarded else budget, GUARD_BUDGET_SECONDS)
+
+
+def _exact_retry(char, model_input, guard_ended, solve, request_started, solves=1):
+    """One search without a gap on Standard's seconds, within what is left of Standard's budget, after a quick step ran out of time before any set; None without the time for it."""
+    deadline = request_started + GUARD_BUDGET_SECONDS
+    if deadline - time.monotonic() < solves * MIN_SOLVE_SECONDS:
+        return None
+    exact_input = copy.copy(model_input)
+    exact_input.gap = 0
+    before = time.monotonic() - request_started
+    solved = solve(exact_input, deadline,
+                   first_deadline=deadline - (solves - 1) * MIN_SOLVE_SECONDS)
+    result = solved[2]
+    if result is not None:
+        result.__dict__.pop('tolerance', None)
+        if guard_ended.get('facts') is not None:
+            facts = dict(guard_ended['facts'], fallback=True, other_seconds=before)
+            _settle_guard(char, facts, guard_ended['reading'], result)
+    return solved
+
+
+def _step_longest(step, longest):
+    """The longest a solve may run at this step; Standard keeps the caller's limit."""
+    if not step.gap:
+        return longest
+    return step.seconds if longest is None else min(longest, step.seconds)
+
+
+def solve_budget_seconds(char, step=None):
     """The longest a /fashion/ request of the build may take, what the waiting screen counts towards."""
-    budget = GUARD_BUDGET_SECONDS
+    step = stored_power(char) if step is None else step
+    solves = solves_per_search(char)
+    guarded = guard_plan(char) is not None
+    budget = request_budget(step, solves, guarded)
     options = read_char_blob(char.options, {}, 'options', char)
     if get_effective_stat_overrides(char) or temporix.is_on(options, char.game_version):
-        budget = max(budget, lpproblem.TIME_LIMIT_SECONDS
-                     + _BUILD_SECONDS.get(char.game_version, FIRST_BUILD_SECONDS))
+        build = _BUILD_SECONDS.get(char.game_version, FIRST_BUILD_SECONDS)
+        if step.gap:
+            build = _SOLVE_BUILD_SECONDS.get(char.game_version, build)
+            built = solves * (step.seconds + build + SOLVE_MARGIN_SECONDS)
+            budget = max(budget, min(2 * built if guarded else built, GUARD_BUDGET_SECONDS))
+        else:
+            budget = max(budget, lpproblem.TIME_LIMIT_SECONDS + build)
     return int(math.ceil(budget))
+
+
+def retry_budget_seconds(char):
+    """The longest a quick step's request may take when it found no set in time and searches again exactly; 0 on Standard."""
+    if not stored_power(char).gap:
+        return 0
+    return solve_budget_seconds(char, POWER_BY_KEY[DEFAULT_POWER])
 
 
 def _asks_a_minimum(minimum_stats):
@@ -488,9 +573,11 @@ def _closest_found(model, shortfalls):
             'meets_all': shortfall <= 1e-6, 'pool': model.get_candidate_pool(),
             'values': model.get_search_state()['values']}
 
-def solve_with_weapon_hits(char, solve_once, model_input, deadline=None, longest=None):
-    """A second solve with the weapons' hits and the crit prices read on the first set, when the version has them."""
-    solved = solve_once(model_input, deadline, longest)
+def solve_with_weapon_hits(char, solve_once, model_input, deadline=None, longest=None,
+                           first_deadline=None):
+    """A second solve with the weapons' hits and the crit prices read on the first set, when the version has them; first_deadline, when given, ends the first solve earlier."""
+    solved = solve_once(model_input, deadline if first_deadline is None else first_deadline,
+                        longest)
     terms = weapon_hit_terms(char, solved[2], model_input)
     try:
         reading = crit_hinges(char, solved[2], model_input, terms)
@@ -514,19 +601,27 @@ def solve_with_weapon_hits(char, solve_once, model_input, deadline=None, longest
     return weighed if weighed[2] is not None else solved
 
 
-def _guarded_solve(char, model_input, plan, solve):
-    """The priority solve under floors taken from the balanced solve, all within GUARD_BUDGET_SECONDS."""
+def _guard_facts(plan):
+    kind, percent = plan
+    return {'kind': kind, 'percent': percent, 'balanced': None, 'kept': None,
+            'fallback': False, 'no_reference': False, 'balanced_out_of_time': False,
+            'no_turn': False, 'out_of_time': False, 'other_seconds': 0.0, 'time_limit': None,
+            'floors': {}, 'short': []}
+
+
+def _guarded_solve(char, model_input, plan, solve, budget=None, balanced_seconds=None,
+                   ended=None):
+    """The priority solve under floors taken from the balanced solve, all within budget seconds; ended receives its facts and reading when it ends without a set."""
     kind, percent = plan
     started = time.monotonic()
-    budget_end = started + GUARD_BUDGET_SECONDS
+    budget_end = started + (GUARD_BUDGET_SECONDS if budget is None else budget)
+    if balanced_seconds is None:
+        balanced_seconds = BALANCED_SECONDS
     balanced_input = copy.copy(model_input)
     balanced_input.objective_values = balanced_weights(char, model_input.objective_values)
     if balanced_input.objective_values == model_input.objective_values:
         return _priced_solve(char, model_input, solve(model_input), solve, budget_end)
-    facts = {'kind': kind, 'percent': percent, 'balanced': None, 'kept': None,
-             'fallback': False, 'no_reference': False, 'balanced_out_of_time': False,
-             'no_turn': False, 'out_of_time': False, 'other_seconds': 0.0, 'time_limit': None,
-             'floors': {}, 'short': []}
+    facts = _guard_facts(plan)
     calls = []
 
     def timed_solve(solve_input, deadline, longest=None):
@@ -539,7 +634,7 @@ def _guarded_solve(char, model_input, plan, solve):
     def has_time():
         return budget_end - time.monotonic() >= MIN_SOLVE_SECONDS
 
-    balanced = timed_solve(balanced_input, budget_end - MIN_SOLVE_SECONDS, BALANCED_SECONDS)
+    balanced = timed_solve(balanced_input, budget_end - MIN_SOLVE_SECONDS, balanced_seconds)
     reading = None
     solved = None
     if balanced[2] is None:
@@ -573,8 +668,17 @@ def _guarded_solve(char, model_input, plan, solve):
             solved = balanced
     result = solved[2]
     if result is None:
+        if ended is not None:
+            ended.update(facts=facts, reading=reading)
         return solved
     facts['other_seconds'] = sum(seconds for call, seconds in calls if call is not solved)
+    _settle_guard(char, facts, reading, result)
+    return solved
+
+
+def _settle_guard(char, facts, reading, result):
+    """The safeguard facts finished on the set a guarded request ends with, then carried on it."""
+    kind = facts['kind']
     facts['time_limit'] = getattr(result, 'time_limit', None)
     if reading is not None and not facts['out_of_time']:
         kept = guard_reading(char, result, kind)
@@ -589,7 +693,6 @@ def _guarded_solve(char, model_input, plan, solve):
             if trails:
                 facts['other_kept'] = cross_reading(char, kept, kind)
     result.guard = facts
-    return solved
 
 def set_stats(char, stats):
     for element_name, abr in STATS_NAMES:
@@ -775,6 +878,7 @@ def _continue_search(request, char, blob, minimal, solve_input, deadline):
     if after <= before + tolerance:
         minimal.proven = proven
         minimal.solve_seconds = seconds
+        minimal.__dict__.pop('tolerance', None)
         if proven:
             minimal.search = None
             _keep_in_memory(solve_input, minimal.stats, minimal, True)

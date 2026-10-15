@@ -1,0 +1,10 @@
+{% load i18n %}
+<div id="setup-power-row" class="advanced-options-row setup-power" data-default="{{ power.default }}">
+    <label for="setup-power" class="advanced-options-name">{% trans "Search effort" %}</label>
+    <div class="advanced-options-field setup-power-field">
+        <input type="hidden" name="power" id="setup-power-key" value="{{ power.default }}">
+        <input type="range" id="setup-power" class="setup-power-range" min="0" max="{{ power.last_index }}" step="1" value="{{ power.default_index }}" aria-valuetext="{{ power.default_label }}" aria-describedby="setup-power-text" autocomplete="off">
+        <div class="setup-power-steps" aria-hidden="true">{% for step in power.steps %}<span class="setup-power-step{% if step.key == power.default %} setup-power-on{% endif %}" data-index="{{ step.index }}" data-power="{{ step.key }}">{{ step.label }}</span>{% endfor %}</div>
+        <div id="setup-power-text" class="small-explain setup-power-text" aria-live="polite">{% for step in power.steps %}<span data-power="{{ step.key }}"{% if step.key != power.default %} hidden{% endif %}>{{ step.text }}</span>{% endfor %}</div>
+    </div>
+</div>

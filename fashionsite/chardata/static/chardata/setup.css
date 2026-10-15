@@ -701,3 +701,66 @@ html.fm-modern .setup-more .setup-more-box {
         height: 20px;
     }
 }
+
+.setup-power {
+    --setup-ink: #ffffff;
+    --setup-on: #e3bf4d;
+}
+
+html.fm-light .setup-power {
+    --setup-ink: #3d200d;
+    --setup-on: #8a5a00;
+}
+
+html.fm-modern .setup-power {
+    --setup-ink: var(--fm-text);
+    --setup-on: var(--fm-accent-text);
+}
+
+.setup-power .setup-power-field {
+    min-width: 0;
+}
+
+.setup-power-range {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 4px 0 0;
+    accent-color: var(--setup-on);
+    cursor: pointer;
+}
+
+.setup-power-steps {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.setup-power-step {
+    color: var(--setup-ink);
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.setup-power-step.setup-power-on {
+    color: var(--setup-on);
+    font-weight: 700;
+}
+
+.setup-power-text [hidden] {
+    display: none !important;
+}
+
+@media (max-width: 767px) {
+    .setup-power-range {
+        min-height: 44px;
+        margin: 0;
+    }
+
+    .setup-power-step {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+    }
+}
