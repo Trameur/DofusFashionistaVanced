@@ -11,6 +11,11 @@
     if(t==='auto'){var hr=new Date().getHours();t=(hr<6||hr>=18)?'darktheme':'lighttheme';}
     h.classList.add(t==='darktheme'?'fm-dark':'fm-light');}catch(e){}})();
     </script>
+    <script>
+    (function(){var h=document.documentElement;if(!h.classList.contains('fm-modern'))return;
+    ['{% static "chardata/font/Barlow-Regular.woff2" %}','{% static "chardata/font/IMFellEnglishSC-Regular.woff2" %}'].forEach(function(u){
+    var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/woff2';l.crossOrigin='anonymous';l.href=u;document.head.appendChild(l);});})();
+    </script>
     {# The title and the description are rendered once here and reused three times: the <title>, the meta description, and the Open Graph pair a chat shows under a pasted link. Before this, a page that did not override og_meta previewed as the site-wide sentence. #}
     {% capture as page_title %}{% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista{% endblock %}{% endcapture %}{% capture as page_description %}{% block meta_description %}{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Get Dofus {{ version }} sets created automatically, based on your specific needs.{% endblocktrans %}{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}{% endcapture %}
     <meta name="description" content="{{ page_description }}">

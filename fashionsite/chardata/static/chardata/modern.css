@@ -1,41 +1,60 @@
 /* Modern skin: only applies under html.fm-modern */
 
+/* ---------- Self-hosted fonts (SIL OFL, see font/OFL-*.txt) ---------- */
+@font-face{ font-family:"IM Fell English SC"; font-style:normal; font-weight:400; font-display:swap;
+  src:url("font/IMFellEnglishSC-Regular.woff2") format("woff2"); }
+@font-face{ font-family:Barlow; font-style:normal; font-weight:400; font-display:swap;
+  src:url("font/Barlow-Regular.woff2") format("woff2"); }
+@font-face{ font-family:Barlow; font-style:normal; font-weight:600; font-display:swap;
+  src:url("font/Barlow-SemiBold.woff2") format("woff2"); }
+@font-face{ font-family:Barlow; font-style:normal; font-weight:700; font-display:swap;
+  src:url("font/Barlow-Bold.woff2") format("woff2"); }
+
 /* ---------- Design tokens ---------- */
 html.fm-modern{
   --fm-accent:#e3bf4d; --fm-accent-2:#f4d774; --fm-accent-strong:#b8902a;
   --fm-accent-soft:rgba(227,191,77,.15); --fm-accent-line:rgba(227,191,77,.45);
   --fm-radius:16px; --fm-radius-sm:11px; --fm-radius-xs:8px;
   --fm-gap:16px; --fm-maxw:1200px;
-  --fm-font:"Segoe UI",Roboto,"Helvetica Neue",Arial,system-ui,sans-serif;
+  --fm-font-display:"IM Fell English SC",Georgia,"Times New Roman",serif;
+  --fm-font-body:Barlow,"Segoe UI",Roboto,Arial,sans-serif;
+  --fm-font:var(--fm-font-body);
+  --fm-tape:#e8c65a; --fm-tape-tick:#2a1d08; --fm-tape-text:#2a1d08; --fm-btn-gold:#d9ab3a;
+  --fm-space-1:4px; --fm-space-2:8px; --fm-space-3:12px; --fm-space-4:16px;
+  --fm-space-5:24px; --fm-space-6:32px; --fm-space-7:48px; --fm-space-8:64px;
+  --fm-measure:72ch;
   --fm-shadow:0 10px 30px rgba(0,0,0,.18); --fm-shadow-sm:0 3px 12px rgba(0,0,0,.12);
   /* accent-soft alone is too faint for a focus ring */
   --fm-ring:0 0 0 2px var(--fm-accent-text), 0 0 0 5px var(--fm-accent-soft);
   --fm-trans:.16s cubic-bezier(.22,.61,.36,1);
 }
 html.fm-modern.fm-light{
-  --fm-bg:#e7dfcc; --fm-bg-2:#ddd3bd;
-  --fm-surface:#f2ebdb; --fm-surface-2:#e8dfcb; --fm-surface-3:#ded3bc;
-  --fm-text:#2c2417; --fm-head:#3a2c16; --fm-muted:#655a42;
+  --fm-bg:#ece3cf; --fm-bg-2:#e3d8c0;
+  --fm-surface:#f7f0e1; --fm-surface-2:#efe5d0; --fm-surface-3:#e4d7bd;
+  --fm-text:#2a2017; --fm-head:#3a2716; --fm-muted:#5e4c37;
   --fm-border:rgba(60,46,20,.16); --fm-border-strong:rgba(176,144,42,.42);
   --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.12),transparent 70%);
   --fm-banner-grad:linear-gradient(180deg,rgba(20,12,4,0) 42%,rgba(20,12,4,.30) 100%);
-  --fm-accent-text:#715810;
+  --fm-accent-text:#7a5212;
+  --fm-seam:#8f6f45; --fm-frame-gold:#8c671c; --fm-link-hover:#5c3d0a;
 }
 html.fm-modern.fm-dark{
-  --fm-bg:#120e08; --fm-bg-2:#181209;
-  --fm-surface:#211a10; --fm-surface-2:#2a2114; --fm-surface-3:#342817;
-  --fm-text:#ece6d6; --fm-head:#f6efdc; --fm-muted:#b3a585;
+  --fm-bg:#14100c; --fm-bg-2:#1a1510;
+  --fm-surface:#1e1913; --fm-surface-2:#28211a; --fm-surface-3:#332a20;
+  --fm-text:#ece3d0; --fm-head:#f6eedb; --fm-muted:#b7a688;
   --fm-border:rgba(255,255,255,.10); --fm-border-strong:rgba(227,191,77,.28);
   --fm-glow:radial-gradient(1100px 480px at 50% -140px,rgba(227,191,77,.16),transparent 70%);
   --fm-banner-grad:linear-gradient(180deg,rgba(0,0,0,0) 28%,rgba(0,0,0,.60) 100%);
-  --fm-accent-text:#e3bf4d;
+  --fm-accent-text:#e0bd5f;
+  --fm-seam:#a88a4e; --fm-frame-gold:#c9a24a; --fm-link-hover:var(--fm-head);
 }
 html.fm-modern:not(.fm-light):not(.fm-dark){
-  --fm-bg:#e7dfcc; --fm-bg-2:#ddd3bd; --fm-surface:#f2ebdb; --fm-surface-2:#e8dfcb;
-  --fm-surface-3:#ded3bc; --fm-text:#2c2417; --fm-head:#3a2c16; --fm-muted:#655a42;
+  --fm-bg:#ece3cf; --fm-bg-2:#e3d8c0; --fm-surface:#f7f0e1; --fm-surface-2:#efe5d0;
+  --fm-surface-3:#e4d7bd; --fm-text:#2a2017; --fm-head:#3a2716; --fm-muted:#5e4c37;
   --fm-border:rgba(60,46,20,.16); --fm-border-strong:rgba(176,144,42,.42);
   --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.12),transparent 70%);
-  --fm-accent-text:#715810;
+  --fm-accent-text:#7a5212;
+  --fm-seam:#8f6f45; --fm-frame-gold:#8c671c; --fm-link-hover:#5c3d0a;
 }
 
 /* ---------- Base ---------- */
@@ -51,6 +70,7 @@ html.fm-modern body.body-base::before{
 html.fm-modern .add-banner, html.fm-modern .everything{ position:relative; }
 html.fm-modern *{ font-family:var(--fm-font); }
 html.fm-modern a, html.fm-modern .link-button{ color:var(--fm-accent-text); }
+html.fm-modern a:hover, html.fm-modern .link-button:hover{ color:var(--fm-link-hover); }
 html.fm-modern ::selection{ background:rgba(227,191,77,.30); color:inherit; }
 html.fm-modern.fm-dark *::-webkit-scrollbar{ width:11px; height:11px; }
 html.fm-modern.fm-dark *::-webkit-scrollbar-thumb{ background:#3c2f1b; border-radius:8px; border:2px solid var(--fm-bg); }
@@ -157,7 +177,10 @@ html.fm-modern .maincontent, html.fm-modern .loading{
   background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-border) !important;
   border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); padding:26px !important;
 }
-html.fm-modern .loading-progress > span{ background:var(--fm-accent); }
+html.fm-modern .loading-progress{
+  height:14px; border-radius:3px; background:var(--fm-surface-3); border:1px solid var(--fm-seam); box-sizing:border-box;
+}
+html.fm-modern .loading-progress > span{ box-shadow:inset 0 0 0 1px var(--fm-seam); }
 html.fm-modern .maincontent{ animation:fmFade .25s ease; }
 @keyframes fmFade{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }
 @media (prefers-reduced-motion:reduce){ html.fm-modern *{ animation:none !important; transition:none !important; } }
@@ -200,18 +223,21 @@ html.fm-modern .sidebar-stats{ width:100% !important; box-sizing:border-box; bac
 html.fm-modern .sidebar-stats-row{ color:var(--fm-muted) !important; }
 html.fm-modern .sidebar-stats-value{ color:var(--fm-head) !important; font-weight:700; }
 html.fm-modern .sidebar-stats-version{ margin-top:10px; padding-top:9px; border-top:1px solid var(--fm-border); }
-html.fm-modern .sidebar-stats-version-name{ color:var(--fm-accent-text) !important; font-weight:800; letter-spacing:.6px; text-transform:uppercase; font-size:11px; margin-bottom:3px; }
+html.fm-modern .sidebar-stats-version-name{ color:var(--fm-accent-text) !important; opacity:1; font-weight:800; letter-spacing:.6px; text-transform:uppercase; font-size:11px; margin-bottom:3px; }
+html.fm-modern .encyclopedia-card-meta{ opacity:1; }
+html.fm-modern.fm-dark .build-alert-badge{ color:#f0b59a; }
+html.fm-modern.fm-dark .build-alert-badge-danger{ color:#f4a6a6; }
 html.fm-modern .menu-hor-line{ display:none; }
 html.fm-modern .space{ height:14px; background:transparent !important; }
 
 /* ---------- Headings ---------- */
 html.fm-modern h1{
-  font-variant:small-caps; letter-spacing:.4px; color:var(--fm-head);
+  font-family:var(--fm-font-display); font-variant:normal; letter-spacing:.8px; color:var(--fm-head);
   font-size:clamp(1.8rem,1.15rem + 2.4vw,2.6rem) !important; margin:4px 0 14px !important; line-height:1.12;
-  position:relative; padding-bottom:12px; font-weight:800;
+  position:relative; padding-bottom:16px; font-weight:400 !important; font-synthesis:none;
 }
-html.fm-modern h1::after{ content:""; position:absolute; left:0; bottom:0; width:64px; height:4px; border-radius:4px;
-  background:linear-gradient(90deg,var(--fm-accent),transparent); }
+html.fm-modern h1 *{ font-family:inherit; font-weight:inherit; }
+html.fm-modern h1::after{ content:""; position:absolute; left:0; bottom:0; width:96px; height:8px; border-radius:2px; }
 html.fm-modern .maincontent h1, html.fm-modern .main-div h1{ text-align:left; }
 html.fm-modern h2{ color:var(--fm-head); font-size:clamp(1.2rem,1rem + 1vw,1.55rem); font-weight:700; }
 html.fm-modern h3{ color:var(--fm-head); }
@@ -225,6 +251,19 @@ html.fm-modern .brown-box, html.fm-modern .small-brown-box{
   box-shadow:var(--fm-shadow-sm); padding:18px !important; box-sizing:border-box;
 }
 html.fm-modern .small-brown-box{ border-radius:var(--fm-radius-sm) !important; padding:12px !important; }
+
+/* ---------- Atelier components ---------- */
+html.fm-modern .fm-seam, html.fm-modern .brown-box{ outline:1.5px dashed var(--fm-seam); outline-offset:-6px; }
+html.fm-modern .fm-tape, html.fm-modern h1::after, html.fm-modern .loading-progress > span{
+  background:repeating-linear-gradient(90deg,var(--fm-tape-tick) 0 1px,transparent 1px 8px),var(--fm-tape);
+}
+html.fm-modern .fm-frame{
+  border:2px solid var(--fm-frame-gold); border-radius:var(--fm-radius-xs); box-sizing:border-box;
+  box-shadow:inset 0 0 0 2px var(--fm-surface), inset 0 0 0 3px var(--fm-frame-gold);
+}
+@media (forced-colors:active){
+  html.fm-modern .fm-frame{ border-color:CanvasText; box-shadow:none; }
+}
 
 /* ---------- Buttons ---------- */
 html.fm-modern .button-generic, html.fm-modern .button-generic-foreground, html.fm-modern .submit-button,
@@ -479,7 +518,7 @@ html.fm-modern .encyclopedia-back{ color:var(--fm-accent-text) !important; }
 
 /* --- Smithmagic / forgemagie --- */
 html.fm-modern .fm-box{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); }
-html.fm-modern .fm-title{ color:var(--fm-head); font-variant:small-caps; letter-spacing:.4px; font-weight:800; }
+html.fm-modern .fm-title{ color:var(--fm-head); font-variant:normal; letter-spacing:.8px; font-weight:400; }
 html.fm-modern .fm-section-title{ color:var(--fm-head); }
 html.fm-modern .fm-table th{ color:var(--fm-head); }
 html.fm-modern .fm-table th, html.fm-modern .fm-table td{ border-bottom-color:var(--fm-border) !important; }
