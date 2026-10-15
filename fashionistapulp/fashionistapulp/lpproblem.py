@@ -107,6 +107,7 @@ _PARTIAL_SEARCH = re.compile(r'best objective (\S+) \(best possible (\S+)\)')
 _SUMMARY_OBJECTIVE = re.compile(r'^Objective value:\s+(\S+)', re.M)
 _SUMMARY_BOUND = re.compile(r'^(?:Upper|Lower) bound:\s+(\S+)', re.M)
 _START_TAKEN = re.compile(r'MIPStart provided solution with cost')
+_GAP_EXIT = re.compile(r'Exiting as integer gap of (\S+)')
 
 
 def read_best_bound(log_text, objective):
@@ -125,11 +126,16 @@ def read_best_bound(log_text, objective):
             bound = -bound
         if bound >= objective - 1e-6 * max(1.0, abs(objective)):
             return max(bound, objective)
+    for printed_gap in _GAP_EXIT.findall(log_text)[-1:]:
+        try:
+            return objective + abs(float(printed_gap))
+        except ValueError:
+            continue
     return None
 
 
-def _solver_for_run(warm_start, seed=None):
-    """A copy of SOLVER writing CBC's log to a file of its own, reading a start and seeding if asked."""
+def _solver_for_run(warm_start, seed=None, gap=0):
+    """A copy of SOLVER writing CBC's log to a file of its own, reading a start, seeding and stopping within a relative gap if asked."""
     solver = copy.copy(SOLVER)
     solver.msg = False
     if seed is not None:
@@ -143,6 +149,8 @@ def _solver_for_run(warm_start, seed=None):
     solver.optionsDict = dict(SOLVER.optionsDict, warmStart=bool(warm_start),
                               logPath=os.path.join(solver.tmpDir,
                                                    'cbc-%s.log' % uuid.uuid4().hex))
+    if gap:
+        solver.optionsDict['gapRel'] = gap
     return solver
 
 
@@ -173,12 +181,14 @@ class LpProblem2:
         self.best_bound = None
         self.start_objective = None
         self.start_accepted = None
+        self.gap = 0
 
-    def run(self, warm_start=None, seed=None):
-        """Solve; warm_start is {variable name: value} of a set to start from, zero elsewhere, and seed a positive int for another search path."""
+    def run(self, warm_start=None, seed=None, gap=0):
+        """Solve; warm_start is {variable name: value} of a set to start from, zero elsewhere, seed a positive int for another search path, and gap the relative distance from the best bound CBC may stop at."""
         problem_name = '/tmp/problem_%s' % str(uuid.uuid4())
         self.pulp_lp.name = problem_name
-        solver = _solver_for_run(warm_start is not None, seed)
+        self.gap = gap or 0
+        solver = _solver_for_run(warm_start is not None, seed, self.gap)
         objective = self.pulp_lp.objective
         self.objective_value = self.best_bound = self.start_objective = None
         self.start_accepted = None
@@ -270,7 +280,16 @@ class LpProblem2:
         return LpSolution[self.pulp_lp.sol_status]
 
     def solution_is_proven(self):
-        """True only when the solver closed the gap. See get_solution_status."""
+        """True only when the solver closed the gap, never after a run given a gap. See get_solution_status."""
+        return self.search_finished() and not getattr(self, 'gap', 0)
+
+    def search_finished(self):
+        """True when CBC ended the search itself, on a proof or within the gap it was given, not on its time limit.
+
+        CBC writes "Optimal" in its solution file when it stops within a
+        relative gap, so PuLP sets sol_status to LpSolutionOptimal for that
+        stop as for a proof.
+        """
         return self.pulp_lp.sol_status == LpSolutionOptimal
 
     def get_search_state(self):

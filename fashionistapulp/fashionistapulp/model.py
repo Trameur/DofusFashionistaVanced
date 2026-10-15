@@ -1665,16 +1665,16 @@ class Model:
         return sum(weight * (variable.varValue or 0)
                    for _name, variable, _asked, weight in shortfalls)
 
-    def run(self, retries=0, change_of=False, warm_start=None, seed=None):
+    def run(self, retries=0, change_of=False, warm_start=None, seed=None, gap=0):
         if change_of:
             self.input['objective_values']['vit'] += 1
             self.write_objective_function(self.input['objective_values'], self.input['char_level'],
                                           getattr(self, 'item_terms', None))
         try:
-            self.problem.run(warm_start, seed)
+            self.problem.run(warm_start, seed, gap)
         except pulp.PulpSolverError:
             if retries > 0:            
-                self.run(retries-1, True, warm_start, seed)
+                self.run(retries-1, True, warm_start, seed, gap)
             else:
                 raise
                 
@@ -1783,6 +1783,9 @@ class Model:
     def solution_is_proven(self):
         return self.problem.solution_is_proven()
 
+    def search_finished(self):
+        return self.problem.search_finished()
+
     def get_search_state(self):
         """See LpProblem2.get_search_state. Call before return_model."""
         return self.problem.get_search_state()
@@ -1794,7 +1797,7 @@ class ModelInput(object):
                  forbidden_equips, objective_values, options, char_class,
                  stat_points_to_distribute, empty_slot_types=None, stat_overrides=None,
                  modifier_values=None, modifier_overlaps=None, gender=None,
-                 char_name=None, item_terms=None, crit_hinges=None):
+                 char_name=None, item_terms=None, crit_hinges=None, gap=0):
         self.char_level = char_level
         self.base_stats_by_attr = base_stats_by_attr
         self.minimum_stats = minimum_stats
@@ -1816,6 +1819,7 @@ class ModelInput(object):
         self.item_terms = item_terms or {}
         # ((crit breakpoint, drop in the weight above it), ...), see Model.modify_crit_hinges
         self.crit_hinges = tuple(tuple(hinge) for hinge in crit_hinges or ())
+        self.gap = gap or 0
 
     def _barred_to_the_wearer(self):
         """The pieces the sex and name rule out, None when neither is checked."""
@@ -1869,6 +1873,9 @@ class ModelInput(object):
         crit_hinges = getattr(self, 'crit_hinges', None)
         if crit_hinges:
             parts.append(['crit hinges', crit_hinges])
+        gap = getattr(self, 'gap', 0)
+        if gap:
+            parts.append(['gap', gap])
         return _stable_digest(parts)
 
     def __hash__(self, *args, **kwargs):
@@ -1905,6 +1912,9 @@ class ModelInput(object):
         crit_hinges = getattr(self, 'crit_hinges', None)
         if crit_hinges:
             key += (('crit hinges', tuple(crit_hinges)),)
+        gap = getattr(self, 'gap', 0)
+        if gap:
+            key += (('gap', gap),)
         return key.__hash__()
 
 def _is_number(value):
