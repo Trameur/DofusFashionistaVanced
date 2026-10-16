@@ -687,14 +687,30 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
   html.fm-modern .maincontent table:not(.fm-table):not(.encyclopedia-list){ max-width:100%; }
 }
 
+/* Spells columns */
+html.fm-modern #spells-table, html.fm-modern #spells-table > tbody{ display:block !important; width:100% !important; overflow:visible; }
+html.fm-modern #spells-table > tbody > tr{ display:grid !important; grid-template-columns:minmax(0,1fr); gap:0 14px; width:100% !important; }
+html.fm-modern #spells-table > tbody > tr > .spells-td{ display:block !important; width:auto !important; min-width:0; box-sizing:border-box; }
+html.fm-modern #spells-table .spells-td > div{ min-width:0; }
+@media (min-width: 1280px){
+  html.fm-modern #spells-table > tbody > tr{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+html.fm-modern #spells-table .header-cell:has(.circle-container), html.fm-modern #spells-table .header-cell:has(.select-stack){ padding-bottom:32px; }
+/* Spells filters */
+html.fm-modern #spell-buttons > table, html.fm-modern #spell-buttons > table tbody{ display:block; width:100% !important; }
+html.fm-modern #spell-buttons > table tr{ display:flex; flex-wrap:wrap; gap:8px 16px; align-items:flex-start; justify-content:space-between; }
+html.fm-modern #spell-buttons > table td{ display:block; width:auto !important; }
+html.fm-modern #spell-buttons #right-buttons{ text-align:right; }
+@media (max-width: 900px){
+  html.fm-modern #spell-buttons > table tr{ justify-content:flex-start; }
+  html.fm-modern #spell-buttons #right-buttons{ text-align:left; }
+}
+
 /* Stack image+text tables on mobile. Direct td only, or nested tables flatten */
 @media (max-width: 900px){
   html.fm-modern .maincontent table td img{ max-width:100% !important; height:auto !important; }
   html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(.load-project-table):not(#spells-table){ display:block; width:100% !important; }
   html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(.load-project-table):not(#spells-table) > tbody > tr > td{ display:block; width:100% !important; text-align:center; }
-  /* Spells: 2 columns */
-  html.fm-modern #spells-table, html.fm-modern #spells-table tbody, html.fm-modern #spells-table tr{ display:block !important; width:100% !important; }
-  html.fm-modern #spells-table .spells-td{ display:inline-block !important; width:49% !important; vertical-align:top; box-sizing:border-box; }
 }
 
 /* <=480px: compact item box */

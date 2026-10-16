@@ -89,8 +89,8 @@ global.$ = new Proxy(function (selector) {
   }
 });
 global.jQuery = global.$;
-global.document = {};
-global.window = {location: {pathname: '/', search: '', hash: ''}, addEventListener: function () {}};
+global.document = {documentElement: {classList: {contains: function () { return false; }}}};
+global.window = {location: {pathname: '/', search: '', hash: ''}, addEventListener: function () {}, matchMedia: function () { return {matches: true, addEventListener: function () {}}; }};
 global.localStorage = {getItem: function () { return null; }, setItem: function () {}};
 global.setTimeout = function () {};
 vm.runInThisContext(source);
