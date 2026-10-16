@@ -240,3 +240,19 @@
     font-family: inherit;
     resize: vertical;
 }
+
+.inv-folder-delete {
+    margin-top: 8px;
+}
+.inv-entry-buttons {
+    margin-top: 8px;
+}
+.inv-ocr-controls.inv-ocr-controls-spaced {
+    margin-top: 8px;
+}
+.inv-section-title.inv-section-title-spaced {
+    margin-top: 8px;
+}
+.inv-page .small-explain.inv-empty {
+    margin-top: 12px;
+}

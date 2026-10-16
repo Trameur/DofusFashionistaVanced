@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block main %}
-<div class="inv-page text">
+<div class="inv-page text tools-atelier">
     <h1 class="inv-title">{{ t.title }}</h1>
     <p class="inv-subtitle small-explain">{{ t.subtitle }}</p>
     <p class="inv-hint small-explain">{{ t.solver_hint }}</p>
@@ -45,7 +45,7 @@
             {% if selected_folder %}
             <form method="post" action="{% game_url 'inventory_folder_delete' %}"
                   onsubmit="return confirm('{{ t.folder_delete_confirm|escapejs }}');"
-                  style="margin-top:8px;">
+                  class="inv-folder-delete">
                 {% csrf_token %}
                 <input type="hidden" name="folder_id" value="{{ selected_folder.id }}">
                 <button class="button-thin" type="submit">{{ t.folder_delete }}</button>
@@ -65,7 +65,7 @@
                 <span class="inv-feedback" id="inv-add-feedback" style="display:none;">{{ t.item_added }}</span>
             </div>
 
-            <div style="margin-top:8px;">
+            <div class="inv-entry-buttons">
                 <button type="button" class="button-thin" id="inv-ocr-toggle"><span class="fm-ico fm-ico-camera" aria-hidden="true"></span> {{ t.ocr_button }}</button>
                 <button type="button" class="button-thin" id="inv-text-toggle">{{ t.text_button }}</button>
             </div>
@@ -101,7 +101,7 @@
                 <p class="small-explain">{{ t.text_hint }}</p>
                 <textarea class="pretty-input" id="inv-text-input" rows="6"
                           placeholder="{{ t.text_placeholder }}"></textarea>
-                <div class="inv-ocr-controls" style="margin-top:8px;">
+                <div class="inv-ocr-controls inv-ocr-controls-spaced">
                     <button type="button" class="button-generic" id="inv-text-read">{{ t.text_read }}</button>
                     <span class="small-explain" id="inv-text-status"></span>
                 </div>
@@ -112,7 +112,7 @@
             <div class="inv-ocr-box" id="inv-ocr-result" style="display:none;">
                 <div class="inv-section-title">{{ t.ocr_pick_item }}</div>
                 <select class="pretty-input" id="inv-ocr-item-select"></select>
-                <div class="inv-section-title" style="margin-top:8px;">{{ t.ocr_stats }}</div>
+                <div class="inv-section-title inv-section-title-spaced">{{ t.ocr_stats }}</div>
                 <div id="inv-ocr-stats"></div>
                 <div class="inv-editor-actions">
                     <select class="pretty-input" id="inv-ocr-add-stat"></select>
@@ -161,7 +161,7 @@
                 {% endfor %}
             </div>
             {% else %}
-            <p class="small-explain" style="margin-top:12px;">{{ t.no_items }}</p>
+            <p class="small-explain inv-empty">{{ t.no_items }}</p>
             {% endif %}
             {% else %}
             <p class="small-explain">{{ t.folders_none }}</p>

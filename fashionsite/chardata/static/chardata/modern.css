@@ -1774,3 +1774,134 @@ html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card p{ color:var(--f
 html.fm-modern .encyclopedia-atelier .encyclopedia-missing-meta, html.fm-modern .encyclopedia-atelier .encyclopedia-missing-elsewhere-label{ color:var(--fm-muted); opacity:1; }
 html.fm-modern .encyclopedia-atelier .encyclopedia-missing-elsewhere, html.fm-modern .encyclopedia-atelier .encyclopedia-missing-actions{ gap:var(--fm-space-3); }
 html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card .button-generic{ min-height:44px; box-sizing:border-box; display:inline-flex; align-items:center; }
+
+/* ---------- Tools: workshop and inventory ---------- */
+html.fm-modern .tools-atelier .ws-head-img, html.fm-modern .tools-atelier .inv-card img.inv-card-img{
+  box-sizing:border-box; padding:2px; border:2px solid var(--fm-frame-gold); border-radius:var(--fm-radius-xs);
+  background-color:var(--fm-surface-3); object-fit:contain;
+  box-shadow:inset 0 0 0 2px var(--fm-surface), inset 0 0 0 3px var(--fm-frame-gold);
+}
+html.fm-modern .tools-atelier .inv-card img.inv-card-img{ width:56px; height:56px; flex:0 0 auto; }
+@media (forced-colors:active){
+  html.fm-modern .tools-atelier .ws-head-img, html.fm-modern .tools-atelier .inv-card img.inv-card-img{ border-color:CanvasText; box-shadow:none; }
+}
+html.fm-modern .tools-atelier .ws-mini-btn, html.fm-modern .tools-atelier .ws-step, html.fm-modern .tools-atelier .ws-source-toggle,
+html.fm-modern .tools-atelier .ws-subrecipe-toggle, html.fm-modern .tools-atelier .ws-undo-inline{ min-height:44px; box-sizing:border-box; }
+html.fm-modern .tools-atelier .ws-mini-btn, html.fm-modern .tools-atelier .ws-step, html.fm-modern .tools-atelier .ws-source-toggle,
+html.fm-modern .tools-atelier .ws-subrecipe-toggle{
+  background:var(--fm-surface); color:var(--fm-text); border:1px solid var(--fm-border-strong); border-radius:var(--fm-radius-xs);
+  transition:background var(--fm-trans), border-color var(--fm-trans);
+}
+html.fm-modern .tools-atelier .ws-mini-btn:hover, html.fm-modern .tools-atelier .ws-step:hover, html.fm-modern .tools-atelier .ws-source-toggle:hover,
+html.fm-modern .tools-atelier .ws-subrecipe-toggle:hover{ background:var(--fm-accent-soft); border-color:var(--fm-accent-line); }
+html.fm-modern .tools-atelier .ws-step{ min-width:44px; }
+html.fm-modern .tools-atelier .ws-mini-btn.ws-craft-btn{ border-color:var(--ws-done-line); color:var(--ws-done); }
+
+/* Workshop */
+html.fm-modern .workshop-wrapper.tools-atelier{ max-width:none; margin:var(--fm-space-3) 0 var(--fm-space-5); padding:0; }
+html.fm-modern .tools-atelier .workshop-meta{ flex-wrap:wrap; gap:var(--fm-space-3); margin-bottom:var(--fm-space-3); color:var(--fm-muted); }
+html.fm-modern .tools-atelier .ws-meta-actions .button-thin{ min-height:44px; }
+html.fm-modern .tools-atelier .ws-summary{ color:var(--fm-head); margin-bottom:var(--fm-space-2); }
+html.fm-modern .tools-atelier .ws-job-summary{ color:var(--fm-muted); max-width:var(--fm-measure); margin-bottom:var(--fm-space-4); }
+html.fm-modern .tools-atelier .ws-save-status{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .tools-atelier .workshop-empty{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .tools-atelier .ws-toolbar{
+  align-items:flex-end; gap:var(--fm-space-4); margin:0 0 var(--fm-space-5); padding:var(--fm-space-4); background:var(--fm-surface-2);
+  border:1px solid var(--fm-border); border-radius:var(--fm-radius); box-shadow:var(--fm-shadow-sm);
+}
+html.fm-modern .tools-atelier .ws-search-label, html.fm-modern .tools-atelier .ws-sort label{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .tools-atelier .ws-search-wrapper input, html.fm-modern .tools-atelier .ws-sort select{ min-height:44px; }
+html.fm-modern .tools-atelier .ws-search-results.brown-box{ padding:0 !important; outline:none; box-shadow:var(--fm-shadow); width:auto; max-width:none; margin:2px 0 0; }
+html.fm-modern .tools-atelier .ws-search-result{ min-height:44px; }
+html.fm-modern .tools-atelier .ws-search-result:hover, html.fm-modern .tools-atelier .ws-search-result:focus-visible{ background:var(--fm-accent-soft); }
+html.fm-modern .tools-atelier .ws-chip{
+  min-height:44px; color:var(--fm-text); background:var(--fm-surface); border-color:var(--fm-border-strong); padding:4px 14px;
+}
+html.fm-modern .tools-atelier .ws-chip:hover{ background:var(--fm-accent-soft); }
+html.fm-modern .tools-atelier .ws-chip[aria-pressed="true"]{ background:var(--fm-accent-soft); border-color:var(--fm-accent-text); color:var(--fm-head); }
+html.fm-modern .tools-atelier .ws-chip-count{ opacity:1; color:var(--fm-muted); }
+html.fm-modern .tools-atelier .ws-list{ gap:var(--fm-space-4); align-items:start; }
+html.fm-modern .tools-atelier .ws-card.brown-box{ padding:0 !important; outline:none; }
+@media screen{
+  html.fm-modern .tools-atelier .ws-card.brown-box{ border-left:4px solid var(--fm-border-strong) !important; border-radius:var(--fm-radius) !important; background:var(--fm-surface-2) !important; }
+  html.fm-modern .tools-atelier .ws-card.brown-box[data-state="done"]{ border-left-color:var(--ws-done-line) !important; }
+  html.fm-modern .tools-atelier .ws-card.brown-box[data-state="part"]{ border-left-color:var(--ws-part-line) !important; }
+  html.fm-modern .tools-atelier .ws-card.brown-box[data-state="none"]{ border-left-color:var(--ws-none-line) !important; }
+}
+html.fm-modern .tools-atelier .ws-head{ padding:var(--fm-space-3) var(--fm-space-4) var(--fm-space-2); }
+html.fm-modern .tools-atelier .ws-name{ color:var(--fm-head); }
+html.fm-modern .tools-atelier .workshop-row-meta{ color:var(--fm-muted); }
+html.fm-modern .tools-atelier .ws-craft-job{ color:var(--fm-text); }
+html.fm-modern .tools-atelier .workshop-missing{ opacity:1; color:var(--fm-muted); }
+html.fm-modern .tools-atelier .ws-remove{ min-width:44px; min-height:44px; opacity:1; color:var(--fm-muted); border-radius:var(--fm-radius-xs); }
+html.fm-modern .tools-atelier .ws-remove:hover{ color:var(--fm-text); background:var(--fm-accent-soft); }
+html.fm-modern .tools-atelier .ws-num, html.fm-modern .maincontent .tools-atelier .ws-num{ min-height:44px; }
+html.fm-modern .tools-atelier .ws-progress{ height:8px; margin:0 var(--fm-space-4) var(--fm-space-2); border-radius:4px; background:var(--fm-surface-3); }
+html.fm-modern .tools-atelier .ws-progress > span{ border-radius:4px; }
+html.fm-modern .tools-atelier .ws-res{ padding:0 var(--fm-space-4); }
+html.fm-modern .tools-atelier .ws-row{ border-top-color:var(--fm-border); padding:var(--fm-space-2) 0; }
+html.fm-modern .tools-atelier .ws-row-name{ color:var(--fm-text); }
+html.fm-modern .tools-atelier .ws-row-shared, html.fm-modern .tools-atelier .ws-row-extra{ opacity:1; color:var(--fm-muted); }
+html.fm-modern .tools-atelier .ws-foot{ padding:var(--fm-space-3) var(--fm-space-4); border-top-color:var(--fm-border); background:var(--fm-surface-3); }
+html.fm-modern .tools-atelier .ws-card[data-state="done"] .ws-foot{ background:var(--ws-done-bg); border-top-color:var(--ws-done-line); }
+html.fm-modern .tools-atelier .ws-card[data-state="part"] .ws-foot{ background:var(--ws-part-bg); border-top-color:var(--ws-part-line); }
+html.fm-modern .tools-atelier .ws-card[data-state="none"] .ws-foot{ background:var(--ws-none-bg); border-top-color:var(--ws-none-line); }
+html.fm-modern .tools-atelier .ws-source-panel{ background:var(--fm-surface-3); border-radius:var(--fm-radius-xs); }
+html.fm-modern .tools-atelier .ws-subrecipe-panel{ border-left-color:var(--fm-seam); }
+html.fm-modern .tools-atelier .ws-shopping{
+  margin-top:var(--fm-space-6); padding:var(--fm-space-4); background:var(--fm-surface-2); border:1px solid var(--fm-border);
+  border-radius:var(--fm-radius); box-shadow:var(--fm-shadow-sm);
+}
+html.fm-modern .tools-atelier .ws-shopping-head{ padding-bottom:var(--fm-space-3); border-bottom:1px dashed var(--fm-seam); margin-bottom:var(--fm-space-2); }
+html.fm-modern .tools-atelier .ws-shopping-head h2{
+  font-family:var(--fm-font-display); font-weight:400 !important; font-synthesis:none; font-size:1.5rem !important; letter-spacing:.5px; color:var(--fm-head);
+}
+html.fm-modern .tools-atelier .ws-hide-gathered{ opacity:1; color:var(--fm-text); min-height:44px; }
+html.fm-modern .tools-atelier .ws-shopping-list{ display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr)); column-gap:var(--fm-space-6); }
+html.fm-modern .tools-atelier .ws-shopping-list .ws-row{ border-top:0; border-bottom:1px solid var(--fm-border); }
+html.fm-modern .tools-atelier .ws-shopping-empty{ opacity:1; color:var(--fm-muted); }
+@media (max-width:480px){
+  html.fm-modern .tools-atelier .ws-toolbar{ align-items:stretch; }
+  html.fm-modern .tools-atelier .ws-search{ flex:0 0 auto; }
+}
+
+/* Inventory */
+html.fm-modern .inv-page.tools-atelier{ padding:var(--fm-space-2) 0 var(--fm-space-5); }
+html.fm-modern .tools-atelier .inv-subtitle, html.fm-modern .tools-atelier .inv-hint{ color:var(--fm-muted); opacity:1; max-width:var(--fm-measure); }
+html.fm-modern .tools-atelier .inv-layout{ grid-template-columns:minmax(220px,280px) minmax(0,1fr); gap:var(--fm-space-3); }
+@media (max-width:800px){
+  html.fm-modern .tools-atelier .inv-layout{ grid-template-columns:minmax(0,1fr); }
+}
+html.fm-modern .tools-atelier .inv-box.brown-box{ padding:var(--fm-space-4) !important; }
+html.fm-modern .tools-atelier .inv-box > .inv-section-title{
+  margin-bottom:var(--fm-space-3); padding-bottom:var(--fm-space-2); border-bottom:1px dashed var(--fm-seam);
+  font-family:var(--fm-font-display); font-weight:400; font-synthesis:none; font-size:1.25rem; letter-spacing:.5px; color:var(--fm-head);
+}
+html.fm-modern .tools-atelier .inv-folder-link{
+  align-items:center; min-height:44px; box-sizing:border-box; padding:0 var(--fm-space-3); color:var(--fm-text);
+  border:1px solid transparent; border-radius:var(--fm-radius-xs);
+}
+html.fm-modern .tools-atelier .inv-folder-link:hover{ background:var(--fm-accent-soft); color:var(--fm-text); }
+html.fm-modern .tools-atelier .inv-folder-link.inv-folder-selected{ outline:none; background:var(--fm-accent-soft); border-color:var(--fm-accent-text); color:var(--fm-head); }
+html.fm-modern .tools-atelier .inv-folder-count{ color:var(--fm-muted); font-variant-numeric:tabular-nums; }
+html.fm-modern .tools-atelier .inv-folder-form input[type="text"], html.fm-modern .tools-atelier .inv-search-wrapper input{ min-height:44px; }
+html.fm-modern .tools-atelier .inv-box .button-thin, html.fm-modern .tools-atelier .inv-box .button-generic{ min-height:44px; box-sizing:border-box; display:inline-flex; align-items:center; gap:var(--fm-space-1); }
+html.fm-modern .tools-atelier .inv-search-wrapper{ max-width:var(--fm-measure); }
+html.fm-modern .tools-atelier .inv-search-results.brown-box{ padding:0 !important; outline:none; box-shadow:var(--fm-shadow); }
+html.fm-modern .tools-atelier .inv-search-result{ min-height:44px; box-sizing:border-box; }
+html.fm-modern .tools-atelier .inv-search-result:hover{ filter:none; background:var(--fm-accent-soft); }
+html.fm-modern .tools-atelier .inv-ocr-box{ border:1.5px dashed var(--fm-seam); border-radius:var(--fm-radius-xs); background:var(--fm-surface); }
+html.fm-modern .tools-atelier .inv-grid{ grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr)); gap:var(--fm-space-4); margin-top:var(--fm-space-4); }
+html.fm-modern .tools-atelier .inv-card.brown-box{ outline:none; padding:var(--fm-space-3) !important; gap:var(--fm-space-3); border-radius:var(--fm-radius-sm) !important; background:var(--fm-surface) !important; }
+html.fm-modern .tools-atelier .inv-card-name{ color:var(--fm-head); }
+html.fm-modern .tools-atelier .inv-card-meta{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .tools-atelier .inv-card-actions{ gap:var(--fm-space-2); margin-top:var(--fm-space-3); }
+html.fm-modern.fm-light .tools-atelier .inv-stat-over{ color:#1a5a85; }
+html.fm-modern.fm-light .tools-atelier .inv-stat-under{ color:#8a4e00; }
+html.fm-modern.fm-dark .tools-atelier .inv-stat-over{ color:#6cb8ec; }
+html.fm-modern.fm-dark .tools-atelier .inv-stat-under{ color:#f0b45c; }
+html.fm-modern.fm-light .tools-atelier .inv-feedback{ color:#1f6a26; }
+html.fm-modern.fm-dark .tools-atelier .inv-feedback{ color:#86d68f; }
+html.fm-modern .tools-atelier .inv-editor-row input{ min-height:44px; width:84px; }
+html.fm-modern .tools-atelier .inv-editor-base{ opacity:1; color:var(--fm-muted); }
+html.fm-modern .tools-atelier .inv-editor-actions select, html.fm-modern .tools-atelier .inv-ocr-controls .pretty-input{ min-height:44px; }
