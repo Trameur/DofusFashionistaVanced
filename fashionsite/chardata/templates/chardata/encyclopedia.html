@@ -20,10 +20,10 @@
 {% endblock %}
 
 {% block main %}
-<div class="encyclopedia-page text" id="encyclopedia-page">
+<div class="encyclopedia-page encyclopedia-atelier text" id="encyclopedia-page">
     <h1 class="encyclopedia-title">{{ t.title }}</h1>
     <p class="encyclopedia-subtitle small-explain">{{ t.subtitle }}</p>
-    <p align="center" style="margin: 6px 0 10px;"><a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_sets' %}">{% trans "Browse sets (panoplies)" %} &gt;</a> &nbsp; <a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_monsters' %}">{{ mt.monsters_label }} &gt;</a> &nbsp; {% if current_game_version == 'dofus3' %}{# Dofus 3 only: the other versions have too few builds to list #}<a class="encyclopedia-page-link" href="{% url 'encyclopedia_most_used' %}">{% trans "Most used items in builds" %} &gt;</a>{% endif %}</p>
+    <p align="center" class="encyclopedia-hub-links"><a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_sets' %}">{% trans "Browse sets (panoplies)" %} &gt;</a> &nbsp; <a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_monsters' %}">{{ mt.monsters_label }} &gt;</a> &nbsp; {% if current_game_version == 'dofus3' %}{# Dofus 3 only: the other versions have too few builds to list #}<a class="encyclopedia-page-link" href="{% url 'encyclopedia_most_used' %}">{% trans "Most used items in builds" %} &gt;</a>{% endif %}</p>
 
     <form method="get" class="encyclopedia-filter-box brown-box">
         <input type="hidden" name="order_rows_json" id="order-rows-json" value="">

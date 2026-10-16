@@ -71,11 +71,12 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
 .dark-theme-active .encyclopedia-item a:hover { color: #ffe4bf; }
 
 .encyclopedia-workshop-add-feedback { font-size: 0.85em; }
+.encyclopedia-csrf-form { display: none; }
 </style>
 {% endblock %}
 
 {% block main %}
-<div class="encyclopedia-item text">
+<div class="encyclopedia-item encyclopedia-atelier text">
     <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
@@ -83,7 +84,7 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
         <span>{{ set_name }}</span>
     </nav>
 
-    <div class="encyclopedia-item-card brown-box">
+    <div class="encyclopedia-item-card brown-box encyclopedia-set-card">
         <h1 class="encyclopedia-set-title">{{ set_name }}</h1>
 
         {% if other_versions %}
@@ -98,7 +99,7 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
             {% if user.is_authenticated %}
             <button type="button" class="button-thin" id="enc-workshop-add-set-btn">{% trans "Add the set to my workshop" %}</button>
             <span id="enc-workshop-add-set-feedback" class="encyclopedia-workshop-add-feedback" aria-live="polite"></span>
-            <form id="enc-workshop-set-csrf" style="display:none;">{% csrf_token %}</form>
+            <form id="enc-workshop-set-csrf" class="encyclopedia-csrf-form">{% csrf_token %}</form>
             {% else %}
             <a href="{% game_url 'login_page' %}">{% trans "Log in" %}</a> {% trans "to add this set to the workshop." %}
             {% endif %}

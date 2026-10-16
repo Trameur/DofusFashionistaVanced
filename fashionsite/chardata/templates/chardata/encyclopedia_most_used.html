@@ -37,6 +37,7 @@
     {% endif %}
 
     {% if slots %}
+    <div class="most-used-slots">
     {% for slot in slots %}
     <div class="most-used-slot">
         <h2 class="most-used-slot-title">{{ slot.label }}</h2>
@@ -52,6 +53,7 @@
         </ol>
     </div>
     {% endfor %}
+    </div>
     {% else %}
     <p class="most-used-method">{% trans "The usage counts have not been built yet." %}</p>
     {% endif %}

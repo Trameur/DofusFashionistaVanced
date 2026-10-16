@@ -32,7 +32,7 @@
 {% endblock %}
 
 {% block main %}
-<div class="encyclopedia-item text">
+<div class="encyclopedia-item encyclopedia-atelier text">
     <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
@@ -237,7 +237,7 @@
                     <button type="submit" class="button-thin" id="enc-workshop-add-btn">{% trans "Add to workshop" %}</button>
                     <span id="enc-workshop-add-feedback" class="encyclopedia-workshop-add-feedback" aria-live="polite"></span>
                 </form>
-                <form id="enc-workshop-csrf" style="display:none;">{% csrf_token %}</form>
+                <form id="enc-workshop-csrf" class="encyclopedia-csrf-form">{% csrf_token %}</form>
                 {% else %}
                 <a href="{% game_url 'login_page' %}">{% trans "Log in" %}</a> {% trans "to add this item to the workshop." %}
                 {% endif %}

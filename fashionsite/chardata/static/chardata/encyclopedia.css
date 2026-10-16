@@ -19,6 +19,9 @@
     opacity: 0.9;
     text-align: left;
 }
+.encyclopedia-hub-links {
+    margin: 6px 0 10px;
+}
 .encyclopedia-filter-box {
     border-radius: 8px;
     padding: 12px;
