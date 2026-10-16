@@ -31,7 +31,9 @@ def rules_after_the_marker():
     with io.open(os.path.join(STATIC, 'modern.css'), encoding='utf-8') as handle:
         source = handle.read()
     after = source[source.index(MARKER):]
-    return parse(after[len(MARKER):])
+    after = after[len(MARKER):]
+    following = after.find('/* ---------- ')
+    return parse(after if following < 0 else after[:following])
 
 
 def value(sheets, ancestors, element, prop, width, classes=LIVE):
