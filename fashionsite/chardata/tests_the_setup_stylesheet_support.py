@@ -202,7 +202,7 @@ def selector_matches(selector, chain):
 
 
 def media_applies(media, width):
-    if media is None:
+    if media is None or media == 'screen':
         return True
     conditions = re.findall(r'\(([^)]*)\)', media)
     if not conditions:
