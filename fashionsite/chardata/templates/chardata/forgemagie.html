@@ -2113,10 +2113,16 @@
             document.getElementById('fm-sim-stop').style.display =
                 (session.sink < 1 && placedOverWeight > 0) ? 'block' : 'none';
 
+            var focusedField = document.activeElement;
+            var refocus = null;
+            if (focusedField && focusedField.dataset && focusedField.dataset.fmRow
+                    && simRowsBody.contains(focusedField)) {
+                refocus = {row: focusedField.dataset.fmRow, field: focusedField.dataset.fmField};
+            }
             simRowsBody.innerHTML = '';
             var anyTarget = false;
             var allReached = true;
-            session.rows.forEach(function(row) {
+            session.rows.forEach(function(row, rowIndex) {
                 // The target is a MINIMUM (floor): the suggestion only ever
                 // raises a stat toward it. Sacrifice is a separate, explicit
                 // per-line choice (row.sacrifice).
@@ -2151,13 +2157,15 @@
                     var nowInput = document.createElement('input');
                     nowInput.type = 'number';
                     nowInput.className = 'pretty-input fm-input';
+                    nowInput.dataset.fmRow = rowIndex;
+                    nowInput.dataset.fmField = 'value';
                     nowInput.value = row.value;
                     nowInput.addEventListener('change', function() {
                         var parsed = parseInt(nowInput.value, 10);
                         pushUndo();
                         row.value = isNaN(parsed) ? 0 : parsed;
                         saveSession();
-                        renderSession();
+                        setTimeout(renderSession, 0);
                     });
                     nowTd.appendChild(nowInput);
                 } else {
@@ -2175,13 +2183,15 @@
                     var targetInput = document.createElement('input');
                     targetInput.type = 'number';
                     targetInput.className = 'pretty-input fm-input';
+                    targetInput.dataset.fmRow = rowIndex;
+                    targetInput.dataset.fmField = 'target';
                     targetInput.value = row.target;
                     targetInput.addEventListener('change', function() {
                         var parsed = parseInt(targetInput.value, 10);
                         pushUndo();
                         row.target = isNaN(parsed) ? 0 : parsed;
                         saveSession();
-                        renderSession();
+                        setTimeout(renderSession, 0);
                     });
                     targetTd.appendChild(targetInput);
                 } else {
@@ -2219,6 +2229,14 @@
 
                 simRowsBody.appendChild(tr);
             });
+
+            if (refocus) {
+                var refocused = simRowsBody.querySelector('input[data-fm-row="'
+                    + refocus.row + '"][data-fm-field="' + refocus.field + '"]');
+                if (refocused) {
+                    refocused.focus();
+                }
+            }
 
             // A landed hunting rune reads as the line the game writes on a
             // hunting weapon, in the exotic colour since this one had none.
