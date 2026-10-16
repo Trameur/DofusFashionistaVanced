@@ -1672,3 +1672,105 @@ html.fm-modern .most-used-name{ grid-column:3; grid-row:1; white-space:normal; o
 html.fm-modern .most-used-level{ grid-column:3; grid-row:2; opacity:1; color:var(--fm-muted); white-space:normal; }
 html.fm-modern .most-used-share{ grid-column:4; grid-row:1 / span 2; flex:none; color:var(--fm-accent-text); }
 html.fm-modern .most-used-cta{ border-top-color:var(--fm-border); }
+
+/* ---------- Encyclopedia: monster list, monster page, resource page, missing page ---------- */
+html.fm-modern .encyclopedia-atelier .resource-icon, html.fm-modern .encyclopedia-atelier .monster-portrait,
+html.fm-modern .encyclopedia-atelier .drop-icon, html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-thumb{
+  box-sizing:content-box; padding:3px; border:2px solid var(--fm-frame-gold); border-radius:var(--fm-radius-xs);
+  background-color:var(--fm-surface-3); object-fit:contain;
+  box-shadow:inset 0 0 0 2px var(--fm-surface), inset 0 0 0 3px var(--fm-frame-gold);
+}
+html.fm-modern .encyclopedia-atelier .drop-icon, html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-thumb{ padding:2px; }
+@media (forced-colors:active){
+  html.fm-modern .encyclopedia-atelier .resource-icon, html.fm-modern .encyclopedia-atelier .monster-portrait,
+  html.fm-modern .encyclopedia-atelier .drop-icon, html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-thumb{ border-color:CanvasText; box-shadow:none; }
+}
+html.fm-modern .encyclopedia-item.encyclopedia-atelier .encyclopedia-item-name:has(> .resource-icon){ display:flex; align-items:center; gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier, html.fm-modern .encyclopedia-monsters.encyclopedia-atelier, html.fm-modern .encyclopedia-missing.encyclopedia-atelier{ padding:0; }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a:not(.button-generic), html.fm-modern .encyclopedia-monsters.encyclopedia-atelier a:not(.button-generic):not(.encyclopedia-monsters-weakness),
+html.fm-modern .encyclopedia-missing.encyclopedia-atelier a:not(.button-generic){ color:var(--fm-accent-text); }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a:not(.button-generic):hover, html.fm-modern .encyclopedia-monsters.encyclopedia-atelier a:not(.button-generic):not(.encyclopedia-monsters-weakness):hover{ color:var(--fm-link-hover); }
+
+/* Monster list */
+html.fm-modern .encyclopedia-monsters.encyclopedia-atelier > h1[align="center"]{ text-align:left; margin-bottom:0; }
+html.fm-modern .encyclopedia-monsters.encyclopedia-atelier > h1[align="center"]::after{ left:0; transform:none; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search{
+  margin:var(--fm-space-3) 0 var(--fm-space-4); padding:var(--fm-space-4); background:var(--fm-surface-2); border:1px solid var(--fm-border);
+  border-radius:var(--fm-radius); box-shadow:var(--fm-shadow-sm);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid{ grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr)); gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid label{ color:var(--fm-muted); min-width:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid input, html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid select{ min-height:44px; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid .button-generic{ min-height:44px; box-sizing:border-box; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-guide-note{ color:var(--fm-muted); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-meta{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-grid{ grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr)); gap:var(--fm-space-4); margin-top:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-grid > .encyclopedia-monster-card{
+  display:flex; flex-direction:column; gap:var(--fm-space-1); min-width:0; padding:14px 16px; background:var(--fm-surface-2); color:var(--fm-text);
+  border:1px solid var(--fm-border); border-radius:var(--fm-radius); box-shadow:var(--fm-shadow-sm);
+  transition:transform var(--fm-trans), box-shadow var(--fm-trans), border-color var(--fm-trans);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-grid > .encyclopedia-monster-card:hover{ transform:translateY(-3px); box-shadow:var(--fm-shadow); border-color:var(--fm-accent-line); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-main-link{ color:var(--fm-text) !important; min-height:44px; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-name{ display:flex; align-items:center; gap:var(--fm-space-3); color:var(--fm-head); font-size:1.05em; overflow-wrap:anywhere; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-thumb{ margin-right:0; flex:0 0 auto; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-monsters-meta{ color:var(--fm-muted); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card a.encyclopedia-monsters-weakness{ padding:var(--fm-space-1) 0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-preview{ margin-top:auto; padding-top:var(--fm-space-2); color:var(--fm-text); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-rate{ color:var(--fm-muted); opacity:1; }
+
+/* Monster page: one card, sections as tiles that grow with the width */
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box{ display:block; column-width:380px; column-gap:var(--fm-space-4); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box > :not(.encyclopedia-section){ column-span:all; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box > #monster-stats{ column-span:all; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-section{
+  background:var(--fm-surface) !important; margin:0 0 var(--fm-space-4); padding:var(--fm-space-4) !important; border-radius:var(--fm-radius-sm) !important;
+  box-shadow:var(--fm-shadow-sm); break-inside:avoid; min-width:0;
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-section > b:first-child{
+  display:block; margin-bottom:var(--fm-space-3); padding-bottom:var(--fm-space-2); border-bottom:1px dashed var(--fm-seam);
+  font-family:var(--fm-font-display); font-weight:400; font-synthesis:none; font-size:1.25rem; letter-spacing:.5px; color:var(--fm-head);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-name{ overflow-wrap:anywhere; display:flex; align-items:center; gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-meta{ color:var(--fm-muted); opacity:1; margin-top:var(--fm-space-1); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-meta b{ color:var(--fm-head); }
+html.fm-modern .encyclopedia-atelier .monster-drop-summary{ margin:var(--fm-space-3) 0 var(--fm-space-4); gap:var(--fm-space-2); }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-drop-summary-link, html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-version-link{
+  display:inline-flex; align-items:center; flex-wrap:wrap; gap:var(--fm-space-1); min-height:44px; box-sizing:border-box; padding:6px 14px;
+  background:var(--fm-surface-2); color:var(--fm-text); border:1px solid var(--fm-border); border-radius:var(--fm-radius-xs);
+  transition:border-color var(--fm-trans), background var(--fm-trans);
+}
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-version-link{ flex-direction:column; align-items:flex-start; gap:0; }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-drop-summary-link:hover, html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-version-link:hover{
+  border-color:var(--fm-accent-line); background:var(--fm-accent-soft); color:var(--fm-text);
+}
+html.fm-modern .encyclopedia-atelier .monster-drop-summary-count{ color:var(--fm-accent-text); }
+html.fm-modern .encyclopedia-atelier .monster-version-link-label{ color:var(--fm-head); }
+html.fm-modern .encyclopedia-atelier .monster-version-link-meta{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .monster-grades-scroll{ margin-top:var(--fm-space-2); border-radius:var(--fm-radius-xs); }
+html.fm-modern .encyclopedia-atelier .monster-grades th, html.fm-modern .encyclopedia-atelier .monster-grades td{ border-bottom-color:var(--fm-border); color:var(--fm-text); }
+html.fm-modern .encyclopedia-atelier .monster-grades th{ color:var(--fm-head); background:var(--fm-surface-2); }
+html.fm-modern.fm-dark .encyclopedia-atelier .monster-grades td.monster-weak, html.fm-modern.fm-dark .encyclopedia-atelier .encyclopedia-monster-card a.encyclopedia-monsters-weakness{ color:#74e074; }
+html.fm-modern .encyclopedia-atelier .monster-weakest-hint{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .monster-subareas-list{ color:var(--fm-text); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-list, html.fm-modern .encyclopedia-atelier .monster-spells-list{ list-style:none; margin:0; padding:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-list > li, html.fm-modern .encyclopedia-atelier .monster-spells-list > li{
+  padding:var(--fm-space-2) 0; border-top:1px solid var(--fm-border); overflow-wrap:anywhere; color:var(--fm-text) !important; margin:0; align-items:center;
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-list > li:first-child, html.fm-modern .encyclopedia-atelier .monster-spells-list > li:first-child{ border-top:0; padding-top:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-list > li:last-child, html.fm-modern .encyclopedia-atelier .monster-spells-list > li:last-child{ padding-bottom:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-list li.drop-item{ gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-rate, html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-conditions,
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-meta, html.fm-modern .encyclopedia-atelier .monster-spell-ap,
+html.fm-modern .encyclopedia-atelier .monster-spell-range{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .monster-spells-list .spell-tip:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:2px; border-radius:3px; }
+
+/* Missing page: a notice card */
+html.fm-modern .encyclopedia-missing.encyclopedia-atelier .encyclopedia-missing-card.brown-box{
+  max-width:var(--fm-measure); padding:var(--fm-space-5) !important; box-shadow:inset 5px 0 0 var(--fm-accent), var(--fm-shadow-sm);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card h1{ text-align:left; overflow-wrap:anywhere; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card p{ color:var(--fm-text); max-width:var(--fm-measure); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-meta, html.fm-modern .encyclopedia-atelier .encyclopedia-missing-elsewhere-label{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-elsewhere, html.fm-modern .encyclopedia-atelier .encyclopedia-missing-actions{ gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card .button-generic{ min-height:44px; box-sizing:border-box; display:inline-flex; align-items:center; }
