@@ -521,8 +521,8 @@
           data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
         });
 
-    var ajaxloader = {{ajaxloader | safe}};
-    var images = {{themeimages | safe}};
+    var ajaxloader = {{ajaxloader|default:"{}"|safe}};
+    var images = {{themeimages|default:"{}"|safe}};
 
     function getAllImages(theme)
     {

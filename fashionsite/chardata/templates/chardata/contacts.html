@@ -39,13 +39,13 @@
 {% block main %}
 
 <h1 align="center">{% trans "Contact us" %}</h1>
-<table>
+<table class="fm-page-art">
 <tr>
 <td>
     <img alt="" src="{% static "chardata/designs/myContact.png" %}"></img>
 </td>
 <td>
-    <div id="c_form">
+    <div id="c_form" class="fm-seam">
         <form name="theform" action="{% game_url 'send_email' %}" method="post" id="theform">
             {% csrf_token %}
             

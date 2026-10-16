@@ -14,13 +14,13 @@
 {% block main %}
 
 <h1 align="center">{% trans "Manage account" %}</h1>
-<table width="100%">
+<table width="100%" class="fm-page-art">
 <tr>
 <td align="center">
     <img alt="" src="{% static "chardata/designs/myManage.png" %}"></img>
 </td>
 <td>
-    <div id="c_form">
+    <div id="c_form" class="fm-seam">
         <form name="theform" method="post" id="main_form">
             {% csrf_token %}
                 <h3 align="center" class='text'>{% trans "Set account details" %}</h1>

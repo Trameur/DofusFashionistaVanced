@@ -11,9 +11,11 @@
 {% load static_s3 %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+<div class="fm-notice fm-seam">
 <h3 align="center" class='text'>{% blocktrans %}Your message has been sent.{% endblocktrans %}</h3>
 <p align="center" class='text'>{% blocktrans %}Thank you for contacting us.{% endblocktrans %}</p>
 {% game_url 'home' as home_url %}
 <p align="center" class='text'>{% blocktrans %}Click <a href="{{home_url}}">here</a> to go back.{% endblocktrans %}</p>
+</div>
 {% endblock %}
 

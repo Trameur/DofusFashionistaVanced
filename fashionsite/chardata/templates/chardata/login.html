@@ -15,7 +15,7 @@
     <h1 align="center">{% trans "Login" %}</h1>
     {% if user and not user.is_anonymous %}
     <div>
-    <table width="100%">
+    <table width="100%" class="fm-page-art">
     <tr>
         <td align="center">
             <img alt="" src="{% static "chardata/designs/MyLogin.png" %}">
@@ -53,7 +53,8 @@
     <p align="center" class="big-text" id="social-login-failed">{% trans "Signing in with Google did not go through. You can try again, or enter with your username and password." %}</p>
     {% endif %}
     
-<div align="center">
+<div align="center" class="fm-login-grid">
+    <div class="fm-account-card fm-seam">
     <table>
     <tr>
         <td align="right"><label class="big-text" for="login-username" style="vertical-align: top;">{% trans "Username" %}: </label></td>
@@ -98,13 +99,14 @@
         <br>
         <span class="big-text">{% blocktrans %}We only use your Google account to sign you in, so you can save and share your builds. Nothing is ever posted on your behalf.{% endblocktrans %}</span>
     </div>
+    </div>
     <br>
     <br>
     
     
     {% if not from_confirmation %}
     <hr class="hr">
-    <table width="100%">
+    <table width="100%" class="fm-register-row fm-seam">
     <tr>
     <td align="right">
         <div align="center" style="display: inline-block">

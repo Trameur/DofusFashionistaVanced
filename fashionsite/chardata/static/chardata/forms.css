@@ -622,3 +622,9 @@ select, .pretty-input {
     margin-right: 4px;
     vertical-align: middle;
 }
+
+.fm-prose {
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: left;
+}
