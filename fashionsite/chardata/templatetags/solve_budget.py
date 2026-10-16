@@ -18,3 +18,15 @@ def solve_budget_seconds(char):
     except Exception:
         logger.exception('could not read the solve budget of char %s', char.pk)
         return GUARD_BUDGET_SECONDS
+
+
+@register.filter(name='retry_budget_seconds')
+def retry_budget_seconds(char):
+    from chardata.fashion_action import retry_budget_seconds as budget
+    if getattr(char, 'pk', None) is None:
+        return 0
+    try:
+        return budget(char)
+    except Exception:
+        logger.exception('could not read the search again budget of char %s', char.pk)
+        return 0

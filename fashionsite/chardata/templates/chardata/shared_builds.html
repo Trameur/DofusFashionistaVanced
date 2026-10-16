@@ -280,6 +280,10 @@
                     <div class="build-alerts">
                         <span class="build-proof-badge" title="{% trans "Proven optimum. The solver checked that no other legal combination scores higher on your criteria." %}">{% trans "Proven optimum" %}</span>
                     </div>
+                    {% elif build.solver_proven is False and build.solver_tolerance %}
+                    <div class="build-alerts">
+                        <span class="build-proof-badge build-proof-badge-limit">{% blocktrans with gap=build.solver_tolerance %}Within {{ gap }}% of the best, not a proof{% endblocktrans %}</span>
+                    </div>
                     {% elif build.solver_proven is False %}
                     <div class="build-alerts">
                         <span class="build-proof-badge build-proof-badge-limit">{% trans "Best found at the time limit, not a proof" %}</span>

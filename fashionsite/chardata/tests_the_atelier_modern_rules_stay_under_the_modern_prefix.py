@@ -41,6 +41,7 @@ FROZEN_UNPREFIXED = frozenset((
     '.fm-design-toggle:hover',
     '.fm-guides-grid > .fm-ad-feed',
     '.fm-ico',
+    '.fm-ico[hidden]',
     '.fm-ico-bag',
     '.fm-ico-camera',
     '.fm-ico-check',
@@ -79,6 +80,8 @@ FROZEN_UNPREFIXED = frozenset((
     'html.fm-dark .spell-tip.st-open .spell-tip-mark',
     'html.fm-dark .spell-tip:focus-visible .spell-tip-mark',
     'html.fm-dark .spell-tip:hover .spell-tip-mark',
+    'html:not(.fm-modern) .compare-cart-panel',
+    'html:not(.fm-modern) .compare-cart-toggle',
     'html:not(.fm-modern) .fm-design-toggle svg',
     'html:not(.fm-modern) .space.header-controls .fm-design-toggle',
 ))

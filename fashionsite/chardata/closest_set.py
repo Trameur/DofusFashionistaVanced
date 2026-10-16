@@ -170,7 +170,8 @@ def locked_piece_notes(char):
 
 def failure_context(request, char):
     """The failure page's facts about the build's last solve; empty when they are gone."""
-    from chardata.fashion_action import GUARD_BUDGET_SECONDS, solve_budget_seconds
+    from chardata.fashion_action import (GUARD_BUDGET_SECONDS, retry_budget_seconds,
+                                         solve_budget_seconds)
     from chardata.shared_builds_view import _get_preview_items
     from chardata.solution import get_solution_from_minimal
     from chardata.util import version_reverse
@@ -188,6 +189,9 @@ def failure_context(request, char):
         return context
     context.update(cause=entry.get('cause'), seconds=entry.get('seconds'),
                    closest_state=entry.get('state'))
+    if entry.get('cause') == 'time':
+        again = max(budget, retry_budget_seconds(char))
+        context.update(again_seconds=again, again_budget=again)
     if entry.get('state') == 'found':
         try:
             minimal = closest_minimal(entry, model_input)

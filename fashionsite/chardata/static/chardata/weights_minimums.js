@@ -331,10 +331,15 @@ function wmInit(postUrl, options) {
         }
     }
 
-    $('.wm-input').on('focus', selectOnFocus).on('mouseup', function(event) {
-        if ($(this).data('wm-focused')) {
-            $(this).data('wm-focused', false);
-            event.preventDefault();
+    $('.wm-input').on('focus', selectOnFocus).on('mouseup', function() {
+        var input = this;
+        if ($(input).data('wm-focused')) {
+            $(input).data('wm-focused', false);
+            setTimeout(function() {
+                if (document.activeElement === input) {
+                    try { input.select(); } catch (e) {}
+                }
+            }, 0);
         }
     }).on('blur', function() {
         $(this).data('wm-focused', false);

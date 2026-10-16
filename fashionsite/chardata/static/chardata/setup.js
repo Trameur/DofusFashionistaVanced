@@ -1654,3 +1654,39 @@ $(document).ready(function() {
     showChanges();
     showCawwot();
 });
+
+$(document).ready(function() {
+    var $row = $('#setup-power-row');
+    var $range = $('#setup-power');
+    if (!$row.length || !$range.length) {
+        return;
+    }
+    var $key = $('#setup-power-key');
+    var $steps = $row.find('.setup-power-step');
+
+    function show() {
+        var $step = $steps.filter(function() { return $(this).attr('data-index') === String($range.val()); });
+        if (!$step.length) {
+            return;
+        }
+        var key = $step.attr('data-power');
+        $key.val(key);
+        $range.attr('aria-valuetext', $.trim($step.text()));
+        $steps.removeClass('setup-power-on');
+        $step.addClass('setup-power-on');
+        $row.find('.setup-power-text > [data-power]').each(function() {
+            this.hidden = $(this).attr('data-power') !== key;
+        });
+        if (typeof showChosenOptions === 'function') {
+            showChosenOptions();
+        }
+    }
+
+    $range.on('input change', show);
+    $steps.on('click', function() {
+        $range.val($(this).attr('data-index'));
+        show();
+        $range.trigger('focus');
+    });
+    show();
+});
