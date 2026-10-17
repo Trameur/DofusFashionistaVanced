@@ -35,7 +35,7 @@ html.fm-modern.fm-light{
   --fm-border:rgba(60,46,20,.16); --fm-border-strong:rgba(176,144,42,.42);
   --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.12),transparent 70%);
   --fm-banner-grad:linear-gradient(180deg,rgba(20,12,4,0) 42%,rgba(20,12,4,.30) 100%);
-  --fm-accent-text:#7a5212;
+  --fm-accent-text:#7a5212; --fm-error-text:#a8281f;
   --fm-seam:#8f6f45; --fm-frame-gold:#8c671c; --fm-link-hover:#5c3d0a;
 }
 html.fm-modern.fm-dark{
@@ -45,7 +45,7 @@ html.fm-modern.fm-dark{
   --fm-border:rgba(255,255,255,.10); --fm-border-strong:rgba(227,191,77,.28);
   --fm-glow:radial-gradient(1100px 480px at 50% -140px,rgba(227,191,77,.16),transparent 70%);
   --fm-banner-grad:linear-gradient(180deg,rgba(0,0,0,0) 28%,rgba(0,0,0,.60) 100%);
-  --fm-accent-text:#e0bd5f;
+  --fm-accent-text:#e0bd5f; --fm-error-text:#f4a6a6;
   --fm-seam:#a88a4e; --fm-frame-gold:#c9a24a; --fm-link-hover:var(--fm-head);
 }
 html.fm-modern:not(.fm-light):not(.fm-dark){
@@ -53,7 +53,7 @@ html.fm-modern:not(.fm-light):not(.fm-dark){
   --fm-surface-3:#e4d7bd; --fm-text:#2a2017; --fm-head:#3a2716; --fm-muted:#5e4c37;
   --fm-border:rgba(60,46,20,.16); --fm-border-strong:rgba(176,144,42,.42);
   --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.12),transparent 70%);
-  --fm-accent-text:#7a5212;
+  --fm-accent-text:#7a5212; --fm-error-text:#a8281f;
   --fm-seam:#8f6f45; --fm-frame-gold:#8c671c; --fm-link-hover:#5c3d0a;
 }
 
@@ -2196,4 +2196,137 @@ html.fm-modern .tunnel-exclusions img.button-unforbid{ box-sizing:content-box; p
 html.fm-modern .tunnel-exclusions .excluded-items-for-type-container{ margin:0 var(--fm-space-2) var(--fm-space-2); }
 @media (min-width:901px){
   html.fm-modern .tunnel-exclusions .exclusions-types-section{ grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); }
+}
+
+/* Setup tunnel: base stats, smart build, quick start, import, infeasible */
+html.fm-modern .tunnel-atelier .tunnel-split{ display:grid; grid-template-columns:minmax(0,1fr); gap:var(--fm-space-4); align-items:start; }
+html.fm-modern .tunnel-atelier .tunnel-split > br{ display:none; }
+html.fm-modern .tunnel-atelier .tunnel-main, html.fm-modern .tunnel-atelier .tunnel-side{ display:grid; grid-template-columns:minmax(0,1fr); gap:var(--fm-space-4); align-content:start; min-width:0; }
+html.fm-modern .tunnel-atelier .tunnel-card{
+  min-width:0; margin:0; padding:var(--fm-space-4); box-sizing:border-box; text-align:left; background:var(--fm-surface-2); border:1px solid var(--fm-border);
+  border-radius:var(--fm-radius-sm); box-shadow:var(--fm-shadow-sm); outline:1.5px dashed var(--fm-seam); outline-offset:-6px;
+}
+@media (max-width:900px){
+  html.fm-modern .tunnel-atelier .tunnel-card{ padding:var(--fm-space-3); }
+}
+@media (min-width:1280px){
+  html.fm-modern .tunnel-atelier .tunnel-split{ grid-template-columns:minmax(0,3fr) minmax(0,2fr); }
+  html.fm-modern .tunnel-basestats .tunnel-split{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+html.fm-modern .tunnel-basestats .button-thin, html.fm-modern .tunnel-basestats .button-thin-chardata,
+html.fm-modern .tunnel-basestats input[type="button"], html.fm-modern .tunnel-basestats input[type="submit"],
+html.fm-modern .tunnel-import .button-thin{ min-height:44px; box-sizing:border-box; }
+html.fm-modern .tunnel-basestats .button-thin-chardata{ min-width:44px; }
+html.fm-modern .tunnel-smartbuild .smart-example, html.fm-modern .tunnel-import .import-partner, html.fm-modern .tunnel-import .import-back a,
+html.fm-modern .tunnel-import .import-developers a{ display:inline-flex; align-items:center; min-height:44px; box-sizing:border-box; }
+html.fm-modern .tunnel-infeasible a.button-generic{ display:inline-flex; align-items:center; }
+html.fm-modern .tunnel-smartbuild .smart-error, html.fm-modern .tunnel-quickstart .coaching-error, html.fm-modern .tunnel-quickstart .coaching-login-warn,
+html.fm-modern .tunnel-import .import-error{ color:var(--fm-error-text); text-align:left; font-weight:600; }
+html.fm-modern .tunnel-smartbuild .solver-headline, html.fm-modern .tunnel-smartbuild .solver-note,
+html.fm-modern .tunnel-quickstart .solver-headline, html.fm-modern .tunnel-quickstart .solver-note{ max-width:var(--fm-measure); margin-left:0; margin-right:0; text-align:left; }
+html.fm-modern .tunnel-smartbuild .solver-headline, html.fm-modern .tunnel-quickstart .solver-headline{ margin-top:0; }
+
+/* Base characteristics */
+html.fm-modern .tunnel-basestats{ text-align:left; }
+html.fm-modern .tunnel-basestats .tunnel-card > br, html.fm-modern .tunnel-basestats .stat-submit > br{ display:none; }
+html.fm-modern .tunnel-basestats .text{ display:flex; padding:0; margin-bottom:var(--fm-space-3); text-align:left; color:var(--fm-text); }
+html.fm-modern .tunnel-basestats h2{
+  margin:0 0 var(--fm-space-3); text-align:left; font-family:var(--fm-font-display); font-weight:400; font-synthesis:none; font-size:1.25rem; letter-spacing:.4px; color:var(--fm-head);
+}
+html.fm-modern .tunnel-basestats .register-stat, html.fm-modern .tunnel-basestats .table-softcap-stat{
+  display:block; width:100% !important; max-width:100%; overflow-x:auto; padding:0; border:1px solid var(--fm-border); border-radius:var(--fm-radius-xs);
+  background:var(--fm-surface); table-layout:auto;
+}
+html.fm-modern .tunnel-basestats .register-stat td, html.fm-modern .tunnel-basestats .register-stat th,
+html.fm-modern .tunnel-basestats .table-softcap-stat td, html.fm-modern .tunnel-basestats .table-softcap-stat th{
+  padding:var(--fm-space-1) var(--fm-space-2) !important; font-size:.95rem; color:var(--fm-text); word-break:normal; overflow-wrap:normal; white-space:nowrap;
+}
+html.fm-modern .tunnel-basestats .register-stat tr:first-child > *, html.fm-modern .tunnel-basestats .table-softcap-stat tr:first-child > *{ color:var(--fm-head); background:var(--fm-surface-3); font-size:.9rem; }
+html.fm-modern .tunnel-basestats .register-stat .input-stat-name, html.fm-modern .tunnel-basestats .table-softcap-stat .softcap-stat-name{ text-align:left; font-size:.95rem; }
+html.fm-modern .tunnel-basestats .register-stat .stat-softcap{ padding:0 var(--fm-space-2); }
+html.fm-modern .tunnel-basestats .register-line-stat:nth-child(odd) > td, html.fm-modern .tunnel-basestats .softcap-stat-line:nth-child(odd) > td{ background:var(--fm-surface); }
+html.fm-modern .tunnel-basestats .register-line-stat:nth-child(even) > td, html.fm-modern .tunnel-basestats .softcap-stat-line:nth-child(even) > td{ background:var(--fm-surface-2); }
+html.fm-modern .tunnel-basestats .table-softcap-stat tr > :nth-child(2){ position:sticky; left:0; z-index:1; }
+html.fm-modern .tunnel-basestats .register-stat > tbody, html.fm-modern .tunnel-basestats .table-softcap-stat > tbody{ display:table; width:100%; }
+html.fm-modern .tunnel-basestats .register-stat .stat-input{ margin:0; }
+html.fm-modern .tunnel-basestats .remaining-points{ margin:var(--fm-space-3) 0 var(--fm-space-2); font-size:.9rem; color:var(--fm-muted); }
+html.fm-modern .tunnel-basestats .error-message{ font-weight:600; color:var(--fm-error-text); }
+html.fm-modern .tunnel-basestats .stat-submit{ display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-start; gap:var(--fm-space-2); margin-top:var(--fm-space-3); text-align:left; }
+html.fm-modern .tunnel-basestats .stat-submit > #submit-mode, html.fm-modern .tunnel-basestats .stat-submit > #save-mode{ display:contents; }
+html.fm-modern .tunnel-basestats .stat-submit .button-gap-after, html.fm-modern .tunnel-basestats .stat-submit .button-gap-before{ margin:0; }
+@media (max-width:480px){
+  html.fm-modern .tunnel-basestats .register-stat tr > :first-child, html.fm-modern .tunnel-basestats .table-softcap-stat tr > :first-child{ display:none; }
+  html.fm-modern .tunnel-basestats .register-stat td, html.fm-modern .tunnel-basestats .register-stat th,
+  html.fm-modern .tunnel-basestats .table-softcap-stat td, html.fm-modern .tunnel-basestats .table-softcap-stat th{ padding:var(--fm-space-1) 3px !important; }
+}
+
+/* Smart build */
+html.fm-modern .tunnel-smartbuild.smart-wrap{ display:grid; grid-template-columns:minmax(0,1fr); gap:var(--fm-space-4); max-width:none; margin:0; padding:0; text-align:left; }
+html.fm-modern .tunnel-smartbuild.smart-wrap > h1{ margin-bottom:0; }
+html.fm-modern .tunnel-smartbuild .smart-intro, html.fm-modern .tunnel-smartbuild .smart-confirm-title{ margin:0 0 var(--fm-space-3); opacity:1; }
+html.fm-modern .tunnel-smartbuild .smart-hint{ opacity:1; color:var(--fm-muted); }
+html.fm-modern .tunnel-smartbuild .smart-form{ justify-content:flex-start; }
+html.fm-modern .tunnel-smartbuild .smart-input{ flex:1 1 240px; min-width:min(100%,240px); max-width:none; }
+html.fm-modern .tunnel-smartbuild .smart-chips{ justify-content:flex-start; }
+html.fm-modern .tunnel-smartbuild .smart-chip{ background:var(--fm-surface); border-color:var(--fm-border-strong); }
+html.fm-modern .tunnel-smartbuild .smart-examples{ margin-top:0; font-size:.9rem; }
+html.fm-modern .tunnel-smartbuild .smart-example{ margin:var(--fm-space-1); padding:0 14px; border-color:var(--fm-border-strong); }
+html.fm-modern .tunnel-smartbuild .smart-confirm{ margin:0; }
+html.fm-modern .tunnel-smartbuild .smart-element{ max-width:100%; }
+
+/* Quick start */
+html.fm-modern .tunnel-quickstart.coaching-card{ max-width:none; margin:0; padding:0; }
+html.fm-modern .tunnel-quickstart .coaching-intro{ margin:0 0 var(--fm-space-3); text-align:left; opacity:1; }
+html.fm-modern .tunnel-quickstart #coaching_form{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:var(--fm-space-3) var(--fm-space-4); align-items:end; }
+html.fm-modern .tunnel-quickstart #coaching_form > p, html.fm-modern .tunnel-quickstart #coaching_form > .coaching-actions{ grid-column:1 / -1; }
+html.fm-modern .tunnel-quickstart #coaching_form > p{ margin:0; }
+html.fm-modern .tunnel-quickstart label.coaching-field{ display:flex; flex-direction:column; align-items:stretch; gap:var(--fm-space-1); min-height:0; margin:0; }
+html.fm-modern .tunnel-quickstart .coaching-field-label{ color:var(--fm-head); }
+html.fm-modern .tunnel-quickstart .coaching-actions{ margin-top:var(--fm-space-2); text-align:left; }
+
+/* Import */
+html.fm-modern .tunnel-import.import-wrap{ max-width:none; margin:0; padding:0; text-align:left; }
+html.fm-modern .tunnel-import .import-intro{ max-width:var(--fm-measure); margin:0 0 var(--fm-space-4); }
+html.fm-modern .tunnel-import .import-form{ justify-content:flex-start; align-items:center; }
+html.fm-modern .tunnel-import .import-shots{ margin:0; }
+html.fm-modern .tunnel-import .import-found{ margin:0; }
+html.fm-modern .tunnel-import .import-list{ display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr)); gap:var(--fm-space-2) var(--fm-space-4); }
+html.fm-modern .tunnel-import .import-line{ margin:0; min-width:0; }
+html.fm-modern .tunnel-import .import-piece{ background:var(--fm-surface); border-color:var(--fm-border-strong); overflow-wrap:break-word; max-width:100%; box-sizing:border-box; }
+html.fm-modern .tunnel-import .import-roll{ background:var(--fm-surface); border-color:var(--fm-border-strong); }
+html.fm-modern .tunnel-import .import-ignored, html.fm-modern .tunnel-import .import-approx{ opacity:1; }
+html.fm-modern .tunnel-import .import-partners{ margin:0; }
+html.fm-modern .tunnel-import .import-partners-list{ justify-content:flex-start; }
+html.fm-modern .tunnel-import .import-partner{ gap:var(--fm-space-2); background:var(--fm-surface); border-color:var(--fm-border-strong); }
+html.fm-modern .tunnel-import .import-developers{ margin:0; }
+
+/* No set found */
+@media (min-width:901px){
+  html.fm-modern .tunnel-infeasible{ display:grid; grid-template-columns:minmax(160px,260px) minmax(0,1fr); gap:var(--fm-space-5); align-items:start; width:100%; }
+  html.fm-modern .tunnel-infeasible > tbody, html.fm-modern .tunnel-infeasible > tbody > tr{ display:contents; }
+  html.fm-modern .tunnel-infeasible > tbody > tr > td{ display:block; min-width:0; }
+  html.fm-modern .tunnel-infeasible > tbody > tr > td > img{ display:block; height:auto; }
+}
+html.fm-modern .tunnel-infeasible > tbody > tr > td > img{ width:min(100%,260px); }
+html.fm-modern .tunnel-infeasible .infeasible-title{ font-family:var(--fm-font-display); font-weight:400; font-synthesis:none; font-size:1.6rem; letter-spacing:.4px; color:var(--fm-head); }
+html.fm-modern .tunnel-infeasible .infeasible-body{ display:grid; grid-template-columns:minmax(0,1fr); gap:var(--fm-space-4); align-content:start; padding-top:var(--fm-space-3); }
+html.fm-modern .tunnel-infeasible .infeasible-body > p, html.fm-modern .tunnel-infeasible .infeasible-body > form, html.fm-modern .tunnel-infeasible .infeasible-cause,
+html.fm-modern .tunnel-infeasible .infeasible-actions{ margin:0; }
+html.fm-modern .tunnel-infeasible .solver-why{
+  max-width:none; margin:0; padding:var(--fm-space-4); box-sizing:border-box; outline:1.5px dashed var(--fm-seam); outline-offset:-6px;
+}
+html.fm-modern .tunnel-infeasible .solver-why-title{ font-family:var(--fm-font-display); font-weight:400; font-synthesis:none; font-size:1.2rem; letter-spacing:.3px; }
+html.fm-modern .tunnel-infeasible .infeasible-tips ul{ margin:var(--fm-space-2) 0 0; padding-left:var(--fm-space-5); }
+html.fm-modern .tunnel-infeasible .infeasible-tips li{ margin-bottom:var(--fm-space-1); }
+html.fm-modern .tunnel-infeasible .infeasible-shortfall{ display:block; max-width:100%; overflow-x:auto; }
+html.fm-modern .tunnel-infeasible .infeasible-shortfall th:first-child, html.fm-modern .tunnel-infeasible .infeasible-shortfall td:first-child{ position:sticky; left:0; background:var(--fm-surface-2); }
+@media (max-width:900px){
+  html.fm-modern .tunnel-infeasible .solver-why{ padding:var(--fm-space-3); }
+}
+html.fm-modern .tunnel-import textarea.import-area{ min-height:190px; }
+html.fm-modern .tunnel-import .import-form select{ min-width:160px; }
+html.fm-modern .tunnel-import .import-form > p{ flex:1 1 100%; margin:0; }
+html.fm-modern .tunnel-infeasible .infeasible-title, html.fm-modern .tunnel-infeasible .infeasible-body{ text-align:left; }
+@media (max-width:900px){
+  html.fm-modern .tunnel-atelier input, html.fm-modern .tunnel-atelier select, html.fm-modern .tunnel-atelier textarea{ font-size:16px; }
 }

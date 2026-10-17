@@ -50,7 +50,10 @@
 {% block main %}
     <h1 align="center">{% trans "Quick Start" %}</h1>
 
-    <div class="coaching-card">
+    <div class="coaching-card tunnel-atelier tunnel-quickstart">
+        <div class="tunnel-split">
+        <div class="tunnel-main">
+        <div class="tunnel-card">
         <p class="coaching-intro">
             {% trans "Four questions, one ready-to-play build. No wizard, no jargon. Just pick your class, level, element and playstyle." %}
         </p>
@@ -120,14 +123,21 @@
                 </button>
             </div>
         </form>
+        </div>
+        </div>
+        <div class="tunnel-side">
+        <div class="tunnel-card">
 
         {# The headline does not name AI on purpose #}
         <p class="solver-headline">{% trans "No magic. Just a lot of math." %}</p>
         <p class="solver-note">{% trans "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria." %}</p>
 
-        <p class="coaching-intro" style="margin-top: 20px; font-size: 0.9em;">
+        <p class="coaching-intro coaching-full-link">
             {% trans "Want full control over every stat?" %}
             <a href="{% game_url 'setup' %}">{% trans "Use the full builder instead" %}</a>.
         </p>
+        </div>
+        </div>
+        </div>
     </div>
 {% endblock %}

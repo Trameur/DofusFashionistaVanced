@@ -17,7 +17,7 @@
 
 {% block main %}
 <br><br>
-<table class="infeasible-layout">
+<table class="infeasible-layout tunnel-atelier tunnel-infeasible">
     <tr>
         <td>
             <img alt="" src="{% static "chardata/designs/myCrying.png" %}"></img>
@@ -107,6 +107,7 @@
                     </form>
                 </div>
                 {% endif %}
+                <div class="tunnel-card infeasible-tips">
                 {% blocktrans %}Try one or more of the following tips and try again:{% endblocktrans %}
                 <ul>
                     {% if over_cap %}
@@ -118,6 +119,7 @@
                     <li>{% blocktrans %}<a href={{lock_link}}>Unlock</a> some items{% endblocktrans %}</li>
                     <li>{% blocktrans %}Allow <a href={{exo_link}}>exo mages</a>{% endblocktrans %}</li>
                 </ul>
+                </div>
             </div>
         </td>
     </tr>

@@ -654,3 +654,20 @@ button.button-generic.inclusion-customize-button {
     font-size: 0.8em;
     padding: 2px 8px;
 }
+
+input.button-gap-after {
+    margin-right: 7px;
+}
+input.button-gap-before {
+    margin-left: 7px;
+}
+input.import-level-input {
+    width: 5.5em;
+}
+form.smart-form-confirm {
+    margin-top: 12px;
+}
+p.coaching-intro.coaching-full-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+}

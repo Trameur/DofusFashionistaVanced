@@ -9,7 +9,7 @@
 {% block main %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
-<div align="center">   
+<div align="center" class="tunnel-atelier tunnel-basestats">   
      <h1>{% trans "Base Characteristics" %}</h1>
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -17,6 +17,8 @@
     <form id="main_form" action="{% game_url 'init_base_stats_post' char_id %}" method="post">
         {% csrf_token %}
 
+        <div class="tunnel-split">
+        <div class="tunnel-card">
         <label class='text'><input type="checkbox" name="choose_stats" value="choose_stats" class="change-modifies-state" id="choose_stats">{% blocktrans %}Distribute the points for me (the points will be applied when designing a set){% endblocktrans %}</label><br><br>
 
         <table class='register-stat' width="33%">
@@ -39,10 +41,10 @@
         <div><span id='base-stats-error-msg' class='error-message'></span></div>
 
         <div class='stat-submit'>
-          <input type="button" class="button-thin click-modifies-state" id="button-zero" value='{{_("Reset to Zero")|escapejs}}' style="margin-right: 7px;"/>
+          <input type="button" class="button-thin click-modifies-state button-gap-after" id="button-zero" value='{{_("Reset to Zero")|escapejs}}'/>
           <input type="button" class="button-thin click-modifies-state" id="button-fully-scroll" value='{{_("Fully Scroll")|escapejs}}' />
           {% if max_scroll > 100 %}
-          <input type="button" class="button-thin click-modifies-state" id="button-scroll-100" value='{{_("Scroll to 100")|escapejs}}' style="margin-left: 7px;"/>
+          <input type="button" class="button-thin click-modifies-state button-gap-before" id="button-scroll-100" value='{{_("Scroll to 100")|escapejs}}'/>
           {% endif %}
           <br><br>
             <div id="submit-mode">
@@ -52,9 +54,11 @@
                 {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
             </div>
         </div>
+        </div>
         <br>
         <br>
 
+        <div class="tunnel-card">
         <h2> {% trans "Soft Caps" %} - {{wrapped_char.class_string}}</h2>
 
              <table class='table-softcap-stat'>
@@ -87,6 +91,8 @@
                    {% include "chardata/softcap_line.html" with icon="chardata/Agility.png" stat_name=_("Agility") stat_key="agi" given_lis=soft_caps.agi lower_given_lis=lower_soft_caps.agi char=char %}
                   </tr>
                 </table>
+        </div>
+        </div>
     </form>
 </div>
 

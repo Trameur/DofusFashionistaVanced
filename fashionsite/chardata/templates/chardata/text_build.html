@@ -73,7 +73,7 @@
 {% endblock %}
 
 {% block main %}
-<div class="import-wrap">
+<div class="import-wrap tunnel-atelier tunnel-import">
     <h1>{% trans "Import a build" %}</h1>
     <p class="import-intro">{% if build_sites.links %}{% trans "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped." %}{% else %}{% trans "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped." %}{% endif %}</p>
 
@@ -94,7 +94,9 @@
     </p>
     {% endif %}
 
-    <div class="import-shots">
+    <div class="tunnel-split">
+    <div class="tunnel-main">
+    <div class="import-shots tunnel-card">
         <button type="button" class="button-thin" id="shot-toggle">{% trans "Read tooltip screenshots" %}</button>
         <div id="shot-box" style="display:none;">
             <p class="small-explain">{% trans "One screenshot per piece, tooltip visible. They are read inside your browser: no image leaves your machine." %}</p>
@@ -114,7 +116,7 @@
         </div>
     </div>
 
-    <form method="post" class="import-form"{% if form_action %} action="{{ form_action }}"{% endif %}>
+    <form method="post" class="import-form tunnel-card"{% if form_action %} action="{{ form_action }}"{% endif %}>
         {% csrf_token %}
         <input type="hidden" name="used_screenshot" id="used-screenshot" value="{% if used_screenshot %}1{% else %}0{% endif %}">
         {# No item names in the placeholder: they differ per version and language #}
@@ -124,7 +126,7 @@
     </form>
 
     {% if confirm %}
-    <div class="import-found">
+    <div class="import-found tunnel-card">
         <p><strong>{{ version_label }}</strong></p>
         {% if link.sent %}
         <p class="import-link-read" id="import-sent-read">{% if link.name %}{% blocktrans with name=link.name version=link.version_label %}Build received: {{ name }} ({{ version }}).{% endblocktrans %}{% else %}{% blocktrans with version=link.version_label %}Build received ({{ version }}).{% endblocktrans %}{% endif %}{% if link.version_differs %} {% trans "The build will be created in that version." %}{% endif %}</p>
@@ -268,17 +270,19 @@
             </label>
             {% if class_error %}<p class="import-error" id="import-class-error">{{ class_error }}</p>{% endif %}
             <label>{% trans "Level" %}
-                <input type="number" name="level" class="pretty-input"
-                       value="{{ level }}" min="1" max="200" style="width: 5.5em;">
+                <input type="number" name="level" class="pretty-input import-level-input"
+                       value="{{ level }}" min="1" max="200">
             </label>
             <button type="submit" class="button-generic">{% trans "Bring this build in" %}</button>
         </form>
         <p class="import-missing">{% trans "Your gear comes in exactly as it is. Nothing is re-optimized unless you ask for it afterwards." %}</p>
     </div>
     {% endif %}
+    </div>
+    <div class="tunnel-side">
 
     {% if partner_sites %}
-    <section class="import-partners" id="import-partners" aria-labelledby="import-partners-title">
+    <section class="import-partners tunnel-card" id="import-partners" aria-labelledby="import-partners-title">
         <h2 class="import-partners-title" id="import-partners-title">{% trans "Partner sites" %}</h2>
         <p class="import-partners-intro">{% blocktrans count counter=partner_sites|length %}Paste a build link from this site, or visit it to build there.{% plural %}Paste a build link from one of these sites, or visit them to build there.{% endblocktrans %}</p>
         <ul class="import-partners-list">
@@ -289,6 +293,8 @@
     </section>
     {% endif %}
     <p class="import-developers" id="import-developers"><a href="{% game_url 'send_a_build' %}">{% trans "Your site? Send builds to Dofus Fashionista" %}</a></p>
+    </div>
+    </div>
 </div>
 
 {% trans "Reading" as msg_shot_reading %}
