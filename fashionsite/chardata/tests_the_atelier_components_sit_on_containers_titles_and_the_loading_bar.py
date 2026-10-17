@@ -34,7 +34,9 @@ class TheSeamIsStitchedOnContainersOnlyTests(SimpleTestCase):
         self.assertEqual({'html.fm-modern .fm-seam', 'html.fm-modern .brown-box', 'html.fm-modern .tunnel-atelier .wm-section',
                           'html.fm-modern .tunnel-exclusions .exclusions-types-cell',
                           'html.fm-modern .tunnel-options > table > tbody > tr > td', 'html.fm-modern .tunnel-inclusions .small-brown-box',
-                          'html.fm-modern .tunnel-atelier .tunnel-card', 'html.fm-modern .tunnel-infeasible .solver-why'}, set(seam_selectors()))
+                          'html.fm-modern .tunnel-atelier .tunnel-card', 'html.fm-modern .tunnel-infeasible .solver-why',
+                          'html.fm-modern .setup-atelier .setup-recipes', 'html.fm-modern .setup-atelier .setup-zone-form',
+                          'html.fm-modern .setup-atelier .setup-zone-options', 'html.fm-modern .setup-atelier .setup-preview'}, set(seam_selectors()))
 
     def test_no_seam_selector_ends_on_a_control(self):
         for selector in seam_selectors():
