@@ -105,7 +105,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
 
         {% if grades %}
         <div class="encyclopedia-section" id="monster-stats">
-            <b>{{ mt.stats_section_label }}</b>
+            <b id="monster-stats-label">{{ mt.stats_section_label }}</b>
             <div class="monster-grades-scroll">
             <table class="monster-grades">
                 <thead>
@@ -269,4 +269,30 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
         {% ad_unit 'encyclopedia_inline' %}
     </div>
 </div>
+<script>
+(function () {
+    function reachable() {
+        var modern = document.documentElement.classList.contains('fm-modern');
+        var boxes = document.querySelectorAll('.monster-grades-scroll');
+        for (var i = 0; i < boxes.length; i++) {
+            var scrolls = modern && boxes[i].scrollWidth > boxes[i].clientWidth;
+            if (scrolls) {
+                boxes[i].setAttribute('tabindex', '0');
+            } else {
+                boxes[i].removeAttribute('tabindex');
+            }
+            if (scrolls && i === 0) {
+                boxes[i].setAttribute('role', 'region');
+                boxes[i].setAttribute('aria-labelledby', 'monster-stats-label');
+            } else {
+                boxes[i].removeAttribute('role');
+                boxes[i].removeAttribute('aria-labelledby');
+            }
+        }
+    }
+    reachable();
+    window.addEventListener('resize', reachable);
+    new MutationObserver(reachable).observe(document.documentElement, {attributes: true, attributeFilter: ['class']});
+})();
+</script>
 {% endblock %}

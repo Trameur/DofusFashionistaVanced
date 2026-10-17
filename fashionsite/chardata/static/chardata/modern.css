@@ -1110,6 +1110,10 @@ html.fm-modern .solution-stat-summary::before{
   background:repeating-linear-gradient(90deg,var(--fm-tape-tick) 0 1px,transparent 1px 8px),var(--fm-tape);
 }
 html.fm-modern .solution-stat-summary:focus-visible{ outline:none; box-shadow:inset var(--fm-ring); }
+html.fm-modern .solution-stat-summary .spell-tip-panel{ box-sizing:border-box; width:min(256px,78vw); }
+html.fm-modern .solution-stat-summary .spell-tip-panel .stat-tip-row{ white-space:normal; }
+html.fm-modern .solution-stat-summary .spell-tip-panel .stat-tip-row > :first-child{ min-width:0; overflow-wrap:anywhere; }
+html.fm-modern .solution-stat-summary .spell-tip-panel .stat-tip-row > :last-child{ white-space:nowrap; flex-shrink:0; }
 html.fm-modern .solution-stat-summary-name.spell-tip:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:2px; border-radius:3px; }
 html.fm-modern .char-banner-patch-old{ opacity:1; color:var(--fm-muted); }
 
@@ -1770,6 +1774,7 @@ html.fm-modern .encyclopedia-atelier .monster-drop-summary-count{ color:var(--fm
 html.fm-modern .encyclopedia-atelier .monster-version-link-label{ color:var(--fm-head); }
 html.fm-modern .encyclopedia-atelier .monster-version-link-meta{ color:var(--fm-muted); opacity:1; }
 html.fm-modern .encyclopedia-atelier .monster-grades-scroll{ margin-top:var(--fm-space-2); border-radius:var(--fm-radius-xs); }
+html.fm-modern .monster-grades-scroll:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:-2px; box-shadow:inset var(--fm-ring); }
 html.fm-modern .encyclopedia-atelier .monster-grades th, html.fm-modern .encyclopedia-atelier .monster-grades td{ border-bottom-color:var(--fm-border); color:var(--fm-text); }
 html.fm-modern .encyclopedia-atelier .monster-grades th{ color:var(--fm-head); background:var(--fm-surface-2); }
 html.fm-modern.fm-dark .encyclopedia-atelier .monster-grades td.monster-weak, html.fm-modern.fm-dark .encyclopedia-atelier .encyclopedia-monster-card a.encyclopedia-monsters-weakness{ color:#74e074; }
