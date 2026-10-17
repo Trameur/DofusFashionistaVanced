@@ -900,6 +900,9 @@ html.fm-modern .pages-current{ color:var(--fm-head) !important; }
 }
 .compare-cart-toggle:hover{ background:rgba(128,128,128,.16); }
 @media (min-width:901px){ html:not(.fm-modern) .compare-cart-toggle{ position:relative; z-index:3; } html:not(.fm-modern) .compare-cart-panel{ left:0; right:auto; } }
+@media (max-width:600px){ html:not(.fm-modern) .space.header-controls{ position:relative; } html:not(.fm-modern) .compare-cart{ position:static; } html:not(.fm-modern) .compare-cart-panel{ left:6px; right:auto; max-width:calc(100vw - 12px); } }
+@media (min-width:601px) and (max-width:900px){ html:not(.fm-modern) .compare-cart-panel{ left:0; right:auto; } }
+html.fm-dark:not(.fm-modern) .compare-cart-toggle{ color:#f1f1f4; }
 .compare-cart .cc-icon{ display:inline-flex; align-items:center; }
 .compare-cart .cc-icon svg{ display:block; }
 .compare-cart .cc-count{
