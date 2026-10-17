@@ -77,6 +77,17 @@
     height: 32px;
     flex: 0 0 auto;
 }
+.fm-page label.fm-inventory-toggle {
+    display: block;
+    margin-top: 4px;
+    cursor: pointer;
+}
+.fm-exo-row .fm-new-folder-input {
+    width: 180px;
+}
+.fm-section-title.fm-section-title-spaced {
+    margin-top: 12px;
+}
 .fm-search-hint {
     margin-top: 6px;
 }

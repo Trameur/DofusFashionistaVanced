@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block main %}
-<div class="fm-page text" id="fm-page">
+<div class="fm-page text tools-atelier" id="fm-page">
     <h1 class="fm-title">{{ t.title }}</h1>
     <p class="fm-subtitle small-explain">{{ t.subtitle }}</p>
     <p class="fm-version-note small-explain">{{ version_note }}</p>
@@ -29,7 +29,7 @@
         </div>
         <div class="fm-search-hint small-explain">{{ t.search_hint }}</div>
         {% if user.is_authenticated %}
-        <label class="small-explain" style="display:block;margin-top:4px;cursor:pointer;">
+        <label class="small-explain fm-inventory-toggle">
             <input type="checkbox" id="fm-search-inventory"> <span class="fm-ico fm-ico-bag" aria-hidden="true"></span> {{ t.search_inventory }}
         </label>
         {% endif %}
@@ -79,8 +79,8 @@
                 <button type="button" class="button-thin" id="fm-inv-update"
                         style="display:none;">{{ t.inv_update }}</button>
                 <select class="pretty-input" id="fm-inv-folder"></select>
-                <input class="pretty-input" id="fm-inv-new-name" type="text" maxlength="50"
-                       placeholder="{{ t.inv_new_folder }}" style="display:none;width:180px;">
+                <input class="pretty-input fm-new-folder-input" id="fm-inv-new-name" type="text" maxlength="50"
+                       placeholder="{{ t.inv_new_folder }}" style="display:none;">
                 <button type="button" class="button-thin" id="fm-inv-save">{{ t.wb_add }}</button>
                 <span class="fm-ok" id="fm-inv-feedback" style="display:none;">{{ t.inv_saved }}</span>
             </div>
@@ -168,8 +168,8 @@
                 <button type="button" class="button-thin" id="fm-sim-inv-update"
                         style="display:none;">{{ t.inv_update }}</button>
                 <select class="pretty-input" id="fm-sim-inv-folder"></select>
-                <input class="pretty-input" id="fm-sim-inv-new-name" type="text" maxlength="50"
-                       placeholder="{{ t.inv_new_folder }}" style="display:none;width:180px;">
+                <input class="pretty-input fm-new-folder-input" id="fm-sim-inv-new-name" type="text" maxlength="50"
+                       placeholder="{{ t.inv_new_folder }}" style="display:none;">
                 <button type="button" class="button-thin" id="fm-sim-inv-save">{{ t.wb_add }}</button>
                 <span class="fm-ok" id="fm-sim-inv-feedback" style="display:none;">{{ t.inv_saved }}</span>
             </div>
@@ -209,7 +209,7 @@
         <p>{{ t.how_rule20 }}</p>
         <p class="fm-warn">{{ t.how_sink_loss }}</p>
         <p class="small-explain">{{ t.how_disclaimer }}</p>
-        <div class="fm-section-title" style="margin-top:12px;">{{ t.tips_title }}</div>
+        <div class="fm-section-title fm-section-title-spaced">{{ t.tips_title }}</div>
         <ul class="fm-list">
             {% for tip in tips %}
             <li>{{ tip }}</li>
