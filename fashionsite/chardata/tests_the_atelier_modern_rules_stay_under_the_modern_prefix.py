@@ -2,7 +2,7 @@
 """Every rule in modern.css starts with html.fm-modern, so the classic design never sees it, except the frozen list below."""
 from django.test import SimpleTestCase
 
-from chardata.tests_the_setup_stylesheet_support import stylesheet
+from chardata.tests_the_setup_stylesheet_support import chain_of, declared, stylesheet, winning
 
 FROZEN_UNPREFIXED = frozenset((
     '.builds-grid > .fm-ad-feed',
@@ -115,3 +115,52 @@ class EveryModernRuleIsPrefixedTests(SimpleTestCase):
                  or 'fm-frame' in selector}
         self.assertTrue(found)
         self.assertEqual([], sorted(selector for selector in found if not selector.startswith('html.fm-modern ')))
+
+
+PANEL = 'html.fm-modern .solution-stat-summary .spell-tip-panel'
+ROW = PANEL + ' .stat-tip-row'
+
+
+def stat_tip_chain(tag, attrs, design=('fm-modern', 'fm-light')):
+    ancestors = (('html', {}), ('body', {'class': 'body-base'}), ('table', {}), ('tbody', {}), ('tr', {}),
+                 ('td', {'class': 'solution-stat-summary'}), ('table', {'class': 'solution-stat-table'}), ('tbody', {}),
+                 ('tr', {'class': 'solution-stat-summary-line'}),
+                 ('td', {'class': 'solution-stat-summary-name spell-tip'}))
+    if tag == 'row':
+        return chain_of(ancestors + (('span', {'class': 'spell-tip-panel'}),), 'span', {'class': 'stat-tip-row'}, design)
+    return chain_of(ancestors, tag, attrs, design)
+
+
+def winner(prop, chain):
+    found = winning([('modern.css', MODERN)], chain, prop, 1440)
+    return found if found is not None else ('', '', '')
+
+
+class StatTipPanelFitsTheStatsBoxTests(SimpleTestCase):
+
+    def panel(self, design=('fm-modern', 'fm-light')):
+        return stat_tip_chain('span', {'class': 'spell-tip-panel'}, design)
+
+    def test_the_modern_rule_wins_the_panel_width_on_the_real_cell(self):
+        self.assertIn(PANEL, {selector for selector, _ in selectors()})
+        value, _, selector = winner('width', self.panel())
+        self.assertEqual((PANEL, 'min(256px,78vw)'), (selector, value.replace(' ', '')))
+
+    def test_the_modern_rule_wins_the_panel_box_sizing_on_the_real_cell(self):
+        value, _, selector = winner('box-sizing', self.panel())
+        self.assertEqual((PANEL, 'border-box'), (selector, value))
+
+    def test_the_classic_design_keeps_the_wide_panel(self):
+        self.assertNotEqual(PANEL, winner('width', self.panel(('fm-light',)))[2])
+        self.assertNotEqual(PANEL, winner('box-sizing', self.panel(('fm-dark',)))[2])
+
+    def test_the_label_of_a_row_wraps_and_the_value_stays_on_one_line(self):
+        self.assertEqual((ROW, 'normal'), (winner('white-space', stat_tip_chain('row', {}))[2],
+                                           winner('white-space', stat_tip_chain('row', {}))[0]))
+        label = declared(MODERN, ROW + ' > :first-child', 'min-width')
+        value = {prop: declared(MODERN, ROW + ' > :last-child', prop) for prop in ('white-space', 'flex-shrink')}
+        self.assertEqual(('0', False), label)
+        self.assertEqual({'white-space': ('nowrap', False), 'flex-shrink': ('0', False)}, value)
+
+    def test_a_long_label_may_break_inside_a_word(self):
+        self.assertEqual(('anywhere', False), declared(MODERN, ROW + ' > :first-child', 'overflow-wrap'))
