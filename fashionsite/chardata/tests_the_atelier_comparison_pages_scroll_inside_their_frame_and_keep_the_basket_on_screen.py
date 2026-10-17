@@ -176,7 +176,7 @@ class TheBasketFitsAPhoneTests(SimpleTestCase):
     def test_the_panel_hangs_from_the_toggle_above_600(self):
         self.assertEqual('relative', value(COMPARE_SHEETS, HEADER, ('div', {'class': 'compare-cart'}), 'position', 601))
         self.assertEqual('250px', self.panel('width', 601))
-        self.assertIsNone(self.panel('left', 601))
+        self.assertEqual('0', self.panel('left', 601))
 
     def test_the_basket_controls_are_touch_targets_on_a_phone(self):
         ancestors = CART + [PANEL]

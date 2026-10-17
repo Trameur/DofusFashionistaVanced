@@ -161,8 +161,8 @@ class TheInventoryStacksOnAPhoneAndItsCardsGrowWithTheWidthTests(SimpleTestCase)
 
     def test_the_roll_colours_read_on_both_modern_themes(self):
         line = ('div', {'class': 'inv-stat-line inv-stat-over'})
-        for classes, light, dark in ((line, '#1a5a85', '#6cb8ec'),
-                                     (('div', {'class': 'inv-stat-line inv-stat-under'}), '#8a4e00', '#f0b45c')):
+        for classes, light, dark in ((line, 'var(--fm-info)', 'var(--fm-info)'),
+                                     (('div', {'class': 'inv-stat-line inv-stat-under'}), 'var(--fm-warn)', 'var(--fm-warn)')):
             self.assertEqual(light, value(INVENTORY, [INV_ROOT], classes, 'color', 1280))
             self.assertEqual(dark, value(INVENTORY, [INV_ROOT], classes, 'color', 1280, ['fm-modern', 'fm-dark']))
 

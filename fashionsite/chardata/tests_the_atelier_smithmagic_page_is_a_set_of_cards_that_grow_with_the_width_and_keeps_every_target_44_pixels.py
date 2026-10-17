@@ -129,8 +129,8 @@ class TheSmithmagicTablesScrollInsideTheirCardOnAPhoneTests(SimpleTestCase):
 class TheRollColoursReadOnBothModernThemesTests(SimpleTestCase):
 
     def test_the_success_failure_and_warning_colours_are_re_tinted_per_theme(self):
-        for classes, ok, bad, warn in ((MODERN_LIVE, '#1f6a26', '#a8281f', '#8a4e00'),
-                                       (MODERN_DARK, '#86d68f', '#ff8f86', '#e0a458')):
+        for classes, ok, bad, warn in ((MODERN_LIVE, 'var(--fm-ok)', 'var(--fm-bad)', 'var(--fm-warn)'),
+                                       (MODERN_DARK, 'var(--fm-ok)', 'var(--fm-bad)', '#e0a458')):
             self.assertEqual(ok, value([ROOT], ('td', {'class': 'fm-ok'}), 'color', 1280, classes))
             self.assertEqual(bad, value([ROOT], ('td', {'class': 'fm-bad'}), 'color', 1280, classes))
             self.assertEqual(warn, value([ROOT], ('p', {'class': 'fm-warn'}), 'color', 1280, classes))

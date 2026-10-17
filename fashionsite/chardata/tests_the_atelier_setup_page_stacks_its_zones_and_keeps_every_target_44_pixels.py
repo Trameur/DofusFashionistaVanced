@@ -120,7 +120,7 @@ class TheSetupPageOptsInAndKeepsItsValuesTests(SimpleTestCase):
 
     def test_the_section_uses_the_site_breakpoints(self):
         found = set(re.findall(r'(?:min|max)-width:\s*(\d+)px', ' '.join(re.findall(r'@media ([^{]+)\{', section_source()))))
-        self.assertEqual({'481', '900', '901', '1279', '1280', '1440', '1759', '1760'}, found)
+        self.assertEqual({'480', '481', '900', '901', '1279', '1280', '1440', '1759', '1760'}, found)
 
 
 class TheInlineStylesMovedToClassesWithTheValuesTheyHadTests(SimpleTestCase):
