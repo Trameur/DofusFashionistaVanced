@@ -107,6 +107,29 @@
     margin-top: -20px;
 }
 
+.proj-info-main {
+    display: table-cell;
+}
+
+.proj-info-main-narrow {
+    width: 680px;
+}
+
+.proj-info-main-wide {
+    width: 840px;
+}
+
+.proj-info-side {
+    display: table-cell;
+    vertical-align: middle;
+    width: 200px;
+}
+
+.proj-info-side-owner {
+    text-align: right;
+    padding-right: 14px;
+}
+
 .everything {
     width:1044px;
     display: inline-block;

@@ -671,3 +671,20 @@ p.coaching-intro.coaching-full-link {
     margin-top: 20px;
     font-size: 0.9em;
 }
+.register input.setup-level-input {
+    width: 40px;
+}
+div.setup-class-guide {
+    font-size: 0.85em;
+    opacity: 0.9;
+    margin-top: 3px;
+}
+td.build-boxes-column.build-boxes-last-column {
+    border-radius: 0px 0px 4px 0px;
+}
+div.setup-choice-box {
+    margin-bottom: 10px;
+}
+.register td.setup-level-cell {
+    padding: 0px 3px;
+}

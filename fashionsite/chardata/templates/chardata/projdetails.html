@@ -34,7 +34,7 @@
 
 {% block main %}
 
-<div align="center">
+<div align="center" class="setup-atelier{% if is_new_char %} setup-new{% endif %}">
     {% if is_new_char %}
     <h1>{% trans "Create a Build" %}</h1>
     {% else %}
@@ -79,6 +79,7 @@
         <form id="main_form" action="{% game_url 'create_project' %}" method="post">
         {% if lock_item %}<input type="hidden" name="lock_item" value="{{ lock_item }}">{% endif %}
             {% csrf_token %}
+            <div class="setup-zone-form">
                 <table class='register' role="presentation">
                   <tr class='register-line'>
                     <td class='input-name'><label for="input-char-name">{% trans "Character Name" %}</label></td> 
@@ -86,7 +87,7 @@
                   </tr>  
                   <tr class='register-line'>
                     <td class='input-name'><label for="input-char-level">{% trans "Character Level" %}</label></td> 
-                    <td align="left" style="padding: 0px 3px;"><input class='input-value pretty-input change-modifies-state' id="input-char-level" type="number" name="level" min="1" max="200" required="required" style="width: 40px;"/></td>
+                    <td align="left" class="setup-level-cell"><input class='input-value pretty-input change-modifies-state setup-level-input' id="input-char-level" type="number" name="level" min="1" max="200" required="required"/></td>
                   </tr>  
                   <tr class='register-line'>
                     <td class='input-name'><label for="select-char-class">{% trans "Character Class" %}</label></td> 
@@ -97,7 +98,7 @@
                         {% endfor %}
                     </select>
                     {% if is_new_char %}
-                    <div style="font-size: 0.85em; opacity: 0.9; margin-top: 3px;"><a href="{% guide_url 'choosing-your-class' %}">{% trans "Not sure which class to pick? Read the guide" %}</a></div>
+                    <div class="setup-class-guide"><a href="{% guide_url 'choosing-your-class' %}">{% trans "Not sure which class to pick? Read the guide" %}</a></div>
                     {% endif %}
                     </td>
                   </tr>  
@@ -122,14 +123,15 @@
                     <td id="table-checkboxes-column-0" class="build-boxes-column build-boxes-element-column"></td>
                     <td id="table-checkboxes-column-1" class="build-boxes-column build-boxes-options-column"></td>
                     <td id="table-checkboxes-column-2" class="build-boxes-column build-boxes-aspects-column"></td>
-                    <td id="table-checkboxes-column-3" class="build-boxes-column build-boxes-aspects-column" style="
-    border-radius: 0px 0px 4px 0px;"></td>
+                    <td id="table-checkboxes-column-3" class="build-boxes-column build-boxes-aspects-column build-boxes-last-column"></td>
                 </tr>
             </table>
             <p id="no-element-warning" class="red-text" role="alert" style="display: none;">{% trans "No element checked: the build will not look for any damage. Click again to continue anyway." %}</p>
             <input type="hidden" name="play_mode" id="play-mode" value="general">
             <br>
+            </div>
 
+            <div class="setup-zone-options">
             <details id="advanced-options" class="advanced-options">
                 <summary>{% trans "Advanced options" %}<span id="advanced-options-chosen" class="advanced-options-chosen small-explain"></span></summary>
                 <div class="advanced-options-row" role="radiogroup" aria-labelledby="priority-name">
@@ -151,7 +153,7 @@
             {% if more %}{% include "chardata/setup_more_options.html" %}{% endif %}
 
             {% if temporix_available %}
-            <div id="temporix-choice" class="temporix-box" style="margin-bottom: 10px;">
+            <div id="temporix-choice" class="temporix-box setup-choice-box">
                 <label><input type="checkbox" name="temporix" value="on" id="temporix-cb">
                 <span class='input-name'>{% trans "TemporiX mode" %}</span></label>
                 <div class="small-explain">{% blocktrans with start=temporix_start|date:"DATE_FORMAT" end=temporix_end|date:"DATE_FORMAT" %}Valid from {{ start }} to {{ end }}{% endblocktrans %}</div>
@@ -161,7 +163,7 @@
 
             {# The switch is shown and ticked; hidden for a visitor without an account #}
             {% if user.is_authenticated %}
-            <div id="publish-choice" style="margin-bottom: 10px;">
+            <div id="publish-choice" class="setup-choice-box">
                 <input type="hidden" name="publish_choice" value="1">
                 <label><input type="checkbox" name="publish" value="on" checked id="publish-cb">
                 <span class='input-name'>{% trans "Show this build in the gallery once it has gear" %}</span></label>
@@ -180,6 +182,7 @@
                 <label><input type="checkbox" class="click-modifies-state" name="reapply" value="reapply" id="reapply-cb"><span class='input-name'>{% trans "Restart wizard upon saving" %}</span></label><br>
                 <div id="choices-restart-note" class="small-explain" style="display: none;">{% trans "Changing the priority or the mode in the Options column always restarts the wizard." %}</div><br>
                 {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
+            </div>
             </div>
         </form>
         {% if is_new_char %}</div>
