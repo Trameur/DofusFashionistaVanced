@@ -31,7 +31,9 @@ class TheSeamIsStitchedOnContainersOnlyTests(SimpleTestCase):
         self.assertEqual(('-6px', False), declared(MODERN, 'html.fm-modern .fm-seam', 'outline-offset'))
 
     def test_the_seam_sits_on_the_brown_box_and_on_the_seam_class(self):
-        self.assertEqual({'html.fm-modern .fm-seam', 'html.fm-modern .brown-box'}, set(seam_selectors()))
+        self.assertEqual({'html.fm-modern .fm-seam', 'html.fm-modern .brown-box', 'html.fm-modern .tunnel-atelier .wm-section',
+                          'html.fm-modern .tunnel-exclusions .exclusions-types-cell',
+                          'html.fm-modern .tunnel-options > table > tbody > tr > td', 'html.fm-modern .tunnel-inclusions .small-brown-box'}, set(seam_selectors()))
 
     def test_no_seam_selector_ends_on_a_control(self):
         for selector in seam_selectors():
