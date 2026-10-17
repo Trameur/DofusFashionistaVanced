@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
 
 {% trans "This will reset the tuning sliders back to the default for your build." as confirm_reset %}
-<form id="wizard-form" action="{% game_url 'wizard_post' char_id %}" method="post" data-confirm-reset="{{ confirm_reset }}">
+<form id="wizard-form" class="tunnel-atelier tunnel-wizard" action="{% game_url 'wizard_post' char_id %}" method="post" data-confirm-reset="{{ confirm_reset }}">
     {% csrf_token %}
     <h1 align="center">{% trans "Wizard" %}</h1><br><br>
     <div class= 'wizard-flying-pic'>

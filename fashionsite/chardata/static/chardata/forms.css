@@ -628,3 +628,29 @@ select, .pretty-input {
     margin: 0 auto;
     text-align: left;
 }
+
+.exo-count-input {
+    width: 48px;
+}
+
+.option-cell-top {
+    vertical-align: top;
+}
+
+.lock-hint {
+    font-size: 0.9em;
+    margin-top: 4px;
+}
+
+td.solution-item-info.inclusion-info-cell {
+    vertical-align: middle;
+}
+
+img.button-remove.inclusion-remove-icon {
+    vertical-align: middle;
+}
+
+button.button-generic.inclusion-customize-button {
+    font-size: 0.8em;
+    padding: 2px 8px;
+}

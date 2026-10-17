@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
 
+<div class="tunnel-atelier tunnel-exclusions">
 <h1 align="center">{% trans "Forbid Items" %}</h1>
 
 <p align="center" class='big-text'>{% trans "Declare items that cannot be used on your character's set. By doing this you can avoid items that are expensive, hard to obtain, require a dungeon to be complete, or are just plain ugly." %}</p>
@@ -53,6 +54,8 @@
         {% endfor %}
     </div>
     {% endfor %}
+</div>
+
 </div>
 
 {% include "chardata/jqueryui.html" %}

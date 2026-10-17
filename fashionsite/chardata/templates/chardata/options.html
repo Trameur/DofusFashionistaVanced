@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
 
-<form id="main_form" method="post">
+<form id="main_form" class="tunnel-atelier tunnel-options" method="post">
     {% csrf_token %}
     <h1 align="center">{% trans "Options" %}</h1>
 
@@ -28,7 +28,7 @@
         <td class='big-text'>
             {% if version_options.exo_per_item %}
             <label>{% trans "Pieces with an AP exo" %}<br>
-            <input class="pretty-input change-modifies-state" type="number" name="ap_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric" style="width: 48px;"></label>
+            <input class="pretty-input change-modifies-state exo-count-input" type="number" name="ap_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric"></label>
             {% else %}
             {% trans "Allow AP Exo" %}<br>
             <label><input type="radio" name="ap_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label>
@@ -49,7 +49,7 @@
         <td class='big-text'>
             {% if version_options.exo_per_item %}
             <label>{% trans "Pieces with a Range exo" %}<br>
-            <input class="pretty-input change-modifies-state" type="number" name="range_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric" style="width: 48px;"></label>
+            <input class="pretty-input change-modifies-state exo-count-input" type="number" name="range_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric"></label>
             {% else %}
             {% trans "Allow Range Exo" %}<br>
             <label><input type="radio" name="range_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label>
@@ -61,7 +61,7 @@
     </td>
     </tr>
     <tr>
-    <td style="vertical-align: top;">
+    <td class="option-cell-top">
         <table>
         <tr>
         <td>
@@ -70,7 +70,7 @@
         <td class='big-text'>
             {% if version_options.exo_per_item %}
             <label>{% trans "Pieces with an MP exo" %}<br>
-            <input class="pretty-input change-modifies-state" type="number" name="mp_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric" style="width: 48px;"></label>
+            <input class="pretty-input change-modifies-state exo-count-input" type="number" name="mp_exo" min="0" max="{{ version_options.exo_slots }}" step="1" inputmode="numeric"></label>
             {% else %}
             {% trans "Allow MP Exo" %}<br>
             <label><input type="radio" name="mp_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label>

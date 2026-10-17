@@ -10,7 +10,7 @@
     {% include "chardata/jqueryui.html" %}
 
 {% trans "This will reset the tuning sliders back to the default for your build." as confirm_reset %}
-<form id="main_form" class="wm-page" method="post" data-focus="{{ focus }}" data-save-before-tailor="1" data-confirm-reset="{{ confirm_reset }}">
+<form id="main_form" class="wm-page tunnel-atelier tunnel-weights" method="post" data-focus="{{ focus }}" data-save-before-tailor="1" data-confirm-reset="{{ confirm_reset }}">
     {% csrf_token %}
     <h1 align="center">{% trans "Weights and Minimums" %}</h1>
     {% include "chardata/weights_minimums_block.html" %}
