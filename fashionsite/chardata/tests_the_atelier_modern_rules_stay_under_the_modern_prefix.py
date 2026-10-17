@@ -80,8 +80,11 @@ FROZEN_UNPREFIXED = frozenset((
     'html.fm-dark .spell-tip.st-open .spell-tip-mark',
     'html.fm-dark .spell-tip:focus-visible .spell-tip-mark',
     'html.fm-dark .spell-tip:hover .spell-tip-mark',
+    'html.fm-dark:not(.fm-modern) .compare-cart-toggle',
+    'html:not(.fm-modern) .compare-cart',
     'html:not(.fm-modern) .compare-cart-panel',
     'html:not(.fm-modern) .compare-cart-toggle',
+    'html:not(.fm-modern) .space.header-controls',
     'html:not(.fm-modern) .fm-design-toggle svg',
     'html:not(.fm-modern) .space.header-controls .fm-design-toggle',
 ))
