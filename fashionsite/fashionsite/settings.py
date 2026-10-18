@@ -423,7 +423,7 @@ EXPERIMENTS = {
 # the class avatar stands in.
 CHARACTER_PREVIEW = False
 
-DEFAULT_THEME = 'lighttheme'
+DEFAULT_THEME = 'auto'
 
 # Donation buttons shown on the /support/ page (a list of {'label', 'url'}).
 SUPPORT_LINKS = [

@@ -12,7 +12,7 @@
 {% block main %}
   {% load static_s3 %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 
     <h1 align="center"> {% trans "Help & About" %} </h1>
     <table class="about-layout fm-page-art">

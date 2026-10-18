@@ -5,11 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-    (function(){try{var h=document.documentElement;
-    if(localStorage.getItem('fm_design')!=='classic')h.classList.add('fm-modern');
-    var t=(document.cookie.match(/(?:^|;\s*)theme=([^;]+)/)||[])[1]||'lighttheme';
-    if(t==='auto'){var hr=new Date().getHours();t=(hr<6||hr>=18)?'darktheme':'lighttheme';}
-    h.classList.add(t==='darktheme'?'fm-dark':'fm-light');}catch(e){}})();
+    (function(){var h=document.documentElement,d={matches:false},l={matches:false};
+    try{d=window.matchMedia('(prefers-color-scheme: dark)');l=window.matchMedia('(prefers-color-scheme: light)');}catch(e){}
+    window.fmAutoTheme=function(){return d.matches?'darktheme':'lighttheme';};window.fmSchemeKnown=function(){return !!(d.matches||l.matches);};
+    try{if(localStorage.getItem('fm_design')!=='classic')h.classList.add('fm-modern');}catch(e){h.classList.add('fm-modern');}
+    function c(){var t=(document.cookie.match(/(?:^|;\s*)theme=([^;]+)/)||[])[1]||'auto';return t==='lighttheme'||t==='darktheme'?t:window.fmAutoTheme();}
+    function a(){h.classList.remove('fm-light','fm-dark');h.classList.add(c()==='darktheme'?'fm-dark':'fm-light');}
+    try{a();if(d.addEventListener)d.addEventListener('change',a);else if(d.addListener)d.addListener(a);}catch(e){}
+    document.addEventListener('DOMContentLoaded',function(){if(window.fmSchemeKnown())return;
+    var n=document.querySelectorAll('link[media="(prefers-color-scheme: light)"]');for(var i=0;i<n.length;i++)n[i].removeAttribute('media');});})();
     </script>
     <script>
     (function(){var h=document.documentElement;if(!h.classList.contains('fm-modern'))return;
@@ -48,10 +52,10 @@
     {% load static_s3 %}
     {% load version_url %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/home.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.home %}" class="home-css">
+    {% include "chardata/theme_css.html" with single=css_files.home light=css_files.homelighttheme dark=css_files.homedarktheme cls="home-css" %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/common.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.common %}" class="common-css">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.changelog %}" class="changelog-css">
+    {% include "chardata/theme_css.html" with single=css_files.common light=css_files.commonlighttheme dark=css_files.commondarktheme cls="common-css" %}
+    {% include "chardata/theme_css.html" with single=css_files.changelog light=css_files.changeloglighttheme dark=css_files.changelogdarktheme cls="changelog-css" %}
     {% block css %}{% endblock %}
     <!-- Mobile responsive layer (loaded last; scoped to <=900px) -->
     <link rel="stylesheet" type="text/css" href="{% static "chardata/responsive.css" %}">
@@ -527,7 +531,7 @@
     function getAllImages(theme)
     {
         if (theme == 'auto') {
-            theme = checkTimeForTheme()
+            theme = fmAutoTheme();
         }
         return images[theme];
     }
@@ -545,13 +549,7 @@
     function get_loading_img()
     {
         if ('{{theme}}' == 'auto'){
-            var now = new Date();
-            var h = now.getHours();
-            theme = 'lighttheme';
-            if (h < 6 || h >= 18 ) {
-                theme = 'darktheme';
-            }
-            return ajaxloader[theme];
+            return ajaxloader[fmAutoTheme()];
         }
         return ajaxloader;
     }
@@ -579,84 +577,29 @@
         $("#language-selector").submit();
     }
     
-    function checkAutoTheme(){
-        if ('{{theme}}' == 'auto') {
-            updateAutoThemeFromDjango();
-        }
-    }
-    
-    function softCheckTimeForTheme()
-    {
-        var now = new Date();
-        var h = now.getHours();
-        theme = 'lighttheme';
-        if (h < 6 || h >= 18 ) {
-            theme = 'darktheme';
-        }
-        return theme;
-    }
-    
-    function checkTimeForTheme()
-    {
-        theme = softCheckTimeForTheme()
-        $.post("/changeautotheme/",
-           {current: theme},
-           function(data) {
-           });
-        return theme;
-    }
-    
-    function updateAutoThemeFromDjango(){
-        theme = checkTimeForTheme();
-        if (theme == 'lighttheme') {
-            $(".common-css").attr("href", '{% static css_files.commonlighttheme %}');
-            $(".home-css").attr("href", '{% static css_files.homelighttheme %}');
-            $(".compare-css").attr("href", '{% static css_files.comparelighttheme %}');
-            $(".exclusions-css").attr("href", '{% static css_files.exclusionslighttheme %}');
-            $(".forms-css").attr("href", '{% static css_files.formslighttheme %}');
-            $(".solution-css").attr("href", '{% static css_files.solutionlighttheme %}');
-            $(".spells-css").attr("href", '{% static css_files.spellslighttheme %}');
-            $(".changelog-css").attr("href", '{% static "chardata/changelog_lighttheme.css" %}');
-        }
-        if (theme == 'darktheme') {
-            $(".common-css").attr("href", '{% static css_files.commondarktheme %}');
-            $(".home-css").attr("href", '{% static css_files.homedarktheme %}');
-            $(".compare-css").attr("href", '{% static css_files.comparedarktheme %}');
-            $(".exclusions-css").attr("href", '{% static css_files.exclusionsdarktheme %}');
-            $(".forms-css").attr("href", '{% static css_files.formsdarktheme %}');
-            $(".solution-css").attr("href", '{% static css_files.solutiondarktheme %}');
-            $(".spells-css").attr("href", '{% static css_files.spellsdarktheme %}');
-            $(".changelog-css").attr("href", '{% static "chardata/changelog_darktheme.css" %}');
-        }
+    function fmSetSheets(data, auto){
+        var single = !auto || !fmSchemeKnown();
+        ['common','home','compare','exclusions','forms','solution','spells','changelog'].forEach(function(name){
+            $('link.' + name + '-css').each(function(){
+                var el = $(this), media = el.attr('media') || '';
+                if (single) {
+                    if (media.indexOf('dark') !== -1) { el.remove(); return; }
+                    el.attr('href', auto ? data[name + 'lighttheme'] : data[name]).removeAttr('media');
+                } else if (media.indexOf('dark') !== -1) {
+                    el.attr('href', data[name + 'darktheme']);
+                } else if (media) {
+                    el.attr('href', data[name + 'lighttheme']);
+                } else {
+                    el.attr({href: data[name + 'lighttheme'], media: '(prefers-color-scheme: light)'});
+                    el.clone().attr({href: data[name + 'darktheme'], media: '(prefers-color-scheme: dark)'}).insertAfter(el);
+                }
+            });
+        });
     }
 
-        function updateAutoThemeFromData(data){
-        theme = checkTimeForTheme();
-        if (theme == 'lighttheme') {
-            $(".common-css").attr("href", data['commonlighttheme']);
-            $(".home-css").attr("href", data['homelighttheme']);
-            $(".compare-css").attr("href", data['comparelighttheme']);
-            $(".exclusions-css").attr("href", data['exclusionslighttheme']);
-            $(".forms-css").attr("href", data['formslighttheme']);
-            $(".solution-css").attr("href", data['solutionlighttheme']);
-            $(".spells-css").attr("href", data['spellslighttheme']);
-            $(".changelog-css").attr("href", '{% static "chardata/changelog_lighttheme.css" %}');
-        }
-        if (theme == 'darktheme') {
-            $(".common-css").attr("href", data['commondarktheme']);
-            $(".home-css").attr("href", data['homedarktheme']);
-            $(".compare-css").attr("href", data['comparedarktheme']);
-            $(".exclusions-css").attr("href", data['exclusionsdarktheme']);
-            $(".forms-css").attr("href", data['formsdarktheme']);
-            $(".solution-css").attr("href", data['solutiondarktheme']);
-            $(".spells-css").attr("href", data['spellsdarktheme']);
-            $(".changelog-css").attr("href", '{% static "chardata/changelog_darktheme.css" %}');
-        }
-    }
-    
     function fmApplyThemeClass(theme){
         var t = theme;
-        if (t === 'auto') { var h = new Date().getHours(); t = (h < 6 || h >= 18) ? 'darktheme' : 'lighttheme'; }
+        if (t === 'auto') { t = fmAutoTheme(); }
         var el = document.documentElement;
         el.classList.remove('fm-light','fm-dark');
         el.classList.add(t === 'darktheme' ? 'fm-dark' : 'fm-light');
@@ -667,18 +610,7 @@
         $.post("/changetheme/",
            {theme: theme},
            function(data) {
-              if (theme == 'auto') {
-                   updateAutoThemeFromData(data);
-              } else {
-                  $(".common-css").attr("href", data['common']);
-                  $(".home-css").attr("href", data['home']);
-                  $(".compare-css").attr("href", data['compare']);
-                  $(".exclusions-css").attr("href", data['exclusions']);
-                  $(".forms-css").attr("href", data['forms']);
-                  $(".solution-css").attr("href", data['solution']);
-                  $(".spells-css").attr("href", data['spells']);
-                  $(".changelog-css").attr("href", data['changelog']);
-              }
+              fmSetSheets(data, theme == 'auto');
               setAllImages(theme);
               toggleBlanket('blanket-theme');
               toggleBlanket('other-themes');
@@ -737,7 +669,7 @@
     
     function getCurrentTheme() {
         if ('{{theme}}' == 'auto') {
-            return softCheckTimeForTheme();
+            return fmAutoTheme();
         }
         else {
             return '{{theme}}';
@@ -747,8 +679,12 @@
     
     function toggleMobileNav(btn){var sb=document.getElementById("main-sidebar");if(!sb)return;var o=sb.classList.toggle("open");if(btn)btn.setAttribute("aria-expanded",o?"true":"false");}
 
+    (function(){try{var mq = window.matchMedia('(prefers-color-scheme: dark)');
+        var onScheme = function(){ var t = (document.cookie.match(/(?:^|;\s*)theme=([^;]+)/) || [])[1] || 'auto'; if (t !== 'lighttheme' && t !== 'darktheme') { setAllImages('auto'); } };
+        if (mq.addEventListener) { mq.addEventListener('change', onScheme); } else if (mq.addListener) { mq.addListener(onScheme); }
+    }catch(e){}})();
+
     $(document).ready(function() {
-        checkAutoTheme();
         setFlags();
         setThemeChoices();
         setLoadingImg();

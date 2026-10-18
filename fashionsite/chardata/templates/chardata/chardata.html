@@ -8,7 +8,7 @@
 
 {% block main %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 <div align="center" class="tunnel-atelier tunnel-basestats">   
      <h1>{% trans "Base Characteristics" %}</h1>
 
@@ -343,12 +343,7 @@
     {
         theme = '{{theme}}';
         if (theme == 'auto'){
-            var now = new Date();
-            var h = now.getHours();
-            theme = 'lighttheme';
-            if (h < 6 || h >= 18 ) {
-                theme = 'darktheme';
-            }
+            var theme = fmAutoTheme();
         }
         return theme;
     }

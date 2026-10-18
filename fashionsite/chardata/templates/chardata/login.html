@@ -9,9 +9,9 @@
 
 {% block main %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/common.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.common %}" class="common-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.common light=css_files.commonlighttheme dark=css_files.commondarktheme cls="common-css css-file" %}
     <h1 align="center">{% trans "Login" %}</h1>
     {% if user and not user.is_anonymous %}
     <div>

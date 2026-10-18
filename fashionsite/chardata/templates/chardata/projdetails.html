@@ -11,7 +11,7 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
     {% if is_new_char and can_create %}<link rel="stylesheet" type="text/css" href="{% static "chardata/setup.css" %}">{% endif %}
     <style>
     .advanced-options { max-width: 560px; margin: 0 auto 12px; text-align: left; }
@@ -297,12 +297,7 @@ var aspectLayout = {{ aspect_layout | safe }}
 function get_questionmark_img()
 {
     if ('{{theme}}' == 'auto'){
-        var now = new Date();
-        var h = now.getHours();
-        theme = 'lighttheme';
-        if (h < 6 || h >= 18 ) {
-            theme = 'darktheme';
-        }
+        var theme = fmAutoTheme();
         return question[theme];
     }
     return question;

@@ -8,7 +8,7 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
     <style>
         .smart-wrap { max-width: 600px; margin: 36px auto; padding: 0 14px; text-align: center; }
         .smart-intro { opacity: 0.85; margin-bottom: 20px; }

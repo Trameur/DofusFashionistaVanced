@@ -345,24 +345,16 @@
 </div>
 <script>
 (function() {
-    function getThemeStylesheet() {
-        return document.querySelector('.forms-css') || document.querySelector('.common-css');
-    }
+    var root = document.documentElement;
 
     function refreshThemeClass() {
-        var themeCss = getThemeStylesheet();
-        var href = themeCss && themeCss.getAttribute('href') ? themeCss.getAttribute('href').toLowerCase() : '';
-        var isDarkTheme = href.indexOf('darktheme') !== -1;
-        document.body.classList.toggle('dark-theme-active', isDarkTheme);
+        document.body.classList.toggle('dark-theme-active', root.classList.contains('fm-dark'));
     }
 
     refreshThemeClass();
 
-    // Keep class in sync when user switches theme without leaving the page.
-    var themeCss = getThemeStylesheet();
-    if (themeCss && typeof MutationObserver !== 'undefined') {
-        var observer = new MutationObserver(refreshThemeClass);
-        observer.observe(themeCss, { attributes: true, attributeFilter: ['href'] });
+    if (typeof MutationObserver !== 'undefined') {
+        new MutationObserver(refreshThemeClass).observe(root, { attributes: true, attributeFilter: ['class'] });
     }
 })();
 </script>

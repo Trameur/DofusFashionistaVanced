@@ -12,8 +12,8 @@
   {% load static_s3 %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "chardata/spells.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.spells %}" class="spells-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
+    {% include "chardata/theme_css.html" with single=css_files.spells light=css_files.spellslighttheme dark=css_files.spellsdarktheme cls="spells-css css-file" %}
 
     <h1 align="center"> {% trans "Spells Damage" %} </h1>
     

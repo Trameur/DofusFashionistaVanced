@@ -8,8 +8,8 @@
 
     {% load static_s3 %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.solution %}" class="solution-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
+    {% include "chardata/theme_css.html" with single=css_files.solution light=css_files.solutionlighttheme dark=css_files.solutiondarktheme cls="solution-css css-file" %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/solution.css" %}">
     <style>
         html.fm-dark .lock-note { color: #ff7a7a; }
@@ -150,12 +150,7 @@ function lockItem(itemId, slot, char_id) {
 function get_loader_img()
 {
     if ('{{theme}}' == 'auto'){
-        var now = new Date();
-        var h = now.getHours();
-        theme = 'lighttheme';
-        if (h < 6 || h >= 18 ) {
-            theme = 'darktheme';
-        }
+        var theme = fmAutoTheme();
         return loader[theme];
     }
     return loader;

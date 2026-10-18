@@ -10,7 +10,7 @@
 {% block main %}
 {% load static_s3 %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 <div class="fm-notice fm-seam">
 <h3 align="center" class='text'>{% blocktrans %}Your message has been sent.{% endblocktrans %}</h3>
 <p align="center" class='text'>{% blocktrans %}Thank you for contacting us.{% endblocktrans %}</p>

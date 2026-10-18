@@ -8,13 +8,13 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/exclusions.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.exclusions %}" class="exclusions-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.exclusions light=css_files.exclusionslighttheme dark=css_files.exclusionsdarktheme cls="exclusions-css css-file" %}
 {% endblock %}
 
 {% block main %}
 
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+{% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 
 <div class="tunnel-atelier tunnel-exclusions">
 <h1 align="center">{% trans "Forbid Items" %}</h1>
