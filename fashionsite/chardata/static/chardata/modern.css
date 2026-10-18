@@ -1774,7 +1774,7 @@ html.fm-modern .encyclopedia-atelier .monster-drop-summary-count{ color:var(--fm
 html.fm-modern .encyclopedia-atelier .monster-version-link-label{ color:var(--fm-head); }
 html.fm-modern .encyclopedia-atelier .monster-version-link-meta{ color:var(--fm-muted); opacity:1; }
 html.fm-modern .encyclopedia-atelier .monster-grades-scroll{ margin-top:var(--fm-space-2); border-radius:var(--fm-radius-xs); }
-html.fm-modern .monster-grades-scroll:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:-2px; box-shadow:inset var(--fm-ring); }
+html.fm-modern .monster-grades-scroll:focus-visible, html.fm-modern .fm-table-wrapper:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:-2px; box-shadow:inset var(--fm-ring); }
 html.fm-modern .encyclopedia-atelier .monster-grades th, html.fm-modern .encyclopedia-atelier .monster-grades td{ border-bottom-color:var(--fm-border); color:var(--fm-text); }
 html.fm-modern .encyclopedia-atelier .monster-grades th{ color:var(--fm-head); background:var(--fm-surface-2); }
 html.fm-modern.fm-dark .encyclopedia-atelier .monster-grades td.monster-weak, html.fm-modern.fm-dark .encyclopedia-atelier .encyclopedia-monster-card a.encyclopedia-monsters-weakness{ color:#74e074; }

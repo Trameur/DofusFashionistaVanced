@@ -45,7 +45,7 @@
                     <div class="small-explain" id="fm-item-meta"></div>
                 </div>
             </div>
-            <div class="fm-table-wrapper">
+            <div class="fm-table-wrapper" data-fm-label="fm-item-name">
                 <table class="fm-table">
                     <thead>
                         <tr>
@@ -219,9 +219,9 @@
 
     {% if documented_odds %}
     <div class="fm-box brown-box fm-how">
-        <div class="fm-section-title big-text">{{ t.odds_title }}</div>
+        <div class="fm-section-title big-text" id="fm-odds-label">{{ t.odds_title }}</div>
         <p>{{ t.odds_intro }}</p>
-        <div class="fm-table-wrapper">
+        <div class="fm-table-wrapper" data-fm-label="fm-odds-label">
             <table class="fm-table">
                 <thead>
                     <tr>
@@ -248,8 +248,8 @@
     {% endif %}
 
     <div class="fm-box brown-box">
-        <div class="fm-section-title big-text">{{ t.ref_title }}</div>
-        <div class="fm-table-wrapper">
+        <div class="fm-section-title big-text" id="fm-ref-label">{{ t.ref_title }}</div>
+        <div class="fm-table-wrapper" data-fm-label="fm-ref-label">
             <table class="fm-table">
                 <thead>
                     <tr>
@@ -284,8 +284,8 @@
                 </tbody>
             </table>
         </div>
-        <div class="fm-section-title">{{ t.nostat_title }}</div>
-        <div class="fm-table-wrapper">
+        <div class="fm-section-title" id="fm-nostat-label">{{ t.nostat_title }}</div>
+        <div class="fm-table-wrapper" data-fm-label="fm-nostat-label">
             <table class="fm-table">
                 <thead>
                     <tr>
@@ -310,9 +310,9 @@
 
     {% if transcendence_rows %}
     <div class="fm-box brown-box">
-        <div class="fm-section-title big-text">{{ trans_t.title }}</div>
+        <div class="fm-section-title big-text" id="fm-trans-label">{{ trans_t.title }}</div>
         <p class="fm-footer-note">{{ trans_t.intro }}</p>
-        <div class="fm-table-wrapper">
+        <div class="fm-table-wrapper" data-fm-label="fm-trans-label">
             <table class="fm-table">
                 <thead>
                     <tr>
@@ -2660,4 +2660,42 @@
     })();
     </script>
 </div>
+<script>
+(function () {
+    function reachable() {
+        var modern = document.documentElement.classList.contains('fm-modern');
+        var boxes = document.querySelectorAll('.fm-table-wrapper');
+        for (var i = 0; i < boxes.length; i++) {
+            var scrolls = modern && boxes[i].scrollWidth > boxes[i].clientWidth;
+            var label = boxes[i].getAttribute('data-fm-label');
+            if (scrolls) {
+                boxes[i].setAttribute('tabindex', '0');
+            } else {
+                boxes[i].removeAttribute('tabindex');
+            }
+            if (scrolls && label && document.getElementById(label)) {
+                boxes[i].setAttribute('role', 'region');
+                boxes[i].setAttribute('aria-labelledby', label);
+            } else {
+                boxes[i].removeAttribute('role');
+                boxes[i].removeAttribute('aria-labelledby');
+            }
+        }
+    }
+    reachable();
+    window.addEventListener('resize', reachable);
+    if (window.ResizeObserver) {
+        var sizes = new ResizeObserver(reachable);
+        var wrappers = document.querySelectorAll('.fm-table-wrapper');
+        for (var k = 0; k < wrappers.length; k++) {
+            sizes.observe(wrappers[k]);
+            var inner = wrappers[k].querySelector('table');
+            if (inner) {
+                sizes.observe(inner);
+            }
+        }
+    }
+    new MutationObserver(reachable).observe(document.documentElement, {attributes: true, attributeFilter: ['class']});
+})();
+</script>
 {% endblock %}
