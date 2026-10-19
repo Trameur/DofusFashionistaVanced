@@ -17,8 +17,10 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from .fashionista_config import get_fashionista_path
-from pulp import (LpVariable, LpInteger, LpProblem, LpMaximize, LpMinimize, LpStatus,
-                  LpStatusOptimal, LpSolution, LpSolutionOptimal, value)
+from collections import namedtuple
+from pulp import (LpVariable, LpInteger, LpContinuous, LpProblem, LpMaximize, LpMinimize,
+                  LpStatusOptimal, LpStatusInfeasible, LpStatusNotSolved, LpStatusUnbounded,
+                  LpStatusUndefined, LpSolution, LpSolutionOptimal, value)
 import copy
 import logging
 import pulp
@@ -97,6 +99,30 @@ else:
             raise FileNotFoundError(f"CBC binary not found at {cbc_path}")
         SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=TIME_LIMIT_SECONDS)
 
+CBC_SETTING_NAME = 'FASHIONISTA_CBC'
+
+
+def solver_from_setting(setting, time_limit=TIME_LIMIT_SECONDS):
+    """The solver the FASHIONISTA_CBC value names, None when it is empty."""
+    setting = (setting or '').strip()
+    if not setting:
+        return None
+    if setting == 'cbcbox':
+        if int(pulp.__version__.split('.')[0]) < 4:
+            raise RuntimeError('%s=cbcbox needs PuLP 4 or later, PuLP %s cannot drive that binary'
+                               % (CBC_SETTING_NAME, pulp.__version__))
+        import cbcbox
+        return pulp.COIN_CMD(path=cbcbox.cbc_bin_path(), msg=False, timeLimit=time_limit)
+    if not os.path.isfile(setting):
+        raise FileNotFoundError('%s names no cbc binary: %s' % (CBC_SETTING_NAME, setting))
+    return pulp.COIN_CMD(path=setting, msg=False, timeLimit=time_limit)
+
+
+SOLVER_TAG = (os.environ.get(CBC_SETTING_NAME) or '').strip()
+_SOLVER_FROM_SETTING = solver_from_setting(SOLVER_TAG)
+if _SOLVER_FROM_SETTING is not None:
+    SOLVER = _SOLVER_FROM_SETTING
+
 # Confirm which solver is being used
 if hasattr(SOLVER, 'path'):
     logger.debug('Using CBC solver at: %s', SOLVER.path)
@@ -167,52 +193,317 @@ def _read_and_remove(path):
             logger.debug('could not remove file %s', path)
 
 
+def solver_tag():
+    """What the cache keys add for the chosen CBC binary, empty for today's."""
+    return SOLVER_TAG
+
+
+SolveOutcome = namedtuple('SolveOutcome', 'status finished')
+
+_SITE_STATUS = {LpStatusOptimal: 'Optimal',
+                LpStatusInfeasible: 'Infeasible',
+                LpStatusNotSolved: 'Not Solved',
+                LpStatusUnbounded: 'Unbounded',
+                LpStatusUndefined: 'Undefined'}
+
+
+def read_outcome(status, sol_status):
+    """The status string the site compares and whether the solver ended the search itself.
+
+    CBC stopped on its time limit with a set in hand reads as Optimal with a
+    sol_status of Integer feasible, so only the pair says the search finished.
+    A stop within a relative gap reads as a finished search too: the caller
+    knows the gap it gave, see LpProblem2.solution_is_proven.
+    """
+    return SolveOutcome(_SITE_STATUS.get(status, 'Undefined'),
+                        status == LpStatusOptimal and sol_status == LpSolutionOptimal)
+
+
 def _sum_or_zero(terms):
     return pulp.lpSum(terms) if terms else 0
 
 
+class RowHandle:
+    """A row the site owns: terms as (coefficient, variable name), a sense and a right-hand side.
+
+    The row table of LpProblem2 holds the same object, so a change made here is
+    the change the next solve sees. Reading and writing go by name; no solver
+    object is kept outside the problem.
+    """
+
+    __slots__ = ('_problem', 'name', 'terms', 'sense', 'rhs', 'auto', '_constraint')
+
+    def __init__(self, problem, name, terms, sense, rhs, auto):
+        self._problem = problem
+        self.name = name
+        self.terms = terms
+        self.sense = sense
+        self.rhs = rhs
+        self.auto = auto
+        self._constraint = None
+
+    @property
+    def constant(self):
+        """The row written as terms + constant (sense) 0, so the right-hand side negated."""
+        return -self.rhs
+
+    def changeRHS(self, value):
+        """Sets the right-hand side; nothing happens when it already is value."""
+        if value == self.rhs:
+            return
+        self.rhs = value
+        self._problem._row_changed(self)
+
+    def __repr__(self):
+        return 'RowHandle(%r, %s %r)' % (self.name, self.sense, self.rhs)
+
+
+_SENSES = ('<=', '>=', '==')
+
+
 class LpProblem2:
-    
+    """The model the solver is given: variables by name, rows as handles, and one objective.
+
+    The rows and the objective are data held here. The solver library's problem
+    is built from them, with columns only for the variables a row or the
+    objective names, and is brought up to date on first use after a change: a
+    row added is appended, a right-hand side changed is written through, and
+    any other change (a row removed or moved) builds the problem again from the
+    table.
+    """
+
+    WRITE_THROUGH = True
+
     def __init__(self):
-        self.pulp_vars = {}
-        #self.model_output = open('model.txt', 'w')
-        self.pulp_lp = LpProblem("The Whiskas Problem", LpMaximize)
         self.objective_value = None
         self.best_bound = None
         self.start_objective = None
         self.start_accepted = None
         self.gap = 0
+        self._lp = LpProblem("The Whiskas Problem", LpMaximize)
+        self._specs = {}
+        self._built = {}
+        self._built_specs = {}
+        self._rows = {}
+        self._live = []
+        self._removed = {}
+        self._last_unused = 0
+        self._rows_changed = False
+        self._force_rebuild = False
+        self._objective_terms = ()
+        self._objective_changed = False
+
+    @property
+    def pulp_lp(self):
+        """The library's problem, up to date with the rows and the objective."""
+        self._sync()
+        return self._lp
+
+    def new_variable(self, name, min_bound, max_bound, integer=True):
+        """A column of the library's problem, the one place its variable is built."""
+        return LpVariable(name, min_bound, max_bound, LpInteger if integer else LpContinuous)
+
+    def declare_variable(self, name, min_bound, max_bound, integer=True):
+        """Registers a column by name; it is built when a row or the objective first names it."""
+        spec = (min_bound, max_bound, bool(integer))
+        if self._built_specs.get(name, spec) != spec:
+            self._force_rebuild = True
+        self._specs[name] = spec
+
+    def forget_variables(self, names):
+        """Takes columns out of the registry; the rows that name them must go too."""
+        for name in names:
+            self._specs.pop(name, None)
+
+    def has_variable(self, name):
+        return name in self._specs
+
+    def variable_names(self):
+        return list(self._specs)
+
+    def variable_spec(self, name):
+        """(lowest, highest, integer) of a registered column, KeyError when none is."""
+        return self._specs[name]
+
+    def column_names(self):
+        """The columns the solver is given: those a row or the objective names."""
+        return [column.name for column in self.pulp_lp.variables()]
+
+    def variable(self, name):
+        """The column of the current library problem named name, KeyError when none is registered."""
+        self._sync()
+        return self._column(name)
+
+    def value(self, name):
+        """The value the last solve gave the column, None when it has none."""
+        column = self._built.get(name)
+        return None if column is None else column.varValue
+
+    def _column(self, name):
+        column = self._built.get(name)
+        if column is None:
+            spec = self._specs[name]
+            column = self._built[name] = self.new_variable(name, spec[0], spec[1], spec[2])
+            self._built_specs[name] = spec
+        return column
+
+    def _expression(self, terms):
+        return _sum_or_zero([coefficient * self._column(name) for coefficient, name in terms])
+
+    def _sync(self):
+        if self._rows_changed or self._force_rebuild:
+            table = list(self._rows.values())
+            live = self._live
+            if (self._force_rebuild or len(live) > len(table)
+                    or any(held is not wanted for held, wanted in zip(live, table))):
+                self._rebuild()
+            else:
+                for row in table[len(live):]:
+                    self._attach(row)
+            self._rows_changed = False
+            self._removed.clear()
+        if self._objective_changed:
+            self._apply_objective()
+
+    def _rebuild(self):
+        if self._force_rebuild:
+            for row in self._live:
+                row._constraint = None
+            self._built = {}
+            self._built_specs = {}
+        else:
+            kept = {id(row) for row in self._rows.values()}
+            for row in self._live:
+                if id(row) not in kept:
+                    row._constraint = None
+        self._lp = LpProblem(self._lp.name, LpMaximize)
+        self._live = []
+        self._force_rebuild = False
+        for row in self._rows.values():
+            if row._constraint is None:
+                self._attach(row)
+            else:
+                self._lp.addConstraint(row._constraint, row.name)
+                self._live.append(row)
+        self._objective_changed = True
+
+    def _attach(self, row):
+        expression = self._expression(row.terms)
+        if row.sense == '<=':
+            constraint = expression <= row.rhs
+        elif row.sense == '>=':
+            constraint = expression >= row.rhs
+        else:
+            constraint = expression == row.rhs
+        self._lp.addConstraint(constraint, row.name)
+        row._constraint = constraint
+        self._live.append(row)
+
+    def _apply_objective(self):
+        self._lp.objective = self._expression(self._objective_terms)
+        self._objective_changed = False
+
+    def _row_changed(self, row):
+        if self.WRITE_THROUGH and row._constraint is not None:
+            row._constraint.changeRHS(row.rhs)
+
+    def _unused_row_name(self):
+        self._last_unused += 1
+        while '_C%d' % self._last_unused in self._rows:
+            self._last_unused += 1
+        return '_C%d' % self._last_unused
+
+    def add_row(self, terms, sense, rhs, name=None):
+        """Adds terms (sense) rhs as a row and returns its handle.
+
+        terms is [(coefficient, variable name)]. A row name is unique, and a row
+        given none is named _C1, _C2 and so on, as the library names them. A row
+        with no terms needs no column and is held by its handle alone; one that
+        cannot hold is refused.
+        """
+        if sense not in _SENSES:
+            raise ValueError('a row is <=, >= or ==, not %r' % (sense,))
+        terms = tuple((coefficient, variable) for coefficient, variable in terms)
+        for _coefficient, variable in terms:
+            if variable not in self._specs:
+                raise KeyError(variable)
+        if not terms:
+            holds = {'<=': 0 <= rhs, '>=': 0 >= rhs, '==': 0 == rhs}[sense]
+            if not holds:
+                raise TypeError('A False object cannot be passed as a constraint')
+            return RowHandle(self, name, terms, sense, rhs, name is None)
+        if name is not None and name in self._rows:
+            raise ValueError('overlapping constraint names: %s' % name)
+        removed = self._removed.pop(name, None)
+        if (removed is not None and removed.terms == terms and removed.sense == sense
+                and removed.rhs == rhs):
+            self._rows[name] = removed
+            self._rows_changed = True
+            return removed
+        auto = name is None
+        if auto:
+            name = self._unused_row_name()
+        row = RowHandle(self, name, terms, sense, rhs, auto)
+        self._rows[name] = row
+        self._rows_changed = True
+        return row
+
+    def row(self, name):
+        return self._rows.get(name)
+
+    def row_names(self):
+        return list(self._rows)
+
+    def rows(self):
+        return list(self._rows.values())
+
+    def objective_terms(self):
+        return list(self._objective_terms)
+
+    def remove_rows(self, names):
+        """Takes the rows named out of the table; added again they sit after the others."""
+        for name in names:
+            row = self._rows.pop(name, None)
+            if row is not None:
+                self._removed[name] = row
+                self._rows_changed = True
+
+    def set_objective(self, terms):
+        """The objective to maximise, [(coefficient, variable name)]."""
+        self._objective_terms = tuple((coefficient, variable) for coefficient, variable in terms)
+        self._objective_changed = True
 
     def run(self, warm_start=None, seed=None, gap=0):
         """Solve; warm_start is {variable name: value} of a set to start from, zero elsewhere, seed a positive int for another search path, and gap the relative distance from the best bound CBC may stop at."""
         problem_name = '/tmp/problem_%s' % str(uuid.uuid4())
-        self.pulp_lp.name = problem_name
+        lp = self.pulp_lp
+        lp.name = problem_name
         self.gap = gap or 0
         solver = _solver_for_run(warm_start is not None, seed, self.gap)
-        objective = self.pulp_lp.objective
+        objective = lp.objective
         self.objective_value = self.best_bound = self.start_objective = None
         self.start_accepted = None
         if warm_start is not None:
-            for variable in self.pulp_lp.variables():
+            for variable in lp.variables():
                 variable.varValue = warm_start.get(variable.name, 0)
             self.start_objective = value(objective)
             # CBC 2.10 prices a mipstart in the wrong sign under "max"
-            self.pulp_lp.sense = LpMinimize
-            self.pulp_lp.objective = -objective
+            lp.sense = LpMinimize
+            lp.objective = -objective
         try:
-            self.pulp_lp.solve(solver)
+            lp.solve(solver)
         finally:
             if warm_start is not None:
-                self.pulp_lp.sense = LpMaximize
-                self.pulp_lp.objective = objective
+                lp.sense = LpMaximize
+                lp.objective = objective
             log_text = _read_and_remove(solver.optionsDict['logPath'])
         if warm_start is not None:
             self.start_accepted = bool(_START_TAKEN.search(log_text))
-        if self.pulp_lp.status == LpStatusOptimal:
+        if self.get_status() == 'Optimal':
             self.objective_value = value(objective)
             if not self.solution_is_proven() and self.objective_value is not None:
                 self.best_bound = read_best_bound(log_text, self.objective_value)
-        logger.debug('Status: %s, Z = %s', LpStatus[self.pulp_lp.status], self.objective_value)
+        logger.debug('Status: %s, Z = %s', self.get_status(), self.objective_value)
 
         tmpMps = os.path.join('%s-pulp.mps' % problem_name)
         tmpSol = os.path.join('%s-pulp.sol' % problem_name)
@@ -222,13 +513,11 @@ class LpProblem2:
         except: logger.debug('could not remove file %s', tmpSol)
 
     def get_result(self):
-        return {v.name: v.varValue for v in self.pulp_lp.variables()}
+        return {v.name: v.varValue for v in self._lp.variables()}
 
     def setup_variable(self, category, id, min_bound, max_bound):
         sanitized_id = str(id).replace(' ', '_').replace('-', '_')
-        name = '%s_%s' % (category, sanitized_id)
-        pulpVar = LpVariable(name, min_bound, max_bound, LpInteger)
-        self.pulp_vars[name] = pulpVar
+        self.declare_variable('%s_%s' % (category, sanitized_id), min_bound, max_bound)
 
     def init_objective_function(self):
         self.obj_vars = {}
@@ -242,24 +531,25 @@ class LpProblem2:
             self.obj_vars[var_name] += weight
 
     def finish_objective_function(self):
-        self.pulp_lp.objective = _sum_or_zero([value * self.pulp_vars[key] for key, value in
-                         self.obj_vars.items() if key in self.pulp_vars])
-        
+        self.set_objective([(value, key) for key, value in self.obj_vars.items()
+                            if key in self._specs])
+
+    @staticmethod
+    def _parcel_terms(parcels):
+        return [(parcel[0], '%s_%s' % (parcel[1], str(parcel[2]).replace(' ', '_').replace('-', '_')))
+                for parcel in parcels]
+
     def restriction_lt_eq(self, max_bound, parcels):
-        restriction = _sum_or_zero([parcel[0] * self.pulp_vars['%s_%s' % (parcel[1], str(parcel[2]).replace(' ', '_').replace('-', '_'))] 
-                            for parcel in parcels]) <= max_bound
-        self.pulp_lp += restriction
-        return restriction
-        
+        return self.add_row(self._parcel_terms(parcels), '<=', max_bound)
 
     def restriction_eq(self, max_bound, parcels):
-        restriction = _sum_or_zero([parcel[0] * self.pulp_vars['%s_%s' % (parcel[1], str(parcel[2]).replace(' ', '_').replace('-', '_'))] 
-                            for parcel in parcels]) == max_bound
-        self.pulp_lp += restriction
-        return restriction
-        
+        return self.add_row(self._parcel_terms(parcels), '==', max_bound)
+
+    def _outcome(self):
+        return read_outcome(self._lp.status, self._lp.sol_status)
+
     def get_status(self):
-        return LpStatus[self.pulp_lp.status]
+        return self._outcome().status
 
     def get_solution_status(self):
         """Did the solver PROVE this is the best set, or only find it?
@@ -277,7 +567,7 @@ class LpProblem2:
         incumbent. Every solver here runs with TIME_LIMIT_SECONDS, so the second case
         is reachable on a hard search.
         """
-        return LpSolution[self.pulp_lp.sol_status]
+        return LpSolution[self._lp.sol_status]
 
     def solution_is_proven(self):
         """True only when the solver closed the gap, never after a run given a gap. See get_solution_status."""
@@ -290,7 +580,7 @@ class LpProblem2:
         relative gap, so PuLP sets sol_status to LpSolutionOptimal for that
         stop as for a proof.
         """
-        return self.pulp_lp.sol_status == LpSolutionOptimal
+        return self._outcome().finished
 
     def get_search_state(self):
         """The last run's objective, best bound (None once proven or unread), start objective, whether CBC took the start, and non-zero values."""
