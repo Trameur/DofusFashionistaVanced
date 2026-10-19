@@ -1,9 +1,9 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """Crit hinges pay a crit point at the objective weight up to each breakpoint and drop less above it."""
 
-import pulp
 from django.test import SimpleTestCase
 
+from chardata.tests_the_row_table_support import coefficients, evaluate, holds
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.model_pool import borrow_model, return_model
@@ -36,14 +36,14 @@ class _Dofus3Model(SimpleTestCase):
             model.setup(_input(hinges))
             model.run()
             self.assertEqual('Optimal', model.get_solved_status())
-            lp = model.problem.pulp_lp
-            rest = sum(coefficient * variable.varValue for variable, coefficient in lp.objective.items()
-                       if variable.name != self.crit_column and not variable.name.startswith('crithinge'))
-            return {'objective': model.problem.objective_value, 'rest': rest,
-                    'crit': model.problem.get_result()[self.crit_column],
+            problem = model.problem
+            rest = sum(coefficient * problem.value(name) for coefficient, name in problem.objective_terms()
+                       if name != self.crit_column and not name.startswith('crithinge'))
+            return {'objective': problem.objective_value, 'rest': rest,
+                    'crit': problem.get_result()[self.crit_column],
                     'items': model.get_result_minimal().item_per_slot,
-                    'columns': sorted(variable.name for variable in lp.variables()),
-                    'constraints': sorted(lp.constraints)}
+                    'columns': sorted(problem.column_names()),
+                    'constraints': sorted(problem.row_names())}
         finally:
             return_model(model)
 
@@ -83,11 +83,8 @@ class TheHingesPayTheCritUpToTheirBreakpointTests(_Dofus3Model):
         model = borrow_model()
         try:
             model.setup(_input(((10, WEIGHT),)))
-            lp = model.problem.pulp_lp
-            for variable in lp.variables():
-                variable.varValue = 0
-            model.problem.pulp_vars[self.crit_column].varValue = -7
-            self.assertEqual(-7 * WEIGHT, pulp.value(lp.objective))
+            self.assertEqual(-7 * WEIGHT, evaluate(model.problem.objective_terms(),
+                                                   {self.crit_column: -7}))
         finally:
             return_model(model)
 
@@ -95,33 +92,25 @@ class TheHingesPayTheCritUpToTheirBreakpointTests(_Dofus3Model):
         model = borrow_model()
         self.addCleanup(return_model, model)
         model.setup(_input(((breakpoint, WEIGHT),)))
-        lp = model.problem.pulp_lp
-        for variable in lp.variables():
-            variable.varValue = 0
-        return model, lp.constraints['crit_hinge_0']
+        return model, model.problem.row('crit_hinge_0')
 
     def test_the_row_of_a_hinge_keeps_the_crit_over_its_breakpoint_in_the_hinge_column(self):
         _model, row = self.hinge_row(10)
-        self.assertEqual({'crithinge_0': 1, self.crit_column: -1},
-                         {variable.name: coefficient for variable, coefficient in row.items()})
-        self.assertEqual(pulp.LpConstraintGE, row.sense)
-        self.assertEqual(10, row.value())
+        self.assertEqual({'crithinge_0': 1, self.crit_column: -1}, coefficients(row))
+        self.assertEqual('>=', row.sense)
+        self.assertEqual(10, evaluate(row, {}) + row.constant)
 
     def test_a_crit_above_the_breakpoint_holds_the_hinge_column_at_the_excess(self):
-        model, row = self.hinge_row(10)
-        model.problem.pulp_vars[self.crit_column].varValue = 25
-        hinge = model.problem.pulp_vars['crithinge_0']
-        for value, holds in ((14.5, False), (15, True), (15.5, True)):
+        _model, row = self.hinge_row(10)
+        for value, holding in ((14.5, False), (15, True), (15.5, True)):
             with self.subTest(hinge=value):
-                hinge.varValue = value
-                self.assertEqual(holds, row.valid())
+                self.assertEqual(holding, holds(row, {self.crit_column: 25, 'crithinge_0': value}))
 
     def test_a_crit_under_the_breakpoint_holds_the_row_with_the_hinge_column_at_zero(self):
-        model, row = self.hinge_row(10)
+        _model, row = self.hinge_row(10)
         for crit in (10, 9, 0, -7):
             with self.subTest(crit=crit):
-                model.problem.pulp_vars[self.crit_column].varValue = crit
-                self.assertTrue(row.valid())
+                self.assertTrue(holds(row, {self.crit_column: crit, 'crithinge_0': 0}))
 
     def test_a_rising_slope_is_refused(self):
         model = borrow_model()
@@ -135,12 +124,12 @@ class TheHingesPayTheCritUpToTheirBreakpointTests(_Dofus3Model):
 class TheModelForgetsTheHingesOfItsLastSetupTests(_Dofus3Model):
 
     def shape(self, model):
-        lp = model.problem.pulp_lp
-        return {'rows': len(lp.constraints), 'columns': len(lp.variables()),
-                'hinge_rows': sorted(name for name in lp.constraints if name.startswith('crit_hinge_')),
-                'hinge_columns': sorted(variable.name for variable in lp.variables()
-                                        if variable.name.startswith('crithinge_')),
-                'hinge_vars': sorted(name for name in model.problem.pulp_vars if name.startswith('crithinge_'))}
+        problem = model.problem
+        columns = problem.column_names()
+        return {'rows': len(problem.row_names()), 'columns': len(columns),
+                'hinge_rows': sorted(name for name in problem.row_names() if name.startswith('crit_hinge_')),
+                'hinge_columns': sorted(name for name in columns if name.startswith('crithinge_')),
+                'hinge_vars': sorted(name for name in problem.variable_names() if name.startswith('crithinge_'))}
 
     def test_each_setup_has_the_rows_and_columns_of_its_own_hinges_only(self):
         model = Model()

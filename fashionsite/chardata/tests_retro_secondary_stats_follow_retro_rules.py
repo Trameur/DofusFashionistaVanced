@@ -12,7 +12,6 @@ import struct
 import subprocess
 import tempfile
 import zlib
-from types import SimpleNamespace
 
 from django.test import SimpleTestCase, TestCase
 from django.utils import translation
@@ -22,9 +21,10 @@ from chardata.solution import _repair_character_base
 from chardata.spell_combo import crit_chance, retro_critical_x
 from chardata.util import base_stats_by_attr_for
 from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
-from fashionistapulp.model import Model
 from fashionistapulp.modelresult import ModelResult, ModelResultMinimal
 from fashionistapulp.structure import get_structure, set_current_game_version
+
+from chardata.tests_the_row_table_support import derived_rates, hp_floors
 
 # {secondary stat: ({characteristic: gain per point}, text id)}
 RATES = {
@@ -87,27 +87,8 @@ CHARACTERISTICS = ('Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom',
 TRAINED = 100
 
 
-class _Problem:
-    def restriction_lt_eq(self, rhs, matrix):
-        return list(matrix)
-
-
 def _solver_rates(version):
-    structure = get_structure(version)
-    model = SimpleNamespace(
-        stats_list=structure.get_stats_list(), problem=_Problem(),
-        structure=structure,
-        restrictions=SimpleNamespace(minimum_stat_constraints={}))
-    Model.create_minimum_stat_constraints(model)
-    name_by_id = {stat.id: stat.name for stat in model.stats_list}
-    derived = {}
-    for name, matrix in model.restrictions.minimum_stat_constraints.items():
-        sources = {name_by_id[stat_id]: -coefficient
-                   for coefficient, _kind, stat_id in matrix
-                   if name_by_id[stat_id] != name}
-        if sources:
-            derived[name] = sources
-    return derived
+    return derived_rates(get_structure(version))
 
 
 def _sheet_totals(base, level=200):
@@ -116,13 +97,6 @@ def _sheet_totals(base, level=200):
         'options': {'ap_exo': False, 'mp_exo': False, 'range_exo': False},
         'char_level': level,
     }).get_stats_total()
-
-
-class _Restriction:
-    rhs = None
-
-    def changeRHS(self, rhs):
-        self.rhs = rhs
 
 
 class TheSolverTests(SimpleTestCase):
@@ -139,15 +113,7 @@ class TheSolverTests(SimpleTestCase):
         structure = get_structure('retro')
         floors = []
         for level in (1, 2, 100, 200):
-            restrictions = {stat.name: _Restriction()
-                            for stat in structure.get_stats_list()}
-            model = SimpleNamespace(
-                stats_list=structure.get_stats_list(),
-                restrictions=SimpleNamespace(
-                    minimum_stat_constraints=restrictions),
-                modify_advanced_minimum_stat_constraints=lambda minimums: None)
-            Model.modify_minimum_stat_constraints(model, {'HP': 0}, level)
-            floors.append(restrictions['HP'].rhs)
+            floors.append(hp_floors(structure, {'HP': 0}, level)['HP'])
         self.assertEqual([HP_PER_LEVEL[0], HP_PER_LEVEL[0] * 98,
                           HP_PER_LEVEL[0] * 100],
                          [b - a for a, b in zip(floors, floors[1:])])

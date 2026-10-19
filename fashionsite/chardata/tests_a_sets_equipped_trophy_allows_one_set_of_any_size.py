@@ -133,7 +133,7 @@ class TheDofus3AndBetaSolversCountEquippedSetsTests(_Solves):
                               dofus1=_trophy(structure).id)
                 self.assertEqual(6, len(locked) - 1)
                 model = self._solve(version, locked)
-                self.assertIn('ysets_1', model.problem.pulp_vars)
+                self.assertTrue(model.problem.has_variable('ysets_1'))
                 self.assertEqual('Optimal', model.get_solved_status())
                 worn = model.get_result_minimal().item_per_slot
                 for slot, item_id in locked.items():
@@ -178,7 +178,7 @@ class TheDofus2SolverStillCountsSetBonusesTests(_Solves):
         structure = get_structure('dofus2')
         locked = dict(_pieces(structure, KWISMAS), dofus1=_trophy(structure).id)
         model = self._solve('dofus2', locked)
-        self.assertNotIn('ysets_1', model.problem.pulp_vars)
+        self.assertFalse(model.problem.has_variable('ysets_1'))
         self.assertEqual('Optimal', model.get_solved_status())
 
     def test_a_capped_trophy_and_three_pieces_of_one_set_are_refused(self):

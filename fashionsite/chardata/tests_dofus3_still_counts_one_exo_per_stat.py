@@ -34,8 +34,8 @@ class OneExoPerStatTests(SimpleTestCase):
     def test_each_exo_variable_stays_between_zero_and_one(self):
         model = Model()
         for key in _EXO_KEYS:
-            variable = model.problem.pulp_vars['exo_%d' % self.structure.get_stat_by_key(key).id]
-            self.assertEqual((0, 1), (variable.lowBound, variable.upBound))
+            spec = model.problem.variable_spec('exo_%d' % self.structure.get_stat_by_key(key).id)
+            self.assertEqual((0, 1), spec[:2])
         self.assertIsNone(model.restrictions.exo_capacity)
         self.assertEqual({}, model.restrictions.exo_owned_floor)
 

@@ -3,7 +3,7 @@
 import random
 
 from django.test import SimpleTestCase
-from pulp import LpSolutionOptimal, LpStatusOptimal, value
+from pulp import LpSolutionOptimal, LpStatusOptimal
 
 from fashionistapulp.lpproblem import LpProblem2, read_best_bound
 
@@ -57,7 +57,7 @@ class ARunGivenAGapTests(SimpleTestCase):
     def test_cbc_reports_the_gap_stop_as_optimal_and_the_problem_does_not_call_it_proven(self):
         exact = knapsack()
         exact.run()
-        best = value(exact.pulp_lp.objective)
+        best = exact.objective_value
         quick = knapsack()
         quick.run(gap=0.03)
         state = quick.get_search_state()

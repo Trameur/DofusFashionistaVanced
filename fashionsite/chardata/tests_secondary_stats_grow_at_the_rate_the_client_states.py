@@ -3,15 +3,15 @@
 
 import json
 import os
-from types import SimpleNamespace
 
 from django.test import SimpleTestCase
 
 from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
 from fashionistapulp.fashionista_config import get_fashionista_path
-from fashionistapulp.model import Model
 from fashionistapulp.modelresult import ModelResult
 from fashionistapulp.structure import get_structure, set_current_game_version
+
+from chardata.tests_the_row_table_support import derived_rates, hp_floors
 
 VERSIONS = ('dofus3', 'beta')
 
@@ -50,47 +50,13 @@ CHARACTERISTICS = ('Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom',
 TRAINED = 100
 
 
-class _Problem:
-    def restriction_lt_eq(self, rhs, matrix):
-        return list(matrix)
-
-
-class _Restriction:
-    rhs = None
-
-    def changeRHS(self, rhs):
-        self.rhs = rhs
-
-
 class TheSolverTests(SimpleTestCase):
 
     def _derived(self, version):
-        structure = get_structure(version)
-        model = SimpleNamespace(
-            stats_list=structure.get_stats_list(), problem=_Problem(),
-            structure=structure,
-            restrictions=SimpleNamespace(minimum_stat_constraints={}))
-        Model.create_minimum_stat_constraints(model)
-        name_by_id = {stat.id: stat.name for stat in model.stats_list}
-        derived = {}
-        for name, matrix in model.restrictions.minimum_stat_constraints.items():
-            sources = {name_by_id[stat_id]: -coefficient
-                       for coefficient, _kind, stat_id in matrix
-                       if name_by_id[stat_id] != name}
-            if sources:
-                derived[name] = sources
-        return derived
+        return derived_rates(get_structure(version))
 
     def _hp_floor(self, version, level):
-        structure = get_structure(version)
-        restrictions = {stat.name: _Restriction()
-                        for stat in structure.get_stats_list()}
-        model = SimpleNamespace(
-            stats_list=structure.get_stats_list(),
-            restrictions=SimpleNamespace(minimum_stat_constraints=restrictions),
-            modify_advanced_minimum_stat_constraints=lambda minimums: None)
-        Model.modify_minimum_stat_constraints(model, {'HP': 0}, level)
-        return restrictions['HP'].rhs
+        return hp_floors(get_structure(version), {'HP': 0}, level)['HP']
 
     def test_the_solver_derives_each_secondary_stat_at_the_client_rate(self):
         expected = {name: rate for name, (rate, _text) in RATES.items()}

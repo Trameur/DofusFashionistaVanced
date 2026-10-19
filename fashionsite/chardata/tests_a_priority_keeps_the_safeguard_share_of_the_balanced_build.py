@@ -16,6 +16,7 @@ from chardata.min_stats import get_min_stats_digested
 from chardata.options import set_options
 from chardata.solution import get_solution
 from chardata.stats_weights import get_stats_weights
+from chardata.tests_the_row_table_support import coefficients
 from chardata.wizard_sliders import set_wizard_sliders
 from fashionistapulp import lpproblem
 from fashionistapulp.dofus_constants import STATS_NAMES
@@ -475,26 +476,29 @@ class TheModelHoldsTheFloorOnlyWhileAskedTests(SimpleTestCase):
 
     def test_the_floor_is_one_linear_row_that_leaves_with_the_next_setup(self):
         model = Model()
-        lp = model.problem.pulp_lp
-        rows = len(lp.constraints)
+        problem = model.problem
+        rows = len(problem.row_names())
         model.setup(self._input({EFFECTIVE_HP_MINIMUM: 5000.0}))
-        row = lp.constraints[EFFECTIVE_HP_CONSTRAINT]
-        coefficients = {variable.name: value for variable, value in row.items()}
+        row = problem.row(EFFECTIVE_HP_CONSTRAINT)
+        row_coefficients = coefficients(row)
         structure = get_structure(self.version)
         for name in ('% Neutral Resist', '% Earth Resist', '% Fire Resist', '% Water Resist',
                      '% Air Resist'):
-            self.assertAlmostEqual(10.0, coefficients['stat_%d' % structure.get_stat_by_name(
+            self.assertAlmostEqual(10.0, row_coefficients['stat_%d' % structure.get_stat_by_name(
                 name).id])
         for name in ('HP', 'Vitality'):
-            self.assertEqual(1, coefficients['stat_%d' % structure.get_stat_by_name(name).id])
-        self.assertEqual(7, len(coefficients))
-        self.assertAlmostEqual(5000.0 - (50 + 5 * 200), -row.constant)
-        self.assertEqual(rows + 1, len(lp.constraints))
+            self.assertEqual(1, row_coefficients['stat_%d' % structure.get_stat_by_name(name).id])
+        self.assertEqual(7, len(row_coefficients))
+        self.assertEqual('>=', row.sense)
+        self.assertAlmostEqual(5000.0 - (50 + 5 * 200), row.rhs)
+        self.assertEqual(rows + 1, len(problem.row_names()))
+        self.assertIn(EFFECTIVE_HP_CONSTRAINT, problem.pulp_lp.constraints)
 
         model.setup(self._input({}))
-        self.assertNotIn(EFFECTIVE_HP_CONSTRAINT, lp.constraints)
-        self.assertEqual(rows, len(lp.constraints))
-        self.assertFalse([c for c in lp.modifiedConstraints if c is row])
+        self.assertNotIn(EFFECTIVE_HP_CONSTRAINT, problem.row_names())
+        self.assertEqual(rows, len(problem.row_names()))
+        self.assertNotIn(EFFECTIVE_HP_CONSTRAINT, problem.pulp_lp.constraints)
+        self.assertEqual(rows, len(problem.pulp_lp.constraints))
 
     def test_a_floor_changes_the_cache_key_and_no_floor_leaves_it(self):
         self.assertEqual(self._input({'AP': 11}).cache_key(), self._input({'AP': 11}).cache_key())
