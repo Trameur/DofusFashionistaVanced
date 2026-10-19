@@ -21,8 +21,11 @@ its derivative, so one point of a stat is worth weight percent of the value.
 """
 
 import collections
+import contextlib
 import math
+import time
 
+from . import lpproblem
 from .wakfu_stats import BASE_VALUES, ELEMENTS as ELEMENT_NAMES, OUT_OF_COMBAT_CAPS
 from .wakfu_value_rules import RULES
 
@@ -32,6 +35,34 @@ RESISTANCE_OF = {element: 'res_%s_percent' % element for element in ELEMENTS}
 ELEMENTAL_MASTERY = 'dmg_in_percent'
 ELEMENTAL_RESISTANCE = 'res_in_percent'
 REACH_MASTERY = {'distance': 'ranged_dmg', 'melee': 'melee_dmg'}
+
+
+#: Rounds stop when less than this many seconds are left before a deadline
+MIN_ROUND_SECONDS = 10
+#: Seconds kept back from each CBC run for building the model and reading the answer
+SOLVE_MARGIN_SECONDS = 3
+
+
+def out_of_time(deadline):
+    """True when a monotonic deadline leaves too little for another round."""
+    return deadline is not None and deadline - time.monotonic() < MIN_ROUND_SECONDS
+
+
+@contextlib.contextmanager
+def solver_time_limit(deadline):
+    """CBC's limit cut to what is left before a monotonic deadline, yielded; None keeps the usual one."""
+    if deadline is None:
+        yield None
+        return
+    left = int(deadline - time.monotonic()) - SOLVE_MARGIN_SECONDS
+    limit = max(1, min(lpproblem.TIME_LIMIT_SECONDS, left))
+    # One solver object per process, and one solve at a time
+    previous = lpproblem.SOLVER.timeLimit
+    lpproblem.SOLVER.timeLimit = limit
+    try:
+        yield limit
+    finally:
+        lpproblem.SOLVER.timeLimit = previous
 
 
 def rule(name):
@@ -255,7 +286,20 @@ class ModelRound(collections.namedtuple('ModelRound',
 
 
 class ModelSolve(collections.namedtuple('ModelSolve', 'rounds best converged')):
-    """Every round of a model solve, the best by value, and whether it settled."""
+    """Every round of a model solve, the best by value, and whether it settled.
+
+    reason: why the last round gave no set (wakfu_model.INFEASIBLE or TIME_LIMIT), else None.
+    It is an attribute, so the three fields stay what callers unpack.
+    """
+
+    def __new__(cls, rounds, best, converged, reason=None):
+        self = super().__new__(cls, rounds, best, converged)
+        self.reason = reason
+        return self
+
+    def _replace(self, **changes):
+        return type(self)(changes.get('rounds', self.rounds), changes.get('best', self.best),
+                          changes.get('converged', self.converged), self.reason)
 
 
 LANDING_PASSES = 4
@@ -266,7 +310,7 @@ def blend(point, totals, step):
                                 for key in set(point) | set(totals)})
 
 
-def land(structure, level, role, build, worn, turn=None):
+def land(structure, level, role, build, worn, turn=None, locked=()):
     """(value, build, totals) of the best landing tried for a set's spread lines.
 
     Each pass lands them on the weights at the totals the pass before gave.
@@ -276,7 +320,8 @@ def land(structure, level, role, build, worn, turn=None):
     totals = build.totals(worn)
     tried = [(value(role, level, totals, turn), build, totals)]
     for _ in range(LANDING_PASSES):
-        build = WakfuBuild(structure, level, linear_weights(role, level, totals, turn))
+        build = WakfuBuild(structure, level, linear_weights(role, level, totals, turn),
+                           **({'locked': locked} if locked else {}))
         totals = build.totals(worn)
         if totals == tried[-1][2]:
             break
@@ -284,7 +329,8 @@ def land(structure, level, role, build, worn, turn=None):
     return max(tried, key=lambda one: one[0])
 
 
-def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=None):
+def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=None,
+          locked=(), deadline=None):
     """Best set by value; each round solves on the tangent at a blend of the sets found.
 
     The blend moves toward each new set by 2/(k+2) of the way, a Frank-Wolfe
@@ -293,44 +339,61 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     turn at that AP (TurnModel.ap_values) instead of one AP weight. The generic
     model's best set, landed and valued on the turn, is then kept in place of
     the rounds' best when it is worth more, so best may be none of the rounds.
+
+    locked: (item id, position or None) pairs every set wears. deadline: a
+    time.monotonic() value; each CBC run is cut to what is left, and no round
+    starts with less than MIN_ROUND_SECONDS left, so the solve is then not settled.
     """
     if turn is None:
-        return _solve(structure, level, role, forbidden, rounds, full_set)
+        return _solve(structure, level, role, forbidden, rounds, full_set,
+                      locked=locked, deadline=deadline)
     if turn.damage(resource_ceiling()) <= 0:
         raise ValueError('the class turn deals no damage for this role, even with '
                          'AP, MP and WP at their caps')
-    classed = _solve(structure, level, role, forbidden, rounds, full_set, turn)
-    generic = _solve(structure, level, role, forbidden, rounds, full_set).best
+    classed = _solve(structure, level, role, forbidden, rounds, full_set, turn,
+                     locked, deadline)
+    if out_of_time(deadline):
+        return classed._replace(converged=False)
+    generic = _solve(structure, level, role, forbidden, rounds, full_set,
+                     locked=locked, deadline=deadline).best
     if generic is None:
         return classed
-    worth, landed, totals = land(structure, level, role, generic.build, generic.worn, turn)
+    worth, landed, totals = land(structure, level, role, generic.build, generic.worn,
+                                 turn, locked)
     if classed.best is not None and classed.best.value >= worth:
         return classed
     return classed._replace(
         best=ModelRound(generic.weights, landed, generic.worn, totals, worth))
 
 
-def _solve(structure, level, role, forbidden, rounds, full_set, turn=None):
+def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
+           locked=(), deadline=None):
     from .wakfu_model import WakfuBuild
 
     point = bare_totals()
     minimums = role.minimums()
     done = []
     converged = False
+    reason = None
     for number in range(max(1, rounds)):
+        if done and out_of_time(deadline):
+            break
         weights = linear_weights(role, level, point, turn)
         options = {} if turn is None else {'ap_values': turn.ap_values(point)}
+        if locked:
+            options['locked'] = locked
         build = WakfuBuild(structure, level, weights, forbidden, full_set,
                            minimums=minimums, **options)
-        worn = build.build().solve()
+        worn = build.build().solve(deadline)
         if worn is None:
+            reason = getattr(build, 'reason', None)
             break
-        worth, landed, totals = land(structure, level, role, build, worn, turn)
+        worth, landed, totals = land(structure, level, role, build, worn, turn, locked)
         done.append(ModelRound(weights, landed, worn, totals, worth))
         if len(done) > 1 and done[-2].ids == done[-1].ids:
             converged = True
             break
         point = blend(point, totals, 2 / (number + 2))
     if not done:
-        return ModelSolve((), None, False)
-    return ModelSolve(tuple(done), max(done, key=lambda one: one.value), converged)
+        return ModelSolve((), None, False, reason)
+    return ModelSolve(tuple(done), max(done, key=lambda one: one.value), converged, reason)

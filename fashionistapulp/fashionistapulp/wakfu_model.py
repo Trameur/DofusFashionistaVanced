@@ -22,7 +22,7 @@ import collections
 
 from .game_versions import get_game_version
 from .lpproblem import LpProblem2
-from .wakfu_slots import SLOTS
+from .wakfu_slots import BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES, SLOTS
 from .wakfu_stats import BASE_VALUES, CRITICAL_HIT_FLOOR_PERCENT, \
     OUT_OF_COMBAT_CAPS
 
@@ -30,6 +30,11 @@ from .wakfu_stats import BASE_VALUES, CRITICAL_HIT_FLOOR_PERCENT, \
 WORN = 'w'
 # LP variable: the set's AP total is this number
 AP_TOTAL = 'apt'
+
+# WakfuSet.status and WakfuBuild.reason
+PROVEN = 'proven'
+TIME_LIMIT = 'time limit'
+INFEASIBLE = 'infeasible'
 
 # Stats a line spread over N elements may land on
 SPREAD_FAMILIES = {
@@ -54,11 +59,15 @@ def same_item(item):
 class WakfuSet(dict):
     """{position: item} of a solve."""
 
-    def __init__(self, worn=(), full_set_status=None, no_candidate=()):
+    def __init__(self, worn=(), full_set_status=None, no_candidate=(),
+                 status=None):
         super().__init__(worn)
         # Status of the every-slot model when it gave no set, else None
         self.full_set_status = full_set_status
         self.no_candidate = tuple(no_candidate)
+        # PROVEN when the search closed its gap, TIME_LIMIT when CBC stopped
+        # on its clock holding this set
+        self.status = status
 
     @property
     def full_set_dropped(self):
@@ -71,10 +80,15 @@ class WakfuBuild:
 
     ap_values: optional {AP total: worth}, base included; the set is then worth
     the entry of its AP total instead of weights['ap'] per AP.
+
+    locked: (item id, position or None) pairs; each item is worn, in that
+    position when one is given. A lock the rules cannot honour raises
+    ValueError here, before any solve. After solve(), reason says why a solve
+    gave no set: INFEASIBLE or TIME_LIMIT.
     """
 
     def __init__(self, structure, level, weights, forbidden=(),
-                 full_set=True, minimums=None, ap_values=None):
+                 full_set=True, minimums=None, ap_values=None, locked=()):
         self.structure = structure
         self.level = level
         self.weights = dict(weights)
@@ -87,8 +101,10 @@ class WakfuBuild:
         # {stat key: lowest total, base values included}
         self.minimums = dict(minimums or {})
         self.full_set_status = None
+        self.reason = None
         self.problem = None
         self._placements = []
+        self._locks = self._read_locks(locked)
 
     def _positions_of_type(self):
         """{type id: [position, ...]}"""
@@ -96,6 +112,79 @@ class WakfuBuild:
         for type_id, position in self.structure.get_type_positions():
             places[type_id].append(position)
         return places
+
+    def _read_locks(self, locked):
+        """[(item, position or None)] of the locks, refused when no set can honour them."""
+        locked = list(locked)
+        if not locked:
+            return []
+        locks = []
+        places = self._positions_of_type()
+        for ident, position in locked:
+            item = self.structure.get_item_by_id(ident)
+            if item is None:
+                raise ValueError('locked item %r is not in the catalogue' % (ident,))
+            if item.removed:
+                raise ValueError('locked item %s is removed from the game' % item.name)
+            if item.level > self.level:
+                raise ValueError('locked item %s is level %d, above the build '
+                                 'level %d' % (item.name, item.level, self.level))
+            if item.id in self.forbidden:
+                raise ValueError('locked item %s is forbidden' % item.name)
+            allowed = places.get(item.type, ())
+            if not allowed:
+                raise ValueError('locked item %s fits no slot' % item.name)
+            if position is not None and position not in allowed:
+                raise ValueError('locked item %s cannot sit in %s, only in %s'
+                                 % (item.name, position, ', '.join(allowed)))
+            locks.append((item, position))
+        self._check_locks_agree(locks, places)
+        return locks
+
+    def _check_locks_agree(self, locks, places):
+        keys = {}
+        for item, _position in locks:
+            other = keys.setdefault(same_item(item), item)
+            if other is not item:
+                raise ValueError('locked items %s and %s are one item in two '
+                                 'rarities' % (other.name, item.name))
+        if len({item.id for item, _position in locks}) < len(locks):
+            raise ValueError('an item is locked twice')
+        for flag in EXCLUSIVE_PROPERTIES.values():
+            held = [item for item, _p in locks if flag in (item.flags or ())]
+            if len(held) > 1:
+                raise ValueError('locked items %s are all %s items, a character '
+                                 'wears one' % (', '.join(i.name for i in held), flag))
+        if not self._slots_for_locks(locks, places):
+            raise ValueError('locked items %s need the same slot'
+                             % ', '.join(item.name for item, _p in locks))
+        two_handed = [item for item, _p in locks
+                      if 'two_handed' in (item.flags or ())]
+        if two_handed:
+            for item, position in locks:
+                only_place = position or (places[item.type][0]
+                                          if len(places[item.type]) == 1 else None)
+                if only_place == BLOCKED_BY_TWO_HANDED:
+                    raise ValueError('locked item %s is two-handed and a lock fills '
+                                     'the second weapon slot' % two_handed[0].name)
+
+    @staticmethod
+    def _slots_for_locks(locks, places):
+        """True when every lock can have a slot of its own."""
+        taken = {}
+
+        def place(index, seen):
+            item, position = locks[index]
+            for slot in ([position] if position else places[item.type]):
+                if slot in seen:
+                    continue
+                seen.add(slot)
+                if slot not in taken or place(taken[slot], seen):
+                    taken[slot] = index
+                    return True
+            return False
+
+        return all(place(index, set()) for index in range(len(locks)))
 
     def _candidates(self):
         """Every (item, position) a character of this level could wear."""
@@ -181,6 +270,7 @@ class WakfuBuild:
         self._caps()
         self._critical_hit_floor()
         self._minimums()
+        self._locked()
         self._ap_total()
         self._objective()
         return self
@@ -272,6 +362,14 @@ class WakfuBuild:
                 self.problem.restriction_lt_eq(
                     BASE_VALUES.get(key.upper(), 0) - lowest, parcels)
 
+    def _locked(self):
+        """Each locked item is worn, in its position when the lock names one."""
+        for item, position in self._locks:
+            placements = [(one, place) for one, place in self._placements
+                          if one.id == item.id
+                          and (position is None or place == position)]
+            self.problem.restriction_eq(1, self._parcels(placements))
+
     def _ap_totals(self):
         """Every AP total a set can reach, base included, up to the cap."""
         lowest = collections.defaultdict(int)
@@ -307,24 +405,45 @@ class WakfuBuild:
                 self.problem.add_to_of(AP_TOTAL, total, self.ap_values.get(total, floor))
         self.problem.finish_objective_function()
 
-    def solve(self):
-        """WakfuSet or None; drops full_set when that model gives no set."""
+    def _run(self, deadline):
+        from .wakfu_value import solver_time_limit
+
+        with solver_time_limit(deadline):
+            self.problem.run()
+
+    def solve(self, deadline=None):
+        """WakfuSet or None; drops full_set only when that model is infeasible.
+
+        deadline: a time.monotonic() value; each CBC run, the fallback run
+        included, is cut to what is left when it starts.
+
+        With no set, reason says why: INFEASIBLE, TIME_LIMIT, or the solver's
+        own word for any other status.
+        """
         if self.problem is None:
             self.build()
-        self.problem.run()
-        if self.problem.get_status() != 'Optimal' and self.full_set:
+        self.reason = None
+        self._run(deadline)
+        if self.problem.get_status() == 'Infeasible' and self.full_set:
             self.full_set_status = self.problem.get_status()
             self.full_set = False
             self.problem = None
             self.build()
-            self.problem.run()
-        if self.problem.get_status() != 'Optimal':
+            self._run(deadline)
+        status = self.problem.get_status()
+        if status != 'Optimal':
+            # PuLP calls a search that ran out of time without a set Not Solved
+            self.reason = {'Not Solved': TIME_LIMIT,
+                           'Infeasible': INFEASIBLE}.get(status, status.lower())
             return None
         chosen = self.problem.get_result()
         placed = {position for _item, position in self._placements}
+        # Optimal is also what PuLP says when CBC stopped on its time limit
         worn = WakfuSet(full_set_status=self.full_set_status,
                         no_candidate=[slot for slot in SLOTS
-                                      if slot not in placed])
+                                      if slot not in placed],
+                        status=(PROVEN if self.problem.solution_is_proven()
+                                else TIME_LIMIT))
         for item, position in self._placements:
             name = '%s_%s' % (WORN, self._name(item, position))
             if (chosen.get(name) or 0) > 0.5:
