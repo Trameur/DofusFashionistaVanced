@@ -27,7 +27,7 @@ from .item_effects import effect_term, load_effect_table
 from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
                        temporix_only_item_ids)
 from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, percent_resist_cap, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve, NON_STAT_WEIGHT_KEYS
-from .lpproblem import LpProblem2
+from .lpproblem import LpProblem2, solver_tag
 from .modelresult import (ModelResultMinimal, level_prospecting,
                           wisdom_per_ap_mp_dodge_point)
 import pulp
@@ -775,28 +775,17 @@ class Model:
         self.problem.finish_objective_function()
         shortfalls = getattr(self, '_shortfall_objective', None)
         if shortfalls:
-            self.problem.pulp_lp.setObjective(
-                -pulp.lpSum(weight * variable for _name, variable, _asked, weight in shortfalls))
+            self.problem.set_objective(
+                [(-weight, variable) for _name, variable, _asked, weight in shortfalls])
 
     _AP_TIER_BIG_M = 100
 
     def modify_spell_modifier_terms(self, modifier_values, modifier_overlaps=None):
         """modifier_values is {item id: {AP: value}}: a piece earns its value at the AP the set
         reaches. modifier_overlaps is {(item id, item id): {AP: value}}, added when both are."""
-        lp = self.problem.pulp_lp
-        for name in getattr(self, '_modifier_constraints', ()):
-            constraint = lp.constraints.pop(name, None)
-            if constraint is not None:
-                lp.modifiedConstraints = [c for c in lp.modifiedConstraints
-                                          if c is not constraint]
-        stale = set(getattr(self, '_modifier_variables', ()))
-        if stale:
-            # PuLP keeps every variable it has seen, even once out of every constraint
-            lp._variables = [v for v in lp._variables if v.name not in stale]
-            lp._variable_ids = {key: v for key, v in lp._variable_ids.items()
-                                if v.name not in stale}
-            for name in stale:
-                self.problem.pulp_vars.pop(name, None)
+        problem = self.problem
+        problem.remove_rows(getattr(self, '_modifier_constraints', ()))
+        problem.forget_variables(getattr(self, '_modifier_variables', ()))
         self._modifier_constraints = []
         self._modifier_variables = []
         self._modifier_terms = {}
@@ -807,33 +796,34 @@ class Model:
                   for ap, value in per_ap.items() if value > 0}
         if not values:
             return
-        ap_total = self.problem.pulp_vars['stat_%s' % self.structure.get_stat_by_key('ap').id]
+        ap_total = 'stat_%s' % self.structure.get_stat_by_key('ap').id
         big_m = self._AP_TIER_BIG_M
 
         # Binary, not continuous: CBC 2.10 stops short of the optimum with continuous ones here
         def variable(name):
-            created = pulp.LpVariable(name, 0, 1, pulp.LpInteger)
-            self.problem.pulp_vars[name] = created
+            problem.declare_variable(name, 0, 1)
             self._modifier_variables.append(name)
-            return created
+            return name
 
-        def constraint(name, expression):
-            lp.addConstraint(expression, name)
+        def constraint(name, terms, sense, rhs):
+            problem.add_row(terms, sense, rhs, name)
             self._modifier_constraints.append(name)
 
         tiers = {}
         for ap in sorted({ap for _item_id, ap in values}):
             tier = tiers[ap] = variable('modap_%d' % ap)
-            constraint('modifier_ap_%d_at_most' % ap, ap_total + big_m * tier <= ap + big_m)
-            constraint('modifier_ap_%d_at_least' % ap, ap_total - big_m * tier >= ap - big_m)
-        constraint('modifier_ap_one_total', pulp.lpSum(tiers.values()) <= 1)
+            constraint('modifier_ap_%d_at_most' % ap, [(1, ap_total), (big_m, tier)],
+                       '<=', ap + big_m)
+            constraint('modifier_ap_%d_at_least' % ap, [(1, ap_total), (-big_m, tier)],
+                       '>=', ap - big_m)
+        constraint('modifier_ap_one_total', [(1, tier) for tier in tiers.values()], '<=', 1)
         picks = {}
         for (item_id, ap), value in sorted(values.items()):
             key = '%d_%d' % (item_id, ap)
             pick = picks[(item_id, ap)] = variable('modpick_' + key)
-            worn = self.problem.pulp_vars['p_%d' % item_id]
-            constraint('modifier_%s_worn' % key, pick <= worn)
-            constraint('modifier_%s_at_ap' % key, pick <= tiers[ap])
+            worn = 'p_%d' % item_id
+            constraint('modifier_%s_worn' % key, [(1, pick), (-1, worn)], '<=', 0)
+            constraint('modifier_%s_at_ap' % key, [(1, pick), (-1, tiers[ap])], '<=', 0)
             self._modifier_terms[('modpick', key)] = value
         for (first, second), per_ap in sorted((modifier_overlaps or {}).items()):
             for ap, value in sorted(per_ap.items()):
@@ -843,24 +833,15 @@ class Model:
                 key = '%d_%d_%d' % (first, second, ap)
                 both = variable('modboth_' + key)
                 constraint('modifier_%s_both' % key,
-                           picks[(first, ap)] + picks[(second, ap)] - both <= 1)
+                           [(1, picks[(first, ap)]), (1, picks[(second, ap)]), (-1, both)],
+                           '<=', 1)
                 self._modifier_terms[('modboth', key)] = value
     
     def modify_crit_hinges(self, hinges):
         """hinges is ((breakpoint, drop), ...): a crit point above a breakpoint is paid drop less."""
-        lp = self.problem.pulp_lp
-        for name in getattr(self, '_crit_hinge_constraints', ()):
-            constraint = lp.constraints.pop(name, None)
-            if constraint is not None:
-                lp.modifiedConstraints = [c for c in lp.modifiedConstraints
-                                          if c is not constraint]
-        stale = set(getattr(self, '_crit_hinge_variables', ()))
-        if stale:
-            lp._variables = [v for v in lp._variables if v.name not in stale]
-            lp._variable_ids = {key: v for key, v in lp._variable_ids.items()
-                                if v.name not in stale}
-            for name in stale:
-                self.problem.pulp_vars.pop(name, None)
+        problem = self.problem
+        problem.remove_rows(getattr(self, '_crit_hinge_constraints', ()))
+        problem.forget_variables(getattr(self, '_crit_hinge_variables', ()))
         self._crit_hinge_constraints = []
         self._crit_hinge_variables = []
         self._crit_hinge_terms = {}
@@ -869,14 +850,13 @@ class Model:
             return
         if any(drop < 0 for _breakpoint, drop in hinges):
             raise ValueError('the crit slopes must not rise')
-        crit = self.problem.pulp_vars['stat_%s' % self.structure.get_stat_by_key('ch').id]
+        crit = 'stat_%s' % self.structure.get_stat_by_key('ch').id
         for number, (breakpoint, drop) in enumerate(hinges):
             name = 'crithinge_%d' % number
-            over = pulp.LpVariable(name, 0)
-            self.problem.pulp_vars[name] = over
+            problem.declare_variable(name, 0, None, integer=False)
             self._crit_hinge_variables.append(name)
             constraint_name = 'crit_hinge_%d' % number
-            lp.addConstraint(over - crit >= -breakpoint, constraint_name)
+            problem.add_row([(1, name), (-1, crit)], '>=', -breakpoint, constraint_name)
             self._crit_hinge_constraints.append(constraint_name)
             self._crit_hinge_terms[('crithinge', number)] = -drop
 
@@ -1578,10 +1558,7 @@ class Model:
 
     def modify_effective_hp_constraint(self, floor, level):
         """Only present while a solve asks for it: HP + floor * mean resist >= floor."""
-        lp = self.problem.pulp_lp
-        previous = lp.constraints.pop(EFFECTIVE_HP_CONSTRAINT, None)
-        if previous is not None:
-            lp.modifiedConstraints = [c for c in lp.modifiedConstraints if c is not previous]
+        self.problem.remove_rows([EFFECTIVE_HP_CONSTRAINT])
         if not floor:
             return
         terms = []
@@ -1589,9 +1566,9 @@ class Model:
                                   + [(floor / 500.0, name) for name in PERCENT_RESISTS]):
             stat = self.structure.get_stat_by_name(name)
             if stat is not None:
-                terms.append(coefficient * self.problem.pulp_vars['stat_%s' % stat.id])
+                terms.append((coefficient, 'stat_%s' % stat.id))
         # Base HP of the level, as in ModelResult.get_stats_total
-        lp.addConstraint(pulp.lpSum(terms) >= floor - (50 + 5 * level), EFFECTIVE_HP_CONSTRAINT)
+        self.problem.add_row(terms, '>=', floor - (50 + 5 * level), EFFECTIVE_HP_CONSTRAINT)
 
     def modify_advanced_minimum_stat_constraints(self, minimum_stats):
         adv_min_stats = self.structure.get_adv_mins()
@@ -1601,7 +1578,6 @@ class Model:
 
     def add_elastic_minimums(self, minimum_stats, level):
         """The minimums turned into ones a shortfall can make up, as [(name, shortfall, asked, 1 / asked)]; never on a pooled model, ValueError when a minimum has no variable."""
-        lp = self.problem.pulp_lp
         self.modify_minimum_stat_constraints({}, level)
         version = getattr(getattr(self, 'structure', None), 'game_version', 'dofus3')
         dependencies = _minimum_dependencies(version)
@@ -1611,8 +1587,8 @@ class Model:
             if stat is None:
                 return None
             key = stat.id if category == 'stat' else 'capped_%s' % stat.key
-            return self.problem.pulp_vars.get(
-                '%s_%s' % (category, str(key).replace(' ', '_').replace('-', '_')))
+            name = '%s_%s' % (category, str(key).replace(' ', '_').replace('-', '_'))
+            return name if self.problem.has_variable(name) else None
 
         wanted = []
         for stat in self.stats_list:
@@ -1641,9 +1617,10 @@ class Model:
             raise ValueError('no solver variable behind the minimums %s' % ', '.join(unread))
         shortfalls = []
         for number, (name, asked, bound, terms) in enumerate(wanted):
-            shortfall = pulp.LpVariable('shortfall_%d' % number, 0)
-            lp.addConstraint(pulp.lpSum(multiplier * variable for multiplier, variable in terms)
-                             + shortfall >= bound, 'elastic_%d' % number)
+            shortfall = 'shortfall_%d' % number
+            self.problem.declare_variable(shortfall, 0, None, integer=False)
+            self.problem.add_row([(multiplier, variable) for multiplier, variable in terms]
+                                 + [(1, shortfall)], '>=', bound, 'elastic_%d' % number)
             shortfalls.append((name, shortfall, asked, 1.0 / max(abs(asked), 1)))
         return shortfalls
 
@@ -1654,15 +1631,14 @@ class Model:
 
     def hold_shortfall(self, shortfalls, ceiling):
         """Keeps the weighted shortfall at ceiling and goes back to the build's own objective."""
-        self.problem.pulp_lp.addConstraint(
-            pulp.lpSum(weight * variable for _name, variable, _asked, weight in shortfalls)
-            <= ceiling * (1 + 1e-6) + 1e-6, 'elastic_hold')
+        self.problem.add_row([(weight, variable) for _name, variable, _asked, weight in shortfalls],
+                             '<=', ceiling * (1 + 1e-6) + 1e-6, 'elastic_hold')
         self._shortfall_objective = None
         self.write_objective_function(self.input['objective_values'], self.input['char_level'],
                                       getattr(self, 'item_terms', None))
 
     def get_shortfall(self, shortfalls):
-        return sum(weight * (variable.varValue or 0)
+        return sum(weight * (self.problem.value(variable) or 0)
                    for _name, variable, _asked, weight in shortfalls)
 
     def run(self, retries=0, change_of=False, warm_start=None, seed=None, gap=0):
@@ -1769,8 +1745,7 @@ class Model:
             forbidden = self.restrictions.forbidden_items_constraints.get(item.id)
             if level is None or forbidden is None:
                 continue
-            # PuLP stores a <= constraint's right hand side negated.
-            if -level.constant <= 0 or -forbidden.constant <= 0:
+            if level.rhs <= 0 or forbidden.rhs <= 0:
                 continue
             type_name = self.structure.get_type_name_by_id(item.type)
             pool[type_name] = pool.get(type_name, 0) + 1
@@ -1876,6 +1851,8 @@ class ModelInput(object):
         gap = getattr(self, 'gap', 0)
         if gap:
             parts.append(['gap', gap])
+        if solver_tag():
+            parts.append(['solver', solver_tag()])
         return _stable_digest(parts)
 
     def __hash__(self, *args, **kwargs):
@@ -1915,6 +1892,8 @@ class ModelInput(object):
         gap = getattr(self, 'gap', 0)
         if gap:
             key += (('gap', gap),)
+        if solver_tag():
+            key += (('solver', solver_tag()),)
         return key.__hash__()
 
 def _is_number(value):
