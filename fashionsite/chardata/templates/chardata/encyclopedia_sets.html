@@ -2,6 +2,7 @@
 {% load version_url %}
 {% load i18n %}
 {% load ads %}
+{% load static_s3 %}
 
 {% block title %}{% trans "Sets" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
@@ -12,6 +13,7 @@
 
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
+{% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-encyclopedia.css" %}">{% endblock %}
 {% block css %}
 <style>
 .encyclopedia-sets { padding: 12px; }

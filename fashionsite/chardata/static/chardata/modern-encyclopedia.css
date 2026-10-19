@@ -1,0 +1,269 @@
+html.fm-modern .encyclopedia-page.encyclopedia-atelier, html.fm-modern .encyclopedia-item.encyclopedia-atelier, html.fm-modern .encyclopedia-sets.encyclopedia-atelier{ padding:0; }
+html.fm-modern .encyclopedia-title{ margin-bottom:0 !important; }
+html.fm-modern .encyclopedia-subtitle{ margin:0 0 var(--fm-space-4); opacity:1; max-width:var(--fm-measure); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-crumbs{ opacity:1; color:var(--fm-muted); font-size:.9em; margin:0 0 var(--fm-space-3); line-height:1.6; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-crumbs a, html.fm-modern .encyclopedia-item.encyclopedia-atelier .encyclopedia-crumbs a{ color:var(--fm-accent-text); }
+html.fm-modern .encyclopedia-item.encyclopedia-atelier a, html.fm-modern .encyclopedia-page.encyclopedia-atelier a, html.fm-modern .encyclopedia-sets.encyclopedia-atelier a{ color:var(--fm-accent-text); }
+html.fm-modern .encyclopedia-item.encyclopedia-atelier a:hover, html.fm-modern .encyclopedia-page.encyclopedia-atelier a:hover, html.fm-modern .encyclopedia-sets.encyclopedia-atelier a:hover{ color:var(--fm-link-hover); }
+html.fm-modern .encyclopedia-card > div:first-child img, html.fm-modern .encyclopedia-atelier .encyclopedia-item-head img,
+html.fm-modern .encyclopedia-set-item img, html.fm-modern .most-used-icon, html.fm-modern .encyclopedia-atelier .encyclopedia-list .craft-icon{
+  box-sizing:content-box; padding:3px; border:2px solid var(--fm-frame-gold); border-radius:var(--fm-radius-xs);
+  background-color:var(--fm-surface-3); object-fit:contain;
+  box-shadow:inset 0 0 0 2px var(--fm-surface), inset 0 0 0 3px var(--fm-frame-gold);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-list .craft-icon{ padding:2px; }
+@media (forced-colors:active){
+  html.fm-modern .encyclopedia-card > div:first-child img, html.fm-modern .encyclopedia-atelier .encyclopedia-item-head img,
+  html.fm-modern .encyclopedia-set-item img, html.fm-modern .most-used-icon, html.fm-modern .encyclopedia-atelier .encyclopedia-list .craft-icon{ border-color:CanvasText; box-shadow:none; }
+}
+html.fm-modern .encyclopedia-hub-links{ margin:var(--fm-space-2) 0 var(--fm-space-4); text-align:left; }
+html.fm-modern .encyclopedia-hub-links > a{ margin:0 var(--fm-space-2) var(--fm-space-2) 0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-page-link{ display:inline-flex; align-items:center; box-sizing:border-box; min-height:44px; padding:8px 16px; font-weight:700; text-decoration:none; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-page-link:hover{ text-decoration:underline; }
+html.fm-modern .encyclopedia-filter-box{ margin-bottom:var(--fm-space-5); }
+html.fm-modern .encyclopedia-filter-box label{ color:var(--fm-muted); font-weight:600; }
+html.fm-modern .encyclopedia-filter-box .pretty-input{ min-height:44px; }
+html.fm-modern .encyclopedia-filter-box input[type="number"]{ min-width:0; }
+html.fm-modern .encyclopedia-stat-filters > b{ color:var(--fm-head); }
+html.fm-modern .encyclopedia-stat-row, html.fm-modern .encyclopedia-order-row{ grid-template-columns:minmax(0,1fr) minmax(0,160px) auto; }
+html.fm-modern .encyclopedia-small-btn, html.fm-modern .encyclopedia-btn{ min-height:44px; box-sizing:border-box; }
+html.fm-modern .encyclopedia-btn{ display:inline-flex; align-items:center; justify-content:center; }
+html.fm-modern .encyclopedia-stat-select-icon{ background:var(--fm-surface-3); border-radius:3px; padding:1px; box-sizing:content-box; }
+html.fm-modern .encyclopedia-stat-select-icon-hidden{ visibility:hidden; }
+@media (min-width:1280px){
+  html.fm-modern .encyclopedia-filter-box{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:var(--fm-space-6); align-items:start; }
+  html.fm-modern .encyclopedia-filter-box > .encyclopedia-filter-grid, html.fm-modern .encyclopedia-filter-box > .encyclopedia-actions{ grid-column:1 / -1; }
+  html.fm-modern .encyclopedia-filter-box > input[type="hidden"]{ display:none; }
+}
+@media (max-width:600px){
+  html.fm-modern .encyclopedia-stat-row-actions .encyclopedia-small-btn{ width:100%; }
+  html.fm-modern .encyclopedia-actions > *{ flex:1 1 100%; justify-content:center; text-align:center; }
+}
+html.fm-modern .encyclopedia-resource-hit, html.fm-modern .encyclopedia-family-nav a{
+  min-height:44px; box-sizing:border-box; padding:6px 14px; background:var(--fm-surface-2); color:var(--fm-text);
+  border:1px solid var(--fm-border); border-radius:999px; text-decoration:none;
+}
+html.fm-modern .encyclopedia-family-nav a{ display:inline-flex; align-items:center; color:var(--fm-accent-text); }
+html.fm-modern .encyclopedia-resource-hit:hover, html.fm-modern .encyclopedia-family-nav a:hover{ border-color:var(--fm-accent-line); background:var(--fm-accent-soft); }
+html.fm-modern .encyclopedia-results-header{ margin:var(--fm-space-5) 0 var(--fm-space-3); }
+html.fm-modern .encyclopedia-hits-more > summary{ opacity:1; color:var(--fm-muted); }
+html.fm-modern .encyclopedia-grid, html.fm-modern .encyclopedia-sets-grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); gap:var(--fm-space-4); align-items:stretch;
+}
+html.fm-modern .encyclopedia-card.brown-box{
+  padding:14px !important; outline:0; gap:var(--fm-space-3); min-width:0;
+  transition:transform var(--fm-trans), box-shadow var(--fm-trans), border-color var(--fm-trans);
+}
+html.fm-modern .encyclopedia-card.brown-box:hover{ transform:translateY(-3px); box-shadow:var(--fm-shadow); border-color:var(--fm-accent-line) !important; }
+html.fm-modern .encyclopedia-card > div:first-child{ flex:0 0 auto; }
+html.fm-modern .encyclopedia-card-name{ color:var(--fm-head); font-size:1.05em; }
+html.fm-modern .encyclopedia-card-meta{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-card-stats{ margin:var(--fm-space-2) 0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-card .encyclopedia-page-link{ margin-top:auto; align-self:flex-start; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-pagination{ gap:var(--fm-space-2); margin-top:var(--fm-space-5); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-pagination > *{ min-width:44px; min-height:44px; padding:8px 12px; display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-pagination > a.encyclopedia-page-link{ font-weight:400; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-pagination > .encyclopedia-page-link-current{
+  background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important; border-color:var(--fm-accent) !important; font-weight:700;
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-page-gap{ color:var(--fm-muted); }
+html.fm-modern .encyclopedia-sets.encyclopedia-atelier > h1[align="center"]{ text-align:left; }
+html.fm-modern .encyclopedia-sets.encyclopedia-atelier > h1[align="center"]::after{ left:0; transform:none; }
+html.fm-modern .encyclopedia-sets-search{ display:flex; flex-wrap:wrap; align-items:center; gap:var(--fm-space-3); margin:var(--fm-space-3) 0 var(--fm-space-4); }
+html.fm-modern .encyclopedia-sets-search input[type="text"]{ min-width:0; flex:1 1 240px; max-width:420px; min-height:44px; }
+html.fm-modern .encyclopedia-sets-sort{ display:inline-flex; align-items:center; gap:var(--fm-space-2); margin:0; color:var(--fm-muted); }
+html.fm-modern .encyclopedia-sets-sort select{ min-height:44px; margin:0; }
+html.fm-modern .encyclopedia-sets-search .button-generic{ min-height:44px; box-sizing:border-box; }
+html.fm-modern .encyclopedia-sets.encyclopedia-atelier > .encyclopedia-sets-meta{ margin-bottom:var(--fm-space-3); color:var(--fm-muted); }
+html.fm-modern .encyclopedia-sets-grid a{
+  display:flex; flex-direction:column; gap:var(--fm-space-1); min-width:0; padding:14px 16px; color:var(--fm-text);
+  background:var(--fm-surface-2); border:1px solid var(--fm-border); border-radius:var(--fm-radius); box-shadow:var(--fm-shadow-sm);
+  transition:transform var(--fm-trans), box-shadow var(--fm-trans), border-color var(--fm-trans);
+}
+html.fm-modern .encyclopedia-sets-grid a:hover{ transform:translateY(-3px); box-shadow:var(--fm-shadow); border-color:var(--fm-accent-line); color:var(--fm-text); }
+html.fm-modern .encyclopedia-sets-name{ color:var(--fm-head); font-size:1.1em; }
+html.fm-modern .encyclopedia-sets-grid .encyclopedia-sets-meta{ color:var(--fm-muted); }
+html.fm-modern .encyclopedia-sets-items{ color:var(--fm-muted); margin-top:var(--fm-space-1); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card.brown-box{ display:block; column-width:380px; column-gap:var(--fm-space-4); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card > :not(.encyclopedia-section){ column-span:all; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card.encyclopedia-set-card > .encyclopedia-section{ column-span:all; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card > .encyclopedia-set-title{ margin:0 !important; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-section{
+  background:var(--fm-surface) !important; margin:0 0 var(--fm-space-4); padding:var(--fm-space-4) !important; border-radius:var(--fm-radius-sm) !important;
+  box-shadow:var(--fm-shadow-sm); break-inside:avoid;
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-section > b:first-child{
+  display:block; margin-bottom:var(--fm-space-3); padding-bottom:var(--fm-space-2); border-bottom:1px dashed var(--fm-seam);
+  font-family:var(--fm-font-display); font-weight:400; font-synthesis:none; font-size:1.25rem; letter-spacing:.5px; color:var(--fm-head);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-item-meta{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list-stat, html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list li{ color:var(--fm-text) !important; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card > .encyclopedia-item-meta{ margin-bottom:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card > .encyclopedia-other-versions{ margin-top:var(--fm-space-2); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-head{ gap:var(--fm-space-4); align-items:flex-start; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-head > div{ flex:1 1 auto; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-head .encyclopedia-item-meta{ margin-top:var(--fm-space-1); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-name{ overflow-wrap:anywhere; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list{ list-style:none; margin:0; padding:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list > li{ padding:var(--fm-space-2) 0; border-top:1px solid var(--fm-border); overflow-wrap:anywhere; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list > li:first-child{ border-top:0; padding-top:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list > li:last-child{ padding-bottom:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list li.craft-item{ gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list .item-level, html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .drop-level,
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .drop-conditions, html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-popularity{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list .item-level{ display:block; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-drops-more > summary{ padding-left:0; opacity:1; color:var(--fm-muted); min-height:44px; display:flex; align-items:center; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-drops-more > summary:focus-visible, html.fm-modern .encyclopedia-hits-more > summary:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:2px; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-list .spell-tip:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:2px; border-radius:3px; }
+html.fm-modern .encyclopedia-build-around a{ min-height:44px; display:inline-flex; align-items:center; }
+html.fm-modern .encyclopedia-workshop-add{ margin-top:var(--fm-space-3); }
+html.fm-modern .encyclopedia-workshop-add-qty{ min-height:44px; }
+html.fm-modern .encyclopedia-workshop-add .button-thin, html.fm-modern #enc-workshop-add-set-btn{ min-height:44px; }
+html.fm-modern .encyclopedia-workshop-add-feedback{ color:var(--fm-muted); }
+html.fm-modern .encyclopedia-set-grid{ grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr)); gap:var(--fm-space-3); }
+html.fm-modern a.encyclopedia-set-item{
+  padding:10px 12px; gap:var(--fm-space-3); min-width:0; text-decoration:none; color:var(--fm-text);
+  background:var(--fm-surface-2); border:1px solid var(--fm-border); border-radius:var(--fm-radius-sm);
+  transition:border-color var(--fm-trans), box-shadow var(--fm-trans);
+}
+html.fm-modern a.encyclopedia-set-item:hover{ border-color:var(--fm-accent-line); box-shadow:var(--fm-shadow-sm); color:var(--fm-text); }
+html.fm-modern .encyclopedia-set-item > div{ min-width:0; overflow-wrap:anywhere; }
+html.fm-modern .encyclopedia-set-item-name{ color:var(--fm-head); }
+html.fm-modern .encyclopedia-set-card .encyclopedia-section:has(> .encyclopedia-set-bonus-group){
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr)); gap:var(--fm-space-3); align-items:start;
+}
+html.fm-modern .encyclopedia-set-card .encyclopedia-section:has(> .encyclopedia-set-bonus-group) > b:first-child{ grid-column:1 / -1; margin-bottom:0; }
+html.fm-modern .encyclopedia-set-card .encyclopedia-set-bonus-group{ margin:0; }
+html.fm-modern .encyclopedia-set-bonus-group{ margin:0 0 var(--fm-space-3); padding:var(--fm-space-3); background:var(--fm-surface-2); border:1px solid var(--fm-border); border-radius:var(--fm-radius-xs); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-set-bonus-group > .encyclopedia-item-meta:first-child{
+  display:inline-block; margin-bottom:var(--fm-space-2); padding:2px 10px; border-radius:4px; background:var(--fm-tape); color:var(--fm-tape-text) !important; font-weight:700;
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-set-bonus-group > .encyclopedia-item-meta + .encyclopedia-list + .encyclopedia-item-meta{ margin-top:var(--fm-space-2); font-weight:600; }
+html.fm-modern .encyclopedia-cta{ margin:var(--fm-space-2) 0 0; border-top-color:var(--fm-border); padding-top:var(--fm-space-5); }
+html.fm-modern .encyclopedia-cta-line{ font-size:1.05em; color:var(--fm-text); }
+html.fm-modern .encyclopedia-cta-btn, html.fm-modern .most-used-btn{
+  background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)); color:#2a2010 !important; border:0; border-radius:999px;
+  padding:10px 22px; box-shadow:var(--fm-shadow-sm); transition:transform var(--fm-trans), filter var(--fm-trans);
+}
+html.fm-modern .encyclopedia-cta-btn:hover, html.fm-modern .encyclopedia-cta-btn:focus, html.fm-modern .most-used-btn:hover, html.fm-modern .most-used-btn:focus{
+  background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)); filter:brightness(1.05); transform:translateY(-2px);
+}
+html.fm-modern .encyclopedia-cta-btn.encyclopedia-cta-btn-ghost{ background:var(--fm-surface); color:var(--fm-accent-text) !important; border:1px solid var(--fm-accent-line); box-shadow:none; }
+html.fm-modern .encyclopedia-cta-btn.encyclopedia-cta-btn-ghost:hover, html.fm-modern .encyclopedia-cta-btn.encyclopedia-cta-btn-ghost:focus{ background:var(--fm-accent-soft); filter:none; }
+html.fm-modern .encyclopedia-cta-btn:focus-visible, html.fm-modern .most-used-btn:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
+html.fm-modern .most-used-title{ text-align:left; margin-bottom:0 !important; }
+html.fm-modern .most-used-headline, html.fm-modern .most-used-method{ text-align:left; margin-left:0; margin-right:0; max-width:var(--fm-measure); opacity:1; }
+html.fm-modern .most-used-headline{ color:var(--fm-head); margin-bottom:var(--fm-space-2); }
+html.fm-modern .most-used-method{ color:var(--fm-muted); margin-bottom:var(--fm-space-5); }
+html.fm-modern .most-used-slots{ display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr)); gap:var(--fm-space-4); align-items:start; }
+html.fm-modern .most-used-slot{
+  max-width:none; margin:0; padding:var(--fm-space-4); min-width:0; background:var(--fm-surface-2); border:1px solid var(--fm-border);
+  border-radius:var(--fm-radius); box-shadow:var(--fm-shadow-sm);
+}
+html.fm-modern .most-used-slot-title{ margin:0 0 var(--fm-space-3); border-bottom:1px dashed var(--fm-seam); }
+html.fm-modern .most-used-item{
+  display:grid; grid-template-columns:1.8em auto minmax(0,1fr) auto; grid-template-rows:auto auto; column-gap:var(--fm-space-3); row-gap:0;
+  align-items:center; padding:var(--fm-space-2) 0; border-top:1px solid var(--fm-border);
+}
+html.fm-modern .most-used-item:first-child{ border-top:0; }
+html.fm-modern .most-used-item::before{ grid-column:1; grid-row:1 / span 2; opacity:1; color:var(--fm-muted); flex:none; }
+html.fm-modern .most-used-icon{ grid-column:2; grid-row:1 / span 2; }
+html.fm-modern .most-used-name{ grid-column:3; grid-row:1; white-space:normal; overflow:visible; text-overflow:clip; overflow-wrap:anywhere; font-weight:600; }
+html.fm-modern .most-used-level{ grid-column:3; grid-row:2; opacity:1; color:var(--fm-muted); white-space:normal; }
+html.fm-modern .most-used-share{ grid-column:4; grid-row:1 / span 2; flex:none; color:var(--fm-accent-text); }
+html.fm-modern .most-used-cta{ border-top-color:var(--fm-border); }
+html.fm-modern .encyclopedia-atelier .resource-icon, html.fm-modern .encyclopedia-atelier .monster-portrait,
+html.fm-modern .encyclopedia-atelier .drop-icon, html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-thumb{
+  box-sizing:content-box; padding:3px; border:2px solid var(--fm-frame-gold); border-radius:var(--fm-radius-xs);
+  background-color:var(--fm-surface-3); object-fit:contain;
+  box-shadow:inset 0 0 0 2px var(--fm-surface), inset 0 0 0 3px var(--fm-frame-gold);
+}
+html.fm-modern .encyclopedia-atelier .drop-icon, html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-thumb{ padding:2px; }
+@media (forced-colors:active){
+  html.fm-modern .encyclopedia-atelier .resource-icon, html.fm-modern .encyclopedia-atelier .monster-portrait,
+  html.fm-modern .encyclopedia-atelier .drop-icon, html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-thumb{ border-color:CanvasText; box-shadow:none; }
+}
+html.fm-modern .encyclopedia-item.encyclopedia-atelier .encyclopedia-item-name:has(> .resource-icon){ display:flex; align-items:center; gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier, html.fm-modern .encyclopedia-monsters.encyclopedia-atelier, html.fm-modern .encyclopedia-missing.encyclopedia-atelier{ padding:0; }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a:not(.button-generic), html.fm-modern .encyclopedia-monsters.encyclopedia-atelier a:not(.button-generic):not(.encyclopedia-monsters-weakness),
+html.fm-modern .encyclopedia-missing.encyclopedia-atelier a:not(.button-generic){ color:var(--fm-accent-text); }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a:not(.button-generic):hover, html.fm-modern .encyclopedia-monsters.encyclopedia-atelier a:not(.button-generic):not(.encyclopedia-monsters-weakness):hover{ color:var(--fm-link-hover); }
+html.fm-modern .encyclopedia-monsters.encyclopedia-atelier > h1[align="center"]{ text-align:left; margin-bottom:0; }
+html.fm-modern .encyclopedia-monsters.encyclopedia-atelier > h1[align="center"]::after{ left:0; transform:none; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search{
+  margin:var(--fm-space-3) 0 var(--fm-space-4); padding:var(--fm-space-4); background:var(--fm-surface-2); border:1px solid var(--fm-border);
+  border-radius:var(--fm-radius); box-shadow:var(--fm-shadow-sm);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid{ grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr)); gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid label{ color:var(--fm-muted); min-width:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid input, html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid select{ min-height:44px; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-search-grid .button-generic{ min-height:44px; box-sizing:border-box; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-guide-note{ color:var(--fm-muted); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-meta{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-grid{ grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr)); gap:var(--fm-space-4); margin-top:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-grid > .encyclopedia-monster-card{
+  display:flex; flex-direction:column; gap:var(--fm-space-1); min-width:0; padding:14px 16px; background:var(--fm-surface-2); color:var(--fm-text);
+  border:1px solid var(--fm-border); border-radius:var(--fm-radius); box-shadow:var(--fm-shadow-sm);
+  transition:transform var(--fm-trans), box-shadow var(--fm-trans), border-color var(--fm-trans);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-grid > .encyclopedia-monster-card:hover{ transform:translateY(-3px); box-shadow:var(--fm-shadow); border-color:var(--fm-accent-line); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-main-link{ color:var(--fm-text) !important; min-height:44px; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-name{ display:flex; align-items:center; gap:var(--fm-space-3); color:var(--fm-head); font-size:1.05em; overflow-wrap:anywhere; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-thumb{ margin-right:0; flex:0 0 auto; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-monsters-meta{ color:var(--fm-muted); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card a.encyclopedia-monsters-weakness{ padding:var(--fm-space-1) 0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-preview{ margin-top:auto; padding-top:var(--fm-space-2); color:var(--fm-text); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-rate{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box{ display:block; column-width:380px; column-gap:var(--fm-space-4); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box > :not(.encyclopedia-section){ column-span:all; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box > #monster-stats{ column-span:all; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-section{
+  background:var(--fm-surface) !important; margin:0 0 var(--fm-space-4); padding:var(--fm-space-4) !important; border-radius:var(--fm-radius-sm) !important;
+  box-shadow:var(--fm-shadow-sm); break-inside:avoid; min-width:0;
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-section > b:first-child{
+  display:block; margin-bottom:var(--fm-space-3); padding-bottom:var(--fm-space-2); border-bottom:1px dashed var(--fm-seam);
+  font-family:var(--fm-font-display); font-weight:400; font-synthesis:none; font-size:1.25rem; letter-spacing:.5px; color:var(--fm-head);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-name{ overflow-wrap:anywhere; display:flex; align-items:center; gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-meta{ color:var(--fm-muted); opacity:1; margin-top:var(--fm-space-1); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-meta b{ color:var(--fm-head); }
+html.fm-modern .encyclopedia-atelier .monster-drop-summary{ margin:var(--fm-space-3) 0 var(--fm-space-4); gap:var(--fm-space-2); }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-drop-summary-link, html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-version-link{
+  display:inline-flex; align-items:center; flex-wrap:wrap; gap:var(--fm-space-1); min-height:44px; box-sizing:border-box; padding:6px 14px;
+  background:var(--fm-surface-2); color:var(--fm-text); border:1px solid var(--fm-border); border-radius:var(--fm-radius-xs);
+  transition:border-color var(--fm-trans), background var(--fm-trans);
+}
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-version-link{ flex-direction:column; align-items:flex-start; gap:0; }
+html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-drop-summary-link:hover, html.fm-modern .encyclopedia-monster.encyclopedia-atelier a.monster-version-link:hover{
+  border-color:var(--fm-accent-line); background:var(--fm-accent-soft); color:var(--fm-text);
+}
+html.fm-modern .encyclopedia-atelier .monster-drop-summary-count{ color:var(--fm-accent-text); }
+html.fm-modern .encyclopedia-atelier .monster-version-link-label{ color:var(--fm-head); }
+html.fm-modern .encyclopedia-atelier .monster-version-link-meta{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .monster-grades-scroll{ margin-top:var(--fm-space-2); border-radius:var(--fm-radius-xs); }
+html.fm-modern .monster-grades-scroll:focus-visible, html.fm-modern .fm-table-wrapper:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:-2px; box-shadow:inset var(--fm-ring); }
+html.fm-modern .encyclopedia-atelier .monster-grades th, html.fm-modern .encyclopedia-atelier .monster-grades td{ border-bottom-color:var(--fm-border); color:var(--fm-text); }
+html.fm-modern .encyclopedia-atelier .monster-grades th{ color:var(--fm-head); background:var(--fm-surface-2); }
+html.fm-modern.fm-dark .encyclopedia-atelier .monster-grades td.monster-weak, html.fm-modern.fm-dark .encyclopedia-atelier .encyclopedia-monster-card a.encyclopedia-monsters-weakness{ color:#74e074; }
+html.fm-modern .encyclopedia-atelier .monster-weakest-hint{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .monster-subareas-list{ color:var(--fm-text); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-list, html.fm-modern .encyclopedia-atelier .monster-spells-list{ list-style:none; margin:0; padding:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-list > li, html.fm-modern .encyclopedia-atelier .monster-spells-list > li{
+  padding:var(--fm-space-2) 0; border-top:1px solid var(--fm-border); overflow-wrap:anywhere; color:var(--fm-text) !important; margin:0; align-items:center;
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-list > li:first-child, html.fm-modern .encyclopedia-atelier .monster-spells-list > li:first-child{ border-top:0; padding-top:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-list > li:last-child, html.fm-modern .encyclopedia-atelier .monster-spells-list > li:last-child{ padding-bottom:0; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-list li.drop-item{ gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-rate, html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-conditions,
+html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-meta, html.fm-modern .encyclopedia-atelier .monster-spell-ap,
+html.fm-modern .encyclopedia-atelier .monster-spell-range{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .monster-spells-list .spell-tip:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:2px; border-radius:3px; }
+html.fm-modern .encyclopedia-missing.encyclopedia-atelier .encyclopedia-missing-card.brown-box{
+  max-width:var(--fm-measure); padding:var(--fm-space-5) !important; box-shadow:inset 5px 0 0 var(--fm-accent), var(--fm-shadow-sm);
+}
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card h1{ text-align:left; overflow-wrap:anywhere; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card p{ color:var(--fm-text); max-width:var(--fm-measure); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-meta, html.fm-modern .encyclopedia-atelier .encyclopedia-missing-elsewhere-label{ color:var(--fm-muted); opacity:1; }
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-elsewhere, html.fm-modern .encyclopedia-atelier .encyclopedia-missing-actions{ gap:var(--fm-space-3); }
+html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card .button-generic{ min-height:44px; box-sizing:border-box; display:inline-flex; align-items:center; }

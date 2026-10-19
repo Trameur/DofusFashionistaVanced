@@ -15,10 +15,15 @@
     document.addEventListener('DOMContentLoaded',function(){if(window.fmSchemeKnown())return;
     var n=document.querySelectorAll('link[media="(prefers-color-scheme: light)"]');for(var i=0;i<n.length;i++)n[i].removeAttribute('media');});})();
     </script>
+{% static "chardata/bands/band_"|add:game_band|add:"_light.webp" as band_light %}{% static "chardata/bands/band_"|add:game_band|add:"_dark.webp" as band_dark %}{% static "chardata/bands/band_"|add:game_band|add:"_light_m.webp" as band_light_m %}{% static "chardata/bands/band_"|add:game_band|add:"_dark_m.webp" as band_dark_m %}{% if current_game_version == "beta" %}{% static "chardata/fashionista_banner_fading_beta.webp" as legacy_banner %}{% elif current_game_version == "dofus2" or current_game_version == "retro" %}{% static "chardata/fashionista_banner.jpg" as legacy_banner %}{% else %}{% static "chardata/fashionista_banner_fading.webp" as legacy_banner %}{% endif %}
     <script>
-    (function(){var h=document.documentElement;if(!h.classList.contains('fm-modern'))return;
-    ['{% static "chardata/font/Barlow-Regular.woff2" %}','{% static "chardata/font/IMFellEnglishSC-Regular.woff2" %}'].forEach(function(u){
-    var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/woff2';l.crossOrigin='anonymous';l.href=u;document.head.appendChild(l);});})();
+    (function(){var h=document.documentElement,d=document.head;
+    function p(u,m){var l=document.createElement('link');l.rel='preload';l.as='image';l.href=u;l.setAttribute('fetchpriority','high');if(m)l.media=m;d.appendChild(l);}
+    if(!h.classList.contains('fm-modern')){p('{{ legacy_banner }}');return;}
+    var k=h.classList.contains('fm-dark');
+    {% block band_preload_phone %}p(k?'{{ band_dark_m }}':'{{ band_light_m }}','(max-width:900px)');{% endblock %}
+    p(k?'{{ band_dark }}':'{{ band_light }}','(min-width:901px)');
+    })();
     </script>
     {# The title and the description are rendered once here and reused three times: the <title>, the meta description, and the Open Graph pair a chat shows under a pasted link. Before this, a page that did not override og_meta previewed as the site-wide sentence. #}
     {% capture as page_title %}{% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista{% endblock %}{% endcapture %}{% capture as page_description %}{% block meta_description %}{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Get Dofus {{ version }} sets created automatically, based on your specific needs.{% endblocktrans %}{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}{% endcapture %}
@@ -60,7 +65,8 @@
     <!-- Mobile responsive layer (loaded last; scoped to <=900px) -->
     <link rel="stylesheet" type="text/css" href="{% static "chardata/responsive.css" %}">
     <!-- Modern skin (opt-in via .fm-modern on <html>) -->
-    <link rel="stylesheet" type="text/css" href="{% static "chardata/modern.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/modern-core.css" %}">
+    {% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-rest.css" %}">{% endblock %}
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
     <link rel="apple-touch-icon" href="{% static "chardata/apple-touch-icon.png" %}"/>
@@ -205,9 +211,10 @@
     </script>
     
 <script>
-    function fmToggleDesign(){var on=document.documentElement.classList.toggle('fm-modern');try{localStorage.setItem('fm_design',on?'modern':'classic');}catch(e){}var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';}
+    function fmToggleDesign(){var on=document.documentElement.classList.toggle('fm-modern');if(!on){var i=document.querySelector('.banner img[data-fm-src]');if(i&&!i.getAttribute('src'))i.src=i.getAttribute('data-fm-src');}try{localStorage.setItem('fm_design',on?'modern':'classic');}catch(e){}var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';}
     document.addEventListener('DOMContentLoaded',function(){var on=document.documentElement.classList.contains('fm-modern');var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';});
     </script>
+<noscript><style>.banner img[data-fm-src]{display:none}</style></noscript>
 </head>
 <body class='body-base'>
     <a class="skip-link" href="#main-content">{% trans "Skip to content" %}</a>
@@ -217,13 +224,14 @@
         <div class='banner' role="banner" data-band="{{ game_band }}" ALIGN=CENTER "position:relative; z-index:1">
           <br>   
           {% if current_game_version == 'beta' %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img></a>
+          <a href="{% game_url 'home' %}"><img data-fm-src="{% static "chardata/fashionista_banner_fading_beta.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img><noscript><img src="{{ legacy_banner }}" alt="Dofus Fashionista" width="2560" height="500"></noscript></a>
           {% elif current_game_version == 'dofus2' or current_game_version == 'retro' %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner.jpg" %}" alt="Dofus Fashionista" width="1024" height="200"></img></a>
+          <a href="{% game_url 'home' %}"><img data-fm-src="{% static "chardata/fashionista_banner.jpg" %}" alt="Dofus Fashionista" width="1024" height="200"></img><noscript><img src="{{ legacy_banner }}" alt="Dofus Fashionista" width="1024" height="200"></noscript></a>
           {% else %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img></a>
+          <a href="{% game_url 'home' %}"><img data-fm-src="{% static "chardata/fashionista_banner_fading.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img><noscript><img src="{{ legacy_banner }}" alt="Dofus Fashionista" width="2560" height="500"></noscript></a>
           {% endif %}
         </div>
+        <script>(function(){if(document.documentElement.classList.contains('fm-modern'))return;var i=document.querySelector('.banner img[data-fm-src]');if(i)i.src=i.getAttribute('data-fm-src');})();</script>
         <div class="char-overlay" style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
           <a href="{% game_url 'home' %}" aria-label="{% trans 'Home' %}"><img class='char' src="{% static pic %}" alt=""></a>
         </div>
