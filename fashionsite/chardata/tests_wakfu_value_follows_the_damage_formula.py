@@ -133,7 +133,7 @@ class TheWakfuEffectiveLifeTests(SimpleTestCase):
 
 class TheWakfuLinearWeightsTests(SimpleTestCase):
     def test_each_weight_is_the_slope_of_the_value(self):
-        for role in (value_model.DamageDealer(('fire',)),
+        for role in (value_model.DamageDealer(('fire',), 'distance'),
                      value_model.DamageDealer(('fire', 'water'), 'melee', 1.0)):
             point = operating_point()
             weights = value_model.linear_weights(role, LEVEL, point)
@@ -143,7 +143,7 @@ class TheWakfuLinearWeightsTests(SimpleTestCase):
                     self.assertAlmostEqual(1, weight / slope(role, point, key), places=4)
 
     def test_elemental_lines_are_worth_the_sum_of_the_element_weights(self):
-        role = value_model.DamageDealer(('fire', 'water'))
+        role = value_model.DamageDealer(('fire', 'water'), 'distance')
         point = operating_point()
         weights = value_model.linear_weights(role, LEVEL, point)
         self.assertNotIn('dmg_in_percent', weights)
@@ -156,36 +156,39 @@ class TheWakfuLinearWeightsTests(SimpleTestCase):
 
     def test_a_single_element_role_gives_the_other_elements_no_mastery_weight(self):
         weights = value_model.linear_weights(
-            value_model.DamageDealer(('air',)), LEVEL, operating_point())
+            value_model.DamageDealer(('air',), 'distance'), LEVEL, operating_point())
         self.assertGreater(weights['dmg_air_percent'], 0)
         for element in ('fire', 'water', 'earth'):
             self.assertNotIn(value_model.MASTERY_OF[element], weights)
 
     def test_two_elements_cast_equally_split_the_mastery_weight(self):
         point = totals(ap=11, dmg_fire_percent=900, dmg_water_percent=900, ferocity=20)
-        single = value_model.linear_weights(value_model.DamageDealer(('fire',)), LEVEL, point)
-        double = value_model.linear_weights(value_model.DamageDealer(('fire', 'water')), LEVEL, point)
+        single = value_model.linear_weights(
+            value_model.DamageDealer(('fire',), 'distance'), LEVEL, point)
+        double = value_model.linear_weights(
+            value_model.DamageDealer(('fire', 'water'), 'distance'), LEVEL, point)
         self.assertAlmostEqual(single['dmg_fire_percent'] / 2, double['dmg_fire_percent'])
         self.assertAlmostEqual(double['dmg_fire_percent'], double['dmg_water_percent'])
         self.assertAlmostEqual(single['ranged_dmg'], double['ranged_dmg'])
 
     def test_the_reach_picks_melee_or_distance_mastery(self):
         point = operating_point()
-        distance = value_model.linear_weights(value_model.DamageDealer(), LEVEL, point)
+        distance = value_model.linear_weights(
+            value_model.DamageDealer(('fire',), 'distance'), LEVEL, point)
         melee = value_model.linear_weights(
-            value_model.DamageDealer(reach='melee'), LEVEL, point)
+            value_model.DamageDealer(('fire',), 'melee'), LEVEL, point)
         self.assertIn('ranged_dmg', distance)
         self.assertNotIn('melee_dmg', distance)
         self.assertIn('melee_dmg', melee)
         self.assertNotIn('ranged_dmg', melee)
 
     def test_crit_past_the_cap_is_worth_nothing(self):
-        role = value_model.DamageDealer()
+        role = value_model.DamageDealer(('fire',), 'distance')
         self.assertIn('ferocity', value_model.linear_weights(role, LEVEL, totals(ferocity=96)))
         self.assertNotIn('ferocity', value_model.linear_weights(role, LEVEL, totals(ferocity=97)))
 
     def test_crit_or_block_below_zero_on_the_sheet_is_worth_nothing(self):
-        role = value_model.DamageDealer()
+        role = value_model.DamageDealer(('fire',), 'distance')
         for key, below in (('ferocity', -8), ('ferocity', -5), ('ferocity', -3.5),
                            ('block', -20), ('block', -10)):
             point = operating_point()
@@ -195,7 +198,7 @@ class TheWakfuLinearWeightsTests(SimpleTestCase):
                 self.assertNotIn(key, value_model.linear_weights(role, LEVEL, point))
 
     def test_at_zero_crit_or_block_the_weight_is_the_slope_above(self):
-        role = value_model.DamageDealer()
+        role = value_model.DamageDealer(('fire',), 'distance')
         base = RULES['base_critical_hit_percent'].value
         for key, edge in (('ferocity', -base), ('block', 0)):
             point = operating_point()
@@ -208,49 +211,61 @@ class TheWakfuLinearWeightsTests(SimpleTestCase):
 
     def test_resistance_past_the_cap_is_worth_nothing(self):
         weights = value_model.linear_weights(
-            value_model.DamageDealer(), LEVEL,
+            value_model.DamageDealer(('fire',), 'distance'), LEVEL,
             totals(res_fire_percent=1040, res_water_percent=1020))
         self.assertNotIn('res_fire_percent', weights)
         self.assertGreater(weights['res_water_percent'], 0)
 
     def test_one_ap_is_worth_one_more_share_of_the_turn(self):
-        weights = value_model.linear_weights(value_model.DamageDealer(), LEVEL, totals(ap=12))
+        weights = value_model.linear_weights(
+            value_model.DamageDealer(('fire',), 'distance'), LEVEL, totals(ap=12))
         self.assertAlmostEqual(100 / 12, weights['ap'])
 
     def test_damage_inflicted_changes_no_weight(self):
         point = operating_point()
-        plain = value_model.linear_weights(value_model.DamageDealer(), LEVEL, point)
+        plain = value_model.linear_weights(
+            value_model.DamageDealer(('fire',), 'distance'), LEVEL, point)
         boosted = value_model.linear_weights(
-            value_model.DamageDealer(damage_inflicted=40), LEVEL, point)
+            value_model.DamageDealer(('fire',), 'distance', damage_inflicted=40), LEVEL, point)
         self.assertEqual(plain.keys(), boosted.keys())
         for key in plain:
             self.assertAlmostEqual(plain[key], boosted[key])
 
     def test_a_role_without_defense_values_no_life_resistance_or_block(self):
         weights = value_model.linear_weights(
-            value_model.DamageDealer(defense=0), LEVEL, operating_point())
+            value_model.DamageDealer(('fire',), 'distance', defense=0), LEVEL, operating_point())
         self.assertEqual(set(), {'hp', 'block'} & set(weights))
         self.assertEqual(set(), set(value_model.RESISTANCE_OF.values()) & set(weights))
 
     def test_the_defense_weight_scales_every_defensive_weight(self):
         point = operating_point()
-        quarter = value_model.linear_weights(value_model.DamageDealer(defense=0.25), LEVEL, point)
-        whole = value_model.linear_weights(value_model.DamageDealer(defense=1), LEVEL, point)
+        quarter = value_model.linear_weights(
+            value_model.DamageDealer(('fire',), 'distance', defense=0.25), LEVEL, point)
+        whole = value_model.linear_weights(
+            value_model.DamageDealer(('fire',), 'distance', defense=1), LEVEL, point)
         for key in ['hp', 'block'] + list(value_model.RESISTANCE_OF.values()):
             self.assertAlmostEqual(4 * quarter[key], whole[key])
         self.assertAlmostEqual(quarter['ap'], whole['ap'])
 
     def test_a_distance_role_keeps_range_and_every_role_keeps_base_mp_and_wp(self):
         self.assertEqual({'mp': 3, 'wp': 6, 'range': 0},
-                         value_model.DamageDealer(reach='distance').minimums())
+                         value_model.DamageDealer(('fire',), 'distance').minimums())
         self.assertEqual({'mp': 3, 'wp': 6},
-                         value_model.DamageDealer(reach='melee').minimums())
+                         value_model.DamageDealer(('fire',), 'melee').minimums())
 
     def test_a_role_refuses_an_element_no_gear_sells(self):
         with self.assertRaises(ValueError):
-            value_model.DamageDealer(('fire', 'light'))
+            value_model.DamageDealer(('fire', 'light'), 'distance')
         with self.assertRaises(ValueError):
-            value_model.DamageDealer(reach='rear')
+            value_model.DamageDealer(('fire',), 'rear')
+
+    def test_a_role_cannot_be_built_without_elements_and_without_reach(self):
+        with self.assertRaises(TypeError):
+            value_model.DamageDealer()
+        with self.assertRaises(TypeError):
+            value_model.DamageDealer(('fire',))
+        with self.assertRaises(TypeError):
+            value_model.DamageDealer(reach='distance')
 
 
 class TheWakfuValueRulesNameTheirSourcesTests(SimpleTestCase):
@@ -276,7 +291,7 @@ class TheWakfuValueRulesNameTheirSourcesTests(SimpleTestCase):
     def test_the_defense_weight_is_marked_as_a_choice(self):
         self.assertEqual(CHOICE, RULES['defense_weight'].status)
         self.assertEqual(RULES['defense_weight'].value,
-                         value_model.DamageDealer().defense)
+                         value_model.DamageDealer(('fire',), 'distance').defense)
 
     def test_the_curve_reaches_the_first_party_cap_where_the_fan_source_says(self):
         base = RULES['resistance_base'].value

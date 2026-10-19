@@ -77,7 +77,7 @@ class DamageDealer(collections.namedtuple(
     and leaves the caster_does_not_move rule to say whether the caster stood still.
     """
 
-    def __new__(cls, elements=('fire',), reach='distance', defense=None,
+    def __new__(cls, elements, reach, defense=None,
                 damage_inflicted=0, movement=None):
         elements = tuple(dict.fromkeys(name.strip().lower() for name in elements))
         unknown = set(elements) - set(ELEMENTS)
