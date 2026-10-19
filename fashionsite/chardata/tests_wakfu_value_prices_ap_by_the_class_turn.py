@@ -216,7 +216,7 @@ def scripted(*sets):
         def build(self):
             return self
 
-        def solve(self):
+        def solve(self, deadline=None):
             solved.append(self)
             return sets[len(solved) - 1] if len(solved) <= len(sets) else None
 
@@ -332,7 +332,7 @@ class TheCommandSolvesOnTheClassTurnTests(SimpleTestCase):
 
     def test_the_class_turn_option_solves_on_that_class_turn(self):
         out = io.StringIO()
-        call_command('wakfu_build', '--level', '110', '--elements', 'fire', '--rounds', '1',
+        call_command('wakfu_build', '--level', '110', '--elements', 'fire', '--reach', 'distance', '--rounds', '1',
                      '--class-id', '19', '--class-turn', stdout=out, no_color=True)
         lines = out.getvalue().splitlines()
         self.assertTrue(any(line.startswith('  damage model: fire, distance, defense 0.25, '
@@ -352,7 +352,7 @@ class TheCommandSolvesOnTheClassTurnTests(SimpleTestCase):
         with self.assertRaisesMessage(CommandError, 'class 8 has no damage turn for water at '
                                                     'distance, even with AP, MP and WP at '
                                                     'their caps'):
-            call_command('wakfu_build', '--level', '110', '--elements', 'water', '--rounds',
+            call_command('wakfu_build', '--level', '110', '--elements', 'water', '--reach', 'distance', '--rounds',
                          '1', '--class-id', '8', '--class-turn', stdout=io.StringIO())
 
     def test_the_movement_option_needs_a_class_and_the_damage_model(self):
