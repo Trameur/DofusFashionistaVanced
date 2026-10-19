@@ -35,7 +35,6 @@
 .encyclopedia-monsters-weakness { display: block; opacity: 1; font-weight: 600; text-decoration: none; }
 .encyclopedia-monsters-weakness:hover { text-decoration: underline; }
 .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color: #0a7d0a; }
-.dark-theme-active .encyclopedia-monster-card a.encyclopedia-monsters-weakness,
 html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color: #74e074; }
 .encyclopedia-monsters-guide-note { margin: 0 0 12px; font-size: 0.9em; }
 .encyclopedia-monsters-guide-note a { font-weight: 600; }
@@ -46,14 +45,14 @@ html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color
 .encyclopedia-page-link { display: inline-block; text-decoration: underline; }
 .encyclopedia-page-link-current { font-weight: 700; }
 .encyclopedia-page-gap { display: inline-block; }
-.dark-theme-active .encyclopedia-monster-card { border-color: #5a5a5a; background: #1f1f1f; }
-.dark-theme-active .encyclopedia-monsters,
-.dark-theme-active .encyclopedia-monster-card,
-.dark-theme-active .encyclopedia-monster-card div,
-.dark-theme-active .encyclopedia-monster-main-link { color: #f3efe6; }
-.dark-theme-active .encyclopedia-monsters-name { color: #fff1d6; }
-.dark-theme-active .encyclopedia-crumbs a,
-.dark-theme-active .encyclopedia-monster-drop-link { color: #ffd8a8; }
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-monster-card { border-color: #5a5a5a; background: #1f1f1f; }
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-monsters,
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-monster-card,
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-monster-card div,
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-monster-main-link { color: #f3efe6; }
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-monsters-name { color: #fff1d6; }
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-crumbs a,
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-monster-drop-link { color: #ffd8a8; }
 @media (max-width: 720px) {
     .encyclopedia-monsters-search-grid { grid-template-columns: 1fr; }
 }
