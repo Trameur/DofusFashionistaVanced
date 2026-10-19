@@ -5,8 +5,6 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-import time
-
 from django.core.management.base import BaseCommand, CommandError
 
 
@@ -31,12 +29,14 @@ class Command(BaseCommand):
         parser.add_argument('--weights', default=None,
                             help='comma separated stat=weight, e.g. %s; '
                                  'replaces the damage model' % self.EXEMPLE)
-        parser.add_argument('--elements', default='fire',
+        parser.add_argument('--elements', default=None,
                             help='elements the damage role casts, comma '
-                                 'separated (default fire)')
-        parser.add_argument('--reach', default='distance',
+                                 'separated: fire, water, earth, air. Required '
+                                 'unless --weights is given')
+        parser.add_argument('--reach', default=None,
                             choices=('distance', 'melee'),
-                            help='mastery the role hits with (default distance)')
+                            help='mastery the role hits with. Required unless '
+                                 '--weights is given')
         parser.add_argument('--defense', type=float, default=None,
                             help='weight of log(effective life) against '
                                  'log(turn damage) (default %s)'
@@ -45,6 +45,11 @@ class Command(BaseCommand):
                             help='most damage model solves (default 5)')
         parser.add_argument('--forbid', default='',
                             help='comma separated item ids to leave out')
+        parser.add_argument('--lock', default='',
+                            help='comma separated items every set wears, each an '
+                                 'id or id@POSITION (e.g. 12345@LEFT_HAND)')
+        parser.add_argument('--seconds', type=float, default=90,
+                            help='wall time the whole solve may take (default 90)')
         parser.add_argument('--allow-legacy', action='store_true',
                             help='let the solver pick legacy items, left out '
                                  'by default')
@@ -64,10 +69,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.structure import get_structure
-        from fashionistapulp.wakfu_exclusions import default_exclusions
-        from fashionistapulp.wakfu_model import WakfuBuild
+        from fashionistapulp.wakfu_model import PROVEN, TIME_LIMIT
         from fashionistapulp.wakfu_slots import SLOTS
-        from fashionistapulp import wakfu_value
+        from fashionistapulp import wakfu_solve
         import os
 
         chemin = get_items_db_path('wakfu')
@@ -80,62 +84,62 @@ class Command(BaseCommand):
         role = weights = None
         if options['weights'] is not None:
             weights = self.hand_weights(options['weights'])
-        else:
-            try:
-                role = wakfu_value.DamageDealer(
-                    options['elements'].split(','), options['reach'],
-                    options['defense'], movement=options['movement'])
-            except ValueError as error:
-                raise CommandError(str(error))
         for flag, given in (('--class-turn', options['class_turn']),
                             ('--movement', options['movement'] is not None)):
-            if given and (role is None or not options['class_id']):
+            if given and (weights is not None or not options['class_id']):
                 raise CommandError('%s needs --class-id and no --weights' % flag)
+        if weights is None:
+            try:
+                role = wakfu_solve.make_role(
+                    options['elements'], options['reach'], options['defense'],
+                    options['movement'])
+            except ValueError as error:
+                raise CommandError(str(error))
+        locked = self.read_locks(options['lock'], SLOTS)
 
         forbidden = [int(x) for x in options['forbid'].split(',') if x.strip()]
         structure = get_structure('wakfu')
+        try:
+            if role is None:
+                result = wakfu_solve.solve_weights(
+                    structure, level=options['level'], weights=weights,
+                    forbidden=forbidden, locked=locked,
+                    allow_legacy=options['allow_legacy'], seconds=options['seconds'])
+            else:
+                result = wakfu_solve.solve_build(
+                    structure, level=options['level'],
+                    elements=options['elements'], reach=options['reach'],
+                    class_id=options['class_id'],
+                    forbidden=forbidden, locked=locked,
+                    allow_legacy=options['allow_legacy'],
+                    movement=options['movement'], seconds=options['seconds'],
+                    defense=options['defense'], rounds=options['rounds'],
+                    on_class_turn=options['class_turn'])
+        except wakfu_solve.WakfuIllegalSet as error:
+            raise CommandError('the solver returned an illegal set: %s' % error)
+        except ValueError as error:
+            raise CommandError(str(error))
+        worn, build, model, turn = result.worn, result.build, result.model, result.turn_model
+        duration = result.seconds
         if not options['allow_legacy']:
-            legacy = default_exclusions(structure)
-            forbidden.extend(legacy)
             self.stdout.write('leaving out %d legacy items (--allow-legacy '
-                              'lets the solver pick them)' % len(legacy))
-
-        turn = None
-        if options['class_turn']:
-            from fashionistapulp import wakfu_turn
-            spells = self.class_spells(options['level'], options['class_id'])[0]
-            if not spells:
-                raise CommandError('class %d has no damage spell in the tables'
-                                   % options['class_id'])
-            turn = wakfu_turn.TurnModel(spells, role)
-            if turn.damage(wakfu_value.resource_ceiling()) <= 0:
-                raise CommandError(
-                    'class %d has no damage turn for %s at %s, even with AP, MP and WP '
-                    'at their caps' % (options['class_id'], '+'.join(role.elements),
-                                       role.reach))
-
-        start = time.time()
-        model = None
-        if role is None:
-            build = WakfuBuild(structure, options['level'], weights, forbidden)
-            worn = build.build().solve()
-        else:
-            model = wakfu_value.solve(structure, options['level'], role,
-                                      forbidden, options['rounds'], turn=turn)
-            build = model.best.build if model.best else None
-            worn = model.best.worn if model.best else None
-        duration = time.time() - start
+                              'lets the solver pick them)' % result.legacy_left_out)
 
         if worn is None:
             self.stdout.write(self.style.WARNING(
                 'no legal Wakfu set at level %d for %s (%.1fs)'
                 % (options['level'],
                    'those weights' if role is None else 'that role', duration)))
+            self.stdout.write('reason: %s' % (
+                'no set within the time limit' if result.reason == TIME_LIMIT
+                else result.reason))
             return
 
         self.stdout.write(self.style.SUCCESS(
             'level %d, %d pieces, solved in %.1fs'
             % (options['level'], len(worn), duration)))
+        self.stdout.write('proven best' if result.status == PROVEN
+                          else 'best set found within the time limit')
         if worn.full_set_dropped:
             self.stdout.write(self.style.WARNING(
                 'the every-slot model gave no set (%s), so empty slots were '
@@ -168,6 +172,27 @@ class Command(BaseCommand):
             self.print_model(role, options['level'], model, turn)
             if options['class_id']:
                 self.print_turn(role, options['level'], options['class_id'], totals)
+            self.stdout.write('')
+            self.stdout.write('  systems the model leaves out: '
+                              + ', '.join(wakfu_solve.SYSTEMS_NOT_COUNTED))
+
+    @staticmethod
+    def read_locks(text, slots):
+        """[(item id, position or None)] of --lock."""
+        out = []
+        for part in text.split(','):
+            part = part.strip()
+            if not part:
+                continue
+            ident, _at, position = part.partition('@')
+            try:
+                number = int(ident)
+            except ValueError:
+                raise CommandError('--lock takes an item id or id@POSITION, got %r' % part)
+            if position and position not in slots:
+                raise CommandError('%r is not a slot; slots are %s' % (position, ', '.join(slots)))
+            out.append((number, position or None))
+        return out
 
     def hand_weights(self, text):
         weights = {}
@@ -231,15 +256,9 @@ class Command(BaseCommand):
 
     def class_spells(self, level, class_id):
         """(damage spells, class mechanics, {spell id: name}, source of the critical values)."""
-        from fashionistapulp import wakfu_turn
+        from fashionistapulp import wakfu_solve
 
-        critical, source = self.harvest_criticals(level)
-        book = wakfu_turn.SpellBook(critical=critical)
-        try:
-            return (book.spells(class_id, level), book.class_mechanics(class_id),
-                    book.names(class_id), source)
-        finally:
-            book.close()
+        return wakfu_solve.class_spells(level, class_id)
 
     def print_turn(self, role, level, class_id, totals):
         from fashionistapulp import wakfu_turn
@@ -275,23 +294,9 @@ class Command(BaseCommand):
     @staticmethod
     def harvest_criticals(level):
         """(critical values of the French harvest at `level` or None, where they come from)."""
-        import os
-        from fashionistapulp import wakfu_turn
+        from fashionistapulp import wakfu_solve
 
-        if level >= wakfu_turn.TEXT_LEVEL:
-            return None, 'the encyclopedia text at level %d' % wakfu_turn.TEXT_LEVEL
-        fallback = 'x%s the base damage, no French spell harvest' % (
-            wakfu_turn.rule('critical_multiplier'))
-        try:
-            from itemscraper.wakfu_mirror import current_build_dir
-        except ImportError:
-            return None, fallback
-        folder = current_build_dir()
-        path = folder and os.path.join(str(folder), 'spells_fr.json')
-        if not path or not os.path.exists(path):
-            return None, fallback
-        return (wakfu_turn.harvest_criticals(path, [level]),
-                'the French spell harvest of %s' % os.path.basename(str(folder)))
+        return wakfu_solve.harvest_criticals(level)
 
     @staticmethod
     def why_empty(worn, slot):
