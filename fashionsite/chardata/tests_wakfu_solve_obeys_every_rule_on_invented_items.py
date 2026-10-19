@@ -291,6 +291,10 @@ class TheWakfuSolveHonoursLocksTests(InventedItemsCase):
         with self.assertRaisesMessage(ValueError, 'is two-handed'):
             self.solve({'hp': 1}, locked=[(GREAT, None), (SHIELD_A, 'SECOND_WEAPON')])
 
+    def test_locking_two_epics_is_refused(self):
+        with self.assertRaisesMessage(ValueError, 'all epic items'):
+            self.solve({'hp': 1}, locked=[(EPIC_CHEST, None), (EPIC_SHOULDERS, None)])
+
     def test_a_two_handed_lock_and_an_unpositioned_lock_of_an_off_hand_only_item_is_refused(self):
         for off_hand in (SHIELD_A, DAGGER):
             with self.subTest(off_hand=off_hand):
