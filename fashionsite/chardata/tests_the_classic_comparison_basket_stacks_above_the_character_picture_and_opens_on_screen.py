@@ -77,14 +77,31 @@ def controls_chain(design):
     return chain_of(CONTROLS[:2], 'div', {'class': 'space header-controls'}, DESIGNS[design])
 
 
+def hover_bridge_height():
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'chardata', 'modern.css')
+    with io.open(path, encoding='utf-8') as handle:
+        return re.search(r'\.compare-cart-panel::before\{[^}]*height:\s*(\d+px)', handle.read()).group(1)
+
+
 class TheClassicComparisonPanelStaysInsideTheViewportOnNarrowScreensTests(SimpleTestCase):
 
-    def test_the_classic_panel_left_edge_is_six_pixels_from_the_header_row_at_600_and_below(self):
+    def test_the_classic_panel_is_centred_on_the_header_row_at_600_and_below(self):
         for design in ('classic light', 'classic dark'):
-            for width in (360, 375, 600):
+            for width in (320, 375, 560, 600):
                 with self.subTest(design=design, width=width):
-                    self.assertEqual('6px', winning(MODERN, cart_panel_chain(design), 'left', width)[0])
+                    self.assertEqual('50%', winning(MODERN, cart_panel_chain(design), 'left', width)[0])
                     self.assertEqual('auto', winning(MODERN, cart_panel_chain(design), 'right', width)[0])
+                    self.assertEqual('translateX(-50%)', winning(MODERN, cart_panel_chain(design), 'transform', width)[0])
+
+    def test_the_classic_panel_has_no_transform_above_600_and_the_new_design_never_has_one(self):
+        for design in ('classic light', 'classic dark'):
+            for width in (601, 768, 900, 1280):
+                with self.subTest(design=design, width=width):
+                    self.assertIsNone(winning(MODERN, cart_panel_chain(design), 'transform', width))
+        for design in ('modern light', 'modern dark'):
+            for width in (375, 600, 768, 1280):
+                with self.subTest(design=design, width=width):
+                    self.assertIsNone(winning(MODERN, cart_panel_chain(design), 'transform', width))
 
     def test_the_classic_panel_is_anchored_to_the_header_row_not_to_the_toggle_at_600_and_below(self):
         for design in ('classic light', 'classic dark'):
@@ -104,6 +121,21 @@ class TheClassicComparisonPanelStaysInsideTheViewportOnNarrowScreensTests(Simple
         for design in ('classic light', 'classic dark'):
             with self.subTest(design=design):
                 self.assertEqual('calc(100vw - 12px)', winning(MODERN, cart_panel_chain(design), 'max-width', 360)[0])
+
+    def test_the_classic_panel_opens_one_hover_bridge_under_the_toggle_not_under_the_header_row_at_600_and_below(self):
+        bridge = hover_bridge_height()
+        for design in ('classic light', 'classic dark'):
+            for width in (320, 360, 375, 480, 600):
+                with self.subTest(design=design, width=width):
+                    self.assertEqual('auto', winning(MODERN, cart_panel_chain(design), 'top', width)[0])
+                    self.assertEqual(bridge, winning(MODERN, cart_panel_chain(design), 'margin-top', width)[0])
+
+    def test_the_classic_panel_keeps_its_offset_from_the_toggle_above_600(self):
+        for design in ('classic light', 'classic dark'):
+            for width in (601, 768, 900, 1280):
+                with self.subTest(design=design, width=width):
+                    self.assertEqual('calc(100% + 8px)', winning(MODERN, cart_panel_chain(design), 'top', width)[0])
+                    self.assertIsNone(winning(MODERN, cart_panel_chain(design), 'margin-top', width))
 
     def test_the_classic_narrow_rule_stops_at_901_where_the_desktop_rule_takes_over(self):
         for design in ('classic light', 'classic dark'):
