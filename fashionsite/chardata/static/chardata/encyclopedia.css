@@ -204,7 +204,6 @@
 }
 /* Same lightened red the set caps already use: #ad3025 sits at 2.43:1 on the
    dark surface, so a minus line was unreadable on every card. */
-.dark-theme-active .encyclopedia-card-stat-negative,
 html.fm-dark .encyclopedia-card-stat-negative {
     color: #f0837a;
 }
@@ -294,7 +293,7 @@ html.fm-dark .encyclopedia-card-stat-negative {
     height: 24px;
     object-fit: contain;
 }
-.dark-theme-active .encyclopedia-resource-hit {
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-resource-hit {
     border-color: #5a5a5a;
     background: #1f1f1f;
     color: #ffd8a8;
@@ -315,7 +314,7 @@ html.fm-dark .encyclopedia-card-stat-negative {
 .encyclopedia-family-nav a:hover {
     text-decoration: underline;
 }
-.dark-theme-active .encyclopedia-family-nav a {
+:where(html:not(.fm-modern)).fm-dark .encyclopedia-family-nav a {
     border-color: #5a5a5a;
     background: #1f1f1f;
     color: #ffd8a8;

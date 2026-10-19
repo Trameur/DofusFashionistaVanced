@@ -63,12 +63,12 @@
     text-align: center;
 }
 
-.dark-theme-active .compare-picker-section,
-.dark-theme-active .compare-build-choice-card {
+:where(html:not(.fm-modern)).fm-dark .compare-picker-section,
+:where(html:not(.fm-modern)).fm-dark .compare-build-choice-card {
     border-color: #5a5a5a;
 }
 
-.dark-theme-active .compare-build-choice-card.selected {
+:where(html:not(.fm-modern)).fm-dark .compare-build-choice-card.selected {
     border-color: #a9e58f;
     box-shadow: inset 0 0 0 1px #a9e58f;
 }
