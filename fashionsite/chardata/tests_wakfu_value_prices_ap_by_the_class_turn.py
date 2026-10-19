@@ -233,8 +233,8 @@ class TheModelSolveUsesTheClassTurnTests(SimpleTestCase):
     def run_solve(self, turn, *sets):
         stand_in, solved = scripted(*sets)
         with mock.patch('fashionistapulp.wakfu_model.WakfuBuild', stand_in):
-            result = wakfu_value.solve(None, 50, wakfu_value.DamageDealer(), rounds=3,
-                                       turn=turn)
+            result = wakfu_value.solve(None, 50, wakfu_value.DamageDealer(('fire',), 'distance'),
+                                       rounds=3, turn=turn)
         return result, solved
 
     def test_each_round_takes_its_weights_and_ap_table_from_the_turn_at_its_point(self):
@@ -280,12 +280,13 @@ class TheModelSolveUsesTheClassTurnTests(SimpleTestCase):
         stand_in, solved = scripted(outfit(1, ap=1))
         with mock.patch('fashionistapulp.wakfu_model.WakfuBuild', stand_in):
             with self.assertRaisesMessage(ValueError, 'the class turn deals no damage'):
-                wakfu_value.solve(None, 50, wakfu_value.DamageDealer(), turn=FakeTurn(0))
+                wakfu_value.solve(None, 50, wakfu_value.DamageDealer(('fire',), 'distance'),
+                                  turn=FakeTurn(0))
         self.assertEqual([], solved)
 
 
 class TheCommandSaysWhichSetItKeptTests(SimpleTestCase):
-    ROLE = wakfu_value.DamageDealer()
+    ROLE = wakfu_value.DamageDealer(('fire',), 'distance')
 
     def kept_round(self, item_id, ap, weights, turn):
         sheet = wakfu_value.bare_totals()

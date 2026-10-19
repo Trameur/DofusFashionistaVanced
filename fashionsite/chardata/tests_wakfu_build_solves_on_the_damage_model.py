@@ -105,7 +105,7 @@ class AWakfuBuildKeepsItsMinimumsTests(SimpleTestCase):
 class AModelRoundLandsItsSpreadLinesOnItsOwnStatsTests(SimpleTestCase):
     def test_a_resistance_line_moves_off_the_element_the_set_already_covers(self):
         from fashionistapulp import wakfu_value
-        role = wakfu_value.DamageDealer()
+        role = wakfu_value.DamageDealer(('fire',), 'distance')
         pieces = (piece(1, HELMET, spread=[('res_in_percent', 100, 1)]),
                   piece(2, CAPE, res_fire_percent=300))
         catalogue = Catalogue(*pieces)
@@ -154,7 +154,7 @@ def scripted(*sets):
 class TheModelSolveLoopTests(SimpleTestCase):
     def run_solve(self, *sets, rounds=5):
         from fashionistapulp import wakfu_value
-        self.role = wakfu_value.DamageDealer()
+        self.role = wakfu_value.DamageDealer(('fire',), 'distance')
         stand_in, self.solved = scripted(*sets)
         with mock.patch('fashionistapulp.wakfu_model.WakfuBuild', stand_in):
             return wakfu_value.solve(None, 50, self.role, rounds=rounds)
@@ -210,7 +210,7 @@ class AWakfuModelSolveTests(SimpleTestCase):
         from fashionistapulp import wakfu_value
         from fashionistapulp.wakfu_exclusions import default_exclusions
         self.structure = wakfu_structure(self)
-        self.role = wakfu_value.DamageDealer(ELEMENTS)
+        self.role = wakfu_value.DamageDealer(ELEMENTS, 'distance')
         if AWakfuModelSolveTests.result is None:
             AWakfuModelSolveTests.result = wakfu_value.solve(
                 self.structure, LEVEL, self.role,
@@ -263,7 +263,7 @@ class TheRoleFloorsBindOnRealGearTests(SimpleTestCase):
         from fashionistapulp.wakfu_exclusions import default_exclusions
         from fashionistapulp.wakfu_model import WakfuBuild
         structure = wakfu_structure(self)
-        role = wakfu_value.DamageDealer()
+        role = wakfu_value.DamageDealer(('fire',), 'distance')
         weights = wakfu_value.linear_weights(role, 200, wakfu_value.bare_totals())
         forbidden = default_exclusions(structure)
         free = WakfuBuild(structure, 200, weights, forbidden)
