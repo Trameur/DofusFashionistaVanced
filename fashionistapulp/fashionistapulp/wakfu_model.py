@@ -291,7 +291,7 @@ class WakfuBuild:
             if not by_slot[position]:
                 continue
             parcels = self._parcels(by_slot[position])
-            if self.full_set and position != 'SECOND_WEAPON':
+            if self.full_set and position != BLOCKED_BY_TWO_HANDED:
                 # Off hand can stay empty for two-handed weapons
                 self.problem.restriction_eq(1, parcels)
             else:
@@ -310,7 +310,7 @@ class WakfuBuild:
 
     def _two_handed_empties_the_off_hand(self):
         off_hand = [(item, position) for item, position in self._placements
-                    if position == 'SECOND_WEAPON']
+                    if position == BLOCKED_BY_TWO_HANDED]
         if not off_hand:
             return
         for item, position in self._placements:
@@ -322,7 +322,7 @@ class WakfuBuild:
                 1, self._parcels([(item, position)]) + self._parcels(off_hand))
 
     def _one_relic_and_one_epic(self):
-        for flag in ('relic', 'epic'):
+        for flag in EXCLUSIVE_PROPERTIES.values():
             wearing = [(item, position) for item, position in self._placements
                        if flag in (item.flags or ())]
             if wearing:
