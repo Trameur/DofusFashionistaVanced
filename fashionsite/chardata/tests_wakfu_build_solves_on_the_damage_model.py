@@ -138,7 +138,7 @@ def scripted(*sets):
         def build(self):
             return self
 
-        def solve(self):
+        def solve(self, deadline=None):
             solved.append(self)
             return script.pop(0) if script else None
 
@@ -288,7 +288,7 @@ class TheWakfuBuildCommandRunsTheDamageModelTests(SimpleTestCase):
         return out.getvalue()
 
     def test_without_weights_the_command_prints_the_model_rounds_and_weights(self):
-        out = self.run_command('--level', '20', '--elements', 'fire')
+        out = self.run_command('--level', '20', '--elements', 'fire', '--reach', 'distance')
         lines = out.splitlines()
         header = [line for line in lines if line.startswith('  damage model: ')]
         self.assertEqual(['  damage model: fire, distance, defense 0.25'],
