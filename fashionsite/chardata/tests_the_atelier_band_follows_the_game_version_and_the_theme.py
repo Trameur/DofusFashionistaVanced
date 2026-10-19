@@ -66,7 +66,8 @@ class TheStylesheetNamesEveryBandTests(SimpleTestCase):
 
     def test_every_band_url_in_the_stylesheet_is_an_existing_file(self):
         urls = re.findall(r'url\("(bands/[^"]+)"\)', CSS)
-        self.assertEqual(len(GAME_VERSIONS) * len(THEMES), len(urls))
+        self.assertEqual(len(GAME_VERSIONS) * len(THEMES), len([url for url in urls if not url.endswith('_m.webp')]))
+        self.assertEqual(len(GAME_VERSIONS) * len(THEMES), len([url for url in urls if url.endswith('_m.webp')]))
         for url in urls:
             with self.subTest(url=url):
                 self.assertTrue(os.path.isfile(os.path.join(STATIC, url)))
@@ -96,5 +97,5 @@ class TheHeaderMarkupTests(TestCase):
             with self.subTest(path=path):
                 header = self.header(path)
                 self.assertIn('/static/chardata/%s"' % CLASSIC_IMAGES[version], header)
-                self.assertEqual(1, header.count('<img'))
+                self.assertEqual(1, re.sub(r'<noscript>.*?</noscript>', '', header, flags=re.S).count('<img'))
                 self.assertIn('alt="Dofus Fashionista"', header)

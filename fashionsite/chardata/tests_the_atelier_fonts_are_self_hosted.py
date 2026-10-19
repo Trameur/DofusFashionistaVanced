@@ -15,6 +15,7 @@ FONT_DIR = os.path.join(STATIC, 'font')
 TEMPLATES = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 FACE = re.compile(r'@font-face\s*\{([^}]*)\}')
 FAMILIES = {'IM Fell English SC': ('400',), 'Barlow': ('400', '600', '700')}
+BARLOW_FILES = {'400': 'Barlow-Regular', '600': 'Barlow-SemiBold', '700': 'Barlow-Bold'}
 THIRD_PARTY_FONT_HOSTS = ('fonts.googleapis.com', 'fonts.gstatic.com', 'use.typekit.net', 'fast.fonts.net',
                           'use.fontawesome.com', 'kit.fontawesome.com', 'fonts.bunny.net', 'fonts.adobe.com')
 ALPHABETS = {
@@ -36,6 +37,21 @@ def faces():
     return found
 
 
+def codepoints(unicode_range):
+    covered = set()
+    for piece in unicode_range.split(','):
+        low, _, high = piece.strip()[2:].partition('-')
+        covered.update(range(int(low, 16), int(high or low, 16) + 1))
+    return covered
+
+
+def face_files(family, weight):
+    """{file name: set of code points its unicode-range allows, or None without a range} for one family and weight."""
+    return dict((os.path.basename(re.search(r'url\("([^"]+)"\)', face['src']).group(1)),
+                 codepoints(face['unicode-range']) if 'unicode-range' in face else None)
+                for face in faces() if face['font-family'].strip('"') == family and face['font-weight'] == weight)
+
+
 def text_files(folder, extensions):
     for root, _, names in os.walk(folder):
         for name in names:
@@ -46,9 +62,19 @@ def text_files(folder, extensions):
 class EveryFaceNamesAWoff2FileThatExistsTests(SimpleTestCase):
 
     def test_the_four_expected_faces_are_declared(self):
-        declared = sorted((face['font-family'].strip('"'), face['font-weight']) for face in faces())
+        declared = sorted(set((face['font-family'].strip('"'), face['font-weight']) for face in faces()))
         wanted = sorted((family, weight) for family, weights in FAMILIES.items() for weight in weights)
         self.assertEqual(wanted, declared)
+
+    def test_each_barlow_weight_has_a_latin_face_and_an_ext_face_that_do_not_overlap(self):
+        for weight, name in BARLOW_FILES.items():
+            with self.subTest(weight=weight):
+                files = face_files('Barlow', weight)
+                self.assertEqual(['%s-ext.woff2' % name, '%s-latin.woff2' % name], sorted(files))
+                self.assertEqual(set(), files['%s-latin.woff2' % name] & files['%s-ext.woff2' % name])
+
+    def test_im_fell_has_one_face_without_a_range(self):
+        self.assertEqual({'IMFellEnglishSC-Regular.woff2': None}, face_files('IM Fell English SC', '400'))
 
     def test_every_src_is_one_relative_woff2_url(self):
         for face in faces():
@@ -77,9 +103,16 @@ class EveryFaceNamesAWoff2FileThatExistsTests(SimpleTestCase):
         on_disk = {os.path.basename(path) for path in glob.glob(os.path.join(FONT_DIR, '*.woff2'))}
         self.assertEqual(named, on_disk)
 
-    def test_the_four_files_weigh_under_250_kb_together(self):
-        total = sum(os.path.getsize(path) for path in glob.glob(os.path.join(FONT_DIR, '*.woff2')))
+    def test_the_seven_files_weigh_under_250_kb_together(self):
+        paths = glob.glob(os.path.join(FONT_DIR, '*.woff2'))
+        self.assertEqual(7, len(paths))
+        total = sum(os.path.getsize(path) for path in paths)
         self.assertLess(total, 250 * 1024, total)
+
+    def test_the_files_a_latin_page_loads_weigh_under_170_kb(self):
+        names = ['IMFellEnglishSC-Regular.woff2'] + ['%s-latin.woff2' % name for name in BARLOW_FILES.values()]
+        total = sum(os.path.getsize(os.path.join(FONT_DIR, name)) for name in names)
+        self.assertLess(total, 170 * 1000, total)
 
     def test_each_family_ships_its_open_font_licence_beside_the_files(self):
         for name in ('OFL-IMFellEnglishSC.txt', 'OFL-Barlow.txt'):
@@ -121,13 +154,11 @@ class NoFontComesFromAnotherHostTests(SimpleTestCase):
         directive = [part for part in build_policy().split('; ') if part.startswith('font-src')]
         self.assertEqual(["font-src 'self' data:"], directive)
 
-    def test_the_preload_links_name_font_files_that_exist(self):
+    def test_base_html_preloads_no_font(self):
         with io.open(os.path.join(TEMPLATES, 'chardata', 'base.html'), encoding='utf-8') as handle:
             source = handle.read()
-        names = re.findall(r'chardata/font/([\w-]+\.woff2)', source)
-        self.assertEqual(['Barlow-Regular.woff2', 'IMFellEnglishSC-Regular.woff2'], sorted(names))
-        for name in names:
-            self.assertTrue(os.path.isfile(os.path.join(FONT_DIR, name)), name)
+        self.assertNotIn('.woff2', source)
+        self.assertNotRegex(source, r"as\s*=\s*['\"]?font")
 
 
 try:
@@ -140,8 +171,27 @@ except ImportError:
 class TheFilesCoverTheFiveLanguagesTests(SimpleTestCase):
 
     def test_every_face_has_a_glyph_for_every_letter_of_de_en_es_fr_pt(self):
-        for path in sorted(glob.glob(os.path.join(FONT_DIR, '*.woff2'))):
-            cmap = TTFont(path).getBestCmap()
-            for language, letters in ALPHABETS.items():
-                with self.subTest(file=os.path.basename(path), language=language):
-                    self.assertEqual([], [char for char in letters if ord(char) not in cmap])
+        for family, weights in FAMILIES.items():
+            for weight in weights:
+                files = face_files(family, weight)
+                cmaps = dict((name, TTFont(os.path.join(FONT_DIR, name)).getBestCmap()) for name in files)
+                union = set().union(*[set(cmap) for cmap in cmaps.values()])
+                for language, letters in ALPHABETS.items():
+                    with self.subTest(family=family, weight=weight, language=language):
+                        self.assertEqual([], [char for char in letters if ord(char) not in union])
+                        for char in letters:
+                            holders = [name for name, allowed in files.items()
+                                       if ord(char) in cmaps[name] and (allowed is None or ord(char) in allowed)]
+                            self.assertTrue(holders, '%r has no file whose range allows it' % char)
+
+    def test_a_page_in_the_five_languages_needs_only_the_latin_barlow_files(self):
+        for weight, name in BARLOW_FILES.items():
+            allowed = face_files('Barlow', weight)['%s-latin.woff2' % name]
+            letters = set(''.join(ALPHABETS.values())) - {'Ÿ'}
+            with self.subTest(weight=weight):
+                self.assertEqual([], sorted(char for char in letters if ord(char) not in allowed))
+
+    def test_im_fell_is_shipped_whole(self):
+        font = TTFont(os.path.join(FONT_DIR, 'IMFellEnglishSC-Regular.woff2'))
+        self.assertEqual(340, len(font.getBestCmap()))
+        self.assertIn('IM FELL', font['name'].getDebugName(1).upper())

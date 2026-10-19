@@ -31,7 +31,7 @@ def rules_after_the_marker():
     with io.open(os.path.join(STATIC, 'modern.css'), encoding='utf-8') as handle:
         source = handle.read()
     after = source[source.index(MARKER):]
-    after = after[len(MARKER):]
+    after = after[len(MARKER):].replace('/* shell: begin */', '').replace('/* shell: end */', '')
     following = after.find('/* ---------- ')
     return parse(after if following < 0 else after[:following])
 
