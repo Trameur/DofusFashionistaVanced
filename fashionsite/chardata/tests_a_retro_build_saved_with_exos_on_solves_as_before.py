@@ -3,7 +3,6 @@
 
 from unittest import mock
 
-import pulp
 from django.test import SimpleTestCase
 
 from fashionistapulp.game_versions import get_game_version
@@ -27,7 +26,7 @@ def _solve(level, exos, per_item):
         model.run(1)
         result = model_result_from_minimal(model.get_result_minimal())
         total = result.get_stats_total()
-        return pulp.value(model.problem.pulp_lp.objective), total['ap'], total['mp']
+        return model.problem.objective_value, total['ap'], total['mp']
 
 
 class AnOldRetroBuildSolvesAsBeforeTests(SimpleTestCase):

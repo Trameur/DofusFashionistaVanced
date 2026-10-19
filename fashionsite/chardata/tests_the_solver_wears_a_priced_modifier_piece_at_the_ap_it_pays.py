@@ -3,7 +3,6 @@
 
 import copy
 
-import pulp
 from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
 
@@ -115,8 +114,9 @@ class ASealIsWornWhenPricedForItsClassTests(_Solve):
 class ThePooledModelGoesBackToItsColumnsTests(_Solve):
 
     def shape(self, model):
-        return ([variable.name for variable in model.problem.pulp_lp.variables()],
-                sorted(model.problem.pulp_lp.constraints), sorted(model.problem.pulp_vars))
+        problem = model.problem
+        return (problem.column_names(), sorted(problem.row_names()),
+                sorted(problem.variable_names()))
 
     def test_a_solve_after_a_priced_one_reads_the_same_problem(self):
         ring = self.structure.get_item_by_ankama_id(HONOH_RING)
@@ -171,7 +171,7 @@ class APricedSolveNeverScoresBelowTheUnpricedOneTests(_Solve):
             model.run()
             self.assertEqual('Optimal', model.get_solved_status())
             self.assertTrue(model.solution_is_proven())
-            return pulp.value(model.problem.pulp_lp.objective)
+            return model.problem.objective_value
         finally:
             return_model(model)
 

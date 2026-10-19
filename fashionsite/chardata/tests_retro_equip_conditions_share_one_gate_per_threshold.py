@@ -4,6 +4,7 @@ from unittest import mock
 
 from django.test import SimpleTestCase
 
+from chardata.tests_the_row_table_support import coefficients
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.structure import get_structure, set_current_game_version
 
@@ -58,7 +59,7 @@ class TheRetroModelHoldsOneGatePerThresholdTests(_VersionMixin, SimpleTestCase):
 
     def test_each_distinct_threshold_has_one_gate_and_each_piece_points_to_its_own(self):
         model = _model(self.version)
-        names = {variable.name for variable in model.problem.pulp_lp.variables()}
+        names = set(model.problem.column_names())
         gates = {name for name in names if name.startswith('gate_')}
         self.assertEqual(len(self.thresholds(model)), len(gates))
         self.assertGreater(len(gates), 100)
@@ -66,7 +67,7 @@ class TheRetroModelHoldsOneGatePerThresholdTests(_VersionMixin, SimpleTestCase):
         for item in model.items_list:
             for stat, value in item.min_stats_to_equip:
                 row = model.restrictions.min_condition_contraints[(item.id, stat)]
-                terms = {variable.name: coefficient for variable, coefficient in row.items()}
+                terms = coefficients(row)
                 self.assertEqual({'p_%d' % item.id: 1, _gate(stat, value): -1}, terms)
                 self.assertEqual(0, row.constant)
                 rows += 1
@@ -75,8 +76,8 @@ class TheRetroModelHoldsOneGatePerThresholdTests(_VersionMixin, SimpleTestCase):
     def test_each_gate_holds_its_stat_at_its_threshold_with_the_usual_big_m(self):
         model = _model(self.version)
         gate_rows = {}
-        for row in model.problem.pulp_lp.constraints.values():
-            terms = {variable.name: coefficient for variable, coefficient in row.items()}
+        for row in model.problem.rows():
+            terms = coefficients(row)
             gates = [name for name in terms if name.startswith('gate_')]
             if len(gates) == 1 and len(terms) == 2 and not any(
                     name.startswith('p_') for name in terms):
@@ -91,13 +92,13 @@ class TheDofus3ModelKeepsOneRowPerPieceTests(_VersionMixin, SimpleTestCase):
 
     def test_a_dofus3_condition_is_its_own_big_m_row_and_there_is_no_gate(self):
         model = _model(self.version)
-        self.assertFalse([variable.name for variable in model.problem.pulp_lp.variables()
-                          if variable.name.startswith('gate_')])
+        self.assertFalse([name for name in model.problem.column_names()
+                          if name.startswith('gate_')])
         checked = 0
         for item in model.items_list:
             for stat, value in item.min_stats_to_equip:
                 row = model.restrictions.min_condition_contraints[(item.id, stat)]
-                terms = {variable.name: coefficient for variable, coefficient in row.items()}
+                terms = coefficients(row)
                 self.assertEqual({'p_%d' % item.id: value + 10000, 'stat_%d' % stat: -1}, terms)
                 checked += 1
         self.assertGreater(checked, 0)

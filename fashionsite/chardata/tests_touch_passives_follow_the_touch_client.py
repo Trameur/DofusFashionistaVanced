@@ -12,9 +12,10 @@ from chardata.smart_build import _set_weights
 from chardata.solution_result import stat_sources
 from chardata.util import character_own_stats
 from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
-from fashionistapulp.model import Model
 from fashionistapulp.modelresult import ModelResult
 from fashionistapulp.structure import get_structure, set_current_game_version
+
+from chardata.tests_the_row_table_support import derived_rates, hp_floors
 
 # POST {"lang": ...}, the tooltips of the characteristics window
 TOUCH_DICTIONARY = ('https://dt-proxy-production-login.ankama-games.com'
@@ -92,46 +93,12 @@ LEVEL_LABEL = {'en': 'Level', 'fr': 'Niveau', 'es': 'Nivel', 'pt': 'Nível',
                'de': 'Stufe'}
 
 
-class _Problem:
-    def restriction_lt_eq(self, rhs, matrix):
-        return list(matrix)
-
-
-class _Restriction:
-    rhs = None
-
-    def changeRHS(self, rhs):
-        self.rhs = rhs
-
-
 def _solver_rates(version):
-    structure = get_structure(version)
-    model = SimpleNamespace(
-        stats_list=structure.get_stats_list(), problem=_Problem(),
-        structure=structure,
-        restrictions=SimpleNamespace(minimum_stat_constraints={}))
-    Model.create_minimum_stat_constraints(model)
-    name_by_id = {stat.id: stat.name for stat in model.stats_list}
-    derived = {}
-    for name, matrix in model.restrictions.minimum_stat_constraints.items():
-        sources = {name_by_id[stat_id]: -coefficient
-                   for coefficient, _kind, stat_id in matrix
-                   if name_by_id[stat_id] != name}
-        if sources:
-            derived[name] = sources
-    return derived
+    return derived_rates(get_structure(version))
 
 
 def _floors(version, minimums, level):
-    structure = get_structure(version)
-    restrictions = {stat.name: _Restriction()
-                    for stat in structure.get_stats_list()}
-    model = SimpleNamespace(
-        stats_list=structure.get_stats_list(), structure=structure,
-        restrictions=SimpleNamespace(minimum_stat_constraints=restrictions),
-        modify_advanced_minimum_stat_constraints=lambda minimums: None)
-    Model.modify_minimum_stat_constraints(model, minimums, level)
-    return {name: restriction.rhs for name, restriction in restrictions.items()}
+    return hp_floors(get_structure(version), minimums, level)
 
 
 def _sheet(version, trained=None, level=200):

@@ -2,9 +2,7 @@
 """In every version, the closest solve counts each minimum as the hard minimum of the solver and the set page do."""
 import pickle
 import sys
-from unittest import mock
 
-import pulp
 from django.contrib.auth.models import User
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import RequestFactory, TestCase
@@ -15,6 +13,7 @@ from chardata.coaching_view import create_build
 from chardata.fashion_action import _solver_time_limit
 from chardata.solution import get_solution_from_minimal
 from chardata.tests_a_build_with_no_set_is_shown_its_closest_set import _solver_available
+from chardata.tests_the_row_table_support import coefficients, row_value, solved_values
 from chardata.translation_util import localized_stat_name
 from fashionistapulp.dofus_constants import percent_resist_cap
 from fashionistapulp.game_versions import version_keys
@@ -32,13 +31,12 @@ PERCENT_RESIST_SUM = 'Sum of all % Resists'
 _MODELS = {}
 
 
-def _at_least(constraint):
-    """({variable name: coefficient}, bound) of a constraint written as a sum at least bound."""
-    exported = constraint.toDict()
-    coefficients = {term['name']: term['value'] for term in exported['coefficients']}
-    if exported['sense'] == pulp.LpConstraintLE:
-        return {name: -value for name, value in coefficients.items()}, exported['constant']
-    return coefficients, -exported['constant']
+def _at_least(row):
+    """({variable name: coefficient}, bound) of a row written as a sum at least bound."""
+    merged = coefficients(row)
+    if row.sense == '<=':
+        return {name: -value for name, value in merged.items()}, -row.rhs
+    return merged, row.rhs
 
 
 class _EveryMinimumMixin(object):
@@ -93,10 +91,10 @@ class _EveryMinimumMixin(object):
             hard[stat['name']] = _at_least(
                 model.restrictions.advanced_minimum_stat_constraints[stat['key']])
         shortfalls = model.add_elastic_minimums(model_input.minimum_stats, model_input.char_level)
-        constraints = model.problem.pulp_lp.constraints
+        problem = model.problem
         cls.asked = (set(model_input.minimum_stats) - {'adv_mins'}) | set(
             model_input.minimum_stats['adv_mins'])
-        cls.mirrors = [(name, variable.name, hard[name], _at_least(constraints['elastic_%d' % number]))
+        cls.mirrors = [(name, variable, hard[name], _at_least(problem.row('elastic_%d' % number)))
                        for number, (name, variable, _asked, _weight) in enumerate(shortfalls)]
         cls.status = None
         if not _solver_available():
@@ -108,8 +106,9 @@ class _EveryMinimumMixin(object):
         if cls.status != 'Optimal':
             return
         # The constraint reads sum + shortfall - bound, so this is bound - sum
+        values = solved_values(problem)
         cls.solver_missing = {
-            name: max(0.0, variable.varValue - constraints['elastic_%d' % number].value())
+            name: max(0.0, values[variable] - row_value(problem.row('elastic_%d' % number), values))
             for number, (name, variable, _asked, _weight) in enumerate(shortfalls)}
         solution = get_solution_from_minimal(char, model.get_result_minimal(),
                                              refresh_base_stats=False)
@@ -150,12 +149,15 @@ class _EveryMinimumMixin(object):
 
     def test_a_minimum_without_a_solver_variable_stops_the_closest_solve(self):
         model = _MODELS[self.version]
-        variables = model.problem.pulp_vars
+        problem = model.problem
         vitality = 'stat_%s' % model.structure.get_stat_by_name('Vitality').id
-        kept = {name: variable for name, variable in variables.items() if name != vitality}
-        with mock.patch.dict(variables, kept, clear=True):
+        spec = problem.variable_spec(vitality)
+        problem.forget_variables([vitality])
+        try:
             with self.assertRaisesRegex(ValueError, 'HP'):
                 model.add_elastic_minimums({'HP': 5000}, 200)
+        finally:
+            problem.declare_variable(vitality, *spec)
 
 
 class Dofus3CountsEachMinimumTests(_EveryMinimumMixin, TestCase):

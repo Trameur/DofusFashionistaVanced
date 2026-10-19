@@ -10505,7 +10505,7 @@ class OneItemCountsOnceTests(TestCase):
                          % [item.name for item in rows])
         model = Model()
         self.assertEqual(
-            model.problem.pulp_vars['x_%d' % crocoring.id].upBound, 1)
+            model.problem.variable_spec('x_%d' % crocoring.id)[1], 1)
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_a_setless_ring_still_fills_both_ring_slots(self):
@@ -10641,10 +10641,10 @@ class OrEquipConditionTests(TestCase):
         model.run(2)
         if model.get_solved_status() != 'Optimal':
             return model.get_solved_status(), None, None
-        variables = model.problem.pulp_vars
+        problem = model.problem
         return (model.get_solved_status(),
-                variables['stat_%d' % structure.get_stat_by_name('AP').id].varValue,
-                variables['stat_%d' % structure.get_stat_by_name('MP').id].varValue)
+                problem.value('stat_%d' % structure.get_stat_by_name('AP').id),
+                problem.value('stat_%d' % structure.get_stat_by_name('MP').id))
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_a_locked_item_keeps_one_of_its_branches_true(self):
