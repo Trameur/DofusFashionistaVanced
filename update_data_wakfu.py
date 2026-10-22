@@ -13,7 +13,7 @@ rules, and its data comes from a feed of its own; nothing here is shared with
 update_data.py and its siblings beyond the shape of this file.
 
 Steps:
-    data/client    get_wakfu_client.py      -> wakfu_client/<client>/decoded.json + tables.json
+    data/client    get_wakfu_client.py      -> wakfu_client/<client>/{decoded,tables,texts}.json
     data/mirror    get_items_wakfu.py       -> wakfu_raw/<build>/ + transformed_wakfu.json
     data/sets      get_sets_wakfu.py        -> wakfu_raw/<build>/sets.json
     data/spells    get_spells_wakfu.py      -> wakfu_raw/<build>/spells_<lang>.json
@@ -21,11 +21,12 @@ Steps:
     items/recipes  build_wakfu_recipes.py   -> the four crafting tables
     items/spells   build_wakfu_spells.py    -> the four spell tables
     item-images    get_item_images_wakfu.py -> static/chardata/items/wakfu/64/
+    client-images  get_wakfu_images.py      -> static/chardata/*/wakfu/
     items/dump     dump_item_db.py          -> item_db_dumped_wakfu.dump
 
 THE ORDER IS NOT A STYLE CHOICE, and this is the reason this file exists.
 
-`build_wakfu_db.py` DELETES items_wakfu.db and builds it again from scratch.
+`build_wakfu_db.py` REPLACES items_wakfu.db with one built again from scratch.
 That makes it the owner of every row in that database, and it makes every
 other writer a guest that must run AFTER it. The five Dofus versions have had
 an orchestrator each since the beginning; Wakfu did not, and without one a
@@ -46,7 +47,10 @@ So: WHICH TABLES BELONG TO WHOM.
         item_state_conditions, criteria_labels, nations, effects,
         effect_groups, states, abilities, ability_categories, client_sets,
         set_bonuses, client_spells, client_spell_effects, pets, mounts,
-        monsters, monster_drops, monster_harvests, loot_lists, loot_list_rows
+        monsters, monster_drops, monster_harvests, loot_lists, loot_list_rows,
+        state_texts, client_spell_texts, client_set_names, client_monster_names,
+        monster_family_names, ability_names, ability_category_names,
+        effect_texts, action_texts, client_pictures
 
     build_wakfu_recipes.py owns, and rewrites on every run:
         item_recipes, item_recipe_ingredient_names, item_craft_jobs,
@@ -162,7 +166,7 @@ def steps_after_client(args):
         labels.extend('data/spells %s' % language for language in SPELL_LANGUAGES)
     labels.extend(['items/build-db', 'items/recipes', 'items/spells'])
     if not args.skip_images:
-        labels.append('item-images')
+        labels.extend(['item-images', 'client-images'])
     labels.append('items/dump')
     return labels
 
@@ -215,7 +219,7 @@ def main(argv=None):
             step('data/spells %s' % language,
                  [PY, 'itemscraper/get_spells_wakfu.py', '--lang', language])
 
-    # Everything below writes into items_wakfu.db, and this step deletes it
+    # Everything below writes into items_wakfu.db, and this step replaces it
     # first. Nothing that fills a table may move above this line.
     built = step('items/build-db', [PY, 'itemscraper/build_wakfu_db.py'])
     if built:
@@ -224,6 +228,7 @@ def main(argv=None):
 
     if not args.skip_images:
         step('item-images', [PY, 'itemscraper/get_item_images_wakfu.py'])
+        step('client-images', [PY, 'itemscraper/get_wakfu_images.py'])
 
     if built:
         step('items/dump', [PY, 'dump_item_db.py', '--game-version', 'wakfu'])

@@ -42,6 +42,16 @@ MONSTER_DROP_TABLE = 'monster_drops'
 MONSTER_HARVEST_TABLE = 'monster_harvests'
 LOOT_LIST_TABLE = 'loot_lists'
 LOOT_LIST_ROW_TABLE = 'loot_list_rows'
+STATE_TEXT_TABLE = 'state_texts'
+CLIENT_SPELL_TEXT_TABLE = 'client_spell_texts'
+CLIENT_SET_NAME_TABLE = 'client_set_names'
+CLIENT_MONSTER_NAME_TABLE = 'client_monster_names'
+MONSTER_FAMILY_NAME_TABLE = 'monster_family_names'
+ABILITY_NAME_TABLE = 'ability_names'
+ABILITY_CATEGORY_NAME_TABLE = 'ability_category_names'
+EFFECT_TEXT_TABLE = 'effect_texts'
+ACTION_TEXT_TABLE = 'action_texts'
+CLIENT_PICTURE_TABLE = 'client_pictures'
 
 SCHEMA = (
     """CREATE TABLE item_rarity
@@ -187,6 +197,49 @@ SCHEMA = (
               PRIMARY KEY (loot_list, position),
               FOREIGN KEY(loot_list) REFERENCES loot_lists(id),
               FOREIGN KEY(sub_list) REFERENCES loot_lists(id))""",
+    # The client's own texts, as the client shows them. de is the English text
+    # because Wakfu has no German. A text the client lacks has no row, and a
+    # template ({...} or %s) is kept raw
+    """CREATE TABLE state_texts
+             (state INTEGER, language TEXT, name TEXT, description TEXT,
+              PRIMARY KEY (state, language),
+              FOREIGN KEY(state) REFERENCES states(id))""",
+    """CREATE TABLE client_spell_texts
+             (spell INTEGER, language TEXT, name TEXT, description TEXT,
+              PRIMARY KEY (spell, language),
+              FOREIGN KEY(spell) REFERENCES client_spells(id))""",
+    """CREATE TABLE client_set_names
+             (item_set INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (item_set, language),
+              FOREIGN KEY(item_set) REFERENCES client_sets(id))""",
+    """CREATE TABLE client_monster_names
+             (monster INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (monster, language),
+              FOREIGN KEY(monster) REFERENCES monsters(id))""",
+    """CREATE TABLE monster_family_names
+             (family INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (family, language))""",
+    """CREATE TABLE ability_names
+             (ability INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (ability, language),
+              FOREIGN KEY(ability) REFERENCES abilities(id))""",
+    """CREATE TABLE ability_category_names
+             (category INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (category, language),
+              FOREIGN KEY(category) REFERENCES ability_categories(id))""",
+    """CREATE TABLE effect_texts
+             (effect INTEGER, language TEXT, text TEXT,
+              PRIMARY KEY (effect, language),
+              FOREIGN KEY(effect) REFERENCES effects(id))""",
+    """CREATE TABLE action_texts
+             (action INTEGER, language TEXT, text TEXT,
+              PRIMARY KEY (action, language))""",
+    # The picture file the client draws for a row, as the client names it: family is
+    # item, spell, state, ability, monster, monster_family or class, and the
+    # picture is the number or key of the file, not a path
+    """CREATE TABLE client_pictures
+             (family TEXT NOT NULL, id INTEGER NOT NULL, picture TEXT NOT NULL,
+              PRIMARY KEY (family, id))""",
     # Equip conditions. IF NOT EXISTS: a Dofus items.db may carry a table of
     # the same name and the same shape
     "CREATE TABLE IF NOT EXISTS item_criteria"

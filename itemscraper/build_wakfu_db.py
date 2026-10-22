@@ -30,6 +30,16 @@ client_spell_effects, pets, mounts, monsters, monster_drops, monster_harvests,
 loot_lists and loot_list_rows. Nothing reads them yet. A client that is not
 there leaves them empty, with a notice.
 
+The client's texts (texts.json, from the same step) fill state_texts,
+client_spell_texts, client_set_names, client_monster_names, monster_family_names,
+ability_names, ability_category_names, effect_texts and action_texts, one row
+per language for each text the client has. de is the English text; a text the
+English file lacks gets no de row.
+
+client_pictures names the picture file the client draws for each item, spell, state,
+ability, monster, monster family and class; get_wakfu_images.py extracts them from the
+client's picture archive.
+
 German is absent from Wakfu entirely; `get_items_wakfu.py` and
 `get_sets_wakfu.py` both fall it back to English, and that is what lands here.
 """
@@ -43,6 +53,7 @@ import json
 import os
 import sqlite3
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
@@ -371,11 +382,11 @@ def write_conditions(conn, item, stat_ids, breed_names, gear_ids, counts):
     counts['equip texts screened'] += 1
 
 
-def find_client_tables(client_dir, version):
-    """The tables.json of the client whose game version is that of `version`, or None."""
+def find_client_tables(client_dir, version, name='tables.json'):
+    """The `name` file of the client whose game version is that of `version`, or None."""
     wanted = '.'.join(version.split('.')[:3])
     found = []
-    for path in sorted(Path(client_dir).glob('*/tables.json')):
+    for path in sorted(Path(client_dir).glob('*/' + name)):
         with io.open(path, encoding='utf-8') as handle:
             payload = json.load(handle)
         if payload.get('game_version') == wanted:
@@ -465,6 +476,55 @@ def write_client_tables(conn, tables, counts):
     write_spells_pets_and_monsters(conn, tables, item_ids, counts)
 
 
+# (insert statement, the text family of each text column, SQL of the ids that may have a text)
+CLIENT_TEXT_TABLES = (
+    ('INSERT INTO state_texts (state, language, name, description) VALUES (?, ?, ?, ?)',
+     ('state_names', 'state_descriptions'), 'SELECT id FROM states'),
+    ('INSERT INTO client_spell_texts (spell, language, name, description)'
+     ' VALUES (?, ?, ?, ?)',
+     ('spell_names', 'spell_descriptions'), 'SELECT id FROM client_spells'),
+    ('INSERT INTO client_set_names (item_set, language, name) VALUES (?, ?, ?)',
+     ('set_names',), 'SELECT id FROM client_sets'),
+    ('INSERT INTO client_monster_names (monster, language, name) VALUES (?, ?, ?)',
+     ('monster_names',), 'SELECT id FROM monsters'),
+    ('INSERT INTO monster_family_names (family, language, name) VALUES (?, ?, ?)',
+     ('monster_family_names',), 'SELECT DISTINCT family FROM monsters'),
+    ('INSERT INTO ability_names (ability, language, name) VALUES (?, ?, ?)',
+     ('ability_names',), 'SELECT id FROM abilities'),
+    ('INSERT INTO ability_category_names (category, language, name) VALUES (?, ?, ?)',
+     ('ability_category_names',), 'SELECT id FROM ability_categories'),
+    ('INSERT INTO effect_texts (effect, language, text) VALUES (?, ?, ?)',
+     ('effect_texts',), 'SELECT id FROM effects'),
+    ('INSERT INTO action_texts (action, language, text) VALUES (?, ?, ?)',
+     ('action_texts',), 'SELECT DISTINCT action FROM effects'),
+)
+# Wakfu has no German
+CLIENT_TEXT_FALLBACK = {'de': 'en'}
+
+
+def write_client_texts(conn, texts, counts):
+    """Fill the client's name and text tables, pairing each text with its row by id."""
+    families = texts['texts']
+    for sql, columns, parents_sql in CLIENT_TEXT_TABLES:
+        table = sql.split()[2]
+        parents = sorted(row[0] for row in conn.execute(parents_sql))
+        known = {str(ident) for ident in parents}
+        for language in LANGUAGES:
+            source = CLIENT_TEXT_FALLBACK.get(language, language)
+            for ident in parents:
+                values = [families[family].get(source, {}).get(str(ident))
+                          for family in columns]
+                if any(value is not None for value in values):
+                    conn.execute(sql, (ident, language, *values))
+                    counts[table.replace('_', ' ')] += 1
+        for family in columns:
+            unmatched = set()
+            for by_id in families[family].values():
+                unmatched.update(set(by_id) - known)
+            if unmatched:
+                counts['texts naming no row: ' + family] += len(unmatched)
+
+
 def write_spells_pets_and_monsters(conn, tables, item_ids, counts):
     """Fill the spell, pet, mount, monster and loot list tables of a decoded client."""
     for spell in tables.get('spells', ()):
@@ -529,15 +589,69 @@ def write_spells_pets_and_monsters(conn, tables, item_ids, counts):
             counts['monster harvests'] += 1
 
 
+def write_client_pictures(conn, tables, decoded, counts):
+    """Fill client_pictures: the file number or key the client draws for each row.
+
+    An item gfx or a monster picture of 0 or less names no file, and neither does an
+    empty state key.
+    """
+    def add(family, ident, picture):
+        conn.execute('INSERT INTO client_pictures (family, id, picture) VALUES (?, ?, ?)',
+                     (family, ident, str(picture)))
+        counts['pictures: ' + family] += 1
+
+    client_items = {int(ident) for ident in decoded['items']}
+    for ident, item in sorted(decoded['items'].items(), key=lambda one: int(one[0])):
+        if item['gfx'] > 0:
+            add('item', int(ident), item['gfx'])
+    for item, gfx in conn.execute('SELECT item, gfx FROM item_picture ORDER BY item').fetchall():
+        if item not in client_items:
+            add('item', item, gfx)
+    for spell in tables['spells']:
+        add('spell', spell['id'], spell['icon'])
+    for state in tables['states']:
+        if state['bcw']:
+            add('state', state['id'], state['bcw'])
+    for ability in tables['abilities']:
+        add('ability', ability['id'], ability['cgI'])
+    for monster in tables['monsters']:
+        if monster['picture'] > 0:
+            add('monster', monster['id'], monster['picture'])
+    for family in sorted({monster['family'] for monster in tables['monsters']}):
+        add('monster_family', family, family)
+    for (breed,) in conn.execute('SELECT id FROM breeds ORDER BY id').fetchall():
+        add('class', breed, breed)
+
+
 def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw', client_dir=None):
+    # Built beside the database and swapped in last, so a failure keeps the old one.
+    # The name is the one load_item_db.py uses, which .gitignore covers
+    temp_path = db_path.with_name('%s.tmp.%d' % (db_path.name, os.getpid()))
+    for stale in db_path.parent.glob(db_path.name + '.tmp.*'):
+        try:
+            if stale == temp_path or time.time() - stale.stat().st_mtime > 3600:
+                stale.unlink()
+        except OSError:
+            pass
+    conn = sqlite3.connect(str(temp_path))
+    try:
+        counts = build_into(dump_path, db_path, conn, out_dir, client_dir)
+        conn.commit()
+    except BaseException:
+        conn.close()
+        temp_path.unlink()
+        raise
+    conn.close()
+    os.replace(str(temp_path), str(db_path))
+    return counts
+
+
+def build_into(dump_path, db_path, conn, out_dir, client_dir):
     with io.open(dump_path, encoding='utf-8') as handle:
         dump = json.load(handle)
     sets = read_sets(out_dir, dump['version'])
 
     previous = read_previous(db_path)
-    if db_path.exists():
-        db_path.unlink()
-    conn = sqlite3.connect(str(db_path))
     for statement in dofus_schema():
         conn.execute(statement)
     create_tables(conn)
@@ -674,17 +788,28 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw', client_dir=None):
                 counts['spread over elements'] += 1
 
     tables = find_client_tables(client_dir, dump['version']) if client_dir else None
+    decoded = find_client_tables(client_dir, dump['version'], 'decoded.json') \
+        if tables is not None else None
     if tables is None:
         print('client tables not found for game version %s, the effect tables stay empty'
               % dump['version'])
     else:
         write_client_tables(conn, tables, counts)
+        texts = find_client_tables(client_dir, dump['version'], 'texts.json')
+        if texts is None:
+            print('client texts not found for %s under %s: the name tables stay empty'
+                  % (dump['version'], client_dir))
+        else:
+            write_client_texts(conn, texts, counts)
 
     counts['removed upstream, kept'] = keep_removed(
         conn, previous, written, stat_ids, set(sets),
         set(types)) if previous else 0
-    conn.commit()
-    conn.close()
+    if tables is not None and decoded is None:
+        print('client pictures not found for %s under %s: the picture table stays empty'
+              % (dump['version'], client_dir))
+    if tables is not None and decoded is not None:
+        write_client_pictures(conn, tables, decoded, counts)
     return counts
 
 

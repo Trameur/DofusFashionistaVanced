@@ -1,6 +1,4 @@
 import sqlite3
-import sys
-import zipfile
 from pathlib import Path
 from unittest import TestCase
 
@@ -8,17 +6,22 @@ from fashionistapulp import wakfu_db
 
 ROOT = Path(__file__).resolve().parents[2]
 DATABASE = ROOT / 'fashionistapulp' / 'fashionistapulp' / 'items_wakfu.db'
-CLIENT_DIR = ROOT / 'itemscraper' / 'wakfu_client'
-if str(ROOT / 'itemscraper') not in sys.path:
-    sys.path.insert(0, str(ROOT / 'itemscraper'))
-
-from get_wakfu_client import version_key  # noqa: E402
 
 # The encyclopedia names these spells wrongly (its names are shifted by one
 # among the Sacrier ones, and a few classes renamed theirs); the client's own
 # text is right. Known difference, the harvest is not fixed here.
-HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT = (
+HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT_IN_FRENCH = (
     4720, 5030, 5041, 5043, 5044, 5045, 5047, 6845, 6942, 7064, 7084, 7211)
+# Eight more spells differ in the other languages, and one more in Spanish
+MORE_IN_EVERY_OTHER_LANGUAGE = (4581, 4583, 4596, 4597, 4607, 4609, 4610, 5124)
+HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT = {
+    'fr': HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT_IN_FRENCH,
+    'en': HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT_IN_FRENCH + MORE_IN_EVERY_OTHER_LANGUAGE,
+    'pt': HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT_IN_FRENCH + MORE_IN_EVERY_OTHER_LANGUAGE,
+    'de': HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT_IN_FRENCH + MORE_IN_EVERY_OTHER_LANGUAGE,
+    'es': HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT_IN_FRENCH + MORE_IN_EVERY_OTHER_LANGUAGE
+    + (4595,),
+}
 # The two spells whose range the client and the encyclopedia give differently
 RANGE_DIFFERS = {4716, 5047}
 ELEMENT_CODES = {'FIRE': 1, 'WATER': 2, 'EARTH': 3, 'AIR': 4, None: 9}
@@ -28,22 +31,6 @@ CLASS_SPELLS_PER_BREED = {
 SET_ASIDE_FROM_THE_HARVEST = 5150
 APPLY_MASTERY = 120
 PETS_WITH_FIXED_EFFECTS = {128, 262, 263, 264, 265}
-
-
-def client_names():
-    """{spell id: French name} from the decoded client's text jar, or None without it."""
-    jars = sorted(CLIENT_DIR.glob('*/i18n_fr.jar'),
-                  key=lambda path: version_key(path.parent.name))
-    if not jars:
-        return None
-    with zipfile.ZipFile(jars[-1]) as jar:
-        body = jar.read('texts_fr.properties').decode('utf-8')
-    names = {}
-    for line in body.splitlines():
-        if line.startswith('content.3.'):
-            key, _separator, text = line.partition('=')
-            names[int(key[len('content.3.'):])] = text
-    return names
 
 
 def straight(text):
@@ -139,16 +126,16 @@ class TheWakfuClientSpellsPetsAndMonstersHoldTheCountsTheGameHasTests(TestCase):
         self.assertEqual(0, self.count('client_spells WHERE id = %d'
                                        % SET_ASIDE_FROM_THE_HARVEST))
 
-    def test_the_12_harvest_spell_names_that_differ_from_the_client_are_a_known_difference(self):
-        names = client_names()
-        if names is None:
-            self.skipTest('no decoded client text')
-        differ = []
-        for ident, name in self.conn.execute(
-                "SELECT spell, name FROM spell_names WHERE language = 'fr'"):
-            if ident in names and straight(name) != straight(names[ident]):
-                differ.append(ident)
-        self.assertEqual(sorted(HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT), sorted(differ))
+    def test_the_harvest_spell_names_that_differ_from_the_client_are_a_known_difference(self):
+        for language, expected in HARVEST_NAMES_THAT_DIFFER_FROM_THE_CLIENT.items():
+            differ = []
+            for ident, name, client in self.conn.execute(
+                    'SELECT a.spell, a.name, c.name FROM spell_names a JOIN client_spell_texts c'
+                    ' ON c.spell = a.spell AND c.language = a.language'
+                    ' WHERE a.language = ? AND c.name IS NOT NULL', (language,)):
+                if straight(name) != straight(client):
+                    differ.append(ident)
+            self.assertEqual(sorted(expected), sorted(differ), language)
 
     def test_the_client_holds_126_pets_each_wearing_effects_and_all_but_five_scale_with_the_level(self):
         self.assertEqual(126, self.count('pets'))
