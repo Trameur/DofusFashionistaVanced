@@ -18,7 +18,8 @@ import item_criteria
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / 'fashionistapulp/fashionistapulp'
 STATIC = ROOT / 'fashionsite/chardata/static'
-IMAGE_DIRECTORIES = ('items', 'pets', 'resources', 'monsters', 'spells')
+IMAGE_DIRECTORIES = ('items', 'pets', 'resources', 'monsters', 'spells', 'states', 'abilities',
+                      'classes')
 RESTORE_WAIT = 60
 SIDECARS = ('-journal', '-wal', '-shm')
 TRACKED_DIRECTORY = 'itemscraper'
@@ -33,7 +34,7 @@ CRITERIA_TABLES = {'item_criteria': (),
                    'max_level_to_equip': (item_criteria.LEVEL,),
                    'unusable_items': (item_criteria.UNUSABLE,),
                    'items_not_worn_together': (item_criteria.NOT_WORN_WITH,)}
-CACHE_DIRECTORY = re.compile(r'\d+(?:\.\d+){2,4}')
+CACHE_DIRECTORY = re.compile(r'\d+(?:\.\d+){2,4}|\d+\.\d+_\d+(?:\.\d+){2,4}')
 SOURCE_SUFFIXES = ('.py', '.pyc')
 
 

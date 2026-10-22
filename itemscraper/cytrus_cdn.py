@@ -18,6 +18,7 @@ game's. Manifest schema comes from dofusdude/ankabuffer (GPL-3.0):
 from __future__ import annotations
 
 import argparse
+import collections
 import hashlib
 import json
 import os
@@ -171,6 +172,77 @@ def fetch_file(entry, timeout=180, game='dofus'):
     if hashlib.sha1(blob).hexdigest() != entry['hash']:
         raise ValueError('%s does not match its hash' % entry['name'])
     return blob
+
+
+def _runs(entry):
+    """[(bundle, [(bundle offset, size, chunk hash)])]: the distinct chunks of a file, in
+    runs that sit side by side in one bundle, so a run is one range request."""
+    by_bundle = collections.defaultdict(set)
+    for chunk in entry['chunks']:
+        bundle_hash, offset, size = entry['placement'][chunk['hash']]
+        by_bundle[bundle_hash].add((offset, size, chunk['hash']))
+    runs = []
+    for bundle_hash, chunks in sorted(by_bundle.items()):
+        run = []
+        for chunk in sorted(chunks):
+            if run and run[-1][0] + run[-1][1] != chunk[0]:
+                runs.append((bundle_hash, run))
+                run = []
+            run.append(chunk)
+        runs.append((bundle_hash, run))
+    return runs
+
+
+def _read_exactly(resp, size):
+    pieces = []
+    while size:
+        piece = resp.read(min(size, 1 << 20))
+        if not piece:
+            raise ValueError('the bundle ended inside a chunk')
+        pieces.append(piece)
+        size -= len(piece)
+    return b''.join(pieces)
+
+
+def fetch_file_to(entry, path, timeout=180, game='dofus'):
+    """Write a chunked file to `path` without holding it in memory.
+
+    One range request per run of chunks that sit side by side in a bundle. Every chunk
+    and the whole file are checked against their sha1; the file appears under its name
+    only when both match, and nothing is left behind otherwise.
+    """
+    part = str(path) + '.part'
+    offsets = collections.defaultdict(list)
+    for chunk in entry['chunks']:
+        offsets[chunk['hash']].append(chunk['offset'])
+    try:
+        with open(part, 'wb') as out:
+            out.truncate(entry['size'])
+            for bundle_hash, run in _runs(entry):
+                url = '%s/%s/bundles/%s/%s' % (CDN, game, bundle_hash[:2], bundle_hash)
+                start = run[0][0]
+                end = run[-1][0] + run[-1][1] - 1
+                request = urllib.request.Request(
+                    url, headers={'Range': 'bytes=%d-%d' % (start, end)})
+                with urllib.request.urlopen(request, timeout=timeout) as resp:
+                    for _offset, size, chunk_hash in run:
+                        piece = _read_exactly(resp, size)
+                        if hashlib.sha1(piece).hexdigest() != chunk_hash:
+                            raise ValueError('chunk %s does not match its hash' % chunk_hash)
+                        for position in offsets[chunk_hash]:
+                            out.seek(position)
+                            out.write(piece)
+        digest = hashlib.sha1()
+        with open(part, 'rb') as written:
+            for block in iter(lambda: written.read(1 << 20), b''):
+                digest.update(block)
+        if digest.hexdigest() != entry['hash']:
+            raise ValueError('%s does not match its hash' % entry['name'])
+        os.replace(part, path)
+    except BaseException:
+        if os.path.exists(part):
+            os.remove(part)
+        raise
 
 
 def main():

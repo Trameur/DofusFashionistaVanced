@@ -71,6 +71,8 @@ Thumbs.db
 itemscraper/raw/
 itemscraper/spell_images/
 itemscraper/spell_icons_test/
+itemscraper/wakfu_client/
+itemscraper/wakfu_raw/
 migrated_data.json
 logs/
 

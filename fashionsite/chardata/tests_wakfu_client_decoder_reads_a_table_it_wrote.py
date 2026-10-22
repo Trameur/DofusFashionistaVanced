@@ -97,7 +97,8 @@ class Writer:
 def item_record(writer, item):
     writer.i32(item['id'])
     writer.i16(0)
-    for _ in range(3):
+    writer.i32(item['gfx'])
+    for _ in range(2):
         writer.i32(0)
     writer.i16(item['level'])
     pairs = []
@@ -193,12 +194,13 @@ def container(type_id, records, write, size_shift=0, id_shift=0):
 
 
 ITEMS = [
-    {'id': 101, 'level': 55, 'type': 120, 'rarity': 4, 'properties': [1, 24],
+    {'id': 101, 'level': 55, 'type': 120, 'rarity': 4, 'properties': [1, 24], 'gfx': 1202021,
      'criteria': [['EQUIP', 'IsBreed("ALPHA")'], ['CRAFT', 'GetCraftLevel(75) >= 80']],
      'actions': 0, 'sub_records': (False, False)},
-    {'id': 102, 'level': 245, 'type': 103, 'rarity': 5, 'properties': [],
+    {'id': 102, 'level': 245, 'type': 103, 'rarity': 5, 'properties': [], 'gfx': 0,
      'criteria': [], 'actions': 2, 'sub_records': (True, True)},
     {'id': 2000000001, 'level': -3, 'type': 134, 'rarity': 7, 'properties': [4, 9, 12],
+     'gfx': 5560012,
      'criteria': [['EQUIP', 'GetCharac("FEROCITY") > -10']],
      'actions': 1, 'sub_records': (False, True)},
 ]
@@ -242,6 +244,11 @@ class TheWakfuClientDecoderReadsATableItWroteTests(SimpleTestCase):
                  sum(bool(one) for one in item['sub_records'])),
                 (record.level, record.type, record.rarity, record.properties,
                  record.criteria, record.actions, record.sub_records), item['id'])
+
+    def test_an_item_record_carries_the_gfx_and_not_the_female_gfx_beside_it(self):
+        read = wakfu_client.read_items(self.items_jar())
+        self.assertEqual({101: 1202021, 102: 0, 2000000001: 5560012},
+                         {ident: record.gfx for ident, record in read.items()})
 
     def test_the_decoder_returns_every_invented_breed_and_its_base_values(self):
         read = wakfu_client.read_breeds(self.breeds_jar())
@@ -291,24 +298,24 @@ class TheWakfuClientDecoderReadsATableItWroteTests(SimpleTestCase):
                for path, blob in blobs.items()}
         (install / 'manifest.json').write_text(json.dumps(own), encoding='utf-8')
         args = argparse.Namespace(from_install=str(install), manifest=str(manifest))
-        real = get_wakfu_client.cytrus_cdn.find_file
 
-        def find(_manifest, path, hashes={}):
+        def entry(path, hashes={}):
             blob = blobs[path]
             return {'size': len(blob), 'hash': hashes.get(path, get_wakfu_client.sha1_of(blob))}
 
-        get_wakfu_client.cytrus_cdn.find_file = find
-        try:
-            self.assertEqual(set(get_wakfu_client.FILES), set(get_wakfu_client.from_install(args)))
-            wrong = get_wakfu_client.ITEMS_JAR
-            get_wakfu_client.cytrus_cdn.find_file = \
-                lambda m, path: find(m, path, {wrong: '0' * 40})
-            with self.assertRaisesRegex(get_wakfu_client.ClientError, 'cytrus manifest'):
-                get_wakfu_client.from_install(args)
-            get_wakfu_client.cytrus_cdn.find_file = find
-            own[wrong]['hash'] = '1' * 40
-            (install / 'manifest.json').write_text(json.dumps(own), encoding='utf-8')
-            with self.assertRaisesRegex(get_wakfu_client.ClientError, 'manifest.json'):
-                get_wakfu_client.from_install(args)
-        finally:
-            get_wakfu_client.cytrus_cdn.find_file = real
+        out = self.folder / 'out'
+        out.mkdir()
+        for path in get_wakfu_client.FILES:
+            target = out / path.rsplit('/', 1)[-1]
+            get_wakfu_client.from_install(args, entry(path), path, target)
+            self.assertEqual(blobs[path], target.read_bytes())
+        self.assertEqual([], list(out.glob('*.part')))
+        wrong = get_wakfu_client.ITEMS_JAR
+        with self.assertRaisesRegex(get_wakfu_client.ClientError, 'cytrus manifest'):
+            get_wakfu_client.from_install(
+                args, entry(wrong, {wrong: '0' * 40}), wrong, out / 'refused.jar')
+        own[wrong]['hash'] = '1' * 40
+        (install / 'manifest.json').write_text(json.dumps(own), encoding='utf-8')
+        with self.assertRaisesRegex(get_wakfu_client.ClientError, 'manifest.json'):
+            get_wakfu_client.from_install(args, entry(wrong), wrong, out / 'refused.jar')
+        self.assertFalse((out / 'refused.jar').exists())

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Read the Wakfu client's item, breed, effect, set, state, ability, spell, pet, mount, monster
-and loot list tables, and its labels.
+and loot list tables, its labels, and its names and texts.
 
     python itemscraper/wakfu_client.py <35.jar>
 
@@ -12,6 +12,7 @@ conditions to every solve.
 from __future__ import annotations
 
 import collections
+import re
 import struct
 import sys
 import zipfile
@@ -32,7 +33,7 @@ LOOT_LIST_TABLE = 39
 SEED_OFFSET = 756423
 
 ItemRecord = collections.namedtuple(
-    'ItemRecord', 'id level type rarity properties criteria actions sub_records')
+    'ItemRecord', 'id level type rarity properties criteria actions sub_records gfx')
 BreedRecord = collections.namedtuple('BreedRecord', 'id name base')
 
 # Characteristic of each of the breed record's integer fields f1 to f12, in read order
@@ -106,7 +107,7 @@ KIND_READERS = {'i8': 'i8', 'bool': 'boolean', 'i16': 'i16', 'i32': 'i32',
 # referenced one: its unreferenced twin has another layout.
 NESTED_LAYOUTS = {
     'aNt': (
-        ('id', 'i32'), ('efZ', 'i32'), ('cgI', 'i32'), ('max_level', 'i16'), ('breed', 'i16'),
+        ('id', 'i32'), ('efZ', 'i32'), ('icon', 'i32'), ('max_level', 'i16'), ('breed', 'i16'),
         ('erj', 'i16'), ('erk', 'f32'), ('erl', 'f32'), ('erm', 'i16'), ('ern', 'bool'),
         ('ero', 'bool'), ('erp', 'bool'), ('erq', 'bool'), ('err', 'bool'), ('ers', 'bool'),
         ('ert', 'bool'), ('eru', 'i32'), ('erv', 'text'), ('unlock_level', 'i16'), ('ap', 'f32'),
@@ -253,13 +254,13 @@ SetRecord = collections.namedtuple('SetRecord', 'id elG item_ids bonuses')
 # element is the client's code (FIRE 1, WATER 2, EARTH 3, AIR 4, none 9)
 SpellRecord = collections.namedtuple(
     'SpellRecord', 'id breed ap mp wp range_min range_max element unlock_level'
-                   ' max_level effect_ids')
+                   ' max_level effect_ids icon')
 # eoq, eop and emm are the three level fields, which one is the cap is not known
 PetRecord = collections.namedtuple('PetRecord', 'id item eoq eop emm')
 MountRecord = collections.namedtuple('MountRecord', 'id item eop emm eoq')
 DropRecord = collections.namedtuple('DropRecord', 'item rate quantity_min quantity_max')
 HarvestRecord = collections.namedtuple('HarvestRecord', 'loot_list condition')
-MonsterRecord = collections.namedtuple('MonsterRecord', 'id family drops harvests')
+MonsterRecord = collections.namedtuple('MonsterRecord', 'id family drops harvests picture')
 LootRow = collections.namedtuple(
     'LootRow', 'id target is_list rate quantity_min quantity_max')
 LootListRecord = collections.namedtuple('LootListRecord', 'id rows')
@@ -393,7 +394,7 @@ def _read_item(reader):
     """The item record of client class aLO."""
     ident = reader.i32()
     reader.i16()
-    reader.i32()
+    gfx = reader.i32()
     reader.i32()
     reader.i32()
     level = reader.i16()
@@ -444,7 +445,7 @@ def _read_item(reader):
         raise TableError('item %d has an odd criteria list' % ident)
     criteria = [[pairs[index], pairs[index + 1]] for index in range(0, len(pairs), 2)]
     return ItemRecord(ident, level, kind, rarity, properties, criteria, actions,
-                      sub_records)
+                      sub_records, gfx)
 
 
 def read_items(jar_path):
@@ -614,7 +615,7 @@ def _read_monster(reader):
     drops = [DropRecord(one['item'], one['rate'], one['quantity_min'], one['quantity_max'])
              for one in row['enH']]
     harvests = [HarvestRecord(one['loot_list'], one['condition']) for one in row['enB']]
-    return MonsterRecord(row['id'], row['family'], drops, harvests)
+    return MonsterRecord(row['id'], row['family'], drops, harvests, row['atk'])
 
 
 def _read_loot_list(reader):
@@ -681,8 +682,35 @@ def read_loot_lists(jar_path):
     return _read_records(jar_path, LOOT_LIST_TABLE, _read_loot_list, 'loot list')
 
 
-def read_labels(jar_path, language):
-    """({critere.* key: text}, {nation id: name}) of one language jar, texts verbatim."""
+def _decode_escapes(text):
+    """Decode the tab, newline, return, form feed and unicode escapes; any other one is itself."""
+    if '\\' not in text:
+        return text
+    out = []
+    index = 0
+    while index < len(text):
+        char = text[index]
+        index += 1
+        if char != '\\':
+            out.append(char)
+            continue
+        if index >= len(text):
+            break
+        char = text[index]
+        index += 1
+        if char == 'u':
+            digits = text[index:index + 4]
+            if not re.fullmatch(r'[0-9a-fA-F]{4}', digits):
+                raise TableError('a malformed unicode escape in a text')
+            out.append(chr(int(digits, 16)))
+            index += 4
+        else:
+            out.append({'t': '\t', 'n': '\n', 'r': '\r', 'f': '\f'}.get(char, char))
+    return ''.join(out)
+
+
+def _properties(jar_path, language):
+    """{key: text} of texts_<language>.properties, read as java.util.Properties.load reads it."""
     name = 'texts_%s.properties' % language
     try:
         with zipfile.ZipFile(jar_path) as jar:
@@ -691,12 +719,55 @@ def read_labels(jar_path, language):
         raise TableError('%s has no entry %s' % (jar_path, name)) from error
     except zipfile.BadZipFile as error:
         raise TableError('%s is not a jar: %s' % (jar_path, error)) from error
-    labels, nations = {}, {}
-    for line in body.splitlines():
-        key, separator, text = line.partition('=')
-        if not separator:
+    return parse_properties(body)
+
+
+def read_properties(path):
+    """{key: text} of a .properties file on disk."""
+    try:
+        with open(path, encoding='utf-8') as handle:
+            return parse_properties(handle.read())
+    except (OSError, UnicodeDecodeError) as error:
+        raise TableError('%s cannot be read: %s' % (path, error)) from error
+
+
+def parse_properties(body):
+    """{key: text} of a .properties text, read as java.util.Properties.load reads it."""
+    blank = ' \t\f'
+    lines = re.split(r'\r\n|\r|\n', body)
+    out = {}
+    index = 0
+    while index < len(lines):
+        line = lines[index].lstrip(blank)
+        index += 1
+        if not line or line[0] in '#!':
             continue
-        key = key.strip()
+        while index < len(lines) and (len(line) - len(line.rstrip('\\'))) % 2:
+            line = line[:-1] + lines[index].lstrip(blank)
+            index += 1
+        end = 0
+        while end < len(line) and line[end] not in '=:' + blank:
+            end += 2 if line[end] == '\\' else 1
+        rest = line[end:].lstrip(blank)
+        if rest[:1] in ('=', ':') and rest:
+            rest = rest[1:].lstrip(blank)
+        out[_decode_escapes(line[:end])] = _decode_escapes(rest)
+    return out
+
+
+# What content.<number>.<id> names in the language file
+TEXT_FAMILIES = {
+    'spell_names': 3, 'spell_descriptions': 4, 'monster_names': 7, 'state_names': 8,
+    'state_descriptions': 9, 'action_texts': 10, 'set_names': 20, 'effect_texts': 33,
+    'monster_family_names': 38, 'ability_names': 146, 'ability_category_names': 147,
+}
+TEXT_KEY = re.compile(r'content\.(\d+)\.(\d+)')
+
+
+def read_labels(jar_path, language):
+    """({critere.* key: text}, {nation id: name}) of one language jar."""
+    labels, nations = {}, {}
+    for key, text in _properties(jar_path, language).items():
         if key.startswith('critere.'):
             labels[key] = text
         elif key.startswith('nation.short.'):
@@ -704,6 +775,17 @@ def read_labels(jar_path, language):
             if tail.isdigit():
                 nations[int(tail)] = text
     return labels, nations
+
+
+def read_texts(jar_path, language):
+    """{family: {id: text}} of the TEXT_FAMILIES of one language jar, texts as parsed."""
+    family_of = {number: family for family, number in TEXT_FAMILIES.items()}
+    out = {family: {} for family in TEXT_FAMILIES}
+    for key, text in _properties(jar_path, language).items():
+        found = TEXT_KEY.fullmatch(key)
+        if found and int(found.group(1)) in family_of:
+            out[family_of[int(found.group(1))]][int(found.group(2))] = text
+    return out
 
 
 def main(argv=None):
