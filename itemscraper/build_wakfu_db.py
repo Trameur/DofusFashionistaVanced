@@ -22,9 +22,9 @@ bonus total it prints, which is stale. A set whose page has gone (three of
 them) keeps its items and simply has no name to show.
 
 The client's tables (get_wakfu_client.py writes tables.json) fill the
-effects, effect_groups, states, abilities, ability_categories, client_sets and
-set_bonuses tables: the effects an item of the client, a set bonus, a state, an
-ability or a spell (through its own effect list) reaches, with every effect
+effects, effect_groups, states, abilities, ability_categories, client_sets,
+client_set_members and set_bonuses tables: the effects an item of the client, a set bonus,
+a state, an ability or a spell (through its own effect list) reaches, with every effect
 whose id is a group id expanded. They also fill client_spells,
 client_spell_effects, pets, mounts, monsters, monster_drops, monster_harvests,
 loot_lists and loot_list_rows. Nothing reads them yet. A client that is not
@@ -33,8 +33,11 @@ there leaves them empty, with a notice.
 The client's texts (texts.json, from the same step) fill state_texts,
 client_spell_texts, client_set_names, client_monster_names, monster_family_names,
 ability_names, ability_category_names, effect_texts and action_texts, one row
-per language for each text the client has. de is the English text; a text the
-English file lacks gets no de row.
+per language for each text the client has, and, whether or not another table
+has a row for the id or key, client_job_names, client_breed_names,
+client_breed_texts, client_aptitude_texts, client_enchantment_texts and
+client_item_type_names. de is the English text; a text the English file lacks gets no
+de row.
 
 client_pictures names the picture file the client draws for each item, spell, state,
 ability, monster, monster family and class; get_wakfu_images.py extracts them from the
@@ -292,14 +295,25 @@ def write_breeds(conn, dump, stat_ids, counts):
     return names
 
 
+def with_fallback_languages(by_language):
+    """A copy of {language: table} with each CLIENT_TEXT_FALLBACK language it lacks."""
+    out = dict(by_language)
+    for language, source in CLIENT_TEXT_FALLBACK.items():
+        if language not in out and source in out:
+            out[language] = out[source]
+    return out
+
+
 def write_labels(conn, dump, counts):
-    """Fill criteria_labels and nations, every language the client carries."""
-    for language, table in sorted((dump.get('labels') or {}).items()):
+    """Fill criteria_labels and nations, every language the client carries, de from en."""
+    labels = with_fallback_languages(dump.get('labels') or {})
+    nations = with_fallback_languages(dump.get('nations') or {})
+    for language, table in sorted(labels.items()):
         for key, text in sorted(table.items()):
             conn.execute('INSERT INTO criteria_labels (key, language, text)'
                          ' VALUES (?, ?, ?)', (key, language, text))
             counts['criteria labels'] += 1
-    for language, table in sorted((dump.get('nations') or {}).items()):
+    for language, table in sorted(nations.items()):
         for ident, name in sorted(table.items(), key=lambda one: int(one[0])):
             conn.execute('INSERT INTO nations (id, language, name)'
                          ' VALUES (?, ?, ?)', (int(ident), language, name))
@@ -466,6 +480,12 @@ def write_client_tables(conn, tables, counts):
         conn.execute('INSERT INTO client_sets (id, item_count) VALUES (?, ?)',
                      (client_set['id'], len(client_set['item_ids'])))
         counts['client sets'] += 1
+        for position, ident in enumerate(client_set['item_ids']):
+            conn.execute('INSERT INTO client_set_members (item_set, position, item)'
+                         ' VALUES (?, ?, ?)', (client_set['id'], position, ident))
+            counts['client set members'] += 1
+            if ident not in item_ids:
+                counts['client set members with no client item'] += 1
         for pieces, effect_ids in client_set['bonuses']:
             for ident in effect_ids:
                 conn.execute('INSERT INTO set_bonuses (item_set, pieces, effect)'
@@ -498,6 +518,23 @@ CLIENT_TEXT_TABLES = (
     ('INSERT INTO action_texts (action, language, text) VALUES (?, ?, ?)',
      ('action_texts',), 'SELECT DISTINCT action FROM effects'),
 )
+# (insert statement, the text family, whether its ids are numbers): every id or key of the
+# family is written, whatever the parent tables hold: job_names holds 14 of the 15 jobs
+# and breeds 18 of the 19 classes
+CLIENT_FREE_TEXT_TABLES = (
+    ('INSERT INTO client_job_names (job, language, name) VALUES (?, ?, ?)',
+     'job_names', True),
+    ('INSERT INTO client_breed_names (breed, language, name) VALUES (?, ?, ?)',
+     'breed_names', True),
+    ('INSERT INTO client_breed_texts (key, language, text) VALUES (?, ?, ?)',
+     'breed_texts', False),
+    ('INSERT INTO client_aptitude_texts (key, language, text) VALUES (?, ?, ?)',
+     'aptitude_texts', False),
+    ('INSERT INTO client_enchantment_texts (key, language, text) VALUES (?, ?, ?)',
+     'enchantment_texts', False),
+    ('INSERT INTO client_item_type_names (item_type, language, name) VALUES (?, ?, ?)',
+     'item_type_names', True),
+)
 # Wakfu has no German
 CLIENT_TEXT_FALLBACK = {'de': 'en'}
 
@@ -505,6 +542,17 @@ CLIENT_TEXT_FALLBACK = {'de': 'en'}
 def write_client_texts(conn, texts, counts):
     """Fill the client's name and text tables, pairing each text with its row by id."""
     families = texts['texts']
+    for sql, family, numeric in CLIENT_FREE_TEXT_TABLES:
+        table = sql.split()[2]
+        by_language = families.get(family)
+        if by_language is None:
+            counts['texts family missing: ' + family] += 1
+            continue
+        for language in LANGUAGES:
+            source = by_language.get(CLIENT_TEXT_FALLBACK.get(language, language), {})
+            for ident, text in sorted(source.items()):
+                conn.execute(sql, (int(ident) if numeric else ident, language, text))
+                counts[table.replace('_', ' ')] += 1
     for sql, columns, parents_sql in CLIENT_TEXT_TABLES:
         table = sql.split()[2]
         parents = sorted(row[0] for row in conn.execute(parents_sql))

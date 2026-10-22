@@ -46,11 +46,13 @@ So: WHICH TABLES BELONG TO WHOM.
         max_level_to_equip, min_stat_to_equip, max_stat_to_equip,
         item_state_conditions, criteria_labels, nations, effects,
         effect_groups, states, abilities, ability_categories, client_sets,
-        set_bonuses, client_spells, client_spell_effects, pets, mounts,
-        monsters, monster_drops, monster_harvests, loot_lists, loot_list_rows,
-        state_texts, client_spell_texts, client_set_names, client_monster_names,
-        monster_family_names, ability_names, ability_category_names,
-        effect_texts, action_texts, client_pictures
+        client_set_members, set_bonuses, client_spells, client_spell_effects,
+        pets, mounts, monsters, monster_drops, monster_harvests, loot_lists,
+        loot_list_rows, state_texts, client_spell_texts, client_set_names,
+        client_monster_names, monster_family_names, ability_names,
+        ability_category_names, effect_texts, action_texts, client_job_names,
+        client_breed_names, client_breed_texts, client_aptitude_texts,
+        client_enchantment_texts, client_item_type_names, client_pictures
 
     build_wakfu_recipes.py owns, and rewrites on every run:
         item_recipes, item_recipe_ingredient_names, item_craft_jobs,

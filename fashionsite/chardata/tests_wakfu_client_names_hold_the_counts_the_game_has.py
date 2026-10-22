@@ -176,6 +176,106 @@ class TheWakfuClientNamesHoldTheCountsTheGameHasTests(TestCase):
             self.assertEqual((text.replace('\r\n', '\n'),), stored, (effect, language))
         self.assertEqual(1684, len(seen))
 
+    def test_the_jobs_classes_and_keyed_texts_hold_their_counts_in_five_languages(self):
+        for table, count in (('client_job_names', 15), ('client_breed_names', 19),
+                             ('client_breed_texts', 111), ('client_aptitude_texts', 25),
+                             ('client_enchantment_texts', 160),
+                             ('client_item_type_names', 149)):
+            self.assertEqual({language: count for language in LANGUAGES},
+                             self.per_language(table), table)
+
+    def test_one_job_one_class_one_aptitude_and_one_enchantment_text_read_in_every_language(self):
+        for sql, parameter, expected in (
+                ('SELECT language, name FROM client_job_names WHERE job = ?', 40,
+                 {'en': 'Baker', 'fr': 'Boulanger', 'es': 'Panadero', 'pt': 'Padeiro',
+                  'de': 'Baker'}),
+                ('SELECT language, name FROM client_breed_names WHERE breed = ?', 1,
+                 {'en': 'Feca', 'fr': 'F\u00e9ca', 'es': 'Feca', 'pt': 'Feca', 'de': 'Feca'}),
+                ('SELECT language, text FROM client_aptitude_texts WHERE key = ?',
+                 'aptitude.common.title',
+                 {'en': 'Characteristics', 'fr': 'Aptitudes', 'es': 'Caracter\u00edsticas',
+                  'pt': 'Habilidades', 'de': 'Characteristics'}),
+                ('SELECT language, text FROM client_enchantment_texts WHERE key = ?',
+                 'enchantment.action.change.colors.title',
+                 {'en': 'Recolor the sockets', 'fr': 'Changer la couleur des ch\u00e2sses',
+                  'es': 'Cambiar el color de los engarces',
+                  'pt': 'Mudar a cor dos engastes', 'de': 'Recolor the sockets'}),
+                ('SELECT language, text FROM client_aptitude_texts WHERE key = ?',
+                 'aptitudes.maxLevelReached',
+                 {'en': 'Max level achieved', 'fr': 'Niveau max atteint',
+                  'es': 'Nivel m\u00e1ximo alcanzado', 'pt': 'N\u00edvel m\u00e1ximo atingido',
+                  'de': 'Max level achieved'}),
+                ('SELECT language, text FROM client_breed_texts WHERE key = ?',
+                 'breedLongName.1',
+                 {'en': "[#1]'s Shield", 'fr': 'Le Bouclier [#1]', 'es': 'El Escudo de [#1]',
+                  'pt': 'Escudo de [#1] ', 'de': "[#1]'s Shield"}),
+                ('SELECT language, name FROM client_item_type_names WHERE item_type = ?', 100,
+                 {'en': 'Weapon{[~1]?s:} & Shield{[~1]?s:}',
+                  'fr': 'Arme{[~1]?s:} & Bouclier{[~1]?s:}',
+                  'es': 'Arma{[~1]?s:} y escudo{[~1]?s:}',
+                  'pt': 'Arma{[~1]?s:} e Escudo{[~1]?s:}',
+                  'de': 'Weapon{[~1]?s:} & Shield{[~1]?s:}'}),
+                ('SELECT language, text FROM client_breed_texts WHERE key = ?',
+                 'breed.role.name.0',
+                 {'en': 'Mobility', 'fr': 'Mobilit\u00e9', 'es': 'Movilidad',
+                  'pt': 'Mobilidade', 'de': 'Mobility'})):
+            self.assertEqual(expected, dict(self.conn.execute(sql, (parameter,)).fetchall()),
+                             parameter)
+
+    def test_a_class_name_keeps_the_plural_template_the_client_writes(self):
+        self.assertEqual([('Sacrier{[1*]?:}',)], self.conn.execute(
+            "SELECT name FROM client_breed_names WHERE breed = 11 AND language = 'en'"
+        ).fetchall())
+
+    def test_german_is_the_english_row_for_row_on_the_jobs_classes_and_keyed_texts(self):
+        for table, key, column in (
+                ('client_job_names', 'job', 'name'), ('client_breed_names', 'breed', 'name'),
+                ('client_breed_texts', 'key', 'text'), ('client_aptitude_texts', 'key', 'text'),
+                ('client_enchantment_texts', 'key', 'text'),
+                ('client_item_type_names', 'item_type', 'name')):
+            sql = 'SELECT %s, %s FROM %s WHERE language = ? ORDER BY 1' % (key, column, table)
+            self.assertEqual(self.conn.execute(sql, ('en',)).fetchall(),
+                             self.conn.execute(sql, ('de',)).fetchall(), table)
+
+    def test_the_client_names_the_19_long_class_titles_and_descriptions_and_13_aptitude_texts(self):
+        for prefix, count in (('breedLongName.%', 19), ('breedLongDesc.%', 19)):
+            self.assertEqual(count, self.conn.execute(
+                "SELECT COUNT(*) FROM client_breed_texts WHERE language = 'en' AND key LIKE ?",
+                (prefix,)).fetchone()[0], prefix)
+        self.assertEqual(13, self.conn.execute(
+            "SELECT COUNT(*) FROM client_aptitude_texts WHERE language = 'en'"
+            " AND key LIKE 'aptitudes.%'").fetchone()[0])
+        self.assertEqual(12, self.conn.execute(
+            "SELECT COUNT(*) FROM client_aptitude_texts WHERE language = 'en'"
+            " AND key LIKE 'aptitude.%'").fetchone()[0])
+
+    def test_the_client_names_every_item_type_the_database_holds(self):
+        self.assertEqual(24, self.conn.execute('SELECT COUNT(*) FROM item_types').fetchone()[0])
+        self.assertEqual(0, self.conn.execute(
+            'SELECT COUNT(*) FROM item_types WHERE id NOT IN'
+            ' (SELECT item_type FROM client_item_type_names)').fetchone()[0])
+
+    def test_the_client_names_the_14_crafting_jobs_and_one_more_and_agrees_on_their_names(self):
+        crafting = {job for (job,) in self.conn.execute(
+            'SELECT DISTINCT job_ankama_id FROM job_names')}
+        client = {job for (job,) in self.conn.execute('SELECT DISTINCT job FROM client_job_names')}
+        self.assertEqual(14, len(crafting))
+        self.assertEqual({82}, client - crafting)
+        self.assertEqual(set(), crafting - client)
+        self.assertEqual(0, self.conn.execute(
+            'SELECT COUNT(*) FROM job_names j JOIN client_job_names c'
+            ' ON c.job = j.job_ankama_id AND c.language = j.language'
+            ' WHERE c.name != j.name').fetchone()[0])
+
+    def test_the_condition_labels_and_the_nations_have_a_german_row_copied_from_english(self):
+        self.assertEqual({language: 130 for language in LANGUAGES},
+                         self.per_language('criteria_labels'))
+        self.assertEqual({language: 6 for language in LANGUAGES}, self.per_language('nations'))
+        for sql in ('SELECT key, text FROM criteria_labels WHERE language = ? ORDER BY 1',
+                    'SELECT id, name FROM nations WHERE language = ? ORDER BY 1'):
+            self.assertEqual(self.conn.execute(sql, ('en',)).fetchall(),
+                             self.conn.execute(sql, ('de',)).fetchall(), sql)
+
     def test_the_ability_categories_unlock_at_the_levels_the_client_lists(self):
         rows = {ident: (json.loads(levels), json.loads(abilities)) for ident, levels, abilities
                 in self.conn.execute(

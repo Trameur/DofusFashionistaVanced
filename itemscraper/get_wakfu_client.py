@@ -145,7 +145,7 @@ def decode_tables(folder, client_version, item_ids):
 
 def decode_texts(folder, client_version):
     """The texts.json payload: {family: {language: {id: text}}}, the whole families."""
-    texts = {family: {} for family in wakfu_client.TEXT_FAMILIES}
+    texts = {family: {} for family in wakfu_client.ALL_TEXT_FAMILIES}
     for language, path in LABEL_JARS.items():
         read = wakfu_client.read_texts(folder / path.rsplit('/', 1)[1], language)
         for family, table in read.items():
@@ -158,7 +158,8 @@ def decode_texts(folder, client_version):
 
 
 def is_current(folder, wanted):
-    """True when decoded.json, tables.json and texts.json are there, made from these sha1s."""
+    """True when decoded.json, tables.json and a texts.json holding every family are there,
+    made from these sha1s."""
     path = folder / 'decoded.json'
     if not path.exists() or not (folder / 'tables.json').exists() \
             or not (folder / 'texts.json').exists():
@@ -166,6 +167,12 @@ def is_current(folder, wanted):
     try:
         payload = json.loads(path.read_text(encoding='utf-8'))
     except ValueError:
+        return False
+    try:
+        families = json.loads((folder / 'texts.json').read_text(encoding='utf-8'))['texts']
+    except (ValueError, KeyError):
+        return False
+    if not set(wakfu_client.ALL_TEXT_FAMILIES) <= set(families):
         return False
     return {name: entry['sha1'] for name, entry in payload.get('files', {}).items()} \
         == dict(wanted)

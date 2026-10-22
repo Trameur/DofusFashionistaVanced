@@ -32,6 +32,7 @@ STATE_TABLE = 'states'
 ABILITY_TABLE = 'abilities'
 ABILITY_CATEGORY_TABLE = 'ability_categories'
 CLIENT_SET_TABLE = 'client_sets'
+CLIENT_SET_MEMBER_TABLE = 'client_set_members'
 SET_BONUS_TABLE = 'set_bonuses'
 CLIENT_SPELL_TABLE = 'client_spells'
 CLIENT_SPELL_EFFECT_TABLE = 'client_spell_effects'
@@ -51,6 +52,12 @@ ABILITY_NAME_TABLE = 'ability_names'
 ABILITY_CATEGORY_NAME_TABLE = 'ability_category_names'
 EFFECT_TEXT_TABLE = 'effect_texts'
 ACTION_TEXT_TABLE = 'action_texts'
+CLIENT_JOB_NAME_TABLE = 'client_job_names'
+CLIENT_BREED_NAME_TABLE = 'client_breed_names'
+CLIENT_BREED_TEXT_TABLE = 'client_breed_texts'
+CLIENT_APTITUDE_TEXT_TABLE = 'client_aptitude_texts'
+CLIENT_ENCHANTMENT_TEXT_TABLE = 'client_enchantment_texts'
+CLIENT_ITEM_TYPE_NAME_TABLE = 'client_item_type_names'
 CLIENT_PICTURE_TABLE = 'client_pictures'
 
 SCHEMA = (
@@ -129,6 +136,14 @@ SCHEMA = (
     # sets table above only holds the sets the encyclopedia names
     """CREATE TABLE client_sets
              (id INTEGER PRIMARY KEY, item_count INTEGER)""",
+    # The pieces of a client set in the client's own order. item is the id in
+    # the client's item table, as the client lists it, and is never NULL; a few
+    # pieces of admin and test sets are in no item table, so there is no foreign
+    # key (items holds gear only) and "not in the client item table" is a query
+    """CREATE TABLE client_set_members
+             (item_set INTEGER, position INTEGER, item INTEGER,
+              PRIMARY KEY (item_set, position),
+              FOREIGN KEY(item_set) REFERENCES client_sets(id))""",
     # A bonus applies from `pieces` worn pieces on, and the bonuses of the
     # lower tiers still apply (cumulative)
     """CREATE TABLE set_bonuses
@@ -136,6 +151,9 @@ SCHEMA = (
               PRIMARY KEY (item_set, pieces, effect),
               FOREIGN KEY(item_set) REFERENCES client_sets(id),
               FOREIGN KEY(effect) REFERENCES effects(id))""",
+    # There is no table of spell levels. A client spell holds unlock_level and
+    # max_level, client_spell_effects lists its effects, and the value of an
+    # effect at a level L is effect_value(params, i, L) below
     # The client's spells, class and monster ones alike, apart from the spells
     # table above, which holds the encyclopedia's class spells and is owned
     # by another writer. breed is 0, -1 or -2 on the spells no class owns.
@@ -234,12 +252,39 @@ SCHEMA = (
     """CREATE TABLE action_texts
              (action INTEGER, language TEXT, text TEXT,
               PRIMARY KEY (action, language))""",
+    # Only the pictures a row of this table names are extracted from the client's
+    # picture archive; the rest of the archive is left alone
     # The picture file the client draws for a row, as the client names it: family is
     # item, spell, state, ability, monster, monster_family or class, and the
     # picture is the number or key of the file, not a path
     """CREATE TABLE client_pictures
              (family TEXT NOT NULL, id INTEGER NOT NULL, picture TEXT NOT NULL,
               PRIMARY KEY (family, id))""",
+    # The language file's keyed texts, same rule as above: a key or an id the
+    # client has in no table gets a row too. breed is the class number of
+    # breed.<number>, the other breed.* keys (roles, descriptions) and the
+    # breedLongName.<number> and breedLongDesc.<number> keys are in
+    # client_breed_texts under their whole key. item_type is the id of
+    # content.14; the open data's itemTypes.json is where the item_types
+    # table gets its ids and names, so these rows are the client's own wording
+    """CREATE TABLE client_job_names
+             (job INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (job, language))""",
+    """CREATE TABLE client_breed_names
+             (breed INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (breed, language))""",
+    """CREATE TABLE client_breed_texts
+             (key TEXT, language TEXT, text TEXT,
+              PRIMARY KEY (key, language))""",
+    """CREATE TABLE client_aptitude_texts
+             (key TEXT, language TEXT, text TEXT,
+              PRIMARY KEY (key, language))""",
+    """CREATE TABLE client_enchantment_texts
+             (key TEXT, language TEXT, text TEXT,
+              PRIMARY KEY (key, language))""",
+    """CREATE TABLE client_item_type_names
+             (item_type INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (item_type, language))""",
     # Equip conditions. IF NOT EXISTS: a Dofus items.db may carry a table of
     # the same name and the same shape
     "CREATE TABLE IF NOT EXISTS item_criteria"

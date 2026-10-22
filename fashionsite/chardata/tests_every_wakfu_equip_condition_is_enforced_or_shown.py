@@ -9,7 +9,7 @@ from django.test import SimpleTestCase
 from fashionistapulp import wakfu_criteria as criteria
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-LANGUAGES = ('fr', 'en', 'es', 'pt')
+LANGUAGES = ('fr', 'en', 'es', 'pt', 'de')
 CLASSES = (criteria.EVALUATED, criteria.HISTORY, criteria.STATE, criteria.IMPOSSIBLE)
 
 # Every function and literal the client's EQUIP texts use, from the census of build 1.93.1.5312.334
@@ -199,7 +199,7 @@ class TheWakfuDatabaseHoldsWhatTheTextsSayTests(SimpleTestCase):
             owners = {ident for (ident,) in self.rows('SELECT item FROM %s' % table)}
             self.assertEqual(set(), owners - raw, table)
 
-    def test_labels_and_nations_are_in_four_languages(self):
+    def test_labels_and_nations_are_in_five_languages_german_being_english(self):
         held = collections.defaultdict(set)
         for key, language in self.rows('SELECT key, language FROM criteria_labels'):
             held[key].add(language)

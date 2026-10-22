@@ -26,7 +26,8 @@ TEXT_TABLES = (
 FAMILIES = (
     'spell_names', 'spell_descriptions', 'monster_names', 'state_names', 'state_descriptions',
     'action_texts', 'set_names', 'effect_texts', 'monster_family_names', 'ability_names',
-    'ability_category_names')
+    'ability_category_names', 'job_names', 'breed_names', 'breed_texts', 'aptitude_texts',
+    'enchantment_texts', 'item_type_names')
 
 
 def texts(**families):
@@ -167,6 +168,85 @@ class TheWakfuClientNamesAreWrittenPerLanguageFromADecodedClientTests(TestCase):
 
     def test_the_fallback_names_only_german(self):
         self.assertEqual({'de': 'en'}, builder.CLIENT_TEXT_FALLBACK)
+
+    def test_an_item_type_is_written_with_german_from_english(self):
+        conn = self.conn()
+        self.write(conn, texts(item_type_names={'fr': {100: 'Arme'}, 'en': {100: 'Weapon'}}))
+        self.assertEqual(
+            [('de', 100, 'Weapon'), ('en', 100, 'Weapon'), ('fr', 100, 'Arme')],
+            self.rows(conn, 'SELECT language, item_type, name FROM client_item_type_names'
+                            ' ORDER BY language'))
+
+    def test_a_job_a_class_and_a_key_are_written_with_no_parent_row_and_german_is_english(self):
+        conn = self.conn()
+        counts = self.write(conn, texts(
+            job_names={'fr': {40: 'Boulanger', 41: 'Autre'}, 'en': {40: 'Baker'}},
+            breed_names={'fr': {17: 'Inconnu'}, 'en': {17: 'Unknown'}},
+            breed_texts={'en': {'breed.difficulty': 'Difficulty'}},
+            aptitude_texts={'fr': {'aptitude.common.title': 'Aptitudes'}},
+            enchantment_texts={'en': {'enchantment.x.y': 'Socket'}}))
+        self.assertEqual(
+            [('de', 40, 'Baker'), ('en', 40, 'Baker'), ('fr', 40, 'Boulanger'),
+             ('fr', 41, 'Autre')],
+            self.rows(conn, 'SELECT language, job, name FROM client_job_names'
+                            ' ORDER BY job, language'))
+        self.assertEqual(
+            [('de', 17, 'Unknown'), ('en', 17, 'Unknown'), ('fr', 17, 'Inconnu')],
+            self.rows(conn, 'SELECT language, breed, name FROM client_breed_names'
+                            ' ORDER BY language'))
+        self.assertEqual(
+            [('de', 'breed.difficulty', 'Difficulty'), ('en', 'breed.difficulty', 'Difficulty')],
+            self.rows(conn, 'SELECT language, key, text FROM client_breed_texts'
+                            ' ORDER BY language'))
+        self.assertEqual([('fr', 'aptitude.common.title', 'Aptitudes')], self.rows(
+            conn, 'SELECT language, key, text FROM client_aptitude_texts'))
+        self.assertEqual(['de', 'en'], [one[0] for one in self.rows(
+            conn, 'SELECT language FROM client_enchantment_texts ORDER BY language')])
+        self.assertEqual(4 + 3 + 2 + 1 + 2, sum(
+            counts[table] for table in (
+                'client job names', 'client breed names', 'client breed texts',
+                'client aptitude texts', 'client enchantment texts')))
+
+    def test_a_family_the_texts_file_lacks_is_counted_and_leaves_its_table_empty(self):
+        conn = self.conn()
+        payload = texts(job_names={'en': {40: 'Baker'}})
+        del payload['texts']['breed_texts']
+        counts = collections.Counter()
+        builder.write_client_texts(conn, payload, counts)
+        self.assertEqual(1, counts['texts family missing: breed_texts'])
+        self.assertEqual([], self.rows(conn, 'SELECT * FROM client_breed_texts'))
+        self.assertEqual(2, conn.execute('SELECT COUNT(*) FROM client_job_names').fetchone()[0])
+
+    def test_the_labels_and_nations_get_german_from_english_and_never_from_french(self):
+        conn = self.conn()
+        counts = collections.Counter()
+        builder.write_labels(conn, {
+            'labels': {'fr': {'critere.a': 'a fr', 'critere.b': 'b fr'},
+                       'en': {'critere.a': 'a en'}},
+            'nations': {'fr': {'3': 'Brakmar fr'}, 'en': {'3': 'Brakmar'}}}, counts)
+        self.assertEqual(
+            [('critere.a', 'a en'), ('critere.a', 'a fr'), ('critere.b', 'b fr')],
+            sorted((key, text) for key, language, text in self.rows(
+                conn, 'SELECT key, language, text FROM criteria_labels')
+                if language != 'de'))
+        self.assertEqual([('critere.a', 'a en')], self.rows(
+            conn, "SELECT key, text FROM criteria_labels WHERE language = 'de'"))
+        self.assertEqual([(3, 'Brakmar')], self.rows(
+            conn, "SELECT id, name FROM nations WHERE language = 'de'"))
+
+    def test_the_dump_of_the_caller_is_not_changed(self):
+        dump = {'labels': {'en': {'critere.a': 'a en'}}, 'nations': {'en': {'3': 'Brakmar'}}}
+        builder.write_labels(self.conn(), dump, collections.Counter())
+        self.assertEqual({'labels': {'en': {'critere.a': 'a en'}},
+                          'nations': {'en': {'3': 'Brakmar'}}}, dump)
+
+    def test_a_german_the_dump_already_has_is_kept(self):
+        conn = self.conn()
+        builder.write_labels(conn, {
+            'labels': {'en': {'critere.a': 'a en'}, 'de': {'critere.a': 'a de'}}},
+            collections.Counter())
+        self.assertEqual([('a de',)], self.rows(
+            conn, "SELECT text FROM criteria_labels WHERE language = 'de'"))
 
 
 class TheWakfuBuildReadsTheClientTextsBesideTheTablesTests(TestCase):

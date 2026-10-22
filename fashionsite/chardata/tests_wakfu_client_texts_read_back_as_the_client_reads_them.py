@@ -59,7 +59,7 @@ def write_jar(path, language, body):
 
 
 def expected_texts(**families):
-    out = {family: {} for family in wakfu_client.TEXT_FAMILIES}
+    out = {family: {} for family in wakfu_client.ALL_TEXT_FAMILIES}
     out.update(families)
     return out
 
@@ -91,13 +91,44 @@ class TheWakfuClientTextsReadBackAsTheClientReadsThemTests(TestCase):
         self.assertEqual({1: 'value  ', 2: 'value\t', 3: '', 4: ''},
                          wakfu_client.read_texts(self.jar, 'fr')['spell_names'])
 
-    def test_the_families_are_the_eleven_the_client_numbers(self):
+    def test_the_families_are_the_thirteen_the_client_numbers(self):
         self.assertEqual(
             {'spell_names': 3, 'spell_descriptions': 4, 'monster_names': 7,
              'state_names': 8, 'state_descriptions': 9, 'action_texts': 10,
-             'set_names': 20, 'effect_texts': 33, 'monster_family_names': 38,
-             'ability_names': 146, 'ability_category_names': 147},
+             'item_type_names': 14, 'set_names': 20, 'effect_texts': 33,
+             'monster_family_names': 38, 'job_names': 43, 'ability_names': 146,
+             'ability_category_names': 147},
             wakfu_client.TEXT_FAMILIES)
+
+    def test_the_keyed_families_are_the_aptitude_enchantment_and_breed_keys(self):
+        self.assertEqual(
+            ('aptitude_texts', 'enchantment_texts', 'breed_texts', 'breed_names'),
+            tuple(wakfu_client.KEY_FAMILIES))
+
+    def test_a_job_is_read_from_content_43_and_a_keyed_text_by_its_whole_key(self):
+        body = properties((
+            ('content.43.40=Baker', '\n'), ('content.43.x=not an id', '\n'),
+            ('content.14.100=Weapon{[~1]?s:}', '\n'),
+            ('breedLongName.1=[#1] Shield', '\n'), ('breedLongDesc.1=Born protectors', '\n'),
+            ('breedLong.1=no such family', '\n'), ('aptitudes.maxLevelReached=Max', '\n'),
+            ('aptitudesx.y=not a key', '\n'),
+            ('breed.1=Feca', '\n'), ('breed.11=Sacrier{[1*]?:}', '\n'),
+            ('breed.role.name.0=Support', '\n'), ('breed.difficulty=Difficulty', '\n'),
+            ('aptitude.common.title=Characteristics', '\n'),
+            ('enchantment.best.colors.reached=Best colors', '\n'),
+            ('aptitude=no dot after the prefix', '\n'), ('breeding.x=not a breed key', '\n'),
+            ('content.99.1=not a family', '\n')))
+        write_jar(self.jar, 'fr', body)
+        self.assertEqual(expected_texts(
+            job_names={40: 'Baker'}, item_type_names={100: 'Weapon{[~1]?s:}'},
+            breed_names={1: 'Feca', 11: 'Sacrier{[1*]?:}'},
+            breed_texts={'breed.role.name.0': 'Support', 'breed.difficulty': 'Difficulty',
+                         'breedLongName.1': '[#1] Shield',
+                         'breedLongDesc.1': 'Born protectors'},
+            aptitude_texts={'aptitude.common.title': 'Characteristics',
+                            'aptitudes.maxLevelReached': 'Max'},
+            enchantment_texts={'enchantment.best.colors.reached': 'Best colors'}),
+            wakfu_client.read_texts(self.jar, 'fr'))
 
     def test_the_labels_drop_the_leading_space_of_a_value_and_read_the_nations(self):
         labels, nations = wakfu_client.read_labels(self.jar, 'fr')
@@ -134,7 +165,7 @@ class TheWakfuClientTextsReadBackAsTheClientReadsThemTests(TestCase):
         payload = get_wakfu_client.decode_texts(self.directory, '6.0_1.93.1.5312.334')
         self.assertEqual('1.93.1', payload['game_version'])
         self.assertEqual('6.0_1.93.1.5312.334', payload['client_version'])
-        self.assertEqual(set(wakfu_client.TEXT_FAMILIES), set(payload['texts']))
+        self.assertEqual(set(wakfu_client.ALL_TEXT_FAMILIES), set(payload['texts']))
         self.assertEqual(
             {language: {'21': language + ' name'} for language in get_wakfu_client.LANGUAGES},
             payload['texts']['state_names'])
@@ -148,6 +179,20 @@ class TheWakfuClientTextsReadBackAsTheClientReadsThemTests(TestCase):
             json.dumps({'files': {'a.jar': {'sha1': 'x'}}}), encoding='utf-8')
         (folder / 'tables.json').write_text('{}', encoding='utf-8')
         self.assertFalse(get_wakfu_client.is_current(folder, {'a.jar': 'x'}))
-        (folder / 'texts.json').write_text('{}', encoding='utf-8')
+        families = {family: {} for family in wakfu_client.ALL_TEXT_FAMILIES}
+        (folder / 'texts.json').write_text(json.dumps({'texts': families}), encoding='utf-8')
         self.assertTrue(get_wakfu_client.is_current(folder, {'a.jar': 'x'}))
         self.assertFalse(get_wakfu_client.is_current(folder, {'a.jar': 'y'}))
+
+    def test_a_texts_json_that_lacks_a_family_is_not_current(self):
+        folder = self.directory / 'client'
+        folder.mkdir()
+        (folder / 'decoded.json').write_text(
+            json.dumps({'files': {'a.jar': {'sha1': 'x'}}}), encoding='utf-8')
+        (folder / 'tables.json').write_text('{}', encoding='utf-8')
+        families = {family: {} for family in wakfu_client.ALL_TEXT_FAMILIES}
+        del families['job_names']
+        (folder / 'texts.json').write_text(json.dumps({'texts': families}), encoding='utf-8')
+        self.assertFalse(get_wakfu_client.is_current(folder, {'a.jar': 'x'}))
+        (folder / 'texts.json').write_text('{}', encoding='utf-8')
+        self.assertFalse(get_wakfu_client.is_current(folder, {'a.jar': 'x'}))

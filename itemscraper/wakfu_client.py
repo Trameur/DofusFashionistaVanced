@@ -759,9 +759,18 @@ def parse_properties(body):
 TEXT_FAMILIES = {
     'spell_names': 3, 'spell_descriptions': 4, 'monster_names': 7, 'state_names': 8,
     'state_descriptions': 9, 'action_texts': 10, 'set_names': 20, 'effect_texts': 33,
-    'monster_family_names': 38, 'ability_names': 146, 'ability_category_names': 147,
+    'item_type_names': 14, 'monster_family_names': 38, 'job_names': 43, 'ability_names': 146,
+    'ability_category_names': 147,
 }
 TEXT_KEY = re.compile(r'content\.(\d+)\.(\d+)')
+# Families the language file keys by name: the key prefix each one takes, and breed.<number>
+# naming a class
+KEY_FAMILIES = {'aptitude_texts': ('aptitude.', 'aptitudes.'),
+                'enchantment_texts': ('enchantment.',),
+                'breed_texts': ('breed.', 'breedLongName.', 'breedLongDesc.'),
+                'breed_names': ('breed.',)}
+BREED_KEY = re.compile(r'breed\.(\d+)')
+ALL_TEXT_FAMILIES = tuple(TEXT_FAMILIES) + tuple(KEY_FAMILIES)
 
 
 def read_labels(jar_path, language):
@@ -778,13 +787,26 @@ def read_labels(jar_path, language):
 
 
 def read_texts(jar_path, language):
-    """{family: {id: text}} of the TEXT_FAMILIES of one language jar, texts as parsed."""
+    """{family: {id or key: text}} of the ALL_TEXT_FAMILIES of one language jar, texts as parsed.
+
+    A content.<number>.<id> family is keyed by the id, breed_names by the class number, and the
+    other key families by the whole key.
+    """
     family_of = {number: family for family, number in TEXT_FAMILIES.items()}
-    out = {family: {} for family in TEXT_FAMILIES}
+    out = {family: {} for family in ALL_TEXT_FAMILIES}
     for key, text in _properties(jar_path, language).items():
         found = TEXT_KEY.fullmatch(key)
-        if found and int(found.group(1)) in family_of:
-            out[family_of[int(found.group(1))]][int(found.group(2))] = text
+        if found:
+            if int(found.group(1)) in family_of:
+                out[family_of[int(found.group(1))]][int(found.group(2))] = text
+            continue
+        breed = BREED_KEY.fullmatch(key)
+        if breed:
+            out['breed_names'][int(breed.group(1))] = text
+            continue
+        for family in ('aptitude_texts', 'enchantment_texts', 'breed_texts'):
+            if key.startswith(KEY_FAMILIES[family]):
+                out[family][key] = text
     return out
 
 
