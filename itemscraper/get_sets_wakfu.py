@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Wakfu set names from the encyclopedia, with a cookie jar and paced requests; only the name is taken, a Wakfu set grants nothing for wearing it."""
+"""Wakfu set names from the encyclopedia, with a cookie jar and paced requests; only the name is taken.
+
+The bonus the encyclopedia prints is stale, and the CDN publishes no set file.
+Most Wakfu sets grant nothing for wearing them, but not all: the client's set
+table (36) gives sets 620 to 634 a 3 piece and a 6 piece bonus, and the two
+add up at 6 pieces. build_wakfu_db.py reads those from the client, not from here.
+"""
 
 from __future__ import annotations
 

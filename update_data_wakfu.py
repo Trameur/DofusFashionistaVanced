@@ -13,7 +13,7 @@ rules, and its data comes from a feed of its own; nothing here is shared with
 update_data.py and its siblings beyond the shape of this file.
 
 Steps:
-    data/client    get_wakfu_client.py      -> wakfu_client/<client>/decoded.json
+    data/client    get_wakfu_client.py      -> wakfu_client/<client>/decoded.json + tables.json
     data/mirror    get_items_wakfu.py       -> wakfu_raw/<build>/ + transformed_wakfu.json
     data/sets      get_sets_wakfu.py        -> wakfu_raw/<build>/sets.json
     data/spells    get_spells_wakfu.py      -> wakfu_raw/<build>/spells_<lang>.json
@@ -43,7 +43,9 @@ So: WHICH TABLES BELONG TO WHOM.
         breed_base_values, item_class_conditions, items_not_worn_together,
         items_worn_with, unusable_items, min_level_to_equip,
         max_level_to_equip, min_stat_to_equip, max_stat_to_equip,
-        item_state_conditions, criteria_labels, nations
+        item_state_conditions, criteria_labels, nations, effects,
+        effect_groups, states, abilities, ability_categories, client_sets,
+        set_bonuses
 
     build_wakfu_recipes.py owns, and rewrites on every run:
         item_recipes, item_recipe_ingredient_names, item_craft_jobs,

@@ -21,6 +21,12 @@ publishes no set file: only the NAME comes from the encyclopedia, never the
 bonus total it prints, which is stale. A set whose page has gone (three of
 them) keeps its items and simply has no name to show.
 
+The client's effect tables (get_wakfu_client.py writes tables.json) fill the
+effects, effect_groups, states, abilities, ability_categories, client_sets and
+set_bonuses tables: the effects an item of the client, a set bonus, a state or
+an ability reaches, with every effect whose id is a group id expanded. Nothing
+reads them yet. A client that is not there leaves them empty, with a notice.
+
 German is absent from Wakfu entirely; `get_items_wakfu.py` and
 `get_sets_wakfu.py` both fall it back to English, and that is what lands here.
 """
@@ -362,7 +368,98 @@ def write_conditions(conn, item, stat_ids, breed_names, gear_ids, counts):
     counts['equip texts screened'] += 1
 
 
-def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
+def find_client_tables(client_dir, version):
+    """The tables.json of the client whose game version is that of `version`, or None."""
+    wanted = '.'.join(version.split('.')[:3])
+    found = []
+    for path in sorted(Path(client_dir).glob('*/tables.json')):
+        with io.open(path, encoding='utf-8') as handle:
+            payload = json.load(handle)
+        if payload.get('game_version') == wanted:
+            found.append(payload)
+    if len(found) > 1:
+        raise ValueError('%d decoded clients for game version %s under %s'
+                         % (len(found), wanted, client_dir))
+    return found[0] if found else None
+
+
+ITEM_CONTAINERS = ('ITEM_EQUIP', 'ITEM_USE')
+
+
+def write_client_tables(conn, tables, counts):
+    """Fill the effect, state, ability and set tables from a decoded client."""
+    item_ids = set(tables['item_ids'])
+    effects = {effect['id']: effect for effect in tables['effects']}
+    groups = {group['id']: group['effect_ids'] for group in tables['groups']}
+    ability_categories = {one['id'] for one in tables['ability_categories']}
+    roots = {effect['id'] for effect in effects.values()
+             if effect['container_type'] in ITEM_CONTAINERS
+             and effect['container_id'] in item_ids}
+    for state in tables['states']:
+        roots.update(state['effect_ids'])
+    for ability in tables['abilities']:
+        if ability['category'] not in ability_categories:
+            raise ValueError('ability %d is in no category' % ability['id'])
+        roots.update(ability['effect_ids'])
+    for client_set in tables['sets']:
+        for _pieces, effect_ids in client_set['bonuses']:
+            roots.update(effect_ids)
+    wanted, pending = set(), sorted(roots)
+    while pending:
+        ident = pending.pop()
+        if ident in wanted:
+            continue
+        if ident not in effects:
+            raise ValueError('effect %d is listed but not in the effect table' % ident)
+        wanted.add(ident)
+        pending.extend(groups.get(ident, ()))
+    for ident in sorted(wanted):
+        effect = effects[ident]
+        conn.execute(
+            'INSERT INTO effects (id, action, container_type, container,'
+            ' root_container_type, normal_or_critical, area_shape, area_size,'
+            ' params) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            (ident, effect['action_id'], effect['container_type'],
+             effect['container_id'], effect['root_container_type'],
+             effect['normal_or_critical'], effect['area_shape'],
+             json.dumps(effect['area_size']), json.dumps(effect['params'])))
+        counts['effects'] += 1
+        for position, member in enumerate(groups.get(ident, ())):
+            conn.execute('INSERT INTO effect_groups (group_id, position, effect)'
+                         ' VALUES (?, ?, ?)', (ident, position, member))
+            counts['effects in groups'] += 1
+        if ident in groups:
+            counts['effect groups'] += 1
+    for state in tables['states']:
+        conn.execute('INSERT INTO states (id, key) VALUES (?, ?)',
+                     (state['id'], state['bcw']))
+        counts['states'] += 1
+    for category in tables['ability_categories']:
+        conn.execute('INSERT INTO ability_categories (id, unlock_levels,'
+                     ' ability_ids) VALUES (?, ?, ?)',
+                     (category['id'], json.dumps(category['unlock_levels']),
+                      json.dumps(category['ability_ids'])))
+        counts['ability categories'] += 1
+    for ability in tables['abilities']:
+        conn.execute('INSERT INTO abilities (id, category, ddl, cgi)'
+                     ' VALUES (?, ?, ?, ?)',
+                     (ability['id'], ability['category'], ability['ddL'],
+                      ability['cgI']))
+        counts['abilities'] += 1
+    for client_set in tables['sets']:
+        conn.execute('INSERT INTO client_sets (id, item_count) VALUES (?, ?)',
+                     (client_set['id'], len(client_set['item_ids'])))
+        counts['client sets'] += 1
+        for pieces, effect_ids in client_set['bonuses']:
+            for ident in effect_ids:
+                conn.execute('INSERT INTO set_bonuses (item_set, pieces, effect)'
+                             ' VALUES (?, ?, ?)', (client_set['id'], pieces, ident))
+                counts['set bonus effects'] += 1
+        if client_set['bonuses']:
+            counts['sets with a bonus entry'] += 1
+
+
+def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw', client_dir=None):
     with io.open(dump_path, encoding='utf-8') as handle:
         dump = json.load(handle)
     sets = read_sets(out_dir, dump['version'])
@@ -506,6 +603,13 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
                      line['elements']))
                 counts['spread over elements'] += 1
 
+    tables = find_client_tables(client_dir, dump['version']) if client_dir else None
+    if tables is None:
+        print('client tables not found for game version %s, the effect tables stay empty'
+              % dump['version'])
+    else:
+        write_client_tables(conn, tables, counts)
+
     counts['removed upstream, kept'] = keep_removed(
         conn, previous, written, stat_ids, set(sets),
         set(types)) if previous else 0
@@ -520,13 +624,15 @@ def main(argv=None):
     parser.add_argument('--db', default=str(WAKFU_DB))
     parser.add_argument('--out', default='itemscraper/wakfu_raw',
                         help='where get_sets_wakfu.py wrote the set names')
+    parser.add_argument('--client', default='itemscraper/wakfu_client',
+                        help='where get_wakfu_client.py wrote the decoded client')
     args = parser.parse_args(argv)
 
     dump_path = Path(args.dump)
     if not dump_path.exists():
         parser.error('%s is missing; run itemscraper/get_items_wakfu.py first'
                      % dump_path)
-    counts = build(dump_path, Path(args.db), args.out)
+    counts = build(dump_path, Path(args.db), args.out, args.client)
     print('wrote %s' % args.db)
     print('kept %d items this build no longer has, flagged removed'
           % counts['removed upstream, kept'])
