@@ -96,17 +96,6 @@ OUT_OF_COMBAT_CAPS = {
     'WP': 20,
 }
 
-# Before any gear
-BASE_VALUES = {
-    'AP': 6,
-    'MP': 3,
-    'WP': 6,
-}
-
-# Equip condition on the sheet's % critical hit (methodwakfu), not a cap. The
-# solver holds it on the gear sum without the base crit, so a bit stricter
-CRITICAL_HIT_FLOOR_PERCENT = -9
-
 
 def stats_of_kind(kind):
     return sorted(key for key, purpose in WAKFU_STATS.items()

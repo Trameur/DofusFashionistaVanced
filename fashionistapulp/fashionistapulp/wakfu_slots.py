@@ -41,6 +41,9 @@ BOTH_HANDS = ('LEFT_HAND', 'RIGHT_HAND')
 # Two-handed types list it in equipmentDisabledPositions
 BLOCKED_BY_TWO_HANDED = 'SECOND_WEAPON'
 
+# The item_flags value of an item that empties the off hand
+TWO_HANDED_FLAG = 'two_handed'
+
 # One equipped at a time per property, not per rarity (Suni Belt, Nox Greatcoat)
 EXCLUSIVE_PROPERTIES = {
     8: 'relic',

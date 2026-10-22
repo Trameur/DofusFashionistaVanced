@@ -7,10 +7,11 @@ from fashionistapulp import wakfu_value as value_model
 from fashionistapulp.wakfu_value_rules import CHOICE, FACT, FAN, RULES, STATUSES
 
 LEVEL = 200
+BASE = {'ap': (6, 6), 'mp': (3, 3), 'wp': (6, 6)}
 
 
 def totals(**stats):
-    out = value_model.bare_totals()
+    out = value_model.bare_totals(BASE)
     for key, number in stats.items():
         out[key] = number
     return out
@@ -249,9 +250,9 @@ class TheWakfuLinearWeightsTests(SimpleTestCase):
 
     def test_a_distance_role_keeps_range_and_every_role_keeps_base_mp_and_wp(self):
         self.assertEqual({'mp': 3, 'wp': 6, 'range': 0},
-                         value_model.DamageDealer(('fire',), 'distance').minimums())
+                         value_model.DamageDealer(('fire',), 'distance').minimums(BASE))
         self.assertEqual({'mp': 3, 'wp': 6},
-                         value_model.DamageDealer(('fire',), 'melee').minimums())
+                         value_model.DamageDealer(('fire',), 'melee').minimums(BASE))
 
     def test_a_role_refuses_an_element_no_gear_sells(self):
         with self.assertRaises(ValueError):

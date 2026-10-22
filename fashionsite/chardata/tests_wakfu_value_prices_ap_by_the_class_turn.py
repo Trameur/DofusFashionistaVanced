@@ -20,6 +20,8 @@ Piece = collections.namedtuple(
     'Piece', 'id name type level stats element_spread flags localized_names')
 HELMET, CAPE = 1, 2
 STAT_ID = {'ap': 1, 'dmg_fire_percent': 2, 'hp': 3}
+BREED_BASE = {'ap': 6, 'mp': 3, 'wp': 6}
+BASE = {key: (value, value) for key, value in BREED_BASE.items()}
 
 
 def piece(item_id, type_id, **stats):
@@ -40,6 +42,12 @@ class Catalogue:
 
     def get_available_items_list(self):
         return list(self.pieces)
+
+    def get_breed_names(self):
+        return {1: 'invented'}
+
+    def get_breed_base_values(self):
+        return {1: dict(BREED_BASE)}
 
     def get_stat_by_key(self, key):
         return next((stat for stat in self.stats if stat.key == key), None)
@@ -135,7 +143,7 @@ class TheClassTurnPricesEachStatTests(SimpleTestCase):
             FIRE_AT_DISTANCE, LEVEL, totals(ap=0, mp=0), model))
 
     def test_a_role_the_class_has_no_spell_for_stops_the_solve_before_any_set(self):
-        ceiling = wakfu_value.resource_ceiling()
+        ceiling = wakfu_value.resource_ceiling(BASE)
         self.assertEqual((16, 8, 20, 0), (ceiling['ap'], ceiling['mp'], ceiling['wp'],
                                           ceiling['dmg_fire_percent']))
         spells = [spell for spell in self.book.spells(self.spells.CLASS, LEVEL) if spell.branch]
@@ -145,7 +153,7 @@ class TheClassTurnPricesEachStatTests(SimpleTestCase):
         stand_in, solved = scripted(outfit(1, ap=1))
         with mock.patch('fashionistapulp.wakfu_model.WakfuBuild', stand_in):
             with self.assertRaisesMessage(ValueError, 'the class turn deals no damage'):
-                wakfu_value.solve(None, LEVEL, earth.role, turn=earth)
+                wakfu_value.solve(Catalogue(), LEVEL, earth.role, turn=earth)
         self.assertEqual([], solved)
 
     def test_the_defence_weights_stay_those_of_the_generic_model(self):
@@ -209,7 +217,7 @@ def scripted(*sets):
 
     class ScriptedBuild:
         def __init__(self, structure, level, weights, forbidden=(), full_set=True,
-                     minimums=None, **options):
+                     minimums=None, class_id=None, state=None, **options):
             self.weights = dict(weights)
             self.options = options
 
@@ -221,7 +229,7 @@ def scripted(*sets):
             return sets[len(solved) - 1] if len(solved) <= len(sets) else None
 
         def totals(self, worn):
-            out = wakfu_value.bare_totals()
+            out = wakfu_value.bare_totals(BASE)
             for item in worn.values():
                 out.update(item.stats)
             return out
@@ -233,7 +241,8 @@ class TheModelSolveUsesTheClassTurnTests(SimpleTestCase):
     def run_solve(self, turn, *sets):
         stand_in, solved = scripted(*sets)
         with mock.patch('fashionistapulp.wakfu_model.WakfuBuild', stand_in):
-            result = wakfu_value.solve(None, 50, wakfu_value.DamageDealer(('fire',), 'distance'),
+            result = wakfu_value.solve(Catalogue(), 50,
+                                       wakfu_value.DamageDealer(('fire',), 'distance'),
                                        rounds=3, turn=turn)
         return result, solved
 
@@ -280,7 +289,8 @@ class TheModelSolveUsesTheClassTurnTests(SimpleTestCase):
         stand_in, solved = scripted(outfit(1, ap=1))
         with mock.patch('fashionistapulp.wakfu_model.WakfuBuild', stand_in):
             with self.assertRaisesMessage(ValueError, 'the class turn deals no damage'):
-                wakfu_value.solve(None, 50, wakfu_value.DamageDealer(('fire',), 'distance'),
+                wakfu_value.solve(Catalogue(), 50,
+                                  wakfu_value.DamageDealer(('fire',), 'distance'),
                                   turn=FakeTurn(0))
         self.assertEqual([], solved)
 
@@ -289,7 +299,7 @@ class TheCommandSaysWhichSetItKeptTests(SimpleTestCase):
     ROLE = wakfu_value.DamageDealer(('fire',), 'distance')
 
     def kept_round(self, item_id, ap, weights, turn):
-        sheet = wakfu_value.bare_totals()
+        sheet = wakfu_value.bare_totals(BASE)
         sheet['ap'] += ap
         return wakfu_value.ModelRound(weights, None, outfit(item_id, ap=ap), sheet,
                                       wakfu_value.value(self.ROLE, 50, sheet, turn))
@@ -297,7 +307,7 @@ class TheCommandSaysWhichSetItKeptTests(SimpleTestCase):
     def printed(self, model, turn):
         from chardata.management.commands.wakfu_build import Command
         out = io.StringIO()
-        Command(stdout=out, no_color=True).print_model(self.ROLE, 50, model, turn)
+        Command(stdout=out, no_color=True).print_model(self.ROLE, 50, model, turn, Catalogue())
         return out.getvalue().splitlines()
 
     def test_a_generic_set_the_class_turn_values_higher_prints_on_its_own_line(self):

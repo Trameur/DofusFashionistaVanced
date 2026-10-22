@@ -22,9 +22,11 @@ import collections
 
 from .game_versions import get_game_version
 from .lpproblem import LpProblem2
-from .wakfu_slots import BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES, SLOTS
-from .wakfu_stats import BASE_VALUES, CRITICAL_HIT_FLOOR_PERCENT, \
-    OUT_OF_COMBAT_CAPS
+from .structure import fits_the_class
+from .wakfu_criteria import base_values, start_state, state_holds, unlocking
+from .wakfu_slots import (BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES, SLOTS,
+                          TWO_HANDED_FLAG)
+from .wakfu_stats import OUT_OF_COMBAT_CAPS
 
 # LP variable: this item, worn in this slot
 WORN = 'w'
@@ -56,6 +58,14 @@ def same_item(item):
     return item.type, (item.localized_names or {}).get('fr') or item.name
 
 
+# One source of stat points, and the lowest and highest sum any set can take from it
+Part = collections.namedtuple('Part', 'terms lowest highest')
+
+# A stat's total: the base low and high, then the terms of every part
+StatTotal = collections.namedtuple('StatTotal',
+                                   'key low high terms lowest highest')
+
+
 class WakfuSet(dict):
     """{position: item} of a solve."""
 
@@ -85,12 +95,25 @@ class WakfuBuild:
     position when one is given. A lock the rules cannot honour raises
     ValueError here, before any solve. After solve(), reason says why a solve
     gave no set: INFEASIBLE or TIME_LIMIT.
+
+    class_id: the breed; its base values count and its class pieces are
+    candidates. With none, a piece that asks for a class is left out and the
+    base values are the range over every breed. state: the PlayerState the
+    pieces' player-state conditions are read against, the game's start values
+    by default.
     """
 
     def __init__(self, structure, level, weights, forbidden=(),
-                 full_set=True, minimums=None, ap_values=None, locked=()):
+                 full_set=True, minimums=None, ap_values=None, locked=(),
+                 class_id=None, state=None):
         self.structure = structure
         self.level = level
+        self.class_id = class_id
+        self.state = state or start_state()
+        self._base = base_values(structure, class_id)
+        self._class_name = (None if class_id is None
+                            else structure.get_breed_names()[class_id])
+        self._totals = {}
         self.weights = dict(weights)
         self.ap_values = None if ap_values is None else dict(ap_values)
         if self.ap_values is not None:
@@ -131,6 +154,11 @@ class WakfuBuild:
                                  'level %d' % (item.name, item.level, self.level))
             if item.id in self.forbidden:
                 raise ValueError('locked item %s is forbidden' % item.name)
+            why = self._why_not_wearable(item)
+            if why:
+                raise ValueError('locked item %s %s' % (item.name, why))
+            for target_id in getattr(item, 'worn_with', ()):
+                self._check_worn_with_target(item, target_id)
             allowed = places.get(item.type, ())
             if not allowed:
                 raise ValueError('locked item %s fits no slot' % item.name)
@@ -150,6 +178,12 @@ class WakfuBuild:
                                  'rarities' % (other.name, item.name))
         if len({item.id for item, _position in locks}) < len(locks):
             raise ValueError('an item is locked twice')
+        held = {item.id: item for item, _position in locks}
+        for item, _position in locks:
+            for other_id in getattr(item, 'not_worn_with', ()):
+                if other_id in held:
+                    raise ValueError('locked items %s and %s cannot be worn '
+                                     'together' % (item.name, held[other_id].name))
         for flag in EXCLUSIVE_PROPERTIES.values():
             held = [item for item, _p in locks if flag in (item.flags or ())]
             if len(held) > 1:
@@ -159,7 +193,7 @@ class WakfuBuild:
             raise ValueError('locked items %s need the same slot'
                              % ', '.join(item.name for item, _p in locks))
         two_handed = [item for item, _p in locks
-                      if 'two_handed' in (item.flags or ())]
+                      if TWO_HANDED_FLAG in (item.flags or ())]
         if two_handed:
             for item, position in locks:
                 only_place = position or (places[item.type][0]
@@ -186,16 +220,94 @@ class WakfuBuild:
 
         return all(place(index, set()) for index in range(len(locks)))
 
+    def _why_not_wearable(self, item):
+        """Why this character cannot wear a piece whatever else is worn, or ''."""
+        if getattr(item, 'unusable', False):
+            return 'cannot be worn by anyone'
+        if not fits_the_class(item, self._class_name):
+            return 'is for the %s, not for this character' % '/'.join(
+                getattr(item, 'classes', ()))
+        lowest = getattr(item, 'min_level', None)
+        highest = getattr(item, 'max_level', None)
+        if lowest is not None and self.level < lowest:
+            return 'needs level %d, the build is level %d' % (lowest, self.level)
+        if highest is not None and self.level > highest:
+            return 'is for level %d at most, the build is level %d' % (
+                highest, self.level)
+        conditions = getattr(item, 'state_conditions', ())
+        if not state_holds(conditions, self.state):
+            return 'needs ' + ', '.join(self._state_needs(conditions))
+        return ''
+
+    def _state_needs(self, conditions):
+        """['wakfu_gauge >= 41', ...] for each condition the build state fails."""
+        failing = unlocking(conditions, self.state) or {}
+        out = []
+        for condition in conditions:
+            key = ((condition.option, condition.nation)
+                   if condition.option == 'citizenship' else condition.option)
+            if key not in failing:
+                continue
+            name = condition.option
+            if condition.option == 'citizenship':
+                name = 'citizenship of nation %s' % condition.nation
+            out.append('%s %s %s' % (name, condition.operator, condition.value))
+        return sorted(out)
+
+    def _check_worn_with_target(self, item, target_id):
+        target = self.structure.get_item_by_id(target_id)
+        if target is None or target.removed:
+            raise ValueError('locked item %s needs item %s, which is not in the '
+                             'catalogue' % (item.name, target_id))
+        if target.level > self.level or target.id in self.forbidden \
+                or self._why_not_wearable(target):
+            raise ValueError('locked item %s needs %s, which this build cannot '
+                             'wear' % (item.name, target.name))
+
+    @staticmethod
+    def _statless(item):
+        return not item.stats and not item.element_spread
+
     def _candidates(self):
         """Every (item, position) a character of this level could wear."""
         places = self._positions_of_type()
-        out = []
+        wearable = []
         for item in self.structure.get_available_items_list():
             if item.level > self.level or item.id in self.forbidden:
                 continue
+            if self._why_not_wearable(item):
+                continue
             for position in places.get(item.type, ()):
-                out.append((item, position))
-        return out
+                wearable.append((item, position))
+        # A piece with no stat line only stands where no piece with one does
+        locked = {item.id for item, _position in self._locks}
+        with_stats = {position for item, position in wearable
+                      if not self._statless(item)}
+        kept = {(item.id, position) for item, position in wearable
+                if not self._statless(item) or item.id in locked
+                or position not in with_stats}
+        # A kept piece brings in the piece it must be worn with, and goes when
+        # that piece cannot be worn at all
+        by_id = collections.defaultdict(list)
+        for item, position in wearable:
+            by_id[item.id].append((item, position))
+        items = {item.id: item for item, _position in wearable}
+        changed = True
+        while changed:
+            changed = False
+            for ident, position in sorted(kept):
+                targets = getattr(items[ident], 'worn_with', ())
+                if any(target not in by_id for target in targets):
+                    kept.discard((ident, position))
+                    changed = True
+                    continue
+                for target in targets:
+                    for other, place in by_id[target]:
+                        if (other.id, place) not in kept:
+                            kept.add((other.id, place))
+                            changed = True
+        return [(item, position) for item, position in wearable
+                if (item.id, position) in kept]
 
     def _stat_value(self, item, key):
         stat = self.structure.get_stat_by_key(key)
@@ -259,6 +371,7 @@ class WakfuBuild:
 
     def build(self):
         self.problem = LpProblem2()
+        self._totals = {}
         self._placements = self._candidates()
         for item, position in self._placements:
             self.problem.setup_variable(WORN, self._name(item, position), 0, 1)
@@ -268,10 +381,11 @@ class WakfuBuild:
         self._two_handed_empties_the_off_hand()
         self._one_relic_and_one_epic()
         self._caps()
-        self._critical_hit_floor()
         self._minimums()
         self._locked()
         self._ap_total()
+        self._stat_gates()
+        self._item_relations()
         self._objective()
         return self
 
@@ -314,9 +428,7 @@ class WakfuBuild:
         if not off_hand:
             return
         for item, position in self._placements:
-            if position != 'FIRST_WEAPON':
-                continue
-            if 'two_handed' not in (item.flags or ()):
+            if TWO_HANDED_FLAG not in (item.flags or ()):
                 continue
             self.problem.restriction_lt_eq(
                 1, self._parcels([(item, position)]) + self._parcels(off_hand))
@@ -328,39 +440,52 @@ class WakfuBuild:
             if wearing:
                 self.problem.restriction_lt_eq(1, self._parcels(wearing))
 
+    def _gear_part(self, key):
+        """The worn pieces' lines of one stat."""
+        terms = []
+        lowest = collections.defaultdict(int)
+        highest = collections.defaultdict(int)
+        for item, position in self._placements:
+            value = self._stat_value(item, key)
+            if value:
+                terms.append((value, WORN, self._name(item, position)))
+                lowest[position] = min(lowest[position], value)
+                highest[position] = max(highest[position], value)
+        return Part(terms, sum(lowest.values()), sum(highest.values()))
+
+    def _total_parts(self):
+        """Every source of stat points; a later source is appended here."""
+        return [self._gear_part]
+
+    def stat_total_expr(self, key):
+        """A stat's total as base plus terms, the one every rule reads."""
+        if key not in self._totals:
+            low, high = self._base.get(key, (0, 0))
+            terms, lowest, highest = [], 0, 0
+            for part in self._total_parts():
+                one = part(key)
+                terms += one.terms
+                lowest += one.lowest
+                highest += one.highest
+            self._totals[key] = StatTotal(key, low, high, terms, lowest, highest)
+        return self._totals[key]
+
     def _caps(self):
         """AP, MP and WP caps, base values included."""
         for name, cap in OUT_OF_COMBAT_CAPS.items():
-            key = name.lower()
-            parcels = []
-            for item, position in self._placements:
-                value = self._stat_value(item, key)
-                if value:
-                    parcels.append((value, WORN, self._name(item, position)))
-            if parcels:
-                self.problem.restriction_lt_eq(cap - BASE_VALUES[name], parcels)
-
-    def _critical_hit_floor(self):
-        """Critical hit floor on the gear sum, as a <= on the negated sum."""
-        parcels = []
-        for item, position in self._placements:
-            value = self._stat_value(item, 'ferocity')
-            if value:
-                parcels.append((-value, WORN, self._name(item, position)))
-        if parcels:
-            self.problem.restriction_lt_eq(-CRITICAL_HIT_FLOOR_PERCENT, parcels)
+            total = self.stat_total_expr(name.lower())
+            if total.terms:
+                self.problem.restriction_lt_eq(cap - total.high, total.terms)
 
     def _minimums(self):
         """Lowest totals, base values included, as a <= on the negated sums."""
-        for key, lowest in sorted(self.minimums.items()):
-            parcels = []
-            for item, position in self._placements:
-                value = self._stat_value(item, key)
-                if value:
-                    parcels.append((-value, WORN, self._name(item, position)))
-            if parcels:
+        for key, required in sorted(self.minimums.items()):
+            total = self.stat_total_expr(key)
+            if total.terms:
                 self.problem.restriction_lt_eq(
-                    BASE_VALUES.get(key.upper(), 0) - lowest, parcels)
+                    total.low - required,
+                    [(-value, category, name)
+                     for value, category, name in total.terms])
 
     def _locked(self):
         """Each locked item is worn, in its position when the lock names one."""
@@ -372,11 +497,8 @@ class WakfuBuild:
 
     def _ap_totals(self):
         """Every AP total a set can reach, base included, up to the cap."""
-        lowest = collections.defaultdict(int)
-        for item, position in self._placements:
-            lowest[position] = min(lowest[position], self._stat_value(item, 'ap'))
-        return range(BASE_VALUES['AP'] + sum(lowest.values()),
-                     OUT_OF_COMBAT_CAPS['AP'] + 1)
+        total = self.stat_total_expr('ap')
+        return range(total.low + total.lowest, OUT_OF_COMBAT_CAPS['AP'] + 1)
 
     def _ap_total(self):
         """One AP_TOTAL variable at 1, the one the worn AP adds up to."""
@@ -386,12 +508,75 @@ class WakfuBuild:
         for total in totals:
             self.problem.setup_variable(AP_TOTAL, total, 0, 1)
         self.problem.restriction_eq(1, [(1, AP_TOTAL, total) for total in totals])
-        parcels = [(BASE_VALUES['AP'] - total, AP_TOTAL, total) for total in totals]
-        for item, position in self._placements:
-            value = self._stat_value(item, 'ap')
-            if value:
-                parcels.append((value, WORN, self._name(item, position)))
+        base = self.stat_total_expr('ap')
+        parcels = [(base.low - total, AP_TOTAL, total) for total in totals]
+        parcels.extend(base.terms)
         self.problem.restriction_eq(0, parcels)
+
+    def _variables_of(self, item):
+        return [self._name(one, position) for one, position in self._placements
+                if one.id == item.id]
+
+    def _gate_row(self, item, key, bound, upper):
+        """One condition of a piece on a stat total, read with and without the piece."""
+        total = self.stat_total_expr(key)
+        value = self._stat_value(item, key)
+        if upper:
+            slack = total.high + total.highest - min(value, 0) - bound
+            sign, rhs = 1, bound - total.high + min(value, 0) + slack
+        else:
+            slack = bound + max(value, 0) - (total.low + total.lowest)
+            sign, rhs = -1, total.low - max(value, 0) - bound + slack
+        if slack <= 0:
+            return
+        coefficients = collections.OrderedDict(
+            (name, sign * coefficient) for coefficient, _category, name in total.terms)
+        for name in self._variables_of(item):
+            coefficients[name] = coefficients.get(name, 0) + slack
+        parcels = [(coefficient, WORN, name)
+                   for name, coefficient in coefficients.items()]
+        self.problem.add_row(LpProblem2._parcel_terms(parcels), '<=', rhs,
+                             'gate_%d_%s_%s' % (item.id, key,
+                                                'max' if upper else 'min'))
+
+    def _stat_gates(self):
+        """Each piece's own conditions on the stat totals of the set it is worn in."""
+        seen = set()
+        for item, _position in self._placements:
+            if item.id in seen:
+                continue
+            seen.add(item.id)
+            for stat_id, bound in getattr(item, 'min_stats_to_equip', ()):
+                key = self._key_of(stat_id)
+                if key is not None:
+                    self._gate_row(item, key, bound, upper=False)
+            for stat_id, bound in getattr(item, 'max_stats_to_equip', ()):
+                key = self._key_of(stat_id)
+                if key is not None:
+                    self._gate_row(item, key, bound, upper=True)
+
+    def _item_relations(self):
+        """Pieces worn only with, or never with, another piece."""
+        wanted = {item.id: item for item, _position in self._placements}
+        for ident, item in sorted(wanted.items()):
+            for other_id in sorted(getattr(item, 'not_worn_with', ())):
+                other = wanted.get(other_id)
+                if other is None or other_id < ident:
+                    continue
+                if same_item(item) == same_item(other):
+                    continue
+                parcels = [(1, WORN, name) for name in self._variables_of(item)]
+                parcels += [(1, WORN, name) for name in self._variables_of(other)]
+                self.problem.add_row(LpProblem2._parcel_terms(parcels), '<=', 1,
+                                     'apart_%d_%d' % (ident, other_id))
+            for other_id in sorted(getattr(item, 'worn_with', ())):
+                if other_id not in wanted:
+                    continue
+                parcels = [(1, WORN, name) for name in self._variables_of(item)]
+                parcels += [(-1, WORN, name)
+                            for name in self._variables_of(wanted[other_id])]
+                self.problem.add_row(LpProblem2._parcel_terms(parcels), '<=', 0,
+                                     'needs_%d_%d' % (ident, other_id))
 
     def _objective(self):
         self.problem.init_objective_function()
@@ -483,6 +668,6 @@ class WakfuBuild:
                 if key is not None and key not in SPREAD_FAMILIES:
                     out[key] += value
         out.update(self.where_the_spread_lands(worn))
-        for name, value in BASE_VALUES.items():
-            out[name.lower()] += value
+        for name in OUT_OF_COMBAT_CAPS:
+            out[name.lower()] += self._base[name.lower()][0]
         return out

@@ -65,6 +65,22 @@ class Command(BaseCommand):
                             help='share of its MP the role spends moving, 0 to 1, '
                                  'in the --class-id turn and the --class-turn solve '
                                  '(default none: every MP goes to spells)')
+        parser.add_argument('--wakfu-gauge', type=int, default=None,
+                            help='Wakfu gauge of the character, 0 to 100 (default 0)')
+        parser.add_argument('--stasis-gauge', type=int, default=None,
+                            help='Stasis gauge of the character, 0 to 100 (default 0)')
+        parser.add_argument('--nation', type=int, default=None,
+                            help='id of the nation the character belongs to '
+                                 '(default none)')
+        parser.add_argument('--citizenship', action='append', default=[],
+                            help='citizenship points, POINTS toward the --nation '
+                                 'or NATION=POINTS; repeat for several nations')
+        parser.add_argument('--company-rank', type=int, default=None,
+                            help='rank in a company (default 0)')
+        parser.add_argument('--pvp-rank', type=int, default=None,
+                            help='PvP rank (default 0)')
+        parser.add_argument('--guild-level', type=int, default=None,
+                            help='level of the guild (default 0)')
 
     def handle(self, *args, **options):
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -100,11 +116,16 @@ class Command(BaseCommand):
         forbidden = [int(x) for x in options['forbid'].split(',') if x.strip()]
         structure = get_structure('wakfu')
         try:
+            state = self.read_state(structure, options)
+        except ValueError as error:
+            raise CommandError(str(error))
+        try:
             if role is None:
                 result = wakfu_solve.solve_weights(
                     structure, level=options['level'], weights=weights,
                     forbidden=forbidden, locked=locked,
-                    allow_legacy=options['allow_legacy'], seconds=options['seconds'])
+                    allow_legacy=options['allow_legacy'], seconds=options['seconds'],
+                    class_id=options['class_id'], state=state)
             else:
                 result = wakfu_solve.solve_build(
                     structure, level=options['level'],
@@ -114,18 +135,20 @@ class Command(BaseCommand):
                     allow_legacy=options['allow_legacy'],
                     movement=options['movement'], seconds=options['seconds'],
                     defense=options['defense'], rounds=options['rounds'],
-                    on_class_turn=options['class_turn'])
+                    on_class_turn=options['class_turn'], state=state)
         except wakfu_solve.WakfuIllegalSet as error:
             raise CommandError('the solver returned an illegal set: %s' % error)
         except ValueError as error:
             raise CommandError(str(error))
         worn, build, model, turn = result.worn, result.build, result.model, result.turn_model
         duration = result.seconds
+        self.print_state(structure, result)
         if not options['allow_legacy']:
             self.stdout.write('leaving out %d legacy items (--allow-legacy '
                               'lets the solver pick them)' % result.legacy_left_out)
 
         if worn is None:
+            self.print_unlocks(structure, result)
             self.stdout.write(self.style.WARNING(
                 'no legal Wakfu set at level %d for %s (%.1fs)'
                 % (options['level'],
@@ -168,13 +191,78 @@ class Command(BaseCommand):
         self.stdout.write('')
         self.stdout.write('  ' + '  '.join('%s %s' % (cle.upper(), totals[cle])
                                            for cle in interessantes))
+        self.print_unlocks(structure, result)
         if model is not None:
-            self.print_model(role, options['level'], model, turn)
+            self.print_model(role, options['level'], model, turn,
+                             structure, options['class_id'])
             if options['class_id']:
                 self.print_turn(role, options['level'], options['class_id'], totals)
             self.stdout.write('')
             self.stdout.write('  systems the model leaves out: '
                               + ', '.join(wakfu_solve.SYSTEMS_NOT_COUNTED))
+
+    @staticmethod
+    def read_state(structure, options):
+        """The PlayerState the flags describe; ValueError on a bad value."""
+        from fashionistapulp import wakfu_criteria
+
+        given = {name: options[name] for name in (
+            'wakfu_gauge', 'stasis_gauge', 'nation', 'company_rank', 'pvp_rank',
+            'guild_level') if options[name] is not None}
+        points = {}
+        for text in options['citizenship']:
+            left, equals, right = text.partition('=')
+            try:
+                if equals:
+                    points[int(left)] = int(right)
+                elif given.get('nation'):
+                    points[given['nation']] = int(left)
+                else:
+                    raise ValueError('--citizenship POINTS needs --nation')
+            except ValueError as error:
+                if 'needs --nation' in str(error):
+                    raise
+                raise ValueError('--citizenship takes POINTS or NATION=POINTS, '
+                                 'got %r' % text)
+        if points:
+            given['citizenship'] = points
+        return wakfu_criteria.player_state(structure, **given)
+
+    def print_state(self, structure, result):
+        from fashionistapulp import wakfu_criteria
+
+        start = wakfu_criteria.start_state()
+        state = result.state
+        changed = [
+            '%s %s' % (option.name, getattr(state, option.name))
+            for option in wakfu_criteria.STATE_OPTIONS
+            if getattr(state, option.name) != getattr(start, option.name)]
+        self.stdout.write('player state: %s' % (
+            ', '.join(changed) if changed else "the game's start values"))
+
+    def print_unlocks(self, structure, result, shown=8):
+        """The highest pieces the player state keeps out, each with its unlocking value."""
+        unlocks = result.state_unlocks
+        if not unlocks:
+            return
+        self.stdout.write('the player state keeps out %d pieces; the highest:'
+                          % len(unlocks))
+        for ident, needs in unlocks[:shown]:
+            item = structure.get_item_by_id(ident)
+            self.stdout.write('  %-38s level %s needs %s' % (
+                item.name, item.level, ', '.join(
+                    self.needs_text(item, key, bound)
+                    for key, bound in sorted(needs.items(), key=str))))
+
+    @staticmethod
+    def needs_text(item, key, bound):
+        option, nation = (key, None) if isinstance(key, str) else key
+        operator = '>='
+        for condition in item.state_conditions:
+            if condition.option == option and condition.nation == nation:
+                operator = condition.operator
+        label = option if nation is None else '%s of nation %s' % (option, nation)
+        return '%s %s %s' % (label, operator, bound)
 
     @staticmethod
     def read_locks(text, slots):
@@ -211,8 +299,9 @@ class Command(BaseCommand):
             raise CommandError('give at least one stat=weight')
         return weights
 
-    def print_model(self, role, level, model, turn=None):
-        from fashionistapulp import wakfu_value
+    def print_model(self, role, level, model, turn=None, structure=None,
+                    class_id=None):
+        from fashionistapulp import wakfu_criteria, wakfu_value
 
         self.stdout.write('')
         self.stdout.write('  damage model: %s, %s, defense %g%s; %d rounds, %s'
@@ -223,7 +312,8 @@ class Command(BaseCommand):
                              else 'not settled, best round kept'))
         self.stdout.write('  kept at least: ' + ', '.join(
             '%s %s' % (key.upper(), lowest)
-            for key, lowest in sorted(role.minimums().items())))
+            for key, lowest in sorted(role.minimums(
+                wakfu_criteria.base_values(structure, class_id)).items())))
         labels = [('round %d%s' % (number, ' *' if one is model.best else '  '), one)
                   for number, one in enumerate(model.rounds, 1)]
         generic = not any(one is model.best for one in model.rounds)
@@ -300,11 +390,12 @@ class Command(BaseCommand):
 
     @staticmethod
     def why_empty(worn, slot):
-        from fashionistapulp.wakfu_slots import BLOCKED_BY_TWO_HANDED
+        from fashionistapulp.wakfu_slots import (BLOCKED_BY_TWO_HANDED,
+                                                 TWO_HANDED_FLAG)
         if slot in worn.no_candidate:
             return 'no item fits'
         weapon = worn.get('FIRST_WEAPON')
         if (slot == BLOCKED_BY_TWO_HANDED and weapon is not None
-                and 'two_handed' in (weapon.flags or ())):
+                and TWO_HANDED_FLAG in (weapon.flags or ())):
             return 'two-handed weapon'
         return 'left empty by the solver'

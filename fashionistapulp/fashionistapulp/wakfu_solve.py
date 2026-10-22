@@ -20,7 +20,8 @@ import collections
 import os
 import time
 
-from . import wakfu_legality, wakfu_value
+from . import wakfu_criteria, wakfu_legality, wakfu_value
+from .structure import fits_the_class
 from .wakfu_exclusions import default_exclusions
 from .wakfu_model import INFEASIBLE, WakfuBuild
 
@@ -45,7 +46,8 @@ class WakfuIllegalSet(Exception):
 
 WakfuResult = collections.namedtuple(
     'WakfuResult', 'worn totals value turn status settled rounds seconds '
-                   'not_counted reason build model legacy_left_out turn_model')
+                   'not_counted reason build model legacy_left_out turn_model state '
+                   'state_unlocks')
 WakfuResult.__doc__ = """The outcome of solve_build.
 
 worn: a wakfu_model.WakfuSet, or None. status: PROVEN when the search closed
@@ -55,7 +57,10 @@ model the proof covers the linearised problem of the kept round, not the
 nonlinear value. reason: INFEASIBLE or TIME_LIMIT when there is no set.
 turn: wakfu_turn.Turn of the class on the kept set, or None. build: the
 WakfuBuild that landed the kept set. turn_model: the wakfu_turn.TurnModel
-the solve priced AP by, or None.
+the solve priced AP by, or None. state: the wakfu_criteria.PlayerState the
+solve read the pieces' player-state conditions against. state_unlocks:
+[(item id, {option: bound})] of the pieces that state keeps out, highest level
+first, each with the value that would let it in.
 """
 
 ELEMENT_NAMES = wakfu_value.ELEMENTS
@@ -140,27 +145,40 @@ def _set_up(structure, forbidden, locked, allow_legacy):
     return forbidden, locked, legacy
 
 
-def _checked(structure, level, worn, forbidden, locked, minimums):
+def _unlocks(structure, level, class_id, forbidden, state):
+    """The pieces a build of this class and level could wear but for its state."""
+    name = structure.get_breed_names().get(class_id)
+    pool = [item for item in structure.get_available_items_list()
+            if item.level <= level and item.id not in forbidden
+            and fits_the_class(item, name)]
+    return wakfu_criteria.state_unlocks(pool, state)
+
+
+def _checked(structure, level, worn, forbidden, locked, minimums, class_id=None,
+             state=None):
     problems = wakfu_legality.violations(structure, level, worn, forbidden,
-                                         locked, minimums)
+                                         locked, minimums, class_id, state)
     if problems:
         raise WakfuIllegalSet(problems)
 
 
 def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(),
                 locked=(), allow_legacy=False, movement=None, seconds=90,
-                defense=None, rounds=5, on_class_turn=True):
+                defense=None, rounds=5, on_class_turn=True, state=None):
     """Best legal set for a damage role within `seconds` of wall time.
 
     elements (1 to 4 of fire, water, earth, air) and reach ('distance' or
     'melee') are required: ValueError otherwise. locked: (item id, position or
     None) pairs; a lock the rules cannot honour raises ValueError.
     class_id: Ankama class id; its best turn is reported, and the solve prices
-    every AP total by that turn unless on_class_turn is false. Raises
+    every AP total by that turn unless on_class_turn is false. state: a
+    wakfu_criteria.PlayerState, the game's start values by default; a piece
+    whose player-state condition it fails stays out of the solve. Raises
     WakfuIllegalSet rather than return a set that breaks a rule.
     """
     started = time.monotonic()
     deadline = started + seconds
+    state = state or wakfu_criteria.start_state()
     role = make_role(elements, reach, defense, movement)
     if movement is not None and not class_id:
         raise ValueError('movement needs a class')
@@ -175,20 +193,26 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
             raise ValueError('class %d has no damage spell in the tables' % class_id)
         if on_class_turn:
             turn = wakfu_turn.TurnModel(spells, role)
-            if turn.damage(wakfu_value.resource_ceiling()) <= 0:
+            if turn.damage(wakfu_value.resource_ceiling(
+                    wakfu_criteria.base_values(structure, class_id))) <= 0:
                 raise ValueError(
                     'class %d has no damage turn for %s at %s, even with AP, MP and '
                     'WP at their caps' % (class_id, '+'.join(role.elements), role.reach))
 
     model = wakfu_value.solve(structure, level, role, forbidden, rounds, turn=turn,
-                              locked=locked, deadline=deadline)
+                              locked=locked, deadline=deadline, class_id=class_id or None,
+                              state=state)
+    unlocks = _unlocks(structure, level, class_id or None, forbidden, state)
     best = model.best
     if best is None:
         return WakfuResult(None, None, None, None, None, False, len(model.rounds),
                            time.monotonic() - started, tuple(not_counted),
-                           model.reason or INFEASIBLE, None, model, len(legacy), turn)
+                           model.reason or INFEASIBLE, None, model, len(legacy), turn,
+                           state, unlocks)
 
-    _checked(structure, level, best.worn, forbidden, locked, role.minimums())
+    _checked(structure, level, best.worn, forbidden, locked,
+             role.minimums(wakfu_criteria.base_values(structure, class_id or None)),
+             class_id or None, state)
     class_turn = None
     if class_id:
         from . import wakfu_turn
@@ -201,22 +225,25 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
     return WakfuResult(best.worn, best.totals, best.value, class_turn,
                        best.worn.status, model.converged, len(model.rounds),
                        time.monotonic() - started, tuple(not_counted), None,
-                       best.build, model, len(legacy), turn)
+                       best.build, model, len(legacy), turn, state, unlocks)
 
 
 def solve_weights(structure, *, level, weights, forbidden=(), locked=(),
-                  allow_legacy=False, seconds=90):
+                  allow_legacy=False, seconds=90, class_id=None, state=None):
     """Best legal set for hand-written weights, within `seconds`."""
     started = time.monotonic()
+    state = state or wakfu_criteria.start_state()
     forbidden, locked, legacy = _set_up(structure, forbidden, locked, allow_legacy)
-    build = WakfuBuild(structure, level, weights, forbidden, locked=locked)
+    unlocks = _unlocks(structure, level, class_id, forbidden, state)
+    build = WakfuBuild(structure, level, weights, forbidden, locked=locked,
+                       class_id=class_id, state=state)
     worn = build.build().solve(started + seconds)
     seconds_used = time.monotonic() - started
     if worn is None:
         return WakfuResult(None, None, None, None, None, False, 1, seconds_used,
                            SYSTEMS_NOT_COUNTED, build.reason or INFEASIBLE, build,
-                           None, len(legacy), None)
-    _checked(structure, level, worn, forbidden, locked, None)
+                           None, len(legacy), None, state, unlocks)
+    _checked(structure, level, worn, forbidden, locked, None, class_id, state)
     return WakfuResult(worn, build.totals(worn), None, None, worn.status, True, 1,
                        seconds_used, SYSTEMS_NOT_COUNTED, None, build, None,
-                       len(legacy), None)
+                       len(legacy), None, state, unlocks)

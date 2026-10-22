@@ -12,7 +12,11 @@ ELEMENTS = ('fire', 'water')
 
 Stat = collections.namedtuple('Stat', 'id key')
 Piece = collections.namedtuple(
-    'Piece', 'id name type level stats element_spread flags localized_names')
+    'Piece', 'id name type level stats element_spread flags localized_names '
+             'min_stats_to_equip max_stats_to_equip', defaults=((), ()))
+# The one invented breed every catalogue here has
+BREED_BASE = {'ap': 6, 'mp': 3, 'wp': 6, 'ferocity': 3}
+BASE = {key: (value, value) for key, value in BREED_BASE.items()}
 Outfit = collections.namedtuple('Outfit', 'id stats')
 
 HELMET, CAPE = 1, 2
@@ -30,13 +34,14 @@ def wakfu_structure(case):
     return get_structure('wakfu')
 
 
-def piece(item_id, type_id, spread=(), **stats):
-    """A catalogue item; spread holds (key, value, elements) lines."""
+def piece(item_id, type_id, spread=(), gates=(), **stats):
+    """A catalogue item; spread holds (key, value, elements) lines, gates (key, lowest total)."""
     rows = [(STAT_ID[key], value) for key, value in stats.items()]
     lines = tuple((STAT_ID[key], value, elements) for key, value, elements in spread)
     return Piece(item_id, 'piece %d' % item_id, type_id, 1,
                  tuple(rows) + tuple(line[:2] for line in lines), lines, (),
-                 {'fr': 'piece %d' % item_id})
+                 {'fr': 'piece %d' % item_id},
+                 tuple((STAT_ID[key], lowest) for key, lowest in gates))
 
 
 class Catalogue:
@@ -51,6 +56,12 @@ class Catalogue:
 
     def get_available_items_list(self):
         return list(self.pieces)
+
+    def get_breed_names(self):
+        return {1: 'invented'}
+
+    def get_breed_base_values(self):
+        return {1: dict(BREED_BASE)}
 
     def get_stat_by_key(self, key):
         return next((stat for stat in self.stats if stat.key == key), None)
@@ -90,16 +101,17 @@ class AWakfuBuildKeepsItsMinimumsTests(SimpleTestCase):
         self.assertEqual(3, build.totals(worn)['mp'])
         self.assertFalse(worn.full_set_dropped)
 
-    def test_the_crit_floor_holds_on_the_gear_sum_without_the_base_crit(self):
-        from fashionistapulp.wakfu_stats import CRITICAL_HIT_FLOOR_PERCENT
-        from fashionistapulp.wakfu_value_rules import RULES
-        both = -12
-        self.assertEqual(CRITICAL_HIT_FLOOR_PERCENT,
-                         both + RULES['base_critical_hit_percent'].value)
-        pieces = (piece(1, HELMET, hp=100, ferocity=both // 2), piece(2, HELMET, hp=10),
-                  piece(3, CAPE, hp=100, ferocity=both // 2), piece(4, CAPE, hp=10))
+    def test_a_critical_hit_gate_holds_on_the_total_with_and_without_the_piece(self):
+        floor = -10
+        each = -7
+        pieces = (piece(1, HELMET, hp=100, ferocity=each, gates=[('ferocity', floor)]),
+                  piece(2, HELMET, hp=10),
+                  piece(3, CAPE, hp=100, ferocity=each, gates=[('ferocity', floor)]),
+                  piece(4, CAPE, hp=10))
         build, worn = catalogue_solve(pieces, {'hp': 1})
-        self.assertEqual(both // 2, build.totals(worn)['ferocity'])
+        # Both together make 3 - 14 = -11 with each piece, under the gate
+        self.assertEqual(each, build.totals(worn)['ferocity'])
+        self.assertEqual(110, sum(item.stats[0][1] for item in worn.values()))
 
 
 class AModelRoundLandsItsSpreadLinesOnItsOwnStatsTests(SimpleTestCase):
@@ -110,7 +122,7 @@ class AModelRoundLandsItsSpreadLinesOnItsOwnStatsTests(SimpleTestCase):
                   piece(2, CAPE, res_fire_percent=300))
         catalogue = Catalogue(*pieces)
         build, worn = catalogue_solve(
-            pieces, wakfu_value.linear_weights(role, 50, wakfu_value.bare_totals()))
+            pieces, wakfu_value.linear_weights(role, 50, wakfu_value.bare_totals(BASE)))
         self.assertEqual(['res_fire_percent'], build.spread_lines(worn)[0][4])
         worth, landed, totals = wakfu_value.land(catalogue, 50, role, build, worn)
         self.assertNotIn('res_fire_percent', landed.spread_lines(worn)[0][4])
@@ -131,7 +143,7 @@ def scripted(*sets):
 
     class ScriptedBuild:
         def __init__(self, structure, level, weights, forbidden=(), full_set=True,
-                     minimums=None):
+                     minimums=None, class_id=None, state=None):
             self.weights = dict(weights)
             self.minimums = minimums
 
@@ -143,7 +155,7 @@ def scripted(*sets):
             return script.pop(0) if script else None
 
         def totals(self, worn):
-            out = wakfu_value.bare_totals()
+            out = wakfu_value.bare_totals(BASE)
             for item in worn.values():
                 out.update(item.stats)
             return out
@@ -157,7 +169,7 @@ class TheModelSolveLoopTests(SimpleTestCase):
         self.role = wakfu_value.DamageDealer(('fire',), 'distance')
         stand_in, self.solved = scripted(*sets)
         with mock.patch('fashionistapulp.wakfu_model.WakfuBuild', stand_in):
-            return wakfu_value.solve(None, 50, self.role, rounds=rounds)
+            return wakfu_value.solve(Catalogue(), 50, self.role, rounds=rounds)
 
     def test_no_set_in_the_first_round_gives_no_best(self):
         result = self.run_solve()
@@ -197,7 +209,7 @@ class TheModelSolveLoopTests(SimpleTestCase):
 
     def test_every_round_keeps_the_role_floors(self):
         self.run_solve(outfit(1, ap=6), outfit(1, ap=6))
-        self.assertEqual([self.role.minimums()] * 2,
+        self.assertEqual([self.role.minimums(BASE)] * 2,
                          [build.minimums for build in self.solved])
 
 
@@ -208,6 +220,7 @@ class AWakfuModelSolveTests(SimpleTestCase):
 
     def setUp(self):
         from fashionistapulp import wakfu_value
+        from fashionistapulp.wakfu_criteria import base_values
         from fashionistapulp.wakfu_exclusions import default_exclusions
         self.structure = wakfu_structure(self)
         self.role = wakfu_value.DamageDealer(ELEMENTS, 'distance')
@@ -262,18 +275,20 @@ class TheRoleFloorsBindOnRealGearTests(SimpleTestCase):
         from fashionistapulp import wakfu_value
         from fashionistapulp.wakfu_exclusions import default_exclusions
         from fashionistapulp.wakfu_model import WakfuBuild
+        from fashionistapulp.wakfu_criteria import base_values
         structure = wakfu_structure(self)
         role = wakfu_value.DamageDealer(('fire',), 'distance')
-        weights = wakfu_value.linear_weights(role, 200, wakfu_value.bare_totals())
+        base = base_values(structure)
+        weights = wakfu_value.linear_weights(role, 200, wakfu_value.bare_totals(base))
         forbidden = default_exclusions(structure)
         free = WakfuBuild(structure, 200, weights, forbidden)
         self.assertLess(free.totals(free.build().solve())['range'], 0,
                         'the range floor no longer binds at level 200')
-        kept = WakfuBuild(structure, 200, weights, forbidden, minimums=role.minimums())
+        kept = WakfuBuild(structure, 200, weights, forbidden, minimums=role.minimums(base))
         worn = kept.build().solve()
         self.assertFalse(worn.full_set_dropped)
         totals = kept.totals(worn)
-        for key, lowest in role.minimums().items():
+        for key, lowest in role.minimums(base).items():
             with self.subTest(stat=key):
                 self.assertGreaterEqual(totals[key], lowest)
 

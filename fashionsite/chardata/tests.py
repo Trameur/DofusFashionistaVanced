@@ -18695,6 +18695,36 @@ class TheWakfuPipelineSaysWhatItOwnsTests(SimpleTestCase):
         # The zero must be a word of its own: "casino" is not "no"
         self.assertTrue(said('casino missing'))
 
+    def test_a_client_failure_reports_every_later_step_as_skipped(self):
+        import contextlib
+        import types
+        module = self._orchestrator()
+        for flags in ([], ['--skip-images', '--skip-spells'],
+                      ['--skip-mirror', '--skip-sets']):
+            with self.subTest(flags=flags):
+                args = types.SimpleNamespace(**{
+                    name: '--' + name.replace('_', '-') in flags for name in (
+                        'skip_mirror', 'skip_sets', 'skip_spells', 'skip_images')})
+                later = module.steps_after_client(args)
+                for broken in (set(), {'data/client'}):
+                    ran = []
+
+                    def fake(label, cmd, cwd=None, ran=ran, broken=broken):
+                        ran.append(label)
+                        return label not in broken, []
+                    module.run_step = fake
+                    out = io.StringIO()
+                    with contextlib.redirect_stdout(out):
+                        code = module.main(flags)
+                    if broken:
+                        self.assertEqual((1, ['data/client']), (code, ran))
+                        failed = out.getvalue().split('FAILED: ')[-1].strip()
+                        self.assertEqual(
+                            ['data/client'] + ['%s (skipped)' % label for label in later],
+                            failed.split(', '))
+                    else:
+                        self.assertEqual((0, ['data/client'] + later), (code, ran))
+
 
 class WakfuCraftingReadsTheWayTheSiteJoinsItTests(SimpleTestCase):
     """Wakfu crafting tables, checked through the joins the pages run."""
@@ -18857,41 +18887,46 @@ class WakfuGearReachesFarPastAnyCapTests(SimpleTestCase):
                 self.assertGreater(total, 10)
 
     def test_every_cap_is_below_what_gear_can_buy(self):
-        from fashionistapulp.wakfu_stats import (BASE_VALUES,
-                                                 OUT_OF_COMBAT_CAPS)
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.wakfu_criteria import base_values
+        from fashionistapulp.wakfu_stats import OUT_OF_COMBAT_CAPS
         self.assertEqual({'AP', 'MP', 'WP'}, set(OUT_OF_COMBAT_CAPS))
-        self.assertEqual(set(OUT_OF_COMBAT_CAPS), set(BASE_VALUES))
+        if not os.path.exists(get_items_db_path('wakfu')):
+            self.skipTest('no Wakfu database built; run update_data_wakfu.py')
+        base = base_values(get_structure('wakfu'))
         for name, cap in OUT_OF_COMBAT_CAPS.items():
             with self.subTest(stat=name):
                 gear, _single = self._ceiling(name.lower())
+                high = base[name.lower()][1]
                 # The cap is on the total, base included
                 self.assertGreater(
-                    BASE_VALUES[name] + gear, cap,
+                    high + gear, cap,
                     '%s: a character can reach %d and the cap is %d, so the '
                     'cap binds nothing and one of the two numbers is wrong'
-                    % (name, BASE_VALUES[name] + gear, cap))
+                    % (name, high + gear, cap))
 
-    def test_the_critical_hit_floor_is_a_rule_the_catalogue_needs(self):
-        # The floor comes from a fan site: checked against Ankama's data
+    def test_every_negative_critical_hit_piece_carries_its_own_floor(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
-        from fashionistapulp.wakfu_stats import CRITICAL_HIT_FLOOR_PERCENT
-        self.assertLess(CRITICAL_HIT_FLOOR_PERCENT, 0)
         path = get_items_db_path('wakfu')
         if not os.path.exists(path):
             self.skipTest('no Wakfu database built; run update_data_wakfu.py')
         conn = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
         try:
-            worst = conn.execute(
-                'SELECT MIN(s.value), COUNT(*) FROM stats_of_item s'
+            negative = {row[0] for row in conn.execute(
+                'SELECT DISTINCT s.item FROM stats_of_item s'
                 ' JOIN stats t ON t.id = s.stat'
-                ' WHERE t.key = "ferocity" AND s.value < 0').fetchone()
+                ' WHERE t.key = "ferocity" AND s.value < 0')}
+            floored = {row[0] for row in conn.execute(
+                'SELECT DISTINCT m.item FROM min_stat_to_equip m'
+                ' JOIN stats t ON t.id = m.stat WHERE t.key = "ferocity"')}
         finally:
             conn.close()
-        self.assertGreater(worst[1], 50, 'no gear sells negative critical hit')
-        self.assertLess(worst[0], CRITICAL_HIT_FLOOR_PERCENT,
-                        'no single item passes the floor on its own, so the '
-                        'rule could have been about one piece')
+        self.assertGreater(len(negative), 50, 'no gear sells negative critical hit')
+        self.assertTrue(negative & floored,
+                        'no piece that sells negative critical hit carries a '
+                        'floor of its own, so the client text was not read')
 
 
 def _newest_wakfu_harvest():
@@ -19371,9 +19406,9 @@ class TheWakfuSolverObeysTheGameTests(SimpleTestCase):
             self.skipTest('no Wakfu database built; run update_data_wakfu.py')
         return get_structure('wakfu')
 
-    def _build(self, level, weights, forbidden=()):
+    def _build(self, level, weights, forbidden=(), class_id=None):
         from fashionistapulp.wakfu_model import WakfuBuild
-        build = WakfuBuild(self._structure(), level, weights, forbidden)
+        build = WakfuBuild(self._structure(), level, weights, forbidden, class_id=class_id)
         return build, build.build().solve()
 
     def test_a_build_wears_one_item_per_slot_and_no_item_twice(self):
@@ -19392,7 +19427,7 @@ class TheWakfuSolverObeysTheGameTests(SimpleTestCase):
         reached = 0
         for name, cap in OUT_OF_COMBAT_CAPS.items():
             with self.subTest(stat=name):
-                build, worn = self._build(self.BINDS, {name.lower(): 10000})
+                build, worn = self._build(self.BINDS, {name.lower(): 10000}, class_id=8)
                 self.assertIsNotNone(worn)
                 total = build.totals(worn)[name.lower()]
                 self.assertLessEqual(total, cap,
@@ -19402,15 +19437,15 @@ class TheWakfuSolverObeysTheGameTests(SimpleTestCase):
         self.assertGreater(reached, 0,
                            'no cap was reachable, so none of them was tested')
 
-    def test_the_critical_hit_floor_holds(self):
-        # Negative crit buys other stats; the game floors the total
-        from fashionistapulp.wakfu_stats import CRITICAL_HIT_FLOOR_PERCENT
+    def test_the_real_solve_meets_every_worn_piece_condition(self):
+        # Negative crit buys other stats; each piece carries its own floor
+        from fashionistapulp import wakfu_legality
+        structure = self._structure()
         build, worn = self._build(self.BINDS, {'hp': 1, 'ferocity': -1000})
         self.assertIsNotNone(worn)
-        total = build.totals(worn)['ferocity']
-        self.assertGreaterEqual(total, CRITICAL_HIT_FLOOR_PERCENT)
-        self.assertEqual(CRITICAL_HIT_FLOOR_PERCENT, total,
-                         'the floor was never reached, so it was not tested')
+        self.assertEqual([], wakfu_legality.violations(structure, self.BINDS, worn))
+        self.assertLess(build.totals(worn)['ferocity'], 0,
+                        'no critical hit was sold, so the gates were not tested')
 
     def test_a_two_handed_weapon_leaves_the_off_hand_empty(self):
         # One-handed weapons forbidden: two-handed or nothing

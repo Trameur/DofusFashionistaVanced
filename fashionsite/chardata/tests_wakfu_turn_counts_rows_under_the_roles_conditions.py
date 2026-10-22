@@ -20,8 +20,11 @@ FIRE_AT_DISTANCE = wakfu_value.DamageDealer(('fire',), 'distance')
 WATER_AT_DISTANCE = wakfu_value.DamageDealer(('water',), 'distance')
 
 
+BASE = {'ap': (6, 6), 'mp': (3, 3), 'wp': (6, 6)}
+
+
 def totals(**stats):
-    out = wakfu_value.bare_totals()
+    out = wakfu_value.bare_totals(BASE)
     for key, number in stats.items():
         out[key] = number
     return out

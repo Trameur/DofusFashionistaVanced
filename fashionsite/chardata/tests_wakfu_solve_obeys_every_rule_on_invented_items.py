@@ -47,6 +47,15 @@ RELIC_HELM, RELIC_AMULET, EPIC_CHEST, EPIC_SHOULDERS = 1101, 1102, 1111, 1112
 AP_HELM, AP_AMULET, AP_CHEST, MP_BELT, MP_BOOTS, WP_SHOULDERS, WP_CLOAK = (
     1201, 1202, 1203, 1211, 1212, 1221, 1222)
 CRIT_HELM, CRIT_AMULET, CRIT_CHEST = 1301, 1302, 1303
+ALPHA, BETA_BREED = 1, 2
+
+BREEDS = [
+    {'id': ALPHA, 'name': 'ALPHA',
+     'base': {'HP': 50, 'AP': 6, 'MP': 3, 'WP': 6, 'FEROCITY': 3}},
+    {'id': BETA_BREED, 'name': 'BETA',
+     'base': {'HP': 50, 'AP': 6, 'MP': 4, 'WP': 12, 'FEROCITY': 3}},
+]
+FLOOR_TEXT = 'GetCharac("FEROCITY") > -10'
 
 RELICS = (RELIC_HELM, RELIC_AMULET)
 EPICS = (EPIC_CHEST, EPIC_SHOULDERS)
@@ -54,8 +63,8 @@ CRIT_ITEMS = (CRIT_HELM, CRIT_AMULET, CRIT_CHEST)
 
 
 def item(ident, type_id, name, level=50, rarity=3, french=None, two_handed=False,
-         exclusive=None, **stats):
-    return {
+         exclusive=None, criteria=None, **stats):
+    made = {
         'id': ident, 'name': {'en': name, 'fr': french or name + ' fr'}, 'level': level,
         'type_id': type_id, 'type_name': {'en': TYPES[type_id][0], 'fr': TYPES[type_id][0] + ' fr'},
         'positions': TYPES[type_id][1], 'disables': ['SECOND_WEAPON'] if two_handed else [],
@@ -63,6 +72,9 @@ def item(ident, type_id, name, level=50, rarity=3, french=None, two_handed=False
         'exclusive': exclusive,
         'lines': [{'stat': key.upper(), 'value': value} for key, value in stats.items()],
     }
+    if criteria:
+        made['criteria'] = criteria
+    return made
 
 
 CATALOGUE = [
@@ -98,9 +110,9 @@ CATALOGUE = [
     item(MP_BOOTS, BOOTS, 'Mp Boots', hp=1, mp=5),
     item(WP_SHOULDERS, SHOULDERS, 'Wp Shoulders', hp=1, wp=14),
     item(WP_CLOAK, CLOAK, 'Wp Cloak', hp=1, wp=14),
-    item(CRIT_HELM, HELMET, 'Crit Helm', hp=300, ferocity=-6),
-    item(CRIT_AMULET, AMULET, 'Crit Amulet', hp=300, ferocity=-6),
-    item(CRIT_CHEST, CHEST, 'Crit Chest', hp=300, ferocity=-6),
+    item(CRIT_HELM, HELMET, 'Crit Helm', criteria=FLOOR_TEXT, hp=300, ferocity=-6),
+    item(CRIT_AMULET, AMULET, 'Crit Amulet', criteria=FLOOR_TEXT, hp=300, ferocity=-6),
+    item(CRIT_CHEST, CHEST, 'Crit Chest', criteria=FLOOR_TEXT, hp=300, ferocity=-6),
 ]
 
 
@@ -110,6 +122,12 @@ def ids(worn):
 
 class InventedItemsCase(SimpleTestCase):
     """A Wakfu database of the items above, built the way update_data_wakfu builds the real one."""
+
+    NATIONS = {}
+
+    @classmethod
+    def catalogue(cls):
+        return CATALOGUE
 
     @classmethod
     def setUpClass(cls):
@@ -121,23 +139,25 @@ class InventedItemsCase(SimpleTestCase):
         cls.addClassCleanup(cls.temp.cleanup)
         directory = Path(cls.temp.name)
         cls.db = directory / 'items_wakfu.db'
-        cls.build_db(directory, CATALOGUE)
+        cls.build_db(directory, cls.catalogue())
         # A second build without the removed helm flags it removed, keeping its id
-        cls.build_db(directory, [one for one in CATALOGUE if one['id'] != HELM_REMOVED])
+        cls.build_db(directory, [one for one in cls.catalogue() if one['id'] != HELM_REMOVED])
         with mock.patch.object(structure_module, 'get_items_db_path', return_value=str(cls.db)):
             cls.structure = structure_module.Structure('wakfu')
 
     @classmethod
     def build_db(cls, directory, items):
         dump = directory / 'transformed_wakfu.json'
-        dump.write_text(json.dumps({'version': '1.0', 'equipment': items}), encoding='utf-8')
+        dump.write_text(json.dumps({'version': '1.0', 'equipment': items, 'breeds': BREEDS,
+                                    'labels': {}, 'nations': cls.NATIONS}), encoding='utf-8')
         with contextlib.redirect_stdout(io.StringIO()):
             builder.main(['--dump', str(dump), '--db', str(cls.db), '--out', str(directory / 'raw')])
 
-    def solve(self, weights, forbidden=(), locked=(), minimums=None, full_set=True, level=LEVEL):
+    def solve(self, weights, forbidden=(), locked=(), minimums=None, full_set=True, level=LEVEL,
+              class_id=None, state=None):
         from fashionistapulp.wakfu_model import WakfuBuild
         build = WakfuBuild(self.structure, level, weights, forbidden, full_set,
-                           minimums=minimums, locked=locked)
+                           minimums=minimums, locked=locked, class_id=class_id, state=state)
         return build, build.build().solve()
 
     def by_id(self, ident):
@@ -222,26 +242,27 @@ class TheWakfuSolveObeysEverySlotAndItemRuleTests(InventedItemsCase):
 
 class TheWakfuSolveObeysTheStatRulesTests(InventedItemsCase):
     def test_ap_mp_and_wp_stay_at_or_under_their_caps(self):
-        from fashionistapulp.wakfu_stats import BASE_VALUES, OUT_OF_COMBAT_CAPS
+        from fashionistapulp.wakfu_criteria import base_values
+        from fashionistapulp.wakfu_stats import OUT_OF_COMBAT_CAPS
         weights = {'ap': 1, 'mp': 1, 'wp': 1}
         best = self.best_per_slot(weights)
+        base = base_values(self.structure, ALPHA)
         for name, cap in OUT_OF_COMBAT_CAPS.items():
-            stacked = BASE_VALUES[name] + sum(self.stat(one, name.lower()) for one in best.values())
+            stacked = base[name.lower()][0] + sum(self.stat(one, name.lower()) for one in best.values())
             self.assertGreater(stacked, cap, '%s would not reach its cap if stacked' % name)
-        build, worn = self.solve(weights)
+        build, worn = self.solve(weights, class_id=ALPHA)
         totals = build.totals(worn)
         for name, cap in OUT_OF_COMBAT_CAPS.items():
             self.assertEqual(cap, totals[name.lower()], name)
 
-    def test_the_gear_critical_hit_sum_stays_at_or_above_the_floor(self):
-        from fashionistapulp.wakfu_stats import CRITICAL_HIT_FLOOR_PERCENT
+    def test_negative_critical_hit_pieces_obey_their_own_gate(self):
         forbidden = RELICS + EPICS
         best = self.best_per_slot({'hp': 1}, forbidden)
         self.assertEqual(3, sum(one.id in CRIT_ITEMS for one in best.values()))
         build, worn = self.solve({'hp': 1}, forbidden=forbidden)
-        gear = sum(self.stat(one, 'ferocity') for one in worn.values())
-        self.assertGreaterEqual(gear, CRITICAL_HIT_FLOOR_PERCENT)
-        self.assertEqual(1, sum(one.id in CRIT_ITEMS for one in worn.values()))
+        # Base 3 and -6 a piece: two pieces stand at -9, a third would stand at -15
+        self.assertEqual(2, sum(one.id in CRIT_ITEMS for one in worn.values()))
+        self.assertGreater(3 + build.totals(worn)['ferocity'], -10)
 
 
 class TheWakfuSolveHonoursLocksTests(InventedItemsCase):
@@ -518,7 +539,8 @@ class TheWakfuCheckerNamesEachRuleTests(InventedItemsCase):
             (rule.CAP, dict(legal, HEAD=one(AP_HELM), NECK=one(AP_AMULET), CHEST=one(AP_CHEST)), {}),
             (rule.CAP, dict(legal, BELT=one(MP_BELT), LEGS=one(MP_BOOTS)), {}),
             (rule.CAP, dict(legal, SHOULDERS=one(WP_SHOULDERS), BACK=one(WP_CLOAK)), {}),
-            (rule.CRITICAL_FLOOR, dict(legal, HEAD=one(CRIT_HELM), NECK=one(CRIT_AMULET)), {}),
+            (rule.CONDITION, dict(legal, HEAD=one(CRIT_HELM), NECK=one(CRIT_AMULET),
+                                  CHEST=one(CRIT_CHEST)), {}),
             (rule.MINIMUM, legal, {'minimums': {'hp': 10 ** 6}}),
         )
         for name, worn, kwargs in cases:
@@ -528,12 +550,16 @@ class TheWakfuCheckerNamesEachRuleTests(InventedItemsCase):
                 self.assertTrue(all(text for _rule, text in found))
 
     def test_a_legal_set_with_a_rule_met_exactly_at_its_limit_has_no_violation(self):
+        from fashionistapulp import wakfu_legality
         one = self.by_id
         worn = {'HEAD': one(AP_HELM), 'NECK': one(AP_AMULET), 'BELT': one(MP_BELT),
                 'SHOULDERS': one(WP_SHOULDERS), 'LEFT_HAND': one(BETA)}
-        self.assertEqual([], self.violations(worn), 'AP 16, MP 8 and WP 20 are the caps themselves')
+        self.assertEqual([], self.violations(worn, class_id=ALPHA),
+                         'AP 16, MP 8 and WP 20 are the caps themselves')
+        self.assertIn(wakfu_legality.CAP, self.rules(worn), 'with no class the higher base is over MP 8')
         worn['CHEST'] = one(CRIT_CHEST)
-        self.assertEqual([], self.violations(worn), 'a crit sum of -6 is above the floor')
+        self.assertEqual([], self.violations(worn, class_id=ALPHA),
+                         'a crit total of -3 is above its own gate')
 
     def test_the_checker_does_not_import_the_solver(self):
         from fashionistapulp import wakfu_legality
@@ -675,8 +701,8 @@ class TheWakfuBuildCommandNeedsAnElementAndAReachTests(InventedItemsCase):
 MIRROR_NEEDED = 'no Wakfu mirror: run update_data_wakfu.py'
 
 # Properties Ankama does not name in itemProperties.json, reviewed by hand: id -> live gear items
-# 4 sits on one epic and 9 on three relics (build 1.93.1.62); neither changes who may wear the item
-REVIEWED_UNNAMED_PROPERTIES = {4: 1, 9: 3}
+# 4 sits on two items and 9 on five, statless gear included (build 1.93.1.62); neither changes who may wear the item
+REVIEWED_UNNAMED_PROPERTIES = {4: 2, 9: 5}
 
 # Every key name anywhere in items.json of build 1.93.1.62; no field says who may wear an item
 ITEM_KEYS_1_93_1_62 = frozenset((
@@ -696,6 +722,155 @@ ITEM_LEVEL_KEYS = {
     'baseParameters': {'itemTypeId', 'itemSetId', 'rarity', 'bindType', 'minimumShardSlotNumber',
                        'maximumShardSlotNumber'},
 }
+
+
+CLASS_EMBLEM, RING_X, RING_Y, STATLESS_RING_Z, SWORD_NEEDY = 2001, 2010, 2011, 2020, 2021
+WINDOW_HELM, WINDOW_AMULET, AP_LIMIT_BELT, WP_SHOVEL, ADMIN_HELM, JOB_BOOTS = (
+    2030, 2031, 2040, 2050, 2060, 2070)
+WINDOW_TEXT = 'GetCharac("FEROCITY") > -10 && GetCharac("FEROCITY") < 8'
+
+CONDITION_ITEMS = [
+    item(CLASS_EMBLEM, EMBLEM, 'Class Emblem', criteria='IsBreed("ALPHA")', hp=600),
+    item(RING_X, RING, 'Ring X', criteria='not HasEquipmentId(%d)' % RING_Y, hp=500),
+    item(RING_Y, RING, 'Ring Y', criteria='not HasEquipmentId(%d)' % RING_X, hp=500),
+    item(STATLESS_RING_Z, RING, 'Ring Z'),
+    item(SWORD_NEEDY, SWORD, 'Needy Sword', criteria='HasEquipmentId(%d)' % STATLESS_RING_Z, hp=5000),
+    item(WINDOW_HELM, HELMET, 'Window Helm', criteria=WINDOW_TEXT, hp=800, ferocity=6),
+    item(WINDOW_AMULET, AMULET, 'Window Amulet', criteria=WINDOW_TEXT, hp=700, ferocity=3),
+    item(AP_LIMIT_BELT, BELT, 'Ap Limit Belt', criteria='GetCharac("AP") < 8', hp=900, ap=1),
+    item(WP_SHOVEL, SHIELD, 'Wp Shovel', criteria='GetCharac("WP") > 7', hp=5000),
+    item(ADMIN_HELM, HELMET, 'Admin Helm', criteria='IsAdmin()', hp=5000),
+    item(JOB_BOOTS, BOOTS, 'Job Boots', criteria='GetCraftLevel(75) >= 80', hp=700),
+]
+
+
+class TheWakfuSolveObeysEquipConditionsTests(InventedItemsCase):
+    @classmethod
+    def catalogue(cls):
+        return CATALOGUE + CONDITION_ITEMS
+
+    def violations(self, worn, **options):
+        from fashionistapulp import wakfu_legality
+        return wakfu_legality.violations(
+            self.structure, LEVEL, {position: self.by_id(ident) for position, ident in worn.items()},
+            **options)
+
+    def rules(self, worn, **options):
+        return [rule for rule, _text in self.violations(worn, **options)]
+
+    def worn_ids(self, forbidden=(), **options):
+        _build, worn = self.solve({'hp': 1}, forbidden=forbidden, **options)
+        return {one.id for one in worn.values()}
+
+    def refusal(self, **options):
+        with self.assertRaises(ValueError) as caught:
+            self.solve({'hp': 1}, **options)
+        return str(caught.exception)
+
+    def rows(self, sql):
+        import sqlite3
+        connection = sqlite3.connect('file:%s?mode=ro' % self.db, uri=True)
+        try:
+            return connection.execute(sql).fetchall()
+        finally:
+            connection.close()
+
+    def test_a_class_emblem_is_worn_by_its_class_only(self):
+        self.assertEqual(CLASS_EMBLEM, self.solve({'hp': 1}, class_id=ALPHA)[1]['ACCESSORY'].id)
+        self.assertNotIn(CLASS_EMBLEM, self.worn_ids(class_id=BETA_BREED))
+        self.assertIn('is for the ALPHA, not for this character', self.refusal(
+            locked=[(CLASS_EMBLEM, None)], class_id=BETA_BREED))
+        self.assertEqual([], self.violations({'ACCESSORY': CLASS_EMBLEM}, class_id=ALPHA))
+        self.assertEqual(['class'], self.rules({'ACCESSORY': CLASS_EMBLEM}, class_id=BETA_BREED))
+
+    def test_a_classless_solve_never_wears_a_class_item(self):
+        from fashionistapulp.wakfu_model import WakfuBuild
+        candidates = {one.id for one, _position in
+                      WakfuBuild(self.structure, LEVEL, {'hp': 1})._candidates()}
+        self.assertNotIn(CLASS_EMBLEM, candidates)
+        self.assertNotIn(CLASS_EMBLEM, self.worn_ids())
+
+    def test_two_rings_that_refuse_each_other_are_never_worn_together(self):
+        self.assertEqual((RING_Y,), self.by_id(RING_X).not_worn_with)
+        self.assertEqual((RING_X,), self.by_id(RING_Y).not_worn_with)
+        worn = self.worn_ids(forbidden=[SWORD_NEEDY])
+        self.assertEqual(1, len(worn & {RING_X, RING_Y}))
+        self.assertIn('cannot be worn together', self.refusal(
+            locked=[(RING_X, 'LEFT_HAND'), (RING_Y, 'RIGHT_HAND')]))
+        self.assertIn('not worn with', self.rules({'LEFT_HAND': RING_X, 'RIGHT_HAND': RING_Y}))
+        self.assertEqual([], self.violations({'LEFT_HAND': RING_X, 'RIGHT_HAND': BETA}))
+
+    def test_a_sword_is_worn_only_with_its_statless_ring(self):
+        worn = self.worn_ids()
+        self.assertTrue({SWORD_NEEDY, STATLESS_RING_Z} <= worn)
+        self.assertEqual([], self.violations(
+            {'FIRST_WEAPON': SWORD_NEEDY, 'LEFT_HAND': STATLESS_RING_Z}))
+        self.assertEqual(['worn with'], self.rules({'FIRST_WEAPON': SWORD_NEEDY, 'LEFT_HAND': BETA}))
+        self.assertNotIn(SWORD_NEEDY, self.worn_ids(forbidden=[STATLESS_RING_Z]))
+        self.assertIn('needs', self.refusal(locked=[(SWORD_NEEDY, None)],
+                                             forbidden=[STATLESS_RING_Z]))
+
+    def test_a_critical_hit_window_holds_with_and_without_the_piece(self):
+        # Base 3: the +6 helm stands at 9, outside the window; the +3 amulet at 6
+        self.assertGreaterEqual(3 + self.stat(self.by_id(WINDOW_HELM), 'ferocity'), 8)
+        flat = [SWORD_NEEDY] + list(CRIT_ITEMS)
+        worn = self.worn_ids(forbidden=flat, class_id=ALPHA)
+        self.assertNotIn(WINDOW_HELM, worn)
+        self.assertIn(WINDOW_AMULET, worn)
+        # A negative piece may offset the helm: the window is read on the total
+        self.assertIn(WINDOW_HELM, self.worn_ids(forbidden=[SWORD_NEEDY], class_id=ALPHA))
+        self.assertEqual(['condition'], self.rules({'HEAD': WINDOW_HELM}, class_id=ALPHA))
+        self.assertEqual([], self.violations({'NECK': WINDOW_AMULET}, class_id=ALPHA))
+
+    def test_a_belt_capping_the_ap_it_gives_respects_both_readings(self):
+        self.assertIn(AP_LIMIT_BELT, self.worn_ids(forbidden=[SWORD_NEEDY], class_id=ALPHA))
+        with_helm = self.worn_ids(forbidden=[SWORD_NEEDY], locked=[(AP_HELM, 'HEAD')],
+                                  class_id=ALPHA)
+        self.assertIn(AP_HELM, with_helm)
+        self.assertNotIn(AP_LIMIT_BELT, with_helm)
+        self.assertEqual([], self.violations({'BELT': AP_LIMIT_BELT}, class_id=ALPHA))
+        self.assertEqual(['condition'], self.rules({'HEAD': AP_HELM, 'BELT': AP_LIMIT_BELT},
+                                                   class_id=ALPHA))
+
+    def test_a_shovel_needing_eight_wp_fits_only_the_high_wp_breed(self):
+        no_wp = [SWORD_NEEDY, WP_SHOULDERS, WP_CLOAK]
+        self.assertIn(WP_SHOVEL, self.worn_ids(forbidden=no_wp, class_id=BETA_BREED))
+        self.assertNotIn(WP_SHOVEL, self.worn_ids(forbidden=no_wp, class_id=ALPHA))
+        self.assertEqual([], self.violations({'SECOND_WEAPON': WP_SHOVEL}, class_id=BETA_BREED))
+        self.assertEqual(['condition'], self.rules({'SECOND_WEAPON': WP_SHOVEL}, class_id=ALPHA))
+
+    def test_an_unusable_helmet_is_never_worn_and_its_lock_is_refused(self):
+        self.assertIn(ADMIN_HELM, {ident for (ident,) in self.rows('SELECT item FROM unusable_items')})
+        self.assertNotIn(ADMIN_HELM, self.worn_ids())
+        self.assertIn('cannot be worn by anyone', self.refusal(locked=[(ADMIN_HELM, None)]))
+        self.assertEqual(['unusable'], self.rules({'HEAD': ADMIN_HELM}))
+
+    def test_a_tool_with_a_job_level_condition_stays_in_the_pool(self):
+        self.assertIn(JOB_BOOTS, {ident for (ident,) in self.rows('SELECT item FROM item_criteria')})
+        self.assertIn(JOB_BOOTS, self.worn_ids(forbidden=[SWORD_NEEDY]))
+        self.assertEqual([], self.violations({'LEGS': JOB_BOOTS}))
+
+
+class TheWakfuCatalogueWithoutCriteriaAddsNoConditionRowTests(InventedItemsCase):
+    @classmethod
+    def catalogue(cls):
+        return [one for one in CATALOGUE if not one.get('criteria')]
+
+    def test_a_catalogue_without_criteria_adds_no_condition_row(self):
+        build, worn = self.solve({'hp': 1}, class_id=ALPHA)
+        self.assertIsNotNone(worn)
+        names = [str(name) for name in build.problem.row_names()]
+        self.assertGreater(len(names), 0)
+        self.assertEqual([], [name for name in names
+                              if name.startswith(('gate_', 'apart_', 'needs_'))])
+
+
+class TheWakfuConditionRowsAreNamedTests(InventedItemsCase):
+    def test_a_catalogue_with_criteria_names_its_gate_rows(self):
+        build, _worn = self.solve({'hp': 1}, class_id=ALPHA)
+        names = [str(name) for name in build.problem.row_names()]
+        self.assertTrue([name for name in names if name.startswith('gate_%d_ferocity' % CRIT_HELM)],
+                        names[:10])
 
 
 class RealWakfuDataCase(SimpleTestCase):
@@ -761,6 +936,7 @@ class TheRealClassTurnSolveIsLegalTests(RealWakfuDataCase):
     def test_the_real_class_turn_solve_passes_the_checker(self):
         from fashionistapulp import wakfu_legality, wakfu_solve
         from fashionistapulp.structure import get_structure
+        from fashionistapulp.wakfu_criteria import base_values
         from fashionistapulp.wakfu_exclusions import default_exclusions
         structure = get_structure('wakfu')
         # Ankama class id 8 is the Iop
@@ -769,7 +945,9 @@ class TheRealClassTurnSolveIsLegalTests(RealWakfuDataCase):
         self.assertIsNotNone(result.worn)
         self.assertEqual([], wakfu_legality.violations(
             structure, 245, result.worn, forbidden=default_exclusions(structure),
-            minimums=wakfu_solve.make_role(('fire',), 'melee').minimums()))
+            minimums=wakfu_solve.make_role(('fire',), 'melee').minimums(
+                base_values(structure, 8)),
+            class_id=8))
         self.assertIn(result.status, ('proven', 'time limit'))
         self.assertLess(result.seconds, 95)
         self.assertIsNotNone(result.turn)

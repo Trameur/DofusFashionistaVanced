@@ -26,7 +26,8 @@ import math
 import time
 
 from . import lpproblem
-from .wakfu_stats import BASE_VALUES, ELEMENTS as ELEMENT_NAMES, OUT_OF_COMBAT_CAPS
+from .wakfu_criteria import base_values
+from .wakfu_stats import ELEMENTS as ELEMENT_NAMES, OUT_OF_COMBAT_CAPS
 from .wakfu_value_rules import RULES
 
 ELEMENTS = tuple(name.lower() for name in ELEMENT_NAMES)
@@ -96,9 +97,12 @@ class DamageDealer(collections.namedtuple(
         return super().__new__(cls, elements, reach, float(defense),
                                damage_inflicted, movement)
 
-    def minimums(self):
-        """{stat key: lowest total, base included} every set of the role keeps."""
-        floors = {name.lower(): BASE_VALUES[name]
+    def minimums(self, base):
+        """{stat key: lowest total, base included} every set of the role keeps.
+
+        base: {stat key: (low, high)}, wakfu_criteria.base_values.
+        """
+        floors = {name.lower(): base[name.lower()][0]
                   for name in rule('resources_kept_at_base')}
         if self.reach == 'distance':
             floors['range'] = rule('range_floor_at_distance')
@@ -147,18 +151,18 @@ def expected_factor(mastery, critical_mastery, chance):
     return (1 - chance) * normal + chance * critical
 
 
-def bare_totals():
-    """Stat totals of a character wearing nothing."""
-    return collections.Counter({name.lower(): value
-                                for name, value in BASE_VALUES.items()})
+def bare_totals(base):
+    """Stat totals of a character wearing nothing: AP, MP and WP at their base low."""
+    return collections.Counter({name.lower(): base[name.lower()][0]
+                                for name in OUT_OF_COMBAT_CAPS})
 
 
-def resource_ceiling():
+def resource_ceiling(base):
     """A bare character's totals with AP, MP and WP at their caps.
 
     A class turn that deals nothing there deals nothing on any set.
     """
-    totals = bare_totals()
+    totals = bare_totals(base)
     for name, cap in OUT_OF_COMBAT_CAPS.items():
         totals[name.lower()] = cap
     return totals
@@ -310,7 +314,8 @@ def blend(point, totals, step):
                                 for key in set(point) | set(totals)})
 
 
-def land(structure, level, role, build, worn, turn=None, locked=()):
+def land(structure, level, role, build, worn, turn=None, locked=(), class_id=None,
+         state=None):
     """(value, build, totals) of the best landing tried for a set's spread lines.
 
     Each pass lands them on the weights at the totals the pass before gave.
@@ -321,6 +326,7 @@ def land(structure, level, role, build, worn, turn=None, locked=()):
     tried = [(value(role, level, totals, turn), build, totals)]
     for _ in range(LANDING_PASSES):
         build = WakfuBuild(structure, level, linear_weights(role, level, totals, turn),
+                           class_id=class_id, state=state,
                            **({'locked': locked} if locked else {}))
         totals = build.totals(worn)
         if totals == tried[-1][2]:
@@ -330,7 +336,7 @@ def land(structure, level, role, build, worn, turn=None, locked=()):
 
 
 def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=None,
-          locked=(), deadline=None):
+          locked=(), deadline=None, class_id=None, state=None):
     """Best set by value; each round solves on the tangent at a blend of the sets found.
 
     The blend moves toward each new set by 2/(k+2) of the way, a Frank-Wolfe
@@ -343,23 +349,28 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     locked: (item id, position or None) pairs every set wears. deadline: a
     time.monotonic() value; each CBC run is cut to what is left, and no round
     starts with less than MIN_ROUND_SECONDS left, so the solve is then not settled.
+
+    class_id: the breed, whose pieces and base values count. state: the
+    PlayerState the pieces' player-state conditions are read against.
     """
     if turn is None:
         return _solve(structure, level, role, forbidden, rounds, full_set,
-                      locked=locked, deadline=deadline)
-    if turn.damage(resource_ceiling()) <= 0:
+                      locked=locked, deadline=deadline, class_id=class_id,
+                      state=state)
+    if turn.damage(resource_ceiling(base_values(structure, class_id))) <= 0:
         raise ValueError('the class turn deals no damage for this role, even with '
                          'AP, MP and WP at their caps')
     classed = _solve(structure, level, role, forbidden, rounds, full_set, turn,
-                     locked, deadline)
+                     locked, deadline, class_id, state)
     if out_of_time(deadline):
         return classed._replace(converged=False)
     generic = _solve(structure, level, role, forbidden, rounds, full_set,
-                     locked=locked, deadline=deadline).best
+                     locked=locked, deadline=deadline, class_id=class_id,
+                     state=state).best
     if generic is None:
         return classed
     worth, landed, totals = land(structure, level, role, generic.build, generic.worn,
-                                 turn, locked)
+                                 turn, locked, class_id, state)
     if classed.best is not None and classed.best.value >= worth:
         return classed
     return classed._replace(
@@ -367,11 +378,12 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
 
 
 def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
-           locked=(), deadline=None):
+           locked=(), deadline=None, class_id=None, state=None):
     from .wakfu_model import WakfuBuild
 
-    point = bare_totals()
-    minimums = role.minimums()
+    base = base_values(structure, class_id)
+    point = bare_totals(base)
+    minimums = role.minimums(base)
     done = []
     converged = False
     reason = None
@@ -383,12 +395,14 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
         if locked:
             options['locked'] = locked
         build = WakfuBuild(structure, level, weights, forbidden, full_set,
-                           minimums=minimums, **options)
+                           minimums=minimums, class_id=class_id, state=state,
+                           **options)
         worn = build.build().solve(deadline)
         if worn is None:
             reason = getattr(build, 'reason', None)
             break
-        worth, landed, totals = land(structure, level, role, build, worn, turn, locked)
+        worth, landed, totals = land(structure, level, role, build, worn, turn,
+                                     locked, class_id, state)
         done.append(ModelRound(weights, landed, worn, totals, worth))
         if len(done) > 1 and done[-2].ids == done[-1].ids:
             converged = True
