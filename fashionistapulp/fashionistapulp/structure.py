@@ -41,6 +41,7 @@ from .set import Set
 from .translation import NON_EN_LANGUAGES
 from .wakfu_db import (ITEM_PICTURE_TABLE, ITEM_RARITY_TABLE,
                        ITEM_TYPE_POSITION_TABLE, STAT_ELEMENT_COUNT_TABLE)
+from .wakfu_criteria import StateCondition
 from . import weapon_forge
 from .weapon import Weapon, WeaponType
 from django.templatetags.i18n import language
@@ -208,6 +209,7 @@ class Structure:
             self.read_item_class_conditions_table()
             self.read_item_spell_conditions_table()
             self.read_wear_limit_tables()
+            self.read_wakfu_criteria_tables()
             self.read_forgeable_items_table()
             self.read_wearer_tables()
             self.read_legacy_item_ids_table()
@@ -679,6 +681,80 @@ class Structure:
                     if (item_id, other_id) in own:
                         item.own_not_worn_with = (
                             getattr(item, 'own_not_worn_with', ()) + (other_id,))
+
+    def read_wakfu_criteria_tables(self):
+        """What the Wakfu client says about wearing a piece, Wakfu databases only."""
+        if self.game_version != 'wakfu':
+            return
+        c = self.conn.cursor()
+        if self._table_exists('item_criteria'):
+            for item_id, text in c.execute('SELECT item, criteria FROM item_criteria'):
+                item = self.get_item_by_id(item_id)
+                if item is not None:
+                    item.criteria = text
+        if self._table_exists('items_worn_with'):
+            for item_id, other_id in c.execute(
+                    'SELECT item, other FROM items_worn_with ORDER BY item, other'):
+                item = self.get_item_by_id(item_id)
+                if item is not None and self.get_item_by_id(other_id) is not None:
+                    item.worn_with = getattr(item, 'worn_with', ()) + (other_id,)
+        if self._table_exists('min_level_to_equip'):
+            for item_id, value in c.execute(
+                    'SELECT item, value FROM min_level_to_equip'):
+                item = self.get_item_by_id(item_id)
+                if item is not None:
+                    item.min_level = value
+        if self._table_exists('item_state_conditions'):
+            for item_id, option, nation, operator, value in c.execute(
+                    'SELECT item, option, nation, operator, value'
+                    ' FROM item_state_conditions ORDER BY item, option, nation, value'):
+                item = self.get_item_by_id(item_id)
+                if item is not None:
+                    item.state_conditions = getattr(item, 'state_conditions', ()) + (
+                        StateCondition(option, nation, operator, value),)
+        if self._table_exists('item_properties'):
+            for item_id, number in c.execute(
+                    'SELECT item, property FROM item_properties ORDER BY item, property'):
+                item = self.get_item_by_id(item_id)
+                if item is not None:
+                    item.property_ids = getattr(item, 'property_ids', ()) + (number,)
+        if self._table_exists('breeds'):
+            self.breed_names = dict(c.execute('SELECT id, name FROM breeds'))
+        if self._table_exists('breed_base_values'):
+            self.breed_base_values = {}
+            for breed, key, value in c.execute(
+                    'SELECT breed_base_values.breed, stats.key, breed_base_values.value'
+                    ' FROM breed_base_values JOIN stats'
+                    ' ON stats.id = breed_base_values.stat'):
+                self.breed_base_values.setdefault(breed, {})[key] = value
+        if self._table_exists('nations'):
+            self.nation_names = {(ident, language): name for ident, language, name
+                                 in c.execute('SELECT id, language, name FROM nations')}
+        if self._table_exists('criteria_labels'):
+            self.criteria_labels = {(key, language): text for key, language, text
+                                    in c.execute('SELECT key, language, text'
+                                                 ' FROM criteria_labels')}
+
+    def get_breed_names(self):
+        """{breed id: name}, empty on a catalogue without the breed table."""
+        return dict(getattr(self, 'breed_names', {}))
+
+    def get_breed_base_values(self):
+        """{breed id: {stat key: value}}, empty on a catalogue without the table."""
+        return {breed: dict(values) for breed, values
+                in getattr(self, 'breed_base_values', {}).items()}
+
+    def get_nation_ids(self):
+        return tuple(sorted({ident for ident, _language
+                             in getattr(self, 'nation_names', {})}))
+
+    def get_nation_names(self):
+        """{(nation id, language): name}"""
+        return dict(getattr(self, 'nation_names', {}))
+
+    def get_criteria_labels(self):
+        """{(label key, language): text}"""
+        return dict(getattr(self, 'criteria_labels', {}))
 
     def read_forgeable_items_table(self):
         """The pieces a smithmagic rune can go on, read on exo_per_item versions."""

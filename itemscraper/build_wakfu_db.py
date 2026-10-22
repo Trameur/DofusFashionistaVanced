@@ -38,8 +38,10 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))), 'fashionistapulp'))
+from fashionistapulp import wakfu_criteria  # noqa: E402
 from fashionistapulp.wakfu_db import create_tables, singular  # noqa: E402
-from fashionistapulp.wakfu_slots import RARITIES, SLOTS  # noqa: E402
+from fashionistapulp.wakfu_slots import (RARITIES, SLOTS,  # noqa: E402
+                                         TWO_HANDED_FLAG)
 from fashionistapulp.wakfu_stats import WAKFU_STATS  # noqa: E402
 
 HERE = Path(__file__).resolve().parent.parent
@@ -96,6 +98,19 @@ PREVIOUS = {
     'item_types': 'SELECT id, name FROM item_types',
     'item_type_names': 'SELECT item_type, language, name FROM item_type_names',
     'item_type_position': 'SELECT item_type, position FROM item_type_position',
+    'item_criteria': 'SELECT item, criteria FROM item_criteria',
+    'item_other_criteria': 'SELECT item, kind, criteria FROM item_other_criteria',
+    'item_properties': 'SELECT item, property FROM item_properties',
+    'item_class_conditions': 'SELECT item, class FROM item_class_conditions',
+    'items_not_worn_together': 'SELECT item, other FROM items_not_worn_together',
+    'items_worn_with': 'SELECT item, other FROM items_worn_with',
+    'unusable_items': 'SELECT item FROM unusable_items',
+    'min_level_to_equip': 'SELECT item, value FROM min_level_to_equip',
+    'max_level_to_equip': 'SELECT item, value FROM max_level_to_equip',
+    'min_stat_to_equip': 'SELECT item, stat, value FROM min_stat_to_equip',
+    'max_stat_to_equip': 'SELECT item, stat, value FROM max_stat_to_equip',
+    'item_state_conditions': 'SELECT item, option, nation, operator, value'
+                             ' FROM item_state_conditions',
 }
 
 
@@ -105,8 +120,16 @@ def read_previous(db_path):
         return None
     conn = sqlite3.connect(db_path.resolve().as_uri() + '?mode=ro', uri=True)
     try:
-        return {table: conn.execute(query).fetchall()
-                for table, query in PREVIOUS.items()}
+        rows = {}
+        for table, query in PREVIOUS.items():
+            try:
+                rows[table] = conn.execute(query).fetchall()
+            except sqlite3.OperationalError as error:
+                # A database built before this table existed holds no row of it
+                if 'no such table' not in str(error):
+                    raise
+                rows[table] = []
+        return rows
     finally:
         conn.close()
 
@@ -159,6 +182,55 @@ def keep_removed(conn, previous, written, stat_ids, set_ids, type_ids):
         if row[0] in gone:
             conn.execute('INSERT INTO item_picture (item, gfx) VALUES (?, ?)',
                          row)
+    for row in previous['item_criteria']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO item_criteria (item, criteria)'
+                         ' VALUES (?, ?)', row)
+    for row in previous['item_other_criteria']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO item_other_criteria (item, kind, criteria)'
+                         ' VALUES (?, ?, ?)', row)
+    for row in previous['item_properties']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO item_properties (item, property)'
+                         ' VALUES (?, ?)', row)
+    for row in previous['item_class_conditions']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO item_class_conditions (item, class)'
+                         ' VALUES (?, ?)', row)
+    for row in previous['items_not_worn_together']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO items_not_worn_together (item, other)'
+                         ' VALUES (?, ?)', row)
+    for row in previous['items_worn_with']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO items_worn_with (item, other)'
+                         ' VALUES (?, ?)', row)
+    for row in previous['unusable_items']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO unusable_items (item) VALUES (?)', row)
+    for row in previous['min_level_to_equip']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO min_level_to_equip (item, value)'
+                         ' VALUES (?, ?)', row)
+    for row in previous['max_level_to_equip']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO max_level_to_equip (item, value)'
+                         ' VALUES (?, ?)', row)
+    for row in previous['item_state_conditions']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO item_state_conditions (item, option,'
+                         ' nation, operator, value) VALUES (?, ?, ?, ?, ?)', row)
+    for item, stat, value in previous['min_stat_to_equip']:
+        number = new_ids.get(str(old_keys.get(stat)).lower())
+        if item in gone and number:
+            conn.execute('INSERT INTO min_stat_to_equip (item, stat, value)'
+                         ' VALUES (?, ?, ?)', (item, number, value))
+    for item, stat, value in previous['max_stat_to_equip']:
+        number = new_ids.get(str(old_keys.get(stat)).lower())
+        if item in gone and number:
+            conn.execute('INSERT INTO max_stat_to_equip (item, stat, value)'
+                         ' VALUES (?, ?, ?)', (item, number, value))
     for item, stat, value, low, high in previous['stats_of_item']:
         number = new_ids.get(str(old_keys.get(stat)).lower())
         if item in gone and number:
@@ -174,6 +246,120 @@ def keep_removed(conn, previous, written, stat_ids, set_ids, type_ids):
                 ' elements) VALUES (?, ?, ?, ?, ?)',
                 (item, line, number, value, elements))
     return len(gone)
+
+
+def write_breeds(conn, dump, stat_ids, counts):
+    """Fill breeds and their base values; the set of breed names."""
+    by_key = {key.lower(): number for key, number in stat_ids.items()}
+    names = set()
+    skipped = set()
+    for breed in dump.get('breeds') or ():
+        conn.execute('INSERT INTO breeds (id, name) VALUES (?, ?)',
+                     (breed['id'], breed['name']))
+        names.add(breed['name'])
+        counts['breeds'] += 1
+        for field, value in sorted(breed['base'].items()):
+            number = by_key.get(field.lower())
+            if number is None:
+                skipped.add(field)
+                continue
+            conn.execute('INSERT INTO breed_base_values (breed, stat, value)'
+                         ' VALUES (?, ?, ?)', (breed['id'], number, value))
+            counts['breed base values'] += 1
+    if skipped:
+        print('breed fields with no stat row, not stored: %s'
+              % ', '.join(sorted(skipped)))
+    return names
+
+
+def write_labels(conn, dump, counts):
+    """Fill criteria_labels and nations, every language the client carries."""
+    for language, table in sorted((dump.get('labels') or {}).items()):
+        for key, text in sorted(table.items()):
+            conn.execute('INSERT INTO criteria_labels (key, language, text)'
+                         ' VALUES (?, ?, ?)', (key, language, text))
+            counts['criteria labels'] += 1
+    for language, table in sorted((dump.get('nations') or {}).items()):
+        for ident, name in sorted(table.items(), key=lambda one: int(one[0])):
+            conn.execute('INSERT INTO nations (id, language, name)'
+                         ' VALUES (?, ?, ?)', (int(ident), language, name))
+            counts['nations'] += 1
+
+
+def screen(item, stat_keys, breed_names, gear_ids, counts):
+    """The derivation of one item's EQUIP text, or None when it has none.
+
+    Raises CriteriaError, naming the item, on anything the screen does not
+    know: an unreviewed kind or property, a text that does not parse, a
+    function outside the four classes or a shape the derivation refuses.
+    """
+    try:
+        for kind in item.get('other_criteria') or {}:
+            if kind not in wakfu_criteria.REVIEWED_KINDS:
+                raise wakfu_criteria.CriteriaError(
+                    'criteria kind %r is not reviewed' % kind)
+        for number in item.get('properties') or ():
+            if number not in wakfu_criteria.REVIEWED_PROPERTIES:
+                raise wakfu_criteria.CriteriaError(
+                    'property %r is not reviewed' % number)
+        text = item.get('criteria')
+        if not text:
+            return None
+        tree = wakfu_criteria.parse(text)
+        for kind in {wakfu_criteria.classify(name)
+                     for name in wakfu_criteria.functions(tree)}:
+            counts['items with %s atoms' % kind] += 1
+        return wakfu_criteria.derive(tree, stat_keys=stat_keys,
+                                     breed_names=breed_names, item_ids=gear_ids)
+    except wakfu_criteria.CriteriaError as error:
+        raise wakfu_criteria.CriteriaError(
+            'item %s: %s' % (item['id'], error)) from error
+
+
+def write_conditions(conn, item, stat_ids, breed_names, gear_ids, counts):
+    """Write what the client says about wearing one item."""
+    item_id = item['id']
+    by_key = {key.lower(): number for key, number in stat_ids.items()}
+    derived = screen(item, set(by_key), breed_names, gear_ids, counts)
+    for number in item.get('properties') or ():
+        conn.execute('INSERT INTO item_properties (item, property) VALUES (?, ?)',
+                     (item_id, number))
+    for kind, other in sorted((item.get('other_criteria') or {}).items()):
+        conn.execute('INSERT INTO item_other_criteria (item, kind, criteria)'
+                     ' VALUES (?, ?, ?)', (item_id, kind, other))
+    if derived is None:
+        return
+    conn.execute('INSERT INTO item_criteria (item, criteria) VALUES (?, ?)',
+                 (item_id, item['criteria']))
+    if derived.unusable:
+        conn.execute('INSERT INTO unusable_items (item) VALUES (?)', (item_id,))
+    for name in derived.classes:
+        conn.execute('INSERT INTO item_class_conditions (item, class)'
+                     ' VALUES (?, ?)', (item_id, name))
+    for key, value in sorted(derived.min_stats.items()):
+        conn.execute('INSERT INTO min_stat_to_equip (item, stat, value)'
+                     ' VALUES (?, ?, ?)', (item_id, by_key[key], value))
+    for key, value in sorted(derived.max_stats.items()):
+        conn.execute('INSERT INTO max_stat_to_equip (item, stat, value)'
+                     ' VALUES (?, ?, ?)', (item_id, by_key[key], value))
+    for other in derived.worn_with:
+        conn.execute('INSERT INTO items_worn_with (item, other) VALUES (?, ?)',
+                     (item_id, other))
+    for other in derived.not_worn_with:
+        conn.execute('INSERT INTO items_not_worn_together (item, other)'
+                     ' VALUES (?, ?)', (item_id, other))
+    if derived.min_level is not None:
+        conn.execute('INSERT INTO min_level_to_equip (item, value) VALUES (?, ?)',
+                     (item_id, derived.min_level))
+    if derived.max_level is not None:
+        conn.execute('INSERT INTO max_level_to_equip (item, value) VALUES (?, ?)',
+                     (item_id, derived.max_level))
+    for condition in derived.state:
+        conn.execute('INSERT INTO item_state_conditions (item, option, nation,'
+                     ' operator, value) VALUES (?, ?, ?, ?, ?)',
+                     (item_id, condition.option, condition.nation,
+                      condition.operator, condition.value))
+    counts['equip texts screened'] += 1
 
 
 def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
@@ -235,6 +421,11 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
             conn.execute('INSERT INTO set_names (item_set, language, name)'
                          ' VALUES (?, ?, ?)', (set_id, language, name))
 
+    breed_names = write_breeds(conn, dump, stat_ids, counts)
+    write_labels(conn, dump, counts)
+    gear_ids = {item['id'] for item in dump['equipment']
+                if any(p in GEAR for p in item['positions'])}
+
     written = set()
     for item in dump['equipment']:
         positions = [p for p in item['positions'] if p in GEAR]
@@ -273,8 +464,8 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
                 conn.execute('INSERT INTO item_names (item, language, name)'
                              ' VALUES (?, ?, ?)', (item_id, language, name))
 
-        for flag in ('two_handed', 'relic', 'epic'):
-            if flag == 'two_handed' and item['two_handed']:
+        for flag in (TWO_HANDED_FLAG, 'relic', 'epic'):
+            if flag == TWO_HANDED_FLAG and item['two_handed']:
                 conn.execute('INSERT INTO item_flags (item, flag)'
                              ' VALUES (?, ?)', (item_id, flag))
             elif item['exclusive'] == flag:
@@ -288,6 +479,8 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
             conn.execute('INSERT INTO item_rarity (item, rarity)'
                          ' VALUES (?, ?)', (item_id, item['rarity']))
             counts['rarity %s' % RARITIES.get(item['rarity'], '?')] += 1
+
+        write_conditions(conn, item, stat_ids, breed_names, gear_ids, counts)
 
         for line_number, line in enumerate(item['lines']):
             key = line.get('stat')

@@ -65,6 +65,28 @@ SCHEMA = (
              (spell INTEGER, language TEXT, normal TEXT, critical TEXT,
               PRIMARY KEY (spell, language),
               FOREIGN KEY(spell) REFERENCES spells(id))""",
+    # Equip conditions. IF NOT EXISTS: a Dofus items.db may carry a table of
+    # the same name and the same shape
+    "CREATE TABLE IF NOT EXISTS item_criteria"
+    " (item INTEGER PRIMARY KEY, criteria TEXT NOT NULL)",
+    "CREATE TABLE IF NOT EXISTS item_other_criteria"
+    " (item INTEGER, kind TEXT, criteria TEXT)",
+    "CREATE TABLE IF NOT EXISTS item_properties (item INTEGER, property INTEGER)",
+    "CREATE TABLE IF NOT EXISTS breeds (id INTEGER PRIMARY KEY, name TEXT NOT NULL)",
+    "CREATE TABLE IF NOT EXISTS breed_base_values"
+    " (breed INTEGER, stat INTEGER, value INTEGER)",
+    "CREATE TABLE IF NOT EXISTS item_class_conditions (item INTEGER, class TEXT)",
+    "CREATE TABLE IF NOT EXISTS items_not_worn_together"
+    " (item INTEGER, other INTEGER)",
+    "CREATE TABLE IF NOT EXISTS items_worn_with (item INTEGER, other INTEGER)",
+    "CREATE TABLE IF NOT EXISTS unusable_items (item INTEGER)",
+    "CREATE TABLE IF NOT EXISTS min_level_to_equip (item INTEGER, value INTEGER)",
+    "CREATE TABLE IF NOT EXISTS max_level_to_equip (item INTEGER, value INTEGER)",
+    "CREATE TABLE IF NOT EXISTS item_state_conditions"
+    " (item INTEGER, option TEXT, nation INTEGER, operator TEXT, value INTEGER)",
+    "CREATE TABLE IF NOT EXISTS criteria_labels"
+    " (key TEXT, language TEXT, text TEXT)",
+    "CREATE TABLE IF NOT EXISTS nations (id INTEGER, language TEXT, name TEXT)",
 )
 
 # "Anneau{[~1]?x:}": {[~N]?A:B} is A when the quantity differs from N, else B

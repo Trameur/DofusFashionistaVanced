@@ -86,27 +86,25 @@ class WakfuCountsDifferFromTheCdnOnlyByScopeTests(SimpleTestCase):
         self.assertEqual([], [item.id for item in legacy if hidden not in item.properties])
         self.assertEqual('legacy', RARITIES[LEGACY_RARITY])
 
-    def test_the_cdn_epics_are_the_database_epics_plus_those_with_no_stat_line(self):
+    def test_the_cdn_epics_are_the_database_epics(self):
         from fashionistapulp.wakfu_slots import EXCLUSIVE_PROPERTIES
         epic = {group: number for number, group in EXCLUSIVE_PROPERTIES.items()}['epic']
         cdn = {item.id: item for item in self.cdn_items() if epic in item.properties}
         database = self.ids("SELECT item FROM item_flags WHERE flag = 'epic'")
         self.assertGreater(len(database), 50)
         self.assertEqual(set(), database - set(cdn))
-        no_stat_line = {item_id for item_id, item in cdn.items() if not item.equip}
-        self.assertEqual(no_stat_line, set(cdn) - database)
+        self.assertEqual(set(), set(cdn) - database)
 
-    def test_the_cdn_rarity_zero_equipment_is_the_database_legacy_tier_plus_what_it_leaves_out(self):
+    def test_the_cdn_rarity_zero_equipment_is_the_database_legacy_tier_minus_what_is_not_gear(self):
         from fashionistapulp.wakfu_slots import LEGACY_RARITY, NOT_GEAR, SLOTS
         positions = self.positions()
         cdn = [item for item in self.cdn_items() if item.rarity == LEGACY_RARITY and item.type in positions]
         not_gear = {item.id for item in cdn if not positions[item.type] & set(SLOTS)}
         worn_there = set().union(*(positions[item.type] for item in cdn if item.id in not_gear))
         self.assertEqual(set(), worn_there - set(NOT_GEAR))
-        no_stat_line = {item.id for item in cdn if item.id not in not_gear and not item.equip}
         legacy = self.legacy_in_db()
         self.assertGreater(len(legacy), 100)
-        self.assertEqual(legacy, {item.id for item in cdn} - not_gear - no_stat_line)
+        self.assertEqual(legacy, {item.id for item in cdn} - not_gear)
 
     def test_database_items_out_of_the_encyclopedia_are_the_legacy_tier_and_a_few_others(self):
         hidden = self.property_id('EXCLUDE_FROM_ENCYCLOPEDIA')
@@ -115,7 +113,9 @@ class WakfuCountsDifferFromTheCdnOnlyByScopeTests(SimpleTestCase):
         legacy = self.legacy_in_db()
         self.assertGreater(len(legacy), 100)
         self.assertEqual(set(), legacy - hidden_in_db)
-        self.assertLess(len(hidden_in_db - legacy), len(legacy) // 10)
+        others = hidden_in_db - legacy
+        self.assertLess(len(others), len(legacy) // 10,
+                        'hidden but not legacy: %d, bound %d' % (len(others), len(legacy) // 10))
 
     def test_the_cdn_state_lines_are_the_decoded_ones_plus_weapon_use_effects(self):
         from fashionistapulp.wakfu_slots import SLOTS

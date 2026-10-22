@@ -161,8 +161,60 @@ def titles(node):
     return out
 
 
-def decode(target):
-    """The normalised equipment dump, and a report of what was in the build."""
+class ClientPairingError(Exception):
+    pass
+
+
+def find_client(client_dir, version):
+    """The decoded client whose game version is the first three parts of `version`."""
+    wanted = '.'.join(version.split('.')[:3])
+    found = []
+    for path in sorted(Path(client_dir).glob('*/decoded.json')):
+        with io.open(path, encoding='utf-8') as handle:
+            payload = json.load(handle)
+        if payload.get('game_version') == wanted:
+            found.append(payload)
+    if len(found) != 1:
+        raise ClientPairingError(
+            'client and open data are not paired: %d decoded client(s) for '
+            'game version %s under %s' % (len(found), wanted, client_dir))
+    return found[0]
+
+
+def merge_client(base, item_id, parameters, positions, client, report):
+    """(EQUIP text or None, other criteria, properties) of one item, cross checked."""
+    record = (client or {}).get('items', {}).get(str(item_id))
+    gear = any(position in GEAR_POSITIONS for position in positions)
+    if record is None:
+        if gear:
+            raise ClientPairingError('gear item %s is not in the client' % item_id)
+        return None, {}, []
+    for ours, theirs, label in ((base.get('level'), record['level'], 'level'),
+                                (parameters.get('itemTypeId'), record['type'], 'type'),
+                                (parameters.get('rarity'), record['rarity'], 'rarity')):
+        if ours != theirs:
+            raise ClientPairingError('item %s: open data %s %r, client %r'
+                                     % (item_id, label, ours, theirs))
+    if sorted(base.get('properties') or []) != sorted(record['properties']):
+        raise ClientPairingError('item %s: open data properties %r, client %r' % (
+            item_id, base.get('properties'), record['properties']))
+    equip = [text for kind, text in record['criteria'] if kind == 'EQUIP']
+    if len(equip) > 1:
+        raise ClientPairingError('item %s has %d EQUIP texts' % (item_id, len(equip)))
+    others = {}
+    for kind, text in record['criteria']:
+        if kind != 'EQUIP':
+            others[kind] = text
+    if equip:
+        report['equip_texts'] += 1
+    return (equip[0] if equip else None), others, list(record['properties'])
+
+
+def decode(target, client=None):
+    """The normalised equipment dump, and a report of what was in the build.
+
+    client: the decoded.json of the paired client, or None for no conditions.
+    """
     items = load(target, 'items.json')
     actions = {row['definition']['id']: row for row in load(target, 'actions.json')}
     types = {row['definition']['id']: row
@@ -179,6 +231,7 @@ def decode(target):
               'stats': collections.Counter(),
               'element_spread': collections.Counter(),
               'no_stat_lines': 0,
+              'equip_texts': 0,
               'two_handed': 0,
               'exclusive': collections.Counter(),
               'not_a_stat': collections.Counter(),
@@ -191,13 +244,14 @@ def decode(target):
         base = (definition.get('item') or {})
         parameters = base.get('baseParameters') or {}
         effects = definition.get('equipEffects') or []
-        if not effects:
-            # Nation rings and cosmetic sets have no equipEffects
-            report['no_stat_lines'] += 1
-            continue
         type_id = parameters.get('itemTypeId')
         slot = equipment.get(type_id) or {}
         positions = (slot.get('definition') or {}).get('equipmentPositions') or []
+        if not effects:
+            # Nation rings and tools have no equipEffects, yet they are worn
+            report['no_stat_lines'] += 1
+            if not positions:
+                continue
         disabled = (slot.get('definition') or {}).get(
             'equipmentDisabledPositions') or []
 
@@ -246,8 +300,13 @@ def decode(target):
         if exclusive:
             report['exclusive'][exclusive] += 1
 
+        criteria, other_criteria, properties = merge_client(
+            base, base.get('id'), parameters, positions, client, report)
         out.append({
             'id': base.get('id'),
+            'criteria': criteria,
+            'other_criteria': other_criteria,
+            'properties': properties,
             'two_handed': two_handed,
             'exclusive': exclusive,
             'level': base.get('level'),
@@ -278,6 +337,8 @@ def main(argv=None):
                         help='where the normalised equipment is written')
     parser.add_argument('--version', help='a build to decode instead of the '
                                           'current one (must be mirrored)')
+    parser.add_argument('--client', default='itemscraper/wakfu_client',
+                        help='where get_wakfu_client.py wrote the decoded client')
     args = parser.parse_args(argv)
 
     version = args.version or current_version()
@@ -288,9 +349,21 @@ def main(argv=None):
     elif not target.exists():
         parser.error('build %s is not mirrored under %s' % (version, args.out))
 
-    equipment, report = decode(target)
+    try:
+        client = find_client(args.client, version)
+    except ClientPairingError as error:
+        print(error)
+        return 1
+    try:
+        equipment, report = decode(target, client)
+    except ClientPairingError as error:
+        print(error)
+        return 1
     # Notice required by the WAKFU DATA USE LICENSE (personal, non-commercial use)
     payload = {'version': version, 'equipment': equipment,
+               'client_version': client['client_version'],
+               'breeds': client['breeds'], 'labels': client['labels'],
+               'nations': client['nations'],
                'notice': 'WAKFU MMORPG: (c) 2012-2026 Ankama Studio. '
                          'All rights reserved.'}
     Path(args.dump).write_text(
@@ -318,8 +391,9 @@ def main(argv=None):
     print('by rarity: %s' % dict(sorted(report['by_rarity'].items())))
     print('two-handed weapons that block the off hand: %d' % report['two_handed'])
     print('one-at-a-time items: %s' % dict(report['exclusive']))
-    print('gear Ankama ships with no stat line at all, dropped: %d'
+    print('items Ankama ships with no stat line at all: %d (worn ones kept)'
           % report['no_stat_lines'])
+    print('equip conditions read from the client: %d' % report['equip_texts'])
     print('\nwrote %s' % args.dump)
     return 0
 

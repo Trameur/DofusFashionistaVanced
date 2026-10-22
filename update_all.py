@@ -79,6 +79,7 @@ WRITTEN = 'written-files.json'
 MARKER = re.compile(r'update_all pid=(\d+) (\S+)(?: (?:run|restore)=(.+))?')
 STEP_TITLES = {
     'items/download': 'Downloading items', 'data/download': 'Downloading data',
+    'data/client': 'Reading the Wakfu client',
     'data/mirror': 'Copying the Wakfu data', 'data/sets': 'Set names',
     'data/spells': 'Downloading spells', 'data/mounts': 'Downloading mounts',
     'lang/download': 'Downloading languages',

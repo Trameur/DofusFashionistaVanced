@@ -6,12 +6,14 @@ Usage:
     python update_data_wakfu.py                 # full rebuild from Ankama's CDN
     python update_data_wakfu.py --skip-images   # leave the artwork alone
     python update_data_wakfu.py --skip-mirror   # reuse the local mirror as it is
+    python update_data_wakfu.py --skip-client   # reuse the decoded client files
 
 Wakfu is NOT a Dofus version. It has its own stats, slots, item types and
 rules, and its data comes from a feed of its own; nothing here is shared with
 update_data.py and its siblings beyond the shape of this file.
 
 Steps:
+    data/client    get_wakfu_client.py      -> wakfu_client/<client>/decoded.json
     data/mirror    get_items_wakfu.py       -> wakfu_raw/<build>/ + transformed_wakfu.json
     data/sets      get_sets_wakfu.py        -> wakfu_raw/<build>/sets.json
     data/spells    get_spells_wakfu.py      -> wakfu_raw/<build>/spells_<lang>.json
@@ -36,7 +38,12 @@ So: WHICH TABLES BELONG TO WHOM.
     build_wakfu_db.py owns, and rewrites on every run:
         items, item_names, item_flags, item_types, item_type_names,
         item_type_position, item_rarity, item_picture, stats,
-        stats_of_item, stat_element_count, sets, set_names
+        stats_of_item, stat_element_count, sets, set_names,
+        item_criteria, item_other_criteria, item_properties, breeds,
+        breed_base_values, item_class_conditions, items_not_worn_together,
+        items_worn_with, unusable_items, min_level_to_equip,
+        max_level_to_equip, min_stat_to_equip, max_stat_to_equip,
+        item_state_conditions, criteria_labels, nations
 
     build_wakfu_recipes.py owns, and rewrites on every run:
         item_recipes, item_recipe_ingredient_names, item_craft_jobs,
@@ -138,12 +145,33 @@ def run_step(label, cmd, cwd=None):
     return ok, lines
 
 
+SPELL_LANGUAGES = ('fr', 'en', 'es', 'pt')
+
+
+def steps_after_client(args):
+    """The labels of every step that follows data/client, in running order."""
+    labels = []
+    if not args.skip_mirror:
+        labels.append('data/mirror')
+    if not args.skip_sets:
+        labels.append('data/sets')
+    if not args.skip_spells:
+        labels.extend('data/spells %s' % language for language in SPELL_LANGUAGES)
+    labels.extend(['items/build-db', 'items/recipes', 'items/spells'])
+    if not args.skip_images:
+        labels.append('item-images')
+    labels.append('items/dump')
+    return labels
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description='DofusFashionista data pipeline for Wakfu',
         formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
     parser.add_argument('--skip-images', action='store_true',
                         help="don't fetch the item artwork from Ankama")
+    parser.add_argument('--skip-client', action='store_true',
+                        help='reuse the decoded client files as they are')
     parser.add_argument('--skip-mirror', action='store_true',
                         help='reuse the local mirror instead of asking the CDN')
     parser.add_argument('--skip-sets', action='store_true',
@@ -167,12 +195,20 @@ def main(argv=None):
             failed.append(label)
         return ok
 
+    if not args.skip_client:
+        if not step('data/client', [PY, 'itemscraper/get_wakfu_client.py']):
+            print('\n  skipped: the client files could not be read; the '
+                  'previous database stays')
+            failed.extend('%s (skipped)' % label for label in steps_after_client(args))
+            print('  FAILED: %s' % ', '.join(failed))
+            return 1
+
     if not args.skip_mirror:
         step('data/mirror', [PY, 'itemscraper/get_items_wakfu.py'])
     if not args.skip_sets:
         step('data/sets', [PY, 'itemscraper/get_sets_wakfu.py'])
     if not args.skip_spells:
-        for language in ('fr', 'en', 'es', 'pt'):
+        for language in SPELL_LANGUAGES:
             step('data/spells %s' % language,
                  [PY, 'itemscraper/get_spells_wakfu.py', '--lang', language])
 

@@ -26,8 +26,15 @@ class WakfuLegacyItemsAreForbiddenByDefaultTests(SimpleTestCase):
         shipped = {item.id for item in self.structure.get_items_list() if not item.removed}
         legacy = set(default_exclusions(self.structure)) & shipped
         self.assertGreater(len(legacy), 100)
-        candidates = {item.id for item, _position in WakfuBuild(self.structure, 245, {'hp': 1})._candidates()}
-        self.assertEqual(set(), legacy - candidates)
+        model = WakfuBuild(self.structure, 245, {'hp': 1})
+        candidates = {item.id for item, _position in model._candidates()}
+        placed = {type_id for type_id, _position in self.structure.get_type_positions()}
+        by_id = {item.id: item for item in self.structure.get_items_list()}
+        missing = {ident for ident in legacy - candidates
+                   if by_id[ident].stats and by_id[ident].level <= 245
+                   and by_id[ident].type in placed and not model._why_not_wearable(by_id[ident])}
+        self.assertEqual(set(), missing)
+        self.assertGreater(len(legacy & candidates), 100)
 
     def test_a_low_level_set_wears_legacy_items_only_when_they_are_allowed(self):
         from fashionistapulp.wakfu_exclusions import default_exclusions
