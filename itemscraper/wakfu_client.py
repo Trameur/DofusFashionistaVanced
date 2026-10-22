@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read the Wakfu client's item table, breed table and label files.
+"""Read the Wakfu client's item, breed, effect, set, state and ability tables, and its labels.
 
     python itemscraper/wakfu_client.py <35.jar>
 
@@ -17,6 +17,12 @@ import zipfile
 
 ITEM_TABLE = 35
 BREED_TABLE = 86
+EFFECT_GROUP_TABLE = 29
+ITEM_SET_TABLE = 36
+STATE_TABLE = 67
+STATIC_EFFECT_TABLE = 68
+ABILITY_TABLE = 135
+ABILITY_CATEGORY_TABLE = 136
 SEED_OFFSET = 756423
 
 ItemRecord = collections.namedtuple(
@@ -27,6 +33,74 @@ BreedRecord = collections.namedtuple('BreedRecord', 'id name base')
 BREED_FIELDS = ('HP', 'AP', 'MP', 'WP', 'INIT', 'FEROCITY', 'FUMBLE_RATE',
                 'WISDOM', 'TACKLE', 'DODGE', 'PROSPECTION',
                 'KO_TIME_BEFORE_DEATH')
+
+
+# One row per read of a record class, in read order: (client field, kind). A
+# kind ending in [] is an i32 count, then that many elements. A field is named
+# for what it means only where the data proves it; the others keep the
+# client's own field name.
+# Every table has an unreferenced twin class that returns the same type id:
+# the layouts below are the referenced one (aNy, not fGK, which breaks almost
+# every record of 68).
+STATIC_EFFECT_LAYOUT = (  # 68, aNy
+    ('id', 'i32'), ('action_id', 'i32'), ('container_id', 'i32'),
+    ('short_esK', 'i16'), ('area_size', 'i32[]'), ('area_shape', 'i16'),
+    ('short_esN', 'i16'), ('ints_esO', 'i32[]'), ('short_esP', 'i16'),
+    ('ints_esQ', 'i32[]'), ('ints_esR', 'i32[]'), ('ints_esS', 'i32[]'),
+    ('ints_esT', 'i32[]'), ('ints_esU', 'i32[]'), ('ints_esV', 'i32[]'),
+    ('ints_esW', 'i32[]'), ('normal_or_critical', 'text'), ('longs_esY', 'i64[]'),
+    ('flag_beL', 'bool'), ('int_esZ', 'i32'), ('float_eta', 'f32'),
+    ('flag_esu', 'bool'), ('flag_etb', 'bool'), ('short_etc', 'i16'),
+    ('float_etd', 'f32'), ('params', 'f32[]'), ('float_ete', 'f32'),
+    ('float_etf', 'f32'), ('byte_etg', 'i8'), ('byte_eth', 'i8'),
+    ('byte_eti', 'i8'), ('int_beJ', 'i32'), ('flag_etj', 'bool'),
+    ('short_etk', 'i16'), ('float_etl', 'f32'), ('byte_etm', 'i8'),
+    ('flag_etn', 'bool'), ('text_eto', 'text'), ('short_etp', 'i16'),
+    ('short_etq', 'i16'), ('text_etr', 'text'), ('container_type', 'text'),
+    ('root_container_type', 'text'), ('flag_bex', 'bool'), ('flag_etu', 'bool'),
+    ('flag_etv', 'bool'), ('flag_etw', 'bool'), ('flag_etx', 'bool'),
+    ('flag_ety', 'bool'), ('int_dIM', 'i32'), ('flag_beM', 'bool'),
+    ('ints_etz', 'i32[]'), ('flag_etA', 'bool'), ('flag_etB', 'bool'),
+    ('flag_etC', 'bool'), ('flag_etD', 'bool'), ('flag_etE', 'bool'),
+)
+EFFECT_GROUP_LAYOUT = (('id', 'i32'), ('effect_ids', 'i32[]'))  # 29, aKX
+# 67, aNx. efW lists the effects of the state: the STATE effects of table 68
+# on all 6129 states. bcw is a text key (for example malus_portee).
+STATE_LAYOUT = (
+    ('id', 'i32'), ('aYh', 'i16'), ('ess', 'i32[]'), ('aOC', 'i32[]'),
+    ('est', 'i32[]'), ('esu', 'bool'), ('esv', 'bool'), ('esw', 'bool'),
+    ('esx', 'bool'), ('esy', 'text'), ('esz', 'text'), ('esA', 'bool'),
+    ('beM', 'bool'), ('esB', 'bool'), ('efW', 'i32[]'), ('esC', 'i32[]'),
+    ('esD', 'bool'), ('esE', 'bool'), ('esF', 'i8'), ('esG', 'i8'),
+    ('esH', 'bool'), ('esI', 'bool'), ('bcw', 'text'), ('esJ', 'bool'),
+    ('atM', 'i16'),
+)
+# 135, aJX. The ability's category is the one whose ability list holds it.
+ABILITY_LAYOUT = (
+    ('id', 'i32'), ('category', 'i32'), ('ddL', 'i32'), ('cgI', 'i32'),
+    ('effect_ids', 'i32[]'),
+)
+ABILITY_CATEGORY_LAYOUT = (  # 136, aJY
+    ('id', 'i32'), ('unlock_levels', 'i32[]'), ('ability_ids', 'i32[]'),
+)
+# The reader method of each kind
+KIND_READERS = {'i8': 'i8', 'bool': 'boolean', 'i16': 'i16', 'i32': 'i32',
+                'i64': 'i64', 'f32': 'f32', 'text': 'text', 'i32[]': 'i32s',
+                'i64[]': 'i64s', 'f32[]': 'f32s'}
+
+# What each reader hands back. The effect fields not named here are read to
+# keep the record aligned and dropped: 178344 records of 57 fields would not
+# fit in memory as dicts.
+EffectRecord = collections.namedtuple(
+    'EffectRecord', 'id action_id container_id container_type root_container_type'
+                    ' normal_or_critical area_shape area_size params')
+GroupRecord = collections.namedtuple('GroupRecord', 'id effect_ids')
+StateRecord = collections.namedtuple('StateRecord', 'id bcw effect_ids')
+AbilityRecord = collections.namedtuple(
+    'AbilityRecord', 'id category ddL cgI effect_ids')
+AbilityCategoryRecord = collections.namedtuple(
+    'AbilityCategoryRecord', 'id unlock_levels ability_ids')
+SetRecord = collections.namedtuple('SetRecord', 'id elG item_ids bonuses')
 
 
 class TableError(ValueError):
@@ -103,6 +177,12 @@ class Reader:
 
     def i32s(self):
         return [self.i32() for _ in range(self.count())]
+
+    def i64s(self):
+        return [self.i64() for _ in range(self.count())]
+
+    def f32s(self):
+        return [self.f32() for _ in range(self.count())]
 
     def i8s(self):
         return [self.i8() for _ in range(self.count())]
@@ -250,6 +330,108 @@ def read_breeds(jar_path):
                              % (ident, reader.pos, offset + size))
         out.append(record)
     return out
+
+
+def _read_layout(reader, layout):
+    """{field: value} of one record whose rows are `layout`."""
+    return {name: getattr(reader, KIND_READERS[kind])() for name, kind in layout}
+
+
+def _read_records(jar_path, table_id, read_one, label):
+    """[record] in entry order; raises unless each ends at its declared size."""
+    buf = _table(jar_path, '%d.bin' % table_id)
+    entries, _indexes, reader = read_container(buf, table_id)
+    out = []
+    for ident, offset, size, seed in entries:
+        reader.pos, reader.b = offset, seed
+        record = read_one(reader)
+        if record.id != ident:
+            raise TableError('%s %d starts with id %d' % (label, ident, record.id))
+        if reader.pos != offset + size:
+            raise TableError('%s %d ends at %d, its header says %d'
+                             % (label, ident, reader.pos, offset + size))
+        out.append(record)
+    return out
+
+
+def _read_effect(reader):
+    """The effect record of client class aNy."""
+    row = _read_layout(reader, STATIC_EFFECT_LAYOUT)
+    return EffectRecord(
+        row['id'], row['action_id'], row['container_id'],
+        row['container_type'].strip(), row['root_container_type'].strip(),
+        row['normal_or_critical'].strip(), row['area_shape'], row['area_size'],
+        row['params'])
+
+
+def _read_group(reader):
+    """The effect group record of client class aKX."""
+    row = _read_layout(reader, EFFECT_GROUP_LAYOUT)
+    return GroupRecord(row['id'], row['effect_ids'])
+
+
+def _read_state(reader):
+    """The state record of client class aNx."""
+    row = _read_layout(reader, STATE_LAYOUT)
+    return StateRecord(row['id'], row['bcw'], row['efW'])
+
+
+def _read_ability(reader):
+    """The ability record of client class aJX."""
+    row = _read_layout(reader, ABILITY_LAYOUT)
+    return AbilityRecord(row['id'], row['category'], row['ddL'], row['cgI'],
+                         row['effect_ids'])
+
+
+def _read_ability_category(reader):
+    """The fixed ability category record of client class aJY."""
+    row = _read_layout(reader, ABILITY_CATEGORY_LAYOUT)
+    return AbilityCategoryRecord(row['id'], row['unlock_levels'], row['ability_ids'])
+
+
+def _read_set(reader):
+    """The item set record of client class aLT: a map of pieces needed to effect ids."""
+    ident = reader.i16()
+    elg = reader.i32()
+    item_ids = reader.i32s()
+    bonuses = {}
+    for _ in range(reader.count()):
+        pieces = reader.i32()
+        if pieces in bonuses:
+            raise TableError('set %d lists %d pieces twice' % (ident, pieces))
+        bonuses[pieces] = reader.i32s()
+    return SetRecord(ident, elg, item_ids, bonuses)
+
+
+def read_effects(jar_path):
+    """[EffectRecord] from the static effect table (68.jar)."""
+    return _read_records(jar_path, STATIC_EFFECT_TABLE, _read_effect, 'effect')
+
+
+def read_effect_groups(jar_path):
+    """[GroupRecord] from the effect group table (29.jar)."""
+    return _read_records(jar_path, EFFECT_GROUP_TABLE, _read_group, 'effect group')
+
+
+def read_item_sets(jar_path):
+    """[SetRecord] from the item set table (36.jar)."""
+    return _read_records(jar_path, ITEM_SET_TABLE, _read_set, 'item set')
+
+
+def read_states(jar_path):
+    """[StateRecord] from the state table (67.jar)."""
+    return _read_records(jar_path, STATE_TABLE, _read_state, 'state')
+
+
+def read_abilities(jar_path):
+    """[AbilityRecord] from the ability table (135.jar)."""
+    return _read_records(jar_path, ABILITY_TABLE, _read_ability, 'ability')
+
+
+def read_ability_categories(jar_path):
+    """[AbilityCategoryRecord] from the fixed ability category table (136.jar)."""
+    return _read_records(jar_path, ABILITY_CATEGORY_TABLE, _read_ability_category,
+                         'ability category')
 
 
 def read_labels(jar_path, language):

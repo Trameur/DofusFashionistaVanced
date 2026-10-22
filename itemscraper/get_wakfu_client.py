@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch and decode the Wakfu client's item table, breed table and label files.
+"""Fetch and decode the Wakfu client's item, breed, effect, set, state and ability tables, and label files.
 
     python itemscraper/get_wakfu_client.py
     python itemscraper/get_wakfu_client.py --from-install DIR --manifest PATH \\
@@ -9,7 +9,9 @@ The first form reads the current client from Ankama's CDN. The second reads
 the launcher's install folder and needs no network: the manifest is the CDN's
 one for that client, and every file must match both it and the install's own
 manifest.json. A 403 or a 429 from the CDN stops the step and is never retried.
-The files and what is decoded from them stay local and are never committed.
+The files and what is decoded from them stay local and are never committed:
+decoded.json holds the items, breeds and labels, tables.json the effects,
+effect groups, item sets, states and abilities.
 """
 
 from __future__ import annotations
@@ -33,7 +35,11 @@ ITEMS_JAR = 'contents/bdata/35.jar'
 BREEDS_JAR = 'contents/bdata/86.jar'
 LABEL_JARS = {language: 'contents/i18n/i18n_%s.jar' % language
               for language in LANGUAGES}
-FILES = (ITEMS_JAR, BREEDS_JAR) + tuple(LABEL_JARS.values())
+# Tables 29 effect groups, 36 item sets, 67 states, 68 static effects,
+# 135 abilities, 136 fixed ability categories
+TABLE_JARS = {number: 'contents/bdata/%d.jar' % number
+              for number in (29, 36, 67, 68, 135, 136)}
+FILES = (ITEMS_JAR, BREEDS_JAR) + tuple(LABEL_JARS.values()) + tuple(TABLE_JARS.values())
 KEEP_VERSIONS = 2
 
 
@@ -52,7 +58,7 @@ def sha1_of(blob):
 
 
 def decode(folder, client_version, hashes):
-    """The decoded.json payload of the six files in a folder."""
+    """The decoded.json payload of the 12 files in a folder."""
     items = wakfu_client.read_items(folder / ITEMS_JAR.rsplit('/', 1)[1])
     breeds = wakfu_client.read_breeds(folder / BREEDS_JAR.rsplit('/', 1)[1])
     labels, nations = {}, {}
@@ -77,10 +83,37 @@ def decode(folder, client_version, hashes):
     }
 
 
+def decode_tables(folder, client_version, item_ids):
+    """The tables.json payload: the effect, group, set, state and ability tables.
+
+    item_ids: the ids of the client's item table, because an effect can name an
+    item the client no longer has.
+    """
+    def path(number):
+        return folder / TABLE_JARS[number].rsplit('/', 1)[1]
+
+    return {
+        'client_version': client_version,
+        'game_version': game_version_of(client_version),
+        'item_ids': sorted(int(ident) for ident in item_ids),
+        'effects': [record._asdict() for record in wakfu_client.read_effects(path(68))],
+        'groups': [record._asdict()
+                   for record in wakfu_client.read_effect_groups(path(29))],
+        'sets': [{'id': record.id, 'elG': record.elG, 'item_ids': record.item_ids,
+                  'bonuses': sorted(record.bonuses.items())}
+                 for record in wakfu_client.read_item_sets(path(36))],
+        'states': [record._asdict() for record in wakfu_client.read_states(path(67))],
+        'abilities': [record._asdict()
+                      for record in wakfu_client.read_abilities(path(135))],
+        'ability_categories': [
+            record._asdict() for record in wakfu_client.read_ability_categories(path(136))],
+    }
+
+
 def is_current(folder, wanted):
-    """True when decoded.json is there and was made from files with these sha1s."""
+    """True when decoded.json and tables.json are there, made from files with these sha1s."""
     path = folder / 'decoded.json'
-    if not path.exists():
+    if not path.exists() or not (folder / 'tables.json').exists():
         return False
     try:
         payload = json.loads(path.read_text(encoding='utf-8'))
@@ -105,7 +138,7 @@ def prune(out_dir, keep):
 
 
 def from_install(args):
-    """{path: bytes} of the six files, checked against both manifests."""
+    """{path: bytes} of the 12 files, checked against both manifests."""
     install = Path(args.from_install)
     manifest = Path(args.manifest).read_bytes()
     own = json.loads((install / 'manifest.json').read_text(encoding='utf-8'))
@@ -173,21 +206,28 @@ def main(argv=None):
             (folder / path.rsplit('/', 1)[1]).write_bytes(blob)
             hashes[path] = (len(blob), sha1_of(blob))
         payload = decode(folder, client_version, hashes)
+        tables = decode_tables(folder, client_version, payload['items'])
     except (ClientError, wakfu_client.TableError, urllib.error.URLError, OSError) as error:
         print('the client files could not be read: %s' % error)
         return 1
     (folder / 'decoded.json').write_text(
         json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True),
         encoding='utf-8')
+    (folder / 'tables.json').write_text(
+        json.dumps(tables, ensure_ascii=False, separators=(',', ':'), sort_keys=True),
+        encoding='utf-8')
     prune(args.out, client_version)
     print('client %s' % client_version)
     print('entries %d size or id mismatches 0' % len(payload['items']))
     print('breeds %d' % len(payload['breeds']))
+    for name, rows in sorted(tables.items()):
+        if isinstance(rows, list):
+            print('%s %d' % (name.replace('_', ' '), len(rows)))
     for language in LANGUAGES:
         print('%s: %d critere keys, %d nations' % (
             language, len(payload['labels'][language]),
             len(payload['nations'][language])))
-    print('wrote %s' % (folder / 'decoded.json'))
+    print('wrote %s and %s' % (folder / 'decoded.json', folder / 'tables.json'))
     return 0
 
 
