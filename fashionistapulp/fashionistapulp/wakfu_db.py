@@ -14,7 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Wakfu-only tables: rarity, spread lines, types, pictures, spells, effects."""
+"""Wakfu-only tables: rarity, spread lines, types, pictures, spells, effects, pets, monsters."""
 
 import collections
 import json
@@ -33,6 +33,15 @@ ABILITY_TABLE = 'abilities'
 ABILITY_CATEGORY_TABLE = 'ability_categories'
 CLIENT_SET_TABLE = 'client_sets'
 SET_BONUS_TABLE = 'set_bonuses'
+CLIENT_SPELL_TABLE = 'client_spells'
+CLIENT_SPELL_EFFECT_TABLE = 'client_spell_effects'
+PET_TABLE = 'pets'
+MOUNT_TABLE = 'mounts'
+MONSTER_TABLE = 'monsters'
+MONSTER_DROP_TABLE = 'monster_drops'
+MONSTER_HARVEST_TABLE = 'monster_harvests'
+LOOT_LIST_TABLE = 'loot_lists'
+LOOT_LIST_ROW_TABLE = 'loot_list_rows'
 
 SCHEMA = (
     """CREATE TABLE item_rarity
@@ -117,6 +126,67 @@ SCHEMA = (
               PRIMARY KEY (item_set, pieces, effect),
               FOREIGN KEY(item_set) REFERENCES client_sets(id),
               FOREIGN KEY(effect) REFERENCES effects(id))""",
+    # The client's spells, class and monster ones alike, apart from the spells
+    # table above, which holds the encyclopedia's class spells and is owned
+    # by another writer. breed is 0, -1 or -2 on the spells no class owns.
+    # ap, mp and wp are the client's costs, range_min and range_max in cells,
+    # element the client's code (FIRE 1, WATER 2, EARTH 3, AIR 4, none 9),
+    # unlock_level the character level that gives the spell
+    """CREATE TABLE client_spells
+             (id INTEGER PRIMARY KEY, breed INTEGER, ap REAL, mp REAL, wp REAL,
+              range_min REAL, range_max REAL, element INTEGER,
+              unlock_level INTEGER, max_level INTEGER)""",
+    # A spell's effects are the ones its own list names, in order: never every
+    # SPELL effect whose container is the spell, some belong to spells that are gone
+    """CREATE TABLE client_spell_effects
+             (spell INTEGER, position INTEGER, effect INTEGER,
+              PRIMARY KEY (spell, position),
+              FOREIGN KEY(spell) REFERENCES client_spells(id),
+              FOREIGN KEY(effect) REFERENCES effects(id))""",
+    # item: the pet's item in the client's item table, NULL when the client's
+    # item table lacks it, as for a mount. Its effects are the
+    # effects rows with container_type ITEM_EQUIP and container = item. eoq,
+    # eop and emm are the client's three level fields;
+    # which of them is the level cap is not known
+    """CREATE TABLE pets
+             (id INTEGER PRIMARY KEY, item INTEGER, eoq INTEGER, eop INTEGER,
+              emm INTEGER)""",
+    # item is NULL for the mounts whose item the client no longer has. The
+    # mount's effects are the item's, as for a pet. eop, emm and eoq are the
+    # client's level fields
+    """CREATE TABLE mounts
+             (id INTEGER PRIMARY KEY, item INTEGER, eop INTEGER, emm INTEGER,
+              eoq INTEGER)""",
+    """CREATE TABLE monsters
+             (id INTEGER PRIMARY KEY, family INTEGER)""",
+    # What a monster drops outright: rate is a probability
+    """CREATE TABLE monster_drops
+             (monster INTEGER, position INTEGER, item INTEGER, rate REAL,
+              quantity_min INTEGER, quantity_max INTEGER,
+              PRIMARY KEY (monster, position),
+              FOREIGN KEY(monster) REFERENCES monsters(id))""",
+    # What a monster yields when harvested: a loot list, kept or not by the
+    # condition text (for example IsDead("target"))
+    """CREATE TABLE monster_harvests
+             (monster INTEGER, position INTEGER, loot_list INTEGER,
+              condition TEXT,
+              PRIMARY KEY (monster, position),
+              FOREIGN KEY(monster) REFERENCES monsters(id),
+              FOREIGN KEY(loot_list) REFERENCES loot_lists(id))""",
+    """CREATE TABLE loot_lists
+             (id INTEGER PRIMARY KEY)""",
+    # A row is an item (item set, sub_list NULL) or another list (sub_list
+    # set, item NULL), kept as a reference and never flattened. rate is a
+    # probability below 1, a weight above 1, or -1 for always given. item is
+    # kept as the client gives it: 0 means none, and some rows name an item the
+    # client's item table lacks
+    """CREATE TABLE loot_list_rows
+             (loot_list INTEGER, position INTEGER, id INTEGER, item INTEGER,
+              sub_list INTEGER, rate REAL, quantity_min INTEGER,
+              quantity_max INTEGER,
+              PRIMARY KEY (loot_list, position),
+              FOREIGN KEY(loot_list) REFERENCES loot_lists(id),
+              FOREIGN KEY(sub_list) REFERENCES loot_lists(id))""",
     # Equip conditions. IF NOT EXISTS: a Dofus items.db may carry a table of
     # the same name and the same shape
     "CREATE TABLE IF NOT EXISTS item_criteria"

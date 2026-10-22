@@ -21,11 +21,14 @@ publishes no set file: only the NAME comes from the encyclopedia, never the
 bonus total it prints, which is stale. A set whose page has gone (three of
 them) keeps its items and simply has no name to show.
 
-The client's effect tables (get_wakfu_client.py writes tables.json) fill the
+The client's tables (get_wakfu_client.py writes tables.json) fill the
 effects, effect_groups, states, abilities, ability_categories, client_sets and
-set_bonuses tables: the effects an item of the client, a set bonus, a state or
-an ability reaches, with every effect whose id is a group id expanded. Nothing
-reads them yet. A client that is not there leaves them empty, with a notice.
+set_bonuses tables: the effects an item of the client, a set bonus, a state, an
+ability or a spell (through its own effect list) reaches, with every effect
+whose id is a group id expanded. They also fill client_spells,
+client_spell_effects, pets, mounts, monsters, monster_drops, monster_harvests,
+loot_lists and loot_list_rows. Nothing reads them yet. A client that is not
+there leaves them empty, with a notice.
 
 German is absent from Wakfu entirely; `get_items_wakfu.py` and
 `get_sets_wakfu.py` both fall it back to English, and that is what lands here.
@@ -404,6 +407,8 @@ def write_client_tables(conn, tables, counts):
     for client_set in tables['sets']:
         for _pieces, effect_ids in client_set['bonuses']:
             roots.update(effect_ids)
+    for spell in tables.get('spells', ()):
+        roots.update(spell['effect_ids'])
     wanted, pending = set(), sorted(roots)
     while pending:
         ident = pending.pop()
@@ -457,6 +462,71 @@ def write_client_tables(conn, tables, counts):
                 counts['set bonus effects'] += 1
         if client_set['bonuses']:
             counts['sets with a bonus entry'] += 1
+    write_spells_pets_and_monsters(conn, tables, item_ids, counts)
+
+
+def write_spells_pets_and_monsters(conn, tables, item_ids, counts):
+    """Fill the spell, pet, mount, monster and loot list tables of a decoded client."""
+    for spell in tables.get('spells', ()):
+        conn.execute(
+            'INSERT INTO client_spells (id, breed, ap, mp, wp, range_min, range_max,'
+            ' element, unlock_level, max_level) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            (spell['id'], spell['breed'], spell['ap'], spell['mp'], spell['wp'],
+             spell['range_min'], spell['range_max'], spell['element'],
+             spell['unlock_level'], spell['max_level']))
+        counts['client spells'] += 1
+        for position, effect in enumerate(spell['effect_ids']):
+            conn.execute('INSERT INTO client_spell_effects (spell, position, effect)'
+                         ' VALUES (?, ?, ?)', (spell['id'], position, effect))
+            counts['client spell effects'] += 1
+    for pet in tables.get('pets', ()):
+        item = pet['item'] if pet['item'] in item_ids else None
+        conn.execute('INSERT INTO pets (id, item, eoq, eop, emm) VALUES (?, ?, ?, ?, ?)',
+                     (pet['id'], item, pet['eoq'], pet['eop'], pet['emm']))
+        counts['pets'] += 1
+    for mount in tables.get('mounts', ()):
+        item = mount['item'] if mount['item'] in item_ids else None
+        conn.execute('INSERT INTO mounts (id, item, eop, emm, eoq) VALUES (?, ?, ?, ?, ?)',
+                     (mount['id'], item, mount['eop'], mount['emm'], mount['eoq']))
+        counts['mounts'] += 1
+        if item is None:
+            counts['mounts without an item'] += 1
+    list_ids = {one['id'] for one in tables.get('loot_lists', ())}
+    for loot_list in tables.get('loot_lists', ()):
+        conn.execute('INSERT INTO loot_lists (id) VALUES (?)', (loot_list['id'],))
+        counts['loot lists'] += 1
+        for position, row in enumerate(loot_list['rows']):
+            if row['is_list'] and row['target'] not in list_ids:
+                raise ValueError('loot list %d names the list %d, which is not there'
+                                 % (loot_list['id'], row['target']))
+            item, sub_list = (None, row['target']) if row['is_list'] \
+                else (row['target'], None)
+            conn.execute(
+                'INSERT INTO loot_list_rows (loot_list, position, id, item, sub_list,'
+                ' rate, quantity_min, quantity_max) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                (loot_list['id'], position, row['id'], item, sub_list, row['rate'],
+                 row['quantity_min'], row['quantity_max']))
+            counts['loot list rows'] += 1
+    for monster in tables.get('monsters', ()):
+        conn.execute('INSERT INTO monsters (id, family) VALUES (?, ?)',
+                     (monster['id'], monster['family']))
+        counts['monsters'] += 1
+        for position, drop in enumerate(monster['drops']):
+            conn.execute(
+                'INSERT INTO monster_drops (monster, position, item, rate, quantity_min,'
+                ' quantity_max) VALUES (?, ?, ?, ?, ?, ?)',
+                (monster['id'], position, drop['item'], drop['rate'],
+                 drop['quantity_min'], drop['quantity_max']))
+            counts['monster drops'] += 1
+        for position, harvest in enumerate(monster['harvests']):
+            if harvest['loot_list'] not in list_ids:
+                raise ValueError('monster %d harvests the list %d, which is not there'
+                                 % (monster['id'], harvest['loot_list']))
+            conn.execute(
+                'INSERT INTO monster_harvests (monster, position, loot_list, condition)'
+                ' VALUES (?, ?, ?, ?)',
+                (monster['id'], position, harvest['loot_list'], harvest['condition']))
+            counts['monster harvests'] += 1
 
 
 def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw', client_dir=None):

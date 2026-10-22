@@ -45,7 +45,8 @@ So: WHICH TABLES BELONG TO WHOM.
         max_level_to_equip, min_stat_to_equip, max_stat_to_equip,
         item_state_conditions, criteria_labels, nations, effects,
         effect_groups, states, abilities, ability_categories, client_sets,
-        set_bonuses
+        set_bonuses, client_spells, client_spell_effects, pets, mounts,
+        monsters, monster_drops, monster_harvests, loot_lists, loot_list_rows
 
     build_wakfu_recipes.py owns, and rewrites on every run:
         item_recipes, item_recipe_ingredient_names, item_craft_jobs,
