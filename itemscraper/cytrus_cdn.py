@@ -34,6 +34,7 @@ RELEASES = {
     'beta': ('dofus', 'beta'),
     'dofus2': ('dofus', 'main'),
     'retro': ('retro', 'main'),
+    'wakfu': ('wakfu', 'main'),
 }
 
 
@@ -153,12 +154,12 @@ def find_file(manifest, wanted_name):
     return None
 
 
-def fetch_file(entry, timeout=180):
+def fetch_file(entry, timeout=180, game='dofus'):
     pieces = entry['chunks'] or [{'hash': entry['hash'], 'offset': 0, 'size': entry['size']}]
     out = bytearray(entry['size'])
     for chunk in pieces:
         bundle_hash, offset, size = entry['placement'][chunk['hash']]
-        url = '%s/dofus/bundles/%s/%s' % (CDN, bundle_hash[:2], bundle_hash)
+        url = '%s/%s/bundles/%s/%s' % (CDN, game, bundle_hash[:2], bundle_hash)
         request = urllib.request.Request(
             url, headers={'Range': 'bytes=%d-%d' % (offset, offset + size - 1)})
         with urllib.request.urlopen(request, timeout=timeout) as resp:
