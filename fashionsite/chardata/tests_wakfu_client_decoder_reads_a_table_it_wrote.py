@@ -64,6 +64,15 @@ class Writer:
         self.roll()
         self.out += struct.pack('<f', value)
 
+    def f64(self, value):
+        self.roll()
+        self.out += struct.pack('<d', value)
+
+    def i16s(self, values):
+        self.i32(len(values))
+        for value in values:
+            self.i16(value)
+
     def text(self, value):
         raw = value.encode('utf-8')
         self.i32(len(raw))

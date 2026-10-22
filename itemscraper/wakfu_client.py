@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Read the Wakfu client's item, breed, effect, set, state and ability tables, and its labels.
+"""Read the Wakfu client's item, breed, effect, set, state, ability, spell, pet, mount, monster
+and loot list tables, and its labels.
 
     python itemscraper/wakfu_client.py <35.jar>
 
@@ -23,6 +24,11 @@ STATE_TABLE = 67
 STATIC_EFFECT_TABLE = 68
 ABILITY_TABLE = 135
 ABILITY_CATEGORY_TABLE = 136
+SPELL_TABLE = 66
+PET_TABLE = 117
+MOUNT_TABLE = 144
+MONSTER_TABLE = 42
+LOOT_LIST_TABLE = 39
 SEED_OFFSET = 756423
 
 ItemRecord = collections.namedtuple(
@@ -85,8 +91,150 @@ ABILITY_CATEGORY_LAYOUT = (  # 136, aJY
 )
 # The reader method of each kind
 KIND_READERS = {'i8': 'i8', 'bool': 'boolean', 'i16': 'i16', 'i32': 'i32',
-                'i64': 'i64', 'f32': 'f32', 'text': 'text', 'i32[]': 'i32s',
-                'i64[]': 'i64s', 'f32[]': 'f32s'}
+                'i64': 'i64', 'f32': 'f32', 'f64': 'f64', 'text': 'text',
+                'i32[]': 'i32s', 'i64[]': 'i64s', 'f32[]': 'f32s', 'i16[]': 'i16s',
+                'text[]': 'texts'}
+
+# Tables 66, 117, 144, 42 and 39 hold records inside records. One row per read
+# of a record class, keyed by the client's class name: (field, kind), or
+# (field, 'array', class) for an i32 count then that many records, or
+# (field, 'map', key kind, class) for a count then a key and a record per
+# entry. The first row of a table's own class is its id. A field is named for
+# what it means only where the data proves it (against the encyclopedia
+# harvest for the spell fields, against the item table for the drop fields);
+# the others keep the client's field name. Each table's own class is the
+# referenced one: its unreferenced twin has another layout.
+NESTED_LAYOUTS = {
+    'aNt': (
+        ('id', 'i32'), ('efZ', 'i32'), ('cgI', 'i32'), ('max_level', 'i16'), ('breed', 'i16'),
+        ('erj', 'i16'), ('erk', 'f32'), ('erl', 'f32'), ('erm', 'i16'), ('ern', 'bool'),
+        ('ero', 'bool'), ('erp', 'bool'), ('erq', 'bool'), ('err', 'bool'), ('ers', 'bool'),
+        ('ert', 'bool'), ('eru', 'i32'), ('erv', 'text'), ('unlock_level', 'i16'), ('ap', 'f32'),
+        ('ery', 'f32'), ('mp', 'f32'), ('erA', 'f32'), ('wp', 'f32'), ('erC', 'f32'),
+        ('range_max', 'f32'), ('erE', 'f32'), ('range_min', 'f32'), ('erG', 'f32'),
+        ('erH', 'i16'), ('element', 'i16'), ('erJ', 'i16'), ('erK', 'i16'), ('erL', 'i16'),
+        ('equ', 'text'), ('erM', 'text'), ('erN', 'i8'), ('erO', 'bool'), ('erP', 'bool'),
+        ('erQ', 'bool'), ('erR', 'i8'), ('erS', 'bool'), ('erT', 'bool'), ('erU', 'bool'),
+        ('erV', 'bool'), ('erW', 'bool'), ('erX', 'bool'), ('bbB', 'i32[]'),
+        ('effect_ids', 'i32[]'), ('erY', 'map', 'i8', 'aNv'), ('erZ', 'map', 'i16', 'aNw'),
+        ('esa', 'map', 'text', 'aNu'),
+    ),
+    'aNu': (
+        ('ema', 'i32'), ('esb', 'map', 'i32', 'aNv'), ('erx', 'f32'), ('ery', 'f32'),
+        ('erz', 'f32'), ('erA', 'f32'), ('erB', 'f32'), ('erC', 'f32'), ('erF', 'f32'),
+        ('esc', 'f32'), ('erD', 'f32'), ('erE', 'f32'), ('esd', 'bool'), ('ese', 'bool'),
+        ('esf', 'bool'), ('esg', 'bool'), ('esh', 'f32'), ('esi', 'f32'), ('esj', 'f32'),
+        ('esk', 'f32'), ('esl', 'bool'), ('esm', 'bool'), ('esn', 'bool'), ('erW', 'bool'),
+    ),
+    'aNv': (
+        ('eso', 'i32'), ('esp', 'f32'),
+    ),
+    'aNw': (
+        ('esq', 'i16'), ('esr', 'i32[]'),
+    ),
+    'aMy': (
+        ('id', 'i32'), ('item', 'i32'), ('cgI', 'i32'), ('eoK', 'i32'), ('eoo', 'i32'),
+        ('eor', 'i64'), ('eos', 'i64'), ('eoq', 'i8'), ('eop', 'i16'), ('emm', 'i16'),
+        ('eoL', 'array', 'aMB'), ('eoM', 'array', 'aMA'), ('eoN', 'array', 'aMC'),
+        ('eoO', 'array', 'aMD'), ('eoP', 'i32[]'), ('eoQ', 'array', 'aMz'),
+    ),
+    'aMA': (
+        ('atl', 'i32'), ('aSg', 'i32'),
+    ),
+    'aMB': (
+        ('eox', 'i8'), ('ayu', 'i8'),
+    ),
+    'aMC': (
+        ('atl', 'i32'), ('bkQ', 'bool'),
+    ),
+    'aMD': (
+        ('atl', 'i32'), ('ctQ', 'i64'),
+    ),
+    'aMz': (
+        ('atl', 'i32'), ('eoR', 'i32'), ('eoS', 'i32'),
+    ),
+    'aMq': (
+        ('id', 'i32'), ('item', 'i32'), ('eon', 'i32'), ('eoo', 'i32'), ('eop', 'i16'),
+        ('emm', 'i16'), ('eoq', 'i8'), ('eor', 'i64'), ('eos', 'i64'), ('eot', 'i32'),
+        ('eou', 'array', 'aMs'), ('eov', 'array', 'aMr'), ('eow', 'array', 'aMt'),
+    ),
+    'aMr': (
+        ('atl', 'i32'), ('aSg', 'i32'),
+    ),
+    'aMs': (
+        ('eox', 'i8'), ('ayu', 'i8'),
+    ),
+    'aMt': (
+        ('atl', 'i32'), ('bkQ', 'bool'),
+    ),
+    'aMd': (
+        ('id', 'i32'), ('family', 'i32'), ('eml', 'i16'), ('emm', 'i16'), ('emn', 'f32'),
+        ('emo', 'f32'), ('egr', 'i32'), ('egu', 'i32'), ('egs', 'i32'), ('egt', 'i32'),
+        ('emp', 'i32'), ('egv', 'i32'), ('emq', 'i32'), ('emr', 'i32'), ('ems', 'i32'),
+        ('emt', 'i32'), ('emu', 'i32'), ('emv', 'i32'), ('emw', 'i32'), ('emx', 'f32'),
+        ('emy', 'f32'), ('emz', 'f32'), ('emA', 'f32'), ('emB', 'f32'), ('emC', 'f32'),
+        ('emD', 'f32'), ('emE', 'f32'), ('emF', 'f32'), ('emG', 'f32'), ('emH', 'f32'),
+        ('emI', 'f32'), ('emJ', 'i32'), ('emK', 'i32'), ('emL', 'i32'), ('emM', 'i32'),
+        ('emN', 'i32'), ('emO', 'i32'), ('emP', 'i32'), ('emQ', 'i32'), ('emR', 'i32'),
+        ('emS', 'i32'), ('emT', 'i32'), ('emU', 'i32'), ('emV', 'i32'), ('emW', 'i32'),
+        ('emX', 'i32'), ('emY', 'i32'), ('emZ', 'f32'), ('ena', 'f32'), ('enb', 'f32'),
+        ('enc', 'f32'), ('end', 'f32'), ('ene', 'f32'), ('enf', 'f32'), ('eng', 'f32'),
+        ('enh', 'f32'), ('eni', 'f32'), ('enj', 'f32'), ('enk', 'f32'), ('enl', 'f32'),
+        ('enm', 'f32'), ('enn', 'bool'), ('eno', 'i16'), ('enp', 'i16'), ('enq', 'i16'),
+        ('enr', 'i32'), ('ens', 'i32[]'), ('ent', 'i32[]'), ('egG', 'i16[]'),
+        ('enu', 'array', 'aMm'), ('env', 'i8'), ('enw', 'i16'), ('enx', 'i16'), ('eny', 'i16'),
+        ('enz', 'i16'), ('enA', 'array', 'aMi'), ('enB', 'array', 'aMk'), ('enC', 'array', 'aMj'),
+        ('enD', 'array', 'aMl'), ('enE', 'i32'), ('enF', 'i16'), ('enG', 'i32'),
+        ('enH', 'array', 'aMh'), ('enI', 'i32'), ('enJ', 'i32'), ('enK', 'i32[]'),
+        ('enL', 'array', 'aMg'), ('enM', 'array', 'aMf'), ('enN', 'array', 'aMe'), ('atk', 'i32'),
+        ('enO', 'i32'), ('enP', 'text'), ('enQ', 'i32'),
+    ),
+    'aMe': (
+        ('enR', 'i8'), ('bcG', 'text'),
+    ),
+    'aMf': (
+        ('enS', 'i32'), ('aYY', 'i32'),
+    ),
+    'aMg': (
+        ('enT', 'text'), ('bdE', 'text[]'),
+    ),
+    'aMh': (
+        ('item', 'i32'), ('enU', 'i8'), ('quantity_min', 'i16'), ('quantity_max', 'i16'),
+        ('emi', 'i16'), ('elU', 'bool'), ('enV', 'i16'), ('rate', 'f64'), ('enW', 'i32[]'),
+        ('enX', 'bool'),
+    ),
+    'aMi': (
+        ('p', 'i32'), ('asQ', 'i8'), ('ehu', 'text'), ('enY', 'bool'), ('enZ', 'bool'),
+        ('bKb', 'i32'), ('eoa', 'bool'), ('egY', 'i32'), ('efZ', 'i32'),
+    ),
+    'aMj': (
+        ('p', 'i32'), ('bFV', 'i32'), ('efZ', 'i32'), ('eob', 'bool'),
+    ),
+    'aMk': (
+        ('p', 'i32'), ('egn', 'i32'), ('eoc', 'i32'), ('eod', 'i32'), ('condition', 'text'),
+        ('eik', 'f32'), ('loot_list', 'i32'), ('bKb', 'i32'), ('eof', 'i32'), ('eog', 'i32[]'),
+        ('eoh', 'bool'),
+    ),
+    'aMl': (
+        ('p', 'i32'), ('aJk', 'i32'), ('efZ', 'i32'),
+    ),
+    'aMm': (
+        ('spell', 'i32'), ('eoi', 'i32'),
+    ),
+    'aMa': (
+        ('id', 'i32'), ('emf', 'i16'), ('emg', 'array', 'aMb'),
+    ),
+    'aMb': (
+        ('id', 'i32'), ('target', 'i32'), ('rate', 'f64'), ('bmW', 'i16'),
+        ('quantity_min', 'i16'), ('quantity_max', 'i16'), ('emh', 'i16'), ('emi', 'i16'),
+        ('is_list', 'bool'),
+    ),
+}
+SPELL_CLASS = 'aNt'  # 66
+PET_CLASS = 'aMy'  # 117
+MOUNT_CLASS = 'aMq'  # 144
+MONSTER_CLASS = 'aMd'  # 42
+LOOT_LIST_CLASS = 'aMa'  # 39
 
 # What each reader hands back. The effect fields not named here are read to
 # keep the record aligned and dropped: 178344 records of 57 fields would not
@@ -101,6 +249,20 @@ AbilityRecord = collections.namedtuple(
 AbilityCategoryRecord = collections.namedtuple(
     'AbilityCategoryRecord', 'id unlock_levels ability_ids')
 SetRecord = collections.namedtuple('SetRecord', 'id elG item_ids bonuses')
+# ap, mp, wp: the costs (the client's floats); range_min and range_max in cells;
+# element is the client's code (FIRE 1, WATER 2, EARTH 3, AIR 4, none 9)
+SpellRecord = collections.namedtuple(
+    'SpellRecord', 'id breed ap mp wp range_min range_max element unlock_level'
+                   ' max_level effect_ids')
+# eoq, eop and emm are the three level fields, which one is the cap is not known
+PetRecord = collections.namedtuple('PetRecord', 'id item eoq eop emm')
+MountRecord = collections.namedtuple('MountRecord', 'id item eop emm eoq')
+DropRecord = collections.namedtuple('DropRecord', 'item rate quantity_min quantity_max')
+HarvestRecord = collections.namedtuple('HarvestRecord', 'loot_list condition')
+MonsterRecord = collections.namedtuple('MonsterRecord', 'id family drops harvests')
+LootRow = collections.namedtuple(
+    'LootRow', 'id target is_list rate quantity_min quantity_max')
+LootListRecord = collections.namedtuple('LootListRecord', 'id rows')
 
 
 class TableError(ValueError):
@@ -174,6 +336,13 @@ class Reader:
         if number < 0 or number > len(self.buf):
             raise TableError('a count of %d cannot be right' % number)
         return number
+
+    def f64(self):
+        self._roll()
+        return self._raw('d', 8)
+
+    def i16s(self):
+        return [self.i16() for _ in range(self.count())]
 
     def i32s(self):
         return [self.i32() for _ in range(self.count())]
@@ -354,6 +523,24 @@ def _read_records(jar_path, table_id, read_one, label):
     return out
 
 
+def _read_nested(reader, cls):
+    """{field: value} of one record of a class of NESTED_LAYOUTS, nested records included."""
+    values = {}
+    for row in NESTED_LAYOUTS[cls]:
+        name, kind = row[0], row[1]
+        if kind == 'array':
+            values[name] = [_read_nested(reader, row[2]) for _ in range(reader.count())]
+        elif kind == 'map':
+            entries = {}
+            for _ in range(reader.count()):
+                key = getattr(reader, KIND_READERS[row[2]])()
+                entries[key] = _read_nested(reader, row[3])
+            values[name] = entries
+        else:
+            values[name] = getattr(reader, KIND_READERS[kind])()
+    return values
+
+
 def _read_effect(reader):
     """The effect record of client class aNy."""
     row = _read_layout(reader, STATIC_EFFECT_LAYOUT)
@@ -403,6 +590,41 @@ def _read_set(reader):
     return SetRecord(ident, elg, item_ids, bonuses)
 
 
+def _read_spell(reader):
+    """The spell record of client class aNt, nested records read and dropped."""
+    row = _read_nested(reader, SPELL_CLASS)
+    return SpellRecord(*(row[name] for name in SpellRecord._fields))
+
+
+def _read_pet(reader):
+    """The pet record of client class aMy."""
+    row = _read_nested(reader, PET_CLASS)
+    return PetRecord(*(row[name] for name in PetRecord._fields))
+
+
+def _read_mount(reader):
+    """The mount record of client class aMq."""
+    row = _read_nested(reader, MOUNT_CLASS)
+    return MountRecord(*(row[name] for name in MountRecord._fields))
+
+
+def _read_monster(reader):
+    """The monster record of client class aMd: its inline drops and harvest entries."""
+    row = _read_nested(reader, MONSTER_CLASS)
+    drops = [DropRecord(one['item'], one['rate'], one['quantity_min'], one['quantity_max'])
+             for one in row['enH']]
+    harvests = [HarvestRecord(one['loot_list'], one['condition']) for one in row['enB']]
+    return MonsterRecord(row['id'], row['family'], drops, harvests)
+
+
+def _read_loot_list(reader):
+    """The loot list record of client class aMa; a row's target is a list id when is_list."""
+    row = _read_nested(reader, LOOT_LIST_CLASS)
+    rows = [LootRow(one['id'], one['target'], one['is_list'], one['rate'],
+                    one['quantity_min'], one['quantity_max']) for one in row['emg']]
+    return LootListRecord(row['id'], rows)
+
+
 def read_effects(jar_path):
     """[EffectRecord] from the static effect table (68.jar)."""
     return _read_records(jar_path, STATIC_EFFECT_TABLE, _read_effect, 'effect')
@@ -432,6 +654,31 @@ def read_ability_categories(jar_path):
     """[AbilityCategoryRecord] from the fixed ability category table (136.jar)."""
     return _read_records(jar_path, ABILITY_CATEGORY_TABLE, _read_ability_category,
                          'ability category')
+
+
+def read_spells(jar_path):
+    """[SpellRecord] from the spell table (66.jar)."""
+    return _read_records(jar_path, SPELL_TABLE, _read_spell, 'spell')
+
+
+def read_pets(jar_path):
+    """[PetRecord] from the pet table (117.jar)."""
+    return _read_records(jar_path, PET_TABLE, _read_pet, 'pet')
+
+
+def read_mounts(jar_path):
+    """[MountRecord] from the mount table (144.jar)."""
+    return _read_records(jar_path, MOUNT_TABLE, _read_mount, 'mount')
+
+
+def read_monsters(jar_path):
+    """[MonsterRecord] from the monster table (42.jar)."""
+    return _read_records(jar_path, MONSTER_TABLE, _read_monster, 'monster')
+
+
+def read_loot_lists(jar_path):
+    """[LootListRecord] from the loot list table (39.jar)."""
+    return _read_records(jar_path, LOOT_LIST_TABLE, _read_loot_list, 'loot list')
 
 
 def read_labels(jar_path, language):

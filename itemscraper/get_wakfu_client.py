@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Fetch and decode the Wakfu client's item, breed, effect, set, state and ability tables, and label files.
+"""Fetch and decode the Wakfu client's item, breed, effect, set, state, ability, spell, pet, mount,
+monster and loot list tables, and label files.
 
     python itemscraper/get_wakfu_client.py
     python itemscraper/get_wakfu_client.py --from-install DIR --manifest PATH \\
@@ -11,7 +12,8 @@ one for that client, and every file must match both it and the install's own
 manifest.json. A 403 or a 429 from the CDN stops the step and is never retried.
 The files and what is decoded from them stay local and are never committed:
 decoded.json holds the items, breeds and labels, tables.json the effects,
-effect groups, item sets, states and abilities.
+effect groups, item sets, states, abilities, spells, pets, mounts, monsters and
+loot lists.
 """
 
 from __future__ import annotations
@@ -36,9 +38,10 @@ BREEDS_JAR = 'contents/bdata/86.jar'
 LABEL_JARS = {language: 'contents/i18n/i18n_%s.jar' % language
               for language in LANGUAGES}
 # Tables 29 effect groups, 36 item sets, 67 states, 68 static effects,
-# 135 abilities, 136 fixed ability categories
+# 135 abilities, 136 fixed ability categories, 66 spells, 117 pets, 144 mounts,
+# 42 monsters, 39 loot lists
 TABLE_JARS = {number: 'contents/bdata/%d.jar' % number
-              for number in (29, 36, 67, 68, 135, 136)}
+              for number in (29, 36, 67, 68, 135, 136, 66, 117, 144, 42, 39)}
 FILES = (ITEMS_JAR, BREEDS_JAR) + tuple(LABEL_JARS.values()) + tuple(TABLE_JARS.values())
 KEEP_VERSIONS = 2
 
@@ -58,7 +61,7 @@ def sha1_of(blob):
 
 
 def decode(folder, client_version, hashes):
-    """The decoded.json payload of the 12 files in a folder."""
+    """The decoded.json payload of the 17 files in a folder."""
     items = wakfu_client.read_items(folder / ITEMS_JAR.rsplit('/', 1)[1])
     breeds = wakfu_client.read_breeds(folder / BREEDS_JAR.rsplit('/', 1)[1])
     labels, nations = {}, {}
@@ -84,7 +87,8 @@ def decode(folder, client_version, hashes):
 
 
 def decode_tables(folder, client_version, item_ids):
-    """The tables.json payload: the effect, group, set, state and ability tables.
+    """The tables.json payload: the effect, group, set, state, ability, spell, pet,
+    mount, monster and loot list tables.
 
     item_ids: the ids of the client's item table, because an effect can name an
     item the client no longer has.
@@ -107,6 +111,17 @@ def decode_tables(folder, client_version, item_ids):
                       for record in wakfu_client.read_abilities(path(135))],
         'ability_categories': [
             record._asdict() for record in wakfu_client.read_ability_categories(path(136))],
+        'spells': [record._asdict() for record in wakfu_client.read_spells(path(66))],
+        'pets': [record._asdict() for record in wakfu_client.read_pets(path(117))],
+        'mounts': [record._asdict() for record in wakfu_client.read_mounts(path(144))],
+        'monsters': [
+            {'id': record.id, 'family': record.family,
+             'drops': [drop._asdict() for drop in record.drops],
+             'harvests': [harvest._asdict() for harvest in record.harvests]}
+            for record in wakfu_client.read_monsters(path(42))],
+        'loot_lists': [
+            {'id': record.id, 'rows': [row._asdict() for row in record.rows]}
+            for record in wakfu_client.read_loot_lists(path(39))],
     }
 
 
@@ -138,7 +153,7 @@ def prune(out_dir, keep):
 
 
 def from_install(args):
-    """{path: bytes} of the 12 files, checked against both manifests."""
+    """{path: bytes} of the 17 files, checked against both manifests."""
     install = Path(args.from_install)
     manifest = Path(args.manifest).read_bytes()
     own = json.loads((install / 'manifest.json').read_text(encoding='utf-8'))
