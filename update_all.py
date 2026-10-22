@@ -50,11 +50,12 @@ CYTRUS = 'https://cytrus.cdn.ankama.com/cytrus.json'
 TOUCH = 'https://dt-proxy-production-login.ankama-games.com/config.json?lang=fr'
 TOUCH_CLIENT = 'https://dt-proxy-production-login.ankama-games.com/build/script.js'
 WAKFU = 'https://wakfu.cdn.ankama.com/gamedata/config.json'
-IMAGE_STEPS = {'item-images', 'resource-icons', 'monster-images',
+IMAGE_STEPS = {'item-images', 'client-images', 'resource-icons', 'monster-images',
                'monsters/artworks', 'spell-images', 'spell-icons', 'resize'}
 LOCAL_TABLES = {'mount-looks': 'mount_looks', 'monster-subareas': 'monster_subareas'}
 NETWORK_STEP = re.compile(r'download|mirror|scrape|data/sets|data/spells|data/mounts|images|icons|artworks')
 RETRY_DELAY = 20
+LOCAL_STEPS = {'client-images'}
 PIPELINE_TIMEOUT = 4 * 3600
 IMPORTED = 'IMPORTED'
 PARTLY_IMPORTED = 'PARTLY IMPORTED'
@@ -88,7 +89,8 @@ STEP_TITLES = {
     'items/obtainment': 'Ways to obtain items', 'items/corrections': 'Item corrections',
     'items/recipes': 'Saving recipes', 'items/special-spells': 'Special item spells',
     'items/spells': 'Saving spells', 'item-skins': 'Item appearances',
-    'item-images': 'Equipment images', 'resource-icons': 'Resource images',
+    'item-images': 'Equipment images', 'client-images': 'Game images',
+    'resource-icons': 'Resource images',
     'monster-images': 'Monster images', 'monsters/artworks': 'Monster artwork',
     'spell-images': 'Spell images', 'spell-icons': 'Spell icons', 'resize': 'Resizing images',
     'mount-looks': 'Mount appearances', 'monster-grades': 'Monster grades',
@@ -743,7 +745,7 @@ def attempt_step(label, command, cwd, log, timeout, title):
 
 def run_pipeline_step(label, command, cwd, log, timeout, title):
     result, lines = attempt_step(label, command, cwd, log, timeout, title)
-    if not result['exit_code'] or not NETWORK_STEP.search(label) or result.get('timed_out'):
+    if not result['exit_code'] or label in LOCAL_STEPS or not NETWORK_STEP.search(label) or result.get('timed_out'):
         return result, lines
     first = log.with_name(log.stem + '.attempt-1.log')
     if log.exists():
