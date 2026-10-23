@@ -242,7 +242,8 @@ LOOT_LIST_CLASS = 'aMa'  # 39
 # fit in memory as dicts.
 EffectRecord = collections.namedtuple(
     'EffectRecord', 'id action_id container_id container_type root_container_type'
-                    ' normal_or_critical area_shape area_size params')
+                    ' normal_or_critical area_shape area_size params criterion',
+    defaults=('',))
 GroupRecord = collections.namedtuple('GroupRecord', 'id effect_ids')
 StateRecord = collections.namedtuple('StateRecord', 'id bcw effect_ids')
 AbilityRecord = collections.namedtuple(
@@ -549,7 +550,7 @@ def _read_effect(reader):
         row['id'], row['action_id'], row['container_id'],
         row['container_type'].strip(), row['root_container_type'].strip(),
         row['normal_or_critical'].strip(), row['area_shape'], row['area_size'],
-        row['params'])
+        row['params'], row['text_etr'].strip())
 
 
 def _read_group(reader):

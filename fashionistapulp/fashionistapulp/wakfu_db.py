@@ -104,13 +104,14 @@ SCHEMA = (
     # The client's effects: only those an item (worn or used), a set bonus, a
     # state or an ability reaches, groups expanded. params is the client's
     # float list as JSON; effect_value() turns it into a number at a level.
+    # criterion is the client's condition on the effect, empty when none.
     # container_type is the client's name (ITEM_EQUIP, ITEM_USE, SET, STATE,
     # ABILITY, GROUP), normal_or_critical splits a use effect's two outcomes
     """CREATE TABLE effects
              (id INTEGER PRIMARY KEY, action INTEGER, container_type TEXT,
               container INTEGER, root_container_type TEXT,
               normal_or_critical TEXT, area_shape INTEGER, area_size TEXT,
-              params TEXT)""",
+              params TEXT, criterion TEXT)""",
     # An effect whose id is a group id runs the group's effects, in order
     """CREATE TABLE effect_groups
              (group_id INTEGER, position INTEGER, effect INTEGER,
@@ -346,13 +347,15 @@ def effect_value(params, index, level):
 
 
 EffectRow = collections.namedtuple(
-    'EffectRow', 'id action container_type container normal_or_critical params')
+    'EffectRow',
+    'id action container_type container normal_or_critical params criterion')
 
-EFFECT_COLUMNS = 'id, action, container_type, container, normal_or_critical, params'
+EFFECT_COLUMNS = ('id, action, container_type, container, normal_or_critical, params,'
+                  ' criterion')
 
 
 def _effect_row(row):
-    return EffectRow(*row[:5], json.loads(row[5]))
+    return EffectRow(*row[:5], json.loads(row[5]), row[6])
 
 
 def effects_of(conn, container_type, container):

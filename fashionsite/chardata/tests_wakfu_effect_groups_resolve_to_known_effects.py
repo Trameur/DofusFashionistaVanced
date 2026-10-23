@@ -18,7 +18,7 @@ def effect(ident, action, container_type, container, params=(), kind='NORMAL'):
     return {'id': ident, 'action_id': action, 'container_id': container,
             'container_type': container_type, 'root_container_type': container_type,
             'normal_or_critical': kind, 'area_shape': 1, 'area_size': [],
-            'params': list(params)}
+            'params': list(params), 'criterion': ''}
 
 
 def tables(effects, groups, states=(), sets=(), abilities=(), categories=(),

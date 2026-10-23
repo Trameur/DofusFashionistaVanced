@@ -65,7 +65,8 @@ def jar(path, name, blob):
 EFFECTS = [
     {'id': 1, 'action_id': 20, 'container_id': 28822, 'area_size': [3, 4],
      'area_shape': 2, 'normal_or_critical': 'NORMAL  ', 'container_type': 'ITEM_EQUIP ',
-     'root_container_type': 'ITEM_EQUIP', 'params': [6.0, 0.5, 1.25, -2.0]},
+     'root_container_type': 'ITEM_EQUIP', 'params': [6.0, 0.5, 1.25, -2.0],
+     'text_etr': ' IsBattleground() '},
     {'id': 2, 'action_id': 304, 'container_id': 77, 'normal_or_critical': 'CRITICAL',
      'container_type': 'GROUP', 'root_container_type': 'STATE', 'params': [0.4]},
     {'id': 2000000003, 'action_id': 330, 'container_id': -5, 'area_size': [],
@@ -126,6 +127,8 @@ class TheWakfuClientTablesReadBackEveryRecordTests(SimpleTestCase):
              first.area_size))
         self.assertEqual([6.0, 0.5, 1.25, -2.0], first.params)
         self.assertEqual([f32(0.4)], second.params)
+        self.assertEqual(('IsBattleground()', '', ''),
+                         (first.criterion, second.criterion, third.criterion))
         self.assertEqual(('CRITICAL', 'GROUP', 'STATE', 77), (
             second.normal_or_critical, second.container_type,
             second.root_container_type, second.container_id))

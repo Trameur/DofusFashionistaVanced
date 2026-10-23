@@ -175,8 +175,9 @@ class TheWakfuClientTextsReadBackAsTheClientReadsThemTests(TestCase):
     def test_a_decoded_folder_without_texts_json_is_not_current(self):
         folder = self.directory / 'client'
         folder.mkdir()
-        (folder / 'decoded.json').write_text(
-            json.dumps({'files': {'a.jar': {'sha1': 'x'}}}), encoding='utf-8')
+        decoded = {'files': {'a.jar': {'sha1': 'x'}},
+                   'tables_format': get_wakfu_client.TABLES_FORMAT}
+        (folder / 'decoded.json').write_text(json.dumps(decoded), encoding='utf-8')
         (folder / 'tables.json').write_text('{}', encoding='utf-8')
         self.assertFalse(get_wakfu_client.is_current(folder, {'a.jar': 'x'}))
         families = {family: {} for family in wakfu_client.ALL_TEXT_FAMILIES}

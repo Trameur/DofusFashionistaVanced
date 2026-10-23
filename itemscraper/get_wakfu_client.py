@@ -51,6 +51,8 @@ CONFIG = 'config.properties'
 FILES = ((ITEMS_JAR, BREEDS_JAR) + tuple(LABEL_JARS.values()) + tuple(TABLE_JARS.values())
          + (GUI_JAR, CONFIG))
 KEEP_VERSIONS = 2
+# Bumped when tables.json gains a field, so a decoded folder is decoded again.
+TABLES_FORMAT = 2
 # From this size a file is written piece by piece and never held in memory
 BIG_FILE = 32 * 1024 * 1024
 
@@ -167,6 +169,8 @@ def is_current(folder, wanted):
     try:
         payload = json.loads(path.read_text(encoding='utf-8'))
     except ValueError:
+        return False
+    if payload.get('tables_format') != TABLES_FORMAT:
         return False
     try:
         families = json.loads((folder / 'texts.json').read_text(encoding='utf-8'))['texts']
@@ -297,6 +301,7 @@ def main(argv=None):
         payload = decode(folder, client_version, hashes)
         tables = decode_tables(folder, client_version, payload['items'])
         texts = decode_texts(folder, client_version)
+        payload['tables_format'] = TABLES_FORMAT
     except (ClientError, wakfu_client.TableError, urllib.error.URLError, OSError) as error:
         print('the client files could not be read: %s' % error)
         return 1

@@ -418,6 +418,9 @@ def write_client_tables(conn, tables, counts):
     """Fill the effect, state, ability and set tables from a decoded client."""
     item_ids = set(tables['item_ids'])
     effects = {effect['id']: effect for effect in tables['effects']}
+    if any('criterion' not in effect for effect in effects.values()):
+        raise ValueError('the decoded effects carry no criterion: decode the client again'
+                         ' with get_wakfu_client.py')
     groups = {group['id']: group['effect_ids'] for group in tables['groups']}
     ability_categories = {one['id'] for one in tables['ability_categories']}
     roots = {effect['id'] for effect in effects.values()
@@ -448,11 +451,12 @@ def write_client_tables(conn, tables, counts):
         conn.execute(
             'INSERT INTO effects (id, action, container_type, container,'
             ' root_container_type, normal_or_critical, area_shape, area_size,'
-            ' params) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            ' params, criterion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             (ident, effect['action_id'], effect['container_type'],
              effect['container_id'], effect['root_container_type'],
              effect['normal_or_critical'], effect['area_shape'],
-             json.dumps(effect['area_size']), json.dumps(effect['params'])))
+             json.dumps(effect['area_size']), json.dumps(effect['params']),
+             effect['criterion']))
         counts['effects'] += 1
         for position, member in enumerate(groups.get(ident, ())):
             conn.execute('INSERT INTO effect_groups (group_id, position, effect)'
