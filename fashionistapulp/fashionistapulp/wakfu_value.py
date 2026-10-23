@@ -25,7 +25,7 @@ import contextlib
 import math
 import time
 
-from . import lpproblem
+from . import lpproblem, wakfu_runes
 from .wakfu_criteria import base_values
 from .wakfu_stats import ELEMENTS as ELEMENT_NAMES, OUT_OF_COMBAT_CAPS
 from .wakfu_value_rules import RULES
@@ -303,8 +303,13 @@ class ModelRound(collections.namedtuple('ModelRound',
 
     @property
     def key(self):
-        """What a round settled on: the pieces and the aptitude points."""
-        return self.ids, tuple(sorted(self.worn.aptitudes.items()))
+        """What a round settled on: the pieces, the aptitude points and the runes."""
+        runes = collections.Counter(
+            (position, socket.rune, socket.tier)
+            for position, sockets in self.worn.runes.items()
+            for socket in sockets if socket.rune is not None)
+        return (self.ids, tuple(sorted(self.worn.aptitudes.items())),
+                tuple(sorted(key + (count,) for key, count in runes.items())))
 
 
 class ModelSolve(collections.namedtuple('ModelSolve', 'rounds best converged')):
@@ -333,11 +338,12 @@ def blend(point, totals, step):
 
 
 def land(structure, level, role, build, worn, turn=None, locked=(), class_id=None,
-         state=None, aptitudes=None, battleground=False, levels=None):
+         state=None, aptitudes=None, battleground=False, levels=None,
+         runes=None, rune_tier=None):
     """(value, build, totals) of the best landing tried for a set's spread lines.
 
     Each pass lands them on the weights at the totals the pass before gave. The
-    aptitude points of the set are held as they are, so its totals keep them.
+    aptitude points and the runes of the set are held as they are, so its totals keep them.
     """
     from .wakfu_model import WakfuBuild
 
@@ -347,7 +353,7 @@ def land(structure, level, role, build, worn, turn=None, locked=(), class_id=Non
     for _ in range(LANDING_PASSES):
         build = WakfuBuild(structure, level, linear_weights(role, level, totals, turn),
                            class_id=class_id, state=state, aptitudes=held,
-                           battleground=battleground,
+                           battleground=battleground, runes=runes, rune_tier=rune_tier,
                            **({'locked': locked} if locked else {}),
                            **({'levels': levels} if levels is not None else {}))
         totals = build.totals(worn)
@@ -359,7 +365,7 @@ def land(structure, level, role, build, worn, turn=None, locked=(), class_id=Non
 
 def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=None,
           locked=(), deadline=None, class_id=None, state=None, aptitudes=None,
-          battleground=False, levels=None):
+          battleground=False, levels=None, runes=wakfu_runes.OPTIMISTIC, rune_tier=None):
     """Best set by value; each round solves on the tangent at a blend of the sets found.
 
     The blend moves toward each new set by 2/(k+2) of the way, a Frank-Wolfe
@@ -375,30 +381,31 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
 
     class_id: the breed, whose pieces and base values count. state: the
     PlayerState the pieces' player-state conditions are read against.
-    aptitudes, battleground and levels: as in wakfu_model.WakfuBuild.
+    aptitudes, battleground, levels, runes and rune_tier: as in
+    wakfu_model.WakfuBuild.
     """
     if turn is None:
         return _solve(structure, level, role, forbidden, rounds, full_set,
                       locked=locked, deadline=deadline, class_id=class_id,
                       state=state, aptitudes=aptitudes, battleground=battleground,
-                      levels=levels)
+                      levels=levels, runes=runes, rune_tier=rune_tier)
     if turn.damage(resource_ceiling(base_values(structure, class_id))) <= 0:
         raise ValueError('the class turn deals no damage for this role, even with '
                          'AP, MP and WP at their caps')
     classed = _solve(structure, level, role, forbidden, rounds, full_set, turn,
                      locked, deadline, class_id, state, aptitudes, battleground,
-                     levels)
+                     levels, runes, rune_tier)
     if out_of_time(deadline):
         return classed._replace(converged=False)
     generic = _solve(structure, level, role, forbidden, rounds, full_set,
                      locked=locked, deadline=deadline, class_id=class_id,
                      state=state, aptitudes=aptitudes, battleground=battleground,
-                     levels=levels).best
+                     levels=levels, runes=runes, rune_tier=rune_tier).best
     if generic is None:
         return classed
     worth, landed, totals = land(structure, level, role, generic.build, generic.worn,
                                  turn, locked, class_id, state, aptitudes, battleground,
-                                 levels)
+                                 levels, runes, rune_tier)
     if classed.best is not None and classed.best.value >= worth:
         return classed
     return classed._replace(
@@ -407,7 +414,7 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
 
 def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
            locked=(), deadline=None, class_id=None, state=None, aptitudes=None,
-           battleground=False, levels=None):
+           battleground=False, levels=None, runes=None, rune_tier=None):
     from .wakfu_model import WakfuBuild
 
     base = base_values(structure, class_id)
@@ -428,14 +435,14 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
         build = WakfuBuild(structure, level, weights, forbidden, full_set,
                            minimums=minimums, class_id=class_id, state=state,
                            aptitudes=aptitudes, battleground=battleground,
-                           **options)
+                           runes=runes, rune_tier=rune_tier, **options)
         worn = build.build().solve(deadline)
         if worn is None:
             reason = getattr(build, 'reason', None)
             break
         worth, landed, totals = land(structure, level, role, build, worn, turn,
                                      locked, class_id, state, aptitudes, battleground,
-                                     levels)
+                                     levels, runes, rune_tier)
         done.append(ModelRound(weights, landed, worn, totals, worth))
         if len(done) > 1 and done[-2].key == done[-1].key:
             converged = True

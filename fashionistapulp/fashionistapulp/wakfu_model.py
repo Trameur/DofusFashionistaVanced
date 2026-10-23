@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import collections
 
-from . import wakfu_aptitudes, wakfu_companions
+from . import wakfu_aptitudes, wakfu_companions, wakfu_runes
 from .game_versions import get_game_version
 from .lpproblem import LpProblem2
 from .structure import fits_the_class
@@ -35,6 +35,8 @@ WORN = 'w'
 AP_TOTAL = 'apt'
 # LP variable: the points put in this aptitude
 APTITUDE = 'ab'
+# LP variable: the sockets of a position band that hold this rune
+RUNE = 'rn'
 # LP variable: this set bonus tier is on
 SET_TIER = 'st'
 # The aptitudes argument that lets the solver spread the points
@@ -82,6 +84,10 @@ class WakfuSet(dict):
                  status=None, aptitudes=None, battleground=False, set_tiers=(),
                  levels=None):
         super().__init__(worn)
+        # {position: (Socket, ...)}, one per socket of the worn piece, filled ones first
+        self.runes = {}
+        self.rune_mode = None
+        self.rune_tier = None
         # {item id: level} of the worn pets and mounts, at the level they are worn
         self.levels = dict(levels or {})
         # {aptitude id: points}, points above 0 only
@@ -128,14 +134,34 @@ class WakfuBuild:
     levels: a wakfu_companions.Levels; a pet or a mount gives the lines it has
     at its level, the highest it allows when none is given. WakfuSet.levels
     reports the level each worn one was read at.
+
+    runes: None or 'none' leaves the runes out; 'optimistic' fills every socket
+    a worn piece can have with the runes the solver picks. rune_tier: the
+    highest tier a socket may hold, the one its piece's level allows when None.
+    WakfuSet.runes reports each socket of each worn piece.
     """
 
     def __init__(self, structure, level, weights, forbidden=(),
                  full_set=True, minimums=None, ap_values=None, locked=(),
                  class_id=None, state=None, aptitudes=None, battleground=False,
-                 levels=None):
+                 levels=None, runes=None, rune_tier=None):
         self.structure = structure
         self.levels = levels or wakfu_companions.Levels()
+        self.rune_mode, self.rune_tier = wakfu_runes.read_options(
+            structure, runes, rune_tier)
+        # {rune id: Rune} of the runes the solver may place
+        self._runes = {}
+        if self.rune_mode == wakfu_runes.OPTIMISTIC:
+            self._runes = {ident: rune
+                           for ident, rune in wakfu_runes.valued(structure).items()
+                           if self._key_of(rune.stat) is not None}
+        # {(position, rune id, band): (column name, value, stat key)}
+        self._rune_columns = {}
+        # {(position, band): most sockets}, {(item id, position): band}
+        self._rune_limits = {}
+        self._rune_band_of = {}
+        # {position: names of its rune columns}
+        self._rune_names = collections.defaultdict(set)
         self._lines = {}
         self.level = level
         self.class_id = class_id
@@ -329,6 +355,8 @@ class WakfuBuild:
         return self._lines[item.id]
 
     def _statless(self, item):
+        if self._runes and wakfu_runes.sockets_of(item):
+            return False
         return not self._item_lines(item) and not item.element_spread
 
     def _candidates(self):
@@ -440,6 +468,7 @@ class WakfuBuild:
             self.problem.setup_variable(WORN, self._name(item, position), 0, 1)
         self._aptitude_variables()
         self._set_tier_variables()
+        self._rune_variables()
 
         self._one_item_per_slot()
         self._one_copy_of_an_item()
@@ -515,6 +544,84 @@ class WakfuBuild:
                 LpProblem2._parcel_terms([(1, WORN, one) for one in members]
                                          + [(pieces - len(titles) - 1, SET_TIER, name)]),
                 '<=', pieces - 1, 'tier_%s_off' % name)
+
+    def _read_stat_keys(self):
+        """Stat keys a row of the model reads, whatever sources feed them."""
+        keys = set(self.minimums) | {name.lower() for name in OUT_OF_COMBAT_CAPS}
+        for item, _position in self._placements:
+            for stat_id, _bound in (tuple(getattr(item, 'min_stats_to_equip', ()))
+                                    + tuple(getattr(item, 'max_stats_to_equip', ()))):
+                key = self._key_of(stat_id)
+                if key is not None:
+                    keys.add(key)
+        return keys
+
+    def _kept_runes(self, tiers, position, read):
+        """The runes a band of this position may hold: those a row reads, and for each
+        colour the best of the others, which any other of its colour cannot beat."""
+        kept = []
+        best = {}
+        for ident, rune in sorted(self._runes.items()):
+            key = self._key_of(rune.stat)
+            if key in read:
+                kept.append(ident)
+                continue
+            number = wakfu_runes.value(rune, tiers[ident], position in rune.doubles)
+            worth = number * self._plain_weight(key)
+            if worth > 0 and (rune.colour not in best or worth > best[rune.colour][0]):
+                best[rune.colour] = (worth, ident)
+        return sorted(kept + [ident for _worth, ident in best.values()])
+
+    def _rune_variables(self):
+        """An integer column per rune of each band of each socketed position."""
+        self._rune_columns = {}
+        self._rune_limits = {}
+        self._rune_band_of = {}
+        self._rune_names = collections.defaultdict(set)
+        if not self._runes:
+            return
+        read = self._read_stat_keys()
+        by_position = collections.defaultdict(list)
+        for item, position in self._placements:
+            if wakfu_runes.sockets_of(item):
+                by_position[position].append(item)
+        for position, items in sorted(by_position.items()):
+            bands = {}
+            members = collections.defaultdict(list)
+            for item in items:
+                tiers = tuple((ident, wakfu_runes.socket_tier(rune, item, self.rune_tier))
+                              for ident, rune in sorted(self._runes.items()))
+                band = bands.setdefault(tiers, len(bands))
+                self._rune_band_of[(item.id, position)] = band
+                members[band].append(item)
+                limit = (position, band)
+                self._rune_limits[limit] = max(self._rune_limits.get(limit, 0),
+                                               wakfu_runes.sockets_of(item))
+            for tiers, band in bands.items():
+                tiers = dict(tiers)
+                names = []
+                for ident in self._kept_runes(tiers, position, read):
+                    rune = self._runes[ident]
+                    name = '%d_%s_%d' % (ident, position, band)
+                    number = wakfu_runes.value(rune, tiers[ident], position in rune.doubles)
+                    self.problem.setup_variable(
+                        RUNE, name, 0, self._rune_limits[(position, band)])
+                    self._rune_columns[(position, ident, band)] = (
+                        name, number, self._key_of(rune.stat))
+                    self._rune_names[position].add(name)
+                    names.append(name)
+                parcels = [(1, RUNE, name) for name in names]
+                parcels += [(-wakfu_runes.sockets_of(item), WORN, self._name(item, position))
+                            for item in members[band]]
+                self.problem.add_row(LpProblem2._parcel_terms(parcels), '<=', 0,
+                                     'sockets_%s_%d' % (position, band))
+
+    def rune_colour_terms(self, position, colour):
+        """[(1, RUNE, column)] of the sockets of this position that hold a rune of this colour."""
+        return [(1, RUNE, name)
+                for (place, ident, _band), (name, _number, _key)
+                in sorted(self._rune_columns.items())
+                if place == position and self._runes[ident].colour == colour]
 
     def _one_item_per_slot(self):
         """One item per slot, exactly one when full_set."""
@@ -597,9 +704,28 @@ class WakfuBuild:
                 highest += max(0, value)
         return Part(terms, lowest, highest)
 
+    def _rune_part(self, key):
+        """The runes placed in the sockets, as lines of one stat."""
+        terms = []
+        best = {}
+        for (position, _ident, band), (name, number, rune_key) in self._rune_columns.items():
+            if rune_key == key:
+                terms.append((number, RUNE, name))
+                limit = self._rune_limits[(position, band)]
+                top, bottom = best.get((position, band), (0, 0))
+                best[(position, band)] = (max(top, limit * number),
+                                          min(bottom, limit * number))
+        highest = collections.defaultdict(int)
+        lowest = collections.defaultdict(int)
+        for (position, _band), (top, bottom) in best.items():
+            highest[position] = max(highest[position], top)
+            lowest[position] = min(lowest[position], bottom)
+        return Part(terms, sum(lowest.values()), sum(highest.values()))
+
     def _total_parts(self):
         """Every source of stat points; a later source is appended here."""
-        return [self._gear_part, self._aptitude_part, self._set_bonus_part]
+        return [self._gear_part, self._aptitude_part, self._set_bonus_part,
+                self._rune_part]
 
     def stat_total_expr(self, key):
         """A stat's total as base plus terms, the one every rule reads."""
@@ -673,6 +799,9 @@ class WakfuBuild:
         else:
             slack = bound + max(value, 0) - (total.low + total.lowest)
             sign, rhs = -1, total.low - max(value, 0) - bound + slack
+        if not upper and any(category == RUNE for _c, category, _n in total.terms):
+            self._min_gate_rows(item, key, bound, total, value)
+            return
         if slack <= 0:
             return
         coefficients = collections.OrderedDict(
@@ -685,6 +814,32 @@ class WakfuBuild:
         self.problem.add_row(LpProblem2._parcel_terms(parcels), '<=', rhs,
                              'gate_%d_%s_%s' % (item.id, key,
                                                 'max' if upper else 'min'))
+
+    def _min_gate_rows(self, item, key, bound, total, value):
+        """A minimum read per placement: the piece and the runes in its own sockets are
+        left out of the reading without it, and the reading with it must hold too."""
+        for one, position in self._placements:
+            if one.id != item.id:
+                continue
+            own = self._rune_names.get(position, ())
+            readings = [(value, [term for term in total.terms
+                                 if not (term[1] == RUNE and term[2] in own)], 'min')]
+            if value < 0:
+                readings.append((0, list(total.terms), 'with'))
+            for taken, terms, label in readings:
+                slack = bound + taken - (total.low + total.lowest)
+                if slack <= 0:
+                    continue
+                coefficients = collections.OrderedDict(
+                    ((category, name), -coefficient) for coefficient, category, name in terms)
+                place = (WORN, self._name(one, position))
+                coefficients[place] = coefficients.get(place, 0) + slack
+                parcels = [(coefficient, category, name)
+                           for (category, name), coefficient in coefficients.items()]
+                self.problem.add_row(
+                    LpProblem2._parcel_terms(parcels), '<=',
+                    total.low - taken - bound + slack,
+                    'gate_%d_%s_%s_%s' % (item.id, key, label, position))
 
     def _stat_gates(self):
         """Each piece's own conditions on the stat totals of the set it is worn in."""
@@ -738,6 +893,8 @@ class WakfuBuild:
             worth = sum(number * self._plain_weight(key) for key, number in lines)
             if worth:
                 self.problem.add_to_of(SET_TIER, name, worth)
+        for name, number, key in self._rune_columns.values():
+            self.problem.add_to_of(RUNE, name, number * self._plain_weight(key) + UNSPENT_COST)
         if self.ap_values is not None:
             floor = min(self.ap_values.values())
             for total in self._ap_totals():
@@ -801,7 +958,38 @@ class WakfuBuild:
         worn.levels = {item.id: wakfu_companions.level_of(self.levels, item)
                        for item in worn.values()
                        if getattr(item, 'level_cap', None) is not None}
+        worn.rune_mode = self.rune_mode
+        worn.rune_tier = self.rune_tier
+        if self._runes:
+            worn.runes = self._sockets(worn, chosen)
         return worn
+
+    def _sockets(self, worn, chosen):
+        """{position: (Socket, ...)} of the worn pieces, one per socket, filled ones first."""
+        out = {}
+        for position, item in sorted(worn.items()):
+            count = wakfu_runes.sockets_of(item)
+            if not count:
+                continue
+            band = self._rune_band_of[(item.id, position)]
+            filled = []
+            for (place, ident, one), (name, _number, _key) in sorted(
+                    self._rune_columns.items(), key=lambda row: row[0][1]):
+                if place != position or one != band:
+                    continue
+                rune = self._runes[ident]
+                tier = wakfu_runes.socket_tier(rune, item, self.rune_tier)
+                doubled = position in rune.doubles
+                number = round(chosen.get('%s_%s' % (RUNE, name)) or 0)
+                filled.extend([(rune, tier, doubled)] * number)
+            sockets = [wakfu_runes.Socket(
+                index, rune.colour, rune.id, tier, wakfu_runes.value(rune, tier, doubled),
+                doubled, wakfu_runes.shards_at(rune, tier))
+                for index, (rune, tier, doubled) in enumerate(filled)]
+            sockets.extend(wakfu_runes.Socket(index, None, None, None, 0, False, 0)
+                           for index in range(len(sockets), count))
+            out[position] = tuple(sockets)
+        return out
 
     def spread_lines(self, worn):
         """[(position, item, key, value, elements it landed on)] of a set."""
@@ -837,6 +1025,7 @@ class WakfuBuild:
                     out[key] += value
         out.update(self.where_the_spread_lands(worn))
         out.update(self._source_lines(worn))
+        out.update(wakfu_runes.lines(self.structure, worn, getattr(worn, 'runes', None)))
         for name in OUT_OF_COMBAT_CAPS:
             out[name.lower()] += self._base[name.lower()][0]
         return out

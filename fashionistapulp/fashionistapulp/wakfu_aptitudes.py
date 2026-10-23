@@ -21,6 +21,7 @@ import re
 
 from .wakfu_criteria import (And, Call, Compare, Const, CriteriaError, Hidden, Not, Or,
                              parse)
+from . import wakfu_runes
 from .wakfu_db import effect_value
 from .wakfu_value_rules import RULES
 
@@ -269,17 +270,36 @@ def _hp_bound(structure, level):
     for type_id, position in structure.get_type_positions():
         positions[type_id].append(position)
     best = {}
+    sockets = {}
     for item in structure.items_dict.values():
         if item.removed or item.level > level:
             continue
+        for position in positions[item.type]:
+            sockets[position] = max(sockets.get(position, 0), wakfu_runes.sockets_of(item))
         for stat_id, value in item.stats:
             if hp_stat is not None and stat_id == hp_stat.id:
                 for position in positions[item.type]:
                     best[position] = max(best.get(position, 0), value)
     life = (RULES['base_life'].value + RULES['life_per_level'].value * level
-            + sum(best.values()) + sum(raw[c] * budget[c] for c in raw))
+            + sum(best.values()) + sum(raw[c] * budget[c] for c in raw)
+            + _rune_life(structure, level, sockets))
     points = sum(percent[c] * budget[c] for c in percent)
     return int(life + life * points // 100)
+
+
+def _rune_life(structure, level, sockets):
+    """The most Life the runes can add: every socket of a position holds the best Life rune."""
+    life = 0
+    for position, count in sockets.items():
+        best = 0
+        for rune in wakfu_runes.valued(structure).values():
+            stat = structure.get_stat_by_id(rune.stat)
+            if stat is not None and stat.key == 'hp':
+                tier = wakfu_runes.allowed_tier(rune, level)
+                if tier:
+                    best = max(best, wakfu_runes.value(rune, tier, position in rune.doubles))
+        life += count * best
+    return life
 
 
 def _per_point(structure, walked, ident):

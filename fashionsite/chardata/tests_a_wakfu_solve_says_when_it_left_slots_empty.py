@@ -140,7 +140,8 @@ class TheWakfuBuildCommandSaysWhatTheSolverDidTests(WakfuSolveCase):
         from fashionistapulp.wakfu_model import WakfuBuild
         out = self.run_command('--level', '110', '--weights', 'dmg_fire_percent=1',
                                '--aptitudes', 'none')
-        build = WakfuBuild(self.structure, 110, {'dmg_fire_percent': 1.0}, default_exclusions(self.structure))
+        build = WakfuBuild(self.structure, 110, {'dmg_fire_percent': 1.0},
+                           default_exclusions(self.structure), runes='optimistic')
         spread = build.spread_lines(build.build().solve())
         self.assertGreater(len(spread), 3)
 

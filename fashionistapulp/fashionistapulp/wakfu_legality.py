@@ -19,7 +19,7 @@
 import collections
 
 from .game_versions import get_game_version
-from . import wakfu_aptitudes, wakfu_companions, wakfu_criteria
+from . import wakfu_aptitudes, wakfu_companions, wakfu_criteria, wakfu_runes
 from .wakfu_slots import (BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES,
                           SOLVED_SLOTS, TWO_HANDED_FLAG)
 from .wakfu_stats import OUT_OF_COMBAT_CAPS
@@ -48,6 +48,10 @@ APTITUDE_UNKNOWN = 'unknown aptitude'
 APTITUDE_CAP = 'aptitude cap'
 APTITUDE_BUDGET = 'aptitude budget'
 COMPANION_LEVEL = 'companion level'
+RUNE_UNKNOWN = 'unknown rune'
+RUNE_SOCKET = 'rune socket'
+RUNE_COLOUR = 'rune colour'
+RUNE_TIER = 'rune tier'
 
 EXCLUSIVE_FLAGS = tuple(EXCLUSIVE_PROPERTIES.values())
 
@@ -183,9 +187,58 @@ def companion_levels(pairs, levels):
     return read, found
 
 
+def rune_violations(structure, held, runes, rune_tier=None):
+    """[(rule, text)] of the runes of a set; held: {position: [worn items]}.
+
+    Every field is read from the catalogue: the rune table, the piece's socket count and
+    its level.
+    """
+    found = []
+    for position, sockets in sorted((runes or {}).items()):
+        filled = wakfu_runes.entries(sockets)
+        if not filled:
+            continue
+        items = held.get(position)
+        if not items:
+            found.append((RUNE_SOCKET, '%d runes sit in %s, where nothing is worn'
+                          % (len(filled), position)))
+            continue
+        piece = items[0]
+        if len(filled) > wakfu_runes.sockets_of(piece):
+            found.append((RUNE_SOCKET, '%s in %s holds %d runes, it has %d sockets at most'
+                          % (piece.name, position, len(filled),
+                             wakfu_runes.sockets_of(piece))))
+        for colour, ident, tier in filled:
+            known_colour = colour in wakfu_runes.SOCKET_COLOURS
+            if not known_colour:
+                found.append((RUNE_SOCKET, 'a socket of %s in %s has the colour %r'
+                              % (piece.name, position, colour)))
+            rune = structure.shards.get(ident)
+            if rune is None:
+                found.append((RUNE_UNKNOWN, 'rune %r is not in the rune table' % (ident,)))
+                continue
+            if known_colour and colour != rune.colour and colour != wakfu_runes.WHITE:
+                found.append((RUNE_COLOUR, 'rune %d (colour %d) sits in a socket of colour '
+                                           '%r of %s in %s'
+                              % (ident, rune.colour, colour, piece.name, position)))
+            if not isinstance(tier, int) or isinstance(tier, bool) \
+                    or not 1 <= tier <= len(rune.costs):
+                found.append((RUNE_TIER, 'rune %d has no tier %r' % (ident, tier)))
+                continue
+            allowed = wakfu_runes.allowed_tier(rune, piece.level)
+            if tier > allowed:
+                found.append((RUNE_TIER, 'rune %d is tier %d in %s of level %d, which '
+                                         'allows tier %d' % (ident, tier, piece.name,
+                                                             piece.level, allowed)))
+            elif rune_tier and tier > rune_tier:
+                found.append((RUNE_TIER, 'rune %d is tier %d, over the tier cap of %d'
+                              % (ident, tier, rune_tier)))
+    return found
+
+
 def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
                class_id=None, state=None, aptitudes=None, battleground=False,
-               levels=None):
+               levels=None, runes=None, rune_tier=None):
     """[(rule, text)] of every rule a set breaks; an empty list is a legal set.
 
     worn: {position: item}, or an iterable of (position, item); a position
@@ -197,11 +250,16 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
     points} the set is worn with, None for none; their lines and those of the
     set bonus tiers of a battleground count in every total checked. levels:
     {item id: level} the worn pets and mounts are read at, as WakfuSet.levels
-    gives it; a leveled item missing from it is read at its cap.
+    gives it; a leveled item missing from it is read at its cap. runes:
+    {position: iterable of (colour, rune id, tier)}, WakfuSet.runes when it is None;
+    their lines count in every total checked. rune_tier: the highest tier a socket
+    may hold.
     """
     rules = _Rules(structure)
     found = []
     pairs = []
+    if runes is None:
+        runes = getattr(worn, 'runes', None)
     # Every field is read from the catalogue, never from the object passed in
     for position, given in _pairs(worn):
         item = structure.get_item_by_id(given.id)
@@ -267,9 +325,14 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
                 len(group), flag, ', '.join(item.name for item in group))))
 
     found.extend(aptitude_violations(structure, level, aptitudes))
+    found.extend(rune_violations(structure, held, runes, rune_tier))
     lines = _aptitude_lines(structure, level, aptitudes, battleground)
     tiers = _tier_reader(structure, level, battleground)
     lines.update(tiers({item.id for item in wearing}) if tiers else {})
+    rune_lines = wakfu_runes.position_lines(
+        structure, {position: items[0] for position, items in held.items()}, runes)
+    for one in rune_lines.values():
+        lines.update(one)
 
     base = wakfu_criteria.base_values(structure, class_id)
     for name, cap in OUT_OF_COMBAT_CAPS.items():
@@ -287,7 +350,8 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
 
     found.extend(_conditions(
         structure, pairs, level, class_id, state or wakfu_criteria.start_state(),
-        _aptitude_lines(structure, level, aptitudes, battleground), tiers, read))
+        _aptitude_lines(structure, level, aptitudes, battleground), tiers, read,
+        rune_lines))
     return found
 
 
@@ -327,12 +391,14 @@ def _rule_of(node):
 
 
 def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None,
-                levels=None):
+                levels=None, runes=None):
     """Each worn piece's own EQUIP text, judged with and without the piece.
 
     lines: Counter of the aptitude lines. tiers: item ids worn -> Counter of
     the set bonus lines, so the reading without a piece drops its tiers too.
     levels: {item id: level} each piece is read at, as companion_levels gives it.
+    runes: {position: Counter of the lines its runes give}, which belong to the piece
+    worn there, so the reading without a piece leaves them out too.
     """
     bases = structure.get_breed_base_values()
     names = structure.get_breed_names()
@@ -341,13 +407,16 @@ def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None
     held = {item.id for item in wearing}
     sums = collections.Counter()
     owns = {}
-    for item in wearing:
+    for index, (position, item) in enumerate(pairs):
         own = collections.Counter()
         for stat_id, value in wakfu_companions.lines_at(item, (levels or {}).get(item.id)):
             stat = structure.get_stat_by_id(stat_id)
             if stat is not None:
                 own[stat.key] += value
-        owns[item.id] = own
+        if (runes or {}).get(position) and not any(
+                place == position for place, _one in pairs[:index]):
+            own.update(runes[position])
+        owns[index] = own
         sums.update(own)
     found = []
     for index, (position, item) in enumerate(pairs):
@@ -363,7 +432,7 @@ def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None
                 totals.update(sums)
                 totals.update(lines or {})
                 if without:
-                    totals.subtract(owns[item.id])
+                    totals.subtract(owns[index])
                     totals.update(tiers(others) if tiers else {})
                 else:
                     totals.update(tiers(held) if tiers else {})
