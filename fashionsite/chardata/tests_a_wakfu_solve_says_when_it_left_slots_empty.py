@@ -49,24 +49,24 @@ class AWakfuSolveSaysWhenItDroppedTheFullSetTests(WakfuSolveCase):
         return build, build.build().solve()
 
     def test_one_ring_for_two_hands_drops_the_full_set(self):
-        from fashionistapulp.wakfu_slots import SLOTS
+        from fashionistapulp.wakfu_slots import SOLVED_SLOTS
         first, _second = self.two_rings()
         build, worn = self.solve([first])
         self.assertIsNotNone(worn)
         self.assertTrue(worn.full_set_dropped)
         self.assertEqual('Infeasible', worn.full_set_status)
         self.assertEqual([first.id], [item.id for item in worn.values()])
-        self.assertEqual(set(SLOTS) - HANDS, set(worn.no_candidate))
+        self.assertEqual(set(SOLVED_SLOTS) - HANDS, set(worn.no_candidate))
         self.assertTrue(build.solve().full_set_dropped, 'a second solve forgot the dropped full set')
 
     def test_a_set_that_fills_every_slot_is_not_flagged(self):
-        from fashionistapulp.wakfu_slots import SLOTS
+        from fashionistapulp.wakfu_slots import SOLVED_SLOTS
         build, worn = self.solve(self.two_rings())
         self.assertTrue(build.full_set)
         self.assertEqual(HANDS, set(worn))
         self.assertFalse(worn.full_set_dropped)
         self.assertIsNone(worn.full_set_status)
-        self.assertEqual(set(SLOTS) - HANDS, set(worn.no_candidate))
+        self.assertEqual(set(SOLVED_SLOTS) - HANDS, set(worn.no_candidate))
 
     def test_a_caller_that_allowed_empty_slots_is_not_told_the_full_set_was_dropped(self):
         first, _second = self.two_rings()
@@ -98,7 +98,7 @@ class TheWakfuBuildCommandSaysWhatTheSolverDidTests(WakfuSolveCase):
     def test_a_low_level_set_without_legacy_items_names_its_empty_slots(self):
         from fashionistapulp.wakfu_exclusions import default_exclusions
         from fashionistapulp.wakfu_model import WakfuBuild, same_item
-        from fashionistapulp.wakfu_slots import SLOTS
+        from fashionistapulp.wakfu_slots import SOLVED_SLOTS
         legacy = default_exclusions(self.structure)
         self.assertEqual(1, len({same_item(item) for item in self.rings(5, set(legacy))}),
                          'level 5 no longer has exactly one ring outside the legacy tier')
@@ -110,7 +110,7 @@ class TheWakfuBuildCommandSaysWhatTheSolverDidTests(WakfuSolveCase):
         self.assertEqual(1, len(dropped), out)
         self.assertIn('(Infeasible)', dropped[0])
         empty = self.empty_slots(out)
-        self.assertEqual(set(), set(empty) - set(SLOTS))
+        self.assertEqual(set(), set(empty) - set(SOLVED_SLOTS))
         self.assertTrue(HANDS & set(empty))
         self.assertEqual({'left empty by the solver'}, {empty[hand] for hand in HANDS & set(empty)})
         no_candidate = WakfuBuild(self.structure, 5, {'hp': 1}, legacy).build().solve().no_candidate

@@ -20,13 +20,13 @@ from __future__ import annotations
 
 import collections
 
-from . import wakfu_aptitudes
+from . import wakfu_aptitudes, wakfu_companions
 from .game_versions import get_game_version
 from .lpproblem import LpProblem2
 from .structure import fits_the_class
 from .wakfu_criteria import base_values, start_state, state_holds, unlocking
-from .wakfu_slots import (BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES, SLOTS,
-                          TWO_HANDED_FLAG)
+from .wakfu_slots import (BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES,
+                          SOLVED_SLOTS, TWO_HANDED_FLAG)
 from .wakfu_stats import OUT_OF_COMBAT_CAPS
 
 # LP variable: this item, worn in this slot
@@ -79,8 +79,11 @@ class WakfuSet(dict):
     """{position: item} of a solve."""
 
     def __init__(self, worn=(), full_set_status=None, no_candidate=(),
-                 status=None, aptitudes=None, battleground=False, set_tiers=()):
+                 status=None, aptitudes=None, battleground=False, set_tiers=(),
+                 levels=None):
         super().__init__(worn)
+        # {item id: level} of the worn pets and mounts, at the level they are worn
+        self.levels = dict(levels or {})
         # {aptitude id: points}, points above 0 only
         self.aptitudes = dict(aptitudes or {})
         self.battleground = battleground
@@ -121,12 +124,19 @@ class WakfuBuild:
     unknown id or a negative or non-integer count raises ValueError. The
     budgets and caps of a fixed dict are checked by wakfu_legality, not here.
     battleground: the set bonus tiers count, those of the bracket of the level.
+
+    levels: a wakfu_companions.Levels; a pet or a mount gives the lines it has
+    at its level, the highest it allows when none is given. WakfuSet.levels
+    reports the level each worn one was read at.
     """
 
     def __init__(self, structure, level, weights, forbidden=(),
                  full_set=True, minimums=None, ap_values=None, locked=(),
-                 class_id=None, state=None, aptitudes=None, battleground=False):
+                 class_id=None, state=None, aptitudes=None, battleground=False,
+                 levels=None):
         self.structure = structure
+        self.levels = levels or wakfu_companions.Levels()
+        self._lines = {}
         self.level = level
         self.class_id = class_id
         self.state = state or start_state()
@@ -311,9 +321,15 @@ class WakfuBuild:
             raise ValueError('locked item %s needs %s, which this build cannot '
                              'wear' % (item.name, target.name))
 
-    @staticmethod
-    def _statless(item):
-        return not item.stats and not item.element_spread
+    def _item_lines(self, item):
+        """[(stat id, value)] of an item at the level it is worn at."""
+        if item.id not in self._lines:
+            self._lines[item.id] = wakfu_companions.lines_at(
+                item, wakfu_companions.level_of(self.levels, item))
+        return self._lines[item.id]
+
+    def _statless(self, item):
+        return not self._item_lines(item) and not item.element_spread
 
     def _candidates(self):
         """Every (item, position) a character of this level could wear."""
@@ -360,7 +376,7 @@ class WakfuBuild:
         stat = self.structure.get_stat_by_key(key)
         if stat is None:
             return 0
-        return sum(value for stat_id, value in item.stats
+        return sum(value for stat_id, value in self._item_lines(item)
                    if stat_id == stat.id)
 
     def _key_of(self, stat_id):
@@ -385,7 +401,7 @@ class WakfuBuild:
         # Spread lines are also rows of item.stats
         spread = collections.Counter((stat_id, value) for stat_id, value, _e
                                      in item.element_spread or ())
-        for stat_id, value in item.stats:
+        for stat_id, value in self._item_lines(item):
             if spread[(stat_id, value)]:
                 spread[(stat_id, value)] -= 1
                 continue
@@ -505,7 +521,7 @@ class WakfuBuild:
         by_slot = collections.defaultdict(list)
         for item, position in self._placements:
             by_slot[position].append((item, position))
-        for position in SLOTS:
+        for position in SOLVED_SLOTS:
             if not by_slot[position]:
                 continue
             parcels = self._parcels(by_slot[position])
@@ -771,7 +787,7 @@ class WakfuBuild:
                  if (chosen.get('%s_%s' % (SET_TIER, name)) or 0) > 0.5]
         # Optimal is also what PuLP says when CBC stopped on its time limit
         worn = WakfuSet(full_set_status=self.full_set_status,
-                        no_candidate=[slot for slot in SLOTS
+                        no_candidate=[slot for slot in SOLVED_SLOTS
                                       if slot not in placed],
                         status=(PROVEN if self.problem.solution_is_proven()
                                 else TIME_LIMIT),
@@ -782,6 +798,9 @@ class WakfuBuild:
             name = '%s_%s' % (WORN, self._name(item, position))
             if (chosen.get(name) or 0) > 0.5:
                 worn[position] = item
+        worn.levels = {item.id: wakfu_companions.level_of(self.levels, item)
+                       for item in worn.values()
+                       if getattr(item, 'level_cap', None) is not None}
         return worn
 
     def spread_lines(self, worn):

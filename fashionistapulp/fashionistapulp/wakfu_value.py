@@ -333,7 +333,7 @@ def blend(point, totals, step):
 
 
 def land(structure, level, role, build, worn, turn=None, locked=(), class_id=None,
-         state=None, aptitudes=None, battleground=False):
+         state=None, aptitudes=None, battleground=False, levels=None):
     """(value, build, totals) of the best landing tried for a set's spread lines.
 
     Each pass lands them on the weights at the totals the pass before gave. The
@@ -348,7 +348,8 @@ def land(structure, level, role, build, worn, turn=None, locked=(), class_id=Non
         build = WakfuBuild(structure, level, linear_weights(role, level, totals, turn),
                            class_id=class_id, state=state, aptitudes=held,
                            battleground=battleground,
-                           **({'locked': locked} if locked else {}))
+                           **({'locked': locked} if locked else {}),
+                           **({'levels': levels} if levels is not None else {}))
         totals = build.totals(worn)
         if totals == tried[-1][2]:
             break
@@ -358,7 +359,7 @@ def land(structure, level, role, build, worn, turn=None, locked=(), class_id=Non
 
 def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=None,
           locked=(), deadline=None, class_id=None, state=None, aptitudes=None,
-          battleground=False):
+          battleground=False, levels=None):
     """Best set by value; each round solves on the tangent at a blend of the sets found.
 
     The blend moves toward each new set by 2/(k+2) of the way, a Frank-Wolfe
@@ -374,26 +375,30 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
 
     class_id: the breed, whose pieces and base values count. state: the
     PlayerState the pieces' player-state conditions are read against.
-    aptitudes and battleground: as in wakfu_model.WakfuBuild.
+    aptitudes, battleground and levels: as in wakfu_model.WakfuBuild.
     """
     if turn is None:
         return _solve(structure, level, role, forbidden, rounds, full_set,
                       locked=locked, deadline=deadline, class_id=class_id,
-                      state=state, aptitudes=aptitudes, battleground=battleground)
+                      state=state, aptitudes=aptitudes, battleground=battleground,
+                      levels=levels)
     if turn.damage(resource_ceiling(base_values(structure, class_id))) <= 0:
         raise ValueError('the class turn deals no damage for this role, even with '
                          'AP, MP and WP at their caps')
     classed = _solve(structure, level, role, forbidden, rounds, full_set, turn,
-                     locked, deadline, class_id, state, aptitudes, battleground)
+                     locked, deadline, class_id, state, aptitudes, battleground,
+                     levels)
     if out_of_time(deadline):
         return classed._replace(converged=False)
     generic = _solve(structure, level, role, forbidden, rounds, full_set,
                      locked=locked, deadline=deadline, class_id=class_id,
-                     state=state, aptitudes=aptitudes, battleground=battleground).best
+                     state=state, aptitudes=aptitudes, battleground=battleground,
+                     levels=levels).best
     if generic is None:
         return classed
     worth, landed, totals = land(structure, level, role, generic.build, generic.worn,
-                                 turn, locked, class_id, state, aptitudes, battleground)
+                                 turn, locked, class_id, state, aptitudes, battleground,
+                                 levels)
     if classed.best is not None and classed.best.value >= worth:
         return classed
     return classed._replace(
@@ -402,7 +407,7 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
 
 def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
            locked=(), deadline=None, class_id=None, state=None, aptitudes=None,
-           battleground=False):
+           battleground=False, levels=None):
     from .wakfu_model import WakfuBuild
 
     base = base_values(structure, class_id)
@@ -418,6 +423,8 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
         options = {} if turn is None else {'ap_values': turn.ap_values(point)}
         if locked:
             options['locked'] = locked
+        if levels is not None:
+            options['levels'] = levels
         build = WakfuBuild(structure, level, weights, forbidden, full_set,
                            minimums=minimums, class_id=class_id, state=state,
                            aptitudes=aptitudes, battleground=battleground,
@@ -427,7 +434,8 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
             reason = getattr(build, 'reason', None)
             break
         worth, landed, totals = land(structure, level, role, build, worn, turn,
-                                     locked, class_id, state, aptitudes, battleground)
+                                     locked, class_id, state, aptitudes, battleground,
+                                     levels)
         done.append(ModelRound(weights, landed, worn, totals, worth))
         if len(done) > 1 and done[-2].key == done[-1].key:
             converged = True

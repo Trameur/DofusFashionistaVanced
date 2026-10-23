@@ -174,7 +174,7 @@ class TheAptitudeLinesFollowTheEffectWalkTests(SimpleTestCase):
         self.assertGreater(checked, 40)
 
     def test_the_hp_bound_stays_under_the_threshold_of_ability_36(self):
-        self.assertEqual(52819, apt.hp_bound(self.structure, LEVEL))
+        self.assertEqual(53647, apt.hp_bound(self.structure, LEVEL))
         self.assertLess(apt.hp_bound(self.structure, LEVEL), 80000)
 
     def test_no_set_tier_gives_hp(self):

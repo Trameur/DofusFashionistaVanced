@@ -32,8 +32,12 @@ SLOTS = (
     'ACCESSORY',
 )
 
-# Carried through as data, not gear a build optimizes.
-NOT_GEAR = ('PET', 'MOUNT', 'COSTUME')
+# The pet and the mount are worn like gear and solved with it
+COMPANION_SLOTS = ('PET', 'MOUNT')
+SOLVED_SLOTS = SLOTS + COMPANION_SLOTS
+
+# The costume applies a state and gives no characteristic
+NOT_GEAR = ('COSTUME',)
 
 # Rings fit either hand; the data doesn't say if the same ring can be worn twice
 BOTH_HANDS = ('LEFT_HAND', 'RIGHT_HAND')

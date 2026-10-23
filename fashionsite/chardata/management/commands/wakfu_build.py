@@ -89,6 +89,16 @@ class Command(BaseCommand):
         parser.add_argument('--battleground', action='store_true',
                             help='count the set bonus tiers of the bracket of '
                                  '--level, which only a battleground gives')
+        parser.add_argument('--pet-level', type=int, default=None,
+                            help='level the pet is worn at (default: the highest '
+                                 'level the client allows)')
+        parser.add_argument('--mount-level', type=int, default=None,
+                            help='level the mount is worn at (default: the highest '
+                                 'level the client allows)')
+        parser.add_argument('--item-level', default='',
+                            help='ID=LEVEL,ID=LEVEL: the level of single pets or '
+                                 'mounts, over --pet-level and --mount-level '
+                                 '(default: the highest level the client allows)')
         parser.add_argument('--list-aptitudes', action='store_true',
                             help='print every aptitude with its category, cap and '
                                  'lines per point, and the budgets at --level, '
@@ -98,7 +108,7 @@ class Command(BaseCommand):
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.structure import get_structure
         from fashionistapulp.wakfu_model import PROVEN, TIME_LIMIT
-        from fashionistapulp.wakfu_slots import SLOTS
+        from fashionistapulp.wakfu_slots import SOLVED_SLOTS
         from fashionistapulp import wakfu_solve
         import os
 
@@ -127,7 +137,8 @@ class Command(BaseCommand):
                     options['movement'])
             except ValueError as error:
                 raise CommandError(str(error))
-        locked = self.read_locks(options['lock'], SLOTS)
+        locked = self.read_locks(options['lock'], SOLVED_SLOTS)
+        item_levels = self.read_item_levels(options['item_level'])
 
         forbidden = [int(x) for x in options['forbid'].split(',') if x.strip()]
         structure = get_structure('wakfu')
@@ -142,7 +153,9 @@ class Command(BaseCommand):
                     forbidden=forbidden, locked=locked,
                     allow_legacy=options['allow_legacy'], seconds=options['seconds'],
                     class_id=options['class_id'], state=state, aptitudes=aptitudes,
-                    battleground=options['battleground'])
+                    battleground=options['battleground'],
+                    pet_level=options['pet_level'],
+                    mount_level=options['mount_level'], item_levels=item_levels)
             else:
                 result = wakfu_solve.solve_build(
                     structure, level=options['level'],
@@ -153,7 +166,9 @@ class Command(BaseCommand):
                     movement=options['movement'], seconds=options['seconds'],
                     defense=options['defense'], rounds=options['rounds'],
                     on_class_turn=options['class_turn'], state=state,
-                    aptitudes=aptitudes, battleground=options['battleground'])
+                    aptitudes=aptitudes, battleground=options['battleground'],
+                    pet_level=options['pet_level'],
+                    mount_level=options['mount_level'], item_levels=item_levels)
         except wakfu_solve.WakfuIllegalSet as error:
             raise CommandError('the solver returned an illegal set: %s' % error)
         except ValueError as error:
@@ -185,14 +200,15 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING(
                 'the every-slot model gave no set (%s), so empty slots were '
                 'allowed' % worn.full_set_status))
-        empty = [slot for slot in SLOTS if slot not in worn]
+        empty = [slot for slot in SOLVED_SLOTS if slot not in worn]
         if empty:
             self.stdout.write('empty: %s' % ', '.join(
                 '%s (%s)' % (slot, self.why_empty(worn, slot)) for slot in empty))
         for slot in sorted(worn):
             item = worn[slot]
-            self.stdout.write('  %-16s %-38s level %s'
-                              % (slot, getattr(item, 'name', item.id), item.level))
+            self.stdout.write('  %-16s %-38s level %s%s'
+                              % (slot, getattr(item, 'name', item.id), item.level,
+                                 self.companion_note(item, result.levels)))
 
         spread = build.spread_lines(worn)
         if spread:
@@ -221,6 +237,35 @@ class Command(BaseCommand):
             if result.aptitude_mode is None:
                 left_out.append('aptitudes')
             self.stdout.write('  systems the model leaves out: ' + ', '.join(left_out))
+
+    @staticmethod
+    def companion_note(item, levels):
+        """', pet level 10 of 50' for a worn pet or mount, '' for any other item."""
+        cap = getattr(item, 'level_cap', None)
+        if cap is None:
+            return ''
+        return ', %s level %d of %d' % (
+            'pet' if item.level_slot == 'PET' else 'mount', levels[item.id], cap)
+
+    @staticmethod
+    def read_item_levels(text):
+        """{item id: level} of --item-level."""
+        given = {}
+        for part in text.split(','):
+            part = part.strip()
+            if not part:
+                continue
+            left, equals, right = part.partition('=')
+            try:
+                if not equals:
+                    raise ValueError(part)
+                ident, level = int(left), int(right)
+            except ValueError:
+                raise CommandError('--item-level is ID=LEVEL,ID=LEVEL, got %r' % part)
+            if ident in given:
+                raise CommandError('--item-level names item %d twice' % ident)
+            given[ident] = level
+        return given
 
     @staticmethod
     def read_aptitudes(text):

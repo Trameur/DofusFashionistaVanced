@@ -406,8 +406,10 @@ class TheWakfuSolveBuildNeedsAnElementAndAReachTests(InventedItemsCase):
         self.assertEqual('proven', result.status)
         self.assertIsNone(result.reason)
         self.assertLess(result.seconds, 60)
-        for system in ('runes', 'sublimations', 'pets', 'mounts', 'lucky charms', 'states'):
+        for system in ('runes', 'sublimations', 'states'):
             self.assertIn(system, result.not_counted)
+        for system in ('pets', 'mounts', 'lucky charms'):
+            self.assertNotIn(system, result.not_counted)
         self.assertNotIn('aptitudes', result.not_counted)
         self.assertEqual('solve', result.aptitude_mode)
 

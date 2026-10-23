@@ -19,9 +19,9 @@
 import collections
 
 from .game_versions import get_game_version
-from . import wakfu_aptitudes, wakfu_criteria
-from .wakfu_slots import (BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES, SLOTS,
-                          TWO_HANDED_FLAG)
+from . import wakfu_aptitudes, wakfu_companions, wakfu_criteria
+from .wakfu_slots import (BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES,
+                          SOLVED_SLOTS, TWO_HANDED_FLAG)
 from .wakfu_stats import OUT_OF_COMBAT_CAPS
 
 UNKNOWN = 'unknown item'
@@ -47,6 +47,7 @@ STATE = 'player state'
 APTITUDE_UNKNOWN = 'unknown aptitude'
 APTITUDE_CAP = 'aptitude cap'
 APTITUDE_BUDGET = 'aptitude budget'
+COMPANION_LEVEL = 'companion level'
 
 EXCLUSIVE_FLAGS = tuple(EXCLUSIVE_PROPERTIES.values())
 
@@ -58,11 +59,13 @@ class _Rules:
         for type_id, position in structure.get_type_positions():
             self.positions[type_id].add(position)
 
-    def stat_total(self, items, key):
+    def stat_total(self, items, key, read=None):
         stat = self.structure.get_stat_by_key(key)
         if stat is None:
             return 0
-        return sum(value for item in items for stat_id, value in item.stats
+        read = read or {}
+        return sum(value for item in items
+                   for stat_id, value in wakfu_companions.lines_at(item, read.get(item.id))
                    if stat_id == stat.id)
 
     def title(self, item):
@@ -152,8 +155,37 @@ def _tier_reader(structure, level, battleground):
     return read
 
 
+def companion_levels(pairs, levels):
+    """({item id: level to read it at}, [(rule, text)]) for the worn items.
+
+    An item that does not level is read at None. A level that cannot be worn is
+    reported and read at the item's cap.
+    """
+    given = levels or {}
+    read = {}
+    found = []
+    for _position, item in pairs:
+        if item.id in read:
+            continue
+        cap = getattr(item, 'level_cap', None)
+        if cap is None:
+            read[item.id] = None
+            if item.id in given:
+                found.append((COMPANION_LEVEL, '%s has no level, yet level %r is given'
+                                               % (item.name, given[item.id])))
+            continue
+        level = given.get(item.id, cap)
+        if not wakfu_companions.is_level(level) or not 0 <= level <= cap:
+            found.append((COMPANION_LEVEL, '%s is at level %r, outside 0 to its cap of '
+                                           '%d' % (item.name, level, cap)))
+            level = cap
+        read[item.id] = level
+    return read, found
+
+
 def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
-               class_id=None, state=None, aptitudes=None, battleground=False):
+               class_id=None, state=None, aptitudes=None, battleground=False,
+               levels=None):
     """[(rule, text)] of every rule a set breaks; an empty list is a legal set.
 
     worn: {position: item}, or an iterable of (position, item); a position
@@ -163,7 +195,9 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
     no class. state: the PlayerState the player-state conditions are read
     against, the game's start values by default. aptitudes: {ability id:
     points} the set is worn with, None for none; their lines and those of the
-    set bonus tiers of a battleground count in every total checked.
+    set bonus tiers of a battleground count in every total checked. levels:
+    {item id: level} the worn pets and mounts are read at, as WakfuSet.levels
+    gives it; a leveled item missing from it is read at its cap.
     """
     rules = _Rules(structure)
     found = []
@@ -181,7 +215,7 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
     for position, item in pairs:
         held[position].append(item)
     for position, items in held.items():
-        if position not in SLOTS:
+        if position not in SOLVED_SLOTS:
             found.append((SLOT, '%s is not a Wakfu slot' % position))
         if len(items) > 1:
             found.append((SLOT_COUNT, '%s holds %d items: %s' % (
@@ -201,6 +235,8 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
             found.append((FORBIDDEN, '%s is forbidden' % item.name))
 
     wearing = [item for _position, item in pairs]
+    read, bad_levels = companion_levels(pairs, levels)
+    found.extend(bad_levels)
     for ident, position in locked:
         places = [place for place, item in pairs if item.id == ident]
         if not places:
@@ -238,19 +274,20 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
     base = wakfu_criteria.base_values(structure, class_id)
     for name, cap in OUT_OF_COMBAT_CAPS.items():
         total = (base.get(name.lower(), (0, 0))[1]
-                 + rules.stat_total(wearing, name.lower()) + lines[name.lower()])
+                 + rules.stat_total(wearing, name.lower(), read) + lines[name.lower()])
         if total > cap:
             found.append((CAP, '%s is %d, over the cap of %d' % (name, total, cap)))
 
     for key, lowest in sorted((minimums or {}).items()):
-        total = base.get(key, (0, 0))[0] + rules.stat_total(wearing, key) + lines[key]
+        total = (base.get(key, (0, 0))[0] + rules.stat_total(wearing, key, read)
+                 + lines[key])
         if total < lowest:
             found.append((MINIMUM, '%s is %d, under the minimum of %d'
                           % (key, total, lowest)))
 
     found.extend(_conditions(
         structure, pairs, level, class_id, state or wakfu_criteria.start_state(),
-        _aptitude_lines(structure, level, aptitudes, battleground), tiers))
+        _aptitude_lines(structure, level, aptitudes, battleground), tiers, read))
     return found
 
 
@@ -289,11 +326,13 @@ def _rule_of(node):
     return CONDITION
 
 
-def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None):
+def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None,
+                levels=None):
     """Each worn piece's own EQUIP text, judged with and without the piece.
 
     lines: Counter of the aptitude lines. tiers: item ids worn -> Counter of
     the set bonus lines, so the reading without a piece drops its tiers too.
+    levels: {item id: level} each piece is read at, as companion_levels gives it.
     """
     bases = structure.get_breed_base_values()
     names = structure.get_breed_names()
@@ -304,7 +343,7 @@ def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None
     owns = {}
     for item in wearing:
         own = collections.Counter()
-        for stat_id, value in item.stats:
+        for stat_id, value in wakfu_companions.lines_at(item, (levels or {}).get(item.id)):
             stat = structure.get_stat_by_id(stat_id)
             if stat is not None:
                 own[stat.key] += value

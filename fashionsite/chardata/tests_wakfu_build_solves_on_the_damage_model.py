@@ -238,7 +238,7 @@ class AWakfuModelSolveTests(SimpleTestCase):
         self.assertTrue(self.result.converged)
         self.assertGreater(len(rounds), 1)
         self.assertEqual(rounds[-2].ids, rounds[-1].ids)
-        self.assertEqual(12, len(self.result.best.worn))
+        self.assertEqual(14, len(self.result.best.worn))
 
     def test_the_kept_set_has_the_best_value_of_every_round(self):
         best = self.result.best

@@ -18162,12 +18162,12 @@ class WakfuSlotRuleTests(SimpleTestCase):
         self.assertIn('Ring', set(get_structure('wakfu').types_dict.values()))
 
     def test_every_gear_slot_the_data_uses_is_declared(self):
-        from fashionistapulp.wakfu_slots import NOT_GEAR, SLOTS
+        from fashionistapulp.wakfu_slots import NOT_GEAR, SOLVED_SLOTS
         dump = self._dump()
         seen = set()
         for item in dump['equipment']:
             seen.update(item['positions'])
-        self.assertEqual(set(), seen - set(SLOTS) - set(NOT_GEAR),
+        self.assertEqual(set(), seen - set(SOLVED_SLOTS) - set(NOT_GEAR),
                          'the build uses a slot nothing declares')
 
 
@@ -18517,7 +18517,7 @@ class WakfuTypesAreAnkamasOwnTests(SimpleTestCase):
 
     def test_every_type_is_named_and_placed(self):
         wakfu = self._wakfu()
-        from fashionistapulp.wakfu_slots import SLOTS
+        from fashionistapulp.wakfu_slots import SOLVED_SLOTS
         places = self._positions()
         self.assertGreater(len(wakfu.types_dict), 20)
         for type_id, name in wakfu.types_dict.items():
@@ -18525,7 +18525,7 @@ class WakfuTypesAreAnkamasOwnTests(SimpleTestCase):
                 self.assertNotIn('{', name)
                 self.assertTrue(name.strip())
                 self.assertIn(type_id, places)
-                self.assertEqual(set(), places[type_id] - set(SLOTS))
+                self.assertEqual(set(), places[type_id] - set(SOLVED_SLOTS))
 
     def test_a_ring_fills_two_slots_and_nothing_else_does(self):
         wakfu = self._wakfu()
@@ -19412,10 +19412,10 @@ class TheWakfuSolverObeysTheGameTests(SimpleTestCase):
         return build, build.build().solve()
 
     def test_a_build_wears_one_item_per_slot_and_no_item_twice(self):
-        from fashionistapulp.wakfu_slots import SLOTS
+        from fashionistapulp.wakfu_slots import SOLVED_SLOTS
         build, worn = self._build(50, {'hp': 1, 'ap': 200, 'mp': 150})
         self.assertIsNotNone(worn, 'no legal set at all at level 50')
-        self.assertEqual(set(), set(worn) - set(SLOTS))
+        self.assertEqual(set(), set(worn) - set(SOLVED_SLOTS))
         # Keyed by slot: check no item sits in two slots
         ids = [item.id for item in worn.values()]
         self.assertEqual(len(ids), len(set(ids)), 'an item is worn twice')

@@ -96,10 +96,10 @@ class WakfuCountsDifferFromTheCdnOnlyByScopeTests(SimpleTestCase):
         self.assertEqual(set(), set(cdn) - database)
 
     def test_the_cdn_rarity_zero_equipment_is_the_database_legacy_tier_minus_what_is_not_gear(self):
-        from fashionistapulp.wakfu_slots import LEGACY_RARITY, NOT_GEAR, SLOTS
+        from fashionistapulp.wakfu_slots import LEGACY_RARITY, NOT_GEAR, SOLVED_SLOTS
         positions = self.positions()
         cdn = [item for item in self.cdn_items() if item.rarity == LEGACY_RARITY and item.type in positions]
-        not_gear = {item.id for item in cdn if not positions[item.type] & set(SLOTS)}
+        not_gear = {item.id for item in cdn if not positions[item.type] & set(SOLVED_SLOTS)}
         worn_there = set().union(*(positions[item.type] for item in cdn if item.id in not_gear))
         self.assertEqual(set(), worn_there - set(NOT_GEAR))
         legacy = self.legacy_in_db()
@@ -118,7 +118,7 @@ class WakfuCountsDifferFromTheCdnOnlyByScopeTests(SimpleTestCase):
                         'hidden but not legacy: %d, bound %d' % (len(others), len(legacy) // 10))
 
     def test_the_cdn_state_lines_are_the_decoded_ones_plus_weapon_use_effects(self):
-        from fashionistapulp.wakfu_slots import SLOTS
+        from fashionistapulp.wakfu_slots import SOLVED_SLOTS
 
         def states(effects):
             return [effect for effect in effects
@@ -139,7 +139,7 @@ class WakfuCountsDifferFromTheCdnOnlyByScopeTests(SimpleTestCase):
                 hosts['gear in the database'] += 1
             elif item.type not in positions:
                 hosts['not equipment'] += 1
-            elif not positions[item.type] & set(SLOTS):
+            elif not positions[item.type] & set(SOLVED_SLOTS):
                 hosts['not gear'] += 1
             else:
                 stray.append(item.id)

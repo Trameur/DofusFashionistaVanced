@@ -98,12 +98,12 @@ class AptitudeCase(InventedItemsCase):
         forget(cls.structure)
 
     def solve(self, weights, forbidden=(), locked=(), level=LEVEL, class_id=None,
-              aptitudes=SOLVE, battleground=False, full_set=True):
+              aptitudes=SOLVE, battleground=False, full_set=True, levels=None):
         """(build, worn) of hand weights; worn is None when no set exists."""
         from fashionistapulp.wakfu_model import WakfuBuild
         build = WakfuBuild(self.structure, level, weights, forbidden, full_set,
                            locked=locked, class_id=class_id, aptitudes=aptitudes,
-                           battleground=battleground)
+                           battleground=battleground, levels=levels)
         return build, build.build().solve()
 
     def violations(self, worn, level=LEVEL, **options):
