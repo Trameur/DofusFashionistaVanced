@@ -52,7 +52,8 @@ So: WHICH TABLES BELONG TO WHOM.
         client_monster_names, monster_family_names, ability_names,
         ability_category_names, effect_texts, action_texts, client_job_names,
         client_breed_names, client_breed_texts, client_aptitude_texts,
-        client_enchantment_texts, client_item_type_names, client_pictures
+        client_enchantment_texts, client_item_type_names, client_pictures,
+        item_level_caps, item_level_lines
 
     build_wakfu_recipes.py owns, and rewrites on every run:
         item_recipes, item_recipe_ingredient_names, item_craft_jobs,

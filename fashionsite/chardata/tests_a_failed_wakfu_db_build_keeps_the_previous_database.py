@@ -45,7 +45,8 @@ class AFailedWakfuDbBuildKeepsThePreviousDatabaseTests(TestCase):
         client.mkdir(parents=True)
         (client / 'tables.json').write_text('{}', encoding='utf-8')
         with mock.patch.object(builder, 'find_client_tables',
-                               side_effect=lambda d, v, name='tables.json': client / name if name == 'tables.json' else None), \
+                               side_effect=lambda d, v, name='tables.json':
+                               {} if name == 'tables.json' else None), \
                 mock.patch.object(builder, 'write_client_tables'):
             output = io.StringIO()
             with contextlib.redirect_stdout(output):

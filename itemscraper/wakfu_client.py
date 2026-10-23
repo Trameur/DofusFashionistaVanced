@@ -256,7 +256,7 @@ SetRecord = collections.namedtuple('SetRecord', 'id elG item_ids bonuses')
 SpellRecord = collections.namedtuple(
     'SpellRecord', 'id breed ap mp wp range_min range_max element unlock_level'
                    ' max_level effect_ids icon')
-# eoq, eop and emm are the three level fields, which one is the cap is not known
+# emm is the level cap, the client clamps with it; eop divides the per level step
 PetRecord = collections.namedtuple('PetRecord', 'id item eoq eop emm')
 MountRecord = collections.namedtuple('MountRecord', 'id item eop emm eoq')
 DropRecord = collections.namedtuple('DropRecord', 'item rate quantity_min quantity_max')

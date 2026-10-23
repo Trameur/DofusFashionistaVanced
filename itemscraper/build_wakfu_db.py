@@ -62,9 +62,10 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))), 'fashionistapulp'))
 from fashionistapulp import wakfu_criteria  # noqa: E402
-from fashionistapulp.wakfu_db import create_tables, singular  # noqa: E402
-from fashionistapulp.wakfu_slots import (RARITIES, SLOTS,  # noqa: E402
-                                         TWO_HANDED_FLAG)
+from fashionistapulp.wakfu_db import (create_tables, level_value,  # noqa: E402
+                                      singular)
+from fashionistapulp.wakfu_slots import (COMPANION_SLOTS, RARITIES,  # noqa: E402
+                                         SOLVED_SLOTS, TWO_HANDED_FLAG)
 from fashionistapulp.wakfu_stats import WAKFU_STATS  # noqa: E402
 
 HERE = Path(__file__).resolve().parent.parent
@@ -75,9 +76,9 @@ WAKFU_DB = HERE / 'fashionistapulp' / 'fashionistapulp' / 'items_wakfu.db'
 # decoder has already put English under 'de'.
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 
-# A slot a build fills. The rest (pets, mounts, costumes) is kept out of the
-# item table rather than carried and then filtered everywhere downstream.
-GEAR = set(SLOTS)
+# A slot a build fills. The rest (costumes) is kept out of the item table
+# rather than carried and then filtered everywhere downstream.
+GEAR = set(SOLVED_SLOTS)
 
 
 def dofus_schema():
@@ -117,6 +118,8 @@ PREVIOUS = {
                      ' FROM stats_of_item',
     'stat_element_count': 'SELECT item, line, stat, value, elements'
                           ' FROM stat_element_count',
+    'item_level_caps': 'SELECT item, slot, cap FROM item_level_caps',
+    'item_level_lines': 'SELECT item, line, stat, base, per_level FROM item_level_lines',
     'stats': 'SELECT id, key FROM stats',
     'item_types': 'SELECT id, name FROM item_types',
     'item_type_names': 'SELECT item_type, language, name FROM item_type_names',
@@ -155,6 +158,36 @@ def read_previous(db_path):
         return rows
     finally:
         conn.close()
+
+
+def level_caps(tables):
+    """{item id: (slot, level cap)} of the client's pets and mounts that name an item."""
+    caps = {}
+    if tables is None:
+        return caps
+    for slot, key in (('PET', 'pets'), ('MOUNT', 'mounts')):
+        for row in tables.get(key, ()):
+            if row['item'] is None:
+                continue
+            if row['item'] in caps:
+                raise ValueError('item %d has two rows in the client pet and mount tables'
+                                 % row['item'])
+            caps[row['item']] = (slot, row['emm'])
+    return caps
+
+
+def check_leveled_line(item_id, line):
+    """Stop on a leveled line the structure has no reading for."""
+    params = line['params']
+    template = (line.get('template') or {}).get('en') or ''
+    if line.get('elements'):
+        raise ValueError('leveled line of item %d spreads over elements' % item_id)
+    if len(params) < 2 or params[1] < 0:
+        raise ValueError('leveled line of item %d has no non-negative slope' % item_id)
+    if line['value'] != params[0]:
+        raise ValueError('leveled line of item %d: value is not the base' % item_id)
+    if template.strip().startswith('-') or '] -[#1]' in template:
+        raise ValueError('leveled line of item %d is a malus' % item_id)
 
 
 def keep_removed(conn, previous, written, stat_ids, set_ids, type_ids):
@@ -268,6 +301,16 @@ def keep_removed(conn, previous, written, stat_ids, set_ids, type_ids):
                 'INSERT INTO stat_element_count (item, line, stat, value,'
                 ' elements) VALUES (?, ?, ?, ?, ?)',
                 (item, line, number, value, elements))
+    for item, slot, cap in previous['item_level_caps']:
+        if item in gone:
+            conn.execute('INSERT INTO item_level_caps (item, slot, cap)'
+                         ' VALUES (?, ?, ?)', (item, slot, cap))
+    for item, line, stat, base, per_level in previous['item_level_lines']:
+        number = new_ids.get(str(old_keys.get(stat)).lower())
+        if item in gone and number:
+            conn.execute(
+                'INSERT INTO item_level_lines (item, line, stat, base, per_level)'
+                ' VALUES (?, ?, ?, ?, ?)', (item, line, number, base, per_level))
     return len(gone)
 
 
@@ -759,11 +802,22 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
     gear_ids = {item['id'] for item in dump['equipment']
                 if any(p in GEAR for p in item['positions'])}
 
+    tables = find_client_tables(client_dir, dump['version']) if client_dir else None
+    caps = level_caps(tables)
+
     written = set()
     for item in dump['equipment']:
         positions = [p for p in item['positions'] if p in GEAR]
         if not positions:
             counts['not gear'] += 1
+            continue
+        leveled = item['id'] in caps
+        if not leveled and any(p in COMPANION_SLOTS for p in positions) and any(
+                line.get('stat') and len(line['params']) > 1 and line['params'][1]
+                for line in item['lines']):
+            print('leveled item %d %s has no cap in the client tables, left out'
+                  % (item['id'], item['name'].get('en')))
+            counts['leveled item without a cap'] += 1
             continue
         # The item points at its type; where that type is worn is one join
         # away in item_type_position, so nothing about the slot is copied onto
@@ -815,12 +869,31 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
 
         write_conditions(conn, item, stat_ids, breed_names, gear_ids, counts)
 
+        if leveled:
+            slot, cap = caps[item_id]
+            if slot not in positions:
+                raise ValueError('item %d is a %s row of the client but is worn in %s'
+                                 % (item_id, slot, positions))
+            conn.execute('INSERT INTO item_level_caps (item, slot, cap) VALUES (?, ?, ?)',
+                         (item_id, slot, cap))
+            counts['leveled items'] += 1
+
         for line_number, line in enumerate(item['lines']):
             key = line.get('stat')
             if not key:
                 counts['line: %s' % line.get('not_a_stat')] += 1
                 continue
-            value = int(line['value'])
+            if leveled:
+                check_leveled_line(item_id, line)
+                base, per_level = line['params'][0], line['params'][1]
+                conn.execute(
+                    'INSERT INTO item_level_lines (item, line, stat, base, per_level)'
+                    ' VALUES (?, ?, ?, ?, ?)',
+                    (item_id, line_number, stat_ids[key], base, per_level))
+                counts['leveled lines'] += 1
+                value = level_value(base, per_level, cap)
+            else:
+                value = int(line['value'])
             if not value:
                 counts['line worth nothing'] += 1
                 continue
@@ -839,7 +912,6 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
                      line['elements']))
                 counts['spread over elements'] += 1
 
-    tables = find_client_tables(client_dir, dump['version']) if client_dir else None
     decoded = find_client_tables(client_dir, dump['version'], 'decoded.json') \
         if tables is not None else None
     if tables is None:

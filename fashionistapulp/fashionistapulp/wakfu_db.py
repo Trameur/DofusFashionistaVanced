@@ -18,6 +18,7 @@
 
 import collections
 import json
+import math
 import re
 import struct
 
@@ -26,6 +27,8 @@ STAT_ELEMENT_COUNT_TABLE = 'stat_element_count'
 ITEM_TYPE_POSITION_TABLE = 'item_type_position'
 ITEM_TYPE_NAME_TABLE = 'item_type_names'
 ITEM_PICTURE_TABLE = 'item_picture'
+ITEM_LEVEL_CAP_TABLE = 'item_level_caps'
+ITEM_LEVEL_LINE_TABLE = 'item_level_lines'
 EFFECT_TABLE = 'effects'
 EFFECT_GROUP_TABLE = 'effect_groups'
 STATE_TABLE = 'states'
@@ -82,6 +85,17 @@ SCHEMA = (
     """CREATE TABLE item_picture
              (item INTEGER PRIMARY KEY, gfx INTEGER,
               FOREIGN KEY(item) REFERENCES items(id))""",
+    # The highest level of a pet or mount (emm of the client tables)
+    """CREATE TABLE item_level_caps
+             (item INTEGER PRIMARY KEY, slot TEXT, cap INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id))""",
+    # line is the index in the dump's lines; the value at level L is
+    # base + per_level * L, see level_value
+    """CREATE TABLE item_level_lines
+             (item INTEGER, line INTEGER, stat INTEGER, base REAL, per_level REAL,
+              PRIMARY KEY (item, line),
+              FOREIGN KEY(item) REFERENCES items(id),
+              FOREIGN KEY(stat) REFERENCES stats(id))""",
     # Costs and range never vary with the spell level
     """CREATE TABLE spells
              (id INTEGER PRIMARY KEY, class INTEGER, element TEXT,
@@ -174,15 +188,15 @@ SCHEMA = (
               FOREIGN KEY(effect) REFERENCES effects(id))""",
     # item: the pet's item in the client's item table, NULL when the client's
     # item table lacks it, as for a mount. Its effects are the
-    # effects rows with container_type ITEM_EQUIP and container = item. eoq,
-    # eop and emm are the client's three level fields;
-    # which of them is the level cap is not known
+    # effects rows with container_type ITEM_EQUIP and container = item.
+    # emm is the level cap, eop the experience per level, eoq a byte of the
+    # feeding record
     """CREATE TABLE pets
              (id INTEGER PRIMARY KEY, item INTEGER, eoq INTEGER, eop INTEGER,
               emm INTEGER)""",
     # item is NULL for the mounts whose item the client no longer has. The
-    # mount's effects are the item's, as for a pet. eop, emm and eoq are the
-    # client's level fields
+    # mount's effects are the item's, as for a pet. emm is the level cap, eop
+    # the experience per level, eoq a byte of the feeding record
     """CREATE TABLE mounts
              (id INTEGER PRIMARY KEY, item INTEGER, eop INTEGER, emm INTEGER,
               eoq INTEGER)""",
@@ -344,6 +358,15 @@ def effect_value(params, index, level):
     if abs(product - round(product)) < 1e-5:
         product = float(round(product))
     return float32(params[2 * index] + product)
+
+
+def level_value(base, per_level, level):
+    """The client's value of a pet or mount line at its displayed level.
+
+    Floored for a slope >= 0 and ceiled below (eVG.a).
+    """
+    value = effect_value((base, per_level), 0, level)
+    return int(math.floor(value) if per_level >= 0 else math.ceil(value))
 
 
 EffectRow = collections.namedtuple(

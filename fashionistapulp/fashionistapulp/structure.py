@@ -40,9 +40,10 @@ from .game_versions import get_game_version
 from .item import Item
 from .set import Set
 from .translation import NON_EN_LANGUAGES
-from .wakfu_db import (EFFECT_COLUMNS, ITEM_PICTURE_TABLE, ITEM_RARITY_TABLE,
-                       ITEM_TYPE_POSITION_TABLE, STAT_ELEMENT_COUNT_TABLE,
-                       EffectRow)
+from .wakfu_db import (EFFECT_COLUMNS, ITEM_LEVEL_CAP_TABLE,
+                       ITEM_LEVEL_LINE_TABLE, ITEM_PICTURE_TABLE,
+                       ITEM_RARITY_TABLE, ITEM_TYPE_POSITION_TABLE,
+                       STAT_ELEMENT_COUNT_TABLE, EffectRow)
 from .wakfu_criteria import StateCondition
 from . import weapon_forge
 from .weapon import Weapon, WeaponType
@@ -150,7 +151,8 @@ def _what_makes_two_rows_one_item(item):
             _stable(item.min_stats_to_equip), _stable(item.max_stats_to_equip),
             _stable(item.flags), _stable(item.or_conditions),
             _stable(item.weird_conditions), _stable(item.element_spread),
-            _stable(item.spell_tooltips))
+            _stable(item.spell_tooltips),
+            _stable(getattr(item, 'level_lines', ())))
 
 
 def get_structure(game_version=None):
@@ -205,6 +207,7 @@ class Structure:
             self.read_item_type_position_table()
             self.read_item_picture_table()
             self.read_stat_element_count_table()
+            self.read_item_level_tables()
             self.read_min_stat_to_equip_table()
             self.read_max_stat_to_equip_table()
             self.read_or_conditions_table()
@@ -472,6 +475,34 @@ class Structure:
                     'stat that item carries'
                     % (STAT_ELEMENT_COUNT_TABLE, line, item_id, stat_id, value))
             item.element_spread.append((stat_id, value, elements))
+
+    def read_item_level_tables(self):
+        """The level cap and the lines that level of a Wakfu pet or mount."""
+        if (self.game_version != 'wakfu' or not self._table_exists(ITEM_LEVEL_CAP_TABLE)
+                or not self._table_exists(ITEM_LEVEL_LINE_TABLE)):
+            return
+        c = self.conn.cursor()
+        for item_id, slot, cap in c.execute(
+                'SELECT item, slot, cap FROM %s' % ITEM_LEVEL_CAP_TABLE):
+            item = self.get_item_by_id(item_id)
+            if item is None:
+                raise ValueError(
+                    '%s names item %s, which no items row carries'
+                    % (ITEM_LEVEL_CAP_TABLE, item_id))
+            item.level_cap = cap
+            item.level_slot = slot
+        lines = {}
+        for item_id, stat_id, base, per_level in c.execute(
+                'SELECT item, stat, base, per_level FROM %s ORDER BY item, line'
+                % ITEM_LEVEL_LINE_TABLE):
+            lines.setdefault(item_id, []).append((stat_id, base, per_level))
+        for item_id, rows in lines.items():
+            item = self.get_item_by_id(item_id)
+            if item is None:
+                raise ValueError(
+                    '%s names item %s, which no items row carries'
+                    % (ITEM_LEVEL_LINE_TABLE, item_id))
+            item.level_lines = tuple(rows)
 
     def insert_turquoises(self):
         for value in range(11, 20 + 1):

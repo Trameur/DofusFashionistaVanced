@@ -62,11 +62,11 @@ class TheWakfuClientPicturesHoldTheCountsTheGameHasTests(TestCase):
 
     def test_item_picture_equals_the_client_on_every_item_and_twelve_are_not_in_the_client(self):
         self.assertEqual(
-            (7738, 7738), self.conn.execute(
+            (7934, 7934), self.conn.execute(
                 'SELECT COUNT(*), SUM(cp.picture = CAST(ip.gfx AS TEXT)) FROM item_picture ip'
                 " JOIN client_pictures cp ON cp.family = 'item' AND cp.id = ip.item"
             ).fetchone())
-        self.assertEqual((7726,), self.conn.execute(
+        self.assertEqual((7922,), self.conn.execute(
             'SELECT COUNT(*) FROM items i JOIN item_picture ip ON ip.item = i.id'
             " JOIN client_pictures cp ON cp.family = 'item' AND cp.id = i.id"
             ' AND cp.picture = CAST(ip.gfx AS TEXT) WHERE i.removed = 0').fetchone())

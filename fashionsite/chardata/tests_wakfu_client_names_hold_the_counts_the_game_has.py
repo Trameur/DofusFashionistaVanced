@@ -250,7 +250,7 @@ class TheWakfuClientNamesHoldTheCountsTheGameHasTests(TestCase):
             " AND key LIKE 'aptitude.%'").fetchone()[0])
 
     def test_the_client_names_every_item_type_the_database_holds(self):
-        self.assertEqual(24, self.conn.execute('SELECT COUNT(*) FROM item_types').fetchone()[0])
+        self.assertEqual(27, self.conn.execute('SELECT COUNT(*) FROM item_types').fetchone()[0])
         self.assertEqual(0, self.conn.execute(
             'SELECT COUNT(*) FROM item_types WHERE id NOT IN'
             ' (SELECT item_type FROM client_item_type_names)').fetchone()[0])
