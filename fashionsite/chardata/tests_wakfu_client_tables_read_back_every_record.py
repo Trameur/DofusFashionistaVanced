@@ -66,9 +66,10 @@ EFFECTS = [
     {'id': 1, 'action_id': 20, 'container_id': 28822, 'area_size': [3, 4],
      'area_shape': 2, 'normal_or_critical': 'NORMAL  ', 'container_type': 'ITEM_EQUIP ',
      'root_container_type': 'ITEM_EQUIP', 'params': [6.0, 0.5, 1.25, -2.0],
-     'text_etr': ' IsBattleground() '},
+     'text_etr': ' IsBattleground() ', 'short_etp': 1, 'short_etq': 5},
     {'id': 2, 'action_id': 304, 'container_id': 77, 'normal_or_critical': 'CRITICAL',
-     'container_type': 'GROUP', 'root_container_type': 'STATE', 'params': [0.4]},
+     'container_type': 'GROUP', 'root_container_type': 'STATE', 'params': [0.4],
+     'short_etp': 10, 'short_etq': 11},
     {'id': 2000000003, 'action_id': 330, 'container_id': -5, 'area_size': [],
      'normal_or_critical': 'NORMAL', 'container_type': 'SET', 'root_container_type': 'SET',
      'params': []},
@@ -133,6 +134,8 @@ class TheWakfuClientTablesReadBackEveryRecordTests(SimpleTestCase):
             second.normal_or_critical, second.container_type,
             second.root_container_type, second.container_id))
         self.assertEqual((330, -5, []), (third.action_id, third.container_id, third.params))
+        self.assertEqual([(1, 5), (10, 11), (0, 0)],
+                         [(one.min_level, one.max_level) for one in read])
 
     def test_the_group_state_ability_and_category_readers_return_their_fields(self):
         groups = wakfu_client.read_effect_groups(

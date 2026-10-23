@@ -210,6 +210,16 @@ def merge_client(base, item_id, parameters, positions, client, report):
     return (equip[0] if equip else None), others, list(record['properties'])
 
 
+def shard_of(parameters):
+    """The rune fields of a shardsParameters block, as the build gives them."""
+    if not parameters:
+        return None
+    return {'color': parameters.get('color'),
+            'double_positions': parameters.get('doubleBonusPosition'),
+            'curve': parameters.get('shardLevelingCurve'),
+            'requirement': parameters.get('shardLevelRequirement')}
+
+
 def decode(target, client=None):
     """The normalised equipment dump, and a report of what was in the build.
 
@@ -265,7 +275,7 @@ def decode(target, client=None):
             params = spec.get('params') or []
             english = ((action or {}).get('description') or {}).get('en')
             key, value = characteristic(action_id, english, params)
-            line = {'action': action_id, 'params': params,
+            line = {'action': action_id, 'params': params, 'effect': spec.get('id'),
                     'template': titles((action or {}).get('description'))}
             if key:
                 line['stat'] = key
@@ -302,6 +312,7 @@ def decode(target, client=None):
 
         criteria, other_criteria, properties = merge_client(
             base, base.get('id'), parameters, positions, client, report)
+        shard = shard_of(base.get('shardsParameters'))
         out.append({
             'id': base.get('id'),
             'criteria': criteria,
@@ -324,6 +335,7 @@ def decode(target, client=None):
                             parameters.get('maximumShardSlotNumber')],
             'gfx_id': (base.get('graphicParameters') or {}).get('gfxId'),
             'lines': lines,
+            **({'shard': shard} if shard else {}),
         })
     report['sets'] = len(report['sets'])
     return out, report

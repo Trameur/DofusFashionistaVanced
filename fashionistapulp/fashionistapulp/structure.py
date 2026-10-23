@@ -42,8 +42,11 @@ from .set import Set
 from .translation import NON_EN_LANGUAGES
 from .wakfu_db import (EFFECT_COLUMNS, ITEM_LEVEL_CAP_TABLE,
                        ITEM_LEVEL_LINE_TABLE, ITEM_PICTURE_TABLE,
-                       ITEM_RARITY_TABLE, ITEM_TYPE_POSITION_TABLE,
-                       STAT_ELEMENT_COUNT_TABLE, EffectRow)
+                       ITEM_RARITY_TABLE, ITEM_SHARD_SLOT_TABLE,
+                       ITEM_TYPE_POSITION_TABLE, SHARD_DOUBLE_POSITION_TABLE,
+                       SHARD_LEVEL_TABLE, SHARD_LINE_TABLE, SHARD_NAME_TABLE,
+                       SHARD_TABLE, STAT_ELEMENT_COUNT_TABLE, EffectRow)
+from .wakfu_runes import Rune
 from .wakfu_criteria import StateCondition
 from . import weapon_forge
 from .weapon import Weapon, WeaponType
@@ -152,7 +155,8 @@ def _what_makes_two_rows_one_item(item):
             _stable(item.flags), _stable(item.or_conditions),
             _stable(item.weird_conditions), _stable(item.element_spread),
             _stable(item.spell_tooltips),
-            _stable(getattr(item, 'level_lines', ())))
+            _stable(getattr(item, 'level_lines', ())),
+            _stable(getattr(item, 'shard_slots', ())))
 
 
 def get_structure(game_version=None):
@@ -208,6 +212,7 @@ class Structure:
             self.read_item_picture_table()
             self.read_stat_element_count_table()
             self.read_item_level_tables()
+            self.read_wakfu_shard_tables()
             self.read_min_stat_to_equip_table()
             self.read_max_stat_to_equip_table()
             self.read_or_conditions_table()
@@ -503,6 +508,49 @@ class Structure:
                     '%s names item %s, which no items row carries'
                     % (ITEM_LEVEL_LINE_TABLE, item_id))
             item.level_lines = tuple(rows)
+
+    def read_wakfu_shard_tables(self):
+        """The runes of Wakfu, and the sockets each piece can hold."""
+        self.shards = {}
+        if self.game_version != 'wakfu':
+            return
+        c = self.conn.cursor()
+        if all(self._table_exists(name) for name in (
+                SHARD_TABLE, SHARD_NAME_TABLE, SHARD_DOUBLE_POSITION_TABLE,
+                SHARD_LEVEL_TABLE, SHARD_LINE_TABLE)):
+            names, doubles, levels, lines = {}, {}, {}, {}
+            for shard, language, name in c.execute(
+                    'SELECT shard, language, name FROM %s' % SHARD_NAME_TABLE):
+                names.setdefault(shard, {})[language] = name
+            for shard, position in c.execute(
+                    'SELECT shard, position FROM %s' % SHARD_DOUBLE_POSITION_TABLE):
+                doubles.setdefault(shard, set()).add(position)
+            for shard, cost, needed in c.execute(
+                    'SELECT shard, cost, item_level FROM %s ORDER BY shard, level'
+                    % SHARD_LEVEL_TABLE):
+                levels.setdefault(shard, []).append((cost, needed))
+            for shard, *line in c.execute(
+                    'SELECT shard, effect, min_level, max_level, base, per_level FROM %s'
+                    ' ORDER BY shard, min_level, effect' % SHARD_LINE_TABLE):
+                lines.setdefault(shard, []).append(tuple(line))
+            for shard, colour, stat in c.execute(
+                    'SELECT id, colour, stat FROM %s' % SHARD_TABLE):
+                rows = levels.get(shard, ())
+                self.shards[shard] = Rune(
+                    shard, colour, stat, frozenset(doubles.get(shard, ())),
+                    tuple(cost for cost, _needed in rows),
+                    tuple(needed for _cost, needed in rows),
+                    tuple(lines.get(shard, ())), names.get(shard, {}))
+        if not self._table_exists(ITEM_SHARD_SLOT_TABLE):
+            return
+        for item_id, minimum, maximum in c.execute(
+                'SELECT item, minimum, maximum FROM %s' % ITEM_SHARD_SLOT_TABLE):
+            item = self.get_item_by_id(item_id)
+            if item is None:
+                raise ValueError(
+                    '%s names item %s, which no items row carries'
+                    % (ITEM_SHARD_SLOT_TABLE, item_id))
+            item.shard_slots = (minimum, maximum)
 
     def insert_turquoises(self):
         for value in range(11, 20 + 1):

@@ -64,7 +64,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
 from fashionistapulp import wakfu_criteria  # noqa: E402
 from fashionistapulp.wakfu_db import (create_tables, level_value,  # noqa: E402
                                       singular)
-from fashionistapulp.wakfu_slots import (COMPANION_SLOTS, RARITIES,  # noqa: E402
+from fashionistapulp.wakfu_slots import (COMPANION_SLOTS,  # noqa: E402
+                                         EQUIPMENT_POSITION_IDS, RARITIES,
                                          SOLVED_SLOTS, TWO_HANDED_FLAG)
 from fashionistapulp.wakfu_stats import WAKFU_STATS  # noqa: E402
 
@@ -120,6 +121,7 @@ PREVIOUS = {
                           ' FROM stat_element_count',
     'item_level_caps': 'SELECT item, slot, cap FROM item_level_caps',
     'item_level_lines': 'SELECT item, line, stat, base, per_level FROM item_level_lines',
+    'item_shard_slots': 'SELECT item, minimum, maximum FROM item_shard_slots',
     'stats': 'SELECT id, key FROM stats',
     'item_types': 'SELECT id, name FROM item_types',
     'item_type_names': 'SELECT item_type, language, name FROM item_type_names',
@@ -311,7 +313,89 @@ def keep_removed(conn, previous, written, stat_ids, set_ids, type_ids):
             conn.execute(
                 'INSERT INTO item_level_lines (item, line, stat, base, per_level)'
                 ' VALUES (?, ?, ?, ?, ?)', (item, line, number, base, per_level))
+    for item, minimum, maximum in previous['item_shard_slots']:
+        if item in gone:
+            conn.execute('INSERT INTO item_shard_slots (item, minimum, maximum)'
+                         ' VALUES (?, ?, ?)', (item, minimum, maximum))
     return len(gone)
+
+
+def socketed_positions(dump):
+    """The positions at least one item with sockets is worn in."""
+    return {position for item in dump['equipment']
+            if (item.get('shard_slots') or [0, 0])[1]
+            for position in item['positions'] if position in GEAR}
+
+
+def write_shards(conn, item, effects, stat_ids, socketed, counts):
+    """Fill the rune tables from a rune of the dump and the client's effect ranges."""
+    rune_id = item['id']
+    shard = item['shard']
+    curve, requirement = shard['curve'] or [], shard['requirement'] or []
+    if not curve or len(curve) != len(requirement):
+        raise ValueError('rune %d: %d costs for %d item levels'
+                         % (rune_id, len(curve), len(requirement)))
+    positions = []
+    for number in shard['double_positions'] or ():
+        position = EQUIPMENT_POSITION_IDS.get(number)
+        if position is None:
+            raise ValueError('rune %d doubles on position %r, which the client enum'
+                             ' map lacks' % (rune_id, number))
+        if position not in socketed:
+            raise ValueError('rune %d doubles on %s, which no item with sockets fills'
+                             % (rune_id, position))
+        positions.append(position)
+    actions = {line['action'] for line in item['lines']}
+    if len(actions) != 1:
+        raise ValueError('rune %d mixes actions %s' % (rune_id, sorted(actions)))
+    keys = {line.get('stat') for line in item['lines']}
+    if len(keys) != 1:
+        raise ValueError('rune %d has lines of different characteristics' % rune_id)
+    key = keys.pop()
+    covered = collections.Counter()
+    lines = []
+    for line in item['lines']:
+        effect = (effects or {}).get(line['effect'])
+        if effect is None:
+            raise ValueError('rune %d: effect %r is not in the client effect table'
+                             % (rune_id, line['effect']))
+        low, high = effect.get('min_level'), effect.get('max_level')
+        if low is None or high is None:
+            raise ValueError('rune %d: effect %d has no level range'
+                             % (rune_id, line['effect']))
+        params = line['params']
+        if len(params) < 2:
+            raise ValueError('rune %d: effect %d has no slope' % (rune_id, line['effect']))
+        for tier in range(low, high + 1):
+            covered[tier] += 1
+        lines.append((line['effect'], low, high, params[0], params[1]))
+    for tier in range(1, len(curve) + 1):
+        if covered[tier] != 1:
+            raise ValueError('rune %d: tier %d is covered by %d lines'
+                             % (rune_id, tier, covered[tier]))
+    conn.execute('INSERT INTO shards (id, colour, action, stat) VALUES (?, ?, ?, ?)',
+                 (rune_id, shard['color'], actions.pop(),
+                  stat_ids[key] if key else None))
+    counts['shards'] += 1
+    if not key:
+        counts['shards with no stat'] += 1
+    for language in LANGUAGES:
+        name = item['name'].get(language)
+        if name:
+            conn.execute('INSERT INTO shard_names (shard, language, name)'
+                         ' VALUES (?, ?, ?)', (rune_id, language, name))
+    for position in positions:
+        conn.execute('INSERT INTO shard_double_positions (shard, position)'
+                     ' VALUES (?, ?)', (rune_id, position))
+        counts['shard double positions'] += 1
+    for level, (cost, needed) in enumerate(zip(curve, requirement), start=1):
+        conn.execute('INSERT INTO shard_levels (shard, level, cost, item_level)'
+                     ' VALUES (?, ?, ?, ?)', (rune_id, level, cost, needed))
+        counts['shard levels'] += 1
+    for row in lines:
+        conn.execute('INSERT INTO shard_lines (shard, effect, min_level, max_level,'
+                     ' base, per_level) VALUES (?, ?, ?, ?, ?, ?)', (rune_id,) + row)
+        counts['shard lines'] += 1
 
 
 def write_breeds(conn, dump, stat_ids, counts):
@@ -804,10 +888,14 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
 
     tables = find_client_tables(client_dir, dump['version']) if client_dir else None
     caps = level_caps(tables)
+    effect_table = {effect['id']: effect for effect in tables['effects']} if tables else None
+    socketed = socketed_positions(dump)
 
     written = set()
     for item in dump['equipment']:
         positions = [p for p in item['positions'] if p in GEAR]
+        if item.get('shard') and tables is not None:
+            write_shards(conn, item, effect_table, stat_ids, socketed, counts)
         if not positions:
             counts['not gear'] += 1
             continue
@@ -839,6 +927,11 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
         counts['items'] += 1
         if set_id:
             counts['items in a set'] += 1
+        minimum, maximum = item.get('shard_slots') or [0, 0]
+        conn.execute('INSERT INTO item_shard_slots (item, minimum, maximum)'
+                     ' VALUES (?, ?, ?)', (item_id, minimum or 0, maximum or 0))
+        if maximum:
+            counts['items with sockets'] += 1
         if item.get('gfx_id'):
             conn.execute('INSERT INTO item_picture (item, gfx) VALUES (?, ?)',
                          (item_id, item['gfx_id']))
@@ -915,8 +1008,8 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
     decoded = find_client_tables(client_dir, dump['version'], 'decoded.json') \
         if tables is not None else None
     if tables is None:
-        print('client tables not found for game version %s, the effect tables stay empty'
-              % dump['version'])
+        print('client tables not found for game version %s, the effect and rune tables'
+              ' stay empty' % dump['version'])
     else:
         write_client_tables(conn, tables, counts)
         texts = find_client_tables(client_dir, dump['version'], 'texts.json')

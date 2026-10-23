@@ -250,6 +250,17 @@ class TheWakfuClientDecoderReadsATableItWroteTests(SimpleTestCase):
         self.assertEqual({101: 1202021, 102: 0, 2000000001: 5560012},
                          {ident: record.gfx for ident, record in read.items()})
 
+    def test_an_effect_record_carries_the_level_range_it_was_written_with(self):
+        from chardata.tests_wakfu_client_tables_read_back_every_record import (
+            EFFECTS, write_layout)
+        blob = container(wakfu_client.STATIC_EFFECT_TABLE, EFFECTS,
+                         write_layout(wakfu_client.STATIC_EFFECT_LAYOUT))
+        read = wakfu_client.read_effects(jar(self.folder / '68.jar', '68.bin', blob))
+        self.assertEqual([(1, 5), (10, 11), (0, 0)],
+                         [(one.min_level, one.max_level) for one in read])
+        self.assertEqual((None, None), wakfu_client.EffectRecord(
+            1, 2, 3, '', '', '', 0, [], [])[-2:])
+
     def test_the_decoder_returns_every_invented_breed_and_its_base_values(self):
         read = wakfu_client.read_breeds(self.breeds_jar())
         self.assertEqual([(breed['id'], breed['name'], breed['base']) for breed in BREEDS],

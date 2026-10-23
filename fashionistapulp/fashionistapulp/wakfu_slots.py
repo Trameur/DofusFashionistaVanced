@@ -32,6 +32,36 @@ SLOTS = (
     'ACCESSORY',
 )
 
+# The ids the open data gives equipment positions in doubleBonusPosition: the ordinals of
+# the client enum fnQ of wakfu-client.jar, which no data file names
+EQUIPMENT_POSITION_IDS = {
+    0: 'HEAD',
+    1: 'HAIR',
+    2: 'FACE',
+    3: 'SHOULDERS',
+    4: 'NECK',
+    5: 'CHEST',
+    6: 'ARMS',
+    7: 'LEFT_HAND',
+    8: 'RIGHT_HAND',
+    9: 'SKIRT',
+    10: 'BELT',
+    11: 'TROUSERS',
+    12: 'LEGS',
+    13: 'BACK',
+    14: 'WING',
+    15: 'FIRST_WEAPON',
+    16: 'SECOND_WEAPON',
+    17: 'ACCESSORY',
+    18: 'BAG_1',
+    19: 'BAG_2',
+    20: 'BAG_3',
+    21: 'BAG_4',
+    22: 'PET',
+    23: 'COSTUME',
+    24: 'MOUNT',
+}
+
 # The pet and the mount are worn like gear and solved with it
 COMPANION_SLOTS = ('PET', 'MOUNT')
 SOLVED_SLOTS = SLOTS + COMPANION_SLOTS

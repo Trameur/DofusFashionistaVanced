@@ -29,6 +29,12 @@ ITEM_TYPE_NAME_TABLE = 'item_type_names'
 ITEM_PICTURE_TABLE = 'item_picture'
 ITEM_LEVEL_CAP_TABLE = 'item_level_caps'
 ITEM_LEVEL_LINE_TABLE = 'item_level_lines'
+SHARD_TABLE = 'shards'
+SHARD_NAME_TABLE = 'shard_names'
+SHARD_DOUBLE_POSITION_TABLE = 'shard_double_positions'
+SHARD_LEVEL_TABLE = 'shard_levels'
+SHARD_LINE_TABLE = 'shard_lines'
+ITEM_SHARD_SLOT_TABLE = 'item_shard_slots'
 EFFECT_TABLE = 'effects'
 EFFECT_GROUP_TABLE = 'effect_groups'
 STATE_TABLE = 'states'
@@ -96,6 +102,37 @@ SCHEMA = (
               PRIMARY KEY (item, line),
               FOREIGN KEY(item) REFERENCES items(id),
               FOREIGN KEY(stat) REFERENCES stats(id))""",
+    # A rune: colour is the client's colour code (RED 1, GREEN 2, BLUE 3), action the
+    # action of its lines, stat the stats id of its characteristic, NULL when the
+    # action gives none (400)
+    """CREATE TABLE shards
+             (id INTEGER PRIMARY KEY, colour INTEGER, action INTEGER, stat INTEGER,
+              FOREIGN KEY(stat) REFERENCES stats(id))""",
+    """CREATE TABLE shard_names
+             (shard INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (shard, language),
+              FOREIGN KEY(shard) REFERENCES shards(id))""",
+    # position is a name of wakfu_slots; the rune counts twice on it
+    """CREATE TABLE shard_double_positions
+             (shard INTEGER, position TEXT,
+              PRIMARY KEY (shard, position),
+              FOREIGN KEY(shard) REFERENCES shards(id))""",
+    # A rune of level L holds sum(cost[:L]) shards; the piece needs item_level
+    """CREATE TABLE shard_levels
+             (shard INTEGER, level INTEGER, cost INTEGER, item_level INTEGER,
+              PRIMARY KEY (shard, level),
+              FOREIGN KEY(shard) REFERENCES shards(id))""",
+    # One line runs at the rune levels min_level..max_level (the client effect's
+    # range); its value at level L is level_value(base, per_level, L)
+    """CREATE TABLE shard_lines
+             (shard INTEGER, effect INTEGER, min_level INTEGER, max_level INTEGER,
+              base REAL, per_level REAL,
+              PRIMARY KEY (shard, effect),
+              FOREIGN KEY(shard) REFERENCES shards(id))""",
+    # The fewest and the most sockets the item can have
+    """CREATE TABLE item_shard_slots
+             (item INTEGER PRIMARY KEY, minimum INTEGER, maximum INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id))""",
     # Costs and range never vary with the spell level
     """CREATE TABLE spells
              (id INTEGER PRIMARY KEY, class INTEGER, element TEXT,
