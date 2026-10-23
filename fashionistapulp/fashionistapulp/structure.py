@@ -16,6 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import json
 import logging
 import pickle
 import random
@@ -39,8 +40,9 @@ from .game_versions import get_game_version
 from .item import Item
 from .set import Set
 from .translation import NON_EN_LANGUAGES
-from .wakfu_db import (ITEM_PICTURE_TABLE, ITEM_RARITY_TABLE,
-                       ITEM_TYPE_POSITION_TABLE, STAT_ELEMENT_COUNT_TABLE)
+from .wakfu_db import (EFFECT_COLUMNS, ITEM_PICTURE_TABLE, ITEM_RARITY_TABLE,
+                       ITEM_TYPE_POSITION_TABLE, STAT_ELEMENT_COUNT_TABLE,
+                       EffectRow)
 from .wakfu_criteria import StateCondition
 from . import weapon_forge
 from .weapon import Weapon, WeaponType
@@ -210,6 +212,7 @@ class Structure:
             self.read_item_spell_conditions_table()
             self.read_wear_limit_tables()
             self.read_wakfu_criteria_tables()
+            self.read_wakfu_aptitude_tables()
             self.read_forgeable_items_table()
             self.read_wearer_tables()
             self.read_legacy_item_ids_table()
@@ -734,6 +737,89 @@ class Structure:
             self.criteria_labels = {(key, language): text for key, language, text
                                     in c.execute('SELECT key, language, text'
                                                  ' FROM criteria_labels')}
+
+    def read_wakfu_aptitude_tables(self):
+        """The client's aptitude and set bonus records, raw; empty without them."""
+        self.aptitude_abilities = {}
+        self.aptitude_categories = {}
+        self.aptitude_ability_names = {}
+        self.aptitude_category_names = {}
+        self.aptitude_effects = {}
+        self.aptitude_effect_groups = {}
+        self.aptitude_state_roots = {}
+        self.aptitude_action_texts = {}
+        self.aptitude_set_bonuses = []
+        self.aptitude_set_members = {}
+        if self.game_version != 'wakfu' or not self._table_exists('abilities'):
+            return
+        c = self.conn.cursor()
+        self.aptitude_abilities = {
+            ident: (category, ddl) for ident, category, ddl
+            in c.execute('SELECT id, category, ddl FROM abilities')}
+        self.aptitude_categories = {
+            ident: json.loads(levels) for ident, levels
+            in c.execute('SELECT id, unlock_levels FROM ability_categories')}
+        self.aptitude_ability_names = {
+            (ident, language): name for ident, language, name
+            in c.execute('SELECT ability, language, name FROM ability_names')}
+        self.aptitude_category_names = {
+            (ident, language): name for ident, language, name
+            in c.execute('SELECT category, language, name FROM ability_category_names')}
+        self._read_aptitude_effects(c)
+        self.aptitude_action_texts = dict(c.execute(
+            "SELECT action, text FROM action_texts WHERE language = 'en'"))
+        self.aptitude_set_bonuses = list(c.execute(
+            'SELECT item_set, pieces, effect FROM set_bonuses'
+            ' ORDER BY item_set, pieces, effect'))
+        for item_set, item in c.execute(
+                'SELECT item_set, item FROM client_set_members'
+                ' ORDER BY item_set, position'):
+            self.aptitude_set_members.setdefault(item_set, []).append(item)
+
+    def _read_aptitude_effects(self, c):
+        """Effects rooted in an ability or a set, then the states they apply."""
+        def take(rows):
+            fresh = []
+            for row in rows:
+                effect = EffectRow(*row[:5], json.loads(row[5]), row[6])
+                if effect.id not in self.aptitude_effects:
+                    self.aptitude_effects[effect.id] = effect
+                    fresh.append(effect.id)
+            return fresh
+
+        def members(group_ids):
+            fresh = []
+            for group_id in group_ids:
+                found = [member for (member,) in c.execute(
+                    'SELECT effect FROM effect_groups WHERE group_id = ?'
+                    ' ORDER BY position', (group_id,))]
+                if found:
+                    self.aptitude_effect_groups[group_id] = found
+                    for member in found:
+                        if member not in self.aptitude_effects:
+                            fresh += take(c.execute(
+                                'SELECT %s FROM effects WHERE id = ?' % EFFECT_COLUMNS,
+                                (member,)))
+            return fresh
+
+        pending = take(c.execute(
+            'SELECT %s FROM effects WHERE root_container_type IN (?, ?)'
+            ' ORDER BY id' % EFFECT_COLUMNS, ('ABILITY', 'SET')))
+        applied = set()
+        while pending:
+            fresh = members(pending)
+            for effect_id in pending:
+                effect = self.aptitude_effects[effect_id]
+                state = int(effect.params[0]) if effect.action == 304 else None
+                if state is not None and state not in applied:
+                    applied.add(state)
+                    rows = c.execute(
+                        "SELECT %s FROM effects WHERE container_type = 'STATE'"
+                        ' AND container = ? ORDER BY id' % EFFECT_COLUMNS,
+                        (state,)).fetchall()
+                    self.aptitude_state_roots[state] = [row[0] for row in rows]
+                    fresh += take(rows)
+            pending = fresh
 
     def get_breed_names(self):
         """{breed id: name}, empty on a catalogue without the breed table."""

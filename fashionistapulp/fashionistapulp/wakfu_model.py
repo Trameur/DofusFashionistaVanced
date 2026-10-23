@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import collections
 
+from . import wakfu_aptitudes
 from .game_versions import get_game_version
 from .lpproblem import LpProblem2
 from .structure import fits_the_class
@@ -32,6 +33,14 @@ from .wakfu_stats import OUT_OF_COMBAT_CAPS
 WORN = 'w'
 # LP variable: the set's AP total is this number
 AP_TOTAL = 'apt'
+# LP variable: the points put in this aptitude
+APTITUDE = 'ab'
+# LP variable: this set bonus tier is on
+SET_TIER = 'st'
+# The aptitudes argument that lets the solver spread the points
+SOLVE = wakfu_aptitudes.SOLVE
+# What a point of aptitude costs the objective, so a point nothing pays for stays unspent
+UNSPENT_COST = -1e-6
 
 # WakfuSet.status and WakfuBuild.reason
 PROVEN = 'proven'
@@ -70,8 +79,13 @@ class WakfuSet(dict):
     """{position: item} of a solve."""
 
     def __init__(self, worn=(), full_set_status=None, no_candidate=(),
-                 status=None):
+                 status=None, aptitudes=None, battleground=False, set_tiers=()):
         super().__init__(worn)
+        # {aptitude id: points}, points above 0 only
+        self.aptitudes = dict(aptitudes or {})
+        self.battleground = battleground
+        # [(set, pieces)] of the set bonus tiers the worn pieces reach
+        self.set_tiers = list(set_tiers)
         # Status of the every-slot model when it gave no set, else None
         self.full_set_status = full_set_status
         self.no_candidate = tuple(no_candidate)
@@ -101,11 +115,17 @@ class WakfuBuild:
     base values are the range over every breed. state: the PlayerState the
     pieces' player-state conditions are read against, the game's start values
     by default.
+
+    aptitudes: None leaves aptitudes out; SOLVE lets the solver spread the
+    points of every category; a dict {ability id: points} fixes them, and an
+    unknown id or a negative or non-integer count raises ValueError. The
+    budgets and caps of a fixed dict are checked by wakfu_legality, not here.
+    battleground: the set bonus tiers count, those of the bracket of the level.
     """
 
     def __init__(self, structure, level, weights, forbidden=(),
                  full_set=True, minimums=None, ap_values=None, locked=(),
-                 class_id=None, state=None):
+                 class_id=None, state=None, aptitudes=None, battleground=False):
         self.structure = structure
         self.level = level
         self.class_id = class_id
@@ -128,6 +148,33 @@ class WakfuBuild:
         self.problem = None
         self._placements = []
         self._locks = self._read_locks(locked)
+        self.battleground = bool(battleground)
+        self.aptitudes = aptitudes
+        self._fixed = self._read_aptitudes(aptitudes)
+        # {ability id: (per point lines, most points)} of the variables
+        self._ab_lines = {}
+        # {'<set>_<pieces>': lines} of the tier variables
+        self._tier_lines = {}
+        self._fixed_lines = collections.Counter()
+
+    def _apt_table(self):
+        return wakfu_aptitudes.table(self.structure, self.level, self.battleground)
+
+    def _read_aptitudes(self, aptitudes):
+        """The fixed {id: points} of the argument, None when the solver spreads them."""
+        if aptitudes is None or (isinstance(aptitudes, str) and aptitudes == SOLVE):
+            return None
+        if not isinstance(aptitudes, dict):
+            raise ValueError('aptitudes are None, %r or {ability id: points}, got %r'
+                             % (SOLVE, aptitudes))
+        known = self._apt_table().abilities
+        for ident, points in aptitudes.items():
+            if ident not in known:
+                raise ValueError('unknown aptitude %r' % (ident,))
+            if not isinstance(points, int) or isinstance(points, bool) or points < 0:
+                raise ValueError('aptitude %r takes a whole number of points, got %r'
+                                 % (ident, points))
+        return {ident: points for ident, points in aptitudes.items() if points}
 
     def _positions_of_type(self):
         """{type id: [position, ...]}"""
@@ -375,6 +422,8 @@ class WakfuBuild:
         self._placements = self._candidates()
         for item, position in self._placements:
             self.problem.setup_variable(WORN, self._name(item, position), 0, 1)
+        self._aptitude_variables()
+        self._set_tier_variables()
 
         self._one_item_per_slot()
         self._one_copy_of_an_item()
@@ -395,6 +444,61 @@ class WakfuBuild:
     def _parcels(self, placements, coefficient=1):
         return [(coefficient, WORN, self._name(item, position))
                 for item, position in placements]
+
+    def _aptitude_variables(self):
+        """One integer column per aptitude with a counted line, a budget row per category."""
+        self._ab_lines = {}
+        self._fixed_lines = collections.Counter()
+        if self.aptitudes is None:
+            return
+        table = self._apt_table()
+        if self._fixed is not None:
+            for ident, points in self._fixed.items():
+                for key, per_point in table.abilities[ident][2]:
+                    self._fixed_lines[key] += per_point * points
+            return
+        budget = wakfu_aptitudes.budgets(self.structure, self.level)
+        by_category = collections.defaultdict(list)
+        for ident, (category, cap, lines, _notes) in sorted(table.abilities.items()):
+            upper = min(cap, budget.get(category, 0)) if cap else budget.get(category, 0)
+            if lines and upper > 0:
+                self.problem.setup_variable(APTITUDE, ident, 0, upper)
+                self._ab_lines[ident] = (lines, upper)
+                by_category[category].append(ident)
+        for category, idents in sorted(by_category.items()):
+            self.problem.add_row(
+                LpProblem2._parcel_terms([(1, APTITUDE, ident) for ident in idents]),
+                '<=', budget[category], 'aptitude_budget_%d' % category)
+
+    def _set_tier_variables(self):
+        """A binary column per tier a battleground build can reach, on exactly when held."""
+        self._tier_lines = {}
+        if not self.battleground:
+            return
+        table = self._apt_table()
+        if not table.tiers:
+            return
+        variables = collections.defaultdict(list)
+        for item, position in self._placements:
+            variables[item.id].append(self._name(item, position))
+        for (item_set, pieces), lines in sorted(table.tiers.items()):
+            titles = [[name for ident in ids for name in variables.get(ident, ())]
+                      for ids in table.members[item_set]]
+            titles = [names for names in titles if names]
+            if len(titles) < pieces:
+                continue
+            name = '%d_%d' % (item_set, pieces)
+            self.problem.setup_variable(SET_TIER, name, 0, 1)
+            self._tier_lines[name] = lines
+            members = [one for names in titles for one in names]
+            self.problem.add_row(
+                LpProblem2._parcel_terms([(pieces, SET_TIER, name)]
+                                         + [(-1, WORN, one) for one in members]),
+                '<=', 0, 'tier_%s_on' % name)
+            self.problem.add_row(
+                LpProblem2._parcel_terms([(1, WORN, one) for one in members]
+                                         + [(pieces - len(titles) - 1, SET_TIER, name)]),
+                '<=', pieces - 1, 'tier_%s_off' % name)
 
     def _one_item_per_slot(self):
         """One item per slot, exactly one when full_set."""
@@ -453,14 +557,40 @@ class WakfuBuild:
                 highest[position] = max(highest[position], value)
         return Part(terms, sum(lowest.values()), sum(highest.values()))
 
+    def _aptitude_part(self, key):
+        """The points put in the aptitudes, as lines of one stat."""
+        terms = []
+        lowest = highest = 0
+        for ident, (lines, upper) in self._ab_lines.items():
+            for line_key, per_point in lines:
+                if line_key == key:
+                    terms.append((per_point, APTITUDE, str(ident)))
+                    lowest += min(0, per_point * upper)
+                    highest += max(0, per_point * upper)
+        return Part(terms, lowest, highest)
+
+    def _set_bonus_part(self, key):
+        """The set bonus tiers, as lines of one stat."""
+        terms = []
+        lowest = highest = 0
+        for name, lines in self._tier_lines.items():
+            value = sum(number for line_key, number in lines if line_key == key)
+            if value:
+                terms.append((value, SET_TIER, name))
+                lowest += min(0, value)
+                highest += max(0, value)
+        return Part(terms, lowest, highest)
+
     def _total_parts(self):
         """Every source of stat points; a later source is appended here."""
-        return [self._gear_part]
+        return [self._gear_part, self._aptitude_part, self._set_bonus_part]
 
     def stat_total_expr(self, key):
         """A stat's total as base plus terms, the one every rule reads."""
         if key not in self._totals:
             low, high = self._base.get(key, (0, 0))
+            low += self._fixed_lines.get(key, 0)
+            high += self._fixed_lines.get(key, 0)
             terms, lowest, highest = [], 0, 0
             for part in self._total_parts():
                 one = part(key)
@@ -530,11 +660,12 @@ class WakfuBuild:
         if slack <= 0:
             return
         coefficients = collections.OrderedDict(
-            (name, sign * coefficient) for coefficient, _category, name in total.terms)
+            ((category, name), sign * coefficient)
+            for coefficient, category, name in total.terms)
         for name in self._variables_of(item):
-            coefficients[name] = coefficients.get(name, 0) + slack
-        parcels = [(coefficient, WORN, name)
-                   for name, coefficient in coefficients.items()]
+            coefficients[(WORN, name)] = coefficients.get((WORN, name), 0) + slack
+        parcels = [(coefficient, category, name)
+                   for (category, name), coefficient in coefficients.items()]
         self.problem.add_row(LpProblem2._parcel_terms(parcels), '<=', rhs,
                              'gate_%d_%s_%s' % (item.id, key,
                                                 'max' if upper else 'min'))
@@ -584,6 +715,13 @@ class WakfuBuild:
             worth = self._worth(item)
             if worth:
                 self.problem.add_to_of(WORN, self._name(item, position), worth)
+        for ident, (lines, _upper) in self._ab_lines.items():
+            self.problem.add_to_of(APTITUDE, ident, UNSPENT_COST + sum(
+                per_point * self._plain_weight(key) for key, per_point in lines))
+        for name, lines in self._tier_lines.items():
+            worth = sum(number * self._plain_weight(key) for key, number in lines)
+            if worth:
+                self.problem.add_to_of(SET_TIER, name, worth)
         if self.ap_values is not None:
             floor = min(self.ap_values.values())
             for total in self._ap_totals():
@@ -623,12 +761,23 @@ class WakfuBuild:
             return None
         chosen = self.problem.get_result()
         placed = {position for _item, position in self._placements}
+        if self._fixed is not None:
+            points = dict(self._fixed)
+        else:
+            points = {ident: round(chosen.get('%s_%s' % (APTITUDE, ident)) or 0)
+                      for ident in self._ab_lines}
+        tiers = [tuple(int(number) for number in name.split('_'))
+                 for name in self._tier_lines
+                 if (chosen.get('%s_%s' % (SET_TIER, name)) or 0) > 0.5]
         # Optimal is also what PuLP says when CBC stopped on its time limit
         worn = WakfuSet(full_set_status=self.full_set_status,
                         no_candidate=[slot for slot in SLOTS
                                       if slot not in placed],
                         status=(PROVEN if self.problem.solution_is_proven()
-                                else TIME_LIMIT))
+                                else TIME_LIMIT),
+                        aptitudes={ident: number for ident, number in points.items()
+                                   if number > 0},
+                        battleground=self.battleground, set_tiers=sorted(tiers))
         for item, position in self._placements:
             name = '%s_%s' % (WORN, self._name(item, position))
             if (chosen.get(name) or 0) > 0.5:
@@ -668,6 +817,24 @@ class WakfuBuild:
                 if key is not None and key not in SPREAD_FAMILIES:
                     out[key] += value
         out.update(self.where_the_spread_lands(worn))
+        out.update(self._source_lines(worn))
         for name in OUT_OF_COMBAT_CAPS:
             out[name.lower()] += self._base[name.lower()][0]
         return out
+
+    def _source_lines(self, worn):
+        """Counter of the lines the aptitudes and the set bonus tiers of a set give."""
+        lines = collections.Counter()
+        given = getattr(worn, 'aptitudes', None) or {}
+        if not given and not self.battleground:
+            return lines
+        table = self._apt_table()
+        for ident, points in given.items():
+            for key, per_point in table.abilities[ident][2]:
+                lines[key] += per_point * points
+        if self.battleground:
+            ids = {item.id for item in worn.values()}
+            for tier in wakfu_aptitudes.tiers_reached(table, ids):
+                for key, number in table.tiers[tier]:
+                    lines[key] += number
+        return lines

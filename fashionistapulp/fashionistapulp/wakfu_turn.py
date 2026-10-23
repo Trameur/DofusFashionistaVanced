@@ -725,7 +725,7 @@ def best_turn(spells, role, totals, conditions=(), orientation='front',
     wp = int(min(totals.get('wp', 0), rule('wp_spent_per_turn') if wp is None else wp))
     mp, moving = movement_split(
         role, int(max(totals.get('mp', 0) if mp is None else mp, 0)))
-    inflicted = role.damage_inflicted + totals.get('damage_inflicted', 0)
+    inflicted = role.damage_inflicted + totals.get('final_dmg_in_percent', 0)
     chosen = set(DEFAULT_CONDITIONS) | set(conditions)
     if stood_still(role, moving):
         chosen.add(STILL)
@@ -852,7 +852,7 @@ class TurnModel:
         orientation = turn.settings['orientation']
         accepted = frozenset(turn.settings['conditions'])
         reach = self.role.reach
-        inflicted = self.role.damage_inflicted + totals.get('damage_inflicted', 0)
+        inflicted = self.role.damage_inflicted + totals.get('final_dmg_in_percent', 0)
         chance = wakfu_value.critical_chance(totals.get('ferocity', 0))
         every = _plus(totals, wakfu_value.ELEMENTAL_MASTERY)
         critical = _plus(totals, 'critical_bonus')

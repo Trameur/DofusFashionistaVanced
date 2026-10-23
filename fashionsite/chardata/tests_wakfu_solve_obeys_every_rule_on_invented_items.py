@@ -406,8 +406,10 @@ class TheWakfuSolveBuildNeedsAnElementAndAReachTests(InventedItemsCase):
         self.assertEqual('proven', result.status)
         self.assertIsNone(result.reason)
         self.assertLess(result.seconds, 60)
-        for system in ('runes', 'sublimations', 'aptitudes', 'pets', 'mounts', 'lucky charms', 'states'):
+        for system in ('runes', 'sublimations', 'pets', 'mounts', 'lucky charms', 'states'):
             self.assertIn(system, result.not_counted)
+        self.assertNotIn('aptitudes', result.not_counted)
+        self.assertEqual('solve', result.aptitude_mode)
 
     def test_a_solve_that_finds_no_set_says_why(self):
         from fashionistapulp import wakfu_solve
@@ -947,7 +949,7 @@ class TheRealClassTurnSolveIsLegalTests(RealWakfuDataCase):
             structure, 245, result.worn, forbidden=default_exclusions(structure),
             minimums=wakfu_solve.make_role(('fire',), 'melee').minimums(
                 base_values(structure, 8)),
-            class_id=8))
+            class_id=8, aptitudes=result.aptitudes))
         self.assertIn(result.status, ('proven', 'time limit'))
         self.assertLess(result.seconds, 95)
         self.assertIsNotNone(result.turn)

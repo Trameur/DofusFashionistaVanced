@@ -191,7 +191,8 @@ Outfit = collections.namedtuple('Outfit', 'id stats')
 
 
 def outfit(item_id, **stats):
-    return {'HEAD': Outfit(item_id, collections.Counter(stats))}
+    from fashionistapulp.wakfu_model import WakfuSet
+    return WakfuSet({'HEAD': Outfit(item_id, collections.Counter(stats))})
 
 
 class FakeTurn:
@@ -217,7 +218,8 @@ def scripted(*sets):
 
     class ScriptedBuild:
         def __init__(self, structure, level, weights, forbidden=(), full_set=True,
-                     minimums=None, class_id=None, state=None, **options):
+                     minimums=None, class_id=None, state=None, aptitudes=None,
+                     battleground=False, **options):
             self.weights = dict(weights)
             self.options = options
 

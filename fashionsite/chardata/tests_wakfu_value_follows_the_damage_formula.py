@@ -140,6 +140,9 @@ class TheWakfuLinearWeightsTests(SimpleTestCase):
             weights = value_model.linear_weights(role, LEVEL, point)
             self.assertGreater(len(weights), 8)
             for key, weight in weights.items():
+                if key == 'hp_percent':
+                    # The game rounds the life down: its own test takes a wider step
+                    continue
                 with self.subTest(role=role, key=key):
                     self.assertAlmostEqual(1, weight / slope(role, point, key), places=4)
 
@@ -222,7 +225,7 @@ class TheWakfuLinearWeightsTests(SimpleTestCase):
             value_model.DamageDealer(('fire',), 'distance'), LEVEL, totals(ap=12))
         self.assertAlmostEqual(100 / 12, weights['ap'])
 
-    def test_damage_inflicted_changes_no_weight(self):
+    def test_damage_inflicted_changes_no_weight_but_its_own(self):
         point = operating_point()
         plain = value_model.linear_weights(
             value_model.DamageDealer(('fire',), 'distance'), LEVEL, point)
@@ -230,7 +233,76 @@ class TheWakfuLinearWeightsTests(SimpleTestCase):
             value_model.DamageDealer(('fire',), 'distance', damage_inflicted=40), LEVEL, point)
         self.assertEqual(plain.keys(), boosted.keys())
         for key in plain:
-            self.assertAlmostEqual(plain[key], boosted[key])
+            if key == 'final_dmg_in_percent':
+                self.assertAlmostEqual(100 / 100, plain[key])
+                self.assertAlmostEqual(100 / 140, boosted[key])
+            else:
+                self.assertAlmostEqual(plain[key], boosted[key])
+
+    def test_the_final_damage_weight_is_the_slope_of_the_value(self):
+        for inflicted, total in ((0, 0), (20, 15), (0, -30), (40, 10)):
+            role = value_model.DamageDealer(('fire',), 'distance',
+                                            damage_inflicted=inflicted)
+            point = operating_point()
+            point['final_dmg_in_percent'] = total
+            with self.subTest(inflicted=inflicted, total=total):
+                weight = value_model.linear_weights(role, LEVEL, point)[
+                    'final_dmg_in_percent']
+                self.assertAlmostEqual(
+                    1, weight / slope(role, point, 'final_dmg_in_percent'), places=6)
+
+    def test_a_final_damage_total_below_the_floor_is_worth_nothing(self):
+        role = value_model.DamageDealer(('fire',), 'distance')
+        point = operating_point()
+        point['final_dmg_in_percent'] = -80
+        self.assertNotIn('final_dmg_in_percent',
+                         value_model.linear_weights(role, LEVEL, point))
+        self.assertEqual(0, slope(role, point, 'final_dmg_in_percent'))
+
+    def test_the_final_damage_of_a_build_counts_as_damage_inflicted(self):
+        point = operating_point()
+        by_build = collections.Counter(point)
+        by_build['final_dmg_in_percent'] = 35
+        self.assertAlmostEqual(
+            value_model.turn_damage(
+                value_model.DamageDealer(('fire',), 'distance', damage_inflicted=35),
+                point),
+            value_model.turn_damage(
+                value_model.DamageDealer(('fire',), 'distance'), by_build))
+
+    def test_the_health_percent_raises_the_life_in_whole_points(self):
+        point = operating_point()
+        raw = value_model.raw_life(LEVEL, point)
+        point['hp_percent'] = 37
+        self.assertEqual(raw + raw * 37 // 100, value_model.life(LEVEL, point))
+        point['hp_percent'] = 0
+        self.assertEqual(raw, value_model.life(LEVEL, point))
+
+    def test_the_health_percent_weight_is_the_slope_of_the_value(self):
+        role = value_model.DamageDealer(('fire',), 'distance')
+        for percent in (0, 40, 200):
+            point = operating_point()
+            point['hp_percent'] = percent
+            with self.subTest(percent=percent):
+                weight = value_model.linear_weights(role, LEVEL, point)['hp_percent']
+                self.assertAlmostEqual(100 * role.defense / (100 + percent), weight)
+                self.assertAlmostEqual(
+                    1, weight / slope(role, point, 'hp_percent', step=5), places=2)
+
+    def test_the_raw_health_weight_keeps_its_slope_with_a_health_percent(self):
+        role = value_model.DamageDealer(('fire',), 'distance')
+        point = operating_point()
+        point['hp_percent'] = 80
+        weight = value_model.linear_weights(role, LEVEL, point)['hp']
+        self.assertAlmostEqual(
+            1, weight / slope(role, point, 'hp', step=50), places=2)
+
+    def test_the_final_heal_percent_is_worth_nothing(self):
+        point = operating_point()
+        point['final_heal_in_percent'] = 10
+        weights = value_model.linear_weights(
+            value_model.DamageDealer(('fire',), 'distance'), LEVEL, point)
+        self.assertEqual(0, weights.get('final_heal_in_percent', 0))
 
     def test_a_role_without_defense_values_no_life_resistance_or_block(self):
         weights = value_model.linear_weights(

@@ -19,7 +19,7 @@
 import collections
 
 from .game_versions import get_game_version
-from . import wakfu_criteria
+from . import wakfu_aptitudes, wakfu_criteria
 from .wakfu_slots import (BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES, SLOTS,
                           TWO_HANDED_FLAG)
 from .wakfu_stats import OUT_OF_COMBAT_CAPS
@@ -44,6 +44,9 @@ NOT_WORN_WITH = 'not worn with'
 WORN_WITH = 'worn with'
 UNUSABLE = 'unusable'
 STATE = 'player state'
+APTITUDE_UNKNOWN = 'unknown aptitude'
+APTITUDE_CAP = 'aptitude cap'
+APTITUDE_BUDGET = 'aptitude budget'
 
 EXCLUSIVE_FLAGS = tuple(EXCLUSIVE_PROPERTIES.values())
 
@@ -79,8 +82,78 @@ def _pairs(worn):
     return out
 
 
+def aptitude_violations(structure, level, aptitudes):
+    """[(rule, text)] of a {ability id: points} that breaks a cap or a budget.
+
+    Read from the raw rows of the abilities and their categories: an ability's
+    cap is its own, or its category's budget when it has none, and a
+    category's budget is the number of its unlock levels the level reached.
+    """
+    found = []
+    spent = collections.Counter()
+    for ident, points in sorted((aptitudes or {}).items(), key=lambda one: str(one[0])):
+        row = structure.aptitude_abilities.get(ident)
+        if row is None:
+            found.append((APTITUDE_UNKNOWN,
+                          'aptitude %r is not in the client tables' % (ident,)))
+            continue
+        if not isinstance(points, int) or isinstance(points, bool) or points < 0:
+            found.append((APTITUDE_CAP, 'aptitude %d has %r points, not a whole '
+                                        'number from 0' % (ident, points)))
+            continue
+        category, own_cap = row
+        budget = _budget(structure, category, level)
+        cap = own_cap or budget
+        if points > cap:
+            found.append((APTITUDE_CAP, 'aptitude %d has %d points, over its cap '
+                                        'of %d' % (ident, points, cap)))
+        spent[category] += points
+    for category, total in sorted(spent.items()):
+        budget = _budget(structure, category, level)
+        if total > budget:
+            found.append((APTITUDE_BUDGET, 'category %d holds %d points, over its '
+                                           'budget of %d at level %d'
+                          % (category, total, budget, level)))
+    return found
+
+
+def _budget(structure, category, level):
+    return sum(1 for unlock in structure.aptitude_categories.get(category, ())
+               if unlock <= level)
+
+
+def _aptitude_lines(structure, level, aptitudes, battleground):
+    """Counter of the stat lines the aptitude points give."""
+    lines = collections.Counter()
+    if not aptitudes:
+        return lines
+    table = wakfu_aptitudes.table(structure, level, battleground)
+    for ident, points in aptitudes.items():
+        if (ident in table.abilities and isinstance(points, int)
+                and not isinstance(points, bool) and points > 0):
+            for key, per_point in table.abilities[ident][2]:
+                lines[key] += per_point * points
+    return lines
+
+
+def _tier_reader(structure, level, battleground):
+    """A function: item ids worn -> Counter of the set bonus lines they reach."""
+    if not battleground:
+        return None
+    table = wakfu_aptitudes.table(structure, level, True)
+
+    def read(ids):
+        lines = collections.Counter()
+        for tier in wakfu_aptitudes.tiers_reached(table, ids):
+            for key, number in table.tiers[tier]:
+                lines[key] += number
+        return lines
+
+    return read
+
+
 def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
-               class_id=None, state=None):
+               class_id=None, state=None, aptitudes=None, battleground=False):
     """[(rule, text)] of every rule a set breaks; an empty list is a legal set.
 
     worn: {position: item}, or an iterable of (position, item); a position
@@ -88,7 +161,9 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
     locked: (item id, position or None) pairs. minimums: {stat key: lowest
     total, base values included}. class_id: the breed, none for a build with
     no class. state: the PlayerState the player-state conditions are read
-    against, the game's start values by default.
+    against, the game's start values by default. aptitudes: {ability id:
+    points} the set is worn with, None for none; their lines and those of the
+    set bonus tiers of a battleground count in every total checked.
     """
     rules = _Rules(structure)
     found = []
@@ -155,21 +230,27 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
             found.append(('one %s' % flag, '%d %s items are worn: %s' % (
                 len(group), flag, ', '.join(item.name for item in group))))
 
+    found.extend(aptitude_violations(structure, level, aptitudes))
+    lines = _aptitude_lines(structure, level, aptitudes, battleground)
+    tiers = _tier_reader(structure, level, battleground)
+    lines.update(tiers({item.id for item in wearing}) if tiers else {})
+
     base = wakfu_criteria.base_values(structure, class_id)
     for name, cap in OUT_OF_COMBAT_CAPS.items():
         total = (base.get(name.lower(), (0, 0))[1]
-                 + rules.stat_total(wearing, name.lower()))
+                 + rules.stat_total(wearing, name.lower()) + lines[name.lower()])
         if total > cap:
             found.append((CAP, '%s is %d, over the cap of %d' % (name, total, cap)))
 
     for key, lowest in sorted((minimums or {}).items()):
-        total = base.get(key, (0, 0))[0] + rules.stat_total(wearing, key)
+        total = base.get(key, (0, 0))[0] + rules.stat_total(wearing, key) + lines[key]
         if total < lowest:
             found.append((MINIMUM, '%s is %d, under the minimum of %d'
                           % (key, total, lowest)))
 
-    found.extend(_conditions(structure, pairs, level, class_id,
-                             state or wakfu_criteria.start_state()))
+    found.extend(_conditions(
+        structure, pairs, level, class_id, state or wakfu_criteria.start_state(),
+        _aptitude_lines(structure, level, aptitudes, battleground), tiers))
     return found
 
 
@@ -208,12 +289,17 @@ def _rule_of(node):
     return CONDITION
 
 
-def _conditions(structure, pairs, level, class_id, state):
-    """Each worn piece's own EQUIP text, judged with and without the piece."""
+def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None):
+    """Each worn piece's own EQUIP text, judged with and without the piece.
+
+    lines: Counter of the aptitude lines. tiers: item ids worn -> Counter of
+    the set bonus lines, so the reading without a piece drops its tiers too.
+    """
     bases = structure.get_breed_base_values()
     names = structure.get_breed_names()
     breeds = [class_id] if class_id is not None else sorted(bases)
     wearing = [item for _position, item in pairs]
+    held = {item.id for item in wearing}
     sums = collections.Counter()
     owns = {}
     for item in wearing:
@@ -236,8 +322,12 @@ def _conditions(structure, pairs, level, class_id, state):
             for without in (False, True):
                 totals = collections.Counter(bases.get(breed, {}))
                 totals.update(sums)
+                totals.update(lines or {})
                 if without:
                     totals.subtract(owns[item.id])
+                    totals.update(tiers(others) if tiers else {})
+                else:
+                    totals.update(tiers(held) if tiers else {})
                 env = wakfu_criteria.Env(level, names.get(breed), state, totals,
                                          item.id, others)
                 for node in wakfu_criteria.failing_atoms(tree, env):

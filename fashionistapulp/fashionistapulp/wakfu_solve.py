@@ -19,17 +19,31 @@
 import collections
 import os
 import time
+from types import MappingProxyType
 
-from . import wakfu_criteria, wakfu_legality, wakfu_value
+from . import wakfu_aptitudes, wakfu_criteria, wakfu_legality, wakfu_value
 from .structure import fits_the_class
 from .wakfu_exclusions import default_exclusions
-from .wakfu_model import INFEASIBLE, WakfuBuild
+from .wakfu_model import INFEASIBLE, SOLVE, WakfuBuild
 
 #: Systems the model leaves out; a page must say so beside the set
 SYSTEMS_NOT_COUNTED = (
-    'runes', 'sublimations', 'aptitudes', 'pets', 'mounts', 'lucky charms',
+    'runes', 'sublimations', 'pets', 'mounts', 'lucky charms',
     'states',
 )
+
+#: Aptitudes whose lines the value model does not price, and why
+UNVALUED_APTITUDES = {
+    6: 'armor given is counted in the totals and not valued, as on gear',
+    17: 'barrier gives nothing a build can count, its effect needs a fight',
+    27: 'heals received gives nothing a build can count, a state effect with '
+        'no characteristic',
+    36: 'armor from a percent of health points, not in the value model until '
+        'the defense simulator',
+    38: 'heals performed is counted in the totals, no heal model prices it',
+    39: 'its indirect damage is characteristic 101, which the client tables do '
+        'not name, so only its elemental mastery counts',
+}
 
 
 class WakfuIllegalSet(Exception):
@@ -47,7 +61,8 @@ class WakfuIllegalSet(Exception):
 WakfuResult = collections.namedtuple(
     'WakfuResult', 'worn totals value turn status settled rounds seconds '
                    'not_counted reason build model legacy_left_out turn_model state '
-                   'state_unlocks')
+                   'state_unlocks aptitudes aptitude_mode unspent set_tiers',
+    defaults=(MappingProxyType({}), None, MappingProxyType({}), ()))
 WakfuResult.__doc__ = """The outcome of solve_build.
 
 worn: a wakfu_model.WakfuSet, or None. status: PROVEN when the search closed
@@ -60,7 +75,11 @@ WakfuBuild that landed the kept set. turn_model: the wakfu_turn.TurnModel
 the solve priced AP by, or None. state: the wakfu_criteria.PlayerState the
 solve read the pieces' player-state conditions against. state_unlocks:
 [(item id, {option: bound})] of the pieces that state keeps out, highest level
-first, each with the value that would let it in.
+first, each with the value that would let it in. aptitudes: {ability id:
+points above 0} of the set. aptitude_mode: 'solve' when the solver spread the
+points, 'fixed' when they were given, None when aptitudes were left out.
+unspent: {category: points left}, empty with no aptitudes. set_tiers: [(set, pieces)]
+of the set bonus tiers the set reaches.
 """
 
 ELEMENT_NAMES = wakfu_value.ELEMENTS
@@ -155,16 +174,54 @@ def _unlocks(structure, level, class_id, forbidden, state):
 
 
 def _checked(structure, level, worn, forbidden, locked, minimums, class_id=None,
-             state=None):
+             state=None, aptitudes=None, battleground=False):
     problems = wakfu_legality.violations(structure, level, worn, forbidden,
-                                         locked, minimums, class_id, state)
+                                         locked, minimums, class_id, state,
+                                         aptitudes, battleground)
     if problems:
         raise WakfuIllegalSet(problems)
 
 
+def _aptitude_mode(structure, level, aptitudes):
+    """'solve', 'fixed' or None; ValueError when a fixed vector breaks a rule."""
+    if aptitudes is None:
+        return None
+    if isinstance(aptitudes, str):
+        if aptitudes != SOLVE:
+            raise ValueError('aptitudes are %r, None or {ability id: points}, got %r'
+                             % (SOLVE, aptitudes))
+        return 'solve'
+    if not isinstance(aptitudes, dict):
+        raise ValueError('aptitudes are %r, None or {ability id: points}, got %r'
+                         % (SOLVE, aptitudes))
+    problems = wakfu_legality.aptitude_violations(structure, level, aptitudes)
+    if problems:
+        raise ValueError('; '.join('%s: %s' % one for one in problems))
+    return 'fixed'
+
+
+def aptitude_notes(structure, level, battleground):
+    """One sentence per aptitude the value model does not price."""
+    abilities = wakfu_aptitudes.table(structure, level, battleground).abilities
+    return ['%s (aptitude %d): %s' % (
+        structure.aptitude_ability_names.get((ident, 'en'), ident), ident, reason)
+        for ident, reason in sorted(UNVALUED_APTITUDES.items()) if ident in abilities]
+
+
+def unspent_points(structure, level, aptitudes):
+    """{category: budget points not spent}, empty with no aptitudes."""
+    if aptitudes is None:
+        return {}
+    left = dict(wakfu_aptitudes.budgets(structure, level))
+    for ident, points in aptitudes.items():
+        left[structure.aptitude_abilities[ident][0]] -= points
+    return left
+
+
 def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(),
                 locked=(), allow_legacy=False, movement=None, seconds=90,
-                defense=None, rounds=5, on_class_turn=True, state=None):
+                defense=None, rounds=5, on_class_turn=True, state=None,
+                aptitudes=SOLVE, battleground=False):
     """Best legal set for a damage role within `seconds` of wall time.
 
     elements (1 to 4 of fire, water, earth, air) and reach ('distance' or
@@ -175,10 +232,16 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
     wakfu_criteria.PlayerState, the game's start values by default; a piece
     whose player-state condition it fails stays out of the solve. Raises
     WakfuIllegalSet rather than return a set that breaks a rule.
+
+    aptitudes: SOLVE lets the solver spread the points of every category, a
+    dict {ability id: points} fixes them (ValueError when one breaks a cap or
+    a budget), None leaves aptitudes out. battleground: the set bonus tiers of
+    the build's bracket count.
     """
     started = time.monotonic()
     deadline = started + seconds
     state = state or wakfu_criteria.start_state()
+    mode = _aptitude_mode(structure, level, aptitudes)
     role = make_role(elements, reach, defense, movement)
     if movement is not None and not class_id:
         raise ValueError('movement needs a class')
@@ -186,6 +249,10 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
 
     turn = names = mechanics = None
     not_counted = list(SYSTEMS_NOT_COUNTED)
+    if mode is None:
+        not_counted.append('aptitudes')
+    else:
+        not_counted.extend(aptitude_notes(structure, level, battleground))
     if class_id:
         from . import wakfu_turn
         spells, mechanics, names, _source = class_spells(level, class_id)
@@ -201,18 +268,19 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
 
     model = wakfu_value.solve(structure, level, role, forbidden, rounds, turn=turn,
                               locked=locked, deadline=deadline, class_id=class_id or None,
-                              state=state)
+                              state=state, aptitudes=aptitudes, battleground=battleground)
     unlocks = _unlocks(structure, level, class_id or None, forbidden, state)
     best = model.best
     if best is None:
         return WakfuResult(None, None, None, None, None, False, len(model.rounds),
                            time.monotonic() - started, tuple(not_counted),
                            model.reason or INFEASIBLE, None, model, len(legacy), turn,
-                           state, unlocks)
+                           state, unlocks, {}, mode, {}, ())
 
+    held = None if mode is None else dict(best.worn.aptitudes)
     _checked(structure, level, best.worn, forbidden, locked,
              role.minimums(wakfu_criteria.base_values(structure, class_id or None)),
-             class_id or None, state)
+             class_id or None, state, held, battleground)
     class_turn = None
     if class_id:
         from . import wakfu_turn
@@ -225,25 +293,42 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
     return WakfuResult(best.worn, best.totals, best.value, class_turn,
                        best.worn.status, model.converged, len(model.rounds),
                        time.monotonic() - started, tuple(not_counted), None,
-                       best.build, model, len(legacy), turn, state, unlocks)
+                       best.build, model, len(legacy), turn, state, unlocks,
+                       dict(best.worn.aptitudes), mode,
+                       unspent_points(structure, level, held),
+                       tuple(best.worn.set_tiers))
 
 
 def solve_weights(structure, *, level, weights, forbidden=(), locked=(),
-                  allow_legacy=False, seconds=90, class_id=None, state=None):
-    """Best legal set for hand-written weights, within `seconds`."""
+                  allow_legacy=False, seconds=90, class_id=None, state=None,
+                  aptitudes=SOLVE, battleground=False):
+    """Best legal set for hand-written weights, within `seconds`.
+
+    aptitudes and battleground: as in solve_build.
+    """
     started = time.monotonic()
     state = state or wakfu_criteria.start_state()
+    mode = _aptitude_mode(structure, level, aptitudes)
+    not_counted = list(SYSTEMS_NOT_COUNTED)
+    if mode is None:
+        not_counted.append('aptitudes')
+    else:
+        not_counted.extend(aptitude_notes(structure, level, battleground))
     forbidden, locked, legacy = _set_up(structure, forbidden, locked, allow_legacy)
     unlocks = _unlocks(structure, level, class_id, forbidden, state)
     build = WakfuBuild(structure, level, weights, forbidden, locked=locked,
-                       class_id=class_id, state=state)
+                       class_id=class_id, state=state, aptitudes=aptitudes,
+                       battleground=battleground)
     worn = build.build().solve(started + seconds)
     seconds_used = time.monotonic() - started
     if worn is None:
         return WakfuResult(None, None, None, None, None, False, 1, seconds_used,
-                           SYSTEMS_NOT_COUNTED, build.reason or INFEASIBLE, build,
-                           None, len(legacy), None, state, unlocks)
-    _checked(structure, level, worn, forbidden, locked, None, class_id, state)
+                           tuple(not_counted), build.reason or INFEASIBLE, build,
+                           None, len(legacy), None, state, unlocks, {}, mode, {})
+    held = None if mode is None else dict(worn.aptitudes)
+    _checked(structure, level, worn, forbidden, locked, None, class_id, state, held,
+             battleground)
     return WakfuResult(worn, build.totals(worn), None, None, worn.status, True, 1,
-                       seconds_used, SYSTEMS_NOT_COUNTED, None, build, None,
-                       len(legacy), None, state, unlocks)
+                       seconds_used, tuple(not_counted), None, build, None,
+                       len(legacy), None, state, unlocks, dict(worn.aptitudes), mode,
+                       unspent_points(structure, level, held), tuple(worn.set_tiers))
