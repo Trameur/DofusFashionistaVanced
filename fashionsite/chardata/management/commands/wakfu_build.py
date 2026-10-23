@@ -99,6 +99,17 @@ class Command(BaseCommand):
                             help='ID=LEVEL,ID=LEVEL: the level of single pets or '
                                  'mounts, over --pet-level and --mount-level '
                                  '(default: the highest level the client allows)')
+        parser.add_argument('--runes', default='optimistic', choices=('optimistic', 'none'),
+                            help='optimistic: every socket of the worn pieces holds the rune '
+                                 'the solver picks, at the tier the piece allows (default); '
+                                 'none: runes left out')
+        parser.add_argument('--rune-tier', type=int, default=None,
+                            help='the highest tier a socket may hold, up to the top tier of '
+                                 'the rune table; 0 is the same as --runes none '
+                                 '(default: the tier each piece allows)')
+        parser.add_argument('--list-runes', action='store_true',
+                            help='print every rune with its colour, stat, doubled positions '
+                                 'and its value, shards and item level per tier, then exit')
         parser.add_argument('--list-aptitudes', action='store_true',
                             help='print every aptitude with its category, cap and '
                                  'lines per point, and the budgets at --level, '
@@ -121,6 +132,9 @@ class Command(BaseCommand):
 
         if options['list_aptitudes']:
             self.print_aptitude_list(get_structure('wakfu'), options['level'])
+            return
+        if options['list_runes']:
+            self.print_rune_list(get_structure('wakfu'))
             return
         aptitudes = self.read_aptitudes(options['aptitudes'])
         role = weights = None
@@ -155,7 +169,8 @@ class Command(BaseCommand):
                     class_id=options['class_id'], state=state, aptitudes=aptitudes,
                     battleground=options['battleground'],
                     pet_level=options['pet_level'],
-                    mount_level=options['mount_level'], item_levels=item_levels)
+                    mount_level=options['mount_level'], item_levels=item_levels,
+                    runes=options['runes'], rune_tier=options['rune_tier'])
             else:
                 result = wakfu_solve.solve_build(
                     structure, level=options['level'],
@@ -168,7 +183,8 @@ class Command(BaseCommand):
                     on_class_turn=options['class_turn'], state=state,
                     aptitudes=aptitudes, battleground=options['battleground'],
                     pet_level=options['pet_level'],
-                    mount_level=options['mount_level'], item_levels=item_levels)
+                    mount_level=options['mount_level'], item_levels=item_levels,
+                    runes=options['runes'], rune_tier=options['rune_tier'])
         except wakfu_solve.WakfuIllegalSet as error:
             raise CommandError('the solver returned an illegal set: %s' % error)
         except ValueError as error:
@@ -210,6 +226,7 @@ class Command(BaseCommand):
                               % (slot, getattr(item, 'name', item.id), item.level,
                                  self.companion_note(item, result.levels)))
 
+        self.print_runes(structure, worn, result)
         spread = build.spread_lines(worn)
         if spread:
             self.stdout.write('')
@@ -234,9 +251,68 @@ class Command(BaseCommand):
                 self.print_turn(role, options['level'], options['class_id'], totals)
             self.stdout.write('')
             left_out = list(wakfu_solve.SYSTEMS_NOT_COUNTED)
+            left_out.extend(note for note in result.not_counted if note.startswith('runes'))
             if result.aptitude_mode is None:
                 left_out.append('aptitudes')
             self.stdout.write('  systems the model leaves out: ' + ', '.join(left_out))
+
+    COLOUR_NAMES = {1: 'red', 2: 'green', 3: 'blue', 4: 'white'}
+
+    def print_rune_list(self, structure):
+        from fashionistapulp import wakfu_runes
+
+        if not structure.shards:
+            raise CommandError('the Wakfu database has no rune tables, rebuild it '
+                               'with python update_data_wakfu.py')
+        for ident, rune in sorted(structure.shards.items()):
+            name = rune.names.get('en', str(ident))
+            colour = self.COLOUR_NAMES.get(rune.colour, str(rune.colour))
+            if rune.stat is None:
+                self.stdout.write('%d %s %s: gives nothing' % (ident, name, colour))
+                continue
+            stat = structure.get_stat_by_id(rune.stat)
+            self.stdout.write('%d %s %s %s, doubled on %s' % (
+                ident, name, colour, stat.key if stat else rune.stat,
+                ', '.join(sorted(rune.doubles)) or 'no position'))
+            for tier in range(1, len(rune.costs) + 1):
+                self.stdout.write(
+                    '  tier %-2d item level %-3d  +%d single  +%d doubled  %d shards' % (
+                        tier, rune.requirements[tier - 1],
+                        wakfu_runes.value(rune, tier, False),
+                        wakfu_runes.value(rune, tier, True),
+                        wakfu_runes.shards_at(rune, tier)))
+
+    def print_runes(self, structure, worn, result):
+        """Per position the piece, its tier and sockets, then one line per socket."""
+        if not result.runes:
+            return
+        total = 0
+        self.stdout.write('')
+        self.stdout.write('  runes (%s%s)' % (
+            result.rune_mode, '' if result.rune_tier is None
+            else ', at most tier %d' % result.rune_tier))
+        for position in sorted(result.runes):
+            sockets = result.runes[position]
+            if position not in worn or not sockets:
+                continue
+            filled = [one for one in sockets if one.rune is not None]
+            top = max((one.tier for one in filled), default=None)
+            self.stdout.write('  %-16s %-38s %s, %d sockets' % (
+                position, getattr(worn[position], 'name', worn[position].id),
+                'tier %d' % top if top else 'no rune', len(sockets)))
+            for socket in sockets:
+                if socket.rune is None:
+                    self.stdout.write('  %d empty' % (socket.index + 1))
+                    continue
+                rune = structure.shards[socket.rune]
+                stat = structure.get_stat_by_id(rune.stat)
+                total += socket.shards
+                self.stdout.write('  %d %s %s %d tier %d +%d %s%s, %d shards' % (
+                    socket.index + 1, self.COLOUR_NAMES[socket.colour],
+                    rune.names.get('en', socket.rune), socket.rune, socket.tier,
+                    socket.value, stat.key, ' (doubled)' if socket.doubled else '',
+                    socket.shards))
+        self.stdout.write('  total shards: %d' % total)
 
     @staticmethod
     def companion_note(item, levels):

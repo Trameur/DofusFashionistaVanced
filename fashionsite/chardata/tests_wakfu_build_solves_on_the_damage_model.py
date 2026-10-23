@@ -145,7 +145,7 @@ def scripted(*sets):
     class ScriptedBuild:
         def __init__(self, structure, level, weights, forbidden=(), full_set=True,
                      minimums=None, class_id=None, state=None, aptitudes=None,
-                     battleground=False):
+                     battleground=False, runes=None, rune_tier=None):
             self.weights = dict(weights)
             self.minimums = minimums
 
@@ -238,7 +238,7 @@ class AWakfuModelSolveTests(SimpleTestCase):
         self.assertTrue(self.result.converged)
         self.assertGreater(len(rounds), 1)
         self.assertEqual(rounds[-2].ids, rounds[-1].ids)
-        self.assertEqual(14, len(self.result.best.worn))
+        self.assertEqual(13, len(self.result.best.worn))
 
     def test_the_kept_set_has_the_best_value_of_every_round(self):
         best = self.result.best
@@ -261,9 +261,10 @@ class AWakfuModelSolveTests(SimpleTestCase):
         from fashionistapulp import wakfu_value
         from fashionistapulp.wakfu_model import WakfuBuild
         best = self.result.best
-        weights = wakfu_value.linear_weights(self.role, LEVEL, best.totals)
+        gear = WakfuBuild(self.structure, LEVEL, {}).totals(dict(best.worn))
+        weights = wakfu_value.linear_weights(self.role, LEVEL, gear)
         build = WakfuBuild(self.structure, LEVEL, weights)
-        whole = wakfu_value.value(self.role, LEVEL, build.totals(best.worn))
+        whole = wakfu_value.value(self.role, LEVEL, gear)
         for position, item in sorted(best.worn.items()):
             rest = {other: piece for other, piece in best.worn.items() if other != position}
             exact = 100 * (whole - wakfu_value.value(self.role, LEVEL, build.totals(rest)))
