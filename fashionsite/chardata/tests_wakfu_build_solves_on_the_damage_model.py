@@ -132,7 +132,8 @@ class AModelRoundLandsItsSpreadLinesOnItsOwnStatsTests(SimpleTestCase):
 
 
 def outfit(item_id, **stats):
-    return {'HEAD': Outfit(item_id, collections.Counter(stats))}
+    from fashionistapulp.wakfu_model import WakfuSet
+    return WakfuSet({'HEAD': Outfit(item_id, collections.Counter(stats))})
 
 
 def scripted(*sets):
@@ -143,7 +144,8 @@ def scripted(*sets):
 
     class ScriptedBuild:
         def __init__(self, structure, level, weights, forbidden=(), full_set=True,
-                     minimums=None, class_id=None, state=None):
+                     minimums=None, class_id=None, state=None, aptitudes=None,
+                     battleground=False):
             self.weights = dict(weights)
             self.minimums = minimums
 
@@ -318,6 +320,16 @@ class TheWakfuBuildCommandRunsTheDamageModelTests(SimpleTestCase):
         self.assertIn('DMG_FIRE_PERCENT', weights)
         self.assertNotIn('DMG_WATER_PERCENT', weights)
         self.assertNotIn('DMG_IN_PERCENT', weights)
+
+    def test_the_left_out_line_names_aptitudes_only_when_they_are_left_out(self):
+        def left_out(*extra):
+            out = self.run_command('--level', '20', '--elements', 'fire', '--reach',
+                                   'distance', *extra)
+            return [line for line in out.splitlines()
+                    if line.startswith('  systems the model leaves out: ')][0]
+
+        self.assertTrue(left_out('--aptitudes', 'none').endswith(', aptitudes'))
+        self.assertNotIn('aptitudes', left_out())
 
     def test_hand_weights_skip_the_model(self):
         out = self.run_command('--level', '20', '--weights', 'hp=1')

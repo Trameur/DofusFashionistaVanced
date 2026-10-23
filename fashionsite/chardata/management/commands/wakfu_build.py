@@ -81,6 +81,18 @@ class Command(BaseCommand):
                             help='PvP rank (default 0)')
         parser.add_argument('--guild-level', type=int, default=None,
                             help='level of the guild (default 0)')
+        parser.add_argument('--aptitudes', default='solve',
+                            help='solve (the solver spreads the points, default), '
+                                 'none (leave aptitudes out) or ID=POINTS,ID=POINTS '
+                                 '(e.g. 2=1,23=40, checked against the budgets and '
+                                 'caps of --level)')
+        parser.add_argument('--battleground', action='store_true',
+                            help='count the set bonus tiers of the bracket of '
+                                 '--level, which only a battleground gives')
+        parser.add_argument('--list-aptitudes', action='store_true',
+                            help='print every aptitude with its category, cap and '
+                                 'lines per point, and the budgets at --level, '
+                                 'then exit')
 
     def handle(self, *args, **options):
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -97,6 +109,10 @@ class Command(BaseCommand):
                 'no Wakfu database at %s. Build it with '
                 'python update_data_wakfu.py' % chemin)
 
+        if options['list_aptitudes']:
+            self.print_aptitude_list(get_structure('wakfu'), options['level'])
+            return
+        aptitudes = self.read_aptitudes(options['aptitudes'])
         role = weights = None
         if options['weights'] is not None:
             weights = self.hand_weights(options['weights'])
@@ -125,7 +141,8 @@ class Command(BaseCommand):
                     structure, level=options['level'], weights=weights,
                     forbidden=forbidden, locked=locked,
                     allow_legacy=options['allow_legacy'], seconds=options['seconds'],
-                    class_id=options['class_id'], state=state)
+                    class_id=options['class_id'], state=state, aptitudes=aptitudes,
+                    battleground=options['battleground'])
             else:
                 result = wakfu_solve.solve_build(
                     structure, level=options['level'],
@@ -135,7 +152,8 @@ class Command(BaseCommand):
                     allow_legacy=options['allow_legacy'],
                     movement=options['movement'], seconds=options['seconds'],
                     defense=options['defense'], rounds=options['rounds'],
-                    on_class_turn=options['class_turn'], state=state)
+                    on_class_turn=options['class_turn'], state=state,
+                    aptitudes=aptitudes, battleground=options['battleground'])
         except wakfu_solve.WakfuIllegalSet as error:
             raise CommandError('the solver returned an illegal set: %s' % error)
         except ValueError as error:
@@ -191,6 +209,7 @@ class Command(BaseCommand):
         self.stdout.write('')
         self.stdout.write('  ' + '  '.join('%s %s' % (cle.upper(), totals[cle])
                                            for cle in interessantes))
+        self.print_aptitudes(structure, result)
         self.print_unlocks(structure, result)
         if model is not None:
             self.print_model(role, options['level'], model, turn,
@@ -198,8 +217,93 @@ class Command(BaseCommand):
             if options['class_id']:
                 self.print_turn(role, options['level'], options['class_id'], totals)
             self.stdout.write('')
-            self.stdout.write('  systems the model leaves out: '
-                              + ', '.join(wakfu_solve.SYSTEMS_NOT_COUNTED))
+            left_out = list(wakfu_solve.SYSTEMS_NOT_COUNTED)
+            if result.aptitude_mode is None:
+                left_out.append('aptitudes')
+            self.stdout.write('  systems the model leaves out: ' + ', '.join(left_out))
+
+    @staticmethod
+    def read_aptitudes(text):
+        """SOLVE, None or {ability id: points} of --aptitudes."""
+        from fashionistapulp.wakfu_model import SOLVE
+
+        text = text.strip().lower()
+        if text == 'solve':
+            return SOLVE
+        if text == 'none':
+            return None
+        given = {}
+        for part in text.split(','):
+            part = part.strip()
+            if not part:
+                continue
+            left, equals, right = part.partition('=')
+            try:
+                if not equals:
+                    raise ValueError(part)
+                ident, points = int(left), int(right)
+            except ValueError:
+                raise CommandError('--aptitudes is solve, none or ID=POINTS,ID=POINTS, '
+                                   'got %r' % part)
+            if ident in given:
+                raise CommandError('--aptitudes names aptitude %d twice' % ident)
+            given[ident] = points
+        if not given:
+            raise CommandError('--aptitudes is solve, none or ID=POINTS,ID=POINTS')
+        return given
+
+    @staticmethod
+    def _names(structure):
+        """({ability id: name}, {category id: name}) in English."""
+        abilities = {ident: structure.aptitude_ability_names.get((ident, 'en'), str(ident))
+                     for ident in structure.aptitude_abilities}
+        categories = {ident: structure.aptitude_category_names.get((ident, 'en'), str(ident))
+                      for ident in structure.aptitude_categories}
+        return abilities, categories
+
+    def print_aptitude_list(self, structure, level):
+        from fashionistapulp import wakfu_aptitudes
+
+        if not structure.aptitude_abilities:
+            raise CommandError('the Wakfu database has no aptitude tables, rebuild it '
+                               'with python update_data_wakfu.py')
+        names, categories = self._names(structure)
+        table = wakfu_aptitudes.table(structure, level, False)
+        budgets = wakfu_aptitudes.budgets(structure, level)
+        self.stdout.write('aptitudes at level %d' % level)
+        for ident, (category, cap, lines, notes) in sorted(
+                table.abilities.items(), key=lambda one: (one[1][0], one[0])):
+            self.stdout.write('  %-3d %-10s cap %-3d %-30s %s%s' % (
+                ident, categories[category], cap, names[ident],
+                ', '.join('%s %s' % (key.upper(), number) for key, number in lines)
+                or 'no counted line',
+                ''.join('; %s' % note for note in notes)))
+        self.stdout.write('budgets: ' + ', '.join(
+            '%s %d' % (categories[category], budgets[category])
+            for category in sorted(budgets)))
+
+    def print_aptitudes(self, structure, result):
+        if result.aptitude_mode is None:
+            self.stdout.write('aptitudes: left out')
+            return
+        names, categories = self._names(structure)
+        by_category = {}
+        for ident, points in sorted(result.aptitudes.items()):
+            by_category.setdefault(structure.aptitude_abilities[ident][0], []).append(
+                '%s %d' % (names[ident], points))
+        self.stdout.write('aptitudes (%s): %s' % (
+            'solver distributes' if result.aptitude_mode == 'solve' else 'fixed',
+            '; '.join('%s: %s' % (categories[category], ', '.join(parts))
+                      for category, parts in sorted(by_category.items())) or 'none'))
+        self.stdout.write('unspent: ' + (', '.join(
+            '%s %d' % (categories[category], left)
+            for category, left in sorted(result.unspent.items()) if left) or 'none'))
+        if result.set_tiers:
+            self.stdout.write('set bonuses: ' + ', '.join(
+                '%d %d' % tier for tier in result.set_tiers))
+        for note in result.not_counted:
+            if '(aptitude ' in note:
+                self.stdout.write('  not valued: %s' % note)
 
     @staticmethod
     def read_state(structure, options):
