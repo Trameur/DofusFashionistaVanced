@@ -88,6 +88,7 @@ STEP_TITLES = {
     'items/load-db': 'Loading the database', 'items/build-db': 'Building the database',
     'items/obtainment': 'Ways to obtain items', 'items/corrections': 'Item corrections',
     'items/recipes': 'Saving recipes', 'items/special-spells': 'Special item spells',
+    'items/special': 'Special item states',
     'items/spells': 'Saving spells', 'item-skins': 'Item appearances',
     'item-images': 'Equipment images', 'client-images': 'Game images',
     'resource-icons': 'Resource images',

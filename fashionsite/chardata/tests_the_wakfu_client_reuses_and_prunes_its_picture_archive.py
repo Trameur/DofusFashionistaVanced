@@ -45,7 +45,8 @@ class TheWakfuClientReusesAndPrunesItsPictureArchiveTests(SimpleTestCase):
     def test_both_new_files_are_part_of_the_client(self):
         self.assertIn(get_wakfu_client.GUI_JAR, get_wakfu_client.FILES)
         self.assertIn(get_wakfu_client.CONFIG, get_wakfu_client.FILES)
-        self.assertEqual(19, len(get_wakfu_client.FILES))
+        self.assertIn(get_wakfu_client.CODE_JAR, get_wakfu_client.FILES)
+        self.assertEqual(20, len(get_wakfu_client.FILES))
 
     def test_a_file_with_the_same_sha1_in_another_folder_is_reused_without_a_fetch(self):
         old = self.folder('6.0_1.93.1.5312.334', get_wakfu_client.FILES)

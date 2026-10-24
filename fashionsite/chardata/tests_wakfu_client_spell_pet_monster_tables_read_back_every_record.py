@@ -52,7 +52,7 @@ def table(number, cls, records, **shifts):
 SPELLS = [
     {'id': 5043, 'breed': 11, 'ap': 4.0, 'mp': 0.0, 'wp': 1.0, 'range_min': 2.0,
      'range_max': 6.0, 'element': 3, 'unlock_level': 45, 'max_level': 245,
-     'effect_ids': [100, 101, 102], 'icon': 604,
+     'effect_ids': [100, 101, 102], 'icon': 604, 'kind': 2,
      'erY': {2: {'eso': 8, 'esp': 1.5}},
      'erZ': {9: {'esq': 2, 'esr': [4, 5]}},
      'esa': {'HasState(7030, 2)': {'ema': 1008, 'esb': {3: {'eso': 1, 'esp': 2.5}}}}},
@@ -122,7 +122,7 @@ class TheWakfuSpellPetMonsterTablesReadBackEveryRecordTests(SimpleTestCase):
         read = wakfu_client.read_spells(self.jar_of(66, 'aNt', SPELLS))
         self.assertEqual([5043, 5044, 2000000001], [record.id for record in read])
         self.assertEqual(
-            (11, 4.0, 0.0, 1.0, 2.0, 6.0, 3, 45, 245, [100, 101, 102], 604),
+            (11, 4.0, 0.0, 1.0, 2.0, 6.0, 3, 45, 245, [100, 101, 102], 604, 2),
             tuple(read[0])[1:])
         self.assertEqual([604, 5, 5], [record.icon for record in read])
         self.assertEqual((-2, 2.0, 1.0, 1.0, 1.0, 1, 200, [7]),

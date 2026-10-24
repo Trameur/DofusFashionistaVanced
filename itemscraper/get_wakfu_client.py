@@ -14,7 +14,9 @@ manifest.json. A 403 or a 429 from the CDN stops the step and is never retried.
 The files and what is decoded from them stay local and are never committed:
 decoded.json holds the items, breeds and labels, tables.json the effects,
 effect groups, item sets, states, abilities, spells, pets, mounts, monsters and
-loot lists, texts.json the names and texts of the language files. gui.jar, the
+loot lists, texts.json the names and texts of the language files, client_code.json the
+characteristic, rarity, spell kind and passive slot constants read out of the client's code
+(lib/wakfu-client.jar, kept as a file like gui.jar). gui.jar, the
 picture archive, is kept as a file and never decoded here; only the newest client
 folder keeps it, and a file whose sha1 is already in another folder is linked
 or copied from there instead of fetched.
@@ -35,6 +37,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cytrus_cdn  # noqa: E402
 import wakfu_client  # noqa: E402
+import wakfu_client_code  # noqa: E402
 
 LANGUAGES = ('fr', 'en', 'es', 'pt')
 ITEMS_JAR = 'contents/bdata/35.jar'
@@ -47,12 +50,14 @@ LABEL_JARS = {language: 'contents/i18n/i18n_%s.jar' % language
 TABLE_JARS = {number: 'contents/bdata/%d.jar' % number
               for number in (29, 36, 67, 68, 135, 136, 66, 117, 144, 42, 39)}
 GUI_JAR = 'contents/gui_jar/gui.jar'
+# The client's own code, read by wakfu_client_code for the constants the tables leave out
+CODE_JAR = 'lib/wakfu-client.jar'
 CONFIG = 'config.properties'
 FILES = ((ITEMS_JAR, BREEDS_JAR) + tuple(LABEL_JARS.values()) + tuple(TABLE_JARS.values())
-         + (GUI_JAR, CONFIG))
+         + (GUI_JAR, CODE_JAR, CONFIG))
 KEEP_VERSIONS = 2
 # Bumped when tables.json gains a field, so a decoded folder is decoded again.
-TABLES_FORMAT = 3
+TABLES_FORMAT = 4
 # From this size a file is written piece by piece and never held in memory
 BIG_FILE = 32 * 1024 * 1024
 
@@ -159,12 +164,21 @@ def decode_texts(folder, client_version):
     }
 
 
+def decode_code(folder, client_version):
+    """The client_code.json payload: the constants read out of the client's code."""
+    payload = wakfu_client_code.read_constants(folder / CODE_JAR.rsplit('/', 1)[1])
+    payload['client_version'] = client_version
+    payload['game_version'] = game_version_of(client_version)
+    return payload
+
+
 def is_current(folder, wanted):
-    """True when decoded.json, tables.json and a texts.json holding every family are there,
-    made from these sha1s."""
+    """True when decoded.json, tables.json, client_code.json and a texts.json holding
+    every family are there, made from these sha1s."""
     path = folder / 'decoded.json'
     if not path.exists() or not (folder / 'tables.json').exists() \
-            or not (folder / 'texts.json').exists():
+            or not (folder / 'texts.json').exists() \
+            or not (folder / 'client_code.json').exists():
         return False
     try:
         payload = json.loads(path.read_text(encoding='utf-8'))
@@ -196,7 +210,8 @@ def prune(out_dir, keep):
             shutil.rmtree(path)
     for path in folders[:-1]:
         if path.exists() and path.name != keep:
-            (path / GUI_JAR.rsplit('/', 1)[1]).unlink(missing_ok=True)
+            for big in (GUI_JAR, CODE_JAR):
+                (path / big.rsplit('/', 1)[1]).unlink(missing_ok=True)
 
 
 def matches(path, entry):
@@ -301,8 +316,10 @@ def main(argv=None):
         payload = decode(folder, client_version, hashes)
         tables = decode_tables(folder, client_version, payload['items'])
         texts = decode_texts(folder, client_version)
+        code = decode_code(folder, client_version)
         payload['tables_format'] = TABLES_FORMAT
-    except (ClientError, wakfu_client.TableError, urllib.error.URLError, OSError) as error:
+    except (ClientError, wakfu_client.TableError, wakfu_client_code.ClientCodeError,
+            urllib.error.URLError, OSError) as error:
         print('the client files could not be read: %s' % error)
         return 1
     (folder / 'decoded.json').write_text(
@@ -314,6 +331,8 @@ def main(argv=None):
     (folder / 'texts.json').write_text(
         json.dumps(texts, ensure_ascii=False, separators=(',', ':'), sort_keys=True),
         encoding='utf-8')
+    (folder / 'client_code.json').write_text(
+        json.dumps(code, ensure_ascii=False, indent=1, sort_keys=True), encoding='utf-8')
     prune(args.out, client_version)
     print('client %s' % client_version)
     print('entries %d size or id mismatches 0' % len(payload['items']))
@@ -328,8 +347,12 @@ def main(argv=None):
     for family, by_language in sorted(texts['texts'].items()):
         print('texts %s: %s' % (family, ', '.join(
             '%s %d' % (language, len(by_language[language])) for language in LANGUAGES)))
-    print('wrote %s, %s and %s' % (
-        folder / 'decoded.json', folder / 'tables.json', folder / 'texts.json'))
+    print('code: %d characteristics, %d rarities, %d spell kinds, %d passive slots' % (
+        len(code['characteristics']), len(code['rarities']), len(code['spell_kinds']),
+        len(code['passive_slot_levels'])))
+    print('wrote %s, %s, %s and %s' % (
+        folder / 'decoded.json', folder / 'tables.json', folder / 'texts.json',
+        folder / 'client_code.json'))
     return 0
 
 

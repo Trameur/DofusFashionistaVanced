@@ -66,7 +66,8 @@ EFFECTS = [
     {'id': 1, 'action_id': 20, 'container_id': 28822, 'area_size': [3, 4],
      'area_shape': 2, 'normal_or_critical': 'NORMAL  ', 'container_type': 'ITEM_EQUIP ',
      'root_container_type': 'ITEM_EQUIP', 'params': [6.0, 0.5, 1.25, -2.0],
-     'text_etr': ' IsBattleground() ', 'short_etp': 1, 'short_etq': 5},
+     'text_etr': ' IsBattleground() ', 'short_etp': 1, 'short_etq': 5,
+     'ints_esV': [1028, 1001], 'ints_esQ': [2]},
     {'id': 2, 'action_id': 304, 'container_id': 77, 'normal_or_critical': 'CRITICAL',
      'container_type': 'GROUP', 'root_container_type': 'STATE', 'params': [0.4],
      'short_etp': 10, 'short_etq': 11},
@@ -76,7 +77,8 @@ EFFECTS = [
 ]
 GROUPS = [{'id': 10, 'effect_ids': [1, 2]}, {'id': 11, 'effect_ids': []},
           {'id': 12, 'effect_ids': [2000000003]}]
-STATES = [{'id': 5, 'bcw': 'malus_portee', 'efW': [1, 2]}, {'id': 6, 'bcw': '', 'efW': []}]
+STATES = [{'id': 5, 'bcw': 'malus_portee', 'efW': [1, 2], 'aYh': 6},
+          {'id': 6, 'bcw': '', 'efW': [], 'aYh': 0}]
 ABILITIES = [{'id': 20, 'category': 4, 'ddL': 20, 'cgI': 2, 'effect_ids': [136469]},
              {'id': 31, 'category': 3, 'ddL': 0, 'cgI': 231, 'effect_ids': []}]
 CATEGORIES = [{'id': 2, 'unlock_levels': [2, 6, 10, 243], 'ability_ids': [1, 16]},
@@ -137,6 +139,14 @@ class TheWakfuClientTablesReadBackEveryRecordTests(SimpleTestCase):
         self.assertEqual([(1, 5), (10, 11), (0, 0)],
                          [(one.min_level, one.max_level) for one in read])
 
+    def test_the_effect_reader_returns_the_seven_trigger_lists_in_field_order(self):
+        read = wakfu_client.read_effects(
+            self.table(68, EFFECTS, write_layout(wakfu_client.STATIC_EFFECT_LAYOUT)))
+        self.assertEqual(([2], [], [], [], [], [1028, 1001], []),
+                         tuple(list(codes) for codes in read[0].triggers))
+        self.assertEqual([[]] * 7,
+                         [list(codes) for codes in read[1].triggers])
+
     def test_the_group_state_ability_and_category_readers_return_their_fields(self):
         groups = wakfu_client.read_effect_groups(
             self.table(29, GROUPS, write_layout(wakfu_client.EFFECT_GROUP_LAYOUT)))
@@ -144,8 +154,9 @@ class TheWakfuClientTablesReadBackEveryRecordTests(SimpleTestCase):
                          [(record.id, record.effect_ids) for record in groups])
         states = wakfu_client.read_states(
             self.table(67, STATES, write_layout(wakfu_client.STATE_LAYOUT)))
-        self.assertEqual([(5, 'malus_portee', [1, 2]), (6, '', [])],
-                         [(record.id, record.bcw, record.effect_ids) for record in states])
+        self.assertEqual([(5, 'malus_portee', [1, 2], 6), (6, '', [], 0)],
+                         [(record.id, record.bcw, record.effect_ids, record.max_level)
+                          for record in states])
         abilities = wakfu_client.read_abilities(
             self.table(135, ABILITIES, write_layout(wakfu_client.ABILITY_LAYOUT)))
         self.assertEqual([(20, 4, 20, 2, [136469]), (31, 3, 0, 231, [])],

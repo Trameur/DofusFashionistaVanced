@@ -18,6 +18,7 @@ Steps:
     data/sets      get_sets_wakfu.py        -> wakfu_raw/<build>/sets.json
     data/spells    get_spells_wakfu.py      -> wakfu_raw/<build>/spells_<lang>.json
     items/build-db build_wakfu_db.py        -> items_wakfu.db
+    items/special  generate_wakfu_special_items.py -> wakfu_special_items.py
     items/recipes  build_wakfu_recipes.py   -> the four crafting tables
     items/spells   build_wakfu_spells.py    -> the four spell tables
     item-images    get_item_images_wakfu.py -> static/chardata/items/wakfu/64/
@@ -168,7 +169,7 @@ def steps_after_client(args):
         labels.append('data/sets')
     if not args.skip_spells:
         labels.extend('data/spells %s' % language for language in SPELL_LANGUAGES)
-    labels.extend(['items/build-db', 'items/recipes', 'items/spells'])
+    labels.extend(['items/build-db', 'items/special', 'items/recipes', 'items/spells'])
     if not args.skip_images:
         labels.extend(['item-images', 'client-images'])
     labels.append('items/dump')
@@ -226,6 +227,17 @@ def main(argv=None):
     # Everything below writes into items_wakfu.db, and this step replaces it
     # first. Nothing that fills a table may move above this line.
     built = step('items/build-db', [PY, 'itemscraper/build_wakfu_db.py'])
+    if built and not step('items/special',
+                          [PY, 'itemscraper/generate_wakfu_special_items.py']):
+        print('\n  skipped: the special items block could not be written; the '
+              'previous block stays')
+        rest = ['items/recipes', 'items/spells']
+        if not args.skip_images:
+            rest.extend(['item-images', 'client-images'])
+        rest.append('items/dump')
+        failed.extend('%s (skipped)' % label for label in rest)
+        print('  FAILED: %s' % ', '.join(failed))
+        return 1
     if built:
         step('items/recipes', [PY, 'itemscraper/build_wakfu_recipes.py'])
         step('items/spells', [PY, 'itemscraper/build_wakfu_spells.py'])

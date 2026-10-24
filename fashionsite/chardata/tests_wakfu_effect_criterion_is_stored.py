@@ -116,6 +116,7 @@ class AnOldDecodedFolderIsDecodedAgainTests(SimpleTestCase):
             (folder / 'decoded.json').write_text(
                 json.dumps({'files': {'a.jar': {'sha1': 'x'}}}), encoding='utf-8')
             (folder / 'tables.json').write_text('{}', encoding='utf-8')
+            (folder / 'client_code.json').write_text('{}', encoding='utf-8')
             families = {family: {} for family in get_wakfu_client.wakfu_client.ALL_TEXT_FAMILIES}
             (folder / 'texts.json').write_text(json.dumps({'texts': families}),
                                                encoding='utf-8')

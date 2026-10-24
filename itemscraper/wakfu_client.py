@@ -70,6 +70,10 @@ STATIC_EFFECT_LAYOUT = (  # 68, aNy
     ('ints_etz', 'i32[]'), ('flag_etA', 'bool'), ('flag_etB', 'bool'),
     ('flag_etC', 'bool'), ('flag_etD', 'bool'), ('flag_etE', 'bool'),
 )
+# The seven trigger lists handed to the effect constructor, in field order (esV 1028 is the
+# start of combat, esV 1001 the start of each turn)
+TRIGGER_FIELDS = ('ints_esQ', 'ints_esR', 'ints_esS', 'ints_esT', 'ints_esU', 'ints_esV',
+                  'ints_esW')
 EFFECT_GROUP_LAYOUT = (('id', 'i32'), ('effect_ids', 'i32[]'))  # 29, aKX
 # 67, aNx. efW lists the effects of the state: the STATE effects of table 68
 # on all 6129 states. bcw is a text key (for example malus_portee).
@@ -114,7 +118,7 @@ NESTED_LAYOUTS = {
         ('ery', 'f32'), ('mp', 'f32'), ('erA', 'f32'), ('wp', 'f32'), ('erC', 'f32'),
         ('range_max', 'f32'), ('erE', 'f32'), ('range_min', 'f32'), ('erG', 'f32'),
         ('erH', 'i16'), ('element', 'i16'), ('erJ', 'i16'), ('erK', 'i16'), ('erL', 'i16'),
-        ('equ', 'text'), ('erM', 'text'), ('erN', 'i8'), ('erO', 'bool'), ('erP', 'bool'),
+        ('equ', 'text'), ('erM', 'text'), ('kind', 'i8'), ('erO', 'bool'), ('erP', 'bool'),
         ('erQ', 'bool'), ('erR', 'i8'), ('erS', 'bool'), ('erT', 'bool'), ('erU', 'bool'),
         ('erV', 'bool'), ('erW', 'bool'), ('erX', 'bool'), ('bbB', 'i32[]'),
         ('effect_ids', 'i32[]'), ('erY', 'map', 'i8', 'aNv'), ('erZ', 'map', 'i16', 'aNw'),
@@ -243,20 +247,22 @@ LOOT_LIST_CLASS = 'aMa'  # 39
 EffectRecord = collections.namedtuple(
     'EffectRecord', 'id action_id container_id container_type root_container_type'
                     ' normal_or_critical area_shape area_size params criterion'
-                    ' min_level max_level',
-    defaults=('', None, None))
+                    ' min_level max_level triggers',
+    defaults=('', None, None, ()))
 GroupRecord = collections.namedtuple('GroupRecord', 'id effect_ids')
-StateRecord = collections.namedtuple('StateRecord', 'id bcw effect_ids')
+# max_level is the stack cap the client holds for the state (aYh)
+StateRecord = collections.namedtuple('StateRecord', 'id bcw effect_ids max_level')
 AbilityRecord = collections.namedtuple(
     'AbilityRecord', 'id category ddL cgI effect_ids')
 AbilityCategoryRecord = collections.namedtuple(
     'AbilityCategoryRecord', 'id unlock_levels ability_ids')
 SetRecord = collections.namedtuple('SetRecord', 'id elG item_ids bonuses')
 # ap, mp, wp: the costs (the client's floats); range_min and range_max in cells;
-# element is the client's code (FIRE 1, WATER 2, EARTH 3, AIR 4, none 9)
+# element is the client's code (FIRE 1, WATER 2, EARTH 3, AIR 4, none 9); kind is the
+# client's spell kind (ACTIVE 0, PASSIVE_FROM_1 1, PASSIVE_FROM_0 2, read by wakfu_client_code)
 SpellRecord = collections.namedtuple(
     'SpellRecord', 'id breed ap mp wp range_min range_max element unlock_level'
-                   ' max_level effect_ids icon')
+                   ' max_level effect_ids icon kind')
 # emm is the level cap, the client clamps with it; eop divides the per level step
 PetRecord = collections.namedtuple('PetRecord', 'id item eoq eop emm')
 MountRecord = collections.namedtuple('MountRecord', 'id item eop emm eoq')
@@ -551,7 +557,8 @@ def _read_effect(reader):
         row['id'], row['action_id'], row['container_id'],
         row['container_type'].strip(), row['root_container_type'].strip(),
         row['normal_or_critical'].strip(), row['area_shape'], row['area_size'],
-        row['params'], row['text_etr'].strip(), row['short_etp'], row['short_etq'])
+        row['params'], row['text_etr'].strip(), row['short_etp'], row['short_etq'],
+        tuple(tuple(row[name]) for name in TRIGGER_FIELDS))
 
 
 def _read_group(reader):
@@ -563,7 +570,7 @@ def _read_group(reader):
 def _read_state(reader):
     """The state record of client class aNx."""
     row = _read_layout(reader, STATE_LAYOUT)
-    return StateRecord(row['id'], row['bcw'], row['efW'])
+    return StateRecord(row['id'], row['bcw'], row['efW'], row['aYh'])
 
 
 def _read_ability(reader):

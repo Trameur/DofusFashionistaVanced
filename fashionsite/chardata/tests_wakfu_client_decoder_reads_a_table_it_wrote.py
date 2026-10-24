@@ -258,8 +258,8 @@ class TheWakfuClientDecoderReadsATableItWroteTests(SimpleTestCase):
         read = wakfu_client.read_effects(jar(self.folder / '68.jar', '68.bin', blob))
         self.assertEqual([(1, 5), (10, 11), (0, 0)],
                          [(one.min_level, one.max_level) for one in read])
-        self.assertEqual((None, None), wakfu_client.EffectRecord(
-            1, 2, 3, '', '', '', 0, [], [])[-2:])
+        bare = wakfu_client.EffectRecord(1, 2, 3, '', '', '', 0, [], [])
+        self.assertEqual((None, None, ()), (bare.min_level, bare.max_level, bare.triggers))
 
     def test_the_decoder_returns_every_invented_breed_and_its_base_values(self):
         read = wakfu_client.read_breeds(self.breeds_jar())

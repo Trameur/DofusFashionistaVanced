@@ -179,11 +179,14 @@ class TheWakfuClientTextsReadBackAsTheClientReadsThemTests(TestCase):
                    'tables_format': get_wakfu_client.TABLES_FORMAT}
         (folder / 'decoded.json').write_text(json.dumps(decoded), encoding='utf-8')
         (folder / 'tables.json').write_text('{}', encoding='utf-8')
+        (folder / 'client_code.json').write_text('{}', encoding='utf-8')
         self.assertFalse(get_wakfu_client.is_current(folder, {'a.jar': 'x'}))
         families = {family: {} for family in wakfu_client.ALL_TEXT_FAMILIES}
         (folder / 'texts.json').write_text(json.dumps({'texts': families}), encoding='utf-8')
         self.assertTrue(get_wakfu_client.is_current(folder, {'a.jar': 'x'}))
         self.assertFalse(get_wakfu_client.is_current(folder, {'a.jar': 'y'}))
+        (folder / 'client_code.json').unlink()
+        self.assertFalse(get_wakfu_client.is_current(folder, {'a.jar': 'x'}))
 
     def test_a_texts_json_that_lacks_a_family_is_not_current(self):
         folder = self.directory / 'client'

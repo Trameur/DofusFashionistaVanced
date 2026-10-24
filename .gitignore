@@ -75,6 +75,7 @@ itemscraper/item_skins_new.json
 itemscraper/wakfu_raw/
 itemscraper/wakfu_client/
 itemscraper/transformed_wakfu.json
+fashionistapulp/fashionistapulp/wakfu_special_items.py
 
 # Local environment variables. Never committed.
 .env
