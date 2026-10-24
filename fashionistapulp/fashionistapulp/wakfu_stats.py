@@ -104,3 +104,11 @@ def stats_of_kind(kind):
 
 def is_known(key):
     return key in WAKFU_STATS
+
+# Stats a line spread over N elements may land on
+SPREAD_FAMILIES = {
+    'dmg_in_percent': ('dmg_fire_percent', 'dmg_water_percent',
+                       'dmg_earth_percent', 'dmg_air_percent'),
+    'res_in_percent': ('res_fire_percent', 'res_water_percent',
+                       'res_earth_percent', 'res_air_percent'),
+}

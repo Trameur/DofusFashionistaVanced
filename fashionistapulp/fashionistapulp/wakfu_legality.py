@@ -19,10 +19,11 @@
 import collections
 
 from .game_versions import get_game_version
-from . import wakfu_aptitudes, wakfu_companions, wakfu_criteria, wakfu_runes
+from . import (wakfu_aptitudes, wakfu_companions, wakfu_criteria, wakfu_runes,
+               wakfu_sublimations)
 from .wakfu_slots import (BLOCKED_BY_TWO_HANDED, EXCLUSIVE_PROPERTIES,
                           SOLVED_SLOTS, TWO_HANDED_FLAG)
-from .wakfu_stats import OUT_OF_COMBAT_CAPS
+from .wakfu_stats import OUT_OF_COMBAT_CAPS, SPREAD_FAMILIES
 
 UNKNOWN = 'unknown item'
 SLOT = 'slot'
@@ -52,6 +53,23 @@ RUNE_UNKNOWN = 'unknown rune'
 RUNE_SOCKET = 'rune socket'
 RUNE_COLOUR = 'rune colour'
 RUNE_TIER = 'rune tier'
+SUBLIMATION_UNKNOWN = 'unknown sublimation'
+SUBLIMATION_SOCKETS = 'sublimation without sockets'
+SUBLIMATION_PATTERN = 'sublimation pattern'
+SUBLIMATION_PER_ITEM = 'two sublimations on one item'
+SUBLIMATION_RARITY = 'special sublimation rarity'
+RELIC_SUBLIMATION = 'one relic sublimation'
+EPIC_SUBLIMATION = 'one epic sublimation'
+STACK = 'stack over its cap'
+STATE_CONDITION = 'state condition'
+PASSIVE_UNKNOWN = 'unknown passive'
+PASSIVE_CLASS = 'passive of another class'
+PASSIVE_LEVEL = 'passive level'
+PASSIVE_SLOTS = 'passive slots'
+PASSIVE_TWICE = 'passive twice'
+ORDER = 'state order'
+
+WEAPON_POSITIONS = ('FIRST_WEAPON', 'SECOND_WEAPON')
 
 EXCLUSIVE_FLAGS = tuple(EXCLUSIVE_PROPERTIES.values())
 
@@ -236,9 +254,293 @@ def rune_violations(structure, held, runes, rune_tier=None):
     return found
 
 
+def _by_position(given):
+    """{position: [ids]} of a mapping whose values may be one id or several."""
+    out = collections.defaultdict(list)
+    for position, held in (given.items() if hasattr(given, 'items') else (given or ())):
+        if isinstance(held, (list, tuple, set, frozenset)):
+            out[position].extend(held)
+        else:
+            out[position].append(held)
+    return out
+
+
+def _rendered_colours(sockets):
+    """The colours of the sockets of a piece, in order, filled or not."""
+    return [socket.colour if isinstance(socket, wakfu_runes.Socket) else tuple(socket)[0]
+            for socket in sockets or ()]
+
+
+def _placed(block, ident, normal, found):
+    """The block row of a chosen sublimation, or None after reporting why it cannot be."""
+    row = block.SUBLIMATIONS.get(ident) if block else None
+    if row is None:
+        found.append((SUBLIMATION_UNKNOWN,
+                      'sublimation %r is not in the client tables' % (ident,)))
+        return None
+    if (row[2] == wakfu_sublimations.KIND_NORMAL) != normal:
+        found.append((SUBLIMATION_UNKNOWN, 'sublimation %r is a %s one, given as a %s one'
+                      % (ident, row[2], 'normal' if normal else 'special')))
+        return None
+    return row
+
+
+def sublimation_violations(held, sublimations, specials, runes):
+    """[(rule, text)] of the sublimations of a set; held: {position: [worn items]}.
+
+    sublimations and specials: {position: sublimation item id, or several}. A normal
+    sublimation needs sockets in the pattern's colours, one per piece; a relic or epic one
+    needs a piece of the matching rarity, one per piece and one of each kind in the set.
+    """
+    found = []
+    block = wakfu_sublimations.load()
+    normals = _by_position(sublimations)
+    special = _by_position(specials)
+    kinds = collections.Counter()
+    for position in sorted(set(normals) | set(special)):
+        items = held.get(position)
+        piece = items[0] if items else None
+        for normal, ids in ((True, normals.get(position, [])),
+                            (False, special.get(position, []))):
+            if len(ids) > 1:
+                found.append((SUBLIMATION_PER_ITEM, '%d %s sublimations sit in %s, one at '
+                              'most' % (len(ids), 'normal' if normal else 'special',
+                                        position)))
+            for ident in ids:
+                row = _placed(block, ident, normal, found)
+                if row is None:
+                    continue
+                if piece is None:
+                    found.append((SUBLIMATION_SOCKETS, 'sublimation %d sits in %s, where '
+                                  'nothing is worn' % (ident, position)))
+                    continue
+                _state, _level, kind, pattern = row
+                if normal:
+                    found.extend(_pattern_violations(
+                        ident, pattern, piece, position, (runes or {}).get(position)))
+                    continue
+                kinds[kind] += 1
+                if wakfu_sublimations.special_kind(piece) != kind:
+                    found.append((SUBLIMATION_RARITY, '%s sublimation %d sits on %s in %s, '
+                                  'of rarity %r' % (kind, ident, piece.name, position,
+                                                    getattr(piece, 'rarity', None))))
+    if kinds[wakfu_sublimations.KIND_RELIC] > 1:
+        found.append((RELIC_SUBLIMATION, '%d relic sublimations are worn'
+                      % kinds[wakfu_sublimations.KIND_RELIC]))
+    if kinds[wakfu_sublimations.KIND_EPIC] > 1:
+        found.append((EPIC_SUBLIMATION, '%d epic sublimations are worn'
+                      % kinds[wakfu_sublimations.KIND_EPIC]))
+    return found
+
+
+def _pattern_violations(ident, pattern, piece, position, sockets):
+    sockets_held = wakfu_runes.sockets_of(piece)
+    if sockets_held < len(pattern):
+        return [(SUBLIMATION_SOCKETS, 'sublimation %d needs %d sockets, %s in %s has %d '
+                 'at most' % (ident, len(pattern), piece.name, position, sockets_held))]
+    if not wakfu_sublimations.pattern_fits(pattern, _rendered_colours(sockets)):
+        return [(SUBLIMATION_PATTERN, 'sublimation %d (pattern %s) does not fit the sockets '
+                 'of %s in %s' % (ident, '-'.join(map(str, pattern)), piece.name, position))]
+    return []
+
+
+def passive_violations(level, class_id, passives):
+    """[(rule, text)] of the passives chosen: known, of the class, unlocked, in the slots."""
+    found = []
+    block = wakfu_sublimations.load()
+    chosen = collections.Counter(passives or ())
+    for ident, times in sorted(chosen.items()):
+        if times > 1:
+            found.append((PASSIVE_TWICE, 'passive %r is chosen %d times' % (ident, times)))
+        entry = block.PASSIVES.get(ident) if block else None
+        if entry is None:
+            found.append((PASSIVE_UNKNOWN,
+                          'passive %r is not in the client tables' % (ident,)))
+        elif class_id is None or entry['breed'] != class_id:
+            found.append((PASSIVE_CLASS, 'passive %d (%s) belongs to breed %d, not to %s'
+                          % (ident, entry['name'], entry['breed'],
+                             'a build with no class' if class_id is None
+                             else 'breed %d' % class_id)))
+        elif entry['unlock'] > level:
+            found.append((PASSIVE_LEVEL, 'passive %d (%s) unlocks at level %d, above the '
+                          'build level %d' % (ident, entry['name'], entry['unlock'], level)))
+    if len(chosen) > wakfu_sublimations.slots_open(level):
+        found.append((PASSIVE_SLOTS, '%d passives are chosen, level %d opens %d slots'
+                      % (len(chosen), level, wakfu_sublimations.slots_open(level))))
+    return found
+
+
+def _state_entry(block, key):
+    if isinstance(key, tuple):
+        return block.PASSIVES.get(key[1])
+    return block.STATES.get(key)
+
+
+def state_violations(reported, computed):
+    """[(rule, text)] where a reported state differs from the one the checker computed.
+
+    reported, computed: {state: StateReport}. A reported level must equal the cap-held sum
+    of the levels chosen, a state with guards must give the lines its conditions allow
+    on the checker's sheet totals, in both directions, and a state the checker computes
+    must be reported.
+    """
+    found = []
+    block = wakfu_sublimations.load()
+    for key, report in sorted((reported or {}).items(), key=lambda one: str(one[0])):
+        mine = computed.get(key)
+        entry = _state_entry(block, key) if block else None
+        cap = entry.get('cap') if entry else report.cap
+        held = wakfu_sublimations.counted_level([report.summed], cap)
+        if mine is None or report.counted != held or report.counted != mine.counted:
+            found.append((STACK, 'state %s is counted at level %r, its sources give %r '
+                          'under the cap %r' % (key, report.counted,
+                                                mine.counted if mine else 0, cap)))
+        elif dict(report.lines) != dict(mine.lines) and entry is not None and any(
+                guards for *_head, guards in list(entry['lines']) + list(entry['conversions'])):
+            found.append((STATE_CONDITION, 'state %s gives %r, its conditions give %r'
+                          % (key, dict(report.lines), dict(mine.lines))))
+    if reported:
+        for key in sorted(set(computed) - set(reported), key=str):
+            found.append((STACK, 'state %s is chosen and counted at level %r, but not '
+                          'reported' % (key, computed[key].counted)))
+    return found
+
+
+def _gear_totals(structure, wearing, read, spread=None):
+    """Counter {stat key: total} of the lines of the worn pieces.
+
+    spread: {stat key: total} the lines spread over elements landed on, as the solver chose
+    them; each such line then counts on those elements and not on its generic stat.
+    """
+    totals = collections.Counter()
+    for item in wearing:
+        for stat_id, value in wakfu_companions.lines_at(item, read.get(item.id)):
+            stat = structure.get_stat_by_id(stat_id)
+            if stat is not None:
+                totals[stat.key] += value
+        if spread is not None:
+            for stat_id, value, _elements in getattr(item, 'element_spread', None) or ():
+                stat = structure.get_stat_by_id(stat_id)
+                if stat is not None and stat.key in SPREAD_FAMILIES:
+                    totals[stat.key] -= value
+    if spread is not None:
+        totals.update(spread)
+    return totals
+
+
+def _sheet_lines(structure, level, wearing, held, aptitudes, battleground, runes):
+    """(Counter of the aptitude, set tier and rune lines, tier reader, lines by position)."""
+    lines = _aptitude_lines(structure, level, aptitudes, battleground)
+    tiers = _tier_reader(structure, level, battleground)
+    lines.update(tiers({item.id for item in wearing}) if tiers else {})
+    rune_lines = wakfu_runes.position_lines(
+        structure, {position: items[0] for position, items in held.items()}, runes)
+    for one in rune_lines.values():
+        lines.update(one)
+    return lines, tiers, rune_lines
+
+
+def _fights(structure, level, class_id, pairs, extra, sublimations, specials, passives,
+            opt_in):
+    """{breed: (Counter of the fight lines, {state: StateReport})} of the chosen sources.
+
+    extra: Counter of the sheet totals the base values are added to. With no class every
+    breed is read. Gear states count whenever a sublimation or passive argument is given.
+    """
+    block = wakfu_sublimations.load()
+    if block is None:
+        return {}
+    choices = [(wakfu_sublimations.SUBLIMATION, ident)
+               for given in (sublimations, specials)
+               for ids in _by_position(given).values() for ident in ids]
+    choices += [(wakfu_sublimations.GEAR, item.id) for _position, item in pairs
+                if item.id in block.GEAR_STATES]
+    choices += [(wakfu_sublimations.PASSIVE, ident) for ident in sorted(set(passives or ()))]
+    bases = structure.get_breed_base_values()
+    weapon_types = {item.type for position, item in pairs if position in WEAPON_POSITIONS}
+    out = {}
+    for breed in ([class_id] if class_id is not None else sorted(bases)):
+        totals = collections.Counter(bases.get(breed, {}))
+        totals.update(extra)
+        lines, reports = wakfu_sublimations.fight_lines(
+            choices, totals, level, breed, opt_in, weapon_types)
+        out[breed] = (collections.Counter(lines), reports)
+    return out
+
+
+def warnings(structure, level, worn, class_id=None, aptitudes=None, battleground=False,
+             levels=None, runes=None, sublimations=None, specials=None, passives=None,
+             opt_in=None, spread=None):
+    """[(ORDER, text)] where another counted line on a key could flip a state condition.
+
+    The client runs a condition when the start-of-combat trigger fires, and which other
+    start-of-combat effects ran first is not known; the checker reads the sheet totals. A
+    warning is never a violation. The arguments are those of violations.
+    """
+    if runes is None:
+        runes = getattr(worn, 'runes', None)
+    if sublimations is None:
+        sublimations = getattr(worn, 'sublimation_ids', None)
+    if specials is None:
+        specials = getattr(worn, 'special_ids', None)
+    if passives is None:
+        passives = getattr(worn, 'passives', None)
+    if opt_in is None:
+        opt_in = getattr(worn, 'opt_in', None)
+    if spread is None:
+        spread = getattr(worn, 'spread_landing', None)
+    block = wakfu_sublimations.load()
+    if block is None or (sublimations is None and specials is None and passives is None):
+        return []
+    pairs = []
+    for position, given in _pairs(worn):
+        item = structure.get_item_by_id(given.id)
+        if item is not None:
+            pairs.append((position, item))
+    held = collections.defaultdict(list)
+    for position, item in pairs:
+        held[position].append(item)
+    wearing = [item for _position, item in pairs]
+    read, _bad = companion_levels(pairs, levels)
+    lines, _tiers, _rune_lines = _sheet_lines(
+        structure, level, wearing, held, aptitudes, battleground, runes)
+    extra = _gear_totals(structure, wearing, read, spread)
+    extra.update(lines)
+    fights = _fights(structure, level, class_id, pairs, extra, sublimations, specials,
+                     passives, opt_in)
+    weapon_types = {item.type for position, item in pairs if position in WEAPON_POSITIONS}
+    bases = structure.get_breed_base_values()
+    found = []
+    for breed, (fight, reports) in sorted(fights.items()):
+        totals = collections.Counter(bases.get(breed, {}))
+        totals.update(extra)
+        for key, report in sorted(reports.items(), key=lambda one: str(one[0])):
+            entry = _state_entry(block, key)
+            others = collections.Counter(fight)
+            others.subtract(report.lines)
+            others = {name: value for name, value in others.items() if value}
+            if not entry or not entry['conditions'] or not others:
+                continue
+            after = collections.Counter(totals)
+            after.update(others)
+            before = wakfu_sublimations.condition_holds(
+                entry['conditions'], totals, level, breed, weapon_types)
+            then = wakfu_sublimations.condition_holds(
+                entry['conditions'], after, level, breed, weapon_types)
+            for index, (now, later) in enumerate(zip(before, then)):
+                text = 'state %s: condition %d reads %s on the sheet, and another counted ' \
+                       'line on %s would make it %s' % (
+                           key, index, 'true' if now else 'false', ', '.join(sorted(others)),
+                           'true' if later else 'false')
+                if now != later and (ORDER, text) not in found:
+                    found.append((ORDER, text))
+    return found
+
+
 def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
                class_id=None, state=None, aptitudes=None, battleground=False,
-               levels=None, runes=None, rune_tier=None):
+               levels=None, runes=None, rune_tier=None, sublimations=None,
+               specials=None, passives=None, opt_in=None, states=None, spread=None):
     """[(rule, text)] of every rule a set breaks; an empty list is a legal set.
 
     worn: {position: item}, or an iterable of (position, item); a position
@@ -253,13 +555,32 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
     gives it; a leveled item missing from it is read at its cap. runes:
     {position: iterable of (colour, rune id, tier)}, WakfuSet.runes when it is None;
     their lines count in every total checked. rune_tier: the highest tier a socket
-    may hold.
+    may hold. sublimations, specials: {position: sublimation item id} of the normal and of
+    the relic or epic sublimations, passives: [spell id], opt_in: {family: rate}, states:
+    {state: StateReport} as the solver reports it; each is read from the WakfuSet when it
+    is None. With none of the first three the set has no sublimation part, and the fight
+    totals are the sheet totals. The caps read the sheet totals, the minimums the fight
+    totals, the item conditions both. spread: {stat key: total} the lines spread over
+    elements landed on, WakfuSet.spread_landing when it is None; the states then read them
+    on the elements, as the solver does, and None reads them on their generic stat.
     """
     rules = _Rules(structure)
     found = []
     pairs = []
     if runes is None:
         runes = getattr(worn, 'runes', None)
+    if sublimations is None:
+        sublimations = getattr(worn, 'sublimation_ids', None)
+    if specials is None:
+        specials = getattr(worn, 'special_ids', None)
+    if passives is None:
+        passives = getattr(worn, 'passives', None)
+    if opt_in is None:
+        opt_in = getattr(worn, 'opt_in', None)
+    if states is None:
+        states = getattr(worn, 'states', None)
+    if spread is None:
+        spread = getattr(worn, 'spread_landing', None)
     # Every field is read from the catalogue, never from the object passed in
     for position, given in _pairs(worn):
         item = structure.get_item_by_id(given.id)
@@ -326,13 +647,25 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
 
     found.extend(aptitude_violations(structure, level, aptitudes))
     found.extend(rune_violations(structure, held, runes, rune_tier))
-    lines = _aptitude_lines(structure, level, aptitudes, battleground)
-    tiers = _tier_reader(structure, level, battleground)
-    lines.update(tiers({item.id for item in wearing}) if tiers else {})
-    rune_lines = wakfu_runes.position_lines(
-        structure, {position: items[0] for position, items in held.items()}, runes)
-    for one in rune_lines.values():
-        lines.update(one)
+    if sublimations is not None or specials is not None:
+        found.extend(sublimation_violations(held, sublimations, specials, runes))
+    if passives is not None:
+        found.extend(passive_violations(level, class_id, passives))
+    lines, tiers, rune_lines = _sheet_lines(
+        structure, level, wearing, held, aptitudes, battleground, runes)
+
+    fights = {}
+    if sublimations is not None or specials is not None or passives is not None:
+        extra = _gear_totals(structure, wearing, read, spread)
+        extra.update(lines)
+        fights = _fights(structure, level, class_id, pairs, extra, sublimations, specials,
+                         passives, opt_in)
+    if states:
+        verdicts = [state_violations(states, reports) for _fight, reports in fights.values()]
+        if not verdicts:
+            verdicts = [state_violations(states, {})]
+        if all(verdicts):
+            found.extend(verdicts[0])
 
     base = wakfu_criteria.base_values(structure, class_id)
     for name, cap in OUT_OF_COMBAT_CAPS.items():
@@ -344,6 +677,10 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
     for key, lowest in sorted((minimums or {}).items()):
         total = (base.get(key, (0, 0))[0] + rules.stat_total(wearing, key, read)
                  + lines[key])
+        if fights:
+            bases = structure.get_breed_base_values()
+            total = min(bases.get(breed, {}).get(key, 0) + rules.stat_total(wearing, key, read)
+                        + lines[key] + fight[key] for breed, (fight, _r) in fights.items())
         if total < lowest:
             found.append((MINIMUM, '%s is %d, under the minimum of %d'
                           % (key, total, lowest)))
@@ -352,6 +689,13 @@ def violations(structure, level, worn, forbidden=(), locked=(), minimums=None,
         structure, pairs, level, class_id, state or wakfu_criteria.start_state(),
         _aptitude_lines(structure, level, aptitudes, battleground), tiers, read,
         rune_lines))
+    if any(fight for fight, _reports in fights.values()):
+        seen = set(found)
+        found.extend(one for one in _conditions(
+            structure, pairs, level, class_id, state or wakfu_criteria.start_state(),
+            _aptitude_lines(structure, level, aptitudes, battleground), tiers, read,
+            rune_lines, {breed: fight for breed, (fight, _r) in fights.items()})
+            if one not in seen)
     return found
 
 
@@ -391,7 +735,7 @@ def _rule_of(node):
 
 
 def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None,
-                levels=None, runes=None):
+                levels=None, runes=None, fights=None):
     """Each worn piece's own EQUIP text, judged with and without the piece.
 
     lines: Counter of the aptitude lines. tiers: item ids worn -> Counter of
@@ -399,6 +743,7 @@ def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None
     levels: {item id: level} each piece is read at, as companion_levels gives it.
     runes: {position: Counter of the lines its runes give}, which belong to the piece
     worn there, so the reading without a piece leaves them out too.
+    fights: {breed: Counter} of the fight lines, which the second reading adds to the sheet.
     """
     bases = structure.get_breed_base_values()
     names = structure.get_breed_names()
@@ -431,6 +776,7 @@ def _conditions(structure, pairs, level, class_id, state, lines=None, tiers=None
                 totals = collections.Counter(bases.get(breed, {}))
                 totals.update(sums)
                 totals.update(lines or {})
+                totals.update((fights or {}).get(breed, {}))
                 if without:
                     totals.subtract(owns[index])
                     totals.update(tiers(others) if tiers else {})
