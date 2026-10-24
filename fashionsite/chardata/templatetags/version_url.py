@@ -1,5 +1,7 @@
 from django import template
+from django.conf import settings
 from django.urls import resolve, reverse, NoReverseMatch, Resolver404
+from django.utils import translation
 
 register = template.Library()
 
@@ -10,6 +12,22 @@ def _resolves(path):
         return True
     except Resolver404:
         return False
+
+
+def _resolves_in_its_language(path):
+    """Whether a path resolves under the language its prefix names."""
+    from chardata.url_language import split_language_prefix
+    language_prefix, _rest = split_language_prefix(path)
+    with translation.override(language_prefix.lstrip('/') or settings.LANGUAGE_CODE):
+        return _resolves(path)
+
+
+def _hub_or_home(prefix, version_prefix, hub):
+    """The hub when that version serves it, else that version's home."""
+    candidate = prefix + version_prefix + hub
+    if hub == '/' or _resolves_in_its_language(candidate):
+        return candidate
+    return prefix + version_prefix + '/'
 
 
 @register.simple_tag(takes_context=True)
@@ -65,7 +83,7 @@ def version_switch_href(context, version_key):
         if _resolves(candidate):
             return candidate
         hub = '/encyclopedia/' if base_path.startswith('/encyclopedia/') else '/'
-        return prefix + version_prefix + hub
+        return _hub_or_home(prefix, version_prefix, hub)
     labels = dict(context.get('active_game_versions') or ())
     wanted_label = labels.get(version_key)
     for entry in (list(context.get('other_versions') or ())
@@ -76,4 +94,4 @@ def version_switch_href(context, version_key):
         if key == version_key and entry.get('url'):
             # The slug names the language, a prefixed entity address redirects
             return entry['url']
-    return prefix + version_prefix + '/encyclopedia/'
+    return _hub_or_home(prefix, version_prefix, '/encyclopedia/')

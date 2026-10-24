@@ -7,6 +7,8 @@ from django.db.models import Sum
 
 from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
 
+from chardata.served_versions import served_versions, version_by_prefix
+
 logger = logging.getLogger(__name__)
 
 
@@ -47,18 +49,21 @@ def site_stats(request):
 ACTIVE_GAME_VERSIONS = [(key, GAME_VERSIONS[key].label)
                         for key in version_keys()]
 
-_GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
+
+def switcher_versions():
+    """(key, label) of the versions the header switcher lists."""
+    return [(key, GAME_VERSIONS[key].label) for key in served_versions()]
+
 
 # Word between "Dofus" and "Fashionista" in SEO titles, empty on dofus3
-_GAME_VERSION_SEO_WORDS = {
-    'dofus3': '',
-    'beta': '3 Beta',
-    'dofus2': '2',
-    'retro': 'Retro',
-    'touch': 'Touch',
-}
+_GAME_VERSION_SEO_WORDS = {key: GAME_VERSIONS[key].seo_word
+                           for key in version_keys() if GAME_VERSIONS[key].dofus}
 
-_VERSION_PREFIXES = ('beta/', 'dofus2/', 'retro/', 'touch/')
+
+def _version_prefixes():
+    return tuple(prefix + '/' for prefix in version_by_prefix())
+
+
 _CHAR_ID_RE = re.compile(r'/\d+/')
 # Shared build pages carry an encoded char id that _CHAR_ID_RE misses
 _LINKED_PREFIXES = ('s/', 'spells_linked/')
@@ -83,7 +88,7 @@ def game_version(request):
     base_path = path
     stripped = path.lstrip('/')
     gv = getattr(request, 'game_version', 'dofus3')
-    for prefix in _VERSION_PREFIXES:
+    for prefix in _version_prefixes():
         if stripped.startswith(prefix):
             base_path = '/' + stripped[len(prefix):]
             break
@@ -100,10 +105,11 @@ def game_version(request):
 
     return {
         'current_game_version': gv,
-        'current_game_version_label': _GAME_VERSION_LABELS.get(gv, 'Dofus 3'),
+        'current_game_version_label': (GAME_VERSIONS[gv].label
+                                       if gv in GAME_VERSIONS else 'Dofus 3'),
         'current_game_version_seo': _GAME_VERSION_SEO_WORDS.get(gv, ''),
         'game_band': band_version(gv),
-        'active_game_versions': ACTIVE_GAME_VERSIONS,
+        'active_game_versions': switcher_versions(),
         'version_switch_language_prefix': language_prefix,
         'version_switch_base_path': base_path,
         'version_switch_is_entity': bool(
@@ -158,6 +164,9 @@ def ad_config():
 
 
 def ads(request):
+    known = GAME_VERSIONS.get(getattr(request, 'game_version', 'dofus3'))
+    if known is not None and not known.dofus:
+        return {'ads_allowed': False, 'ads_enabled': False, 'ad_slots': {}}
     config = ad_config()
     if not config.get('enabled', True):
         return {'ads_allowed': False, 'ads_enabled': False, 'ad_slots': {}}

@@ -590,8 +590,18 @@ def _sitemap_pages(base_url):
                           ('/import/text/', '0.6')):
             blocks.append(_sitemap_url(vbase + sub, 'weekly', prio))
 
+    from fashionistapulp.game_versions import GAME_VERSIONS
+    if settings.EXPERIMENTS.get('WAKFU'):
+        from chardata import wakfu_urls
+        wakfu_prefix = GAME_VERSIONS['wakfu'].prefix
+        for language_prefix in [''] + ['/' + language for language in _SITEMAP_LANGUAGES]:
+            for sub in wakfu_urls.SITEMAP_PATHS:
+                blocks.append(_sitemap_url(
+                    '%s%s/%s%s' % (base_url, language_prefix, wakfu_prefix, sub),
+                    'weekly', '0.6'))
+
     # Class pages with enough builds, once per version and language
-    from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
+    from fashionistapulp.game_versions import version_keys
     try:
         for version_slug in version_keys():
             prefix = GAME_VERSIONS[version_slug].prefix
@@ -987,6 +997,12 @@ urlpatterns += i18n_patterns(
     path('touch/', include(_game_urls, namespace='touch')),
     prefix_default_language=False,
 )
+
+if settings.EXPERIMENTS.get('WAKFU'):
+    urlpatterns += i18n_patterns(
+        path('wakfu/', include(('chardata.wakfu_urls', 'wakfu'), namespace='wakfu')),
+        prefix_default_language=False,
+    )
 
 handler403 = views.forbidden
 handler404 = views.not_found

@@ -9545,6 +9545,19 @@ msgstr "SIL Open Font License, versión 1.1"
 msgid "The fonts are hosted on this site, so your browser asks no other server for them."
 msgstr "Las tipografías están alojadas en este sitio, así que tu navegador no se las pide a ningún otro servidor."
 
+#: chardata/templates/chardata/wakfu/base.html
+#: chardata/templates/chardata/wakfu/home.html
+msgid "Wakfu Build Optimizer"
+msgstr "Optimizador de builds de Wakfu"
+
+#: chardata/templates/chardata/wakfu/base.html
+msgid "The Fashionista is coming to Wakfu: item encyclopedia first, then the build optimizer."
+msgstr "El Fashionista llega a Wakfu: primero la enciclopedia de objetos, luego el optimizador de builds."
+
+#: chardata/templates/chardata/wakfu/home.html
+msgid "This part of the site is being built: its pages open here as they are finished."
+msgstr "Esta parte del sitio está en construcción: sus páginas se abren aquí a medida que se terminan."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este juego no tiene exos: se quedan fuera."
 

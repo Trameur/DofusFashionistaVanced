@@ -29,7 +29,7 @@
     {% capture as page_title %}{% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista{% endblock %}{% endcapture %}{% capture as page_description %}{% block meta_description %}{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Get Dofus {{ version }} sets created automatically, based on your specific needs.{% endblocktrans %}{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}{% endcapture %}
     <meta name="description" content="{{ page_description }}">
     <meta name="author" content="Dofus Fashionista">
-    <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
+    {% block meta_keywords %}<meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">{% endblock %}
     <meta name="robots" content="{% block meta_robots %}{% if noindex %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}">
     {# canonical_path: the page's own address, also read by the hreflang guard #}
     {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% if canonical_path %}{{ canonical_path }}{% else %}{{ request.path }}{% endif %}">{% endblock %}
@@ -232,9 +232,9 @@
           {% endif %}
         </div>
         <script>(function(){if(document.documentElement.classList.contains('fm-modern'))return;var i=document.querySelector('.banner img[data-fm-src]');if(i)i.src=i.getAttribute('data-fm-src');})();</script>
-        <div class="char-overlay" style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
+        {% block char_overlay %}<div class="char-overlay" style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
           <a href="{% game_url 'home' %}" aria-label="{% trans 'Home' %}"><img class='char' src="{% static pic %}" alt=""></a>
-        </div>
+        </div>{% endblock %}
         
         
         <div class='space header-controls'><button type="button" class="fm-design-toggle" onclick="fmToggleDesign()" title="{% trans 'Switch between the classic and new design' %}"><span class="mi mi-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.4 4 1.6 5.2 5.6 5.6-4 .4-5.2 1.6-5.6 5.6-.4-4-1.6-5.2-5.6-5.6C10.4 8.2 11.6 7 12 3z"/><path d="M18.5 14.5c.2 1.6.7 2.1 2.3 2.3-1.6.2-2.1.7-2.3 2.3-.2-1.6-.7-2.1-2.3-2.3 1.6-.2 2.1-.7 2.3-2.3z"/></svg></span> <span class="fm-design-label">{% trans "New look" %}</span></button>
@@ -283,7 +283,7 @@
               <div><a class="menu_link menu_link_top menu_link_bottom" href="{% url 'admin_tools' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.2-3 7.4-7 8.5-4-1.1-7-4.3-7-8.5V6z"/></svg></span>Admin tools</a></div>
           </div>
           {% endif %}
-              <div class="space"></div>
+              {% block game_menu %}<div class="space"></div>
           <div class="mini-menu">    
               <div>
                 <a class="menu_link menu_link_top" href="{% game_url 'setup' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 9v6"/><path d="M9 12h6"/></svg></span>{% trans "Create a build" %}</a>
@@ -396,10 +396,10 @@
               </div>
 
     {% endif %}
-           </div>
+           </div>{% endblock %}
            
           <div class="space"></div>
-          {% include "chardata/sidebar-stats.html" %}
+          {% block sidebar_stats %}{% include "chardata/sidebar-stats.html" %}{% endblock %}
         </div>
 
         <div class="maincolumn" role="main" id="main-content">
@@ -420,7 +420,7 @@
                 {# 2012 is the lineage of the original tool; the About page tells the story #}
                 <a class="footer-heritage" href="{% game_url 'about' %}#how-its-made">{% trans "Dofus Fashionista, set optimization since 2012" %}</a>
                 <br>
-                {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
+                {% if SITE_VERSION %}{% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}{% endif %}
                 <br>
                 <!-- General Site Links -->
                 {# changelog.js hides the mark once the reader opened this key #}
