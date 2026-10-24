@@ -54,3 +54,6 @@ webencodings==0.6.1
 # Windows: `manage.py test --parallel` needs tblib to pass the worker
 # tracebacks back.
 tblib==3.2.2
+
+# The translation tests and the .po scripts read the catalogues with polib.
+polib==1.2.0
