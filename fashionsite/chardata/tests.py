@@ -11911,14 +11911,16 @@ class RobotsTxtTests(TestCase):
         _, body = self._parser()
         self.assertIn('Sitemap: https://dofusfashionista.gg/sitemap.xml', body)
 
-    # Same list as Cloudflare's managed robots.txt
     TRAINING_CRAWLERS = ('Amazonbot', 'Applebot-Extended', 'Bytespider',
                          'CCBot', 'ClaudeBot', 'Google-Extended', 'GPTBot',
-                         'meta-externalagent')
+                         'KimiBot', 'meta-externalagent', 'Reflectionbot')
 
-    # Fetch pages on a reader's request
-    READER_ASSISTANTS = ('ChatGPT-User', 'Claude-User', 'PerplexityBot',
-                         'OAI-SearchBot')
+    BACKLINK_INDEXES = ('DotBot', 'MJ12bot')
+
+    # Fetch pages on a reader's request, or index them for an AI search that links back
+    READER_ASSISTANTS = ('ChatGPT-User', 'Claude-User', 'Perplexity-User',
+                         'PerplexityBot', 'OAI-SearchBot', 'Claude-SearchBot',
+                         'Kimi-SearchBot')
 
     def test_training_crawlers_are_blocked(self):
         p, _ = self._parser()
@@ -11926,6 +11928,13 @@ class RobotsTxtTests(TestCase):
             self.assertFalse(
                 p.can_fetch(agent, '/encyclopedia/item/equipment/44-x/'),
                 'robots.txt must block the training crawler %s' % agent)
+
+    def test_backlink_indexes_are_blocked(self):
+        p, _ = self._parser()
+        for agent in self.BACKLINK_INDEXES:
+            self.assertFalse(
+                p.can_fetch(agent, '/encyclopedia/item/equipment/44-x/'),
+                'robots.txt must block the backlink index %s' % agent)
 
     def test_reader_assistants_stay_welcome(self):
         p, _ = self._parser()

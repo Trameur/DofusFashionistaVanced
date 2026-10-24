@@ -5,16 +5,11 @@ Allow: /
 # Crawlers that collect content to train AI models. Blocking them is a
 # deliberate choice: the reader gets nothing back when a model is trained on
 # this catalogue, unlike a search engine that sends visitors here.
+# The list lives here rather than in Cloudflare so that both hostnames serve it.
 #
-# Cloudflare's managed robots.txt used to prepend exactly this list. It only
-# reached the apex, so www.dofusfashionista.gg answered with the managed stub
-# alone -- nine rules and Allow: / -- and every rule below went unseen by any
-# crawler that arrived there. Keeping the list in this file makes the answer
-# the same on both hostnames, and puts it under review like the rest.
-#
-# Assistants that fetch a page because a reader asked for it (ChatGPT-User,
-# Claude-User, PerplexityBot, OAI-SearchBot) are deliberately absent: those
-# send readers back, and blocking them would cost visits.
+# Assistants that fetch a page for a reader (ChatGPT-User, Claude-User,
+# Perplexity-User) and AI search indexers that link back (OAI-SearchBot,
+# Claude-SearchBot, PerplexityBot) are deliberately absent.
 
 User-agent: Amazonbot
 Disallow: /
@@ -40,7 +35,20 @@ Disallow: /
 User-agent: GPTBot
 Disallow: /
 
+User-agent: KimiBot
+Disallow: /
+
 User-agent: meta-externalagent
+Disallow: /
+
+User-agent: Reflectionbot
+Disallow: /
+
+# Backlink indexes for SEO tools: no reader comes from them.
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
 Disallow: /
 
 User-agent: *
