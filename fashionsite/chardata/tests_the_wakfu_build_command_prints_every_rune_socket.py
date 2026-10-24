@@ -73,7 +73,7 @@ class TheWakfuBuildCommandPrintsEveryRuneSocketTests(SimpleTestCase):
 
     def test_the_none_mode_prints_no_socket_and_the_left_out_line_says_why(self):
         lines = self.run_command('--level', '20', '--elements', 'fire', '--reach', 'distance',
-                                 '--runes', 'none')
+                                 '--runes', 'none', '--sublimations', 'none')
         self.assertEqual([], self.sockets(lines))
         self.assertFalse([line for line in lines if line.startswith('  runes (')])
         left_out = [line for line in lines

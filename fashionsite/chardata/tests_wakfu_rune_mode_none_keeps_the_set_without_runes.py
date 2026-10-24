@@ -97,7 +97,7 @@ class TheRuneModeNoneKeepsTheSetWithoutRunesTests(ARuneCase):
                             for socket in sockets))
         none = wakfu_solve.solve_build(self.structure, level=LEVEL, elements=('fire',),
                                        reach='melee', seconds=60, allow_legacy=True,
-                                       runes='none')
+                                       runes='none', sublimations='none')
         self.assertEqual({}, dict(none.runes))
         self.assertGreaterEqual(result.value, none.value)
 
@@ -111,7 +111,7 @@ class TwoRoundsThatDifferOnlyByTheirRunesAreNotSettledTests(ARuneCase):
     def test_the_key_of_a_round_holds_the_runes_with_their_tier_and_count(self):
         _build, worn = self.solve_runes(WEIGHTS)
         round_ = wakfu_value.ModelRound({}, None, worn, {}, 0.0)
-        ids_, points, runes = round_.key
+        ids_, points, runes = round_.key[:3]
         self.assertEqual(round_.ids, ids_)
         self.assertEqual(len(worn.runes), len({position for position, _r, _t, _c in runes}))
         self.assertTrue(all(count == 4 for _p, _r, _t, count in runes))

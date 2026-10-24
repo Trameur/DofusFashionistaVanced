@@ -25,7 +25,7 @@ import contextlib
 import math
 import time
 
-from . import lpproblem, wakfu_runes
+from . import lpproblem, wakfu_runes, wakfu_sublimations
 from .wakfu_criteria import base_values
 from .wakfu_stats import ELEMENTS as ELEMENT_NAMES, OUT_OF_COMBAT_CAPS
 from .wakfu_value_rules import RULES
@@ -44,11 +44,30 @@ REACH_MASTERY = {'distance': 'ranged_dmg', 'melee': 'melee_dmg'}
 MIN_ROUND_SECONDS = 10
 #: Seconds kept back from each CBC run for building the model and reading the answer
 SOLVE_MARGIN_SECONDS = 3
+#: A round whose set is no better stops the loop when the objective it gains over the
+#: incumbent's set is at most this (objective units are percent of the value)
+GAP_TOL = 0.1
+#: Share of the remaining time the first step of a stepwise round may take
+FIRST_STEP_SHARE = 0.6
+#: Share of the remaining time a joint round may take when sublimations or passives are
+#: solved, so that a round which ends on its clock leaves time for the stepwise rounds
+JOINT_SHARE = 0.6
+#: Seconds kept back from the caller's budget for landing the set and reading it
+FINISH_SECONDS = 5
 
 
 def out_of_time(deadline):
     """True when a monotonic deadline leaves too little for another round."""
     return deadline is not None and deadline - time.monotonic() < MIN_ROUND_SECONDS
+
+
+def joint_deadline(deadline, fight):
+    """The monotonic deadline of a joint round: a share of what is left when fight lines are
+    solved, the whole deadline otherwise."""
+    if deadline is None or not fight:
+        return deadline
+    now = time.monotonic()
+    return now + JOINT_SHARE * max(0, deadline - now)
 
 
 @contextlib.contextmanager
@@ -294,8 +313,12 @@ def _damage_weights(role, totals):
 
 
 class ModelRound(collections.namedtuple('ModelRound',
-                                        'weights build worn totals value')):
-    """weights: what the round solved on; build: the landing totals and value use."""
+                                        'weights build worn totals value objective',
+                                        defaults=(None,))):
+    """weights: what the round solved on; build: the landing totals and value use.
+
+    objective: the round's own objective on its set, None where it was not read.
+    """
 
     @property
     def ids(self):
@@ -303,33 +326,52 @@ class ModelRound(collections.namedtuple('ModelRound',
 
     @property
     def key(self):
-        """What a round settled on: the pieces, the aptitude points and the runes."""
+        """What a round settled on: the pieces, the aptitude points, the runes, the
+        sublimations with their positions, the specials and the passives."""
         runes = collections.Counter(
             (position, socket.rune, socket.tier)
             for position, sockets in self.worn.runes.items()
             for socket in sockets if socket.rune is not None)
-        return (self.ids, tuple(sorted(self.worn.aptitudes.items())),
-                tuple(sorted(key + (count,) for key, count in runes.items())))
+        worn = self.worn
+        return (self.ids, tuple(sorted(worn.aptitudes.items())),
+                tuple(sorted(key + (count,) for key, count in runes.items())),
+                tuple(sorted((worn.sublimation_ids or {}).items())),
+                tuple(sorted((worn.special_ids or {}).items())),
+                tuple(sorted(worn.passives or ())))
 
 
 class ModelSolve(collections.namedtuple('ModelSolve', 'rounds best converged')):
     """Every round of a model solve, the best by value, and whether it settled.
 
     reason: why the last round gave no set (wakfu_model.INFEASIBLE or TIME_LIMIT), else None.
-    It is an attribute, so the three fields stay what callers unpack.
+    settled_by: 'key' when a round came back to the incumbent's set, 'gap' when the gap
+    certificate held, None when the loop ran out of rounds or time. gap: the objective a round
+    gained over the incumbent's set on its own objective, the last one read, None before any.
+    They are attributes, so the three fields stay what callers unpack.
     """
 
-    def __new__(cls, rounds, best, converged, reason=None):
+    def __new__(cls, rounds, best, converged, reason=None, settled_by=None, gap=None):
         self = super().__new__(cls, rounds, best, converged)
         self.reason = reason
+        self.settled_by = settled_by
+        self.gap = gap
         return self
 
     def _replace(self, **changes):
+        converged = changes.get('converged', self.converged)
         return type(self)(changes.get('rounds', self.rounds), changes.get('best', self.best),
-                          changes.get('converged', self.converged), self.reason)
+                          converged, self.reason,
+                          changes.get('settled_by', self.settled_by if converged else None),
+                          changes.get('gap', self.gap))
 
 
 LANDING_PASSES = 4
+
+
+def _given(sublimations, passives, opt_in):
+    """The sublimation and passive arguments that are not None; none at all is the plain call."""
+    asked = {'sublimations': sublimations, 'passives': passives, 'opt_in': opt_in}
+    return {name: one for name, one in asked.items() if one is not None}
 
 
 def blend(point, totals, step):
@@ -339,11 +381,12 @@ def blend(point, totals, step):
 
 def land(structure, level, role, build, worn, turn=None, locked=(), class_id=None,
          state=None, aptitudes=None, battleground=False, levels=None,
-         runes=None, rune_tier=None):
+         runes=None, rune_tier=None, sublimations=None, passives=None, opt_in=None):
     """(value, build, totals) of the best landing tried for a set's spread lines.
 
     Each pass lands them on the weights at the totals the pass before gave. The
-    aptitude points and the runes of the set are held as they are, so its totals keep them.
+    aptitude points, the runes, the sublimations and the passives of the set are held as
+    they are, so its totals keep them; the totals are the fight's.
     """
     from .wakfu_model import WakfuBuild
 
@@ -354,6 +397,7 @@ def land(structure, level, role, build, worn, turn=None, locked=(), class_id=Non
         build = WakfuBuild(structure, level, linear_weights(role, level, totals, turn),
                            class_id=class_id, state=state, aptitudes=held,
                            battleground=battleground, runes=runes, rune_tier=rune_tier,
+                           **_given(sublimations, passives, opt_in),
                            **({'locked': locked} if locked else {}),
                            **({'levels': levels} if levels is not None else {}))
         totals = build.totals(worn)
@@ -365,11 +409,16 @@ def land(structure, level, role, build, worn, turn=None, locked=(), class_id=Non
 
 def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=None,
           locked=(), deadline=None, class_id=None, state=None, aptitudes=None,
-          battleground=False, levels=None, runes=wakfu_runes.OPTIMISTIC, rune_tier=None):
-    """Best set by value; each round solves on the tangent at a blend of the sets found.
+          battleground=False, levels=None, runes=wakfu_runes.OPTIMISTIC, rune_tier=None,
+          sublimations=None, passives=None, opt_in=None):
+    """Best set by value; each round solves on the tangent at the best set found so far.
 
-    The blend moves toward each new set by 2/(k+2) of the way, a Frank-Wolfe
-    step, and the rounds stop once a set comes back twice in a row. turn: a
+    The first round linearizes at the bare character and each later one at the totals of
+    the incumbent, the best landed set. The loop stops settled when a round returns the
+    incumbent's set, or when the round's objective on its own set is within GAP_TOL of the
+    incumbent's on the same objective; a round that does not improve and is not within
+    GAP_TOL is followed by one round at the midpoint of the two sets' totals, and the loop
+    stops unsettled when that one does not improve either. turn: a
     wakfu_turn.TurnModel; each round then also prices every AP total by the
     turn at that AP (TurnModel.ap_values) instead of one AP weight. The generic
     model's best set, landed and valued on the turn, is then kept in place of
@@ -381,73 +430,138 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
 
     class_id: the breed, whose pieces and base values count. state: the
     PlayerState the pieces' player-state conditions are read against.
-    aptitudes, battleground, levels, runes and rune_tier: as in
-    wakfu_model.WakfuBuild.
+    aptitudes, battleground, levels, runes, rune_tier, sublimations, passives and opt_in:
+    as in wakfu_model.WakfuBuild. When a joint round ends on its clock, the rounds after it
+    run in two steps and the set they give has the status wakfu_model.STEPWISE.
     """
+    extras = _given(sublimations, passives, opt_in)
     if turn is None:
         return _solve(structure, level, role, forbidden, rounds, full_set,
                       locked=locked, deadline=deadline, class_id=class_id,
                       state=state, aptitudes=aptitudes, battleground=battleground,
-                      levels=levels, runes=runes, rune_tier=rune_tier)
+                      levels=levels, runes=runes, rune_tier=rune_tier, **extras)
     if turn.damage(resource_ceiling(base_values(structure, class_id))) <= 0:
         raise ValueError('the class turn deals no damage for this role, even with '
                          'AP, MP and WP at their caps')
     classed = _solve(structure, level, role, forbidden, rounds, full_set, turn,
                      locked, deadline, class_id, state, aptitudes, battleground,
-                     levels, runes, rune_tier)
+                     levels, runes, rune_tier, **extras)
     if out_of_time(deadline):
         return classed._replace(converged=False)
     generic = _solve(structure, level, role, forbidden, rounds, full_set,
                      locked=locked, deadline=deadline, class_id=class_id,
                      state=state, aptitudes=aptitudes, battleground=battleground,
-                     levels=levels, runes=runes, rune_tier=rune_tier).best
+                     levels=levels, runes=runes, rune_tier=rune_tier, **extras).best
     if generic is None:
         return classed
     worth, landed, totals = land(structure, level, role, generic.build, generic.worn,
                                  turn, locked, class_id, state, aptitudes, battleground,
-                                 levels, runes, rune_tier)
+                                 levels, runes, rune_tier, **extras)
     if classed.best is not None and classed.best.value >= worth:
         return classed
+    if extras:
+        landed.report(generic.worn)
     return classed._replace(
         best=ModelRound(generic.weights, landed, generic.worn, totals, worth))
 
 
 def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
            locked=(), deadline=None, class_id=None, state=None, aptitudes=None,
-           battleground=False, levels=None, runes=None, rune_tier=None):
-    from .wakfu_model import WakfuBuild
+           battleground=False, levels=None, runes=None, rune_tier=None,
+           sublimations=None, passives=None, opt_in=None):
+    from .wakfu_model import TIME_LIMIT, STEPWISE, WakfuBuild
 
     base = base_values(structure, class_id)
     point = bare_totals(base)
     minimums = role.minimums(base)
+    extras = _given(sublimations, passives, opt_in)
+    fight = sublimations is not None or passives is not None
+    # AP the fight lines can take a set past the out-of-combat cap
+    high = None
+    if fight:
+        high = OUT_OF_COMBAT_CAPS['AP'] + int(wakfu_sublimations.most_added(
+            'ap', level if passives == wakfu_sublimations.SOLVE and class_id else None))
     done = []
-    converged = False
+    best = None
+    settled_by = gap = None
+    damped = False
+    stepwise = False
     reason = None
     for number in range(max(1, rounds)):
         if done and out_of_time(deadline):
             break
         weights = linear_weights(role, level, point, turn)
-        options = {} if turn is None else {'ap_values': turn.ap_values(point)}
-        if locked:
-            options['locked'] = locked
+        options = {}
+        if turn is not None:
+            options['ap_values'] = (turn.ap_values(point) if high is None
+                                    else turn.ap_values(point, high))
         if levels is not None:
             options['levels'] = levels
-        build = WakfuBuild(structure, level, weights, forbidden, full_set,
-                           minimums=minimums, class_id=class_id, state=state,
-                           aptitudes=aptitudes, battleground=battleground,
-                           runes=runes, rune_tier=rune_tier, **options)
-        worn = build.build().solve(deadline)
+        common = dict(forbidden=forbidden, full_set=full_set, minimums=minimums,
+                      class_id=class_id, state=state, aptitudes=aptitudes,
+                      battleground=battleground, runes=runes, rune_tier=rune_tier)
+        if stepwise:
+            build, worn = _in_steps(structure, level, weights, common, locked, options,
+                                    extras, best, deadline)
+            if worn is not None:
+                worn.status = STEPWISE
+        else:
+            build = WakfuBuild(structure, level, weights, **common, **extras, **options,
+                               **({'locked': locked} if locked else {}))
+            worn = build.build().solve(joint_deadline(deadline, fight))
         if worn is None:
             reason = getattr(build, 'reason', None)
             break
         worth, landed, totals = land(structure, level, role, build, worn, turn,
                                      locked, class_id, state, aptitudes, battleground,
-                                     levels, runes, rune_tier)
-        done.append(ModelRound(weights, landed, worn, totals, worth))
-        if len(done) > 1 and done[-2].key == done[-1].key:
-            converged = True
+                                     levels, runes, rune_tier, **extras)
+        if fight:
+            landed.report(worn)
+        here = ModelRound(weights, landed, worn, totals, worth, build.objective_of(worn))
+        done.append(here)
+        if worn.status == TIME_LIMIT and fight:
+            stepwise = True
+        if best is None or worth > best.value + 1e-9:
+            best = here
+            point = totals
+            damped = False
+            continue
+        if here.key == best.key:
+            settled_by, gap = 'key', 0.0
             break
-        point = blend(point, totals, 2 / (number + 2))
+        if damped:
+            # The midpoint round did not improve either
+            break
+        gap = here.objective - build.objective_of(best.worn)
+        if gap <= GAP_TOL:
+            settled_by = 'gap'
+            break
+        point = blend(best.totals, totals, 0.5)
+        damped = True
     if not done:
         return ModelSolve((), None, False, reason)
-    return ModelSolve(tuple(done), max(done, key=lambda one: one.value), converged, reason)
+    return ModelSolve(tuple(done), best, settled_by is not None, reason, settled_by, gap)
+
+
+def _in_steps(structure, level, weights, common, locked, options, extras, best, deadline):
+    """(build, worn) of one round solved in two steps, (build, None) when a step gave no set.
+
+    Step 1 is the model without sublimations and passives, the incumbent's counted as lines no
+    choice changes, and it picks the pieces. Step 2 is the whole model on those pieces.
+    """
+    from .wakfu_model import WakfuBuild
+
+    held = {} if best is None else best.build.held_lines(best.worn)
+    middle = deadline
+    if deadline is not None:
+        now = time.monotonic()
+        middle = now + FIRST_STEP_SHARE * max(0, deadline - now)
+    first = WakfuBuild(structure, level, weights, fight_constants=held, **common, **options,
+                       **({'locked': locked} if locked else {}))
+    pieces = first.build().solve(middle)
+    if pieces is None:
+        return first, None
+    pinned = [(item.id, position) for position, item in pieces.items()]
+    second = WakfuBuild(structure, level, weights, **common, **extras,
+                        **{**options, 'locked': pinned})
+    return second, second.build().solve(deadline)

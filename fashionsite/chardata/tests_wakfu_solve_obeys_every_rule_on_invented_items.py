@@ -406,8 +406,8 @@ class TheWakfuSolveBuildNeedsAnElementAndAReachTests(InventedItemsCase):
         self.assertEqual('proven', result.status)
         self.assertIsNone(result.reason)
         self.assertLess(result.seconds, 60)
-        for system in ('sublimations', 'states'):
-            self.assertIn(system, result.not_counted)
+        self.assertNotIn('sublimations', result.not_counted)
+        self.assertIn('passives (left out by the mode)', result.not_counted)
         self.assertIn('runes (the database holds no rune table)', result.not_counted)
         for system in ('pets', 'mounts', 'lucky charms'):
             self.assertNotIn(system, result.not_counted)
@@ -671,7 +671,7 @@ class TheWakfuBuildCommandNeedsAnElementAndAReachTests(InventedItemsCase):
         lines = out.splitlines()
         self.assertIn('proven best', lines)
         self.assertTrue(any(line.startswith('  LEFT_HAND') and 'Beta Ring' in line for line in lines), out)
-        self.assertTrue(any(line.startswith('  systems the model leaves out: sublimations, states')
+        self.assertTrue(any(line.startswith('  systems the model leaves out: passives')
                            and 'runes (the database holds no rune table)' in line
                            for line in lines), out)
 
@@ -948,7 +948,7 @@ class TheRealClassTurnSolveIsLegalTests(RealWakfuDataCase):
         structure = get_structure('wakfu')
         # Ankama class id 8 is the Iop
         result = wakfu_solve.solve_build(structure, level=245, elements=('fire',), reach='melee',
-                                         class_id=8, seconds=90)
+                                         class_id=8, seconds=75)
         self.assertIsNotNone(result.worn)
         self.assertEqual([], wakfu_legality.violations(
             structure, 245, result.worn, forbidden=default_exclusions(structure),

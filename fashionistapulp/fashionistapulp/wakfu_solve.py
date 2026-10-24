@@ -22,7 +22,7 @@ import time
 from types import MappingProxyType
 
 from . import (wakfu_aptitudes, wakfu_companions, wakfu_criteria, wakfu_legality,
-               wakfu_runes, wakfu_value)
+               wakfu_runes, wakfu_sublimations, wakfu_value)
 from .structure import fits_the_class
 from .wakfu_exclusions import default_exclusions
 from .wakfu_model import INFEASIBLE, SOLVE, WakfuBuild
@@ -62,9 +62,13 @@ WakfuResult = collections.namedtuple(
     'WakfuResult', 'worn totals value turn status settled rounds seconds '
                    'not_counted reason build model legacy_left_out turn_model state '
                    'state_unlocks aptitudes aptitude_mode unspent set_tiers levels '
-                   'runes rune_mode rune_tier',
+                   'runes rune_mode rune_tier sublimations specials states passives '
+                   'passive_slots sublimation_mode passive_mode opt_in settled_by gap '
+                   'sheet_totals warnings',
     defaults=(MappingProxyType({}), None, MappingProxyType({}), (),
-              MappingProxyType({}), MappingProxyType({}), None, None))
+              MappingProxyType({}), MappingProxyType({}), None, None,
+              MappingProxyType({}), MappingProxyType({}), MappingProxyType({}), (), 0,
+              None, None, MappingProxyType({}), None, None, MappingProxyType({}), ()))
 WakfuResult.__doc__ = """The outcome of solve_build.
 
 worn: a wakfu_model.WakfuSet, or None. status: PROVEN when the search closed
@@ -85,6 +89,18 @@ of the set bonus tiers the set reaches. levels: {item id: level} of the worn pet
 and mounts, each at the level it was read at. runes: {position: (Socket, ...)}, one
 Socket per socket of each worn piece that has any, the filled ones first. rune_mode:
 wakfu_runes.OPTIMISTIC or NONE, None when nothing was asked. rune_tier: the tier cap.
+sublimations: {position: (sublimation item id, state, level, pattern)}; specials:
+{position: (item id, state, kind)} of the relic and the epic sublimation; states: {state:
+wakfu_sublimations.StateReport} of every state the fight reads, passives keyed by (PASSIVE,
+spell id); passives: [spell id]; passive_slots: how many the level opens (0 when passives
+were not solved); sublimation_mode and passive_mode: the modes asked, None for none;
+opt_in: {family: rate}. settled_by: 'key' when a round came back to the kept set, 'gap' when
+the gap certificate held, None otherwise, and settled says the same; gap: the objective the
+last non-improving round gained over the kept set on its own objective, in percent of the
+value, None when no round was compared. status is wakfu_model.STEPWISE when the kept set
+came from the two-step fallback. sheet_totals: the totals the state conditions read, totals
+being the fight's. warnings: [(rule, text)] of wakfu_legality.warnings plus the solve's
+own notes.
 """
 
 ELEMENT_NAMES = wakfu_value.ELEMENTS
@@ -179,11 +195,12 @@ def _unlocks(structure, level, class_id, forbidden, state):
 
 
 def _checked(structure, level, worn, forbidden, locked, minimums, class_id=None,
-             state=None, aptitudes=None, battleground=False, rune_tier=None):
+             state=None, aptitudes=None, battleground=False, rune_tier=None,
+             spread=None):
     problems = wakfu_legality.violations(structure, level, worn, forbidden,
                                          locked, minimums, class_id, state,
                                          aptitudes, battleground, worn.levels,
-                                         worn.runes, rune_tier)
+                                         worn.runes, rune_tier, spread=spread)
     if problems:
         raise WakfuIllegalSet(problems)
 
@@ -215,6 +232,39 @@ def _rune_notes(structure, mode):
     return []
 
 
+def _system_notes(sublimations, passives):
+    """What not_counted says about the sublimations and the passives."""
+    if wakfu_sublimations.load() is None or (sublimations is None and passives is None):
+        return list(SYSTEMS_NOT_COUNTED)
+    notes = []
+    if sublimations is None:
+        notes.append('sublimations')
+    elif sublimations == wakfu_sublimations.NONE:
+        notes.append('sublimations (left out by the mode)')
+    if passives in (None, wakfu_sublimations.NONE):
+        notes.append('passives (left out by the mode)')
+    return notes
+
+
+def _leaf_notes(worn):
+    """One entry per state or passive leaf of the set the model could not count."""
+    block = wakfu_sublimations.load()
+    if block is None:
+        return []
+    notes = []
+    for key in sorted(getattr(worn, 'states', None) or {}, key=str):
+        if isinstance(key, tuple):
+            entry, label = block.PASSIVES[key[1]], 'passive'
+        else:
+            entry, label = block.STATES[key], 'state'
+        for family, _ident, reason in entry['uncounted']:
+            note = '%s %s (family %s): %s' % (label, entry['name'], family, reason)
+            if note not in notes:
+                notes.append(note)
+    notes.extend(note for note in getattr(worn, 'notes', ()) if note not in notes)
+    return notes
+
+
 def aptitude_notes(structure, level, battleground):
     """One sentence per aptitude the value model does not price."""
     abilities = wakfu_aptitudes.table(structure, level, battleground).abilities
@@ -238,7 +288,8 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
                 defense=None, rounds=5, on_class_turn=True, state=None,
                 aptitudes=SOLVE, battleground=False, pet_level=None,
                 mount_level=None, item_levels=None, runes=wakfu_runes.OPTIMISTIC,
-                rune_tier=None):
+                rune_tier=None, sublimations=wakfu_sublimations.OPTIMISTIC,
+                passives=wakfu_sublimations.SOLVE, opt_in=None):
     """Best legal set for a damage role within `seconds` of wall time.
 
     elements (1 to 4 of fire, water, earth, air) and reach ('distance' or
@@ -263,9 +314,21 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
     picks, 'none' leaves them out. rune_tier: the highest tier a socket may hold, the
     one its piece's level allows when None; 0 is the same as 'none'. A mode outside
     wakfu_runes.MODES or a tier the rune table lacks raises ValueError.
+
+    sublimations: 'optimistic' lets the solver place a sublimation in every position whose
+    pieces have the sockets, 'none' counts only the states the worn pieces carry, None
+    leaves them out as before. passives: 'solve' picks the passives of class_id that the
+    level opens (with no class none are taken, and a warning says so), 'none' takes none.
+    opt_in: {family: rate} with families E to H and rates in [0, 1]; ValueError otherwise.
     """
     started = time.monotonic()
     deadline = started + seconds
+    wakfu_sublimations.read_options(structure, sublimations, passives)
+    opt_in = wakfu_sublimations.read_opt_in(opt_in)
+    notes = []
+    if passives == wakfu_sublimations.SOLVE and not class_id:
+        passives = wakfu_sublimations.NONE
+        notes.append(('PASSIVES', 'passives need a class, none were taken'))
     rune_mode, rune_tier = wakfu_runes.read_options(structure, runes, rune_tier)
     levels = wakfu_companions.read_levels(structure, pet_level, mount_level,
                                           item_levels)
@@ -277,7 +340,7 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
     forbidden, locked, legacy = _set_up(structure, forbidden, locked, allow_legacy)
 
     turn = names = mechanics = None
-    not_counted = list(SYSTEMS_NOT_COUNTED) + _rune_notes(structure, rune_mode)
+    not_counted = _system_notes(sublimations, passives) + _rune_notes(structure, rune_mode)
     if mode is None:
         not_counted.append('aptitudes')
     else:
@@ -295,22 +358,29 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
                     'class %d has no damage turn for %s at %s, even with AP, MP and '
                     'WP at their caps' % (class_id, '+'.join(role.elements), role.reach))
 
+    if sublimations is not None or passives is not None:
+        deadline -= min(wakfu_value.FINISH_SECONDS, seconds / 10)
     model = wakfu_value.solve(structure, level, role, forbidden, rounds, turn=turn,
                               locked=locked, deadline=deadline, class_id=class_id or None,
                               state=state, aptitudes=aptitudes, battleground=battleground,
-                              levels=levels, runes=rune_mode, rune_tier=rune_tier)
+                              levels=levels, runes=rune_mode, rune_tier=rune_tier,
+                              sublimations=sublimations, passives=passives, opt_in=opt_in)
     unlocks = _unlocks(structure, level, class_id or None, forbidden, state)
     best = model.best
+    modes = {'sublimation_mode': sublimations, 'passive_mode': passives, 'opt_in': opt_in}
     if best is None:
         return WakfuResult(None, None, None, None, None, False, len(model.rounds),
                            time.monotonic() - started, tuple(not_counted),
                            model.reason or INFEASIBLE, None, model, len(legacy), turn,
-                           state, unlocks, {}, mode, {}, (), {}, {}, rune_mode, rune_tier)
+                           state, unlocks, {}, mode, {}, (), {}, {}, rune_mode, rune_tier,
+                           warnings=tuple(notes), **modes)
 
     held = None if mode is None else dict(best.worn.aptitudes)
+    landing = best.build.where_the_spread_lands(best.worn)
+    best.worn.spread_landing = landing
     _checked(structure, level, best.worn, forbidden, locked,
              role.minimums(wakfu_criteria.base_values(structure, class_id or None)),
-             class_id or None, state, held, battleground, rune_tier)
+             class_id or None, state, held, battleground, rune_tier, landing)
     class_turn = None
     if class_id:
         from . import wakfu_turn
@@ -320,14 +390,25 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
         names = dict(names)
         names.update((spell.id, spell.name) for spell in spells)
         not_counted.extend(turn_notes(class_turn, names))
-    return WakfuResult(best.worn, best.totals, best.value, class_turn,
-                       best.worn.status, model.converged, len(model.rounds),
+    not_counted.extend(_leaf_notes(best.worn))
+    notes.extend(wakfu_legality.warnings(
+        structure, level, best.worn, class_id or None, held, battleground,
+        best.worn.levels, spread=landing))
+    worn = best.worn
+    return WakfuResult(worn, best.totals, best.value, class_turn,
+                       worn.status, model.converged, len(model.rounds),
                        time.monotonic() - started, tuple(not_counted), None,
                        best.build, model, len(legacy), turn, state, unlocks,
-                       dict(best.worn.aptitudes), mode,
+                       dict(worn.aptitudes), mode,
                        unspent_points(structure, level, held),
-                       tuple(best.worn.set_tiers), dict(best.worn.levels),
-                       dict(best.worn.runes), rune_mode, rune_tier)
+                       tuple(worn.set_tiers), dict(worn.levels),
+                       dict(worn.runes), rune_mode, rune_tier,
+                       dict(worn.sublimations or {}), dict(worn.specials or {}),
+                       dict(worn.states), tuple(worn.passives or ()),
+                       wakfu_sublimations.slots_open(level)
+                       if passives == wakfu_sublimations.SOLVE else 0,
+                       settled_by=model.settled_by, gap=model.gap,
+                       sheet_totals=dict(worn.sheet_totals), warnings=tuple(notes), **modes)
 
 
 def solve_weights(structure, *, level, weights, forbidden=(), locked=(),

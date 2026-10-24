@@ -107,6 +107,25 @@ class Command(BaseCommand):
                             help='the highest tier a socket may hold, up to the top tier of '
                                  'the rune table; 0 is the same as --runes none '
                                  '(default: the tier each piece allows)')
+        parser.add_argument('--sublimations', default='optimistic',
+                            choices=('optimistic', 'none'),
+                            help='optimistic: the solver places a sublimation in every '
+                                 'position whose pieces have the sockets (default); none: '
+                                 'only the states the worn pieces carry count')
+        parser.add_argument('--passives', default='solve', choices=('solve', 'none'),
+                            help="solve: the solver picks the passives of --class-id that "
+                                 "the level opens (default; with no --class-id, none); "
+                                 "none: no passive")
+        parser.add_argument('--opt-in', action='append', default=[], metavar='FAMILY=RATE',
+                            help='the share, 0 to 1, of the lines of a family from E to H '
+                                 'a fight is assumed to give; repeat for several families')
+        parser.add_argument('--list-sublimations', action='store_true',
+                            help='print every sublimation the model keeps with its state, '
+                                 'level, kind, pattern, family and cap, then exit')
+        parser.add_argument('--list-passives', action='store_true',
+                            help='print the passive slots open at --level and every passive '
+                                 'of --class-id with its family or why it is not counted, '
+                                 'then exit')
         parser.add_argument('--list-runes', action='store_true',
                             help='print every rune with its colour, stat, doubled positions '
                                  'and its value, shards and item level per tier, then exit')
@@ -118,7 +137,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.structure import get_structure
-        from fashionistapulp.wakfu_model import PROVEN, TIME_LIMIT
+        from fashionistapulp.wakfu_model import TIME_LIMIT
         from fashionistapulp.wakfu_slots import SOLVED_SLOTS
         from fashionistapulp import wakfu_solve
         import os
@@ -136,6 +155,13 @@ class Command(BaseCommand):
         if options['list_runes']:
             self.print_rune_list(get_structure('wakfu'))
             return
+        if options['list_sublimations']:
+            self.print_sublimation_list()
+            return
+        if options['list_passives']:
+            self.print_passive_list(options['level'], options['class_id'])
+            return
+        opt_in = self.read_opt_in(options['opt_in'])
         aptitudes = self.read_aptitudes(options['aptitudes'])
         role = weights = None
         if options['weights'] is not None:
@@ -184,7 +210,9 @@ class Command(BaseCommand):
                     aptitudes=aptitudes, battleground=options['battleground'],
                     pet_level=options['pet_level'],
                     mount_level=options['mount_level'], item_levels=item_levels,
-                    runes=options['runes'], rune_tier=options['rune_tier'])
+                    runes=options['runes'], rune_tier=options['rune_tier'],
+                    sublimations=options['sublimations'], passives=options['passives'],
+                    opt_in=opt_in)
         except wakfu_solve.WakfuIllegalSet as error:
             raise CommandError('the solver returned an illegal set: %s' % error)
         except ValueError as error:
@@ -210,8 +238,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(
             'level %d, %d pieces, solved in %.1fs'
             % (options['level'], len(worn), duration)))
-        self.stdout.write('proven best' if result.status == PROVEN
-                          else 'best set found within the time limit')
+        self.stdout.write(self.solve_line(result))
         if worn.full_set_dropped:
             self.stdout.write(self.style.WARNING(
                 'the every-slot model gave no set (%s), so empty slots were '
@@ -227,6 +254,7 @@ class Command(BaseCommand):
                                  self.companion_note(item, result.levels)))
 
         self.print_runes(structure, worn, result)
+        self.print_sublimations(worn, result)
         spread = build.spread_lines(worn)
         if spread:
             self.stdout.write('')
@@ -243,6 +271,7 @@ class Command(BaseCommand):
         self.stdout.write('  ' + '  '.join('%s %s' % (cle.upper(), totals[cle])
                                            for cle in interessantes))
         self.print_aptitudes(structure, result)
+        self.print_fight(result)
         self.print_unlocks(structure, result)
         if model is not None:
             self.print_model(role, options['level'], model, turn,
@@ -250,13 +279,156 @@ class Command(BaseCommand):
             if options['class_id']:
                 self.print_turn(role, options['level'], options['class_id'], totals)
             self.stdout.write('')
-            left_out = list(wakfu_solve.SYSTEMS_NOT_COUNTED)
-            left_out.extend(note for note in result.not_counted if note.startswith('runes'))
+            left_out = [note for note in result.not_counted
+                        if note.startswith(('sublimations', 'states', 'passives', 'runes'))]
             if result.aptitude_mode is None:
                 left_out.append('aptitudes')
-            self.stdout.write('  systems the model leaves out: ' + ', '.join(left_out))
+            self.stdout.write('  systems the model leaves out: '
+                              + (', '.join(left_out) or 'none'))
 
-    COLOUR_NAMES = {1: 'red', 2: 'green', 3: 'blue', 4: 'white'}
+    COLOUR_NAMES = {0: 'any', 1: 'red', 2: 'green', 3: 'blue', 4: 'white'}
+
+    @staticmethod
+    def read_opt_in(given):
+        """{family: rate} of the --opt-in options."""
+        out = {}
+        for part in given:
+            family, equals, rate = part.partition('=')
+            try:
+                if not equals:
+                    raise ValueError(part)
+                number = float(rate)
+            except ValueError:
+                raise CommandError('--opt-in is FAMILY=RATE, got %r' % part)
+            family = family.strip().upper()
+            if family in out:
+                raise CommandError('--opt-in names family %s twice' % family)
+            out[family] = number
+        return out
+
+    @staticmethod
+    def pattern_text(pattern):
+        return '-'.join(Command.COLOUR_NAMES[colour] for colour in pattern) or 'no pattern'
+
+    def print_sublimation_list(self):
+        from fashionistapulp import wakfu_sublimations
+
+        block = wakfu_sublimations.load()
+        if block is None:
+            raise CommandError('there is no sublimation table, build it with '
+                               'python update_data_wakfu.py')
+        for ident, (state, level, kind, pattern) in sorted(block.SUBLIMATIONS.items()):
+            entry = block.STATES[state]
+            self.stdout.write('%d %s: state %d, level %d, %s, %s, family %s, cap %s' % (
+                ident, entry['name'], state, level, kind, self.pattern_text(pattern),
+                entry['family'], 'none' if entry['cap'] is None else entry['cap']))
+
+    def print_passive_list(self, level, class_id):
+        from fashionistapulp import wakfu_sublimations
+
+        block = wakfu_sublimations.load()
+        if block is None:
+            raise CommandError('there is no passive table, build it with '
+                               'python update_data_wakfu.py')
+        if not class_id:
+            raise CommandError('--list-passives needs --class-id')
+        self.stdout.write('level %d opens %d passive slots' % (
+            level, wakfu_sublimations.slots_open(level)))
+        for ident, entry in sorted(block.PASSIVES.items(),
+                                   key=lambda one: (one[1]['unlock'], one[0])):
+            if entry['breed'] != class_id:
+                continue
+            reasons = sorted({reason for _family, _ident, reason in entry['uncounted']})
+            self.stdout.write('%d %s: unlock %d%s, family %s, %s' % (
+                ident, entry['name'], entry['unlock'],
+                '' if entry['unlock'] <= level else ' (not open)', entry['family'],
+                '%d counted lines' % len(entry['lines']) if entry['lines']
+                else 'nothing counted'))
+            for reason in reasons:
+                self.stdout.write('  not counted: %s' % reason)
+
+    def print_sublimation(self, position, result):
+        from fashionistapulp import wakfu_sublimations
+
+        if position not in result.sublimations:
+            return
+        _ident, state, level, pattern = result.sublimations[position]
+        self.stdout.write('  sublimation: %s %s level %d' % (
+            wakfu_sublimations.load().STATES[state]['name'], self.pattern_text(pattern),
+            level))
+
+    def print_sublimations(self, worn, result):
+        """The sublimations no socket line carried, then the relic or epic ones."""
+        from fashionistapulp import wakfu_sublimations
+
+        block = wakfu_sublimations.load()
+        if block is None or (not result.sublimations and not result.specials):
+            return
+        self.stdout.write('')
+        for position in sorted(set(result.sublimations) - set(result.runes)):
+            self.stdout.write('  %-16s' % position)
+            self.print_sublimation(position, result)
+        for position in sorted(result.specials):
+            ident, state, kind = result.specials[position]
+            self.stdout.write('  %-16s relic/epic sublimation: %s (%s)' % (
+                position, block.STATES[state]['name'], kind))
+
+    def print_fight(self, result):
+        """The states with their lines, the passives, what was left out, how it settled."""
+        from fashionistapulp import wakfu_sublimations
+
+        block = wakfu_sublimations.load()
+        if block is not None and result.states:
+            self.stdout.write('states:')
+            for key in sorted(result.states, key=str):
+                report = result.states[key]
+                if isinstance(key, tuple):
+                    continue
+                self.stdout.write('  %s: summed %d, cap %s, counted %d, family %s%s: %s' % (
+                    block.STATES[key]['name'], report.summed,
+                    'none' if report.cap is None else report.cap, report.counted,
+                    report.family, '' if report.condition else ', condition not held',
+                    ', '.join('%+d %s' % (value, line.upper())
+                              for line, value in sorted(report.lines.items())) or 'no line'))
+        if result.passive_mode is not None:
+            self.stdout.write('passives (%d of %d slots): %s' % (
+                len(result.passives), result.passive_slots,
+                ', '.join('%s: %s' % (block.PASSIVES[spell]['name'], ', '.join(
+                    '%+d %s' % (value, line.upper()) for line, value in sorted(
+                        result.states[(wakfu_sublimations.PASSIVE, spell)].lines.items())))
+                    for spell in result.passives) or 'none'))
+        left = [note for note in result.not_counted
+                if note.startswith(('state ', 'passive ', 'gear state '))]
+        if left:
+            self.stdout.write('not counted:')
+            for note in left:
+                self.stdout.write('  %s' % note)
+        if result.model is None:
+            pass
+        elif result.settled_by == 'gap':
+            self.stdout.write('settled by gap %.2f' % result.gap)
+        elif result.settled_by == 'key':
+            self.stdout.write('settled (same set)')
+        elif result.gap is not None:
+            self.stdout.write('not settled (gap %.1f)' % result.gap)
+        else:
+            self.stdout.write('not settled')
+        for rule, text in result.warnings:
+            self.stdout.write(self.style.WARNING('warning: %s' % text))
+
+    @staticmethod
+    def solve_line(result):
+        """How the last solve ended; 'proven best' only where one solve is the whole answer
+        or the rounds settled."""
+        from fashionistapulp.wakfu_model import PROVEN, STEPWISE
+
+        if result.status == PROVEN:
+            if result.model is not None and not result.settled:
+                return 'last round solved to the end'
+            return 'proven best'
+        if result.status == STEPWISE:
+            return 'solved in steps'
+        return 'best set found within the time limit'
 
     def print_rune_list(self, structure):
         from fashionistapulp import wakfu_runes
@@ -312,6 +484,7 @@ class Command(BaseCommand):
                     rune.names.get('en', socket.rune), socket.rune, socket.tier,
                     socket.value, stat.key, ' (doubled)' if socket.doubled else '',
                     socket.shards))
+            self.print_sublimation(position, result)
         self.stdout.write('  total shards: %d' % total)
 
     @staticmethod

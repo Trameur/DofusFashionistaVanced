@@ -149,6 +149,9 @@ def scripted(*sets):
             self.weights = dict(weights)
             self.minimums = minimums
 
+        def objective_of(self, worn):
+            return self.weights.get('ap', 0) * self.totals(worn)['ap']
+
         def build(self):
             return self
 
@@ -184,12 +187,19 @@ class TheModelSolveLoopTests(SimpleTestCase):
         self.assertFalse(result.converged)
         self.assertIs(result.rounds[0], result.best)
 
-    def test_a_set_that_comes_back_ends_the_solve_settled(self):
-        result = self.run_solve(outfit(1, ap=6), outfit(2, ap=3), outfit(2, ap=3),
-                                outfit(3, ap=9))
+    def test_a_set_that_comes_back_ends_the_solve_settled_by_its_key(self):
+        result = self.run_solve(outfit(1, ap=6), outfit(2, ap=9), outfit(2, ap=9),
+                                outfit(3, ap=12))
         self.assertTrue(result.converged)
+        self.assertEqual('key', result.settled_by)
         self.assertEqual([1, 2, 2], [min(one.ids) for one in result.rounds])
         self.assertEqual(3, len(self.solved))
+
+    def test_a_round_that_gains_nothing_on_its_own_objective_settles_by_the_gap(self):
+        result = self.run_solve(outfit(1, ap=6), outfit(2, ap=3), outfit(3, ap=9))
+        self.assertTrue(result.converged)
+        self.assertEqual('gap', result.settled_by)
+        self.assertEqual(2, len(result.rounds))
 
     def test_the_best_round_is_kept_even_when_it_is_the_first(self):
         result = self.run_solve(outfit(1, ap=6), outfit(2, ap=1), outfit(2, ap=1))
@@ -203,10 +213,10 @@ class TheModelSolveLoopTests(SimpleTestCase):
         self.assertFalse(result.converged)
         self.assertEqual(4, min(result.best.ids))
 
-    def test_each_round_solves_on_the_tangent_at_the_blend_of_the_sets_found(self):
-        self.run_solve(outfit(1, ap=6), outfit(2, ap=3), outfit(3, ap=8), outfit(3, ap=8))
-        # AP 6 bare, then 12; 12 + 2/3 x (9 - 12) = 10; 10 + 2/4 x (14 - 10) = 12
-        self.assertEqual([100 / 6, 100 / 12, 100 / 10, 100 / 12],
+    def test_each_round_solves_on_the_tangent_at_the_best_set_found(self):
+        self.run_solve(outfit(1, ap=6), outfit(2, ap=9), outfit(3, ap=12), outfit(3, ap=12))
+        # AP 6 bare, then the totals of the set each round before gave: 12, 15, 18
+        self.assertEqual([100 / 6, 100 / 12, 100 / 15, 100 / 18],
                          [build.weights['ap'] for build in self.solved])
 
     def test_every_round_keeps_the_role_floors(self):
@@ -236,8 +246,10 @@ class AWakfuModelSolveTests(SimpleTestCase):
     def test_the_rounds_stop_on_a_set_that_came_back(self):
         rounds = self.result.rounds
         self.assertTrue(self.result.converged)
+        self.assertIn(self.result.settled_by, ('key', 'gap'))
         self.assertGreater(len(rounds), 1)
-        self.assertEqual(rounds[-2].ids, rounds[-1].ids)
+        if self.result.settled_by == 'key':
+            self.assertEqual(self.result.best.key, rounds[-1].key)
         self.assertEqual(13, len(self.result.best.worn))
 
     def test_the_kept_set_has_the_best_value_of_every_round(self):
@@ -329,7 +341,7 @@ class TheWakfuBuildCommandRunsTheDamageModelTests(SimpleTestCase):
             return [line for line in out.splitlines()
                     if line.startswith('  systems the model leaves out: ')][0]
 
-        self.assertTrue(left_out('--aptitudes', 'none').endswith(', aptitudes'))
+        self.assertTrue(left_out('--aptitudes', 'none').endswith('aptitudes'))
         self.assertNotIn('aptitudes', left_out())
 
     def test_hand_weights_skip_the_model(self):
@@ -340,3 +352,72 @@ class TheWakfuBuildCommandRunsTheDamageModelTests(SimpleTestCase):
     def test_an_element_no_gear_sells_is_refused(self):
         with self.assertRaisesMessage(CommandError, 'elements are fire, water, earth, air'):
             self.run_command('--level', '20', '--elements', 'fire,light')
+
+
+class TheWakfuBuildCommandReadsTheSublimationOptionsTests(SimpleTestCase):
+    def setUp(self):
+        wakfu_structure(self)
+
+    def run_command(self, *args):
+        out = io.StringIO()
+        call_command('wakfu_build', *args, stdout=out, no_color=True)
+        return out.getvalue()
+
+    def test_the_sublimation_list_prints_one_line_per_kept_sublimation(self):
+        from fashionistapulp import wakfu_sublimations
+        block = wakfu_sublimations.load()
+        if block is None:
+            self.skipTest('no generated sublimation block')
+        lines = self.run_command('--list-sublimations').splitlines()
+        self.assertEqual(len(block.SUBLIMATIONS), len(lines))
+        ident, (state, level, kind, _pattern) = sorted(block.SUBLIMATIONS.items())[0]
+        self.assertTrue(lines[0].startswith('%d %s: state %d, level %d, %s, ' % (
+            ident, block.STATES[state]['name'], state, level, kind)), lines[0])
+
+    def test_the_passive_list_names_the_slots_the_level_opens(self):
+        from fashionistapulp import wakfu_sublimations
+        if wakfu_sublimations.load() is None:
+            self.skipTest('no generated sublimation block')
+        lines = self.run_command('--list-passives', '--level', '50',
+                                 '--class-id', '8').splitlines()
+        self.assertEqual('level 50 opens 3 passive slots', lines[0])
+        self.assertGreater(len(lines), 1)
+
+    def test_the_passive_list_needs_a_class(self):
+        from fashionistapulp import wakfu_sublimations
+        if wakfu_sublimations.load() is None:
+            self.skipTest('no generated sublimation block')
+        with self.assertRaisesMessage(CommandError, '--list-passives needs --class-id'):
+            self.run_command('--list-passives')
+
+    def test_an_opt_in_rate_outside_zero_to_one_is_refused(self):
+        with self.assertRaisesMessage(CommandError, 'an opt-in rate is a number from 0 to 1'):
+            self.run_command('--level', '20', '--elements', 'fire', '--reach', 'distance',
+                             '--opt-in', 'E=2')
+
+    def test_an_opt_in_family_outside_e_to_h_is_refused(self):
+        with self.assertRaisesMessage(CommandError, 'opt-in families are EFGH'):
+            self.run_command('--level', '20', '--elements', 'fire', '--reach', 'distance',
+                             '--opt-in', 'A=0.5')
+
+    def test_an_opt_in_without_a_rate_is_refused(self):
+        with self.assertRaisesMessage(CommandError, '--opt-in is FAMILY=RATE'):
+            self.run_command('--level', '20', '--elements', 'fire', '--reach', 'distance',
+                             '--opt-in', 'E')
+
+    def test_the_command_prints_the_fight_lines_and_how_the_loop_stopped(self):
+        out = self.run_command('--level', '50', '--elements', 'fire', '--reach', 'distance',
+                               '--class-id', '8', '--rounds', '2', '--seconds', '60')
+        lines = out.splitlines()
+        self.assertIn('states:', lines, out)
+        self.assertTrue(any(line.startswith('passives (') and ' slots)' in line
+                            for line in lines), out)
+        self.assertTrue(any(line.startswith(('settled', 'not settled')) for line in lines), out)
+        self.assertTrue(any('  sublimation: ' in line for line in lines), out)
+
+    def test_sublimations_none_prints_no_sublimation_line(self):
+        out = self.run_command('--level', '20', '--elements', 'fire', '--reach', 'distance',
+                               '--sublimations', 'none', '--passives', 'none',
+                               '--rounds', '2')
+        self.assertNotIn('  sublimation: ', out)
+        self.assertIn('sublimations (left out by the mode)', out)
