@@ -5,11 +5,10 @@ import re
 from django.db.models import F
 from django.utils import timezone, translation
 
+from chardata.served_versions import version_by_prefix
 from fashionistapulp.structure import set_current_game_version
 
 logger = logging.getLogger(__name__)
-
-GAME_VERSION_PREFIXES = {'beta', 'retro', 'touch', 'dofus2'}
 
 _LANGUAGE_PREFIXES = None
 
@@ -40,8 +39,9 @@ class GameVersionMiddleware:
         parts = request.path_info.lstrip('/').split('/')
         if parts and parts[0] in _language_prefixes():
             parts = parts[1:]
-        if parts and parts[0] in GAME_VERSION_PREFIXES:
-            version = parts[0]
+        prefixes = version_by_prefix()
+        if parts and parts[0] in prefixes:
+            version = prefixes[parts[0]]
         else:
             version = 'dofus3'
         request.game_version = version

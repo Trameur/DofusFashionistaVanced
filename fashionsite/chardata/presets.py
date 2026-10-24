@@ -24,7 +24,7 @@ from chardata.stats_weights import get_stats_weights
 from chardata.translation_util import localized_stat_name
 from chardata.version_compat import class_exists_in_version, filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
-from fashionistapulp.game_versions import DEFAULT_VERSION
+from fashionistapulp.game_versions import DEFAULT_VERSION, GAME_VERSIONS
 from fashionistapulp.model import EFFECTIVE_HP_MINIMUM
 from fashionistapulp.structure import get_structure
 
@@ -194,6 +194,9 @@ for _version, _entry in VERSION_PRESETS.items():
 
 
 def version_presets(game_version):
+    known = GAME_VERSIONS.get(game_version)
+    if known is not None and not known.dofus:
+        return VERSION_PRESETS[game_version]
     return VERSION_PRESETS.get(game_version, VERSION_PRESETS[DEFAULT_VERSION])
 
 

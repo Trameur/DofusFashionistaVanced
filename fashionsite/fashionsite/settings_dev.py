@@ -388,6 +388,8 @@ EXPERIMENTS = {
     'TRANSLATION': True,
     'WEAPONS': True,
     'ITEM_LINKS': True,
+    # FASHIONISTA_WAKFU=0 hides the Wakfu pages
+    'WAKFU': os.environ.get('FASHIONISTA_WAKFU', '1') == '1',
 }
 
 DEFAULT_THEME = 'auto'

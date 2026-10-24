@@ -7,14 +7,48 @@
 
 """Which item data a build was made with, and which patch that data is."""
 
+import contextlib
+import functools
+import os
+import sqlite3
 from datetime import date, datetime, time, timezone
+from pathlib import Path
 
 from django.conf import settings
 
 import fashionista_version
+from fashionistapulp.fashionista_config import get_items_db_path
+from fashionistapulp.game_versions import GAME_VERSIONS
+
+
+@functools.lru_cache(maxsize=16)
+def _read_version(path, modified_ns):
+    uri = Path(path).resolve().as_uri() + '?mode=ro'
+    try:
+        with contextlib.closing(sqlite3.connect(uri, uri=True)) as db:
+            row = db.execute('SELECT version FROM data_version').fetchone()
+    except sqlite3.Error:
+        return ''
+    return row[0] if row else ''
+
+
+def read_data_version(path):
+    """The version a database states in its data_version table, '' when it states none."""
+    try:
+        modified_ns = os.stat(path).st_mtime_ns
+    except OSError:
+        return ''
+    return _read_version(str(path), modified_ns)
+
+
+def stored_data_version(game_version):
+    return read_data_version(get_items_db_path(game_version))
 
 
 def current_data_version(game_version):
+    known = GAME_VERSIONS.get(game_version)
+    if known is not None and not known.dofus:
+        return stored_data_version(game_version)
     return settings.SITE_VERSIONS.get(game_version, '')
 
 

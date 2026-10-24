@@ -417,6 +417,8 @@ EXPERIMENTS = {
     'TRANSLATION': True,
     'WEAPONS': True,
     'ITEM_LINKS': True,
+    # FASHIONISTA_WAKFU=1 serves the Wakfu pages
+    'WAKFU': os.environ.get('FASHIONISTA_WAKFU') == '1',
 }
 
 # The drawn character on a build page. Off while the art assembly is reworked;
