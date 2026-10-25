@@ -112,7 +112,7 @@ class FloorCase(SimpleTestCase):
         if clock is not None:
             patches.append(mock.patch.object(time, 'monotonic', lambda: clock[0]))
         if not floor:
-            patches.append(mock.patch.object(wakfu_value, '_floor', lambda *a: (None, None)))
+            patches.append(mock.patch.object(wakfu_value, '_floor', lambda *a: (None, None, ())))
         for patch in patches:
             patch.start()
             self.addCleanup(patch.stop)
@@ -194,13 +194,14 @@ class TheFloorIsRoundOneTests(FloorCase):
         self.assertEqual(9.0, result.best.value)
 
     def test_a_locked_solve_with_no_set_or_a_crash_keeps_the_plain_set_as_floor(self):
-        for locked in ([None], [pulp.PulpSolverError('boom')]):
+        for locked, crashed in (([None], ()),
+                                ([pulp.PulpSolverError('boom')], ((1, 'boom'),))):
             with self.subTest(locked=locked):
                 result = self.run_solve({'plain': PLAIN, 'locked': locked,
                                          'joint': [outfit(2, ap=-1)]})
                 self.assertEqual(9.0, result.rounds[0].value)
                 self.assertEqual(frozenset({1}), result.rounds[0].ids)
-                self.assertEqual((), result.crashed)
+                self.assertEqual(crashed, result.crashed)
 
     def test_the_first_systems_round_solves_at_the_plain_sets_totals(self):
         self.run_solve({'plain': PLAIN, 'locked': [outfit(1, ap=9)],

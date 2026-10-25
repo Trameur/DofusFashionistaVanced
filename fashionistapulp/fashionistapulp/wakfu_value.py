@@ -383,7 +383,8 @@ class ModelSolve(collections.namedtuple('ModelSolve', 'rounds best converged')):
     there and keeps the incumbent. They are attributes, so the three fields stay what callers
     unpack. When sublimations or passives are picked, the first round is the floor: the best set
     of a plain stage with the sublimations and passives solved on its pieces, whose status is
-    wakfu_model.STEPWISE. Only a round CBC proved settles the loop.
+    wakfu_model.STEPWISE; a crash in a later round of the plain stage or in the floor's own
+    solve counts as round 1 and the loop goes on. Only a round CBC proved settles the loop.
     """
 
     def __new__(cls, rounds, best, converged, reason=None, settled_by=None, gap=None,
@@ -566,8 +567,8 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
                       locked=locked, class_id=class_id, state=state, aptitudes=aptitudes,
                       battleground=battleground, levels=levels, runes=runes,
                       rune_tier=rune_tier)
-        floor, plain_point = _floor(structure, level, role, shared, deadline, extras,
-                                    common, high)
+        floor, plain_point, crashed = _floor(structure, level, role, shared, deadline, extras,
+                                             common, high)
         if floor is not None:
             done.append(floor)
             best = floor
@@ -599,7 +600,7 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
             if not done:
                 raise SolverCrashed(
                     'the solver crashed on the first round: %s' % error) from error
-            crashed = ((len(done) + 1, str(error)),)
+            crashed += ((len(done) + 1, str(error)),)
             break
         if worn is None:
             reason = getattr(build, 'reason', None)
@@ -644,31 +645,35 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
         return ModelSolve((), None, False, reason)
     if not picking:
         best = max(done, key=lambda one: one.value)
+    if crashed:
+        settled_by = None
     return ModelSolve(tuple(done), best, settled_by is not None, reason, settled_by, gap,
                       crashed)
 
 
 def _floor(structure, level, role, shared, deadline, extras, common, high):
-    """(round, point) of the floor, (None, None) when it is not run.
+    """(round, point, crashed) of the floor, (None, None, ()) when it is not run.
 
     A plain stage on PLAIN_SHARE of the time left finds a set with sublimations and passives
     left out. The floor is the better, on the systems model at that set's totals, of the set
     itself and the set with sublimations and passives solved on its pieces. The point is the
-    plain best's totals, where the rounds after the floor linearize.
+    plain best's totals, where the rounds after the floor linearize. The locked solve is
+    skipped when the plain stage left no time for it. crashed: (1, message) of each crash in
+    a later round of the plain stage or in the locked solve, as both build round 1.
     """
     from .wakfu_model import STEPWISE, WakfuBuild
 
     if deadline is not None and deadline - time.monotonic() < FLOOR_SECONDS:
-        return None, None
+        return None, None, ()
     sublimations, passives = plain_modes(extras.get('sublimations'), extras.get('passives'))
     try:
         plain = _solve(structure, level, role, deadline=plain_deadline(deadline),
                        sublimations=sublimations, passives=passives,
                        opt_in=extras.get('opt_in'), **shared)
     except SolverCrashed:
-        return None, None
+        return None, None, ()
     if plain.best is None:
-        return None, None
+        return None, None, ()
     turn, levels, locked = shared['turn'], shared['levels'], shared['locked']
     point = plain.best.totals
     weights = linear_weights(role, level, point, turn)
@@ -681,10 +686,13 @@ def _floor(structure, level, role, shared, deadline, extras, common, high):
     build = WakfuBuild(structure, level, weights, **common, **extras,
                        **{**options, 'locked': pinned})
     candidates = []
-    try:
-        worn = build.build().solve(joint_deadline(deadline, True))
-    except pulp.PulpSolverError:
-        worn = None
+    crashed = tuple((1, message) for _, message in plain.crashed)
+    worn = None
+    if not out_of_time(deadline):
+        try:
+            worn = build.build().solve(joint_deadline(deadline, True))
+        except pulp.PulpSolverError as error:
+            crashed += ((1, str(error)),)
     for one in (worn, plain.best.worn):
         if one is not None:
             candidates.append((one,) + land(
@@ -694,7 +702,8 @@ def _floor(structure, level, role, shared, deadline, extras, common, high):
     worn, worth, landed, totals = max(candidates, key=lambda one: one[1])
     landed.report(worn)
     worn.status = STEPWISE
-    return ModelRound(weights, landed, worn, totals, worth, build.objective_of(worn)), point
+    return (ModelRound(weights, landed, worn, totals, worth, build.objective_of(worn)),
+            point, crashed)
 
 
 def _in_steps(structure, level, weights, common, locked, options, extras, best, deadline):
