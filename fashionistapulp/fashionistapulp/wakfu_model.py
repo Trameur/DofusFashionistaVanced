@@ -19,6 +19,7 @@
 from __future__ import annotations
 
 import collections
+import math
 
 from . import wakfu_aptitudes, wakfu_companions, wakfu_runes, wakfu_sublimations
 from .game_versions import get_game_version
@@ -1116,25 +1117,33 @@ class WakfuBuild:
         return BOTH, both
 
     def _conversion_rows(self, name, indicator, total, scale, most, low, high):
-        """v is floor(scale x X / SHARE_SCALE) while the indicator is 1, and 0 otherwise."""
+        """v is floor(scale x X / SHARE_SCALE) while the indicator is 1, and 0 otherwise.
+
+        The fraction is reduced by its gcd, which keeps the rows exact when every term and
+        the base are whole numbers, the only case where v and X are both integers."""
         category, ident = indicator
+        unit = SHARE_SCALE
+        if (all(value == int(value) for value, _cat, _one in total.terms)
+                and total.low == int(total.low)):
+            divisor = math.gcd(scale, SHARE_SCALE)
+            scale, unit = scale // divisor, SHARE_SCALE // divisor
         self.problem.add_row(
             LpProblem2._parcel_terms([(1, CONVERTED, name), (-most, category, ident)]),
             '<=', 0, 'convert_%s_off' % name)
         below = scale * max(0, -low)
         self.problem.add_row(
             LpProblem2._parcel_terms(
-                [(SHARE_SCALE, CONVERTED, name)]
+                [(unit, CONVERTED, name)]
                 + [(-scale * value, cat, one) for value, cat, one in total.terms]
                 + [(below, category, ident)]),
             '<=', below + scale * total.low, 'convert_%s_up' % name)
-        above = max(0, scale * high - (SHARE_SCALE - 1))
+        above = max(0, scale * high - (unit - 1))
         self.problem.add_row(
             LpProblem2._parcel_terms(
-                [(-SHARE_SCALE, CONVERTED, name)]
+                [(-unit, CONVERTED, name)]
                 + [(scale * value, cat, one) for value, cat, one in total.terms]
                 + [(above, category, ident)]),
-            '<=', SHARE_SCALE - 1 - scale * total.low + above, 'convert_%s_down' % name)
+            '<=', unit - 1 - scale * total.low + above, 'convert_%s_down' % name)
 
     def _clause_expression(self, coefficients):
         """(terms, base, lowest, highest) of a sum of sheet totals, on the lowest base."""
