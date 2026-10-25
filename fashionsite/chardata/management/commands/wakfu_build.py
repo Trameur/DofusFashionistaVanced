@@ -434,6 +434,8 @@ class Command(BaseCommand):
                 return 'proven best'
             if result.settled:
                 return 'settled'
+            if getattr(result.model, 'crashed', ()):
+                return 'a round crashed, the best set so far is kept'
             return 'last round solved to the end'
         if result.status == STEPWISE:
             return 'solved in steps'

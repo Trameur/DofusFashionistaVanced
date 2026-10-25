@@ -26,6 +26,20 @@ class TheCommandSaysProvenOnlyForASingleSolveTests(SimpleTestCase):
         self.assertEqual('last round solved to the end', line)
         self.assertNotIn('proven', line)
 
+    def test_a_crashed_round_is_named_instead_of_saying_the_last_round_ended(self):
+        from fashionistapulp.wakfu_model import PROVEN
+        crashed = types.SimpleNamespace(crashed=((2, 'exit code'),))
+        line = Command.solve_line(result(PROVEN, model=crashed, settled=False))
+        self.assertEqual('a round crashed, the best set so far is kept', line)
+        self.assertNotIn('proven', line)
+        self.assertNotIn('to the end', line)
+
+    def test_a_model_with_no_crashed_round_keeps_the_last_round_line(self):
+        from fashionistapulp.wakfu_model import PROVEN
+        clean = types.SimpleNamespace(crashed=())
+        self.assertEqual('last round solved to the end',
+                         Command.solve_line(result(PROVEN, model=clean, settled=False)))
+
     def test_the_stepwise_and_time_limit_statuses_keep_their_own_words(self):
         from fashionistapulp.wakfu_model import STEPWISE, TIME_LIMIT
         self.assertEqual('solved in steps', Command.solve_line(result(STEPWISE)))
