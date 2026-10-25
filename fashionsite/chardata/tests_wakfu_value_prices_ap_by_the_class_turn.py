@@ -236,11 +236,6 @@ def scripted(*sets):
                 out.update(item.stats)
             return out
 
-        def objective_of(self, worn):
-            totals = self.totals(worn)
-            return (sum(self.weights.get(key, 0) * number for key, number in totals.items())
-                    + self.options.get('ap_values', {}).get(totals['ap'], 0))
-
     return ScriptedBuild, solved
 
 
@@ -255,10 +250,10 @@ class TheModelSolveUsesTheClassTurnTests(SimpleTestCase):
 
     def test_each_round_takes_its_weights_and_ap_table_from_the_turn_at_its_point(self):
         turn = FakeTurn()
-        result, solved = self.run_solve(turn, outfit(1, ap=1), outfit(2, ap=2),
-                                        outfit(2, ap=2))
-        # AP 6 bare, then the incumbent's 7, then the midpoint of 8 and 8
-        points = [6, 7, 8]
+        result, solved = self.run_solve(turn, outfit(1, ap=2), outfit(2, ap=1),
+                                        outfit(2, ap=1))
+        # AP 6 bare, then 8; 8 + 2/3 x (7 - 8)
+        points = [6, 8, 8 - 2 / 3]
         for wanted, asked in zip(points, turn.tables):
             self.assertAlmostEqual(wanted, asked)
         self.assertEqual(3, len(turn.tables))
@@ -267,7 +262,7 @@ class TheModelSolveUsesTheClassTurnTests(SimpleTestCase):
             self.assertEqual(0.5, build.weights['dmg_fire_percent'])
             self.assertNotIn('ap', build.weights)
         first = result.rounds[0]
-        self.assertAlmostEqual(math.log(70) + 0.25 * math.log(
+        self.assertAlmostEqual(math.log(80) + 0.25 * math.log(
             wakfu_value.effective_life(50, first.totals)), first.value)
 
     def test_without_a_turn_no_round_gets_an_ap_table(self):

@@ -358,7 +358,7 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
                     'class %d has no damage turn for %s at %s, even with AP, MP and '
                     'WP at their caps' % (class_id, '+'.join(role.elements), role.reach))
 
-    if sublimations is not None or passives is not None:
+    if wakfu_value.picks_sublimations_or_passives(sublimations, passives):
         deadline -= min(wakfu_value.FINISH_SECONDS, seconds / 10)
     model = wakfu_value.solve(structure, level, role, forbidden, rounds, turn=turn,
                               locked=locked, deadline=deadline, class_id=class_id or None,

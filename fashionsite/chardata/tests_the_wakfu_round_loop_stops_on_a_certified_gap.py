@@ -24,6 +24,7 @@ def stub_build(script, solved):
             return self
 
         def solve(self, deadline=None):
+            self.deadline = deadline
             solved.append(self)
             return script.pop(0) if script else None
 
@@ -37,11 +38,15 @@ def stub_build(script, solved):
             return sum(self.weights.get(key, 0) * number
                        for key, number in self.totals(worn).items())
 
+        def report(self, worn):
+            pass
+
     return StubBuild
 
 
 class TheRoundLoopStubTests(SimpleTestCase):
-    """The loop on scripted sets, the value of a set being its AP and the objective AP + HP."""
+    """The loop on scripted sets with sublimations picked, the value of a set being its AP and
+    the objective AP + HP."""
 
     def run_loop(self, *sets, rounds=5):
         from fashionistapulp import wakfu_value
@@ -58,7 +63,8 @@ class TheRoundLoopStubTests(SimpleTestCase):
                         stub_build(list(sets), self.solved)), \
                 mock.patch.object(wakfu_value, 'linear_weights', weights), \
                 mock.patch.object(wakfu_value, 'value', value):
-            return wakfu_value.solve(Catalogue(), 50, role, rounds=rounds)
+            return wakfu_value.solve(Catalogue(), 50, role, rounds=rounds,
+                                     sublimations='optimistic')
 
     def test_a_worse_round_with_no_objective_to_gain_settles_by_the_gap_at_round_two(self):
         result = self.run_loop(outfit(1, ap=2), outfit(2, ap=-1), outfit(3, ap=5))

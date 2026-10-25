@@ -149,9 +149,6 @@ def scripted(*sets):
             self.weights = dict(weights)
             self.minimums = minimums
 
-        def objective_of(self, worn):
-            return self.weights.get('ap', 0) * self.totals(worn)['ap']
-
         def build(self):
             return self
 
@@ -188,18 +185,12 @@ class TheModelSolveLoopTests(SimpleTestCase):
         self.assertIs(result.rounds[0], result.best)
 
     def test_a_set_that_comes_back_ends_the_solve_settled_by_its_key(self):
-        result = self.run_solve(outfit(1, ap=6), outfit(2, ap=9), outfit(2, ap=9),
-                                outfit(3, ap=12))
+        result = self.run_solve(outfit(1, ap=6), outfit(2, ap=3), outfit(2, ap=3),
+                                outfit(3, ap=9))
         self.assertTrue(result.converged)
         self.assertEqual('key', result.settled_by)
         self.assertEqual([1, 2, 2], [min(one.ids) for one in result.rounds])
         self.assertEqual(3, len(self.solved))
-
-    def test_a_round_that_gains_nothing_on_its_own_objective_settles_by_the_gap(self):
-        result = self.run_solve(outfit(1, ap=6), outfit(2, ap=3), outfit(3, ap=9))
-        self.assertTrue(result.converged)
-        self.assertEqual('gap', result.settled_by)
-        self.assertEqual(2, len(result.rounds))
 
     def test_the_best_round_is_kept_even_when_it_is_the_first(self):
         result = self.run_solve(outfit(1, ap=6), outfit(2, ap=1), outfit(2, ap=1))
@@ -213,10 +204,10 @@ class TheModelSolveLoopTests(SimpleTestCase):
         self.assertFalse(result.converged)
         self.assertEqual(4, min(result.best.ids))
 
-    def test_each_round_solves_on_the_tangent_at_the_best_set_found(self):
-        self.run_solve(outfit(1, ap=6), outfit(2, ap=9), outfit(3, ap=12), outfit(3, ap=12))
-        # AP 6 bare, then the totals of the set each round before gave: 12, 15, 18
-        self.assertEqual([100 / 6, 100 / 12, 100 / 15, 100 / 18],
+    def test_each_round_solves_on_the_tangent_at_the_blend_of_the_sets_found(self):
+        self.run_solve(outfit(1, ap=6), outfit(2, ap=3), outfit(3, ap=8), outfit(3, ap=8))
+        # AP 6 bare, then 12; 12 + 2/3 x (9 - 12) = 10; 10 + 2/4 x (14 - 10) = 12
+        self.assertEqual([100 / 6, 100 / 12, 100 / 10, 100 / 12],
                          [build.weights['ap'] for build in self.solved])
 
     def test_every_round_keeps_the_role_floors(self):
@@ -246,10 +237,9 @@ class AWakfuModelSolveTests(SimpleTestCase):
     def test_the_rounds_stop_on_a_set_that_came_back(self):
         rounds = self.result.rounds
         self.assertTrue(self.result.converged)
-        self.assertIn(self.result.settled_by, ('key', 'gap'))
+        self.assertEqual('key', self.result.settled_by)
         self.assertGreater(len(rounds), 1)
-        if self.result.settled_by == 'key':
-            self.assertEqual(self.result.best.key, rounds[-1].key)
+        self.assertEqual(rounds[-2].ids, rounds[-1].ids)
         self.assertEqual(13, len(self.result.best.worn))
 
     def test_the_kept_set_has_the_best_value_of_every_round(self):
