@@ -956,6 +956,6 @@ class TheRealClassTurnSolveIsLegalTests(RealWakfuDataCase):
             minimums=wakfu_solve.make_role(('fire',), 'melee').minimums(
                 base_values(structure, 8)),
             class_id=8, aptitudes=result.aptitudes))
-        self.assertIn(result.status, ('proven', 'time limit'))
+        self.assertIn(result.status, ('proven', 'time limit', 'solved in steps'))
         self.assertLess(result.seconds, 95)
         self.assertIsNotNone(result.turn)

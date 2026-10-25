@@ -45,8 +45,8 @@ def stub_build(script, solved):
 
 
 class TheRoundLoopStubTests(SimpleTestCase):
-    """The loop on scripted sets with sublimations picked, the value of a set being its AP and
-    the objective AP + HP."""
+    """The loop on scripted sets with sublimations picked and no floor, the value of a set being
+    its AP and the objective AP + HP."""
 
     def run_loop(self, *sets, rounds=5):
         from fashionistapulp import wakfu_value
@@ -61,6 +61,7 @@ class TheRoundLoopStubTests(SimpleTestCase):
 
         with mock.patch('fashionistapulp.wakfu_model.WakfuBuild',
                         stub_build(list(sets), self.solved)), \
+                mock.patch.object(wakfu_value, '_floor', lambda *args: (None, None)), \
                 mock.patch.object(wakfu_value, 'linear_weights', weights), \
                 mock.patch.object(wakfu_value, 'value', value):
             return wakfu_value.solve(Catalogue(), 50, role, rounds=rounds,
@@ -174,13 +175,15 @@ class AJointRoundThatRunsOutOfTimeSwitchesToStepsTests(SublimationModelCase):
         from fashionistapulp.wakfu_model import STEPWISE, TIME_LIMIT
         result = self.solve_on_the_clock()
         statuses = [one.worn.status for one in result.rounds]
-        self.assertEqual(TIME_LIMIT, statuses[0])
-        self.assertGreater(len(statuses), 1)
-        self.assertEqual({STEPWISE}, set(statuses[1:]))
+        # The floor is round one
+        self.assertEqual(STEPWISE, statuses[0])
+        self.assertEqual(TIME_LIMIT, statuses[1])
+        self.assertGreater(len(statuses), 2)
+        self.assertEqual({STEPWISE}, set(statuses[2:]))
 
     def test_a_stepwise_round_still_places_and_prices_a_sublimation(self):
         result = self.solve_on_the_clock()
-        later = result.rounds[1]
+        later = result.rounds[2]
         self.assertTrue(later.worn.sublimations)
         self.assertIsNotNone(later.objective)
         self.assertEqual([], self.rules_broken(later.worn))

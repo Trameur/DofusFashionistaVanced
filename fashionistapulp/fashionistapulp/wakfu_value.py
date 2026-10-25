@@ -54,6 +54,12 @@ FIRST_STEP_SHARE = 0.6
 #: Share of the remaining time a joint round may take when sublimations or passives are
 #: solved, so that a round which ends on its clock leaves time for the stepwise rounds
 JOINT_SHARE = 0.6
+#: Share of the time left that the plain stage of a solve which picks sublimations or
+#: passives may take, before they are solved on the plain set it found
+PLAIN_SHARE = 0.5
+#: A solve which picks sublimations or passives needs this many seconds left to run the
+#: plain stage and the floor; with less it runs the round loop alone
+FLOOR_SECONDS = 3 * MIN_ROUND_SECONDS
 #: Seconds kept back from the caller's budget for landing the set and reading it
 FINISH_SECONDS = 5
 
@@ -70,6 +76,22 @@ def joint_deadline(deadline, picking):
         return deadline
     now = time.monotonic()
     return now + JOINT_SHARE * max(0, deadline - now)
+
+
+def plain_deadline(deadline):
+    """The monotonic deadline of the plain stage: a share of what is left."""
+    if deadline is None:
+        return None
+    now = time.monotonic()
+    return now + PLAIN_SHARE * max(0, deadline - now)
+
+
+def plain_modes(sublimations, passives):
+    """The sublimation and passive arguments of the plain stage: the ones that are picked
+    become none, the others are kept."""
+    return (wakfu_sublimations.NONE if sublimations == wakfu_sublimations.OPTIMISTIC
+            else sublimations,
+            wakfu_sublimations.NONE if passives == wakfu_sublimations.SOLVE else passives)
 
 
 def picks_sublimations_or_passives(sublimations, passives):
@@ -359,7 +381,9 @@ class ModelSolve(collections.namedtuple('ModelSolve', 'rounds best converged')):
     incumbent's set on its own objective, the last one read, None before any. crashed: (round
     number, message) of the round the solver died on, empty when none did; the loop stops
     there and keeps the incumbent. They are attributes, so the three fields stay what callers
-    unpack.
+    unpack. When sublimations or passives are picked, the first round is the floor: the best set
+    of a plain stage with the sublimations and passives solved on its pieces, whose status is
+    wakfu_model.STEPWISE. Only a round CBC proved settles the loop.
     """
 
     def __new__(cls, rounds, best, converged, reason=None, settled_by=None, gap=None,
@@ -440,9 +464,13 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     """Best set by value; each round solves on the tangent at a point of the sets found.
 
     The first round linearizes at the bare character. When sublimations or passives are
-    picked, each later round linearizes at the totals of the incumbent, the best landed set.
-    The loop then stops settled when a round returns the incumbent's set, or when the round's
-    objective on its own set is within GAP_TOL of the incumbent's on the same objective; a
+    picked, a plain stage on half the time left comes first, and its best set with the
+    sublimations and passives solved on its pieces is the incumbent; the first round then
+    linearizes at the plain best's totals, and each later round at the totals of the incumbent,
+    the best landed set. With less than FLOOR_SECONDS left the plain stage is skipped.
+    The loop then stops settled when a round CBC proved returns the incumbent's set, or when the
+    round's objective on its own set is within GAP_TOL of the incumbent's on the same objective;
+    a round that ended on its clock or was solved in steps settles nothing; a
     round that does not improve and is not within GAP_TOL is followed by one round at the
     midpoint of the two sets' totals, and the loop stops unsettled when that one does not
     improve either. Otherwise the point moves toward each new set by 2/(k+2) of the way, a
@@ -463,7 +491,9 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     PlayerState the pieces' player-state conditions are read against.
     aptitudes, battleground, levels, runes, rune_tier, sublimations, passives and opt_in:
     as in wakfu_model.WakfuBuild. When a joint round that picks them ends on its clock, the
-    rounds after it run in two steps and the set they give has the status wakfu_model.STEPWISE.
+    rounds after it run in two steps and the set they give has the status wakfu_model.STEPWISE;
+    such a round starts only with 2 x MIN_ROUND_SECONDS left, and the generic model's solve after
+    a class turn only with FLOOR_SECONDS left.
     """
     extras = _given(sublimations, passives, opt_in)
     if turn is None:
@@ -477,7 +507,9 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     classed = _solve(structure, level, role, forbidden, rounds, full_set, turn,
                      locked, deadline, class_id, state, aptitudes, battleground,
                      levels, runes, rune_tier, **extras)
-    if out_of_time(deadline):
+    if out_of_time(deadline) or (
+            deadline is not None and picks_sublimations_or_passives(sublimations, passives)
+            and deadline - time.monotonic() < FLOOR_SECONDS):
         return classed._replace(converged=False)
     try:
         generic = _solve(structure, level, role, forbidden, rounds, full_set,
@@ -519,6 +551,9 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
     if fight:
         high = OUT_OF_COMBAT_CAPS['AP'] + int(wakfu_sublimations.most_added(
             'ap', level if passives == wakfu_sublimations.SOLVE and class_id else None))
+    common = dict(forbidden=forbidden, full_set=full_set, minimums=minimums,
+                  class_id=class_id, state=state, aptitudes=aptitudes,
+                  battleground=battleground, runes=runes, rune_tier=rune_tier)
     done = []
     best = None
     settled_by = gap = None
@@ -526,8 +561,22 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
     stepwise = False
     reason = None
     crashed = ()
+    if picking:
+        shared = dict(forbidden=forbidden, rounds=rounds, full_set=full_set, turn=turn,
+                      locked=locked, class_id=class_id, state=state, aptitudes=aptitudes,
+                      battleground=battleground, levels=levels, runes=runes,
+                      rune_tier=rune_tier)
+        floor, plain_point = _floor(structure, level, role, shared, deadline, extras,
+                                    common, high)
+        if floor is not None:
+            done.append(floor)
+            best = floor
+            point = plain_point
     for number in range(max(1, rounds)):
         if done and out_of_time(deadline):
+            break
+        if (stepwise and deadline is not None
+                and deadline - time.monotonic() < 2 * MIN_ROUND_SECONDS):
             break
         weights = linear_weights(role, level, point, turn)
         options = {}
@@ -536,9 +585,6 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
                                     else turn.ap_values(point, high))
         if levels is not None:
             options['levels'] = levels
-        common = dict(forbidden=forbidden, full_set=full_set, minimums=minimums,
-                      class_id=class_id, state=state, aptitudes=aptitudes,
-                      battleground=battleground, runes=runes, rune_tier=rune_tier)
         try:
             if stepwise:
                 build, worn = _in_steps(structure, level, weights, common, locked, options,
@@ -579,14 +625,17 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
             point = totals
             damped = False
             continue
-        if here.key == best.key:
+        proven = worn.status not in (TIME_LIMIT, STEPWISE)
+        if proven and here.key == best.key:
+            # A round CBC proved came back to the incumbent: its status is the round's
+            best.worn.status = worn.status
             settled_by, gap = 'key', 0.0
             break
         if damped:
             # The midpoint round did not improve either
             break
         gap = here.objective - build.objective_of(best.worn)
-        if gap <= GAP_TOL:
+        if proven and gap <= GAP_TOL:
             settled_by = 'gap'
             break
         point = blend(best.totals, totals, 0.5)
@@ -597,6 +646,55 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
         best = max(done, key=lambda one: one.value)
     return ModelSolve(tuple(done), best, settled_by is not None, reason, settled_by, gap,
                       crashed)
+
+
+def _floor(structure, level, role, shared, deadline, extras, common, high):
+    """(round, point) of the floor, (None, None) when it is not run.
+
+    A plain stage on PLAIN_SHARE of the time left finds a set with sublimations and passives
+    left out. The floor is the better, on the systems model at that set's totals, of the set
+    itself and the set with sublimations and passives solved on its pieces. The point is the
+    plain best's totals, where the rounds after the floor linearize.
+    """
+    from .wakfu_model import STEPWISE, WakfuBuild
+
+    if deadline is not None and deadline - time.monotonic() < FLOOR_SECONDS:
+        return None, None
+    sublimations, passives = plain_modes(extras.get('sublimations'), extras.get('passives'))
+    try:
+        plain = _solve(structure, level, role, deadline=plain_deadline(deadline),
+                       sublimations=sublimations, passives=passives,
+                       opt_in=extras.get('opt_in'), **shared)
+    except SolverCrashed:
+        return None, None
+    if plain.best is None:
+        return None, None
+    turn, levels, locked = shared['turn'], shared['levels'], shared['locked']
+    point = plain.best.totals
+    weights = linear_weights(role, level, point, turn)
+    options = {}
+    if turn is not None:
+        options['ap_values'] = turn.ap_values(point, high)
+    if levels is not None:
+        options['levels'] = levels
+    pinned = [(item.id, position) for position, item in plain.best.worn.items()]
+    build = WakfuBuild(structure, level, weights, **common, **extras,
+                       **{**options, 'locked': pinned})
+    candidates = []
+    try:
+        worn = build.build().solve(joint_deadline(deadline, True))
+    except pulp.PulpSolverError:
+        worn = None
+    for one in (worn, plain.best.worn):
+        if one is not None:
+            candidates.append((one,) + land(
+                structure, level, role, build, one, turn, locked, shared['class_id'],
+                shared['state'], shared['aptitudes'], shared['battleground'], levels,
+                shared['runes'], shared['rune_tier'], **extras))
+    worn, worth, landed, totals = max(candidates, key=lambda one: one[1])
+    landed.report(worn)
+    worn.status = STEPWISE
+    return ModelRound(weights, landed, worn, totals, worth, build.objective_of(worn)), point
 
 
 def _in_steps(structure, level, weights, common, locked, options, extras, best, deadline):
