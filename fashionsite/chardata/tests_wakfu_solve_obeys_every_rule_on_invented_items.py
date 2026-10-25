@@ -669,7 +669,8 @@ class TheWakfuBuildCommandNeedsAnElementAndAReachTests(InventedItemsCase):
         out = self.run_command('--level', '100', '--elements', 'fire', '--reach', 'melee',
                                '--allow-legacy', '--lock', '%d@LEFT_HAND' % BETA)
         lines = out.splitlines()
-        self.assertIn('proven best', lines)
+        self.assertIn('settled', lines)
+        self.assertNotIn('proven best', lines)
         self.assertTrue(any(line.startswith('  LEFT_HAND') and 'Beta Ring' in line for line in lines), out)
         self.assertTrue(any(line.startswith('  systems the model leaves out: passives')
                            and 'runes (the database holds no rune table)' in line

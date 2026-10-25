@@ -139,7 +139,7 @@ class Command(BaseCommand):
         from fashionistapulp.structure import get_structure
         from fashionistapulp.wakfu_model import TIME_LIMIT
         from fashionistapulp.wakfu_slots import SOLVED_SLOTS
-        from fashionistapulp import wakfu_solve
+        from fashionistapulp import wakfu_solve, wakfu_value
         import os
 
         chemin = get_items_db_path('wakfu')
@@ -215,7 +215,7 @@ class Command(BaseCommand):
                     opt_in=opt_in)
         except wakfu_solve.WakfuIllegalSet as error:
             raise CommandError('the solver returned an illegal set: %s' % error)
-        except ValueError as error:
+        except (ValueError, wakfu_value.SolverCrashed) as error:
             raise CommandError(str(error))
         worn, build, model, turn = result.worn, result.build, result.model, result.turn_model
         duration = result.seconds
@@ -403,8 +403,15 @@ class Command(BaseCommand):
             self.stdout.write('not counted:')
             for note in left:
                 self.stdout.write('  %s' % note)
+        crashed = getattr(result.model, 'crashed', ())
+        for number, message in crashed:
+            self.stdout.write(self.style.WARNING(
+                'round %d: the solver crashed (%s), the best set so far is kept'
+                % (number, message)))
         if result.model is None:
             pass
+        elif crashed:
+            self.stdout.write('not settled, a round crashed')
         elif result.settled_by == 'gap':
             self.stdout.write('settled by gap %.2f' % result.gap)
         elif result.settled_by == 'key':
@@ -418,14 +425,16 @@ class Command(BaseCommand):
 
     @staticmethod
     def solve_line(result):
-        """How the last solve ended; 'proven best' only where one solve is the whole answer
-        or the rounds settled."""
+        """How the last solve ended; 'proven best' only for a single solve that ended Optimal,
+        'settled' for rounds that settled, as the value is not concave."""
         from fashionistapulp.wakfu_model import PROVEN, STEPWISE
 
         if result.status == PROVEN:
-            if result.model is not None and not result.settled:
-                return 'last round solved to the end'
-            return 'proven best'
+            if result.model is None:
+                return 'proven best'
+            if result.settled:
+                return 'settled'
+            return 'last round solved to the end'
         if result.status == STEPWISE:
             return 'solved in steps'
         return 'best set found within the time limit'

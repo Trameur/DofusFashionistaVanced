@@ -9,15 +9,16 @@ def result(status, model=None, settled=False):
     return types.SimpleNamespace(status=status, model=model, settled=settled)
 
 
-class TheCommandSaysProvenOnlyForASettledOrSingleSolveTests(SimpleTestCase):
+class TheCommandSaysProvenOnlyForASingleSolveTests(SimpleTestCase):
     def test_a_single_solve_that_ran_to_the_end_is_proven_best(self):
         from fashionistapulp.wakfu_model import PROVEN
         self.assertEqual('proven best', Command.solve_line(result(PROVEN)))
 
-    def test_rounds_that_settled_on_a_last_solve_that_ran_to_the_end_are_proven_best(self):
+    def test_rounds_that_settled_say_settled_and_never_proven(self):
         from fashionistapulp.wakfu_model import PROVEN
-        self.assertEqual('proven best',
-                         Command.solve_line(result(PROVEN, model=object(), settled=True)))
+        line = Command.solve_line(result(PROVEN, model=object(), settled=True))
+        self.assertEqual('settled', line)
+        self.assertNotIn('proven', line)
 
     def test_rounds_that_did_not_settle_are_not_called_proven(self):
         from fashionistapulp.wakfu_model import PROVEN
