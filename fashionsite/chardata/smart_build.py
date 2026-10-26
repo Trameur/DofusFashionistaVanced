@@ -27,6 +27,7 @@ from chardata.options import get_options, set_options
 from chardata.weight_table import apply_weight_table
 from fashionistapulp.dofus_constants import (DAMAGE_TYPES, STAT_KEY_TO_NAME, MAIN_STATS,
                                              NON_STAT_WEIGHT_KEYS)
+from fashionistapulp.game_versions import GAME_VERSIONS
 from fashionistapulp.modelresult import characteristic_passives, wisdom_per_ap_mp_dodge_point
 
 
@@ -990,7 +991,41 @@ def _set_minimums(char, aspects):
     # Set result in char
     char.minimum_stats = pickle.dumps(mins_by_name)
 
+WAKFU_MULE = 'mule'
+
+
+def _wakfu_elements(value):
+    """The elements of a char as a tuple: a string is one element, or several separated by commas."""
+    if value is None:
+        return ()
+    if isinstance(value, str):
+        value = value.split(',')
+    return tuple(name.strip() for name in value if name.strip())
+
+
+def _wakfu_standard_weights(char):
+    """The weights of the Wakfu registry for the class, level, preset and elements the char carries."""
+    class_id = getattr(char, 'wakfu_class_id', None)
+    preset = getattr(char, 'wakfu_preset', None)
+    elements = _wakfu_elements(getattr(char, 'wakfu_elements', None))
+    missing = [name for name, value in (('wakfu_class_id', class_id), ('wakfu_preset', preset))
+               if value is None or value == '']
+    if preset != WAKFU_MULE and not elements:
+        missing.append('wakfu_elements')
+    if not char.level:
+        missing.append('level')
+    if missing:
+        raise ValueError('a Wakfu build needs %s to be weighed' % ', '.join(missing))
+    from fashionistapulp import wakfu_presets
+    return wakfu_presets.standard_weights(
+        class_id, char.level, preset, () if preset == WAKFU_MULE else elements,
+        getattr(char, 'wakfu_content', None) or 'pvm')
+
+
 def get_standard_weights(char, table=True):
+    known = GAME_VERSIONS.get(getattr(char, 'game_version', None))
+    if known is not None and not known.dofus:
+        return _wakfu_standard_weights(char)
     w = _set_weights(char, get_char_aspects(char), apply=False, table=table)
     return w
 

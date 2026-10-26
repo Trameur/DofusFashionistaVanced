@@ -7,6 +7,7 @@
 
 """Presets shared by the doors that create a build: styles, element choices, boxes, priorities, modes."""
 
+import importlib
 import logging
 import math
 import pickle
@@ -193,9 +194,29 @@ for _version, _entry in VERSION_PRESETS.items():
     _entry['recipes'] = tuple(recipe for recipe in RECIPES if _offers(recipe, _version, _entry))
 
 
+WAKFU_REGISTRY = 'fashionistapulp.wakfu_presets'
+_wakfu_entry = None
+
+
+def _wakfu_site_entry():
+    """The entry of the Wakfu registry, or the KeyError of a version without presets while the registry is absent."""
+    global _wakfu_entry
+    try:
+        registry = importlib.import_module(WAKFU_REGISTRY)
+    except ModuleNotFoundError as error:
+        if error.name != WAKFU_REGISTRY:
+            raise
+        raise KeyError('wakfu') from None
+    if _wakfu_entry is None or _wakfu_entry[0] is not registry:
+        _wakfu_entry = (registry, registry.site_entry())
+    return _wakfu_entry[1]
+
+
 def version_presets(game_version):
     known = GAME_VERSIONS.get(game_version)
     if known is not None and not known.dofus:
+        if game_version == 'wakfu':
+            return _wakfu_site_entry()
         return VERSION_PRESETS[game_version]
     return VERSION_PRESETS.get(game_version, VERSION_PRESETS[DEFAULT_VERSION])
 
