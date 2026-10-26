@@ -283,17 +283,50 @@ def unspent_points(structure, level, aptitudes):
     return left
 
 
-def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(),
-                locked=(), allow_legacy=False, movement=None, seconds=90,
+def preset_turns(structure, level, class_id, role):
+    """(RoleTurns of a preset's role, {spell id: name}, class spells, mechanics, critical
+    source), the turns each value of the role is read from."""
+    from . import wakfu_presets, wakfu_turn
+
+    critical, source = harvest_criticals(level)
+    book = wakfu_turn.SpellBook(critical=critical)
+    try:
+        turns = wakfu_presets.build_turns(book, class_id, level, role)
+        return (turns, book.names(class_id), book.spells(class_id, level),
+                book.class_mechanics(class_id), source)
+    finally:
+        book.close()
+
+
+def preset_class_turn(spells, role, totals, mechanics):
+    """The class's best damage turn for a role with a damage share, None without one; a
+    mixed reach reports the better of the two."""
+    from . import wakfu_turn
+
+    if 'damage' not in role.shares:
+        return None
+    reaches = ('melee', 'distance') if role.reach == 'mixed' else (role.reach,)
+    return max((wakfu_turn.best_turn(spells, role._replace(reach=reach), totals,
+                                     class_mechanics=mechanics) for reach in reaches),
+               key=lambda found: found.damage)
+
+
+def solve_build(structure, *, level, elements, reach, class_id=None,
+                forbidden=(), locked=(), allow_legacy=False, movement=None, seconds=90,
                 defense=None, rounds=5, on_class_turn=True, state=None,
                 aptitudes=SOLVE, battleground=False, pet_level=None,
                 mount_level=None, item_levels=None, runes=wakfu_runes.OPTIMISTIC,
                 rune_tier=None, sublimations=wakfu_sublimations.OPTIMISTIC,
-                passives=wakfu_sublimations.SOLVE, opt_in=None):
-    """Best legal set for a damage role within `seconds` of wall time.
+                passives=wakfu_sublimations.SOLVE, opt_in=None, preset=None,
+                content='pvm'):
+    """Best legal set for a role within `seconds` of wall time.
 
-    elements (1 to 4 of fire, water, earth, air) and reach ('distance' or
-    'melee') are required: ValueError otherwise. locked: (item id, position or
+    Without a preset the role is a damage dealer: elements (1 to 4 of fire, water, earth,
+    air) and reach ('distance' or 'melee') are required, ValueError otherwise. With a
+    preset (a key of wakfu_presets.PRESETS) the role comes from the registry for class_id
+    at the level and content ('pvm' or 'pvp'): elements are required except for the mule
+    (pass ()), reach is None and defense is None (the preset's own), and the class turns of every
+    component the preset shares in price the value. locked: (item id, position or
     None) pairs; a lock the rules cannot honour raises ValueError.
     class_id: Ankama class id; its best turn is reported, and the solve prices
     every AP total by that turn unless on_class_turn is false. state: a
@@ -334,7 +367,19 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
                                           item_levels)
     state = state or wakfu_criteria.start_state()
     mode = _aptitude_mode(structure, level, aptitudes)
-    role = make_role(elements, reach, defense, movement)
+    if preset is None:
+        role = make_role(elements, reach, defense, movement)
+    else:
+        if not class_id:
+            raise ValueError('a preset needs a class')
+        if not on_class_turn:
+            raise ValueError('a preset is valued on the class turns')
+        if reach is not None or defense is not None:
+            raise ValueError('reach and defense come from the preset')
+        from . import wakfu_presets
+        role = wakfu_presets.role(class_id, preset, elements or (), level, content)
+        if movement is not None:
+            role = role._replace(movement=movement)
     if movement is not None and not class_id:
         raise ValueError('movement needs a class')
     forbidden, locked, legacy = _set_up(structure, forbidden, locked, allow_legacy)
@@ -345,7 +390,19 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
         not_counted.append('aptitudes')
     else:
         not_counted.extend(aptitude_notes(structure, level, battleground))
-    if class_id:
+    if class_id and preset is not None:
+        turn, names, spells, mechanics, _source = preset_turns(
+            structure, level, class_id, role)
+        ceiling = wakfu_value.resource_ceiling(
+            wakfu_criteria.base_values(structure, class_id))
+        if 'damage' in role.shares and turn.damage(ceiling) <= 0:
+            raise ValueError(
+                'class %d has no damage turn for %s at %s, even with AP, MP and '
+                'WP at their caps' % (class_id, '+'.join(role.elements), role.reach))
+        if 'heal' in role.shares and turn.models['heal'].damage(ceiling) <= 0:
+            raise ValueError('class %d has no heal turn for %s at level %d'
+                             % (class_id, '+'.join(role.elements), level))
+    elif class_id:
         from . import wakfu_turn
         spells, mechanics, names, _source = class_spells(level, class_id)
         if not spells:
@@ -382,7 +439,13 @@ def solve_build(structure, *, level, elements, reach, class_id=None, forbidden=(
              role.minimums(wakfu_criteria.base_values(structure, class_id or None)),
              class_id or None, state, held, battleground, rune_tier, landing)
     class_turn = None
-    if class_id:
+    if class_id and preset is not None:
+        class_turn = preset_class_turn(spells, role, best.totals, mechanics)
+        if class_turn is not None:
+            names = dict(names)
+            names.update((spell.id, spell.name) for spell in spells)
+            not_counted.extend(turn_notes(class_turn, names))
+    elif class_id:
         from . import wakfu_turn
         spells = class_spells(level, class_id)[0]
         class_turn = wakfu_turn.best_turn(spells, role, best.totals,

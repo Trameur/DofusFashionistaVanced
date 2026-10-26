@@ -37,6 +37,13 @@ class Command(BaseCommand):
                             choices=('distance', 'melee'),
                             help='mastery the role hits with. Required unless '
                                  '--weights is given')
+        parser.add_argument('--preset', default=None,
+                            help='a Wakfu preset: the role comes from the registry for '
+                                 '--class-id (damage_<reach>_<target>, tank, heal, '
+                                 'support, placement, hindrance, mule). Takes no --reach '
+                                 'or --defense, and --elements except for the mule')
+        parser.add_argument('--content', default='pvm', choices=('pvm', 'pvp'),
+                            help='the content a --preset is valued for (default pvm)')
         parser.add_argument('--defense', type=float, default=None,
                             help='weight of log(effective life) against '
                                  'log(turn damage) (default %s)'
@@ -170,11 +177,26 @@ class Command(BaseCommand):
                             ('--movement', options['movement'] is not None)):
             if given and (weights is not None or not options['class_id']):
                 raise CommandError('%s needs --class-id and no --weights' % flag)
+        preset = options['preset']
+        if preset is not None and weights is not None:
+            raise CommandError('--preset needs no --weights')
+        if preset is not None and options['reach'] is not None:
+            raise CommandError('--preset takes the reach from the preset, not --reach')
+        if preset is not None and options['defense'] is not None:
+            raise CommandError('--preset takes its shares from the registry, not --defense')
+        if preset is not None and not options['class_id']:
+            raise CommandError('--preset needs --class-id')
         if weights is None:
             try:
-                role = wakfu_solve.make_role(
-                    options['elements'], options['reach'], options['defense'],
-                    options['movement'])
+                if preset is None:
+                    role = wakfu_solve.make_role(
+                        options['elements'], options['reach'], options['defense'],
+                        options['movement'])
+                else:
+                    from fashionistapulp import wakfu_presets
+                    role = wakfu_presets.role(
+                        options['class_id'], preset, options['elements'] or (),
+                        options['level'], options['content'])
             except ValueError as error:
                 raise CommandError(str(error))
         locked = self.read_locks(options['lock'], SOLVED_SLOTS)
@@ -201,12 +223,13 @@ class Command(BaseCommand):
                 result = wakfu_solve.solve_build(
                     structure, level=options['level'],
                     elements=options['elements'], reach=options['reach'],
-                    class_id=options['class_id'],
+                    class_id=options['class_id'], preset=preset,
+                    content=options['content'],
                     forbidden=forbidden, locked=locked,
                     allow_legacy=options['allow_legacy'],
                     movement=options['movement'], seconds=options['seconds'],
                     defense=options['defense'], rounds=options['rounds'],
-                    on_class_turn=options['class_turn'], state=state,
+                    on_class_turn=options['class_turn'] or preset is not None, state=state,
                     aptitudes=aptitudes, battleground=options['battleground'],
                     pet_level=options['pet_level'],
                     mount_level=options['mount_level'], item_levels=item_levels,
@@ -276,7 +299,9 @@ class Command(BaseCommand):
         if model is not None:
             self.print_model(role, options['level'], model, turn,
                              structure, options['class_id'])
-            if options['class_id']:
+            if preset is not None:
+                self.print_components(role, options['level'], totals, turn)
+            elif options['class_id']:
                 self.print_turn(role, options['level'], options['class_id'], totals)
             self.stdout.write('')
             left_out = [note for note in result.not_counted
@@ -752,6 +777,16 @@ class Command(BaseCommand):
         self.stdout.write('  ' + '  '.join('%s %.4g' % (key.upper(), weights[key])
                                            for key in sorted(weights)
                                            if weights[key]))
+
+    def print_components(self, role, level, totals, turn):
+        from fashionistapulp import wakfu_value
+
+        self.stdout.write('')
+        self.stdout.write('  preset role: %s, %s, %s, %s; shares %s' % (
+            '+'.join(role.elements) or 'no element', role.reach, role.target, role.content,
+            ', '.join('%s %g' % one for one in role.shares.items())))
+        for name, worth in wakfu_value.components(role, level, totals, turn).items():
+            self.stdout.write('  %s %.4g' % (name, worth))
 
     def class_spells(self, level, class_id):
         """(damage spells, class mechanics, {spell id: name}, source of the critical values)."""
