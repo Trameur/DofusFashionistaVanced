@@ -35,6 +35,8 @@ ANKAMA_1_91 = ('Ankama, patch notes 1.91, https://www.wakfu.com/fr/mmorpg/'
                'actualites/maj/1767729-mise-jour-1-91/details')
 ANKAMA_SPELLS = ('Ankama, encyclopedia spell pages, critical damage column, '
                  'https://www.wakfu.com/fr/mmorpg/encyclopedie/classes')
+ANKAMA_CLIENT = ('Ankama, the Wakfu game client (spell table 66), read from '
+                 'https://cytrus.cdn.ankama.com')
 METHODWAKFU = ('MethodWakfu, General information, 3.2 Damage calculation, '
                'https://methodwakfu.com/en/getting-started/general-information/')
 WAKFORGE = ('WakForge, src/models/useStats.js, '
@@ -110,7 +112,71 @@ RULES = {
         'row that needs the caster not to have moved counts; False keeps the MP '
         'on spells and leaves those rows out'),
     'spells_castable_at_every_level': Rule(
+        False, FACT,
+        'a spell is castable from the unlock level of its row in the client spell '
+        'table (client_spells.unlock_level); a spell the client table lacks has none '
+        'and is castable at every level; ' + ANKAMA_CLIENT),
+    'client_spell_level_offset': Rule(
+        1, FACT,
+        'measured on the build tables: the encyclopedia value at displayed level L '
+        'equals the client curve at L - 1, floored, at every level sampled; '
+        + ANKAMA_CLIENT),
+    'critical_resistance_adds_to_raw': Rule(
+        True, FAN,
+        'critical resistance joins the raw resistance on a critical hit, under the '
+        'same cap; ' + METHODWAKFU),
+    'rear_resistance_adds_to_raw': Rule(
+        True, FAN,
+        'rear resistance joins the raw resistance on a hit from behind, under the '
+        'same cap; ' + METHODWAKFU),
+    'received_critical_share': Rule(
+        {'pvm': 0.03, 'pvp': 0.25}, ASSUMPTION,
+        'share of the hits received that are critical: pvm is the base critical '
+        'chance (monsters carry no ferocity in our data), pvp is a choice'),
+    'received_rear_share': Rule(
+        {'pvm': 0.10, 'pvp': 0.20}, CHOICE,
+        'share of the hits received that land on the rear'),
+    'received_side_share': Rule(
+        0.20, CHOICE,
+        'share of the hits received that land on the side'),
+    'armor_cap_share_of_life': Rule(
+        0.5, FAN,
+        'armor is capped at half of the maximum health points; ' + METHODWAKFU),
+    'armor_turns_held': Rule(
+        1, CHOICE,
+        'a role holds one turn of the armor its class gives itself'),
+    'critical_mastery_heals': Rule(
         True, ASSUMPTION,
-        'the spell tables give every spell figures from level 1 and no unlock '
-        'level, so a turn at any level may cast every spell of the class'),
+        'a critical heal adds the critical mastery, as a critical hit does; '
+        + METHODWAKFU + ' says masteries add to heals without naming it'),
+    'percent_heals_use_heal_mastery': Rule(
+        True, ASSUMPTION,
+        'a heal given as a share of the maximum health points takes the heal mastery like '
+        'any other heal; no source says it is exempt, and none says it is not'),
+    'berserk_mastery_heals': Rule(
+        False, ASSUMPTION,
+        'berserk mastery does not add to a heal; no source states it does'),
+    'self_heal_uses_melee_mastery': Rule(
+        True, FAN,
+        'a heal a spell can aim only at its caster takes the melee mastery, never the '
+        'rear one; ' + METHODWAKFU),
+    'removal_share_at_equal_willpower': Rule(
+        {'at_equal': 0.5, 'per_point': 1 / 200}, FAN,
+        'equal willpower removes half of the AP, MP or range asked; each 10 points of '
+        'difference moves the share by 1/20, so +100 removes all and -100 none; '
+        + METHODWAKFU),
+    'target_willpower': Rule(
+        0, ASSUMPTION,
+        'the target of a removal has no willpower: the data holds no monster stats'),
+    'teleport_cells': Rule(
+        2, CHOICE,
+        'a teleport or a switch of places counts as moving a unit by this many cells'),
+    'armor_rows_reach_caster': Rule(
+        True, ASSUMPTION,
+        'the decoded client effects keep no target mask, so an armor row whose criteria '
+        'do not aim it at an enemy is taken to land on the caster'),
+    'area_targets': Rule(
+        2, CHOICE,
+        'an area role counts every area damage row this many times: the data holds no '
+        'monster groups, so the number of units an area spell reaches is a choice'),
 }

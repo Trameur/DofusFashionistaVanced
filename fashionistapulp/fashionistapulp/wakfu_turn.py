@@ -27,7 +27,7 @@ import math
 import re
 import sqlite3
 
-from . import wakfu_value
+from . import wakfu_client_spells, wakfu_defense, wakfu_family, wakfu_value
 from .wakfu_stats import OUT_OF_COMBAT_CAPS
 from .wakfu_value_rules import RULES
 
@@ -47,6 +47,8 @@ STILL = 'stood still'
 GAUGE = 'class gauge'
 STATE = 'class state'
 SKIPPED = 'row'
+UNREAD = 'unread criterion'
+GAP = 'client gap'
 # "no portal" holds while the role does not take "portal"
 NOT = 'no '
 
@@ -63,6 +65,8 @@ LABELS = {
     GAUGE: 'class gauge',
     STATE: 'class state',
     SKIPPED: 'damage row not counted',
+    UNREAD: 'a criterion function the family turn does not read',
+    GAP: 'the client spell table does not explain the encyclopedia figures',
     'damage bonus': 'percent damage bonus',
     'repeat': 'repeats or doubles its effects',
     'next cast': 'changes a later cast',
@@ -181,25 +185,42 @@ STATES = (
     ('Cœur de Lumière', re.compile(r"\bC(?:œ|oe)ur de Lumière\b")),
 )
 
+# Where a row's figures come from
+CLIENT = 'client'
+HARVEST = 'harvest'
+# The client action that runs the effects of its group; a row under any other action is
+# the branch of a mechanism this model does not read
+GROUP_ACTION = wakfu_family.GROUP_ACTION
+
+# A client criterion that holds when a state is held, not the one that says it is absent
+HELD_STATE = re.compile(r"(?<!not )HasState(?:FromUser)?\(")
+
 # A turn at 0 damage, in percent of value
 NO_DAMAGE = -1000.0
 
 
 class Row(collections.namedtuple(
         'Row', 'position element base critical critical_read conditions unless '
-               'mode hits reach heading cost')):
+               'mode hits reach heading cost value_read area',
+        defaults=(HARVEST, False))):
     """One damage row of a spell at one level.
 
     conditions: keys that must all hold; unless: keys that cancel the row.
     mode: 'hit' lands with the spell, 'adds' on top, 'instead' replaces the hits.
+    value_read: 'client' when base comes from the client spell table, 'harvest' when
+    the encyclopedia holds the only curve; critical_read: 'client', 'given',
+    'encyclopedia' or 'x<multiplier>'. area: the row hits more than one cell.
     """
 
 
 class Spell(collections.namedtuple(
-        'Spell', 'id name branch ap wp mp low high rows skipped read mechanics')):
+        'Spell', 'id name branch ap wp mp low high rows skipped read mechanics unlock gap',
+        defaults=(1, None))):
     """A castable spell; skipped: (position, reason) of rows no turn counts.
 
     mechanics: (key, French text) of what the text says about damage beyond its rows.
+    unlock: the level it is castable from; gap: why the client table leaves the
+    encyclopedia figures unexplained, or None.
     """
 
 
@@ -451,21 +472,56 @@ def harvest_criticals(path, levels):
 class SpellBook:
     """Damage spells of the Wakfu classes, from items_wakfu.db.
 
-    critical: optional {(spell id, level): [critical value of each damage row]},
-    used where the tables hold no critical value (every level but 245).
+    The figures of a row come from the client spell table when it holds a curve equal to
+    the encyclopedia's at all 245 levels; the text structure (conditions, mode, hits)
+    stays on the encyclopedia. critical: optional {(spell id, level): [critical value of
+    each damage row]} for the rows the client table does not explain, used below level
+    245.
     """
 
     def __init__(self, db_path=None, critical=None):
         if db_path is None:
             from .fashionista_config import get_items_db_path
             db_path = get_items_db_path('wakfu')
+        self.path = db_path
         self.conn = sqlite3.connect('file:%s?mode=ro' % db_path, uri=True)
         self.critical = critical or {}
         self._clauses = {}
         self._mechanics = {}
+        self._client = False
+        self._status = {}
+        self._harvest_ids = None
 
     def close(self):
         self.conn.close()
+        if self._client:
+            self._client.close()
+
+    def client(self):
+        """The client spell reader, or None when the database holds no client spell table."""
+        if self._client is False:
+            try:
+                found = self.conn.execute('SELECT COUNT(*) FROM client_spells').fetchone()[0]
+            except sqlite3.OperationalError:
+                found = 0
+            self._client = wakfu_client_spells.ClientSpellBook(self.path) if found else None
+        return self._client
+
+    def client_spell(self, spell_id):
+        client = self.client()
+        if client is None:
+            return None
+        try:
+            return client.spell(spell_id)
+        except KeyError:
+            return None
+
+    def client_status(self, spell_id):
+        """(status, {position: Match}) of the harvest damage rows against the client spell."""
+        if spell_id not in self._status:
+            status, matches = wakfu_client_spells.spell_status(self.client(), spell_id)
+            self._status[spell_id] = (status, {match.position: match for match in matches})
+        return self._status[spell_id]
 
     def clauses(self, spell_id):
         """(clauses of the level-245 text, {row position: clause index} or None, requirements)."""
@@ -482,12 +538,31 @@ class SpellBook:
             self._mechanics[spell_id] = mechanics(text[0])
         return self._clauses[spell_id]
 
+    def _client_only(self, class_id):
+        """Client spells of the class the encyclopedia holds no damage figure for."""
+        client = self.client()
+        if client is None:
+            return ()
+        if self._harvest_ids is None:
+            self._harvest_ids = set(wakfu_client_spells.harvest_spells(self.conn))
+        return tuple(spell for spell in client.class_spells(class_id)
+                     if spell.id not in self._harvest_ids)
+
     def names(self, class_id):
         """{spell id: name} of every spell of the class, passives included."""
-        return dict(self.conn.execute(
+        out = dict(self.conn.execute(
             'SELECT spells.id, spell_names.name FROM spells JOIN spell_names'
             ' ON spell_names.spell = spells.id AND spell_names.language = ?'
             ' WHERE spells.class = ?', (TEXT_LANGUAGE, class_id)).fetchall())
+        for spell in self._client_only(class_id):
+            out[spell.id] = self._client_name(spell.id)
+        return out
+
+    def _client_name(self, spell_id):
+        found = self.conn.execute(
+            'SELECT name FROM client_spell_texts WHERE spell = ? AND language = ?',
+            (spell_id, TEXT_LANGUAGE)).fetchone()
+        return found[0] if found else str(spell_id)
 
     def class_mechanics(self, class_id):
         """((key, name, spell ids)) of the gauges and states named in the class's texts."""
@@ -503,6 +578,10 @@ class SpellBook:
                     out.append((key, name, ids))
         return tuple(out)
 
+    @staticmethod
+    def _unlocked(own, level):
+        return own is None or rule('spells_castable_at_every_level') or own.castable_at(level)
+
     def spells(self, class_id, level):
         """Every castable spell of the class with a damage row at `level`."""
         level = max(1, min(level, TEXT_LEVEL))
@@ -510,7 +589,11 @@ class SpellBook:
         for spell_id, branch, ap, mp, wp, reach in self.conn.execute(
                 'SELECT id, element, ap, mp, wp, range FROM spells WHERE class = ?'
                 ' ORDER BY id', (class_id,)).fetchall():
-            if not (ap or wp or mp):
+            own = self.client_spell(spell_id)
+            if own is not None:
+                ap, mp, wp = own.ap, own.mp, own.wp
+                reach = '%d - %d' % own.range
+            if not (ap or wp or mp) or not self._unlocked(own, level):
                 continue
             effects = self.conn.execute(
                 "SELECT position, element, value, is_percent, conditional FROM spell_effects"
@@ -518,12 +601,47 @@ class SpellBook:
                 (spell_id, level)).fetchall()
             if not effects:
                 continue
-            spell = self._spell(spell_id, branch, ap, mp, wp, reach, level, effects)
+            spell = self._spell(spell_id, branch, ap, mp, wp, reach, level, effects, own)
+            if spell.rows or spell.skipped:
+                out.append(spell)
+        for own in self._client_only(class_id):
+            if not (own.ap or own.wp or own.mp) or not self._unlocked(own, level):
+                continue
+            spell = self._client_only_spell(own, level)
             if spell.rows or spell.skipped:
                 out.append(spell)
         return tuple(out)
 
-    def _spell(self, spell_id, branch, ap, mp, wp, reach, level, effects):
+    @staticmethod
+    def _client_critical(own, row, text_critical, level, family='damage'):
+        """(the client row, its critical at `level` or None) for a matched NORMAL row.
+
+        Rows with the same action and parameters are interchangeable for the base. Their
+        paired criticals are kept when one is the text's critical at 245; failing that, a
+        CRITICAL row of the same action and criteria has it; failing that, the pairs
+        stand. Of several, the one asking for the fewest states held wins, then the first
+        in the tree: the encyclopedia shows the case where nobody holds a state.
+        """
+        twins = [(twin, own.critical_of(twin)) for twin in own.rows_of(family)
+                 if (twin.action, twin.params) == (row.action, row.params)]
+        twins = [(twin, other) for twin, other in twins if other is not None]
+        if text_critical is not None:
+            told = [(twin, other) for twin, other in twins
+                    if other.value(TEXT_LEVEL) == text_critical]
+            if not told:
+                other = next((other for other in own.rows_of(
+                    family, wakfu_client_spells.CRITICAL)
+                    if (other.action, other.criteria) == (row.action, row.criteria)
+                    and other.value(TEXT_LEVEL) == text_critical), None)
+                if other is not None:
+                    return row, other.value(level)
+            twins = told or twins
+        if not twins:
+            return row, None
+        twin, other = min(twins, key=lambda pair: _states_asked(pair[0]))
+        return twin, other.value(level)
+
+    def _spell(self, spell_id, branch, ap, mp, wp, reach, level, effects, own=None):
         name = self.conn.execute(
             'SELECT name FROM spell_names WHERE spell = ? AND language = ?',
             (spell_id, TEXT_LANGUAGE)).fetchone()
@@ -532,6 +650,7 @@ class SpellBook:
         plain = [effect for effect in effects if not effect[3]]
         if given is not None and len(given) != len(plain):
             given = None
+        status, matches = self.client_status(spell_id) if own is not None else (None, {})
         rows, skipped = [], []
         for position, element, value, is_percent, conditional in effects:
             element = (element or '').lower()
@@ -552,7 +671,16 @@ class SpellBook:
             else:
                 (_kind, _value, text_critical, keys, unless, mode, hits, row_reach,
                  heading, cost) = clauses[aligned[position]]
-            if given is not None:
+            match = matches.get(position)
+            exact = match is not None and match.status in (
+                wakfu_client_spells.AGREE, wakfu_client_spells.ELEMENT_DIFFERS)
+            critical = None
+            if exact:
+                client_row, critical = self._client_critical(
+                    own, match.row, text_critical, level)
+            if critical is not None:
+                read = CLIENT
+            elif given is not None:
                 critical = given[[effect[0] for effect in plain].index(position)]
                 read = 'given'
             elif level == TEXT_LEVEL and text_critical is not None:
@@ -560,13 +688,158 @@ class SpellBook:
             else:
                 critical = math.floor(value * rule('critical_multiplier'))
                 read = 'x%s' % rule('critical_multiplier')
+            if exact:
+                value = client_row.value(level)
             rows.append(Row(position, element, value, critical, read, keys | needs,
-                            unless, mode, hits, row_reach, heading, cost))
+                            unless, mode, hits, row_reach, heading, cost,
+                            CLIENT if exact else HARVEST, bool(exact and client_row.is_area)))
         low, high = _range(reach)
+        gap = status if status not in (None, wakfu_client_spells.AGREE) else None
         return Spell(spell_id, name[0] if name else str(spell_id),
-                     (branch or '').lower() or None, ap or 0, wp or 0, mp or 0,
+                     (branch or '').lower() or None, int(ap or 0), int(wp or 0), int(mp or 0),
                      low, high, tuple(rows), tuple(skipped), aligned is not None,
-                     self._mechanics[spell_id])
+                     self._mechanics[spell_id], 1 if own is None else own.unlock_level, gap)
+
+    def _client_only_spell(self, own, level):
+        """A spell only the client holds, with the damage rows nothing gates."""
+        rows, skipped = [], []
+        for position, row in enumerate(own.damage_rows()):
+            inside = [action for action, _criterion, _index in row.signature[:-1]
+                      if action != GROUP_ACTION]
+            if row.element not in DAMAGE_ELEMENTS:
+                skipped.append((position, 'the damage element is %s, with no mastery of its '
+                                          'own' % row.element))
+            elif row.criteria:
+                skipped.append((position, 'the client gates it by a condition the model '
+                                          'does not read'))
+            elif inside:
+                skipped.append((position, 'the client runs it inside another mechanism '
+                                          '(action %d)' % inside[0]))
+            else:
+                base = row.value(level)
+                paired = own.critical_of(row)
+                critical = paired.value(level) if paired is not None \
+                    else math.floor(base * rule('critical_multiplier'))
+                rows.append(Row(
+                    position, row.element, base, critical,
+                    CLIENT if paired is not None else 'x%s' % rule('critical_multiplier'),
+                    frozenset(), frozenset(), 'hit', 1, None, '', collections.Counter(),
+                    CLIENT, row.is_area))
+        return Spell(own.id, self._client_name(own.id), None, int(own.ap), int(own.wp),
+                     int(own.mp), int(own.range[0]), int(own.range[1]), tuple(rows),
+                     tuple(skipped), False, (), own.unlock_level, None)
+
+
+    def _spell_name(self, spell_id):
+        name = self.conn.execute(
+            'SELECT name FROM spell_names WHERE spell = ? AND language = ?',
+            (spell_id, TEXT_LANGUAGE)).fetchone()
+        return name[0] if name else self._client_name(spell_id)
+
+    def family_spells(self, class_id, level, family):
+        """Every castable spell of the class with a row of the family at `level`.
+
+        family: heal, armor, placement or hindrance. The rows come from the client spell
+        table; a heal row the encyclopedia text explains keeps the text's conditions.
+        """
+        if family not in wakfu_family.FAMILIES:
+            raise ValueError('family is one of %s, got %r' % (wakfu_family.FAMILIES, family))
+        client = self.client()
+        if client is None:
+            return ()
+        level = max(1, min(level, TEXT_LEVEL))
+        branches = dict(self.conn.execute(
+            'SELECT id, element FROM spells WHERE class = ?', (class_id,)).fetchall())
+        out = []
+        for own in client.class_spells(class_id):
+            if not (own.ap or own.wp or own.mp) or not self._unlocked(own, level):
+                continue
+            spell = self._family_spell(own, family, level, branches.get(own.id))
+            if spell.rows or spell.skipped:
+                out.append(spell)
+        return tuple(out)
+
+    def _heal_text(self, own):
+        """{client row id: (clause, requirements)} of the heal rows the text explains."""
+        clauses, aligned, needs = self.clauses(own.id)
+        if not aligned:
+            return {}
+        return {match.row.effect: (clauses[aligned[match.position]], needs)
+                for match in wakfu_client_spells.match_harvest(self.client(), own.id, 'healing')
+                if match.status in (wakfu_client_spells.AGREE,
+                                    wakfu_client_spells.ELEMENT_DIFFERS)
+                and match.position in aligned}
+
+    def _family_row(self, own, row, family, level, trees, text):
+        """The FamilyRow of a client row, or (None, why it is not a figure)."""
+        if family == 'armor':
+            return wakfu_family.FamilyRow(
+                row.effect, row.action, 'armor', row.value(level), None, 'none', trees), None
+        if family == 'placement':
+            cells = row.value(level) if row.family == 'push' else rule('teleport_cells')
+            return wakfu_family.FamilyRow(
+                row.effect, row.action, row.family, cells, None, 'none', trees), None
+        if family == 'hindrance':
+            return wakfu_family.FamilyRow(
+                row.effect, row.action, wakfu_family.REMOVED[row.action], row.value(level),
+                None, 'none', trees), None
+        percent = False
+        if len(row.params) >= 6 and row.params[4]:
+            if row.params[4] not in wakfu_family.PERCENT_OF_MAXIMUM:
+                return None, 'a share of the current or the lost life'
+            percent = True
+        clause, needs = text.get(row.effect, (None, frozenset()))
+        _twin, critical = self._client_critical(
+            own, row, clause[2] if clause else None, level, 'heal')
+        base = row.value(level)
+        if critical is not None:
+            read = CLIENT
+        else:
+            critical, read = math.floor(base * rule('critical_multiplier')),                 'x%s' % rule('critical_multiplier')
+        extra = {}
+        if clause:
+            keys, unless, mode, hits, reach, _heading, cost = clause[3:]
+            extra = dict(conditions=keys | needs, unless=unless, mode=mode, hits=hits,
+                         reach=reach, cost=cost)
+        return wakfu_family.FamilyRow(row.effect, row.action, row.element, base, critical,
+                                      read, trees, percent=percent, area=row.is_area,
+                                      **extra), None
+
+    def _family_spell(self, own, family, level, branch):
+        text = self._heal_text(own) if family == 'heal' else {}
+        wanted = wakfu_family.CLIENT_FAMILIES[family]
+        rows, skipped = [], []
+        for row in own.rows:
+            if row.branch != wakfu_client_spells.NORMAL or row.family not in wanted:
+                continue
+            inside = [action for action, _criterion, _index in row.signature[:-1]
+                      if action != GROUP_ACTION]
+            if inside:
+                skipped.append((row.effect, 'the client runs it inside another mechanism '
+                                            '(action %d)' % inside[0], ()))
+                continue
+            trees, unread = [], set()
+            for criterion in row.criteria:
+                tree, names = wakfu_family.prepare(criterion)
+                trees.append(tree)
+                unread |= names
+            if unread:
+                skipped.append((row.effect, 'a criterion with %s' % ', '.join(sorted(unread)),
+                                tuple(sorted(unread))))
+                continue
+            built, why = self._family_row(own, row, family, level, tuple(trees), text)
+            if built is None:
+                skipped.append((row.effect, why, ()))
+            else:
+                rows.append((row, built))
+        if family == 'armor':
+            rows, dropped = _brackets(rows)
+            skipped.extend((one, 'a copy or a bracket of a larger row of the same action', ())
+                           for one in dropped)
+        return wakfu_family.FamilySpell(
+            own.id, self._spell_name(own.id), own.breed, (branch or '').lower() or None,
+            int(own.ap), int(own.wp), int(own.mp), int(own.range[0]), int(own.range[1]),
+            own.unlock_level, level, tuple(built for _row, built in rows), tuple(skipped))
 
 
 class Turn(collections.namedtuple(
@@ -581,7 +854,7 @@ class Turn(collections.namedtuple(
     """
 
 
-def _hit(row, totals, reach, orientation, accepted, damage_inflicted, chance):
+def _hit(row, totals, reach, orientation, accepted, damage_inflicted, chance, targets=1):
     if row.element == 'light':
         own = max(totals.get(wakfu_value.MASTERY_OF[e], 0) for e in wakfu_value.ELEMENTS) \
             if rule('light_uses_best_element_mastery') else 0
@@ -602,7 +875,8 @@ def _hit(row, totals, reach, orientation, accepted, damage_inflicted, chance):
     critical = wakfu_value.hit_damage(
         row.critical, mastery + totals.get('critical_bonus', 0),
         damage_inflicted=damage_inflicted, orientation=factor)
-    return row.hits * ((1 - chance) * normal + chance * critical)
+    hits = row.hits * targets if row.area and targets != 1 else row.hits
+    return hits * ((1 - chance) * normal + chance * critical)
 
 
 def holds(key, accepted):
@@ -618,21 +892,22 @@ def lands(row, accepted):
             and not (row.unless and all(holds(key, accepted) for key in row.unless)))
 
 
-def counted_rows(spell, totals, reach, orientation, accepted, damage_inflicted=0):
-    """[(row, expected damage)] of the rows one cast counts."""
+def counted_rows(spell, totals, reach, orientation, accepted, damage_inflicted=0, targets=1):
+    """[(row, expected damage)] of the rows one cast counts; an area row hits targets units."""
     chance = wakfu_value.critical_chance(totals.get('ferocity', 0))
     hits, adds, instead = [], [], []
     for row in spell.rows:
         if not lands(row, accepted):
             continue
-        worth = _hit(row, totals, reach, orientation, accepted, damage_inflicted, chance)
+        worth = _hit(row, totals, reach, orientation, accepted, damage_inflicted, chance,
+                     targets)
         {'instead': instead, 'adds': adds}.get(row.mode, hits).append((row, worth))
     if instead:
         hits = [max(instead, key=lambda one: one[1])]
     return hits + adds
 
 
-def cast_damage(spell, totals, reach, orientation, accepted, damage_inflicted=0):
+def cast_damage(spell, totals, reach, orientation, accepted, damage_inflicted=0, targets=1):
     """(expected damage of one cast, {element: part of it}, cost change)."""
     cost = collections.Counter()
     for row in spell.rows:
@@ -641,7 +916,7 @@ def cast_damage(spell, totals, reach, orientation, accepted, damage_inflicted=0)
                 cost[key] = change
     parts = collections.Counter()
     for row, worth in counted_rows(spell, totals, reach, orientation, accepted,
-                                   damage_inflicted):
+                                   damage_inflicted, targets):
         parts[row.element] += worth
     return sum(parts.values()), parts, cost
 
@@ -650,6 +925,11 @@ def reaches(spell, reach):
     if reach == 'melee':
         return spell.low <= rule('melee_mastery_up_to_cells')
     return spell.high > rule('melee_mastery_up_to_cells')
+
+
+def targets_of(role):
+    """Units an area row hits: area_targets for an area role, 1 otherwise."""
+    return rule('area_targets') if getattr(role, 'target', 'single') == 'area' else 1
 
 
 def castable(spell, elements):
@@ -726,6 +1006,7 @@ def best_turn(spells, role, totals, conditions=(), orientation='front',
     mp, moving = movement_split(
         role, int(max(totals.get('mp', 0) if mp is None else mp, 0)))
     inflicted = role.damage_inflicted + totals.get('final_dmg_in_percent', 0)
+    targets = targets_of(role)
     chosen = set(DEFAULT_CONDITIONS) | set(conditions)
     if stood_still(role, moving):
         chosen.add(STILL)
@@ -738,7 +1019,7 @@ def best_turn(spells, role, totals, conditions=(), orientation='front',
         worths, options = {}, []
         for spell in usable:
             worth, parts, change = cast_damage(
-                spell, totals, role.reach, orientation, accepted, inflicted)
+                spell, totals, role.reach, orientation, accepted, inflicted, targets)
             if worth <= 0:
                 continue
             cost = (max(spell.ap + change['ap'], 0), max(spell.wp + change['wp'], 0),
@@ -778,6 +1059,25 @@ def best_turn(spells, role, totals, conditions=(), orientation='front',
                 _unmodelled(usable, class_mechanics))
 
 
+def _brackets(rows):
+    """(rows kept, ids dropped): armor rows of one action with the same criteria, or with
+    the same parameters, are copies or brackets of one figure; the largest stands."""
+    kept = list(rows)
+    for key in (lambda row: (row.action, row.criteria), lambda row: (row.action, row.params)):
+        best = {}
+        for row, built in kept:
+            if key(row) not in best or built.base > best[key(row)][1].base:
+                best[key(row)] = (row, built)
+        kept = [pair for pair in kept if best[key(pair[0])][0] is pair[0]]
+    standing = {pair[1].id for pair in kept}
+    return kept, tuple(built.id for _row, built in rows if built.id not in standing)
+
+
+def _states_asked(row):
+    """How many states a client row needs held, the states it asks to be absent left out."""
+    return sum(len(HELD_STATE.findall(criterion)) for criterion in row.criteria)
+
+
 def _opposite(key):
     return key[len(NOT):] if key.startswith(NOT) else 'not ' + key
 
@@ -785,6 +1085,8 @@ def _opposite(key):
 def _unmodelled(usable, class_mechanics=()):
     out, gauges = [], collections.OrderedDict()
     for spell in usable:
+        if spell.gap:
+            out.append(((spell.id,), GAP, 'encyclopedia figures kept: %s' % spell.gap))
         for position, reason in spell.skipped:
             out.append(((spell.id,), SKIPPED, 'row %d, %s' % (position, reason)))
         for key, detail in spell.mechanics:
@@ -799,10 +1101,179 @@ def _unmodelled(usable, class_mechanics=()):
     return tuple(out)
 
 
+def _heal_worth(row, spell, totals, reach, accepted, chance):
+    """Expected heal of one row: base and critical with the heal mastery, no resistance."""
+    if row.element == 'light':
+        own = max(totals.get(wakfu_value.MASTERY_OF[e], 0) for e in wakfu_value.ELEMENTS) \
+            if rule('light_uses_best_element_mastery') else 0
+    elif row.element in wakfu_value.MASTERY_OF:
+        own = totals.get(wakfu_value.MASTERY_OF[row.element], 0)
+    else:
+        own = 0
+    if wakfu_family.self_aimed(spell) and rule('self_heal_uses_melee_mastery'):
+        kind = 'melee'
+    else:
+        kind = row.reach or reach
+    mastery = (totals.get('heal_in_percent', 0) + totals.get(wakfu_value.ELEMENTAL_MASTERY, 0)
+               + own + totals.get(wakfu_value.REACH_MASTERY.get(
+                   kind, wakfu_value.REACH_MASTERY['distance']), 0))
+    if BERSERK in accepted and rule('berserk_mastery_heals'):
+        mastery += totals.get('berserk_dmg', 0)
+    base, critical = row.base, row.critical
+    bonus = totals.get('critical_bonus', 0) if rule('critical_mastery_heals') else 0
+    if row.percent:
+        life = wakfu_defense.life(spell.level, totals)
+        base, critical = math.floor(life * base / 100), math.floor(life * critical / 100)
+        if not rule('percent_heals_use_heal_mastery'):
+            mastery, bonus = 0, 0
+    normal = wakfu_value.hit_damage(base, mastery)
+    hurt = wakfu_value.hit_damage(critical, mastery + bonus)
+    return row.hits * ((1 - chance) * normal + chance * hurt)
+
+
+def family_cast(spell, family, totals, reach, accepted, context):
+    """(value of one cast, {part: value}, cost change) of a spell for a family turn.
+
+    heal: expected health points; armor: armor points; placement: cells moved;
+    hindrance: points removed after the willpower share.
+    """
+    landing = [row for row in spell.rows
+               if lands(row, accepted) and wakfu_family.row_holds(row, spell, context)]
+    cost = collections.Counter()
+    for row in landing:
+        for key, change in row.cost.items():
+            cost[key] = change
+    parts = collections.Counter()
+    if family == 'heal':
+        chance = wakfu_value.critical_chance(totals.get('ferocity', 0))
+        hits, adds, instead = [], [], []
+        for row in landing:
+            worth = _heal_worth(row, spell, totals, reach, accepted, chance)
+            {'instead': instead, 'adds': adds}.get(row.mode, hits).append((row, worth))
+        if instead:
+            hits = [max(instead, key=lambda one: one[1])]
+        for row, worth in hits + adds:
+            parts[row.element] += worth
+    elif family == 'armor':
+        if rule('armor_rows_reach_caster'):
+            for row in landing:
+                parts['armor'] += row.base
+    elif family == 'placement':
+        for row in landing:
+            parts[row.element] += row.base
+    else:
+        share = wakfu_family.removal_share(totals.get('willpower', 0))
+        for row in landing:
+            parts[row.element] += row.base * share
+    return sum(parts.values()), parts, cost
+
+
+def _family_unmodelled(usable, class_mechanics=()):
+    out = []
+    for spell in usable:
+        for row_id, reason, functions in spell.skipped:
+            if functions:
+                out.append(((spell.id,), UNREAD, 'row %d, %s' % (row_id, ', '.join(functions))))
+            else:
+                out.append(((spell.id,), SKIPPED, 'row %d, %s' % (row_id, reason)))
+    out.extend((tuple(ids), key, name) for key, name, ids in class_mechanics)
+    return tuple(out)
+
+
+def _context(spell, family, reach, held, deck):
+    return wakfu_family.Context(wakfu_family.AIM[family], wakfu_family.distance(spell, reach),
+                                held, frozenset(deck), spell.breed)
+
+
+def family_turn(spells, family, role, totals, conditions=(), casts_per_spell=None, wp=None,
+                mp=None, states=None, deck=(), class_mechanics=()):
+    """Best turn of a family on one target: the value of the casts, spell ids in order.
+
+    A Turn whose damage field holds the family's value and whose elements field holds
+    its parts. states: {client state id: level} the caster holds (a set means level 1),
+    deck: ids of the passives chosen; a state not given is not held. The rows no policy
+    function reads are in unmodelled, never in the value.
+    """
+    if family not in wakfu_family.FAMILIES:
+        raise ValueError('family is one of %s, got %r' % (wakfu_family.FAMILIES, family))
+    casts_per_spell = casts_per_spell or rule('casts_per_spell_per_turn')
+    ap = int(totals.get('ap', 0))
+    wp = int(min(totals.get('wp', 0), rule('wp_spent_per_turn') if wp is None else wp))
+    mp, moving = movement_split(
+        role, int(max(totals.get('mp', 0) if mp is None else mp, 0)))
+    chosen = set(DEFAULT_CONDITIONS) | set(conditions)
+    if stood_still(role, moving):
+        chosen.add(STILL)
+    held = dict(states) if isinstance(states, dict) else {key: 1 for key in states or ()}
+    reach = getattr(role, 'reach', 'distance')
+    elements = getattr(role, 'elements', ())
+
+    if family == 'damage':
+        usable = [spell for spell in spells if not elements or castable(spell, elements)]
+    else:
+        usable = list(spells)
+    best = None
+    for stance in _stance_options(usable, chosen):
+        accepted = frozenset(chosen | ({stance} if stance else set()))
+        parts, options = {}, []
+        for spell in usable:
+            worth, spell_parts, change = family_cast(
+                spell, family, totals, reach, accepted,
+                _context(spell, family, reach, held, deck))
+            if worth <= 0:
+                continue
+            cost = (max(spell.ap + change['ap'], 0), max(spell.wp + change['wp'], 0),
+                    max(spell.mp + change['mp'], 0))
+            parts[spell.id] = spell_parts
+            options.append((spell.id, worth, cost, casts_per_spell))
+        value, casts = rotation(options, ap, wp, mp)
+        if best is None or value > best[0]:
+            best = (value, casts, stance, accepted, parts)
+
+    value, casts, stance, accepted, parts = best
+    total = collections.Counter()
+    for spell_id in casts:
+        total.update(parts[spell_id])
+    cast = set(casts)
+    if stance and not any(stance in row.conditions for spell in usable
+                          if spell.id in cast for row in spell.rows):
+        accepted, stance = accepted - {stance}, None
+
+    counted, dropped = [], []
+    for spell in usable:
+        context = _context(spell, family, reach, held, deck)
+        for row in spell.rows:
+            if not (row.conditions - DEFAULT_CONDITIONS or row.unless or row.trees):
+                continue
+            keys = sorted(row.conditions) + [_opposite(key) for key in sorted(row.unless)]
+            entry = (spell.id, row.id, tuple(keys), '')
+            if not (lands(row, accepted) and wakfu_family.row_holds(row, spell, context)):
+                dropped.append(entry)
+            elif spell.id in cast:
+                counted.append(entry)
+    settings = {'ap': ap, 'wp': wp, 'mp': mp, 'mp_moving': moving,
+                'casts_per_spell': casts_per_spell, 'family': family,
+                'conditions': tuple(sorted(accepted)), 'states': tuple(sorted(held)),
+                'deck': tuple(sorted(deck))}
+    return Turn(value, casts, dict(total), stance, tuple(counted), tuple(dropped),
+                tuple(spell.id for spell in usable), settings,
+                _family_unmodelled(usable, class_mechanics))
+
+
 def _plus(totals, key, amount=1):
     out = collections.Counter(totals)
     out[key] += amount
     return out
+
+
+#: Stats a family's turn moves besides AP
+FAMILY_STATS = {
+    'heal': ('heal_in_percent', 'critical_bonus', 'ferocity', 'melee_dmg', 'ranged_dmg', 'wp',
+             'mp') + tuple(wakfu_value.MASTERY_OF.values()),
+    'armor': ('wp',),
+    'placement': ('mp', 'wp'),
+    'hindrance': ('willpower', 'wp'),
+}
 
 
 class TurnModel:
@@ -811,16 +1282,25 @@ class TurnModel:
         model = TurnModel(book.spells(class_id, level), role)
         wakfu_value.solve(structure, level, role, forbidden, turn=model)
 
-    options go to best_turn.
+    family: 'damage' (the default), or heal, armor, placement or hindrance, whose spells
+    come from book.family_spells(class_id, level, family); the turn then holds that
+    family's value in its damage field. options go to best_turn or family_turn.
     """
 
-    def __init__(self, spells, role, **options):
+    def __init__(self, spells, role, family='damage', **options):
+        if family != 'damage' and family not in wakfu_family.FAMILIES:
+            raise ValueError('family is damage or one of %s, got %r'
+                             % (wakfu_family.FAMILIES, family))
         self.spells = collections.OrderedDict((spell.id, spell) for spell in spells)
         self.role = role
+        self.family = family
         self.options = options
 
     def best(self, totals):
-        return best_turn(tuple(self.spells.values()), self.role, totals, **self.options)
+        if self.family == 'damage':
+            return best_turn(tuple(self.spells.values()), self.role, totals, **self.options)
+        return family_turn(tuple(self.spells.values()), self.family, self.role, totals,
+                           **self.options)
 
     def damage(self, totals):
         return self.best(totals).damage
@@ -846,6 +1326,8 @@ class TurnModel:
         AP is the best turn one AP up. Elemental mastery has no weight of its own:
         the solver adds the four element weights.
         """
+        if self.family != 'damage':
+            return self._family_weights(totals)
         turn = self.best(totals)
         if turn.damage <= 0:
             return {}
@@ -854,6 +1336,7 @@ class TurnModel:
         reach = self.role.reach
         inflicted = self.role.damage_inflicted + totals.get('final_dmg_in_percent', 0)
         chance = wakfu_value.critical_chance(totals.get('ferocity', 0))
+        targets = targets_of(self.role)
         every = _plus(totals, wakfu_value.ELEMENTAL_MASTERY)
         critical = _plus(totals, 'critical_bonus')
         ferocity = _plus(totals, 'ferocity')
@@ -861,19 +1344,30 @@ class TurnModel:
         for spell_id in turn.casts:
             spell = self.spells[spell_id]
             for row, worth in counted_rows(spell, totals, reach, orientation, accepted,
-                                           inflicted):
+                                           inflicted, targets):
                 per_point = _hit(row, every, reach, orientation, accepted, inflicted,
-                                 chance) - worth
+                                 chance, targets) - worth
                 for key in self._mastery_keys(row, totals, orientation, accepted):
                     gains[key] += per_point
                 gains['critical_bonus'] += _hit(row, critical, reach, orientation, accepted,
-                                                inflicted, chance) - worth
+                                                inflicted, chance, targets) - worth
             gains['ferocity'] += (
-                cast_damage(spell, ferocity, reach, orientation, accepted, inflicted)[0]
-                - cast_damage(spell, totals, reach, orientation, accepted, inflicted)[0])
+                cast_damage(spell, ferocity, reach, orientation, accepted, inflicted,
+                            targets)[0]
+                - cast_damage(spell, totals, reach, orientation, accepted, inflicted,
+                              targets)[0])
         weights = {key: 100 * gain / turn.damage for key, gain in gains.items() if gain > 0}
         weights['ap'] = 100 * (self.damage(_plus(totals, 'ap')) - turn.damage) / turn.damage
         return weights
+
+    def _family_weights(self, totals):
+        """{stat key: percent of the family's turn per point just above totals}."""
+        here = self.damage(totals)
+        if here <= 0:
+            return {}
+        keys = ['ap'] + list(FAMILY_STATS[self.family])
+        weights = {key: 100 * (self.damage(_plus(totals, key)) - here) / here for key in keys}
+        return {key: weight for key, weight in weights.items() if weight > 0}
 
     def ap_values(self, totals, high=None):
         """{AP total: 100 x log(turn at that AP / turn at totals)}, from 0 AP to the AP cap."""
@@ -889,6 +1383,64 @@ class TurnModel:
             return {ap: 0.0 for ap in damages}
         return {ap: 100 * math.log(damage / reference) if damage > 0 else NO_DAMAGE
                 for ap, damage in damages.items()}
+
+
+class RoleTurns:
+    """The turn models a wakfu_value.Role is valued on, and the scales of its stat components.
+
+    models: {'damage' (or 'melee' and 'distance' for a mixed reach), 'heal', 'armor',
+    'placement', 'hindrance': TurnModel}. scales: {stat key: scale}, see
+    wakfu_value.stat_scales. It stands in for a TurnModel in wakfu_value.solve: damage()
+    is the role's damage component and ap_values() prices every AP total by the whole value.
+    """
+
+    def __init__(self, role, level, models, scales=None):
+        self.role = role
+        self.level = level
+        self.models = dict(models)
+        self.scales = dict(scales or {})
+
+    def damage(self, totals):
+        """The damage component of the role; 1 for a role with no damage share."""
+        if 'damage' not in self.role.shares:
+            return 1.0
+        return wakfu_value.damage_worth(self.role, totals, self.models)
+
+    def ap_values(self, totals, high=None):
+        """{AP total: 100 x the value gained at that AP over the value at totals}."""
+        high = OUT_OF_COMBAT_CAPS['AP'] if high is None else high
+        worth = {}
+        for ap in range(high + 1):
+            moved = collections.Counter(totals)
+            moved['ap'] = ap
+            worth[ap] = wakfu_value.value(self.role, self.level, moved, self)
+        here = wakfu_value.value(self.role, self.level, totals, self)
+        finite = [one for one in worth.values() if one > -math.inf]
+        if here == -math.inf:
+            here = max(finite, default=0.0)
+        if not finite:
+            return {ap: 0.0 for ap in worth}
+        return {ap: 100 * (one - here) if one > -math.inf else NO_DAMAGE
+                for ap, one in worth.items()}
+
+
+def role_turns(book, class_id, level, role, scales=None):
+    """RoleTurns of a class for a role: a damage model per reach, a model for each family the
+    role shares in, and the armor model when it has a life share (its self armor)."""
+    conditions = (BERSERK,) if role.berserk else ()
+    spells = book.spells(class_id, level)
+    models = {}
+    if 'damage' in role.shares:
+        for reach in (('melee', 'distance') if role.reach == 'mixed' else (role.reach,)):
+            models['damage' if role.reach != 'mixed' else reach] = TurnModel(
+                spells, role._replace(reach=reach), conditions=conditions)
+    side = role._replace(reach='distance') if role.reach == 'mixed' else role
+    for family in wakfu_family.FAMILIES:
+        if family in role.shares or (family == 'armor' and 'life' in role.shares):
+            models[family] = TurnModel(
+                book.family_spells(class_id, level, family), side, family,
+                conditions=conditions)
+    return RoleTurns(role, level, models, scales)
 
 
 def describe(condition):

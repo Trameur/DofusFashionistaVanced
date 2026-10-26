@@ -16,8 +16,10 @@
 
 """Wakfu's damage and resistance formulas, and the solver weights they give a role.
 
-value = log(turn damage) + defense x log(effective life); a weight is 100 times
-its derivative, so one point of a stat is worth weight percent of the value.
+value = the sum over a role's components of share x log(component): the damage of its best
+turn, its effective life, its heals, armor, placement and hindrance, its lock, dodge and
+initiative, its wisdom and prospection. A weight is 100 times the derivative, so one point
+of a stat is worth weight percent of the value.
 """
 
 import collections
@@ -27,19 +29,27 @@ import time
 
 import pulp
 
-from . import lpproblem, wakfu_runes, wakfu_sublimations
+from . import lpproblem, wakfu_aptitudes, wakfu_runes, wakfu_sublimations
 from .wakfu_criteria import base_values
-from .wakfu_stats import ELEMENTS as ELEMENT_NAMES, OUT_OF_COMBAT_CAPS
+from .wakfu_defense import (  # noqa: F401  re-exported
+    ARMOR_GIVEN, CONTENTS, ELEMENTAL_RESISTANCE, ELEMENTS, LIFE_PERCENT, RESISTANCE_OF,
+    block_factor, class_armor_turn, defense_weights, effective_life, life,
+    mean_share_taken, raw_life, resistance_percent, share_taken)
+from .wakfu_stats import OUT_OF_COMBAT_CAPS
 from .wakfu_value_rules import RULES
 
-ELEMENTS = tuple(name.lower() for name in ELEMENT_NAMES)
 MASTERY_OF = {element: 'dmg_%s_percent' % element for element in ELEMENTS}
-RESISTANCE_OF = {element: 'res_%s_percent' % element for element in ELEMENTS}
 ELEMENTAL_MASTERY = 'dmg_in_percent'
 FINAL_DAMAGE = 'final_dmg_in_percent'
-LIFE_PERCENT = 'hp_percent'
-ELEMENTAL_RESISTANCE = 'res_in_percent'
 REACH_MASTERY = {'distance': 'ranged_dmg', 'melee': 'melee_dmg'}
+REACHES = ('melee', 'distance', 'mixed')
+TARGETS = ('single', 'area')
+FAMILY_COMPONENTS = ('heal', 'armor', 'placement', 'hindrance')
+#: Components valued as 1 + total / scale, and the stat each one adds up
+SCALED = {'lock': 'tackle', 'dodge': 'dodge', 'initiative': 'init'}
+MULE_STATS = ('wisdom', 'prospection')
+#: The components of a role, in the order value() adds them
+COMPONENTS = ('damage', 'life') + FAMILY_COMPONENTS + tuple(SCALED) + ('mule',)
 
 
 #: Rounds stop when less than this many seconds are left before a deadline
@@ -160,18 +170,75 @@ class DamageDealer(collections.namedtuple(
             floors['range'] = rule('range_floor_at_distance')
         return floors
 
+    def role(self, content='pvm'):
+        """The Role with the same damage and a life share of the defense weight."""
+        return Role(self.elements, self.reach, content=content, movement=self.movement,
+                    damage_inflicted=self.damage_inflicted,
+                    shares={'damage': 1, 'life': self.defense})
 
-def resistance_percent(raw):
-    """Resistance percent the game applies: whole percent, toward zero, capped."""
-    percent = 100 * (1 - rule('resistance_base') ** (raw / 100))
-    # 1 - 0.8 is 0.19999999999999996 in floats
-    return min(math.trunc(round(percent, 9)), rule('resistance_cap_percent'))
+
+class Role(collections.namedtuple(
+        'Role', 'elements reach target content berserk movement damage_inflicted shares')):
+    """What a build is for: the damage it casts and the components it is valued on.
+
+    elements: the damage elements, empty only when the role has no damage share. reach:
+    melee, distance or mixed (half of each). target: single, or area, where area damage rows
+    count area_targets times. content: pvm or pvp, for the hits the life takes. berserk:
+    the berserk conditions hold. movement and damage_inflicted: as in DamageDealer. shares:
+    {component: share >= 0}, see COMPONENTS; the value is the sum of share x log(component).
+    """
+
+    def __new__(cls, elements, reach, target='single', content='pvm', berserk=False,
+                movement=None, damage_inflicted=0, shares=None):
+        elements = tuple(dict.fromkeys(name.strip().lower() for name in elements))
+        shares = {'damage': 1} if shares is None else dict(shares)
+        unknown = set(shares) - set(COMPONENTS)
+        if unknown:
+            raise ValueError('components are %s, got %s'
+                             % (', '.join(COMPONENTS), ', '.join(sorted(unknown))))
+        if any(share < 0 for share in shares.values()):
+            raise ValueError('a share cannot be negative')
+        shares = {name: float(shares[name]) for name in COMPONENTS if shares.get(name)}
+        if not shares:
+            raise ValueError('a role needs a share in some component')
+        if set(shares) == {'life'}:
+            raise ValueError('a role is never valued on life alone: damage comes first')
+        unknown = set(elements) - set(ELEMENTS)
+        if unknown or (shares.get('damage') and not elements):
+            raise ValueError('elements are %s, got %r' % (', '.join(ELEMENTS), elements))
+        for field, kinds, given in (('reach', REACHES, reach), ('target', TARGETS, target),
+                                    ('content', CONTENTS, content)):
+            if given not in kinds:
+                raise ValueError('%s is %s, got %r' % (field, ' or '.join(kinds), given))
+        if movement is not None:
+            movement = float(movement)
+            if not 0 <= movement <= 1:
+                raise ValueError('movement is a share of MP, 0 to 1, got %r' % movement)
+        return super().__new__(cls, elements, reach, target, content, bool(berserk),
+                               movement, damage_inflicted, shares)
+
+    @property
+    def defense(self):
+        return self.shares.get('life', 0.0)
+
+    def minimums(self, base):
+        """{stat key: lowest total, base included} every set of the role keeps."""
+        floors = {name.lower(): base[name.lower()][0]
+                  for name in rule('resources_kept_at_base')}
+        if self.reach == 'distance' and 'damage' in self.shares:
+            floors['range'] = rule('range_floor_at_distance')
+        return floors
 
 
-def share_taken(raw):
-    """Share of a hit that goes through a raw resistance, whole percents ignored."""
-    floor = 1 - rule('resistance_cap_percent') / 100
-    return max(rule('resistance_base') ** (raw / 100), floor)
+def as_role(role, content=None):
+    """role as a Role: a DamageDealer becomes its equivalent, content replacing the role's."""
+    if isinstance(role, DamageDealer):
+        return role.role(content or 'pvm')
+    if content is not None and content != role.content:
+        if content not in CONTENTS:
+            raise ValueError('content is %s, got %r' % (' or '.join(CONTENTS), content))
+        return role._replace(content=content)
+    return role
 
 
 def critical_chance(ferocity):
@@ -242,78 +309,245 @@ def turn_damage(role, totals):
     return totals.get('ap', 0) * damage_factor(role, totals) * (1 + inflicted / 100)
 
 
-def raw_life(level, totals):
-    """Health points before the percent of health points."""
-    return (rule('base_life') + rule('life_per_level') * level
-            + totals.get('hp', 0))
+def value(role, level, totals, turn=None, content=None, armor_turn=0):
+    """sum over the role's components of share x log(component), see components().
 
-
-def life(level, totals):
-    """Maximum health points: the raw ones plus their percent, rounded down."""
-    raw = raw_life(level, totals)
-    return raw + raw * totals.get(LIFE_PERCENT, 0) // 100
-
-
-def mean_share_taken(totals):
-    """Share of a hit that goes through, averaged over the four elements."""
-    plain = totals.get(ELEMENTAL_RESISTANCE, 0)
-    return sum(share_taken(totals.get(RESISTANCE_OF[element], 0) + plain)
-               for element in ELEMENTS) / len(ELEMENTS)
-
-
-def block_factor(totals):
-    block = min(max(totals.get('block', 0), 0), 100)
-    return 1 - (1 - rule('block_multiplier')) * block / 100
-
-
-def effective_life(level, totals):
-    return life(level, totals) / (mean_share_taken(totals) * block_factor(totals))
-
-
-def value(role, level, totals, turn=None):
-    """log(turn damage) + role.defense x log(effective life).
-
-    turn: a wakfu_turn.TurnModel, whose best turn replaces AP x damage_factor.
+    role: a Role, or a DamageDealer (damage 1, life its defense). turn: a
+    wakfu_turn.TurnModel (the damage turn, whose best turn replaces AP x damage_factor) or
+    a wakfu_turn.RoleTurns; without one the damage is the closed form and the components that
+    need spells or scales are left out. content: the role's, unless given; armor_turn: the
+    class's self armor in one turn, taken from the turns' armor model when 0.
     """
-    if turn is None:
-        damage = math.log(turn_damage(role, totals))
-    else:
-        best = turn.damage(totals)
-        damage = math.log(best) if best > 0 else float('-inf')
-    return damage + role.defense * math.log(effective_life(level, totals))
+    role, models, scales, armor_turn = _frame(role, level, totals, turn, content, armor_turn)
+    total = 0.0
+    for name in COMPONENTS:
+        share = role.shares.get(name)
+        if not share:
+            continue
+        worth = _worth(name, role, level, totals, models, scales, armor_turn)
+        if worth is None:
+            continue
+        total += share * (math.log(worth) if worth > 0 else float('-inf'))
+    return total
 
 
-def linear_weights(role, level, totals, turn=None):
+def components(role, level, totals, turn=None, content=None, armor_turn=0):
+    """{component: C} of the role's components, the quantities value() takes the log of."""
+    role, models, scales, armor_turn = _frame(role, level, totals, turn, content, armor_turn)
+    worths = {name: _worth(name, role, level, totals, models, scales, armor_turn)
+              for name in COMPONENTS if role.shares.get(name)}
+    return {name: worth for name, worth in worths.items() if worth is not None}
+
+
+def linear_weights(role, level, totals, turn=None, content=None, armor_turn=0):
     """{stat key: percent of value per point}, the slope of value just above totals.
 
     Elemental mastery and resistance carry no weight of their own: the solver
-    adds the four element weights for them. turn: as in value().
+    adds the four element weights for them. The other arguments are those of value().
     """
-    if turn is None:
-        weights = _damage_weights(role, totals)
+    role, models, scales, armor_turn = _frame(role, level, totals, turn, content, armor_turn)
+    weights = collections.Counter()
+    for name in COMPONENTS:
+        share = role.shares.get(name)
+        if not share:
+            continue
+        for key, weight in _weights(name, share, role, level, totals, models, scales,
+                                    armor_turn).items():
+            weights[key] += weight
+    return dict(weights)
+
+
+def _frame(role, level, totals, turn, content, armor_turn):
+    """(role, turn models or None, scales, armor turn) a value or a weight call works on."""
+    role = as_role(role, content)
+    models = scales = None
+    if turn is not None:
+        models = getattr(turn, 'models', None)
+        scales = getattr(turn, 'scales', None)
+        if models is None:
+            if role.reach == 'mixed':
+                raise ValueError('a mixed reach needs the turns of both reaches (RoleTurns)')
+            models = {'damage': turn}
+    if not armor_turn and models and 'armor' in models and role.shares.get('life'):
+        armor_turn = class_armor_turn(models['armor'].best(totals))[0]
+    return role, models, scales, armor_turn
+
+
+def _need(models, name):
+    if name not in models:
+        raise ValueError('the turns hold no %s turn' % name)
+    return models[name]
+
+
+def _reaches(role, models):
+    """[(share of the damage, the role at that reach, its turn model or None)]; a reach
+    with no model is priced by the closed form."""
+    models = models or {}
+    if role.reach == 'mixed':
+        return [(0.5, role._replace(reach=reach), models.get(reach))
+                for reach in ('melee', 'distance')]
+    return [(1, role, models.get('damage'))]
+
+
+def damage_worth(role, totals, models=None):
+    """The damage component: the best damage turn, a mixed reach half melee and half distance."""
+    return sum(share * (model.damage(totals) if model is not None
+                        else turn_damage(part, totals))
+               for share, part, model in _reaches(role, models))
+
+
+def _damage_slopes(role, totals, models):
+    """{stat key: percent of the damage component per point}, the final damage one included."""
+    slopes = [(share, model.damage(totals) if model is not None else turn_damage(part, totals),
+               model.weights(totals) if model is not None else _damage_weights(part, totals))
+              for share, part, model in _reaches(role, models)]
+    if len(slopes) == 1:
+        weights = collections.Counter(slopes[0][2])
     else:
-        weights = collections.Counter(turn.weights(totals))
+        whole = sum(share * worth for share, worth, _ in slopes)
+        weights = collections.Counter()
+        for share, worth, one in slopes:
+            for key, weight in one.items():
+                weights[key] += share * worth * weight / whole
     inflicted = role.damage_inflicted + totals.get(FINAL_DAMAGE, 0)
     if inflicted > rule('damage_inflicted_floor_percent'):
         weights[FINAL_DAMAGE] = 100 / (100 + inflicted)
-    if role.defense:
-        weights['hp'] = 100 * role.defense / raw_life(level, totals)
-        weights[LIFE_PERCENT] = 100 * role.defense / (100 + totals.get(LIFE_PERCENT, 0))
-        through = mean_share_taken(totals)
-        slope = math.log(1 / rule('resistance_base')) / 100
-        plain = totals.get(ELEMENTAL_RESISTANCE, 0)
-        floor = 1 - rule('resistance_cap_percent') / 100
-        for element in ELEMENTS:
-            taken = rule('resistance_base') ** (
-                (totals.get(RESISTANCE_OF[element], 0) + plain) / 100)
-            if taken > floor:
-                weights[RESISTANCE_OF[element]] = (
-                    100 * role.defense * slope * taken / len(ELEMENTS) / through)
-        if 0 <= totals.get('block', 0) < 100:
-            weights['block'] = (100 * role.defense
-                                * (1 - rule('block_multiplier')) / 100
-                                / block_factor(totals))
-    return dict(weights)
+    return weights
+
+
+def _scale(scales, key):
+    if scales is None:
+        raise ValueError('a stat component needs the scales of the turns')
+    return scales.get(key, 0)
+
+
+def _armor_gain(name, totals):
+    """What the armor component multiplies the armor turn by: 1 + armor_given_percent / 100."""
+    if name != 'armor':
+        return 1
+    return max(1 + totals.get(ARMOR_GIVEN, 0) / 100, 0)
+
+
+def _worth(name, role, level, totals, models, scales, armor_turn):
+    """C of one component, None where the component is left out (no turns were given)."""
+    if name == 'damage':
+        return damage_worth(role, totals, models)
+    if name == 'life':
+        return effective_life(level, totals, role.content, armor_turn)
+    if name in FAMILY_COMPONENTS:
+        if models is None:
+            return None
+        turn = _need(models, name).damage(totals)
+        if name == 'heal':
+            return turn
+        return 1 + turn * _armor_gain(name, totals)
+    if name in SCALED:
+        if models is None:
+            return None
+        scale = _scale(scales, SCALED[name])
+        return 1 + max(totals.get(SCALED[name], 0), 0) / scale if scale > 0 else 1.0
+    return 1 + max(sum(totals.get(key, 0) for key in MULE_STATS), 0)
+
+
+def _weights(name, share, role, level, totals, models, scales, armor_turn):
+    """{stat key: share x 100 x dC/C per point} of one component."""
+    if name == 'damage':
+        return {key: share * weight
+                for key, weight in _damage_slopes(role, totals, models).items()}
+    if name == 'life':
+        return defense_weights(share, level, totals, role.content, armor_turn)
+    if name in FAMILY_COMPONENTS:
+        if models is None:
+            return {}
+        model = _need(models, name)
+        turn = model.damage(totals)
+        if turn <= 0:
+            return {}
+        slopes = model.weights(totals)
+        if name == 'heal':
+            return {key: share * weight for key, weight in slopes.items()}
+        gain = _armor_gain(name, totals)
+        worth = 1 + turn * gain
+        weights = {key: share * gain * turn * weight / worth
+                   for key, weight in slopes.items()}
+        if name == 'armor' and gain > 0:
+            weights[ARMOR_GIVEN] = share * turn / worth
+        return weights
+    if name in SCALED:
+        if models is None:
+            return {}
+        key = SCALED[name]
+        scale = _scale(scales, key)
+        total = totals.get(key, 0)
+        if scale <= 0 or total < 0:
+            return {}
+        return {key: 100 * share / (scale + total)}
+    owned = sum(totals.get(key, 0) for key in MULE_STATS)
+    if owned < 0:
+        return {}
+    return {key: 100 * share / (1 + owned) for key in MULE_STATS}
+
+
+def _aptitude_most(structure, key, top):
+    """The most the aptitudes give of a stat at level top: each category's points go to the
+    abilities that give the most per point."""
+    if not getattr(structure, 'aptitude_abilities', None):
+        return 0
+    table = wakfu_aptitudes.table(structure, top, False)
+    budget = wakfu_aptitudes.budgets(structure, top)
+    options = collections.defaultdict(list)
+    for category, cap, lines, _notes in table.abilities.values():
+        per_point = dict(lines).get(key, 0)
+        if per_point > 0:
+            options[category].append((per_point, cap))
+    total = 0
+    for category, found in options.items():
+        left = budget.get(category, 0)
+        for per_point, cap in sorted(found, reverse=True):
+            used = min(cap, left)
+            total += per_point * used
+            left -= used
+    return total
+
+
+def _rune_most(structure, stat, item, position):
+    """The most the sockets of an item give of a stat at a position: every socket holds the
+    best rune."""
+    sockets = wakfu_runes.sockets_of(item)
+    if not sockets or not getattr(structure, 'shards', None):
+        return 0
+    best = 0
+    for rune in wakfu_runes.valued(structure).values():
+        if rune.stat == stat.id and wakfu_runes.socket_tier(rune, item) >= 1:
+            best = max(best, wakfu_runes.value(
+                rune, wakfu_runes.socket_tier(rune, item), position in rune.doubles))
+    return sockets * best
+
+
+def stat_scale(structure, key, top):
+    """The most a set could hold of a stat at level top, to scale a 1 + total / scale
+    component: over equipment positions the highest value of the stat among the items at or
+    below top, their sockets filled with the best rune, plus what the aptitudes give at top."""
+    stat = structure.get_stat_by_key(key)
+    if stat is None:
+        return 0
+    places = collections.defaultdict(list)
+    for type_id, position in structure.get_type_positions():
+        places[type_id].append(position)
+    best = {}
+    for item in structure.get_available_items_list():
+        if item.level > top or getattr(item, 'removed', False):
+            continue
+        held = sum(amount for stat_id, amount in item.stats if stat_id == stat.id)
+        for position in places.get(item.type, ()):
+            best[position] = max(best.get(position, 0),
+                                 held + _rune_most(structure, stat, item, position))
+    return sum(best.values()) + _aptitude_most(structure, key, top)
+
+
+def stat_scales(structure, top):
+    """{stat key: stat_scale} of the stats the lock, dodge and initiative components use."""
+    return {key: stat_scale(structure, key, top) for key in SCALED.values()}
 
 
 def _damage_weights(role, totals):

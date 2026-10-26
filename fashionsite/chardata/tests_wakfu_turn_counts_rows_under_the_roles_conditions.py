@@ -478,7 +478,8 @@ class TheEncyclopediaTablesReadIntoTurnsTests(SimpleTestCase):
     def test_every_castable_damage_spell_text_lines_up_with_its_rows(self):
         spells = [spell for class_id in CLASSES for spell in self.book.spells(class_id, 245)]
         self.assertGreater(len(spells), 250)
-        self.assertEqual([], [spell.id for spell in spells if not spell.read])
+        # Only the two spells the client holds alone have no encyclopedia text to line up
+        self.assertEqual([2079, 7327], sorted(spell.id for spell in spells if not spell.read))
 
     def test_at_mastery_zero_a_hit_is_the_encyclopedias_base_or_critical_damage(self):
         pages = self.harvest()
@@ -524,13 +525,13 @@ class TheEncyclopediaTablesReadIntoTurnsTests(SimpleTestCase):
                 self.assertAlmostEqual(one, worth)
         self.assertEqual(-1, change['ap'])
 
-    def test_below_245_each_row_takes_the_harvests_critical_value(self):
+    def test_below_245_each_row_takes_the_clients_critical_value_the_harvest_agrees_with(self):
         pages = self.harvest()
         level = 110
         book = wakfu_turn.SpellBook(self.book_path, critical=wakfu_turn.harvest_criticals(
             self.harvest_path(), [level]))
         self.addCleanup(book.close)
-        compared = 0
+        compared = collections.Counter()
         for class_id in CLASSES:
             for spell in book.spells(class_id, level):
                 page = pages[str(spell.id)]['levels'][str(level)]
@@ -543,10 +544,13 @@ class TheEncyclopediaTablesReadIntoTurnsTests(SimpleTestCase):
                     (spell.id, level)) if not is_percent]
                 for one in spell.rows:
                     with self.subTest(spell=spell.id, row=one.position):
-                        self.assertEqual((critical[plain.index(one.position)], 'given'),
-                                         (one.critical, one.critical_read))
-                    compared += 1
-        self.assertGreater(compared, 300)
+                        self.assertEqual(critical[plain.index(one.position)], one.critical)
+                        self.assertIn(one.critical_read,
+                                      ('client', 'given') if one.value_read == 'client'
+                                      else ('given',))
+                    compared[one.critical_read] += 1
+        self.assertGreater(compared['client'], 300)
+        self.assertGreater(compared['given'], 30)
 
     def test_a_spell_that_hits_harder_away_from_portals_lands_that_hit_by_default(self):
         pulsation = [spell for spell in self.book.spells(18, 245) if spell.id == 4692]
