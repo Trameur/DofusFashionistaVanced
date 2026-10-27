@@ -4,7 +4,7 @@ from __future__ import annotations
 FASHIONISTA_VERSION = "3.7.12.12"
 FASHIONISTA_BETA_VERSION = "3.7.3.3"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
-FASHIONISTA_RETRO_VERSION = "1.49.8"
+FASHIONISTA_RETRO_VERSION = "1.49.9"
 FASHIONISTA_TOUCH_VERSION = "1.74.10"
 
 # (UTC day, patch): Ankama's release day up to 2.68, the day our data went in from 2.69 on; retro and touch by hand
@@ -109,7 +109,7 @@ PATCH_TIMELINE = {
 # seven lang categories and all 9428 rendered clips standing still. Both were
 # re-scraped on 2026-09-15 and both databases came out identical, every table
 # compared as a set of rows.
-WATCHED_RETRO_BUILD = "1.49.8.5709.463-18b64f7"
+WATCHED_RETRO_BUILD = "1.49.9.5721.465-64394b4"
 WATCHED_TOUCH_ASSETS = "3.3.10_9K0.T2bChypxsZ0fDLj7ehuwbXQ6oyhe"
 
 # Retro item data comes from the lang CDN, not from the client build, and that
