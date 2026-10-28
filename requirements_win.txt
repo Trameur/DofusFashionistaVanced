@@ -13,7 +13,7 @@
 #
 # Windows development machine.
 
-asgiref==3.12.1
+asgiref==3.13.0
 beautifulsoup4==4.15.0
 boto3==1.43.116
 botocore==1.43.116
