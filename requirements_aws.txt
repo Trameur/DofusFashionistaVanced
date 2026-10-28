@@ -42,7 +42,7 @@ python-dateutil==2.9.0.post0
 python3-openid==3.2.0
 requests-oauthlib==2.0.0
 requests==2.34.2
-s3transfer==0.19.2
+s3transfer==0.19.3
 six==1.17.0
 social-auth-app-django==7.1.0
 social-auth-core==6.1.1
