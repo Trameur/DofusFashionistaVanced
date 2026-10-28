@@ -219,7 +219,7 @@ def scripted(*sets):
     class ScriptedBuild:
         def __init__(self, structure, level, weights, forbidden=(), full_set=True,
                      minimums=None, class_id=None, state=None, aptitudes=None,
-                     battleground=False, runes=None, rune_tier=None, **options):
+                     battleground=False, runes=None, rune_tier=None, start=None, **options):
             self.weights = dict(weights)
             self.options = options
 

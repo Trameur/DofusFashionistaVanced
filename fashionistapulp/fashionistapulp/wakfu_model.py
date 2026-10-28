@@ -144,6 +144,8 @@ class WakfuSet(dict):
         super().__init__(worn)
         # {position: (sublimation item id, state, level, pattern)}, none given: None
         self.sublimations = None
+        # {variable name: value} of the nonzero columns the solver gave, none: not from a solve
+        self.solution_values = None
         # {position: (sublimation item id, state, kind)} of the relic or epic one
         self.specials = None
         # [spell id] of the class passives taken, none given: None
@@ -240,8 +242,13 @@ class WakfuBuild:
                  full_set=True, minimums=None, ap_values=None, locked=(),
                  class_id=None, state=None, aptitudes=None, battleground=False,
                  levels=None, runes=None, rune_tier=None, sublimations=None,
-                 passives=None, opt_in=None, fight_constants=None):
+                 passives=None, opt_in=None, fight_constants=None,
+                 start=None, prune_locked_positions=False):
         self.structure = structure
+        # {variable name: value} the solver starts from, none: it starts cold
+        self.start = start
+        # A position a lock names offers only its locked piece
+        self.prune_locked_positions = prune_locked_positions
         # {stat key: value} added to the fight totals as lines no choice changes
         self._constant_fight = {key: value for key, value in (fight_constants or {}).items()
                                 if value}
@@ -481,6 +488,10 @@ class WakfuBuild:
                 continue
             for position in places.get(item.type, ()):
                 wearable.append((item, position))
+        if self.prune_locked_positions:
+            held = {position: item.id for item, position in self._locks if position is not None}
+            wearable = [(item, position) for item, position in wearable
+                        if held.get(position, item.id) == item.id]
         # A piece with no stat line only stands where no piece with one does
         locked = {item.id for item, _position in self._locks}
         with_stats = {position for item, position in wearable
@@ -1607,8 +1618,10 @@ class WakfuBuild:
     def _run(self, deadline):
         from .wakfu_value import solver_time_limit
 
+        # The limit is read once the library problem is built and synced
+        self.problem.pulp_lp
         with solver_time_limit(deadline):
-            self.problem.run()
+            self.problem.run(warm_start=self.start)
 
     def solve(self, deadline=None):
         """WakfuSet or None; drops full_set only when that model is infeasible.
@@ -1658,6 +1671,7 @@ class WakfuBuild:
             name = '%s_%s' % (WORN, self._name(item, position))
             if (chosen.get(name) or 0) > 0.5:
                 worn[position] = item
+        worn.solution_values = {name: number for name, number in chosen.items() if number}
         worn.levels = {item.id: wakfu_companions.level_of(self.levels, item)
                        for item in worn.values()
                        if getattr(item, 'level_cap', None) is not None}

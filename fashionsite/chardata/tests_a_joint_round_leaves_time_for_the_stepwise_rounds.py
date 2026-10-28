@@ -28,3 +28,8 @@ class AJointRoundLeavesTimeForTheStepwiseRoundsTests(SimpleTestCase):
             given = wakfu_value.joint_deadline(85.0, True)
         left = 85.0 - given
         self.assertGreaterEqual(left, wakfu_value.MIN_ROUND_SECONDS)
+
+    def test_a_round_whose_rest_could_not_hold_a_stepwise_round_takes_the_whole_deadline(self):
+        with mock.patch.object(time, 'monotonic', return_value=0.0):
+            given = wakfu_value.joint_deadline(30.0, True)
+        self.assertEqual(30.0, given)

@@ -34,7 +34,8 @@ def kinded_build(scripts, solved, clock=None, after=()):
     plain: no sublimation or passive picked; first_step: the pieces step of a stepwise round;
     locked: something picked and pieces locked (the floor, then the second step of a stepwise
     round); joint: something picked, nothing locked. A scripted exception is raised. After a
-    solve the clock is set to the next value of after.
+    solve the clock is set to the next value of after. A build keeps the start and the pruning
+    it was given.
     """
     from fashionistapulp import wakfu_value
     pending = list(after)
@@ -42,9 +43,12 @@ def kinded_build(scripts, solved, clock=None, after=()):
     class KindedBuild:
         def __init__(self, structure, level, weights, forbidden=(), full_set=True,
                      minimums=None, locked=(), sublimations=None, passives=None,
-                     fight_constants=None, **ignored):
+                     fight_constants=None, start=None, prune_locked_positions=False,
+                     **ignored):
             self.weights = dict(weights)
             self.locked = locked
+            self.start = start
+            self.pruned = prune_locked_positions
             self.sublimations, self.passives = sublimations, passives
             picking = wakfu_value.picks_sublimations_or_passives(sublimations, passives)
             if fight_constants is not None:
@@ -341,3 +345,35 @@ class ARealSolveWithSublimationsIsWorthItsPlainSetTests(SublimationModelCase):
         self.assertEqual(STEPWISE, systems.rounds[0].worn.status)
         self.assertGreaterEqual(systems.best.value, plain.best.value - 1e-9)
         self.assertEqual([], self.rules_broken(systems.best.worn))
+
+
+class AFloorLeavesTimeForARoundTests(FloorCase):
+    def test_after_the_floor_a_whole_joint_round_needs_two_round_minimums(self):
+        from fashionistapulp import wakfu_value
+        left = 2 * wakfu_value.MIN_ROUND_SECONDS - 5
+        # Two plain rounds, then the floor's locked solve, after which the clock is at left
+        result = self.run_solve({'plain': PLAIN, 'locked': [outfit(1, ap=9)],
+                                 'joint': [outfit(2, ap=-1)]},
+                                deadline=100.0, clock=[0.0], after=[0.0, 0.0, 100.0 - left])
+        self.assertNotIn('joint', self.kinds())
+        self.assertEqual(1, len(result.rounds))
+
+
+class TheTwoMinimumStopTests(FloorCase):
+    def test_a_picking_solve_with_nothing_done_runs_its_first_round_on_less_than_two_minimums(self):
+        from fashionistapulp import wakfu_value
+        left = 2 * wakfu_value.MIN_ROUND_SECONDS - 5
+        self.assertLess(left, wakfu_value.FLOOR_SECONDS)
+        result = self.run_solve({'joint': [outfit(2, ap=2)]}, deadline=float(left),
+                                clock=[0.0])
+        self.assertEqual(['joint'], self.kinds())
+        self.assertEqual(frozenset({2}), result.rounds[0].ids)
+
+    def test_a_solve_that_picks_nothing_keeps_looping_on_less_than_two_minimums(self):
+        from fashionistapulp import wakfu_value
+        left = 2 * wakfu_value.MIN_ROUND_SECONDS - 5
+        self.assertGreaterEqual(left, wakfu_value.MIN_ROUND_SECONDS)
+        self.run_solve({'plain': [outfit(1, ap=3), outfit(2, ap=5), outfit(3, ap=7)]},
+                       deadline=100.0, clock=[0.0], after=[100.0 - left],
+                       nothing_picked=True)
+        self.assertGreater(self.kinds().count('plain'), 1)

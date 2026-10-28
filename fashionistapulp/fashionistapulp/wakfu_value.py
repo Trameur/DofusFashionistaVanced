@@ -81,11 +81,20 @@ def out_of_time(deadline):
 
 def joint_deadline(deadline, picking):
     """The monotonic deadline of a joint round: a share of what is left when sublimations or
-    passives are picked, the whole deadline otherwise."""
+    passives are picked, the whole deadline otherwise; the whole deadline too when the share
+    would leave less than a stepwise round needs."""
     if deadline is None or not picking:
         return deadline
     now = time.monotonic()
-    return now + JOINT_SHARE * max(0, deadline - now)
+    left = max(0, deadline - now)
+    if (1 - JOINT_SHARE) * left < 2 * MIN_ROUND_SECONDS:
+        return now + left
+    return now + JOINT_SHARE * left
+
+
+def _start_of(round_):
+    """The solution values of a round's set, None where it has none."""
+    return None if round_ is None else getattr(round_.worn, 'solution_values', None) or None
 
 
 def plain_deadline(deadline):
@@ -699,7 +708,7 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     """Best set by value; each round solves on the tangent at a point of the sets found.
 
     The first round linearizes at the bare character. When sublimations or passives are
-    picked, a plain stage on half the time left comes first, and its best set with the
+    picked, a plain stage on half the time left comes first, and the best of its sets with the
     sublimations and passives solved on its pieces is the incumbent; the first round then
     linearizes at the plain best's totals, and each later round at the totals of the incumbent,
     the best landed set. With less than FLOOR_SECONDS left the plain stage is skipped.
@@ -727,8 +736,9 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     aptitudes, battleground, levels, runes, rune_tier, sublimations, passives and opt_in:
     as in wakfu_model.WakfuBuild. When a joint round that picks them ends on its clock, the
     rounds after it run in two steps and the set they give has the status wakfu_model.STEPWISE;
-    such a round starts only with 2 x MIN_ROUND_SECONDS left, and the generic model's solve after
-    a class turn only with FLOOR_SECONDS left.
+    such a round starts only with 2 x MIN_ROUND_SECONDS left, as does every joint round after the
+    floor, and the generic model's solve after a class turn only with FLOOR_SECONDS left. A
+    plain round starts the solver from the best plain round so far; a joint round starts cold.
     """
     extras = _given(sublimations, passives, opt_in)
     if turn is None:
@@ -810,7 +820,7 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
     for number in range(max(1, rounds)):
         if done and out_of_time(deadline):
             break
-        if (stepwise and deadline is not None
+        if ((stepwise or picking) and done and deadline is not None
                 and deadline - time.monotonic() < 2 * MIN_ROUND_SECONDS):
             break
         weights = linear_weights(role, level, point, turn)
@@ -827,8 +837,11 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
                 if worn is not None:
                     worn.status = STEPWISE
             else:
-                build = WakfuBuild(structure, level, weights, **common, **extras, **options,
-                                   **({'locked': locked} if locked else {}))
+                start = None
+                if not picking and done:
+                    start = _start_of(max(done, key=lambda one: one.value))
+                build = WakfuBuild(structure, level, weights, start=start, **common, **extras,
+                                   **options, **({'locked': locked} if locked else {}))
                 worn = build.build().solve(joint_deadline(deadline, picking))
         except pulp.PulpSolverError as error:
             if not done:
@@ -888,12 +901,15 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
 def _floor(structure, level, role, shared, deadline, extras, common, high):
     """(round, point, crashed) of the floor, (None, None, ()) when it is not run.
 
-    A plain stage on PLAIN_SHARE of the time left finds a set with sublimations and passives
-    left out. The floor is the better, on the systems model at that set's totals, of the set
-    itself and the set with sublimations and passives solved on its pieces. The point is the
-    plain best's totals, where the rounds after the floor linearize. The locked solve is
-    skipped when the plain stage left no time for it. crashed: (1, message) of each crash in
-    a later round of the plain stage or in the locked solve, as both build round 1.
+    A plain stage on PLAIN_SHARE of the time left finds sets with sublimations and passives
+    left out. The floor is the best, on the systems model at each set's totals, of the plain
+    best itself and of every distinct plain set (best plain value first) with sublimations and
+    passives solved on its pieces; only the pieces are pinned, so each of those solves holds
+    the locked piece of a position alone. A solve after the first runs only with FLOOR_SECONDS
+    left. The point is the plain totals of the set the floor came from, where the rounds after
+    the floor linearize. The first solve is skipped when the plain stage left no time for it.
+    crashed: (1, message) of each crash in a later round of the plain stage or in a locked
+    solve, as both build round 1.
     """
     from .wakfu_model import STEPWISE, WakfuBuild
 
@@ -909,31 +925,47 @@ def _floor(structure, level, role, shared, deadline, extras, common, high):
     if plain.best is None:
         return None, None, ()
     turn, levels, locked = shared['turn'], shared['levels'], shared['locked']
-    point = plain.best.totals
-    weights = linear_weights(role, level, point, turn)
-    options = {}
-    if turn is not None:
-        options['ap_values'] = turn.ap_values(point, high)
-    if levels is not None:
-        options['levels'] = levels
-    pinned = [(item.id, position) for position, item in plain.best.worn.items()]
-    build = WakfuBuild(structure, level, weights, **common, **extras,
-                       **{**options, 'locked': pinned})
+    seeds = [plain.best]
+    for one in sorted(plain.rounds, key=lambda one: -one.value):
+        if all(one.key != seed.key for seed in seeds):
+            seeds.append(one)
     candidates = []
     crashed = tuple((1, message) for _, message in plain.crashed)
-    worn = None
-    if not out_of_time(deadline):
+    first = None
+    for index, seed in enumerate(seeds):
+        point = seed.totals
+        weights = linear_weights(role, level, point, turn)
+        options = {}
+        if turn is not None:
+            options['ap_values'] = turn.ap_values(point, high)
+        if levels is not None:
+            options['levels'] = levels
+        pinned = [(item.id, position) for position, item in seed.worn.items()]
+        build = WakfuBuild(structure, level, weights, start=_start_of(seed),
+                           prune_locked_positions=True, **common, **extras,
+                           **{**options, 'locked': pinned})
+        if first is None:
+            first = (build, weights, point)
+        if out_of_time(deadline):
+            break
+        if index and deadline is not None and deadline - time.monotonic() < FLOOR_SECONDS:
+            break
         try:
             worn = build.build().solve(joint_deadline(deadline, True))
         except pulp.PulpSolverError as error:
             crashed += ((1, str(error)),)
-    for one in (worn, plain.best.worn):
-        if one is not None:
-            candidates.append((one,) + land(
-                structure, level, role, build, one, turn, locked, shared['class_id'],
+            continue
+        if worn is not None:
+            candidates.append((worn, build, weights, point) + land(
+                structure, level, role, build, worn, turn, locked, shared['class_id'],
                 shared['state'], shared['aptitudes'], shared['battleground'], levels,
                 shared['runes'], shared['rune_tier'], **extras))
-    worn, worth, landed, totals = max(candidates, key=lambda one: one[1])
+    build, weights, point = first
+    candidates.append((plain.best.worn, build, weights, point) + land(
+        structure, level, role, build, plain.best.worn, turn, locked, shared['class_id'],
+        shared['state'], shared['aptitudes'], shared['battleground'], levels,
+        shared['runes'], shared['rune_tier'], **extras))
+    worn, build, weights, point, worth, landed, totals = max(candidates, key=lambda one: one[4])
     landed.report(worn)
     worn.status = STEPWISE
     return (ModelRound(weights, landed, worn, totals, worth, build.objective_of(worn)),
@@ -944,7 +976,8 @@ def _in_steps(structure, level, weights, common, locked, options, extras, best, 
     """(build, worn) of one round solved in two steps, (build, None) when a step gave no set.
 
     Step 1 is the model without sublimations and passives, the incumbent's counted as lines no
-    choice changes, and it picks the pieces. Step 2 is the whole model on those pieces.
+    choice changes, and it picks the pieces; it starts from the incumbent's values. Step 2 is the
+    whole model on those pieces, pruned to them, and starts from step 1's values.
     """
     from .wakfu_model import WakfuBuild
 
@@ -953,12 +986,13 @@ def _in_steps(structure, level, weights, common, locked, options, extras, best, 
     if deadline is not None:
         now = time.monotonic()
         middle = now + FIRST_STEP_SHARE * max(0, deadline - now)
-    first = WakfuBuild(structure, level, weights, fight_constants=held, **common, **options,
-                       **({'locked': locked} if locked else {}))
+    first = WakfuBuild(structure, level, weights, fight_constants=held, start=_start_of(best),
+                       **common, **options, **({'locked': locked} if locked else {}))
     pieces = first.build().solve(middle)
     if pieces is None:
         return first, None
     pinned = [(item.id, position) for position, item in pieces.items()]
-    second = WakfuBuild(structure, level, weights, **common, **extras,
+    second = WakfuBuild(structure, level, weights, start=pieces.solution_values or None,
+                        prune_locked_positions=True, **common, **extras,
                         **{**options, 'locked': pinned})
     return second, second.build().solve(deadline)
