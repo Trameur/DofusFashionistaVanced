@@ -23,6 +23,7 @@ from pulp import (LpVariable, LpInteger, LpContinuous, LpProblem, LpMaximize, Lp
                   LpStatusUndefined, LpSolution, LpSolutionOptimal, value)
 import copy
 import logging
+import math
 import pulp
 import os
 import re
@@ -219,10 +220,6 @@ def read_outcome(status, sol_status):
                         status == LpStatusOptimal and sol_status == LpSolutionOptimal)
 
 
-def _sum_or_zero(terms):
-    return pulp.lpSum(terms) if terms else 0
-
-
 class RowHandle:
     """A row the site owns: terms as (coefficient, variable name), a sense and a right-hand side.
 
@@ -348,7 +345,19 @@ class LpProblem2:
         return column
 
     def _expression(self, terms):
-        return _sum_or_zero([coefficient * self._column(name) for coefficient, name in terms])
+        if not terms:
+            return 0
+        expression = pulp.LpAffineExpression()
+        constant = 0
+        for coefficient, name in terms:
+            column = self._column(name)
+            if not math.isfinite(coefficient):
+                raise pulp.PulpError('Cannot multiply variables with NaN/inf values')
+            if coefficient != 0:
+                constant += 0 * coefficient
+                expression.addterm(column, coefficient * 1)
+        expression.constant = constant
+        return expression
 
     def _sync(self):
         if self._rows_changed or self._force_rebuild:
