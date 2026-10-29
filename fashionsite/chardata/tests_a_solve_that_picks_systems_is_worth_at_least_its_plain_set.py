@@ -116,7 +116,8 @@ class FloorCase(SimpleTestCase):
         if clock is not None:
             patches.append(mock.patch.object(time, 'monotonic', lambda: clock[0]))
         if not floor:
-            patches.append(mock.patch.object(wakfu_value, '_floor', lambda *a: (None, None, ())))
+            patches.append(mock.patch.object(wakfu_value, '_floor',
+                                              lambda *a: (None, None, None, ())))
         for patch in patches:
             patch.start()
             self.addCleanup(patch.stop)

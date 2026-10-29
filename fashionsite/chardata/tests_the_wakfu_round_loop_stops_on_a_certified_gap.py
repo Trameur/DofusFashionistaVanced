@@ -61,7 +61,7 @@ class TheRoundLoopStubTests(SimpleTestCase):
 
         with mock.patch('fashionistapulp.wakfu_model.WakfuBuild',
                         stub_build(list(sets), self.solved)), \
-                mock.patch.object(wakfu_value, '_floor', lambda *args: (None, None, ())), \
+                mock.patch.object(wakfu_value, '_floor', lambda *args: (None, None, None, ())), \
                 mock.patch.object(wakfu_value, 'linear_weights', weights), \
                 mock.patch.object(wakfu_value, 'value', value):
             return wakfu_value.solve(Catalogue(), 50, role, rounds=rounds,

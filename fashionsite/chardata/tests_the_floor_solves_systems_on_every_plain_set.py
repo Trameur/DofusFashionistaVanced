@@ -9,17 +9,33 @@ LOCKED = [outfit(1, ap=5), outfit(2, ap=9)]
 
 
 class TheFloorSolvesSystemsOnEveryPlainSetTests(FloorCase):
-    def test_the_floor_is_the_best_locked_solve_over_every_plain_set(self):
+    def test_the_best_locked_solve_over_every_plain_set_is_kept_when_it_beats_every_round(self):
         result = self.run_solve({'plain': TWO_SETS, 'locked': LOCKED,
                                  'joint': [outfit(3, ap=-1)]})
-        self.assertEqual(15.0, result.rounds[0].value)
-        self.assertEqual(frozenset({2}), result.rounds[0].ids)
+        self.assertEqual(15.0, result.best.value)
+        self.assertEqual(frozenset({2}), result.best.ids)
+        self.assertIs(result.best, result.rounds[-1])
+        self.assertFalse(result.converged)
 
-    def test_the_first_systems_round_solves_at_the_totals_of_the_plain_set_the_floor_came_from(self):
+    def test_the_rounds_climb_from_the_plain_bests_floor(self):
+        result = self.run_solve({'plain': TWO_SETS, 'locked': LOCKED,
+                                 'joint': [outfit(3, ap=-1)]})
+        self.assertEqual(11.0, result.rounds[0].value)
+        self.assertEqual(frozenset({1}), result.rounds[0].ids)
+
+    def test_the_first_systems_round_solves_at_the_plain_bests_totals(self):
         self.run_solve({'plain': TWO_SETS, 'locked': LOCKED, 'joint': [outfit(3, ap=-1)]})
         joint = next(build for build in self.solved if build.kind == 'joint')
-        # AP 6 + 2 of the second plain set, not the plain best's 6 + 3
-        self.assertEqual(8, joint.weights['point_ap'])
+        # AP 6 + 3 of the plain best, not the 6 + 2 of the plain set that solves best
+        self.assertEqual(9, joint.weights['point_ap'])
+
+    def test_a_better_plain_set_does_not_raise_the_bar_the_rounds_climb_from(self):
+        # Worth 13, 12 and 17: the first beats the plain best's floor (11), not the 15 of the
+        # second plain set; the second is priced far above the first on its own objective
+        joint = [outfit(3, ap=7), outfit(4, ap=6, hp=50), outfit(5, ap=11)]
+        result = self.run_solve({'plain': TWO_SETS, 'locked': LOCKED, 'joint': joint})
+        self.assertEqual([11.0, 13.0, 12.0, 17.0], [one.value for one in result.rounds])
+        self.assertEqual(frozenset({5}), result.best.ids)
 
     def test_the_seeds_run_best_plain_value_first_then_descending(self):
         # Worth 7, 8 and 9 in the order the plain rounds find them

@@ -629,6 +629,8 @@ class ModelSolve(collections.namedtuple('ModelSolve', 'rounds best converged')):
     of a plain stage with the sublimations and passives solved on its pieces, whose status is
     wakfu_model.STEPWISE; a crash in a later round of the plain stage or in the floor's own
     solve counts as round 1 and the loop goes on. Only a round CBC proved settles the loop.
+    Another plain set solved the same way comes last when it beats every round, and the solve
+    is then not settled.
     """
 
     def __new__(cls, rounds, best, converged, reason=None, settled_by=None, gap=None,
@@ -765,10 +767,12 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     """Best set by value; each round solves on the tangent at a point of the sets found.
 
     The first round linearizes at the bare character. When sublimations or passives are
-    picked, a plain stage on half the time left comes first, and the best of its sets with the
+    picked, a plain stage on half the time left comes first, and its best set with the
     sublimations and passives solved on its pieces is the incumbent; the first round then
     linearizes at the plain best's totals, and each later round at the totals of the incumbent,
-    the best landed set. With less than FLOOR_SECONDS left the plain stage is skipped.
+    the best landed set. The stage's other sets with them solved on their pieces never steer
+    the rounds; the best of them is kept when it beats every round. With less than
+    FLOOR_SECONDS left the plain stage is skipped.
     The loop then stops settled when a round CBC proved returns the incumbent's set, or when the
     round's objective on its own set is within GAP_TOL of the incumbent's on the same objective;
     a round that ended on its clock or was solved in steps settles nothing; a
@@ -863,13 +867,14 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
     stepwise = False
     reason = None
     crashed = ()
+    seeded = None
     if picking:
         shared = dict(forbidden=forbidden, rounds=rounds, full_set=full_set, turn=turn,
                       locked=locked, class_id=class_id, state=state, aptitudes=aptitudes,
                       battleground=battleground, levels=levels, runes=runes,
                       rune_tier=rune_tier)
-        floor, plain_point, crashed = _floor(structure, level, role, shared, deadline, extras,
-                                             common, high)
+        floor, seeded, plain_point, crashed = _floor(structure, level, role, shared, deadline,
+                                                     extras, common, high)
         if floor is not None:
             done.append(floor)
             best = floor
@@ -947,6 +952,10 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
         damped = True
     if not done:
         return ModelSolve((), None, False, reason)
+    if seeded is not None and seeded.value > best.value + 1e-9:
+        done.append(seeded)
+        best = seeded
+        settled_by = None
     if not picking:
         best = max(done, key=lambda one: one.value)
     if crashed:
@@ -956,31 +965,33 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
 
 
 def _floor(structure, level, role, shared, deadline, extras, common, high):
-    """(round, point, crashed) of the floor, (None, None, ()) when it is not run.
+    """(round, seeded, point, crashed) of the floor, (None, None, None, ()) when it is not run.
 
     A plain stage on PLAIN_SHARE of the time left finds sets with sublimations and passives
-    left out. The floor is the best, on the systems model at each set's totals, of the plain
-    best itself and of every distinct plain set (best plain value first) with sublimations and
-    passives solved on its pieces; only the pieces are pinned, so each of those solves holds
-    the locked piece of a position alone. A solve after the first runs only with FLOOR_SECONDS
-    left. The point is the plain totals of the set the floor came from, where the rounds after
-    the floor linearize. The first solve is skipped when the plain stage left no time for it.
+    left out. The floor is the better, on the systems model at the plain best's totals, of the
+    plain best itself and the plain best with sublimations and passives solved on its pieces;
+    the rounds after the floor climb from it and linearize at the plain best's totals, the
+    point. seeded is the best of the floor and of every other distinct plain set (best plain
+    value first) with sublimations and passives solved on its pieces, each landed at its own
+    totals; it never steers the rounds. Only the pieces are pinned, so each locked solve holds
+    the locked piece of a position alone. A solve after the first runs only with
+    FLOOR_SECONDS left, and the first is skipped when the plain stage left no time for it.
     crashed: (1, message) of each crash in a later round of the plain stage or in a locked
     solve, as both build round 1.
     """
     from .wakfu_model import STEPWISE, WakfuBuild
 
     if deadline is not None and deadline - time.monotonic() < FLOOR_SECONDS:
-        return None, None, ()
+        return None, None, None, ()
     sublimations, passives = plain_modes(extras.get('sublimations'), extras.get('passives'))
     try:
         plain = _solve(structure, level, role, deadline=plain_deadline(deadline),
                        sublimations=sublimations, passives=passives,
                        opt_in=extras.get('opt_in'), **shared)
     except SolverCrashed:
-        return None, None, ()
+        return None, None, None, ()
     if plain.best is None:
-        return None, None, ()
+        return None, None, None, ()
     turn, levels, locked = shared['turn'], shared['levels'], shared['locked']
     seeds = [plain.best]
     for one in sorted(plain.rounds, key=lambda one: -one.value):
@@ -1013,20 +1024,28 @@ def _floor(structure, level, role, shared, deadline, extras, common, high):
             crashed += ((1, str(error)),)
             continue
         if worn is not None:
-            candidates.append((worn, build, weights, point) + land(
+            candidates.append((index, worn, build, weights) + land(
                 structure, level, role, build, worn, turn, locked, shared['class_id'],
                 shared['state'], shared['aptitudes'], shared['battleground'], levels,
                 shared['runes'], shared['rune_tier'], **extras))
     build, weights, point = first
-    candidates.append((plain.best.worn, build, weights, point) + land(
+    candidates.append((0, plain.best.worn, build, weights) + land(
         structure, level, role, build, plain.best.worn, turn, locked, shared['class_id'],
         shared['state'], shared['aptitudes'], shared['battleground'], levels,
         shared['runes'], shared['rune_tier'], **extras))
-    worn, build, weights, point, worth, landed, totals = max(candidates, key=lambda one: one[4])
-    landed.report(worn)
-    worn.status = STEPWISE
-    return (ModelRound(weights, landed, worn, totals, worth, build.objective_of(worn)),
-            point, crashed)
+    rounds = []
+    chosen = []
+    for kept in ([one for one in candidates if not one[0]], candidates):
+        pick = max(kept, key=lambda one: one[4])
+        if chosen and pick is chosen[0]:
+            rounds.append(rounds[0]._replace())
+            continue
+        chosen.append(pick)
+        _index, worn, build, weights, worth, landed, totals = pick
+        landed.report(worn)
+        worn.status = STEPWISE
+        rounds.append(ModelRound(weights, landed, worn, totals, worth, build.objective_of(worn)))
+    return rounds[0], rounds[1], point, crashed
 
 
 def _in_steps(structure, level, weights, common, locked, options, extras, best, deadline):
