@@ -424,6 +424,13 @@ def solve_build(structure, *, level, elements, reach, class_id=None,
                               sublimations=sublimations, passives=passives, opt_in=opt_in)
     unlocks = _unlocks(structure, level, class_id or None, forbidden, state)
     best = model.best
+    if best is not None:
+        landed = wakfu_value.best_landing(
+            structure, level, role, best, turn, locked, class_id or None, state, aptitudes,
+            battleground, levels, rune_mode, rune_tier, sublimations, passives, opt_in)
+        rounds = tuple(landed if one is best else one for one in model.rounds)
+        model = model._replace(best=landed, rounds=rounds)
+        best = landed
     modes = {'sublimation_mode': sublimations, 'passive_mode': passives, 'opt_in': opt_in}
     if best is None:
         return WakfuResult(None, None, None, None, None, False, len(model.rounds),

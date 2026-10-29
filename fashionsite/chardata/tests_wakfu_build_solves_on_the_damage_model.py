@@ -22,7 +22,7 @@ Outfit = collections.namedtuple('Outfit', 'id stats')
 HELMET, CAPE = 1, 2
 KEYS = ('hp', 'range', 'mp', 'wp', 'ferocity', 'res_in_percent',
         'res_fire_percent', 'res_water_percent', 'res_earth_percent',
-        'res_air_percent')
+        'res_air_percent', 'dmg_fire_percent', 'dmg_earth_percent')
 STAT_ID = {key: number for number, key in enumerate(KEYS, 1)}
 
 

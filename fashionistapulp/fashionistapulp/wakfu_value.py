@@ -24,6 +24,7 @@ of a stat is worth weight percent of the value.
 
 import collections
 import contextlib
+import itertools
 import math
 import time
 
@@ -699,6 +700,62 @@ def land(structure, level, role, build, worn, turn=None, locked=(), class_id=Non
             break
         tried.append((value(role, level, totals, turn), build, totals))
     return max(tried, key=lambda one: one[0])
+
+
+def element_starts(role):
+    """Weights that rank the role's elements in each order, for starting a landing from.
+
+    A spread line goes where the weights rank highest, and the player chooses that place,
+    so every order of the role's elements is a landing the game allows. A role without an
+    element has none.
+    """
+    chosen = [name for name in ELEMENTS if name in role.elements]
+    if not chosen:
+        return
+    for order in itertools.permutations(chosen):
+        ranked = list(order) + [name for name in ELEMENTS if name not in order]
+        yield {key: len(ranked) - rank
+               for rank, name in enumerate(ranked)
+               for key in (MASTERY_OF[name], RESISTANCE_OF[name])}
+
+
+def best_landing(structure, level, role, kept, turn=None, locked=(), class_id=None,
+                 state=None, aptitudes=None, battleground=False, levels=None,
+                 runes=None, rune_tier=None, sublimations=None, passives=None, opt_in=None):
+    """The ModelRound of the best landing among the starts tried, the kept one on a tie.
+
+    The kept round is the baseline; for a role with elements the starts are the empty weights
+    and one weighting per order of its elements, each landed as land does, the highest value
+    winning. A set that carried a report is reported again on the landing that wins.
+    """
+    from .wakfu_model import WakfuBuild
+
+    if not kept.build.spread_lines(kept.worn):
+        return kept
+    best = kept
+    reported = bool(kept.worn.sheet_totals)
+    held = None if aptitudes is None else dict(kept.worn.aptitudes)
+    given = _given(sublimations, passives, opt_in)
+    starts = [{}] + list(element_starts(role)) if role.elements else []
+    landed = set()
+    for weights in starts:
+        start = WakfuBuild(structure, level, weights, class_id=class_id, state=state,
+                           aptitudes=held, battleground=battleground, runes=runes,
+                           rune_tier=rune_tier, **given,
+                           **({'levels': levels} if levels is not None else {}))
+        lands = tuple(tuple(sorted(elements)) for *_rest, elements
+                      in start.spread_lines(kept.worn))
+        if lands in landed:
+            continue
+        landed.add(lands)
+        worth, build, totals = land(structure, level, role, start, kept.worn, turn, locked,
+                                    class_id, state, aptitudes, battleground, levels, runes,
+                                    rune_tier, sublimations, passives, opt_in)
+        if worth > best.value:
+            best = kept._replace(build=build, totals=totals, value=worth)
+    if best is not kept and reported:
+        best.build.report(best.worn)
+    return best
 
 
 def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=None,
