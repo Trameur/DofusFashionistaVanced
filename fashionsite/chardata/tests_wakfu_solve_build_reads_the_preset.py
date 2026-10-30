@@ -75,3 +75,12 @@ class SolveBuildReadsThePresetTests(SimpleTestCase):
         self.assertEqual(wakfu_presets.shares(IOP, 'tank', FIRE, 'pvp', top, self.path), built.shares)
         for name in wakfu_presets.PVP_SHARES:
             self.assertIn(name, built.shares)
+
+    def test_a_damage_preset_solves_with_the_damage_floor_of_its_content(self):
+        for content in wakfu_value.CONTENTS:
+            with self.subTest(content=content):
+                found = self.solve(preset=wakfu_presets.DAMAGE_PRESETS[0], elements=FIRE,
+                                   content=content, rounds=1)
+                self.assertEqual(wakfu_value.rule('damage_floor')[content],
+                                 found.model.damage_floor)
+        self.assertIsNone(self.solve(preset='tank', elements=FIRE, rounds=1).model.damage_floor)

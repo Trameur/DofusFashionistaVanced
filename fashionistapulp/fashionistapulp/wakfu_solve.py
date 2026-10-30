@@ -311,6 +311,14 @@ def preset_class_turn(spells, role, totals, mechanics):
                key=lambda found: found.damage)
 
 
+def damage_floor_of(preset, content):
+    """The floor share of a damage preset, None for any other preset or none."""
+    from . import wakfu_presets
+    if preset not in wakfu_presets.DAMAGE_PRESETS:
+        return None
+    return wakfu_value.rule('damage_floor')[content]
+
+
 def solve_build(structure, *, level, elements, reach, class_id=None,
                 forbidden=(), locked=(), allow_legacy=False, movement=None, seconds=90,
                 defense=None, rounds=5, on_class_turn=True, state=None,
@@ -415,21 +423,34 @@ def solve_build(structure, *, level, elements, reach, class_id=None,
                     'class %d has no damage turn for %s at %s, even with AP, MP and '
                     'WP at their caps' % (class_id, '+'.join(role.elements), role.reach))
 
-    if wakfu_value.picks_sublimations_or_passives(sublimations, passives):
+    floor_share = damage_floor_of(preset, content)
+    if floor_share is not None or wakfu_value.picks_sublimations_or_passives(
+            sublimations, passives):
         deadline -= min(wakfu_value.FINISH_SECONDS, seconds / 10)
     model = wakfu_value.solve(structure, level, role, forbidden, rounds, turn=turn,
                               locked=locked, deadline=deadline, class_id=class_id or None,
                               state=state, aptitudes=aptitudes, battleground=battleground,
                               levels=levels, runes=rune_mode, rune_tier=rune_tier,
-                              sublimations=sublimations, passives=passives, opt_in=opt_in)
+                              sublimations=sublimations, passives=passives, opt_in=opt_in,
+                              damage_floor=floor_share)
     unlocks = _unlocks(structure, level, class_id or None, forbidden, state)
     best = model.best
     if best is not None:
-        landed = wakfu_value.best_landing(
-            structure, level, role, best, turn, locked, class_id or None, state, aptitudes,
-            battleground, levels, rune_mode, rune_tier, sublimations, passives, opt_in)
+        bound = (None if model.damage_floor is None or not model.damage_top
+                 else (1 - model.damage_floor) * model.damage_top)
+
+        def landing(one):
+            return wakfu_value.best_landing(
+                structure, level, role, one, turn, locked, class_id or None, state, aptitudes,
+                battleground, levels, rune_mode, rune_tier, sublimations, passives, opt_in,
+                least_damage=bound)
+
+        landed = landing(best)
+        before = model.pre_floor
+        if before is not None:
+            before = landed if before is best else landing(before)
         rounds = tuple(landed if one is best else one for one in model.rounds)
-        model = model._replace(best=landed, rounds=rounds)
+        model = model._replace(best=landed, rounds=rounds, pre_floor=before)
         best = landed
     modes = {'sublimation_mode': sublimations, 'passive_mode': passives, 'opt_in': opt_in}
     if best is None:

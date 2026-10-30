@@ -406,6 +406,85 @@ def damage_worth(role, totals, models=None):
                for share, part, model in _reaches(role, models))
 
 
+def damage_role(role):
+    """The role valued on its damage alone."""
+    return as_role(role)._replace(shares={'damage': 1.0})
+
+
+def damage_turn(turn, role):
+    """The turns of damage_role(role); a TurnModel already prices damage alone."""
+    if getattr(turn, 'models', None) is None:
+        return turn
+    return type(turn)(damage_role(role), turn.level, turn.models, turn.scales)
+
+
+def weighted_role(role, t):
+    """The role with every share but the damage's multiplied by t: the role itself at 1 and,
+    with a damage share of 1, its damage alone at 0. The linear weights of the objective
+    ln(damage) + t x (value - ln(damage)) are those of this role."""
+    role = as_role(role)
+    return role._replace(shares={name: share if name == 'damage' else share * t
+                                 for name, share in role.shares.items()
+                                 if name == 'damage' or share * t})
+
+
+def weighted_turn(turn, role, t):
+    """The turns of weighted_role(role, t), which price AP the way that role weighs it; a
+    TurnModel already prices damage alone."""
+    if getattr(turn, 'models', None) is None:
+        return turn
+    return type(turn)(weighted_role(role, t), turn.level, turn.models, turn.scales)
+
+
+def damage_of(role, level, totals, turn=None):
+    """The damage component of role on totals."""
+    role, models, _scales, _armor = _frame(damage_role(role), level, totals, turn, None, 0)
+    return damage_worth(role, totals, models)
+
+
+def damage_first_key(role, level, turn, least_damage, worth, totals):
+    """Sort key of a landing: by value when it keeps least_damage, else below, by damage."""
+    if least_damage is None:
+        return (1, worth)
+    damage = damage_of(role, level, totals, turn)
+    if damage >= least_damage * (1 - 1e-9):
+        return (1, worth)
+    return (0, damage)
+
+
+class DamageFloor:
+    """A damage preset's floor: its sets keep (1 - share) of top, the most damage seen."""
+
+    def __init__(self, share, role, level, turn=None, top=0.0):
+        self.share = share
+        self.role = damage_role(role)
+        self.level = level
+        self.turn = None if turn is None else damage_turn(turn, role)
+        self.top = top or 0.0
+
+    def damage(self, totals):
+        return damage_of(self.role, self.level, totals, self.turn)
+
+    def see(self, totals):
+        self.top = max(self.top, self.damage(totals))
+
+    def bound(self):
+        return (1 - self.share) * self.top
+
+    def holds(self, totals):
+        return self.damage(totals) >= self.bound() * (1 - 1e-9)
+
+    def pick(self, rounds):
+        """The best round by value among those that hold, else the one with the most damage."""
+        rounds = [one for one in rounds if one is not None]
+        if not rounds:
+            return None
+        held = [one for one in rounds if self.holds(one.totals)]
+        if held:
+            return max(held, key=lambda one: one.value)
+        return max(rounds, key=lambda one: self.damage(one.totals))
+
+
 def _damage_slopes(role, totals, models):
     """{stat key: percent of the damage component per point}, the final damage one included."""
     slopes = [(share, model.damage(totals) if model is not None else turn_damage(part, totals),
@@ -631,15 +710,40 @@ class ModelSolve(collections.namedtuple('ModelSolve', 'rounds best converged')):
     solve counts as round 1 and the loop goes on. Only a round CBC proved settles the loop.
     Another plain set solved the same way comes last when it beats every round, and the solve
     is then not settled.
+
+    The damage floor's fields are None, 0 or empty without a floor. damage_floor: the floor
+    share the solve kept; damage_top: the most damage of the sets it saw; floor_seconds: the
+    seconds the floor's own work took (its damage stage, its damage set probe, its landings on
+    the bound and its weight search), which solve adds to the generic model's deadline;
+    floor_cut_seconds: the seconds the hard end took from the search without the floor, from
+    its round loop or, after a class turn, from the generic model's solve;
+    pre_floor: the final set of the search without the floor, judged and landed as the others;
+    pre_floor_value: that set's value before it was landed on the bound, the one the search
+    without the floor kept it by;
+    probes: one record per probe, {kind, t, pieces, damage, life, value, holds, seconds};
+    floor_timing: {stage: seconds} of the floor's parts.
     """
 
+    FLOOR_FIELDS = ('damage_top', 'damage_floor', 'floor_seconds', 'floor_cut_seconds',
+                    'pre_floor', 'probes', 'floor_timing', 'pre_floor_value')
+
     def __new__(cls, rounds, best, converged, reason=None, settled_by=None, gap=None,
-                crashed=()):
+                crashed=(), damage_top=None, damage_floor=None, floor_seconds=0.0,
+                floor_cut_seconds=0.0, pre_floor=None, probes=(), floor_timing=None,
+                pre_floor_value=None):
         self = super().__new__(cls, rounds, best, converged)
         self.reason = reason
         self.settled_by = settled_by
         self.gap = gap
         self.crashed = tuple(crashed)
+        self.damage_top = damage_top
+        self.damage_floor = damage_floor
+        self.floor_seconds = floor_seconds
+        self.floor_cut_seconds = floor_cut_seconds
+        self.pre_floor = pre_floor
+        self.probes = tuple(probes)
+        self.floor_timing = floor_timing
+        self.pre_floor_value = pre_floor_value
         return self
 
     def _replace(self, **changes):
@@ -647,7 +751,9 @@ class ModelSolve(collections.namedtuple('ModelSolve', 'rounds best converged')):
         return type(self)(changes.get('rounds', self.rounds), changes.get('best', self.best),
                           converged, self.reason,
                           changes.get('settled_by', self.settled_by if converged else None),
-                          changes.get('gap', self.gap), self.crashed)
+                          changes.get('gap', self.gap), self.crashed,
+                          **{name: changes.get(name, getattr(self, name))
+                             for name in self.FLOOR_FIELDS})
 
 
 class SolverCrashed(RuntimeError):
@@ -659,7 +765,8 @@ def _crashed_after(classed, crashes):
     after its own."""
     return ModelSolve(classed.rounds, classed.best, False, classed.reason, None, classed.gap,
                       classed.crashed + tuple((len(classed.rounds) + number, message)
-                                              for number, message in crashes))
+                                              for number, message in crashes),
+                      **{name: getattr(classed, name) for name in ModelSolve.FLOOR_FIELDS})
 
 
 LANDING_PASSES = 4
@@ -678,7 +785,8 @@ def blend(point, totals, step):
 
 def land(structure, level, role, build, worn, turn=None, locked=(), class_id=None,
          state=None, aptitudes=None, battleground=False, levels=None,
-         runes=None, rune_tier=None, sublimations=None, passives=None, opt_in=None):
+         runes=None, rune_tier=None, sublimations=None, passives=None, opt_in=None,
+         least_damage=None):
     """(value, build, totals) of the best landing tried for a set's spread lines.
 
     Each pass lands them on the weights at the totals the pass before gave. The
@@ -701,7 +809,8 @@ def land(structure, level, role, build, worn, turn=None, locked=(), class_id=Non
         if totals == tried[-1][2]:
             break
         tried.append((value(role, level, totals, turn), build, totals))
-    return max(tried, key=lambda one: one[0])
+    return max(tried, key=lambda one: damage_first_key(role, level, turn, least_damage,
+                                                       one[0], one[2]))
 
 
 def element_starts(role):
@@ -723,7 +832,8 @@ def element_starts(role):
 
 def best_landing(structure, level, role, kept, turn=None, locked=(), class_id=None,
                  state=None, aptitudes=None, battleground=False, levels=None,
-                 runes=None, rune_tier=None, sublimations=None, passives=None, opt_in=None):
+                 runes=None, rune_tier=None, sublimations=None, passives=None, opt_in=None,
+                 least_damage=None):
     """The ModelRound of the best landing among the starts tried, the kept one on a tie.
 
     The kept round is the baseline; for a role with elements the starts are the empty weights
@@ -752,18 +862,43 @@ def best_landing(structure, level, role, kept, turn=None, locked=(), class_id=No
         landed.add(lands)
         worth, build, totals = land(structure, level, role, start, kept.worn, turn, locked,
                                     class_id, state, aptitudes, battleground, levels, runes,
-                                    rune_tier, sublimations, passives, opt_in)
-        if worth > best.value:
+                                    rune_tier, sublimations, passives, opt_in,
+                                    least_damage=least_damage)
+        if (damage_first_key(role, level, turn, least_damage, worth, totals)
+                > damage_first_key(role, level, turn, least_damage, best.value, best.totals)):
             best = kept._replace(build=build, totals=totals, value=worth)
     if best is not kept and reported:
         best.build.report(best.worn)
     return best
 
 
+def land_on_floor(guard, one, structure, level, role, turn=None, locked=(), class_id=None,
+                  state=None, aptitudes=None, battleground=False, levels=None, runes=None,
+                  rune_tier=None, **extras):
+    """Round one landed again by best_landing on the bound of DamageFloor guard, a landing
+    and no solve, then seen by the guard: the set as the floor judges it."""
+    one = best_landing(structure, level, role, one, turn, locked, class_id, state, aptitudes,
+                       battleground, levels, runes, rune_tier, least_damage=guard.bound(),
+                       **extras)
+    guard.see(one.totals)
+    return one
+
+
+def _judged(guard, sets, relanded, top=None):
+    """sets as the floor of DamageFloor guard judges them: each one that breaks it landed again
+    by relanded. A landing can raise the top past what an earlier set was judged at, so they are
+    judged again until the top stops rising; top: the top they were last judged at, None when
+    they never were."""
+    while top is None or guard.top > top:
+        top = guard.top
+        sets = [one if guard.holds(one.totals) else relanded(one) for one in sets]
+    return sets
+
+
 def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=None,
           locked=(), deadline=None, class_id=None, state=None, aptitudes=None,
           battleground=False, levels=None, runes=wakfu_runes.OPTIMISTIC, rune_tier=None,
-          sublimations=None, passives=None, opt_in=None):
+          sublimations=None, passives=None, opt_in=None, damage_floor=None):
     """Best set by value; each round solves on the tangent at a point of the sets found.
 
     The first round linearizes at the bare character. When sublimations or passives are
@@ -800,19 +935,50 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     such a round starts only with 2 x MIN_ROUND_SECONDS left, as does every joint round after the
     floor, and the generic model's solve after a class turn only with FLOOR_SECONDS left. A
     plain round starts the solver from the best plain round so far; a joint round starts cold.
+    damage_floor: a damage preset's floor share (DamageFloor). A damage stage sets top first:
+    when sublimations or passives are picked, a stage of one round on the damage alone from the
+    plain best's totals, with them solved on its pieces, after the plain stage; otherwise one
+    round on the damage alone at the first round's totals, after that round. Right after it the
+    damage set probe solves the pieces of the stage's set with the most damage once, at the
+    weight rule('damage_floor_weight_least') of the life term, so that the life those pieces
+    leave free is taken. The time of both is added to the deadline, never taken from it, except
+    that the deadline never passes the hard end: the deadline given plus rule('damage_floor_seconds')
+    and SOLVE_MARGIN_SECONDS. After a class turn the generic model's deadline gets back the floor's
+    seconds up to rule('damage_floor_seconds'). The seconds those caps take from the search
+    without the floor are floor_cut_seconds. The round loop
+    then runs as it does without a floor: no floor row, the incumbent by value, the same points,
+    starts and time. Every set the search saw is then landed again by best_landing on the floor's
+    bound, a landing and no solve, before the floor judges it, and judged again whenever a landing
+    raises the top, and best is DamageFloor.pick over every set seen, the generic model's after a
+    class turn included: when the pre-floor search's final set keeps the floor after
+    best_landing, the floored search never returns a set of lower value. That set is reported as
+    pre_floor. Only when no set of the round loop keeps the floor does the weight search run, up
+    to the hard end (see _weight_search). rounds are then the sets seen.
     """
     extras = _given(sublimations, passives, opt_in)
     if turn is None:
         return _solve(structure, level, role, forbidden, rounds, full_set,
                       locked=locked, deadline=deadline, class_id=class_id,
                       state=state, aptitudes=aptitudes, battleground=battleground,
-                      levels=levels, runes=runes, rune_tier=rune_tier, **extras)
+                      levels=levels, runes=runes, rune_tier=rune_tier,
+                      damage_floor=damage_floor, **extras)
     if turn.damage(resource_ceiling(base_values(structure, class_id))) <= 0:
         raise ValueError('the class turn deals no damage for this role, even with '
                          'AP, MP and WP at their caps')
     classed = _solve(structure, level, role, forbidden, rounds, full_set, turn,
                      locked, deadline, class_id, state, aptitudes, battleground,
-                     levels, runes, rune_tier, **extras)
+                     levels, runes, rune_tier, damage_floor=damage_floor, **extras)
+    if deadline is not None and classed.damage_floor is not None:
+        # What the cap on floor_seconds takes from the generic solve: its time with all of the
+        # floor's seconds given back, less its time now. After a loop that ran to its cut clock
+        # this is the loop's own cut again, so the larger of the two is kept
+        now = time.monotonic()
+        uncapped = deadline + sum((classed.floor_timing or {}).values()) - now
+        left = deadline + classed.floor_seconds - now
+        classed = classed._replace(floor_cut_seconds=max(
+            classed.floor_cut_seconds, max(0.0, uncapped) - max(0.0, left)))
+    if deadline is not None:
+        deadline += classed.floor_seconds
     if out_of_time(deadline) or (
             deadline is not None and picks_sublimations_or_passives(sublimations, passives)
             and deadline - time.monotonic() < FLOOR_SECONDS):
@@ -832,22 +998,48 @@ def solve(structure, level, role, forbidden=(), rounds=5, full_set=True, turn=No
     worth, landed, totals = land(structure, level, role, generic.build, generic.worn,
                                  turn, locked, class_id, state, aptitudes, battleground,
                                  levels, runes, rune_tier, **extras)
-    if classed.best is not None and classed.best.value >= worth:
-        return classed
+    if classed.damage_floor is None:
+        if classed.best is not None and classed.best.value >= worth:
+            return classed
+        if extras:
+            landed.report(generic.worn)
+        return classed._replace(
+            best=ModelRound(generic.weights, landed, generic.worn, totals, worth))
+    guard = DamageFloor(classed.damage_floor, role, level, turn, classed.damage_top)
     if extras:
         landed.report(generic.worn)
-    return classed._replace(
-        best=ModelRound(generic.weights, landed, generic.worn, totals, worth))
+
+    def relanded(one):
+        return land_on_floor(guard, one, structure, level, role, turn, locked, class_id, state,
+                             aptitudes, battleground, levels, runes, rune_tier, **extras)
+
+    sets = list(classed.rounds) + [relanded(
+        ModelRound(generic.weights, landed, generic.worn, totals, worth))]
+    # The set the search without the floor would have returned: the class turn's best merged
+    # with the generic model's
+    before = classed.pre_floor if classed.pre_floor_value >= worth else sets[-1]
+    judged = _judged(guard, sets, relanded)
+    best = guard.pick(judged)
+    if extras:
+        best.build.report(best.worn)
+    pre_floor = next((now for was, now in zip(sets, judged) if was is before), before)
+    return classed._replace(best=best, rounds=tuple(judged), damage_top=guard.top,
+                            pre_floor=pre_floor,
+                            pre_floor_value=max(classed.pre_floor_value, worth))
 
 
 def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
            locked=(), deadline=None, class_id=None, state=None, aptitudes=None,
            battleground=False, levels=None, runes=None, rune_tier=None,
-           sublimations=None, passives=None, opt_in=None):
+           sublimations=None, passives=None, opt_in=None, damage_floor=None, point=None):
     from .wakfu_model import TIME_LIMIT, STEPWISE, WakfuBuild
 
+    guard = None if damage_floor is None else DamageFloor(damage_floor, role, level, turn)
+    given = deadline
+    hard_end = (None if guard is None or deadline is None
+                else deadline + rule('damage_floor_seconds'))
     base = base_values(structure, class_id)
-    point = bare_totals(base)
+    point = bare_totals(base) if point is None else point
     minimums = role.minimums(base)
     extras = _given(sublimations, passives, opt_in)
     fight = sublimations is not None or passives is not None
@@ -867,7 +1059,137 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
     stepwise = False
     reason = None
     crashed = ()
-    seeded = None
+    seeded = plain_point = None
+    staged = []
+    spent = cut = 0.0
+    probes = []
+    timing = collections.Counter()
+    stage_set = {}
+    looping = True
+
+    def extend(started, part):
+        """Counts the floor's own work since started and, until the round loop ends, gives its
+        time back to the loop, up to the hard end; what that cap takes is cut. No deadline is
+        read after the loop, so nothing is cut there."""
+        nonlocal deadline, spent, cut
+        took = time.monotonic() - started
+        spent += took
+        timing[part] += took
+        if deadline is not None and looping:
+            grown = deadline + took
+            if hard_end is not None and grown > hard_end + SOLVE_MARGIN_SECONDS:
+                cut += grown - hard_end - SOLVE_MARGIN_SECONDS
+                grown = hard_end + SOLVE_MARGIN_SECONDS
+            deadline = grown
+
+    def relanded(one):
+        return land_on_floor(guard, one, structure, level, role, turn, locked, class_id,
+                             state, aptitudes, battleground, levels, runes, rune_tier, **extras)
+
+    def keep_staged(one):
+        """Sees a set of the damage stage and keeps it valued on the role, then landed again
+        on the bound when that lands it otherwise; the set as kept."""
+        guard.see(one.totals)
+        one = one._replace(value=value(role, level, one.totals, turn))
+        staged.append(one)
+        again = relanded(one)
+        if again is not one:
+            staged.append(again)
+        return again
+
+    def probe_need():
+        """The time left a probe needs to start: the longest probe so far, else the rule's."""
+        return max((one['seconds'] for one in probes),
+                   default=rule('damage_floor_probe_seconds'))
+
+    def probe(one, t, nearest, limit, keep, kind):
+        """(the set keep made of it, crashes) of one probe: the pieces of set one pinned,
+        everything else solved on the weights of weighted_role(role, t) at the totals of
+        nearest, a set on those pieces, from nearest's solution; limit: the monotonic
+        deadline of the solve. The role's minimums hold, MP, WP and a ferocity past the
+        critical cap at least at the knees of the pieces (_knees). The set is landed on the
+        bound, handed to keep, and recorded; None when the solver found none."""
+        started = time.monotonic()
+        at = nearest.totals
+        wrole, wturn = weighted_role(role, t), weighted_turn(turn, role, t)
+        weights = linear_weights(wrole, level, at, wturn)
+        options = {}
+        if turn is not None:
+            options['ap_values'] = (wturn.ap_values(at) if high is None
+                                    else wturn.ap_values(at, high))
+        if levels is not None:
+            options['levels'] = levels
+        pinned = [(item.id, position) for position, item in one.worn.items()]
+        try:
+            build = WakfuBuild(structure, level, weights, start=_start_of(nearest),
+                               prune_locked_positions=True, **common, **extras,
+                               **{**options, 'locked': pinned})
+            build.minimums.update(_knees(guard, one.totals, build.totals(one.worn), minimums))
+            worn = build.build().solve(limit)
+        except pulp.PulpSolverError as error:
+            return None, ((len(done) + 1, str(error)),)
+        if worn is None:
+            return None, ()
+        worth, landed, totals = land(structure, level, role, build, worn, turn, locked,
+                                     class_id, state, aptitudes, battleground, levels, runes,
+                                     rune_tier, least_damage=guard.bound(), **extras)
+        if fight:
+            landed.report(worn)
+        here = keep(ModelRound(weights, landed, worn, totals, worth, build.objective_of(worn)))
+        probes.append({
+            'kind': kind, 't': t, 'pieces': sorted(item.id for item in one.worn.values()),
+            'damage': guard.damage(here.totals), 'value': here.value,
+            'life': components(role, level, here.totals, turn).get('life'),
+            'holds': guard.holds(here.totals), 'seconds': time.monotonic() - started})
+        return here, ()
+
+    def damage_probe():
+        """The crashes of the damage set probe: one probe on the pieces of the staged set with
+        the most damage, at the least weight of the life term."""
+        if not staged:
+            return ()
+        started = time.monotonic()
+        pieces = max(staged, key=lambda one: guard.damage(one.totals))
+        stage_set['set'] = pieces
+        stage_set['probe'], more = probe(
+            pieces, rule('damage_floor_weight_least'), pieces,
+            started + rule('damage_floor_probe_seconds'), keep_staged, 'damage set')
+        extend(started, 'damage set probe')
+        return more
+
+    def damage_round(at):
+        """The crashes of one round on the damage alone at point at, its set staged, then the
+        damage set probe."""
+        started = time.monotonic()
+        weights = linear_weights(guard.role, level, at, guard.turn)
+        options = {}
+        if turn is not None:
+            options['ap_values'] = (guard.turn.ap_values(at) if high is None
+                                    else guard.turn.ap_values(at, high))
+        if levels is not None:
+            options['levels'] = levels
+        try:
+            build = WakfuBuild(structure, level, weights,
+                               start=_start_of(max(done, key=lambda one: one.value)),
+                               **common, **extras, **options,
+                               **({'locked': locked} if locked else {}))
+            worn = build.build().solve(deadline)
+        except pulp.PulpSolverError as error:
+            return ((len(done) + 1, str(error)),)
+        finally:
+            extend(started, 'damage stage')
+        if worn is None:
+            return ()
+        started = time.monotonic()
+        damage, landed, totals = land(structure, level, guard.role, build, worn, guard.turn,
+                                      locked, class_id, state, aptitudes, battleground, levels,
+                                      runes, rune_tier, **extras)
+        if fight:
+            landed.report(worn)
+        keep_staged(ModelRound(weights, landed, worn, totals, damage))
+        extend(started, 'damage stage')
+        return damage_probe()
+
     if picking:
         shared = dict(forbidden=forbidden, rounds=rounds, full_set=full_set, turn=turn,
                       locked=locked, class_id=class_id, state=state, aptitudes=aptitudes,
@@ -879,6 +1201,18 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
             done.append(floor)
             best = floor
             point = plain_point
+        if floor is not None and guard is not None:
+            started = time.monotonic()
+            found, also, _point, more = _floor(
+                structure, level, guard.role,
+                {**shared, 'turn': guard.turn, 'rounds': 1, 'point': plain_point},
+                deadline, extras, common, high)
+            crashed += more
+            for one in (found, also):
+                if one is not None and (one is found or one.key != found.key):
+                    keep_staged(one)
+            extend(started, 'damage stage')
+            crashed += damage_probe()
     for number in range(max(1, rounds)):
         if done and out_of_time(deadline):
             break
@@ -925,6 +1259,8 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
                 settled_by = 'key'
                 break
             point = blend(point, totals, 2 / (number + 2))
+            if guard is not None and number == 0 and not out_of_time(deadline):
+                crashed += damage_round(point)
             continue
         here = ModelRound(weights, landed, worn, totals, worth, build.objective_of(worn))
         done.append(here)
@@ -950,6 +1286,7 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
             break
         point = blend(best.totals, totals, 0.5)
         damped = True
+    looping = False
     if not done:
         return ModelSolve((), None, False, reason)
     if seeded is not None and seeded.value > best.value + 1e-9:
@@ -960,8 +1297,157 @@ def _solve(structure, level, role, forbidden, rounds, full_set, turn=None,
         best = max(done, key=lambda one: one.value)
     if crashed:
         settled_by = None
-    return ModelSolve(tuple(done), best, settled_by is not None, reason, settled_by, gap,
-                      crashed)
+    if guard is None:
+        return ModelSolve(tuple(done), best, settled_by is not None, reason, settled_by, gap,
+                          crashed)
+    started = time.monotonic()
+    looped = done + ([seeded] if seeded is not None and all(one is not seeded for one in done)
+                     else [])
+    looped = [relanded(one) for one in looped]
+    seen = _judged(guard, looped + staged, relanded)
+    extend(started, 'judging')
+    if not any(guard.holds(one.totals) for one in seen[:len(looped)]):
+        started, top = time.monotonic(), guard.top
+        crashed += _weight_search(guard, seen, stage_set, probe, probe_need, relanded, hard_end)
+        seen = _judged(guard, seen, relanded, top)
+        extend(started, 'weight search')
+    pre_floor = seen[next(index for index, one in enumerate(done) if one is best)]
+    kept = guard.pick(seen)
+    if fight:
+        kept.build.report(kept.worn)
+    if kept.key != best.key or crashed:
+        settled_by = None
+    return ModelSolve(tuple(seen), kept, settled_by is not None, reason, settled_by, gap,
+                      crashed, damage_top=guard.top, damage_floor=damage_floor,
+                      floor_seconds=spent if hard_end is None else min(spent, hard_end - given),
+                      floor_cut_seconds=cut, pre_floor=pre_floor, probes=probes,
+                      floor_timing=dict(timing), pre_floor_value=best.value)
+
+
+KNEES = ('mp', 'wp')
+# Kept at their knee only where one more point adds no damage
+FLAT_KNEES = ('ferocity',)
+
+
+def _knees(guard, totals, own, minimums):
+    """{stat key: lowest total} the MP and WP of a probe on the pieces of a set keep, and its
+    ferocity where the set's critical chance is at its cap.
+
+    For each the knee of the set: the smallest total, at or below the one of totals, at which
+    the damage of totals with that total lowered still equals the set's damage, found by a
+    downward scan as TurnModel.ap_values scans. It is at least the role's minimum and at most
+    own, the set's total in the probe's model, so the set's own solution stays feasible.
+    Ferocity is kept only when one more point adds no damage and its knee is above the role's
+    minimum: the weights are the slope just above totals, so past the cap they price it at
+    nothing and a probe would sell it below the cap, where each point costs damage."""
+    here = guard.damage(totals)
+    knees = {}
+    for key in KNEES + FLAT_KNEES:
+        floor = int(minimums.get(key, 0))
+        lowered = collections.Counter(totals)
+        knee = int(totals.get(key, 0))
+        if key in FLAT_KNEES:
+            lowered[key] = knee + 1
+            if guard.damage(lowered) > here * (1 + 1e-9):
+                continue
+        for number in range(knee - 1, floor - 1, -1):
+            lowered[key] = number
+            if guard.damage(lowered) < here * (1 - 1e-9):
+                break
+            knee = number
+        knee = min(own.get(key, 0), max(floor, knee))
+        if key in KNEES or knee > floor:
+            knees[key] = knee
+    return knees
+
+
+class _PieceSet:
+    """A piece set the weight search narrows: lo, the largest weight of the life term at which
+    it kept the floor, hi, the smallest at which it broke (1 until one did), and held, its
+    latest probe that kept the floor, the one the next probe starts from."""
+
+    def __init__(self, one, held, lo):
+        self.one, self.held, self.lo, self.hi = one, held, lo, 1.0
+
+    @property
+    def left(self):
+        return self.hi - self.lo
+
+
+def _pieces_of(one):
+    return frozenset((position, item.id) for position, item in one.worn.items())
+
+
+def _weight_search(guard, seen, stage_set, probe, need, relanded, limit):
+    """The crashes of the search on the weight t of the life term, each set it lands added to
+    seen.
+
+    The objective is ln(damage) + t x (value - ln(damage)), t = 1 the value and t = 0 the
+    damage alone, so a weight between keeps pieces that carry the damage and gives the rest
+    to the life. Each probe pins the pieces of one set seen, solves everything else, and is
+    landed on the bound, so a set always comes back and is judged as it lands. The pieces are
+    those of stage_set['set'], the damage set the damage set probe has already solved at the
+    least weight, when that probe kept the floor, then of the sets seen that break it, the
+    most damage first, up to rule('damage_floor_weight_sets') probed in all; a set whose value
+    is not above the best set that keeps the floor is skipped, since a lower weight on fixed
+    pieces only gives value away. A new set is probed at the least weight and dropped when
+    that breaks the floor. Each kept set is then narrowed by bisection, the one with the most value
+    first, until its weights are rule('damage_floor_weight_step') apart. A probe starts only
+    when the time left before limit, a monotonic deadline or None, covers need() seconds; a
+    crash ends the search."""
+    least = rule('damage_floor_weight_least')
+    step = rule('damage_floor_weight_step')
+
+    def keep(raw):
+        here = relanded(raw)
+        seen.append(here)
+        return here
+
+    def ready():
+        return limit is None or limit - time.monotonic() >= need()
+
+    def best_value():
+        return max((one.value for one in seen if guard.holds(one.totals)), default=-math.inf)
+
+    chosen = []
+    first = stage_set.get('probe')
+    if first is not None and guard.holds(first.totals):
+        chosen.append(_PieceSet(stage_set['set'], first, least))
+    known = {_pieces_of(one.one) for one in chosen}
+    if 'set' in stage_set:
+        known.add(_pieces_of(stage_set['set']))
+    others = []
+    for one in sorted((one for one in seen if not guard.holds(one.totals)),
+                      key=lambda one: -guard.damage(one.totals)):
+        if _pieces_of(one) not in known:
+            known.add(_pieces_of(one))
+            others.append(one)
+    probed = len(chosen)
+    for one in others:
+        if probed >= rule('damage_floor_weight_sets') or not ready():
+            break
+        if one.value <= best_value():
+            continue
+        probed += 1
+        here, more = probe(one, least, one, limit, keep, 'weight search')
+        if more:
+            return more
+        if here is not None and guard.holds(here.totals):
+            chosen.append(_PieceSet(one, here, least))
+    while ready():
+        open_ = [one for one in chosen if one.left > step + 1e-12]
+        if not open_:
+            break
+        narrowing = max(open_, key=lambda one: one.held.value)
+        middle = (narrowing.lo + narrowing.hi) / 2
+        here, more = probe(narrowing.one, middle, narrowing.held, limit, keep, 'weight search')
+        if more:
+            return more
+        if here is not None and guard.holds(here.totals):
+            narrowing.lo, narrowing.held = middle, here
+        else:
+            narrowing.hi = middle
+    return ()
 
 
 def _floor(structure, level, role, shared, deadline, extras, common, high):

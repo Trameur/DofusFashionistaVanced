@@ -78,6 +78,32 @@ RULES = {
         0.25, CHOICE,
         'value = log(turn damage) + defense x log(effective life): a damage '
         'role values 1% of effective life as a quarter of 1% of turn damage'),
+    'damage_floor': Rule(
+        {'pvm': 0.05, 'pvp': 0.05}, CHOICE,
+        'a damage preset keeps its turn damage within this share of the most damage of every '
+        'set its search saw; the top of the turn-for-life trades measured on Dofus 3 '
+        '(+2.6 to +4.7 %)'),
+    'damage_floor_seconds': Rule(
+        8.0, CHOICE,
+        'a floored solve ends by the deadline it was given plus these seconds: the 95 s of a '
+        'guarded request less the 85 s a picking solve is given, less 2 s for a probe that '
+        'overruns, the judging after the search and the landing after the solve'),
+    'damage_floor_weight_least': Rule(
+        0.05, CHOICE,
+        'the first weight of the life term on each piece set the floor probes: damage first, '
+        'life breaking the ties the damage leaves'),
+    'damage_floor_weight_step': Rule(
+        0.0625, CHOICE,
+        'the search on the weight of the life term stops narrowing a piece set at this '
+        'width: 4 bisection probes from the least weight to 1'),
+    'damage_floor_weight_sets': Rule(
+        3, CHOICE,
+        'piece sets the search on the weight of the life term probes: the time left to it '
+        'holds 2 to 9 probes'),
+    'damage_floor_probe_seconds': Rule(
+        1.2, CHOICE,
+        'seconds the damage set probe is given, and the time left a first probe needs to '
+        'start: a solve on pinned pieces took 0.2 to 1.1 s'),
     'range_floor_at_distance': Rule(
         0, CHOICE,
         'a distance role keeps range at 0 or more, since distance mastery '
