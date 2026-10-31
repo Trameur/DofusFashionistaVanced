@@ -804,10 +804,10 @@ class WakfuBuild:
             at = place(guards)
             if at != DROPPED:
                 source.lines.append((key, at, p0, p1))
-        for origin, target, p0, p1, sign, guards in entry['conversions']:
+        for origin, target, p0, p1, sign, guards, *cap in entry['conversions']:
             at = place(guards)
             if at != DROPPED:
-                source.convs.append((origin, target, p0, p1, sign, at))
+                source.convs.append((origin, target, p0, p1, sign, at, *cap))
         for found in source.sets:
             for at in found:
                 source.clauses[at] = rules.condition_clauses(entry['conditions'][at])
@@ -1068,7 +1068,7 @@ class WakfuBuild:
 
     def _conversion_columns(self, source):
         """v(s, c): what a conversion moves, an integer floored as the client floors it."""
-        for number, (origin, target, p0, p1, sign, found) in enumerate(source.convs):
+        for number, (origin, target, p0, p1, sign, found, *cap) in enumerate(source.convs):
             total = self.stat_total_expr(origin)
             low, high = total.low + total.lowest, total.low + total.highest
             if high <= 0:
@@ -1087,12 +1087,33 @@ class WakfuBuild:
                 if low < 0:
                     indicator = self._clamped(origin, total, low, high, indicator, name)
                 self.problem.setup_variable(CONVERTED, name, 0, most)
-                self._column_worth.append((CONVERTED, name, sign * self._plain_weight(target)))
                 self._conversion_rows(name, indicator, total, scale, most, low, high)
+                limit = math.floor(cap[0] * level) if cap else None
+                if limit is not None and limit < most:
+                    name = self._capped(name, most, limit)
+                    most = limit
+                self._column_worth.append((CONVERTED, name, sign * self._plain_weight(target)))
                 self._fight_add(target, [(sign, CONVERTED, name)], 0, 0)
                 amounts.append(sign * most)
             self._fight_bounds[target][0] += min([0] + amounts)
             self._fight_bounds[target][1] += max([0] + amounts)
+
+    def _capped(self, name, most, limit):
+        """The column that is the smaller of the conversion `name` and `limit`."""
+        capped, above = name + '_cap', 'k_' + name
+        self.problem.setup_variable(CONVERTED, capped, 0, limit)
+        self.problem.setup_variable(BOTH, above, 0, 1)
+        self.problem.add_row(
+            LpProblem2._parcel_terms([(1, CONVERTED, capped), (-1, CONVERTED, name)]),
+            '<=', 0, 'cap_%s_under' % name)
+        self.problem.add_row(
+            LpProblem2._parcel_terms([(-1, CONVERTED, capped), (1, CONVERTED, name),
+                                      (limit - most, BOTH, above)]),
+            '<=', 0, 'cap_%s_equal' % name)
+        self.problem.add_row(
+            LpProblem2._parcel_terms([(-1, CONVERTED, capped), (limit, BOTH, above)]),
+            '<=', 0, 'cap_%s_limit' % name)
+        return capped
 
     def _clamped(self, origin, total, low, high, indicator, label):
         """The column that is 1 when `indicator` is 1 and the sheet total of `origin` is not

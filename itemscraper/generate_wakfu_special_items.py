@@ -55,6 +55,18 @@ SUBLIMATION_TYPE = 812
 APPLY_STATE = 304
 CONVERSION = 913
 CONVERSION_SOURCE_PARAM = 12
+# The breed the client gives the passives every class can take
+GENERIC_BREED = -2
+# A source kept, a share of it added to a target, up to a share of the level: the child
+# (source, target and share in percent) and the cap, as the parent effect's percent of level
+RECOMPUTED = 999
+ADD_SHARE = 1038
+# The trigger the client gives the recomputed effect of a share added to another stat
+RECOMPUTE_TRIGGER = ('V', 1001)
+ADD_SHARE_SOURCE, ADD_SHARE_TARGET, ADD_SHARE_PERCENT = 0, 2, 6
+ADD_SHARE_CAP_PARAM = 14
+# Param 4 of the child is 0 in the shape read here; any other value is another shape
+ADD_SHARE_KEPT_PARAM = 4
 # 913 params that shape the converted amount (an offset, a factor and more); a plain
 # conversion leaves them at 0 and takes its share from the child values
 CONVERSION_SHAPE_PARAMS = (17, 19, 20, 21)
@@ -137,6 +149,8 @@ class Leaf:
         self.family = None
         self.reason = ''
         self.atoms = ()
+        self.added = False
+        self.cap = None
 
 
 def number(value):
@@ -296,6 +310,14 @@ def keyed_family(key, triggers, analysis, convert):
     return 'E', '%s under a trigger' % upper
 
 
+def share_family(leaf, analysis):
+    """(family, reason) of a share of a stat added to another, the source kept."""
+    others = {pair for pair in leaf.triggers if pair not in (START_OF_COMBAT, RECOMPUTE_TRIGGER)}
+    if others or analysis.has_or or not analysis.names <= BUILD_CALLS:
+        return 'E', 'a share of a stat added to another under a trigger or a criterion'
+    return 'C', 'a share of a stat added to another, recomputed in the fight'
+
+
 def ranged_family(leaf):
     """(family, reason) of a counted leaf that holds for some effect levels only."""
     reason = 'the effect holds for levels %s to %s only' % leaf.levels
@@ -334,6 +356,34 @@ class Tables:
         if not self.effects or 'triggers' not in next(iter(self.effects.values())):
             raise GeneratorError('tables.json has no trigger arrays: decode the client again')
 
+    def share_children(self, effect):
+        """[(source, target, share, cap)] of a recomputed effect whose children each add a
+        share of one characteristic to another, the source kept; None for any other shape.
+
+        cap is the parent's limit as a share of the level, None when it names none."""
+        children = [self.effects.get(member) for member in self.groups.get(effect['id'], ())]
+        if not children or any(child is None or child['action_id'] != ADD_SHARE
+                               or len(child['params']) <= ADD_SHARE_PERCENT
+                               or (child.get('criterion') or '').strip()
+                               or any(child.get('triggers') or ())
+                               or (len(child['params']) > ADD_SHARE_KEPT_PARAM
+                                   and child['params'][ADD_SHARE_KEPT_PARAM])
+                               for child in children):
+            return None
+        params = effect['params']
+        cap = params[ADD_SHARE_CAP_PARAM] / 100 if len(params) > ADD_SHARE_CAP_PARAM else 0
+        found = []
+        for child in children:
+            values = child['params']
+            source = self.naming.characteristic(values[ADD_SHARE_SOURCE])
+            target = self.naming.characteristic(values[ADD_SHARE_TARGET])
+            if source is None or target is None or not values[ADD_SHARE_PERCENT]:
+                return None
+            found.append((lower_key(source), lower_key(target),
+                          number(round(values[ADD_SHARE_PERCENT] / 100, 6)),
+                          number(cap) if cap else None))
+        return found
+
     def walk(self, roots, seen):
         """[Leaf] under the effect ids `roots`, in walk order."""
         leaves = []
@@ -353,6 +403,14 @@ class Tables:
             criteria = criteria + ((text,) if text else ())
             action = effect['action_id']
             levels = (effect.get('min_level'), effect.get('max_level'))
+            shares = self.share_children(effect) if action == RECOMPUTED else None
+            if shares:
+                for source, target, share, cap in shares:
+                    leaves.append(Leaf(effect_id, action, target, share, 0, triggers,
+                                       criteria, source, levels, shaped))
+                    leaves[-1].added = True
+                    leaves[-1].cap = cap
+                return
             if action in wakfu_aptitudes.SUBTREE_DROPPED:
                 leaves.append(Leaf(effect_id, action, None, 0, 0, triggers, criteria, convert,
                                    levels, shaped))
@@ -396,7 +454,9 @@ class Tables:
         """Set the family, the reason and the comparisons of a leaf."""
         analysis = analyse(leaf.criteria)
         leaf.atoms = analysis.atoms
-        if leaf.key == '':
+        if leaf.added:
+            leaf.family, leaf.reason = share_family(leaf, analysis)
+        elif leaf.key == '':
             leaf.family = 'E'
         elif leaf.key is None:
             leaf.family, leaf.reason = action_family(leaf.action, leaf.triggers, analysis)
@@ -427,7 +487,7 @@ class Tables:
                 guards = guard_indexes(conditions, analysis)
                 sign = -1 if (leaf.p0 < 0 or leaf.p1 < 0) else 1
                 conversions.append((leaf.source, leaf.key, abs(leaf.p0), abs(leaf.p1), sign,
-                                    guards))
+                                    guards) + (() if leaf.cap is None else (leaf.cap,)))
             else:
                 uncounted.append((leaf.family, leaf.action,
                                   '%s: %s' % (leaf.key or 'a%d' % leaf.action, leaf.reason)))
@@ -589,6 +649,9 @@ def build(inputs):
             read['table'] = record['max_level']
         if kind == 'normal' and not read:
             raise GeneratorError('normal sublimation state %d has no stack cap' % state)
+        if any(len(conversion) > 6 for conversion in entry['conversions']):
+            raise GeneratorError('state %d has a capped conversion, but the cap is a share of '
+                                 'the character level and a state is read at its own' % state)
         name = tables.state_names.get(str(state)) or titles[items_of_state[state][0]]
         states[state] = dict(
             name=name, family=entry['family'], kind=kind,
@@ -613,7 +676,8 @@ def build(inputs):
     passive_kinds = {value for name, value in code['spell_kinds'].items() if name != 'ACTIVE'}
     passives = {}
     for spell, record in sorted(tables.spells.items()):
-        if record['kind'] not in passive_kinds or record['breed'] not in inputs['breeds']:
+        if record['kind'] not in passive_kinds or (
+                record['breed'] not in inputs['breeds'] and record['breed'] != GENERIC_BREED):
             continue
         entry, leaves = tables.entry(record['effect_ids'], set())
         passives[spell] = dict(
@@ -636,7 +700,7 @@ def build(inputs):
         'GAME_VERSION': code['game_version'], 'CLIENT_VERSION': code['client_version'],
         'DATA_VERSION': inputs['data_version'],
         'RARITY_RELIC': code['rarities']['RELIC'], 'RARITY_EPIC': code['rarities']['RELIC2'],
-        'PASSIVE_KIND_ACTIVE': code['spell_kinds']['ACTIVE'],
+        'PASSIVE_KIND_ACTIVE': code['spell_kinds']['ACTIVE'], 'GENERIC_BREED': GENERIC_BREED,
         'PASSIVE_SLOT_LEVELS': tuple(code['passive_slot_levels']),
         'STATES': {state: {key: value for key, value in entry.items() if key != 'kind'}
                    for state, entry in states.items()},
@@ -676,19 +740,21 @@ HEADER = '''# Generated by itemscraper/generate_wakfu_special_items.py
 #
 # STATES {{state: {{'name', 'family', 'cap', 'caps', 'lines', 'conditions', 'conversions',
 #   'uncounted'}}}}. A line is (family, key, p0, p1, guards) and a conversion (source key,
-#   target key, p0, p1, sign, guards); the value at state level L is p0 + p1 * L (a
-#   conversion's, the share of the source). guards index the state's own 'conditions',
+#   target key, p0, p1, sign, guards[, cap]); the value at state level L is p0 + p1 * L (a
+#   conversion's, the share of the source). A conversion may end with a cap, the most it
+#   moves as a share of the character's level. guards index the state's own 'conditions',
 #   each (function, key, operator, value).
 # SUBLIMATIONS {{item: (state, level, kind, slot colour pattern)}}.
 # GEAR_STATES {{item: ((state, level), ...)}}.
 # PASSIVES {{spell: {{'name', 'breed', 'unlock', 'family', 'lines', 'conditions',
-#   'conversions', 'uncounted'}}}}.
+#   'conversions', 'uncounted'}}}}; the breed of a passive any class can take is GENERIC_BREED.
 # CHANGED_BY_NOTES {{state: (note, status, source)}}; COUNTS {{kind: {{family: n}}}}.
 '''
 
 BLOCK_NAMES = ('GAME_VERSION', 'CLIENT_VERSION', 'DATA_VERSION', 'RARITY_RELIC', 'RARITY_EPIC',
-               'PASSIVE_KIND_ACTIVE', 'PASSIVE_SLOT_LEVELS', 'STATES', 'SUBLIMATIONS',
-               'GEAR_STATES', 'PASSIVES', 'CHANGED_BY_NOTES', 'COUNTS', 'ARBITRATIONS')
+               'PASSIVE_KIND_ACTIVE', 'GENERIC_BREED', 'PASSIVE_SLOT_LEVELS', 'STATES',
+               'SUBLIMATIONS', 'GEAR_STATES', 'PASSIVES', 'CHANGED_BY_NOTES', 'COUNTS',
+               'ARBITRATIONS')
 
 
 def render(constants):

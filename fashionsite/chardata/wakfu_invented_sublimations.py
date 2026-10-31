@@ -71,11 +71,11 @@ def socket_row(*colours):
             for at, colour in enumerate(colours)]
 
 
-def block(states=None, sublimations=None, gear=None, passives=None):
+def block(states=None, sublimations=None, gear=None, passives=None, generic=None):
     return types.SimpleNamespace(
         STATES=states or {}, SUBLIMATIONS=sublimations or {}, GEAR_STATES=gear or {},
         PASSIVES=passives or {}, RARITY_RELIC=RELIC_RARITY, RARITY_EPIC=EPIC_RARITY,
-        PASSIVE_SLOT_LEVELS=(10, 30, 50, 100, 150, 200))
+        PASSIVE_SLOT_LEVELS=(10, 30, 50, 100, 150, 200), GENERIC_BREED=generic)
 
 
 def state(lines=(), conditions=(), conversions=(), cap=None, family='A'):

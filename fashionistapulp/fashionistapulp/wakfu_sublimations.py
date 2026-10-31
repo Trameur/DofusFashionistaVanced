@@ -142,13 +142,22 @@ def slots_open(level):
     return sum(1 for need in block.PASSIVE_SLOT_LEVELS if need <= level) if block else 0
 
 
+def passive_of_class(entry, class_id, block=None):
+    """True when a passive entry is one of the breed's own or one every class can take."""
+    block = block or load()
+    generic = getattr(block, 'GENERIC_BREED', None)
+    return entry['breed'] == class_id or (generic is not None and entry['breed'] == generic)
+
+
 def passives_of(class_id, level):
-    """[spell id] of the passives a breed has unlocked at this level, in unlock order."""
+    """[spell id] of the passives a breed has unlocked at this level, in unlock order.
+
+    The breed's own and those every class can take share the same slots."""
     block = load()
     if block is None:
         return []
     found = [(entry['unlock'], ident) for ident, entry in block.PASSIVES.items()
-             if entry['breed'] == class_id and entry['unlock'] <= level]
+             if passive_of_class(entry, class_id, block) and entry['unlock'] <= level]
     return [ident for _unlock, ident in sorted(found)]
 
 
@@ -277,7 +286,8 @@ def _lines_of(entry, at, holds, sheet_totals):
     """Counter {key: value} of the lines and the conversions of an entry read at `at`.
 
     A conversion moves floor(source total x share) from the sheet total; one that takes
-    from its own key never takes more than that total holds. Each child is floored alone.
+    from its own key never takes more than that total holds, and one with a cap never moves
+    more than floor(cap x level). Each child is floored alone.
     """
     out = collections.Counter()
     if at <= 0:
@@ -285,11 +295,13 @@ def _lines_of(entry, at, holds, sheet_totals):
     for _family, key, p0, p1, guards in entry['lines']:
         if _guarded(guards, holds):
             out[key] += value_at(p0, p1, at)
-    for source, target, p0, p1, sign, guards in entry['conversions']:
+    for source, target, p0, p1, sign, guards, *cap in entry['conversions']:
         if not _guarded(guards, holds):
             continue
         have = max(sheet_totals.get(source, 0), 0)
         moved = math.floor(have * share_at(p0, p1, at))
+        if cap:
+            moved = min(moved, math.floor(cap[0] * at))
         if source == target and sign < 0:
             moved = min(moved, have)
         out[target] += sign * moved
@@ -299,7 +311,7 @@ def _lines_of(entry, at, holds, sheet_totals):
 def _report(entry, summed, counted, at, holds, sheet_totals):
     lines = _lines_of(entry, at, holds, sheet_totals)
     guards = [one for _f, _k, _a, _b, one in entry['lines'] if one]
-    guards += [one for *_rest, one in entry['conversions'] if one]
+    guards += [one[5] for one in entry['conversions'] if one[5]]
     return StateReport(
         summed, entry.get('cap'), counted, entry['family'],
         not guards or any(_guarded(one, holds) for one in guards),

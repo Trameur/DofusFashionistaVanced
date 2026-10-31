@@ -356,7 +356,8 @@ def passive_violations(level, class_id, passives):
         if entry is None:
             found.append((PASSIVE_UNKNOWN,
                           'passive %r is not in the client tables' % (ident,)))
-        elif class_id is None or entry['breed'] != class_id:
+        elif class_id is None or not wakfu_sublimations.passive_of_class(
+                entry, class_id, block):
             found.append((PASSIVE_CLASS, 'passive %d (%s) belongs to breed %d, not to %s'
                           % (ident, entry['name'], entry['breed'],
                              'a build with no class' if class_id is None
@@ -396,7 +397,8 @@ def state_violations(reported, computed):
                           'under the cap %r' % (key, report.counted,
                                                 mine.counted if mine else 0, cap)))
         elif dict(report.lines) != dict(mine.lines) and entry is not None and any(
-                guards for *_head, guards in list(entry['lines']) + list(entry['conversions'])):
+                guards for *_head, guards in list(entry['lines'])
+                + [row[:6] for row in entry['conversions']]):
             found.append((STATE_CONDITION, 'state %s gives %r, its conditions give %r'
                           % (key, dict(report.lines), dict(mine.lines))))
     if reported:

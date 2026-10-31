@@ -361,14 +361,15 @@ class Command(BaseCommand):
             level, wakfu_sublimations.slots_open(level)))
         for ident, entry in sorted(block.PASSIVES.items(),
                                    key=lambda one: (one[1]['unlock'], one[0])):
-            if entry['breed'] != class_id:
+            if not wakfu_sublimations.passive_of_class(entry, class_id, block):
                 continue
             reasons = sorted({reason for _family, _ident, reason in entry['uncounted']})
             self.stdout.write('%d %s: unlock %d%s, family %s, %s' % (
                 ident, entry['name'], entry['unlock'],
                 '' if entry['unlock'] <= level else ' (not open)', entry['family'],
                 '%d counted lines' % len(entry['lines']) if entry['lines']
-                else 'nothing counted'))
+                else '%d counted conversions' % len(entry['conversions'])
+                if entry['conversions'] else 'nothing counted'))
             for reason in reasons:
                 self.stdout.write('  not counted: %s' % reason)
 

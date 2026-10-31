@@ -15,14 +15,14 @@ except ImportError:
 
 FAMILIES = 'ABCDEFGHIJ'
 KINDS = ('normal', 'relic', 'epic', 'gear', 'passives')
-TOTALS = {'normal': 157, 'relic': 47, 'epic': 32, 'gear': 54, 'passives': 339}
+TOTALS = {'normal': 157, 'relic': 47, 'epic': 32, 'gear': 54, 'passives': 347}
 # States of each kind by family, as the generator counted them on game 1.93.1
 FAMILY_COUNTS = {
     'normal': dict(A=18, B=1, C=0, D=0, E=60, F=9, G=9, H=12, I=13, J=35),
     'relic': dict(A=2, B=0, C=0, D=0, E=16, F=3, G=9, H=5, I=5, J=7),
     'epic': dict(A=3, B=14, C=3, D=0, E=7, F=0, G=0, H=1, I=0, J=4),
     'gear': dict(A=0, B=0, C=0, D=0, E=11, F=6, G=5, H=6, I=1, J=25),
-    'passives': dict(A=27, B=0, C=2, D=0, E=74, F=5, G=10, H=27, I=24, J=170)}
+    'passives': dict(A=31, B=0, C=4, D=0, E=75, F=5, G=10, H=27, I=25, J=170)}
 EPIC_B = [5073, 5074, 5075, 5076, 6706, 6707, 7255, 7256, 7876, 7880, 7881, 8384, 8385,
           9074]
 EPIC_C = [5077, 5449, 7882]

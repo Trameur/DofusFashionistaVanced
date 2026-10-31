@@ -17,6 +17,10 @@ def passive(breed, unlock):
             'conditions': [], 'conversions': [], 'uncounted': []}
 
 
+def classes():
+    return {entry['breed'] for entry in live.PASSIVES.values()} - {live.GENERIC_BREED}
+
+
 def rules(structure, level, class_id, passives):
     found = wakfu_legality.violations(structure, level, {}, class_id=class_id,
                                       passives=passives)
@@ -33,7 +37,7 @@ class TheLiveBlockOpensTheSlotsAtTheLevelsTheClientGivesTests(SimpleTestCase):
         self.assertEqual(SLOTS, tuple(wakfu_sublimations.slots_open(level) for level in LEVELS))
 
     def test_a_class_at_level_forty_holds_at_most_two_of_its_own_passives(self):
-        breeds = {entry['breed'] for entry in live.PASSIVES.values()}
+        breeds = classes()
         self.assertTrue(breeds)
         structure = Structure([], bases={breed: {} for breed in breeds})
         for breed in sorted(breeds):
@@ -41,7 +45,8 @@ class TheLiveBlockOpensTheSlotsAtTheLevelsTheClientGivesTests(SimpleTestCase):
             with self.subTest(breed=breed):
                 self.assertTrue(unlocked)
                 self.assertTrue(all(live.PASSIVES[ident]['unlock'] <= 40
-                                    and live.PASSIVES[ident]['breed'] == breed
+                                    and live.PASSIVES[ident]['breed'] in (
+                                        breed, live.GENERIC_BREED)
                                     for ident in unlocked))
                 self.assertEqual([], rules(structure, 40, breed, unlocked[:2]))
                 if len(unlocked) > 2:
@@ -49,19 +54,20 @@ class TheLiveBlockOpensTheSlotsAtTheLevelsTheClientGivesTests(SimpleTestCase):
                                      rules(structure, 40, breed, unlocked[:3]))
 
     def test_the_passives_of_a_class_come_in_unlock_order(self):
-        for breed in {entry['breed'] for entry in live.PASSIVES.values()}:
+        for breed in classes():
             unlocks = [live.PASSIVES[ident]['unlock']
                        for ident in wakfu_sublimations.passives_of(breed, 245)]
             self.assertEqual(sorted(unlocks), unlocks, breed)
 
     def test_no_passive_is_open_before_its_unlock_level(self):
-        for breed in {entry['breed'] for entry in live.PASSIVES.values()}:
+        for breed in classes():
             for ident in wakfu_sublimations.passives_of(breed, 20):
                 self.assertLessEqual(live.PASSIVES[ident]['unlock'], 20)
 
     def test_a_class_with_every_passive_open_lists_every_passive_it_has(self):
-        for breed in {entry['breed'] for entry in live.PASSIVES.values()}:
-            own = {ident for ident, entry in live.PASSIVES.items() if entry['breed'] == breed}
+        for breed in classes():
+            own = {ident for ident, entry in live.PASSIVES.items()
+                   if entry['breed'] in (breed, live.GENERIC_BREED)}
             self.assertEqual(own, set(wakfu_sublimations.passives_of(breed, 245)))
 
 
