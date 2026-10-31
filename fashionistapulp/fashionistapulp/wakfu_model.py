@@ -1268,16 +1268,12 @@ class WakfuBuild:
         the worn pieces' own states left out."""
         return self._fight_lines(worn, gear=False)[0]
 
-    def _fight_lines(self, worn, gear=True):
+    def _fight_lines(self, worn, gear=True, landing=None):
         """({stat key: value}, {state: StateReport}) the set's sources give in the fight."""
         block = self._block
         if block is None or not self._fight_on:
             return {}, {}
-        reading = self.sheet_totals(worn)
-        skip = {name.lower() for name in OUT_OF_COMBAT_CAPS}
-        for key, (low, _high) in self._base.items():
-            if key not in skip:
-                reading[key] += low
+        reading = self._fight_reading(worn, landing)
         rules = wakfu_sublimations
         choices = [(rules.SUBLIMATION, row[0])
                    for given in (getattr(worn, 'sublimations', None),
@@ -1286,10 +1282,34 @@ class WakfuBuild:
         if gear:
             choices += [(rules.GEAR, item.id) for item in worn.values()
                         if item.id in block.GEAR_STATES]
-        choices += [(rules.PASSIVE, spell) for spell in getattr(worn, 'passives', None) or ()]
+        choices += self._passive_choices(worn)
+        return self._read_fight_lines(worn, choices, reading)
+
+    def _fight_reading(self, worn, landing):
+        """The sheet totals the conditions of the fight lines read, the base values added."""
+        reading = self.sheet_totals(worn, landing)
+        skip = {name.lower() for name in OUT_OF_COMBAT_CAPS}
+        for key, (low, _high) in self._base.items():
+            if key not in skip:
+                reading[key] += low
+        return reading
+
+    def _passive_choices(self, worn):
+        return [(wakfu_sublimations.PASSIVE, spell)
+                for spell in getattr(worn, 'passives', None) or ()]
+
+    def _read_fight_lines(self, worn, choices, reading):
         weapons = {item.type for position, item in worn.items() if position in WEAPON_POSITIONS}
-        return rules.fight_lines(choices, reading, self.level, self.class_id, self.opt_in,
-                                 weapons)
+        return wakfu_sublimations.fight_lines(choices, reading, self.level, self.class_id,
+                                              self.opt_in, weapons)
+
+    def passive_lines(self, worn, landing=None):
+        """({stat key: value}, {(PASSIVE, spell): StateReport}) the set's passives alone give,
+        the rows of _fight_lines that come from passives, read on the same sheet totals."""
+        if self._block is None or not self._fight_on:
+            return {}, {}
+        reading = self._fight_reading(worn, landing)
+        return self._read_fight_lines(worn, self._passive_choices(worn), reading)
 
     def objective_of(self, worn):
         """What this build's objective is worth on any set: the columns' worth read from the
@@ -1779,24 +1799,56 @@ class WakfuBuild:
                                 self._lands_on(key, value, elements)))
         return out
 
-    def where_the_spread_lands(self, worn):
-        """{stat key: total} for the elements a build's spread lines feed."""
-        landing = collections.Counter()
-        for _position, _item, _key, value, landed in self.spread_lines(worn):
-            for name in landed:
-                landing[name] += value
-        return landing
+    def _check_landing(self, worn, given):
+        """Raise ValueError for a landing that names no spread line of worn, an element
+        outside the family of its line, or not as many elements as the line has."""
+        for (position, index), names in given.items():
+            spread = worn[position].element_spread if position in worn else None
+            if not spread or not 0 <= index < len(spread):
+                raise ValueError('no spread line at %r' % ((position, index),))
+            stat_id, _value, elements = spread[index]
+            key = self._key_of(stat_id)
+            if key not in SPREAD_FAMILIES:
+                raise ValueError('line at %r is not a spread line' % ((position, index),))
+            family = self._element_weights(key)
+            if any(name not in family for name in names) or len(names) != elements:
+                raise ValueError('landing %r does not fit the line at %r'
+                                 % (list(names), (position, index)))
 
-    def totals(self, worn):
+    def where_the_spread_lands(self, worn, landing=None):
+        """{stat key: total} for the elements a build's spread lines feed.
+
+        landing: {(position, line index in item.element_spread): element keys} for the lines
+        whose elements are given; a line it does not name lands as this build's weights say.
+        """
+        landed_on = collections.Counter()
+        given = landing or {}
+        self._check_landing(worn, given)
+        for position in sorted(worn):
+            item = worn[position]
+            for index, (stat_id, value, elements) in enumerate(item.element_spread or ()):
+                key = self._key_of(stat_id)
+                if key not in SPREAD_FAMILIES:
+                    continue
+                names = given.get((position, index))
+                if names is None:
+                    names = self._lands_on(key, value, elements)
+                for name in names:
+                    landed_on[name] += value
+        return landed_on
+
+    def totals(self, worn, landing=None):
         """Stat totals of a set in the fight: the sheet totals and the lines of the
-        sublimations, the worn pieces' states and the passives."""
-        out = self.sheet_totals(worn)
-        out.update(self._fight_lines(worn)[0])
+        sublimations, the worn pieces' states and the passives. landing is the one of
+        where_the_spread_lands."""
+        out = self.sheet_totals(worn, landing)
+        out.update(self._fight_lines(worn, landing=landing)[0])
         return out
 
-    def sheet_totals(self, worn):
+    def sheet_totals(self, worn, landing=None):
         """Stat totals of the sheet: worn lines, spread lines landed, aptitudes, set bonus
-        tiers, runes and base values. The lines of sublimations and passives are left out."""
+        tiers, runes and base values. The lines of sublimations and passives are left out.
+        landing is the one of where_the_spread_lands."""
         out = collections.Counter()
         for item in worn.values():
             for stat_id, value in self._plain_lines(item):
@@ -1807,7 +1859,7 @@ class WakfuBuild:
                 key = self._key_of(stat_id)
                 if key is not None and key not in SPREAD_FAMILIES:
                     out[key] += value
-        out.update(self.where_the_spread_lands(worn))
+        out.update(self.where_the_spread_lands(worn, landing))
         out.update(self._source_lines(worn))
         out.update(wakfu_runes.lines(self.structure, worn, getattr(worn, 'runes', None)))
         for name in OUT_OF_COMBAT_CAPS:
