@@ -397,7 +397,7 @@ def state_violations(reported, computed):
                           'under the cap %r' % (key, report.counted,
                                                 mine.counted if mine else 0, cap)))
         elif dict(report.lines) != dict(mine.lines) and entry is not None and any(
-                guards for *_head, guards in list(entry['lines'])
+                guards for *_head, guards in list(entry['lines']) + list(entry.get('shares', ()))
                 + [row[:6] for row in entry['conversions']]):
             found.append((STATE_CONDITION, 'state %s gives %r, its conditions give %r'
                           % (key, dict(report.lines), dict(mine.lines))))

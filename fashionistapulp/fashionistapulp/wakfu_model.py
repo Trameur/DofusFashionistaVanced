@@ -105,6 +105,7 @@ class _Source:
         self.sets = []
         # (key, guard set or None, p0, p1) and (origin, target, p0, p1, sign, guard set)
         self.lines = []
+        self.shares = []
         self.convs = []
         # {condition index: [({key: coefficient}, operator, bound)]}
         self.clauses = {}
@@ -124,7 +125,7 @@ class _Source:
 
     def keys(self):
         """Stat keys the lines and conversions touch."""
-        found = {key for key, _at, _p0, _p1 in self.lines}
+        found = {key for key, _at, _p0, _p1 in self.lines + self.shares}
         for origin, target, *_rest in self.convs:
             found.update((origin, target))
         return found
@@ -755,6 +756,9 @@ class WakfuBuild:
         self._col = {}
         self._fight = collections.defaultdict(list)
         self._fight_bounds = collections.defaultdict(lambda: [0, 0])
+        self._after = collections.defaultdict(list)
+        self._after_bounds = collections.defaultdict(lambda: [0, 0])
+        self._start_totals = {}
         self._gear_lines = collections.defaultdict(lambda: collections.defaultdict(
             collections.Counter))
         self._gear_worth = collections.Counter()
@@ -763,10 +767,11 @@ class WakfuBuild:
         self._fight_totals = {}
         self.notes = []
 
-    def _fight_add(self, key, terms, lowest, highest):
-        self._fight[key].extend(terms)
-        self._fight_bounds[key][0] += lowest
-        self._fight_bounds[key][1] += highest
+    def _fight_add(self, key, terms, lowest, highest, after=False):
+        (self._after if after else self._fight)[key].extend(terms)
+        bounds = self._after_bounds if after else self._fight_bounds
+        bounds[key][0] += lowest
+        bounds[key][1] += highest
 
     def _prepare_source(self, name, entry, passive):
         """The _Source of a state or a passive: the lines and conversions the model reads.
@@ -804,6 +809,10 @@ class WakfuBuild:
             at = place(guards)
             if at != DROPPED:
                 source.lines.append((key, at, p0, p1))
+        for _family, key, p0, p1, guards in entry.get('shares', ()):
+            at = place(guards)
+            if at != DROPPED:
+                source.shares.append((key, at, p0, p1))
         for origin, target, p0, p1, sign, guards, *cap in entry['conversions']:
             at = place(guards)
             if at != DROPPED:
@@ -811,7 +820,7 @@ class WakfuBuild:
         for found in source.sets:
             for at in found:
                 source.clauses[at] = rules.condition_clauses(entry['conditions'][at])
-        return source if source.lines or source.convs else None
+        return source if source.lines or source.shares or source.convs else None
 
     def _gear_state_lines(self, read):
         """The lines of the states the worn pieces carry, one term for each piece."""
@@ -820,12 +829,15 @@ class WakfuBuild:
             for state, level in block.GEAR_STATES.get(item.id, ()):
                 entry = block.STATES[state]
                 if entry['conditions'] or entry['conversions'] or any(
-                        guards for *_rest, guards in entry['lines']):
+                        guards for *_rest, guards in entry['lines'] + entry.get('shares', [])):
                     self.notes.append('gear state %d has a condition, it is left out' % state)
                     continue
                 at = wakfu_sublimations.counted_level([level], entry['cap'])
-                for _family, key, p0, p1, _guards in entry['lines']:
-                    value = wakfu_sublimations.value_at(p0, p1, at)
+                values = [(key, wakfu_sublimations.value_at(p0, p1, at))
+                          for _family, key, p0, p1, _guards in entry['lines']]
+                values += [(key, wakfu_sublimations.level_share(p0, p1, at, self.level))
+                           for _family, key, p0, p1, _guards in entry.get('shares', ())]
+                for key, value in values:
                     if value and (key in read or self._plain_weight(key)):
                         name = self._name(item, position)
                         self._gear_lines[key][position][name] += value
@@ -1056,6 +1068,10 @@ class WakfuBuild:
         for key, found, p0, p1 in source.lines:
             for level in source.levels:
                 grouped[(key, found)][level] += wakfu_sublimations.value_at(p0, p1, level)
+        for key, found, p0, p1 in source.shares:
+            for level in source.levels:
+                grouped[(key, found)][level] += wakfu_sublimations.level_share(
+                    p0, p1, level, self.level)
         for (key, found), values in sorted(grouped.items(), key=str):
             terms = []
             for level, value in sorted(values.items()):
@@ -1064,7 +1080,14 @@ class WakfuBuild:
                     terms.append((value, category, name))
                     self._column_worth.append((category, name, value * self._plain_weight(key)))
             numbers = [value for value, _category, _name in terms]
-            self._fight_add(key, terms, min([0] + numbers), max([0] + numbers))
+            self._fight_add(key, terms, min([0] + numbers), max([0] + numbers),
+                            self._reads_the_turn(source, found))
+
+    def _reads_the_turn(self, source, found):
+        """True when a guard set holds a condition on the totals of the first turn."""
+        return found is not None and any(
+            source.entry['conditions'][at][0] == wakfu_sublimations.LATE
+            for at in source.sets[found])
 
     def _conversion_columns(self, source):
         """v(s, c): what a conversion moves, an integer floored as the client floors it."""
@@ -1177,12 +1200,13 @@ class WakfuBuild:
                 + [(above, category, ident)]),
             '<=', unit - 1 - scale * total.low + above, 'convert_%s_down' % name)
 
-    def _clause_expression(self, coefficients):
-        """(terms, base, lowest, highest) of a sum of sheet totals, on the lowest base."""
+    def _clause_expression(self, coefficients, turn=False):
+        """(terms, base, lowest, highest) of a sum of sheet totals, on the lowest base; of the
+        totals after the start of the fight when `turn`."""
         terms = []
         base = lowest = highest = 0
         for key, coefficient in sorted(coefficients.items()):
-            total = self.stat_total_expr(key)
+            total = self._fight_expr(key, False) if turn else self.stat_total_expr(key)
             base += coefficient * total.low
             if coefficient > 0:
                 lowest += coefficient * total.lowest
@@ -1201,7 +1225,8 @@ class WakfuBuild:
         value, read from the bounds of the totals.
         """
         coefficients, operator, bound = source.clauses[condition][part]
-        terms, base, lowest, highest = self._clause_expression(coefficients)
+        terms, base, lowest, highest = self._clause_expression(
+            coefficients, source.entry['conditions'][condition][0] == wakfu_sublimations.LATE)
         label = '%s_%d_%d' % (source.name, condition, part)
         if operator == '>=':
             holds = bound - (base + lowest)
@@ -1262,20 +1287,30 @@ class WakfuBuild:
     def fight_total_expr(self, key):
         """A stat's total in the fight: the sheet total plus what the sublimations, the worn
         pieces' states and the passives add. The sheet total itself when none touches it."""
+        return self._fight_expr(key, True)
+
+    def _fight_expr(self, key, after):
+        """fight_total_expr, or with `after` False the total the first turn starts from: the
+        lines guarded by a condition on those totals left out."""
         sheet = self.stat_total_expr(key)
-        if key not in self._fight_totals:
+        cache = self._fight_totals if after else self._start_totals
+        if key not in cache:
             part = self._gear_state_part(key)
             terms = list(part.terms) + list(self._fight.get(key, ()))
+            lowest, highest = self._fight_bounds.get(key, (0, 0))
+            if after:
+                terms += self._after.get(key, ())
+                lowest += self._after_bounds.get(key, (0, 0))[0]
+                highest += self._after_bounds.get(key, (0, 0))[1]
             constant = self._constant_fight.get(key, 0)
             if not terms and not constant:
-                self._fight_totals[key] = sheet
+                cache[key] = sheet
             else:
-                lowest, highest = self._fight_bounds.get(key, (0, 0))
-                self._fight_totals[key] = StatTotal(
+                cache[key] = StatTotal(
                     key, sheet.low + constant, sheet.high + constant, sheet.terms + terms,
                     sheet.lowest + part.lowest + lowest,
                     sheet.highest + part.highest + highest)
-        return self._fight_totals[key]
+        return cache[key]
 
     def report(self, worn):
         """Read the set's totals and states off this build: the spread lines land as this

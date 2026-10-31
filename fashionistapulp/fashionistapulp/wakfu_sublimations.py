@@ -41,6 +41,10 @@ SUBLIMATION, GEAR, PASSIVE = 'sublimation', 'gear', 'passive'
 # The families a player may opt into
 OPT_IN_FAMILIES = 'EFGH'
 
+# The function of a condition that reads the totals at the start of the first turn, after
+# every effect of the start of the fight
+LATE = 'GetCharacLate'
+
 # summed: the levels added up, cap: the state's own (None for none), counted: the level the
 # fight reads, condition: whether its lines are free of conditions or one of the guarded
 # ones holds, lines: {key: value} it gives
@@ -185,14 +189,15 @@ def _one_condition(condition, totals, level, class_id, weapon_types):
     compare = _OPERATORS.get(operator)
     if compare is None:
         return False
-    if function in ('GetCharac', 'GetCharacMax', 'GetCharacteristicMax'):
+    if function in ('GetCharac', 'GetCharacMax', 'GetCharacteristicMax', LATE):
         return compare(totals.get(key, 0), value)
     if function == 'GetLevel':
         return compare(level, value)
     if function == 'IsBreed':
         return compare(class_id, value)
     if function == 'HasWeaponType':
-        return (value in weapon_types) == (operator != '!=')
+        wanted = value if isinstance(value, tuple) else (value,)
+        return any(one in weapon_types for one in wanted) == (operator != '!=')
     return False
 
 
@@ -212,16 +217,26 @@ def _text_holds(text, totals):
     return True
 
 
-def condition_holds(conditions, totals, level, class_id, weapon_types=()):
-    """[bool] for each of a state's or passive's conditions, read on `totals`."""
-    return [_one_condition(condition, totals, level, class_id, weapon_types)
+def condition_holds(conditions, totals, level, class_id, weapon_types=(), turn_totals=None):
+    """[bool] for each of a state's or passive's conditions, read on `totals`.
+
+    A late condition (LATE) reads `turn_totals`, the totals once the start of the fight has
+    been applied, and does not hold while there are none."""
+    return [(_one_condition(condition, turn_totals, level, class_id, weapon_types)
+             if turn_totals is not None else False) if condition[0] == LATE
+            else _one_condition(condition, totals, level, class_id, weapon_types)
             for condition in conditions]
+
+
+def late_conditions(entry):
+    """The indexes of the conditions of an entry that read the totals of the first turn."""
+    return {at for at, condition in enumerate(entry['conditions']) if condition[0] == LATE}
 
 
 # What a condition is to the model: a test on the character alone, a comparison of stat
 # totals, or something the model does not read
 STATIC, CLAUSES, UNSUPPORTED = 'static', 'clauses', 'unsupported'
-_STAT_FUNCTIONS = ('GetCharac', 'GetCharacMax', 'GetCharacteristicMax')
+_STAT_FUNCTIONS = ('GetCharac', 'GetCharacMax', 'GetCharacteristicMax', LATE)
 _CHARACTER_FUNCTIONS = ('GetLevel', 'IsBreed')
 
 
@@ -282,21 +297,37 @@ def share_at(p0, p1, e):
     return round(float(effect_value((p0, p1), 0, e)), 6)
 
 
-def _lines_of(entry, at, holds, sheet_totals):
-    """Counter {key: value} of the lines and the conversions of an entry read at `at`.
+def level_share(p0, p1, at, level):
+    """The amount of a share of the character level: floor(level x (p0 + p1 x at) / 100)."""
+    return math.floor(round(level * share_at(p0, p1, at) / 100, 6))
+
+
+def _lines_of(entry, at, holds, sheet_totals, level, late_pass=None):
+    """Counter {key: value} of the lines, the shares and the conversions of an entry read at
+    `at`.
 
     A conversion moves floor(source total x share) from the sheet total; one that takes
     from its own key never takes more than that total holds, and one with a cap never moves
-    more than floor(cap x level). Each child is floored alone.
+    more than floor(cap x level). A share of the level is floored too. Each child is floored
+    alone. late_pass False leaves out what a late condition guards, True keeps only that.
     """
     out = collections.Counter()
     if at <= 0:
         return out
+    late = late_conditions(entry)
+
+    def wanted(guards):
+        return _guarded(guards, holds) and (late_pass is None
+                                            or bool(late.intersection(guards)) == late_pass)
+
     for _family, key, p0, p1, guards in entry['lines']:
-        if _guarded(guards, holds):
+        if wanted(guards):
             out[key] += value_at(p0, p1, at)
+    for _family, key, p0, p1, guards in entry.get('shares', ()):
+        if wanted(guards):
+            out[key] += level_share(p0, p1, at, level)
     for source, target, p0, p1, sign, guards, *cap in entry['conversions']:
-        if not _guarded(guards, holds):
+        if not wanted(guards):
             continue
         have = max(sheet_totals.get(source, 0), 0)
         moved = math.floor(have * share_at(p0, p1, at))
@@ -308,9 +339,9 @@ def _lines_of(entry, at, holds, sheet_totals):
     return out
 
 
-def _report(entry, summed, counted, at, holds, sheet_totals):
-    lines = _lines_of(entry, at, holds, sheet_totals)
-    guards = [one for _f, _k, _a, _b, one in entry['lines'] if one]
+def _report(entry, summed, counted, holds, lines):
+    guards = [one for _f, _k, _a, _b, one in list(entry['lines']) + list(entry.get('shares', ()))
+              if one]
     guards += [one[5] for one in entry['conversions'] if one[5]]
     return StateReport(
         summed, entry.get('cap'), counted, entry['family'],
@@ -351,20 +382,28 @@ def fight_lines(choices, sheet_totals, level, class_id, opt_in=None, weapon_type
     if block is None:
         return {}, reports
     levels, spells = sources_of(choices, block)
-    for state in sorted(levels):
-        entry = block.STATES[state]
-        counted = counted_level(levels[state], entry['cap'])
+    sources = [(state, block.STATES[state], sum(levels[state]),
+                counted_level(levels[state], block.STATES[state]['cap']))
+               for state in sorted(levels)]
+    sources += [((PASSIVE, spell), block.PASSIVES[spell], 1, level) for spell in sorted(spells)]
+    started = {}
+    for key, entry, _summed, at in sources:
         holds = condition_holds(entry['conditions'], sheet_totals, level, class_id,
                                 weapon_types)
-        reports[state] = _report(entry, sum(levels[state]), counted, counted, holds,
-                                 sheet_totals)
-        total.update(reports[state].lines)
-    for spell in sorted(spells):
-        entry = block.PASSIVES[spell]
+        started[key] = _lines_of(entry, at, holds, sheet_totals, level, False)
+        total.update(started[key])
+    turn_totals = collections.Counter(sheet_totals)
+    turn_totals.update(total)
+    for key, entry, summed, at in sources:
+        counted = at if isinstance(key, int) else 1
         holds = condition_holds(entry['conditions'], sheet_totals, level, class_id,
-                                weapon_types)
-        reports[(PASSIVE, spell)] = _report(entry, 1, 1, level, holds, sheet_totals)
-        total.update(reports[(PASSIVE, spell)].lines)
+                                weapon_types, turn_totals)
+        lines = collections.Counter(started[key])
+        if late_conditions(entry):
+            after = _lines_of(entry, at, holds, sheet_totals, level, True)
+            lines.update(after)
+            total.update(after)
+        reports[key] = _report(entry, summed, counted, holds, lines)
     return {key: value for key, value in total.items() if value}, reports
 
 

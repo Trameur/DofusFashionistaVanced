@@ -17,15 +17,17 @@ except ImportError:
     live = None
 
 EPIC_B = {5073: 'Inflexible', 5074: 'Constant', 5075: 'Measure', 5076: 'Precise',
+          5158: 'Wield type: two-handed', 5448: 'Herculean Strength', 6705: 'Outrage',
           6706: 'Outrage II', 6707: 'Pillar', 7255: 'Controlling Space II',
           7256: 'Inflexibility II', 7876: 'Constant II', 7880: 'Engagement',
           7881: 'Iron Will', 8384: 'Pillar II', 8385: 'Measure II', 9074: 'Critical Secret'}
 EPIC_C = {5077: 'Unraveling', 5449: 'Elemental Concentration', 7882: 'Colossal'}
 # The states whose lines the independent walk below finds all of, key included
-WALKED_IN_FULL = (5073, 5074, 5075, 6706, 7256, 7880, 7881, 8385, 9074)
+WALKED_IN_FULL = (5073, 5074, 5075, 5158, 5448, 6705, 6706, 7256, 7880, 7881, 8385, 9074)
 # The states whose text numbers all show in the lines and conditions
 TEXT_MATCHES = (5073, 5076, 6707, 7255, 8384, 8385)
-START_OF_COMBAT = 1028
+FIGHT_START = (1028, 1003)
+SHARE_PARAMS = (14, 15)
 LEVEL = 200
 
 
@@ -62,7 +64,7 @@ class TheEpicStatesOfFamiliesBAndCArePinnedTests(TheLiveEpicBlockCase):
                 and any(row[0] == state and row[2] == 'epic'
                         for row in live.SUBLIMATIONS.values())}
 
-    def test_the_epic_states_of_family_b_are_these_fourteen(self):
+    def test_the_epic_states_of_family_b_are_these(self):
         self.assertEqual(EPIC_B, self.epics('B'))
 
     def test_the_epic_states_of_family_c_are_these_three(self):
@@ -86,37 +88,54 @@ class TheEpicRulesEqualAnIndependentWalkOfTheClientTablesTests(TheLiveEpicBlockC
         self.groups = {group['id']: group['effect_ids'] for group in self.tables['groups']}
         self.states = {state['id']: state for state in self.tables['states']}
 
+    def share_of(self, effect):
+        """(base, per level) percent of the level a group hands to its plain children."""
+        params = effect['params']
+        if effect['id'] in self.groups and len(params) > max(SHARE_PARAMS):
+            share = tuple(float(params[at]) for at in SHARE_PARAMS)
+            return share if any(share) else None
+        return None
+
     def leaves(self, ident, chain):
+        """[(effect, chain, share)]: the children of a group sharing the level carry it."""
         effect = self.effects[ident]
         chain = chain + ([effect['criterion']] if effect['criterion'] else [])
         if ident in self.groups:
+            share = self.share_of(effect)
+            if share:
+                return [(self.effects[child], chain, share) for child in self.groups[ident]]
             return [leaf for child in self.groups[ident] for leaf in self.leaves(child, chain)]
-        return [(effect, chain)]
+        return [(effect, chain, None)]
 
     def walked(self, state):
-        """Counter {(key, p0, p1, guarded)} of the leaves that name a characteristic."""
+        """Counter {(key, p0, p1, guarded)} of the leaves that name a characteristic; a
+        child of a group sharing the level has the group's shares times its own factor."""
         actions = self.texts['action_texts']['en']
         found = collections.Counter()
         every = []
         for root in self.states[state]['effect_ids']:
-            if START_OF_COMBAT not in self.effects[root]['triggers'][5]:
+            if not set(FIGHT_START) & set(self.effects[root]['triggers'][5]):
                 continue
-            for effect, chain in self.leaves(root, []):
+            for effect, chain, share in self.leaves(root, []):
                 if any(re.search(r'\band False\b|^False$', text) for text in chain):
                     continue
-                every.append((float(effect['params'][0]), float(effect['params'][1])))
+                first, second = float(effect['params'][0]), float(effect['params'][1])
+                if share:
+                    first, second = second * share[0], second * share[1]
+                every.append((first, second))
                 text = actions.get(str(effect['action_id']), '')
                 match = re.search(r'\[#charac (\w+)\]', text)
                 if match:
                     sign = -1 if re.search(r'\]\s*-\[', text) else 1
-                    found[(match.group(1).lower(), sign * float(effect['params'][0]),
-                           sign * float(effect['params'][1]),
+                    found[(match.group(1).lower(), sign * first, sign * second,
                            any(re.search(r'GetCharac|GetLevel', text) for text in chain))] += 1
         return found, every
 
     def lines(self, state):
+        entry = live.STATES[state]
         return collections.Counter((key, float(p0), float(p1), bool(guards))
-                                   for _family, key, p0, p1, guards in live.STATES[state]['lines'])
+                                   for _family, key, p0, p1, guards
+                                   in entry['lines'] + entry['shares'])
 
     def test_the_lines_of_the_states_the_walk_names_in_full_are_the_walked_ones(self):
         for state in WALKED_IN_FULL:
@@ -139,7 +158,8 @@ class TheEpicRulesEqualAnIndependentWalkOfTheClientTablesTests(TheLiveEpicBlockC
         for state in list(EPIC_B):
             _found, every = self.walked(state)
             shown = {(abs(p0), abs(p1)) for p0, p1 in every}
-            for _family, key, p0, p1, _guards in live.STATES[state]['lines']:
+            entry = live.STATES[state]
+            for _family, key, p0, p1, _guards in entry['lines'] + entry['shares']:
                 self.assertIn((abs(float(p0)), abs(float(p1))), shown, (state, key))
 
     def numbers(self, state):
@@ -170,7 +190,7 @@ class TheEpicRulesEqualAnIndependentWalkOfTheClientTablesTests(TheLiveEpicBlockC
 
     def test_the_walk_drops_the_branch_the_client_ends_in_false(self):
         branches = [text for root in self.states[7256]['effect_ids']
-                    for _effect, chain in self.leaves(root, []) for text in chain]
+                    for _effect, chain, _share in self.leaves(root, []) for text in chain]
         self.assertTrue(any(re.search(r'\band False\b', text) for text in branches))
         self.assertEqual(2, sum(self.lines(7256).values()))
 

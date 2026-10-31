@@ -368,6 +368,8 @@ class Command(BaseCommand):
                 ident, entry['name'], entry['unlock'],
                 '' if entry['unlock'] <= level else ' (not open)', entry['family'],
                 '%d counted lines' % len(entry['lines']) if entry['lines']
+                else '%d counted shares of the level' % len(entry['shares'])
+                if entry.get('shares')
                 else '%d counted conversions' % len(entry['conversions'])
                 if entry['conversions'] else 'nothing counted'))
             for reason in reasons:

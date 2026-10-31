@@ -61,6 +61,11 @@ GENERIC_BREED = -2
 # (source, target and share in percent) and the cap, as the parent effect's percent of level
 RECOMPUTED = 999
 ADD_SHARE = 1038
+# A recomputed effect whose plain children each take a share of the character level: the
+# share is param 14 plus param 15 times the state level, in percent, and a child's second
+# value is its factor
+LEVEL_SHARE_BASE_PARAM = 14
+LEVEL_SHARE_PER_PARAM = 15
 # The trigger the client gives the recomputed effect of a share added to another stat
 RECOMPUTE_TRIGGER = ('V', 1001)
 ADD_SHARE_SOURCE, ADD_SHARE_TARGET, ADD_SHARE_PERCENT = 0, 2, 6
@@ -79,6 +84,12 @@ KINDS = ('normal', 'relic', 'epic', 'gear', 'passives')
 TRIGGER_LETTERS = 'QRSTUVW'
 TURN_LETTERS = 'QRST'
 START_OF_COMBAT = ('V', 1028)
+# The client's texts read V1003 as the start of the fight too, and V1001 as the start of each
+# turn, which comes after both. Only action points and shares of the level are read on V1003.
+FIGHT_START = frozenset((START_OF_COMBAT, ('V', 1003)))
+TURN_START = ('V', 1001)
+FIRST_TURN_CALL = 'GetFightCurrentTableTurn'
+LATE_FUNCTION = 'GetCharacLate'
 
 # Calls a criterion can hold, by what they say. Anything else makes the leaf E. A stat call
 # names the build whatever its target argument says: at the start of combat the effect target
@@ -91,6 +102,7 @@ TURN_CALLS = frozenset((
     'IsSidestabbed', 'GetDistanceBetweenCasterAndTarget', 'IsTriggeringEffectCritical',
     'IsInDiagonal', 'HasLineOfSight', 'IsTriggeredByEffectWithREP'))
 # A negated test of these holds: it guards the effect against a second application
+WEAPON_CALL = 'HasWeaponType'
 STATE_TESTS = frozenset(('HasState', 'HasStateFromLevel', 'HasStateFromUser'))
 
 # Reviewed arbitrations. The generator counts the leaves each one decided (ARBITRATIONS).
@@ -151,6 +163,8 @@ class Leaf:
         self.atoms = ()
         self.added = False
         self.cap = None
+        self.share = False
+        self.late = False
 
 
 def number(value):
@@ -235,12 +249,21 @@ def _walk_tree(node, analysis):
         call = inner.call if isinstance(inner, tree.Compare) else inner
         if isinstance(call, tree.Call) and call.name in STATE_TESTS:
             return
+        if isinstance(call, tree.Call) and call.name == WEAPON_CALL and call.args:
+            analysis.names.add(call.name)
+            analysis.atoms.append((call.name, None, '!=', tuple(call.args)))
+            return
         analysis.names.add('not %s' % (call.name if isinstance(call, tree.Call) else '?'))
     elif isinstance(node, tree.Compare):
+        if node.call.name == FIRST_TURN_CALL and node.op == '==' and node.value == 1:
+            return
         analysis.names.add(node.call.name)
         analysis.atoms.append((node.call.name, _atom_key(node.call), node.op, node.value))
     elif isinstance(node, tree.Call):
         analysis.names.add(node.name)
+        if node.name == WEAPON_CALL and node.args:
+            analysis.atoms.append((node.name, None, '==', tuple(node.args)))
+            return
         argument = node.args[0] if node.args else None
         analysis.atoms.append((node.name, None if argument is None else str(argument),
                                '==', 1))
@@ -279,10 +302,23 @@ def analyse(texts):
     return analysis
 
 
-def keyed_family(key, triggers, analysis, convert):
+def is_late(triggers, analysis):
+    """True for a leaf of each turn's start that holds while some stat totals are not above
+    zero ("the secondary masteries are 0 or less"): the first turn reads them once the start
+    of the fight has been applied."""
+    others = {pair for pair in triggers if pair != START_OF_COMBAT}
+    return (others == {TURN_START} and not analysis.has_or and analysis.names <= BUILD_CALLS
+            and any(atom[0] == 'GetCharac' for atom in analysis.atoms)
+            and all(atom[0] not in wakfu_criteria.STAT_FUNCTIONS
+                    or atom[:1] + atom[2:] == ('GetCharac', '<=', 0) for atom in analysis.atoms))
+
+
+def keyed_family(key, triggers, analysis, convert, share=False):
     """(family, reason) of a leaf that names a characteristic; the match order is the
     design's: C, H, A, B, D, F, G, E."""
-    others = {pair for pair in triggers if pair != START_OF_COMBAT}
+    late = is_late(triggers, analysis)
+    start = FIGHT_START if share or key.upper() in ACTION_POINT_KEYS else {START_OF_COMBAT}
+    others = set() if late else {pair for pair in triggers if pair not in start}
     names = analysis.names
     build_only = names <= BUILD_CALLS
     if analysis.has_or and not others:
@@ -290,7 +326,7 @@ def keyed_family(key, triggers, analysis, convert):
     if convert and not others and build_only:
         return 'C', 'conversion at the start of combat'
     upper = key.upper()
-    if upper in ACTION_POINT_KEYS and (others or names):
+    if upper in ACTION_POINT_KEYS and (others or not build_only):
         return 'H', '%s under a trigger or a criterion' % upper
     if not others:
         if not names:
@@ -312,7 +348,8 @@ def keyed_family(key, triggers, analysis, convert):
 
 def share_family(leaf, analysis):
     """(family, reason) of a share of a stat added to another, the source kept."""
-    others = {pair for pair in leaf.triggers if pair not in (START_OF_COMBAT, RECOMPUTE_TRIGGER)}
+    others = {pair for pair in leaf.triggers
+              if pair not in (START_OF_COMBAT, RECOMPUTE_TRIGGER)}
     if others or analysis.has_or or not analysis.names <= BUILD_CALLS:
         return 'E', 'a share of a stat added to another under a trigger or a criterion'
     return 'C', 'a share of a stat added to another, recomputed in the fight'
@@ -384,6 +421,31 @@ class Tables:
                           number(cap) if cap else None))
         return found
 
+    def level_shares(self, effect):
+        """[(key, base, per level)] of a recomputed effect whose plain children each take a
+        share of the character level, in percent; None for any other shape."""
+        params = effect['params']
+        if len(params) <= LEVEL_SHARE_PER_PARAM:
+            return None
+        base, per = params[LEVEL_SHARE_BASE_PARAM], params[LEVEL_SHARE_PER_PARAM]
+        children = [self.effects.get(member) for member in self.groups.get(effect['id'], ())]
+        if not (base or per) or not children:
+            return None
+        found = []
+        for child in children:
+            if (child is None or (child.get('criterion') or '').strip()
+                    or any(child.get('triggers') or ()) or self.groups.get(child['id'])
+                    or child['action_id'] in STRUCTURE_ACTIONS + (CONVERSION, RECOMPUTED)
+                    or len(child['params']) < 2 or child['params'][0] or not child['params'][1]):
+                return None
+            key, sign = self.naming.leaf_key(child)
+            if not key or not isinstance(sign, int):
+                return None
+            factor = sign * child['params'][1]
+            found.append((lower_key(key), number(round(base * factor, 6)),
+                          number(round(per * factor, 6))))
+        return found
+
     def walk(self, roots, seen):
         """[Leaf] under the effect ids `roots`, in walk order."""
         leaves = []
@@ -410,6 +472,14 @@ class Tables:
                                        criteria, source, levels, shaped))
                     leaves[-1].added = True
                     leaves[-1].cap = cap
+                return
+            level_shares = self.level_shares(effect) \
+                if action == RECOMPUTED and convert is None else None
+            if level_shares:
+                for key, base, per in level_shares:
+                    leaves.append(Leaf(effect_id, action, key, base, per, triggers, criteria,
+                                       convert, levels, shaped))
+                    leaves[-1].share = True
                 return
             if action in wakfu_aptitudes.SUBTREE_DROPPED:
                 leaves.append(Leaf(effect_id, action, None, 0, 0, triggers, criteria, convert,
@@ -462,7 +532,12 @@ class Tables:
             leaf.family, leaf.reason = action_family(leaf.action, leaf.triggers, analysis)
         else:
             leaf.family, leaf.reason = keyed_family(
-                leaf.key, leaf.triggers, analysis, leaf.source)
+                leaf.key, leaf.triggers, analysis, leaf.source, leaf.share)
+        if leaf.family in COUNTED and not leaf.added and is_late(leaf.triggers, analysis):
+            leaf.late = True
+            analysis.atoms = [(LATE_FUNCTION,) + atom[1:] if atom[0] == 'GetCharac' else atom
+                              for atom in analysis.atoms]
+            leaf.atoms = analysis.atoms
         if leaf.levels not in ((0, 32767), (None, None), (0, None)):
             self.ranged[leaf.family] += 1
             if leaf.family in COUNTED:
@@ -478,11 +553,12 @@ class Tables:
         leaves = self.walk(roots, seen)
         analyses = [self.classify(leaf) for leaf in leaves]
         conditions = []
-        lines, conversions, uncounted = [], [], []
+        lines, shares, conversions, uncounted = [], [], [], []
         for leaf, analysis in zip(leaves, analyses):
             if leaf.family in 'AB':
                 guards = guard_indexes(conditions, analysis)
-                lines.append((leaf.family, leaf.key, leaf.p0, leaf.p1, guards))
+                (shares if leaf.share else lines).append(
+                    (leaf.family, leaf.key, leaf.p0, leaf.p1, guards))
             elif leaf.family == 'C':
                 guards = guard_indexes(conditions, analysis)
                 sign = -1 if (leaf.p0 < 0 or leaf.p1 < 0) else 1
@@ -493,7 +569,7 @@ class Tables:
                                   '%s: %s' % (leaf.key or 'a%d' % leaf.action, leaf.reason)))
         present = {leaf.family for leaf in leaves}
         family = next((one for one in PRIMARY_ORDER if one in present), 'J')
-        return {'family': family, 'lines': lines, 'conditions': conditions,
+        return {'family': family, 'lines': lines, 'shares': shares, 'conditions': conditions,
                 'conversions': conversions, 'uncounted': uncounted}, leaves
 
 
@@ -657,6 +733,7 @@ def build(inputs):
             name=name, family=entry['family'], kind=kind,
             cap=min(read.values()) if kind == 'normal' else None,
             caps=read if kind == 'normal' else {}, lines=entry['lines'],
+            shares=entry['shares'],
             conditions=entry['conditions'], conversions=entry['conversions'],
             uncounted=entry['uncounted'])
         leaves_of[('state', state)] = leaves
@@ -683,7 +760,7 @@ def build(inputs):
         passives[spell] = dict(
             name=tables.spell_names.get(str(spell)) or '', breed=record['breed'],
             unlock=record['unlock_level'], family=entry['family'], lines=entry['lines'],
-            conditions=entry['conditions'], conversions=entry['conversions'],
+            shares=entry['shares'], conditions=entry['conditions'], conversions=entry['conversions'],
             uncounted=entry['uncounted'])
         leaves_of[('passive', spell)] = leaves
 
@@ -728,7 +805,7 @@ def family_counts(states, passives):
         kind = entry.get('kind', 'passives')
         counts[kind]['states'] += 1
         counts[kind][entry['family']] += 1
-        if entry['lines'] or entry['conversions']:
+        if entry['lines'] or entry['shares'] or entry['conversions']:
             counts[kind]['with_counted_leaf'] += 1
     return {kind: {name: found[name] for name in
                    ('states',) + tuple(FAMILIES) + ('with_counted_leaf',)}
@@ -738,15 +815,17 @@ def family_counts(states, passives):
 HEADER = '''# Generated by itemscraper/generate_wakfu_special_items.py
 # from client {client} and data {data}; edit the generator, never this file.
 #
-# STATES {{state: {{'name', 'family', 'cap', 'caps', 'lines', 'conditions', 'conversions',
-#   'uncounted'}}}}. A line is (family, key, p0, p1, guards) and a conversion (source key,
-#   target key, p0, p1, sign, guards[, cap]); the value at state level L is p0 + p1 * L (a
-#   conversion's, the share of the source). A conversion may end with a cap, the most it
-#   moves as a share of the character's level. guards index the state's own 'conditions',
-#   each (function, key, operator, value).
+# STATES {{state: {{'name', 'family', 'cap', 'caps', 'lines', 'shares', 'conditions',
+#   'conversions', 'uncounted'}}}}. A line is (family, key, p0, p1, guards) and a conversion
+#   (source key, target key, p0, p1, sign, guards[, cap]); the value at state level L is
+#   p0 + p1 * L (a conversion's, the share of the source). A share has a line's shape and
+#   reads p0 + p1 * L as a percent of the character's level. A conversion may end with a cap,
+#   the most it moves as a share of the character's level. guards index the state's own
+#   'conditions', each (function, key, operator, value); GetCharacLate reads the totals once
+#   the start of the fight has been applied.
 # SUBLIMATIONS {{item: (state, level, kind, slot colour pattern)}}.
 # GEAR_STATES {{item: ((state, level), ...)}}.
-# PASSIVES {{spell: {{'name', 'breed', 'unlock', 'family', 'lines', 'conditions',
+# PASSIVES {{spell: {{'name', 'breed', 'unlock', 'family', 'lines', 'shares', 'conditions',
 #   'conversions', 'uncounted'}}}}; the breed of a passive any class can take is GENERIC_BREED.
 # CHANGED_BY_NOTES {{state: (note, status, source)}}; COUNTS {{kind: {{family: n}}}}.
 '''

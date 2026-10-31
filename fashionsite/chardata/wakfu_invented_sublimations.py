@@ -78,10 +78,10 @@ def block(states=None, sublimations=None, gear=None, passives=None, generic=None
         PASSIVE_SLOT_LEVELS=(10, 30, 50, 100, 150, 200), GENERIC_BREED=generic)
 
 
-def state(lines=(), conditions=(), conversions=(), cap=None, family='A'):
+def state(lines=(), conditions=(), conversions=(), cap=None, family='A', shares=()):
     return {'name': 'State', 'family': family, 'cap': cap, 'caps': {}, 'lines': list(lines),
-            'conditions': list(conditions), 'conversions': list(conversions),
-            'uncounted': []}
+            'shares': list(shares), 'conditions': list(conditions),
+            'conversions': list(conversions), 'uncounted': []}
 
 
 def use_block(case, found):
