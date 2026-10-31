@@ -79,6 +79,11 @@ class TheWakfuClientCodeReaderReadsTheConstantsTests(TestCase):
         self.assertEqual([('NAME_A', 0, 7), ('NAME_B', 1, 9)],
                          wakfu_client_code.enum_constants(info))
 
+    def test_the_argument_reader_returns_every_int_pushed_after_the_name(self):
+        info = wakfu_client_code.parse_class(class_file(ENUM))
+        self.assertEqual([('NAME_A', [0, 7]), ('NAME_B', [1, 9])],
+                         wakfu_client_code.enum_arguments(info))
+
     def test_the_array_reader_returns_the_ints_the_initializer_stores(self):
         info = wakfu_client_code.parse_class(class_file(ARRAY))
         self.assertEqual((10, 30, 50), wakfu_client_code.static_int_array(info, 'TABLE'))
@@ -152,10 +157,17 @@ class TheLiveWakfuClientCodeHoldsTheConstantsTheGameHasTests(TestCase):
         self.assertEqual((1, 2, 3, 4), (found['HP'], found['AP'], found['MP'], found['WP']))
         self.assertEqual(len(found), len(set(found.values())))
 
+    def test_the_characteristic_defaults_start_the_resources_where_the_game_does(self):
+        found = self.constants['characteristic_defaults']
+        self.assertEqual((6, 3), (found['AP'], found['MP']))
+        self.assertEqual(1, found['LEADERSHIP'])
+        self.assertEqual(set(self.constants['characteristics']), set(found))
+
     def test_the_decoded_file_holds_what_the_jar_reads(self):
         path = self.folder / 'client_code.json'
         if not path.exists():
             self.skipTest('no client_code.json beside the jar')
         saved = json.loads(path.read_text(encoding='utf-8'))
-        for name in ('characteristics', 'rarities', 'spell_kinds', 'passive_slot_levels'):
+        for name in ('characteristics', 'characteristic_defaults', 'rarities', 'spell_kinds',
+                     'passive_slot_levels'):
             self.assertEqual(self.constants[name], saved[name], name)

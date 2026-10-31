@@ -61,7 +61,7 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))), 'fashionistapulp'))
-from fashionistapulp import wakfu_criteria  # noqa: E402
+from fashionistapulp import wakfu_aptitudes, wakfu_criteria  # noqa: E402
 from fashionistapulp.wakfu_db import (create_tables, level_value,  # noqa: E402
                                       singular)
 from fashionistapulp.wakfu_slots import (COMPANION_SLOTS,  # noqa: E402
@@ -398,9 +398,18 @@ def write_shards(conn, item, effects, stat_ids, socketed, counts):
         counts['shard lines'] += 1
 
 
-def write_breeds(conn, dump, stat_ids, counts):
-    """Fill breeds and their base values; the set of breed names."""
+def write_breeds(conn, dump, stat_ids, counts, defaults=None):
+    """Fill breeds and their base values; the set of breed names.
+
+    A stat the breed record does not carry starts at the client's default for that
+    characteristic, when it is not 0.
+    """
     by_key = {key.lower(): number for key, number in stat_ids.items()}
+    start = {}
+    for name, value in sorted((defaults or {}).items()):
+        key = wakfu_aptitudes.TEMPLATE_ALIASES.get(name, name).lower()
+        if value and key in by_key:
+            start[key] = value
     names = set()
     skipped = set()
     for breed in dump.get('breeds') or ():
@@ -408,10 +417,13 @@ def write_breeds(conn, dump, stat_ids, counts):
                      (breed['id'], breed['name']))
         names.add(breed['name'])
         counts['breeds'] += 1
-        for field, value in sorted(breed['base'].items()):
-            number = by_key.get(field.lower())
+        base = {field.lower(): value for field, value in breed['base'].items()}
+        for key, value in start.items():
+            base.setdefault(key, value)
+        for field, value in sorted(base.items()):
+            number = by_key.get(field)
             if number is None:
-                skipped.add(field)
+                skipped.add(field.upper())
                 continue
             conn.execute('INSERT INTO breed_base_values (breed, stat, value)'
                          ' VALUES (?, ?, ?)', (breed['id'], number, value))
@@ -881,7 +893,16 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
             conn.execute('INSERT INTO set_names (item_set, language, name)'
                          ' VALUES (?, ?, ?)', (set_id, language, name))
 
-    breed_names = write_breeds(conn, dump, stat_ids, counts)
+    code = find_client_tables(client_dir, dump['version'], 'client_code.json') \
+        if client_dir else None
+    if client_dir and code is None:
+        print('no client_code.json for game version %s: decode the client again with'
+              ' get_wakfu_client.py, the breeds start without control' % dump['version'])
+    elif code is not None and 'characteristic_defaults' not in code:
+        print('client_code.json holds no characteristic defaults: decode the client again'
+              ' with get_wakfu_client.py')
+    breed_names = write_breeds(conn, dump, stat_ids, counts,
+                               (code or {}).get('characteristic_defaults'))
     write_labels(conn, dump, counts)
     gear_ids = {item['id'] for item in dump['equipment']
                 if any(p in GEAR for p in item['positions'])}

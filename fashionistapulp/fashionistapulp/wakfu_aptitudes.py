@@ -56,7 +56,8 @@ NOTED = (430, 1093)
 CHARACTERISTIC_IN_PARAM = {39: 1, 40: -1}
 CHARACTERISTIC_BY_ID = {120: 'ARMOR_GIVEN_PERCENT', 121: 'ARMOR_RECEIVED_PERCENT'}
 TEMPLATE_ALIASES = {'ARMOR_GIVEN': 'ARMOR_GIVEN_PERCENT',
-                    'ARMOR_RECEIVED': 'ARMOR_RECEIVED_PERCENT'}
+                    'ARMOR_RECEIVED': 'ARMOR_RECEIVED_PERCENT',
+                    'LEADERSHIP': 'CONTROL'}
 
 _CALL_NAME = re.compile(r'([A-Za-z_][A-Za-z0-9_]*)\s*\(')
 _CHARAC = re.compile(r'\[#charac ([A-Z_]+)\]')

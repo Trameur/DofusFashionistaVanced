@@ -223,11 +223,11 @@ def classes_with_strings(jar, strings):
     return found
 
 
-def enum_constants(info):
-    """[(name, ordinal, first int argument)] of an enum's constants, in <clinit> order.
+def enum_arguments(info):
+    """[(name, [ints])] of an enum's constants, in <clinit> order.
 
-    Each constant is `new, dup, ldc name, ordinal, arguments, invokespecial`. The first int
-    argument is the first int pushed after the ordinal (the id, for the enums read here).
+    Each constant is `new, dup, ldc name, ordinal, arguments, invokespecial`. The ints are
+    the ordinal, then every int pushed as an argument.
     """
     code = info.method('<clinit>')
     if code is None:
@@ -246,13 +246,37 @@ def enum_constants(info):
             if number is not None:
                 pushed.append(number)
             elif opcode == _INVOKESPECIAL:
-                if len(pushed) >= 2:
-                    constants.append((name, pushed[0], pushed[1]))
-                elif len(pushed) == 1:
-                    constants.append((name, pushed[0], None))
+                constants.append((name, pushed))
                 name = None
         previous = opcode
     return constants
+
+
+def enum_constants(info):
+    """[(name, ordinal, first int argument)] of an enum's constants, in <clinit> order.
+
+    The first int argument is the first int pushed after the ordinal (the id, for the enums
+    read here).
+    """
+    constants = []
+    for name, pushed in enum_arguments(info):
+        if len(pushed) >= 2:
+            constants.append((name, pushed[0], pushed[1]))
+        elif len(pushed) == 1:
+            constants.append((name, pushed[0], None))
+    return constants
+
+
+# Position of the default value among the ints a characteristic constant pushes: ordinal,
+# id, minimum, maximum, lowest start, highest start, default
+CHARACTERISTIC_DEFAULT_AT = 6
+
+
+def characteristic_defaults(info):
+    """{characteristic name: default value} of the characteristic enum's constants."""
+    return {name: pushed[CHARACTERISTIC_DEFAULT_AT]
+            for name, pushed in enum_arguments(info)
+            if len(pushed) > CHARACTERISTIC_DEFAULT_AT}
 
 
 def static_int_array(info, field):
@@ -329,6 +353,7 @@ def read_constants(jar_path):
         return {
             'characteristics': {name: first for name, _ordinal, first
                                 in enum_constants(characteristics)},
+            'characteristic_defaults': characteristic_defaults(characteristics),
             'rarities': {name: first for name, _ordinal, first in enum_constants(rarities)},
             'spell_kinds': {name: ordinal for name, ordinal, _first
                             in enum_constants(kinds)},
