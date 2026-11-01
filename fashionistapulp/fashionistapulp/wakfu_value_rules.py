@@ -197,10 +197,15 @@ RULES = {
     'teleport_cells': Rule(
         2, CHOICE,
         'a teleport or a switch of places counts as moving a unit by this many cells'),
-    'armor_rows_reach_caster': Rule(
-        True, ASSUMPTION,
-        'the decoded client effects keep no target mask, so an armor row whose criteria '
-        'do not aim it at an enemy is taken to land on the caster'),
+    'unknown_recipient_rows_count': Rule(
+        False, CHOICE,
+        'an armor row whose recipient the database cannot name stays out of the armor of '
+        'the caster and of the allies and shows in the notes; True counts it on both'),
+    'possibly_caster_rows_count_on_the_life_side': Rule(
+        False, CHOICE,
+        'an armor row that may reach the caster (its area turns with the cast direction) '
+        'counts on the side of the allies only and shows in the notes; True counts it on the '
+        'side of the caster too'),
     'area_targets': Rule(
         2, CHOICE,
         'an area role counts every area damage row this many times: the data holds no '

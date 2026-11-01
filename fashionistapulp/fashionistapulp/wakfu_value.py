@@ -378,8 +378,8 @@ def _frame(role, level, totals, turn, content, armor_turn):
             if role.reach == 'mixed':
                 raise ValueError('a mixed reach needs the turns of both reaches (RoleTurns)')
             models = {'damage': turn}
-    if not armor_turn and models and 'armor' in models and role.shares.get('life'):
-        armor_turn = class_armor_turn(models['armor'].best(totals))[0]
+    if not armor_turn and models and 'self_armor' in models and role.shares.get('life'):
+        armor_turn = class_armor_turn(models['self_armor'].best(totals))[0]
     return role, models, scales, armor_turn
 
 

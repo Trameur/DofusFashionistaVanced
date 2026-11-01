@@ -70,8 +70,10 @@ def turns(the_role, scales=SCALES):
                 SPELLS, the_role._replace(reach=reach), casts_per_spell=1)
     side = the_role._replace(reach='distance' if the_role.reach == 'mixed' else the_role.reach)
     for name, found in FAMILY_SPELLS.items():
-        if name in the_role.shares or (name == 'armor' and 'life' in the_role.shares):
+        if name in the_role.shares:
             models[name] = wakfu_turn.TurnModel([found], side, name, casts_per_spell=1)
+        if name == 'armor' and 'life' in the_role.shares:
+            models['self_armor'] = wakfu_turn.TurnModel([found], side, name, casts_per_spell=1)
     return wakfu_turn.RoleTurns(the_role, LEVEL, models, scales)
 
 
@@ -241,10 +243,10 @@ class TheComponentsAreTheQuantitiesTheLogIsTakenOfTests(SimpleTestCase):
                                      LEVEL, sheet(critical_res=60, res_backstab=40))['life']
         self.assertGreater(pvp, pvm)
 
-    def test_life_holds_the_class_armor_turn_of_the_armor_model(self):
+    def test_life_holds_the_class_armor_turn_of_the_self_armor_model(self):
         found = role(shares={'damage': 1, 'life': 1})
         every = turns(found)
-        armor = wakfu_defense.class_armor_turn(every.models['armor'].best(sheet()))[0]
+        armor = wakfu_defense.class_armor_turn(every.models['self_armor'].best(sheet()))[0]
         self.assertGreater(armor, 0)
         self.assertEqual(wakfu_defense.effective_life(LEVEL, sheet(), 'pvm', armor),
                          wakfu_value.components(found, LEVEL, sheet(), every)['life'])

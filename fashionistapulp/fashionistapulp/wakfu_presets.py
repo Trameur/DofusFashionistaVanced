@@ -222,13 +222,15 @@ def _readable(path, stamp, class_id, family, level):
     finally:
         book.close()
     role = wakfu_value.Role(wakfu_value.ELEMENTS, 'distance')
-    return wakfu_turn.TurnModel(spells, role, family).damage(_ceiling()) > 0
+    options = {'recipient': 'allies'} if family == 'armor' else {}
+    return wakfu_turn.TurnModel(spells, role, family, **options).damage(_ceiling()) > 0
 
 
 def reads(class_id, family, bracket, path=None):
     """Whether the class has a turn of the family (heal, armor, placement or hindrance) that
     the reader counts at the first level of the bracket whose top is `bracket`, with AP, MP
-    and WP at their caps. The family turns read no element filter, so no element is asked."""
+    and WP at their caps; an armor turn counts the rows that reach allies. The family turns
+    read no element filter, so no element is asked."""
     if family not in wakfu_family.FAMILIES:
         raise ValueError('family is one of %s, got %r' % (wakfu_family.FAMILIES, family))
     path = _path(path)

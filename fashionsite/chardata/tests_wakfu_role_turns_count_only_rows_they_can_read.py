@@ -16,7 +16,7 @@ READABLE = {'heal': (164, 96), 'armor': (142, 83), 'push': (116, 58), 'teleport'
             'removal': (82, 47), 'damage': (701, 495)}
 NEW_RULES = ('critical_mastery_heals', 'berserk_mastery_heals', 'self_heal_uses_melee_mastery',
              'removal_share_at_equal_willpower', 'target_willpower', 'teleport_cells',
-             'armor_rows_reach_caster')
+             'unknown_recipient_rows_count', 'possibly_caster_rows_count_on_the_life_side')
 
 
 def totals(**stats):
@@ -129,6 +129,8 @@ class NewRulesTests(SimpleTestCase):
                          RULES['removal_share_at_equal_willpower'].value)
         self.assertEqual(0, RULES['target_willpower'].value)
         self.assertEqual(2, RULES['teleport_cells'].value)
+        self.assertIs(False, RULES['unknown_recipient_rows_count'].value)
+        self.assertIs(False, RULES['possibly_caster_rows_count_on_the_life_side'].value)
 
 
 class SyntheticTurnTests(SimpleTestCase):

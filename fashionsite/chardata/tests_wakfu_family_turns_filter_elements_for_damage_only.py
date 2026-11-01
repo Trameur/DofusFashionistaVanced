@@ -8,7 +8,8 @@ from fashionistapulp.wakfu_stats import OUT_OF_COMBAT_CAPS
 
 BASE = {'ap': (6, 6), 'mp': (3, 3), 'wp': (6, 6)}
 EARTH = ('earth',)
-FECA, ENIRIPSA, XELOR = 1, 7, 5
+FECA, ENIRIPSA, XELOR, IOP = 1, 7, 5, 8
+IOP_STANCE = 4792
 LEVEL = 245
 
 
@@ -93,12 +94,32 @@ class ClassFamiliesOnTheRealTablesTests(SimpleTestCase):
         built = wakfu_presets.role(ENIRIPSA, 'heal', EARTH, LEVEL, path=self.path)
         self.assertIn('heal', built.shares)
 
-    def test_the_feca_tank_on_earth_holds_its_self_armor(self):
-        built = wakfu_presets.role(FECA, 'tank', EARTH, LEVEL, path=self.path)
+    def turns_of(self, class_id, preset):
+        built = wakfu_presets.role(class_id, preset, EARTH, LEVEL, path=self.path)
         book = wakfu_turn.SpellBook(self.path)
         try:
-            turns = wakfu_presets.build_turns(book, FECA, LEVEL, built, self.path)
+            return wakfu_presets.build_turns(book, class_id, LEVEL, built, self.path)
         finally:
             book.close()
-        self.assertGreater(turns.models['armor'].damage(
-            {name.lower(): cap for name, cap in OUT_OF_COMBAT_CAPS.items()}), 0)
+
+    def test_the_feca_tank_counts_no_self_armor_from_a_spell_aimed_at_an_ally(self):
+        turns = self.turns_of(FECA, 'tank')
+        self.assertEqual(0, turns.models['self_armor'].damage(
+            {name.lower(): cap for name, cap in OUT_OF_COMBAT_CAPS.items()}))
+
+    def test_the_iop_stance_holds_self_armor(self):
+        book = wakfu_turn.SpellBook(self.path)
+        try:
+            stance = [spell for spell in book.family_spells(IOP, LEVEL, 'armor')
+                      if spell.id == IOP_STANCE]
+        finally:
+            book.close()
+        self.assertEqual(1, len(stance))
+        self.assertTrue(all(row.recipients == {'caster'} for row in stance[0].rows))
+        role = wakfu_value.Role(EARTH, 'melee')
+        ceiling = {name.lower(): cap for name, cap in OUT_OF_COMBAT_CAPS.items()}
+        held = {row.trees[0].args[0]: 1 for row in stance[0].rows}
+        self.assertGreater(wakfu_turn.TurnModel(
+            stance, role, 'armor', recipient='caster', states=held).damage(ceiling), 0)
+        self.assertEqual(0, wakfu_turn.TurnModel(
+            stance, role, 'armor', recipient='allies', states=held).damage(ceiling))

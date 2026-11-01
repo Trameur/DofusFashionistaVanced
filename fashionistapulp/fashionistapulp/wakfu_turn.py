@@ -27,7 +27,7 @@ import math
 import re
 import sqlite3
 
-from . import wakfu_client_spells, wakfu_defense, wakfu_family, wakfu_value
+from . import wakfu_client_spells, wakfu_defense, wakfu_family, wakfu_recipient, wakfu_value
 from .wakfu_stats import OUT_OF_COMBAT_CAPS
 from .wakfu_value_rules import RULES
 
@@ -49,6 +49,8 @@ STATE = 'class state'
 SKIPPED = 'row'
 UNREAD = 'unread criterion'
 GAP = 'client gap'
+RECIPIENTS = ('caster', 'allies')
+MAY_REACH_CASTER = 'may also reach the caster: the area turns with the cast direction'
 # "no portal" holds while the role does not take "portal"
 NOT = 'no '
 
@@ -490,6 +492,7 @@ class SpellBook:
         self._mechanics = {}
         self._client = False
         self._status = {}
+        self._recipients = {}
         self._harvest_ids = None
 
     def close(self):
@@ -515,6 +518,12 @@ class SpellBook:
             return client.spell(spell_id)
         except KeyError:
             return None
+
+    def recipients(self, spell_id):
+        """{client effect id: wakfu_recipient.Recipient} of a spell, read once."""
+        if spell_id not in self._recipients:
+            self._recipients[spell_id] = wakfu_recipient.recipients_of(self.conn, spell_id)
+        return self._recipients[spell_id]
 
     def client_status(self, spell_id):
         """(status, {position: Match}) of the harvest damage rows against the client spell."""
@@ -773,8 +782,12 @@ class SpellBook:
     def _family_row(self, own, row, family, level, trees, text):
         """The FamilyRow of a client row, or (None, why it is not a figure)."""
         if family == 'armor':
+            reached, why = self._armor_recipients(own, row)
+            if reached is None:
+                return None, why
             return wakfu_family.FamilyRow(
-                row.effect, row.action, 'armor', row.value(level), None, 'none', trees), None
+                row.effect, row.action, 'armor', row.value(level), None, 'none', trees,
+                recipients=reached), None
         if family == 'placement':
             cells = row.value(level) if row.family == 'push' else rule('teleport_cells')
             return wakfu_family.FamilyRow(
@@ -804,6 +817,20 @@ class SpellBook:
         return wakfu_family.FamilyRow(row.effect, row.action, row.element, base, critical,
                                       read, trees, percent=percent, area=row.is_area,
                                       **extra), None
+
+    def _armor_recipients(self, own, row):
+        """(sides the row reaches, None), or (None, why the row is not a figure)."""
+        found = self.recipients(own.id).get(row.effect)
+        if found is None:
+            return None, 'the recipient reader holds no row for it'
+        outputs = frozenset(found.outputs)
+        if outputs == {'unknown'}:
+            if rule('unknown_recipient_rows_count'):
+                return frozenset(('caster', 'allies')), None
+            return None, 'the unit it lands on is unknown (%s)' % found.reason
+        if not outputs & {'caster', 'possibly_caster', 'allies'}:
+            return None, 'it lands on enemies only'
+        return outputs, None
 
     def _family_spell(self, own, family, level, branch):
         text = self._heal_text(own) if family == 'heal' else {}
@@ -836,6 +863,8 @@ class SpellBook:
             rows, dropped = _brackets(rows)
             skipped.extend((one, 'a copy or a bracket of a larger row of the same action', ())
                            for one in dropped)
+            skipped.extend((built.id, MAY_REACH_CASTER, ()) for _row, built in rows
+                           if 'possibly_caster' in built.recipients)
         return wakfu_family.FamilySpell(
             own.id, self._spell_name(own.id), own.breed, (branch or '').lower() or None,
             int(own.ap), int(own.wp), int(own.mp), int(own.range[0]), int(own.range[1]),
@@ -1060,15 +1089,20 @@ def best_turn(spells, role, totals, conditions=(), orientation='front',
 
 
 def _brackets(rows):
-    """(rows kept, ids dropped): armor rows of one action with the same criteria, or with
-    the same parameters, are copies or brackets of one figure; the largest stands."""
+    """(rows kept, ids dropped): armor rows of one action with the same criteria and the same
+    sides are brackets of one figure, and with the same parameters copies of one figure; the
+    largest stands, and a copy that reaches other sides adds them to the one that stands."""
     kept = list(rows)
-    for key in (lambda row: (row.action, row.criteria), lambda row: (row.action, row.params)):
-        best = {}
+    for key in (lambda row, built: (row.action, row.criteria, built.recipients),
+                lambda row, built: (row.action, row.params)):
+        best, sides = {}, collections.defaultdict(frozenset)
         for row, built in kept:
-            if key(row) not in best or built.base > best[key(row)][1].base:
-                best[key(row)] = (row, built)
-        kept = [pair for pair in kept if best[key(pair[0])][0] is pair[0]]
+            sides[key(row, built)] |= built.recipients or frozenset()
+            if key(row, built) not in best or built.base > best[key(row, built)][1].base:
+                best[key(row, built)] = (row, built)
+        kept = [(row, built if built.recipients is None
+                 else built._replace(recipients=sides[key(row, built)]))
+                for row, built in kept if best[key(row, built)][0] is row]
     standing = {pair[1].id for pair in kept}
     return kept, tuple(built.id for _row, built in rows if built.id not in standing)
 
@@ -1131,11 +1165,23 @@ def _heal_worth(row, spell, totals, reach, accepted, chance):
     return row.hits * ((1 - chance) * normal + chance * hurt)
 
 
-def family_cast(spell, family, totals, reach, accepted, context):
+def _reaches(row, recipient):
+    """Whether an armor row counts for the caster or for the allies."""
+    if recipient is None or row.recipients is None:
+        return True
+    if recipient == 'allies':
+        return 'allies' in row.recipients
+    return 'caster' in row.recipients or (
+        'possibly_caster' in row.recipients
+        and rule('possibly_caster_rows_count_on_the_life_side'))
+
+
+def family_cast(spell, family, totals, reach, accepted, context, recipient=None):
     """(value of one cast, {part: value}, cost change) of a spell for a family turn.
 
-    heal: expected health points; armor: armor points; placement: cells moved;
-    hindrance: points removed after the willpower share.
+    heal: expected health points; armor: armor points of the rows that reach the recipient
+    (caster or allies; every landing row without one); placement: cells moved; hindrance:
+    points removed after the willpower share.
     """
     landing = [row for row in spell.rows
                if lands(row, accepted) and wakfu_family.row_holds(row, spell, context)]
@@ -1155,8 +1201,8 @@ def family_cast(spell, family, totals, reach, accepted, context):
         for row, worth in hits + adds:
             parts[row.element] += worth
     elif family == 'armor':
-        if rule('armor_rows_reach_caster'):
-            for row in landing:
+        for row in landing:
+            if _reaches(row, recipient):
                 parts['armor'] += row.base
     elif family == 'placement':
         for row in landing:
@@ -1168,10 +1214,12 @@ def family_cast(spell, family, totals, reach, accepted, context):
     return sum(parts.values()), parts, cost
 
 
-def _family_unmodelled(usable, class_mechanics=()):
+def _family_unmodelled(usable, class_mechanics=(), recipient=None):
     out = []
     for spell in usable:
         for row_id, reason, functions in spell.skipped:
+            if reason == MAY_REACH_CASTER and recipient != 'caster':
+                continue
             if functions:
                 out.append(((spell.id,), UNREAD, 'row %d, %s' % (row_id, ', '.join(functions))))
             else:
@@ -1186,16 +1234,19 @@ def _context(spell, family, reach, held, deck):
 
 
 def family_turn(spells, family, role, totals, conditions=(), casts_per_spell=None, wp=None,
-                mp=None, states=None, deck=(), class_mechanics=()):
+                mp=None, states=None, deck=(), class_mechanics=(), recipient=None):
     """Best turn of a family on one target: the value of the casts, spell ids in order.
 
     A Turn whose damage field holds the family's value and whose elements field holds
     its parts. states: {client state id: level} the caster holds (a set means level 1),
     deck: ids of the passives chosen; a state not given is not held. The rows no policy
-    function reads are in unmodelled, never in the value.
+    function reads are in unmodelled, never in the value. recipient: caster or allies, the
+    side the armor rows must reach; None counts every landing row.
     """
     if family not in wakfu_family.FAMILIES:
         raise ValueError('family is one of %s, got %r' % (wakfu_family.FAMILIES, family))
+    if recipient is not None and recipient not in RECIPIENTS:
+        raise ValueError('recipient is one of %s, got %r' % (RECIPIENTS, recipient))
     casts_per_spell = casts_per_spell or rule('casts_per_spell_per_turn')
     ap = int(totals.get('ap', 0))
     wp = int(min(totals.get('wp', 0), rule('wp_spent_per_turn') if wp is None else wp))
@@ -1219,7 +1270,7 @@ def family_turn(spells, family, role, totals, conditions=(), casts_per_spell=Non
         for spell in usable:
             worth, spell_parts, change = family_cast(
                 spell, family, totals, reach, accepted,
-                _context(spell, family, reach, held, deck))
+                _context(spell, family, reach, held, deck), recipient)
             if worth <= 0:
                 continue
             cost = (max(spell.ap + change['ap'], 0), max(spell.wp + change['wp'], 0),
@@ -1257,7 +1308,7 @@ def family_turn(spells, family, role, totals, conditions=(), casts_per_spell=Non
                 'deck': tuple(sorted(deck))}
     return Turn(value, casts, dict(total), stance, tuple(counted), tuple(dropped),
                 tuple(spell.id for spell in usable), settings,
-                _family_unmodelled(usable, class_mechanics))
+                _family_unmodelled(usable, class_mechanics, recipient))
 
 
 def _plus(totals, key, amount=1):
@@ -1388,10 +1439,11 @@ class TurnModel:
 class RoleTurns:
     """The turn models a wakfu_value.Role is valued on, and the scales of its stat components.
 
-    models: {'damage' (or 'melee' and 'distance' for a mixed reach), 'heal', 'armor',
-    'placement', 'hindrance': TurnModel}. scales: {stat key: scale}, see
-    wakfu_value.stat_scales. It stands in for a TurnModel in wakfu_value.solve: damage()
-    is the role's damage component and ap_values() prices every AP total by the whole value.
+    models: {'damage' (or 'melee' and 'distance' for a mixed reach), 'heal', 'armor' (the
+    armor that reaches allies), 'self_armor' (the armor that reaches the caster), 'placement',
+    'hindrance': TurnModel}. scales: {stat key: scale}, see wakfu_value.stat_scales. It
+    stands in for a TurnModel in wakfu_value.solve: damage() is the role's damage component
+    and ap_values() prices every AP total by the whole value.
     """
 
     def __init__(self, role, level, models, scales=None):
@@ -1426,7 +1478,8 @@ class RoleTurns:
 
 def role_turns(book, class_id, level, role, scales=None):
     """RoleTurns of a class for a role: a damage model per reach, a model for each family the
-    role shares in, and the armor model when it has a life share (its self armor)."""
+    role shares in, with the armor that reaches allies as 'armor', and 'self_armor', the armor
+    that reaches the caster, when the role has a life share."""
     conditions = (BERSERK,) if role.berserk else ()
     spells = book.spells(class_id, level)
     models = {}
@@ -1436,7 +1489,14 @@ def role_turns(book, class_id, level, role, scales=None):
                 spells, role._replace(reach=reach), conditions=conditions)
     side = role._replace(reach='distance') if role.reach == 'mixed' else role
     for family in wakfu_family.FAMILIES:
-        if family in role.shares or (family == 'armor' and 'life' in role.shares):
+        if family == 'armor':
+            spells = book.family_spells(class_id, level, family)
+            for name, share, recipient in (('self_armor', 'life', 'caster'),
+                                           ('armor', 'armor', 'allies')):
+                if share in role.shares:
+                    models[name] = TurnModel(spells, side, family, conditions=conditions,
+                                             recipient=recipient)
+        elif family in role.shares:
             models[family] = TurnModel(
                 book.family_spells(class_id, level, family), side, family,
                 conditions=conditions)

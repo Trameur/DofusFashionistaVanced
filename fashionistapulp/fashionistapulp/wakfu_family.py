@@ -84,14 +84,17 @@ NO_COST = collections.Counter()
 
 class FamilyRow(collections.namedtuple(
         'FamilyRow', 'id action element base critical critical_read trees conditions '
-                     'unless mode hits reach cost percent area',
-        defaults=((), frozenset(), frozenset(), 'hit', 1, None, NO_COST, False, False))):
+                     'unless mode hits reach cost percent area recipients',
+        defaults=((), frozenset(), frozenset(), 'hit', 1, None, NO_COST, False, False,
+                  None))):
     """One row of a family at one level.
 
     id: the client effect id; base and critical: the value of the row at the level
     (a heal row that is a share of life holds the share, percent True); trees: the
     parsed criteria; conditions, unless, mode, hits, reach, cost: the structure the
-    encyclopedia text gives a heal row, as for a damage row.
+    encyclopedia text gives a heal row, as for a damage row; recipients: the sides an
+    armor row reaches (a frozenset over caster, possibly_caster, allies, enemies), None
+    when not read.
     """
 
 
