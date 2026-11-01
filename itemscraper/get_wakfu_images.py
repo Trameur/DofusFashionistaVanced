@@ -13,6 +13,10 @@ client's own config.properties gives, and stores it as webp:
     states/wakfu/<key>.webp              abilities/wakfu/<icon>.webp
     classes/wakfu/icons/<breed>.webp     classes/wakfu/portrait80/<breed><sex>.webp
     monsters/wakfu/<picture>.webp        monsters/wakfu/families/<family>.webp
+    rarity/wakfu/<rarity>.webp
+
+The rarity borders are not in the database: client_code.json holds the picture the client's
+rarity enum names for each rarity id, and the archive holds one border per name.
 
 Every folder also gets a default.webp, the client's own placeholder, for a row whose file
 the archive does not hold. A picture shared by several rows is one file. A file already on
@@ -25,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import io
+import json
 import os
 import re
 import sqlite3
@@ -67,6 +72,8 @@ TARGETS = (
     ('monster families', 'monster_family', 'monstersFamily', 'monsters/wakfu/families', None,
      'defaultIconPath'),
 )
+RARITY_BORDER_FOLDER = '/itemsRarityBorders/'
+RARITY_TARGET = 'rarity/wakfu'
 CONFIG_KEYS = sorted({row[2] for row in TARGETS} | {row[5] for row in TARGETS})
 
 
@@ -142,6 +149,22 @@ def extract(archive, names, member, edge, path, force):
     return 'written', convert(archive.read(member), edge, path)
 
 
+def rarity_borders(folder, names):
+    """{rarity id: archive member} of the borders the client's rarity enum names."""
+    code = json.loads((folder / 'client_code.json').read_text(encoding='utf-8'))
+    out = {}
+    for enum, rarity in sorted(code['rarities'].items(), key=lambda one: one[1]):
+        stem = code['rarity_files'][enum]
+        found = [name for name in names
+                 if RARITY_BORDER_FOLDER in name and name.endswith('/%s.tga' % stem)]
+        if len(found) != 1 or not SAFE_STEM.fullmatch(stem):
+            raise wakfu_client.TableError(
+                'rarity %s names the picture %s, %d archive members match' % (enum, stem,
+                                                                                len(found)))
+        out[rarity] = found[0]
+    return out
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--client', default=str(CLIENT))
@@ -203,7 +226,19 @@ def main(argv=None):
                 if counts['written'] + counts['kept'] == 0:
                     print('   no file at all for %s' % name)
                     failed = True
-    except (OSError, zipfile.BadZipFile) as error:
+            borders = rarity_borders(folder, names)
+            counts = {'written': 0, 'kept': 0, 'missing': 0}
+            size = 0
+            for rarity, member in borders.items():
+                outcome, written = extract(archive, names, member, None,
+                                           static / RARITY_TARGET / ('%d.webp' % rarity),
+                                           args.force)
+                counts[outcome] += 1
+                size += written
+            print('%-16s wanted %d written %d kept %d missing %d, %.2f MB'
+                  % ('rarity borders', len(borders), counts['written'], counts['kept'],
+                     counts['missing'], size / 1e6))
+    except (OSError, ValueError, KeyError, zipfile.BadZipFile) as error:
         print('the picture archive could not be read: %s' % error)
         return 1
     finally:

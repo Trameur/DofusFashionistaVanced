@@ -1,5 +1,6 @@
 import contextlib
 import io
+import json
 import os
 import sqlite3
 import sys
@@ -62,6 +63,9 @@ def tga(size, pixel, transparent_corner=False):
     return out.getvalue()
 
 
+RARITY_MEMBER = 'theme/images/itemsRarityBorders/old.tga'
+
+
 def members(items_member='icons/items/64/%d.tga', color=RED):
     return {
         items_member % 500: tga((80, 80), color, True),
@@ -104,8 +108,12 @@ class TheWakfuClientPicturesAreReadFromAJarTheTestWritesTests(SimpleTestCase):
             '# the client\n' + ''.join('%s=%s%s\n' % (key, PREFIX, value)
                                        for key, value in merged.items()), encoding='utf-8')
         with zipfile.ZipFile(folder / 'gui.jar', 'w') as jar:
-            for member, blob in (members() if files is None else files).items():
+            for member, blob in {**(members() if files is None else files),
+                                 RARITY_MEMBER: tga((36, 36), RED, True)}.items():
                 jar.writestr(member, blob)
+        (folder / 'client_code.json').write_text(
+            json.dumps({'rarities': {'COMMON': 0}, 'rarity_files': {'COMMON': 'old'}}),
+            encoding='utf-8')
         return folder
 
     def run_script(self, *extra):
