@@ -247,11 +247,13 @@ LOOT_LIST_CLASS = 'aMa'  # 39
 EffectRecord = collections.namedtuple(
     'EffectRecord', 'id action_id container_id container_type root_container_type'
                     ' normal_or_critical area_shape area_size params criterion'
-                    ' min_level max_level triggers',
-    defaults=('', None, None, ()))
+                    ' min_level max_level triggers target_mask display',
+    defaults=('', None, None, (), 0, True))
 GroupRecord = collections.namedtuple('GroupRecord', 'id effect_ids')
-# max_level is the stack cap the client holds for the state (aYh)
-StateRecord = collections.namedtuple('StateRecord', 'id bcw effect_ids max_level')
+# max_level is the stack cap the client holds for the state (aYh); cumulable is the flag
+# the tooltip reads to word a level as "+N" (esA)
+StateRecord = collections.namedtuple('StateRecord', 'id bcw effect_ids max_level cumulable',
+                                     defaults=(False,))
 AbilityRecord = collections.namedtuple(
     'AbilityRecord', 'id category ddL cgI effect_ids')
 AbilityCategoryRecord = collections.namedtuple(
@@ -558,7 +560,15 @@ def _read_effect(reader):
         row['container_type'].strip(), row['root_container_type'].strip(),
         row['normal_or_critical'].strip(), row['area_shape'], row['area_size'],
         row['params'], row['text_etr'].strip(), row['short_etp'], row['short_etq'],
-        tuple(tuple(row[name]) for name in TRIGGER_FIELDS))
+        tuple(tuple(row[name]) for name in TRIGGER_FIELDS),
+        _target_mask(row['longs_esY']), row['flag_etA'])
+
+
+def _target_mask(values):
+    """The effect's target filter; the client keeps one, so a second one is a format change."""
+    if len(values) > 1:
+        raise ValueError('effect target filter holds %d values' % len(values))
+    return values[0] if values else 0
 
 
 def _read_group(reader):
@@ -570,7 +580,7 @@ def _read_group(reader):
 def _read_state(reader):
     """The state record of client class aNx."""
     row = _read_layout(reader, STATE_LAYOUT)
-    return StateRecord(row['id'], row['bcw'], row['efW'], row['aYh'])
+    return StateRecord(row['id'], row['bcw'], row['efW'], row['aYh'], row['esA'])
 
 
 def _read_ability(reader):
@@ -775,6 +785,7 @@ TEXT_KEY = re.compile(r'content\.(\d+)\.(\d+)')
 # Families the language file keys by name: the key prefix each one takes, and breed.<number>
 # naming a class
 KEY_FAMILIES = {'aptitude_texts': ('aptitude.', 'aptitudes.'),
+                'rarity_names': ('item.rarity.',),
                 'enchantment_texts': ('enchantment.',),
                 'breed_texts': ('breed.', 'breedLongName.', 'breedLongDesc.'),
                 'breed_names': ('breed.',)}
@@ -813,7 +824,7 @@ def read_texts(jar_path, language):
         if breed:
             out['breed_names'][int(breed.group(1))] = text
             continue
-        for family in ('aptitude_texts', 'enchantment_texts', 'breed_texts'):
+        for family in ('aptitude_texts', 'enchantment_texts', 'breed_texts', 'rarity_names'):
             if key.startswith(KEY_FAMILIES[family]):
                 out[family][key] = text
     return out

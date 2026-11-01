@@ -102,7 +102,8 @@ class TheWakfuClientTextsReadBackAsTheClientReadsThemTests(TestCase):
 
     def test_the_keyed_families_are_the_aptitude_enchantment_and_breed_keys(self):
         self.assertEqual(
-            ('aptitude_texts', 'enchantment_texts', 'breed_texts', 'breed_names'),
+            ('aptitude_texts', 'rarity_names', 'enchantment_texts', 'breed_texts',
+             'breed_names'),
             tuple(wakfu_client.KEY_FAMILIES))
 
     def test_a_job_is_read_from_content_43_and_a_keyed_text_by_its_whole_key(self):

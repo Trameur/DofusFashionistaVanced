@@ -57,7 +57,7 @@ FILES = ((ITEMS_JAR, BREEDS_JAR) + tuple(LABEL_JARS.values()) + tuple(TABLE_JARS
          + (GUI_JAR, CODE_JAR, CONFIG))
 KEEP_VERSIONS = 2
 # Bumped when tables.json gains a field, so a decoded folder is decoded again.
-TABLES_FORMAT = 4
+TABLES_FORMAT = 5
 # From this size a file is written piece by piece and never held in memory
 BIG_FILE = 32 * 1024 * 1024
 

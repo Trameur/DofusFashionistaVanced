@@ -267,6 +267,32 @@ def enum_constants(info):
     return constants
 
 
+def enum_last_strings(info):
+    """{name: the last text pushed as an argument} of an enum's constants.
+
+    A constant that pushes no text beside its name is left out.
+    """
+    code = info.method('<clinit>')
+    if code is None:
+        raise ClientCodeError('%s has no static initializer' % info.name)
+    found = {}
+    name = None
+    last = None
+    previous = None
+    for _start, opcode, operand in _instructions(code):
+        text = _pushed_string(info, opcode, operand)
+        if text is not None and previous == _DUP:
+            name, last = text, None
+        elif text is not None and name is not None:
+            last = text
+        elif opcode == _INVOKESPECIAL and name is not None:
+            if last is not None:
+                found[name] = last
+            name = None
+        previous = opcode
+    return found
+
+
 # Position of the default value among the ints a characteristic constant pushes: ordinal,
 # id, minimum, maximum, lowest start, highest start, default
 CHARACTERISTIC_DEFAULT_AT = 6
@@ -355,6 +381,7 @@ def read_constants(jar_path):
                                 in enum_constants(characteristics)},
             'characteristic_defaults': characteristic_defaults(characteristics),
             'rarities': {name: first for name, _ordinal, first in enum_constants(rarities)},
+            'rarity_files': enum_last_strings(rarities),
             'spell_kinds': {name: ordinal for name, ordinal, _first
                             in enum_constants(kinds)},
             'passive_slot_levels': list(static_int_array(owner_info, field)),
