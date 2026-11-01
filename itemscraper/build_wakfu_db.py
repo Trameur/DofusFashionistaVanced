@@ -558,9 +558,9 @@ def write_client_tables(conn, tables, counts):
     item_ids = set(tables['item_ids'])
     effects = {effect['id']: effect for effect in tables['effects']}
     if any('criterion' not in effect or 'target_mask' not in effect
-           for effect in effects.values()):
-        raise ValueError('the decoded effects carry no criterion or target mask: decode the'
-                         ' client again with get_wakfu_client.py')
+           or 'trigger_side' not in effect for effect in effects.values()):
+        raise ValueError('the decoded effects carry no criterion, target mask or trigger'
+                         ' bytes: decode the client again with get_wakfu_client.py')
     if len(effects) != len(tables['effects']):
         raise ValueError('the decoded effects repeat an id')
     record_order = {effect['id']: number for number, effect in enumerate(tables['effects'])}
@@ -594,15 +594,17 @@ def write_client_tables(conn, tables, counts):
         conn.execute(
             'INSERT INTO effects (id, action, container_type, container,'
             ' root_container_type, normal_or_critical, area_shape, area_size,'
-            ' params, criterion, display, record_order, target_mask, triggers)'
-            ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            ' params, criterion, display, record_order, target_mask, triggers,'
+            ' trigger_side, trigger_target, trigger_caster)'
+            ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             (ident, effect['action_id'], effect['container_type'],
              effect['container_id'], effect['root_container_type'],
              effect['normal_or_critical'], effect['area_shape'],
              json.dumps(effect['area_size']), json.dumps(effect['params']),
              effect['criterion'], int(effect['display']), record_order[ident],
              effect['target_mask'],
-             json.dumps(effect['triggers'], separators=(',', ':'))))
+             json.dumps(effect['triggers'], separators=(',', ':')),
+             effect['trigger_side'], effect['trigger_target'], effect['trigger_caster']))
         counts['effects'] += 1
         for position, member in enumerate(groups.get(ident, ())):
             conn.execute('INSERT INTO effect_groups (group_id, position, effect)'

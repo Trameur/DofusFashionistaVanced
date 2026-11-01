@@ -20,9 +20,11 @@ BIG_MASK = 2 ** 50 + 5
 
 EFFECTS = [
     {'id': 1, 'action_id': 1010, 'container_type': 'SPELL', 'root_container_type': 'SPELL',
-     'normal_or_critical': 'NORMAL', 'longs_esY': [BIG_MASK], 'flag_etA': True},
+     'normal_or_critical': 'NORMAL', 'longs_esY': [BIG_MASK], 'flag_etA': True,
+     'byte_etg': 2, 'byte_eth': 5, 'byte_eti': 4},
     {'id': 2, 'action_id': 1010, 'container_type': 'SPELL', 'root_container_type': 'SPELL',
-     'normal_or_critical': 'NORMAL', 'longs_esY': [], 'flag_etA': False},
+     'normal_or_critical': 'NORMAL', 'longs_esY': [], 'flag_etA': False,
+     'byte_etg': 3, 'byte_eth': 1, 'byte_eti': 2},
     {'id': 3, 'action_id': 20, 'container_type': 'ITEM_EQUIP',
      'root_container_type': 'ITEM_EQUIP', 'normal_or_critical': 'NORMAL',
      'longs_esY': [0], 'flag_etA': True},
@@ -60,6 +62,17 @@ class TheClientEffectAndStateRecordsCarryTheFlagsTheClientStoresTests(SimpleTest
     def test_the_display_flag_is_the_flag_the_record_was_written_with(self):
         self.assertEqual([True, False, True, False], [one.display for one in self.effects()])
 
+    def test_the_three_trigger_bytes_are_the_bytes_the_record_was_written_with(self):
+        self.assertEqual([(2, 5, 4), (3, 1, 2), (0, 0, 0), (0, 0, 0)],
+                         [(one.trigger_side, one.trigger_target, one.trigger_caster)
+                          for one in self.effects()])
+
+    def test_the_action_mask_and_display_flag_read_the_same_beside_the_trigger_bytes(self):
+        read = self.effects()
+        self.assertEqual([1010, 1010, 20, 20], [one.action_id for one in read])
+        self.assertEqual([BIG_MASK, 0, 0, 2], [one.target_mask for one in read])
+        self.assertEqual([True, False, True, False], [one.display for one in read])
+
     def test_the_records_keep_their_table_order_and_their_ids(self):
         self.assertEqual([1, 2, 3, 4], [one.id for one in self.effects()])
 
@@ -72,5 +85,6 @@ class TheClientEffectAndStateRecordsCarryTheFlagsTheClientStoresTests(SimpleTest
     def test_an_effect_built_without_the_new_fields_shows_its_line_and_has_no_filter(self):
         bare = wakfu_client.EffectRecord(1, 2, 3, '', '', '', 0, [], [])
         self.assertEqual((0, True), (bare.target_mask, bare.display))
+        self.assertEqual((0, 0, 0), (bare.trigger_side, bare.trigger_target, bare.trigger_caster))
         state = wakfu_client.StateRecord(1, 'k', [], 3)
         self.assertFalse(state.cumulable)

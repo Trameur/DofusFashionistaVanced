@@ -19,7 +19,7 @@ def effect(ident, action, container_type, container, params=(), kind='NORMAL'):
             'container_type': container_type, 'root_container_type': container_type,
             'normal_or_critical': kind, 'area_shape': 1, 'area_size': [],
             'params': list(params), 'criterion': '', 'target_mask': 0, 'display': True,
-            'triggers': []}
+            'triggers': [], 'trigger_side': 0, 'trigger_target': 0, 'trigger_caster': 0}
 
 
 def tables(effects, groups, states=(), sets=(), abilities=(), categories=(),

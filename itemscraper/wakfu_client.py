@@ -247,8 +247,9 @@ LOOT_LIST_CLASS = 'aMa'  # 39
 EffectRecord = collections.namedtuple(
     'EffectRecord', 'id action_id container_id container_type root_container_type'
                     ' normal_or_critical area_shape area_size params criterion'
-                    ' min_level max_level triggers target_mask display',
-    defaults=('', None, None, (), 0, True))
+                    ' min_level max_level triggers target_mask display'
+                    ' trigger_side trigger_target trigger_caster',
+    defaults=('', None, None, (), 0, True, 0, 0, 0))
 GroupRecord = collections.namedtuple('GroupRecord', 'id effect_ids')
 # max_level is the stack cap the client holds for the state (aYh); cumulable is the flag
 # the tooltip reads to word a level as "+N" (esA)
@@ -561,7 +562,8 @@ def _read_effect(reader):
         row['normal_or_critical'].strip(), row['area_shape'], row['area_size'],
         row['params'], row['text_etr'].strip(), row['short_etp'], row['short_etq'],
         tuple(tuple(row[name]) for name in TRIGGER_FIELDS),
-        _target_mask(row['longs_esY']), row['flag_etA'])
+        _target_mask(row['longs_esY']), row['flag_etA'],
+        row['byte_etg'], row['byte_eth'], row['byte_eti'])
 
 
 def _target_mask(values):

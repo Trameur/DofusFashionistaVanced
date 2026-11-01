@@ -39,7 +39,7 @@ def real_db():
         return None
     conn = sqlite3.connect('file:%s?mode=ro' % builder.WAKFU_DB, uri=True)
     columns = [row[1] for row in conn.execute('PRAGMA table_info(effects)')]
-    if 'target_mask' not in columns:
+    if not {'target_mask', 'trigger_side', 'trigger_target', 'trigger_caster'} <= set(columns):
         conn.close()
         return None
     return conn
@@ -50,7 +50,8 @@ def an_effect(ident, **fields):
            'root_container_type': 'ITEM_EQUIP', 'normal_or_critical': 'NORMAL',
            'area_shape': 1, 'area_size': [], 'params': [1.0, 0.0], 'criterion': '',
            'min_level': None, 'max_level': None, 'triggers': NO_TRIGGERS,
-           'target_mask': 0, 'display': True}
+           'target_mask': 0, 'display': True, 'trigger_side': 0, 'trigger_target': 0,
+           'trigger_caster': 0}
     row.update(fields)
     return row
 
@@ -145,6 +146,21 @@ class TheBuilderStoresWhatTheClientRecordHoldsTests(SimpleTestCase):
             'SELECT id, triggers FROM effects')}
         self.assertEqual({1: triggers, 2: NO_TRIGGERS}, stored)
 
+    def test_the_three_trigger_bytes_are_stored_as_the_decoded_record_held_them(self):
+        effects = [an_effect(1, trigger_side=3, trigger_target=5, trigger_caster=4),
+                   an_effect(2, trigger_side=1, trigger_target=2, trigger_caster=2),
+                   an_effect(3)]
+        conn = self.build(effects)
+        rows = {row[0]: row[1:] for row in conn.execute(
+            'SELECT id, trigger_side, trigger_target, trigger_caster FROM effects')}
+        self.assertEqual({1: (3, 5, 4), 2: (1, 2, 2), 3: (0, 0, 0)}, rows)
+
+    def test_a_decoded_folder_without_the_trigger_bytes_is_refused(self):
+        effect = an_effect(1)
+        del effect['trigger_side']
+        with self.assertRaisesMessage(ValueError, 'decode the client again'):
+            self.build([effect])
+
     def test_a_states_stack_cap_and_cumulable_flag_are_stored(self):
         states = [a_state(5, max_level=6, cumulable=True), a_state(6, max_level=1)]
         conn = self.build([an_effect(1)], states)
@@ -162,9 +178,11 @@ class TheStoredEffectAndStateFieldsAreTheDecodedClientsTests(SimpleTestCase):
     def setUp(self):
         self.tables = real_tables()
         self.db = real_db()
-        if self.tables is None or self.db is None:
+        if self.db is not None:
+            self.addCleanup(self.db.close)
+        if (self.tables is None or self.db is None
+                or 'trigger_side' not in self.tables['effects'][0]):
             self.skipTest('no decoded Wakfu client or database with the new columns')
-        self.addCleanup(self.db.close)
 
     def test_every_stored_effect_holds_the_flag_mask_triggers_and_place_of_its_client_record(self):
         client = {effect['id']: (number, effect)
@@ -200,6 +218,42 @@ class TheStoredEffectAndStateFieldsAreTheDecodedClientsTests(SimpleTestCase):
         self.assertEqual(masked, self.db.execute(
             'SELECT COUNT(*) FROM effects WHERE target_mask != 0').fetchone()[0])
         self.assertGreater(masked, 0)
+
+    def test_every_stored_effect_holds_the_three_trigger_bytes_of_its_client_record(self):
+        client = {effect['id']: (effect['trigger_side'], effect['trigger_target'],
+                                 effect['trigger_caster']) for effect in self.tables['effects']}
+        stored = self.db.execute(
+            'SELECT id, trigger_side, trigger_target, trigger_caster FROM effects').fetchall()
+        self.assertGreater(len(stored), 100000)
+        wrong = [row[0] for row in stored if client[row[0]] != row[1:]]
+        self.assertEqual([], wrong[:5])
+
+    def test_each_trigger_byte_value_has_as_many_stored_effects_as_client_records(self):
+        stored_ids = {row[0] for row in self.db.execute('SELECT id FROM effects')}
+        for column in ('trigger_side', 'trigger_target', 'trigger_caster'):
+            with self.subTest(column=column):
+                client = {}
+                for effect in self.tables['effects']:
+                    if effect['id'] in stored_ids:
+                        client[effect[column]] = client.get(effect[column], 0) + 1
+                stored = dict(self.db.execute(
+                    'SELECT %s, COUNT(*) FROM effects GROUP BY 1' % column))
+                self.assertEqual(client, stored)
+                self.assertGreater(len(stored), 2)
+
+    def test_no_effect_holds_a_trigger_target_or_caster_without_listening_to_an_event(self):
+        listening = (0, 1, 3, 4, 5)
+        fired = unlistened = unpaired = 0
+        for triggers, target, caster in self.db.execute(
+                'SELECT triggers, trigger_target, trigger_caster FROM effects'):
+            lists = json.loads(triggers)
+            listens = any(lists[index] for index in listening)
+            if target or caster:
+                fired += 1
+                unlistened += not listens
+                unpaired += not (target and caster)
+        self.assertGreater(fired, 0)
+        self.assertEqual((0, 0), (unlistened, unpaired))
 
     def test_the_six_roses_armor_effect_is_filtered_on_the_caster_and_animal_link_on_an_ally(self):
         rows = dict(self.db.execute(

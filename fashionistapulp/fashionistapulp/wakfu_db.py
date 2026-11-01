@@ -165,13 +165,15 @@ SCHEMA = (
     # record_order the effect's place among the records of the client's effect
     # table, target_mask the first value of the record's 64-bit target filter
     # (0 when the record holds none), triggers the record's seven trigger lists
-    # as a JSON array of arrays
+    # as a JSON array of arrays, trigger_side, trigger_target and trigger_caster the
+    # record's three trigger bytes (0 when unset)
     """CREATE TABLE effects
              (id INTEGER PRIMARY KEY, action INTEGER, container_type TEXT,
               container INTEGER, root_container_type TEXT,
               normal_or_critical TEXT, area_shape INTEGER, area_size TEXT,
               params TEXT, criterion TEXT, display INTEGER, record_order INTEGER,
-              target_mask INTEGER, triggers TEXT)""",
+              target_mask INTEGER, triggers TEXT, trigger_side INTEGER,
+              trigger_target INTEGER, trigger_caster INTEGER)""",
     # An effect whose id is a group id runs the group's effects, in order
     """CREATE TABLE effect_groups
              (group_id INTEGER, position INTEGER, effect INTEGER,
