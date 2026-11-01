@@ -68,6 +68,9 @@ CLIENT_APTITUDE_TEXT_TABLE = 'client_aptitude_texts'
 CLIENT_ENCHANTMENT_TEXT_TABLE = 'client_enchantment_texts'
 CLIENT_ITEM_TYPE_NAME_TABLE = 'client_item_type_names'
 CLIENT_PICTURE_TABLE = 'client_pictures'
+RARITY_NAME_TABLE = 'rarity_names'
+STAT_ACTION_TABLE = 'stat_actions'
+DATA_VERSION_TABLE = 'data_version'
 
 SCHEMA = (
     """CREATE TABLE item_rarity
@@ -157,12 +160,18 @@ SCHEMA = (
     # float list as JSON; effect_value() turns it into a number at a level.
     # criterion is the client's condition on the effect, empty when none.
     # container_type is the client's name (ITEM_EQUIP, ITEM_USE, SET, STATE,
-    # ABILITY, GROUP), normal_or_critical splits a use effect's two outcomes
+    # ABILITY, GROUP), normal_or_critical splits a use effect's two outcomes.
+    # display is the client's flag that shows or hides the effect's line,
+    # record_order the effect's place among the records of the client's effect
+    # table, target_mask the first value of the record's 64-bit target filter
+    # (0 when the record holds none), triggers the record's seven trigger lists
+    # as a JSON array of arrays
     """CREATE TABLE effects
              (id INTEGER PRIMARY KEY, action INTEGER, container_type TEXT,
               container INTEGER, root_container_type TEXT,
               normal_or_critical TEXT, area_shape INTEGER, area_size TEXT,
-              params TEXT, criterion TEXT)""",
+              params TEXT, criterion TEXT, display INTEGER, record_order INTEGER,
+              target_mask INTEGER, triggers TEXT)""",
     # An effect whose id is a group id runs the group's effects, in order
     """CREATE TABLE effect_groups
              (group_id INTEGER, position INTEGER, effect INTEGER,
@@ -170,8 +179,10 @@ SCHEMA = (
               FOREIGN KEY(effect) REFERENCES effects(id))""",
     # key is the client's text key (for example malus_portee); the state's
     # effects are the effects rows with container_type STATE and container = id
+    # max_level is the client's stack cap, cumulable its flag for a state whose
+    # levels add up
     """CREATE TABLE states
-             (id INTEGER PRIMARY KEY, key TEXT)""",
+             (id INTEGER PRIMARY KEY, key TEXT, max_level INTEGER, cumulable INTEGER)""",
     # category: the fixed ability category that lists the ability. ddl and cgi
     # are the client's ddL and cgI, not understood yet. Its effects are the
     # effects rows with container_type ABILITY
@@ -337,6 +348,22 @@ SCHEMA = (
     """CREATE TABLE client_item_type_names
              (item_type INTEGER, language TEXT, name TEXT,
               PRIMARY KEY (item_type, language))""",
+    # The client's rarity enum: rarity is its id (the value of item_rarity.rarity)
+    """CREATE TABLE rarity_names
+             (rarity INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (rarity, language))""",
+    # Every action that gave a stat a stats_of_item row, with the rows it gave:
+    # positive_lines and negative_lines split them by sign. primary_action is 1 on
+    # the action with the most positive rows for the stat, the lower id first on a tie
+    """CREATE TABLE stat_actions
+             (stat INTEGER, action INTEGER, positive_lines INTEGER,
+              negative_lines INTEGER, primary_action INTEGER,
+              PRIMARY KEY (stat, action),
+              FOREIGN KEY(stat) REFERENCES stats(id))""",
+    # One row: the CDN version the items come from, the client version the
+    # client tables come from
+    """CREATE TABLE data_version
+             (version TEXT NOT NULL, client_version TEXT)""",
     # Equip conditions. IF NOT EXISTS: a Dofus items.db may carry a table of
     # the same name and the same shape
     "CREATE TABLE IF NOT EXISTS item_criteria"
