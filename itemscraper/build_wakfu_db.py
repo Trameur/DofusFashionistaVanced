@@ -557,9 +557,13 @@ def write_client_tables(conn, tables, counts):
     """Fill the effect, state, ability and set tables from a decoded client."""
     item_ids = set(tables['item_ids'])
     effects = {effect['id']: effect for effect in tables['effects']}
-    if any('criterion' not in effect for effect in effects.values()):
-        raise ValueError('the decoded effects carry no criterion: decode the client again'
-                         ' with get_wakfu_client.py')
+    if any('criterion' not in effect or 'target_mask' not in effect
+           for effect in effects.values()):
+        raise ValueError('the decoded effects carry no criterion or target mask: decode the'
+                         ' client again with get_wakfu_client.py')
+    if len(effects) != len(tables['effects']):
+        raise ValueError('the decoded effects repeat an id')
+    record_order = {effect['id']: number for number, effect in enumerate(tables['effects'])}
     groups = {group['id']: group['effect_ids'] for group in tables['groups']}
     ability_categories = {one['id'] for one in tables['ability_categories']}
     roots = {effect['id'] for effect in effects.values()
@@ -590,12 +594,15 @@ def write_client_tables(conn, tables, counts):
         conn.execute(
             'INSERT INTO effects (id, action, container_type, container,'
             ' root_container_type, normal_or_critical, area_shape, area_size,'
-            ' params, criterion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            ' params, criterion, display, record_order, target_mask, triggers)'
+            ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             (ident, effect['action_id'], effect['container_type'],
              effect['container_id'], effect['root_container_type'],
              effect['normal_or_critical'], effect['area_shape'],
              json.dumps(effect['area_size']), json.dumps(effect['params']),
-             effect['criterion']))
+             effect['criterion'], int(effect['display']), record_order[ident],
+             effect['target_mask'],
+             json.dumps(effect['triggers'], separators=(',', ':'))))
         counts['effects'] += 1
         for position, member in enumerate(groups.get(ident, ())):
             conn.execute('INSERT INTO effect_groups (group_id, position, effect)'
@@ -604,8 +611,10 @@ def write_client_tables(conn, tables, counts):
         if ident in groups:
             counts['effect groups'] += 1
     for state in tables['states']:
-        conn.execute('INSERT INTO states (id, key) VALUES (?, ?)',
-                     (state['id'], state['bcw']))
+        conn.execute('INSERT INTO states (id, key, max_level, cumulable)'
+                     ' VALUES (?, ?, ?, ?)',
+                     (state['id'], state['bcw'], state['max_level'],
+                      int(state['cumulable'])))
         counts['states'] += 1
     for category in tables['ability_categories']:
         conn.execute('INSERT INTO ability_categories (id, unlock_levels,'
@@ -714,6 +723,64 @@ def write_client_texts(conn, texts, counts):
                 unmatched.update(set(by_id) - known)
             if unmatched:
                 counts['texts naming no row: ' + family] += len(unmatched)
+
+
+def write_rarity_names(conn, texts, code, counts):
+    """Fill rarity_names: each rarity of the client's enum, named in every language."""
+    names = texts['texts'].get('rarity_names')
+    if names is None or not code.get('rarities'):
+        counts['rarity names missing'] += 1
+        return
+    for language in LANGUAGES:
+        source = names.get(CLIENT_TEXT_FALLBACK.get(language, language), {})
+        for enum, rarity in sorted(code['rarities'].items(), key=lambda one: one[1]):
+            text = source.get('item.rarity.' + enum)
+            if text is None:
+                raise ValueError('the client names no rarity %s in %s' % (enum, language))
+            conn.execute('INSERT INTO rarity_names (rarity, language, name) VALUES (?, ?, ?)',
+                         (rarity, language, text))
+            counts['rarity names'] += 1
+
+
+def write_item_descriptions(conn, out_dir, version, counts):
+    """Fill item_descriptions from the CDN's items.json, de from en like the names."""
+    path = Path(out_dir) / version / 'items.json'
+    if not path.is_file():
+        print('%s is missing: the item descriptions stay empty' % path)
+        return
+    with io.open(path, encoding='utf-8') as handle:
+        entries = json.load(handle)
+    descriptions = {}
+    for entry in entries:
+        if entry.get('description'):
+            descriptions[entry['definition']['item']['id']] = entry['description']
+    for (ident,) in conn.execute('SELECT id FROM items ORDER BY id').fetchall():
+        by_language = with_fallback_languages(descriptions.get(ident) or {})
+        for language in LANGUAGES:
+            text = by_language.get(language)
+            if text:
+                conn.execute('INSERT INTO item_descriptions (item, language, description)'
+                             ' VALUES (?, ?, ?)', (ident, language, text))
+                counts['item descriptions'] += 1
+
+
+def write_stat_actions(conn, used, counts):
+    """Fill stat_actions from {(stat id, action): [positive lines, negative lines]}."""
+    best = {}
+    for (stat, action), (positive, _negative) in sorted(used.items()):
+        if stat not in best or positive > used[(stat, best[stat])][0]:
+            best[stat] = action
+    for (stat, action), (positive, negative) in sorted(used.items()):
+        conn.execute('INSERT INTO stat_actions (stat, action, positive_lines, negative_lines,'
+                     ' primary_action) VALUES (?, ?, ?, ?, ?)',
+                     (stat, action, positive, negative, int(best[stat] == action)))
+        counts['stat actions'] += 1
+
+
+def write_data_version(conn, version, client_version, counts):
+    conn.execute('INSERT INTO data_version (version, client_version) VALUES (?, ?)',
+                 (version, client_version))
+    counts['data version'] += 1
 
 
 def write_spells_pets_and_monsters(conn, tables, item_ids, counts):
@@ -913,6 +980,7 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
     socketed = socketed_positions(dump)
 
     written = set()
+    stat_actions = collections.defaultdict(lambda: [0, 0])
     for item in dump['equipment']:
         positions = [p for p in item['positions'] if p in GEAR]
         if item.get('shard') and tables is not None:
@@ -1016,6 +1084,10 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
                 ' max_value) VALUES (?, ?, ?, ?, ?)',
                 (item_id, stat_ids[key], value, value, value))
             counts['stat lines'] += 1
+            if line.get('action') is None:
+                counts['stat line without an action'] += 1
+            else:
+                stat_actions[(stat_ids[key], line['action'])][0 if value > 0 else 1] += 1
             if line.get('elements'):
                 # Named in full so structure.py can check the two tables
                 # against each other instead of trusting a row order.
@@ -1039,10 +1111,17 @@ def build_into(dump_path, db_path, conn, out_dir, client_dir):
                   % (dump['version'], client_dir))
         else:
             write_client_texts(conn, texts, counts)
+            if code is None:
+                print('no client_code.json: rarity_names stays empty')
+            else:
+                write_rarity_names(conn, texts, code, counts)
 
     counts['removed upstream, kept'] = keep_removed(
         conn, previous, written, stat_ids, set(sets),
         set(types)) if previous else 0
+    write_item_descriptions(conn, out_dir, dump['version'], counts)
+    write_stat_actions(conn, stat_actions, counts)
+    write_data_version(conn, dump['version'], dump.get('client_version'), counts)
     if tables is not None and decoded is None:
         print('client pictures not found for %s under %s: the picture table stays empty'
               % (dump['version'], client_dir))

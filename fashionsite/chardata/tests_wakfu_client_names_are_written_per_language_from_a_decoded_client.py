@@ -259,7 +259,8 @@ class TheWakfuBuildReadsTheClientTextsBesideTheTablesTests(TestCase):
         self.client = self.directory / 'client' / '6.0_1.0.0.1.1'
         self.client.mkdir(parents=True)
         payload = tables([], [], states=[
-            {'id': 5, 'bcw': 'state5', 'effect_ids': []}])
+            {'id': 5, 'bcw': 'state5', 'effect_ids': [], 'max_level': 1,
+                'cumulable': False}])
         payload['game_version'] = '1.0'
         (self.client / 'tables.json').write_text(json.dumps(payload), encoding='utf-8')
         self.db = self.directory / 'items_wakfu.db'

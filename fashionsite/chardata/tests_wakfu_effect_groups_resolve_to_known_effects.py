@@ -18,7 +18,8 @@ def effect(ident, action, container_type, container, params=(), kind='NORMAL'):
     return {'id': ident, 'action_id': action, 'container_id': container,
             'container_type': container_type, 'root_container_type': container_type,
             'normal_or_critical': kind, 'area_shape': 1, 'area_size': [],
-            'params': list(params), 'criterion': ''}
+            'params': list(params), 'criterion': '', 'target_mask': 0, 'display': True,
+            'triggers': []}
 
 
 def tables(effects, groups, states=(), sets=(), abilities=(), categories=(),
@@ -30,7 +31,8 @@ def tables(effects, groups, states=(), sets=(), abilities=(), categories=(),
 
 
 def state(ident, effect_ids):
-    return {'id': ident, 'bcw': 'state%d' % ident, 'effect_ids': effect_ids}
+    return {'id': ident, 'bcw': 'state%d' % ident, 'effect_ids': effect_ids,
+            'max_level': 1, 'cumulable': False}
 
 
 # Item 7 wears effect 100, which runs group 100, whose effect 101 runs group 101;
