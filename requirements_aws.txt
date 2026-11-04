@@ -32,7 +32,7 @@ idna==3.20
 jmespath==1.1.0
 jsonpickle==4.1.4
 mod-wsgi==6.1.1
-oauthlib==4.0.0
+oauthlib==4.0.1
 pillow==13.0.0
 PuLP==2.9.0
 pycparser==3.11
