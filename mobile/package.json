@@ -10,12 +10,12 @@
     "build:android": "cd android && ./gradlew assembleDebug"
   },
   "dependencies": {
-    "@capacitor/android": "^8.5.3",
+    "@capacitor/android": "^8.6.0",
     "@capacitor/core": "^8.4.1",
-    "@capacitor/ios": "^8.5.3"
+    "@capacitor/ios": "^8.6.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "^8.5.3"
+    "@capacitor/cli": "^8.6.0"
   },
   "overrides": {
     "uuid": "^11.1.1"
