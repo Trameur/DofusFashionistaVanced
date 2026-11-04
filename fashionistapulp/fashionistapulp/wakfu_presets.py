@@ -59,6 +59,7 @@ PVP_SHARES = {'dodge': 0.05, 'initiative': 0.05}
 #: {class id: {preset: {component: share}}} that replace the starting shares of one class
 SHARES = {
     10: {'support': {'armor': 0.625, 'life': 0.5}},
+    16: {'support': {'armor': 0.625, 'life': 0.5}},
 }
 
 #: the preset a family of a class's official role asks for; damage has the damage presets
