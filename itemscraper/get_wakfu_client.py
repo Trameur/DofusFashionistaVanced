@@ -341,7 +341,7 @@ def main(argv=None):
         if isinstance(rows, list):
             print('%s %d' % (name.replace('_', ' '), len(rows)))
     for language in LANGUAGES:
-        print('%s: %d critere keys, %d nations' % (
+        print('%s: %d label keys, %d nations' % (
             language, len(payload['labels'][language]),
             len(payload['nations'][language])))
     for family, by_language in sorted(texts['texts'].items()):

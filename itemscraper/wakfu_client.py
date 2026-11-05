@@ -795,11 +795,24 @@ BREED_KEY = re.compile(r'breed\.(\d+)')
 ALL_TEXT_FAMILIES = tuple(TEXT_FAMILIES) + tuple(KEY_FAMILIES)
 
 
+LABEL_KEYS = frozenset((
+    'levelShort.custom', 'levelShort.customCumulable',
+    'effect.description.merged.resistance', 'effect.description.merged.mastery'))
+FIGHTER_WORDS = frozenset((
+    'fighter', 'shield', 'glyph', 'paw', 'taque', 'tique', 'backstab', 'sidestab',
+    'invisible', 'barrel', 'lucky', 'totem', 'puppet', 'enemy', 'ally', 'caster', 'serein',
+    'exalte', 'deposit', 'bomb', 'seed', 'natural', 'unnatural', 'portal', 'rune1', 'rune2',
+    'rune3', 'rune4', 'prey', 'chromatic', 'undrake', 'drake', 'ecnbi', 'ecnbr'))
+
+
 def read_labels(jar_path, language):
-    """({critere.* key: text}, {nation id: name}) of one language jar."""
+    """({label key: text}, {nation id: name}) of one language jar.
+
+    The labels are the critere.* keys, LABEL_KEYS and the FIGHTER_WORDS, each under its own key.
+    """
     labels, nations = {}, {}
     for key, text in _properties(jar_path, language).items():
-        if key.startswith('critere.'):
+        if key.startswith('critere.') or key in LABEL_KEYS or key in FIGHTER_WORDS:
             labels[key] = text
         elif key.startswith('nation.short.'):
             tail = key[len('nation.short.'):]

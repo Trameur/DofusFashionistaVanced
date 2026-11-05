@@ -268,8 +268,9 @@ class TheWakfuClientNamesHoldTheCountsTheGameHasTests(TestCase):
             ' WHERE c.name != j.name').fetchone()[0])
 
     def test_the_condition_labels_and_the_nations_have_a_german_row_copied_from_english(self):
-        self.assertEqual({language: 130 for language in LANGUAGES},
-                         self.per_language('criteria_labels'))
+        self.assertEqual({language: 130 for language in LANGUAGES}, dict(self.conn.execute(
+            "SELECT language, COUNT(*) FROM criteria_labels WHERE key LIKE 'critere.%'"
+            ' GROUP BY language').fetchall()))
         self.assertEqual({language: 6 for language in LANGUAGES}, self.per_language('nations'))
         for sql in ('SELECT key, text FROM criteria_labels WHERE language = ? ORDER BY 1',
                     'SELECT id, name FROM nations WHERE language = ? ORDER BY 1'):
