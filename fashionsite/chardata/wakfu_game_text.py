@@ -42,6 +42,7 @@ SHAPES = (
     ('[N=N]', r'-?\d+=\d+'), ('[+N]', r'\+\d+'), ('[-N]', r'-\d+'),
     ('[N*]', r'\d+\*'), ('[pl]', r'pl'), ('[lv]', r'lv'), ('[elN]', r'el\d*'),
     ('[$Nef]', r'\$\d+ef'), ('[$N#N]', r'\$\d+#\d+'), ('[word]', _WORDS),
+    ('[stN]', r'st\d+'), ('[li]', r'l[ip]'), ('[se]', r'se'), ('[AREA]', r'[A-Z][A-Z0-9]*'),
 )
 _SHAPE_PATTERNS = tuple((shape, re.compile(pattern)) for shape, pattern in SHAPES)
 KNOWN_SHAPES = frozenset(shape for shape, _pattern in SHAPES)
@@ -57,7 +58,9 @@ _ARITHMETIC = re.compile(r'\|(\d+(?:\.\d+)?)([^|]*)\|')
 _OPERATION = re.compile(r'([+\-*/])(\d+(?:\.\d+)?)')
 _GENDER = re.compile(r'\{\[1\*\]\s*\?[^{}:]*:([^{}]*)\}')
 _FIGHTER_WORD = re.compile(r'\[(%s)\]' % _WORDS)
-_ICON = re.compile(r'\[#charac [^\]]*\]|\[#icon [^\]]*\]|\[el\d*\]|\[(?:%s)\]' % _WORDS)
+_STATE_TAG = re.compile(r'\[st(\d+)\]')
+_ICON = re.compile(r'\[#charac [^\]]*\]|\[#icon [^\]]*\]|\[el\d*\]|\[[A-Z][A-Z0-9]*\]'
+                   r'|\[(?:%s)\]' % _WORDS)
 
 Line = collections.namedtuple('Line', 'text stat')
 Effect = collections.namedtuple('Effect', 'id action params display record_order')
@@ -313,21 +316,26 @@ def _effect_of_row(row):
     return Effect(row[0], row[1], json.loads(row[2]), row[3], row[4])
 
 
-def effects_of_container(conn, container_type, container):
-    """The effects of an item, in the order the game lists them."""
-    rows = conn.execute(
-        'SELECT %s FROM effects WHERE container_type = ? AND container = ?'
-        ' ORDER BY record_order, id' % EFFECT_COLUMNS, (container_type, container))
+def effects_of_container(conn, container_type, container, kind=None):
+    """The effects of an item, in the order the game lists them; `kind` keeps only the
+    NORMAL or the CRITICAL rows."""
+    sql = 'SELECT %s FROM effects WHERE container_type = ? AND container = ?' % EFFECT_COLUMNS
+    params = (container_type, container)
+    if kind is not None:
+        sql += ' AND normal_or_critical = ?'
+        params += (kind,)
+    rows = conn.execute(sql + ' ORDER BY record_order, id', params)
     return [_effect_of_row(row) for row in rows.fetchall()]
 
 
-def render_effect(source, effect, level, depth=0):
-    """The text of one effect, line breaks kept; None when the game shows nothing."""
+def render_effect(source, effect, level, depth=0, simplified=False):
+    """The text of one effect, line breaks kept; None when the game shows nothing. A
+    simplified rendering ignores the effect's own text, as the game does for a [se] part."""
     if not effect.display or depth > 8:
         return None
     conn = source.conn
     members = _members(conn, effect.id)
-    own = source.effect_text(effect.id)
+    own = None if simplified else source.effect_text(effect.id)
     text = own or source.action_text(effect.action)
     args = arguments(effect.params, level)
     if members and (not text or ('[$' not in text and not own)):
@@ -344,10 +352,17 @@ def render_effect(source, effect, level, depth=0):
         text = _MEMBER_PARAM.sub(
             lambda found: _member_param(conn, members, found, level), text)
     text = text.replace('[pl]', BULLET).replace('[lv]', str(LEVEL_WITHOUT_CHARACTER))
+    if '[se]' in text:
+        text = text.replace('[se]', render_effect(source, effect, level, depth + 1, True) or '')
+    text = _STATE_TAG.sub(lambda found: source.state_name(int(found.group(1)))
+                          or found.group(0), text)
     level_label = ''
     if effect.action == STATE_ACTION and args:
         state = args[0].whole
-        level_label = _state_level_label(source, state, args)
+        if '[#1]' in text:
+            level_label = _state_level_label(source, state, args)
+        if len(args) >= 2 and ('[li]' in text or '[lp]' in text):
+            text = _state_effect_list(source, text, state, args[1].whole, depth)
         name = source.state_name(state)
         args[0] = name if name is not None else args[0]
     if effect.action == JOB_HARVEST_ACTION and len(args) >= 2 and args[1].whole:
@@ -366,6 +381,13 @@ def _fighter_word(source, found):
     if word and before and not before.isspace():
         return ' ' + word
     return word
+
+
+def _state_effect_list(source, text, state, state_level, depth):
+    effects = effects_of_container(source.conn, 'STATE', state)
+    lines = effect_lines(source, effects, state_level, depth + 1)
+    listing = '\n'.join(line.text for line in lines)
+    return text.replace('[li]', listing).replace('[lp]', listing)
 
 
 def _state_level_label(source, state, args):
@@ -422,14 +444,14 @@ def _merged_header(source, kind, value):
     return _lines_of(format_text(template, [value])) if template else []
 
 
-def effect_lines(source, effects, level):
+def effect_lines(source, effects, level, depth=0):
     """The lines the game shows for a list of effects, resistance and mastery lines of one
     value gathered where the first of them stands."""
     lines = []
     merged = collections.OrderedDict()
     anchor = None
     for effect in effects:
-        text = render_effect(source, effect, level)
+        text = render_effect(source, effect, level, depth)
         if not text:
             continue
         parts = _lines_of(_arithmetic(text))
@@ -467,6 +489,13 @@ def item_lines(source, item_id, level, effects=None):
     if effects is None:
         effects = effects_of_container(source.conn, 'ITEM_EQUIP', item_id)
     return effect_lines(source, effects, level)
+
+
+def use_lines(source, item_id, level):
+    """The lines of an item's use effects. Only the NORMAL rows are listed, as on the
+    official item lists."""
+    return effect_lines(source, effects_of_container(source.conn, 'ITEM_USE', item_id,
+                                                     'NORMAL'), level)
 
 
 def bonus_lines(source, effect_id, level):

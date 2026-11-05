@@ -66,6 +66,27 @@ class WakfuPinnedOfficialLinesTests(SimpleTestCase):
             conn.close()
         self.fail('no live item with two mastery lines of one value')
 
+    def use_texts(self, item_id, language='fr'):
+        return [line.text for line in data.item_detail(item_id, language).use_lines]
+
+    def test_a_weapon_prints_its_damage_line(self):
+        self.assertEqual(self.use_texts(32333), ['Dommage : 114'])
+
+    def test_a_weapon_with_an_area_prints_its_damage_line_without_the_area(self):
+        self.assertEqual(self.use_texts(32490), ['Dommage : 130'])
+        self.assertEqual(self.use_texts(32491), ['Dommage : 130'])
+
+    def test_the_critical_row_of_a_weapon_stays_hidden(self):
+        conn = data.connect()
+        try:
+            critical = conn.execute(
+                "SELECT COUNT(*) FROM effects WHERE container_type = 'ITEM_USE'"
+                " AND container = 32490 AND normal_or_critical = 'CRITICAL'").fetchone()[0]
+        finally:
+            conn.close()
+        self.assertGreater(critical, 0)
+        self.assertEqual(len(self.use_texts(32490)), 1)
+
     def test_a_negative_mastery_keeps_its_sign(self):
         self.assertIn('-400 Maîtrise Berserk', self.texts(32490))
 

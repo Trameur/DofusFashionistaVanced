@@ -33,7 +33,7 @@ Ingredient = collections.namedtuple('Ingredient', 'ankama_id subtype quantity na
 Recipe = collections.namedtuple('Recipe', 'job level ingredients')
 ItemDetail = collections.namedtuple(
     'ItemDetail', 'item type_name rarity_name lines conditions description recipe set_id '
-                  'set_name display_level')
+                  'set_name display_level use_lines')
 SetDetail = collections.namedtuple(
     'SetDetail', 'id name size pieces other_count bonuses')
 
@@ -208,8 +208,8 @@ def is_stat_key(idx, key):
     return key in idx.stat_keys
 
 
-def _cached_lines(stamp, item_id, language, build):
-    key = (stamp, item_id, language)
+def _cached_lines(stamp, item_id, language, build, kind='worn'):
+    key = (stamp, kind, item_id, language)
     with _lock:
         if key in _effect_lines:
             _effect_lines.move_to_end(key)
@@ -276,6 +276,10 @@ def item_detail(item_id, language):
         def build():
             return tuple(wakfu_game_text.item_lines(source, item.id, shown_level))
         lines = _cached_lines(stamp, item.id, language, build)
+
+        def build_use():
+            return tuple(wakfu_game_text.use_lines(source, item.id, shown_level))
+        use_lines = _cached_lines(stamp, item.id, language, build_use, 'use')
         criteria = conn.execute('SELECT criteria FROM item_criteria WHERE item = ?',
                                 (item.id,)).fetchone()
         conditions = _conditions(source, criteria[0]) if criteria else ()
@@ -284,7 +288,7 @@ def item_detail(item_id, language):
                           lines, conditions, source.description(item.id),
                           _recipe(conn, source, item.id, idx.by_id),
                           item.set_id if set_entry else None,
-                          set_entry.name if set_entry else None, shown_level)
+                          set_entry.name if set_entry else None, shown_level, use_lines)
 
 
 def set_detail(set_id, language):
