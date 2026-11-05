@@ -11,6 +11,9 @@ from django.utils.translation import get_language, gettext as _
 from django.utils import translation
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
+from chardata.encyclopedia_filters import (
+    FILTER_KEYS as _FILTER_KEYS, FILTER_PREFIX as _FILTER_PREFIX, MAX_ORDER_ROWS,
+    is_filter_key as _is_filter, parse_order_rows, parse_stat_rows)
 from chardata.pagination import pagination_items
 from chardata.image_store import get_image_url, _static_exists, list_static_dir
 from chardata.official_site import (
@@ -675,30 +678,6 @@ def _absolute_versioned_url(path, game_version='dofus3', language=None):
     if language and language != settings.LANGUAGE_CODE:
         path = '/%s%s' % (language, path)
     return 'https://dofusfashionista.gg%s' % path
-
-
-# Query keys the paginated hubs read, anything else (utm_source, fbclid) is noise
-_FILTER_KEYS = frozenset((
-    # /encyclopedia/
-    'q', 'type', 'min_level', 'max_level', 'stat_key', 'stat_min',
-    'order_rows_json', 'order_key', 'order_dir', 'order_stat',
-    'order_direction',
-    # /encyclopedia/sets/ and /encyclopedia/monsters/
-    'sort', 'drop_kind', 'weak',
-))
-# Numbered stat filters: stat1, stat1_min, stat2...
-_FILTER_PREFIX = 'stat'
-
-
-def _is_filter(key):
-    if key in _FILTER_KEYS:
-        return True
-    if not key.startswith(_FILTER_PREFIX):
-        return False
-    rest = key[len(_FILTER_PREFIX):]
-    if rest.endswith('_min'):
-        rest = rest[:-len('_min')]
-    return rest.isdigit()
 
 
 def _paginated_canonical(request, path, game_version, page_obj):
@@ -2011,9 +1990,6 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
     return default_data
 
 
-MAX_ORDER_ROWS = 12
-
-
 def encyclopedia(request):
     structure = get_structure()
     language = get_supported_language()
@@ -2025,85 +2001,10 @@ def encyclopedia(request):
     min_level = safe_int(request.GET.get('min_level'), None)
     max_level = safe_int(request.GET.get('max_level'), None)
 
-    selected_stat_filters = []
-    selected_stat_rows = []
-    selected_stat_orders = []
-    selected_order_rows = []
-
-    stat_keys = request.GET.getlist('stat_key')
-    stat_mins = request.GET.getlist('stat_min')
-
-    if not stat_keys and not stat_mins:
-        # Backward compatibility with earlier indexed query params.
-        idx = 1
-        while ('stat%d' % idx) in request.GET or ('stat%d_min' % idx) in request.GET:
-            stat_keys.append(request.GET.get('stat%d' % idx, ''))
-            stat_mins.append(request.GET.get('stat%d_min' % idx, ''))
-            idx += 1
-
-    row_count = max(len(stat_keys), len(stat_mins), 1)
-    for idx in range(row_count):
-        stat_key = (stat_keys[idx] if idx < len(stat_keys) else '').strip()
-        stat_min_raw = (stat_mins[idx] if idx < len(stat_mins) else '').strip()
-        stat_min = safe_int(stat_min_raw, None)
-
-        if stat_key and not _is_searchable_stat_key(stat_key):
-            stat_key = ''
-
-        selected_stat_rows.append({
-            'key': stat_key,
-            'min': '' if stat_min_raw == '' else stat_min_raw,
-        })
-        if stat_key and stat_min is not None and stat_min > 0 and _is_searchable_stat_key(stat_key):
-            selected_stat_filters.append((stat_key, stat_min))
-
-    order_keys = []
-    order_dirs = []
-
-    order_rows_json = (request.GET.get('order_rows_json') or '').strip()
-    if order_rows_json:
-        try:
-            parsed_rows = json.loads(order_rows_json)
-            if isinstance(parsed_rows, list):
-                # DATA_UPLOAD_MAX_NUMBER_FIELDS does not cap JSON rows
-                for row in parsed_rows[:MAX_ORDER_ROWS]:
-                    if not isinstance(row, dict):
-                        continue
-                    order_keys.append(str(row.get('key', '')).strip())
-                    order_dirs.append(str(row.get('dir', '')).strip().lower())
-        except (TypeError, ValueError):
-            order_keys = []
-            order_dirs = []
-
-    if not order_keys and not order_dirs:
-        order_keys = request.GET.getlist('order_key')
-        order_dirs = request.GET.getlist('order_dir')
-
-    if not order_keys and not order_dirs:
-        # Backward compatibility for earlier single-field ordering params.
-        legacy_order_key = (request.GET.get('order_stat') or '').strip()
-        legacy_order_dir = (request.GET.get('order_direction') or '').strip().lower()
-        if legacy_order_key or legacy_order_dir:
-            order_keys = [legacy_order_key]
-            order_dirs = [legacy_order_dir]
-
-    order_row_count = max(len(order_keys), len(order_dirs), 1)
-    for idx in range(order_row_count):
-        order_key = (order_keys[idx] if idx < len(order_keys) else '').strip()
-        order_dir = (order_dirs[idx] if idx < len(order_dirs) else '').strip().lower()
-
-        if order_key and not _is_searchable_stat_key(order_key):
-            order_key = ''
-        if order_dir not in ('asc', 'desc'):
-            order_dir = 'desc'
-
-        selected_order_rows.append({
-            'key': order_key,
-            'dir': order_dir,
-        })
-
-        if order_key and _is_searchable_stat_key(order_key):
-            selected_stat_orders.append((order_key, order_dir))
+    selected_stat_rows, selected_stat_filters = parse_stat_rows(
+        request.GET, _is_searchable_stat_key)
+    selected_order_rows, selected_stat_orders = parse_order_rows(
+        request.GET, _is_searchable_stat_key)
 
     normalized_search = _normalized_text(search_text) if search_text else ''
     resource_results = []
