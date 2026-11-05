@@ -28,6 +28,44 @@ class WakfuPinnedOfficialLinesTests(SimpleTestCase):
         self.assertIn('200 Maîtrise sur 3 éléments', self.texts(32617))
         self.assertIn('200 Maîtrise sur 3 éléments', self.texts(32618))
 
+    def test_a_state_line_prints_the_state_name_then_its_level(self):
+        self.assertEqual(self.texts(29420)[-1], "Pacte d'Anathar I (Niv. 1)")
+        self.assertEqual(self.texts(32351)[0], 'Dofus Ébène (Niv. 1)')
+
+    def test_a_resistance_header_precedes_the_element_lines_it_sums(self):
+        lines = self.texts(29439)
+        start = lines.index('17 Résistance')
+        self.assertEqual(lines[start:start + 4], [
+            '17 Résistance', '17 Résistance Eau', '17 Résistance Terre',
+            '17 Résistance Air'])
+
+    def test_a_mastery_header_precedes_the_element_lines_it_sums(self):
+        item = self.item_with_a_merged_mastery_line()
+        lines = self.texts(item)
+        header = next(index for index, text in enumerate(lines)
+                      if re.fullmatch(r'\d+ Maîtrise', text))
+        value = lines[header].split()[0]
+        self.assertTrue(lines[header + 1].startswith(value + ' Maîtrise '), lines)
+        self.assertTrue(lines[header + 2].startswith(value + ' Maîtrise '), lines)
+
+    def test_a_single_element_line_beside_a_group_gets_no_header(self):
+        lines = self.texts(19892)
+        self.assertIn('67 Résistance Feu', lines)
+        self.assertNotIn('67 Résistance', lines)
+
+    def item_with_a_merged_mastery_line(self):
+        conn = data.connect()
+        try:
+            for (item,) in conn.execute(
+                    "SELECT e.container FROM effects e JOIN items i ON i.id = e.container"
+                    " WHERE e.container_type = 'ITEM_EQUIP' AND e.display != 0"
+                    " AND i.removed = 0 AND e.action IN (122, 123, 124, 125)"
+                    " GROUP BY e.container, e.params HAVING COUNT(*) > 1"):
+                return item
+        finally:
+            conn.close()
+        self.fail('no live item with two mastery lines of one value')
+
     def test_a_negative_mastery_keeps_its_sign(self):
         self.assertIn('-400 Maîtrise Berserk', self.texts(32490))
 

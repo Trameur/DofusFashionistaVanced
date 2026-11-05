@@ -356,8 +356,16 @@ def render_effect(source, effect, level, depth=0):
     shown = format_text(text, args)
     if level_label:
         shown = shown.rstrip() + ' ' + level_label
-    shown = _FIGHTER_WORD.sub(lambda found: source.label(found.group(1)) or '', shown)
+    shown = _FIGHTER_WORD.sub(lambda found: _fighter_word(source, found), shown)
     return _drop_unknown_tokens(source, shown, effect.id)
+
+
+def _fighter_word(source, found):
+    word = source.label(found.group(1)) or ''
+    before = found.string[found.start() - 1:found.start()] if found.start() else ''
+    if word and before and not before.isspace():
+        return ' ' + word
+    return word
 
 
 def _state_level_label(source, state, args):
@@ -370,7 +378,7 @@ def _state_level_label(source, state, args):
     if not template:
         return ''
     shown = format_text(template, [min(max_level, args[1].whole)]).strip()
-    return shown if shown.startswith('(') else '(%s)' % shown
+    return '(%s)' % shown
 
 
 def _drop_unknown_tokens(source, text, owner):
@@ -409,6 +417,11 @@ def _lines_of(text):
     return lines
 
 
+def _merged_header(source, kind, value):
+    template = source.label('effect.description.merged.' + kind)
+    return _lines_of(format_text(template, [value])) if template else []
+
+
 def effect_lines(source, effects, level):
     """The lines the game shows for a list of effects, resistance and mastery lines of one
     value gathered where the first of them stands."""
@@ -429,7 +442,9 @@ def effect_lines(source, effects, level):
             continue
         lines.extend(parts)
     block = []
-    for _key, group in merged.items():
+    for (kind, value), group in merged.items():
+        if len(group) > 1:
+            block.extend(_merged_header(source, kind, value))
         for _order, parts in sorted(group, key=lambda one: one[0]):
             block.extend(parts)
     if anchor is not None:

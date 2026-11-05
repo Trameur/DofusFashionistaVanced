@@ -9,21 +9,19 @@ from chardata import wakfu_game_text
 from fashionistapulp import wakfu_criteria
 
 LANGUAGES = ('fr', 'en', 'es', 'pt', 'de')
-ALLY_LABEL = 'ALLY-LABEL'
-LEVEL_TEMPLATE = 'Lv [#1]'
+ALLY_BONUSES_SQL = (
+    "SELECT DISTINCT b.effect FROM set_bonuses b LEFT JOIN effect_groups g ON g.group_id = b.effect"
+    " JOIN effect_texts t ON t.effect IN (b.effect, g.effect)"
+    " WHERE t.language = 'fr' AND t.text LIKE '%[ally]%' ORDER BY b.effect")
 ALLY_BONUS_SQL = (
     "SELECT b.effect FROM set_bonuses b LEFT JOIN effect_groups g ON g.group_id = b.effect"
     " JOIN effect_texts t ON t.effect IN (b.effect, g.effect)"
     " WHERE t.language = 'fr' AND t.text LIKE '%[ally]%' LIMIT 1")
 
 
-class LabelledSource(wakfu_game_text.TextSource):
-    labels = {}
-
+class UnlabelledSource(wakfu_game_text.TextSource):
     def label(self, key):
-        if key in self.labels:
-            return self.labels[key]
-        return super().label(key)
+        return None
 
 
 class WakfuGameTextKeepsEveryWordTheTablesHoldTests(SimpleTestCase):
@@ -35,19 +33,35 @@ class WakfuGameTextKeepsEveryWordTheTablesHoldTests(SimpleTestCase):
         self.conn = data.connect()
         self.addCleanup(self.conn.close)
 
-    def test_a_fighter_word_in_a_set_bonus_text_becomes_its_label(self):
-        row = self.conn.execute(ALLY_BONUS_SQL).fetchone()
-        self.assertIsNotNone(row)
-        source = LabelledSource(self.conn, 'fr')
-        source.labels = {'ally': ALLY_LABEL}
-        lines = wakfu_game_text.bonus_lines(source, row[0], 63)
-        self.assertTrue(any(ALLY_LABEL in line.text for line in lines), lines)
-        self.assertFalse(any('[' in line.text for line in lines), lines)
+    def label(self, key, language):
+        return self.conn.execute(
+            'SELECT text FROM criteria_labels WHERE key = ? AND language = ?',
+            (key, language)).fetchone()[0]
+
+    def test_every_set_bonus_effect_with_the_ally_word_keeps_the_stored_label_in_every_language(self):
+        rows = self.conn.execute(ALLY_BONUSES_SQL).fetchall()
+        self.assertTrue(rows)
+        for language in LANGUAGES:
+            word = self.label('ally', language)
+            source = wakfu_game_text.TextSource(self.conn, language)
+            for (effect,) in rows:
+                lines = wakfu_game_text.bonus_lines(source, effect, 63)
+                self.assertTrue(
+                    any(re.search(r'(^|\s)%s(\s|$)' % re.escape(word), line.text)
+                        for line in lines),
+                    (effect, language, lines))
+                self.assertFalse(any('[' in line.text for line in lines), (effect, lines))
+
+    def test_the_ally_label_is_the_clients_word_for_ally(self):
+        self.assertEqual('Allié', self.label('ally', 'fr'))
+        self.assertEqual('Ally', self.label('ally', 'en'))
 
     def test_a_fighter_word_without_a_label_leaves_no_bracket(self):
         row = self.conn.execute(ALLY_BONUS_SQL).fetchone()
-        source = wakfu_game_text.TextSource(self.conn, 'fr')
-        for line in wakfu_game_text.bonus_lines(source, row[0], 63):
+        source = UnlabelledSource(self.conn, 'fr')
+        lines = wakfu_game_text.bonus_lines(source, row[0], 63)
+        self.assertTrue(lines)
+        for line in lines:
             self.assertNotIn('[', line.text)
 
     def state_effect(self, minimum_level):
@@ -61,26 +75,37 @@ class WakfuGameTextKeepsEveryWordTheTablesHoldTests(SimpleTestCase):
                                     (int(state[0]),)).fetchone()
             args = wakfu_game_text.arguments(state, levels[item])
             if row and min(row[0], args[1].whole) >= minimum_level:
-                return item, min(row[0], args[1].whole)
+                return item, state[0], min(row[0], args[1].whole)
         self.fail('no live state effect of level %d' % minimum_level)
 
     def test_a_state_line_carries_the_level_the_effect_gives(self):
-        source = LabelledSource(self.conn, 'fr')
-        source.labels = {'levelShort.custom': LEVEL_TEMPLATE,
-                         'levelShort.customCumulable': LEVEL_TEMPLATE}
         levels = data.display_levels(self.conn)
-        for minimum in (1, 2):
-            item, level = self.state_effect(minimum)
-            lines = wakfu_game_text.item_lines(source, item, levels[item])
-            self.assertTrue(any(line.text.endswith('(Lv %d)' % level) for line in lines),
-                            (item, level, lines))
+        for language in LANGUAGES:
+            source = wakfu_game_text.TextSource(self.conn, language)
+            for minimum in (1, 2):
+                item, state, level = self.state_effect(minimum)
+                cumulable = self.conn.execute(
+                    'SELECT cumulable FROM states WHERE id = ?', (state,)).fetchone()[0]
+                template = self.label('levelShort.customCumulable' if cumulable
+                                      else 'levelShort.custom', language)
+                suffix = '(%s)' % template.replace('[#1]', str(level))
+                lines = wakfu_game_text.item_lines(source, item, levels[item])
+                self.assertTrue(any(line.text.endswith(suffix) for line in lines),
+                                (item, language, suffix, lines))
 
     def test_a_state_line_without_a_level_label_keeps_the_state_name_only(self):
-        item, _level = self.state_effect(1)
-        source = wakfu_game_text.TextSource(self.conn, 'fr')
-        lines = wakfu_game_text.item_lines(
-            source, item, data.display_levels(self.conn)[item])
-        self.assertFalse(any('Lv' in line.text for line in lines))
+        item, _state, _level = self.state_effect(1)
+        levels = data.display_levels(self.conn)
+        prefix = '(' + self.label('levelShort.custom', 'fr').split('[#1]')[0].strip()
+        labelled = [line.text for line in wakfu_game_text.item_lines(
+            wakfu_game_text.TextSource(self.conn, 'fr'), item, levels[item])]
+        bare = [line.text for line in wakfu_game_text.item_lines(
+            UnlabelledSource(self.conn, 'fr'), item, levels[item])]
+        self.assertTrue(any(prefix in text for text in labelled), labelled)
+        self.assertFalse(any(prefix in text for text in bare), bare)
+        self.assertEqual(len(labelled), len(bare))
+        for with_level, without in zip(labelled, bare):
+            self.assertTrue(with_level.startswith(without), (with_level, without))
 
     def test_no_live_description_keeps_a_gender_block_in_any_language(self):
         pattern = re.compile(r'\{\[1\*\]')
