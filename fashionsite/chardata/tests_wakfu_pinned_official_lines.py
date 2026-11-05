@@ -53,6 +53,23 @@ class WakfuPinnedOfficialLinesTests(SimpleTestCase):
         self.assertIn('67 Résistance Feu', lines)
         self.assertNotIn('67 Résistance', lines)
 
+    def test_a_value_above_999_groups_its_thousands_as_the_official_page_does(self):
+        self.assertEqual(self.texts(31963)[0], '1\u202f051 PV')
+        self.assertEqual(self.texts(32106)[1], '1\u202f427 PV')
+
+    def test_each_language_groups_its_thousands_with_its_own_separator(self):
+        expected = {'fr': '1\u202f051 PV', 'en': '1,051 HP', 'es': '1.051 PdV',
+                    'pt': '1.051 PV', 'de': '1,051 HP'}
+        for language, text in expected.items():
+            health = next(line for line in data.item_detail(31963, language).lines
+                          if line.stat == 'hp')
+            self.assertEqual(text, health.text, language)
+
+    def test_a_value_under_1000_is_left_ungrouped_in_every_language(self):
+        for language in ('fr', 'en', 'es', 'pt', 'de'):
+            text = ' '.join(self.texts(2021, language))
+            self.assertNotRegex(text, r'[\u202f,.]\d{3}', language)
+
     def item_with_a_merged_mastery_line(self):
         conn = data.connect()
         try:
@@ -76,16 +93,10 @@ class WakfuPinnedOfficialLinesTests(SimpleTestCase):
         self.assertEqual(self.use_texts(32490), ['Dommage : 130'])
         self.assertEqual(self.use_texts(32491), ['Dommage : 130'])
 
-    def test_the_critical_row_of_a_weapon_stays_hidden(self):
-        conn = data.connect()
-        try:
-            critical = conn.execute(
-                "SELECT COUNT(*) FROM effects WHERE container_type = 'ITEM_USE'"
-                " AND container = 32490 AND normal_or_critical = 'CRITICAL'").fetchone()[0]
-        finally:
-            conn.close()
-        self.assertGreater(critical, 0)
-        self.assertEqual(len(self.use_texts(32490)), 1)
+    def test_the_normal_and_critical_rows_of_a_weapon_stay_in_their_own_lists(self):
+        detail = data.item_detail(32490, 'fr')
+        self.assertEqual(['Dommage : 130'], [line.text for line in detail.use_lines])
+        self.assertEqual(['Dommage : 163'], [line.text for line in detail.critical_use_lines])
 
     def test_a_negative_mastery_keeps_its_sign(self):
         self.assertIn('-400 Maîtrise Berserk', self.texts(32490))

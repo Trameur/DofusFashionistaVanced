@@ -20,6 +20,9 @@ LOG = logging.getLogger(__name__)
 
 FALLBACK_LANGUAGE = 'en'
 BULLET = '• '
+THOUSANDS_SEPARATOR = '\u202f'
+GROUP_SEPARATORS = {'fr': '\u202f', 'es': '.', 'pt': '.'}
+DEFAULT_GROUP_SEPARATOR = ','
 LEVEL_WITHOUT_CHARACTER = 63
 
 STATE_ACTION = 304
@@ -54,7 +57,7 @@ _VALUE = re.compile(r'\[([£#])(\d+)(?:\.(\d+))?\]')
 _MEMBER_LINE = re.compile(r'\[\$(\d+)ef\]')
 _MEMBER_PARAM = re.compile(r'\[\$(\d+)#(\d+)\]')
 _CHARAC = re.compile(r'\[#charac ([A-Za-z0-9_]+)\]')
-_ARITHMETIC = re.compile(r'\|(\d+(?:\.\d+)?)([^|]*)\|')
+_ARITHMETIC = re.compile(r'\|(\d[\d\u202f]*(?:\.\d+)?)([^|]*)\|')
 _OPERATION = re.compile(r'([+\-*/])(\d+(?:\.\d+)?)')
 _GENDER = re.compile(r'\{\[1\*\]\s*\?[^{}:]*:([^{}]*)\}')
 _FIGHTER_WORD = re.compile(r'\[(%s)\]' % _WORDS)
@@ -210,10 +213,28 @@ def _number(argument):
     return None
 
 
+def _grouped(digits):
+    sign = '-' if digits.startswith('-') else ''
+    whole, point, fraction = digits.lstrip('-').partition('.')
+    groups = []
+    while len(whole) > 3:
+        groups.insert(0, whole[-3:])
+        whole = whole[:-3]
+    groups.insert(0, whole)
+    return sign + THOUSANDS_SEPARATOR.join(groups) + point + fraction
+
+
+def localized(text, language):
+    """`text` with the renderer's internal thousands mark turned into the separator the
+    language's official pages use; German shows the English game text."""
+    return text.replace(THOUSANDS_SEPARATOR,
+                        GROUP_SEPARATORS.get(language, DEFAULT_GROUP_SEPARATOR))
+
+
 def _plain(number):
     if number == int(number):
-        return str(int(number))
-    return ('%.6f' % number).rstrip('0').rstrip('.')
+        return _grouped(str(int(number)))
+    return _grouped(('%.6f' % number).rstrip('0').rstrip('.'))
 
 
 def _condition_holds(conditions, args):
@@ -286,13 +307,14 @@ def format_text(text, args):
 
 def _arithmetic(text):
     def one(found):
-        total = float(found.group(1))
-        for operator, operand in _OPERATION.findall(found.group(2)):
+        total = float(found.group(1).replace(THOUSANDS_SEPARATOR, ''))
+        for operator, operand in _OPERATION.findall(found.group(2).replace(
+                THOUSANDS_SEPARATOR, '')):
             operand = float(operand)
             total = (total + operand if operator == '+' else total - operand
                      if operator == '-' else total * operand if operator == '*'
                      else total / operand)
-        return str(int(math.floor(total + 0.5)))
+        return _plain(math.floor(total + 0.5))
     return _ARITHMETIC.sub(one, text)
 
 
@@ -426,7 +448,7 @@ def _member_param(conn, members, found, level):
         return found.group(0)
     member = _effect(conn, members[position - 1])
     values = arguments(member.params, level)
-    return str(values[index - 1].whole) if index <= len(values) else found.group(0)
+    return _plain(values[index - 1].whole) if index <= len(values) else found.group(0)
 
 
 def _lines_of(text):
@@ -471,6 +493,8 @@ def effect_lines(source, effects, level, depth=0):
             block.extend(parts)
     if anchor is not None:
         lines[anchor:anchor] = block
+    if depth == 0:
+        return [Line(localized(line.text, source.language), line.stat) for line in lines]
     return lines
 
 
@@ -491,11 +515,11 @@ def item_lines(source, item_id, level, effects=None):
     return effect_lines(source, effects, level)
 
 
-def use_lines(source, item_id, level):
-    """The lines of an item's use effects. Only the NORMAL rows are listed, as on the
-    official item lists."""
+def use_lines(source, item_id, level, kind='NORMAL'):
+    """The lines of an item's use effects of one kind: the NORMAL rows by default, the
+    CRITICAL rows when asked, never both."""
     return effect_lines(source, effects_of_container(source.conn, 'ITEM_USE', item_id,
-                                                     'NORMAL'), level)
+                                                     kind), level)
 
 
 def bonus_lines(source, effect_id, level):
@@ -647,4 +671,5 @@ def condition_lines(source, criteria):
     """The conditions of a criterion text in the game's wording: a list of Condition."""
     if not criteria or not criteria.strip():
         return []
-    return _node_conditions(source, wakfu_criteria.parse(criteria))
+    return [Condition(localized(one.text, source.language), one.missing)
+            for one in _node_conditions(source, wakfu_criteria.parse(criteria))]

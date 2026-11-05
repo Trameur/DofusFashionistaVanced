@@ -33,7 +33,7 @@ Ingredient = collections.namedtuple('Ingredient', 'ankama_id subtype quantity na
 Recipe = collections.namedtuple('Recipe', 'job level ingredients')
 ItemDetail = collections.namedtuple(
     'ItemDetail', 'item type_name rarity_name lines conditions description recipe set_id '
-                  'set_name display_level use_lines')
+                  'set_name display_level use_lines critical_use_lines')
 SetDetail = collections.namedtuple(
     'SetDetail', 'id name size pieces other_count bonuses')
 
@@ -280,6 +280,11 @@ def item_detail(item_id, language):
         def build_use():
             return tuple(wakfu_game_text.use_lines(source, item.id, shown_level))
         use_lines = _cached_lines(stamp, item.id, language, build_use, 'use')
+
+        def build_critical_use():
+            return tuple(wakfu_game_text.use_lines(source, item.id, shown_level, 'CRITICAL'))
+        critical_use_lines = _cached_lines(stamp, item.id, language, build_critical_use,
+                                           'use_critical')
         criteria = conn.execute('SELECT criteria FROM item_criteria WHERE item = ?',
                                 (item.id,)).fetchone()
         conditions = _conditions(source, criteria[0]) if criteria else ()
@@ -288,7 +293,8 @@ def item_detail(item_id, language):
                           lines, conditions, source.description(item.id),
                           _recipe(conn, source, item.id, idx.by_id),
                           item.set_id if set_entry else None,
-                          set_entry.name if set_entry else None, shown_level, use_lines)
+                          set_entry.name if set_entry else None, shown_level, use_lines,
+                          critical_use_lines)
 
 
 def set_detail(set_id, language):

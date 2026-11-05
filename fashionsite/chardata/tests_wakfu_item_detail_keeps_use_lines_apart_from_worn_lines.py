@@ -20,12 +20,22 @@ class WakfuItemDetailKeepsUseLinesApartFromWornLinesTests(SimpleTestCase):
         self.assertNotEqual(first.lines, first.use_lines)
         self.assertEqual(first.lines, second.lines)
         self.assertEqual(first.use_lines, second.use_lines)
+        self.assertTrue(first.critical_use_lines)
+        self.assertNotEqual(first.use_lines, first.critical_use_lines)
+        self.assertEqual(first.critical_use_lines, second.critical_use_lines)
 
     def test_the_use_lines_of_each_language_keep_their_own_language(self):
         texts = {language: [line.text for line in data.item_detail(32490, language).use_lines]
                  for language in ('fr', 'en')}
         self.assertEqual(texts['fr'], ['Dommage : 130'])
         self.assertEqual(texts['en'], ['Damage: 130'])
+
+    def test_the_critical_use_lines_of_each_language_keep_their_own_language(self):
+        texts = {language: [line.text for line in
+                            data.item_detail(32490, language).critical_use_lines]
+                 for language in ('fr', 'en')}
+        self.assertEqual(texts['fr'], ['Dommage : 163'])
+        self.assertEqual(texts['en'], ['Damage: 163'])
 
     def test_an_item_with_no_use_effect_has_no_use_line(self):
         conn = data.connect()
@@ -37,3 +47,4 @@ class WakfuItemDetailKeepsUseLinesApartFromWornLinesTests(SimpleTestCase):
         finally:
             conn.close()
         self.assertEqual(data.item_detail(item, 'fr').use_lines, ())
+        self.assertEqual(data.item_detail(item, 'fr').critical_use_lines, ())
