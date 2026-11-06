@@ -983,6 +983,8 @@ def best_combo_linked_json(request, encoded_char_id):
     if char_id is None:
         raise Http404('Could not decode char id: %s' % encoded_char_id)
     char = get_object_or_404(Char, pk=char_id)
+    if char.deleted:
+        raise Http404
     if not char.link_shared:
         raise PermissionDenied
     return _best_combo_response(request, char)
@@ -1028,6 +1030,8 @@ def spells_linked(request, char_name, encoded_char_id):
         raise Http404('Could not decode char id: %s' % encoded_char_id)
 
     char = get_object_or_404(Char, pk=char_id)
+    if char.deleted:
+        raise Http404
     if not char.link_shared:
         raise PermissionDenied
     if char.game_version != getattr(request, 'game_version', 'dofus3'):
