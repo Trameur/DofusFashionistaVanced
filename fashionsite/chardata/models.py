@@ -461,19 +461,20 @@ class ItemInSharedBuild(models.Model):
 
 
 def public_handle(user_id):
-    """The name of a Google account until it picks one: its username is its address's local part."""
+    """The name of an account whose username would show its address, until it picks one."""
     return 'Player%d' % user_id
 
 
 @receiver(user_logged_in)
-def _name_a_google_account_on_login(sender, request, user, **kwargs):
-    from social_django.models import UserSocialAuth
+def _give_a_public_name_on_login(sender, request, user, **kwargs):
+    from chardata.public_name import default_public_name
     try:
         alias, _created = UserAlias.objects.get_or_create(user=user)
-        if (not (alias.alias or '').strip()
-                and UserSocialAuth.objects.filter(user=user).exists()):
-            alias.alias = public_handle(user.pk)
-            alias.save(update_fields=['alias'])
+        if not (alias.alias or '').strip():
+            name = default_public_name(user)
+            if name != user.username:
+                alias.alias = name
+                alias.save(update_fields=['alias'])
     except Exception:
         logging.getLogger(__name__).warning('no public name set', exc_info=True)
 

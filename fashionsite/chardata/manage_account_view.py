@@ -35,7 +35,7 @@ from chardata.login_view import _get_from_email
 from chardata.models import UserAlias
 from chardata.rate_limit import hits, note_hit
 from chardata.public_name import (clean_public_name, default_public_name,
-                                  public_name_is_taken)
+                                  looks_like_an_address, public_name_is_taken)
 from chardata.util import json_for_script, set_response
 
 logger = logging.getLogger(__name__)
@@ -174,10 +174,13 @@ def save_account(request):
     default_name = default_public_name(request.user)
     wanted_alias = form_alias or default_name
     alias_notice = ''
-    if (wanted_alias not in (alias.alias, default_name)
-            and public_name_is_taken(wanted_alias, request.user)):
-        wanted_alias = alias.alias or default_name
-        alias_notice = _('This alias is already taken. Choose another one.')
+    if wanted_alias not in (alias.alias, default_name):
+        if looks_like_an_address(wanted_alias):
+            alias_notice = _('An alias cannot be an email address.')
+        elif public_name_is_taken(wanted_alias, request.user):
+            alias_notice = _('This alias is already taken. Choose another one.')
+        if alias_notice:
+            wanted_alias = alias.alias or default_name
     alias.alias = wanted_alias
     alias.notify_comments = form_notify_comments
     if 'email_language' in request.POST:

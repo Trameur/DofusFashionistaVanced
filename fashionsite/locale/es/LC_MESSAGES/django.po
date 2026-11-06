@@ -9379,6 +9379,10 @@ msgstr "Este enlace ha caducado o ya se ha usado. Guarda de nuevo la dirección 
 msgid "This alias is already taken. Choose another one."
 msgstr "Este apodo ya está en uso. Elige otro."
 
+#: chardata/manage_account_view.py
+msgid "An alias cannot be an email address."
+msgstr "Un apodo no puede ser una dirección de correo."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este juego no tiene exos: se quedan fuera."
 
