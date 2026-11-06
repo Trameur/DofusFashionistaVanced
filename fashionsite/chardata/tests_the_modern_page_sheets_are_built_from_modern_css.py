@@ -156,7 +156,8 @@ class EveryPageLinksTheSheetsItNeedsTests(TestCase):
         self.assertIn('{% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-solution.css" %}">{% endblock %}', source)
 
     def test_every_encyclopedia_template_links_the_encyclopedia_sheet(self):
-        names = sorted(name for name in os.listdir(os.path.join(TEMPLATES, 'chardata')) if re.match(r'encyclopedia[\w]*\.html$', name))
+        names = sorted(name for name in os.listdir(os.path.join(TEMPLATES, 'chardata'))
+                       if name != 'encyclopedia_filter_script.html' and re.match(r'encyclopedia[\w]*\.html$', name))
         self.assertEqual(9, len(names))
         for name in names:
             with self.subTest(template=name):
