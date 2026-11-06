@@ -74,6 +74,11 @@ python manage.py cleanup_old_views || echo "view cleanup skipped"
 echo "Dropping expired sessions..."
 python manage.py clearsessions || echo "session cleanup skipped"
 
+# Every login start writes one nonce row; this drops the old ones and the
+# unused codes and expired associations. Linked accounts are left alone.
+echo "Dropping old social login data..."
+python manage.py clearsocial || echo skipped
+
 echo "Starting Gunicorn server..."
 # On small instances, 2 workers is usually more stable than 3.
 GUNICORN_WORKERS="${GUNICORN_WORKERS:-2}"
