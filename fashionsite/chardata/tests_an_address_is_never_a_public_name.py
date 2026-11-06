@@ -9,6 +9,7 @@ from django.test import TestCase
 
 from chardata.models import UserAlias, public_handle
 from chardata.public_name import default_public_name, looks_like_an_address
+from chardata.tests_stored_names_stay_harmless import a_build
 
 ADDRESS = 'someone@mail.test'
 
@@ -23,6 +24,9 @@ class TheShape(TestCase):
 
     def test_an_address_is_recognised(self):
         self.assertTrue(looks_like_an_address('a.b+c@sub.mail.test'))
+
+    def test_a_stray_space_does_not_hide_an_address(self):
+        self.assertTrue(looks_like_an_address(' someone@mail.test '))
 
     def test_a_name_with_an_at_sign_is_not_an_address(self):
         for name in ('bob@home', '@bob', 'bob@', 'a b@mail.test', 'a@b@mail.test'):
@@ -63,6 +67,12 @@ class TheMigration(TestCase):
         self.run_it()
         self.assertEqual(alias_of(user), 'Chosen')
 
+    def test_an_alias_with_a_stray_space_becomes_the_handle(self):
+        user = User.objects.create_user('plain', 'p@mail.test', 'pw-42-solid')
+        UserAlias.objects.create(user=user, alias=' former@mail.test')
+        self.run_it()
+        self.assertEqual(alias_of(user), public_handle(user.pk))
+
     def test_a_name_with_an_at_sign_is_kept(self):
         user = User.objects.create_user('plain', 'p@mail.test', 'pw-42-solid')
         UserAlias.objects.create(user=user, alias='bob@home')
@@ -85,6 +95,14 @@ class SigningUp(TestCase):
             response = self.client.post('/register/', {
                 'username': ADDRESS, 'password': 'pw-42-solid', 'email': ADDRESS})
         self.assertEqual(response.status_code, 302)
+        user = User.objects.get(email=ADDRESS)
+        self.assertEqual(user.username, ADDRESS)
+        self.assertEqual(alias_of(user), public_handle(user.pk))
+
+    def test_a_stray_space_around_the_address_changes_nothing(self):
+        with mock.patch('chardata.login_view.recaptcha_ok', return_value=True):
+            self.client.post('/register/', {
+                'username': ' %s ' % ADDRESS, 'password': 'pw-42-solid', 'email': ADDRESS})
         user = User.objects.get(email=ADDRESS)
         self.assertEqual(user.username, ADDRESS)
         self.assertEqual(alias_of(user), public_handle(user.pk))
@@ -112,6 +130,25 @@ class TheAccountPage(TestCase):
         self.client.force_login(user)
         answer = self.client.post('/saveaccount/', {'alias': ''}).json()
         self.assertEqual(answer['alias'], public_handle(user.pk))
+
+
+class TheGallerySearch(TestCase):
+
+    def setUp(self):
+        owner = User.objects.create_user(ADDRESS, ADDRESS, 'pw-42-solid')
+        UserAlias.objects.create(user=owner, alias='Chosen')
+        a_build(owner, 'SearchedBuild', shared=True)
+
+    def found(self, words):
+        page = self.client.get('/sharedbuilds/', {'user_search': words})
+        return page.context['page_obj'].paginator.count
+
+    def test_the_public_name_finds_the_build(self):
+        self.assertEqual(self.found('Chosen'), 1)
+
+    def test_any_part_of_the_address_finds_nothing(self):
+        for words in (ADDRESS, '@mail.test', 'someone', 'mail.test'):
+            self.assertEqual(self.found(words), 0, words)
 
 
 class ThePublicDoors(TestCase):

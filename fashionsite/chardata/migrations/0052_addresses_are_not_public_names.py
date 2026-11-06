@@ -14,11 +14,11 @@ def hide_the_addresses(apps, schema_editor):
     UserAlias = apps.get_model('chardata', 'UserAlias')
     to_update = []
     for row in UserAlias.objects.filter(alias__contains='@'):
-        if ADDRESS.match(row.alias):
+        if ADDRESS.match(row.alias.strip()):
             row.alias = handle(row.user_id)
             to_update.append(row)
     address_ids = [user.pk for user in User.objects.filter(username__contains='@')
-                   if ADDRESS.match(user.username)]
+                   if ADDRESS.match(user.username.strip())]
     rows = {row.user_id: row for row in UserAlias.objects.filter(user_id__in=address_ids)}
     to_create = []
     for user_id in address_ids:

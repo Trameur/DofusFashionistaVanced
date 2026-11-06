@@ -31,9 +31,12 @@ PROFILE_BUILDS_PAGE_SIZE = 20
 
 def _resolve_user(alias_or_username):
     """Find a user by their alias (case-insensitive) first, then by username."""
-    by_alias = (UserAlias.objects
-                .filter(alias__iexact=alias_or_username)
-                .select_related('user').first())
+    matches = list(UserAlias.objects
+                   .filter(alias__iexact=alias_or_username)
+                   .select_related('user').order_by('pk')[:10])
+    # The collation folds case and accents: the exact spelling wins over a look-alike
+    by_alias = next((row for row in matches if row.alias == alias_or_username),
+                    matches[0] if matches else None)
     if by_alias and by_alias.alias:
         return by_alias.user
     try:
