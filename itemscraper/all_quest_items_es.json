@@ -73314,6 +73314,171 @@
             },
             "description": "En esta nota aparecen las ubicaciones de varias columnas:\n- al este de la Boca del Rasgabola\n- a la entrada del bosque de las máscaras\n- en el islote La Cowona\n- al norte del zaap de la ribera del golfo sufokeño",
             "pods": 0
+        },
+        {
+            "ankama_id": 34663,
+            "name": "Escama azulada",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136151-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136151-128.png"
+            },
+            "description": "Una fantástica escama inmaculada que irradia un poder latente. ¿Podría pertenecer al dragón del agua?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34664,
+            "name": "Bastón ceremonial",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136152-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136152-128.png"
+            },
+            "description": "Este antiguo bastón tiene engastada una piedra de los colores del océano, que palpita con energía mágica. Su elaborado aspecto hace pensar que su función era más ornamental que marcial. Por si las moscas, abstente de usarlo para golpear las ruinas de los alrededores.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34665,
+            "name": "Arpón antiguo",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136153-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136153-128.png"
+            },
+            "description": "Esta antigua arma se diseñó para perforar la carne y clavarse en ella. El paso de los años ha mellado su hoja, pero no tientes a la suerte.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34666,
+            "name": "Guijarro turquesa",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136154-128.png"
+            },
+            "description": "Un guijarro perfectamente redondo, pulido por las corrientes marinas y envuelto en un resplandor sobrenatural. Eso sí, no parece muy adecuado para hacer cabrillas.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34667,
+            "name": "Caracola cerúlea",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136155-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136155-128.png"
+            },
+            "description": "Cuando te la acercas al oído, te arrulla una voz femenina que parece proceder de tiempos inmemoriales.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34668,
+            "name": "Clepsidra antigua",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136156-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136156-128.png"
+            },
+            "description": "Este antiguo dispositivo parece medir el paso del agua. ¿Quizá fuese una alternativa a los relojes de arena modernos?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34669,
+            "name": "Peine de marfil",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136157-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136157-128.png"
+            },
+            "description": "Un peine rudimentario hecho de marfil y adornado con inscripciones. Dado su estado, parece más destinado a convertirse en una pieza de museo que en tu aliado contra los enredos.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34670,
+            "name": "Sello cilindro",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136158-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136158-128.png"
+            },
+            "description": "Aunque sus grabados podrían hacer pensar que se trata de un anillo antiguo y elegante, lo cierto es que no es más que una herramienta para estampar símbolos sobre otra superficie. ¡Menos mal que te has dado cuenta antes de enseñárselo con orgullo a todos tus amigos!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34671,
+            "name": "Estatuilla antigua",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136159-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136159-128.png"
+            },
+            "description": "Esta estatuilla parece representar una versión muy estilizada de un dragón. Al menos, eso es lo que te sugiere esa especie de lagarto de mirada tan peculiar.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34672,
+            "name": "Espejo ornamentado",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136160-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136160-128.png"
+            },
+            "description": "Este espejo de bronce está decorado con intrincados motivos y piedras preciosas. Su propietario debía de pertenecer a una clase social bastante elevada. Lo sentimos, pero convertirte en su nuevo propietario no hará que tus orígenes sean más prestigiosos.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34673,
+            "name": "Juego de madera decorado",
+            "type": {
+                "name": "La Fuente",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136161-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136161-128.png"
+            },
+            "description": "Este antiguo tablero de madera te recuerda a algún tipo de juego. ¿Quizá fuera uno de los pasatiempos de los habitantes de la isla? Si no encuentras las reglas, ¡siempre puedes inventártelas!",
+            "pods": 0
         }
     ]
 }

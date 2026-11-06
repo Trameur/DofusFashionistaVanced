@@ -134401,6 +134401,9 @@ INSERT INTO "weapon_hits" VALUES(2377,0,1,10,0,0,'fire');
 CREATE TABLE weapon_is_onehanded
              (item INTEGER, value INTEGER,
               FOREIGN KEY(item) REFERENCES items(id));
+CREATE TABLE weapon_range
+             (item INTEGER, min_value INTEGER, max_value INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id));
 CREATE TABLE weapon_uses_per_turn
              (item INTEGER, value INTEGER,
               FOREIGN KEY(item) REFERENCES items(id));

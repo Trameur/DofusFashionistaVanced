@@ -73314,6 +73314,171 @@
             },
             "description": "In dieser Notiz sind die Standorte mehrerer Säulen vermerkt:\n– östlich des Shilf-Engpasses\n– am Eingang des Maskenwalds\n– auf dem Wa Wabbits Inselchen\n– nördlich des Zaaps am Ufer des Golfes von Sufokia",
             "pods": 0
+        },
+        {
+            "ankama_id": 34663,
+            "name": "Bläuliche Schuppe",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136151-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136151-128.png"
+            },
+            "description": "Diese wunderschöne, makellose Schuppe strahlt eine verborgene Kraft aus. Hat sie vielleicht dem Drachen des Wassers gehört?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34664,
+            "name": "Zeremonienkimonostecken",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136152-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136152-128.png"
+            },
+            "description": "Dieser antike Stab ist mit einem Stein in den Farben des Ozeans besetzt und steckt voller magischer Energie. Seiner kunstvollen Verarbeitung nach zu urteilen, war er wohl eher zur Zierde als zum Kampf gedacht. Schlagt damit also lieber nicht auf die Ruinen in der Umgebung ein.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34665,
+            "name": "Antike Harpune",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136153-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136153-128.png"
+            },
+            "description": "Diese antike Waffe wurde speziell dazu entwickelt, Fleisch zu durchbohren und sich darin zu verhaken. Mit den Jahren ist ihre Klinge stumpf geworden, aber fordert das Schicksal lieber nicht heraus.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34666,
+            "name": "Türkiser Kieselstein",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136154-128.png"
+            },
+            "description": "Dieser vollkommen runde Kieselstein wurde von den Meeresströmungen geglättet und erstrahlt in einem übernatürlichen Schimmer. Zum Steinehüpfen scheint er hingegen völlig ungeeignet zu sein.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34667,
+            "name": "Himmelblaue Seemuschel",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136155-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136155-128.png"
+            },
+            "description": "Wenn man sich diese Muschel ans Ohr hält, wird man von einer weiblichen Stimme eingelullt, die aus längst vergangenen Zeiten zu kommen scheint.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34668,
+            "name": "Antike Clepsydre",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136156-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136156-128.png"
+            },
+            "description": "Dieses antike Gerät scheint den Wasserfluss zu messen. Vielleicht handelte es sich dabei um eine Alternative zu den modernen Sanduhren?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34669,
+            "name": "Elfenbeinkamm",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136157-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136157-128.png"
+            },
+            "description": "Dieser einfache Kamm aus Elfenbein ist mit Inschriften verziert. Sein Zustand macht ihn eher zu einem Museumsstück als zu einem Verbündeten im Kampf gegen Knoten und Verfilzungen.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34670,
+            "name": "Zylindersiegel",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136158-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136158-128.png"
+            },
+            "description": "Auch wenn er mit seinen Gravuren an einen besonders alten und eleganten Ring erinnern mag, handelt es sich dabei tatsächlich um ein Werkzeug, mit dem sich Symbole auf eine andere Oberfläche prägen lassen. Zum Glück ist euch das aufgefallen, bevor ihr ihn stolz euren Freunden präsentiert habt!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34671,
+            "name": "Antike Statuette",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136159-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136159-128.png"
+            },
+            "description": "Diese Statuette scheint eine sehr stilisierte Darstellung eines Drachen zu sein. Zumindest erinnert dieses seltsame Echsenwesen mit seinem eigenartigen Blick irgendwie an einen Drachen.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34672,
+            "name": "Verzierter Spiegel",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136160-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136160-128.png"
+            },
+            "description": "Dieser bronzene Spiegel ist mit aufwendigen Motiven und Edelsteinen verziert. Sein Besitzer muss einer ziemlich hohen sozialen Schicht angehört haben. Aber nur weil ihr nun sein Besitzer seid, wird eure Herkunft dadurch nicht vornehmer.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34673,
+            "name": "Verziertes Holzspiel",
+            "type": {
+                "name": "Die Quelle",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136161-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136161-128.png"
+            },
+            "description": "Dieses antike Holzbrett scheint zu irgendeinem Spiel zu gehören. Vielleicht war es ein Zeitvertreib der Inselbewohner? Wenn ihr die Spielregeln nicht finden könnt, müsst ihr euch wohl selbst welche ausdenken.",
+            "pods": 0
         }
     ]
 }

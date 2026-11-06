@@ -73314,6 +73314,171 @@
             },
             "description": "The locations of several columns are listed in this note:\n- east of Bherb's Gully\n- at the entrance to the Forest of Masks\n- on the Isle of the Cwown\n- north of the Sufokian Shoreline zaap",
             "pods": 0
+        },
+        {
+            "ankama_id": 34663,
+            "name": "Blue Scale",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136151-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136151-128.png"
+            },
+            "description": "A splendid and immaculate scale that seems to radiate an innate power. Could it once have belonged to the Water Dragon?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34664,
+            "name": "Ceremonial Staff",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136152-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136152-128.png"
+            },
+            "description": "This ancient staff has an embedded stone that shines with the colours of the ocean and pulses with magical energy. Its finely wrought appearance suggests that its function is based more in ritual than in combat, so maybe don't go whacking the surrounding ruins with it.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34665,
+            "name": "Ancient Harpoon",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136153-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136153-128.png"
+            },
+            "description": "This ancient weapon was specially designed to puncture flesh and stay hooked in place. The passing years have dulled its blade, but let's not tempt fate.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34666,
+            "name": "Turquoise Pebble",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136154-128.png"
+            },
+            "description": "A perfectly round pebble, smoothed by sea currents and gleaming with a supernatural lustre. Not sure it'd be much good for skimming, though.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34667,
+            "name": "Cerulean Conch",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136155-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136155-128.png"
+            },
+            "description": "When you hold it to your ear, you hear the dulcet tones of a woman's voice that seems to echo from the depths of lost time.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34668,
+            "name": "Ancient Water Clock",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136156-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136156-128.png"
+            },
+            "description": "This ancient device seems to measure the flow of water. Maybe it was an alternative to modern hourglasses?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34669,
+            "name": "Ivory Comb",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136157-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136157-128.png"
+            },
+            "description": "A rudimentary comb carved from ivory and adorned with various inscriptions. In its current condition, it would be more at home in a museum than as part of your morning beauty routine.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34670,
+            "name": "Cylinder Seal",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136158-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136158-128.png"
+            },
+            "description": "Though this looks like a particularly ancient and elegant ring due to its engravings, it's actually a tool used to mark symbols on other surfaces. Good thing you realised that before showing it off to your friends on an adventurers' night out!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34671,
+            "name": "Ancient Statuette",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136159-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136159-128.png"
+            },
+            "description": "This statuette seems to be a very stylised representation of a dragon. Or at least that's what this curious lizard thing looks like to you.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34672,
+            "name": "Ornamental Mirror",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136160-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136160-128.png"
+            },
+            "description": "This bronze mirror is adorned with complex motifs and precious stones. Its owner must have belonged to quite a high social class. Unfortunately, the fact that you've got it now won't do anything to change your own less prestigious origins.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34673,
+            "name": "Decorated Wooden Game",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136161-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136161-128.png"
+            },
+            "description": "This antique wooden board looks like some sort of game. Maybe it was a pastime for the island's inhabitants? If you can't find the rulebook, you'll just have to make up your own rules!",
+            "pods": 0
         }
     ]
 }

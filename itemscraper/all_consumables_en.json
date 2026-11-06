@@ -131662,7 +131662,7 @@
         },
         {
             "ankama_id": 34624,
-            "name": "[!] Malédiction de Médoroziam",
+            "name": "Mongrelamus's Curse",
             "type": {
                 "name": "Emote scroll",
                 "id": 46
@@ -131672,7 +131672,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25285-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25285-128.png"
             },
-            "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam.",
+            "description": "Use this scroll to learn the Mongrelamus's Curse emote.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -131699,6 +131699,307 @@
                     "ignore_int_min": false,
                     "ignore_int_max": true,
                     "formatted": "0 Emote"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34647,
+            "name": "Zabelle's Tale – Chapter 1",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Have you been eagerly watching the legendary saga of Welsh and Shedar on jellivision... yet you're still feeling hungry for more? Read this excerpt carefully to follow Queen Zabelle's trail – as long as you like quests and don't mind a bit of travel.",
+            "effects": [
+                {
+                    "int_minimum": 765,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34648,
+            "name": "Zabelle's Tale – Chapter 2",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Have you been eagerly watching the legendary saga of Welsh and Shedar on jellivision... yet you're still feeling hungry for more? Read this excerpt carefully to follow Queen Zabelle's trail – as long as you like quests and don't mind a bit of travel.",
+            "effects": [
+                {
+                    "int_minimum": 775,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34649,
+            "name": "Zabelle's Tale – Chapter 3",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Have you been eagerly watching the legendary saga of Welsh and Shedar on jellivision... yet you're still feeling hungry for more? Read this excerpt carefully to follow Queen Zabelle's trail – as long as you like quests and don't mind a bit of travel.",
+            "effects": [
+                {
+                    "int_minimum": 776,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34650,
+            "name": "Zabelle's Tale – Chapter 4",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Have you been eagerly watching the legendary saga of Welsh and Shedar on jellivision... yet you're still feeling hungry for more? Read this excerpt carefully to follow Queen Zabelle's trail – as long as you like quests and don't mind a bit of travel.",
+            "effects": [
+                {
+                    "int_minimum": 777,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34651,
+            "name": "Zabelle's Tale – Chapter 5",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Have you been eagerly watching the legendary saga of Welsh and Shedar on jellivision... yet you're still feeling hungry for more? Read this excerpt carefully to follow Queen Zabelle's trail – as long as you like quests and don't mind a bit of travel.",
+            "effects": [
+                {
+                    "int_minimum": 778,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34652,
+            "name": "Zabelle's Tale – Chapter 6",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Have you been eagerly watching the legendary saga of Welsh and Shedar on jellivision... yet you're still feeling hungry for more? Read this excerpt carefully to follow Queen Zabelle's trail – as long as you like quests and don't mind a bit of travel.",
+            "effects": [
+                {
+                    "int_minimum": 779,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34686,
+            "name": "Zabelle's Tale – Complete Edition",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25010-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25010-128.png"
+            },
+            "description": "This apocryphal story about the black queen told by the inflammatory Livya Tytus could contain lots of useful information.",
+            "effects": [
+                {
+                    "int_minimum": 786,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
                 }
             ],
             "pods": 1
@@ -131909,6 +132210,92 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Title: King of the Kitchen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34892,
+            "name": "Don Quihairless Certificate",
+            "type": {
+                "name": "Title Scroll",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "This certificate awards you the title of \"Don Quihairless\".",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Title:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Title: Don Quihairless"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34905,
+            "name": "Chosen by Dragons Certificate",
+            "type": {
+                "name": "Title Scroll",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "This certificate awards you the title of \"Chosen by Dragons\".",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Title:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Title: Chosen by Dragons"
                 },
                 {
                     "int_minimum": 0,
