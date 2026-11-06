@@ -131704,6 +131704,307 @@
             "pods": 1
         },
         {
+            "ankama_id": 34647,
+            "name": "Historia de Zabelle - Capítulo 1",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "¿Has seguido la legendaria epopeya de Welsh y Shedar en la gelavisión y te has quedado con ganas de más? Una lectura atenta de este fragmento te permitirá seguir los pasos de la reina Zabelle... si te gustan las misiones y no te asusta recorrer mundo, claro.",
+            "effects": [
+                {
+                    "int_minimum": 765,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34648,
+            "name": "Historia de Zabelle - Capítulo 2",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "¿Has seguido la legendaria epopeya de Welsh y Shedar en la gelavisión y te has quedado con ganas de más? Una lectura atenta de este fragmento te permitirá seguir los pasos de la reina Zabelle... si te gustan las misiones y no te asusta recorrer mundo, claro.",
+            "effects": [
+                {
+                    "int_minimum": 775,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34649,
+            "name": "Historia de Zabelle - Capítulo 3",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "¿Has seguido la legendaria epopeya de Welsh y Shedar en la gelavisión y te has quedado con ganas de más? Una lectura atenta de este fragmento te permitirá seguir los pasos de la reina Zabelle... si te gustan las misiones y no te asusta recorrer mundo, claro.",
+            "effects": [
+                {
+                    "int_minimum": 776,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34650,
+            "name": "Historia de Zabelle - Capítulo 4",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "¿Has seguido la legendaria epopeya de Welsh y Shedar en la gelavisión y te has quedado con ganas de más? Una lectura atenta de este fragmento te permitirá seguir los pasos de la reina Zabelle... si te gustan las misiones y no te asusta recorrer mundo, claro.",
+            "effects": [
+                {
+                    "int_minimum": 777,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34651,
+            "name": "Historia de Zabelle - Capítulo 5",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "¿Has seguido la legendaria epopeya de Welsh y Shedar en la gelavisión y te has quedado con ganas de más? Una lectura atenta de este fragmento te permitirá seguir los pasos de la reina Zabelle... si te gustan las misiones y no te asusta recorrer mundo, claro.",
+            "effects": [
+                {
+                    "int_minimum": 778,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34652,
+            "name": "Historia de Zabelle - Capítulo 6",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "¿Has seguido la legendaria epopeya de Welsh y Shedar en la gelavisión y te has quedado con ganas de más? Una lectura atenta de este fragmento te permitirá seguir los pasos de la reina Zabelle... si te gustan las misiones y no te asusta recorrer mundo, claro.",
+            "effects": [
+                {
+                    "int_minimum": 779,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34686,
+            "name": "Historia de Zabelle - Obra completa",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25010-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25010-128.png"
+            },
+            "description": "Relatada por la polémica Titevile, esta historia apócrifa de la reina negra puede resultar muy instructiva.",
+            "effects": [
+                {
+                    "int_minimum": 786,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34704,
             "name": "Pastel de setas",
             "type": {
@@ -131909,6 +132210,92 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Título: Rey de la cocina."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34892,
+            "name": "Diploma de Don Quicalvo",
+            "type": {
+                "name": "Pergamino de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Este diploma otorga el título de «Don Quicalvo».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:.",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Don Quicalvo."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34905,
+            "name": "Diploma de elegido de los dragones",
+            "type": {
+                "name": "Pergamino de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Este diploma otorga el título de «Elegido de los dragones».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:.",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Elegido de los dragones."
                 },
                 {
                     "int_minimum": 0,

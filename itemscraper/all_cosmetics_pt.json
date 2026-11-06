@@ -113025,7 +113025,7 @@
         },
         {
             "ankama_id": 34837,
-            "name": "[!] Asalar",
+            "name": "Asalar",
             "type": {
                 "name": "Montascote de aparência",
                 "id": 59
@@ -113035,7 +113035,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121190-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121190-128.png"
             },
-            "description": "[!] L'état de ce montilier est assez préoccupant, son énergie vitale semble avoir été drainée. À force de trop partager sa puissance, elle pourrait avoir décliné.",
+            "description": "A energia vital desta montascote parece ter sido drenada, e seu estado é bastante preocupante. É o que acontece com quem divide suas forças sem saber dizer \"não\" às vezes.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -113107,7 +113107,7 @@
         },
         {
             "ankama_id": 34839,
-            "name": "[!] Sipho",
+            "name": "Sifo",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -113117,7 +113117,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18960-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18960-128.png"
             },
-            "description": "[!] Sous son apparence toute mignonne, ce familier cache une honte profonde de sa véritable forme. Peut-être qu'au fil des aventures, en créant un lien avec lui, vous pourriez découvrir à quoi il ressemble et un jour lui permettre de retrouver confiance.",
+            "description": "Por trás de toda essa fofura, existe uma mascote profundamente envergonhada de sua verdadeira aparência. Se vocês criarem laços ao longo das suas aventuras, talvez seja possível descobrir como ela é de verdade para que ela ganhe confiança algum dia.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -113150,7 +113150,7 @@
         },
         {
             "ankama_id": 34840,
-            "name": "[!] Crâne réanimé",
+            "name": "Crânio Reanimado",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -113160,7 +113160,261 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18961-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18961-128.png"
             },
-            "description": "[!] Ce crâne appartenant à un soldat du passé, a été ramené dans le monde des vivants par un pouvoir qui dépasse l'entendement. Il vous suivra partout et ne demande aucun entretien.",
+            "description": "Este crânio de um soldado do passado foi trazido para o mundo dos vivos por um poder que foge à nossa compreensão. Ele seguirá você para todo lado sem exigir cuidados.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34908,
+            "name": "[!] Coiffe préhistorique",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16932-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16932-128.png"
+            },
+            "description": "[!] Cette coiffe n'est autre que le crâne d'une espèce disparue à ce jour. Des archéologues l'ont déterré et, intrigués par son aura, ont décidé d'en faire un couvre-chef.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34909,
+            "name": "[!] Cape préhistorique",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17714-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17714-128.png"
+            },
+            "description": "[!] Lorsqu'elle se repose, cette créature venue d'une autre époque s'accroche aux épaules d'un aventurier et semble rester endormie pendant des millénaires.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34910,
+            "name": "[!] Bouclier préhistorique",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82613-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82613-128.png"
+            },
+            "description": "[!] Cette dent a été retrouvée dans un amas d'ambre et d'os. Nul doute que le monstre à qui elle appartenait était au sommet de la chaîne alimentaire. Son émail est si dur qu'elle fait un excellent bouclier.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34911,
+            "name": "[!] Paléophant",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121189-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121189-128.png"
+            },
+            "description": "[!] Nul ne sait depuis combien de temps le Paléophant arpente le monde des Douze, mais tout le monde s'accorde à dire que chaque jour qui passe le rend plus effrayant que la veille.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34913,
+            "name": "[!] Ptyrex",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18959-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18959-128.png"
+            },
+            "description": "[!] Le Ptyrex n'a pas d'estomac, et pourtant il adore manger. Sûrement un réflexe primitif qu'il ne perdra jamais.",
             "effects": [
                 {
                     "int_minimum": 0,

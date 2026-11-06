@@ -73314,6 +73314,171 @@
             },
             "description": "Les localisations de plusieurs colonnes sont inscrites sur ce mémo :\n- à l'est du Goulet du Rasboul\n- à l'entrée de la forêt des masques\n- sur l'îlot de la couronne\n- au nord du zaap du rivage sufokien",
             "pods": 0
+        },
+        {
+            "ankama_id": 34663,
+            "name": "Écaille bleutée",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136151-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136151-128.png"
+            },
+            "description": "Une magnifique écaille immaculée qui irradie d'un pouvoir latent. Pourrait-elle appartenir au dragon de l'eau ?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34664,
+            "name": "Bâton de cérémonie",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136152-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136152-128.png"
+            },
+            "description": "Ce bâton ancien est enchâssé d'une pierre aux couleurs de l'océan qui pulse d'énergie magique. Son aspect ouvragé vous donne l'impression d'un rôle plus ostentatoire que martial, dans le doute ne frappez pas les ruines des alentours avec.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34665,
+            "name": "Harpon antique",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136153-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136153-128.png"
+            },
+            "description": "Cette arme ancienne a été spécialement conçue pour perforer la chair et s'y accrocher. Le poids des années a émoussé sa lame, mais ne tentez pas le diable.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34666,
+            "name": "Galet turquoise",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136154-128.png"
+            },
+            "description": "Un galet parfaitement rond, lissé par les courants marins et brillant d'une lueur surnaturelle. En revanche, il a l'air très inadapté pour faire des ricochets.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34667,
+            "name": "Conque céruléenne",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136155-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136155-128.png"
+            },
+            "description": "Lorsque vous le portez à l'oreille, vous êtes bercé par une voix féminine qui semble venir du fond des âges.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34668,
+            "name": "Clepsydre antique",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136156-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136156-128.png"
+            },
+            "description": "Ce dispositif antique semble mesurer l'écoulement de l'eau. Il s'agissait peut-être d'une alternative aux sabliers modernes ?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34669,
+            "name": "Peigne ivoire",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136157-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136157-128.png"
+            },
+            "description": "Un peigne rudimentaire constitué d'ivoire et orné d'inscriptions. Son état le prédestine plus à devenir une pièce de musée que votre allié contre les nœuds.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34670,
+            "name": "Sceau-cylindre",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136158-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136158-128.png"
+            },
+            "description": "Bien que cela puisse faire penser à un anneau particulièrement ancien et élégant avec ses gravures, il s'agit en fait d'un outil servant à apposer des symboles sur une autre surface. Heureusement que vous vous en êtes rendu compte avant de l'exhiber fièrement à tous vos amis !",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34671,
+            "name": "Statuette antique",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136159-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136159-128.png"
+            },
+            "description": "Cette statuette semble être une version très stylisée d'un dragon. En tout cas, c'est ce que vous évoque cette espèce de lézard au regard si singulier.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34672,
+            "name": "Miroir ornementé",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136160-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136160-128.png"
+            },
+            "description": "Ce miroir en bronze est orné de motifs complexes et de pierres précieuses. Son propriétaire devait appartenir à une caste sociale assez élevée. Navré, mais le fait d'en être le nouveau détenteur n'en rendra pas vos origines plus prestigieuses pour autant.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34673,
+            "name": "Jeu en bois décoré",
+            "type": {
+                "name": "La Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136161-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136161-128.png"
+            },
+            "description": "Ce plateau en bois antique vous évoque une sorte de jeu. Peut-être qu'il s'agissait d'un passe-temps pour les habitants de l'île ? Si vous ne retrouvez pas les règles, il ne vous restera plus qu'à les inventer !",
+            "pods": 0
         }
     ]
 }
