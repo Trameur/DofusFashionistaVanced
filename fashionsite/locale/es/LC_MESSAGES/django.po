@@ -9325,6 +9325,56 @@ msgstr "Su formato de enlace no tiene sitio para el elemento del arma, así que 
 msgid "You have copied too many builds for now. Please try again later or log in."
 msgstr "Has copiado demasiados builds por ahora. Inténtalo de nuevo más tarde o inicia sesión."
 
+#: chardata/manage_account_view.py
+msgid "Too many address changes requested. Try again in an hour."
+msgstr "Demasiados cambios de dirección solicitados. Inténtalo de nuevo dentro de una hora."
+
+#: chardata/manage_account_view.py
+msgid "Confirm your new email address for The Dofus Fashionista"
+msgstr "Confirma tu nueva dirección de correo para Dofus Fashionista"
+
+#: chardata/manage_account_view.py
+#, python-brace-format
+msgid ""
+"Please click the link below to use this address for your account on The Dofus Fashionista. The link works for one day.\n"
+"{link}\n"
+"\n"
+"If you did not ask for this, just ignore this email."
+msgstr ""
+"Haz clic en el enlace de abajo para usar esta dirección en tu cuenta de Dofus Fashionista. El enlace funciona durante un día.\n"
+"{link}\n"
+"\n"
+"Si no lo has pedido, simplemente ignora este correo."
+
+#: chardata/manage_account_view.py
+msgid "The confirmation email could not be sent. Try again later."
+msgstr "No se pudo enviar el correo de confirmación. Inténtalo de nuevo más tarde."
+
+#: chardata/manage_account_view.py
+#, python-format
+msgid "We have sent a link to %(address)s. Your email address changes when you open it."
+msgstr "Hemos enviado un enlace a %(address)s. Tu dirección de correo cambiará cuando lo abras."
+
+#: chardata/manage_account_view.py
+msgid "Your email address was changed on The Dofus Fashionista"
+msgstr "Tu dirección de correo se cambió en Dofus Fashionista"
+
+#: chardata/manage_account_view.py
+msgid "The email address of your account on The Dofus Fashionista has just been changed. If this was not you, reply to this email."
+msgstr "La dirección de correo de tu cuenta de Dofus Fashionista acaba de cambiarse. Si no has sido tú, responde a este correo."
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "Email address"
+msgstr "Dirección de correo"
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "Your new email address is now active."
+msgstr "Tu nueva dirección de correo ya está activa."
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "This link has expired or was already used. Save the address again on your account page to get a new one."
+msgstr "Este enlace ha caducado o ya se ha usado. Guarda de nuevo la dirección en la página de tu cuenta para recibir otro."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este juego no tiene exos: se quedan fuera."
 

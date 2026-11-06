@@ -154,6 +154,8 @@ Disallow: */login_page/
 Disallow: */local_login/
 Disallow: */register/
 Disallow: */confirm_email/
+Disallow: */confirm_email_change/
+Disallow: */email_change/
 Disallow: */email_confirmed/
 Disallow: */check_username/
 Disallow: */check_your_email/

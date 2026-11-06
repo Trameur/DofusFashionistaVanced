@@ -9386,6 +9386,56 @@ msgstr "Ihr Linkformat hat keinen Platz für das Element der Waffe, stell es als
 msgid "You have copied too many builds for now. Please try again later or log in."
 msgstr "Sie haben vorerst zu viele Builds kopiert. Bitte versuchen Sie es später erneut oder melden Sie sich an."
 
+#: chardata/manage_account_view.py
+msgid "Too many address changes requested. Try again in an hour."
+msgstr "Zu viele Adressänderungen angefordert. Bitte versuchen Sie es in einer Stunde erneut."
+
+#: chardata/manage_account_view.py
+msgid "Confirm your new email address for The Dofus Fashionista"
+msgstr "Bestätigen Sie Ihre neue E-Mail-Adresse für Dofus Fashionista"
+
+#: chardata/manage_account_view.py
+#, python-brace-format
+msgid ""
+"Please click the link below to use this address for your account on The Dofus Fashionista. The link works for one day.\n"
+"{link}\n"
+"\n"
+"If you did not ask for this, just ignore this email."
+msgstr ""
+"Bitte klicken Sie auf den folgenden Link, um diese Adresse für Ihr Konto bei Dofus Fashionista zu verwenden. Der Link ist einen Tag lang gültig.\n"
+"{link}\n"
+"\n"
+"Wenn Sie dies nicht angefordert haben, ignorieren Sie diese E-Mail einfach."
+
+#: chardata/manage_account_view.py
+msgid "The confirmation email could not be sent. Try again later."
+msgstr "Die Bestätigungs-E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es später erneut."
+
+#: chardata/manage_account_view.py
+#, python-format
+msgid "We have sent a link to %(address)s. Your email address changes when you open it."
+msgstr "Wir haben einen Link an %(address)s gesendet. Ihre E-Mail-Adresse ändert sich, sobald Sie ihn öffnen."
+
+#: chardata/manage_account_view.py
+msgid "Your email address was changed on The Dofus Fashionista"
+msgstr "Ihre E-Mail-Adresse wurde bei Dofus Fashionista geändert"
+
+#: chardata/manage_account_view.py
+msgid "The email address of your account on The Dofus Fashionista has just been changed. If this was not you, reply to this email."
+msgstr "Die E-Mail-Adresse Ihres Kontos bei Dofus Fashionista wurde soeben geändert. Falls Sie das nicht waren, antworten Sie auf diese E-Mail."
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "Email address"
+msgstr "E-Mail-Adresse"
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "Your new email address is now active."
+msgstr "Ihre neue E-Mail-Adresse ist jetzt aktiv."
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "This link has expired or was already used. Save the address again on your account page to get a new one."
+msgstr "Dieser Link ist abgelaufen oder wurde bereits verwendet. Speichern Sie die Adresse erneut auf Ihrer Kontoseite, um einen neuen zu erhalten."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Dieses Spiel hat keine Exos: Sie bleiben außen vor."
 
