@@ -36,6 +36,7 @@ import requests as http_requests
 import unicodedata
 
 from chardata.models import UserAlias
+from chardata.public_name import has_unsafe_character, public_name_is_taken
 from chardata.util import (HttpResponseText, recaptcha_ok,
                            set_response, version_free_canonical)
 from django.utils.translation import gettext as _
@@ -176,9 +177,7 @@ def register(request):
     except ValidationError:
         raise PermissionDenied
 
-    # MySQL's username index is case-insensitive.
-    users = User.objects.filter(username__iexact=username)
-    if users:
+    if has_unsafe_character(username) or public_name_is_taken(username):
         raise PermissionDenied
         
     if _get_non_social_users_for_email(email):
@@ -255,8 +254,7 @@ def email_confirmed_page(request, username, already_confirmed):
 @require_POST
 def check_if_taken(request):
     username = request.POST.get('username', None)
-    users = User.objects.filter(username__iexact=username)
-    if users:
+    if username and (has_unsafe_character(username) or public_name_is_taken(username)):
         return HttpResponseText('username-error')
     return HttpResponseText('ok')
   

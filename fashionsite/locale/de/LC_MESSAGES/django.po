@@ -9638,6 +9638,10 @@ msgstr "Ihre neue E-Mail-Adresse ist jetzt aktiv."
 msgid "This link has expired or was already used. Save the address again on your account page to get a new one."
 msgstr "Dieser Link ist abgelaufen oder wurde bereits verwendet. Speichern Sie die Adresse erneut auf Ihrer Kontoseite, um einen neuen zu erhalten."
 
+#: chardata/manage_account_view.py
+msgid "This alias is already taken. Choose another one."
+msgstr "Dieses Pseudonym ist bereits vergeben. Bitte wählen Sie ein anderes."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Dieses Spiel hat keine Exos: Sie bleiben außen vor."
 

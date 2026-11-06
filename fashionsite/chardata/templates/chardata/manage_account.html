@@ -30,6 +30,8 @@
                 </td>
                 <td align="left">
                 <input type="text" name="alias" class="pretty-input change-modifies-state" id="alias" maxlength="50"/>
+                <br>
+                <label id="alias-notice"></label>
                 </td>
                 </tr>
                 <tr>
@@ -163,6 +165,8 @@ function manageInit(state) {
 
 function setLoggedUserAlias(newState) {
     $('#logged_user_alias').text(newState.alias);
+    $('#alias').val(newState.alias);
+    $('#alias-notice').text(newState.alias_notice || '');
     $('#email').val(newState.email);
     $('#email-notice').text(newState.email_notice || '');
 }
