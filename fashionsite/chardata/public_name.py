@@ -16,6 +16,7 @@ from chardata.models import UserAlias, public_handle
 # A slash has no profile route, control characters break the pages that show the name
 _UNSAFE = re.compile(r'[/\x00-\x1f\x7f-\x9f]')
 _HANDLE = re.compile(r'^player\d+$', re.IGNORECASE)
+_ADDRESS = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
 
 
 def clean_public_name(raw, limit):
@@ -26,8 +27,13 @@ def has_unsafe_character(name):
     return bool(_UNSAFE.search(name))
 
 
+def looks_like_an_address(name):
+    return bool(_ADDRESS.match(name))
+
+
 def default_public_name(user):
-    if UserSocialAuth.objects.filter(user=user).exists():
+    if (looks_like_an_address(user.username)
+            or UserSocialAuth.objects.filter(user=user).exists()):
         return public_handle(user.pk)
     return user.username
 

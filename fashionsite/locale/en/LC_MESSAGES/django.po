@@ -8603,6 +8603,10 @@ msgstr ""
 msgid "This alias is already taken. Choose another one."
 msgstr ""
 
+#: chardata/manage_account_view.py
+msgid "An alias cannot be an email address."
+msgstr ""
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "This game has no exos: they are left out."
 

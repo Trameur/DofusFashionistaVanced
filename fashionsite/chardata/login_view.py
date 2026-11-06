@@ -36,7 +36,8 @@ import requests as http_requests
 import unicodedata
 
 from chardata.models import UserAlias
-from chardata.public_name import has_unsafe_character, public_name_is_taken
+from chardata.public_name import (default_public_name, has_unsafe_character,
+                                  public_name_is_taken)
 from chardata.util import (HttpResponseText, recaptcha_ok,
                            set_response, version_free_canonical)
 from django.utils.translation import gettext as _
@@ -194,7 +195,7 @@ def register(request):
     user.save()
     alias = UserAlias()
     alias.user = user
-    alias.alias = username
+    alias.alias = default_public_name(user)
     alias.save()
 
     try:

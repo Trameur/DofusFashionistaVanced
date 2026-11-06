@@ -21,8 +21,8 @@ from chardata.encoded_char_id import encode_char_id
 from chardata.models import BuildVote, Char, UserAlias, UserFollow
 from chardata.model_wrappers import build_label
 from chardata.util import set_response, version_reverse
+from chardata.public_name import default_public_name
 from chardata.url_language import SITE_URL
-from social_django.models import UserSocialAuth
 
 
 logger = logging.getLogger(__name__)
@@ -40,8 +40,8 @@ def _resolve_user(alias_or_username):
         user = User.objects.get(username__iexact=alias_or_username)
     except User.DoesNotExist:
         return None
-    # A Google account's username is its address's local part: no public door opens with it
-    if UserSocialAuth.objects.filter(user=user).exists():
+    # A username holding an address, or part of one, opens no public door
+    if default_public_name(user) != user.username:
         return None
     return user
 

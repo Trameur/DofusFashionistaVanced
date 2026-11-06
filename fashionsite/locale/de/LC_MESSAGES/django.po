@@ -9642,6 +9642,10 @@ msgstr "Dieser Link ist abgelaufen oder wurde bereits verwendet. Speichern Sie d
 msgid "This alias is already taken. Choose another one."
 msgstr "Dieses Pseudonym ist bereits vergeben. Bitte wählen Sie ein anderes."
 
+#: chardata/manage_account_view.py
+msgid "An alias cannot be an email address."
+msgstr "Ein Pseudonym darf keine E-Mail-Adresse sein."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Dieses Spiel hat keine Exos: Sie bleiben außen vor."
 
