@@ -110,7 +110,7 @@ class TheMenuLogoutIsAPostFormTests(TestCase):
         self.assertEqual([], self._logout_forms(self.client))
 
     def test_the_menu_url_is_the_route_that_signs_out(self):
-        self.assertEqual('/logout/', reverse('auth:logout'))
+        self.assertEqual('/logout/', reverse('logout'))
         self.assertIs(login_view.logout_view, resolve('/logout/').func)
 
 

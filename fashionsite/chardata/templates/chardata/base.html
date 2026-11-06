@@ -240,7 +240,7 @@
                     {% blocktrans with user.get_full_name|default:user.username as user %}Welcome, <a id="logged_user_alias" href="{{manage_account_link}}">{{user}}</a>! {% endblocktrans %}
                 {% endif %}
                 ·
-                         <form action="{% url 'auth:logout' %}" method="post" style="display: inline; margin: 0;">
+                         <form action="{% url 'logout' %}" method="post" style="display: inline; margin: 0;">
                              {% csrf_token %}
                              <input type="hidden" name="next" value="/">
                              <button type="submit" style="background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; font: inherit;">{% trans "Logout" %}</button>
