@@ -557,6 +557,8 @@ def set_item_included(char, item_id, slot, included):
     inclusions = get_inclusions_dict(char)
     
     if included:
+        if _as_item_id(item_id) == '':
+            return False
         if inclusions.get(slot) != _as_item_id(item_id):
             structure = _structure_of(char)
             item = (structure.get_item_by_id(_as_item_id(item_id))
