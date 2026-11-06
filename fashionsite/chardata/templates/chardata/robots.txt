@@ -232,6 +232,10 @@ Disallow: /register/
 Disallow: /*/register/
 Disallow: /confirm_email/
 Disallow: /*/confirm_email/
+Disallow: /confirm_email_change/
+Disallow: /*/confirm_email_change/
+Disallow: /email_change/
+Disallow: /*/email_change/
 Disallow: /email_confirmed/
 Disallow: /*/email_confirmed/
 Disallow: /check_username/

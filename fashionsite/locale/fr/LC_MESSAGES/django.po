@@ -9643,6 +9643,56 @@ msgstr "À %(gap)s %% du meilleur au plus, pas une preuve"
 msgid "Still searching: %%(elapsed)s s (at most %%(budget)s s)"
 msgstr "Recherche toujours en cours : %%(elapsed)s s (au plus %%(budget)s s)"
 
+#: chardata/manage_account_view.py
+msgid "Too many address changes requested. Try again in an hour."
+msgstr "Trop de changements d’adresse demandés. Réessaie dans une heure."
+
+#: chardata/manage_account_view.py
+msgid "Confirm your new email address for The Dofus Fashionista"
+msgstr "Confirme ta nouvelle adresse email pour Dofus Fashionista"
+
+#: chardata/manage_account_view.py
+#, python-brace-format
+msgid ""
+"Please click the link below to use this address for your account on The Dofus Fashionista. The link works for one day.\n"
+"{link}\n"
+"\n"
+"If you did not ask for this, just ignore this email."
+msgstr ""
+"Clique sur le lien ci-dessous pour utiliser cette adresse sur ton compte Dofus Fashionista. Le lien fonctionne pendant un jour.\n"
+"{link}\n"
+"\n"
+"Si tu n’as rien demandé, ignore simplement cet email."
+
+#: chardata/manage_account_view.py
+msgid "The confirmation email could not be sent. Try again later."
+msgstr "L’email de confirmation n’a pas pu être envoyé. Réessaie plus tard."
+
+#: chardata/manage_account_view.py
+#, python-format
+msgid "We have sent a link to %(address)s. Your email address changes when you open it."
+msgstr "Un lien a été envoyé à %(address)s. Ton adresse email changera quand tu l’ouvriras."
+
+#: chardata/manage_account_view.py
+msgid "Your email address was changed on The Dofus Fashionista"
+msgstr "Ton adresse email a été changée sur Dofus Fashionista"
+
+#: chardata/manage_account_view.py
+msgid "The email address of your account on The Dofus Fashionista has just been changed. If this was not you, reply to this email."
+msgstr "L’adresse email de ton compte Dofus Fashionista vient d’être changée. Si ce n’est pas toi, réponds à cet email."
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "Email address"
+msgstr "Adresse email"
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "Your new email address is now active."
+msgstr "Ta nouvelle adresse email est maintenant active."
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "This link has expired or was already used. Save the address again on your account page to get a new one."
+msgstr "Ce lien a expiré ou a déjà servi. Enregistre à nouveau l’adresse sur la page de ton compte pour en recevoir un autre."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Ce jeu n’a pas d’exos : ils restent de côté."
 
