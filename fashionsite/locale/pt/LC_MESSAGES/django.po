@@ -9369,6 +9369,47 @@ msgstr "Usar este endereço"
 msgid "This address already belongs to another account. Use another address, or recover the password of that account."
 msgstr "Este endereço já pertence a outra conta. Use outro endereço ou recupere a senha dessa conta."
 
+#: chardata/templates/chardata/solver_busy.html
+msgid "The solver is busy"
+msgstr "O solucionador está ocupado"
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Too many searches"
+msgstr "Pesquisas demais"
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "You started a lot of searches in a short time. Please wait a few minutes before trying again."
+msgstr "Você iniciou muitas pesquisas em pouco tempo. Aguarde alguns minutos antes de tentar novamente."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Many builds are being solved right now. This page tries again by itself in a few seconds."
+msgstr "Muitos builds estão sendo calculados agora. Esta página tenta novamente sozinha em alguns segundos."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Many builds are being solved right now. Please try again in a few seconds."
+msgstr "Muitos builds estão sendo calculados agora. Tente novamente em alguns segundos."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Try again"
+msgstr "Tentar novamente"
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Back to your build"
+msgstr "Voltar ao seu build"
+
+#: fashionsite/chardata/comment_view.py
+msgid "You are posting comments too fast. Please try again in a few minutes."
+msgstr "Você está publicando comentários rápido demais. Tente novamente em alguns minutos."
+
+#: fashionsite/chardata/login_view.py
+#, python-format
+msgid "Your password must have at least %(count)s characters."
+msgstr "Sua senha deve ter pelo menos %(count)s caracteres."
+
+#: fashionsite/chardata/templates/chardata/load_projects.html
+msgid "You have created too many builds for now. Please try again later or log in."
+msgstr "Você criou builds demais por enquanto. Tente novamente mais tarde ou entre na sua conta."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este jogo não tem exos: eles ficam de fora."
 

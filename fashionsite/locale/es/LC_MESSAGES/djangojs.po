@@ -721,3 +721,8 @@ msgid "%s minimum"
 msgid_plural "%s minimums"
 msgstr[0] "%s mínimo"
 msgstr[1] "%s mínimos"
+
+#: fashionsite/chardata/static/chardata/login.js
+#, python-format
+msgid "Your password must have at least %(count)s characters."
+msgstr "Tu contraseña debe tener al menos %(count)s caracteres."
