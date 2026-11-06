@@ -926,7 +926,6 @@ urlpatterns = [
     re_path(r'^changeautotheme/', util.set_current_auto, name = 'set_current_auto'),
 
     re_path('', include('social_django.urls', namespace='social')),
-    re_path('', include(('django.contrib.auth.urls', 'auth'))),
 
     re_path(r'^robots\.txt$', TemplateView.as_view(template_name='chardata/robots.txt',
                                                content_type='text/plain')),
