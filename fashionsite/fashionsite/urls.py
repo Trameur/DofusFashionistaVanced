@@ -753,7 +753,6 @@ urlpatterns = [
     re_path(r'^change_password/', login_view.change_password, name='change_password'),
     re_path(r'^email_confirmed/(?P<username>.+)/(?P<already_confirmed>.+)/', login_view.email_confirmed_page, name='email_confirmed_page'),
     re_path(r'^recover_password/', login_view.recover_password_page, name='recover_password_page'),
-    re_path(r'^recover_password_from_register/(?P<email>.+)/', login_view.recover_password_page_from_register, name='recover_password_page_from_register'),
     re_path(r'^do_recover_password/(?P<username>.+)/(?P<recover_token>.+)/', login_view.recover_password, name='recover_password'),
     re_path(r'^recover_password_email/', login_view.recover_password_email_page, name='recover_password_email_page'),
 

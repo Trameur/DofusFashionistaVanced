@@ -172,10 +172,7 @@ def register(request):
         raise PermissionDenied
         
     if _get_non_social_users_for_email(email):
-    #if _get_non_social_users_for_email(email) and email not in TESTER_USERS:
-        return HttpResponseRedirect(
-            reverse('recover_password_page_from_register',
-                    args=(email,)))
+        return _recover_password_page(request, email, from_register=True)
 
     link = request.build_absolute_uri(
         reverse('confirm_email',
@@ -309,9 +306,6 @@ def recover_password_email_page(request):
                         'chardata/pw_recovery_email.html', 
                         {'request': request})
     
-    
-def recover_password_page_from_register(request, email):
-    return _recover_password_page(request, email, from_register=True)
     
 def recover_password_page(request):
     email = request.POST.get('email', None)

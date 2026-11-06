@@ -79,10 +79,22 @@ class ARegistrationWalk(TestCase):
         self.register()
         mail.outbox = []
         response = self.register(username='another-name')
-        self.assertEqual(302, response.status_code)
-        self.assertIn('recover_password', response['Location'],
-                      'a second account was made for the same address')
-        self.assertFalse(User.objects.filter(username='another-name').exists())
+        self.assertEqual(200, response.status_code)
+        self.assertTemplateUsed(response, 'chardata/recover_password.html')
+        self.assertFalse(User.objects.filter(username='another-name').exists(),
+                         'a second account was made for the same address')
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEqual(['new@example.test'], mail.outbox[0].to)
+        self.assertIn('/do_recover_password/', mail.outbox[0].body)
+
+    def test_the_taken_address_never_travels_in_a_url(self):
+        self.register()
+        response = self.register(username='another-name')
+        self.assertNotIn('Location', response)
+        mail.outbox = []
+        visit = self.client.get('/recover_password_from_register/new@example.test/')
+        self.assertEqual(404, visit.status_code)
+        self.assertEqual([], mail.outbox)
 
     def test_confirming_twice_is_not_an_error(self):
         """The link lives in an inbox; a second click must not break."""
