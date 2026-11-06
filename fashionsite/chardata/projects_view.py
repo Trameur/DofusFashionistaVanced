@@ -75,6 +75,7 @@ def duplicate_project(request):
     else:
         return HttpResponseText('too_many')
 
+@require_POST
 def duplicate_my_project(request, char_id):
     if request.user is None or request.user.is_anonymous:
         raise PermissionDenied
