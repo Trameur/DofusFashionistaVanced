@@ -15,12 +15,13 @@ app_name = 'wakfu'
 
 urlpatterns = [
     re_path(r'^$', wakfu_home_view.home, name='home'),
+    re_path(r'^encyclopedia/$', wakfu_encyclopedia_view.encyclopedia, name='encyclopedia'),
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>[^/]*)/$',
             wakfu_encyclopedia_view.encyclopedia_item, name='encyclopedia_item'),
 ]
 
 # Paths under /wakfu/ the sitemap lists, once per sitemap language
-SITEMAP_PATHS = ('/',)
+SITEMAP_PATHS = ('/', '/encyclopedia/')
 
 # Dofus routes that Wakfu pages share by name, with the reason
 WAKFU_SITE_ROUTES = {
@@ -45,7 +46,6 @@ WAKFU_SITE_ROUTES = {
 }
 # Dofus routes each later Wakfu lot serves, with that lot
 WAKFU_PLANNED = {
-    'encyclopedia': 'W11',
     'encyclopedia_monster': 'W11',
     'encyclopedia_monsters': 'W11',
     'encyclopedia_resource': 'W11',

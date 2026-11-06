@@ -57,3 +57,18 @@ html.fm-modern .wakfu-game-text-notice,
 html.fm-modern .wakfu-description {
     color: var(--fm-muted);
 }
+.encyclopedia-card > div {
+    min-width: 0;
+}
+.encyclopedia-card-name,
+.encyclopedia-card-stat-line {
+    overflow-wrap: anywhere;
+}
+@media (min-width: 981px) {
+    .encyclopedia-filter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    .encyclopedia-filter-grid > :first-child {
+        grid-column: span 2;
+    }
+}

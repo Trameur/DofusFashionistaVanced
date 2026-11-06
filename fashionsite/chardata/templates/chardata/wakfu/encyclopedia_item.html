@@ -2,12 +2,17 @@
 {% load static_s3 %}
 {% load i18n %}
 {% load l10n %}
+{% load version_url %}
 
 {% block title %}{{ name }} - {% trans "Wakfu Encyclopedia" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
 {% block meta_description %}{% blocktrans with name=name level=item.level|unlocalize %}{{ name }}, level {{ level }} Wakfu item{% endblocktrans %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>
+{% endblock %}
 
 {% block og_meta %}
     <meta property="og:title" content="{{ name }} · {% trans "Wakfu Encyclopedia" %}">
@@ -34,6 +39,12 @@
 
 {% block wakfu_main %}
 <div class="encyclopedia-item encyclopedia-atelier text">
+    <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
+        <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
+        <a href="{% game_url 'encyclopedia' %}">{% trans "Wakfu Encyclopedia" %}</a> ›
+        <span>{% include "chardata/wakfu/game_text.html" with text=name %}</span>
+    </nav>
+
     <div class="encyclopedia-item-card brown-box">
         <div class="encyclopedia-item-head">
             {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}

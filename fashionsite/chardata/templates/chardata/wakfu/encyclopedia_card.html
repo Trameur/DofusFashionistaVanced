@@ -1,0 +1,49 @@
+{% load static_s3 %}
+{% load i18n %}
+{% load l10n %}
+<div class="encyclopedia-card brown-box">
+    <div>
+        {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+        {% if item.picture_is_placeholder %}
+        {% static "chardata/QuestionMark-darktheme.png" as fallback_dark_img %}
+        <img class="wakfu-picture-light" src="{{ item.image_url }}" alt=""
+             width="60" height="60" loading="lazy" decoding="async">
+        <img class="wakfu-picture-dark" src="{{ fallback_dark_img }}" alt=""
+             width="60" height="60" loading="lazy" decoding="async">
+        {% else %}
+        <img src="{{ item.image_url }}" alt="" width="60" height="60"
+             loading="lazy" decoding="async"
+             onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+        {% endif %}
+    </div>
+    <div>
+        <div class="encyclopedia-card-name">
+            <a href="{{ item.url }}">
+                {% include "chardata/wakfu/game_text.html" with text=item.name %}
+            </a>
+        </div>
+        <div class="encyclopedia-card-meta wakfu-chips">
+            <span class="wakfu-chip">{% blocktrans with level=item.level|unlocalize %}Level {{ level }}{% endblocktrans %}</span>
+            {% if item.rarity_name %}
+            <span class="wakfu-chip wakfu-chip-rarity">
+                {% include "chardata/wakfu/game_text.html" with text=item.rarity_name %}
+            </span>
+            {% endif %}
+            {% if item.type_name %}
+            <span class="wakfu-chip">
+                {% include "chardata/wakfu/game_text.html" with text=item.type_name %}
+            </span>
+            {% endif %}
+        </div>
+        {% if item.stat_lines %}
+        <div class="encyclopedia-card-stats">
+            {% for stat_line in item.stat_lines %}
+            <div class="encyclopedia-card-stat-line
+                        {% if stat_line.negative %}encyclopedia-card-stat-negative{% endif %}">
+                <span>{% include "chardata/wakfu/game_text.html" with text=stat_line.text %}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>

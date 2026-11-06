@@ -498,12 +498,16 @@ def effect_lines(source, effects, level, depth=0):
     return lines
 
 
-def worn_effects_by_item(conn):
-    """{item id: [Effect]} for every item, in the order the game lists them."""
+def worn_effects_by_item(conn, item_ids=None):
+    """{item id: [Effect]} for every item or for the given ones, in the order the game lists
+    them."""
     out = collections.defaultdict(list)
-    rows = conn.execute(
-        "SELECT container, %s FROM effects WHERE container_type = 'ITEM_EQUIP'"
-        ' ORDER BY record_order, id' % EFFECT_COLUMNS)
+    sql = "SELECT container, %s FROM effects WHERE container_type = 'ITEM_EQUIP'" % EFFECT_COLUMNS
+    params = ()
+    if item_ids is not None:
+        params = tuple(item_ids)
+        sql += ' AND container IN (%s)' % ','.join('?' * len(params))
+    rows = conn.execute(sql + ' ORDER BY record_order, id', params)
     for row in rows:
         out[row[0]].append(_effect_of_row(row[1:]))
     return out

@@ -181,7 +181,8 @@ class TheWakfuFlagHidesAndShowsEveryWakfuUrlTests(TestCase):
             on = self.client.get('/robots.txt').content
         self.assertEqual(off, on)
 
-    def test_the_dofus_encyclopedia_links_no_wakfu_encyclopedia(self):
+    def test_the_dofus_encyclopedia_links_the_wakfu_list_and_no_deeper_wakfu_page(self):
         with wakfu_flag(True):
             html = self._html('/encyclopedia/')
-        self.assertNotIn('/wakfu/encyclopedia', html)
+        self.assertIn('href="/wakfu/encyclopedia/"', html)
+        self.assertEqual([], re.findall(r'/wakfu/encyclopedia/[^"]+', html))

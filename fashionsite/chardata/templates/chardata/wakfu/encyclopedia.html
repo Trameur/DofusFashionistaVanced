@@ -1,0 +1,226 @@
+{% extends "chardata/wakfu/base.html" %}
+{% load static_s3 %}
+{% load i18n %}
+{% load l10n %}
+{% load version_url %}
+
+{% block title %}{% trans "Wakfu Encyclopedia" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+
+{% block meta_description %}{% trans "Browse the Wakfu equipment: levels, rarities, types and stats, with search and filters." %}{% endblock %}
+
+{% block canonical %}
+<link rel="canonical" href="{{ canonical_url }}">
+{% endblock %}
+{% block structured_data %}
+<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>
+{% endblock %}
+
+{% block modern_page_css %}
+<link rel="stylesheet" type="text/css"
+      href="{% static "chardata/modern-encyclopedia.css" %}">
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+{% with single=css_files.forms light=css_files.formslighttheme %}
+{% with dark=css_files.formsdarktheme cls="forms-css css-file" %}
+{% include "chardata/theme_css.html" %}
+{% endwith %}
+{% endwith %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia.css" %}">
+<link rel="stylesheet" type="text/css"
+      href="{% static "chardata/wakfu-encyclopedia.css" %}">
+{% endblock %}
+
+{% block wakfu_main %}
+<div class="encyclopedia-page encyclopedia-atelier text" id="encyclopedia-page">
+    <h1 class="encyclopedia-title">{% trans "Wakfu Encyclopedia" %}</h1>
+    <p class="encyclopedia-subtitle small-explain">{% trans "Search the Wakfu equipment by name, type, rarity, level and stats." %}</p>
+    {% if game_text_lang %}
+    <p class="encyclopedia-subtitle small-explain wakfu-game-text-notice">{% trans "Game texts are shown in English: Wakfu has no German translation." %}</p>
+    {% endif %}
+
+    <form method="get" class="encyclopedia-filter-box brown-box">
+        <input type="hidden" name="order_rows_json" id="order-rows-json" value="">
+        <div class="encyclopedia-filter-grid">
+            <div>
+                <label for="q">{% trans "Search" %}</label>
+                <input class="pretty-input" id="q" type="text" name="q"
+                       value="{{ search_text }}" placeholder="{{ search_example }}">
+            </div>
+            <div>
+                <label for="type">{% trans "Type" %}</label>
+                <select class="pretty-input" id="type" name="type">
+                    <option value="">{% trans "All types" %}</option>
+                    {% for option in type_options %}
+                    <option value="{{ option.value|unlocalize }}"
+                            {% if game_text_lang %}lang="{{ game_text_lang }}"{% endif %}
+                            {% if option.value == selected_type %}selected{% endif %}
+                            >{{ option.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="rarity">{% trans "Rarity" %}</label>
+                <select class="pretty-input" id="rarity" name="rarity">
+                    <option value="">{% trans "All rarities" %}</option>
+                    {% for option in rarity_options %}
+                    <option value="{{ option.value|unlocalize }}"
+                            {% if game_text_lang %}lang="{{ game_text_lang }}"{% endif %}
+                            {% if option.value == selected_rarity %}selected{% endif %}
+                            >{{ option.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="min_level">{% trans "Min level" %}</label>
+                <input class="pretty-input" id="min_level" type="number" min="1"
+                       max="{{ top_level|unlocalize }}" name="min_level"
+                       value="{{ min_level|unlocalize }}">
+            </div>
+            <div>
+                <label for="max_level">{% trans "Max level" %}</label>
+                <input class="pretty-input" id="max_level" type="number" min="1"
+                       max="{{ top_level|unlocalize }}" name="max_level"
+                       value="{{ max_level|unlocalize }}">
+            </div>
+        </div>
+
+        <div class="encyclopedia-stat-filters">
+            <b>{% trans "Stat filters (minimum value)" %}</b>
+            <div id="stat-filter-list">
+                {% for stat_row in selected_stat_rows %}
+                {% with chosen=stat_row.key %}
+                <div class="encyclopedia-stat-row">
+                    <div>
+                        <label>{% trans "Stat" %}</label>
+                        <div class="encyclopedia-stat-select">
+                            <select class="pretty-input" name="stat_key" aria-label="{% trans "Stat" %}">
+                                {% include "chardata/wakfu/stat_options.html" %}
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{% trans "Min value" %}</label>
+                        <input class="pretty-input" type="number" min="1" name="stat_min"
+                               aria-label="{% trans "Min value" %}" value="{{ stat_row.min }}">
+                    </div>
+                    <div class="encyclopedia-stat-row-actions">
+                        <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-stat-filter">{% trans "Remove" %}</button>
+                    </div>
+                </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+            <div class="encyclopedia-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn" id="add-stat-filter">{% trans "Add stat filter" %}</button>
+            </div>
+        </div>
+
+        <div class="encyclopedia-stat-filters">
+            <b>{% trans "Order by stats" %}</b>
+            <div id="stat-order-list">
+                {% for order_row in selected_order_rows %}
+                {% with chosen=order_row.key %}
+                <div class="encyclopedia-order-row">
+                    <div>
+                        <label>{% trans "Stat" %}</label>
+                        <div class="encyclopedia-stat-select">
+                            <select class="pretty-input" name="order_key" aria-label="{% trans "Stat" %}">
+                                {% with stat_options=order_options %}
+                                {% include "chardata/wakfu/stat_options.html" %}
+                                {% endwith %}
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{% trans "Direction" %}</label>
+                        <select class="pretty-input" name="order_dir" aria-label="{% trans "Direction" %}">
+                            <option value="desc" {% if order_row.dir == 'desc' %}selected{% endif %}>{% trans "Descending" %}</option>
+                            <option value="asc" {% if order_row.dir == 'asc' %}selected{% endif %}>{% trans "Ascending" %}</option>
+                        </select>
+                    </div>
+                    <div class="encyclopedia-stat-row-actions">
+                        <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-order-stat">{% trans "Remove" %}</button>
+                    </div>
+                </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+            <div class="encyclopedia-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn" id="add-order-stat">{% trans "Add order stat" %}</button>
+            </div>
+        </div>
+
+        <div class="encyclopedia-actions">
+            <button class="button-generic encyclopedia-btn" type="submit">{% trans "Apply filters" %}</button>
+            <a class="button-thin encyclopedia-btn encyclopedia-btn-secondary"
+               href="{% game_url 'encyclopedia' %}">{% trans "Clear" %}</a>
+        </div>
+    </form>
+
+    <template id="stat-filter-template">
+        <div class="encyclopedia-stat-row">
+            <div>
+                <label>{% trans "Stat" %}</label>
+                <div class="encyclopedia-stat-select">
+                    <select class="pretty-input" name="stat_key" aria-label="{% trans "Stat" %}">
+                        {% include "chardata/wakfu/stat_options.html" with chosen="" %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>{% trans "Min value" %}</label>
+                <input class="pretty-input" type="number" min="1" name="stat_min"
+                       aria-label="{% trans "Min value" %}" value="">
+            </div>
+            <div class="encyclopedia-stat-row-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-stat-filter">{% trans "Remove" %}</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="stat-order-template">
+        <div class="encyclopedia-order-row">
+            <div>
+                <label>{% trans "Stat" %}</label>
+                <div class="encyclopedia-stat-select">
+                    <select class="pretty-input" name="order_key" aria-label="{% trans "Stat" %}">
+                        {% with stat_options=order_options chosen="" %}
+                        {% include "chardata/wakfu/stat_options.html" %}
+                        {% endwith %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>{% trans "Direction" %}</label>
+                <select class="pretty-input" name="order_dir" aria-label="{% trans "Direction" %}">
+                    <option value="desc">{% trans "Descending" %}</option>
+                    <option value="asc">{% trans "Ascending" %}</option>
+                </select>
+            </div>
+            <div class="encyclopedia-stat-row-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-order-stat">{% trans "Remove" %}</button>
+            </div>
+        </div>
+    </template>
+
+    {% include "chardata/encyclopedia_filter_script.html" %}
+
+    <div class="encyclopedia-results-header big-text" id="items-results">{% trans "Results" %}: {{ items_count|unlocalize }}</div>
+
+    {% if items_page.object_list %}
+    <div class="encyclopedia-grid">
+        {% for item in items_page.object_list %}
+        {% include "chardata/wakfu/encyclopedia_card.html" %}
+        {% endfor %}
+    </div>
+
+    {% if items_page.has_other_pages %}
+    {% include "chardata/wakfu/encyclopedia_pagination.html" %}
+    {% endif %}
+
+    {% else %}
+    <p>{% trans "No items match your filters." %}</p>
+    {% endif %}
+</div>
+{% endblock %}

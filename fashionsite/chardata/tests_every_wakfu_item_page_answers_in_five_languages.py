@@ -100,3 +100,17 @@ class EveryWakfuItemPageAnswersInFiveLanguagesTests(TestCase):
                     response = self.client.get(path_of(language, item, 'a stale name'))
                     self.assertEqual(301, response.status_code)
                     self.assertEqual(expected, response['Location'])
+
+    def test_each_page_links_the_list_of_its_language_and_declares_the_breadcrumb(self):
+        item = self.one_item_per_type()[0]
+        names = self.names_of(item)
+        with wakfu_flag(True):
+            for language in LANGUAGES:
+                name = names['en' if language == 'de' else language]
+                list_path = '/%swakfu/encyclopedia/' % ('' if language == 'en' else language + '/')
+                with self.subTest(language=language):
+                    html = self.client.get(path_of(language, item, name)).content.decode('utf-8')
+                    self.assertIn('class="encyclopedia-crumbs"', html)
+                    self.assertIn('href="%s"' % list_path, html)
+                    self.assertIn('"@type": "BreadcrumbList"', html)
+                    self.assertIn('https://dofusfashionista.gg%s"' % list_path, html)

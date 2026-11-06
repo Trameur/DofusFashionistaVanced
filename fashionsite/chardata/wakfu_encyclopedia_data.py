@@ -222,6 +222,32 @@ def _cached_lines(stamp, item_id, language, build, kind='worn'):
     return value
 
 
+def card_lines(item_ids, language):
+    """{item id: the worn lines of its page}, from the cache the item page fills, with one
+    query for the items that cache does not hold."""
+    idx = index(language)
+    stamp = _stamp()
+    lines = {}
+    with _lock:
+        for item_id in item_ids:
+            key = (stamp, 'worn', item_id, language)
+            if key in _effect_lines:
+                _effect_lines.move_to_end(key)
+                lines[item_id] = _effect_lines[key]
+    missing = [one for one in item_ids if one not in lines]
+    if not missing:
+        return lines
+    with contextlib.closing(connect()) as conn:
+        source = wakfu_game_text.TextSource(conn, language)
+        effects = wakfu_game_text.worn_effects_by_item(conn, missing)
+        for item_id in missing:
+            shown_level = display_level(conn, item_id, idx.by_id[item_id].level)
+            lines[item_id] = _cached_lines(stamp, item_id, language, lambda: tuple(
+                wakfu_game_text.item_lines(source, item_id, shown_level,
+                                           effects.get(item_id, []))))
+    return lines
+
+
 def _recipe(conn, source, item_id, by_id):
     job = conn.execute('SELECT job_ankama_id, level FROM item_craft_jobs WHERE item = ?',
                        (item_id,)).fetchone()

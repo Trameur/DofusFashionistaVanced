@@ -1,5 +1,6 @@
 {% extends "chardata/base.html" %}
 {% load i18n %}
+{% load version_url %}
 
 {% block title %}{% trans "Wakfu Build Optimizer" %} - Dofus Fashionista{% endblock %}
 {% block meta_description %}{% trans "The Fashionista is coming to Wakfu: item encyclopedia first, then the build optimizer." %}{% endblock %}
@@ -8,7 +9,29 @@
 {# The Dofus tool and build menus, class drawing and per-version stats have no Wakfu page yet #}
 {% block char_overlay %}{% endblock %}
 {% block sidebar_stats %}{% endblock %}
-{% block game_menu %}{% endblock %}
+{% block game_menu %}<div class="space"></div>
+<div class="mini-menu">
+    <div>
+        <a class="menu_link menu_link_top menu_link_bottom"
+           href="{% game_url 'encyclopedia' %}"><span class="mi" aria-hidden="true"><svg
+           viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path
+           d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v15H7.5A2.5 2.5 0 0 0 5 19.5z"/><path
+           d="M5 19.5A2.5 2.5 0 0 0 7.5 22H19"/></svg></span>{% trans "Encyclopedia" %}</a>
+    </div>
+    <div>
+        <form class="nav-search" role="search" method="get"
+              action="{% game_url 'encyclopedia' %}">
+            <input type="search" name="q" autocomplete="off"
+                   placeholder="{% trans "Search" %}"
+                   aria-label="{% trans "Search a set or item" %}">
+            <button type="submit" aria-label="{% trans "Search" %}"><svg viewBox="0 0 24 24"
+                    width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path
+                    d="M20 20l-3.6-3.6"/></svg></button>
+        </form>
+    </div>
+</div>{% endblock %}
 {% block main %}{% block wakfu_main %}{% endblock %}
 <p class="wakfu-notice">
 WAKFU MMORPG: (c) 2012-2026 Ankama Studio. All rights reserved.

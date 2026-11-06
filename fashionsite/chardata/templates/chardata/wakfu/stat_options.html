@@ -1,0 +1,6 @@
+<option value="" data-icon-url="">-</option>
+{% for option in stat_options %}
+<option value="{{ option.key }}" data-icon-url=""
+        {% if game_text_lang and not option.site_text %}lang="{{ game_text_lang }}"{% endif %}
+        {% if chosen == option.key %}selected{% endif %}>{{ option.name }}</option>
+{% endfor %}

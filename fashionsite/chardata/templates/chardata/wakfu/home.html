@@ -1,9 +1,13 @@
 {% extends "chardata/wakfu/base.html" %}
 {% load i18n %}
+{% load version_url %}
 
 {% block wakfu_main %}
 <h1>{% trans "Wakfu Build Optimizer" %}</h1>
 <p>
   {% trans "This part of the site is being built: its pages open here as they are finished." %}
+</p>
+<p>
+  <a href="{% game_url 'encyclopedia' %}">{% trans "Wakfu Encyclopedia" %}</a>
 </p>
 {% endblock %}
