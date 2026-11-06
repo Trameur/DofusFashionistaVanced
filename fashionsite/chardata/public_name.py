@@ -7,28 +7,44 @@
 
 """The name an account shows in public: what it may hold and whose it already is."""
 import re
+import unicodedata
 
 from django.contrib.auth.models import User
 from social_django.models import UserSocialAuth
 
 from chardata.models import UserAlias, public_handle
 
-# A slash has no profile route, control characters break the pages that show the name
-_UNSAFE = re.compile(r'[/\x00-\x1f\x7f-\x9f]')
-_HANDLE = re.compile(r'^player\d+$', re.IGNORECASE)
+# A slash has no profile route, control characters break the pages that show the name,
+# invisible ones let a name pass for another account's
+_UNSAFE_CATEGORIES = ('Cc', 'Cf', 'Zl', 'Zp')
+_UNSAFE_CHARACTERS = re.compile(
+    '[/\u034f\u115f\u1160\u17b4\u17b5\u180b-\u180f\u2800\u3164\ufe00-\ufe0f\uffa0'
+    '\U000e0100-\U000e01ef]')
+_HANDLE = re.compile(r'^player\d+$')
 _ADDRESS = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
 
 
+def _is_unsafe(character):
+    return (unicodedata.category(character) in _UNSAFE_CATEGORIES
+            or bool(_UNSAFE_CHARACTERS.match(character)))
+
+
+def _folded(name):
+    decomposed = unicodedata.normalize('NFKD', name)
+    return ''.join(c for c in decomposed if not unicodedata.combining(c)).casefold()
+
+
 def clean_public_name(raw, limit):
-    return _UNSAFE.sub('', raw or '').strip()[:limit].strip()
+    kept = ''.join(c for c in raw or '' if not _is_unsafe(c))
+    return kept.strip()[:limit].strip()
 
 
 def has_unsafe_character(name):
-    return bool(_UNSAFE.search(name))
+    return any(_is_unsafe(c) for c in name)
 
 
 def looks_like_an_address(name):
-    return bool(_ADDRESS.match(name))
+    return bool(_ADDRESS.match(name.strip()))
 
 
 def default_public_name(user):
@@ -40,11 +56,11 @@ def default_public_name(user):
 
 def public_name_is_taken(name, user=None):
     """Whether this name belongs to another account, or is the handle of one."""
-    folded = name.casefold()
+    folded = _folded(name)
     own_names = ()
     if user is not None:
-        own_names = (user.username.casefold(), public_handle(user.pk).casefold())
-    if _HANDLE.match(name) and folded not in own_names:
+        own_names = (_folded(user.username), _folded(public_handle(user.pk)))
+    if _HANDLE.match(folded) and folded not in own_names:
         return True
     aliases = UserAlias.objects.filter(alias__iexact=name)
     usernames = User.objects.filter(username__iexact=name)

@@ -485,11 +485,8 @@ def _gallery(request, forced_class=None):
     
     # Filter by user
     if user_search:
-        # Search by username or alias
-        builds = builds.filter(
-            Q(owner__username__icontains=user_search) |
-            Q(owner__useralias__alias__icontains=user_search)
-        )
+        # The public name only: a username can hold an address
+        builds = builds.filter(owner__useralias__alias__icontains=user_search)
     
     # Filter by liked/favorited (only for logged-in users)
     if request.user.is_authenticated:
