@@ -38,12 +38,16 @@ done
 # Build the new web image first. The old web container keeps serving during the
 # build, so there is no downtime until the swap further down.
 echo ">>> build web image"
-docker compose --profile production build web
+docker compose --profile production build --pull web
 
-# Make sure nginx is running and apply any nginx.conf change via a live reload
-# (no downtime, port 443 never drops). nginx must stay up across the web swap so
-# users get the maintenance page instead of Cloudflare's origin-down error.
+# Make sure nginx is running and apply any nginx.conf change via a live reload.
+# A new image or changed mounts recreate the container, which drops port 443 for
+# a moment. nginx must stay up across the web swap so users get the maintenance
+# page instead of Cloudflare's origin-down error, so a config or an image it
+# refuses stops the deploy here, while the old containers still serve.
 echo ">>> ensure nginx up & reload config"
+docker compose --profile production pull nginx || true
+docker compose --profile production run --rm --no-deps -T nginx nginx -t
 docker compose --profile production up -d --no-deps nginx
 if docker compose --profile production exec -T nginx nginx -t 2>/dev/null; then
     docker compose --profile production exec -T nginx nginx -s reload || true
