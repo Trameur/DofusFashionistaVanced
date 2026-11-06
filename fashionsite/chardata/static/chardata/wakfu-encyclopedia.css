@@ -1,0 +1,59 @@
+.wakfu-effects li,
+.wakfu-description,
+.encyclopedia-item-card .encyclopedia-list li {
+    overflow-wrap: anywhere;
+}
+.encyclopedia-item-card,
+.encyclopedia-item-head > div {
+    min-width: 0;
+}
+.encyclopedia-item-head > div > :last-child {
+    margin-bottom: 12px;
+}
+.wakfu-recipe .encyclopedia-item-meta {
+    margin-bottom: 8px;
+}
+.wakfu-description {
+    margin: 4px 0 0;
+}
+.wakfu-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 6px 0;
+}
+.wakfu-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+}
+.wakfu-chip-rarity {
+    font-weight: 700;
+}
+.wakfu-picture-dark {
+    display: none;
+}
+html.fm-dark .wakfu-picture-light {
+    display: none;
+}
+html.fm-dark .wakfu-picture-dark {
+    display: inline;
+}
+html.fm-modern .wakfu-chip {
+    background: var(--fm-surface-2);
+    color: var(--fm-text);
+    border-color: var(--fm-border-strong);
+}
+html.fm-modern .wakfu-chip-rarity {
+    color: var(--fm-head);
+    border-color: var(--fm-accent-line);
+    background: var(--fm-accent-soft);
+}
+html.fm-modern .wakfu-game-text-notice,
+html.fm-modern .wakfu-description {
+    color: var(--fm-muted);
+}

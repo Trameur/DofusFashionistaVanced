@@ -9,12 +9,14 @@
 
 from django.urls import re_path
 
-from chardata import wakfu_home_view
+from chardata import wakfu_encyclopedia_view, wakfu_home_view
 
 app_name = 'wakfu'
 
 urlpatterns = [
     re_path(r'^$', wakfu_home_view.home, name='home'),
+    re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>[^/]*)/$',
+            wakfu_encyclopedia_view.encyclopedia_item, name='encyclopedia_item'),
 ]
 
 # Paths under /wakfu/ the sitemap lists, once per sitemap language
@@ -44,14 +46,11 @@ WAKFU_SITE_ROUTES = {
 # Dofus routes each later Wakfu lot serves, with that lot
 WAKFU_PLANNED = {
     'encyclopedia': 'W11',
-    'encyclopedia_item': 'W11',
     'encyclopedia_monster': 'W11',
     'encyclopedia_monsters': 'W11',
     'encyclopedia_resource': 'W11',
     'encyclopedia_set': 'W11',
     'encyclopedia_sets': 'W11',
-    'get_item_details': 'W11',
-    'get_item_stats': 'W11',
     'create_project': 'W12',
     'exclusions': 'W12',
     'exclusions_post': 'W12',
@@ -85,6 +84,7 @@ WAKFU_PLANNED = {
     'exchange': 'W13',
     'fashion': 'W13',
     'find_closest_set': 'W13',
+    'get_item_details': 'W13',
     'infeasible': 'W13',
     'item_add': 'W13',
     'item_exchange': 'W13',
@@ -117,6 +117,7 @@ WAKFU_PLANNED = {
     'fashionista_export': 'W16',
     'feed': 'W16',
     'get_compare_sharing_link': 'W16',
+    'get_item_stats': 'W16',
     'get_sharing_link': 'W16',
     'hide_sharing_link': 'W16',
     'import_build': 'W16',

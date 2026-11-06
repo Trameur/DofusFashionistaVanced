@@ -1,0 +1,195 @@
+{% extends "chardata/wakfu/base.html" %}
+{% load static_s3 %}
+{% load i18n %}
+{% load l10n %}
+
+{% block title %}{{ name }} - {% trans "Wakfu Encyclopedia" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+
+{% block meta_description %}{% blocktrans with name=name level=item.level|unlocalize %}{{ name }}, level {{ level }} Wakfu item{% endblocktrans %}{% endblock %}
+
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
+{% block og_meta %}
+    <meta property="og:title" content="{{ name }} · {% trans "Wakfu Encyclopedia" %}">
+    <meta property="og:description" content="{% blocktrans with name=name level=item.level|unlocalize %}{{ name }}, level {{ level }} Wakfu item{% endblocktrans %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:image"
+          content="{{ request.scheme }}://{{ request.get_host }}{{ image_url }}">
+    <meta name="twitter:card" content="summary">
+{% endblock %}
+
+{% block modern_page_css %}
+<link rel="stylesheet" type="text/css"
+      href="{% static "chardata/modern-encyclopedia.css" %}">
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css"
+      href="{% static "chardata/encyclopedia_detail.css" %}">
+<link rel="stylesheet" type="text/css"
+      href="{% static "chardata/encyclopedia_item.css" %}">
+<link rel="stylesheet" type="text/css"
+      href="{% static "chardata/wakfu-encyclopedia.css" %}">
+{% endblock %}
+
+{% block wakfu_main %}
+<div class="encyclopedia-item encyclopedia-atelier text">
+    <div class="encyclopedia-item-card brown-box">
+        <div class="encyclopedia-item-head">
+            {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+            {% if picture_is_placeholder %}
+            {% static "chardata/QuestionMark-darktheme.png" as fallback_dark_img %}
+            <img class="wakfu-picture-light" src="{{ image_url }}" alt="{{ name }}"
+                 width="60" height="60" decoding="async">
+            <img class="wakfu-picture-dark" src="{{ fallback_dark_img }}" alt="{{ name }}"
+                 width="60" height="60" decoding="async">
+            {% else %}
+            <img src="{{ image_url }}" alt="{{ name }}" width="60" height="60" decoding="async"
+                 onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+            {% endif %}
+            <div>
+                <h1 class="encyclopedia-item-name">
+                    {% include "chardata/wakfu/game_text.html" with text=name %}
+                </h1>
+                <div class="encyclopedia-item-meta wakfu-chips">
+                    {% if detail.rarity_name %}
+                    <span class="wakfu-chip wakfu-chip-rarity">
+                        {% include "chardata/wakfu/game_text.html" with text=detail.rarity_name %}
+                    </span>
+                    {% endif %}
+                    <span class="wakfu-chip">{% blocktrans with level=item.level|unlocalize %}Level {{ level }}{% endblocktrans %}</span>
+                    {% if detail.type_name %}
+                    <span class="wakfu-chip">
+                        {% include "chardata/wakfu/game_text.html" with text=detail.type_name %}
+                    </span>
+                    {% endif %}
+                </div>
+                {% if detail.set_name %}
+                <div class="encyclopedia-item-meta">{% trans "Part of the set" %}:
+                    {% include "chardata/wakfu/game_text.html" with text=detail.set_name %}
+                </div>
+                {% endif %}
+                {% if game_text_lang %}
+                <div class="encyclopedia-item-meta wakfu-game-text-notice">{% trans "Game texts are shown in English: Wakfu has no German translation." %}</div>
+                {% endif %}
+                {% if worn_level_differs %}
+                <div class="encyclopedia-item-meta">{% blocktrans with level=detail.display_level|unlocalize %}The numbers are shown at level {{ level }}.{% endblocktrans %}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if detail.description %}
+        <div class="encyclopedia-section">
+            <b>{% trans "Description" %}</b>
+            <p class="wakfu-description">
+                {% include "chardata/wakfu/game_text.html" with text=detail.description %}
+            </p>
+        </div>
+        {% endif %}
+
+        {% if conditions %}
+        <div class="encyclopedia-section wakfu-conditions">
+            <b>{% trans "Conditions" %}</b>
+            <ul class="encyclopedia-list">
+                {% for condition in conditions %}
+                <li>
+                    {% include "chardata/wakfu/game_text.html" with text=condition.text %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if detail.use_lines %}
+        <div class="encyclopedia-section">
+            <b>{% trans "When used" %}</b>
+            <ul class="encyclopedia-list wakfu-effects wakfu-use-lines">
+                {% for line in detail.use_lines %}
+                <li>
+                    {% include "chardata/wakfu/game_text.html" with text=line.text %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if detail.critical_use_lines %}
+        <div class="encyclopedia-section">
+            <b>{% trans "Critical hit" %}</b>
+            <ul class="encyclopedia-list wakfu-effects wakfu-critical-use-lines">
+                {% for line in detail.critical_use_lines %}
+                <li>
+                    {% include "chardata/wakfu/game_text.html" with text=line.text %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if detail.lines %}
+        <div class="encyclopedia-section">
+            <b>{% trans "Effects" %}</b>
+            <ul class="encyclopedia-list wakfu-effects wakfu-worn-lines">
+                {% for line in detail.lines %}
+                <li>
+                    {% include "chardata/wakfu/game_text.html" with text=line.text %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if recipe %}
+        <div class="encyclopedia-section wakfu-recipe">
+            <b>{% trans "Recipe" %}</b>
+            {% if recipe.job %}
+            <div class="encyclopedia-item-meta">{% blocktrans with job=recipe.job level=recipe.level|unlocalize %}{{ job }}, level {{ level }}{% endblocktrans %}</div>
+            {% endif %}
+            <ul class="encyclopedia-list">
+                {% for ingredient in recipe.ingredients %}
+                <li{% if ingredient.image_url %} class="craft-item"{% endif %}>
+                    {% if ingredient.image_url %}
+                    <img class="craft-icon" src="{{ ingredient.image_url }}" alt=""
+                         width="32" height="32" loading="lazy" decoding="async"
+                         onerror="this.style.display='none'">
+                    {% endif %}
+                    <span>
+                    {{ ingredient.quantity|unlocalize }} x
+                    {% if ingredient.url %}
+                    <a href="{{ ingredient.url }}">
+                        {% include "chardata/wakfu/game_text.html" with text=ingredient.name %}
+                    </a>
+                    {% else %}
+                    {% include "chardata/wakfu/game_text.html" with text=ingredient.name %}
+                    {% endif %}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if official_url %}
+        <div class="encyclopedia-section">
+            <a href="{{ official_url }}" target="_blank" rel="noopener">{% trans "Official encyclopedia" %}</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+(function() {
+    var root = document.documentElement;
+
+    function refreshThemeClass() {
+        document.body.classList.toggle('dark-theme-active', root.classList.contains('fm-dark'));
+    }
+
+    refreshThemeClass();
+
+    if (typeof MutationObserver !== 'undefined') {
+        new MutationObserver(refreshThemeClass)
+            .observe(root, { attributes: true, attributeFilter: ['class'] });
+    }
+})();
+</script>
+{% endblock %}

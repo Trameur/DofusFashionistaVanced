@@ -19,6 +19,7 @@ from chardata.templatetags import ads as ads_tags
 from chardata.wakfu_flag_for_tests import wakfu_flag
 
 LANDINGS = ('/wakfu/', '/fr/wakfu/', '/es/wakfu/', '/pt/wakfu/', '/de/wakfu/')
+ITEM_PAGE = '/wakfu/encyclopedia/item/equipment/2021-gobball-amulet/'
 AD_MARKERS = ('pagead2.googlesyndication.com', 'adsbygoogle', 'google-adsense-account',
               'fundingchoices')
 TEMPLATES = os.path.join(os.path.dirname(__file__), 'templates')
@@ -65,6 +66,14 @@ class WakfuPagesCarryNoAdCodeTests(TestCase):
                     html = response.content.decode('utf-8')
                     for marker in AD_MARKERS:
                         self.assertNotIn(marker, html)
+
+    def test_a_wakfu_item_page_carries_no_ad_code(self):
+        with _every_slot_configured(), wakfu_flag(True):
+            response = self.client.get(ITEM_PAGE)
+            self.assertEqual(200, response.status_code)
+            html = response.content.decode('utf-8')
+        for marker in AD_MARKERS:
+            self.assertNotIn(marker, html)
 
     def test_the_ad_context_of_a_wakfu_request_is_off(self):
         request = RequestFactory().get('/wakfu/')

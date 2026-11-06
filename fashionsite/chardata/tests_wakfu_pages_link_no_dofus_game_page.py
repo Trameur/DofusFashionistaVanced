@@ -17,6 +17,8 @@ from chardata import game_urls, wakfu_urls
 from chardata.wakfu_flag_for_tests import wakfu_flag
 
 LANDINGS = ('/wakfu/', '/fr/wakfu/', '/es/wakfu/', '/pt/wakfu/', '/de/wakfu/')
+ITEM_PAGES = tuple('/%swakfu/encyclopedia/item/equipment/2021-x/' % prefix
+                   for prefix in ('', 'fr/', 'es/', 'pt/', 'de/'))
 
 
 def _resolve(path):
@@ -48,11 +50,19 @@ class _Targets(HTMLParser):
 
 class WakfuPagesLinkNoDofusGamePageTests(TestCase):
     def test_every_local_link_of_a_landing_is_a_wakfu_or_a_site_page(self):
+        self.assert_pages_link_no_dofus_game_page(LANDINGS)
+
+    def test_every_local_link_of_an_item_page_is_a_wakfu_or_a_site_page(self):
+        self.assert_pages_link_no_dofus_game_page(ITEM_PAGES)
+
+    def assert_pages_link_no_dofus_game_page(self, landings):
         game_names = {pattern.name for pattern in game_urls.urlpatterns
                       if getattr(pattern, 'name', None)}
         with wakfu_flag(True):
-            for landing in LANDINGS:
-                targets = _Targets(self.client.get(landing).content.decode('utf-8')).targets
+            for landing in landings:
+                response = self.client.get(landing, follow=True)
+                self.assertEqual(200, response.status_code, landing)
+                targets = _Targets(response.content.decode('utf-8')).targets
                 self.assertTrue(targets, landing)
                 for target in sorted(targets):
                     with self.subTest(landing=landing, target=target):
