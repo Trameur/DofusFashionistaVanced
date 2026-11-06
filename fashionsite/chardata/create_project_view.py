@@ -41,7 +41,7 @@ from chardata.smart_build import (get_char_aspects, ALL_ASPECTS,
                                   inert_aspects,
                                   ASPECT_TO_NAME)
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
-from chardata.util import (on_off_to_bool, set_response, safe_int, get_char_or_raise,
+from chardata.util import (json_for_script, on_off_to_bool, set_response, safe_int, get_char_or_raise,
                            TESTER_USERS, HttpResponseText,
                            remove_cache_for_char, version_reverse)
 from chardata.version_compat import (filter_classes_for_version,
@@ -101,7 +101,7 @@ def setup(request, char_id=0):
                          'can_create': can_create,
                          'login_problem': login_problem,
                          'too_many_projects_problem': too_many_projects_problem,
-                         'state': json.dumps(_get_state_from_char(char)),
+                         'state': json_for_script(_get_state_from_char(char)),
                          'char_id': char_id,
                          'aspect_to_name': _get_json_aspect_to_name(),
                          'aspect_layout': json.dumps(setup_columns(game_version)),

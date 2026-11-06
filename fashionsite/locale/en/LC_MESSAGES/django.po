@@ -8393,6 +8393,10 @@ msgstr ""
 msgid "This link has expired or was already used. Save the address again on your account page to get a new one."
 msgstr ""
 
+#: chardata/manage_account_view.py
+msgid "This alias is already taken. Choose another one."
+msgstr ""
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "This game has no exos: they are left out."
 

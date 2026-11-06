@@ -34,7 +34,9 @@ from chardata.character_look import PREVIEW_SIZES, preview_is_on
 from chardata.login_view import _get_from_email
 from chardata.models import UserAlias
 from chardata.rate_limit import hits, note_hit
-from chardata.util import set_response
+from chardata.public_name import (clean_public_name, default_public_name,
+                                  public_name_is_taken)
+from chardata.util import json_for_script, set_response
 
 logger = logging.getLogger(__name__)
 
@@ -139,7 +141,7 @@ def manage_account(request):
 
     return set_response(request,
                         'chardata/manage_account.html',
-                        {'user_social_name': json.dumps(full_name),
+                        {'user_social_name': json_for_script(full_name),
                          'notify_comments_json': json.dumps(notify_comments),
                          'email_language_json': json.dumps(email_language),
                          'preview_size_json': json.dumps(preview_size),
@@ -150,7 +152,7 @@ def manage_account(request):
 def save_account(request):
     # The browser maxlength doesn't guard direct POSTs.
     form_alias = request.POST.get('alias', '')
-    form_alias = form_alias[:UserAlias._meta.get_field('alias').max_length]
+    form_alias = clean_public_name(form_alias, UserAlias._meta.get_field('alias').max_length)
     form_email = request.POST.get('email', '')
     email_limit = User._meta.get_field('email').max_length
     if len(form_email) > email_limit:
@@ -169,7 +171,14 @@ def save_account(request):
         return JsonResponse({'error': 'not authenticated'}, status=403)
 
     alias = _get_or_create_alias(request.user)
-    alias.alias = form_alias
+    default_name = default_public_name(request.user)
+    wanted_alias = form_alias or default_name
+    alias_notice = ''
+    if (wanted_alias not in (alias.alias, default_name)
+            and public_name_is_taken(wanted_alias, request.user)):
+        wanted_alias = alias.alias or default_name
+        alias_notice = _('This alias is already taken. Choose another one.')
+    alias.alias = wanted_alias
     alias.notify_comments = form_notify_comments
     if 'email_language' in request.POST:
         form_email_language = request.POST['email_language']
@@ -193,6 +202,7 @@ def save_account(request):
 
     return JsonResponse({
         'alias': alias.alias,
+        'alias_notice': alias_notice,
         'email': request.user.email,
         'email_notice': email_notice,
         'notify_comments': alias.notify_comments,

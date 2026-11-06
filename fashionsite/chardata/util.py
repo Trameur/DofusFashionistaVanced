@@ -156,6 +156,11 @@ def safe_float(val, default=None):
 def on_off_to_bool(val):
     return val == 'on'
     
+def json_for_script(value):
+    """JSON for an inline script: a stored name cannot close the tag around it."""
+    return json.dumps(value).replace('<', '\\u003c')
+
+
 def get_alias(user):
     aliases = []
     if user is not None and not user.is_anonymous:
@@ -187,7 +192,7 @@ def set_response(request, path, params, char=None):
     if char:    
         params['char'] = char
         params['wrapped_char'] = WrappedChar(char)
-    params['useraliasjson'] = json.dumps(params['useralias'])
+    params['useraliasjson'] = json_for_script(params['useralias'])
     params['is_super_user'] = request_by_super_user(request)
 
     params['ajaxloader'] = json.dumps(get_ajax_loader_URL(request))

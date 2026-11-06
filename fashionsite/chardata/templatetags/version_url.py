@@ -30,6 +30,15 @@ def game_url(context, url_name, *args, **kwargs):
 
 
 @register.simple_tag(takes_context=True)
+def profile_url(context, name):
+    """game_url of a public profile, empty for a stored name the route cannot carry."""
+    try:
+        return game_url(context, 'user_profile', name)
+    except NoReverseMatch:
+        return ''
+
+
+@register.simple_tag(takes_context=True)
 def guide_url(context, key):
     """game_url of a guide under its slug in the current language."""
     from django.utils.translation import get_language
