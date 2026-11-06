@@ -327,6 +327,12 @@ What the task definition needs beyond the image:
   group's success codes to `400`. A check that gets a 200 needs a code change in
   `settings.py`. Give the service a health check grace period of 600 seconds: it covers
   both the load balancer and the container checks during the first boot.
+- **Visitor address**: the view counter and the login and reset-mail throttles read
+  `CF-Connecting-IP`, then `X-Real-IP`, then the connection address, which behind an ALB is
+  the load balancer's, the same for every visitor. Set `CLIENT_ADDRESS_PROXY_HOPS` to the
+  number of proxies of yours in front of the web container (`1` for the ALB alone): the app
+  then takes that entry of `X-Forwarded-For` counted from the right, the one your proxy
+  appended, and ignores the two other headers, which a visitor can send.
 
 ### Step 4: Static Files
 
