@@ -31,7 +31,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from chardata.character_look import PREVIEW_SIZES, preview_is_on
-from chardata.login_view import _get_from_email
+from chardata.login_view import _get_from_email, _get_non_social_users_for_email
 from chardata.models import UserAlias
 from chardata.rate_limit import hits, note_hit
 from chardata.public_name import (clean_public_name, default_public_name,
@@ -54,39 +54,59 @@ EMAIL_CHANGE_SALT = 'chardata.email_change'
 EMAIL_CHANGE_MAX_AGE = 24 * 60 * 60
 EMAIL_CHANGE_WINDOW = 60 * 60
 EMAIL_CHANGE_MAX_PER_USER = 3
+EMAIL_CHANGE_MAX_PER_ADDRESS = 3
+EMAIL_CHANGE_MAX_PER_IP = 10
 
 
-def _address_fingerprint(address):
-    return salted_hmac(EMAIL_CHANGE_SALT, address or '').hexdigest()
+def _applied_key(user):
+    return 'email-change-applied:%d' % user.pk
+
+
+def _account_fingerprint(user):
+    applied = hits(_applied_key(user), EMAIL_CHANGE_MAX_AGE)
+    return salted_hmac(EMAIL_CHANGE_SALT,
+                       '%s|%s|%d' % (user.email or '', user.password, applied)).hexdigest()
 
 
 def _email_change_token(user, new_address):
-    # Bound to the current address: applying it, or any other change, ends the link
+    # A new password or an applied change ends the link, even once the address is back
     return signing.dumps({'user': user.pk, 'new': new_address,
-                          'current': _address_fingerprint(user.email)},
+                          'current': _account_fingerprint(user)},
                          salt=EMAIL_CHANGE_SALT)
+
+
+def _email_change_keys(request, new_address):
+    from chardata.solution_view import get_client_ip
+    keys = [('email-change:%d' % request.user.pk, EMAIL_CHANGE_MAX_PER_USER),
+            ('email-change-to:%s' % new_address.lower()[:120], EMAIL_CHANGE_MAX_PER_ADDRESS)]
+    ip = get_client_ip(request)
+    if ip:
+        keys.append(('email-change-ip:%s' % ip, EMAIL_CHANGE_MAX_PER_IP))
+    return keys
 
 
 def _send_email_change_link(request, new_address):
     """Mails the link to the new address and answers the line the account page shows."""
-    key = 'email-change:%d' % request.user.pk
-    if hits(key, EMAIL_CHANGE_WINDOW) >= EMAIL_CHANGE_MAX_PER_USER:
+    keys = _email_change_keys(request, new_address)
+    if any(hits(key, EMAIL_CHANGE_WINDOW) >= ceiling for key, ceiling in keys):
         return _('Too many address changes requested. Try again in an hour.')
     link = request.build_absolute_uri(
         reverse('confirm_email_change',
                 args=(_email_change_token(request.user, new_address),)))
     try:
         send_mail(_('Confirm your new email address for The Dofus Fashionista'),
-                  _('Please click the link below to use this address for your account '
+                  _('Please click the link below to use this address for the account {username} '
                     'on The Dofus Fashionista. The link works for one day.\n'
                     '{link}\n\n'
-                    'If you did not ask for this, just ignore this email.').format(link=link),
+                    'If you did not ask for this, just ignore this email.').format(
+                        username=request.user.username, link=link),
                   _get_from_email(),
                   [new_address])
     except (BadHeaderError, OSError, ValueError):
         logger.exception('Email change link could not be sent')
         return _('The confirmation email could not be sent. Try again later.')
-    note_hit(key, EMAIL_CHANGE_WINDOW)
+    for key, _ceiling in keys:
+        note_hit(key, EMAIL_CHANGE_WINDOW)
     return _('We have sent a link to %(address)s. Your email address changes '
              'when you open it.') % {'address': new_address}
 
@@ -102,27 +122,41 @@ def _tell_the_former_address(former_address):
         logger.exception('Email change notice could not be sent')
 
 
+def _email_change_outcome(outcome):
+    return HttpResponseRedirect(reverse('email_change_result', args=(outcome,)))
+
+
 def confirm_email_change(request, token):
     try:
         change = signing.loads(token, salt=EMAIL_CHANGE_SALT,
                                max_age=EMAIL_CHANGE_MAX_AGE)
         user = User.objects.get(pk=change['user'])
     except (signing.BadSignature, User.DoesNotExist):
-        return HttpResponseRedirect(reverse('email_change_result', args=('invalid',)))
-    if not constant_time_compare(change['current'], _address_fingerprint(user.email)):
-        return HttpResponseRedirect(reverse('email_change_result', args=('invalid',)))
+        return _email_change_outcome('invalid')
+    if not constant_time_compare(change['current'], _account_fingerprint(user)):
+        return _email_change_outcome('invalid')
+    if any(other.pk != user.pk for other in _get_non_social_users_for_email(change['new'])):
+        return _email_change_outcome('taken')
+    # Mail scanners open links: only the button on this page applies the change
+    if request.method != 'POST':
+        return set_response(request, 'chardata/email_change_confirm.html',
+                            {'request': request,
+                             'new_address': change['new'],
+                             'account': user.username})
     former_address = user.email
     user.email = change['new']
     user.save(update_fields=['email'])
+    note_hit(_applied_key(user), EMAIL_CHANGE_MAX_AGE)
     if former_address:
         _tell_the_former_address(former_address)
-    # The redirect keeps the signed link out of the page's address and its analytics
-    return HttpResponseRedirect(reverse('email_change_result', args=('ok',)))
+    return _email_change_outcome('ok')
 
 
 def email_change_result(request, outcome):
     return set_response(request, 'chardata/email_change_result.html',
-                        {'request': request, 'changed': outcome == 'ok'})
+                        {'request': request,
+                         'changed': outcome == 'ok',
+                         'taken': outcome == 'taken'})
 
 
 def manage_account(request):

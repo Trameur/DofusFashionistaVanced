@@ -32,6 +32,24 @@ def hide_the_addresses(apps, schema_editor):
     UserAlias.objects.bulk_update(to_update, ['alias'], batch_size=500)
 
 
+def name_the_nameless(apps, schema_editor):
+    # The gallery searches public names only, and these accounts showed their username
+    User = apps.get_model('auth', 'User')
+    UserAlias = apps.get_model('chardata', 'UserAlias')
+    UserSocialAuth = apps.get_model('social_django', 'UserSocialAuth')
+    social = set(UserSocialAuth.objects.values_list('user_id', flat=True))
+    rows = {row.user_id: row for row in UserAlias.objects.all()}
+    for user in User.objects.only('pk', 'username'):
+        row = rows.get(user.pk)
+        if user.pk in social or (row is not None and (row.alias or '').strip()):
+            continue
+        if row is None:
+            UserAlias.objects.create(user_id=user.pk, alias=user.username[:50])
+        else:
+            row.alias = user.username[:50]
+            row.save(update_fields=['alias'])
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -40,4 +58,5 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(hide_the_addresses, migrations.RunPython.noop),
+        migrations.RunPython(name_the_nameless, migrations.RunPython.noop),
     ]

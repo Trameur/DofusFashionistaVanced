@@ -16,7 +16,7 @@ from chardata.models import UserAlias, public_handle
 
 # A slash has no profile route, control characters break the pages that show the name,
 # invisible ones let a name pass for another account's
-_UNSAFE_CATEGORIES = ('Cc', 'Cf', 'Zl', 'Zp')
+_UNSAFE_CATEGORIES = ('Cc', 'Cf', 'Cn', 'Zl', 'Zp')
 _UNSAFE_CHARACTERS = re.compile(
     '[/\u034f\u115f\u1160\u17b4\u17b5\u180b-\u180f\u2800\u3164\ufe00-\ufe0f\uffa0'
     '\U000e0100-\U000e01ef]')
@@ -35,7 +35,7 @@ def _folded(name):
 
 
 def clean_public_name(raw, limit):
-    kept = ''.join(c for c in raw or '' if not _is_unsafe(c))
+    kept = ''.join(c for c in unicodedata.normalize('NFC', raw or '') if not _is_unsafe(c))
     return kept.strip()[:limit].strip()
 
 
@@ -56,6 +56,8 @@ def default_public_name(user):
 
 def public_name_is_taken(name, user=None):
     """Whether this name belongs to another account, or is the handle of one."""
+    # LIKE compares per character: a decomposed spelling would miss the composed one
+    name = unicodedata.normalize('NFC', name)
     folded = _folded(name)
     own_names = ()
     if user is not None:

@@ -3156,7 +3156,7 @@ class PasswordResetTokenExpiryTests(TestCase):
     def test_a_fresh_link_works(self):
         from chardata.login_view import _generate_token_for_password_reset
         user = self._user()
-        token = _generate_token_for_password_reset(user.username, user.password)
+        token = _generate_token_for_password_reset(user.username, user.password, user.email)
         response = self.client.post(
             '/do_recover_password/%s/%s/' % (user.username, token),
             {'new_password': 'brandnew42', 'confirm_password': 'brandnew42'})
@@ -3168,7 +3168,7 @@ class PasswordResetTokenExpiryTests(TestCase):
         from django.test import override_settings
         from chardata.login_view import _generate_token_for_password_reset
         user = self._user()
-        token = _generate_token_for_password_reset(user.username, user.password)
+        token = _generate_token_for_password_reset(user.username, user.password, user.email)
         with override_settings(PASSWORD_RESET_TIMEOUT=0):
             response = self.client.get(
                 '/do_recover_password/%s/%s/' % (user.username, token))
@@ -3177,7 +3177,7 @@ class PasswordResetTokenExpiryTests(TestCase):
     def test_a_completed_reset_kills_the_older_links(self):
         from chardata.login_view import _generate_token_for_password_reset
         user = self._user()
-        first = _generate_token_for_password_reset(user.username, user.password)
+        first = _generate_token_for_password_reset(user.username, user.password, user.email)
         self.client.post('/do_recover_password/%s/%s/' % (user.username, first),
                          {'new_password': 'brandnew42',
                           'confirm_password': 'brandnew42'})
@@ -3188,7 +3188,7 @@ class PasswordResetTokenExpiryTests(TestCase):
     def test_a_tampered_token_is_refused(self):
         from chardata.login_view import _generate_token_for_password_reset
         user = self._user()
-        token = _generate_token_for_password_reset(user.username, user.password)
+        token = _generate_token_for_password_reset(user.username, user.password, user.email)
         for bad in (token[:-1] + ('a' if token[-1] != 'a' else 'b'),
                     token.split(':')[0], 'nonsense'):
             with self.subTest(token=bad[:20]):
@@ -3206,7 +3206,7 @@ class PasswordResetTests(TestCase):
         u = User.objects.create_user('vida', 'vida@example.com', 'oldhash')
         u.is_active = False
         u.save()
-        token = _generate_token_for_password_reset('vida', u.password)
+        token = _generate_token_for_password_reset('vida', u.password, u.email)
         self.client.post('/do_recover_password/vida/%s/' % token,
                          {'new_password': 'newpass', 'confirm_password': 'newpass'})
         u.refresh_from_db()

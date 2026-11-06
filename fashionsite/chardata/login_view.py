@@ -62,7 +62,8 @@ LOGIN_FAIL_MAX_PER_IP = 30
 def _username_key(username):
     # MySQL's collation logs Bob, BOB and Bób into one account: one counter for all of them
     decomposed = unicodedata.normalize('NFKD', username)
-    bare = ''.join(c for c in decomposed if not unicodedata.combining(c))
+    bare = ''.join(c for c in decomposed
+                   if not unicodedata.combining(c) and unicodedata.category(c)[0] != 'C')
     return 'login-fail-user:%s' % bare.casefold().strip()[:80]
 
 
@@ -163,7 +164,7 @@ def register(request):
     if not settings.DEBUG and not recaptcha_ok(request):
         raise PermissionDenied
 
-    username = request.POST.get('username', None)
+    username = unicodedata.normalize('NFC', (request.POST.get('username') or '').strip())
     password = request.POST.get('password', None)
     email = request.POST.get('email', None)
 
@@ -254,7 +255,7 @@ def email_confirmed_page(request, username, already_confirmed):
 
 @require_POST
 def check_if_taken(request):
-    username = request.POST.get('username', None)
+    username = (request.POST.get('username') or '').strip()
     if username and (has_unsafe_character(username) or public_name_is_taken(username)):
         return HttpResponseText('username-error')
     return HttpResponseText('ok')
@@ -352,7 +353,8 @@ def _recover_password_page(request, email, from_register):
     
     link = request.build_absolute_uri(
         reverse('recover_password',
-                args=(username, _generate_token_for_password_reset(username, password))))
+                args=(username, _generate_token_for_password_reset(
+                    username, password, stored_address))))
     try:
         send_mail(_('Password change requested for The Dofus Fashionista'),
                   _('A password reset has been requested for The Dofus Fashionista!\n'
@@ -389,7 +391,7 @@ def recover_password(request, username, recover_token):
     
     user = users[0]
     current_password = user.password
-    if not _password_reset_token_is_valid(username, current_password, recover_token):
+    if not _password_reset_token_is_valid(username, current_password, user.email, recover_token):
         raise PermissionDenied
 
     username = user.username
@@ -436,26 +438,27 @@ def _generate_token_for_user(username):
 PASSWORD_RESET_SALT = settings.GEN_CONFIGS["PASSWORD_RESET_SALT"]
 
 
-def _password_reset_hmac(username, password):
-    return salted_hmac(PASSWORD_RESET_SALT, username + password).hexdigest()
+def _password_reset_hmac(username, password, email):
+    return salted_hmac(PASSWORD_RESET_SALT, '%s|%s|%s' % (username, password, email)).hexdigest()
 
 
-def _generate_token_for_password_reset(username, password):
-    """A reset token that expires after PASSWORD_RESET_TIMEOUT."""
+def _generate_token_for_password_reset(username, password, email):
+    """A reset token that expires after PASSWORD_RESET_TIMEOUT, and with the address it went to."""
     return TimestampSigner(salt=PASSWORD_RESET_SALT).sign(
-        _password_reset_hmac(username, password))
+        _password_reset_hmac(username, password, email))
 
 
-def _password_reset_token_is_valid(username, password, token):
+def _password_reset_token_is_valid(username, password, email, token):
     try:
         signed = TimestampSigner(salt=PASSWORD_RESET_SALT).unsign(
             token, max_age=settings.PASSWORD_RESET_TIMEOUT)
     except (BadSignature, SignatureExpired):
         return False
-    return constant_time_compare(signed, _password_reset_hmac(username, password))
+    return constant_time_compare(signed, _password_reset_hmac(username, password, email))
 
 def _get_non_social_users_for_email(email):
     non_social_users = []
+    email = (email or '').strip()
     if not email:
         return non_social_users
     wanted = email.casefold()
