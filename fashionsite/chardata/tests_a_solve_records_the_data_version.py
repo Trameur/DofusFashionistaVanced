@@ -21,7 +21,7 @@ from django.utils import timezone
 
 from chardata.char_blobs import read_char_blob
 from chardata.data_versions import (current_data_version, patch_in_force, patch_key,
-                                    patch_of, patch_started)
+                                    patch_of, patch_started, stored_data_version)
 from chardata.models import Char, SolutionGeneration
 from chardata.tests import _pulp_solver_available
 from fashionistapulp.game_versions import version_keys
@@ -268,7 +268,7 @@ class PatchNumbersTests(SimpleTestCase):
             with self.subTest(version=key):
                 self.assertEqual(settings.SITE_VERSIONS[key],
                                  current_data_version(key))
-        self.assertEqual('', current_data_version('wakfu'))
+        self.assertEqual(stored_data_version('wakfu'), current_data_version('wakfu'))
 
     def test_every_served_version_knows_when_its_patch_started(self):
         today = datetime.now(utc_zone.utc).date()

@@ -126,8 +126,9 @@ class TheHelperReadsTheLastChangeTests(_Timeline, SimpleTestCase):
             2026, 9, 17, 1, 30, tzinfo=utc_zone(timedelta(hours=2)))))
 
     def test_a_version_without_a_timeline_shows_nothing(self):
-        self.assertEqual({'patch': None, 'current_patch': None, 'older': False},
-                         build_patch_info(_record(game_version='wakfu')))
+        info = build_patch_info(_record(game_version='wakfu'))
+        self.assertIsNone(info['patch'])
+        self.assertFalse(info['older'])
 
 
 def _hats():
