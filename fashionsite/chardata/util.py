@@ -211,10 +211,9 @@ def set_response(request, path, params, char=None):
     return response
 
 TESTER_USERS = settings.GEN_CONFIGS['TESTER_USERS_EMAILS']
-SUPER_USERS = settings.GEN_CONFIGS['SUPER_USERS_EMAILS']
 
 def request_by_super_user(request):
-    return (not request.user.is_anonymous and request.user.email in SUPER_USERS)
+    return not request.user.is_anonymous and request.user.is_superuser
 
 def char_belongs_to_user(request, char):
     if request.user.is_anonymous:
