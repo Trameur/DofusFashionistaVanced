@@ -11,7 +11,9 @@ from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _, get_language
 
 from chardata.coaching_view import create_build
-from chardata.create_project_view import is_anon_cant_create
+from chardata.create_project_view import (guest_create_refused,
+                                          is_anon_cant_create,
+                                          note_guest_create)
 from chardata.nl_parser import parse_build_request
 from chardata.presets import STYLE_BY_KEY, element_aspects, element_choices, offered_element
 from chardata.smart_build import ASPECT_TO_NAME, ALL_ASPECTS_LIST
@@ -106,6 +108,10 @@ def smart_build(request):
                 response.status_code = 400
             return response
 
+        refused = guest_create_refused(request)
+        if refused is not None:
+            return refused
+
         name = _('%(cls)s %(style)s lvl %(lvl)s') % {
             'cls': parsed['char_class'],
             'style': _style_name(parsed['style']),
@@ -114,6 +120,7 @@ def smart_build(request):
         char = create_build(request, parsed['char_class'], parsed['level'],
                             parsed['aspects'] | element_aspects(element), game_version,
                             name=name)
+        note_guest_create(request)
         return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
 
     return set_response(request, 'chardata/smart_build.html', {

@@ -30,6 +30,7 @@ from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
                                     get_anon_char_ids, remember_anon_char)
 from chardata.build_name import cleaned_at_creation
+from chardata import visitor_throttle
 from chardata.models import Char, CharBaseStats
 from chardata.options import initial_exo_options, set_options
 from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS,
@@ -56,6 +57,29 @@ from chardata.themes import get_questionmark_URL
 
 
 MAXIMUM_NUMBER_OF_PROJECTS = 500
+
+GUEST_CREATE_WINDOW = 60 * 60
+GUEST_CREATES_PER_SESSION = 30
+GUEST_CREATES_PER_ADDRESS = 90
+
+
+def _guest_create_limits():
+    return ('guest-create', GUEST_CREATE_WINDOW, GUEST_CREATES_PER_SESSION,
+            GUEST_CREATES_PER_ADDRESS)
+
+
+def guest_create_refused(request):
+    """The redirect for a guest past the creation ceilings, else None."""
+    if (request.user.is_anonymous
+            and visitor_throttle.reached(request, *_guest_create_limits())):
+        return HttpResponseRedirect(version_reverse(request, 'load_projects_error',
+                                                    'create_limit'))
+    return None
+
+
+def note_guest_create(request):
+    if request.user.is_anonymous:
+        visitor_throttle.note(request, *_guest_create_limits())
 
 def setup(request, char_id=0):
     too_many_projects_problem = False
@@ -239,6 +263,10 @@ def create_project(request):
     if not within_focus_limit(state['char_build_aspects_set']):
         return HttpResponseBadRequest(_too_many_focus_boxes())
 
+    refused = guest_create_refused(request)
+    if refused is not None:
+        return refused
+
     char = Char()
     if not request.user.is_anonymous:
         char.owner = request.user
@@ -279,6 +307,7 @@ def create_project(request):
     
     if request.user.is_anonymous:
         remember_anon_char(request, char)
+        note_guest_create(request)
 
     # apply_ankama_ids rejects unknown ids and items above the level
     voulu = _wanted_item_from_post(request, char.game_version)
