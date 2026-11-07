@@ -1,0 +1,36 @@
+<section class="admin-panel" data-panel="versions" data-loaded="1" data-generated="{{ dash.generated }}">
+    {% include 'chardata/admin/_filters_note.html' %}
+        <h2 class="admin-section-title">One line per game. They are different games, so nothing is summed.</h2>
+        <table class="admin-table admin-table-wide">
+            <tr><th>Version</th><th>Builds</th><th>New</th><th>Shared</th><th>Share rate</th><th>Comments</th></tr>
+            {% for row in dash.versions.rows %}
+            <tr{% if row.selected %} class="admin-row-on"{% endif %}><td>{{ row.label }}</td><td class="admin-num">{{ row.total }}</td>
+                <td class="admin-num">{{ row.new_in_period }}</td>
+                <td class="admin-num">{{ row.shared }}</td>
+                <td class="admin-num">{% if row.share_rate != None %}{{ row.share_rate }}%{% else %}<span class="admin-empty">too few</span>{% endif %}</td>
+                <td class="admin-num">{{ row.comments_in_period }}</td></tr>
+            {% endfor %}
+        </table>
+        <p class="admin-note">New and Comments cover {{ dash.filters.period_label|lower }}. Builds and Shared are running totals, without the anonymous copies nobody touched.{% if dash.filters.version %} This table always lists every version, whatever the filter says; the selected one is highlighted.{% endif %}</p>
+
+        <h2 class="admin-section-title">Levels, per version</h2>
+        <div class="admin-grid">
+            {% for label, svg in charts.levels.items %}
+            <div class="admin-mini"><h3>{{ label }}</h3>{{ svg|safe }}</div>
+            {% endfor %}
+        </div>
+
+        <h2 class="admin-section-title">Classes, per version</h2>
+        <div class="admin-grid">
+            {% for slug, rows in dash.versions.classes.items %}
+            <div class="admin-mini">
+                <h3>{{ slug }}</h3>
+                <table class="admin-table" data-more="8">
+                    {% for name, n, pct in rows %}
+                    <tr><td>{{ name }}</td><td class="admin-num">{{ n }}</td><td class="admin-num">{{ pct }}%</td></tr>
+                    {% empty %}<tr><td class="admin-empty">no build</td></tr>{% endfor %}
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </section>

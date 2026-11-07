@@ -63,7 +63,7 @@ class AFailedAdSettingReadSaysSoTests(TestCase):
     def test_the_admin_page_explains_the_unchecked_box(self):
         self._admin()
         with self._casser():
-            page = self.client.get('/admin-tools/').content.decode(
+            page = self.client.get('/admin-tools/?tab=ads').content.decode(
                 'utf-8', 'replace')
         self.assertIn('cannot be read', page,
                       'the admin page shows an unchecked box and no reason')
@@ -72,6 +72,6 @@ class AFailedAdSettingReadSaysSoTests(TestCase):
 
     def test_the_admin_page_stays_quiet_when_the_read_works(self):
         self._admin()
-        page = self.client.get('/admin-tools/').content.decode(
+        page = self.client.get('/admin-tools/?tab=ads').content.decode(
             'utf-8', 'replace')
         self.assertNotIn('cannot be read', page)

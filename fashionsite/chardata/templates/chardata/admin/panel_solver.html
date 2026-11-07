@@ -1,0 +1,14 @@
+<section class="admin-panel" data-panel="solver" data-loaded="1" data-generated="{{ dash.generated }}">
+    {% include 'chardata/admin/_filters_note.html' %}
+        <h2 class="admin-section-title">Solver cache, {{ dash.filters.unit_word }}</h2>
+        {{ charts.solver_hits|safe }}
+        <p class="admin-note">Hit rate over {{ dash.filters.period_label|lower }}: {% if dash.solver.hit_rate != None %}{{ dash.solver.hit_rate }}%{% else %}no data{% endif %}</p>
+        {% if dash.filters.version %}<p class="admin-note">The cache counter has no version column, so the chart and the hit rate are site wide. Only the table below is filtered.</p>{% endif %}
+        <h2 class="admin-section-title">Builds with no saved solution</h2>
+        <table class="admin-table">
+            {% for label, n in dash.solver.no_solution %}
+            <tr><td>{{ label }}</td><td class="admin-num">{{ n }}</td></tr>
+            {% endfor %}
+        </table>
+        <p class="admin-note">A build with no solution was set up and left before solving.</p>
+    </section>

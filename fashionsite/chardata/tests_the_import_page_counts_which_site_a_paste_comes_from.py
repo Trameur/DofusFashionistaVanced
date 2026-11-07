@@ -470,7 +470,8 @@ class TheImportTabShowsTheShareOfEachSourceTests(TestCase):
 
     def test_the_tab_prints_the_percentages_with_one_decimal_and_no_import_for_unknown_sites(self):
         self.client.force_login(self._superuser())
-        page = self.client.get('/admin-tools/', {'period': '30d', 'version': 'dofus3'})
+        page = self.client.get('/admin-tools/', {'period': '30d', 'version': 'dofus3',
+                                                 'tab': 'imports'})
         self.assertEqual(200, page.status_code)
         for text in ('data-panel="imports"', 'Counting since',
                      'Only the site name is stored, never the link or who pasted it.',
@@ -546,7 +547,7 @@ class TheImportTabSaysWhenNothingIsCountedTests(TestCase):
         user.is_superuser = True
         user.save()
         self.client.force_login(user)
-        page = self.client.get('/admin-tools/')
+        page = self.client.get('/admin-tools/?tab=imports')
         self.assertContains(page, 'Import sources are recorded from the first paste '
                                   'after this release, and nothing earlier is backfilled.')
 

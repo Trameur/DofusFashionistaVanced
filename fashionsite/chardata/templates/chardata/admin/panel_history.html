@@ -1,0 +1,6 @@
+<section class="admin-panel" data-panel="history" data-loaded="1" data-generated="{{ dash.generated }}">
+    <noscript><p class="admin-note">The history charts need JavaScript.</p></noscript>
+    <div id="admin-history" class="admin-history" data-history-url="{% url 'admin_history_json' %}">
+        {% if not history_loaded %}<p class="admin-note admin-history-empty">No history snapshot is loaded. Load one with the load_site_history command.</p>{% endif %}
+    </div>
+</section>
