@@ -43,6 +43,7 @@ from chardata.power_steps import DEFAULT_POWER, POWER_BY_KEY, stored_power
 from chardata.presets import (balanced_weights, cross_reading, guard_minimums, guard_plan,
                               guard_reading, guarded_stats, short_of_floors, stat_floors)
 from chardata.smart_build import get_char_aspects
+from chardata.solver_slots import SolverRefused, refused_response, solver_turn
 from chardata.solution import set_minimal_solution
 from chardata.solution_history import record_solution_generation
 from chardata.solution_memory import DatabaseSolutionMemory
@@ -229,8 +230,16 @@ def _priced_solve(char, solve_input, unpriced, solve, deadline):
 
 
 def fashion(request, char_id, spells=False, seed=None):
-    started = time.monotonic()
     char = get_char_or_raise(request, char_id)
+    try:
+        with solver_turn(request, char):
+            return _fashion(request, char_id, char, spells, seed)
+    except SolverRefused as refused:
+        return refused_response(request, char, refused.reason)
+
+
+def _fashion(request, char_id, char, spells, seed):
+    started = time.monotonic()
     remove_cache_for_char(char_id)
         
     if char.stats_weight:
@@ -785,8 +794,12 @@ def continue_search(request, char_id):
     minimal = read_char_blob(blob, None, 'minimal_solution', char)
     solve_input = continuation_input(request, char, minimal)
     if solve_input is not None:
-        _continue_search(request, char, blob, minimal, solve_input,
-                         started + GUARD_BUDGET_SECONDS)
+        try:
+            with solver_turn(request, char):
+                _continue_search(request, char, blob, minimal, solve_input,
+                                 started + GUARD_BUDGET_SECONDS)
+        except SolverRefused as refused:
+            return refused_response(request, char, refused.reason)
         remove_cache_for_char(char.id)
     return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
 
@@ -825,10 +838,14 @@ def find_closest_set(request, char_id):
     previous = read_failure(request, char, model_input) if model_input is not None else None
     if previous is None:
         return fashion(request, char_id)
-    remove_cache_for_char(char.id)
-    return _without_a_set(request, char, model_input, previous.get('cause', 'time'),
-                          previous.get('seconds'), previous.get('attempt', 0),
-                          started + GUARD_BUDGET_SECONDS, reuse=False)
+    try:
+        with solver_turn(request, char):
+            remove_cache_for_char(char.id)
+            return _without_a_set(request, char, model_input, previous.get('cause', 'time'),
+                                  previous.get('seconds'), previous.get('attempt', 0),
+                                  started + GUARD_BUDGET_SECONDS, reuse=False)
+    except SolverRefused as refused:
+        return refused_response(request, char, refused.reason)
 
 
 def _continue_search(request, char, blob, minimal, solve_input, deadline):

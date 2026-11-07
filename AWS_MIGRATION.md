@@ -318,6 +318,8 @@ What the task definition needs beyond the image:
   are empty volumes shared by the containers of the task, gone when the task stops. Put
   `gen_config.json`, `debug_mode` (`False`) and `serve_static` (`True`) on an EFS volume,
   mount it, and set `FASHIONISTA_CONFIG_DIR` to the mount path.
+- **Solver slots**: `SOLVER_SLOTS`, the number of solves the task runs at once; keep it below
+  the number of gunicorn workers so pages still have one. Unset or 0 means no ceiling.
 - **Container health check**: the one from `docker-compose.yml`,
   `curl -fsS -H 'Host: dofusfashionista.gg' http://localhost:8000/ > /dev/null || exit 1`.
   ECS allows a start period of 300 seconds at most, and `docker-compose.yml` allows 600:
