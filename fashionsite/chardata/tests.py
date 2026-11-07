@@ -23671,12 +23671,15 @@ class ProvenanceViewTests(TestCase):
         self.assertIn('No data yet', page.content.decode('utf-8'))
 
     def test_it_reports_what_was_counted(self):
+        from chardata import admin_stats
         from chardata.models import VisitSource
-        VisitSource.objects.create(day=timezone.localdate(), source='youtube.com',
+        today = timezone.localdate()
+        VisitSource.objects.create(day=today, source='youtube.com',
                                    medium='referral', language='es',
                                    country='CO', count=7)
         self.client.force_login(self._admin())
-        html = self.client.get(self.URL).content.decode('utf-8')
+        with unittest.mock.patch.object(admin_stats, 'REAL_BROWSERS_SINCE', today):
+            html = self.client.get(self.URL).content.decode('utf-8')
         self.assertIn('youtube.com', html)
         self.assertIn('7', html)
 
