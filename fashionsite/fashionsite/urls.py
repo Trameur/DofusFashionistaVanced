@@ -919,7 +919,7 @@ urlpatterns = [
     re_path(r'^saveaccount/', manage_account_view.save_account, name = 'save_account'),
     re_path(r'^confirm_email_change/(?P<token>[^/]+)/$', manage_account_view.confirm_email_change,
             name='confirm_email_change'),
-    re_path(r'^email_change/(?P<outcome>ok|invalid)/$', manage_account_view.email_change_result,
+    re_path(r'^email_change/(?P<outcome>ok|invalid|taken)/$', manage_account_view.email_change_result,
             name='email_change_result'),
     
     re_path(r'^changetheme/', util.set_theme, name = 'set_theme'),

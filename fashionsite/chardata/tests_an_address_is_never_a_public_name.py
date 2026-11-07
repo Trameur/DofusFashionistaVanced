@@ -6,6 +6,7 @@ from unittest import mock
 from django.apps import apps
 from django.contrib.auth.models import User
 from django.test import TestCase
+from social_django.models import UserSocialAuth
 
 from chardata.models import UserAlias, public_handle
 from chardata.public_name import default_public_name, looks_like_an_address
@@ -78,6 +79,26 @@ class TheMigration(TestCase):
         UserAlias.objects.create(user=user, alias='bob@home')
         self.run_it()
         self.assertEqual(alias_of(user), 'bob@home')
+
+    def test_a_password_account_without_a_name_shows_its_username(self):
+        without_row = User.objects.create_user('norow', 'n@mail.test', 'pw-42-solid')
+        blank = User.objects.create_user('blank', 'b@mail.test', 'pw-42-solid')
+        UserAlias.objects.create(user=blank, alias='')
+        migration.name_the_nameless(apps, None)
+        self.assertEqual(alias_of(without_row), 'norow')
+        self.assertEqual(alias_of(blank), 'blank')
+
+    def test_a_google_account_is_not_given_its_username(self):
+        user = User.objects.create_user('localpart', 'localpart@mail.test', 'pw-42-solid')
+        UserSocialAuth.objects.create(user=user, provider='google-oauth2', uid='localpart')
+        migration.name_the_nameless(apps, None)
+        self.assertFalse(UserAlias.objects.filter(user=user).exists())
+
+    def test_an_address_username_keeps_its_handle_through_both_passes(self):
+        user = User.objects.create_user(ADDRESS, ADDRESS, 'pw-42-solid')
+        self.run_it()
+        migration.name_the_nameless(apps, None)
+        self.assertEqual(alias_of(user), public_handle(user.pk))
 
     def test_the_login_with_the_address_keeps_working(self):
         user = User.objects.create_user(ADDRESS, ADDRESS, 'pw-42-solid')

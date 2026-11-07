@@ -9654,12 +9654,12 @@ msgstr "Confirme ta nouvelle adresse email pour Dofus Fashionista"
 #: chardata/manage_account_view.py
 #, python-brace-format
 msgid ""
-"Please click the link below to use this address for your account on The Dofus Fashionista. The link works for one day.\n"
+"Please click the link below to use this address for the account {username} on The Dofus Fashionista. The link works for one day.\n"
 "{link}\n"
 "\n"
 "If you did not ask for this, just ignore this email."
 msgstr ""
-"Clique sur le lien ci-dessous pour utiliser cette adresse sur ton compte Dofus Fashionista. Le lien fonctionne pendant un jour.\n"
+"Clique sur le lien ci-dessous pour utiliser cette adresse sur le compte {username} de Dofus Fashionista. Le lien fonctionne pendant un jour.\n"
 "{link}\n"
 "\n"
 "Si tu n’as rien demandé, ignore simplement cet email."
@@ -9700,6 +9700,19 @@ msgstr "Ce pseudo est déjà pris. Choisis-en un autre."
 #: chardata/manage_account_view.py
 msgid "An alias cannot be an email address."
 msgstr "Un pseudo ne peut pas être une adresse email."
+
+#: chardata/templates/chardata/email_change_confirm.html
+#, python-format
+msgid "Use %(new_address)s as the email address of the account %(account)s?"
+msgstr "Utiliser %(new_address)s comme adresse email du compte %(account)s ?"
+
+#: chardata/templates/chardata/email_change_confirm.html
+msgid "Use this address"
+msgstr "Utiliser cette adresse"
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "This address already belongs to another account. Use another address, or recover the password of that account."
+msgstr "Cette adresse appartient déjà à un autre compte. Utilise une autre adresse, ou récupère le mot de passe de ce compte."
 
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Ce jeu n’a pas d’exos : ils restent de côté."

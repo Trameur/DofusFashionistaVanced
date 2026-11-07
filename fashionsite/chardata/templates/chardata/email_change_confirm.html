@@ -1,0 +1,23 @@
+{% extends 'chardata/base.html' %}
+{% block meta_robots %}noindex, follow{% endblock %}
+
+{% load i18n %}
+{% load static_s3 %}
+
+{% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Email address" %}{% endblock %}
+
+{% block main %}
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+
+    <h1 align="center">{% trans "Email address" %}</h1>
+    <p class="big-text" align="center">
+        {% blocktrans %}Use {{ new_address }} as the email address of the account {{ account }}?{% endblocktrans %}
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <p align="center">
+            <input class="button-generic" type="submit" value="{% trans "Use this address" %}">
+        </p>
+    </form>
+{% endblock %}

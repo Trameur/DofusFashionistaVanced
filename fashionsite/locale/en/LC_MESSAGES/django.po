@@ -8564,7 +8564,7 @@ msgstr ""
 #: chardata/manage_account_view.py
 #, python-brace-format
 msgid ""
-"Please click the link below to use this address for your account on The Dofus Fashionista. The link works for one day.\n"
+"Please click the link below to use this address for the account {username} on The Dofus Fashionista. The link works for one day.\n"
 "{link}\n"
 "\n"
 "If you did not ask for this, just ignore this email."
@@ -8605,6 +8605,19 @@ msgstr ""
 
 #: chardata/manage_account_view.py
 msgid "An alias cannot be an email address."
+msgstr ""
+
+#: chardata/templates/chardata/email_change_confirm.html
+#, python-format
+msgid "Use %(new_address)s as the email address of the account %(account)s?"
+msgstr ""
+
+#: chardata/templates/chardata/email_change_confirm.html
+msgid "Use this address"
+msgstr ""
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "This address already belongs to another account. Use another address, or recover the password of that account."
 msgstr ""
 
 #~ msgid "This game has no exos: they are left out."

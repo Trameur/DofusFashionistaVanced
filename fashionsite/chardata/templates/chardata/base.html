@@ -2,6 +2,7 @@
 <html lang="{{ LANGUAGE_CODE|default:'en' }}">
 <head>
     <meta charset="utf-8">
+    {% if private_url %}<meta name="referrer" content="strict-origin">{% endif %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
@@ -140,7 +141,7 @@
     </script>
     {% endif %}
 
-    {% if google_analytics_id %}
+    {% if google_analytics_id and not private_url %}
     <!-- Google tag (gtag.js) - Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_analytics_id }}"></script>
     <script>

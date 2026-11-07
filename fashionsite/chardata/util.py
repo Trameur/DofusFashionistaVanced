@@ -171,6 +171,11 @@ def get_alias(user):
         return alias.alias
     return None
     
+# Their address holds a token or a username: no analytics, and no full referrer for the next page
+PRIVATE_ROUTES = frozenset(('confirm_email', 'confirm_email_change',
+                            'email_confirmed_page', 'recover_password'))
+
+
 def set_response(request, path, params, char=None):
     # Item pages and guides set their own alternate_urls
     if 'alternate_urls' not in params:
@@ -200,6 +205,8 @@ def set_response(request, path, params, char=None):
     params['css_files'] = get_css_for_theme(get_theme(request), request)
     params['theme'] = get_theme(request)
     params['google_analytics_id'] = settings.GEN_CONFIGS['google_analytics_id']
+    route = getattr(request, 'resolver_match', None)
+    params['private_url'] = bool(route) and route.url_name in PRIVATE_ROUTES
     
     no_pic = True
     if 'pic' in request.COOKIES:    
