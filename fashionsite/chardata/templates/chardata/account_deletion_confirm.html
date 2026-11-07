@@ -1,0 +1,39 @@
+{% extends 'chardata/base.html' %}
+{% block meta_robots %}noindex, follow{% endblock %}
+
+{% load i18n %}
+{% load static_s3 %}
+{% load l10n %}
+
+{% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Delete your account" %}{% endblock %}
+
+{% block main %}
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+
+    <h1 align="center">{% trans "Delete your account" %}</h1>
+    <p class="big-text" align="center">
+        {% blocktrans %}Delete the account {{ account }} for good?{% endblocktrans %}
+    </p>
+    <p align="center">
+        {% blocktrans with builds=builds|unlocalize %}Builds to be removed: {{ builds }}{% endblocktrans %}
+    </p>
+    <p align="center">
+        {% trans "Links to your shared builds will stop working. Your comments, votes and settings will be removed too." %}
+    </p>
+    {% if box_missing %}
+    <p align="center">{% trans "Tick the box to confirm." %}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <p align="center">
+            <label>
+                <input type="checkbox" name="understood" value="1">
+                {% trans "I understand that this cannot be undone" %}
+            </label>
+        </p>
+        <p align="center">
+            <input class="button-generic" type="submit" value="{% trans "Delete my account" %}">
+        </p>
+    </form>
+{% endblock %}
