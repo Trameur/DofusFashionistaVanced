@@ -21,6 +21,9 @@ MIN_LIGNE = 5
 
 MAX_LIGNES = 300
 
+# Lines that get the slow closest-name search; the rest are reported as ignored
+MAX_CLOSEST_NAME_SEARCHES = 40
+
 # The slots every version has; read_items caps at slots_for(version)
 MAX_OBJETS = len(SLOTS)
 
@@ -302,6 +305,7 @@ def read_items(text, game_version, language):
     # Item the next roll lines belong to, until the next item name
     courante = None
     jets_orphelins = 0
+    closest_searches = 0
 
     char_class = None
     char_level = None
@@ -349,6 +353,10 @@ def read_items(text, game_version, language):
         entree = _entree_exacte(requete, index, langue_lue)
         approche = False
         if entree is None:
+            if closest_searches >= MAX_CLOSEST_NAME_SEARCHES:
+                ignored.append(ligne)
+                continue
+            closest_searches += 1
             entree = _closest_pool_entry(requete, pool)
             approche = entree is not None
         if entree is None:
