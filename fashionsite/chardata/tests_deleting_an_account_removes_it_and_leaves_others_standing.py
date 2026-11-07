@@ -188,7 +188,8 @@ class TheNamesAreForgotten(_Deleting):
     def test_pagehit_rows_holding_the_name_are_gone_and_others_stay(self):
         today = timezone.localdate()
         gone = ['/user/holder/', '/email_confirmed/holder/yes/',
-                '/email_confirmed/holder/no/', '/do_recover_password/holder/<id>/',
+                '/email_confirmed/holder/no/', '/email_confirmed/holder/typed-by-hand/',
+                '/do_recover_password/holder/<id>/',
                 '/confirm_email/holder/<id>/']
         kept = ['/user/neighbour/', '/', '/user/holder-two/', '/email_confirmed/neighbour/yes/']
         for path in gone + kept:

@@ -80,15 +80,14 @@ def forget_the_names(username, alias, address):
         clear_hits('reset-mail:%s' % address.lower()[:120])
         clear_hits('email-change-to:%s' % address.lower()[:120])
     from chardata.middleware import HIT_IDENT
-    # Only a name the hit counter stores as it is can be found in its paths
+    # Older rows can still hold a name that looked like a route word
     names = {name for name in (username, alias)
              if name and '<' not in name and not HIT_IDENT.match(name)}
     paths = set()
     prefixes = set()
     for name in names:
         paths.add('/user/%s/' % name)
-        paths.add('/email_confirmed/%s/yes/' % name)
-        paths.add('/email_confirmed/%s/no/' % name)
+        prefixes.add('/email_confirmed/%s/' % name)
         prefixes.add('/do_recover_password/%s/' % name)
         prefixes.add('/confirm_email/%s/' % name)
     condition = Q(path__in=paths)

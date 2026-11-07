@@ -17,7 +17,7 @@
 from django.http import Http404, HttpResponseBadRequest, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404
-from django.db.models import Count, F
+from django.db.models import Count
 from django.core.cache import cache
 import hashlib
 import json
@@ -52,7 +52,7 @@ from chardata.wear_conditions import not_locked_text, reasons_the_build_cannot_w
 from chardata.comment_view import get_comments_for_build
 from chardata.data_versions import build_patch_info
 from chardata.model_wrappers import WrappedChar
-from chardata.models import Char, BuildVote, BuildView, SolutionGeneration
+from chardata.models import Char, BuildVote, SolutionGeneration
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.url_language import SITE_URL
 import chardata.smart_build
@@ -64,11 +64,9 @@ from chardata.stats_weights import get_stats_weights
 from chardata.solution_history import get_generation_preview_items, get_generation_solution
 from chardata.solution_scores import calculate_project_build_score
 from chardata.spell_buffs import compute_full_buff_stats
-from django.utils import timezone
 from django.utils.formats import number_format
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
-from datetime import timedelta
 from chardata.solution_result import SolutionResult
 from chardata import build_sites, dofusbook_export
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
@@ -985,35 +983,8 @@ def solution_linked(request, char_name, encoded_char_id):
                        exc_info=True)
         raise Http404
 
-    # Increment view count only once per IP per 24 hours, and not for crawlers
-    from chardata.middleware import looks_like_a_robot
-    try:
-        if request.method != 'GET' or looks_like_a_robot(request):
-            return _solution(request, char.pk, True, encoded_char_id, char=char)
-        ip_address = get_client_ip(request)
-        if ip_address:  # Only track if we can get an IP
-            twenty_four_hours_ago = timezone.now() - timedelta(hours=24)
-            
-            # Check if this IP has viewed this build in the last 24 hours
-            recent_view = BuildView.objects.filter(
-                build=char,
-                ip_address=ip_address,
-                viewed_at__gte=twenty_four_hours_ago
-            ).exists()
-            
-            if not recent_view:
-                # Record the view
-                BuildView.objects.create(build=char, ip_address=ip_address)
-                # cleanup_old_views only runs at deploy, prune here too
-                BuildView.objects.filter(
-                    build=char,
-                    viewed_at__lt=twenty_four_hours_ago).delete()
-                # Not char.save(): it rewrites every blob and bumps modified_time
-                Char.objects.filter(pk=char.pk).update(view_count=F('view_count') + 1)
-                char.view_count += 1
-    except Exception as e:
-        logger.warning('View tracking error: %s', e)
-    
+    # Counted by page_seen_view once a browser reports having shown the page
+    request.seen_build = encoded_char_id
     return _solution(request, char.pk, True, encoded_char_id, char=char)
 
 # robots.txt `Disallow: */word/` words, matched at any depth, so also in /s/<name>/
