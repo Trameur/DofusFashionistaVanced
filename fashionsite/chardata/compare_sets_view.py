@@ -98,8 +98,14 @@ class _CompareBuild:
         self.link_shared = char.link_shared
 
 
+MAX_COMPARED_BUILDS = 4
+
+
 def _process_parameters(sets_params):
-    return [x for x in sets_params.split('/') if x]
+    entries = [x for x in sets_params.split('/') if x]
+    if len(entries) > MAX_COMPARED_BUILDS:
+        raise Http404
+    return entries
 
 
 def _buffs_by_char(builds, game_version):
@@ -589,7 +595,7 @@ def choose_compare_sets_post(request):
             link.strip() for link in parsed_links
             if isinstance(link, str) and link.strip()
         ]
-    except (ValueError, TypeError):
+    except (ValueError, TypeError, RecursionError):
         return _get_text_error_response(_('Paste links of at least 2 builds to compare'))
     links_digested = [_process_link(l) for l in links]
 
