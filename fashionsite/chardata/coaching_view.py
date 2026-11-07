@@ -12,7 +12,9 @@ import pickle
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
 
-from chardata.create_project_view import (is_anon_cant_create,
+from chardata.create_project_view import (guest_create_refused,
+                                          is_anon_cant_create,
+                                          note_guest_create,
                                           wants_to_publish)
 from chardata.lock_forbid import get_default_exclusions, set_exclusions_list_and_check_inclusions
 from chardata.anon_projects import remember_anon_char
@@ -289,6 +291,10 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
 
 
 def _create_from_coaching(request, game_version, element):
+    refused = guest_create_refused(request)
+    if refused is not None:
+        return refused
+
     char_class = version_class(request.POST.get('char_class', ''), game_version)
 
     try:
@@ -307,6 +313,7 @@ def _create_from_coaching(request, game_version, element):
     gender = next((piece['sexes'][0] for piece in pieces if piece['sexes']), 0)
     char = create_build(request, char_class, char_level, aspects, game_version,
                         gender=gender)
+    note_guest_create(request)
 
     # The item the fiche asked for, locked into its slot. After create_build
     # on purpose: that call seeds the default exclusions, and an item the
