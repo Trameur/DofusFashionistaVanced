@@ -27,6 +27,8 @@ HIT_SKIP = re.compile(r'^/(static|media|api|admin|admin-tools|admin-comment-acti
                       r'jsi18n|sw\.js|offline/|ads\.txt|manifest|favicon|character/)')
 # /s/<name>/<id>/ : the name varies per build, so drop the whole tail.
 HIT_SHARED = re.compile(r'^/s/.*$')
+# /spells_linked/<name>/<id>/ : same, the name is a character name.
+HIT_LINKED = re.compile(r'^/spells_linked/.+$')
 # An id has a digit or mixed case. Route words are plain lowercase, keep them.
 HIT_IDENT = re.compile(r'^(?=.*\d)|^(?=.*[a-z])(?=.*[A-Z])')
 
@@ -58,6 +60,8 @@ def normalise_path(path, version):
         path = path[len(version) + 1:] or '/'
     if HIT_SHARED.match(path):
         return '/s/<build>/'
+    if HIT_LINKED.match(path):
+        return '/spells_linked/<build>/'
     parts = []
     for segment in path.split('/'):
         parts.append('<id>' if segment and HIT_IDENT.match(segment) else segment)
