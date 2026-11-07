@@ -75,6 +75,7 @@
 
         <h2 class="admin-section-title">Builds created {{ dash.filters.unit_word }}, by version</h2>
         {{ charts.builds|safe }}
+        <p class="admin-note">Every build figure on this dashboard leaves out anonymous copies nobody touched: following a copy link makes one, and crawlers follow links.</p>
 
         <div class="admin-two">
             <div>
@@ -110,7 +111,7 @@
                 <td class="admin-num">{{ row.comments_in_period }}</td></tr>
             {% endfor %}
         </table>
-        <p class="admin-note">New and Comments cover {{ dash.filters.period_label|lower }}. Builds and Shared are running totals.{% if dash.filters.version %} This table always lists every version, whatever the filter says; the selected one is highlighted.{% endif %}</p>
+        <p class="admin-note">New and Comments cover {{ dash.filters.period_label|lower }}. Builds and Shared are running totals, without the anonymous copies nobody touched.{% if dash.filters.version %} This table always lists every version, whatever the filter says; the selected one is highlighted.{% endif %}</p>
 
         <h2 class="admin-section-title">Levels, per version</h2>
         <div class="admin-grid">
@@ -154,16 +155,16 @@
                 <td class="admin-num">{{ row.votes }}</td></tr>
             {% empty %}<tr><td class="admin-empty">no shared build yet</td></tr>{% endfor %}
         </table>
-        <p class="admin-note">Views are a running total since the build was created, not a trend.</p>
+        <p class="admin-note">Views are a running total since the build was created, not a trend. Only browsers that ran the page's script count since {{ dash.pages.real_browsers_since }}; views from before that day also hold crawlers posing as browsers.</p>
     </section>
 
     <section class="admin-panel admin-panel-off" data-panel="pages">
         {% if dash.pages.collecting_since %}
-        <p class="admin-note">Counting since {{ dash.pages.collecting_since }}. Ids in a path are folded into a placeholder, and nothing about the visitor is stored.</p>
-        {% if dash.pages.includes_robots %}
-        <p class="admin-note"><strong>Crawlers are excluded only since {{ dash.pages.robots_excluded_since }}.</strong> Anything counted before that date includes them, and cannot be corrected: the user agent was never stored. Pick a period starting after that date to read a number you can trust.</p>
+        <p class="admin-note">A page counts once a browser shows it: the tab is visible and was used, or stayed on screen a few seconds. Ids in a path are folded into a placeholder, and nothing about the visitor is stored.</p>
+        {% if dash.pages.hides_older_days %}
+        <p class="admin-note"><strong>Days before {{ dash.pages.real_browsers_since }} are not shown.</strong> They also count crawlers posing as browsers, and cannot be corrected: the user agent was never stored. Those rows stay in the database. A crawler that runs scripts and shows the page on screen can still count.</p>
         {% endif %}
-        <h2 class="admin-section-title">Page reads {{ dash.filters.unit_word }}</h2>
+        <h2 class="admin-section-title">Page reads {{ dash.pages.unit_word }}</h2>
         {{ charts.pages_per_week|safe }}
         <div class="admin-two">
             <div>
