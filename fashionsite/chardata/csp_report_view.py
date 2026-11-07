@@ -3,6 +3,7 @@
 
 import json
 import logging
+import re
 
 from django.core.cache import cache
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -21,12 +22,22 @@ MAX_PAR_MINUTE = 5
 FENETRE = 60
 
 
+_CONTROL_CHARACTERS = re.compile(r'[\x00-\x1f\x7f-\x9f\u2028\u2029]')
+
+
+def _clean_text(value, limit):
+    """The field when it is a string, without control characters, cut short."""
+    if not isinstance(value, str):
+        return ''
+    return _CONTROL_CHARACTERS.sub('', value)[:limit]
+
+
 def _resume(rapport):
     """(directive, blocked origin, page path), truncated."""
-    directive = (rapport.get('effective-directive')
-                 or rapport.get('violated-directive') or '')[:60]
-    bloquee = (rapport.get('blocked-uri') or '')[:200]
-    page = (rapport.get('document-uri') or '')
+    directive = (_clean_text(rapport.get('effective-directive'), 60)
+                 or _clean_text(rapport.get('violated-directive'), 60))
+    bloquee = _clean_text(rapport.get('blocked-uri'), 200)
+    page = _clean_text(rapport.get('document-uri'), 2000)
     # Path only: the query string may carry what the reader searched
     if '://' in page:
         reste = page.split('://', 1)[1]
@@ -44,7 +55,7 @@ def csp_report(request):
         return HttpResponseBadRequest('too large')
     try:
         charge = json.loads(corps.decode('utf-8'))
-    except (ValueError, UnicodeDecodeError):
+    except (ValueError, UnicodeDecodeError, RecursionError):
         return HttpResponseBadRequest('unreadable')
 
     rapport = charge.get('csp-report') if isinstance(charge, dict) else None

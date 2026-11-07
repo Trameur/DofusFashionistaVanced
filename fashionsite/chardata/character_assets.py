@@ -495,6 +495,7 @@ def ensure_skin(skin_id):
     """Bake once, then read from the cache. None if the bundle is missing."""
     try:
         skin_id = int(skin_id)
+        _safe_id(skin_id)
     except (TypeError, ValueError):
         return None
     target = _skin_cache(skin_id)
@@ -660,13 +661,13 @@ def _forever(response):
 def _same_format(fmt, current):
     """The format in the url names the file on disk; another one is a stale
     client asking for art this build cannot produce."""
-    return fmt is None or int(fmt) == current
+    return fmt is None or fmt == str(current)
 
 
 def parts_manifest_view(request, skin_id, fmt=None):
     if not _same_format(fmt, SKIN_FORMAT):
         raise Http404
-    manifest = ensure_skin(int(skin_id))
+    manifest = ensure_skin(skin_id)
     if manifest is None:
         raise Http404
     return _forever(JsonResponse(manifest))
@@ -684,7 +685,7 @@ def _served(path):
 
 
 def atlas_view(request, skin_id):
-    if ensure_skin(int(skin_id)) is None:
+    if ensure_skin(skin_id) is None:
         raise Http404
     path = _served(os.path.join(_skin_cache(int(skin_id)), ATLAS_NAME))
     return _forever(FileResponse(open(path, 'rb'), content_type='image/webp'))
