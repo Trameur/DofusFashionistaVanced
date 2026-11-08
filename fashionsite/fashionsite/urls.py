@@ -921,6 +921,17 @@ urlpatterns = [
             name='confirm_email_change'),
     re_path(r'^email_change/(?P<outcome>ok|invalid|taken)/$', manage_account_view.email_change_result,
             name='email_change_result'),
+    re_path(r'^delete_account/$', manage_account_view.request_account_deletion,
+            name='request_account_deletion'),
+    re_path(r'^delete_account_password/$', manage_account_view.delete_account_with_password,
+            name='delete_account_with_password'),
+    re_path(r'^confirm_account_deletion/(?P<token>[^/]+)/$',
+            manage_account_view.confirm_account_deletion,
+            name='confirm_account_deletion'),
+    re_path(r'^account_deletion/(?P<outcome>sent|deleted|invalid|refused|too_many|too_soon|'
+            r'no_address|mail_failed|wrong_password|failed)/$',
+            manage_account_view.account_deletion_result,
+            name='account_deletion_result'),
     
     re_path(r'^changetheme/', util.set_theme, name = 'set_theme'),
     re_path(r'^changeautotheme/', util.set_current_auto, name = 'set_current_auto'),

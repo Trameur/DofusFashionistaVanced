@@ -1,0 +1,39 @@
+{% extends 'chardata/base.html' %}
+{% block meta_robots %}noindex, follow{% endblock %}
+
+{% load i18n %}
+{% load static_s3 %}
+
+{% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Delete your account" %}{% endblock %}
+
+{% block main %}
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+
+    <h1 align="center">{% trans "Delete your account" %}</h1>
+    <p class="big-text" align="center">
+        {% if outcome == 'sent' %}
+            {% blocktrans %}We have sent a link to {{ address }}. Open it within one hour to delete your account. If this address no longer works, go back to your account page.{% endblocktrans %}
+        {% elif outcome == 'deleted' and signed_in_elsewhere %}
+            {% trans "Your account and your builds are deleted. If you sign in with Google again, a new empty account is created." %}
+        {% elif outcome == 'deleted' %}
+            {% trans "Your account and your builds are deleted, and you are signed out. If you sign in with Google again, a new empty account is created." %}
+        {% elif outcome == 'refused' %}
+            {% trans "This is an administrator account. It cannot be deleted this way." %}
+        {% elif outcome == 'too_many' %}
+            {% trans "Too many deletion requests. Try again in an hour." %}
+        {% elif outcome == 'too_soon' %}
+            {% trans "The email address of this account changed less than a day ago. For your safety, try again once a full day has passed." %}
+        {% elif outcome == 'no_address' %}
+            {% trans "This account has no email address. Save one on your account page, then come back a day later." %}
+        {% elif outcome == 'mail_failed' %}
+            {% trans "The confirmation email could not be sent. Try again later." %}
+        {% elif outcome == 'wrong_password' %}
+            {% trans "This password does not match your account." %}
+        {% elif outcome == 'failed' %}
+            {% trans "The deletion could not be completed. Your account was not changed. Try again later." %}
+        {% else %}
+            {% trans "This link has expired or was already used. Ask for a new one on your account page." %}
+        {% endif %}
+    </p>
+{% endblock %}

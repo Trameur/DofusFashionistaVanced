@@ -236,6 +236,14 @@ Disallow: /confirm_email_change/
 Disallow: /*/confirm_email_change/
 Disallow: /email_change/
 Disallow: /*/email_change/
+Disallow: /delete_account/
+Disallow: /*/delete_account/
+Disallow: /delete_account_password/
+Disallow: /*/delete_account_password/
+Disallow: /confirm_account_deletion/
+Disallow: /*/confirm_account_deletion/
+Disallow: /account_deletion/
+Disallow: /*/account_deletion/
 Disallow: /email_confirmed/
 Disallow: /*/email_confirmed/
 Disallow: /check_username/
