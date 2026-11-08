@@ -128,6 +128,21 @@ def arrival_source(request):
     return (host[:100], 'referral', '')
 
 
+# Distinct (source, medium, campaign) a day may open; the rest count as other
+VISIT_SOURCES_PER_DAY = 300
+
+OVERFLOW_SOURCE = 'other'
+
+
+def _source_has_room(day, source, medium, campaign):
+    from chardata.models import VisitSource
+    today = VisitSource.objects.filter(day=day)
+    if today.filter(source=source, medium=medium, campaign=campaign).exists():
+        return True
+    distinct = today.values('source', 'medium', 'campaign').distinct().count()
+    return distinct < VISIT_SOURCES_PER_DAY
+
+
 def record_arrival(request):
     """Count one arrival, aggregated by day."""
     if looks_like_a_robot(request):
@@ -146,7 +161,34 @@ def record_arrival(request):
     }
     updated = VisitSource.objects.filter(**key).update(count=F('count') + 1)
     if not updated:
+        if not _source_has_room(key['day'], source, medium, campaign):
+            key.update(source=OVERFLOW_SOURCE, medium=OVERFLOW_SOURCE, campaign='')
+            if VisitSource.objects.filter(**key).update(count=F('count') + 1):
+                return
         VisitSource.objects.get_or_create(defaults={'count': 1}, **key)
+
+
+class PrivateForSignedInMiddleware:
+    """A signed-in reader's page is theirs: no shared cache keeps it for the next visitor."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        if (not response.has_header('Cache-Control')
+                and response.get('Content-Type', '').startswith('text/html')
+                and self._signed_in(request)):
+            response['Cache-Control'] = 'private, no-store'
+        return response
+
+    @staticmethod
+    def _signed_in(request):
+        from django.conf import settings
+        if settings.SESSION_COOKIE_NAME not in request.COOKIES:
+            return False
+        user = getattr(request, 'user', None)
+        return bool(user is not None and user.is_authenticated)
 
 
 class PageHitMiddleware:
