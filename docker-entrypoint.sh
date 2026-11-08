@@ -15,6 +15,9 @@ CONFIG_FILE="${CONFIG_DIR}/gen_config.json"
 echo "Merging configuration files..."
 python3 /app/merge_docker_config.py
 
+echo "Checking that no secret is a public default..."
+python3 /app/check_docker_secrets.py
+
 # Wait for the database
 echo "Waiting for database to be available..."
 until python3 -c "
