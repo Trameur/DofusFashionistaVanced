@@ -6322,8 +6322,9 @@ class SharedSolutionPageTests(TestCase):
         from chardata.models import Char
         from chardata.encoded_char_id import encode_char_id
         build = self._shared_build()
+        from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
         before = Char.objects.get(pk=build.pk).modified_time
-        resp = self.client.get('/s/star/%s/' % encode_char_id(build.pk),
+        resp = read_and_report(self.client, '/s/star/%s/' % encode_char_id(build.pk),
                                HTTP_USER_AGENT=self.NAVIGATEUR)
         self.assertEqual(resp.status_code, 200)
         after = Char.objects.get(pk=build.pk)
@@ -6334,13 +6335,14 @@ class SharedSolutionPageTests(TestCase):
     def test_a_crawler_reading_a_build_is_not_a_view(self):
         from chardata.models import BuildView, Char
         from chardata.encoded_char_id import encode_char_id
+        from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
         build = self._shared_build()
         url = '/s/star/%s/' % encode_char_id(build.pk)
         for agent in ('Mozilla/5.0 (compatible; Googlebot/2.1; '
                       '+http://www.google.com/bot.html)',
                       'GPTBot/1.2', 'Mozilla/5.0 (compatible; AhrefsBot/7.0)',
                       'facebookexternalhit/1.1', 'python-requests/2.31.0'):
-            reponse = self.client.get(url, HTTP_USER_AGENT=agent)
+            reponse = read_and_report(self.client, url, HTTP_USER_AGENT=agent)
             self.assertEqual(reponse.status_code, 200,
                              'a crawler must still be served the page')
         self.assertEqual(Char.objects.get(pk=build.pk).view_count, 0)
@@ -6368,7 +6370,8 @@ class SharedSolutionPageTests(TestCase):
         BuildView.objects.filter(pk__in=[vieille.pk, voisine.pk]).update(
             viewed_at=vieux)
 
-        reponse = self.client.get('/s/star/%s/' % encode_char_id(build.pk),
+        from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
+        reponse = read_and_report(self.client, '/s/star/%s/' % encode_char_id(build.pk),
                                   HTTP_USER_AGENT=self.NAVIGATEUR)
         self.assertEqual(reponse.status_code, 200)
 
@@ -15827,17 +15830,19 @@ class AdminDashboardTests(TestCase):
         navigateur = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                       'AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/126.0 Safari/537.36')
-        self.client.get('/about/', HTTP_USER_AGENT=navigateur)
-        self.client.get('/about/', HTTP_USER_AGENT=navigateur)
+        from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
+        read_and_report(self.client, '/about/', HTTP_USER_AGENT=navigateur)
+        read_and_report(self.client, '/about/', HTTP_USER_AGENT=navigateur)
         hit = PageHit.objects.filter(path='/about/').first()
         self.assertIsNotNone(hit)
         self.assertEqual(hit.count, 2)
 
     def test_a_crawler_reading_a_page_is_not_counted(self):
         from chardata.models import PageHit
+        from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
         for agent in ('Mozilla/5.0 (compatible; Googlebot/2.1)', 'GPTBot/1.2',
                       'python-requests/2.31.0'):
-            self.client.get('/about/', HTTP_USER_AGENT=agent)
+            read_and_report(self.client, '/about/', HTTP_USER_AGENT=agent)
         self.assertFalse(PageHit.objects.filter(path='/about/').exists())
         self.assertEqual([f.name for f in PageHit._meta.get_fields()],
                          ['id', 'day', 'path', 'game_version', 'count'])
@@ -23574,16 +23579,10 @@ class ArrivalSourceTests(SimpleTestCase):
     site's own navigation.
     """
 
-    def _request(self, path='/', referrer=None, host='dofusfashionista.gg', **params):
-        from django.test import RequestFactory
-        extra = {'HTTP_HOST': host}
-        if referrer is not None:
-            extra['HTTP_REFERER'] = referrer
-        return RequestFactory().get(path, data=params, **extra)
-
-    def _source(self, **kwargs):
+    def _source(self, referrer='', utm_source='', utm_medium='', utm_campaign=''):
         from chardata.middleware import arrival_source
-        return arrival_source(self._request(**kwargs))
+        return arrival_source(utm_source, utm_medium, utm_campaign, referrer,
+                              'dofusfashionista.gg')
 
     def test_a_click_inside_the_site_is_not_a_provenance(self):
         """Django's default referrer policy is same-origin, so an internal
@@ -23660,8 +23659,10 @@ class ArrivalCountingTests(TestCase):
                   'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36')
 
     def client_get(self, chemin, **extra):
+        from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
         extra.setdefault('HTTP_USER_AGENT', self.NAVIGATEUR)
-        return self.client.get(chemin, **extra)
+        referrer = extra.pop('HTTP_REFERER', '')
+        return read_and_report(self.client, chemin, {'r': referrer}, **extra)
 
     def test_an_arrival_is_counted_once_per_day_and_source(self):
         from chardata.models import VisitSource
@@ -23712,12 +23713,14 @@ class ArrivalCountingTests(TestCase):
                          'visitor', 'user_agent', 'cookie', 'fingerprint'):
             self.assertNotIn(interdit, champs)
 
-    def test_counting_never_breaks_the_page(self):
+    def test_a_failing_report_offer_never_breaks_the_page(self):
         """A statistic is worth less than a page that answers."""
         from unittest import mock
-        with mock.patch('chardata.middleware.record_arrival',
+        with mock.patch('chardata.middleware.seen_token',
                         side_effect=RuntimeError('boom')):
-            self.assertEqual(self.client_get('/').status_code, 200)
+            page = self.client.get('/', HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(page.status_code, 200)
+        self.assertNotIn(b'data-seen', page.content)
 
 
 class ProvenanceViewTests(TestCase):
@@ -25226,23 +25229,26 @@ class CrawlersAreNotReadersTests(TestCase):
         return VisitSource.objects.aggregate(n=Sum('count'))['n'] or 0
 
     def test_a_crawler_is_not_counted(self):
+        from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
         for agent in self.ROBOTS:
-            self.client.get('/', HTTP_USER_AGENT=agent)
+            read_and_report(self.client, '/', HTTP_USER_AGENT=agent)
         self.assertEqual(self._compte(), 0,
                          'crawlers reached the arrival count')
 
     def test_a_reader_still_is(self):
+        from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
         for agent in self.LECTEURS:
-            self.client.get('/', HTTP_USER_AGENT=agent)
+            read_and_report(self.client, '/', HTTP_USER_AGENT=agent)
         self.assertEqual(self._compte(), len(self.LECTEURS))
 
     def test_the_direct_bucket_is_where_they_would_have_landed(self):
         """The specific failure: no referrer means 'direct', and no crawler
         sends one."""
         from chardata.models import VisitSource
-        self.client.get('/', HTTP_USER_AGENT=self.ROBOTS[0])
+        from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
+        read_and_report(self.client, '/', HTTP_USER_AGENT=self.ROBOTS[0])
         self.assertFalse(VisitSource.objects.filter(source='direct').exists())
-        self.client.get('/', HTTP_USER_AGENT=self.LECTEURS[0])
+        read_and_report(self.client, '/', HTTP_USER_AGENT=self.LECTEURS[0])
         self.assertTrue(VisitSource.objects.filter(source='direct').exists())
 
     def test_a_browser_name_containing_bot_is_not_caught_by_accident(self):
@@ -25775,8 +25781,8 @@ class ThePolicySaysWhatTheCodeDoesTests(TestCase):
         this kind of promise rots: both read fine on their own.
         """
         import inspect
-        from chardata import solution_view
-        source = inspect.getsource(solution_view)
+        from chardata import page_seen_view
+        source = inspect.getsource(page_seen_view)
         self.assertIn('timedelta(hours=24)', source)
         from chardata.management.commands import cleanup_old_views
         self.assertIn('timedelta(hours=24)',

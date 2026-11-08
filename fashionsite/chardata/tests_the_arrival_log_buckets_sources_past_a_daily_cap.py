@@ -5,16 +5,13 @@ from django.test import TestCase
 
 from chardata import middleware
 from chardata.models import VisitSource
-
-BROWSER = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
-           '(KHTML, like Gecko) Chrome/126.0 Safari/537.36')
+from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
 
 
 class SourcesPastTheCapAreBucketed(TestCase):
 
-    def arrive(self, source, **extra):
-        return self.client.get('/', dict(extra, utm_source=source),
-                               HTTP_USER_AGENT=BROWSER)
+    def arrive(self, source, campaign=''):
+        return read_and_report(self.client, '/', {'us': source, 'uc': campaign})
 
     def test_new_sources_past_the_cap_share_one_row(self):
         with mock.patch.object(middleware, 'VISIT_SOURCES_PER_DAY', 3):
@@ -35,8 +32,8 @@ class SourcesPastTheCapAreBucketed(TestCase):
 
     def test_a_new_campaign_of_a_known_source_is_bucketed_too(self):
         with mock.patch.object(middleware, 'VISIT_SOURCES_PER_DAY', 1):
-            self.arrive('news', utm_campaign='a')
-            self.arrive('news', utm_campaign='b')
+            self.arrive('news', campaign='a')
+            self.arrive('news', campaign='b')
         self.assertEqual(['news', 'other'],
                          sorted(VisitSource.objects.values_list('source', flat=True)))
 

@@ -2,10 +2,13 @@
 import logging
 import re
 
+from django.core import signing
 from django.db.models import F
 from django.utils import timezone, translation
+from django.utils.html import format_html
 
 from fashionistapulp.structure import set_current_game_version
+from static_s3.templatetags.static_s3 import static
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +32,8 @@ HIT_SKIP = re.compile(r'^/(static|media|api|admin|admin-tools|admin-comment-acti
 HIT_SHARED = re.compile(r'^/s/.*$')
 # /spells_linked/<name>/<id>/ : same, the name is a character name.
 HIT_LINKED = re.compile(r'^/spells_linked/.+$')
+# These routes carry an account name right after the route word, and an old name can hold a slash.
+HIT_NAMED = re.compile(r'^/(user|email_confirmed|confirm_email|do_recover_password)/.+$')
 # An id has a digit or mixed case. Route words are plain lowercase, keep them.
 HIT_IDENT = re.compile(r'^(?=.*\d)|^(?=.*[a-z])(?=.*[A-Z])')
 
@@ -62,6 +67,9 @@ def normalise_path(path, version):
         return '/s/<build>/'
     if HIT_LINKED.match(path):
         return '/spells_linked/<build>/'
+    named = HIT_NAMED.match(path)
+    if named:
+        return '/%s/<id>/' % named.group(1)
     parts = []
     for segment in path.split('/'):
         parts.append('<id>' if segment and HIT_IDENT.match(segment) else segment)
@@ -109,20 +117,20 @@ def looks_like_a_robot(request):
     return not agent.strip() or bool(_ROBOT.search(agent))
 
 
-def arrival_source(request):
-    """(source, medium, campaign) when a request is an arrival, else None."""
-    given = (request.GET.get('utm_source') or '').strip()
+def arrival_source(utm_source, utm_medium, utm_campaign, referrer, own_host):
+    """(source, medium, campaign) when a page view is an arrival, else None."""
+    given = (utm_source or '').strip()
     if given:
         return (given[:100].lower(),
-                (request.GET.get('utm_medium') or 'utm').strip()[:40].lower(),
-                (request.GET.get('utm_campaign') or '').strip()[:60].lower())
+                (utm_medium or 'utm').strip()[:40].lower(),
+                (utm_campaign or '').strip()[:60].lower())
 
-    referrer = (request.META.get('HTTP_REFERER') or '').strip()
+    referrer = (referrer or '').strip()
     if not referrer:
         return ('direct', 'none', '')
 
     host = _host_of(referrer)
-    if not host or host == _host_of(request.get_host()):
+    if not host or host == _host_of(own_host):
         return None
 
     if any(host.startswith(s) or ('.' + s) in host for s in _SEARCH_HOSTS):
@@ -147,11 +155,8 @@ def _source_has_room(day, source, medium, campaign):
     return distinct < VISIT_SOURCES_PER_DAY
 
 
-def record_arrival(request):
-    """Count one arrival, aggregated by day."""
-    if looks_like_a_robot(request):
-        return
-    found = arrival_source(request)
+def record_arrival(found, language, country):
+    """Count one arrival from arrival_source, aggregated by day."""
     if found is None:
         return
     source, medium, campaign = found
@@ -159,9 +164,9 @@ def record_arrival(request):
     key = {
         'day': timezone.localdate(),
         'source': source, 'medium': medium, 'campaign': campaign,
-        'language': (translation.get_language() or '')[:10],
+        'language': language[:10],
         # Set by Cloudflare, 'XX' when unknown
-        'country': (request.META.get('HTTP_CF_IPCOUNTRY') or '')[:2].upper(),
+        'country': country[:2].upper(),
     }
     updated = VisitSource.objects.filter(**key).update(count=F('count') + 1)
     if not updated:
@@ -195,8 +200,30 @@ class PrivateForSignedInMiddleware:
         return bool(user is not None and user.is_authenticated)
 
 
+SEEN_SALT = 'chardata.page_seen'
+
+# A later report is a tab left aside or a token kept for replay
+SEEN_TOKEN_SECONDS = 3600
+
+
+def seen_token(path, version, language, build=None):
+    """What the server vouches for: it served this page, in this version and language."""
+    claim = {'p': path, 'v': version, 'l': language}
+    if build:
+        claim['b'] = build
+    return signing.dumps(claim, salt=SEEN_SALT)
+
+
+def read_seen_token(token):
+    """The claim when the token is ours and recent, else None."""
+    try:
+        return signing.loads(token, salt=SEEN_SALT, max_age=SEEN_TOKEN_SECONDS)
+    except signing.BadSignature:
+        return None
+
+
 class PageHitMiddleware:
-    """One counter per page per day. Never breaks the request it counts."""
+    """Hands each countable page the script that reports it. Never breaks the request."""
 
     def __init__(self, get_response):
         self.get_response = get_response
@@ -204,28 +231,31 @@ class PageHitMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         try:
-            self.count(request, response)
+            self.offer_the_report(request, response)
         except Exception:
             # Warning, not error: ERROR mails the admins on every request
             logger.warning('page hit not counted for %s', request.path_info,
                            exc_info=True)
         return response
 
-    def count(self, request, response):
-        if request.method != 'GET' or response.status_code != 200:
-            return
-        if looks_like_a_robot(request):
+    def offer_the_report(self, request, response):
+        if request.method != 'GET' or response.status_code != 200 or response.streaming:
             return
         if not response.get('Content-Type', '').startswith('text/html'):
             return
         path = request.path_info
         if HIT_SKIP.match(path):
             return
-        from chardata.models import PageHit
+        end_of_body = response.content.rfind(b'</body>')
+        if end_of_body < 0:
+            return
         version = getattr(request, 'game_version', 'dofus3')
-        key = {'day': timezone.localdate(), 'path': normalise_path(path, version),
-               'game_version': version}
-        updated = PageHit.objects.filter(**key).update(count=F('count') + 1)
-        if not updated:
-            PageHit.objects.get_or_create(defaults={'count': 1}, **key)
-        record_arrival(request)
+        token = seen_token(normalise_path(path, version), version,
+                           translation.get_language() or '',
+                           getattr(request, 'seen_build', None))
+        script = format_html('<script src="{}" data-seen="{}" defer></script>',
+                             static('chardata/seen.js'), token)
+        response.content = (response.content[:end_of_body] + script.encode('utf-8')
+                            + response.content[end_of_body:])
+        if response.has_header('Content-Length'):
+            response['Content-Length'] = str(len(response.content))

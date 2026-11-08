@@ -33,7 +33,8 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
     coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view, dofusbook_view, dofusbook_export_view, text_build_view, csp_report_view, forgemagie_view, \
-    inventory_view, guides_view, admin_tools_view, character_assets, fashionista_build_view
+    inventory_view, guides_view, admin_tools_view, character_assets, fashionista_build_view, \
+    page_seen_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -795,6 +796,7 @@ urlpatterns = [
             name='fashionista_export'),
     # CSP violation reports; no version prefix, a report belongs to no game
     re_path(r'^csp-report/$', csp_report_view.csp_report, name='csp_report'),
+    re_path(r'^seen/$', page_seen_view.page_seen, name='page_seen'),
     re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
     re_path(r'^workshop/ingredients/$', workshop_view.workshop_ingredients, name='workshop_ingredients'),
     re_path(r'^workshop/sources/$', workshop_view.workshop_sources, name='workshop_sources'),
