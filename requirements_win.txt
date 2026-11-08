@@ -15,8 +15,8 @@
 
 asgiref==3.13.0
 beautifulsoup4==4.15.0
-boto3==1.43.123
-botocore==1.43.123
+boto3==1.43.126
+botocore==1.43.126
 certifi==2026.10.23
 cffi==2.1.1
 charset-normalizer==3.5.2
@@ -24,14 +24,14 @@ cryptography==50.0.2
 defusedxml==0.7.1
 django-htmlmin==0.11.0
 django-sslserver==0.22
-Django==6.0.9
+Django==6.0.10
 html5lib==1.1
 idna==3.20
 jmespath==1.1.0
 jsonpickle==4.1.4
 oauthlib==4.0.1
 pillow==13.0.0
-PuLP==2.9.0
+PuLP==3.3.2
 pycparser==3.12
 PyJWT==2.15.1
 PyMySQL==1.2.3
@@ -43,8 +43,8 @@ s3transfer==0.19.3
 six==1.17.0
 social-auth-app-django==7.2.0
 social-auth-core==6.2.0
-soupsieve==3.0.4
-sqlparse==0.6.0
+soupsieve==4.0.1
+sqlparse==0.6.1
 typing_extensions==4.16.0
 tzdata==2026.6
 Unidecode==1.4.0
