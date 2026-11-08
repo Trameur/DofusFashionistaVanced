@@ -24,7 +24,7 @@ from django.core.mail import send_mail, BadHeaderError
 from django.core.validators import validate_email
 from django.urls import reverse
 from django.http import Http404, HttpResponseRedirect
-from django.db import IntegrityError
+from django.db import DatabaseError, IntegrityError, transaction
 from django.core.signing import (BadSignature, SignatureExpired,
                                  TimestampSigner)
 from django.utils.crypto import constant_time_compare, salted_hmac
@@ -190,13 +190,12 @@ def register(request):
     if _get_non_social_users_for_email(email):
         return _recover_password_page(request, email, from_register=True)
 
-    link = request.build_absolute_uri(
-        reverse('confirm_email',
-                args=(username, _generate_token_for_user(username))))
     try:
         user = User.objects.create_user(username, email, password)
     except IntegrityError:
         raise PermissionDenied
+    link = request.build_absolute_uri(
+        reverse('confirm_email', args=(username, _generate_token_for_user(user))))
     user.is_active = False
     user.save()
     alias = UserAlias()
@@ -231,23 +230,28 @@ def check_your_email(request):
                         {'request': request})
 
 def confirm_email(request, username, confirmation_token):
-    # Constant-time comparison, like the reset token
-    if not constant_time_compare(confirmation_token,
-                                 _generate_token_for_user(username)):
-        return HttpResponseText('invalid token')
-    
     users = User.objects.filter(username=username)
 
     if not users or len(users) != 1:
         return HttpResponseText('invalid token')
-    
+
     user = users[0]
+    # Constant-time comparison, like the reset token
+    if not constant_time_compare(confirmation_token,
+                                 _generate_token_for_user(user)):
+        return HttpResponseText('invalid token')
+
     if user.is_active:
         return HttpResponseRedirect(reverse('email_confirmed_page',
                                             args=(username, 'yes')))
     
     user.is_active = True
-    user.save()
+    try:
+        # A save of the whole row would bring back an account deleted meanwhile
+        with transaction.atomic():
+            user.save(update_fields=['is_active'])
+    except DatabaseError:
+        return HttpResponseText('invalid token')
     return HttpResponseRedirect(reverse('email_confirmed_page',
                                         args=(username, 'no')))
 
@@ -324,7 +328,11 @@ def change_password(request):
     if user is not None:
         clear_login_failures(username)
         user.set_password(new_password)
-        user.save()
+        try:
+            with transaction.atomic():
+                user.save(update_fields=['password'])
+        except DatabaseError:
+            return HttpResponseText('invalid')
         return HttpResponseText('ok')
     else:
         note_login_failure(request, username)
@@ -444,7 +452,11 @@ def recover_password(request, username, recover_token):
     # Completing the reset proves the email, and local_login rejects inactive
     # accounts.
     user.is_active = True
-    user.save()
+    try:
+        with transaction.atomic():
+            user.save(update_fields=['password', 'is_active'])
+    except DatabaseError:
+        raise PermissionDenied
     clear_login_failures(user.username)
 
     return set_response(request,
@@ -453,8 +465,10 @@ def recover_password(request, username, recover_token):
                          'username': username})
 
 EMAIL_CONFIRMATION_SALT = settings.GEN_CONFIGS["EMAIL_CONFIRMATION_SALT"]
-def _generate_token_for_user(username):
-    return salted_hmac(EMAIL_CONFIRMATION_SALT, username).hexdigest()
+def _generate_token_for_user(user):
+    # The id keeps a link from activating a later account that takes the same name
+    return salted_hmac(EMAIL_CONFIRMATION_SALT,
+                       '%s|%d' % (user.username, user.pk)).hexdigest()
 
 PASSWORD_RESET_SALT = settings.GEN_CONFIGS["PASSWORD_RESET_SALT"]
 
