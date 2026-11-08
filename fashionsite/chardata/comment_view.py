@@ -21,6 +21,7 @@ from django.views.decorators.http import require_POST
 from chardata.encoded_char_id import encode_char_id
 from chardata.models import BuildComment, Char, CommentReport, UserAlias
 from chardata.moderation import validate_comment
+from chardata.rate_limit import hits, note_hit
 
 
 logger = logging.getLogger(__name__)
@@ -29,6 +30,12 @@ MAX_CONTENT_LENGTH = 2000
 MIN_CONTENT_LENGTH = 1
 AUTO_HIDE_REPORT_THRESHOLD = 3
 NOTIFY_EXTRACT_LENGTH = 200
+
+COMMENT_WINDOW = 10 * 60
+COMMENTS_PER_USER = 15
+
+NOTIFY_WINDOW = 5 * 60
+NOTIFIES_PER_BUILD_AND_OWNER = 1
 
 
 def _serialize_comment(comment, request_user):
@@ -102,6 +109,11 @@ def _notify_build_owner(request, build, comment):
     except UserAlias.DoesNotExist:
         pass
 
+    mail_key = 'comment-mail:%s:%s' % (build.id, owner.id)
+    if hits(mail_key, NOTIFY_WINDOW) >= NOTIFIES_PER_BUILD_AND_OWNER:
+        return
+    note_hit(mail_key, NOTIFY_WINDOW)
+
     try:
         commenter_name = comment.user.username
         try:
@@ -143,6 +155,10 @@ def _notify_build_owner(request, build, comment):
 @login_required
 @require_POST
 def post_comment(request, build_id):
+    if hits('comment-user:%s' % request.user.id, COMMENT_WINDOW) >= COMMENTS_PER_USER:
+        return JsonResponse(
+            {'error': _('You are posting comments too fast. Please try again in a few minutes.')},
+            status=429)
     content = (request.POST.get('content') or '').strip()
     if len(content) < MIN_CONTENT_LENGTH:
         return JsonResponse({'error': _('Comment is empty')}, status=400)
@@ -160,6 +176,7 @@ def post_comment(request, build_id):
         return JsonResponse({'error': _('Build not found')}, status=404)
 
     comment = BuildComment.objects.create(user=request.user, build=build, content=content)
+    note_hit('comment-user:%s' % request.user.id, COMMENT_WINDOW)
     _notify_build_owner(request, build, comment)
 
     return JsonResponse({'success': True, 'comment': _serialize_comment(comment, request.user)})
