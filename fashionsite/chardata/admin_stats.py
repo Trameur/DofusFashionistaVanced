@@ -6,7 +6,7 @@ from collections import Counter, OrderedDict
 from django.contrib.auth.models import User
 from chardata.util import shared_build_path
 from django.core.cache import cache
-from django.db.models import Count, Min, Q, Sum
+from django.db.models import Count, F, Min, Q, Sum
 from django.utils import timezone
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
@@ -16,7 +16,7 @@ from chardata.models import (BuildComment, BuildVote, Char, ExportHit,
                              ImportSourceHit, PageHit, SolutionMemoryHits,
                              UserAlias)
 
-CACHE_KEY = 'admin_dashboard_v4'
+CACHE_KEY = 'admin_dashboard_v5'
 CACHE_SECONDS = 300
 VERSIONS = [slug for slug, _label in ACTIVE_GAME_VERSIONS]
 VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
@@ -192,8 +192,27 @@ def _period_counts(queryset, field, period):
     return {'recent': recent, 'previous': previous, 'change': _change(recent, previous)}
 
 
+COPY_SAVE_TOLERANCE = datetime.timedelta(seconds=60)
+COPY_RUN_TOLERANCE = datetime.timedelta(seconds=1)
+
+
+def _builds_in_use():
+    """Alive builds, without the anonymous copies nobody touched: following a copy link makes one, and crawlers follow links.
+
+    A batch save moves modified_time, so an untouched copy it reached still counts.
+    """
+    created = F('created_time')
+    untouched_copy = (
+        Q(owner__isnull=True, name__endswith=' copy', link_shared=False,
+          created_time__isnull=False,
+          modified_time__lte=created + COPY_SAVE_TOLERANCE)
+        & (Q(solved_time__isnull=True) | Q(solved_time__lte=created + COPY_RUN_TOLERANCE))
+        & (Q(stuff_time__isnull=True) | Q(stuff_time__lte=created + COPY_RUN_TOLERANCE)))
+    return Char.objects.filter(deleted=False).exclude(untouched_copy)
+
+
 def overview(period, version):
-    builds = _for_version(Char.objects.filter(deleted=False), version)
+    builds = _for_version(_builds_in_use(), version)
     comments = _for_version(BuildComment.objects.filter(deleted=False), version,
                             'build__game_version')
     votes = _for_version(BuildVote.objects.all(), version, 'build__game_version')
@@ -244,7 +263,7 @@ def _languages():
 def versions(period, version):
     rows = []
     for slug in VERSIONS:
-        alive = Char.objects.filter(game_version=slug, deleted=False)
+        alive = _builds_in_use().filter(game_version=slug)
         total = alive.count()
         shared = alive.filter(link_shared=True).count()
         rows.append({
@@ -267,7 +286,7 @@ def versions(period, version):
 
 def _classes(shown):
     counts = Counter()
-    for row in (Char.objects.filter(deleted=False)
+    for row in (_builds_in_use()
                 .values('game_version', 'char_class').annotate(n=Count('id'))):
         counts[(row['game_version'], row['char_class'])] = row['n']
     per_version = OrderedDict()
@@ -285,7 +304,7 @@ LEVEL_BANDS = ((1, 20), (21, 50), (51, 100), (101, 150), (151, 199), (200, 200))
 def _levels(shown):
     per_version = OrderedDict()
     for slug in shown:
-        counts = Char.objects.filter(deleted=False, game_version=slug).aggregate(
+        counts = _builds_in_use().filter(game_version=slug).aggregate(
             **{'band%d' % i: Count('id', filter=Q(level__gte=low, level__lte=high))
                for i, (low, high) in enumerate(LEVEL_BANDS)})
         bands = []
@@ -346,31 +365,34 @@ def _engagement(shared):
     return bands
 
 
-#: The day PageHitMiddleware started skipping crawlers. Everything counted
-#: before is inflated -- a crawler was counted exactly like a reader, and the
-#: user agent was never stored, so the old rows cannot be corrected. Naming the
-#: date lets the page say which of its numbers can be trusted instead of
-#: presenting two different things as one.
-ROBOTS_EXCLUDED_SINCE = datetime.date(2026, 8, 24)
+#: The day pages started counting once a browser shows them. Older page reads and
+#: direct arrivals also hold crawlers posing as browsers, and cannot be corrected:
+#: the user agent was never stored.
+REAL_BROWSERS_SINCE = datetime.date(2026, 11, 7)
 
 
 def pages(period, version):
-    hits = PageHit.objects.filter(day__gte=period.start, day__lte=period.end)
-    hits = _for_version(hits, version)
+    # Older rows are hundreds of times larger: drawn together, today's bars vanish
+    shown = period
+    if period.start < REAL_BROWSERS_SINCE:
+        shown = Period('custom', REAL_BROWSERS_SINCE,
+                       max(period.end, REAL_BROWSERS_SINCE), custom=True)
+    in_range = PageHit.objects.filter(day__gte=shown.start, day__lte=period.end)
+    hits = _for_version(in_range, version)
     rows = hits.values('path').annotate(n=Sum('count')).order_by('-n')[:ROW_CAP]
-    per_version = (PageHit.objects.filter(day__gte=period.start, day__lte=period.end)
-                   .values('game_version').annotate(n=Sum('count')).order_by('-n'))
+    per_version = in_range.values('game_version').annotate(n=Sum('count')).order_by('-n')
     buckets = Counter()
     for row in hits.values('day').annotate(n=Sum('count')):
-        buckets[period.bucket_of(row['day'])] += row['n']
+        buckets[shown.bucket_of(row['day'])] += row['n']
     return {
         'top': [(r['path'], r['n']) for r in rows],
         'by_version': [(VERSION_LABELS.get(r['game_version'], r['game_version']), r['n'])
                        for r in per_version],
-        'per_week': period.series(buckets),
+        'per_week': shown.series(buckets),
+        'unit_word': UNIT_WORD[shown.unit],
         'collecting_since': PageHit.objects.order_by('day').values_list('day', flat=True).first(),
-        'robots_excluded_since': ROBOTS_EXCLUDED_SINCE,
-        'includes_robots': period.start < ROBOTS_EXCLUDED_SINCE,
+        'real_browsers_since': REAL_BROWSERS_SINCE,
+        'hides_older_days': period.start < REAL_BROWSERS_SINCE,
     }
 
 
@@ -510,7 +532,7 @@ def solver(period, version):
         per_bucket_miss[start] += row['count_miss']
     totals = in_period.aggregate(hit=Sum('count_hit'), miss=Sum('count_miss'))
     total_hit, total_miss = totals['hit'] or 0, totals['miss'] or 0
-    unsolved = _for_version(Char.objects.filter(deleted=False, minimal_solution=b''), version)
+    unsolved = _for_version(_builds_in_use().filter(minimal_solution=b''), version)
     return {
         'hits': period.series(per_bucket_hit),
         'misses': period.series(per_bucket_miss),
@@ -590,13 +612,17 @@ def dashboard(refresh=False, period_key=None, version=None, start=None, end=None
 
 # --- charts ---------------------------------------------------------------
 
+# One day of data must not fill the whole chart
+WIDEST_BAR = 40
+
+
 def bar_chart(series, width=560, height=150, colour='var(--fm-accent, #c8a05a)'):
     """series is [(label, value)]."""
     if not series:
         return ''
     top = max(v for _l, v in series) or 1
     step = width / float(len(series))
-    bar = max(step * 0.6, 2)
+    bar = min(max(step * 0.6, 2), WIDEST_BAR)
     parts = ['<svg viewBox="0 0 %d %d" class="admin-chart" preserveAspectRatio="none">'
              % (width, height + 18)]
     for i, (label, value) in enumerate(series):
@@ -622,7 +648,7 @@ def stacked_chart(series_by_key, colours, width=560, height=150):
     totals = [sum(series_by_key[k][i][1] for k in keys) for i in range(length)]
     top = max(totals) or 1
     step = width / float(length)
-    bar = max(step * 0.6, 2)
+    bar = min(max(step * 0.6, 2), WIDEST_BAR)
     parts = ['<svg viewBox="0 0 %d %d" class="admin-chart" preserveAspectRatio="none">'
              % (width, height + 18)]
     for i in range(length):

@@ -13,7 +13,6 @@ from collections import defaultdict
 from datetime import timedelta
 
 from django.http import Http404, JsonResponse
-from django.shortcuts import render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
@@ -262,8 +261,11 @@ def provenance(request):
 
     today = timezone.localdate()
 
+    def from_day(days):
+        return max(today - timedelta(days=days - 1), admin_stats.REAL_BROWSERS_SINCE)
+
     def over(days):
-        since = today - timedelta(days=days - 1)
+        since = from_day(days)
         rows = (VisitSource.objects.filter(day__gte=since)
                 .values('source', 'medium')
                 .annotate(visits=Sum('count')).order_by('-visits'))
@@ -275,6 +277,7 @@ def provenance(request):
                   .aggregate(n=Sum('count'))['n']) or 0
         return {
             'days': days,
+            'since': since,
             'rows': rows[:40],
             'hidden': max(0, len(rows) - 40),
             'total': total,
@@ -286,21 +289,22 @@ def provenance(request):
         }
 
     by_country = (VisitSource.objects
-                  .filter(day__gte=today - timedelta(days=29))
+                  .filter(day__gte=from_day(30))
                   .exclude(country='')
                   .values('country').annotate(visits=Sum('count'))
                   .order_by('-visits')[:12])
     by_language = (VisitSource.objects
-                   .filter(day__gte=today - timedelta(days=29))
+                   .filter(day__gte=from_day(30))
                    .exclude(language='')
                    .values('language').annotate(visits=Sum('count'))
                    .order_by('-visits')[:8])
 
-    return render(request, 'chardata/provenance.html', {
+    return set_response(request, 'chardata/provenance.html', {
         'periods': [over(7), over(30)],
         'by_country': list(by_country),
         'by_language': list(by_language),
         'first_day': (VisitSource.objects.order_by('day')
                       .values_list('day', flat=True).first()),
+        'real_browsers_since': admin_stats.REAL_BROWSERS_SINCE,
         'today': today,
     })
