@@ -53,6 +53,10 @@ def _prehash_password(raw_password):
     return hashlib.sha256(('dofusfashionista' + raw_password).encode('utf-8')).hexdigest()
 
 
+# Checked on what the reset form posts, never on a hash
+MIN_PASSWORD_LENGTH = 8
+
+
 # Per-process cache counters: a worker pool multiplies the ceiling, still far from unbounded
 LOGIN_FAIL_WINDOW = 15 * 60
 LOGIN_FAIL_MAX_PER_USER = 10
@@ -150,6 +154,7 @@ def _login_page_generic(request, from_confirmation, prefilled_user, char_id, alr
                          'from_confirmation': from_confirmation,
                          'prefilled_user': prefilled_user,
                          'already_confirmed': already_confirmed == 'yes',
+                         'min_password_length': MIN_PASSWORD_LENGTH,
                          # Back from a failed Google login: the middleware adds this marker
                          'social_failed': (request.GET.get(SOCIAL_FAILED_PARAM)
                                            == SOCIAL_FAILED_VALUE)})
@@ -253,8 +258,19 @@ def email_confirmed_page(request, username, already_confirmed):
         raise Http404
     return _login_page_generic(request, True, username, 0, already_confirmed)
 
+NAME_CHECK_WINDOW = 15 * 60
+NAME_CHECKS_PER_SESSION = 40
+NAME_CHECKS_PER_ADDRESS = 120
+
+
 @require_POST
 def check_if_taken(request):
+    from chardata import visitor_throttle
+    limits = ('name-check', NAME_CHECK_WINDOW, NAME_CHECKS_PER_SESSION,
+              NAME_CHECKS_PER_ADDRESS)
+    if visitor_throttle.reached(request, *limits):
+        return HttpResponseText('too-many')
+    visitor_throttle.note(request, *limits)
     username = (request.POST.get('username') or '').strip()
     if username and (has_unsafe_character(username) or public_name_is_taken(username)):
         return HttpResponseText('username-error')
@@ -400,6 +416,7 @@ def recover_password(request, username, recover_token):
                             'chardata/password_reset_form.html',
                             {'request': request,
                              'username': username,
+                             'min_password_length': MIN_PASSWORD_LENGTH,
                              'recover_token': recover_token})
 
     new_password = request.POST.get('new_password', None)
@@ -408,6 +425,9 @@ def recover_password(request, username, recover_token):
 
     if not new_password:
         error_message = _('You need to enter a new password.')
+    elif len(new_password) < MIN_PASSWORD_LENGTH:
+        error_message = (_('Your password must have at least %(count)s characters.')
+                         % {'count': MIN_PASSWORD_LENGTH})
     elif new_password != confirm_password:
         error_message = _('The passwords do not match.')
 
@@ -416,6 +436,7 @@ def recover_password(request, username, recover_token):
                             'chardata/password_reset_form.html',
                             {'request': request,
                              'username': username,
+                             'min_password_length': MIN_PASSWORD_LENGTH,
                              'recover_token': recover_token,
                              'error_message': error_message})
 

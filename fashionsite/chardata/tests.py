@@ -3208,7 +3208,8 @@ class PasswordResetTests(TestCase):
         u.save()
         token = _generate_token_for_password_reset('vida', u.password, u.email)
         self.client.post('/do_recover_password/vida/%s/' % token,
-                         {'new_password': 'newpass', 'confirm_password': 'newpass'})
+                         {'new_password': 'newpassword1',
+                          'confirm_password': 'newpassword1'})
         u.refresh_from_db()
         self.assertTrue(u.is_active)
 
