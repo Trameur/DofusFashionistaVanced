@@ -27,11 +27,8 @@ from chardata.util import shared_build_path
 
 
 def _is_admin(request):
-    """Admin = the app's configured super-user email OR a Django superuser."""
-    user = request.user
-    if user.is_anonymous:
-        return False
-    return request_by_super_user(request) or user.is_superuser
+    """Admin = a signed-in Django superuser."""
+    return request_by_super_user(request)
 
 
 def _require_admin(request):

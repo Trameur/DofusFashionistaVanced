@@ -80,7 +80,7 @@ def user_has_projects(request):
     return has_projects
 
 def load_a_project(request, char_id):
-    char = get_object_or_404(Char, pk=char_id)
+    char = get_char_or_raise(request, char_id)
     if get_solution(char) is not None:
         return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
     return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))
