@@ -116,7 +116,8 @@ class TheLiveFiguresAreAddedAfterTheSnapshotDayTests(_History):
         with CaptureQueriesContext(connection) as queries:
             counts = admin_history.live_counts(self.snapshot)
         self.assertEqual({'2025-04': 1}, counts['builds_real'])
-        self.assertTrue(any('"chardata_char"."id" >' in q['sql'] for q in queries.captured_queries))
+        floor = '%s.%s >' % (connection.ops.quote_name('chardata_char'), connection.ops.quote_name('id'))
+        self.assertTrue(any(floor in q['sql'] for q in queries.captured_queries))
         self.assertGreater(new.pk, known.pk)
 
     def test_untouched_copies_and_holes_in_the_ids_are_robots(self):
