@@ -9755,6 +9755,137 @@ msgstr "Ton mot de passe doit contenir au moins %(count)s caractères."
 msgid "You have created too many builds for now. Please try again later or log in."
 msgstr "Tu as créé trop de builds pour le moment. Réessaie plus tard ou connecte-toi."
 
+#: chardata/templates/chardata/manage_account.html
+msgid "Danger zone"
+msgstr "Zone dangereuse"
+
+#: chardata/templates/chardata/manage_account.html
+msgid "Deleting your account removes your builds, including the shared ones, your comments, your votes and your settings. This cannot be undone. Copies other players made of your builds stay with them."
+msgstr "La suppression de ton compte retire tes builds, y compris ceux que tu as partagés, tes commentaires, tes votes et tes réglages. Cette action est irréversible. Les copies que d’autres joueurs ont faites de tes builds restent chez eux."
+
+#: chardata/templates/chardata/manage_account.html
+msgid "Email me the deletion link"
+msgstr "Envoie-moi le lien de suppression par email"
+
+#: chardata/templates/chardata/manage_account.html
+msgid "No access to that mailbox? Confirm with your password instead."
+msgstr "Plus d’accès à cette boîte mail ? Confirme plutôt avec ton mot de passe."
+
+#: chardata/templates/chardata/manage_account.html
+msgid "Continue with my password"
+msgstr "Continuer avec mon mot de passe"
+
+#: chardata/templates/chardata/manage_account.html
+msgid "If your address no longer works, save a new one above, then come back a day later."
+msgstr "Si ton adresse ne fonctionne plus, enregistres-en une nouvelle ci-dessus, puis reviens un jour plus tard."
+
+#: chardata/templates/chardata/manage_account.html
+msgid "This is an administrator account. It cannot be deleted this way."
+msgstr "Ceci est un compte administrateur. Il ne peut pas être supprimé de cette façon."
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "Delete your account"
+msgstr "Supprimer ton compte"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+#, python-format
+msgid "Delete the account %(account)s for good?"
+msgstr "Supprimer définitivement le compte %(account)s ?"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+#, python-format
+msgid "Builds to be removed: %(builds)s"
+msgstr "Builds à supprimer : %(builds)s"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "Links to your shared builds will stop working. Your comments, votes and settings will be removed too."
+msgstr "Les liens vers tes builds partagés cesseront de fonctionner. Tes commentaires, tes votes et tes réglages seront aussi supprimés."
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "I understand that this cannot be undone"
+msgstr "Je comprends que cette action est irréversible"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "Delete my account"
+msgstr "Supprimer mon compte"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "Tick the box to confirm."
+msgstr "Coche la case pour confirmer."
+
+#: chardata/templates/chardata/account_deletion_result.html
+#, python-format
+msgid "We have sent a link to %(address)s. Open it within one hour to delete your account. If this address no longer works, go back to your account page."
+msgstr "Nous avons envoyé un lien à %(address)s. Ouvre-le dans l’heure qui suit pour supprimer ton compte. Si cette adresse ne fonctionne plus, retourne sur la page de ton compte."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "Your account and your builds are deleted. If you sign in with Google again, a new empty account is created."
+msgstr "Ton compte et tes builds sont supprimés. Si tu te connectes de nouveau avec Google, un nouveau compte vide est créé."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "Your account and your builds are deleted, and you are signed out. If you sign in with Google again, a new empty account is created."
+msgstr "Ton compte et tes builds sont supprimés, et ta session est fermée. Si tu te connectes de nouveau avec Google, un nouveau compte vide est créé."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "This link has expired or was already used. Ask for a new one on your account page."
+msgstr "Ce lien a expiré ou a déjà été utilisé. Demande-en un nouveau depuis la page de ton compte."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "Too many deletion requests. Try again in an hour."
+msgstr "Trop de demandes de suppression. Réessaie dans une heure."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "The email address of this account changed less than a day ago. For your safety, try again once a full day has passed."
+msgstr "L’adresse email de ce compte a changé il y a moins d’un jour. Par sécurité, réessaie quand une journée entière sera passée."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "This account has no email address. Save one on your account page, then come back a day later."
+msgstr "Ce compte n’a pas d’adresse email. Enregistres-en une sur la page de ton compte, puis reviens un jour plus tard."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "This password does not match your account."
+msgstr "Ce mot de passe ne correspond pas à ton compte."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "The deletion could not be completed. Your account was not changed. Try again later."
+msgstr "La suppression n’a pas pu être effectuée. Ton compte n’a pas été modifié. Réessaie plus tard."
+
+#: chardata/manage_account_view.py
+msgid "Confirm the deletion of your account on The Dofus Fashionista"
+msgstr "Confirme la suppression de ton compte sur Dofus Fashionista"
+
+#: chardata/manage_account_view.py
+#, python-brace-format
+msgid ""
+"You asked to delete the account {account} on The Dofus Fashionista. Your builds, comments, votes and settings would be removed for good.\n"
+"To go on, open the link below and press the button on that page. The link works for one hour.\n"
+"{link}\n"
+"\n"
+"If you did not ask for this, ignore this email: nothing changes without that button. Someone else may be signed in to your account."
+msgstr ""
+"Tu as demandé la suppression du compte {account} sur Dofus Fashionista. Tes builds, tes commentaires, tes votes et tes réglages seraient supprimés définitivement.\n"
+"Pour continuer, ouvre le lien ci-dessous et appuie sur le bouton de cette page. Le lien fonctionne pendant une heure.\n"
+"{link}\n"
+"\n"
+"Si tu n’as rien demandé, ignore cet email : rien ne change sans ce bouton. Quelqu’un d’autre est peut-être connecté à ton compte."
+
+#: chardata/manage_account_view.py
+msgid "Your account on The Dofus Fashionista was deleted"
+msgstr "Ton compte sur Dofus Fashionista a été supprimé"
+
+#: chardata/manage_account_view.py
+#, python-brace-format
+msgid "The account {account} on The Dofus Fashionista and its builds have been deleted. It cannot be restored. If this was not you, reply to this email."
+msgstr "Le compte {account} sur Dofus Fashionista et ses builds ont été supprimés. Il ne peut pas être restauré. Si ce n’était pas toi, réponds à cet email."
+
+#: chardata/templates/chardata/privacy.html
+msgid "You can view and edit your builds at any time while logged in, and you can delete your account and associated data from your account page. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data. You can also control advertising cookies through the consent message and through your Google Ad settings."
+msgstr "Vous pouvez consulter et modifier vos builds à tout moment lorsque vous êtes connecté, et vous pouvez supprimer votre compte et les données associées depuis la page de votre compte. Selon votre lieu de résidence, vous pouvez disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de vos données personnelles. Vous pouvez également contrôler les cookies publicitaires via le message de consentement et via les paramètres de vos annonces Google."
+
+#: chardata/templates/chardata/privacy.html
+msgid "You can view and edit your builds at any time while logged in, and you can delete your account and associated data from your account page. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data."
+msgstr "Vous pouvez consulter et modifier vos builds à tout moment lorsque vous êtes connecté, et vous pouvez supprimer votre compte et les données associées depuis la page de votre compte. Selon votre lieu de résidence, vous pouvez disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de vos données personnelles."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Ce jeu n’a pas d’exos : ils restent de côté."
 
