@@ -368,7 +368,7 @@ def _engagement(shared):
 #: The day pages started counting once a browser shows them. Older page reads and
 #: direct arrivals also hold crawlers posing as browsers, and cannot be corrected:
 #: the user agent was never stored.
-REAL_BROWSERS_SINCE = datetime.date(2026, 11, 7)
+REAL_BROWSERS_SINCE = datetime.date(2026, 11, 8)
 
 
 def pages(period, version):
