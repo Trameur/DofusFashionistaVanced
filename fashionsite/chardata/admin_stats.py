@@ -8,6 +8,7 @@ from chardata.util import shared_build_path
 from django.core.cache import cache
 from django.db.models import Count, F, Min, Q, Sum
 from django.utils import timezone
+from django.utils.html import escape
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.encoded_char_id import encode_char_id
@@ -18,6 +19,8 @@ from chardata.models import (BuildComment, BuildVote, Char, ExportHit,
 
 CACHE_KEY = 'admin_dashboard_v5'
 CACHE_SECONDS = 300
+SECTION_KEY = 'admin_section_v1'
+SECTION_SECONDS = 900
 VERSIONS = [slug for slug, _label in ACTIVE_GAME_VERSIONS]
 VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
 
@@ -47,6 +50,7 @@ class Period(object):
     def __init__(self, key, start, end, custom=False):
         self.key = key
         self.custom = custom
+        self.approximate = False
         self.end = min(max(end, EARLIEST), timezone.localdate())
         self.start = min(max(start, EARLIEST), self.end)
         self.unit = _unit_for((self.end - self.start).days + 1)
@@ -114,11 +118,13 @@ FIRST_DAY_KEY = 'admin_dashboard_first_day'
 FIRST_DAY_SECONDS = 3600
 
 
-def _first_day_on_record():
-    """Char.created_time carries no index, so this is a table scan."""
+def _first_day_on_record(scan=True):
+    """Char.created_time carries no index, so this is a table scan. Without scan, None when not cached."""
     known = cache.get(FIRST_DAY_KEY)
     if known:
         return known
+    if not scan:
+        return None
     days = [User.objects.aggregate(d=Min('date_joined'))['d'],
             Char.objects.aggregate(d=Min('created_time'))['d']]
     days = [timezone.localtime(d).date() if d and hasattr(d, 'hour') else d
@@ -136,8 +142,12 @@ def _parse_day(text):
     return min(max(day, EARLIEST), timezone.localdate())
 
 
-def resolve_period(key=None, start=None, end=None):
-    """A custom start and end wins over the preset key. Bad input falls back."""
+def resolve_period(key=None, start=None, end=None, scan=True):
+    """A custom start and end wins over the preset key. Bad input falls back.
+
+    Without scan, the all time preset never reads the tables: its start is the
+    cached first day, else the earliest date, and the period is flagged approximate.
+    """
     today = timezone.localdate()
     first, last = _parse_day(start), _parse_day(end)
     if first or last:
@@ -149,9 +159,16 @@ def resolve_period(key=None, start=None, end=None):
     if key not in PERIODS:
         key = DEFAULT_PERIOD
     length = PERIODS[key][1]
-    begin = (_first_day_on_record() if length is None
-             else today - datetime.timedelta(days=length - 1))
-    return Period(key, begin, today)
+    approximate = False
+    if length is None:
+        begin = _first_day_on_record(scan)
+        if begin is None:
+            begin, approximate = EARLIEST, True
+    else:
+        begin = today - datetime.timedelta(days=length - 1)
+    period = Period(key, begin, today)
+    period.approximate = approximate
+    return period
 
 
 def resolve_version(slug):
@@ -196,19 +213,23 @@ COPY_SAVE_TOLERANCE = datetime.timedelta(seconds=60)
 COPY_RUN_TOLERANCE = datetime.timedelta(seconds=1)
 
 
-def _builds_in_use():
-    """Alive builds, without the anonymous copies nobody touched: following a copy link makes one, and crawlers follow links.
+def untouched_copy_q():
+    """An anonymous copy nobody touched: following a copy link makes one, and crawlers follow links.
 
     A batch save moves modified_time, so an untouched copy it reached still counts.
     """
     created = F('created_time')
-    untouched_copy = (
+    return (
         Q(owner__isnull=True, name__endswith=' copy', link_shared=False,
           created_time__isnull=False,
           modified_time__lte=created + COPY_SAVE_TOLERANCE)
         & (Q(solved_time__isnull=True) | Q(solved_time__lte=created + COPY_RUN_TOLERANCE))
         & (Q(stuff_time__isnull=True) | Q(stuff_time__lte=created + COPY_RUN_TOLERANCE)))
-    return Char.objects.filter(deleted=False).exclude(untouched_copy)
+
+
+def _builds_in_use():
+    """Alive builds, without the anonymous copies nobody touched."""
+    return Char.objects.filter(deleted=False).exclude(untouched_copy_q())
 
 
 def overview(period, version):
@@ -341,6 +362,7 @@ def community(period, version):
                                           'created_time', period)),
         'top_builds': top,
         'engagement': _engagement(shared),
+        'real_browsers_since': REAL_BROWSERS_SINCE,
     }
 
 
@@ -547,7 +569,7 @@ def solver(period, version):
 UNIT_WORD = {'day': 'per day', 'week': 'per week', 'month': 'per month'}
 
 
-def _url(period_key=None, start=None, end=None, version=None):
+def _url(period_key=None, start=None, end=None, version=None, tab=None):
     parts = []
     if start and end:
         parts.append('from=%s&to=%s' % (start, end))
@@ -555,16 +577,20 @@ def _url(period_key=None, start=None, end=None, version=None):
         parts.append('period=%s' % period_key)
     if version:
         parts.append('version=%s' % version)
+    if tab:
+        parts.append('tab=%s' % tab)
     return '?' + '&'.join(parts) if parts else '?'
 
 
-def filters(period, version):
+def filters(period, version, tab=None):
     """What the toolbar needs to draw itself, links included."""
     start, end = period.start.strftime('%Y-%m-%d'), period.end.strftime('%Y-%m-%d')
     keep = (start, end) if period.custom else (None, None)
+    if period.approximate:
+        start = ''
     return {
         'periods': [{'key': key, 'label': label, 'on': not period.custom and key == period.key,
-                     'url': _url(period_key=key, version=version)}
+                     'url': _url(period_key=key, version=version, tab=tab)}
                     for key, (label, _d) in PERIODS.items()],
         'period_key': period.key,
         'period_label': period.label,
@@ -574,16 +600,18 @@ def filters(period, version):
         'unit_word': UNIT_WORD[period.unit],
         'custom': period.custom,
         'versions': [{'slug': None, 'label': 'All versions', 'on': not version,
-                      'url': _url(period.key, keep[0], keep[1], None)}] +
+                      'url': _url(period.key, keep[0], keep[1], None, tab)}] +
                     [{'slug': slug, 'label': VERSION_LABELS.get(slug, slug),
                       'on': slug == version,
-                      'url': _url(period.key, keep[0], keep[1], slug)}
+                      'url': _url(period.key, keep[0], keep[1], slug, tab)}
                      for slug in VERSIONS],
         'version': version,
         'version_label': VERSION_LABELS.get(version, 'All versions'),
         'previous_label': period.previous_label,
         'today': timezone.localdate().strftime('%Y-%m-%d'),
-        'refresh_url': _url(period.key, keep[0], keep[1], version) + '&refresh=1',
+        'refresh_url': (_url(period.key, keep[0], keep[1], version) + '&refresh=1'
+                        + ('&tab=%s' % tab if tab else '')),
+        'tab': tab,
     }
 
 
@@ -610,26 +638,50 @@ def dashboard(refresh=False, period_key=None, version=None, start=None, end=None
     return data
 
 
+SECTIONS = OrderedDict([
+    ('overview', overview), ('versions', versions), ('community', community),
+    ('pages', pages), ('imports', imports), ('exports', exports), ('solver', solver),
+])
+
+
+def section(name, period, version, refresh=False):
+    """One section of the dashboard as (data, generated), cached on its own.
+
+    Only presets are cached, like dashboard(): a custom range mints a key per date pair.
+    """
+    key = (None if period.custom or period.approximate
+           else '%s:%s:%s:%s' % (SECTION_KEY, name, period.key, version or 'all'))
+    if key and not refresh:
+        cached = cache.get(key)
+        if cached:
+            return cached['data'], cached['generated']
+    data = SECTIONS[name](period, version)
+    generated = timezone.localtime().strftime('%d/%m %H:%M')
+    if key:
+        cache.set(key, {'data': data, 'generated': generated}, SECTION_SECONDS)
+    return data, generated
+
+
 # --- charts ---------------------------------------------------------------
 
 # One day of data must not fill the whole chart
 WIDEST_BAR = 40
 
 
-def bar_chart(series, width=560, height=150, colour='var(--fm-accent, #c8a05a)'):
+def bar_chart(series, width=560, height=150, colour='var(--ad-s1)'):
     """series is [(label, value)]."""
     if not series:
         return ''
     top = max(v for _l, v in series) or 1
     step = width / float(len(series))
     bar = min(max(step * 0.6, 2), WIDEST_BAR)
-    parts = ['<svg viewBox="0 0 %d %d" class="admin-chart" preserveAspectRatio="none">'
+    parts = ['<svg viewBox="0 0 %d %d" class="admin-chart" role="img" aria-label="Bar chart" tabindex="0">'
              % (width, height + 18)]
     for i, (label, value) in enumerate(series):
         tall = (value / float(top)) * height
         x = i * step + (step - bar) / 2
-        parts.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s"><title>%s: %d</title></rect>'
-                     % (x, height - tall, bar, tall, colour, label, value))
+        parts.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s" data-tip="%s" data-v="%d"/>'
+                     % (x, height - tall, bar, tall, colour, escape(label), value))
     every = max(1, len(series) // 8)
     for i, (label, _v) in enumerate(series):
         if i % every == 0:
@@ -639,8 +691,20 @@ def bar_chart(series, width=560, height=150, colour='var(--fm-accent, #c8a05a)')
     return ''.join(parts)
 
 
-def stacked_chart(series_by_key, colours, width=560, height=150):
-    """{key: [(label, value)]}, every series with the same labels in the same order."""
+def _legend(keys, colours, hatched):
+    items = []
+    for k in keys:
+        colour = colours.get(k, '#888')
+        items.append('<span><i class="ah-sw%s" style="--ad-c:%s;background-color:%s"></i>%s</span>'
+                     % (' ah-sw-e' if k in hatched else '', colour, colour, escape(k)))
+    return '<div class="ah-legend">%s</div>' % ''.join(items)
+
+
+def stacked_chart(series_by_key, colours, width=560, height=150, hatched=(), pattern_id='est'):
+    """{key: [(label, value)]}, every series with the same labels in the same order.
+
+    The keys in hatched are drawn with a hatch pattern instead of a flat fill.
+    """
     keys = [k for k in series_by_key if series_by_key[k]]
     if not keys:
         return ''
@@ -649,8 +713,17 @@ def stacked_chart(series_by_key, colours, width=560, height=150):
     top = max(totals) or 1
     step = width / float(length)
     bar = min(max(step * 0.6, 2), WIDEST_BAR)
-    parts = ['<svg viewBox="0 0 %d %d" class="admin-chart" preserveAspectRatio="none">'
+    parts = ['<svg viewBox="0 0 %d %d" class="admin-chart" role="img" aria-label="Stacked bar chart" tabindex="0">'
              % (width, height + 18)]
+    fills = {}
+    for k in keys:
+        if k in hatched:
+            colour = colours.get(k, '#888')
+            fills[k] = 'url(#%s-%d)' % (pattern_id, len(fills))
+            parts.append('<defs><pattern id="%s-%d" width="9" height="9" patternUnits="userSpaceOnUse" '
+                         'patternTransform="rotate(45)"><rect width="9" height="9" fill="%s" fill-opacity="0.36"/>'
+                         '<rect width="1.4" height="9" fill="%s" fill-opacity="0.55"/></pattern></defs>'
+                         % (pattern_id, len(fills) - 1, colour, colour))
     for i in range(length):
         bottom = height
         for k in keys:
@@ -659,14 +732,16 @@ def stacked_chart(series_by_key, colours, width=560, height=150):
                 continue
             tall = (value / float(top)) * height
             bottom -= tall
-            parts.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s">'
-                         '<title>%s %s: %d</title></rect>'
+            parts.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s" '
+                         'data-tip="%s" data-s="%s" data-v="%d"/>'
                          % (i * step + (step - bar) / 2, bottom, bar, tall,
-                            colours.get(k, '#888'), k, series_by_key[keys[0]][i][0], value))
+                            fills.get(k) or colours.get(k, '#888'),
+                            escape(series_by_key[keys[0]][i][0]), escape(k), value))
     every = max(1, length // 8)
     for i in range(length):
         if i % every == 0:
             parts.append('<text x="%.1f" y="%d" class="admin-chart-label">%s</text>'
                          % (i * step + step / 2, height + 14, series_by_key[keys[0]][i][0]))
     parts.append('</svg>')
+    parts.append(_legend(keys, colours, hatched))
     return ''.join(parts)

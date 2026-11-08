@@ -156,10 +156,11 @@ class OlderPageReadsAreNotMixedInTests(TestCase):
     def test_the_page_says_what_it_hides(self):
         admin = User.objects.create_superuser('boss', 'b@x.test', 'pw-42-solid')
         self.client.force_login(admin)
-        html = self.client.get('/admin-tools/').content.decode('utf-8')
+        html = self.client.get('/admin-tools/?tab=pages').content.decode('utf-8')
         self.assertIn('are not shown', html)
-        self.assertIn('anonymous copies nobody touched', html)
         self.assertNotIn('/old/', html)
+        html = self.client.get('/admin-tools/?tab=overview').content.decode('utf-8')
+        self.assertIn('anonymous copies nobody touched', html)
 
 
 class OlderArrivalsAreNotMixedInTests(TestCase):

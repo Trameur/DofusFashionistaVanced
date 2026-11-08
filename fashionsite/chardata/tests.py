@@ -12158,7 +12158,7 @@ class AdminToolsTests(TestCase):
         CommentReport.objects.create(user=r2, comment=comment, reason='harassment')
         User.objects.create_superuser('boss', 'boss@test.local', 'pw-42-solid')
         self.client.login(username='boss', password='pw-42-solid')
-        resp = self.client.get('/admin-tools/')
+        resp = self.client.get('/admin-tools/?tab=moderation')
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Reported comments')
         self.assertContains(resp, 'A questionable comment')
@@ -15800,6 +15800,9 @@ class AdminDashboardTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         for panel in ('overview', 'versions', 'community', 'pages', 'solver', 'moderation'):
             self.assertContains(resp, 'data-panel="%s"' % panel)
+        for tab in ('overview', 'versions', 'community', 'pages', 'imports', 'solver',
+                    'moderation', 'ads'):
+            self.assertEqual(200, self.client.get('/admin-tools/', {'tab': tab}).status_code, tab)
 
     def test_a_rate_on_too_few_builds_is_withheld(self):
         from chardata import admin_stats
@@ -15893,7 +15896,7 @@ class AdminDashboardFilterTests(TestCase):
                       {'from': '1013-01-01'}, {'to': '0001-01-02'},
                       {'from': '2226-01-01'}, {'from': '2030-01-01'}):
             with self.subTest(query=query):
-                resp = self.client.get('/admin-tools/', query)
+                resp = self.client.get('/admin-tools/', dict(query, tab='overview'))
                 self.assertEqual(resp.status_code, 200)
         for query in ({'start': '2030-01-01'}, {'end': '2030-01-01'},
                       {'start': '2030-01-01', 'end': '2031-01-01'}):
@@ -15979,7 +15982,8 @@ class AdminDashboardFilterTests(TestCase):
 
     def test_the_page_carries_the_filters_into_its_own_links(self):
         self.client.force_login(self._admin())
-        resp = self.client.get('/admin-tools/', {'period': '30d', 'version': 'retro'})
+        resp = self.client.get('/admin-tools/', {'period': '30d', 'version': 'retro',
+                                                 'tab': 'overview'})
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         self.assertIn('?period=30d&amp;version=retro&amp;refresh=1', body)
@@ -17219,13 +17223,13 @@ class AdminPreviewCacheTests(TestCase):
         with tempfile.TemporaryDirectory() as empty:
             with override_settings(CHARACTER_CACHE_DIR=empty,
                                    CHARACTER_BUNDLE_DIR=None):
-                body = self.client.get('/admin-tools/').content.decode('utf-8')
+                body = self.client.get('/admin-tools/', {'tab': 'overview'}).content.decode('utf-8')
         self.assertIn('skins baked', body)
         self.assertIn('missing', body)
         self.assertIn('no bundles', body)
 
     def test_a_full_cache_says_nothing(self):
-        body = self.client.get('/admin-tools/').content.decode('utf-8')
+        body = self.client.get('/admin-tools/', {'tab': 'overview'}).content.decode('utf-8')
         self.assertNotIn('skins baked', body)
 
 
@@ -17295,7 +17299,7 @@ class AdminAdSettingsTests(TestCase):
 
     def test_the_form_shows_what_is_stored(self):
         self._post(enabled='1', slot_footer='6811885155')
-        body = self.client.get('/admin-tools/').content.decode('utf-8')
+        body = self.client.get('/admin-tools/', {'tab': 'ads'}).content.decode('utf-8')
         self.assertIn('6811885155', body)
         self.assertIn('admin-ads-form', body)
 

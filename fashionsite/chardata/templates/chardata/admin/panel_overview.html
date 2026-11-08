@@ -1,0 +1,54 @@
+<section class="admin-panel" data-panel="overview" data-loaded="1" data-generated="{{ dash.generated }}">
+    {% include 'chardata/admin/_filters_note.html' %}
+        {% if preview_cache and not preview_cache.ok %}
+        <p class="admin-cache admin-cache-bad">
+            Character preview: {{ preview_cache.baked }} of {{ preview_cache.expected }}
+            skins baked, {{ preview_cache.missing_total }} missing
+            ({{ preview_cache.missing|join:", " }}).
+            {% if not preview_cache.can_bake %}This machine has no bundles, so nothing
+            can be baked here: a missing skin draws nothing and reports no error.{% endif %}
+        </p>
+        {% endif %}
+        <div class="admin-stats">
+            {% for label, tile in dash.overview.tiles %}
+            <div class="admin-stat">
+                <span class="admin-stat-num">{{ tile.recent }}</span>
+                <span class="admin-stat-label">{{ label }} ({{ dash.filters.period_label }})</span>
+                {% if tile.change != None %}
+                <span class="admin-delta {% if tile.change < 0 %}admin-delta-down{% endif %}" title="Compared with {{ dash.filters.previous_label }}">{% if tile.change >= 0 %}+{% endif %}{{ tile.change }}% vs {{ dash.filters.previous_label }}</span>
+                {% else %}
+                <span class="admin-delta admin-delta-flat">no baseline</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2 class="admin-section-title">New accounts {{ dash.filters.unit_word }}</h2>
+        {{ charts.accounts|safe }}
+
+        <h2 class="admin-section-title">Builds created {{ dash.filters.unit_word }}, by version</h2>
+        {{ charts.builds|safe }}
+        <p class="admin-note">Every build figure on this dashboard leaves out anonymous copies nobody touched: following a copy link makes one, and crawlers follow links.</p>
+        {% if estimates_note %}<p class="admin-note">Months before the first record are estimates, drawn hatched. See the <a href="?tab=history">History</a> tab.</p>{% endif %}
+
+        <div class="admin-two">
+            <div>
+                <h2 class="admin-section-title">Signup method</h2>
+                <table class="admin-table" data-more="6">
+                    {% for name, n in dash.overview.signup_methods %}
+                    <tr><td>{{ name }}</td><td class="admin-num">{{ n }}</td></tr>
+                    {% empty %}<tr><td class="admin-empty">nothing yet</td></tr>{% endfor %}
+                </table>
+            </div>
+            <div>
+                <h2 class="admin-section-title">Account language</h2>
+                <table class="admin-table" data-more="6">
+                    {% for name, n in dash.overview.languages %}
+                    <tr><td>{{ name }}</td><td class="admin-num">{{ n }}</td></tr>
+                    {% empty %}<tr><td class="admin-empty">nothing yet</td></tr>{% endfor %}
+                </table>
+                <p class="admin-note">Only filled in for accounts that logged in since the language signal was added, so older accounts are under-counted.</p>
+                <p class="admin-note">Both tables above are all-time totals for every account, not the period or the version.</p>
+            </div>
+        </div>
+    </section>

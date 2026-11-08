@@ -1,0 +1,23 @@
+<section class="admin-panel" data-panel="community" data-loaded="1" data-generated="{{ dash.generated }}">
+    {% include 'chardata/admin/_filters_note.html' %}
+        <h2 class="admin-section-title">Comments {{ dash.filters.unit_word }}</h2>
+        {{ charts.comments|safe }}
+        <h2 class="admin-section-title">Votes {{ dash.filters.unit_word }}</h2>
+        {{ charts.votes|safe }}
+
+        <h2 class="admin-section-title">How engagement spreads over shared builds</h2>
+        {{ charts.engagement|safe }}
+        <p class="admin-note">Comments plus votes per shared build. A mean would hide that a few builds can carry everything.</p>
+
+        <h2 class="admin-section-title">Most viewed shared builds</h2>
+        <table class="admin-table admin-table-wide" data-more="12">
+            <tr><th>Build</th><th>Version</th><th>Views</th><th>Comments</th><th>Votes</th></tr>
+            {% for row in dash.community.top_builds %}
+            <tr><td><a href="{{ row.url }}" target="_blank" rel="noopener">{{ row.name }}</a></td>
+                <td>{{ row.version }}</td><td class="admin-num">{{ row.views }}</td>
+                <td class="admin-num">{{ row.comments }}</td>
+                <td class="admin-num">{{ row.votes }}</td></tr>
+            {% empty %}<tr><td class="admin-empty">no shared build yet</td></tr>{% endfor %}
+        </table>
+        <p class="admin-note">Views are a running total since the build was created, not a trend. Only browsers that ran the page's script count since {{ dash.community.real_browsers_since }}; views from before that day also hold crawlers posing as browsers.</p>
+    </section>

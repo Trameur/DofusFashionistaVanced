@@ -12,13 +12,15 @@ A non-admin gets a plain 404 on every entry point, not a 403.
 from collections import defaultdict
 from datetime import timedelta
 
-from django.http import Http404, JsonResponse
+from django.core.cache import cache
+from django.http import Http404, HttpResponse, JsonResponse
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from django.contrib.auth.models import User
 
-from chardata import admin_stats
+from chardata import admin_history, admin_stats
 from chardata.encoded_char_id import encode_char_id
 from chardata.models import BuildComment, Char, CommentReport, SiteSetting
 from chardata.util import set_response, request_by_super_user
@@ -46,12 +48,24 @@ def _build_url(build):
     return shared_build_path(build)
 
 
-def admin_tools(request, char_id=0):
-    _require_admin(request)
+TABS = (('history', 'History'), ('overview', 'Overview'),
+        ('versions', 'Game versions'), ('community', 'Community'),
+        ('pages', 'Pages'), ('imports', 'Import and export'),
+        ('solver', 'Solver'), ('moderation', 'Moderation'), ('ads', 'Ads'))
+DEFAULT_TAB = 'history'
+#: The sections each tab computes, and only those
+TAB_SECTIONS = {'overview': ('overview',), 'versions': ('versions',),
+                'community': ('community',), 'pages': ('pages',),
+                'imports': ('imports', 'exports'), 'solver': ('solver',)}
 
-    now = timezone.now()
-    week_ago = now - timedelta(days=7)
 
+def _pending_report_count():
+    return (CommentReport.objects.filter(processed=False)
+            .values('comment_id').distinct().count())
+
+
+def _moderation(week_ago):
+    """The reported comments, the recent feed and the at-a-glance numbers."""
     # --- Reported comments still awaiting a decision -------------------------
     pending_comment_ids = list(
         CommentReport.objects.filter(processed=False)
@@ -104,26 +118,82 @@ def admin_tools(request, char_id=0):
         'comments_new_7d': BuildComment.objects.filter(created_time__gte=week_ago).count(),
         'reports_pending': len(pending_comment_ids),
     }
+    return {'stats': stats, 'reported_comments': reported,
+            'recent_comments': recent_comments}
 
-    data = admin_stats.dashboard(refresh=request.GET.get('refresh') == '1',
-                                 period_key=request.GET.get('period'),
-                                 version=request.GET.get('version'),
-                                 start=request.GET.get('from'),
-                                 end=request.GET.get('to'))
 
-    return set_response(request, 'chardata/admin_tools.html', {
+def admin_tools(request, char_id=0):
+    """The shell with the active tab in place, or with fragment=1 only that tab's panel."""
+    _require_admin(request)
+
+    tab = request.GET.get('tab')
+    if tab not in dict(TABS):
+        tab = DEFAULT_TAB
+    refresh = request.GET.get('refresh') == '1'
+    now = timezone.now()
+
+    if refresh:
+        cache.delete(admin_stats.FIRST_DAY_KEY)
+    period = admin_stats.resolve_period(
+        request.GET.get('period'), request.GET.get('from'), request.GET.get('to'),
+        scan=tab in TAB_SECTIONS)
+    version = admin_stats.resolve_version(request.GET.get('version'))
+
+    dash = {'filters': admin_stats.filters(period, version, tab)}
+    generated = None
+    for name in TAB_SECTIONS.get(tab, ()):
+        dash[name], made = admin_stats.section(name, period, version, refresh)
+        generated = generated or made
+    dash['generated'] = generated or timezone.localtime(now).strftime('%d/%m %H:%M')
+
+    context = {
         'request': request,
         'user': request.user,
         'char_id': char_id,
         'noindex': True,
-        'stats': stats,
-        'reported_comments': reported,
-        'recent_comments': recent_comments,
-        'dash': data,
-        'charts': _charts(data),
-        'ad_config': _ad_form(),
-        'preview_cache': _preview_cache(),
-    })
+        'dash': dash,
+        'tab': tab,
+        'filters_apply': tab in TAB_SECTIONS,
+    }
+    if tab == 'history':
+        context['history_loaded'] = admin_history.is_loaded()
+    elif tab == 'overview':
+        context['preview_cache'] = _preview_cache()
+        fill = _estimated_months(period, version)
+        context['charts'] = _charts(tab, dash, fill)
+        context['estimates_note'] = bool(fill)
+    elif tab in TAB_SECTIONS:
+        context['charts'] = _charts(tab, dash)
+    elif tab == 'moderation':
+        context.update(_moderation(now - timedelta(days=7)))
+    elif tab == 'ads':
+        context['ad_config'] = _ad_form()
+
+    pending = (context['stats']['reports_pending'] if tab == 'moderation'
+               else _pending_report_count())
+    context['tabs'] = [{'name': name, 'label': label, 'active': name == tab,
+                        'template': 'chardata/admin/panel_%s.html' % name,
+                        'badge': pending if name == 'moderation' else 0}
+                       for name, label in TABS]
+
+    if request.GET.get('fragment') == '1':
+        response = HttpResponse(render_to_string(
+            'chardata/admin/panel_%s.html' % tab, context))
+        response['Cache-Control'] = 'private, no-store'
+        response['X-Robots-Tag'] = 'noindex'
+        # The minifier would wrap a fragment in html, head and body
+        response.minify_response = False
+        return response
+    return set_response(request, 'chardata/admin_tools.html', context)
+
+
+def admin_history_json(request):
+    """The merged history as JSON, for the History tab."""
+    _require_admin(request)
+    response = JsonResponse(admin_history.payload(
+        refresh=request.GET.get('refresh') == '1'))
+    response['Cache-Control'] = 'private, no-store'
+    return response
 
 
 def _preview_cache():
@@ -147,32 +217,88 @@ def _ad_form():
                       for name in AD_SLOTS]}
 
 
-VERSION_COLOURS = {'dofus3': '#c8a05a', 'beta': '#7aa6c2', 'dofus2': '#8fae7a',
-                   'touch': '#b98a9e', 'retro': '#9c8ab9'}
+VERSION_COLOURS = {'dofus3': 'var(--ad-s1)', 'beta': 'var(--ad-s5)', 'dofus2': 'var(--ad-s2)',
+                   'touch': 'var(--ad-s3)', 'retro': 'var(--ad-s4)'}
 
 
-def _charts(data):
-    versions = {admin_stats.VERSION_LABELS.get(slug, slug): series
-                for slug, series in data['overview']['builds_by_version'].items()}
-    colours = {admin_stats.VERSION_LABELS.get(slug, slug): colour
-               for slug, colour in VERSION_COLOURS.items()}
-    charts = {
-        'accounts': admin_stats.bar_chart(data['overview']['accounts']),
-        'builds': admin_stats.stacked_chart(versions, colours),
-        'comments': admin_stats.bar_chart(data['community']['comments']),
-        'votes': admin_stats.bar_chart(data['community']['votes'], colour='#7aa6c2'),
-        'engagement': admin_stats.bar_chart(data['community']['engagement']),
-        'pages_per_week': admin_stats.bar_chart(data['pages']['per_week']),
-        'imports_per_bucket': admin_stats.bar_chart(data['imports']['per_bucket']),
-        'exports_per_bucket': admin_stats.bar_chart(data['exports']['per_bucket']),
-        'solver_hits': admin_stats.stacked_chart(
+ESTIMATE_COLOUR = 'var(--ad-est)'
+ESTIMATE_NAME = 'estimated or corrected'
+#: Overview metrics that have estimated months before the first record
+FILLED_CHARTS = (('accounts', 'accounts_real'), ('builds', 'builds_real'))
+
+
+def _month_label(month):
+    return '%s/%s' % (month[5:7], month[2:4])
+
+
+def _estimated_months(period, version):
+    """{chart: [(label, value)]} of the estimated months before the first record, when they apply."""
+    if period.key != 'all' or period.custom or period.approximate or version or period.unit != 'month':
+        return {}
+    first_month = period.buckets[0].strftime('%Y-%m')
+    fill = {}
+    for chart, metric in FILLED_CHARTS:
+        rows = admin_history.estimated_before(metric, first_month)
+        if rows:
+            fill[chart] = [(_month_label(row[0]), int(round(row[1]))) for row in rows]
+    return fill
+
+
+def _with_estimates(series, estimates):
+    """Pad a series with zero bars where the estimates are, and the estimates with zero bars where it is."""
+    return ([(label, 0) for label, _v in estimates] + list(series),
+            list(estimates) + [(label, 0) for label, _v in series])
+
+
+def _charts(tab, data, fill=None):
+    fill = fill or {}
+    if tab == 'overview':
+        versions = {admin_stats.VERSION_LABELS.get(slug, slug): series
+                    for slug, series in data['overview']['builds_by_version'].items()}
+        colours = {admin_stats.VERSION_LABELS.get(slug, slug): colour
+                   for slug, colour in VERSION_COLOURS.items()}
+        accounts = admin_stats.bar_chart(data['overview']['accounts'])
+        if 'accounts' in fill:
+            measured, estimated = _with_estimates(data['overview']['accounts'],
+                                                  fill['accounts'])
+            accounts = admin_stats.stacked_chart(
+                {'measured': measured, ESTIMATE_NAME: estimated},
+                {'measured': 'var(--ad-s1)', ESTIMATE_NAME: ESTIMATE_COLOUR},
+                hatched=(ESTIMATE_NAME,), pattern_id='est-accounts')
+        hatched = ()
+        if 'builds' in fill:
+            padded = {}
+            for label, series in versions.items():
+                padded[label], estimated = _with_estimates(series, fill['builds'])
+            padded[ESTIMATE_NAME] = estimated
+            versions = padded
+            colours = dict(colours, **{ESTIMATE_NAME: ESTIMATE_COLOUR})
+            hatched = (ESTIMATE_NAME,)
+        return {'accounts': accounts,
+                'builds': admin_stats.stacked_chart(
+                    versions, colours, hatched=hatched, pattern_id='est-builds')}
+    if tab == 'versions':
+        return {'levels': {
+            admin_stats.VERSION_LABELS.get(slug, slug): admin_stats.bar_chart(bands, height=90)
+            for slug, bands in data['versions']['levels'].items()}}
+    if tab == 'community':
+        return {
+            'comments': admin_stats.bar_chart(data['community']['comments']),
+            'votes': admin_stats.bar_chart(data['community']['votes'], colour='var(--ad-s2)'),
+            'engagement': admin_stats.bar_chart(data['community']['engagement']),
+        }
+    if tab == 'pages':
+        return {'pages_per_week': admin_stats.bar_chart(data['pages']['per_week'])}
+    if tab == 'imports':
+        return {
+            'imports_per_bucket': admin_stats.bar_chart(data['imports']['per_bucket']),
+            'exports_per_bucket': admin_stats.bar_chart(data['exports']['per_bucket']),
+        }
+    if tab == 'solver':
+        return {'solver_hits': admin_stats.stacked_chart(
             {'cache hit': data['solver']['hits'], 'cache miss': data['solver']['misses']},
-            {'cache hit': '#8fae7a', 'cache miss': '#c0764a'}),
-    }
-    charts['levels'] = {
-        admin_stats.VERSION_LABELS.get(slug, slug): admin_stats.bar_chart(bands, height=90)
-        for slug, bands in data['versions']['levels'].items()}
-    return charts
+            {'cache hit': 'var(--ad-s3)', 'cache miss': 'var(--ad-s2)'})}
+    return {}
 
 
 def _display_name(user):

@@ -1,0 +1,44 @@
+<section class="admin-panel" data-panel="ads" data-loaded="1" data-generated="{{ dash.generated }}">
+    <h2 class="admin-section-title">AdSense</h2>
+    <form id="admin-ads-form" class="admin-ads">
+        {% if ad_config.read_failed %}
+        <p class="admin-note" style="color: #c9483f;">
+            <strong>The stored ad setting cannot be read, so no advertising is
+            served.</strong> The box below is unchecked because of that, not
+            because ads are off by choice. Saving this form would make the
+            outage permanent. Look for &laquo;&nbsp;the stored ad setting could not
+            be read&nbsp;&raquo; in the container log first.
+        </p>
+        {% endif %}
+        <label class="admin-ads-toggle">
+            <input type="checkbox" name="enabled" value="1"
+                   {% if ad_config.enabled %}checked{% endif %}>
+            <span>Show ads on the site</span>
+        </label>
+        <p class="admin-note">Off hides every unit and stops loading the
+            AdSense script. The layout does not shift: the slots collapse.</p>
+        <label class="admin-ads-toggle">
+            <input type="checkbox" name="auto" value="1"
+                   {% if ad_config.auto %}checked{% endif %}>
+            <span>Let AdSense place ads on its own (Auto ads)</span>
+        </label>
+        <p class="admin-note">On top of the units below, wherever Google
+            decides. Off leaves only the slots you set here.</p>
+        <div class="admin-ads-slots">
+            {% for slot in ad_config.slots %}
+            <label class="admin-ads-slot">
+                <span>{{ slot.name }}</span>
+                <input type="text" name="slot_{{ slot.name }}"
+                       value="{{ slot.value }}" inputmode="numeric"
+                       placeholder="slot id">
+            </label>
+            {% endfor %}
+        </div>
+        <p class="admin-note">Ids come from AdSense, Ads by site, per unit.
+            An empty box means that unit is not shown.</p>
+        <div class="admin-ads-actions">
+            <button type="submit" class="admin-btn">Save</button>
+            <span class="admin-ads-status" id="admin-ads-status"></span>
+        </div>
+    </form>
+    </section>
