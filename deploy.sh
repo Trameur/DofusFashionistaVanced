@@ -49,6 +49,12 @@ echo ">>> ensure nginx up & reload config"
 docker compose --profile production pull nginx || true
 docker compose --profile production run --rm --no-deps -T nginx nginx -t
 docker compose --profile production up -d --no-deps nginx
+# git replaces the file, and a bind mount of one file keeps showing the old one:
+# only a new container reads the new one.
+if ! docker compose --profile production exec -T nginx cat /etc/nginx/nginx.conf \
+        | cmp -s - docker/nginx.conf; then
+    docker compose --profile production up -d --no-deps --force-recreate --timeout 3 nginx
+fi
 if docker compose --profile production exec -T nginx nginx -t 2>/dev/null; then
     docker compose --profile production exec -T nginx nginx -s reload || true
 fi
