@@ -8620,6 +8620,47 @@ msgstr ""
 msgid "This address already belongs to another account. Use another address, or recover the password of that account."
 msgstr ""
 
+#: chardata/templates/chardata/solver_busy.html
+msgid "The solver is busy"
+msgstr ""
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Too many searches"
+msgstr ""
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "You started a lot of searches in a short time. Please wait a few minutes before trying again."
+msgstr ""
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Many builds are being solved right now. This page tries again by itself in a few seconds."
+msgstr ""
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Many builds are being solved right now. Please try again in a few seconds."
+msgstr ""
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Try again"
+msgstr ""
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Back to your build"
+msgstr ""
+
+#: fashionsite/chardata/comment_view.py
+msgid "You are posting comments too fast. Please try again in a few minutes."
+msgstr ""
+
+#: fashionsite/chardata/login_view.py
+#, python-format
+msgid "Your password must have at least %(count)s characters."
+msgstr ""
+
+#: fashionsite/chardata/templates/chardata/load_projects.html
+msgid "You have created too many builds for now. Please try again later or log in."
+msgstr ""
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "This game has no exos: they are left out."
 

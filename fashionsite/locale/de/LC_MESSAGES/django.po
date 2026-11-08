@@ -9659,6 +9659,47 @@ msgstr "Diese Adresse verwenden"
 msgid "This address already belongs to another account. Use another address, or recover the password of that account."
 msgstr "Diese Adresse gehört bereits zu einem anderen Konto. Verwenden Sie eine andere Adresse oder stellen Sie das Passwort dieses Kontos wieder her."
 
+#: chardata/templates/chardata/solver_busy.html
+msgid "The solver is busy"
+msgstr "Der Solver ist ausgelastet"
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Too many searches"
+msgstr "Zu viele Suchläufe"
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "You started a lot of searches in a short time. Please wait a few minutes before trying again."
+msgstr "Sie haben in kurzer Zeit viele Suchläufe gestartet. Bitte warten Sie einige Minuten, bevor Sie es erneut versuchen."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Many builds are being solved right now. This page tries again by itself in a few seconds."
+msgstr "Zurzeit werden viele Builds berechnet. Diese Seite versucht es in einigen Sekunden von selbst erneut."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Many builds are being solved right now. Please try again in a few seconds."
+msgstr "Zurzeit werden viele Builds berechnet. Bitte versuchen Sie es in einigen Sekunden erneut."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Try again"
+msgstr "Erneut versuchen"
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Back to your build"
+msgstr "Zurück zu Ihrem Build"
+
+#: fashionsite/chardata/comment_view.py
+msgid "You are posting comments too fast. Please try again in a few minutes."
+msgstr "Sie veröffentlichen Kommentare zu schnell. Bitte versuchen Sie es in einigen Minuten erneut."
+
+#: fashionsite/chardata/login_view.py
+#, python-format
+msgid "Your password must have at least %(count)s characters."
+msgstr "Ihr Passwort muss mindestens %(count)s Zeichen lang sein."
+
+#: fashionsite/chardata/templates/chardata/load_projects.html
+msgid "You have created too many builds for now. Please try again later or log in."
+msgstr "Sie haben vorerst zu viele Builds erstellt. Bitte versuchen Sie es später erneut oder melden Sie sich an."
+
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Dieses Spiel hat keine Exos: Sie bleiben außen vor."
 
