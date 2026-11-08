@@ -264,5 +264,6 @@ class TheAccountPage(_AnAccount):
 
     def test_robots_keeps_crawlers_out_of_both_routes(self):
         robots = self.client.get('/robots.txt').content.decode()
-        self.assertIn('Disallow: */confirm_email_change/', robots)
-        self.assertIn('Disallow: */email_change/', robots)
+        for route in ('confirm_email_change', 'email_change'):
+            self.assertIn('Disallow: /%s/' % route, robots)
+            self.assertIn('Disallow: /*/%s/' % route, robots)
