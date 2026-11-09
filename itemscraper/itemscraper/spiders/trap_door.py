@@ -147,7 +147,7 @@ class TrapDoorSpider(scrapy.Spider):
         weapon['level'] = int(item_level.split()[1])
         print('%s - %s - %s' % (item_name, item_type, item_level))
             
-        regex_pattern = re.compile('(-?\d+)?( to (-?\d+))? ?(\D+)')
+        regex_pattern = re.compile(r'(-?\d+)?( to (-?\d+))? ?(\D+)')
         stats = []
         is_stat = False
         is_hit = True

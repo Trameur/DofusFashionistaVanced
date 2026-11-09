@@ -350,7 +350,7 @@ class AClassRedirectStaysOnTheSiteTests(TestCase):
         from django.test import RequestFactory
         from chardata.shared_builds_view import shared_builds_for_class
         for chemin in ('//evil.example/sharedbuilds/steamer/',
-                       '/\evil.example/sharedbuilds/steamer/'):
+                       '/\\evil.example/sharedbuilds/steamer/'):
             with self.subTest(chemin=chemin):
                 request = RequestFactory().get('/sharedbuilds/steamer/')
                 request.path = chemin

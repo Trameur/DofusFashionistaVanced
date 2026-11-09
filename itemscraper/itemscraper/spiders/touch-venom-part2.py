@@ -152,7 +152,7 @@ class TouchVenom2Spider(scrapy.Spider):
         
         weapon['dofustouch'] = True
             
-        regex_pattern = re.compile('(-?\d+)?( to (-?\d+))? ?(\D+)')
+        regex_pattern = re.compile(r'(-?\d+)?( to (-?\d+))? ?(\D+)')
         stats = []
         is_stat = False
         is_hit = True
