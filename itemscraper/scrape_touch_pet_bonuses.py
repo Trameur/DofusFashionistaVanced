@@ -43,6 +43,7 @@ SIMPLE_STATS = {
 OVERRIDES = {
     'Bontarian Bow Meow': [['Dodge', 55]],
     'Miniminotot': [['Power', 75]],
+    'Plump Tofurby': [['Wisdom', 220]],
 }
 
 _PCT_RESIST_RE = re.compile(
