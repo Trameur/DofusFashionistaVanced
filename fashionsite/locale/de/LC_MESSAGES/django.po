@@ -9311,6 +9311,30 @@ msgid "No set goes above %(cap)s on this version"
 msgstr "Kein Set geht in dieser Version über %(cap)s hinaus"
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "November 2026"
+msgstr "November 2026"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "A new way to start a build"
+msgstr "Ein neuer Weg, einen Build anzulegen"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Start from a preset: one click sets the focus, priority and mode of a damage dealer, a tank, a healer, a mule and more, and leaves the element to you. A link shares those choices, and this browser can save them."
+msgstr "Beginne mit einer Voreinstellung: Ein Klick setzt Fokus, Priorität und Modus für Schadensausteiler, Tank, Heiler, Mule und mehr, das Element wählst du selbst. Ein Link teilt diese Auswahl, und dieser Browser kann sie speichern."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Beside the form, the weights and minimums the optimizer will use follow your class, level, focus, priority and mode. Edit any of them and the new build starts with your values."
+msgstr "Neben dem Formular passen sich die Gewichte und Mindestwerte, die der Optimierer verwenden wird, an deine Klasse, deine Stufe, deinen Fokus, deine Priorität und deinen Modus an. Ändere einen davon, und der neue Build startet mit deinen Werten."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Under More options, choose exos, mounts, Dofus and scrolling before the build exists. Under Advanced options, a search effort slider trades a little closeness to the best set for a faster answer."
+msgstr "Unter Weitere Optionen wählst du Exos, Reittiere, Dofus und Schriftrollen, bevor es den Build gibt. Unter Erweiterte Optionen nimmt der Regler Gründlichkeit des Optimierers ein Set knapp unter dem besten in Kauf, dafür kommt die Antwort schneller."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3: the optimizer now values a weapon by what its hits add to your best turn, and at level 200, by default, stops paying for Critical Hits once your spells crit every time."
+msgstr "Dofus 3: Der Optimierer bewertet eine Waffe jetzt danach, was ihre Treffer zu deiner besten Runde beitragen, und gewichtet auf Stufe 200 Kritische Treffer standardmäßig nicht mehr, sobald deine Zauber immer kritisch treffen."
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "October 2026"
 msgstr "Oktober 2026"
 

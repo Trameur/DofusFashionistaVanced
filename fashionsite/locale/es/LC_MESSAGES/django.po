@@ -9255,6 +9255,30 @@ msgid "No set goes above %(cap)s on this version"
 msgstr "Ningún set supera %(cap)s en esta versión"
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "November 2026"
+msgstr "Noviembre 2026"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "A new way to start a build"
+msgstr "Una nueva forma de empezar un build"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Start from a preset: one click sets the focus, priority and mode of a damage dealer, a tank, a healer, a mule and more, and leaves the element to you. A link shares those choices, and this browser can save them."
+msgstr "Empieza con un ajuste predefinido: un clic fija la focalización, la prioridad y el modo de un personaje de daño, un tanque, un sanador, una mula y otros más, y te deja elegir el elemento. Un enlace comparte esas elecciones y este navegador puede guardarlas."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Beside the form, the weights and minimums the optimizer will use follow your class, level, focus, priority and mode. Edit any of them and the new build starts with your values."
+msgstr "Junto al formulario, los pesos y mínimos que usará el optimizador se actualizan según tu clase, nivel, focalización, prioridad y modo. Cambia cualquiera de ellos y el nuevo build empieza con tus valores."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Under More options, choose exos, mounts, Dofus and scrolling before the build exists. Under Advanced options, a search effort slider trades a little closeness to the best set for a faster answer."
+msgstr "En Más opciones, elige exos, monturas, Dofus y pergaminos antes de que exista el build. En Opciones avanzadas, el control de esfuerzo de búsqueda acepta un set un poco por debajo del mejor a cambio de una respuesta más rápida."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3: the optimizer now values a weapon by what its hits add to your best turn, and at level 200, by default, stops paying for Critical Hits once your spells crit every time."
+msgstr "Dofus 3: el optimizador ahora valora un arma por lo que sus golpes aportan a tu mejor turno y, a nivel 200, deja por defecto de valorar los Golpes Críticos en cuanto tus hechizos siempre dan golpe crítico."
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "October 2026"
 msgstr "Octubre 2026"
 
