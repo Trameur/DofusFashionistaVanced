@@ -9315,24 +9315,20 @@ msgid "November 2026"
 msgstr "November 2026"
 
 #: chardata/templates/chardata/changelog_content.html
-msgid "A new way to start a build"
-msgstr "Ein neuer Weg, einen Build anzulegen"
+msgid "Stronger builds, and a new way to start them"
+msgstr "Stärkere Builds und ein neuer Weg, sie anzulegen"
 
 #: chardata/templates/chardata/changelog_content.html
-msgid "Start from a preset: one click sets the focus, priority and mode of a damage dealer, a tank, a healer, a mule and more, and leaves the element to you. A link shares those choices, and this browser can save them."
-msgstr "Beginne mit einer Voreinstellung: Ein Klick setzt Fokus, Priorität und Modus für Schadensausteiler, Tank, Heiler, Mule und mehr, das Element wählst du selbst. Ein Link teilt diese Auswahl, und dieser Browser kann sie speichern."
+msgid "Dofus 3: much stronger level 200 builds. Tested against 67 sets from top players, the optimizer now matches them or comes close far more often than before."
+msgstr "Dofus 3: deutlich stärkere Builds auf Stufe 200. Im Vergleich mit 67 Sets von Top-Spielern erreicht der Optimierer sie jetzt viel häufiger als zuvor oder kommt ihnen nahe."
 
 #: chardata/templates/chardata/changelog_content.html
-msgid "Beside the form, the weights and minimums the optimizer will use follow your class, level, focus, priority and mode. Edit any of them and the new build starts with your values."
-msgstr "Neben dem Formular passen sich die Gewichte und Mindestwerte, die der Optimierer verwenden wird, an deine Klasse, deine Stufe, deinen Fokus, deine Priorität und deinen Modus an. Ändere einen davon, und der neue Build startet mit deinen Werten."
+msgid "Start in one click: pick a preset (damage dealer, tank, healer, mule and more), then your element. A link shares those choices, and this browser can save them."
+msgstr "Starte mit einem Klick: Wähle eine Voreinstellung (Schadensausteiler, Tank, Heiler, Mule und mehr), dann dein Element. Ein Link teilt diese Auswahl, und dieser Browser kann sie speichern."
 
 #: chardata/templates/chardata/changelog_content.html
-msgid "Under More options, choose exos, mounts, Dofus and scrolling before the build exists. Under Advanced options, a search effort slider trades a little closeness to the best set for a faster answer."
-msgstr "Unter Weitere Optionen wählst du Exos, Reittiere, Dofus und Schriftrollen, bevor es den Build gibt. Unter Erweiterte Optionen nimmt der Regler Gründlichkeit des Optimierers ein Set knapp unter dem besten in Kauf, dafür kommt die Antwort schneller."
-
-#: chardata/templates/chardata/changelog_content.html
-msgid "Dofus 3: the optimizer now values a weapon by what its hits add to your best turn, and at level 200, by default, stops paying for Critical Hits once your spells crit every time."
-msgstr "Dofus 3: Der Optimierer bewertet eine Waffe jetzt danach, was ihre Treffer zu deiner besten Runde beitragen, und gewichtet auf Stufe 200 Kritische Treffer standardmäßig nicht mehr, sobald deine Zauber immer kritisch treffen."
+msgid "Set everything before the first search: see and edit the weights the optimizer will use, and choose exos, mounts and Dofus up front."
+msgstr "Lege alles vor der ersten Suche fest: Sieh dir die Gewichte an, die der Optimierer verwenden wird, ändere sie und wähle Exos, Reittiere und Dofus gleich zu Beginn."
 
 #: chardata/templates/chardata/changelog_content.html
 msgid "October 2026"

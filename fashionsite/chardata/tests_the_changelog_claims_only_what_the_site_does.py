@@ -47,9 +47,9 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
     def test_three_entries_of_at_most_four_bullets(self):
         entrees = _entrees()
         self.assertEqual(NOUVEAU_MOIS, entrees[0][0])
-        self.assertEqual(['A new way to start a build'],
+        self.assertEqual(['Stronger builds, and a new way to start them'],
                          [e[1] for e in entrees if e[0] == NOUVEAU_MOIS])
-        self.assertEqual('A new way to start a build', entrees[0][1])
+        self.assertEqual('Stronger builds, and a new way to start them', entrees[0][1])
         self.assertEqual(['Dofus 3.7 update', 'Weights and minimums on one page'],
                          [e[1] for e in entrees if e[0] == OCTOBRE])
         de_ce_mois = [e for e in entrees if e[0] == MOIS]
@@ -103,7 +103,9 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
         orphelines = ('The sidebar counter now says solver answers',
                       'From the encyclopedia to the solver',
                       'Icons back, policy honest',
-                      'The privacy page names DofusBook')
+                      'The privacy page names DofusBook',
+                      'A new way to start a build',
+                      'Under More options, choose exos')
         for langue in LANGUES + ('en',):
             catalogue = _catalogue(langue)
             for debut in orphelines:
@@ -116,7 +118,7 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
         self.assertIn(OCTOBRE, catalogue)
         self.assertIn(NOUVEAU_MOIS, catalogue)
         self.assertIn('Your build, in and out', catalogue)
-        self.assertIn('A new way to start a build', catalogue)
+        self.assertIn('Stronger builds, and a new way to start them', catalogue)
 
 
 class TheClaimsPointAtThingsThatExistTests(TestCase):
@@ -265,8 +267,7 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
     def test_the_setup_page_offers_presets_a_link_saved_setups_and_its_panels(self):
         page = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
         for marker in ('id="setup-recipes"', 'id="setup-share-copy"', 'id="setup-saved"',
-                       'id="setup-preview"', 'id="setup-preview-keep"', 'id="setup-more"',
-                       'id="setup-power-row"'):
+                       'id="setup-preview"', 'id="setup-preview-keep"', 'id="setup-more"'):
             self.assertIn(marker, page)
         self.assertTrue(reverse('setup_preview'))
         from chardata.setup_edits import apply_touched_fields  # noqa: F401
@@ -280,15 +281,7 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
             self.assertLessEqual({'damage', 'tank', 'healer'}, keys, version)
             self.assertTrue(any(recipe.mule for recipe in recipes), version)
 
-    def test_a_quick_search_effort_stops_near_the_best_sooner_and_standard_has_no_gap(self):
-        from chardata.power_steps import DEFAULT_POWER, POWER_BY_KEY, POWER_STEPS
-        self.assertEqual(0, POWER_BY_KEY[DEFAULT_POWER].gap)
-        quick = [step for step in POWER_STEPS if step.gap]
-        self.assertTrue(quick)
-        for step in quick:
-            self.assertLess(step.seconds, POWER_BY_KEY[DEFAULT_POWER].seconds, step.key)
-
-    def test_dofus3_alone_prices_weapon_hits_and_reads_crit_at_level_200(self):
+    def test_the_stronger_builds_are_dofus3_level_200_ones(self):
         from chardata import crit_curve, weapon_terms
         self.assertEqual(('dofus3',), weapon_terms.VERSIONS)
         self.assertEqual(('dofus3',), crit_curve.VERSIONS)
