@@ -9319,8 +9319,8 @@ msgid "Stronger builds, and a new way to start them"
 msgstr "Stärkere Builds und ein neuer Weg, sie anzulegen"
 
 #: chardata/templates/chardata/changelog_content.html
-msgid "Dofus 3: much stronger level 200 builds. Tested against 67 sets from top players, the optimizer now matches them or comes close far more often than before."
-msgstr "Dofus 3: deutlich stärkere Builds auf Stufe 200. Im Vergleich mit 67 Sets von Top-Spielern erreicht der Optimierer sie jetzt viel häufiger als zuvor oder kommt ihnen nahe."
+msgid "Dofus 3: the optimizer now finds much stronger builds at level 200."
+msgstr "Dofus 3: Der Optimierer findet jetzt deutlich stärkere Builds auf Stufe 200."
 
 #: chardata/templates/chardata/changelog_content.html
 msgid "Start in one click: pick a preset (damage dealer, tank, healer, mule and more), then your element. A link shares those choices, and this browser can save them."

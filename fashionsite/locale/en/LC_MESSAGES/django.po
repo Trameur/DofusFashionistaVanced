@@ -8284,7 +8284,7 @@ msgid "Stronger builds, and a new way to start them"
 msgstr ""
 
 #: chardata/templates/chardata/changelog_content.html
-msgid "Dofus 3: much stronger level 200 builds. Tested against 67 sets from top players, the optimizer now matches them or comes close far more often than before."
+msgid "Dofus 3: the optimizer now finds much stronger builds at level 200."
 msgstr ""
 
 #: chardata/templates/chardata/changelog_content.html
