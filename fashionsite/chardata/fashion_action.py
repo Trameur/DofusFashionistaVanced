@@ -356,8 +356,9 @@ def _fashion(request, char_id, char, spells, seed):
 
     guard_ended = {}
     if plan is None:
-        solved_status, stats, result = _priced_solve(char, model_input, solve(model_input), solve,
-                                                     started + budget)
+        deadline = started + budget
+        solved = solve(model_input, deadline if solves > 1 else None)
+        solved_status, stats, result = _priced_solve(char, model_input, solved, solve, deadline)
     else:
         solved_status, stats, result = _guarded_solve(char, model_input, plan, solve, budget,
                                                       _step_longest(step, BALANCED_SECONDS),
@@ -595,6 +596,8 @@ def solve_with_weapon_hits(char, solve_once, model_input, deadline=None, longest
         reading = None
     if not terms and reading is None:
         return solved
+    if deadline is not None and deadline - time.monotonic() < MIN_SOLVE_SECONDS:
+        return solved
     weighed_input = copy.copy(model_input)
     if terms:
         weighed_input.item_terms = terms
@@ -629,7 +632,8 @@ def _guarded_solve(char, model_input, plan, solve, budget=None, balanced_seconds
     balanced_input = copy.copy(model_input)
     balanced_input.objective_values = balanced_weights(char, model_input.objective_values)
     if balanced_input.objective_values == model_input.objective_values:
-        return _priced_solve(char, model_input, solve(model_input), solve, budget_end)
+        solved = solve(model_input, budget_end if solves_per_search(char) > 1 else None)
+        return _priced_solve(char, model_input, solved, solve, budget_end)
     facts = _guard_facts(plan)
     calls = []
 

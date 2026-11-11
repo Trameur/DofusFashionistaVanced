@@ -14,6 +14,8 @@ from fashionistapulp.model import ModelInput
 from fashionistapulp.modelresult import ModelResultMinimal, model_result_from_minimal
 from fashionistapulp.structure import set_current_game_version
 
+#: A deadline no test reaches, so the second solve always has the time to run
+FAR_DEADLINE = 10 ** 9
 MINOTOT_SCEPTRE = 8275
 CHAOTIC_SCYTHE = 26011
 OWN = {'str': 900, 'int': 700, 'pow': 250, 'ch': 30, 'cridam': 40, 'ap': 12}
@@ -59,7 +61,7 @@ def _run(char, model_input, first='first', second='second', terms=None, reading=
 
     with mock.patch('chardata.fashion_action.weapon_hit_terms', return_value=terms or {}), \
             mock.patch('chardata.fashion_action.crit_hinges', side_effect=read_it):
-        solved = solve_with_weapon_hits(char, solve_once, model_input, 5, 6)
+        solved = solve_with_weapon_hits(char, solve_once, model_input, FAR_DEADLINE, 6)
     return solved, calls, asked
 
 
@@ -72,7 +74,7 @@ class TheSecondSolvePricesCritFromTheFirstSetTests(SimpleTestCase):
         weighed = calls[1][0]
         self.assertEqual(READING.hinges, weighed.crit_hinges)
         self.assertEqual(dict(WEIGHTS, ch=READING.ch, cridam=READING.cridam), weighed.objective_values)
-        self.assertEqual((5, 6), calls[1][1:])
+        self.assertEqual((FAR_DEADLINE, 6), calls[1][1:])
 
     def test_the_stored_weights_and_the_first_solve_are_left_alone(self):
         model_input = _input()
@@ -164,7 +166,7 @@ class TheReadingComesFromTheCurveTests(SimpleTestCase):
                 return 'Optimal', {}, first if len(calls) == 1 else 'second'
 
             with mock.patch('chardata.fashion_action.weapon_hit_terms', return_value={}):
-                solved = solve_with_weapon_hits(char, solve_once, model_input, 5, 6)
+                solved = solve_with_weapon_hits(char, solve_once, model_input, FAR_DEADLINE, 6)
         return solved, calls, expected
 
     def test_dofus_three_at_level_two_hundred_reads_the_curve_of_the_first_set(self):
@@ -200,7 +202,7 @@ class TheReadingComesFromTheCurveTests(SimpleTestCase):
                 mock.patch('chardata.crit_curve.concave_hull', side_effect=ValueError('no hull')), \
                 mock.patch('chardata.fashion_action.weapon_hit_terms', return_value={}), \
                 self.assertLogs('chardata.fashion_action', 'ERROR'):
-            solved = solve_with_weapon_hits(_char(), solve_once, _input(), 5, 6)
+            solved = solve_with_weapon_hits(_char(), solve_once, _input(), FAR_DEADLINE, 6)
         self.assertIs(first, solved[2])
         self.assertEqual(1, len(calls))
 
@@ -212,7 +214,7 @@ class TheReadingComesFromTheCurveTests(SimpleTestCase):
                 calls.append(solve_input)
                 return 'Optimal', {}, 'first'
 
-            solve_with_weapon_hits(object(), solve_once, _input(), 5, 6)
+            solve_with_weapon_hits(object(), solve_once, _input(), FAR_DEADLINE, 6)
         self.assertEqual(1, len(calls))
 
 

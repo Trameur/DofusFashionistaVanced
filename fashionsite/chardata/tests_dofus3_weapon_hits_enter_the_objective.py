@@ -11,6 +11,8 @@ from chardata.weapon_terms import (TurnReader, candidate_weapons, terms_on_stats
                                    weapon_hit_terms, weapon_swing)
 from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
 
+#: A deadline no test reaches, so the second solve always has the time to run
+FAR_DEADLINE = 10 ** 9
 CHAOTIC_SCYTHE = 26011
 MINOTOT_SCEPTRE = 8275
 DREGGON_DAGGERS = 8414
@@ -271,7 +273,7 @@ class TheSecondSolveUsesTheTermsTests(SimpleTestCase):
             return 'Optimal', {}, second_result
         model_input = SimpleNamespace(item_terms={})
         with mock.patch('chardata.fashion_action.weapon_hit_terms', return_value=terms):
-            solved = solve_with_weapon_hits(object(), solve_once, model_input, 5, 6)
+            solved = solve_with_weapon_hits(object(), solve_once, model_input, FAR_DEADLINE, 6)
         return solved, calls, model_input
 
     def test_without_terms_one_solve(self):
@@ -283,7 +285,7 @@ class TheSecondSolveUsesTheTermsTests(SimpleTestCase):
         solved, calls, model_input = self._run({CHAOTIC_SCYTHE: 7.5})
         self.assertEqual('second', solved[2])
         self.assertEqual({CHAOTIC_SCYTHE: 7.5}, calls[1][0].item_terms)
-        self.assertEqual((5, 6), calls[1][1:])
+        self.assertEqual((FAR_DEADLINE, 6), calls[1][1:])
         self.assertEqual({}, model_input.item_terms)
 
     def test_a_failed_second_solve_keeps_the_first_set(self):
