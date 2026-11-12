@@ -5921,6 +5921,67 @@ msgstr "Conseguir este set: %(summary)s"
 msgid "Add all items to my Workshop"
 msgstr "Adicionar todos os itens à minha oficina"
 
+#: chardata/templates/chardata/projdetails.html
+msgid "General"
+msgstr "Geral"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Mode"
+msgstr "Modo"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Your character"
+msgstr "Seu personagem"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Live"
+msgstr "Ao vivo"
+
+#: chardata/templates/chardata/projdetails.html
+msgid "How it works"
+msgstr "Como funciona"
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Exos, Dofus and trophies, mounts, scrolls, inventory, details of your build"
+msgstr "Exos, Dofus e troféus, montarias, pergaminhos, inventário, detalhes do seu build"
+
+#: chardata/templates/chardata/solution.html
+msgid "Characteristics"
+msgstr "Características"
+
+#: chardata/templates/chardata/solution.html
+msgid "Combat"
+msgstr "Combate"
+
+#: chardata/templates/chardata/solution.html
+msgid "Lock, dodge and reductions"
+msgstr "Bloqueio, fuga e retiradas"
+
+#: chardata/templates/chardata/solution.html
+msgid "Resistances"
+msgstr "Resistências"
+
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "average damage on one target, %(used)s AP out of %(available)s"
+msgstr "dano médio em um alvo, %(used)s PA de %(available)s"
+
+#: chardata/templates/chardata/solution.html
+msgid "All spells and their damage"
+msgstr "Todos os feitiços e seus danos"
+
+#: chardata/templates/chardata/solution.html
+msgid "Your criteria"
+msgstr "Seus critérios"
+
+#: chardata/templates/chardata/solution.html
+msgid "Minimums"
+msgstr "Mínimos"
+
+#: chardata/templates/chardata/solution.html
+msgid "Weights given to the solver"
+msgstr "Pesos dados ao solver"
+
 #: chardata/templates/chardata/solution.html
 msgid "Edit weights and minimums"
 msgstr "Editar pesos e mínimos"

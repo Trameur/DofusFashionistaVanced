@@ -5436,6 +5436,67 @@ msgstr ""
 msgid "Add all items to my Workshop"
 msgstr ""
 
+#: chardata/templates/chardata/projdetails.html
+msgid "General"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Mode"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Your character"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "Live"
+msgstr ""
+
+#: chardata/templates/chardata/projdetails.html
+msgid "How it works"
+msgstr ""
+
+#: chardata/templates/chardata/setup_more_options.html
+msgid "Exos, Dofus and trophies, mounts, scrolls, inventory, details of your build"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid "Characteristics"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid "Combat"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid "Lock, dodge and reductions"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid "Resistances"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "average damage on one target, %(used)s AP out of %(available)s"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid "All spells and their damage"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid "Your criteria"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid "Minimums"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid "Weights given to the solver"
+msgstr ""
+
 #: chardata/templates/chardata/solution.html
 msgid "Edit weights and minimums"
 msgstr ""

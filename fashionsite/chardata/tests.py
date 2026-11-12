@@ -16076,7 +16076,7 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
     SMITHMAGIC_MARK = 'SM'
     # Words that read the same in the target language
     IDENTICAL_IN_LANGUAGE = {
-        'es': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Error', 'No', 'Neutral',
+        'es': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Error', 'No', 'Neutral', 'General',
                '%(item)s: %(changes)s', '%(item)s: %(element)s, %(rate)d%%', '%(item)s (%(element)s, %(rate)d%%)'},
         'pt': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote',
                '%(item)s: %(changes)s', '%(item)s: %(element)s, %(rate)d%%', '%(item)s (%(element)s, %(rate)d%%)'},
