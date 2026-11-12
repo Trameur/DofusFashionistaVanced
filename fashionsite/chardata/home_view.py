@@ -21,9 +21,15 @@ from datetime import datetime, time, timezone
 from chardata.util import set_response, version_reverse
 from chardata.data_versions import (build_patch_info, current_data_version, patch_key,
                                     patch_of, patch_started, previous_patch_window)
+from chardata.character_look import CLASS_TO_BREED
 from chardata.create_project_view import is_anon_cant_create, has_too_many_projects
 from chardata.encoded_char_id import decode_char_id, encode_char_id
 from chardata.models import Char, UserAlias
+from chardata.presets import DEFAULT_STYLE, ELEMENT_BOXES, NO_ELEMENT, NO_ELEMENT_LABEL, play_styles
+from chardata.setup_preview import MAX_LEVEL
+from chardata.smart_build import ASPECT_TO_NAME
+from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES, LOCALIZED_ELEMENTS
+from chardata.version_compat import filter_classes_for_version
 from chardata.views import user_has_projects
 
 from django.core.cache import cache
@@ -32,12 +38,15 @@ from django.db.models.functions import Least
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
+from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from chardata.image_store import get_image_url
 from static_s3.templatetags.static_s3 import static
 
 
+_ELEMENT_LOOK = {'str': ('earth', 'terre'), 'int': ('fire', 'feu'),
+                 'cha': ('water', 'eau'), 'agi': ('air', 'air')}
 FEATURED_BUILDS_COUNT = 6
 FEATURED_BUILDS_CACHE_SECONDS = 30 * 60
 _CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
@@ -51,6 +60,31 @@ def _featured_avatar(char):
         return static('chardata/QuestionMark-lighttheme.png')
     idx = 1 + (int(char.id or 0) % 6)
     return static('chardata/designs/wizard/%s/myWizard%s%d.png' % (cls, cls, idx))
+
+
+def quick_start_classes(game_version):
+    """The classes of the version in the game's own order, each with its figure (None when the game files have none)."""
+    offered = set(filter_classes_for_version(CHARACTER_CLASSES, game_version))
+    ordered = sorted(offered, key=lambda key: (CLASS_TO_BREED.get(key, len(CLASS_TO_BREED) + 1), key))
+    return [{'key': key,
+             'label': LOCALIZED_CHARACTER_CLASSES.get(key, key),
+             'figure': (static('chardata/designs/wizard/%s/myWizard%s1.png' % (key, key))
+                        if key in _CLASS_AVATAR_DIRS else None),
+             'initials': key[:2]}
+            for key in ordered]
+
+
+def quick_start_elements():
+    """The choices the quick start accepts: the four elements, all of them, and none."""
+    choices = []
+    for key in ELEMENT_BOXES:
+        look = _ELEMENT_LOOK.get(key)
+        choices.append({'key': key,
+                        'label': LOCALIZED_ELEMENTS[look[0]] if look else ASPECT_TO_NAME[key],
+                        'title': ASPECT_TO_NAME[key],
+                        'icon': static('chardata/originals/%s.webp' % look[1]) if look else None})
+    choices.append({'key': NO_ELEMENT, 'label': _('None'), 'title': NO_ELEMENT_LABEL, 'icon': None})
+    return choices
 
 
 def _still_public(rows):
@@ -224,6 +258,12 @@ def home(request, char_id=0):
                          'items': items,
                          'buttons': buttons,
                          'featured_builds': featured_builds,
+                         'quick_classes': quick_start_classes(game_version),
+                         'quick_elements': quick_start_elements(),
+                         'quick_styles': play_styles(game_version),
+                         'quick_default_style': DEFAULT_STYLE,
+                         'quick_level': MAX_LEVEL,
+                         'quick_max_level': MAX_LEVEL,
                          'user': request.user,
                          'char_id': char_id})
 
