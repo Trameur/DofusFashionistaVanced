@@ -62029,12 +62029,14 @@
         "name_es": "Set cosmético de Zabelle",
         "name_pt": "Conjunto de Aparência de Zabelle",
         "name_de": "Zabelle-Prunkset",
-        "items": 4,
+        "items": 6,
         "equipment_ids": [
             34795,
             34796,
             34797,
-            34798
+            34798,
+            34837,
+            34840
         ]
     },
     {
@@ -62064,6 +62066,22 @@
             34801,
             34803,
             34806
+        ]
+    },
+    {
+        "ankama_id": 1128,
+        "name_en": "Panoplie d'apparat préhistorique",
+        "name_fr": "Panoplie d'apparat préhistorique",
+        "name_es": "Panoplie d'apparat préhistorique",
+        "name_pt": "Panoplie d'apparat préhistorique",
+        "name_de": "Panoplie d'apparat préhistorique",
+        "items": 5,
+        "equipment_ids": [
+            34908,
+            34909,
+            34910,
+            34911,
+            34913
         ]
     }
 ]

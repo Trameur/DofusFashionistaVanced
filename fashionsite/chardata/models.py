@@ -14,12 +14,17 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import logging
+import re
+
 from django import forms
 from django.contrib.auth.models import User
 from django.db import models
 from django.forms.widgets import Textarea
 
 from chardata.data_versions import current_data_version
+
+_CONTROL_CHARACTERS = re.compile(r'[\x00-\x1f\x7f-\x9f]')
 
 
 class Char(models.Model):
@@ -75,6 +80,11 @@ class Char(models.Model):
         ]
 
     def save(self, *args, **kwargs):
+        # A line break in a name breaks the links built from it
+        for field_name in ('name', 'char_name'):
+            value = getattr(self, field_name, None)
+            if value:
+                setattr(self, field_name, _CONTROL_CHARACTERS.sub(' ', value))
         # MySQL strict mode rejects over-long values
         for field_name in ('name', 'char_name', 'char_build'):
             value = getattr(self, field_name, None)
@@ -448,6 +458,25 @@ class ItemInSharedBuild(models.Model):
 
     def __str__(self):
         return '%s %s -> %s' % (self.game_version, self.ankama_id, self.char_id)
+
+
+def public_handle(user_id):
+    """The name of an account whose username would show its address, until it picks one."""
+    return 'Player%d' % user_id
+
+
+@receiver(user_logged_in)
+def _give_a_public_name_on_login(sender, request, user, **kwargs):
+    from chardata.public_name import default_public_name
+    try:
+        alias, _created = UserAlias.objects.get_or_create(user=user)
+        if not (alias.alias or '').strip():
+            name = default_public_name(user)
+            if name != user.username:
+                alias.alias = name
+                alias.save(update_fields=['alias'])
+    except Exception:
+        logging.getLogger(__name__).warning('no public name set', exc_info=True)
 
 
 @receiver(user_logged_in)

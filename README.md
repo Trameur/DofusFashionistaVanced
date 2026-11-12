@@ -92,7 +92,7 @@ Then open `http://localhost:8000` in your browser.
 
 ## Unix / AWS EC2
 
-SSH into your EC2 instance if needed. Django 6.0 needs Python 3.12 or later, and
+SSH into your EC2 instance if needed. Django 6.1 needs Python 3.12 or later, and
 `python3` on Amazon Linux 2023 is 3.9, so the commands name `python3.14`. On another
 distribution, use any Python from 3.12 on.
 

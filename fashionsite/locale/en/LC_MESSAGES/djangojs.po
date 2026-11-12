@@ -858,3 +858,8 @@ msgstr ""
 msgid "Your browser did not let this page delete the setup."
 msgstr ""
 
+
+#: fashionsite/chardata/static/chardata/login.js
+#, python-format
+msgid "Your password must have at least %(count)s characters."
+msgstr ""

@@ -21,7 +21,7 @@ Quick reference for deploying Dofus Fashionista to AWS.
 - [ ] Store credentials securely (not in git!)
 
 ### 3. Code Preparation
-- [ ] Python 3.12 or later locally: Django 6.0 needs it
+- [ ] Python 3.12 or later locally: Django 6.1 needs it
 - [ ] No `settings.py` edit for the database: it reads `DB_HOST`, `DB_PORT`, `DB_NAME`,
   `DB_USER` and `DB_PASSWORD` from the environment
 - [ ] Production `debug_mode` file says `False` (the Docker image writes it)

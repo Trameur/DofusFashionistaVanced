@@ -73314,6 +73314,171 @@
             },
             "description": "Aqui estão as coordenadas das quatro colunas:\n- a leste do Canal do Rasgabola\n- na entrada da Floresta das Máscaras\n- na Ilha da Coroa\n- ao norte do zaap do Litoral Sufokiano",
             "pods": 0
+        },
+        {
+            "ankama_id": 34663,
+            "name": "Escama Azulada",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136151-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136151-128.png"
+            },
+            "description": "Linda escama imaculada que transborda de poder latente. Será que pertencia ao dragão da água?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34664,
+            "name": "Cajado Cerimonial",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136152-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136152-128.png"
+            },
+            "description": "Uma pedra da cor do mar pulsando de energia mágica foi engastada neste bastão antigo. O aspecto elaborado passa a impressão de uma função mais ostentatória do que marcial. Por via das dúvidas, não saia batendo nas ruínas com ele.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34665,
+            "name": "Arpão Antigo",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136153-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136153-128.png"
+            },
+            "description": "Esta arma antiga foi especialmente concebida para perfurar a carne e ficar presa nela. Com o passar dos anos, a lâmina foi ficando cega, mas é melhor não arriscar.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34666,
+            "name": "Seixo Turquesa",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136154-128.png"
+            },
+            "description": "Um seixo perfeitamente redondo, polido pelas correntes marítimas e reluzindo com uma luz sobrenatural. Por outro lado, não parece nada adequado para ricochetear na superfície das águas.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34667,
+            "name": "Concha Cerúlea",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136155-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136155-128.png"
+            },
+            "description": "Ao colocá-la no ouvido, você vai ser embalado por uma voz feminina que parece vir das profundezas do tempo.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34668,
+            "name": "Clepsidra Antiga",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136156-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136156-128.png"
+            },
+            "description": "Este dispositivo antigo parece medir o escoamento da água. Será que é uma alternativa às ampulhetas modernas?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34669,
+            "name": "Pente Marfim",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136157-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136157-128.png"
+            },
+            "description": "Um pente rústico feito de marfim e ornado com inscrições. Seu estado o predestina a ser mais uma peça de museu do que o seu aliado contra os nós.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34670,
+            "name": "Selo-cilindro",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136158-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136158-128.png"
+            },
+            "description": "Embora lembre um anel particularmente antigo e elegante com suas gravuras, é um instrumento que serve para gravar símbolos em outra superfície. Ainda bem que você percebeu antes de sair se exibindo com ele para todos os seus amigos!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34671,
+            "name": "Estatueta Antiga",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136159-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136159-128.png"
+            },
+            "description": "Essa estatueta parece ser uma versão bem estilizada de um dragão. Pelo menos é o que essa espécie de lagarto de olhar tão marcante lembra a você.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34672,
+            "name": "Espelho Ornamentado",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136160-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136160-128.png"
+            },
+            "description": "Este espelho de bronze é ornado de motivos complexos e pedras preciosas. O proprietário devia pertencer a uma casta social muito elevada. Lamento, mas o fato de ele agora ser seu não vai deixar as suas origens mais prestigiosas.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34673,
+            "name": "Jogo de Madeira Decorado",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136161-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136161-128.png"
+            },
+            "description": "Este antigo tabuleiro de madeira remete a uma espécie de jogo. Será que era um passatempo dos habitantes da ilha? Se você não encontrar as regras, basta inventá-las!",
+            "pods": 0
         }
     ]
 }

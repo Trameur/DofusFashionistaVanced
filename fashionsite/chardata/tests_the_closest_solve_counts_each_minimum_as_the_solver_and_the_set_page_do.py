@@ -1,5 +1,6 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """In every version, the closest solve counts each minimum as the hard minimum of the solver and the set page do."""
+import dataclasses
 import pickle
 import sys
 from unittest import mock
@@ -34,7 +35,7 @@ _MODELS = {}
 
 def _at_least(constraint):
     """({variable name: coefficient}, bound) of a constraint written as a sum at least bound."""
-    exported = constraint.toDict()
+    exported = dataclasses.asdict(constraint.toDataclass())
     coefficients = {term['name']: term['value'] for term in exported['coefficients']}
     if exported['sense'] == pulp.LpConstraintLE:
         return {name: -value for name, value in coefficients.items()}, exported['constant']

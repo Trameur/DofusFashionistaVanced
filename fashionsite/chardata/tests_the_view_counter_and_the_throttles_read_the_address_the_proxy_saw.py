@@ -12,6 +12,7 @@ from chardata.login_view import (LOGIN_FAIL_MAX_PER_IP, RESET_MAIL_MAX_PER_IP,
 from chardata.middleware import looks_like_a_robot
 from chardata.models import BuildView, Char
 from chardata.solution_view import get_client_ip
+from chardata.tests_a_page_counts_once_a_browser_reports_it import read_and_report
 from fashionistapulp.modelresult import ModelResultMinimal
 
 A_READER = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
@@ -38,7 +39,7 @@ class TheViewCounterReadsTheAddressTheProxySawTests(TestCase):
         self.path = '/s/star/%s/' % encode_char_id(self.build.pk)
 
     def _view(self, agent=A_READER, **meta):
-        response = self.client.get(self.path, HTTP_USER_AGENT=agent, **meta)
+        response = read_and_report(self.client, self.path, HTTP_USER_AGENT=agent, **meta)
         self.assertEqual(200, response.status_code)
 
     def _views(self):
@@ -185,7 +186,7 @@ class BehindOneLoadBalancerTheAddressIsTheOneItAppendedTests(TestCase):
         build = _a_shared_build()
         path = '/s/star/%s/' % encode_char_id(build.pk)
         for number in range(5):
-            self.client.get(path, HTTP_USER_AGENT=A_READER, REMOTE_ADDR='10.0.1.5',
+            read_and_report(self.client, path, HTTP_USER_AGENT=A_READER, REMOTE_ADDR='10.0.1.5',
                             HTTP_X_FORWARDED_FOR='198.51.100.%d, 203.0.113.50' % number)
         self.assertEqual(1, Char.objects.get(pk=build.pk).view_count)
 
@@ -193,7 +194,7 @@ class BehindOneLoadBalancerTheAddressIsTheOneItAppendedTests(TestCase):
         build = _a_shared_build()
         path = '/s/star/%s/' % encode_char_id(build.pk)
         for visitor in ('203.0.113.50', '203.0.113.51'):
-            self.client.get(path, HTTP_USER_AGENT=A_READER, REMOTE_ADDR='10.0.1.5',
+            read_and_report(self.client, path, HTTP_USER_AGENT=A_READER, REMOTE_ADDR='10.0.1.5',
                             HTTP_X_FORWARDED_FOR=visitor)
         self.assertEqual(2, Char.objects.get(pk=build.pk).view_count)
 

@@ -131,7 +131,7 @@ TEMPLATES = [
         ],
         'APP_DIRS': True,
         'OPTIONS': {
-            'debug': True,
+            'debug': DEBUG,
             'context_processors': [
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
                 # list if you haven't customized them:
@@ -185,6 +185,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'chardata.middleware.PrivateForSignedInMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'chardata.SocialAuthExceptionMiddleware.SocialAuthExceptionMiddleware',
     'htmlmin.middleware.MarkRequestMiddleware',
@@ -327,7 +328,7 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             'filters': ['rate_limited_errors'],
-            'include_html': True,
+            'include_html': False,
         },
     },
     'loggers': {

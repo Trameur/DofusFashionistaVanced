@@ -76,9 +76,10 @@ def text_fingerprint(lines):
 def load_effect_table(version):
     """The version's own table, or None: never another version's."""
     if version not in _tables:
-        path = os.path.join(TABLE_DIR, '%s.json' % version)
+        root = os.path.realpath(TABLE_DIR)
+        path = os.path.normpath(os.path.join(root, '%s.json' % version))
         table = None
-        if os.path.isfile(path):
+        if path.startswith(root + os.sep) and os.path.isfile(path):
             with open(path, encoding='utf-8') as handle:
                 table = json.load(handle)
         _tables[version] = table

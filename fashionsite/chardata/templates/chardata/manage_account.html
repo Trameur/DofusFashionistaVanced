@@ -30,6 +30,8 @@
                 </td>
                 <td align="left">
                 <input type="text" name="alias" class="pretty-input change-modifies-state" id="alias" maxlength="50"/>
+                <br>
+                <label id="alias-notice"></label>
                 </td>
                 </tr>
                 <tr>
@@ -37,6 +39,8 @@
                 </td>
                 <td align="left">
                 <input type="text" name="email" class="pretty-input change-modifies-state" id="email" maxlength="254"/>
+                <br>
+                <label id="email-notice"></label>
                 </td>
                 </tr>
                 <tr>
@@ -122,6 +126,30 @@
         <br>
         <label id="change-succesful"></label>
         </div>
+        {% if user.is_authenticated %}
+        <hr class="hr">
+        <h3 align="center" class='text'>{% trans "Danger zone" %}</h3>
+        {% if deletion_refused %}
+        <p align="center">{% trans "This is an administrator account. It cannot be deleted this way." %}</p>
+        {% else %}
+        <p align="center">{% trans "Deleting your account removes your builds, including the shared ones, your comments, your votes and your settings. This cannot be undone. Copies other players made of your builds stay with them." %}</p>
+        <form method="post" action="{% url 'request_account_deletion' %}" align="center">
+            {% csrf_token %}
+            <button type="submit" class='button-generic'>{% trans "Email me the deletion link" %}</button>
+        </form>
+        <p align="center">{% trans "If your address no longer works, save a new one above, then come back a day later." %}</p>
+        {% if deletion_with_password %}
+        <p align="center">{% trans "No access to that mailbox? Confirm with your password instead." %}</p>
+        <form method="post" action="{% url 'delete_account_with_password' %}" id="delete-password-form" align="center">
+            {% csrf_token %}
+            <label for="delete-password">{% trans "Password" %}:</label>
+            <input type="password" id="delete-password" class="pretty-input" autocomplete="current-password"/>
+            <input type="hidden" name="password" id="delete-password-hash"/>
+            <button type="submit" class='button-generic'>{% trans "Continue with my password" %}</button>
+        </form>
+        {% endif %}
+        {% endif %}
+        {% endif %}
             
     </div>
 </td>
@@ -161,6 +189,10 @@ function manageInit(state) {
 
 function setLoggedUserAlias(newState) {
     $('#logged_user_alias').text(newState.alias);
+    $('#alias').val(newState.alias);
+    $('#alias-notice').text(newState.alias_notice || '');
+    $('#email').val(newState.email);
+    $('#email-notice').text(newState.email_notice || '');
 }
 
 $(document).ready(function() {
@@ -178,6 +210,9 @@ $(document).ready(function() {
         var password = $("#login-password").val();
         var newPassword = $("#password").val();
         changePassword(username, password, newPassword);
+    });
+    $("#delete-password-form").submit(function() {
+        $("#delete-password-hash").val(hashPassword($("#delete-password").val()));
     });
     setupStateEngine(manageInit,
             "{% game_url 'save_account' %}",

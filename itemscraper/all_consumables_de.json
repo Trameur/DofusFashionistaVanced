@@ -131704,6 +131704,307 @@
             "pods": 1
         },
         {
+            "ankama_id": 34647,
+            "name": "Geschichte von Zabelle – Kapitel 1",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Ihr habt das legendäre Abenteuer von Welsh und Shedar im Fernsehen verfolgt. Und jetzt wollt ihr mehr davon? Durch aufmerksame Lektüre dieses Auszugs könnt ihr euch auf die Spuren von Königin Zabelle begeben ... vorausgesetzt, ihr liebt Abenteuer und scheut euch nicht davor, die Welt zu erkunden.",
+            "effects": [
+                {
+                    "int_minimum": 765,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34648,
+            "name": "Geschichte von Zabelle – Kapitel 2",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Ihr habt das legendäre Abenteuer von Welsh und Shedar im Fernsehen verfolgt. Und jetzt wollt ihr mehr davon? Durch aufmerksame Lektüre dieses Auszugs könnt ihr euch auf die Spuren von Königin Zabelle begeben ... vorausgesetzt, ihr liebt Abenteuer und scheut euch nicht davor, die Welt zu erkunden.",
+            "effects": [
+                {
+                    "int_minimum": 775,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34649,
+            "name": "Geschichte von Zabelle – Kapitel 3",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Ihr habt das legendäre Abenteuer von Welsh und Shedar im Fernsehen verfolgt. Und jetzt wollt ihr mehr davon? Durch aufmerksame Lektüre dieses Auszugs könnt ihr euch auf die Spuren von Königin Zabelle begeben ... vorausgesetzt, ihr liebt Abenteuer und scheut euch nicht davor, die Welt zu erkunden.",
+            "effects": [
+                {
+                    "int_minimum": 776,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34650,
+            "name": "Geschichte von Zabelle – Kapitel 4",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Ihr habt das legendäre Abenteuer von Welsh und Shedar im Fernsehen verfolgt. Und jetzt wollt ihr mehr davon? Durch aufmerksame Lektüre dieses Auszugs könnt ihr euch auf die Spuren von Königin Zabelle begeben ... vorausgesetzt, ihr liebt Abenteuer und scheut euch nicht davor, die Welt zu erkunden.",
+            "effects": [
+                {
+                    "int_minimum": 777,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34651,
+            "name": "Geschichte von Zabelle – Kapitel 5",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Ihr habt das legendäre Abenteuer von Welsh und Shedar im Fernsehen verfolgt. Und jetzt wollt ihr mehr davon? Durch aufmerksame Lektüre dieses Auszugs könnt ihr euch auf die Spuren von Königin Zabelle begeben ... vorausgesetzt, ihr liebt Abenteuer und scheut euch nicht davor, die Welt zu erkunden.",
+            "effects": [
+                {
+                    "int_minimum": 778,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34652,
+            "name": "Geschichte von Zabelle – Kapitel 6",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25009-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png"
+            },
+            "description": "Ihr habt das legendäre Abenteuer von Welsh und Shedar im Fernsehen verfolgt. Und jetzt wollt ihr mehr davon? Durch aufmerksame Lektüre dieses Auszugs könnt ihr euch auf die Spuren von Königin Zabelle begeben ... vorausgesetzt, ihr liebt Abenteuer und scheut euch nicht davor, die Welt zu erkunden.",
+            "effects": [
+                {
+                    "int_minimum": 779,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34686,
+            "name": "Geschichte von Zabelle – Gesamtausgabe",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25010-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25010-128.png"
+            },
+            "description": "Diese apokryphe Geschichte der Schwarzen Königin wird von der skandalträchtigen Titevile erzählt und kann durchaus lehrreich sein.",
+            "effects": [
+                {
+                    "int_minimum": 786,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34704,
             "name": "Champignonpastete",
             "type": {
@@ -131909,6 +132210,92 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Titel: Meister der Kochkünste"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34892,
+            "name": "Diplom „Ritter Glatzkopp“",
+            "type": {
+                "name": "Titel-Schriftrolle",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Dieses Diplom verleiht den Titel „Ritter Glatzkopp“.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titel:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titel: Ritter Glatzkopp"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34905,
+            "name": "Diplom „Auserwählter der Drachen“",
+            "type": {
+                "name": "Titel-Schriftrolle",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Dieses Diplom verleiht den Titel „Auserwählter der Drachen“.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titel:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titel: Auserwählter der Drachen"
                 },
                 {
                     "int_minimum": 0,

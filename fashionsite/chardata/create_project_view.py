@@ -30,6 +30,7 @@ from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
                                     get_anon_char_ids, remember_anon_char)
 from chardata.build_name import cleaned_at_creation
+from chardata import visitor_throttle
 from chardata.models import Char, CharBaseStats
 from chardata.options import initial_build_options, set_options
 from chardata.power_steps import apply_posted_power, power_context
@@ -45,7 +46,7 @@ from chardata.smart_build import (get_char_aspects, ALL_ASPECTS,
                                   inert_aspects,
                                   ASPECT_TO_NAME)
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
-from chardata.util import (on_off_to_bool, set_response, safe_int, get_char_or_raise,
+from chardata.util import (json_for_script, on_off_to_bool, set_response, safe_int, get_char_or_raise,
                            TESTER_USERS, HttpResponseText,
                            remove_cache_for_char, version_reverse)
 from chardata.version_compat import (filter_classes_for_version,
@@ -60,6 +61,29 @@ from chardata.themes import get_questionmark_URL
 
 
 MAXIMUM_NUMBER_OF_PROJECTS = 500
+
+GUEST_CREATE_WINDOW = 60 * 60
+GUEST_CREATES_PER_SESSION = 30
+GUEST_CREATES_PER_ADDRESS = 90
+
+
+def _guest_create_limits():
+    return ('guest-create', GUEST_CREATE_WINDOW, GUEST_CREATES_PER_SESSION,
+            GUEST_CREATES_PER_ADDRESS)
+
+
+def guest_create_refused(request):
+    """The redirect for a guest past the creation ceilings, else None."""
+    if (request.user.is_anonymous
+            and visitor_throttle.reached(request, *_guest_create_limits())):
+        return HttpResponseRedirect(version_reverse(request, 'load_projects_error',
+                                                    'create_limit'))
+    return None
+
+
+def note_guest_create(request):
+    if request.user.is_anonymous:
+        visitor_throttle.note(request, *_guest_create_limits())
 
 def setup(request, char_id=0):
     too_many_projects_problem = False
@@ -108,7 +132,7 @@ def setup(request, char_id=0):
                          'can_create': can_create,
                          'login_problem': login_problem,
                          'too_many_projects_problem': too_many_projects_problem,
-                         'state': json.dumps(_get_state_from_char(char)),
+                         'state': json_for_script(_get_state_from_char(char)),
                          'char_id': char_id,
                          'aspect_to_name': _get_json_aspect_to_name(),
                          'aspect_layout': json.dumps(setup_columns(game_version)),
@@ -250,6 +274,10 @@ def create_project(request):
     if not within_focus_limit(state['char_build_aspects_set']):
         return HttpResponseBadRequest(_too_many_focus_boxes())
 
+    refused = guest_create_refused(request)
+    if refused is not None:
+        return refused
+
     char = Char()
     if not request.user.is_anonymous:
         char.owner = request.user
@@ -289,6 +317,7 @@ def create_project(request):
     
     if request.user.is_anonymous:
         remember_anon_char(request, char)
+        note_guest_create(request)
 
     # apply_ankama_ids rejects unknown ids and items above the level
     voulu = _wanted_item_from_post(request, char.game_version)

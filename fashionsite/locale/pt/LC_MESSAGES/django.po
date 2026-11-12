@@ -9227,6 +9227,26 @@ msgid "No set goes above %(cap)s on this version"
 msgstr "Nenhum set passa de %(cap)s nesta versão"
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "November 2026"
+msgstr "Novembro de 2026"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Stronger builds, and a new way to start them"
+msgstr "Builds mais fortes e um novo jeito de começá-los"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3: the optimizer now finds much stronger builds at level 200."
+msgstr "Dofus 3: o otimizador agora encontra builds muito mais fortes no nível 200."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Start in one click: pick a preset (damage dealer, tank, healer, mule and more), then your element. A link shares those choices, and this browser can save them."
+msgstr "Comece com um clique: escolha uma predefinição (personagem de dano, tanque, curandeiro, mula e mais) e depois o seu elemento. Um link compartilha essas escolhas, e este navegador pode salvá-las."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Set everything before the first search: see and edit the weights the optimizer will use, and choose exos, mounts and Dofus up front."
+msgstr "Ajuste tudo antes da primeira busca: veja e altere os pesos que o otimizador vai usar, e escolha exos, montarias e Dofus logo de início."
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "October 2026"
 msgstr "Outubro de 2026"
 
@@ -9504,6 +9524,249 @@ msgstr "No máximo a %(gap)s%% do melhor, não uma prova"
 msgid "Still searching: %%(elapsed)s s (at most %%(budget)s s)"
 msgstr "Ainda buscando: %%(elapsed)s s (no máximo %%(budget)s s)"
 
+#: chardata/manage_account_view.py
+msgid "Too many address changes requested. Try again in an hour."
+msgstr "Mudanças de endereço demais solicitadas. Tente novamente em uma hora."
+
+#: chardata/manage_account_view.py
+msgid "Confirm your new email address for The Dofus Fashionista"
+msgstr "Confirme seu novo endereço de e-mail para o Dofus Fashionista"
+
+#: chardata/manage_account_view.py
+#, python-brace-format
+msgid ""
+"Please click the link below to use this address for the account {username} on The Dofus Fashionista. The link works for one day.\n"
+"{link}\n"
+"\n"
+"If you did not ask for this, just ignore this email."
+msgstr ""
+"Clique no link abaixo para usar este endereço na conta {username} do Dofus Fashionista. O link funciona por um dia.\n"
+"{link}\n"
+"\n"
+"Se você não pediu isso, apenas ignore este e-mail."
+
+#: chardata/manage_account_view.py
+msgid "The confirmation email could not be sent. Try again later."
+msgstr "Não foi possível enviar o e-mail de confirmação. Tente novamente mais tarde."
+
+#: chardata/manage_account_view.py
+#, python-format
+msgid "We have sent a link to %(address)s. Your email address changes when you open it."
+msgstr "Enviamos um link para %(address)s. Seu endereço de e-mail muda quando você o abrir."
+
+#: chardata/manage_account_view.py
+msgid "Your email address was changed on The Dofus Fashionista"
+msgstr "Seu endereço de e-mail foi alterado no Dofus Fashionista"
+
+#: chardata/manage_account_view.py
+msgid "The email address of your account on The Dofus Fashionista has just been changed. If this was not you, reply to this email."
+msgstr "O endereço de e-mail da sua conta do Dofus Fashionista acabou de ser alterado. Se não foi você, responda a este e-mail."
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "Email address"
+msgstr "Endereço de e-mail"
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "Your new email address is now active."
+msgstr "Seu novo endereço de e-mail já está ativo."
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "This link has expired or was already used. Save the address again on your account page to get a new one."
+msgstr "Este link expirou ou já foi usado. Salve o endereço novamente na página da sua conta para receber outro."
+
+#: chardata/manage_account_view.py
+msgid "This alias is already taken. Choose another one."
+msgstr "Este apelido já está em uso. Escolha outro."
+
+#: chardata/manage_account_view.py
+msgid "An alias cannot be an email address."
+msgstr "Um apelido não pode ser um endereço de e-mail."
+
+#: chardata/templates/chardata/email_change_confirm.html
+#, python-format
+msgid "Use %(new_address)s as the email address of the account %(account)s?"
+msgstr "Usar %(new_address)s como e-mail da conta %(account)s?"
+
+#: chardata/templates/chardata/email_change_confirm.html
+msgid "Use this address"
+msgstr "Usar este endereço"
+
+#: chardata/templates/chardata/email_change_result.html
+msgid "This address already belongs to another account. Use another address, or recover the password of that account."
+msgstr "Este endereço já pertence a outra conta. Use outro endereço ou recupere a senha dessa conta."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "The solver is busy"
+msgstr "O solucionador está ocupado"
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Too many searches"
+msgstr "Pesquisas demais"
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "You started a lot of searches in a short time. Please wait a few minutes before trying again."
+msgstr "Você iniciou muitas pesquisas em pouco tempo. Aguarde alguns minutos antes de tentar novamente."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Many builds are being solved right now. This page tries again by itself in a few seconds."
+msgstr "Muitos builds estão sendo calculados agora. Esta página tenta novamente sozinha em alguns segundos."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Many builds are being solved right now. Please try again in a few seconds."
+msgstr "Muitos builds estão sendo calculados agora. Tente novamente em alguns segundos."
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Try again"
+msgstr "Tentar novamente"
+
+#: chardata/templates/chardata/solver_busy.html
+msgid "Back to your build"
+msgstr "Voltar ao seu build"
+
+#: fashionsite/chardata/comment_view.py
+msgid "You are posting comments too fast. Please try again in a few minutes."
+msgstr "Você está publicando comentários rápido demais. Tente novamente em alguns minutos."
+
+#: fashionsite/chardata/login_view.py
+#, python-format
+msgid "Your password must have at least %(count)s characters."
+msgstr "Sua senha deve ter pelo menos %(count)s caracteres."
+
+#: fashionsite/chardata/templates/chardata/load_projects.html
+msgid "You have created too many builds for now. Please try again later or log in."
+msgstr "Você criou builds demais por enquanto. Tente novamente mais tarde ou entre na sua conta."
+
+#: chardata/templates/chardata/manage_account.html
+msgid "Danger zone"
+msgstr "Zona de perigo"
+
+#: chardata/templates/chardata/manage_account.html
+msgid "Deleting your account removes your builds, including the shared ones, your comments, your votes and your settings. This cannot be undone. Copies other players made of your builds stay with them."
+msgstr "Excluir sua conta remove seus builds, incluindo os compartilhados, seus comentários, seus votos e suas configurações. Isso não pode ser desfeito. As cópias que outros jogadores fizeram dos seus builds ficam com eles."
+
+#: chardata/templates/chardata/manage_account.html
+msgid "Email me the deletion link"
+msgstr "Envie-me o link de exclusão por e-mail"
+
+#: chardata/templates/chardata/manage_account.html
+msgid "No access to that mailbox? Confirm with your password instead."
+msgstr "Sem acesso a essa caixa de e-mail? Confirme com a sua senha."
+
+#: chardata/templates/chardata/manage_account.html
+msgid "Continue with my password"
+msgstr "Continuar com a minha senha"
+
+#: chardata/templates/chardata/manage_account.html
+msgid "If your address no longer works, save a new one above, then come back a day later."
+msgstr "Se o seu endereço não funciona mais, salve um novo acima e volte um dia depois."
+
+#: chardata/templates/chardata/manage_account.html
+msgid "This is an administrator account. It cannot be deleted this way."
+msgstr "Esta é uma conta de administrador. Ela não pode ser excluída desta forma."
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "Delete your account"
+msgstr "Excluir sua conta"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+#, python-format
+msgid "Delete the account %(account)s for good?"
+msgstr "Excluir definitivamente a conta %(account)s?"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+#, python-format
+msgid "Builds to be removed: %(builds)s"
+msgstr "Builds que serão removidos: %(builds)s"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "Links to your shared builds will stop working. Your comments, votes and settings will be removed too."
+msgstr "Os links para os seus builds compartilhados deixarão de funcionar. Seus comentários, votos e configurações também serão removidos."
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "I understand that this cannot be undone"
+msgstr "Entendo que isso não pode ser desfeito"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "Delete my account"
+msgstr "Excluir minha conta"
+
+#: chardata/templates/chardata/account_deletion_confirm.html
+msgid "Tick the box to confirm."
+msgstr "Marque a caixa para confirmar."
+
+#: chardata/templates/chardata/account_deletion_result.html
+#, python-format
+msgid "We have sent a link to %(address)s. Open it within one hour to delete your account. If this address no longer works, go back to your account page."
+msgstr "Enviamos um link para %(address)s. Abra-o em até uma hora para excluir sua conta. Se este endereço não funciona mais, volte à página da sua conta."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "Your account and your builds are deleted. If you sign in with Google again, a new empty account is created."
+msgstr "Sua conta e seus builds foram excluídos. Se entrar de novo com o Google, uma nova conta vazia será criada."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "Your account and your builds are deleted, and you are signed out. If you sign in with Google again, a new empty account is created."
+msgstr "Sua conta e seus builds foram excluídos, e você foi desconectado. Se entrar de novo com o Google, uma nova conta vazia será criada."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "This link has expired or was already used. Ask for a new one on your account page."
+msgstr "Este link expirou ou já foi usado. Peça um novo na página da sua conta."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "Too many deletion requests. Try again in an hour."
+msgstr "Pedidos de exclusão demais. Tente novamente em uma hora."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "The email address of this account changed less than a day ago. For your safety, try again once a full day has passed."
+msgstr "O endereço de e-mail desta conta mudou há menos de um dia. Por segurança, tente novamente quando um dia inteiro tiver passado."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "This account has no email address. Save one on your account page, then come back a day later."
+msgstr "Esta conta não tem endereço de e-mail. Salve um na página da sua conta e volte um dia depois."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "This password does not match your account."
+msgstr "Esta senha não corresponde à sua conta."
+
+#: chardata/templates/chardata/account_deletion_result.html
+msgid "The deletion could not be completed. Your account was not changed. Try again later."
+msgstr "Não foi possível concluir a exclusão. Sua conta não foi alterada. Tente novamente mais tarde."
+
+#: chardata/manage_account_view.py
+msgid "Confirm the deletion of your account on The Dofus Fashionista"
+msgstr "Confirme a exclusão da sua conta no Dofus Fashionista"
+
+#: chardata/manage_account_view.py
+#, python-brace-format
+msgid ""
+"You asked to delete the account {account} on The Dofus Fashionista. Your builds, comments, votes and settings would be removed for good.\n"
+"To go on, open the link below and press the button on that page. The link works for one hour.\n"
+"{link}\n"
+"\n"
+"If you did not ask for this, ignore this email: nothing changes without that button. Someone else may be signed in to your account."
+msgstr ""
+"Você pediu para excluir a conta {account} no Dofus Fashionista. Seus builds, comentários, votos e configurações seriam removidos para sempre.\n"
+"Para continuar, abra o link abaixo e clique no botão dessa página. O link funciona por uma hora.\n"
+"{link}\n"
+"\n"
+"Se você não pediu isso, ignore este e-mail: nada muda sem esse botão. Outra pessoa pode estar conectada à sua conta."
+
+#: chardata/manage_account_view.py
+msgid "Your account on The Dofus Fashionista was deleted"
+msgstr "Sua conta no Dofus Fashionista foi excluída"
+
+#: chardata/manage_account_view.py
+#, python-brace-format
+msgid "The account {account} on The Dofus Fashionista and its builds have been deleted. It cannot be restored. If this was not you, reply to this email."
+msgstr "A conta {account} no Dofus Fashionista e seus builds foram excluídos. Ela não pode ser restaurada. Se não foi você, responda a este e-mail."
+
+#: chardata/templates/chardata/privacy.html
+msgid "You can view and edit your builds at any time while logged in, and you can delete your account and associated data from your account page. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data. You can also control advertising cookies through the consent message and through your Google Ad settings."
+msgstr "Você pode visualizar e editar seus builds a qualquer momento enquanto estiver conectado e pode excluir sua conta e os dados associados na página da sua conta. Dependendo de onde você mora, você pode ter direitos de acesso, correção, exclusão ou oposição ao tratamento dos seus dados pessoais. Você também pode controlar os cookies de publicidade pela mensagem de consentimento e pelas configurações dos seus anúncios do Google."
+
+#: chardata/templates/chardata/privacy.html
+msgid "You can view and edit your builds at any time while logged in, and you can delete your account and associated data from your account page. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data."
+msgstr "Você pode visualizar e editar seus builds a qualquer momento enquanto estiver conectado e pode excluir sua conta e os dados associados na página da sua conta. Dependendo de onde você mora, você pode ter direitos de acesso, correção, exclusão ou oposição ao tratamento dos seus dados pessoais."
+
 # redesign
 #: chardata/templates/chardata/license.html
 msgid "Fonts:"
@@ -9516,6 +9779,7 @@ msgstr "SIL Open Font License, versão 1.1"
 #: chardata/templates/chardata/license.html
 msgid "The fonts are hosted on this site, so your browser asks no other server for them."
 msgstr "As fontes ficam hospedadas neste site, então seu navegador não as pede a nenhum outro servidor."
+
 
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este jogo não tem exos: eles ficam de fora."

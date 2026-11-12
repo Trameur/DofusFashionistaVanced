@@ -156,6 +156,11 @@ def safe_float(val, default=None):
 def on_off_to_bool(val):
     return val == 'on'
     
+def json_for_script(value):
+    """JSON for an inline script: a stored name cannot close the tag around it."""
+    return json.dumps(value).replace('<', '\\u003c')
+
+
 def get_alias(user):
     aliases = []
     if user is not None and not user.is_anonymous:
@@ -166,6 +171,12 @@ def get_alias(user):
         return alias.alias
     return None
     
+# Their address holds a token or a username: no analytics, and no full referrer for the next page
+PRIVATE_ROUTES = frozenset(('confirm_email', 'confirm_email_change',
+                            'confirm_account_deletion',
+                            'email_confirmed_page', 'recover_password'))
+
+
 def set_response(request, path, params, char=None):
     # Item pages and guides set their own alternate_urls
     if 'alternate_urls' not in params:
@@ -187,7 +198,7 @@ def set_response(request, path, params, char=None):
     if char:    
         params['char'] = char
         params['wrapped_char'] = WrappedChar(char)
-    params['useraliasjson'] = json.dumps(params['useralias'])
+    params['useraliasjson'] = json_for_script(params['useralias'])
     params['is_super_user'] = request_by_super_user(request)
 
     params['ajaxloader'] = json.dumps(get_ajax_loader_URL(request))
@@ -195,6 +206,8 @@ def set_response(request, path, params, char=None):
     params['css_files'] = get_css_for_theme(get_theme(request), request)
     params['theme'] = get_theme(request)
     params['google_analytics_id'] = settings.GEN_CONFIGS['google_analytics_id']
+    route = getattr(request, 'resolver_match', None)
+    params['private_url'] = bool(route) and route.url_name in PRIVATE_ROUTES
     
     no_pic = True
     if 'pic' in request.COOKIES:    
@@ -211,10 +224,9 @@ def set_response(request, path, params, char=None):
     return response
 
 TESTER_USERS = settings.GEN_CONFIGS['TESTER_USERS_EMAILS']
-SUPER_USERS = settings.GEN_CONFIGS['SUPER_USERS_EMAILS']
 
 def request_by_super_user(request):
-    return (not request.user.is_anonymous and request.user.email in SUPER_USERS)
+    return not request.user.is_anonymous and request.user.is_superuser
 
 def char_belongs_to_user(request, char):
     if request.user.is_anonymous:

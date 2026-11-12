@@ -21,6 +21,7 @@ from chardata.encoded_char_id import encode_char_id
 from chardata.models import BuildVote, Char, UserAlias, UserFollow
 from chardata.model_wrappers import build_label
 from chardata.util import set_response, version_reverse
+from chardata.public_name import default_public_name
 from chardata.url_language import SITE_URL
 
 
@@ -30,15 +31,22 @@ PROFILE_BUILDS_PAGE_SIZE = 20
 
 def _resolve_user(alias_or_username):
     """Find a user by their alias (case-insensitive) first, then by username."""
-    by_alias = (UserAlias.objects
-                .filter(alias__iexact=alias_or_username)
-                .select_related('user').first())
+    matches = list(UserAlias.objects
+                   .filter(alias__iexact=alias_or_username)
+                   .select_related('user').order_by('pk')[:10])
+    # The collation folds case and accents: the exact spelling wins over a look-alike
+    by_alias = next((row for row in matches if row.alias == alias_or_username),
+                    matches[0] if matches else None)
     if by_alias and by_alias.alias:
         return by_alias.user
     try:
-        return User.objects.get(username__iexact=alias_or_username)
+        user = User.objects.get(username__iexact=alias_or_username)
     except User.DoesNotExist:
         return None
+    # A username holding an address, or part of one, opens no public door
+    if default_public_name(user) != user.username:
+        return None
+    return user
 
 
 def _display_name(user):

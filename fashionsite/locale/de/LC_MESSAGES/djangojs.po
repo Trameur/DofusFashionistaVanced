@@ -845,3 +845,8 @@ msgstr "Diese Einstellung enthält zu viele geänderte Werte, um gespeichert ode
 msgid "Your browser did not let this page delete the setup."
 msgstr "Dein Browser hat nicht erlaubt, dass diese Seite die Einstellung löscht."
 
+
+#: fashionsite/chardata/static/chardata/login.js
+#, python-format
+msgid "Your password must have at least %(count)s characters."
+msgstr "Ihr Passwort muss mindestens %(count)s Zeichen lang sein."

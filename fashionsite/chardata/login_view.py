@@ -24,7 +24,7 @@ from django.core.mail import send_mail, BadHeaderError
 from django.core.validators import validate_email
 from django.urls import reverse
 from django.http import Http404, HttpResponseRedirect
-from django.db import IntegrityError
+from django.db import DatabaseError, IntegrityError, transaction
 from django.core.signing import (BadSignature, SignatureExpired,
                                  TimestampSigner)
 from django.utils.crypto import constant_time_compare, salted_hmac
@@ -33,11 +33,15 @@ from social_django.models import UserSocialAuth
 import hashlib
 import logging
 import requests as http_requests
+import unicodedata
 
 from chardata.models import UserAlias
+from chardata.public_name import (default_public_name, has_unsafe_character,
+                                  public_name_is_taken)
 from chardata.util import (HttpResponseText, recaptcha_ok,
                            set_response, version_free_canonical)
 from django.utils.translation import gettext as _
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_POST
 
 logger = logging.getLogger(__name__)
@@ -49,18 +53,29 @@ def _prehash_password(raw_password):
     return hashlib.sha256(('dofusfashionista' + raw_password).encode('utf-8')).hexdigest()
 
 
+# Checked on what the reset form posts, never on a hash
+MIN_PASSWORD_LENGTH = 8
+
+
 # Per-process cache counters: a worker pool multiplies the ceiling, still far from unbounded
 LOGIN_FAIL_WINDOW = 15 * 60
 LOGIN_FAIL_MAX_PER_USER = 10
 LOGIN_FAIL_MAX_PER_IP = 30
 
 
+def _username_key(username):
+    # MySQL's collation logs Bob, BOB and Bób into one account: one counter for all of them
+    decomposed = unicodedata.normalize('NFKD', username)
+    bare = ''.join(c for c in decomposed
+                   if not unicodedata.combining(c) and unicodedata.category(c)[0] != 'C')
+    return 'login-fail-user:%s' % bare.casefold().strip()[:80]
+
+
 def _login_fail_keys(request, username):
     from chardata.solution_view import get_client_ip
     keys = []
     if username:
-        keys.append(('login-fail-user:%s' % username.lower()[:80],
-                     LOGIN_FAIL_MAX_PER_USER))
+        keys.append((_username_key(username), LOGIN_FAIL_MAX_PER_USER))
     ip = get_client_ip(request)
     if ip:
         keys.append(('login-fail-ip:%s' % ip, LOGIN_FAIL_MAX_PER_IP))
@@ -81,10 +96,11 @@ def note_login_failure(request, username):
         note_hit(key, LOGIN_FAIL_WINDOW)
 
 
-def clear_login_failures(request, username):
+def clear_login_failures(username):
+    # The per-address counter stays: logging into one's own account must not reset a guessing run
     from chardata.rate_limit import clear_hits
-    for key, _ceiling in _login_fail_keys(request, username):
-        clear_hits(key)
+    if username:
+        clear_hits(_username_key(username))
 
 
 # Limits reset mails per address; over the limit the page answers the same and sends nothing
@@ -138,10 +154,12 @@ def _login_page_generic(request, from_confirmation, prefilled_user, char_id, alr
                          'from_confirmation': from_confirmation,
                          'prefilled_user': prefilled_user,
                          'already_confirmed': already_confirmed == 'yes',
+                         'min_password_length': MIN_PASSWORD_LENGTH,
                          # Back from a failed Google login: the middleware adds this marker
                          'social_failed': (request.GET.get(SOCIAL_FAILED_PARAM)
                                            == SOCIAL_FAILED_VALUE)})
 
+@sensitive_post_parameters('password')
 def register(request):
     if request.method != 'POST':
         ns = request.resolver_match.namespace
@@ -151,7 +169,7 @@ def register(request):
     if not settings.DEBUG and not recaptcha_ok(request):
         raise PermissionDenied
 
-    username = request.POST.get('username', None)
+    username = unicodedata.normalize('NFC', (request.POST.get('username') or '').strip())
     password = request.POST.get('password', None)
     email = request.POST.get('email', None)
 
@@ -166,26 +184,23 @@ def register(request):
     except ValidationError:
         raise PermissionDenied
 
-    # MySQL's username index is case-insensitive.
-    users = User.objects.filter(username__iexact=username)
-    if users:
+    if has_unsafe_character(username) or public_name_is_taken(username):
         raise PermissionDenied
         
     if _get_non_social_users_for_email(email):
         return _recover_password_page(request, email, from_register=True)
 
-    link = request.build_absolute_uri(
-        reverse('confirm_email',
-                args=(username, _generate_token_for_user(username))))
     try:
         user = User.objects.create_user(username, email, password)
     except IntegrityError:
         raise PermissionDenied
+    link = request.build_absolute_uri(
+        reverse('confirm_email', args=(username, _generate_token_for_user(user))))
     user.is_active = False
     user.save()
     alias = UserAlias()
     alias.user = user
-    alias.alias = username
+    alias.alias = default_public_name(user)
     alias.save()
 
     try:
@@ -195,7 +210,7 @@ def register(request):
                   _get_from_email(),
                   [email])
     # A refused connection or a timeout raises a bare OSError, not SMTPException
-    except (BadHeaderError, OSError):
+    except (BadHeaderError, OSError, ValueError):
         logger.exception('Registration email could not be sent to %s', email)
         user.delete()
         return set_response(request,
@@ -215,23 +230,28 @@ def check_your_email(request):
                         {'request': request})
 
 def confirm_email(request, username, confirmation_token):
-    # Constant-time comparison, like the reset token
-    if not constant_time_compare(confirmation_token,
-                                 _generate_token_for_user(username)):
-        return HttpResponseText('invalid token')
-    
     users = User.objects.filter(username=username)
 
     if not users or len(users) != 1:
         return HttpResponseText('invalid token')
-    
+
     user = users[0]
+    # Constant-time comparison, like the reset token
+    if not constant_time_compare(confirmation_token,
+                                 _generate_token_for_user(user)):
+        return HttpResponseText('invalid token')
+
     if user.is_active:
         return HttpResponseRedirect(reverse('email_confirmed_page',
                                             args=(username, 'yes')))
     
     user.is_active = True
-    user.save()
+    try:
+        # A save of the whole row would bring back an account deleted meanwhile
+        with transaction.atomic():
+            user.save(update_fields=['is_active'])
+    except DatabaseError:
+        return HttpResponseText('invalid token')
     return HttpResponseRedirect(reverse('email_confirmed_page',
                                         args=(username, 'no')))
 
@@ -242,14 +262,25 @@ def email_confirmed_page(request, username, already_confirmed):
         raise Http404
     return _login_page_generic(request, True, username, 0, already_confirmed)
 
+NAME_CHECK_WINDOW = 15 * 60
+NAME_CHECKS_PER_SESSION = 40
+NAME_CHECKS_PER_ADDRESS = 120
+
+
 @require_POST
 def check_if_taken(request):
-    username = request.POST.get('username', None)
-    users = User.objects.filter(username__iexact=username)
-    if users:
+    from chardata import visitor_throttle
+    limits = ('name-check', NAME_CHECK_WINDOW, NAME_CHECKS_PER_SESSION,
+              NAME_CHECKS_PER_ADDRESS)
+    if visitor_throttle.reached(request, *limits):
+        return HttpResponseText('too-many')
+    visitor_throttle.note(request, *limits)
+    username = (request.POST.get('username') or '').strip()
+    if username and (has_unsafe_character(username) or public_name_is_taken(username)):
         return HttpResponseText('username-error')
     return HttpResponseText('ok')
   
+@sensitive_post_parameters('password')
 @require_POST
 def local_login(request):
     username = request.POST.get('username', None)
@@ -258,7 +289,7 @@ def local_login(request):
         return HttpResponseText('too-many')
     user = authenticate(username=username, password=password)
     if user is not None:
-        clear_login_failures(request, username)
+        clear_login_failures(username)
         if user.is_active:
             login(request, user)
             return HttpResponseText('ok')
@@ -285,6 +316,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(safe_url)
         
+@sensitive_post_parameters('password', 'newPassword')
 @require_POST
 def change_password(request):
     username = request.POST.get('username', None)
@@ -294,9 +326,13 @@ def change_password(request):
         return HttpResponseText('too-many')
     user = authenticate(username=username, password=password)
     if user is not None:
-        clear_login_failures(request, username)
+        clear_login_failures(username)
         user.set_password(new_password)
-        user.save()
+        try:
+            with transaction.atomic():
+                user.save(update_fields=['password'])
+        except DatabaseError:
+            return HttpResponseText('invalid')
         return HttpResponseText('ok')
     else:
         note_login_failure(request, username)
@@ -323,7 +359,11 @@ def _recover_password_page(request, email, from_register):
                              'from_register': from_register,
                              'email_send_failed': False})
 
-    if reset_mail_is_throttled(request, email):
+    # The stored address, never the submitted one: the database collation also
+    # matches other spellings, which would receive the link to this account
+    stored_address = non_social_users[0].email
+
+    if reset_mail_is_throttled(request, stored_address):
         logger.info('reset mail not sent, over the limit for this hour')
         return set_response(request,
                             'chardata/recover_password.html',
@@ -337,7 +377,8 @@ def _recover_password_page(request, email, from_register):
     
     link = request.build_absolute_uri(
         reverse('recover_password',
-                args=(username, _generate_token_for_password_reset(username, password))))
+                args=(username, _generate_token_for_password_reset(
+                    username, password, stored_address))))
     try:
         send_mail(_('Password change requested for The Dofus Fashionista'),
                   _('A password reset has been requested for The Dofus Fashionista!\n'
@@ -347,17 +388,17 @@ def _recover_password_page(request, email, from_register):
                     'If you don\'t want to reset your password, just ignore this email.').format(
                         username=username, link=link),
                   _get_from_email(),
-                  [email])
+                  [stored_address])
     # A refused connection or a timeout raises a bare OSError, not SMTPException
-    except (BadHeaderError, OSError):
-        logger.exception('Password recovery email could not be sent to %s', email)
+    except (BadHeaderError, OSError, ValueError):
+        logger.exception('Password recovery email could not be sent')
         return set_response(request,
                             'chardata/recover_password.html',
                             {'request': request,
                              'email': email,
                              'from_register': from_register,
                              'email_send_failed': True})
-    note_reset_mail_sent(request, email)
+    note_reset_mail_sent(request, stored_address)
     return set_response(request,
                         'chardata/recover_password.html', 
                         {'request': request,
@@ -365,6 +406,7 @@ def _recover_password_page(request, email, from_register):
                          'from_register': from_register,
                          'email_send_failed': False})
 
+@sensitive_post_parameters('new_password', 'confirm_password')
 def recover_password(request, username, recover_token):
     users = User.objects.filter(username=username)
     
@@ -373,7 +415,7 @@ def recover_password(request, username, recover_token):
     
     user = users[0]
     current_password = user.password
-    if not _password_reset_token_is_valid(username, current_password, recover_token):
+    if not _password_reset_token_is_valid(username, current_password, user.email, recover_token):
         raise PermissionDenied
 
     username = user.username
@@ -382,6 +424,7 @@ def recover_password(request, username, recover_token):
                             'chardata/password_reset_form.html',
                             {'request': request,
                              'username': username,
+                             'min_password_length': MIN_PASSWORD_LENGTH,
                              'recover_token': recover_token})
 
     new_password = request.POST.get('new_password', None)
@@ -390,6 +433,9 @@ def recover_password(request, username, recover_token):
 
     if not new_password:
         error_message = _('You need to enter a new password.')
+    elif len(new_password) < MIN_PASSWORD_LENGTH:
+        error_message = (_('Your password must have at least %(count)s characters.')
+                         % {'count': MIN_PASSWORD_LENGTH})
     elif new_password != confirm_password:
         error_message = _('The passwords do not match.')
 
@@ -398,6 +444,7 @@ def recover_password(request, username, recover_token):
                             'chardata/password_reset_form.html',
                             {'request': request,
                              'username': username,
+                             'min_password_length': MIN_PASSWORD_LENGTH,
                              'recover_token': recover_token,
                              'error_message': error_message})
 
@@ -405,7 +452,12 @@ def recover_password(request, username, recover_token):
     # Completing the reset proves the email, and local_login rejects inactive
     # accounts.
     user.is_active = True
-    user.save()
+    try:
+        with transaction.atomic():
+            user.save(update_fields=['password', 'is_active'])
+    except DatabaseError:
+        raise PermissionDenied
+    clear_login_failures(user.username)
 
     return set_response(request,
                         'chardata/password_was_reset.html',
@@ -413,33 +465,42 @@ def recover_password(request, username, recover_token):
                          'username': username})
 
 EMAIL_CONFIRMATION_SALT = settings.GEN_CONFIGS["EMAIL_CONFIRMATION_SALT"]
-def _generate_token_for_user(username):
-    return salted_hmac(EMAIL_CONFIRMATION_SALT, username).hexdigest()
+def _generate_token_for_user(user):
+    # The id keeps a link from activating a later account that takes the same name
+    return salted_hmac(EMAIL_CONFIRMATION_SALT,
+                       '%s|%d' % (user.username, user.pk)).hexdigest()
 
 PASSWORD_RESET_SALT = settings.GEN_CONFIGS["PASSWORD_RESET_SALT"]
 
 
-def _password_reset_hmac(username, password):
-    return salted_hmac(PASSWORD_RESET_SALT, username + password).hexdigest()
+def _password_reset_hmac(username, password, email):
+    return salted_hmac(PASSWORD_RESET_SALT, '%s|%s|%s' % (username, password, email)).hexdigest()
 
 
-def _generate_token_for_password_reset(username, password):
-    """A reset token that expires after PASSWORD_RESET_TIMEOUT."""
+def _generate_token_for_password_reset(username, password, email):
+    """A reset token that expires after PASSWORD_RESET_TIMEOUT, and with the address it went to."""
     return TimestampSigner(salt=PASSWORD_RESET_SALT).sign(
-        _password_reset_hmac(username, password))
+        _password_reset_hmac(username, password, email))
 
 
-def _password_reset_token_is_valid(username, password, token):
+def _password_reset_token_is_valid(username, password, email, token):
     try:
         signed = TimestampSigner(salt=PASSWORD_RESET_SALT).unsign(
             token, max_age=settings.PASSWORD_RESET_TIMEOUT)
     except (BadSignature, SignatureExpired):
         return False
-    return constant_time_compare(signed, _password_reset_hmac(username, password))
+    return constant_time_compare(signed, _password_reset_hmac(username, password, email))
 
 def _get_non_social_users_for_email(email):
     non_social_users = []
-    for user in User.objects.filter(email=email):
+    email = (email or '').strip()
+    if not email:
+        return non_social_users
+    wanted = email.casefold()
+    for user in User.objects.filter(email__iexact=email):
+        # The collation also matches accented spellings, which are other mailboxes
+        if user.email.casefold() != wanted:
+            continue
         if not UserSocialAuth.objects.filter(user_id=user.id):
             non_social_users.append(user)
     return non_social_users

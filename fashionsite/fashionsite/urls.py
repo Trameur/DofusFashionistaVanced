@@ -33,7 +33,8 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
     coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view, dofusbook_view, dofusbook_export_view, text_build_view, csp_report_view, forgemagie_view, \
-    inventory_view, guides_view, admin_tools_view, character_assets, fashionista_build_view
+    inventory_view, guides_view, admin_tools_view, character_assets, fashionista_build_view, \
+    page_seen_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -701,6 +702,7 @@ urlpatterns = [
             name='sitemap_section'),
     # Staff-only dashboard, gated in the view; 404 for everyone else.
     re_path(r'^admin-tools/$', admin_tools_view.admin_tools, name='admin_tools'),
+    re_path(r'^admin-tools/history\.json$', admin_tools_view.admin_history_json, name='admin_history_json'),
     re_path(r'^admin-comment-action/$', admin_tools_view.admin_comment_action, name='admin_comment_action'),
     re_path(r'^admin-tools/provenance/$', admin_tools_view.provenance, name='provenance'),
     re_path(r'^admin-ads-action/$', admin_tools_view.admin_ads_action, name='admin_ads_action'),
@@ -795,6 +797,7 @@ urlpatterns = [
             name='fashionista_export'),
     # CSP violation reports; no version prefix, a report belongs to no game
     re_path(r'^csp-report/$', csp_report_view.csp_report, name='csp_report'),
+    re_path(r'^seen/$', page_seen_view.page_seen, name='page_seen'),
     re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
     re_path(r'^workshop/ingredients/$', workshop_view.workshop_ingredients, name='workshop_ingredients'),
     re_path(r'^workshop/sources/$', workshop_view.workshop_sources, name='workshop_sources'),
@@ -917,12 +920,26 @@ urlpatterns = [
 
     re_path(r'^manageaccount/', manage_account_view.manage_account, name = 'manage_account'),
     re_path(r'^saveaccount/', manage_account_view.save_account, name = 'save_account'),
+    re_path(r'^confirm_email_change/(?P<token>[^/]+)/$', manage_account_view.confirm_email_change,
+            name='confirm_email_change'),
+    re_path(r'^email_change/(?P<outcome>ok|invalid|taken)/$', manage_account_view.email_change_result,
+            name='email_change_result'),
+    re_path(r'^delete_account/$', manage_account_view.request_account_deletion,
+            name='request_account_deletion'),
+    re_path(r'^delete_account_password/$', manage_account_view.delete_account_with_password,
+            name='delete_account_with_password'),
+    re_path(r'^confirm_account_deletion/(?P<token>[^/]+)/$',
+            manage_account_view.confirm_account_deletion,
+            name='confirm_account_deletion'),
+    re_path(r'^account_deletion/(?P<outcome>sent|deleted|invalid|refused|too_many|too_soon|'
+            r'no_address|mail_failed|wrong_password|failed)/$',
+            manage_account_view.account_deletion_result,
+            name='account_deletion_result'),
     
     re_path(r'^changetheme/', util.set_theme, name = 'set_theme'),
     re_path(r'^changeautotheme/', util.set_current_auto, name = 'set_current_auto'),
 
     re_path('', include('social_django.urls', namespace='social')),
-    re_path('', include(('django.contrib.auth.urls', 'auth'))),
 
     re_path(r'^robots\.txt$', TemplateView.as_view(template_name='chardata/robots.txt',
                                                content_type='text/plain')),

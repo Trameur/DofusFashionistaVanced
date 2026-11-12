@@ -128,7 +128,7 @@
             <tr>
                 <input type="hidden" name="password" id="password-actual">
                 <td align="right"><label class="big-text" for="password" style="vertical-align: top;">{% trans "Password" %}: </label></td>
-                <td align="left"><input class="pretty-input" type="password" size="30" id="password" > </td>
+                <td align="left"><input class="pretty-input" type="password" size="30" id="password" data-min-length="{{ min_password_length }}"> </td>
             </tr>
             <tr>
                 <td align="right"><label class="big-text" for="password-confirm" style="vertical-align: top;">{% trans "Confirm Password" %}: </label></td>
@@ -185,6 +185,9 @@ function onRegisterCaptcha(token) {
     if (password === "") {
         failed = true;
         $("#password-error").text(gettext("You need to enter a password."));
+    } else if (password.length < minPasswordLength()) {
+        failed = true;
+        $("#password-error").text(shortPasswordMessage());
     }
     if (email === "" || email.indexOf("@") < 1 || email.indexOf(".") < 3) {
         failed = true;

@@ -89,3 +89,13 @@ fashionsite/chardata/static/chardata/pets/beta/*.png
 
 # Git metadata
 .git/
+
+# The web image needs none of these: nginx reads the certificate from a bind
+# mount, the web service gets its configuration from a bind mount, and a
+# database dump has no use inside the image. The ** prefix matches at any
+# depth, a bare *.sql would only match at the root of the context.
+docker/certs/
+docker/gen_config*.json
+prod_gen_config.json
+**/*.sql
+**/*.sql.gz

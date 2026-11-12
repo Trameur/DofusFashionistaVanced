@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PageHitMiddleware swallows a counting failure to keep the page up, but must log a warning about it."""
+"""PageHitMiddleware swallows a failure to offer the report to keep the page up, but must log a warning about it."""
 from unittest import mock
 
 from django.test import RequestFactory, TestCase
@@ -23,13 +23,13 @@ class TheCounterSaysWhenItFails(TestCase):
     def test_the_page_is_still_served(self):
         """The half that must never regress: counting is not worth a 500, and asserts nothing about logging."""
         middleware, sentinel = self.a_broken_middleware()
-        with mock.patch.object(PageHitMiddleware, 'count',
+        with mock.patch.object(PageHitMiddleware, 'offer_the_report',
                                side_effect=RuntimeError('the table is gone')):
             self.assertIs(sentinel, middleware(self.a_request()))
 
     def test_the_failure_is_written_down(self):
         middleware, _ = self.a_broken_middleware()
-        with mock.patch.object(PageHitMiddleware, 'count',
+        with mock.patch.object(PageHitMiddleware, 'offer_the_report',
                                side_effect=RuntimeError('the table is gone')):
             with self.assertLogs('chardata.middleware', level='WARNING') as logs:
                 middleware(self.a_request())
@@ -42,6 +42,6 @@ class TheCounterSaysWhenItFails(TestCase):
     def test_nothing_is_logged_when_counting_works(self):
         """Otherwise every page view would write a line."""
         middleware = PageHitMiddleware(lambda request: object())
-        with mock.patch.object(PageHitMiddleware, 'count', return_value=None):
+        with mock.patch.object(PageHitMiddleware, 'offer_the_report', return_value=None):
             with self.assertNoLogs('chardata.middleware', level='WARNING'):
                 middleware(self.a_request())

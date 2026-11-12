@@ -122385,15 +122385,17 @@
         {
             "ankama_id": 1125,
             "name": "Zabelle-Prunkset",
-            "items": 4,
-            "level": 1,
+            "items": 6,
+            "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 34795,
                 34796,
                 34797,
-                34798
+                34798,
+                34837,
+                34840
             ]
         },
         {
@@ -122421,6 +122423,21 @@
                 34801,
                 34803,
                 34806
+            ]
+        },
+        {
+            "ankama_id": 1128,
+            "name": "[!] Panoplie d'apparat préhistorique",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34908,
+                34909,
+                34910,
+                34911,
+                34913
             ]
         }
     ]

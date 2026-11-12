@@ -79663,9 +79663,9 @@
                     "quantity": 300
                 },
                 {
-                    "item_ankama_id": 16493,
-                    "item_subtype": "resources",
-                    "quantity": 1
+                    "item_ankama_id": 31519,
+                    "item_subtype": "consumables",
+                    "quantity": 10
                 }
             ],
             "effects": [

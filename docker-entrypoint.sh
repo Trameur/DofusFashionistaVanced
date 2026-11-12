@@ -15,6 +15,9 @@ CONFIG_FILE="${CONFIG_DIR}/gen_config.json"
 echo "Merging configuration files..."
 python3 /app/merge_docker_config.py
 
+echo "Checking that no secret is a public default..."
+python3 /app/check_docker_secrets.py
+
 # Wait for the database
 echo "Waiting for database to be available..."
 until python3 -c "
@@ -70,6 +73,11 @@ python manage.py cleanup_old_views || echo "view cleanup skipped"
 # Nothing else deletes expired sessions.
 echo "Dropping expired sessions..."
 python manage.py clearsessions || echo "session cleanup skipped"
+
+# Every login start writes one nonce row; this drops the old ones and the
+# unused codes and expired associations. Linked accounts are left alone.
+echo "Dropping old social login data..."
+python manage.py clearsocial || echo skipped
 
 echo "Starting Gunicorn server..."
 # On small instances, 2 workers is usually more stable than 3.

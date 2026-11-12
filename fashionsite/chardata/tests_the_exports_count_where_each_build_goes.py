@@ -456,7 +456,8 @@ class TheExportSectionShowsTheShareOfEachDestinationTests(TestCase):
 
     def test_the_tab_prints_the_exports_section_with_one_decimal(self):
         self.client.force_login(self._superuser())
-        page = self.client.get('/admin-tools/', {'period': '30d', 'version': 'dofus3'})
+        page = self.client.get('/admin-tools/', {'period': '30d', 'version': 'dofus3',
+                                                 'tab': 'imports'})
         self.assertEqual(200, page.status_code)
         for text in ('>Import and export</button>', 'id="admin-exports"',
                      'Where builds go', 'DofusBook', 'JSON file',
@@ -484,7 +485,7 @@ class TheExportSectionShowsTheShareOfEachDestinationTests(TestCase):
     def test_an_empty_table_shows_the_empty_state(self):
         ExportHit.objects.all().delete()
         self.client.force_login(self._superuser())
-        page = self.client.get('/admin-tools/')
+        page = self.client.get('/admin-tools/?tab=imports')
         self.assertContains(page, 'Exports are recorded from the first one after this '
                                   'release, and nothing earlier is backfilled.')
         self.assertNotContains(page, 'Sites pulling builds through the API')

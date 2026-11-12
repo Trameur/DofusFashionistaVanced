@@ -484,7 +484,8 @@ class TheCounterNamesTheSenderTests(_SentBuild):
         boss.is_superuser = True
         boss.save()
         self.client.force_login(boss)
-        page = self.client.get('/admin-tools/', {'period': '30d', 'version': 'dofus3'})
+        page = self.client.get('/admin-tools/', {'period': '30d', 'version': 'dofus3',
+                                                 'tab': 'imports'})
         self.assertContains(page, 'id="admin-imports-sent"')
         self.assertContains(page, 'Builds other sites send')
         self.assertContains(page, '<td>example.org</td>')

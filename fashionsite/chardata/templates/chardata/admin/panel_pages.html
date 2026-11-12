@@ -1,0 +1,32 @@
+<section class="admin-panel" data-panel="pages" data-loaded="1" data-generated="{{ dash.generated }}">
+    {% include 'chardata/admin/_filters_note.html' %}
+        {% if dash.pages.collecting_since %}
+        <p class="admin-note">A page counts once a browser shows it: the tab is visible and was used, or stayed on screen a few seconds. Ids in a path are folded into a placeholder, and nothing about the visitor is stored.</p>
+        {% if dash.pages.hides_older_days %}
+        <p class="admin-note"><strong>Days before {{ dash.pages.real_browsers_since }} are not shown.</strong> They also count crawlers posing as browsers, and cannot be corrected: the user agent was never stored. Those rows stay in the database. A crawler that runs scripts and shows the page on screen can still count.</p>
+        {% endif %}
+        <h2 class="admin-section-title">Page reads {{ dash.pages.unit_word }}</h2>
+        {{ charts.pages_per_week|safe }}
+        <div class="admin-two">
+            <div>
+                <h2 class="admin-section-title">Most read pages</h2>
+                <table class="admin-table" data-more="12">
+                    {% for path, n in dash.pages.top %}
+                    <tr><td>{{ path }}</td><td class="admin-num">{{ n }}</td></tr>
+                    {% empty %}<tr><td class="admin-empty">nothing counted for this filter</td></tr>{% endfor %}
+                </table>
+            </div>
+            <div>
+                <h2 class="admin-section-title">By version</h2>
+                {% if dash.filters.version %}<p class="admin-note">Every version, so the filtered column above can be compared.</p>{% endif %}
+                <table class="admin-table">
+                    {% for label, n in dash.pages.by_version %}
+                    <tr><td>{{ label }}</td><td class="admin-num">{{ n }}</td></tr>
+                    {% empty %}<tr><td class="admin-empty">nothing counted in this range</td></tr>{% endfor %}
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <p class="admin-empty-panel">Nothing counted yet. Page reads start being recorded once this is deployed, and the figures are never backfilled.</p>
+        {% endif %}
+    </section>

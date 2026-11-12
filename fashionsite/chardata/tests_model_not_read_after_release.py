@@ -59,12 +59,12 @@ class TheModelIsNotReadAfterItIsReturnedTests(SimpleTestCase):
 
         from chardata import fashion_action
 
-        source = inspect.getsource(fashion_action.fashion)
+        source = inspect.getsource(fashion_action._fashion)
         lignes = source.split('\n')
         rendus = [i for i, l in enumerate(lignes) if 'return_model(' in l]
         self.assertTrue(
             rendus,
-            'return_model no longer appears in fashion(); this guard has lost '
+            'return_model no longer appears in _fashion(); this guard has lost '
             'its subject and must be rewritten, not deleted')
         premier_rendu = rendus[0]
         apres = [(i, l) for i, l in enumerate(lignes)
@@ -73,7 +73,7 @@ class TheModelIsNotReadAfterItIsReturnedTests(SimpleTestCase):
         self.assertFalse(
             apres,
             'the model is read after being returned to the shared pool, at '
-            'line(s) %s of fashion(): a concurrent borrower would change what '
+            'line(s) %s of _fashion(): a concurrent borrower would change what '
             'this reads' % [i - premier_rendu for i, _l in apres])
 
     def test_the_memory_still_receives_a_status(self):
@@ -82,7 +82,7 @@ class TheModelIsNotReadAfterItIsReturnedTests(SimpleTestCase):
 
         from chardata import fashion_action
 
-        source = inspect.getsource(fashion_action.fashion)
+        source = inspect.getsource(fashion_action._fashion)
         m = re.search(r'MEMORY\.put\(\s*model_input\s*,\s*\(([^)]*)\)', source)
         self.assertIsNotNone(m, 'MEMORY.put no longer stores a tuple')
         premier = m.group(1).split(',')[0].strip()

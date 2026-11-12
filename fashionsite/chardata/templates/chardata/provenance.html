@@ -10,16 +10,17 @@
 <div style="max-width:900px;margin:0 auto;padding:24px 16px">
 
   <h1 style="margin:0 0 4px">Where readers come from</h1>
-  <p style="color:#777;margin:0 0 24px">
+  <p style="opacity:.8;margin:0 0 24px">
     Anonymous count, one row per day and per source.
-    {% if first_day %}From {{ first_day }} to {{ today }}.
-    {% else %}<strong>No data yet</strong>: counting starts with the first deploy.{% endif %}
+    {% if not first_day %}<strong>No data yet</strong>: counting starts with the first deploy.{% endif %}
+    This page starts on {{ real_browsers_since }}: earlier arrivals also count crawlers, and support rates over them would mean nothing. Those rows stay in the database.
+    Support clicks are counted on the server, so a crawler following the link still adds one: read the rate as a ceiling.
   </p>
 
   {% for p in periods %}
   <h2 style="margin:28px 0 6px">Last {{ p.days }} days</h2>
-  <p style="margin:0 0 10px;color:#777">
-    {{ p.total }} arrival{{ p.total|pluralize }}.
+  <p style="margin:0 0 10px;opacity:.8">
+    From {{ p.since }}: {{ p.total }} arrival{{ p.total|pluralize }}.
     {% if p.total %}
       Support clicks: {{ p.support_clicks }}, that is <strong>{{ p.support_rate }}%</strong>.
     {% else %}
@@ -31,7 +32,7 @@
   <div style="overflow-x:auto">
   <table style="border-collapse:collapse;width:100%;font-size:14px">
     <thead>
-      <tr style="text-align:left;border-bottom:2px solid #ccc">
+      <tr style="text-align:left;border-bottom:2px solid rgba(128,128,128,.6)">
         <th style="padding:6px 10px">Source</th>
         <th style="padding:6px 10px">Medium</th>
         <th style="padding:6px 10px;text-align:right">Arrivals</th>
@@ -40,19 +41,19 @@
     </thead>
     <tbody>
       {% for r in p.rows %}
-      <tr style="border-bottom:1px solid #eee">
+      <tr style="border-bottom:1px solid rgba(128,128,128,.25)">
         <td style="padding:5px 10px">{{ r.source }}</td>
-        <td style="padding:5px 10px;color:#777">{{ r.medium }}</td>
+        <td style="padding:5px 10px;opacity:.8">{{ r.medium }}</td>
         <td style="padding:5px 10px;text-align:right;font-variant-numeric:tabular-nums">{{ r.visits }}</td>
-        <td style="padding:5px 10px;text-align:right;color:#777;font-variant-numeric:tabular-nums">{{ r.share }}%</td>
+        <td style="padding:5px 10px;text-align:right;opacity:.8;font-variant-numeric:tabular-nums">{{ r.share }}%</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   </div>
-  {% if p.hidden %}<p style="color:#999;font-size:13px">and {{ p.hidden }} other source{{ p.hidden|pluralize }}.</p>{% endif %}
+  {% if p.hidden %}<p style="opacity:.7;font-size:13px">and {{ p.hidden }} other source{{ p.hidden|pluralize }}.</p>{% endif %}
   {% else %}
-  <p style="color:#999">Nothing yet.</p>
+  <p style="opacity:.7">Nothing yet.</p>
   {% endif %}
   {% endfor %}
 
@@ -60,20 +61,20 @@
   {% if by_country %}
   <p style="margin:0">
     {% for c in by_country %}<span style="display:inline-block;margin:0 14px 6px 0">
-      <strong>{{ c.country }}</strong> <span style="color:#777">{{ c.visits }}</span></span>{% endfor %}
+      <strong>{{ c.country }}</strong> <span style="opacity:.8">{{ c.visits }}</span></span>{% endfor %}
   </p>
   {% else %}
-  <p style="color:#999">No country received; Cloudflare may not be sending the header.</p>
+  <p style="opacity:.7">No country received; Cloudflare may not be sending the header.</p>
   {% endif %}
 
   <h2 style="margin:28px 0 6px">Language served · 30 days</h2>
   {% if by_language %}
   <p style="margin:0">
     {% for l in by_language %}<span style="display:inline-block;margin:0 14px 6px 0">
-      <strong>{{ l.language }}</strong> <span style="color:#777">{{ l.visits }}</span></span>{% endfor %}
+      <strong>{{ l.language }}</strong> <span style="opacity:.8">{{ l.visits }}</span></span>{% endfor %}
   </p>
   {% else %}
-  <p style="color:#999">Nothing yet.</p>
+  <p style="opacity:.7">Nothing yet.</p>
   {% endif %}
 
 </div>

@@ -16,7 +16,7 @@ def _resolves(path):
 def game_url(context, url_name, *args, **kwargs):
     """Like {% url %} but auto-prefixes with the current game version namespace.
 
-    Already-namespaced names (e.g. 'auth:logout') are passed through unchanged.
+    Already-namespaced names (e.g. 'social:begin') are passed through unchanged.
     For names not registered in the version namespace (e.g. 'about', 'faq'),
     falls back to the global URL.
     """
@@ -27,6 +27,15 @@ def game_url(context, url_name, *args, **kwargs):
         except NoReverseMatch:
             pass
     return reverse(url_name, args=args, kwargs=kwargs)
+
+
+@register.simple_tag(takes_context=True)
+def profile_url(context, name):
+    """game_url of a public profile, empty for a stored name the route cannot carry."""
+    try:
+        return game_url(context, 'user_profile', name)
+    except NoReverseMatch:
+        return ''
 
 
 @register.simple_tag(takes_context=True)

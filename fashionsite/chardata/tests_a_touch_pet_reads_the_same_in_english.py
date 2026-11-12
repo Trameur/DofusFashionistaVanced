@@ -172,12 +172,13 @@ class TheScrapeRunTests(SimpleTestCase):
         with open(self.out, 'w', encoding='utf-8') as handle:
             json.dump({'Bow Meow': self.BOW_MEOW}, handle)
 
-    def _run(self, pages):
+    def _run(self, pages, overrides=None):
         def fetch(opener, url, **kwargs):
             return pages.get(url)
         printed = io.StringIO()
         argv = ['scrape', '--limit', '2', '--delay', '0', '--out', self.out]
         with mock.patch.object(self.scraper, 'fetch', side_effect=fetch), \
+                mock.patch.object(self.scraper, 'OVERRIDES', overrides or {}), \
                 mock.patch.object(sys, 'argv', argv), \
                 contextlib.redirect_stdout(printed):
             code = self.scraper.main()
@@ -209,3 +210,17 @@ class TheScrapeRunTests(SimpleTestCase):
         self.assertEqual(0, code)
         self.assertEqual({'Bow Meow': self.BOW_MEOW + [['Power', 75]]}, written)
         self.assertIn('new variants: 1', printed)
+
+    def test_a_pet_whose_pages_answer_404_writes_nothing(self):
+        code, written, printed = self._run({})
+        self.assertEqual(1, code)
+        self.assertEqual({'Bow Meow': self.BOW_MEOW}, written)
+        self.assertIn('the scrape lost 1 pet(s) the file already had: '
+                      'Bow Meow', printed)
+
+    def test_an_override_keeps_a_pet_whose_pages_answer_404(self):
+        code, written, printed = self._run(
+            {}, overrides={'Bow Meow': self.BOW_MEOW})
+        self.assertEqual(0, code)
+        self.assertEqual({'Bow Meow': self.BOW_MEOW}, written)
+        self.assertIn('no encyclopedia page in either language', printed)

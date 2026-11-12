@@ -43,6 +43,15 @@ function changePassword(username, password, newPassword){
            });
 }
 
+function minPasswordLength() {
+    return parseInt($("#password").data("min-length"), 10) || 0;
+}
+
+function shortPasswordMessage() {
+    return interpolate(gettext("Your password must have at least %(count)s characters."),
+                       {count: minPasswordLength()}, true);
+}
+
 function validate_username() {
     var username = $("#register-username").val();
     $.post("/check_username/",
@@ -51,6 +60,8 @@ function validate_username() {
                 if (data === 'username-error') {
                     $("#username-taken-error").text(gettext("This username is already in use."));
                     $("#login-register").attr('disabled','disabled');
+                } else if (data === 'too-many') {
+                    $("#username-taken-error").text(gettext("Too many attempts. Wait a few minutes and try again."));
                 } else {
                     $("#username-taken-error").empty();
                     $("#login-register").removeAttr('disabled');
@@ -90,6 +101,9 @@ function registerSubmit(e) {
     if (password === "") {
         failed = true;
         $("#password-error").text(gettext("You need to enter a password."));
+    } else if (password.length < minPasswordLength()) {
+        failed = true;
+        $("#password-error").text(shortPasswordMessage());
     } else {
         $("#password-error").empty();
     }

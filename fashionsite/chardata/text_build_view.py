@@ -39,6 +39,7 @@ from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
 from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, safe_int
 from chardata.version_copy import import_offers, link_build_in
+from chardata import visitor_throttle
 from chardata.weapon_forge_text import conversion_line
 from chardata.wear_conditions import (class_condition_text, left_out_text,
                                       reasons_not_worn)
@@ -152,6 +153,12 @@ _SHORT_SECOND_LEVELS = frozenset((
     'nom', 'or', 'org', 'plc', 'sch'))
 
 UNKNOWN_SITES_PER_DAY = 200
+
+IMPORT_POST_WINDOW = 3600
+
+IMPORT_POSTS_PER_SESSION = 40
+
+IMPORT_POSTS_PER_ADDRESS = 120
 
 ATTEMPT_SECONDS = 1800
 
@@ -433,6 +440,17 @@ def text_build(request):
             'version_label': get_game_version(version_page).label,
             'login_problem': is_anon_cant_create(request),
         })
+    if request.user.is_anonymous:
+        limits = ('import-post', IMPORT_POST_WINDOW, IMPORT_POSTS_PER_SESSION,
+                  IMPORT_POSTS_PER_ADDRESS)
+        if visitor_throttle.reached(request, *limits):
+            return _reponse(request, {
+                'text': texte,
+                'version_label': get_game_version(version_page).label,
+                'error': _('Too many checks from your address. Wait a few minutes.'),
+                'login_problem': is_anon_cant_create(request),
+            })
+        visitor_throttle.note(request, *limits)
     return _lis(request, texte, version_page, request.POST)
 
 

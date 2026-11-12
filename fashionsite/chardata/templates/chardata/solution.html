@@ -748,7 +748,8 @@
             {% for comment in comments %}
             <li class="comment-item" data-comment-id="{{ comment.id }}">
                 <div class="comment-meta">
-                    <a class="comment-author" href="{% game_url 'user_profile' comment.author %}">{{ comment.author }}</a>
+                    {% profile_url comment.author as author_url %}
+                    {% if author_url %}<a class="comment-author" href="{{ author_url }}">{{ comment.author }}</a>{% else %}<span class="comment-author">{{ comment.author }}</span>{% endif %}
                     <span class="comment-date">{{ comment.created_time }}</span>
                     {% if comment.can_delete %}
                     <a href="#" class="comment-delete" onclick="deleteComment(event, {{ comment.id }});">{% trans "delete" %}</a>

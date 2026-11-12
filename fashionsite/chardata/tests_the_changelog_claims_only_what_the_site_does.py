@@ -10,8 +10,10 @@ from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 
 MOIS = 'September 2026'
-NOUVEAU_MOIS = 'October 2026'
-MOIS_GARDES = (NOUVEAU_MOIS, MOIS)
+OCTOBRE = 'October 2026'
+NOUVEAU_MOIS = 'November 2026'
+MOIS_GARDES = (NOUVEAU_MOIS, OCTOBRE, MOIS)
+MEME_NOM_EN_ALLEMAND = (MOIS, NOUVEAU_MOIS)
 LANGUES = ('fr', 'es', 'pt', 'de')
 TEMPLATE = os.path.join(settings.BASE_DIR, 'chardata', 'templates',
                         'chardata', 'changelog_content.html')
@@ -45,9 +47,11 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
     def test_three_entries_of_at_most_four_bullets(self):
         entrees = _entrees()
         self.assertEqual(NOUVEAU_MOIS, entrees[0][0])
-        self.assertEqual(['Dofus 3.7 update', 'Weights and minimums on one page'],
+        self.assertEqual(['Stronger builds, and a new way to start them'],
                          [e[1] for e in entrees if e[0] == NOUVEAU_MOIS])
-        self.assertEqual('Dofus 3.7 update', entrees[0][1])
+        self.assertEqual('Stronger builds, and a new way to start them', entrees[0][1])
+        self.assertEqual(['Dofus 3.7 update', 'Weights and minimums on one page'],
+                         [e[1] for e in entrees if e[0] == OCTOBRE])
         de_ce_mois = [e for e in entrees if e[0] == MOIS]
         self.assertEqual(4, len(de_ce_mois), [e[1] for e in de_ce_mois])
         self.assertEqual('A workshop that knows your stock', de_ce_mois[0][1])
@@ -90,7 +94,7 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
                 self.assertIn(cle, catalogue, (langue, phrase))
                 msgstr = catalogue[cle]
                 self.assertTrue(msgstr, (langue, phrase))
-                if not (langue == 'de' and phrase == MOIS):
+                if not (langue == 'de' and phrase in MEME_NOM_EN_ALLEMAND):
                     self.assertNotEqual(msgstr, cle, (langue, phrase))
                 self.assertNotIn('\u2014', msgstr, (langue, phrase))
                 self.assertNotIn('\u2013', msgstr, (langue, phrase))
@@ -99,7 +103,9 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
         orphelines = ('The sidebar counter now says solver answers',
                       'From the encyclopedia to the solver',
                       'Icons back, policy honest',
-                      'The privacy page names DofusBook')
+                      'The privacy page names DofusBook',
+                      'A new way to start a build',
+                      'Under More options, choose exos')
         for langue in LANGUES + ('en',):
             catalogue = _catalogue(langue)
             for debut in orphelines:
@@ -109,8 +115,10 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
     def test_the_english_catalogue_carries_the_ids(self):
         catalogue = _catalogue('en')
         self.assertIn(MOIS, catalogue)
+        self.assertIn(OCTOBRE, catalogue)
         self.assertIn(NOUVEAU_MOIS, catalogue)
         self.assertIn('Your build, in and out', catalogue)
+        self.assertIn('Stronger builds, and a new way to start them', catalogue)
 
 
 class TheClaimsPointAtThingsThatExistTests(TestCase):
@@ -255,6 +263,29 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
                              SetsEquippedConditionLine(result, 1).formatting)
         self.assertIn("{% if '#r' in line.formatting %}solution-negative-stat-text",
                       self._template('solution_item.html'))
+
+    def test_the_setup_page_offers_presets_a_link_saved_setups_and_its_panels(self):
+        page = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+        for marker in ('id="setup-recipes"', 'id="setup-share-copy"', 'id="setup-saved"',
+                       'id="setup-preview"', 'id="setup-preview-keep"', 'id="setup-more"'):
+            self.assertIn(marker, page)
+        self.assertTrue(reverse('setup_preview'))
+        from chardata.setup_edits import apply_touched_fields  # noqa: F401
+
+    def test_a_preset_fills_a_role_and_never_an_element(self):
+        from chardata.presets import Recipe, setup_recipes
+        self.assertNotIn('element', ' '.join(Recipe._fields))
+        for version in ('dofus3', 'beta', 'retro', 'touch'):
+            recipes = setup_recipes(version)
+            keys = {recipe.key for recipe in recipes}
+            self.assertLessEqual({'damage', 'tank', 'healer'}, keys, version)
+            self.assertTrue(any(recipe.mule for recipe in recipes), version)
+
+    def test_the_stronger_builds_are_dofus3_level_200_ones(self):
+        from chardata import crit_curve, weapon_terms
+        self.assertEqual(('dofus3',), weapon_terms.VERSIONS)
+        self.assertEqual(('dofus3',), crit_curve.VERSIONS)
+        self.assertEqual(200, crit_curve.SCOPE_LEVEL)
 
     def test_a_monster_page_shows_power_and_pushback_resistance(self):
         import sqlite3

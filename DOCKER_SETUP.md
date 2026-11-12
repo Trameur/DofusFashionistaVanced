@@ -22,7 +22,7 @@ Your DofusFashionistaVanced application is now configured for Docker containeriz
 docker-compose up
 ```
 This starts:
-1. MySQL 8.0 container
+1. MySQL 8.4 container
 2. Django app on http://localhost:8000
 
 ### Deploying to AWS

@@ -37,8 +37,14 @@ SIMPLE_STATS = {
     'resistance poussee': 'Pushback Resist',
 }
 
-# Manual fixes keyed by English items_touch.db name; they win over the scrape
-OVERRIDES = {}
+# Manual fixes keyed by English items_touch.db name; they win over the scrape.
+# A pet still in the game data whose pages answer 404 in both languages keeps
+# its last scraped caps here until a page comes back.
+OVERRIDES = {
+    'Bontarian Bow Meow': [['Dodge', 55]],
+    'Miniminotot': [['Power', 75]],
+    'Plump Tofurby': [['Wisdom', 220]],
+}
 
 _PCT_RESIST_RE = re.compile(
     r'^(\d+)\s*%\s*R[ée]sistance\s+(Air|Eau|Feu|Terre|Neutre)$', re.I)
