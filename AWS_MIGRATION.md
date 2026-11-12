@@ -22,13 +22,13 @@ This guide explains how to migrate the Dofus Fashionista application and its dat
 
 ### AWS Target Setup
 - **RDS MySQL 8.4**: Managed database service (replaces local MySQL)
-- **ECS/Fargate**: Runs the Docker image built from the `Dockerfile` (Python 3.14, Django 6.0)
+- **ECS/Fargate**: Runs the Docker image built from the `Dockerfile` (Python 3.14, Django 6.1)
 - **EC2 (alternative)**: One Amazon Linux 2023 host with Apache and mod_wsgi, see [EC2 Host](#ec2-host-amazon-linux-2023)
 - **S3**: Static files storage (images, CSS, JS) and database backups
 - **CloudFront**: CDN for static content
 
 ### Software Versions
-- **Python**: 3.12 or later, because Django 6.0 needs it. The Docker image runs 3.14.
+- **Python**: 3.12 or later, because Django 6.1 needs it. The Docker image runs 3.14.
 - **MySQL**: 8.4 on RDS. RDS moved MySQL 8.0 to paid Extended Support on 1 August 2026,
   and Django 6.1 needs MySQL 8.4 or later. The newer MySQL versions (9.x, 26.7) are only in
   the RDS Database Preview environment, which is not for production.
@@ -355,7 +355,7 @@ The baked character previews live in the `character_cache` volume, which
 
 The scripts at the repository root also run the site on one EC2 instance, with Apache and
 mod_wsgi instead of containers. On Amazon Linux 2023, `python3` is Python 3.9 for the life
-of the release, too old for Django 6.0, so every step names `python3.14`.
+of the release, too old for Django 6.1, so every step names `python3.14`.
 
 ```bash
 # As ec2-user. wsgi.py adds /home/ec2-user/DofusFashionistaVanced to the path.

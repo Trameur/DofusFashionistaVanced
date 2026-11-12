@@ -4,7 +4,7 @@
 # through Apache httpd. boto3 sends the backups and the static files to S3
 # (s3_fashionista.py), sync_db.py talks to RDS through PyMySQL.
 #
-# Django 6.0 needs Python 3.12 or later, and python3 on Amazon Linux 2023
+# Django 6.1 needs Python 3.12 or later, and python3 on Amazon Linux 2023
 # stays 3.9, so install with python3.14, the version the Docker image runs.
 # mod-wsgi ships as source only and compiles against Apache:
 #
