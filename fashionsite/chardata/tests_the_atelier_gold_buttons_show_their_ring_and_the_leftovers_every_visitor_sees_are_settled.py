@@ -15,7 +15,8 @@ FOCUSED = 'is-focus-visible'
 HOVERED = 'is-hover'
 TOKENS = ('--fm-ok', '--fm-warn', '--fm-bad', '--fm-info')
 TOKEN_SELECTORS = ('html.fm-modern.fm-light', 'html.fm-modern.fm-dark', 'html.fm-modern:not(.fm-light):not(.fm-dark)')
-TINTS = ('#1f6a26', '#86d68f', '#8a4e00', '#f0b45c', '#a8281f', '#ff8f86', '#1a5a85', '#6cb8ec')
+TINTS = ('#2f6b2a', '#8bcb79', '#8a4e00', '#f0b45c', '#a8281f', '#ff8f86', '#1a5a85', '#6cb8ec')
+RETIRED_TINTS = ('#1f6a26', '#86d68f')
 PAGE = [('html', {}), ('div', {'class': 'maincontent'})]
 GOLD = [('a', {'class': 'submit-button button-generic copy-action-link'}),
         ('input', {'type': 'submit', 'class': 'submit-button button-generic'}),
@@ -24,7 +25,11 @@ GOLD = [('a', {'class': 'submit-button button-generic copy-action-link'}),
         ('button', {'class': 'rerun-button'}),
         ('a', {'class': 'filter-button'}),
         ('a', {'class': 'button-generic-foreground'}),
-        ('a', {'class': 'build-link'})]
+        ('a', {'class': 'build-link'}),
+        ('a', {'class': 'fm-btn-pri'})]
+OUTLINES = GOLD[:4] + GOLD[5:7]
+PRIMARIES = [('a', {'class': 'fm-btn-pri'}), ('button', {'class': 'rerun-button'}),
+             ('input', {'type': 'submit', 'class': 'submit-button button-generic setup-primary'})]
 
 
 def focus_state(rules):
@@ -65,9 +70,31 @@ class EveryGoldButtonShowsTheFocusRingTests(SimpleTestCase):
             found = winner(PAGE, ('a', {'class': 'version-link active'}), 'box-shadow', 1440, classes, focus=True)
             self.assertEqual('inset 0 0 0 2px #efcb63, inset 0 0 0 4px #2a2010', found[0])
 
-    def test_an_unfocused_gold_button_keeps_its_gold_shadow(self):
-        found = winner(PAGE, GOLD[1], 'box-shadow', 1440)
-        self.assertIn('rgba(150,110,30', found[0].replace(' ', ''))
+    def test_an_unfocused_button_is_an_outline_with_no_shadow(self):
+        expected = {'box-shadow': 'none', 'background': 'transparent', 'border': '1.5px solid var(--fm-btnline)', 'color': 'var(--fm-head)'}
+        for classes in THEMES:
+            for element in OUTLINES:
+                with self.subTest(element=element, classes=classes):
+                    self.assertEqual(expected, {prop: winner(PAGE, element, prop, 1440, classes)[0] for prop in expected})
+
+    def test_an_unfocused_primary_is_plain_gold_with_no_shadow(self):
+        expected = {'background': 'var(--fm-gold)', 'border-color': 'var(--fm-gold)', 'color': 'var(--fm-on-gold)'}
+        for classes in THEMES:
+            for element in PRIMARIES:
+                with self.subTest(element=element, classes=classes):
+                    self.assertEqual(expected, {prop: winner(PAGE, element, prop, 1440, classes)[0] for prop in expected})
+                    shadow = winner(PAGE, element, 'box-shadow', 1440, classes)
+                    self.assertIn(None if shadow is None else shadow[0], (None, 'none'))
+
+    def test_the_build_bar_primary_is_plain_gold_and_its_focus_outline_sits_outside_the_gold(self):
+        nav = stylesheet('modern-nav.css')
+        button = 'html.fm-modern .fm-buildbar .fm-buildbar-end a.rerun-button'
+        self.assertEqual(('var(--fm-gold)', True), declared(nav, button + ':link', 'background'))
+        self.assertEqual(('var(--fm-on-gold)', True), declared(nav, button + ':link', 'color'))
+        self.assertEqual(('var(--fm-gold-hover)', True), declared(nav, button + ':hover', 'background'))
+        self.assertEqual(('2px solid var(--fm-accent-text)', False),
+                         declared(nav, 'html.fm-modern .fm-buildbar .fm-buildbar-in :is(a,button):focus-visible', 'outline'))
+        self.assertEqual(('2px', False), declared(nav, button + ':focus-visible', 'outline-offset'))
 
     def test_the_ring_rule_is_important_and_inside_the_screen_media_block(self):
         rules = [rule for rule in MODERN_SHEET
@@ -180,20 +207,20 @@ class TheStatusTintsAreTokensTests(SimpleTestCase):
             with self.subTest(selector=selector):
                 self.assertEqual([], [name for name in TOKENS if declared(MODERN_SHEET, selector, name) is None])
 
-    def test_the_token_values_are_the_tints_the_rules_used_to_repeat(self):
+    def test_the_token_values_are_the_status_tints_of_the_new_palette(self):
         light = {name: declared(MODERN_SHEET, TOKEN_SELECTORS[0], name)[0] for name in TOKENS}
         dark = {name: declared(MODERN_SHEET, TOKEN_SELECTORS[1], name)[0] for name in TOKENS}
-        self.assertEqual({'--fm-ok': '#1f6a26', '--fm-warn': '#8a4e00', '--fm-bad': '#a8281f', '--fm-info': '#1a5a85'}, light)
-        self.assertEqual({'--fm-ok': '#86d68f', '--fm-warn': '#f0b45c', '--fm-bad': '#ff8f86', '--fm-info': '#6cb8ec'}, dark)
+        self.assertEqual({'--fm-ok': '#2f6b2a', '--fm-warn': '#8a4e00', '--fm-bad': '#a8281f', '--fm-info': '#1a5a85'}, light)
+        self.assertEqual({'--fm-ok': '#8bcb79', '--fm-warn': '#f0b45c', '--fm-bad': '#ff8f86', '--fm-info': '#6cb8ec'}, dark)
         self.assertEqual(light, {name: declared(MODERN_SHEET, TOKEN_SELECTORS[2], name)[0] for name in TOKENS})
 
-    def test_no_rule_outside_the_token_blocks_repeats_one_of_the_eight_tints(self):
+    def test_no_rule_outside_the_token_blocks_repeats_one_of_the_eight_tints_or_a_retired_one(self):
         repeated = []
         for rule in MODERN_SHEET:
             if any(selector in TOKEN_SELECTORS for selector in rule['selectors']):
                 continue
             for prop, (found, _) in rule['declarations'].items():
-                if any(tint in found.lower() for tint in TINTS):
+                if any(tint in found.lower() for tint in TINTS + RETIRED_TINTS):
                     repeated.append((rule['selectors'][0], prop, found))
         self.assertEqual([], repeated)
 

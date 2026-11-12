@@ -4,7 +4,7 @@ import re
 
 from django.test import SimpleTestCase
 
-from chardata.tests_the_setup_stylesheet_support import contrast, declared, rgb, stylesheet
+from chardata.tests_the_setup_stylesheet_support import contrast, declared, flatten, rgb, stylesheet
 
 MODERN = stylesheet('modern.css')
 
@@ -21,10 +21,10 @@ SURFACES = ('--fm-bg', '--fm-bg-2', '--fm-surface', '--fm-surface-2', '--fm-surf
 TEXT = ('--fm-text', '--fm-head', '--fm-muted', '--fm-accent-text', '--fm-link-hover')
 COLOUR = re.compile(r'#[0-9a-fA-F]{6}|rgba?\([^)]*\)')
 
-EXPECTED_LIGHT = {'--fm-bg': '#ece3cf', '--fm-surface': '#f7f0e1', '--fm-text': '#2a2017', '--fm-accent-text': '#7a5212',
-                  '--fm-seam': '#8f6f45', '--fm-frame-gold': '#8c671c', '--fm-link-hover': '#5c3d0a'}
-EXPECTED_DARK = {'--fm-bg': '#14100c', '--fm-surface': '#1e1913', '--fm-text': '#ece3d0', '--fm-accent-text': '#e0bd5f',
-                 '--fm-seam': '#a88a4e', '--fm-frame-gold': '#c9a24a'}
+EXPECTED_LIGHT = {'--fm-bg': '#eae1cc', '--fm-surface': '#f6efde', '--fm-text': '#2a2014', '--fm-accent-text': '#715810',
+                  '--fm-seam': 'rgba(113,88,16,.5)', '--fm-frame-gold': '#8c671c', '--fm-link-hover': '#5c3d0a'}
+EXPECTED_DARK = {'--fm-bg': '#16110a', '--fm-surface': '#231b10', '--fm-text': '#ede5d2', '--fm-accent-text': '#e8c65a',
+                 '--fm-seam': 'rgba(227,191,77,.42)', '--fm-frame-gold': '#c9a24a'}
 
 
 def value(selector, name):
@@ -32,12 +32,20 @@ def value(selector, name):
     return found[0] if found else None
 
 
-def colour(selector, name):
+def resolved(selector, name):
     raw = value(selector, name)
     reference = re.fullmatch(r'var\((--[\w-]+)\)', raw or '')
-    if reference:
-        return colour(selector, reference.group(1))
-    return rgb(raw)[0]
+    return resolved(selector, reference.group(1)) if reference else raw
+
+
+def colour(selector, name):
+    return rgb(resolved(selector, name))[0]
+
+
+def ratio(selector, name, surface):
+    """Contrast of a token on a surface once its alpha is flattened onto that surface."""
+    backdrop = resolved(selector, surface)
+    return contrast(flatten(resolved(selector, name), backdrop), rgb(backdrop)[0])
 
 
 class EveryAtelierTokenIsDeclaredTests(SimpleTestCase):
@@ -99,14 +107,20 @@ class EveryPairClearsItsThresholdTests(SimpleTestCase):
             for name in TEXT:
                 for surface in SURFACES:
                     with self.subTest(selector=selector, name=name, surface=surface):
-                        self.assertGreaterEqual(contrast(colour(selector, name), colour(selector, surface)), 4.5)
+                        self.assertGreaterEqual(ratio(selector, name, surface), 4.5)
 
-    def test_the_seam_and_the_frame_gold_reach_3_to_1_on_every_surface_in_both_themes(self):
+    def test_the_frame_gold_and_the_control_line_reach_3_to_1_on_every_surface_in_both_themes(self):
         for selector in (LIGHT, DARK, FALLBACK):
-            for name in ('--fm-seam', '--fm-frame-gold'):
+            for name in ('--fm-frame-gold', '--fm-btnline'):
                 for surface in SURFACES:
                     with self.subTest(selector=selector, name=name, surface=surface):
-                        self.assertGreaterEqual(contrast(colour(selector, name), colour(selector, surface)), 3.0)
+                        self.assertGreaterEqual(ratio(selector, name, surface), 3.0)
+
+    def test_the_seam_is_a_stitch_no_control_relies_on_and_stays_above_1_9_to_1_once_flattened(self):
+        for selector in (LIGHT, DARK, FALLBACK):
+            for surface in SURFACES:
+                with self.subTest(selector=selector, surface=surface):
+                    self.assertGreaterEqual(ratio(selector, '--fm-seam', surface), 1.9)
 
     def test_the_tape_text_reads_on_the_tape_and_on_the_gold_button(self):
         text = rgb(value(COMMON, '--fm-tape-text'))[0]

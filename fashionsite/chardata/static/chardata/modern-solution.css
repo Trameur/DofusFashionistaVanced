@@ -1,5 +1,5 @@
 html.fm-modern .solution-stat-summary-mode-option-container{ float:none !important; width:auto !important; display:inline-flex !important; vertical-align:middle; margin:0 5px 6px 0 !important; }
-html.fm-modern .sidebar .rerun-button, html.fm-modern .menu_link.rerun-button{ white-space:normal !important; }
+html.fm-modern .menu_link.rerun-button{ white-space:normal !important; }
 html.fm-modern .solution-stat-summary-mode-option-container label{ cursor:pointer; display:inline-block; }
 html.fm-modern .solution-stat-summary-mode-option-container input{ position:absolute !important; opacity:0; width:1px; height:1px; pointer-events:none; }
 html.fm-modern .solution-stat-summary-mode-option-container .checkbox-text{

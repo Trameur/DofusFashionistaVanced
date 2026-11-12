@@ -5,12 +5,39 @@ import re
 
 from django.test import SimpleTestCase
 
-from chardata.tests_the_setup_stylesheet_support import STATIC, read_css
+from chardata.tests_the_setup_stylesheet_support import STATIC, chain_of, media_applies, read_css, stylesheet, winning
 from fashionistapulp.game_versions import GAME_VERSIONS
 
 THEMES = ('dark', 'light')
 CSS = read_css('modern.css')
+MODERN = stylesheet('modern.css')
+SHEETS = [('home.css', stylesheet('home.css')), ('responsive.css', stylesheet('responsive.css')), ('modern.css', MODERN)]
 PHONE_WIDTH = 2212
+ROOT = 'html.fm-modern'
+BAND = (('html', {}), ('body', {'class': 'body-base'}), ('div', {'class': 'add-banner'}), ('div', {'class': 'everything'}))
+FIXED = re.compile(r'(\d+)px')
+FOLLOWS_THE_WINDOW = re.compile(r'max\((\d+)px,calc\(100vw \* (\d+) / (\d+)\)\)')
+
+
+def band_height(width):
+    """The height in pixels --fm-band-h gives the band at a window width, read from the root rules of modern.css."""
+    found = None
+    for rule in MODERN:
+        if ROOT in rule['selectors'] and '--fm-band-h' in rule['declarations'] and media_applies(rule['media'], width):
+            found = rule['declarations']['--fm-band-h'][0]
+    fixed = FIXED.fullmatch(found)
+    if fixed:
+        return float(fixed.group(1))
+    follows = FOLLOWS_THE_WINDOW.fullmatch(found)
+    if follows is None:
+        raise ValueError('unreadable band height %r' % found)
+    return max(float(follows.group(1)), width * float(follows.group(2)) / float(follows.group(3)))
+
+
+def picture_height(path):
+    from PIL import Image
+    with Image.open(path) as picture:
+        return picture.height
 
 
 def band_path(version, theme, phone):
@@ -34,13 +61,21 @@ class ThePhoneBandIsDrawnUnder900Tests(SimpleTestCase):
     def test_the_phone_band_rules_come_after_the_wide_band_rules(self):
         self.assertGreater(CSS.index('bands/band_dofus3_dark_m.webp'), CSS.index('bands/band_wakfu_light.webp'))
 
-    def test_the_phone_band_is_wide_enough_for_the_widest_phone_view(self):
-        rule = re.search(r'@media \(max-width:900px\)\{ html\.fm-modern \.banner\[data-band\] a\{ height:min\((\d+)px,calc\(\(100vw - (\d+)px\) / (\d+)\)\); \} \}', CSS)
-        height, gutter, ratio = (int(rule.group(i)) for i in (1, 2, 3))
-        full_height = 300
-        widest_link = 900 - gutter
-        visible = widest_link / (min(height, widest_link / ratio) / full_height)
-        self.assertLessEqual(visible, PHONE_WIDTH)
+    def test_the_band_link_fills_the_banner_which_takes_the_band_height(self):
+        banner = chain_of(BAND, 'div', {'class': 'banner', 'data-band': 'dofus3'}, ('fm-modern', 'fm-light'))
+        link = chain_of(BAND + (('div', {'class': 'banner', 'data-band': 'dofus3'}),), 'a', {}, ('fm-modern', 'fm-light'))
+        for width in (320, 375, 390, 440, 619, 620, 760, 761, 900):
+            with self.subTest(width=width):
+                self.assertEqual('var(--fm-band-h)', winning(SHEETS, banner, 'height', width)[0])
+                self.assertEqual('100%', winning(SHEETS, link, 'height', width)[0])
+                self.assertEqual('100%', winning(SHEETS, link, 'width', width)[0])
+                self.assertEqual('cover', winning(SHEETS, link, 'background-size', width)[0])
+
+    def test_the_phone_band_is_wide_enough_for_every_phone_view(self):
+        full_height = picture_height(band_path('dofus3', 'dark', True))
+        for width in range(320, 901):
+            with self.subTest(width=width):
+                self.assertLessEqual(width / (band_height(width) / full_height), PHONE_WIDTH + 1e-6)
 
 
 class ThePhoneBandIsTheRightEndOfTheBandTests(SimpleTestCase):

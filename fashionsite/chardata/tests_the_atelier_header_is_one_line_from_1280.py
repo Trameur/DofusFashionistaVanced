@@ -1,13 +1,16 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""From 1280px the control row stays on one line, and the control row plus the banner band stay under 220px at every width the plan names."""
+"""From 1280px the control row stays on one line, the banner band is 132px from 761px and follows the window on a phone, and the band plus one row of the navigation bar stay under 220px."""
 import re
 
 from django.test import SimpleTestCase
 
+from chardata.tests_the_phone_band_is_the_right_part_of_the_band import band_height
 from chardata.tests_the_setup_stylesheet_support import chain_of, declared, read_css, stylesheet, winning
 
 MODERN = stylesheet('modern.css')
-SHEETS = [('home.css', stylesheet('home.css')), ('responsive.css', stylesheet('responsive.css')), ('modern.css', MODERN)]
+NAV = stylesheet('modern-nav.css')
+SHEETS = [('home.css', stylesheet('home.css')), ('responsive.css', stylesheet('responsive.css')), ('modern.css', MODERN),
+          ('modern-nav.css', NAV)]
 ROOT = 'html.fm-modern'
 ANCESTORS = (('html', {}), ('body', {'class': 'body-base'}), ('div', {'class': 'add-banner'}), ('div', {'class': 'everything'}))
 CLASSES = ('fm-modern', 'fm-light')
@@ -21,10 +24,15 @@ def banner_chain():
     return chain_of(ANCESTORS, 'div', {'class': 'banner'}, CLASSES)
 
 
-def band_height(width):
-    found = re.fullmatch(r'clamp\((\d+)px,([\d.]+)vw,(\d+)px\)', declared(MODERN, ROOT, '--fm-band-h')[0])
-    low, vw, high = int(found.group(1)), float(found.group(2)), int(found.group(3))
-    return max(low, min(high, width * vw / 100.0))
+def pixels(found):
+    return int(re.fullmatch(r'(\d+)px', found).group(1))
+
+
+def nav_row_height(width):
+    bar = chain_of(ANCESTORS, 'nav', {'class': 'fm-topnav'}, CLASSES)
+    row = chain_of(ANCESTORS + (('nav', {'class': 'fm-topnav'}),), 'div', {'class': 'fm-topnav-in'}, CLASSES)
+    border = winning(SHEETS, bar, 'border-bottom', width)[0].split()[0]
+    return pixels(winning(SHEETS, row, 'min-height', width)[0]) + pixels(border)
 
 
 def row_height():
@@ -62,23 +70,32 @@ class TheControlRowIsOneLineFrom1280Tests(SimpleTestCase):
 
 class TheBannerBandIsLowTests(SimpleTestCase):
 
-    def test_the_band_is_between_120_and_160_pixels_at_every_width(self):
-        for width in (901, 1280, 1440, 1536, 1920, 2560):
+    def test_the_band_is_132_pixels_from_761_up(self):
+        for width in (761, 901, 1280, 1440, 1536, 1920, 2560):
             with self.subTest(width=width):
-                self.assertTrue(120 <= band_height(width) <= 160)
+                self.assertEqual(132, band_height(width))
 
-    def test_the_banner_takes_the_band_height_from_901_up(self):
-        self.assertEqual('var(--fm-band-h)', winning(SHEETS, banner_chain(), 'height', 901)[0])
-        self.assertEqual('var(--fm-band-h)', winning(SHEETS, banner_chain(), 'height', 2560)[0])
-        self.assertEqual('auto', winning(SHEETS, banner_chain(), 'height', 900)[0])
+    def test_on_a_phone_the_band_follows_the_window_between_84_and_132_pixels(self):
+        heights = [band_height(width) for width in range(320, 761)]
+        self.assertEqual(84, min(heights))
+        self.assertLess(max(heights), 132)
+        self.assertEqual(sorted(heights), heights)
 
-    def test_the_banner_has_no_top_margin_from_901_up(self):
-        self.assertTrue(winning(SHEETS, banner_chain(), 'margin', 1920)[0].startswith('0 calc('))
+    def test_the_banner_takes_the_band_height_at_every_width(self):
+        for width in (375, 760, 761, 900, 901, 1920, 2560):
+            with self.subTest(width=width):
+                self.assertEqual('var(--fm-band-h)', winning(SHEETS, banner_chain(), 'height', width)[0])
 
-    def test_the_row_and_the_band_stay_under_220_pixels(self):
+    def test_the_banner_has_no_margin_at_every_width(self):
+        for width in (375, 760, 901, 1920, 2560):
+            with self.subTest(width=width):
+                self.assertEqual('0', winning(SHEETS, banner_chain(), 'margin', width)[0])
+
+    def test_the_band_and_one_row_of_the_navigation_bar_stay_under_220_pixels(self):
+        self.assertEqual(59, nav_row_height(1920))
         for width in (1280, 1440, 1536, 1920, 2560):
             with self.subTest(width=width):
-                self.assertLessEqual(band_height(width) + row_height(), 220)
+                self.assertLessEqual(band_height(width) + nav_row_height(width), 220)
 
     def test_the_row_height_is_what_the_stylesheet_gives_it(self):
         self.assertEqual(54, row_height())

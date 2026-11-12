@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The solution page of the modern design: columns at each width, loot frames, shiny, title ribbon, lifted caps."""
+"""The solution page of the modern design: columns at each width, loot frames, shiny, a title with no ribbon under it, lifted caps."""
 import re
 
 from django.test import SimpleTestCase
@@ -150,26 +150,34 @@ class ShinyDiffersFromTheFrameTests(SimpleTestCase):
         self.assertIn('@keyframes fm-shiny-glint', read_css('modern.css'))
 
 
-class TheTitleRibbonFollowsTheTitleTests(SimpleTestCase):
+class TheTitleHasNoRibbonTests(SimpleTestCase):
 
-    CENTRED = ROOT + ' h1[align="center"]::after'
-    LEFT = ROOT + ' .maincontent h1::after'
+    TITLE = ROOT + ' h1'
 
-    def test_a_centred_title_gets_a_centred_ribbon(self):
-        self.assertEqual('50%', at(self.CENTRED, 'left', 1440))
-        self.assertEqual('translateX(-50%)', at(self.CENTRED, 'transform', 1440))
+    def test_the_title_draws_no_ribbon_at_any_width(self):
+        for width in (375, 900, 1440, 2560):
+            with self.subTest(width=width):
+                self.assertEqual('none', at(self.TITLE + '::after', 'content', width))
 
-    def test_a_title_inside_the_content_column_keeps_a_left_ribbon(self):
-        self.assertEqual('0', at(self.LEFT, 'left', 1440))
-        self.assertEqual('none', at(self.LEFT, 'transform', 1440))
-        self.assertEqual('left', at(ROOT + ' .maincontent h1', 'text-align', 1440))
+    def test_no_rule_brings_a_ribbon_back_on_a_title(self):
+        drawn = [(selector, rule['declarations']['content'][0]) for rule in MODERN for selector in rule['selectors']
+                 if re.search(r'h1(\[[^\]]*\])?::after$', selector) and 'content' in rule['declarations']
+                 and rule['declarations']['content'][0] != 'none']
+        self.assertEqual([], drawn)
 
-    def test_the_left_ribbon_rule_comes_after_the_centred_one(self):
-        self.assertGreater(rule_order(MODERN, self.LEFT)[0], rule_order(MODERN, self.CENTRED)[0])
+    def test_a_centred_title_and_a_title_in_the_content_column_sit_on_the_left(self):
+        for selector in (self.TITLE, ROOT + ' h1[align="center"]', ROOT + ' .maincontent h1', ROOT + ' .main-div h1'):
+            with self.subTest(selector=selector):
+                self.assertEqual('left', at(selector, 'text-align', 1440))
+        self.assertGreater(rule_order(MODERN, ROOT + ' h1[align="center"]')[0], rule_order(MODERN, self.TITLE)[0])
 
-    def test_the_ribbon_is_anchored_to_the_title_box(self):
-        self.assertEqual('absolute', at(ROOT + ' h1::after', 'position', 1440))
-        self.assertEqual('relative', at(ROOT + ' h1', 'position', 1440))
+    def test_the_title_keeps_no_room_under_it_for_a_ribbon(self):
+        self.assertEqual('0', at(self.TITLE, 'padding-bottom', 1440))
+        self.assertEqual('0 0 8px', at(self.TITLE, 'margin', 1440))
+
+    def test_the_title_size_reads_the_page_size_token_and_the_solution_token_is_42px(self):
+        self.assertTrue(at(self.TITLE, 'font-size', 1440).startswith('var(--fm-h1-size,'))
+        self.assertEqual('42px', at(ROOT, '--fm-h1-solution', 1440))
 
 
 class TheSolutionCapsAreLiftedTests(SimpleTestCase):

@@ -1848,8 +1848,11 @@ class VersionSwitcherInEveryLanguageTests(TestCase):
     HUBS = ('/', '/encyclopedia/', '/guides/')
     LANGUAGE_PREFIXES = ('', '/fr', '/es', '/pt')
 
+    SWITCHER = '<div class="version-selector">'
+
     def _offered_links(self, html):
-        block = html.split('version-selector')[-1].split('</div>')[0]
+        self.assertEqual(1, html.count(self.SWITCHER), 'the server HTML must carry exactly one version switcher')
+        block = html.split(self.SWITCHER)[1].split('</div>')[0]
         return [href for href in re.findall(r'href="([^"]+)"', block)]
 
     def test_every_link_the_switcher_offers_answers(self):
@@ -8233,7 +8236,19 @@ class LoadProjectsTableTests(TestCase):
 
 
 class BannerCharacterTests(TestCase):
-    """A random character illustration greets the visitor over the banner."""
+    """A random character illustration greets the classic visitor over the banner; the modern band never shows it."""
+
+    WIDTHS = (375, 768, 900, 901, 1280, 1920, 2560)
+    PARENTS = ((('html', {}), ('body', {'class': 'body-base'}), ('div', {'class': 'add-banner'}), ('div', {'class': 'everything'})),
+               (('html', {}), ('body', {'class': 'body-base'}), ('div', {'class': 'add-banner'})))
+
+    def _sheets(self):
+        from chardata.tests_the_setup_stylesheet_support import stylesheet
+        return [(name, stylesheet(name)) for name in ('home.css', 'responsive.css', 'modern.css', 'modern-nav.css')]
+
+    def _display(self, parent, classes, width):
+        from chardata.tests_the_setup_stylesheet_support import chain_of, winning
+        return winning(self._sheets(), chain_of(parent, 'div', {'class': 'char-overlay'}, classes), 'display', width)
 
     def _modern_css(self):
         from django.conf import settings
@@ -8248,16 +8263,15 @@ class BannerCharacterTests(TestCase):
         self.assertIn('char-overlay', body)
         self.assertRegex(body, r'chardata/designs/\d+\.png')
 
-    def test_the_modern_skin_shows_it_on_desktop_and_hides_it_on_phones(self):
-        css = self._modern_css()
-        shown = 'html.fm-modern .char-overlay{\n  display:block !important;'
-        self.assertIn(shown, css)
-        hidden_at = css.find(
-            'html.fm-modern .char-overlay{ display:none !important; }')
-        self.assertNotEqual(hidden_at, -1, 'the phone rule disappeared')
-        phone_block_at = css.rfind('@media (max-width: 900px)', 0, hidden_at)
-        self.assertNotEqual(phone_block_at, -1,
-                            'the character is hidden outside the phone block')
+    def test_the_modern_skin_never_shows_it_and_classic_keeps_it(self):
+        for parent in self.PARENTS:
+            for width in self.WIDTHS:
+                for theme in ('fm-light', 'fm-dark'):
+                    with self.subTest(parent=parent[-1], width=width, theme=theme):
+                        modern = self._display(parent, ('fm-modern', theme), width)
+                        self.assertEqual(('none', 'modern.css'), modern[:2])
+                        self.assertTrue(modern[2].startswith('html.fm-modern '))
+                        self.assertIsNone(self._display(parent, (theme,), width))
 
     def test_a_tooltip_panel_lets_the_pointer_reach_the_line_under_it(self):
         # The panel hangs over the rows below
@@ -8269,10 +8283,17 @@ class BannerCharacterTests(TestCase):
         self.assertNotIn('.spell-tip:focus .spell-tip-panel', css)
 
     def test_the_modern_character_cannot_swallow_a_click(self):
-        # It sits over the header controls at narrow desktop widths.
-        css = self._modern_css()
-        block = css.split('html.fm-modern .char-overlay{')[1].split('}')[0]
-        self.assertIn('pointer-events:none', block)
+        from chardata.tests_the_setup_stylesheet_support import chain_of, winning
+        sheets = self._sheets()
+        after = [(name, [dict(rule, selectors=[selector[:-len('::after')] for selector in rule['selectors'] if selector.endswith('::after')])
+                         for rule in rules]) for name, rules in sheets]
+        for width in self.WIDTHS:
+            for theme in ('fm-light', 'fm-dark'):
+                with self.subTest(width=width, theme=theme):
+                    for parent in self.PARENTS:
+                        self.assertEqual('none', self._display(parent, ('fm-modern', theme), width)[0])
+                    band = chain_of(self.PARENTS[0], 'div', {'class': 'banner', 'data-band': 'dofus3'}, ('fm-modern', theme))
+                    self.assertEqual('none', winning(after, band, 'content', width)[0])
 
 
 class FaqNewcomerTests(TestCase):

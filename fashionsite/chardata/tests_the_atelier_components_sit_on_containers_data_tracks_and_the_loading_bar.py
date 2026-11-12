@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The seam goes on containers only, the tape draws its ticks on the page title rule and the loading bar, and the loot frame is a gilded double border that forced colours turn into a plain one."""
+"""The seam goes on containers only, the data tape is a pale track with a fill and its ticks, the loading bar keeps the gold stripe, the page title has no rule under it, and the loot frame is a gilded double border that forced colours turn into a plain one."""
 import os
 import re
 
@@ -28,10 +28,13 @@ class TheSeamIsStitchedOnContainersOnlyTests(SimpleTestCase):
     def test_the_seam_is_a_dashed_outline_pulled_inside_the_edge(self):
         found = declared(MODERN, 'html.fm-modern .fm-seam', 'outline')
         self.assertEqual(('1.5px dashed var(--fm-seam)', False), found)
-        self.assertEqual(('-6px', False), declared(MODERN, 'html.fm-modern .fm-seam', 'outline-offset'))
+        self.assertEqual(('-7px', False), declared(MODERN, 'html.fm-modern .fm-seam', 'outline-offset'))
+        self.assertEqual(('-7px', False), declared(MODERN, 'html.fm-modern .fm-card', 'outline-offset'))
 
     def test_the_seam_sits_on_the_brown_box_and_on_the_seam_class(self):
-        self.assertEqual({'html.fm-modern .fm-seam', 'html.fm-modern .brown-box', 'html.fm-modern .tunnel-atelier .wm-section',
+        self.assertEqual({'html.fm-modern .fm-seam', 'html.fm-modern .brown-box', 'html.fm-modern .fm-card',
+                          'html.fm-modern .maincontent:is(:has(.setup-new),:has(> .solution-table),:has(.wm-section),:has(> .main-div)) .brown-box',
+                          'html.fm-modern .tunnel-atelier .wm-section',
                           'html.fm-modern .tunnel-exclusions .exclusions-types-cell',
                           'html.fm-modern .tunnel-options > table > tbody > tr > td', 'html.fm-modern .tunnel-inclusions .small-brown-box',
                           'html.fm-modern .tunnel-atelier .tunnel-card', 'html.fm-modern .tunnel-infeasible .solver-why',
@@ -66,16 +69,25 @@ class TheSeamIsStitchedOnContainersOnlyTests(SimpleTestCase):
 
 class TheTapeDrawsItsTicksTests(SimpleTestCase):
 
-    TAPE = 'repeating-linear-gradient(90deg,var(--fm-tape-tick) 0 1px,transparent 1px 8px),var(--fm-tape)'
+    STRIPE = 'repeating-linear-gradient(90deg,var(--fm-tape-tick) 0 1px,transparent 1px 8px),var(--fm-tape)'
+    TICKS = ('repeating-linear-gradient(90deg,var(--fm-tick) 0 1px,transparent 1px 8px) top/100% 40% no-repeat,'
+             'repeating-linear-gradient(90deg,var(--fm-tick) 0 1.5px,transparent 1.5px 40px)')
 
-    def test_the_tape_background_is_ticks_every_8px_over_the_tape_colour(self):
-        self.assertEqual((self.TAPE, False), declared(MODERN, 'html.fm-modern .fm-tape', 'background'))
+    def test_the_data_tape_is_a_pale_track_with_a_fill_as_wide_as_its_value(self):
+        self.assertEqual(('var(--fm-track)', False), declared(MODERN, 'html.fm-modern .fm-tape', 'background'))
+        self.assertEqual(('12px', False), declared(MODERN, 'html.fm-modern .fm-tape', 'height'))
+        self.assertEqual(('var(--fm-fill)', False), declared(MODERN, 'html.fm-modern .fm-tape > i', 'background'))
+        self.assertEqual(('var(--w,0%)', False), declared(MODERN, 'html.fm-modern .fm-tape > i', 'width'))
 
-    def test_the_page_title_underline_and_the_loading_fill_are_tapes(self):
-        for selector in ('html.fm-modern h1::after', 'html.fm-modern .loading-progress > span'):
-            with self.subTest(selector=selector):
-                self.assertEqual(1, len([rule for rule in matching(MODERN, selector)
-                                         if rule['declarations'].get('background') == (self.TAPE, False)]))
+    def test_the_data_tape_draws_a_small_tick_every_8px_and_a_tall_one_every_40px_over_the_fill(self):
+        self.assertEqual((self.TICKS, False), declared(MODERN, 'html.fm-modern .fm-tape::after', 'background'))
+        self.assertEqual(('none', False), declared(MODERN, 'html.fm-modern .fm-tape::after', 'pointer-events'))
+
+    def test_the_loading_fill_keeps_the_gold_stripe_and_the_page_title_has_no_rule(self):
+        self.assertEqual(1, len([rule for rule in matching(MODERN, 'html.fm-modern .loading-progress > span')
+                                 if rule['declarations'].get('background') == (self.STRIPE, False)]))
+        self.assertEqual(('none', False), declared(MODERN, 'html.fm-modern h1::after', 'content'))
+        self.assertEqual([], [rule for rule in matching(MODERN, 'html.fm-modern h1::after') if 'background' in rule['declarations']])
 
     def test_the_loading_bar_has_a_track_that_stands_out_from_the_page(self):
         self.assertEqual(('1px solid var(--fm-seam)', False), declared(MODERN, 'html.fm-modern .loading-progress', 'border'))

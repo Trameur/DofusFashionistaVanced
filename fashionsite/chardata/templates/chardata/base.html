@@ -67,6 +67,7 @@
     <link rel="stylesheet" type="text/css" href="{% static "chardata/responsive.css" %}">
     <!-- Modern skin (opt-in via .fm-modern on <html>) -->
     <link rel="stylesheet" type="text/css" href="{% static "chardata/modern-core.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/modern-nav.css" %}">
     {% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-rest.css" %}">{% endblock %}
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
@@ -238,6 +239,44 @@
         </div>
         
         
+        <nav class="fm-topnav" aria-label="{% trans 'Main navigation' %}">
+          <div class="fm-topnav-in">
+            <div class="fm-topnav-links">
+              <a href="{% game_url 'setup' %}">{% trans "Create a build" %}</a>
+              <a href="{% game_url 'load_projects' %}">{% trans "My builds" %}</a>
+              <a href="{% game_url 'shared_builds' %}">{% trans "Gallery" %}</a>
+              <a href="{% game_url 'choose_compare_sets' %}">{% trans "Compare" %}</a>
+              <details class="fm-topnav-tools">
+                <summary>{% trans "Tools" %}<span class="fm-topnav-chev" aria-hidden="true"></span></summary>
+                <div class="fm-topnav-menu">
+                  <a class="fm-topnav-home" href="{% game_url 'home' %}">{% trans "Home" %}</a>
+                  <a href="{% game_url 'smart_build' %}">{% trans "Smart Build" %}</a>
+                  <a href="{% game_url 'random_build' %}">{% trans "Random Build" %}</a>
+                  <a href="{% game_url 'text_build_import' %}">{% trans "Import a build" %}</a>
+                  {% if user.is_authenticated %}<a href="{% game_url 'feed' %}">{% trans "My Feed" %}</a>
+                  <a href="{% game_url 'workshop' %}">{% trans "Workshop" %}</a>
+                  <a href="{% game_url 'inventory' %}">{% trans "Inventory" %}</a>{% endif %}
+                  <a href="{% game_url 'forgemagie' %}">{% trans "Smithmagic" %}</a>
+                  <a href="{% game_url 'encyclopedia' %}">{% trans "Encyclopedia" %}</a>
+                  <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a>
+                  <a href="{% game_url 'faq' %}">{% trans "FAQ" %}</a>
+                  <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a>
+                  {% if is_super_user or user.is_superuser %}<a class="fm-topnav-admin" href="{% url 'admin_tools' %}">Admin tools</a>{% endif %}
+                </div>
+              </details>
+            </div>
+            <div class="fm-topnav-vers" role="group" aria-label="{% trans 'Game version' %}"></div>
+            <div class="fm-topnav-end"></div>
+          </div>
+        </nav>
+        {% if char_id and char_id != 0 %}
+        <nav class="fm-buildbar" aria-label="{% trans 'Build navigation' %}">
+          <div class="fm-buildbar-in">
+            <div class="fm-buildbar-tabs"></div>
+            <div class="fm-buildbar-end"></div>
+          </div>
+        </nav>
+        {% endif %}
         <div class='space header-controls'><button type="button" class="fm-design-toggle" onclick="fmToggleDesign()" title="{% trans 'Switch between the classic and new design' %}"><span class="mi mi-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.4 4 1.6 5.2 5.6 5.6-4 .4-5.2 1.6-5.6 5.6-.4-4-1.6-5.2-5.6-5.6C10.4 8.2 11.6 7 12 3z"/><path d="M18.5 14.5c.2 1.6.7 2.1 2.3 2.3-1.6.2-2.1.7-2.3 2.3-.2-1.6-.7-2.1-2.3-2.3 1.6-.2 2.1-.7 2.3-2.3z"/></svg></span> <span class="fm-design-label">{% trans "New look" %}</span></button>
        <div id="compare-cart" class="compare-cart" hidden>
          <button type="button" class="compare-cart-toggle" aria-label="{% trans 'Comparison' %}" title="{% trans 'Comparison' %}">
@@ -328,7 +367,7 @@
                             </div>
                             <div>
                                 <form class="nav-search" role="search" method="get" action="{% game_url 'encyclopedia' %}">
-                                    <input type="search" name="q" autocomplete="off" placeholder="{% trans "Search" %}" aria-label="{% trans "Search a set or item" %}">
+                                    <input type="search" name="q" autocomplete="off" placeholder="{% trans "Search" %}" data-fm-placeholder="{% trans "Item, set" %}" aria-label="{% trans "Search a set or item" %}">
                                     <button type="submit" aria-label="{% trans "Search" %}"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button>
                                 </form>
               </div>
@@ -403,6 +442,53 @@
           {% include "chardata/sidebar-stats.html" %}
         </div>
 
+        <script>
+        (function(){
+          var h=document.documentElement;
+          if(!h.classList.contains('fm-modern'))return;
+          var q=function(s,r){return (r||document).querySelector(s);};
+          var move=function(n,to){if(n&&to)to.appendChild(n);};
+          var end=q('.fm-topnav-end'),vers=q('.fm-topnav-vers'),hc=q('.space.header-controls'),sb=q('#main-sidebar');
+          if(end&&hc){
+            var find=q('.nav-search input',sb);if(find)find.placeholder=find.getAttribute('data-fm-placeholder');
+            move(q('.nav-search',sb),end);
+            move(q('#compare-cart',hc),end);
+            move(q('#language-div',hc),end);
+            move(q('#theme-div',hc),end);
+            move(q('.login',hc),end);
+            move(q('.fm-design-toggle',hc),end);
+            move(q('.version-selector',hc),vers);
+            hc.classList.add('fm-moved');
+          }
+          var bar=q('.fm-buildbar');
+          if(bar&&sb){
+            var tabs=q('.fm-buildbar-tabs',bar),tail=q('.fm-buildbar-end',bar);
+            var menus=sb.querySelectorAll('.mini-menu'),bm=menus[menus.length-1];
+            if(bm){
+              var links=bm.querySelectorAll('a');
+              for(var i=0;i<links.length;i++){
+                var a=links[i];
+                if(a.id==='advanced-button')continue;
+                if(a.classList.contains('rerun-button')&&a.id!=='solution-link')move(a,tail);else move(a,tabs);
+              }
+            }
+          }
+          var path=location.pathname,homeLink=q('.fm-topnav-home'),home=homeLink?homeLink.pathname:'/';
+          var mark=function(root,prefix){var as=root.querySelectorAll('a[href]'),hit=null,best=0;
+            for(var i=0;i<as.length;i++){var a=as[i],p=a.pathname;
+              if(p===home||(a.classList.contains('rerun-button')&&a.id!=='solution-link'))continue;
+              if(p===path){hit=a;break;}
+              if(prefix&&p.length>best&&p.length>home.length&&p.slice(-1)==='/'&&path.indexOf(p)===0){hit=a;best=p.length;}}
+            if(hit){hit.classList.add('on');hit.setAttribute('aria-current','page');}return hit;};
+          var barHit=bar?mark(bar,false):null,nav=q('.fm-topnav-links');
+          if(nav){var hit=mark(nav,!barHit);if(hit&&hit.closest('.fm-topnav-menu'))q('.fm-topnav-tools > summary').classList.add('on');}
+          var closeTools=function(back){var d=q('.fm-topnav-tools[open]');if(!d)return;d.removeAttribute('open');if(back)q('summary',d).focus();};
+          document.addEventListener('keydown',function(e){if(e.key==='Escape')closeTools(true);});
+          document.addEventListener('click',function(e){var d=q('.fm-topnav-tools[open]');if(d&&!d.contains(e.target))closeTools(false);});
+          document.addEventListener('focusin',function(e){var d=q('.fm-topnav-tools[open]');if(d&&!d.contains(e.target))closeTools(false);});
+        })();
+        </script>
+
         <div class="maincolumn" role="main" id="main-content">
         {% if not home %}
             <div class="maincontent" >
@@ -421,7 +507,7 @@
                 {# 2012 is the lineage of the original tool; the About page tells the story #}
                 <a class="footer-heritage" href="{% game_url 'about' %}#how-its-made">{% trans "Dofus Fashionista, set optimization since 2012" %}</a>
                 <br>
-                {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
+                <span class="footer-items">{% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}</span>
                 <br>
                 <!-- General Site Links -->
                 {# changelog.js hides the mark once the reader opened this key #}
@@ -435,6 +521,7 @@
                 <br><br> <!-- Adds space between general links and Discord links -->
             
                 <!-- Discord Invite Buttons -->
+                <span class="footer-social">
                 <a href="https://discord.gg/a7b4a4dnVU" target="_blank" rel="noopener noreferrer" class="discord-invite-btn">
                     <img src="{% static 'chardata/discord.png' %}" alt="Discord" class="discord-logo" width="26" height="20" loading="lazy" decoding="async" />
                     dofusdude
@@ -448,7 +535,8 @@
                 <a href="{% url 'donate' %}?from=footer" class="kofi-donate-btn" rel="nofollow noopener">
                     {% trans "Support Fashionista" %}
                 </a>
-                
+                </span>
+
             </div>
             <style>
                 /* Deliberately NO opacity, and no colour of its own. It was

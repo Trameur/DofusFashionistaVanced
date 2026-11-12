@@ -2,7 +2,7 @@
 """Every rule in modern.css starts with html.fm-modern, so the classic design never sees it, except the frozen list below."""
 from django.test import SimpleTestCase
 
-from chardata.tests_the_setup_stylesheet_support import chain_of, declared, stylesheet, winning
+from chardata.tests_the_setup_stylesheet_support import chain_of, declared, parse, selector_matches, specificity, stylesheet, winning
 
 FROZEN_UNPREFIXED = frozenset((
     '.builds-grid > .fm-ad-feed',
@@ -89,11 +89,17 @@ FROZEN_UNPREFIXED = frozenset((
     'html:not(.fm-modern) .space.header-controls .fm-design-toggle',
 ))
 
+NAV_CLASSIC_HIDING = frozenset((
+    'html:not(.fm-modern) .fm-topnav',
+    'html:not(.fm-modern) .fm-buildbar',
+))
+
 MODERN = stylesheet('modern.css')
+NAV = stylesheet('modern-nav.css')
 
 
-def selectors():
-    return [(selector, rule['media']) for rule in MODERN for selector in rule['selectors']]
+def selectors(sheet=MODERN):
+    return [(selector, rule['media']) for rule in sheet for selector in rule['selectors']]
 
 
 class EveryModernRuleIsPrefixedTests(SimpleTestCase):
@@ -103,8 +109,26 @@ class EveryModernRuleIsPrefixedTests(SimpleTestCase):
                         if not selector.startswith('html.fm-modern') and selector not in FROZEN_UNPREFIXED})
         self.assertEqual([], added)
 
+    def test_the_reader_keeps_an_is_or_where_list_in_one_selector_and_weighs_it_as_the_cascade_does(self):
+        rule = parse('html.fm-modern :where(.a,.b):hover, html.fm-modern .c:is(:has(.d),:has(> .e)){ color:red; }')[0]
+        self.assertEqual(['html.fm-modern :where(.a,.b):hover', 'html.fm-modern .c:is(:has(.d),:has(> .e))'], rule['selectors'])
+        self.assertEqual((0, 2, 1), specificity('html.fm-modern :where(.a,#b):hover'))
+        self.assertEqual((1, 1, 1), specificity('html.fm-modern :is(.a,#b)'))
+        chain = chain_of((('html', {}),), 'a', {'class': 'b'}, ('fm-modern',))
+        self.assertTrue(selector_matches('html.fm-modern :where(.a,.b)', chain))
+        self.assertFalse(selector_matches('html.fm-modern :where(.a,.c)', chain))
+        self.assertFalse(selector_matches('html.fm-modern :where(.a,.b):hover', chain))
+
+    def test_the_navigation_sheet_is_prefixed_except_the_rules_that_hide_its_bars_in_classic(self):
+        unprefixed = {selector for selector, _ in selectors(NAV) if not selector.startswith('html.fm-modern')}
+        self.assertEqual(NAV_CLASSIC_HIDING, unprefixed)
+        for rule in NAV:
+            if set(rule['selectors']) & NAV_CLASSIC_HIDING:
+                self.assertEqual({'display': ('none', True)}, rule['declarations'])
+
     def test_the_stylesheet_is_read_as_rules_and_not_as_nothing(self):
         self.assertGreater(len(selectors()), 300)
+        self.assertGreater(len(selectors(NAV)), 50)
 
     def test_every_frozen_entry_is_still_a_selector_of_the_stylesheet(self):
         present = {selector for selector, _ in selectors()}
