@@ -47,44 +47,41 @@ def media_rules(selector, prop, media):
 
 class TheSolutionTableHasColumnsFromTheWidthTests(SimpleTestCase):
 
-    def test_the_table_row_is_stacked_below_1280(self):
-        for width in (375, 768, 1100, 1279):
-            with self.subTest(width=width):
-                self.assertEqual('block', at(ROW, 'display', width))
-
-    def test_the_row_has_an_items_track_and_a_stats_track_from_1280_up_to_1759(self):
-        for width in (1280, 1440, 1536, 1759):
+    def test_the_table_row_is_one_column_below_760(self):
+        for width in (375, 600, 759):
             with self.subTest(width=width):
                 self.assertEqual('grid', at(ROW, 'display', width))
+                self.assertEqual(1, tracks(at(ROW, 'grid-template-columns', width)))
+
+    def test_the_row_has_two_columns_from_760_up_to_1359(self):
+        for width in (760, 1100, 1359):
+            with self.subTest(width=width):
                 self.assertEqual(2, tracks(at(ROW, 'grid-template-columns', width)))
 
-    def test_the_row_has_a_fifth_track_for_the_explanation_from_1760(self):
-        for width in (1760, 1920, 2560):
+    def test_the_row_has_a_criteria_column_the_gear_and_the_stats_from_1360(self):
+        for width in (1360, 1536, 1679, 1680, 1920, 2560):
             with self.subTest(width=width):
-                self.assertEqual(5, tracks(at(ROW, 'grid-template-columns', width)))
+                self.assertEqual(3, tracks(at(ROW, 'grid-template-columns', width)))
 
-    def test_the_stats_are_a_scroll_box_no_taller_than_the_window_that_sticks_from_1280(self):
+    def test_the_row_has_a_fourth_column_for_the_best_turn_from_1680(self):
+        turn = ROW + ':has(.fm-sol-turn)'
+        self.assertIsNone(at(turn, 'grid-template-columns', 1679))
+        for width in (1680, 1920, 2560):
+            with self.subTest(width=width):
+                self.assertEqual(4, tracks(at(turn, 'grid-template-columns', width)))
+
+    def test_the_stats_card_neither_sticks_nor_scrolls(self):
         stats = ROOT + ' .solution-stat-summary'
-        self.assertIsNone(at(stats, 'position', 1279))
-        for width in (1280, 1536, 1920):
+        for width in (375, 1280, 1536, 1920):
             with self.subTest(width=width):
-                self.assertEqual('sticky', at(stats, 'position', width))
-                self.assertEqual('start', at(stats, 'align-self', width))
-                self.assertEqual('auto', at(stats, 'overflow-y', width))
-                cap = at(stats, 'max-height', width)
-                self.assertRegex(cap, r'^calc\(100vh - \d+px\)$')
-                self.assertIsNotNone(at(stats, 'top', width))
+                self.assertIsNone(at(stats, 'position', width))
+                self.assertIsNone(at(stats, 'max-height', width))
 
-    def test_the_cards_of_every_section_flow_in_one_grid_from_1280_up_to_1759(self):
+    def test_the_summary_stays_a_block_and_its_sections_are_grids(self):
         section = SUMMARY + ' > .solution-item-section'
-        self.assertEqual('grid', at(SUMMARY, 'display', 1280))
-        self.assertEqual('grid', at(SUMMARY, 'display', 1759))
-        self.assertNotEqual('grid', at(SUMMARY, 'display', 1279))
-        for width in (1280, 1759):
+        for width in (375, 1280, 1759, 1920):
             with self.subTest(width=width):
-                self.assertEqual('contents', at(section, 'display', width))
-        for width in (375, 1279, 1760, 2560):
-            with self.subTest(width=width):
+                self.assertEqual('block', at(SUMMARY, 'display', width))
                 self.assertIsNone(at(section, 'display', width))
 
     def test_the_item_cards_fill_a_grid_at_every_width(self):

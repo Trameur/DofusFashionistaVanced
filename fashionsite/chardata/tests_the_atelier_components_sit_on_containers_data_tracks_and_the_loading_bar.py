@@ -39,7 +39,8 @@ class TheSeamIsStitchedOnContainersOnlyTests(SimpleTestCase):
                           'html.fm-modern .tunnel-options > table > tbody > tr > td', 'html.fm-modern .tunnel-inclusions .small-brown-box',
                           'html.fm-modern .tunnel-atelier .tunnel-card', 'html.fm-modern .tunnel-infeasible .solver-why',
                           'html.fm-modern .setup-atelier .setup-recipes', 'html.fm-modern .setup-atelier .setup-zone-form',
-                          'html.fm-modern .setup-atelier .setup-zone-options', 'html.fm-modern .setup-atelier .setup-preview'}, set(seam_selectors()))
+                          'html.fm-modern .setup-atelier .setup-zone-options', 'html.fm-modern .setup-atelier .setup-preview',
+                          'html.fm-modern .fm-sol-stage::after'}, set(seam_selectors()))
 
     def test_no_seam_selector_ends_on_a_control(self):
         for selector in seam_selectors():

@@ -462,6 +462,9 @@ html.fm-modern .build-card{
   box-shadow:var(--fm-shadow-sm); transition:transform var(--fm-trans), box-shadow var(--fm-trans), border-color var(--fm-trans);
 }
 html.fm-modern .build-card:hover{ transform:translateY(-3px); box-shadow:var(--fm-shadow); border-color:var(--fm-accent-line) !important; }
+html:not(.fm-modern) .fm-sol-head{ display:none !important; }
+html:not(.fm-modern) .fm-sol-figure{ display:none !important; }
+html:not(.fm-modern) .fm-sol-turn, html:not(.fm-modern) .fm-sol-crit, html:not(.fm-modern) .fm-stat-group, html:not(.fm-modern) .fm-stat-tape{ display:none !important; }
 html.fm-modern .solution-item-expand-header, html.fm-modern .solution-set-expand-header{
   background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm) !important;
   transition:border-color var(--fm-trans), box-shadow var(--fm-trans);

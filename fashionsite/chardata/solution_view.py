@@ -75,7 +75,7 @@ from chardata import build_sites, dofusbook_export
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
     HttpResponseText, HttpResponseJson, get_base_stats_by_attr, \
     version_reverse, get_stats_and_scrolled, remove_cache_for_char
-from fashionistapulp.dofus_constants import (STAT_ORDER, STATS_NAMES,
+from fashionistapulp.dofus_constants import (percent_resist_cap, STAT_ORDER, STATS_NAMES,
                                              TYPE_NAME_TO_SLOT,
                                              TYPE_NAME_TO_SLOT_NUMBER,
                                              max_scroll_for_version, slots_for)
@@ -807,6 +807,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     # Best turn
     best_turn = None
     best_turn_note = ''
+    best_turn_casts = []
+    best_turn_ap_used = None
+    best_turn_ap_available = None
     try:
         # Local import: spells_view imports this module
         from chardata.spells_view import _best_combo
@@ -818,6 +821,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                  note_without_buffs=False)
             best_turn = _combo['total'] if _combo else None
             if _combo:
+                best_turn_casts = _combo['casts']
+                best_turn_ap_used = _combo['ap_used']
+                best_turn_ap_available = _combo['ap_available']
                 # Same notes as the spell and compare pages
                 best_turn_note = ' '.join(
                     part for part in (_combo.get('buff_note'),
@@ -830,10 +836,17 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         logger.exception('Failed to build the best turn (char %s)', char.id)
         best_turn = None
         best_turn_note = ''
+        best_turn_casts = []
+        best_turn_ap_used = None
+        best_turn_ap_available = None
 
     params = {'char_id': char_id,
               'best_turn': best_turn,
               'best_turn_note': best_turn_note,
+              'best_turn_casts': best_turn_casts,
+              'best_turn_ap_used': best_turn_ap_used,
+              'best_turn_ap_available': best_turn_ap_available,
+              'resist_cap': percent_resist_cap(getattr(request, 'game_version', 'dofus3')),
               'lock_item': static('chardata/lock-icon.png'),
               'switch_item': static('chardata/1412645636_Left-right.png'),
               'delete_item': static('chardata/delete-icon.png'),
