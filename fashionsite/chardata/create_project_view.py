@@ -116,6 +116,7 @@ def setup(request, char_id=0):
     
     game_version = getattr(request, 'game_version', 'dofus3')
     classes = filter_classes_for_version(_get_class_to_name().keys(), game_version)
+    from chardata.home_view import quick_start_classes
 
     # Item from an encyclopedia page to build around, checked against the catalogue
     lock_item = _wanted_item(request, game_version)
@@ -126,6 +127,7 @@ def setup(request, char_id=0):
     return set_response(request,
                         'chardata/projdetails.html',
                         {'classes': sorted(classes),
+                         'class_tiles': quick_start_classes(game_version) if is_new_char else [],
                          'lock_item': lock_item,
                          'free_versions': _free_versions_for_anon(request),
                          'class_to_name': _get_class_to_name(),

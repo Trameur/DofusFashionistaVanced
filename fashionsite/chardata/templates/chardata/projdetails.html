@@ -9,6 +9,8 @@
 {% block title %}{% trans "Dofus Set Builder" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% blocktrans %}Tell the optimizer your class, your level and what you want from your set. It picks the gear for you, on every version of Dofus. No account needed to try.{% endblocktrans %}{% endblock %}
 
+{% block modern_page_css %}{{ block.super }}{% if is_new_char and can_create %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-setup.css" %}">{% endif %}{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
@@ -45,14 +47,14 @@
     
     {% if can_create %}
         {% if is_new_char %}
-        <p class='big-text'>{% trans "Get started by providing details about your character." %}</p>
+        <p class='big-text fm-lede'>{% trans "Get started by providing details about your character." %}</p>
         {% else %}
         <p class='big-text'>{% trans "Modify the build and character configuration." %}</p>
         {% endif %}
     
         {% if is_new_char %}<div class="setup-layout"><div class="setup-form-col">{% endif %}
         {% if is_new_char and recipes %}
-        <section id="setup-recipes" class="setup-recipes" aria-labelledby="setup-recipes-title" data-version="{{ current_game_version }}" data-guard-default="{{ guard_default }}" hidden>
+        <section id="setup-recipes" class="setup-recipes fm-setup-card" aria-labelledby="setup-recipes-title" data-version="{{ current_game_version }}" data-guard-default="{{ guard_default }}" hidden>
             <p id="setup-recipes-title" class="setup-recipes-title big-text">{% trans "Start from a preset" %}</p>
             <div class="setup-chips" role="group" aria-labelledby="setup-recipes-title">
                 {% for recipe in recipes %}<button type="button" class="setup-chip" data-recipe="{{ recipe.key }}" data-focus="{{ recipe.focus|join:' ' }}" data-priority="{{ recipe.priority }}" data-mode="{{ recipe.mode }}"{% if recipe.guard_pct is not None %} data-guard="{{ recipe.guard_pct }}"{% endif %}{% if recipe.mule %} data-mule="true"{% endif %} aria-pressed="false">{{ recipe.label }}</button>
@@ -79,8 +81,26 @@
         <form id="main_form" action="{% game_url 'create_project' %}" method="post">
         {% if lock_item %}<input type="hidden" name="lock_item" value="{{ lock_item }}">{% endif %}
             {% csrf_token %}
+            {% if is_new_char %}
+            <div id="fm-col-a" class="fm-col fm-x"></div>
+            <div id="fm-col-b" class="fm-col fm-x"></div>
+            <section id="fm-card-element" class="fm-setup-card fm-x" aria-labelledby="fm-card-element-title">
+                <div class="fm-card-head"><span class="fm-no" aria-hidden="true"></span><h2 id="fm-card-element-title" class="fm-h2"></h2><span class="fm-req">{% trans "required" %}</span></div>
+                <button type="button" id="fm-none" class="fm-pill" aria-pressed="false">{% trans "None (XP or Prospecting mule)" %}</button>
+            </section>
+            <section id="fm-card-style" class="fm-setup-card fm-x" aria-labelledby="fm-card-style-title" data-mode-title="{% trans 'Mode' %}">
+                <div class="fm-card-head"><span class="fm-no" aria-hidden="true"></span><h2 id="fm-card-style-title" class="fm-h2">{% trans "Playstyle" %}</h2></div>
+                <button type="button" id="fm-mode-general" class="fm-pill" aria-pressed="false">{% trans "General" %}</button>
+            </section>
+            {% if power %}
+            <section id="fm-card-power" class="fm-setup-card fm-x" aria-labelledby="fm-card-power-title">
+                <div class="fm-card-head"><span class="fm-no" aria-hidden="true"></span><h2 id="fm-card-power-title" class="fm-h2">{% trans "Search effort" %}</h2></div>
+            </section>
+            {% endif %}
+            {% endif %}
             <div class="setup-zone-form">
-                <table class='register' role="presentation">
+                <table class='register fm-setup-card' role="presentation">
+                  {% if is_new_char %}<caption class="fm-x"><div class="fm-card-head"><span class="fm-no" aria-hidden="true"></span><h2 class="fm-h2">{% trans "Your character" %}</h2></div></caption>{% endif %}
                   <tr class='register-line'>
                     <td class='input-name'><label for="input-char-name">{% trans "Character Name" %}</label></td> 
                     <td align="left"><input class='input-value pretty-input change-modifies-state' id="input-char-name" name="charname" maxlength="50" /></td>
@@ -90,8 +110,9 @@
                     <td align="left" class="setup-level-cell"><input class='input-value pretty-input change-modifies-state setup-level-input' id="input-char-level" type="number" name="level" min="1" max="200" required="required"/></td>
                   </tr>  
                   <tr class='register-line'>
-                    <td class='input-name'><label for="select-char-class">{% trans "Character Class" %}</label></td> 
+                    <td class='input-name'><label for="select-char-class" id="fm-classes-label">{% trans "Character Class" %}</label></td> 
                     <td align="left"> 
+                    {% if is_new_char %}<div id="fm-classes" class="fm-classes fm-x" role="group" aria-labelledby="fm-classes-label">{% for tile in class_tiles %}<button type="button" class="fm-cls" data-class="{{ tile.key }}"{% if tile.figure %} data-figure="{{ tile.figure }}"{% endif %} aria-pressed="false"><span class="fm-cls-fig"><span class="fm-cls-ini" aria-hidden="true">{{ tile.initials }}</span></span><span class="fm-cls-name">{{ tile.label }}</span></button>{% endfor %}</div>{% endif %}
                     <select name="class" class="change-modifies-state" id="select-char-class" required="required">
                         {% for c in classes %}
                             <option value="{{class_to_name|get_item:c}}"{% if char.char_class == class_to_name|get_item:c %} selected="selected"{% endif %}>{{c}}</option>
@@ -144,7 +165,7 @@
                 <div class="advanced-options-row">
                     <label for="guard-percent" class="advanced-options-name">{% trans "Safeguard" %}</label>
                     <div class="advanced-options-field">
-                        <select id="guard-percent" name="guard_pct" class="change-modifies-state">{% for percent in guard_percents %}<option value="{{ percent }}"{% if percent == guard_default %} selected{% endif %}>{{ percent }}%</option>{% endfor %}</select>
+                        <select id="guard-percent" name="guard_pct" class="change-modifies-state">{% for percent in guard_percents %}<option value="{{ percent }}"{% if percent == guard_default %} selected{% endif %}>{{ percent }}%</option>{% endfor %}</select>{% if is_new_char %}<span id="fm-guard-tape" class="fm-guard fm-x" aria-hidden="true"><span>{{ guard_percents|first }}%</span><span class="fm-tape"><i></i></span><span>{{ guard_percents|last }}%</span></span>{% endif %}
                         <div class="small-explain">{% trans "Compared with the balanced build, each stat the priority does not aim for loses at most this share: HP and resistances for Damage, damage stats for Defense and Heals, and for any priority AP, MP, Range and every other stat the build gives a weight to. At 0% none of them drops. The build page shows what was kept." %}</div>
                     </div>
                 </div>
@@ -171,6 +192,7 @@
             </div>
             {% endif %}
             <div id="submit-mode" class="setup-doors">
+                {% if is_new_char %}<p id="fm-bar-what" class="fm-bar-what fm-x" aria-live="polite"></p>{% endif %}
                 <input class="setup-default-door" name="byhand" type="submit" value="{{ _('Create a set by hand') }}" tabindex="-1" aria-hidden="true" />
                 <input class='submit-button button-generic setup-primary' name="optimize" type='submit' value="{{ _('Optimize now') }}" />
                 <div class="setup-doors-secondary">
@@ -186,10 +208,12 @@
             </div>
         </form>
         {% if is_new_char %}</div>
-        <aside id="setup-preview" class="setup-preview" aria-labelledby="setup-preview-title" data-preview-url="{% game_url 'setup_preview' %}" hidden>
+        <aside id="setup-preview" class="setup-preview fm-setup-card" aria-labelledby="setup-preview-title" data-preview-url="{% game_url 'setup_preview' %}" hidden>
             <details id="setup-preview-details" open>
-                <summary class="setup-preview-summary big-text"><span id="setup-preview-title">{% trans "What the optimizer will look for" %}</span><span id="setup-preview-badge" class="setup-badge" hidden></span></summary>
+                <summary class="setup-preview-summary big-text"><span id="setup-preview-title">{% trans "What the optimizer will look for" %}</span><span class="fm-live fm-x">{% trans "Live" %}</span><span id="setup-preview-badge" class="setup-badge" hidden></span></summary>
                 <div id="setup-preview-body" class="setup-preview-body" aria-busy="true">
+                    <p id="fm-live-what" class="fm-live-what fm-x"></p>
+                    <details id="fm-how" class="fm-how fm-x"><summary>{% trans "How it works" %}</summary></details>
                     <p id="setup-preview-note" class="small-explain setup-preview-note">{% trans "These values update as you choose. Edit any weight or minimum and your build starts with your values." %}</p>
                     <p id="setup-preview-door" class="small-explain setup-preview-door">{% trans '"Optimize now" and "Continue to Wizard" save the weights and the minimums. "Create a set by hand" saves the weights and only the minimums you edited.' %}</p>
                     <p id="setup-preview-empty" class="small-explain setup-preview-empty">{% trans "Pick a class to see the weights and minimums the optimizer will use." %}</p>

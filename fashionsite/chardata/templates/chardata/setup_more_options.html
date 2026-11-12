@@ -1,8 +1,8 @@
 {% load i18n %}
 {% load static_s3 %}
 {% load get_item %}
-<details id="setup-more" class="advanced-options setup-more" data-level="{{ more.level }}">
-    <summary>{% trans "More options" %}<span id="setup-more-badge" class="setup-badge setup-more-badge" hidden></span></summary>
+<details id="setup-more" class="advanced-options setup-more fm-setup-card" data-level="{{ more.level }}">
+    <summary><span class="fm-no fm-x" aria-hidden="true"></span><span class="fm-h2">{% trans "More options" %}</span><span id="setup-more-badge" class="setup-badge setup-more-badge" hidden></span><span class="fm-more-hint fm-x">{% trans "Exos, Dofus and trophies, mounts, scrolls, inventory, details of your build" %}</span></summary>
     <p class="small-explain setup-more-note">{% trans "Left as they are, these options start your build like any new build. You can change them later from the build page." %}</p>
     <div class="advanced-options-row" role="group" aria-labelledby="setup-more-exos">
         <span id="setup-more-exos" class="advanced-options-name">{% trans "Exos" %}</span>

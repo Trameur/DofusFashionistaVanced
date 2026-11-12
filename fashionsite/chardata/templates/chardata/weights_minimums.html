@@ -3,6 +3,8 @@
 {% load i18n l10n static_s3 version_url %}
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Weights and Minimums" %}{% endblock %}
 
+{% block modern_page_css %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-setup.css" %}">{% endblock %}
+
 {% block main %}
 
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">

@@ -854,6 +854,289 @@ function setupMoreFollow(table, before, after, current, kept, touched) {
 }
 
 $(document).ready(function() {
+    var colA = document.getElementById('fm-col-a');
+    var colB = document.getElementById('fm-col-b');
+    var form = document.getElementById('main_form');
+    if (!document.documentElement.classList.contains('fm-modern') || !colA || !colB || !form) {
+        return;
+    }
+    var $form = $(form);
+
+    function byId(id) {
+        return document.getElementById(id);
+    }
+
+    function make(tag, className) {
+        var node = document.createElement(tag);
+        node.className = className;
+        return node;
+    }
+
+    function rowOf(id) {
+        var node = byId(id);
+        return node ? node.closest('.advanced-options-row') : null;
+    }
+
+    function place(parent, node, order) {
+        if (!node) {
+            return;
+        }
+        parent.appendChild(node);
+        node.style.order = order;
+    }
+
+    function tipWrap(cell) {
+        $(cell).children('label').each(function() {
+            var wrap = make('span', 'fm-pw');
+            var next = this.nextElementSibling;
+            this.parentNode.insertBefore(wrap, this);
+            wrap.appendChild(this);
+            if (next && next.tagName === 'IMG') {
+                wrap.appendChild(next);
+            }
+        });
+    }
+
+    var register = form.querySelector('table.register');
+    var recipes = byId('setup-recipes');
+    var more = byId('setup-more');
+    var cardElement = byId('fm-card-element');
+    var cardStyle = byId('fm-card-style');
+    var cardPower = byId('fm-card-power');
+    var cells = [0, 1, 2, 3].map(function(i) { return byId('table-checkboxes-column-' + i); });
+
+    cells.forEach(tipWrap);
+
+    cardElement.querySelector('.fm-h2').appendChild(byId('element_title'));
+    cardElement.insertBefore(cells[0], byId('fm-none'));
+    cells[0].appendChild(byId('fm-none'));
+    cardElement.appendChild(byId('no-element-warning'));
+
+    var focusHead = make('h3', 'fm-sub');
+    $(focusHead).append($(form.querySelector('th.build-boxes-title-focus')).contents());
+    var focusPills = make('div', 'fm-pills');
+    focusPills.appendChild(cells[2]);
+    focusPills.appendChild(cells[3]);
+    var modeHead = make('h3', 'fm-sub');
+    modeHead.textContent = cardStyle.getAttribute('data-mode-title');
+    var modePills = make('div', 'fm-pills');
+    modePills.appendChild(byId('fm-mode-general'));
+    modePills.appendChild(cells[1]);
+    cardStyle.appendChild(focusHead);
+    cardStyle.appendChild(focusPills);
+    cardStyle.appendChild(modeHead);
+    cardStyle.appendChild(modePills);
+    cardStyle.appendChild(rowOf('priority-name'));
+    cardStyle.appendChild(rowOf('guard-percent'));
+
+    var details = byId('advanced-options');
+    if (cardPower) {
+        cardPower.appendChild(byId('setup-power-row'));
+    }
+    if (details) {
+        details.classList.add('fm-gone');
+    }
+
+    var recipesTitle = byId('setup-recipes-title');
+    if (recipesTitle) {
+        var no = make('span', 'fm-no');
+        no.setAttribute('aria-hidden', 'true');
+        recipesTitle.insertBefore(no, recipesTitle.firstChild);
+    }
+
+    place(colA, register, 1);
+    place(colB, recipes, 2);
+    place(colA, cardElement, 3);
+    place(colB, cardStyle, 4);
+    place(colB, cardPower, 5);
+    place(colB, more, 6);
+    place(colB, byId('temporix-choice'), 7);
+    place(colB, byId('publish-choice'), 8);
+
+    var number = 0;
+    [register, recipes, cardElement, cardStyle, cardPower, more].forEach(function(card) {
+        var marker = card && card.querySelector('.fm-no');
+        if (marker) {
+            number++;
+            marker.textContent = number;
+        }
+    });
+
+    var doors = byId('submit-mode');
+    if (doors) {
+        var secondary = doors.querySelector('.setup-doors-secondary');
+        var primary = doors.querySelector('.setup-primary');
+        if (secondary && primary) {
+            doors.insertBefore(secondary, primary);
+        }
+    }
+
+    var none = $('#fm-none');
+    var noneChosen = false;
+    var general = $('#fm-mode-general');
+    var elementBoxes = ['str', 'int', 'cha', 'agi', 'omni'].map(function(key) { return byId('check_' + key); });
+
+    function elementChecked() {
+        return elementBoxes.filter(function(box) { return box && box.checked; });
+    }
+
+    function syncChoices() {
+        if (elementChecked().length) {
+            noneChosen = false;
+        }
+        none.attr('aria-pressed', !elementChecked().length && noneChosen ? 'true' : 'false');
+        general.attr('aria-pressed', $('input.mode-box:checked').length ? 'false' : 'true');
+    }
+
+    none.on('click', function() {
+        noneChosen = true;
+        $(elementChecked()).prop('checked', false).trigger('change');
+        if (typeof noElementWarned !== 'undefined') {
+            noElementWarned = true;
+            $('#no-element-warning').hide();
+        }
+        syncChoices();
+    });
+    general.on('click', function() {
+        $('input.mode-box:checked').prop('checked', false).trigger('change');
+        syncChoices();
+    });
+
+    var what = byId('fm-bar-what');
+
+    function describe() {
+        if (!what) {
+            return;
+        }
+        var chosen = elementChecked();
+        var names = chosen.map(function(box) { return $.trim($(box).parent().text()); });
+        if (byId('check_omni') && byId('check_omni').checked) {
+            names = [$.trim($(byId('check_omni')).parent().text())];
+        }
+        var head = [$.trim($('#select-char-class option:selected').text()), $.trim($('#input-char-level').val())]
+            .filter(Boolean).join(' ');
+        if (names.length) {
+            head += (head ? ', ' : '') + names.join(', ');
+        }
+        var power = $.trim($('#setup-power-row .setup-power-on').text());
+        var strong = make('b', '');
+        strong.textContent = head;
+        what.textContent = '';
+        what.appendChild(strong);
+        if (power) {
+            what.appendChild(document.createTextNode((head ? ' \u00b7 ' : '') + power));
+        }
+    }
+
+    var classBox = byId('fm-classes');
+    var classSelect = byId('select-char-class');
+    var classButtons = classBox ? $(classBox).find('.fm-cls') : $();
+
+    classButtons.each(function() {
+        var button = this;
+        if (!button.getAttribute('data-figure')) {
+            return;
+        }
+        var image = new Image();
+        image.alt = '';
+        image.decoding = 'async';
+        image.onload = function() {
+            var figure = button.querySelector('.fm-cls-fig');
+            figure.appendChild(image);
+            figure.classList.add('fm-has-img');
+        };
+        image.src = button.getAttribute('data-figure');
+    });
+    if (classButtons.length) {
+        classSelect.tabIndex = -1;
+    }
+    var nameRow = byId('input-char-name') && byId('input-char-name').closest('tr');
+    var projectRow = byId('input-proj-name') && byId('input-proj-name').closest('tr');
+    if (nameRow && projectRow) {
+        nameRow.parentNode.insertBefore(projectRow, nameRow.nextSibling);
+    }
+    classButtons.on('click', function() {
+        classSelect.value = this.getAttribute('data-class');
+        $(classSelect).trigger('change');
+    });
+
+    function syncClasses() {
+        classButtons.each(function() {
+            this.setAttribute('aria-pressed', this.getAttribute('data-class') === classSelect.value ? 'true' : 'false');
+        });
+    }
+
+    var liveWhat = byId('fm-live-what');
+
+    function describeLive() {
+        if (!liveWhat) {
+            return;
+        }
+        var parts = [[$.trim($('#select-char-class option:selected').text()), $.trim($('#input-char-level').val())]
+            .filter(Boolean).join(' ')];
+        elementChecked().forEach(function(box) { parts.push($.trim($(box).parent().text())); });
+        var preset = $.trim($('.setup-chip[aria-pressed="true"]').first().text());
+        if (preset) {
+            parts.push(preset);
+        }
+        $('#table-checkboxes-column-2 input:checked, #table-checkboxes-column-3 input:checked').each(function() {
+            if (this.id !== 'check_balanced') {
+                parts.push($.trim($(this).parent().text()));
+            }
+        });
+        liveWhat.textContent = parts.filter(Boolean).join(', ');
+    }
+
+    var guardSelect = byId('guard-percent');
+    var guardTape = byId('fm-guard-tape');
+
+    function syncGuard() {
+        if (!guardSelect || !guardTape) {
+            return;
+        }
+        var options = $(guardSelect).find('option');
+        var top = parseFloat(options.last().val()) || 0;
+        var value = parseFloat(guardSelect.value) || 0;
+        guardTape.style.setProperty('--w', (top ? Math.min(100, value / top * 100) : 0) + '%');
+    }
+
+    var panelBlock = byId('setup-preview-block');
+    var how = byId('fm-how');
+    if (panelBlock && how) {
+        [byId('setup-preview-note'), byId('setup-preview-door'), panelBlock.querySelector('.wm-intro')].forEach(function(node) {
+            if (node) {
+                how.appendChild(node);
+            }
+        });
+        var edits = byId('setup-preview-edits');
+        var third = byId('section-defense');
+        if (edits && third) {
+            panelBlock.insertBefore(edits, third);
+        }
+        var guardNote = byId('setup-preview-guard');
+        if (guardNote) {
+            panelBlock.appendChild(guardNote);
+        }
+        var offense = byId('section-offense');
+        if (offense) {
+            offense.open = true;
+        }
+    }
+
+    function refresh() {
+        syncChoices();
+        describe();
+        syncClasses();
+        describeLive();
+        syncGuard();
+    }
+
+    $form.on('change input click', refresh);
+    refresh();
+    setTimeout(refresh, 0);
+});
+
+$(document).ready(function() {
     var $panel = $('#setup-preview');
     var $form = $('#main_form');
     if (!$panel.length || !$form.length || !window.fetch || typeof wmInit !== 'function') {
@@ -935,6 +1218,18 @@ $(document).ready(function() {
         return rows;
     }
 
+    function fitTapes() {
+        var $rows = $block.find('.wm-row').not('.wm-no-weight');
+        var top = 0;
+        $rows.each(function() {
+            top = Math.max(top, Math.abs(parseFloat($(this).find('.wm-weight input').val()) || 0));
+        });
+        $rows.each(function() {
+            var value = Math.abs(parseFloat($(this).find('.wm-weight input').val()) || 0);
+            this.style.setProperty('--w', (top ? value / top * 100 : 0) + '%');
+        });
+    }
+
     function currentEdits() {
         return hasBaseline ? setupEdits(baseline, readFields()) : {};
     }
@@ -949,6 +1244,7 @@ $(document).ready(function() {
         var count = setupTouchedFields(edits).length;
         setupWriteLive($edited, count ? setupPreviewEdits(count) : '');
         $reset.prop('hidden', !count);
+        fitTapes();
     }
 
     function restoreEdits(edits) {

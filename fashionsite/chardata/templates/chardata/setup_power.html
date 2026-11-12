@@ -1,5 +1,5 @@
 {% load i18n %}
-<div id="setup-power-row" class="advanced-options-row setup-power" data-default="{{ power.default }}">
+<div id="setup-power-row" class="advanced-options-row setup-power" data-default="{{ power.default }}" style="--n:{{ power.steps|length }}">
     <label for="setup-power" class="advanced-options-name">{% trans "Search effort" %}</label>
     <div class="advanced-options-field setup-power-field">
         <input type="hidden" name="power" id="setup-power-key" value="{{ power.default }}">

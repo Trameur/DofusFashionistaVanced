@@ -82,7 +82,7 @@ class EverySetupPageDrawsOnePanelTests(_Versioned, TestCase):
                 asides = page.find('aside', id='setup-preview')
                 states = page.find('script', id='wm-state')
                 defaults = page.find('script', id='wm-defaults')
-                sheets = [a for a, _ in page.find('link') if 'setup.css' in a.get('href', '')]
+                sheets = [a for a, _ in page.find('link') if 'chardata/setup.css' in a.get('href', '')]
                 scripts = [a.get('src', '') for a, _ in page.find('script')]
                 found = (page.h1, len(asides), len(states), len(defaults), len(sheets),
                          sum('chardata/setup.js' in src for src in scripts),
