@@ -38,7 +38,7 @@ PuLP==3.3.2
 pycparser==3.12
 PyJWT==2.15.1
 PyMySQL==1.2.4
-python-dateutil==2.9.0.post0
+python-dateutil==4.0.0
 python3-openid==3.2.0
 requests-oauthlib==2.0.0
 requests==2.34.2
