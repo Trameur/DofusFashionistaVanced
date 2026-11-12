@@ -690,10 +690,10 @@ function Initialize-FashionistaConfig {
     }
 }
 
-# Starts the local portable MySQL 8.0, imports the prod dump on the first run and ensures the app user.
+# Starts the local portable MySQL 8.4, imports the prod dump on the first run and ensures the app user.
 function Ensure-LocalMysql {
     $mysqlHome  = Join-Path $env:LOCALAPPDATA 'Fashionista'
-    $base       = Join-Path $mysqlHome 'mysql-8.0.46-winx64'
+    $base       = Join-Path $mysqlHome 'mysql-8.4.13-winx64'
     $data       = Join-Path $mysqlHome 'data'
     $mysqld     = Join-Path $base 'bin\mysqld.exe'
     $mysql      = Join-Path $base 'bin\mysql.exe'
@@ -701,7 +701,7 @@ function Ensure-LocalMysql {
     $dump       = Join-Path $PSScriptRoot 'prod_dump.sql'
 
     if (-not (Test-Path -LiteralPath $mysqld)) {
-        Write-LogMessage "Local MySQL 8.0 not found in $base." "ERROR"
+        Write-LogMessage "Local MySQL 8.4 not found in $base." "ERROR"
         Write-LogMessage "Run the first-time setup: .\setup_local_mysql.ps1" "ERROR"
         return $false
     }
@@ -723,7 +723,14 @@ function Ensure-LocalMysql {
         }
         if (-not $up) { Write-LogMessage "MySQL did not answer after 30s." "ERROR"; return $false }
     }
-    Write-LogMessage "MySQL is up (port 3306)." "SUCCESS"
+    $running = & $mysql --host=127.0.0.1 --port=3306 -u root -N -e "SELECT VERSION();" 2>$null
+    if ($running -match '^(\d+)\.(\d+)' -and ([int]$Matches[1] * 100 + [int]$Matches[2]) -lt 804) {
+        Write-LogMessage "MySQL $running answers on port 3306, and the site needs MySQL 8.4 or later." "ERROR"
+        Write-LogMessage "Stop it with: & '$mysqladmin' --host=127.0.0.1 --port=3306 -u root shutdown" "ERROR"
+        Write-LogMessage "Then launch again: MySQL 8.4 upgrades the data folder on its first start." "ERROR"
+        return $false
+    }
+    Write-LogMessage "MySQL $running is up (port 3306)." "SUCCESS"
 
     $dbExists = & $mysql --host=127.0.0.1 --port=3306 -u root -N -e "SHOW DATABASES LIKE 'fashionista';" 2>$null
     if (-not $dbExists) {
@@ -740,8 +747,8 @@ function Ensure-LocalMysql {
         }
     }
 
-    $grant = "CREATE USER IF NOT EXISTS 'fashionista'@'%' IDENTIFIED WITH mysql_native_password BY 'fashionista';" +
-             "ALTER USER 'fashionista'@'%' IDENTIFIED WITH mysql_native_password BY 'fashionista';" +
+    $grant = "CREATE USER IF NOT EXISTS 'fashionista'@'%' IDENTIFIED WITH caching_sha2_password BY 'fashionista';" +
+             "ALTER USER 'fashionista'@'%' IDENTIFIED WITH caching_sha2_password BY 'fashionista';" +
              "GRANT ALL PRIVILEGES ON fashionista.* TO 'fashionista'@'%';" +
              # manage.py test builds test_fashionista from scratch every run.
              "GRANT ALL PRIVILEGES ON ``test_fashionista``.* TO 'fashionista'@'%'; FLUSH PRIVILEGES;"
@@ -787,7 +794,7 @@ function Start-DofusFashionista {
     $env:DB_NAME = 'fashionista'
     $env:DB_USER = 'fashionista'
     $env:DB_PASSWORD = 'fashionista'
-    Write-LogMessage "Local mode: MySQL 8.0 (a copy of prod)." "INFO"
+    Write-LogMessage "Local mode: MySQL 8.4 (a copy of prod)." "INFO"
 
     if (-not (Ensure-LocalMysql)) {
         Read-Host "Press Enter to exit"

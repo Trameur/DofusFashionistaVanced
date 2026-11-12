@@ -1,10 +1,10 @@
-# One-time setup: download + extract portable MySQL 8.0.46 (matches prod) and init its data dir.
+# One-time setup: download + extract portable MySQL 8.4.13 (matches prod) and init its data dir.
 # After this, run_windows11.ps1 starts the server and imports prod_dump.sql on first launch.
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
-$ver    = '8.0.46'
+$ver    = '8.4.13'
 $root   = Join-Path $env:LOCALAPPDATA 'Fashionista'
 $base   = Join-Path $root "mysql-$ver-winx64"
 $data   = Join-Path $root 'data'
@@ -15,8 +15,8 @@ New-Item -ItemType Directory -Force -Path $root | Out-Null
 
 if (-not (Test-Path -LiteralPath $mysqld)) {
     if (-not (Test-Path -LiteralPath $zip)) {
-        $url = "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-$ver-winx64.zip"
-        Write-Host "Downloading MySQL $ver (~236 MB)..."
+        $url = "https://cdn.mysql.com/Downloads/MySQL-8.4/mysql-$ver-winx64.zip"
+        Write-Host "Downloading MySQL $ver (~268 MB)..."
         Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing -UserAgent 'Mozilla/5.0'
     }
     Write-Host "Extracting..."
