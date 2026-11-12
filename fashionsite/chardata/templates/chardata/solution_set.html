@@ -4,13 +4,14 @@
 <div class="expand-container">
     <div class="expand-header solution-set-expand-header">
         <div class="solution-set-expand-header-cell" width="100%">
-            <span>{{set_result.localized_name}}</span><br>
-            <span class="solution-item-level">({{set_result.number_of_items}}/{{set_result.total_number_of_items}} {% trans "pieces" %})</span>
+            <span class="solution-set-name">{{set_result.localized_name}}</span><span class="fm-set-ratio fm-num fm-modern-only" title="{% trans "pieces" %}">{{set_result.number_of_items}}/{{set_result.total_number_of_items}}</span><br>
+            <span class="solution-item-level solution-set-count">({{set_result.number_of_items}}/{{set_result.total_number_of_items}} {% trans "pieces" %})</span>
             {% if set_result.url %}
             <br><a class="solution-set-encyclo-link" href="{{ set_result.url }}" onclick="event.stopPropagation();">{% trans "View this set" %} &gt;</a>
             {% elif set_result.id %}
             <br><a class="solution-set-encyclo-link" href="{% game_url 'encyclopedia_set' set_result.id %}" onclick="event.stopPropagation();">{% trans "View this set" %} &gt;</a>
             {% endif %}
+            <span class="fm-tape fm-set-tape fm-modern-only" aria-hidden="true"><i style="--w:{% widthratio set_result.number_of_items set_result.total_number_of_items 100 %}%"></i></span>
         </div>
         <div class="solution-set-expand-header-cell solution-set-icons-list">
             {% for item_file, part in set_result.parts.items %}

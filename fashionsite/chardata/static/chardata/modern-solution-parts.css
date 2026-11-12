@@ -1,0 +1,97 @@
+html:not(.fm-modern) .fm-modern-only{ display:none !important; }
+
+/* Item cards */
+html.fm-modern .solution-table .solution-item-section .expand-container > .solution-item-expand-header{
+  --fm-slot:50px;
+  background:var(--fm-surface) !important; border:1px solid var(--fm-seam) !important; border-radius:5px !important;
+  padding:9px 12px !important; min-height:78px; display:flex; align-items:center;
+  box-shadow:inset 0 0 0 2px var(--fm-surface), inset 0 0 0 3px var(--fm-border), 0 4px 12px rgba(40,28,10,.06) !important;
+}
+html.fm-modern .solution-table .solution-item-section .expand-container > .solution-item-expand-header:hover{ border-color:var(--fm-accent-line) !important; }
+html.fm-modern .solution-item-expand-header > table{ width:100% !important; }
+html.fm-modern .solution-item-expand-header td[width="62px"]{ padding-right:12px; }
+html.fm-modern .solution-item-expand-header .solution-item-info{ min-width:0; vertical-align:middle; }
+
+html.fm-modern .solution-table .solution-item-expand-header .solution-item-icon-container:not(.shiny-slot){
+  box-sizing:border-box; width:56px; height:56px; padding:3px; border:0; border-radius:3px; display:grid; place-items:center;
+  background:var(--fm-cell); box-shadow:inset 0 0 14px var(--fm-icshade), 0 0 0 1px var(--fm-seam);
+}
+html.fm-modern .solution-table .solution-item-expand-header .solution-item-icon-container:not(.shiny-slot) .solution-items-icon{
+  width:50px; height:50px; object-fit:contain;
+}
+
+html.fm-modern .fm-slot-label{ font-size:11px; line-height:1.2; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--fm-muted); margin-bottom:2px; }
+html.fm-modern .solution-item-name-div{ display:flex !important; flex-wrap:wrap; align-items:center; gap:2px 6px; font-weight:600; color:var(--fm-head); }
+html.fm-modern .solution-item-name-div > span[id^="item-name-"]{ flex:0 0 100%; min-width:0; overflow-wrap:anywhere; }
+html.fm-modern .fm-sol-doll .solution-item-name-div > span[id^="item-name-"]{ font-size:15px; line-height:1.2; }
+html.fm-modern .solution-item-name-div .solution-item-level{ font-weight:400; font-size:12.5px; color:var(--fm-muted); }
+html.fm-modern .solution-item-name-div .solution-item-source{ flex:0 0 100%; font-weight:400; font-size:12px; line-height:1.3; color:var(--fm-muted); white-space:normal; }
+html.fm-modern .solution-item-name-div .solution-item-mark{ font-size:11px; }
+html.fm-modern .fm-set-tag{ max-width:100%; min-width:0; box-sizing:border-box; }
+html.fm-modern .fm-set-tag .fm-set-tag-name{ overflow:hidden; text-overflow:ellipsis; min-width:0; }
+
+html.fm-modern .solution-item-expand-header .solution-item-icons{ display:flex; flex-wrap:wrap; align-items:center; gap:0; margin:4px 0 0 -5px; padding:0; }
+html.fm-modern .solution-item-expand-header .solution-item-button{
+  width:13px !important; height:13px !important; padding:4px !important; border-radius:5px;
+}
+html.fm-modern .solution-item-expand-header .solution-item-button:hover{ background:var(--fm-accent-soft); }
+html.fm-modern .solution-item-expand-header .solution-item-button:focus-visible{ outline:none; box-shadow:var(--fm-ring); background:var(--fm-accent-soft); }
+html.fm-modern .solution-item-expand-header .item-external-link:focus-visible{ outline:none; box-shadow:var(--fm-ring); border-radius:4px; }
+html.fm-modern .solution-item-expand-header .item-external-link{ display:inline-block; line-height:0; padding:2px; }
+@media (pointer:coarse){
+  html.fm-modern .solution-item-expand-header .solution-item-button{ padding:8px !important; }
+}
+
+/* Dofus, trophies and shards in cells */
+html.fm-modern .solution-item-section:not(.fm-sol-doll){
+  grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; align-items:stretch;
+}
+@media (min-width:760px){
+  html.fm-modern .solution-item-section:not(.fm-sol-doll){ grid-template-columns:repeat(6,minmax(0,1fr)); }
+}
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container > .solution-item-expand-header{
+  --fm-slot:56px; flex-direction:column; justify-content:flex-start; text-align:center; padding:10px 6px !important; min-height:0;
+}
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header > table,
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header > table > tbody{ display:block; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header > table > tbody > tr{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+}
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header td{ display:block; width:auto !important; padding:0 !important; max-width:100%; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header .solution-item-icon-container:not(.shiny-slot){ width:64px; height:64px; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header .solution-item-icon-container:not(.shiny-slot) .solution-items-icon{ width:58px; height:58px; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .fm-slot-label{ display:none; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-name-div{ justify-content:center; padding-right:0; font-size:13px; line-height:1.2; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-icons{ justify-content:center; margin:2px 0 0; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-link-div{ top:4px; right:4px; }
+
+/* Sets as data tapes */
+html.fm-modern .solution-item-summary > div:has(> .expand-container > .solution-set-expand-header){
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr)); gap:10px; align-items:stretch;
+}
+html.fm-modern .solution-item-summary .expand-container > .solution-set-expand-header{
+  background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; border-radius:10px !important;
+  padding:10px 12px !important; display:flex; flex-direction:column; gap:8px; box-shadow:none;
+}
+html.fm-modern .solution-set-expand-header .solution-set-expand-header-cell{ display:block; width:auto; padding:0; }
+html.fm-modern .solution-set-expand-header .solution-set-expand-header-cell:first-child{ display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 8px; }
+html.fm-modern .solution-set-expand-header .solution-set-expand-header-cell > br,
+html.fm-modern .solution-set-expand-header .solution-set-count{ display:none; }
+html.fm-modern .solution-set-expand-header .solution-set-name{ flex:1 1 auto; min-width:0; font-size:14px; font-weight:600; color:var(--fm-head); overflow-wrap:anywhere; }
+html.fm-modern .solution-set-expand-header .fm-set-ratio{ flex:none; font-size:14px; font-weight:600; color:var(--fm-muted); }
+html.fm-modern .solution-set-expand-header .fm-set-tape{ flex:0 0 100%; order:1; margin-top:0; }
+html.fm-modern .solution-set-expand-header .solution-set-encyclo-link{ flex:0 0 100%; order:2; font-size:12.5px; }
+html.fm-modern .solution-set-expand-header .solution-set-icons-list{ display:flex; flex-wrap:wrap; gap:4px; }
+html.fm-modern .solution-set-expand-header .solution-set-icon-container,
+html.fm-modern .solution-set-expand-header .solution-set-icon{ width:26px; height:26px; }
+
+@media (max-width:900px){
+  html.fm-modern .solution-item-section .solution-item-expand-header > table > tbody > tr{ align-items:center; }
+  html.fm-modern .solution-item-section.fm-sol-doll .solution-item-expand-header td:first-child{ flex:0 0 56px; width:56px !important; padding:0 !important; }
+  html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header td:first-child{ flex:none; }
+  html.fm-modern .solution-table .solution-item-expand-header .solution-item-icon-container:not(.shiny-slot){ width:56px !important; height:56px !important; }
+  html.fm-modern .solution-table .solution-item-expand-header .solution-item-icon-container:not(.shiny-slot) .solution-items-icon{ width:50px !important; height:50px !important; }
+  html.fm-modern .solution-table .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header .solution-item-icon-container:not(.shiny-slot){ width:64px !important; height:64px !important; }
+  html.fm-modern .solution-table .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header .solution-item-icon-container:not(.shiny-slot) .solution-items-icon{ width:58px !important; height:58px !important; }
+  html.fm-modern .solution-item-name-div .solution-item-level{ margin-left:0 !important; opacity:1; }
+}

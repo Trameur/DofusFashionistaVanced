@@ -117,7 +117,10 @@ class SolutionResult:
             attach_transcendence(result_item, self.weights)
         attach_acquisition(all_items)
 
+        tags = set_tags(r.sets, all_items)
         for result_item in all_items:
+            result_item.set_tag = tags.get(result_item.slot)
+            result_item.slot_type = SLOT_NAME_TO_TYPE.get(result_item.slot, '')
             result_item.mageable = (SLOT_NAME_TO_TYPE.get(result_item.slot)
                                     in MAGEABLE_TYPES)
             item_per_slot[result_item.slot] = result_item
@@ -203,6 +206,18 @@ class SolutionResult:
     def is_item_forbidden(self, result_item):
         if result_item.item_added:
             return result_item.or_name in self.exclusions_set
+
+
+def set_tags(result_sets, items):
+    """Map each worn item's slot to (set name, pieces worn, pieces in the set) from the sets the result already holds."""
+    by_id = {result_set.id: result_set for result_set in result_sets}
+    tags = {}
+    for result_item in items:
+        result_set = by_id.get(result_item.set) if result_item.item_added else None
+        if result_set is not None:
+            tags[result_item.slot] = (result_set.localized_name, result_set.number_of_items,
+                                      result_set.total_number_of_items)
+    return tags
 
 
 def stat_sources(model_result):

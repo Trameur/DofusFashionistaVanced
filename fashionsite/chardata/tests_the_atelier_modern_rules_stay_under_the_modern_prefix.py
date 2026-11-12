@@ -106,7 +106,7 @@ class EveryModernRuleIsPrefixedTests(SimpleTestCase):
 
     def test_only_the_rules_that_were_already_unprefixed_lack_the_modern_prefix(self):
         added = sorted({selector for selector, _ in selectors()
-                        if not selector.startswith('html.fm-modern') and selector not in FROZEN_UNPREFIXED})
+                        if not selector.startswith(('html.fm-modern', 'html:not(.fm-modern) .fm-')) and selector not in FROZEN_UNPREFIXED})
         self.assertEqual([], added)
 
     def test_the_reader_keeps_an_is_or_where_list_in_one_selector_and_weighs_it_as_the_cascade_does(self):
