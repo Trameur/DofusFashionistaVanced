@@ -15,8 +15,8 @@
 
 asgiref==3.13.0
 beautifulsoup4==4.15.0
-boto3==1.43.126
-botocore==1.43.126
+boto3==1.44.1
+botocore==1.44.1
 certifi==2026.10.23
 cffi==2.1.1
 charset-normalizer==3.5.2
@@ -35,7 +35,7 @@ pillow==13.0.0
 PuLP==3.3.2
 pycparser==3.12
 PyJWT==2.15.1
-PyMySQL==1.2.3
+PyMySQL==1.2.4
 python-dateutil==2.9.0.post0
 python3-openid==3.2.0
 requests-oauthlib==2.0.0
@@ -44,7 +44,7 @@ s3transfer==0.19.3
 six==1.17.0
 social-auth-app-django==7.2.0
 social-auth-core==6.2.0
-soupsieve==4.0.1
+soupsieve==4.1
 sqlparse==0.6.1
 typing_extensions==4.16.0
 tzdata==2026.6
