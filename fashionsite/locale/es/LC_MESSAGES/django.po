@@ -4679,6 +4679,10 @@ msgstr "Permitir dofus, prismaradita y trofeos:"
 msgid "Prysmaradite"
 msgstr "Prismaradita"
 
+#: chardata/solution_result.py
+msgid "Dofus and trophies"
+msgstr "Dofus y trofeos"
+
 #: .\chardata\templates\chardata\options.html:150
 #: .\chardata\templates\chardata\wizard_options.html:64
 msgid "Trophies"

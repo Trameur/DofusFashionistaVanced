@@ -4760,6 +4760,10 @@ msgstr "Autoriser les dofus, prysmaradite et trophées :"
 msgid "Prysmaradite"
 msgstr "Prysmaradite"
 
+#: chardata/solution_result.py
+msgid "Dofus and trophies"
+msgstr "Dofus et trophées"
+
 #: .\chardata\templates\chardata\options.html:150
 #: .\chardata\templates\chardata\wizard_options.html:64
 msgid "Trophies"

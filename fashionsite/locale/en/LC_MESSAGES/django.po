@@ -4339,6 +4339,10 @@ msgstr ""
 msgid "Prysmaradite"
 msgstr ""
 
+#: chardata/solution_result.py
+msgid "Dofus and trophies"
+msgstr ""
+
 #: .\chardata\templates\chardata\options.html:150
 #: .\chardata\templates\chardata\wizard_options.html:64
 msgid "Trophies"
