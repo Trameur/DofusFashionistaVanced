@@ -212,16 +212,108 @@ html.fm-modern:not(.fm-dark) .footer .discord-logo{ filter:brightness(0) opacity
   html.fm-modern .fm-topnav .fm-design-toggle{ padding:0 6px; }
 }
 
-@media (max-width:760px){
-  html.fm-modern .fm-topnav-in{ padding:6px 16px; gap:8px 12px; }
+html.fm-modern .fm-topnav-brand,
+html.fm-modern .fm-topnav-burger{ display:none; }
+html.fm-modern .fm-login-txt{ display:inline; }
+html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-width:14em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; vertical-align:bottom; }
+
+@media (min-width:1280px){
+  html.fm-modern .fm-topnav .login{ flex-wrap:nowrap; white-space:nowrap; gap:8px; padding:0 12px; }
+  html.fm-modern .fm-topnav .login .fm-login-txt{ display:none; }
+  html.fm-modern .fm-topnav .login #logged_user_alias{ max-width:7em; }
+  html.fm-modern .fm-topnav-end{ flex:1 1 0; flex-wrap:nowrap; justify-content:flex-end; }
+  html.fm-modern .fm-topnav-end > *{ flex-shrink:0; }
+  html.fm-modern .fm-topnav .nav-search{ flex:0 1 240px; min-width:96px; }
+  html.fm-modern .fm-topnav .nav-search input{ width:0; flex:1 1 auto; }
+}
+@media (min-width:1280px) and (max-width:1535px){
+  html.fm-modern .fm-topnav.fm-nav-user .fm-topnav-end .fm-design-label{ display:none; }
+  html.fm-modern .fm-topnav.fm-nav-user .fm-design-toggle{ flex:0 0 auto; min-width:36px; justify-content:center; }
+  html.fm-modern .fm-topnav.fm-nav-user .fm-design-toggle span[aria-hidden]{ display:inline-flex; }
+  html.fm-modern .fm-topnav.fm-nav-user .login > b{ display:none; }
+  html.fm-modern .fm-topnav.fm-nav-user .login #logged_user_alias{ max-width:5em; }
+}
+
+@media (max-width:767px){
+  html.fm-modern .fm-topnav-in{ gap:8px 12px; }
+  html.fm-modern .fm-topnav-brand{ position:relative;
+    display:inline-flex; align-items:center; gap:8px; min-height:40px; color:var(--fm-navink) !important;
+    font-size:16px; font-weight:700; text-decoration:none; white-space:nowrap;
+  }
+  html.fm-modern .fm-topnav-brand-mark{
+    display:none; align-items:center; justify-content:center; width:34px; height:34px; border-radius:9px; box-sizing:border-box;
+    background:var(--fm-navgold); color:#241A06; font-size:14px; font-weight:800; letter-spacing:.02em;
+  }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-in{
+    display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:0 10px; min-height:56px;
+  }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-burger{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px; min-width:44px; height:40px; padding:0 12px; box-sizing:border-box;
+    background:transparent; border:1px solid var(--fm-navline); border-radius:999px; color:var(--fm-navink);
+    font:inherit; font-size:14px; font-weight:600; cursor:pointer;
+  }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-burger:hover,
+  html.fm-modern .fm-topnav.fm-nav-js.fm-open .fm-topnav-burger{ background:var(--fm-navfill); color:#fff; }
+  html.fm-modern .fm-topnav-burger-ico{
+    width:16px; height:2px; background:currentColor; border-radius:2px; position:relative; flex:0 0 auto;
+    box-shadow:0 -5px 0 currentColor, 0 5px 0 currentColor;
+  }
+  html.fm-modern .fm-topnav.fm-open .fm-topnav-burger-ico{ box-shadow:none; transform:rotate(45deg); }
+  html.fm-modern .fm-topnav.fm-open .fm-topnav-burger-ico::after{
+    content:""; position:absolute; inset:0; background:currentColor; border-radius:2px; transform:rotate(90deg);
+  }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-vers{ grid-column:2; width:100%; min-width:0; }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-brand{ grid-column:1; }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-burger{ grid-column:3; }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-links,
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-end{ grid-column:1 / -1; width:auto; }
+  html.fm-modern .fm-topnav.fm-nav-js:not(.fm-open) .fm-topnav-links,
+  html.fm-modern .fm-topnav.fm-nav-js:not(.fm-open) .fm-topnav-end{ display:none; }
+  html.fm-modern .fm-topnav.fm-nav-js.fm-open .fm-topnav-links{ padding-top:6px; border-top:1px solid var(--fm-navline); margin-top:6px; }
+  html.fm-modern .fm-topnav.fm-nav-js.fm-open .fm-topnav-end{ padding:8px 0 6px; margin-left:0; }
   html.fm-modern .fm-topnav-links{ width:100%; position:relative; }
   html.fm-modern .fm-topnav-tools{ position:static; }
-  html.fm-modern .fm-topnav-menu{ left:0; right:0; width:auto; max-width:none; }
+  html.fm-modern .fm-topnav-menu{
+    position:static; width:auto; max-width:none; margin:4px 0 6px; box-shadow:none; grid-template-columns:repeat(2,minmax(0,1fr));
+  }
   html.fm-modern .fm-topnav-vers{ width:100%; }
   html.fm-modern .fm-topnav-end{ width:100%; margin-left:0; }
-  html.fm-modern .fm-topnav .nav-search{ flex:1 1 150px; min-width:0; }
+  html.fm-modern .fm-topnav .nav-search{ flex:1 1 100%; min-width:0; }
   html.fm-modern .fm-topnav .nav-search input{ width:100%; flex:1 1 auto; }
+  html.fm-modern .fm-topnav .version-link{ padding:7px 10px !important; }
+  html.fm-modern .fm-topnav .login{ flex-wrap:wrap; height:auto; min-height:40px; padding:6px 14px; border-radius:20px; }
+}
+@media (min-width:768px) and (max-width:839px){
+  html.fm-modern .fm-topnav-menu{ left:auto; right:0; }
+}
+@media (max-width:760px){
+  html.fm-modern .fm-topnav-in{ padding:6px 16px; }
   html.fm-modern .fm-buildbar-in{ flex-wrap:wrap; padding:4px 16px 8px; }
   html.fm-modern .fm-buildbar-tabs{ flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; scrollbar-width:thin; }
   html.fm-modern .footer-social{ margin-left:0; }
+}
+@media (max-width:479px){
+  html.fm-modern .fm-topnav-brand-full{
+    position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap;
+  }
+  html.fm-modern .fm-topnav-brand-mark{ display:inline-flex; }
+  html.fm-modern .fm-topnav-burger-txt{
+    position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap;
+  }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-burger{ padding:0; width:44px; }
+  html.fm-modern .fm-topnav .version-link{ padding:7px 9px !important; font-size:12.5px; }
+}
+@media (max-width:389px){
+  html.fm-modern{ --fm-band-h:calc(100vw * 84 / 390); }
+  html.fm-modern .banner[data-band] a{ background-position:right calc(100vw * -26 / 390) center; }
+}
+@media (min-width:1800px){
+  html.fm-modern .fm-topnav .login #logged_user_alias{ max-width:12em; }
+}
+
+@media (min-width:1530px){
+  html.fm-modern .banner[data-band]:not([data-band="dofus3"]) a{ background-position:right 82%; }
+}
+@media (min-width:2100px){
+  html.fm-modern .banner[data-band]:not([data-band="dofus3"]) a{ background-position:right 50%; }
 }

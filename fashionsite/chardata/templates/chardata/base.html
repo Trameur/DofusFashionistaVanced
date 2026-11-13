@@ -241,7 +241,9 @@
         
         <nav class="fm-topnav" aria-label="{% trans 'Main navigation' %}">
           <div class="fm-topnav-in">
-            <div class="fm-topnav-links">
+            <a class="fm-topnav-brand" href="{% game_url 'home' %}"><span class="fm-topnav-brand-full">Dofus Fashionista</span><span class="fm-topnav-brand-mark" aria-hidden="true">DF</span></a>
+            <button type="button" class="fm-topnav-burger" aria-expanded="false" aria-controls="fm-topnav-links fm-topnav-end" aria-label="{% trans 'Menu' %}"><span class="fm-topnav-burger-txt">{% trans "Menu" %}</span><span class="fm-topnav-burger-ico" aria-hidden="true"></span></button>
+            <div class="fm-topnav-links" id="fm-topnav-links">
               <a href="{% game_url 'setup' %}">{% trans "Create a build" %}</a>
               <a href="{% game_url 'load_projects' %}">{% trans "My builds" %}</a>
               <a href="{% game_url 'shared_builds' %}">{% trans "Gallery" %}</a>
@@ -266,7 +268,7 @@
               </details>
             </div>
             <div class="fm-topnav-vers" role="group" aria-label="{% trans 'Game version' %}"></div>
-            <div class="fm-topnav-end"></div>
+            <div class="fm-topnav-end" id="fm-topnav-end"></div>
           </div>
         </nav>
         {% if char_id and char_id != 0 %}
@@ -472,6 +474,32 @@
                 if(a.classList.contains('rerun-button')&&a.id!=='solution-link')move(a,tail);else move(a,tabs);
               }
             }
+          }
+          var nav0=q('.fm-topnav'),inner=q('.fm-topnav-in'),burger=q('.fm-topnav-burger'),links0=q('.fm-topnav-links');
+          var lg=q('.fm-topnav-end .login');
+          if(lg){
+            var kids=lg.childNodes,alias=q('#logged_user_alias',lg);
+            for(var k=0;k<kids.length;k++){var c=kids[k];
+              if(c.nodeType===3&&c.nodeValue.replace(/[\s\u00b7]/g,'')){var sp=document.createElement('span');sp.className='fm-login-txt';lg.insertBefore(sp,c);sp.appendChild(c);k++;}}
+            if(alias){alias.title=alias.textContent.trim();var tn=q('.fm-topnav');if(tn)tn.classList.add('fm-nav-user');}
+          }
+          if(nav0&&inner&&burger&&vers&&links0){
+            nav0.classList.add('fm-nav-js');
+            var phone=window.matchMedia('(max-width:767px)');
+            var setOpen=function(on){nav0.classList.toggle('fm-open',on);burger.setAttribute('aria-expanded',on?'true':'false');};
+            var place=function(){
+              if(phone.matches){if(vers.nextSibling!==burger)inner.insertBefore(vers,burger);}
+              else{setOpen(false);if(vers.previousSibling!==links0)inner.insertBefore(vers,links0.nextSibling);}
+              var act=q('.version-link.active',vers);
+              if(act&&phone.matches&&vers.scrollWidth>vers.clientWidth){var sel=q('.version-selector',vers);if(sel)sel.scrollLeft=act.offsetLeft-(sel.clientWidth-act.offsetWidth)/2;}
+            };
+            burger.addEventListener('click',function(){setOpen(!nav0.classList.contains('fm-open'));});
+            document.addEventListener('keydown',function(e){
+              if(e.key!=='Escape'||!nav0.classList.contains('fm-open')||q('.fm-topnav-tools[open]'))return;
+              var inside=nav0.contains(document.activeElement)&&document.activeElement!==burger;
+              setOpen(false);if(inside)burger.focus();});
+            if(phone.addEventListener)phone.addEventListener('change',place);else if(phone.addListener)phone.addListener(place);
+            place();
           }
           var path=location.pathname,homeLink=q('.fm-topnav-home'),home=homeLink?homeLink.pathname:'/';
           var mark=function(root,prefix){var as=root.querySelectorAll('a[href]'),hit=null,best=0;
