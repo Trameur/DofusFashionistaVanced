@@ -345,10 +345,10 @@
                     {% if generation.has_score %}
                     <div class="solution-history-entry-score">
                         <span>{% trans "Build score" %}</span>
-                        <strong>{{ generation.score }}</strong>
+                        <strong class="fm-classic-only">{{ generation.score }}</strong><strong class="fm-modern-only">{{ generation.score|floatformat:"0g" }}</strong>
                         {% if generation.has_score_delta %}
                         <span class="solution-history-entry-score-delta solution-history-entry-score-delta-{{ generation.score_delta_class }}">
-                            {{ generation.score_delta_text }} <span>{% trans "vs current" %}</span>
+                            <span class="fm-classic-only">{{ generation.score_delta_text }}</span><span class="fm-modern-only">{% if generation.score_delta > 0 %}+{% endif %}{{ generation.score_delta|floatformat:"0g" }}</span> <span>{% trans "vs current" %}</span>
                         </span>
                         {% endif %}
                     </div>
@@ -385,6 +385,7 @@
     <table class="solution-table"><tr>
     <td class="solution-item-summary fm-card">
 
+    <h2 class="fm-sol-card-title fm-modern-only">{% trans "The build" %}</h2>
     <button id="expand_button" class="solution-item-summary-expand-all button-generic">{% trans "Expand All" %}</button>
     <button id="collapse_button" class="solution-item-summary-collapse-all button-generic">{% trans "Collapse All" %}</button>
 

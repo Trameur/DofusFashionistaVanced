@@ -1,4 +1,5 @@
 html:not(.fm-modern) .fm-modern-only{ display:none !important; }
+html.fm-modern .fm-classic-only{ display:none !important; }
 
 /* Item cards */
 html.fm-modern .solution-table .solution-item-section .expand-container > .solution-item-expand-header{
@@ -28,6 +29,7 @@ html.fm-modern .solution-item-name-div .solution-item-level{ font-weight:400; fo
 html.fm-modern .solution-item-name-div .solution-item-source{ flex:0 0 100%; font-weight:400; font-size:12px; line-height:1.3; color:var(--fm-muted); white-space:normal; opacity:1; }
 html.fm-modern .solution-item-name-div .solution-item-mark{ font-size:11px; }
 html.fm-modern .fm-set-tag{ max-width:100%; min-width:0; box-sizing:border-box; }
+html.fm-modern .solution-item-name-div:has(> .fm-set-tag){ contain:inline-size; }
 html.fm-modern .fm-set-tag .fm-set-tag-name{ overflow:hidden; text-overflow:ellipsis; min-width:0; }
 
 html.fm-modern .solution-item-expand-header .solution-item-icons{ display:flex; flex-wrap:wrap; align-items:center; gap:0; margin:4px 0 0 -5px; padding:0; }
@@ -206,11 +208,11 @@ html.fm-modern .solution-history-preview, html.fm-modern .solution-history-actio
     display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:var(--fm-space-5); align-items:start; align-content:start;
   }
   html.fm-modern .maincontent:has(> .solution-table) > *{ grid-column:1 / -1; }
-  html.fm-modern .maincontent:has(> .solution-table) > .fm-sol-explain:has(~ .solution-history-panel),
-  html.fm-modern .maincontent:has(> .solution-table) > .solution-support:has(~ .comments-section){ grid-column:1; }
-  html.fm-modern .maincontent:has(> .solution-table) > .solution-history-panel,
-  html.fm-modern .maincontent:has(> .solution-table) > .comments-section{ grid-column:2; }
-  html.fm-modern .maincontent:has(> .solution-table) > .solution-history-panel{ grid-row:span 2; margin-bottom:var(--fm-space-5); }
+  html.fm-modern .maincontent:has(> .solution-table) > .fm-sol-explain:has(~ .solution-support){ grid-column:1; align-self:stretch; }
+  html.fm-modern .maincontent:has(> .solution-table) > .fm-sol-explain ~ .solution-support{ grid-column:2; order:33; align-self:stretch; display:flex; }
+  html.fm-modern .maincontent:has(> .solution-table) > .solution-history-panel{ order:34; }
+  html.fm-modern .maincontent:has(> .solution-table) > .comments-section{ order:35; }
+  html.fm-modern .solution-history-list{ grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr)); }
   html.fm-modern .solution-history-entry{ grid-template-columns:max-content minmax(0,1fr); }
   html.fm-modern .solution-history-actions{ grid-column:1 / -1; }
 }
@@ -224,3 +226,20 @@ html.fm-modern .char-banner .char-banner-patch-rerun{ display:none !important; }
 html.fm-modern .solution-stat-table .fm-sol-stats-title{ display:block; margin:0 0 12px; }
 html.fm-modern .char-banner .build-tag-add input{ width:13em; max-width:100%; box-sizing:border-box; }
 html.fm-modern :is(#char_tag_input,#comment_content,#workshop_add_mode,#link_sharing_url_text):not(:focus){ border-color:var(--fm-btnline) !important; }
+
+/* Characteristics in two columns on a phone */
+@container (min-width:270px) and (max-width:329px){
+  html.fm-modern .solution-stat-summary .solution-stat-table > tbody{ grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:14px; }
+  html.fm-modern .solution-stat-table .solution-stat-summary-line:not(.fm-stat-group):not(.fm-stat-res){ grid-template-columns:18px minmax(0,1fr) auto; column-gap:6px; }
+  html.fm-modern .solution-stat-table .solution-stat-summary-line:not(.fm-stat-res) .solution-stat-summary-name{ display:block; font-size:13px; line-height:1.15; overflow-wrap:anywhere; }
+  html.fm-modern .solution-stat-table .solution-stat-summary-line:not(.fm-stat-res) > td{ min-width:0; }
+  html.fm-modern .solution-stat-table .solution-stat-summary-line.fm-stat-res{ grid-template-columns:18px minmax(0,1.7fr) minmax(30px,1fr) 42px; column-gap:6px; }
+  html.fm-modern .solution-stat-table .fm-stat-res .solution-stat-summary-name{ font-size:13px; line-height:1.15; }
+  html.fm-modern .solution-stat-table .solution-stat-summary-value-cell{ font-size:14px; }
+}
+
+html.fm-modern .solution-item-summary > .fm-sol-card-title{ margin:0 0 14px; }
+html.fm-modern .fm-sol-actions :is(.button-generic,.submit-button,.rerun-button){ min-height:42px; padding:0 18px !important; font-size:14px !important; }
+html.fm-modern :is(.fm-sol-crit-actions,.fm-sol-turn) .button-generic.fm-btn-sm{
+  min-height:42px; padding:0 18px !important; font-size:14px !important; justify-content:flex-start; text-align:left;
+}
