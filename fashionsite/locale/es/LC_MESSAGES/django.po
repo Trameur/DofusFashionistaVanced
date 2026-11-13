@@ -6014,6 +6014,10 @@ msgid "Weights given to the solver"
 msgstr "Pesos dados al solver"
 
 #: chardata/templates/chardata/solution.html
+msgid "The build"
+msgstr "El build"
+
+#: chardata/templates/chardata/solution.html
 msgid "Edit weights and minimums"
 msgstr "Editar pesos y mínimos"
 
