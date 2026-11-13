@@ -117,6 +117,7 @@ html.fm-modern .setup-atelier.setup-new .fm-setup-card .advanced-options-field >
 }
 html.fm-modern .setup-atelier.setup-new .fm-setup-card .fm-pw > label:has(> input:focus-visible),
 html.fm-modern .setup-atelier.setup-new .fm-setup-card .advanced-options-field > label:has(> input:focus-visible){ box-shadow:var(--fm-ring); }
+html.fm-modern .setup-atelier.setup-new .fm-setup-card .advanced-options-field > label{ white-space:normal; text-align:left; padding-top:8px; padding-bottom:8px; }
 html.fm-modern .setup-atelier.setup-new .fm-setup-card .fm-pw:has(#check_balanced){ display:none; }
 
 html.fm-modern .setup-atelier.setup-new #table-checkboxes-column-0 .fm-pw > label{ border-left-width:6px; }
@@ -171,7 +172,13 @@ html.fm-modern .setup-atelier.setup-new #setup-more > summary:focus-visible{ out
 html.fm-modern .setup-atelier.setup-new #setup-more .fm-more-hint{ flex:1 1 100%; margin:0; padding-left:42px; font-size:13.5px; font-weight:400; color:var(--fm-muted); }
 html.fm-modern .setup-atelier.setup-new #setup-more[open] > summary{ margin-bottom:12px; }
 html.fm-modern .setup-atelier.setup-new #publish-choice,
-html.fm-modern .setup-atelier.setup-new #temporix-choice{ margin:0; padding:0 4px; }
+html.fm-modern .setup-atelier.setup-new #temporix-choice{
+  box-sizing:border-box; margin:0; padding:18px 22px; text-align:left; background:var(--fm-surface); border:0; border-radius:14px;
+  box-shadow:var(--fm-shadow-card); outline:1.5px dashed var(--fm-seam); outline-offset:-7px;
+}
+html.fm-modern .setup-atelier.setup-new .setup-choice-box > label{ display:flex; align-items:center; gap:10px; min-height:32px; font-weight:600; color:var(--fm-head); cursor:pointer; }
+html.fm-modern .setup-atelier.setup-new .setup-choice-box > label > input[type="checkbox"]{ flex:none; width:20px; height:20px; margin:0; }
+html.fm-modern .setup-atelier.setup-new .setup-choice-box > .small-explain{ margin:4px 0 0 30px; }
 html.fm-modern .setup-atelier.setup-new .setup-choice-box input[type="checkbox"]{ accent-color:var(--fm-goldtext); }
 
 /* ---------- 2 Presets ---------- */
@@ -463,7 +470,7 @@ html.fm-modern .setup-atelier.setup-new #setup-preview-block #setup-preview-guar
   html.fm-modern .setup-atelier.setup-new #setup-preview-title{ flex:1 1 0; min-width:0; }
 }
 html.fm-modern .setup-atelier.setup-new #setup-preview .setup-preview-summary{ align-items:center; }
-html.fm-modern .setup-atelier.setup-new #setup-preview-block .wm-name > .small-explain,
+html.fm-modern .setup-atelier.setup-new #setup-preview-block .wm-name > .small-explain{ display:none; }
 html.fm-modern .tunnel-weights .wm-name > .small-explain{
   display:block; margin-top:2px; font:400 12px/1.3 var(--fm-font); color:var(--fm-muted);
 }
@@ -473,11 +480,8 @@ html.fm-modern .setup-atelier.setup-new #setup-preview-block > #section-apmprang
 html.fm-modern .setup-atelier.setup-new #setup-preview-block > #section-offense > summary::-webkit-details-marker{ display:none; }
 
 /* ---------- Weights page ---------- */
-html.fm-modern .maincontent:has(.tunnel-weights) > .proj_info{
-  box-sizing:border-box; margin:0 0 16px; padding:12px 18px; color:var(--fm-text); background:var(--fm-surface); border:0; border-radius:14px;
-  box-shadow:var(--fm-shadow-card); outline:1.5px dashed var(--fm-seam); outline-offset:-7px;
-}
 html.fm-modern:has(.tunnel-weights){ scroll-padding-bottom:120px; }
+html.fm-modern .tunnel-atelier.wm-page.tunnel-weights{ align-items:start; }
 html.fm-modern .tunnel-weights > h1{ --fm-h1-size:var(--fm-h1-setup); text-align:left; }
 html.fm-modern .tunnel-weights .wm-section{
   background:var(--fm-surface); border:0; border-radius:14px; box-shadow:var(--fm-shadow-card); outline:1.5px dashed var(--fm-seam); outline-offset:-7px; padding:10px 14px 14px;
