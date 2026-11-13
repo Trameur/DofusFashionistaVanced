@@ -7,6 +7,7 @@
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Base Characteristics" %}{% endblock %}
 
 {% block main %}
+{% trans "Reset to Zero" as lbl_reset_to_zero %}{% trans "Fully Scroll" as lbl_fully_scroll %}{% trans "Scroll to 100" as lbl_scroll_to_100 %}{% trans "Proceed to Wizard" as lbl_proceed_to_wizard %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 <div align="center" class="tunnel-atelier tunnel-basestats">   
@@ -41,14 +42,14 @@
         <div><span id='base-stats-error-msg' class='error-message'></span></div>
 
         <div class='stat-submit'>
-          <input type="button" class="button-thin click-modifies-state button-gap-after" id="button-zero" value='{{_("Reset to Zero")|escapejs}}'/>
-          <input type="button" class="button-thin click-modifies-state" id="button-fully-scroll" value='{{_("Fully Scroll")|escapejs}}' />
+          <input type="button" class="button-thin click-modifies-state button-gap-after" id="button-zero" value="{{ lbl_reset_to_zero }}"/>
+          <input type="button" class="button-thin click-modifies-state" id="button-fully-scroll" value="{{ lbl_fully_scroll }}" />
           {% if max_scroll > 100 %}
-          <input type="button" class="button-thin click-modifies-state button-gap-before" id="button-scroll-100" value='{{_("Scroll to 100")|escapejs}}'/>
+          <input type="button" class="button-thin click-modifies-state button-gap-before" id="button-scroll-100" value="{{ lbl_scroll_to_100 }}"/>
           {% endif %}
           <br><br>
             <div id="submit-mode">
-              <input class='submit-button button-generic disabled-when-new' type="submit" value='{{_("Proceed to Wizard")|escapejs}}' />
+              <input class='submit-button button-generic disabled-when-new' type="submit" value="{{ lbl_proceed_to_wizard }}" />
             </div>
             <div id="save-mode">
                 {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}

@@ -46,7 +46,7 @@ html.fm-modern.fm-light{
   --fm-accent-text:#715810; --fm-goldtext:#715810; --fm-error-text:#a8281f;
   --fm-ok:#2f6b2a; --fm-warn:#8a4e00; --fm-bad:#a8281f; --fm-info:#1a5a85; --fm-forge:#a9431a;
   --fm-seam:rgba(113,88,16,.5); --fm-frame-gold:#8c671c; --fm-link-hover:#5c3d0a;
-  --fm-btnline:#8a6a1c; --fm-track:#f1e3b6; --fm-fill:#d2aa3a; --fm-tick:rgba(60,46,20,.32);
+  --fm-btnline:#8a6a1c; --fm-field-line:#857651; --fm-el-earth-ink:#6e5428; --fm-el-fire-ink:#a8331f; --fm-el-water-ink:#1f6a9e; --fm-el-air-ink:#2a6e35; --fm-track:#f1e3b6; --fm-fill:#d2aa3a; --fm-tick:rgba(60,46,20,.32);
   --fm-icshade:rgba(70,48,12,.3);
   --fm-shadow-card:0 1px 0 rgba(0,0,0,.04),0 10px 26px rgba(40,28,10,.09);
 }
@@ -60,7 +60,7 @@ html.fm-modern.fm-dark{
   --fm-accent-text:#e8c65a; --fm-goldtext:#e8c65a; --fm-error-text:#f4a6a6;
   --fm-ok:#8bcb79; --fm-warn:#f0b45c; --fm-bad:#ff8f86; --fm-info:#6cb8ec; --fm-forge:#e9874a;
   --fm-seam:rgba(227,191,77,.42); --fm-frame-gold:#c9a24a; --fm-link-hover:var(--fm-head);
-  --fm-btnline:#9a7f38; --fm-track:#3a2e1b; --fm-fill:#e3bf4d; --fm-tick:rgba(255,236,190,.24);
+  --fm-btnline:#9a7f38; --fm-field-line:#8f8362; --fm-el-earth-ink:#d8a868; --fm-el-fire-ink:#f08a76; --fm-el-water-ink:#7cc0f0; --fm-el-air-ink:#82cc8c; --fm-track:#3a2e1b; --fm-fill:#e3bf4d; --fm-tick:rgba(255,236,190,.24);
   --fm-icshade:rgba(0,0,0,.55);
   --fm-shadow-card:0 1px 0 rgba(0,0,0,.3),0 10px 26px rgba(0,0,0,.35);
 }
@@ -72,7 +72,7 @@ html.fm-modern:not(.fm-light):not(.fm-dark){
   --fm-accent-text:#715810; --fm-goldtext:#715810; --fm-error-text:#a8281f;
   --fm-ok:#2f6b2a; --fm-warn:#8a4e00; --fm-bad:#a8281f; --fm-info:#1a5a85; --fm-forge:#a9431a;
   --fm-seam:rgba(113,88,16,.5); --fm-frame-gold:#8c671c; --fm-link-hover:#5c3d0a;
-  --fm-btnline:#8a6a1c; --fm-track:#f1e3b6; --fm-fill:#d2aa3a; --fm-tick:rgba(60,46,20,.32);
+  --fm-btnline:#8a6a1c; --fm-field-line:#857651; --fm-el-earth-ink:#6e5428; --fm-el-fire-ink:#a8331f; --fm-el-water-ink:#1f6a9e; --fm-el-air-ink:#2a6e35; --fm-track:#f1e3b6; --fm-fill:#d2aa3a; --fm-tick:rgba(60,46,20,.32);
   --fm-icshade:rgba(70,48,12,.3);
   --fm-shadow-card:0 1px 0 rgba(0,0,0,.04),0 10px 26px rgba(40,28,10,.09);
 }
@@ -275,7 +275,7 @@ html.fm-modern .button-generic:focus-visible, html.fm-modern input:focus-visible
 html.fm-modern button:focus-visible, html.fm-modern a:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
 html.fm-modern .button-thin, html.fm-modern .button-thin-foreground, html.fm-modern .button-thin-chardata{ white-space:nowrap;
   background:var(--fm-surface) !important; color:var(--fm-accent-text) !important;
-  border:1px solid var(--fm-accent-line) !important; border-radius:999px !important; font-weight:700; cursor:pointer;
+  border:1px solid var(--fm-btnline) !important; border-radius:999px !important; font-weight:700; cursor:pointer;
   transition:background var(--fm-trans),transform var(--fm-trans);
 }
 html.fm-modern .button-thin:hover, html.fm-modern .button-thin-chardata:hover{ background:var(--fm-accent-soft) !important; transform:translateY(-1px); }
@@ -284,10 +284,12 @@ html.fm-modern input[type="text"], html.fm-modern input[type="password"], html.f
 html.fm-modern input[type="number"], html.fm-modern select, html.fm-modern textarea,
 html.fm-modern .pretty-input, html.fm-modern .white-pretty-input, html.fm-modern .filter-input,
 html.fm-modern .edit-item-long-input{
-  background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-border) !important;
+  background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-field-line) !important;
   border-radius:var(--fm-radius-xs) !important; padding:9px 11px !important; box-sizing:border-box; outline:none;
   transition:border-color var(--fm-trans), box-shadow var(--fm-trans);
 }
+html.fm-modern.fm-dark{ color-scheme:dark; }
+html.fm-modern input[type="checkbox"], html.fm-modern input[type="radio"]{ accent-color:var(--fm-goldtext); }
 html.fm-modern input:focus, html.fm-modern select:focus, html.fm-modern textarea:focus,
 html.fm-modern .pretty-input:focus, html.fm-modern .filter-input:focus{ border-color:var(--fm-accent) !important; box-shadow:var(--fm-ring) !important; }
 html.fm-modern .input-name, html.fm-modern .min-stat-name, html.fm-modern .stat-label, html.fm-modern .filter-label{ color:var(--fm-muted); font-weight:600; }
@@ -480,8 +482,9 @@ html.fm-modern #solution_ingredients a{ color:var(--fm-accent-text) !important; 
 html.fm-modern #solution_ingredients_list li{ border-top-color:var(--fm-border) !important; }
 html.fm-modern .encyclopedia-section{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; padding:14px !important; margin-bottom:16px; }
 html.fm-modern .encyclopedia-small-btn, html.fm-modern .encyclopedia-page-link{
-  background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-xs) !important; color:var(--fm-accent-text) !important;
+  background:var(--fm-surface) !important; border:1px solid var(--fm-btnline) !important; border-radius:var(--fm-radius-xs) !important; color:var(--fm-accent-text) !important;
 }
+html.fm-modern .encyclopedia-small-btn{ border-radius:999px !important; }
 html.fm-modern .encyclopedia-page-link:hover, html.fm-modern .encyclopedia-small-btn:hover{ background:var(--fm-accent-soft) !important; }
 html.fm-modern .wizard-div{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); }
 html.fm-modern .error-message{ color:#e0584f; }
@@ -608,6 +611,27 @@ html.fm-modern #spells-table .header-cell{ background-color:var(--fm-surface-3);
 html.fm-modern #best-combo{ margin-left:0; background-color:var(--fm-surface-2); color:var(--fm-text); border:1px solid var(--fm-border); }
 html.fm-modern .maincontent:has(#spells-table) p.text[align="center"]{ text-align:left; }
 html.fm-modern #best-combo .best-combo-casts li + li{ border-top-color:var(--fm-border); }
+html.fm-modern #spells-table .earth{ color:var(--fm-el-earth-ink); }
+html.fm-modern #spells-table .fire{ color:var(--fm-el-fire-ink); }
+html.fm-modern #spells-table .water{ color:var(--fm-el-water-ink); }
+html.fm-modern #spells-table .air{ color:var(--fm-el-air-ink); }
+html.fm-modern #spells-table .mixed{ color:var(--fm-forge); }
+html.fm-modern #spells-table .neutral, html.fm-modern #spells-table .neut{ color:var(--fm-text); }
+html.fm-modern #spells-table .aggregate, html.fm-modern #spells-table .small-text{ color:var(--fm-muted); }
+html.fm-modern #spells-table .crit-hit-title{ color:var(--fm-muted); }
+html.fm-modern #spells-table .hr-crit{ color:var(--fm-seam); background-color:var(--fm-seam); }
+html.fm-modern #spells-table .level-circle-default-color{ background:var(--fm-muted); }
+html.fm-modern #spells-table .level-number-default-color{ color:var(--fm-muted); }
+html.fm-modern #spells-table .level-circle-neutral{ background:var(--fm-text); }
+html.fm-modern #spells-table .level-circle-earth{ background:var(--fm-el-earth-ink); }
+html.fm-modern #spells-table .level-circle-fire{ background:var(--fm-el-fire-ink); }
+html.fm-modern #spells-table .level-circle-water{ background:var(--fm-el-water-ink); }
+html.fm-modern #spells-table .level-circle-air{ background:var(--fm-el-air-ink); }
+@media (max-width:480px){
+  html.fm-modern #best-combo .best-combo-later-rows .best-combo-name, html.fm-modern #best-combo .best-combo-conditional-rows .best-combo-name{ white-space:normal; overflow:visible; flex:0 1 auto; }
+  html.fm-modern #best-combo :is(.best-combo-later-rows,.best-combo-conditional-rows) > li{ flex-wrap:wrap; }
+  html.fm-modern #best-combo .best-combo-cast-line .best-combo-name{ white-space:normal; overflow:visible; }
+}
 html.fm-modern #spell-buttons > table, html.fm-modern #spell-buttons > table tbody{ display:block; width:100% !important; }
 html.fm-modern #spell-buttons > table tr{ display:flex; flex-wrap:wrap; gap:8px 16px; align-items:flex-start; justify-content:space-between; }
 html.fm-modern #spell-buttons > table td{ display:block; width:auto !important; }

@@ -36,6 +36,8 @@ html.fm-modern .encyclopedia-stat-select-icon-hidden{ visibility:hidden; }
   html.fm-modern .encyclopedia-filter-box > input[type="hidden"]{ display:none; }
 }
 @media (max-width:600px){
+  html.fm-modern .encyclopedia-stat-row, html.fm-modern .encyclopedia-order-row{ grid-template-columns:minmax(0,1fr) auto; }
+  html.fm-modern .encyclopedia-stat-row > div:first-child, html.fm-modern .encyclopedia-order-row > div:first-child{ grid-column:1 / -1; }
   html.fm-modern .encyclopedia-stat-row-actions .encyclopedia-small-btn{ width:100%; }
   html.fm-modern .encyclopedia-actions > *{ flex:1 1 100%; justify-content:center; text-align:center; }
 }

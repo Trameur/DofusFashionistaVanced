@@ -302,9 +302,20 @@ html.fm-modern .proj_info .proj-info-side .button-generic, html.fm-modern .proj_
 }
 html.fm-modern .proj_info .proj-info-side .button-generic:hover, html.fm-modern .proj_info .proj-info-side button:hover{ background:var(--fm-accent-soft) !important; }
 @media (max-width:759px){
-  html.fm-modern .proj_info{ padding:12px 14px; }
-  html.fm-modern .proj_info > .proj-info-side{ margin-left:0; justify-content:flex-start; flex:1 1 100%; }
-  html.fm-modern .proj_info .proj-info-side button, html.fm-modern .proj_info .proj-info-side .button-generic{ white-space:normal; }
+  html.fm-modern .proj_info{ padding:10px 14px; gap:var(--fm-space-2) 0; outline-offset:-5px; }
+  html.fm-modern .proj_info > .proj-info-main{ flex:1 1 100%; gap:2px 10px; align-items:baseline; }
+  html.fm-modern .proj_info .proj-info-main td{ display:block; font-size:14px; }
+  html.fm-modern .proj_info .proj-info-main td > b{
+    position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap;
+  }
+  html.fm-modern .proj_info .proj-info-main tr:first-child > td:first-child{ flex:1 1 100%; font-size:22px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; overflow-wrap:normal; }
+  html.fm-modern .proj_info .proj-info-main tr:first-child > td:nth-child(2){ order:0; color:var(--fm-muted); }
+  html.fm-modern .proj_info .proj-info-main tr:nth-child(2) > td:nth-child(2) > b{
+    position:static; width:auto; height:auto; margin:0; overflow:visible; clip-path:none; display:inline; font-size:inherit; letter-spacing:0; text-transform:none; font-weight:400; color:inherit;
+  }
+  html.fm-modern .proj_info > .proj-info-side{ margin-left:0; justify-content:flex-start; flex:1 1 100%; gap:var(--fm-space-2); }
+  html.fm-modern .proj_info > .proj-info-side > form{ flex:0 0 auto; }
+  html.fm-modern .proj_info .proj-info-side button, html.fm-modern .proj_info .proj-info-side .button-generic{ white-space:nowrap; padding:0 12px !important; font-size:13px !important; }
 }
 html.fm-modern .fm-sol-head{
   display:flex; flex-wrap:wrap; align-items:center; gap:18px 28px; padding:22px 0 20px; --fm-h1-size:var(--fm-h1-solution);

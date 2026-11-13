@@ -1232,7 +1232,7 @@
         }
         
         return $('\
-            <div class="circle-container" id="level-' + i + '" style="width: 14px">\
+            <div class="circle-container" data-level="' + i + '" style="width: 14px">\
                 <div class="level-circle"></div>\
                 <div class="level-number" style="margin-left:' + margin + 'px">' + text + '</div>\
             </div>');
@@ -1498,7 +1498,7 @@
     function setDot(spell) {
         var spellCell = cells[spell.name];
         if (spellCell) {
-            spellCell.header.find('#level-' + spellLevel[spell.name]).trigger('click');
+            spellCell.header.find('.circle-container[data-level="' + spellLevel[spell.name] + '"]').trigger('click');
         }
     }
     
