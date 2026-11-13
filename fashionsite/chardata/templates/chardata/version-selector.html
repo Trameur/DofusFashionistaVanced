@@ -1,5 +1,5 @@
 {% load version_url %}<div class="version-selector">
     {% for version_key, version_label in active_game_versions %}
-        <a href="{% version_switch_href version_key %}" class="version-link {% if current_game_version == version_key %}active{% endif %}">{{ version_label }}</a>
+        <a href="{% version_switch_href version_key %}" data-version="{{ version_key }}" class="version-link {% if current_game_version == version_key %}active{% endif %}">{{ version_label }}</a>
     {% endfor %}
 </div>

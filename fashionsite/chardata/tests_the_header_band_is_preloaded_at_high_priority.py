@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The header band is the largest thing a phone waits for, so the head asks for it at high priority (the phone band under 901 px, the wide band above, the wide one only on the home), no font is preloaded, and the old banner is fetched by the classic design only."""
+"""The header band is the largest thing a phone waits for, so the head asks for it at high priority (the small phone band up to 760 px, the phone band up to 900 px, the wide band above, the wide one only on the home), no font is preloaded, and the old banner is fetched by the classic design only."""
 import io
 import os
 import re
@@ -12,7 +12,9 @@ TEMPLATES = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates'
 VERSIONS = (('/', 'dofus3', 'fashionista_banner_fading.webp'), ('/beta/', 'beta', 'fashionista_banner_fading_beta.webp'),
             ('/dofus2/', 'dofus2', 'fashionista_banner.jpg'), ('/retro/', 'retro', 'fashionista_banner.jpg'),
             ('/touch/', 'touch', 'fashionista_banner_fading.webp'))
+SMALL = '(max-width:760px)'
 PHONE = '(max-width:900px)'
+MIDDLE = '(min-width:761px) and (max-width:900px)'
 WIDE = '(min-width:901px)'
 
 
@@ -23,7 +25,7 @@ def source(name):
 
 def preloaded(html):
     """The (url, media) pairs the head script of a page asks for in the modern design."""
-    return re.findall(r"p\(k\?'[^']*':'([^']+)','(\([a-z-]+:\d+px\))'\)", html)
+    return re.findall(r"p\(k\?'[^']*':'([^']+)','(\([a-z-]+:\d+px\)(?: and \([a-z-]+:\d+px\))?)'\)", html)
 
 
 class TheModernDesignPreloadsTheBandOfItsVersionTests(TestCase):
@@ -32,7 +34,8 @@ class TheModernDesignPreloadsTheBandOfItsVersionTests(TestCase):
         for path, version in (('/encyclopedia/', 'dofus3'), ('/beta/encyclopedia/', 'beta')):
             with self.subTest(path=path):
                 html = self.client.get(path).content.decode()
-                self.assertEqual([('/static/chardata/bands/band_%s_light_m.webp' % version, PHONE),
+                self.assertEqual([('/static/chardata/bands/band_%s_light_s.webp' % version, SMALL),
+                                  ('/static/chardata/bands/band_%s_light_m.webp' % version, MIDDLE),
                                   ('/static/chardata/bands/band_%s_light.webp' % version, WIDE)], preloaded(html))
                 self.assertIn("l.setAttribute('fetchpriority','high')", html)
                 self.assertIn("l.rel='preload';l.as='image'", html)
@@ -41,13 +44,15 @@ class TheModernDesignPreloadsTheBandOfItsVersionTests(TestCase):
         html = self.client.get('/').content.decode()
         self.assertEqual([('/static/chardata/bands/band_dofus3_light.webp', WIDE)], preloaded(html))
         self.assertNotIn('_m.webp', html)
+        self.assertNotIn('_s.webp', html)
 
     def test_the_dark_band_is_named_too(self):
         html = self.client.get('/encyclopedia/').content.decode()
+        self.assertIn("k?'/static/chardata/bands/band_dofus3_dark_s.webp':", html)
         self.assertIn("k?'/static/chardata/bands/band_dofus3_dark_m.webp':", html)
         self.assertIn("k?'/static/chardata/bands/band_dofus3_dark.webp':", html)
 
-    def test_the_preload_breakpoint_is_the_one_the_phone_band_rule_uses(self):
+    def test_the_preload_breakpoints_are_the_ones_the_phone_band_rules_use(self):
         with io.open(os.path.join(STATIC, 'modern.css'), encoding='utf-8') as handle:
             css = handle.read()
         block = re.search(r'@media \(max-width:(\d+)px\)\{\n((?:  html\.fm-modern\.fm-\w+ \.banner\[data-band="\w+"\] a\{ background-image:url\("bands/band_\w+_m\.webp"\); \}\n)+)\}', css)
@@ -55,9 +60,18 @@ class TheModernDesignPreloadsTheBandOfItsVersionTests(TestCase):
         self.assertEqual('900', block.group(1))
         self.assertEqual(12, block.group(2).count('_m.webp'))
         self.assertEqual('(max-width:%spx)' % block.group(1), PHONE)
-        self.assertIn(PHONE, source('base.html'))
+        self.assertIn(MIDDLE, source('base.html'))
         self.assertIn(WIDE, source('base.html'))
         self.assertEqual(int(block.group(1)) + 1, int(re.search(r'min-width:(\d+)px', WIDE).group(1)))
+        self.assertTrue(MIDDLE.endswith(PHONE))
+        with io.open(os.path.join(STATIC, 'modern-nav.css'), encoding='utf-8') as handle:
+            nav = handle.read()
+        small = re.search(r'@media \(max-width:(\d+)px\)\{\n((?:  html\.fm-modern\.fm-\w+ \.banner\[data-band="\w+"\] a\{ background-image:url\("bands/band_\w+_s\.webp"\);[^}]*\}\n)+)\}', nav)
+        self.assertIsNotNone(small)
+        self.assertEqual(12, small.group(2).count('_s.webp'))
+        self.assertEqual('(max-width:%spx)' % small.group(1), SMALL)
+        self.assertIn(SMALL, source('base.html'))
+        self.assertEqual(int(small.group(1)) + 1, int(re.search(r'min-width:(\d+)px', MIDDLE).group(1)))
 
 
 class TheClassicDesignKeepsItsOwnBannerTests(TestCase):

@@ -154,7 +154,7 @@
                 <div class="featured-build-info">
                     <div class="featured-build-name">{{ fb.name }}</div>
                     <div class="featured-build-meta">
-                        {{ fb.char_class|localized_class }} · {% trans "lvl" %} {{ fb.level }}
+                        {{ fb.char_class|localized_class }} <span class="fm-fb-dot">·</span> {% trans "lvl" %} {{ fb.level }}
                     </div>
                     {% if fb.patch.patch %}<div class="featured-build-patch"><span class="build-patch-badge{% if fb.patch.older %} build-patch-badge-old{% endif %}" title="{% if fb.patch.older %}{% blocktrans with current=fb.patch.current_patch %}Game update at the build's last change; the game is now on {{ current }}{% endblocktrans %}{% else %}{% trans "Game update at the build's last change" %}{% endif %}">{{ fb.patch.patch }}</span></div>{% endif %}
                     <div class="featured-build-stats">

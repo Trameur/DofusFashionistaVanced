@@ -106,4 +106,5 @@ class ThePhoneBarStyleTests(SimpleTestCase):
     def test_below_390_the_band_shrinks_so_the_whole_wordmark_stays_on_screen(self):
         small = block(NAV, '@media (max-width:389px)')
         self.assertIn('--fm-band-h:calc(100vw * 84 / 390)', small)
-        self.assertIn('background-position:right calc(100vw * -26 / 390) center', small)
+        self.assertNotIn('background-position', small)
+        self.assertIn('band_dofus3_dark_s.webp"); background-position:right center', NAV)

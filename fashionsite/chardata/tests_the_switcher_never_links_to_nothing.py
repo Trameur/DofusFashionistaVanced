@@ -100,7 +100,7 @@ class TheRealMonsterPageHasNoDeadHeaderLink(TestCase):
         page = self.client.get('/encyclopedia/monster/4960-captain-chafer/')
         self.assertEqual(page.status_code, 200)
         html = page.content.decode('utf-8')
-        entete = re.findall(r'<a class="version-link[^"]*" href="([^"]+)"', html)
+        entete = re.findall(r'<a class="version-link[^"]*"(?: data-version="[^"]*")? href="([^"]+)"', html)
         self.assertTrue(entete, 'no header switcher rendered: the test is blind')
         self.assertIn('/beta/encyclopedia/monster/4960-captain-chafer/', entete)
         for v in ('retro', 'dofus2', 'touch'):
