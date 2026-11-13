@@ -60,6 +60,32 @@ from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from chardata.official_site import get_set_link
 
 
+def piece_label_type(result_item):
+    """The type a card is labelled with: what is worn, not the slot it sits in."""
+    slot_type = SLOT_NAME_TO_TYPE.get(result_item.slot, '')
+    if (slot_type == 'Pet' and getattr(result_item, 'item_added', False)
+            and getattr(result_item, 'ankama_type', None) == 'mounts'):
+        return 'Mount'
+    return slot_type
+
+
+def dofus_row_title(game_version=None):
+    """The caption of the Dofus row, from the kinds of piece the version holds."""
+    structure = get_structure(game_version)
+    dofus_type = structure.get_type_id_by_name('Dofus')
+    pieces = [item for item in structure.items_dict.values()
+              if item.type == dofus_type]
+    has_trophies = any('Trophy' in item.flags for item in pieces)
+    has_dofus = any('Trophy' not in item.flags for item in pieces)
+    if has_dofus and has_trophies:
+        return _('Dofus and trophies')
+    if has_trophies:
+        return _('Trophies')
+    if has_dofus:
+        return _('Dofus')
+    return ''
+
+
 class SolutionResult:
 
     def __init__(self, model_result, inclusions={}, exclusions=[], empty_slots=[],
@@ -120,7 +146,7 @@ class SolutionResult:
         tags = set_tags(r.sets, all_items)
         for result_item in all_items:
             result_item.set_tag = tags.get(result_item.slot)
-            result_item.slot_type = SLOT_NAME_TO_TYPE.get(result_item.slot, '')
+            result_item.slot_type = piece_label_type(result_item)
             result_item.mageable = (SLOT_NAME_TO_TYPE.get(result_item.slot)
                                     in MAGEABLE_TYPES)
             item_per_slot[result_item.slot] = result_item
@@ -171,6 +197,7 @@ class SolutionResult:
                                                        used_in_set)
 
         params = {'item_sections': item_sections,
+                  'dofus_row_title': dofus_row_title(),
                   'sets': r.sets,
                   'all_items': all_items,
                   'acquisition_summary': acquisition_summary(all_items),

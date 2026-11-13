@@ -61,10 +61,10 @@
         </div>
         <div class="fm-sol-nums">
             {% if has_build_score %}
-            <div class="fm-sol-num fm-sol-num-big"><span class="fm-sol-num-k">{% trans "Build score" %}</span><span class="fm-sol-num-v fm-num">{{ build_score }}</span></div>
+            <div class="fm-sol-num fm-sol-num-big"><span class="fm-sol-num-k">{% trans "Build score" %}</span><span class="fm-sol-num-v fm-num">{{ build_score|floatformat:"0g" }}</span></div>
             {% endif %}
             {% if best_turn %}
-            <div class="fm-sol-num fm-sol-num-big"><span class="fm-sol-num-k">{% trans "Best turn" %}</span><span class="fm-sol-num-v fm-num">{% if encoded_char_id %}<a href="{% game_url 'spells_linked' char.char_name|default:'shared' encoded_char_id %}">{{ best_turn }}</a>{% else %}<a href="{% game_url 'spells' char_id %}">{{ best_turn }}</a>{% endif %}</span></div>
+            <div class="fm-sol-num fm-sol-num-big"><span class="fm-sol-num-k">{% trans "Best turn" %}</span><span class="fm-sol-num-v fm-num">{% if encoded_char_id %}<a href="{% game_url 'spells_linked' char.char_name|default:'shared' encoded_char_id %}">{{ best_turn|floatformat:"0g" }}</a>{% else %}<a href="{% game_url 'spells' char_id %}">{{ best_turn|floatformat:"0g" }}</a>{% endif %}</span></div>
             {% endif %}
             <div class="fm-sol-num"><span class="fm-sol-num-k"><img src="{% static 'chardata/AP.png' %}" alt="">{% trans "AP" %}</span><span class="fm-sol-num-v fm-num" data-fm-stat="ap"></span></div>
             <div class="fm-sol-num"><span class="fm-sol-num-k"><img src="{% static 'chardata/MP.png' %}" alt="">{% trans "MP" %}</span><span class="fm-sol-num-v fm-num" data-fm-stat="mp"></span></div>
@@ -76,7 +76,7 @@
     <h1 align="center" class="fm-sol-old-title">{% trans "Outfit Suggestion" %}</h1>
 
     {% if class_avatar %}
-    <div class="char-banner">
+    <div class="char-banner fm-card">
         {% if character_look %}
         <div class="char-banner-preview-box">
             <canvas id="character-preview" class="char-banner-preview"
@@ -203,11 +203,11 @@
     {% if not is_guest %}
 
     {% if is_generation_snapshot %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
         {% trans "This is a saved solution. Restore it to edit it, or compare it with your current build." %}
     </p>
     {% elif is_generated %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
     {% if char.char_name %}
         {% blocktrans with char.char_name as charname %}This is the set that we suggest for <b>{{charname}}</b>. {% endblocktrans %}
     {% else %}
@@ -219,12 +219,12 @@
     {% blocktrans with lock=lock_item switch=switch_item delete=delete_item %}If you don't like an item, click the forbid ( <img style='position: relative; bottom: -3px; left: -2px;' src={{delete}} title='Forbid'> ) button under its name and <a href="{{run_again_link}}" class="rerun-button">run again</a>. If, on the contrary, you want to lock in an item for future sets for this char, click the lock (<img style='position: relative; bottom: -1px; left: 0px;' src={{lock}} title='Lock'>) button. You can also switch any item for another you like best by clicking the switch (<img class='solution-item-button' style='position: relative; bottom: -5px; left: 0px;' src={{switch}} title='Switch'>) button.{% endblocktrans %}
     </p>
     {% elif is_imported %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
     {% blocktrans with add=add_item %}
     This is the gear you brought in, exactly as it was. Nothing here was chosen by the solver. Change any piece yourself with the add (<img style='position: relative; bottom: -4px; left: 1px;' src={{add}} title='Add'>) buttons, or run the optimizer when you want a suggestion.{% endblocktrans %}
     </p>
     {% else %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
     {% blocktrans with add=add_item %}
     This set starts empty. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src={{add}} title='Add'>) buttons to choose the items yourself.{% endblocktrans %}
     </p>
@@ -260,7 +260,7 @@
     <br>
     {% endif %}
     {% else %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
     {% if owner_alias %}
         {% if char.char_name %}
         {% blocktrans with charname=char.char_name owner=owner_alias %}This is {{owner}}'s set for {{charname}}. {% endblocktrans %}
@@ -293,7 +293,7 @@
     
     <!-- Vote buttons for shared builds -->
     {% if link_shared and user.is_authenticated %}
-    <div align="center" style="margin-top: 15px;">
+    <div align="center" class="fm-sol-vote" style="margin-top: 15px;">
         <button id="like_button" class="button-generic {% if user_liked %}button-voted{% endif %}" 
                 onclick="voteBuild({{ char_id }}, 'like')" style="margin-right: 10px;">
             <span class="fm-st fm-st-like" aria-hidden="true"></span> <span id="like_text">{% if user_liked %}{% trans "Unlike" %}{% else %}{% trans "Like" %}{% endif %}</span> 
@@ -333,7 +333,7 @@
     {% endif %}
 
     {% if generation_history %}
-    <div class="solution-history-panel">
+    <div class="solution-history-panel fm-card">
         <div class="solution-history-panel-header">
             <strong>{% trans "Recent solutions" %}</strong>
         </div>
@@ -393,6 +393,7 @@
     {% endif %}
 
     {% for section in item_sections %}
+    {% if forloop.counter == 2 and dofus_row_title %}<div class="fm-sol-row-title fm-modern-only">{{ dofus_row_title }}</div>{% endif %}
     <div class="solution-item-section{% if forloop.first %} fm-sol-doll{% endif %}">
         {% if forloop.first %}
         <div class="fm-sol-figure">
@@ -515,7 +516,8 @@
     <td class="solution-stat-summary fm-card">
         <table class="solution-stat-table">
             <tr><td colspan="4">
-                <div class="solution-stat-summary-mode-option-container">       
+                <h2 class="fm-sol-card-title fm-sol-stats-title fm-modern-only">{% trans "Characteristics" %}</h2>
+                <div class="solution-stat-summary-mode-option-container">
                     <label>                    
                         <input type="radio" name="total_mode" value="final" checked="checked"> <span class="checkbox-text">{% trans "Total" %}</span>
                     </label>
@@ -738,7 +740,7 @@
     {% if best_turn and best_turn_casts %}
     <section class="fm-sol-turn fm-card" aria-labelledby="fm-sol-turn-title">
         <h2 class="fm-sol-card-title" id="fm-sol-turn-title">{% trans "Best turn" %}</h2>
-        <div class="fm-sol-turn-total fm-num">{{ best_turn }}</div>
+        <div class="fm-sol-turn-total fm-num">{{ best_turn|floatformat:"0g" }}</div>
         <p class="fm-sol-turn-sub">{% blocktrans with used=best_turn_ap_used available=best_turn_ap_available %}average damage on one target, {{ used }} AP out of {{ available }}{% endblocktrans %}</p>
         <ol class="fm-sol-casts">
             {% for cast in best_turn_casts %}
@@ -757,7 +759,7 @@
         <h3 class="fm-kicker">{% trans "Minimums" %}</h3>
         <ul class="fm-sol-mins">
             {% for line in solver_constraints %}
-            <li class="fm-sol-min{% if not line.met %} fm-sol-min-missed{% endif %}"><span class="fm-sol-min-name">{{ line.name }}</span><span class="fm-sol-min-ask fm-num">&ge; {{ line.asked }}</span><b class="fm-sol-min-got fm-num">{{ line.reached }}</b></li>
+            <li class="fm-sol-min{% if not line.met %} fm-sol-min-missed{% endif %}"><span class="fm-sol-min-name">{{ line.name }}</span><span class="fm-sol-min-ask fm-num">&ge; {{ line.asked|floatformat:"0g" }}</span><b class="fm-sol-min-got fm-num">{{ line.reached|floatformat:"0g" }}</b></li>
             {% endfor %}
             {% for line in solver_closest.advanced_missed %}
             <li class="fm-sol-min fm-sol-min-missed"><span class="fm-sol-min-name">{{ line.name }}</span><span class="fm-sol-min-ask fm-num">&ge; {{ line.asked }}</span><b class="fm-sol-min-got fm-num">{{ line.reached }}</b></li>
@@ -768,7 +770,7 @@
         <h3 class="fm-kicker">{% trans "Weights given to the solver" %}</h3>
         <ul class="fm-sol-weights">
             {% for priority in solver_priorities %}
-            <li class="fm-sol-weight"><span class="fm-sol-weight-name">{{ priority.name }}</span><b class="fm-sol-weight-val fm-num">{{ priority.weight }}</b><span class="fm-tape" aria-hidden="true" style="--w:{% widthratio priority.weight solver_priorities.0.weight 100 %}%"><i></i></span></li>
+            <li class="fm-sol-weight"><span class="fm-sol-weight-name">{{ priority.name }}</span><b class="fm-sol-weight-val fm-num">{{ priority.weight|floatformat:"-1g" }}</b><span class="fm-tape" aria-hidden="true" style="--w:{% widthratio priority.weight solver_priorities.0.weight 100 %}%"><i></i></span></li>
             {% endfor %}
         </ul>
         {% endif %}
@@ -795,6 +797,17 @@
             if(box)stage.appendChild(box);else if(avatar)stage.appendChild(avatar);
             if(controls)figure.appendChild(controls);
         }
+        var statBody=q('.solution-stat-table > tbody');
+        if(statBody){
+            var statRows=Array.prototype.slice.call(statBody.children),blocks=[],head=[],cur=null;
+            statRows.forEach(function(tr){
+                if(tr.classList.contains('fm-stat-group')&&!tr.classList.contains('fm-stat-pad')){cur={title:tr,rows:[]};blocks.push(cur);}
+                if(cur)cur.rows.push(tr);else head.push(tr);
+            });
+            if(blocks.length===5){
+                [1,0,3,2,4].forEach(function(i){blocks[i].rows.forEach(function(tr){statBody.appendChild(tr);});});
+            }
+        }
         var doll=q('.fm-sol-doll');
         if(doll){
             ['hat','cloak','amulet','ring1','ring2','weapon','shield','belt','boots','pet'].forEach(function(slot){
@@ -813,7 +826,7 @@
     </script>
 
     {# from= only tracks the placement, checked against a closed list server side #}
-    <aside class="solution-support">
+    <aside class="solution-support fm-card">
         <p class="solution-support-text">
             {# ads_allowed, not ads_enabled: it loads AdSense auto ads, /s/ included #}
             {% if not ads_allowed %}<strong>{% trans "No ads, no subscription." %}</strong>{% endif %}
@@ -843,7 +856,7 @@
     </div>
 
     {% if link_shared %}
-    <div id="comments_section" class="comments-section">
+    <div id="comments_section" class="comments-section fm-card">
         <h3 class="comments-title">{% trans "Comments" %} (<span id="comments_count">{{ comments|length }}</span>)</h3>
 
         {% if user.is_authenticated %}
@@ -909,7 +922,7 @@
     </div>
     {% endif %}
 
-    <p align="center" class="text" style="margin: 0; padding: 0;">
+    <p align="center" class="text fm-sol-credit" style="margin: 0; padding: 0;">
         {% trans "Built using data from " %}
         {% if current_game_version == 'retro' %}
         <a href="https://www.ankama-games.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
@@ -1155,11 +1168,16 @@
         var STAT_SOURCES = {{stat_sources_json | safe}};
         var STAT_GEAR_KINDS = {item: 1, set: 1, exo: 1};
 
+        var FM_GROUP_DIGITS = document.documentElement.classList.contains('fm-modern');
         function formatDofusStatValue(value) {
             if (value === null || value === undefined || value === '') {
                 return '0';
             }
-            return Math.round(Number(value)).toString();
+            var rounded = Math.round(Number(value));
+            if (FM_GROUP_DIGITS && Math.abs(rounded) >= 1000) {
+                return rounded.toLocaleString(document.documentElement.lang || undefined).replace(/\u202f/g, '\u00a0');
+            }
+            return rounded.toString();
         }
 
         // The character's class self-buffs, fully active. Computed server-side

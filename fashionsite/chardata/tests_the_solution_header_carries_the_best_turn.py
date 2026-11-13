@@ -7,7 +7,11 @@ from django.test import TestCase
 
 HEAD = re.compile(r'<header[^>]*fm-sol-head[^>]*>(.*?)</header>', re.S)
 ROW = re.compile(r'<tr[^>]*solution-best-turn-row[^>]*>(.*?)</tr>', re.S)
-LINK_TEXT = re.compile(r'<a[^>]*>\s*(\d+)\s*</a>')
+LINK_TEXT = re.compile(r'<a[^>]*>\s*([\d\s.,]+?)\s*</a>')
+
+
+def digits(text):
+    return re.sub(r'\D', '', text)
 
 
 class TheHeaderMatchesThePanelTests(TestCase):
@@ -43,7 +47,7 @@ class TheHeaderMatchesThePanelTests(TestCase):
         in_head = LINK_TEXT.search(head.group(1))
         self.assertIsNotNone(in_panel)
         self.assertIsNotNone(in_head)
-        self.assertEqual(in_panel.group(1), in_head.group(1))
+        self.assertEqual(digits(in_panel.group(1)), digits(in_head.group(1)))
 
     def test_the_header_has_one_slot_for_each_figure_the_script_fills(self):
         head = HEAD.search(self._page()).group(1)
