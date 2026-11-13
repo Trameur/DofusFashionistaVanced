@@ -176,7 +176,7 @@ html.fm-modern .loading-progress{
 }
 html.fm-modern .loading-progress > span{ box-shadow:inset 0 0 0 1px var(--fm-seam); }
 html.fm-modern .maincontent{ animation:fmFade .25s ease; }
-html.fm-modern .maincontent:is(:has(.setup-new),:has(> .solution-table),:has(.wm-section),:has(> .main-div)){
+html.fm-modern .maincontent:is(:has(.setup-new),:has(> .solution-table),:has(.wm-section),:has(> .main-div),:has(> .proj_info)){
   background:transparent !important; border:0 !important; box-shadow:none !important; padding:0 !important; border-radius:0 !important;
 }
 @keyframes fmFade{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }
@@ -279,6 +279,7 @@ html.fm-modern .button-thin, html.fm-modern .button-thin-foreground, html.fm-mod
   transition:background var(--fm-trans),transform var(--fm-trans);
 }
 html.fm-modern .button-thin:hover, html.fm-modern .button-thin-chardata:hover{ background:var(--fm-accent-soft) !important; transform:translateY(-1px); }
+html.fm-modern:not(.fm-dark) .button-thin-chardata{ border-color:var(--fm-accent-text) !important; }
 html.fm-modern input[type="text"], html.fm-modern input[type="password"], html.fm-modern input[type="email"],
 html.fm-modern input[type="number"], html.fm-modern select, html.fm-modern textarea,
 html.fm-modern .pretty-input, html.fm-modern .white-pretty-input, html.fm-modern .filter-input,
@@ -602,6 +603,11 @@ html.fm-modern #spells-table .spells-td > div{ min-width:0; }
   html.fm-modern #spells-table > tbody > tr{ grid-template-columns:repeat(3,minmax(0,1fr)); }
 }
 html.fm-modern #spells-table .header-cell:has(.circle-container), html.fm-modern #spells-table .header-cell:has(.select-stack){ padding-bottom:32px; }
+html.fm-modern #spells-table .spell-cell, html.fm-modern #spells-table .outer-cell{ background-color:var(--fm-surface-2); }
+html.fm-modern #spells-table .header-cell{ background-color:var(--fm-surface-3); }
+html.fm-modern #best-combo{ margin-left:0; background-color:var(--fm-surface-2); color:var(--fm-text); border:1px solid var(--fm-border); }
+html.fm-modern .maincontent:has(#spells-table) p.text[align="center"]{ text-align:left; }
+html.fm-modern #best-combo .best-combo-casts li + li{ border-top-color:var(--fm-border); }
 html.fm-modern #spell-buttons > table, html.fm-modern #spell-buttons > table tbody{ display:block; width:100% !important; }
 html.fm-modern #spell-buttons > table tr{ display:flex; flex-wrap:wrap; gap:8px 16px; align-items:flex-start; justify-content:space-between; }
 html.fm-modern #spell-buttons > table td{ display:block; width:auto !important; }
@@ -693,6 +699,10 @@ html.fm-modern .build-link:hover, html.fm-modern .version-link.active{
 html.fm-modern .fm-btn-pri:hover, html.fm-modern .setup-primary:hover, html.fm-modern .rerun-button:hover, html.fm-modern #publish-comment:hover, html.fm-modern #button-save:hover{
   background:var(--fm-gold-hover) !important; border-color:var(--fm-gold-hover) !important;
 }
+html.fm-modern #button-save:where(:has(~ #button-save-and-tailor)){ background:transparent !important; border-color:var(--fm-btnline) !important; color:var(--fm-head) !important; }
+html.fm-modern #button-save:where(:has(~ #button-save-and-tailor)):hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-btnline) !important; }
+html.fm-modern #button-save-and-tailor{ background:var(--fm-gold) !important; border-color:var(--fm-gold) !important; color:var(--fm-on-gold) !important; }
+html.fm-modern #button-save-and-tailor:hover{ background:var(--fm-gold-hover) !important; border-color:var(--fm-gold-hover) !important; }
 html.fm-modern .fm-btn-pri{
   border:1.5px solid var(--fm-gold); border-radius:999px; padding:0 18px; font-weight:600; font-size:14px; line-height:1.2; min-height:42px;
   display:inline-flex; align-items:center; justify-content:center; gap:8px; white-space:nowrap; text-decoration:none; cursor:pointer;
@@ -701,7 +711,7 @@ html.fm-modern .fm-btn-pri{
 html.fm-modern .fm-btn-lg{ min-height:54px; font-size:17px !important; padding:0 30px !important; }
 html.fm-modern .fm-btn-sm{ min-height:34px; font-size:13px !important; padding:0 12px !important; }
 html.fm-modern .filter-button[style*="inline-block"]{ display:inline-flex !important; }
-html.fm-modern:not(.fm-dark) #button-save-and-tailor img{ filter:brightness(0); opacity:.7; }
+html.fm-modern #button-save-and-tailor img{ filter:brightness(0); opacity:.7; }
 html.fm-modern .rerun-button:active, html.fm-modern .button-generic:active, html.fm-modern .submit-button:active{ transform:none; }
 @media (pointer:coarse){
   html.fm-modern :where(.button-generic,.button-generic-foreground,.submit-button,.rerun-button,input[type="submit"],button.button-generic,.filter-button,.fm-btn-pri,.fm-pill){ min-height:44px; }

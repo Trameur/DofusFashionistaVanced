@@ -20,6 +20,7 @@ FROZEN = {
     'popUpDiv': 'a variable name in blanket.js; these pages use #blanket-language and #blanket-theme',
     'proj_info': 'main-header.html renders it only with a build in context, never on these pages',
     'proj-info-side': 'main-header.html renders it only with a build in context, never on these pages',
+    'proj-info-main': 'main-header.html renders it only with a build in context, never on these pages',
     'loading-progress-label': 'loading.html is included only when char_id is not 0',
     'tailoring': 'loading.html is included only when char_id is not 0',
 }
