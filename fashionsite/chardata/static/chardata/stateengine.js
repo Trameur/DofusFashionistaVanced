@@ -13,7 +13,7 @@ function defaultSendDataFunctionStateEngine() {
 
 function tailorStateEngine() {
     loadingAndRunUnchecked();
-    window.location = $("a.rerun-button").attr("href");
+    window.location = $("a.rerun-button:not(#solution-link)").attr("href") || $("a.rerun-button").attr("href");
 }
 
 function saveStateEngine(postUrl, sendDataFunction, onDataReceivedFunction) {
