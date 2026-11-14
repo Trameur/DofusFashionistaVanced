@@ -64,7 +64,7 @@ function wmInit(postUrl, options) {
 
     function refreshSlider($row) {
         var $slider = $row.find('.wm-slider');
-        if (!$slider.length || !$slider.data('wm-built')) {
+        if (!$slider.length || !$slider.data('wm-built') || $slider.data('wm-held')) {
             return;
         }
         var key = $row.attr('data-key');
@@ -231,6 +231,8 @@ function wmInit(postUrl, options) {
         };
         $slider.slider({min: range[0], max: range[1],
                         value: $box.val() === '' ? range[0] : Number($box.val()),
+                        start: function() { $slider.data('wm-held', true); },
+                        stop: function() { $slider.data('wm-held', false); },
                         slide: onMove, change: onMove});
         $slider.find('.ui-slider-handle').attr('tabindex', '-1');
         $slider.data('wm-built', true);
