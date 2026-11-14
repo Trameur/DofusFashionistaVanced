@@ -46,6 +46,7 @@
 .encyclopedia-set-caps span {
     color: #ad3025;
 }
+.dark-theme-active .encyclopedia-set-caps span,
 html.fm-dark .encyclopedia-set-caps span {
     color: #f0837a;
 }
@@ -80,40 +81,29 @@ html.fm-dark .encyclopedia-set-caps span {
 }
 
 /* Improve readability when the active site theme is dark. */
-.dark-theme-active .encyclopedia-item-card,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item-card {
+.dark-theme-active .encyclopedia-item-card {
     border-color: #5a5a5a;
     background: #1f1f1f;
 }
 .dark-theme-active .encyclopedia-item,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item,
 .dark-theme-active .encyclopedia-item-card,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item-card,
 .dark-theme-active .encyclopedia-item-card div,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item-card div,
 .dark-theme-active .encyclopedia-item-card span,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item-card span,
-.dark-theme-active .encyclopedia-item-card li,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item-card li {
+.dark-theme-active .encyclopedia-item-card li {
     color: #f3efe6;
 }
 .dark-theme-active .encyclopedia-item-name,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item-name,
-.dark-theme-active .encyclopedia-section b,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-section b {
+.dark-theme-active .encyclopedia-section b {
     color: #fff1d6;
 }
-.dark-theme-active .encyclopedia-item-meta,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item-meta {
+.dark-theme-active .encyclopedia-item-meta {
     opacity: 1;
     color: #f0f0f0;
 }
-.dark-theme-active .encyclopedia-item a,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item a {
+.dark-theme-active .encyclopedia-item a {
     color: #ffd8a8;
 }
-.dark-theme-active .encyclopedia-item a:hover,
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-item a:hover {
+.dark-theme-active .encyclopedia-item a:hover {
     color: #ffe4bf;
 }
 

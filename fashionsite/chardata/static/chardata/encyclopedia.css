@@ -293,7 +293,7 @@ html.fm-dark .encyclopedia-card-stat-negative {
     height: 24px;
     object-fit: contain;
 }
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-resource-hit {
+.dark-theme-active .encyclopedia-resource-hit {
     border-color: #5a5a5a;
     background: #1f1f1f;
     color: #ffd8a8;
@@ -314,7 +314,7 @@ html.fm-dark .encyclopedia-card-stat-negative {
 .encyclopedia-family-nav a:hover {
     text-decoration: underline;
 }
-:where(html:not(.fm-modern)).fm-dark .encyclopedia-family-nav a {
+.dark-theme-active .encyclopedia-family-nav a {
     border-color: #5a5a5a;
     background: #1f1f1f;
     color: #ffd8a8;
