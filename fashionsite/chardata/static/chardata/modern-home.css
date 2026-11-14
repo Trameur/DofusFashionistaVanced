@@ -138,15 +138,17 @@ html.fm-modern .fm-lower .featured-build-avatar{ width:72px; height:72px; object
 html.fm-modern .fm-lower .featured-build-info{ display:flex; flex-direction:column; min-width:0; }
 html.fm-modern .fm-lower .featured-build-name,
 html.fm-modern .fm-lower .featured-build-stats,
-html.fm-modern .fm-lower .featured-build-author{ display:none; }
-html.fm-modern .fm-lower .featured-build-meta{ order:1; font-size:16px; font-weight:700; color:var(--fm-head); }
+html.fm-modern .fm-lower .featured-build-author,
+html.fm-modern .fm-lower .featured-build-meta{ display:none; }
+html.fm-modern .fm-lower .fm-fb-meta{ order:1; font-size:16px; font-weight:700; color:var(--fm-head); }
 html.fm-modern .fm-lower .fm-fb-counts{
-  order:2; display:flex; gap:10px; margin-top:4px; color:var(--fm-muted); font-size:13px; font-weight:600; line-height:1.35;
+  order:2; display:flex; flex-wrap:wrap; gap:0 10px; margin-top:4px; color:var(--fm-muted); font-size:13px; font-weight:600; line-height:1.35;
   font-variant-numeric:tabular-nums;
 }
 html.fm-modern .fm-fb-counts b{ font-weight:600; color:inherit; }
-html.fm-modern .fm-fb-counts i{ font-style:normal; text-transform:lowercase; }
-html.fm-modern .fm-lower .fm-fb-dot{ display:none; }
+html.fm-modern .fm-fb-counts span{ white-space:nowrap; }
+html.fm-modern .fm-fb-counts i{ font-style:normal; }
+html.fm-modern:not(:lang(de)) .fm-fb-counts i{ text-transform:lowercase; }
 html.fm-modern .fm-lower .featured-build-patch{ display:none; }
 html.fm-modern .fm-lower p.home-browse{ margin:14px 0 0; text-align:left; font-weight:600; }
 
@@ -195,4 +197,9 @@ html.fm-modern .fm-home-about p.fm-about-note{ margin:14px 0 0; max-width:none; 
 @media (forced-colors:active){
   html.fm-modern .fm-model:has(input:checked) .fm-ttag,
   html.fm-modern .fm-el-pill:has(input:checked){ outline:2px solid Highlight; }
+}
+
+@media (max-width:760px){
+  html.fm-modern .fm-pill:is(a,label,button){ min-height:44px; }
+  html.fm-modern :is(.home-browse,.fm-about-note) a{ display:inline-flex; align-items:center; min-height:44px; }
 }
