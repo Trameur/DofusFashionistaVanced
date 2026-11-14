@@ -1606,6 +1606,30 @@ html.fm-modern #theform button[type=submit], html.fm-modern #theform #captcha-bu
 html.fm-modern #theform button[type=submit]:hover, html.fm-modern #theform #captcha-button:hover{ background:var(--fm-gold-hover); border-color:var(--fm-gold-hover); }
 html.fm-modern #theform button[type=submit]:focus-visible, html.fm-modern #theform #captcha-button:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
 
+/* ---------- Weight sliders and autocomplete menus ---------- */
+html.fm-modern .wm-page .wm-slider.ui-slider{
+  position:relative; height:12px; margin:0 10px; border:0; border-radius:3px; background:var(--fm-track); box-shadow:inset 0 0 0 1px var(--fm-border);
+}
+html.fm-modern .wm-page .wm-slider.ui-slider::after{
+  content:""; position:absolute; inset:0; border-radius:3px; pointer-events:none;
+  background:repeating-linear-gradient(90deg,var(--fm-tick) 0 1px,transparent 1px 8px) top/100% 40% no-repeat,repeating-linear-gradient(90deg,var(--fm-tick) 0 1.5px,transparent 1.5px 40px);
+}
+html.fm-modern .wm-page .wm-slider.ui-slider .ui-slider-handle{
+  position:absolute; display:block; z-index:2; touch-action:none; top:50%; width:20px; height:20px; margin:-10px 0 0 -10px; box-sizing:border-box; border:2px solid var(--fm-gold); border-radius:50%; background:var(--fm-gold); box-shadow:0 0 0 3px var(--fm-surface), 0 0 0 5px var(--fm-gold); cursor:pointer;
+}
+html.fm-modern .wm-page .wm-slider.ui-slider .ui-slider-handle::before{ content:""; position:absolute; inset:-12px; }
+html.fm-modern .wm-page .wm-slider.ui-slider .ui-slider-handle:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--fm-surface), 0 0 0 6px var(--fm-goldtext); }
+html.fm-modern .ui-autocomplete.ui-menu{
+  padding:4px; border:1px solid var(--fm-border); border-radius:var(--fm-radius-xs); background:var(--fm-surface); color:var(--fm-text); box-shadow:var(--fm-shadow);
+}
+html.fm-modern .ui-autocomplete.ui-menu .ui-menu-item-wrapper{
+  display:flex; align-items:center; box-sizing:border-box; min-height:32px; margin:0; padding:4px 10px; border:0; border-radius:6px; background:none; color:var(--fm-text); font-weight:500;
+}
+html.fm-modern .ui-autocomplete.ui-menu .ui-menu-item-wrapper.ui-state-active{ background:var(--fm-surface-3); color:var(--fm-head); }
+@media (max-width:760px){
+  html.fm-modern .ui-autocomplete.ui-menu .ui-menu-item-wrapper{ min-height:44px; }
+}
+
 /* ---------- Community pages: shared builds, load builds, feed, profile ---------- */
 html.fm-modern .builds-grid{ grid-template-columns:minmax(0,1fr); gap:var(--fm-space-4); }
 @media (min-width:700px) and (max-width:900px){ html.fm-modern .builds-grid{ grid-template-columns:repeat(2,minmax(0,1fr)) !important; } }
@@ -2588,6 +2612,8 @@ html.fm-modern .tunnel-wizard .wizard-div{ padding:var(--fm-space-4); }
   html.fm-modern .tunnel-wizard .wizard-div{ padding:var(--fm-space-2); }
 }
 html.fm-modern .tunnel-wizard .wm-name{ word-break:normal; overflow-wrap:break-word; }
+html.fm-modern .tunnel-wizard .wm-head,
+html.fm-modern .tunnel-wizard .wm-row{ grid-template-columns:18px minmax(0,1fr) minmax(60px,110px) 84px 96px; }
 @media (max-width:480px){
   html.fm-modern .tunnel-wizard .wm-member .wm-name{ padding-left:4px; }
 }
