@@ -142,6 +142,7 @@ var statOverrides = {{ stat_overrides_json | safe }};
 var charId = {{ char_id }};
 
 function lockItem(itemId, slot, char_id) {
+    $("#item-id-" + slot).val(itemId);
     inclusionsUpdateLine(itemId, slot, allItemsPerType, slotToType);
     $("#item-id-" + slot).change();
     $("#blanket").click();
@@ -219,8 +220,8 @@ function inclusionsInitStateEngine(inclusionsData) {
             $("#item-id-" + slot).val("");
             $("#" + slot + "-name").text("");
             $("#item-level-" + slot).text("");
-            setupStatOverrideForSlot(slot, null);
         }
+        setupStatOverrideForSlot(slot, equip || null);
         var line = $("#lock-note-" + slot);
         if (!line.length) {
             line = $("<div class='red-text lock-note'></div>").attr('id', 'lock-note-' + slot);
@@ -289,6 +290,9 @@ function setupStatOverrideForSlot(slot, itemId) {
         section.hide();
         return;
     }
+    if (String(section.data('item')) !== String(itemId)) {
+        section.hide();
+    }
     toggle.show();
     $("#stat-override-link-" + slot).off('click').on('click', function(e) {
         e.preventDefault();
@@ -297,7 +301,7 @@ function setupStatOverrideForSlot(slot, itemId) {
         } else {
             $.post("{% game_url 'get_item_details' %}", {item: itemId}, function(data) {
                 renderStatOverrideSection(slot, itemId, data.stats || []);
-                section.show();
+                section.data('item', itemId).show();
             });
         }
     });
