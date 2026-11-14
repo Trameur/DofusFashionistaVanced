@@ -256,6 +256,9 @@ html.fm-modern :is(.fm-sol-crit-actions,.fm-sol-turn) .button-generic.fm-btn-sm{
   html.fm-modern .solution-history-notice .button-generic,
   html.fm-modern .fm-sol-actions :is(.button-generic,.submit-button,.rerun-button){ min-height:44px; }
 }
+@media (max-width:600px){
+  html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-expand-header .solution-item-icons{ grid-auto-flow:row; grid-template-columns:repeat(2,minmax(0,44px)); row-gap:23px; }
+}
 @media (max-width:760px){
   html.fm-modern .solution-stat-table .solution-stat-summary-name{ position:relative; }
   html.fm-modern .solution-stat-summary-name.spell-tip::after{ content:""; position:absolute; inset:0 -4px -20px; }
