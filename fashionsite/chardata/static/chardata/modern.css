@@ -1175,6 +1175,7 @@ html.fm-modern .solution-history-entry-current{ border-color:var(--fm-accent-lin
 html.fm-modern .solver-why-title, html.fm-modern .solution-history-panel-header{ color:var(--fm-head); }
 html.fm-modern .solver-why-goal{ border-color:var(--fm-border-strong); }
 html.fm-modern .maincontent p.text{ max-width:var(--fm-measure); }
+html.fm-modern .maincontent p.fm-busy{ text-align:left; }
 
 @media (min-width:1280px){
   html.fm-modern .solution-history-notice, html.fm-modern .solution-history-panel{ max-width:880px; margin-left:0; margin-right:0; }
