@@ -557,7 +557,7 @@ html.fm-modern .build-char-name, html.fm-modern .stat-label{ color:var(--fm-mute
 html.fm-modern .no-builds{ color:var(--fm-muted) !important; background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; padding:24px !important; }
 html.fm-modern .build-preview-items{ background:rgba(0,0,0,.10) !important; border-color:var(--fm-border) !important; }
 html.fm-modern .build-preview-item, html.fm-modern .build-compact-stat{ border-color:var(--fm-border) !important; }
-html.fm-modern .build-link, html.fm-modern .vote-btn{ background:var(--fm-surface) !important; color:var(--fm-accent-text) !important; border:1px solid var(--fm-accent-line) !important; }
+html.fm-modern .build-link, html.fm-modern .vote-btn{ background:var(--fm-surface) !important; color:var(--fm-accent-text) !important; border:1px solid var(--fm-btnline) !important; }
 html.fm-modern .build-link:hover{ background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important; }
 html.fm-modern .filter-input option{ background:var(--fm-surface); color:var(--fm-text); }
 html.fm-modern .pagination a, html.fm-modern .pagination .disabled, html.fm-modern .pagination .current{ border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-xs) !important; }
@@ -737,8 +737,10 @@ html.fm-modern .fm-btn-sm{ min-height:34px; font-size:13px !important; padding:0
 html.fm-modern .filter-button[style*="inline-block"]{ display:inline-flex !important; }
 html.fm-modern #button-save-and-tailor img{ filter:brightness(0); opacity:.7; }
 html.fm-modern .rerun-button:active, html.fm-modern .button-generic:active, html.fm-modern .submit-button:active{ transform:none; }
-@media (pointer:coarse){
+@media (max-width:760px),(pointer:coarse){
   html.fm-modern :where(.button-generic,.button-generic-foreground,.submit-button,.rerun-button,input[type="submit"],button.button-generic,.filter-button,.fm-btn-pri,.fm-pill){ min-height:44px; }
+  html.fm-modern :is(input:not([type="checkbox"],[type="radio"],[type="range"],[type="hidden"],[type="button"],[type="submit"],[type="file"]),select,textarea){ min-height:44px; box-sizing:border-box; }
+  html.fm-modern .menu_link.menu_link_middle{ min-height:44px; box-sizing:border-box; }
 }
 @media screen{
   html.fm-modern .fm-btn-pri:focus-visible, html.fm-modern .fm-pill:focus-visible, html.fm-modern #button-save:focus-visible, html.fm-modern #publish-comment:focus-visible,
@@ -854,6 +856,7 @@ html.fm-dark .spell-tip.st-open .spell-tip-mark{ color:#a7ddea; }
 .transcendence-tip .spell-tip-mark{ opacity:.7; }
 .transcendence-tip .spell-tip-text + .spell-tip-text{ margin-top:5px; opacity:.75; }
 html.fm-modern #changelog-overlay, html.fm-modern #changelog-modal{ display:none; }
+html:not(.fm-modern) .fm-google-text{ display:none !important; }
 @media (hover:hover){ html.fm-modern .compare-cart:focus-within .compare-cart-panel{ display:block; } }
 @media (min-width:601px) and (max-width:900px){
   html.fm-modern .compare-cart-panel{ left:0; right:auto; }

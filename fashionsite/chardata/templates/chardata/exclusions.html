@@ -30,7 +30,7 @@
     </div>  
 
     <br>
-  <div align="center">
+  <div align="center" class="fm-savebar">
     {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
     <br><br>
     </div>
@@ -60,6 +60,12 @@
 
 {% include "chardata/jqueryui.html" %}
 
+<script>
+if (document.documentElement.classList.contains("fm-modern")) {
+    var fmBar = document.querySelector(".tunnel-exclusions .fm-savebar");
+    if (fmBar) { fmBar.parentNode.parentNode.appendChild(fmBar); }
+}
+</script>
 <script src="{% static "chardata/stateengine.js" %}"></script>
 <script>
     $.ajaxSetup({

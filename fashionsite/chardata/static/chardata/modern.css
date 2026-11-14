@@ -640,7 +640,7 @@ html.fm-modern .build-char-name, html.fm-modern .stat-label{ color:var(--fm-mute
 html.fm-modern .no-builds{ color:var(--fm-muted) !important; background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; padding:24px !important; }
 html.fm-modern .build-preview-items{ background:rgba(0,0,0,.10) !important; border-color:var(--fm-border) !important; }
 html.fm-modern .build-preview-item, html.fm-modern .build-compact-stat{ border-color:var(--fm-border) !important; }
-html.fm-modern .build-link, html.fm-modern .vote-btn{ background:var(--fm-surface) !important; color:var(--fm-accent-text) !important; border:1px solid var(--fm-accent-line) !important; }
+html.fm-modern .build-link, html.fm-modern .vote-btn{ background:var(--fm-surface) !important; color:var(--fm-accent-text) !important; border:1px solid var(--fm-btnline) !important; }
 html.fm-modern .build-link:hover{ background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important; }
 html.fm-modern .filter-input option{ background:var(--fm-surface); color:var(--fm-text); }
 html.fm-modern .pagination a, html.fm-modern .pagination .disabled, html.fm-modern .pagination .current{ border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-xs) !important; }
@@ -858,8 +858,10 @@ html.fm-modern .fm-btn-sm{ min-height:34px; font-size:13px !important; padding:0
 html.fm-modern .filter-button[style*="inline-block"]{ display:inline-flex !important; }
 html.fm-modern #button-save-and-tailor img{ filter:brightness(0); opacity:.7; }
 html.fm-modern .rerun-button:active, html.fm-modern .button-generic:active, html.fm-modern .submit-button:active{ transform:none; }
-@media (pointer:coarse){
+@media (max-width:760px),(pointer:coarse){
   html.fm-modern :where(.button-generic,.button-generic-foreground,.submit-button,.rerun-button,input[type="submit"],button.button-generic,.filter-button,.fm-btn-pri,.fm-pill){ min-height:44px; }
+  html.fm-modern :is(input:not([type="checkbox"],[type="radio"],[type="range"],[type="hidden"],[type="button"],[type="submit"],[type="file"]),select,textarea){ min-height:44px; box-sizing:border-box; }
+  html.fm-modern .menu_link.menu_link_middle{ min-height:44px; box-sizing:border-box; }
 }
 @media screen{
   html.fm-modern .fm-btn-pri:focus-visible, html.fm-modern .fm-pill:focus-visible, html.fm-modern #button-save:focus-visible, html.fm-modern #publish-comment:focus-visible,
@@ -1493,6 +1495,64 @@ html.fm-modern table.fm-register-row img{ max-width:100%; height:auto; max-heigh
   html.fm-modern .fm-login-grid > :not(.fm-account-card):not(table){ grid-column:1 / -1; }
 }
 
+/* Account pages in the shell look */
+html.fm-modern .fm-login-card, html.fm-modern table.fm-register-row.fm-card{
+  width:100%; max-width:30rem; margin:0; text-align:left; display:flex; flex-direction:column; gap:var(--fm-space-3);
+}
+html.fm-modern table.fm-register-row.fm-card, html.fm-modern table.fm-register-row.fm-card > tbody{ display:block; }
+html.fm-modern table.fm-register-row.fm-card > tbody > tr{ display:block; }
+html.fm-modern table.fm-register-row.fm-card > tbody > tr > td{ display:block; text-align:left !important; }
+html.fm-modern table.fm-register-row.fm-card > tbody > tr > td:has(> img){ display:none; }
+html.fm-modern .fm-login-card > br, html.fm-modern .fm-register-row br, html.fm-modern .fm-account-form > br,
+html.fm-modern .fm-account-form form > br, html.fm-modern .fm-account-form p > br, html.fm-modern .fm-login-card .google-login-form + br,
+html.fm-modern .fm-login-card div[align] > br{ display:none; }
+html.fm-modern .fm-acct table, html.fm-modern .fm-acct table > tbody{ display:block; width:100% !important; }
+html.fm-modern .fm-acct table tr{ display:flex; flex-direction:column; gap:var(--fm-space-1); margin:0 0 var(--fm-space-4); }
+html.fm-modern .fm-acct table td{ display:block; width:auto !important; padding:0; text-align:left !important; }
+html.fm-modern .fm-acct table td.input-stat-name,
+html.fm-modern .fm-acct table label.big-text{ font-weight:600; }
+html.fm-modern .fm-acct input.pretty-input, html.fm-modern .fm-acct select.pretty-input, html.fm-modern .fm-acct input[type="password"], html.fm-modern .fm-acct input[type="text"]{ width:100%; max-width:100%; }
+html.fm-modern .fm-register-row .big-text{ display:block; }
+html.fm-modern .fm-register-row .big-text > b{ font-size:18px; }
+html.fm-modern .fm-register-row div[style*="width: 400px"]{ max-width:none; margin:0; }
+html.fm-modern .fm-register-row div[align], html.fm-modern .fm-register-row td{ text-align:left; }
+html.fm-modern .fm-register-row form{ margin:var(--fm-space-4) 0 0; }
+html.fm-modern .fm-login-card > span:has(> .fm-forgot){ align-self:flex-start; }
+html.fm-modern .fm-forgot{ display:inline-flex; align-items:center; min-height:44px; font-size:13px !important; vertical-align:baseline !important; }
+html.fm-modern .fm-login-card > span.big-text:has(> i){ text-align:center; }
+html.fm-modern .fm-login-card div[align]{ text-align:left; }
+html.fm-modern .fm-login-card div[align] > .big-text{ display:block; margin-top:var(--fm-space-3); font-size:13px; }
+html.fm-modern .fm-login-card #login-enter, html.fm-modern .fm-register-row #login-register, html.fm-modern .fm-account-form input.fm-btn-pri{ width:100%; }
+html.fm-modern .google-login-form{ display:block; }
+html.fm-modern .google-login-button{
+  display:flex; align-items:center; justify-content:center; width:100%; min-height:44px; box-sizing:border-box; padding:0 18px; line-height:1.2;
+  background:transparent; border:1.5px solid var(--fm-btnline); border-radius:999px; color:var(--fm-head); font:inherit; font-size:14px; font-weight:600;
+  transition:background var(--fm-trans);
+}
+html.fm-modern .google-login-button:hover{ background:var(--fm-accent-soft); }
+html.fm-modern .google-login-button:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
+html.fm-modern .google-login-button img{ display:none; }
+html.fm-modern .fm-account-form form{ display:flex; flex-direction:column; gap:var(--fm-space-3); }
+html.fm-modern .fm-account-form form p{ margin:0; }
+html.fm-modern .fm-account-form form label{ font-weight:600; }
+html.fm-modern .fm-account-form form > div:has(> input[type="text"]){ margin:0; }
+html.fm-modern .fm-account-form form[align] label{ text-align:left; }
+html.fm-modern table.fm-page-art > tbody > tr > td.fm-card{ max-width:30rem; }
+html.fm-modern #c_form.fm-account-form{ width:100%; min-width:0; max-width:34rem; }
+html.fm-modern #c_form form[align="center"] > button, html.fm-modern #c_form form[align="center"] > label, html.fm-modern #c_form form[align="center"] > input{ align-self:stretch; }
+html.fm-modern #c_form form[name="theform"]{ display:block; }
+html.fm-modern #c_form form[name="theform"] > div[align="center"]{ display:flex; flex-wrap:wrap; gap:var(--fm-space-2); }
+html.fm-modern #c_form form[name="theform"] > div[align="center"] .button-generic{ margin:0 !important; flex:1 1 calc(50% - 8px); }
+html.fm-modern #c_form form[name="theform"] > div[align="center"] #button-save{ flex:1 1 100%; order:-1; }
+html.fm-modern #c_form button#login-register{ width:100%; }
+html.fm-modern #c_form button.button-generic[type="submit"]{ width:100%; }
+html.fm-modern #c_form > div[align="center"]{ display:flex; flex-direction:column; gap:var(--fm-space-2); }
+html.fm-modern #c_form > div[align="center"] br{ display:none; }
+html.fm-modern .fm-account-form label:has(> input[type="checkbox"]){ display:flex; align-items:center; gap:var(--fm-space-2); min-height:44px; }
+@media (max-width:760px){
+  html.fm-modern .fm-login-card .fm-btn-pri, html.fm-modern .fm-register-row .fm-btn-pri, html.fm-modern .fm-account-form .fm-btn-pri{ min-height:44px; }
+}
+
 /* Guides */
 html.fm-modern .fm-guides-wrap{ max-width:none; margin:0; padding:var(--fm-space-2) 0 var(--fm-space-5); }
 html.fm-modern .fm-guides-h1, html.fm-modern .fm-guides-intro, html.fm-modern .fm-guides-cta{ text-align:left; }
@@ -1531,6 +1591,7 @@ html.fm-modern .dev-table th, html.fm-modern .dev-table td{ border-bottom-color:
 /* shell: begin */
 /* The changelog dialog is closed until a script opens it, even without the themed sheet */
 html.fm-modern #changelog-overlay, html.fm-modern #changelog-modal{ display:none; }
+html:not(.fm-modern) .fm-google-text{ display:none !important; }
 /* shell: end */
 
 /* Admin and item tools: the frame scrolls, the page does not */
@@ -1637,6 +1698,21 @@ html.fm-modern .profile-stat{
   padding:10px 14px; background:var(--fm-surface-2); border:1px solid var(--fm-border); border-radius:var(--fm-radius-sm);
 }
 html.fm-modern .profile-builds-title{ margin:6px 0 0; color:var(--fm-head); }
+
+@media (max-width:760px){
+  html.fm-modern .fm-check-hit{ display:inline-flex; align-items:center; justify-content:center; min-width:44px; min-height:44px; margin:-12px 0; }
+  html.fm-modern .load-project-table th.load-project-header a,
+  html.fm-modern .load-project-cell a{ display:inline-flex; align-items:center; min-height:44px; }
+  html.fm-modern .build-boxes-section label,
+  html.fm-modern label.filter-label:has(> input){ display:flex; align-items:center; min-height:44px; box-sizing:border-box; }
+  html.fm-modern a.build-tag-pill{ display:inline-flex !important; align-items:center; min-height:44px; box-sizing:border-box; }
+  html.fm-modern .build-card a.build-link{ min-height:44px; box-sizing:border-box; }
+  html.fm-modern .build-card .build-value > a,
+  html.fm-modern a.sharedbuilds-page-link{ display:inline-flex; align-items:center; min-height:44px; }
+}
+@media (max-width:760px){
+  html.fm-modern label.best-combo-pushback:not([hidden]){ display:flex; align-items:center; min-height:44px; }
+}
 
 /* ---------- Comparison pages: compare sets, chooser, basket, DofusBook export ---------- */
 html.fm-modern .compare-page .solution-stat-summary-value-cell > .spell-tip:focus-visible{
@@ -1860,7 +1936,8 @@ html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list 
 html.fm-modern .encyclopedia-atelier .encyclopedia-drops-more > summary{ padding-left:0; opacity:1; color:var(--fm-muted); min-height:44px; display:flex; align-items:center; }
 html.fm-modern .encyclopedia-atelier .encyclopedia-drops-more > summary:focus-visible, html.fm-modern .encyclopedia-hits-more > summary:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:2px; }
 html.fm-modern .encyclopedia-atelier .encyclopedia-list .spell-tip:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:2px; border-radius:3px; }
-html.fm-modern .encyclopedia-build-around a{ min-height:44px; display:inline-flex; align-items:center; }
+html.fm-modern .encyclopedia-build-around a{ min-height:44px; height:auto; box-sizing:border-box; padding:6px 14px; text-align:center; display:inline-flex; align-items:center; }
+html.fm-modern .encyclopedia-build-around{ margin-bottom:var(--fm-space-3); }
 html.fm-modern .encyclopedia-workshop-add{ margin-top:var(--fm-space-3); }
 html.fm-modern .encyclopedia-workshop-add-qty{ min-height:44px; }
 html.fm-modern .encyclopedia-workshop-add .button-thin, html.fm-modern #enc-workshop-add-set-btn{ min-height:44px; }
@@ -2027,6 +2104,13 @@ html.fm-modern .encyclopedia-atelier .encyclopedia-missing-meta, html.fm-modern 
 html.fm-modern .encyclopedia-atelier .encyclopedia-missing-elsewhere, html.fm-modern .encyclopedia-atelier .encyclopedia-missing-actions{ gap:var(--fm-space-3); }
 html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card .button-generic{ min-height:44px; box-sizing:border-box; display:inline-flex; align-items:center; }
 
+@media (max-width:760px){
+  html.fm-modern .encyclopedia-card-meta a,
+  html.fm-modern .encyclopedia-crumbs a,
+  html.fm-modern .encyclopedia-item-meta a:not(.button-thin),
+  html.fm-modern .craft-item > span > a{ display:inline-flex; align-items:center; min-height:44px; }
+}
+
 /* ---------- Tools: workshop and inventory ---------- */
 html.fm-modern .tools-atelier .ws-head-img, html.fm-modern .tools-atelier .inv-card img.inv-card-img{
   box-sizing:border-box; padding:2px; border:2px solid var(--fm-frame-gold); border-radius:var(--fm-radius-xs);
@@ -2041,11 +2125,11 @@ html.fm-modern .tools-atelier .ws-mini-btn, html.fm-modern .tools-atelier .ws-st
 html.fm-modern .tools-atelier .ws-subrecipe-toggle, html.fm-modern .tools-atelier .ws-undo-inline{ min-height:44px; box-sizing:border-box; }
 html.fm-modern .tools-atelier .ws-mini-btn, html.fm-modern .tools-atelier .ws-step, html.fm-modern .tools-atelier .ws-source-toggle,
 html.fm-modern .tools-atelier .ws-subrecipe-toggle{
-  background:var(--fm-surface); color:var(--fm-text); border:1px solid var(--fm-border-strong); border-radius:var(--fm-radius-xs);
+  background:var(--fm-surface); color:var(--fm-text); border:1px solid var(--fm-btnline); border-radius:var(--fm-radius-xs);
   transition:background var(--fm-trans), border-color var(--fm-trans);
 }
 html.fm-modern .tools-atelier .ws-mini-btn:hover, html.fm-modern .tools-atelier .ws-step:hover, html.fm-modern .tools-atelier .ws-source-toggle:hover,
-html.fm-modern .tools-atelier .ws-subrecipe-toggle:hover{ background:var(--fm-accent-soft); border-color:var(--fm-accent-line); }
+html.fm-modern .tools-atelier .ws-subrecipe-toggle:hover{ background:var(--fm-accent-soft); border-color:var(--fm-btnline); }
 html.fm-modern .tools-atelier .ws-step{ min-width:44px; }
 html.fm-modern .tools-atelier .ws-mini-btn.ws-craft-btn{ border-color:var(--ws-done-line); color:var(--ws-done); }
 
@@ -2067,7 +2151,7 @@ html.fm-modern .tools-atelier .ws-search-results.brown-box{ padding:0 !important
 html.fm-modern .tools-atelier .ws-search-result{ min-height:44px; }
 html.fm-modern .tools-atelier .ws-search-result:hover, html.fm-modern .tools-atelier .ws-search-result:focus-visible{ background:var(--fm-accent-soft); }
 html.fm-modern .tools-atelier .ws-chip{
-  min-height:44px; color:var(--fm-text); background:var(--fm-surface); border-color:var(--fm-border-strong); padding:4px 14px;
+  min-height:44px; color:var(--fm-text); background:var(--fm-surface); border-color:var(--fm-btnline); padding:4px 14px;
 }
 html.fm-modern .tools-atelier .ws-chip:hover{ background:var(--fm-accent-soft); }
 html.fm-modern .tools-atelier .ws-chip[aria-pressed="true"]{ background:var(--fm-accent-soft); border-color:var(--fm-accent-text); color:var(--fm-head); }
@@ -2440,7 +2524,7 @@ html.fm-modern .tunnel-atelier select, html.fm-modern .tunnel-atelier .pretty-in
 html.fm-modern .tunnel-atelier input[type="text"], html.fm-modern .tunnel-atelier input[type="number"],
 html.fm-modern .tunnel-exclusions #input-item-to-forbid{ min-height:44px; box-sizing:border-box; }
 html.fm-modern .tunnel-exclusions #input-item-to-forbid{
-  font-size:16px; background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-border) !important;
+  font-size:16px; background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-field-line) !important;
   border-radius:var(--fm-radius-xs) !important; padding:9px 11px !important; outline:none;
 }
 html.fm-modern .tunnel-exclusions #input-item-to-forbid:focus{ border-color:var(--fm-accent) !important; box-shadow:var(--fm-ring) !important; }
@@ -2546,24 +2630,28 @@ html.fm-modern .tunnel-options .big-text{ text-align:left; }
 html.fm-modern .tunnel-options .temporix-box label.temporix{ font-family:var(--fm-font-display); font-size:1.25rem; color:var(--fm-head); }
 html.fm-modern .tunnel-options > .big-text > br{ display:none; }
 html.fm-modern .tunnel-options > div[align="center"]:not(.big-text){ display:flex; flex-wrap:wrap; justify-content:flex-start; gap:var(--fm-space-3); margin-top:var(--fm-space-4); }
-html.fm-modern .tunnel-options .fm-savebar{
+html.fm-modern .tunnel-atelier .fm-savebar{
   position:sticky; bottom:0; z-index:20; display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:10px 14px; box-sizing:border-box; min-height:76px;
   margin:var(--fm-space-4) calc(0px - var(--fm-gutter)) 0; padding:12px var(--fm-gutter); background:var(--fm-nav); border-top:1px solid var(--fm-seam);
 }
-html.fm-modern .tunnel-options .fm-savebar input.button-generic, html.fm-modern .tunnel-options .fm-savebar button.button-generic{
+html.fm-modern .tunnel-atelier .fm-savebar input.button-generic, html.fm-modern .tunnel-atelier .fm-savebar button.button-generic{
   width:auto; min-height:42px; margin:0 !important; padding:0 18px !important; font:600 14px/1.2 var(--fm-font); letter-spacing:0; white-space:nowrap;
-  color:var(--fm-navink) !important; background:transparent !important; border:1.5px solid #9a7f38 !important; border-radius:999px; box-shadow:none !important; transform:none;
+  color:var(--fm-navink) !important; background:transparent !important; border:1.5px solid var(--fm-navbtnline) !important; border-radius:999px; box-shadow:none !important; transform:none;
 }
-html.fm-modern .tunnel-options .fm-savebar .button-generic:hover{ background:rgba(255,255,255,.08) !important; }
-html.fm-modern .tunnel-options .fm-savebar button#button-save-and-tailor{
+html.fm-modern .tunnel-atelier .fm-savebar .button-generic:hover{ background:rgba(255,255,255,.08) !important; }
+html.fm-modern .tunnel-atelier .fm-savebar button#button-save-and-tailor{
   min-height:52px; padding:0 28px !important; font-size:17px; color:var(--fm-on-gold) !important; background:var(--fm-gold) !important; border-color:var(--fm-gold) !important;
 }
-html.fm-modern .tunnel-options .fm-savebar button#button-save-and-tailor:hover{ background:var(--fm-gold-hover) !important; }
-html.fm-modern .tunnel-options .fm-savebar .button-generic:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--fm-nav), 0 0 0 4px var(--fm-gold) !important; }
+html.fm-modern .tunnel-atelier .fm-savebar button#button-save-and-tailor:hover{ background:var(--fm-gold-hover) !important; }
+html.fm-modern .tunnel-atelier .fm-savebar .button-generic:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--fm-nav), 0 0 0 4px var(--fm-gold) !important; }
 @media (max-width:640px){
-  html.fm-modern .tunnel-options .fm-savebar{ padding-top:10px; padding-bottom:10px; }
-  html.fm-modern .tunnel-options .fm-savebar .button-generic{ flex:1 1 calc(50% - 8px); min-width:0; min-height:44px; white-space:normal; }
-  html.fm-modern .tunnel-options .fm-savebar button#button-save-and-tailor{ flex:1 1 100%; min-height:48px; }
+  html.fm-modern .tunnel-atelier .fm-savebar{ padding-top:10px; padding-bottom:10px; }
+  html.fm-modern .tunnel-atelier .fm-savebar .button-generic{ flex:1 1 calc(50% - 8px); min-width:0; min-height:44px; white-space:normal; }
+  html.fm-modern .tunnel-atelier .fm-savebar button#button-save-and-tailor{ flex:1 1 100%; min-height:48px; }
+}
+@media (max-width:760px){
+  html.fm-modern .tunnel-atelier .fm-savebar input.button-generic,
+  html.fm-modern .tunnel-atelier .fm-savebar button.button-generic{ min-height:44px; }
 }
 
 /* Lock items */

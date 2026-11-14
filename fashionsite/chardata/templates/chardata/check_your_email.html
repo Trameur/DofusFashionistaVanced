@@ -14,7 +14,7 @@
     <h1 align="center"> {% trans "Confirm your email" %} </h1>
     <table align="center" class="fm-page-art fm-page-art-end">
     <tr>
-        <td>
+        <td class="fm-card">
             <p class="big-text">
                 {% url 'login_page' as login_link %}
                 {% blocktrans %}We have sent you a confirmation email. Please click the link in the email and then <a href='{{login_link}}'>login</a>.{% endblocktrans %}

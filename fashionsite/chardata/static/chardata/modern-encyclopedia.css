@@ -117,7 +117,8 @@ html.fm-modern .encyclopedia-atelier .encyclopedia-item-card .encyclopedia-list 
 html.fm-modern .encyclopedia-atelier .encyclopedia-drops-more > summary{ padding-left:0; opacity:1; color:var(--fm-muted); min-height:44px; display:flex; align-items:center; }
 html.fm-modern .encyclopedia-atelier .encyclopedia-drops-more > summary:focus-visible, html.fm-modern .encyclopedia-hits-more > summary:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:2px; }
 html.fm-modern .encyclopedia-atelier .encyclopedia-list .spell-tip:focus-visible{ outline:2px solid var(--fm-accent-text); outline-offset:2px; border-radius:3px; }
-html.fm-modern .encyclopedia-build-around a{ min-height:44px; display:inline-flex; align-items:center; }
+html.fm-modern .encyclopedia-build-around a{ min-height:44px; height:auto; box-sizing:border-box; padding:6px 14px; text-align:center; display:inline-flex; align-items:center; }
+html.fm-modern .encyclopedia-build-around{ margin-bottom:var(--fm-space-3); }
 html.fm-modern .encyclopedia-workshop-add{ margin-top:var(--fm-space-3); }
 html.fm-modern .encyclopedia-workshop-add-qty{ min-height:44px; }
 html.fm-modern .encyclopedia-workshop-add .button-thin, html.fm-modern #enc-workshop-add-set-btn{ min-height:44px; }
@@ -269,3 +270,9 @@ html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card p{ color:var(--f
 html.fm-modern .encyclopedia-atelier .encyclopedia-missing-meta, html.fm-modern .encyclopedia-atelier .encyclopedia-missing-elsewhere-label{ color:var(--fm-muted); opacity:1; }
 html.fm-modern .encyclopedia-atelier .encyclopedia-missing-elsewhere, html.fm-modern .encyclopedia-atelier .encyclopedia-missing-actions{ gap:var(--fm-space-3); }
 html.fm-modern .encyclopedia-atelier .encyclopedia-missing-card .button-generic{ min-height:44px; box-sizing:border-box; display:inline-flex; align-items:center; }
+@media (max-width:760px){
+  html.fm-modern .encyclopedia-card-meta a,
+  html.fm-modern .encyclopedia-crumbs a,
+  html.fm-modern .encyclopedia-item-meta a:not(.button-thin),
+  html.fm-modern .craft-item > span > a{ display:inline-flex; align-items:center; min-height:44px; }
+}

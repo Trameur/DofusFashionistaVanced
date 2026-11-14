@@ -11,18 +11,18 @@
     {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 
     <h1 align="center"> {% trans "Password Recovery" %} </h1>
-    <table>
+    <table class="fm-page-art">
     <tr>
     <td><img alt="" src="{% static "chardata/designs/myKuyy.png" %}"></img>
     </td>
-    <td align="center">
-        <form action="{% url 'recover_password_page'%}" method="post">
+    <td align="center" class="fm-card">
+        <form class="fm-account-form fm-acct" action="{% url 'recover_password_page'%}" method="post">
         {% csrf_token %}
             <div><span class="big-text" style="vertical-align: top;">{% trans "Please enter your registered email" %}: </span></div>
             <br>
             <div><input class="pretty-input" type="text" name="email" id="recover-pw-email" size="30"></div>
             <br>
-            <input type='submit' class='button-generic' id="login-register" value='{{_("Send Email")|escapejs}}' />
+            <input type='submit' class='button-generic fm-btn-pri' id="login-register" value='{{_("Send Email")|escapejs}}' />
         </form>
     </td>
     </tr>

@@ -109,6 +109,14 @@
    {% endif %}
 
 <script>
+if (document.documentElement.classList.contains("fm-modern")) {
+    $(".project-checkbox").each(function() {
+        var hit = document.createElement("label");
+        hit.className = "fm-check-hit";
+        this.parentNode.insertBefore(hit, this);
+        hit.appendChild(this);
+    });
+}
 $.ajaxSetup({
          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
        });
