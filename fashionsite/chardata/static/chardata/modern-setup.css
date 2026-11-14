@@ -246,7 +246,7 @@ html.fm-modern .setup-atelier.setup-new .fm-bar-what{
 html.fm-modern .setup-atelier.setup-new .fm-bar-what b{ color:var(--fm-navink); font-weight:700; }
 html.fm-modern .setup-atelier.setup-new #submit-mode input.setup-secondary{
   width:auto; min-height:42px; padding:0 18px !important; margin:0; font:600 14px/1.2 var(--fm-font); letter-spacing:0; white-space:nowrap;
-  color:var(--fm-navink) !important; background:transparent !important; border:1.5px solid #9a7f38 !important; border-radius:999px; box-shadow:none !important; transform:none;
+  color:var(--fm-navink) !important; background:transparent !important; border:1.5px solid var(--fm-navbtnline) !important; border-radius:999px; box-shadow:none !important; transform:none;
 }
 html.fm-modern .setup-atelier.setup-new #submit-mode input.setup-secondary:hover{ background:rgba(255,255,255,.08) !important; transform:none; }
 html.fm-modern .setup-atelier.setup-new #submit-mode input.setup-primary{
@@ -273,7 +273,7 @@ html.fm-modern .setup-atelier.setup-new .fm-classes{
 }
 html.fm-modern .setup-atelier.setup-new .fm-cls{
   display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0; min-height:44px; padding:10px 4px; box-sizing:border-box;
-  font:600 13px/1.2 var(--fm-font); color:var(--fm-text); background:var(--fm-surface); border:1.5px solid var(--fm-border); border-radius:12px; cursor:pointer;
+  font:600 13px/1.2 var(--fm-font); color:var(--fm-text); background:var(--fm-surface); border:1.5px solid var(--fm-field-line); border-radius:12px; cursor:pointer;
   transition:border-color var(--fm-trans), background var(--fm-trans);
 }
 html.fm-modern .setup-atelier.setup-new .fm-cls:hover{ border-color:var(--fm-btnline); }
@@ -283,7 +283,7 @@ html.fm-modern .setup-atelier.setup-new .fm-cls-fig{
 }
 html.fm-modern .setup-atelier.setup-new .fm-cls-fig img{ width:78px; height:78px; max-width:none; object-fit:contain; }
 html.fm-modern .setup-atelier.setup-new .fm-cls-fig.fm-has-img .fm-cls-ini{ display:none; }
-html.fm-modern .setup-atelier.setup-new .fm-cls-name{ max-width:100%; overflow-wrap:anywhere; text-align:center; }
+html.fm-modern .setup-atelier.setup-new .fm-cls-name{ max-width:100%; overflow-wrap:anywhere; hyphens:auto; text-align:center; }
 html.fm-modern .setup-atelier.setup-new .fm-cls[aria-pressed="true"]{
   border-color:var(--fm-gold); background:var(--fm-surface-2); box-shadow:0 0 0 1px var(--fm-gold);
 }
@@ -298,6 +298,7 @@ html.fm-modern .setup-atelier.setup-new .register-line:has(#select-char-class) t
 html.fm-modern .setup-atelier.setup-new .setup-class-guide{ margin-top:12px; }
 @media (max-width:360px){
   html.fm-modern .setup-atelier.setup-new .fm-classes{ grid-template-columns:repeat(auto-fill,minmax(80px,1fr)); }
+  html.fm-modern .setup-atelier.setup-new .fm-cls{ font-size:12px; }
 }
 
 /* ---------- 4 Safeguard tape ---------- */
@@ -504,9 +505,14 @@ html.fm-modern .tunnel-weights .wm-slider.ui-slider{
 html.fm-modern .tunnel-weights .wm-slider.ui-slider .ui-slider-range{ background:var(--fm-fill); border-radius:3px; }
 html.fm-modern .tunnel-weights .wm-slider.ui-slider{ position:relative; }
 html.fm-modern .tunnel-weights .wm-slider.ui-slider .ui-slider-handle{
-  position:absolute; display:block; z-index:2; touch-action:none; top:50%; width:18px; height:18px; margin:-9px 0 0 -9px; box-sizing:border-box; border:2.5px solid var(--fm-head); border-radius:50%; background:var(--fm-surface); box-shadow:none; cursor:pointer;
+  position:absolute; display:block; z-index:2; touch-action:none; top:50%; width:20px; height:20px; margin:-10px 0 0 -10px; box-sizing:border-box; border:2px solid var(--fm-gold); border-radius:50%; background:var(--fm-gold); box-shadow:0 0 0 3px var(--fm-surface), 0 0 0 5px var(--fm-gold); cursor:pointer;
 }
-html.fm-modern .tunnel-weights .wm-slider.ui-slider .ui-slider-handle:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
+html.fm-modern .tunnel-weights .wm-slider.ui-slider::after{
+  content:""; position:absolute; inset:0; border-radius:3px; pointer-events:none;
+  background:repeating-linear-gradient(90deg,var(--fm-tick) 0 1px,transparent 1px 8px) top/100% 40% no-repeat,repeating-linear-gradient(90deg,var(--fm-tick) 0 1.5px,transparent 1.5px 40px);
+}
+html.fm-modern .tunnel-weights .wm-slider.ui-slider .ui-slider-handle::before{ content:""; position:absolute; inset:-12px; }
+html.fm-modern .tunnel-weights .wm-slider.ui-slider .ui-slider-handle:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--fm-surface), 0 0 0 6px var(--fm-goldtext); }
 html.fm-modern .tunnel-weights .wm-tools .button-thin-foreground{
   min-height:34px; padding:0 12px; font:600 13px/1.2 var(--fm-font); color:var(--fm-head); background:transparent; border:1.5px solid var(--fm-btnline); border-radius:999px; box-shadow:none;
 }
@@ -518,7 +524,7 @@ html.fm-modern .tunnel-weights .wm-actions{
 html.fm-modern .tunnel-weights .wm-actions input.button-generic,
 html.fm-modern .tunnel-weights .wm-actions button.button-generic{
   width:auto; min-height:42px; margin:0 !important; padding:0 18px !important; font:600 14px/1.2 var(--fm-font); letter-spacing:0; white-space:nowrap;
-  color:var(--fm-navink) !important; background:transparent !important; border:1.5px solid #9a7f38 !important; border-radius:999px; box-shadow:none !important; transform:none;
+  color:var(--fm-navink) !important; background:transparent !important; border:1.5px solid var(--fm-navbtnline) !important; border-radius:999px; box-shadow:none !important; transform:none;
 }
 html.fm-modern .tunnel-weights .wm-actions .button-generic:hover{ background:rgba(255,255,255,.08) !important; }
 html.fm-modern .tunnel-weights .wm-actions button#button-save-and-tailor{
@@ -532,10 +538,26 @@ html.fm-modern .tunnel-weights .wm-actions .button-generic:focus-visible{ outlin
   html.fm-modern .tunnel-weights .wm-actions button#button-save-and-tailor{ flex:1 1 100%; min-height:48px; }
 }
 html.fm-modern .tunnel-weights .wm-actions input#button-save{
-  color:var(--fm-navink) !important; background:transparent !important; border:1.5px solid #9a7f38 !important; box-shadow:none !important; min-height:42px; padding:0 18px !important; font:600 14px/1.2 var(--fm-font);
+  color:var(--fm-navink) !important; background:transparent !important; border:1.5px solid var(--fm-navbtnline) !important; box-shadow:none !important; min-height:42px; padding:0 18px !important; font:600 14px/1.2 var(--fm-font);
 }
 html.fm-modern .tunnel-weights .wm-actions input#button-save:hover{ background:rgba(255,255,255,.08) !important; }
 html.fm-modern .tunnel-weights .wm-head,
 html.fm-modern .tunnel-weights .wm-row{ grid-template-columns:18px minmax(0,1fr) minmax(60px,110px) 84px 96px; }
 html.fm-modern .tunnel-weights .wm-name-wide{ grid-column:1 / 5; }
 html.fm-modern .tunnel-weights .wm-name-wide + .wm-min{ grid-column:5; }
+
+@media (max-width:760px){
+  html.fm-modern .setup-atelier.setup-new :is(#fm-none,#fm-mode-general,.setup-chip),
+  html.fm-modern .setup-atelier.setup-new .fm-setup-card :is(.fm-pw,.advanced-options-field) > label{ min-height:44px; }
+  html.fm-modern .setup-atelier.setup-new #publish-choice label{ display:flex; align-items:center; gap:8px; min-height:44px; }
+  html.fm-modern .setup-atelier.setup-new #submit-mode input.setup-secondary,
+  html.fm-modern .setup-atelier.setup-new #submit-mode input.setup-primary{ min-height:44px; }
+  html.fm-modern .setup-atelier.setup-new #fm-how > summary{ display:flex; align-items:center; min-height:44px; }
+  html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range{ height:44px; min-height:44px; margin-top:-7px; margin-bottom:-7px; }
+  html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-webkit-slider-runnable-track{ height:44px; }
+  html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-moz-range-track{ height:44px; }
+  html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-webkit-slider-thumb{ margin-top:7px; }
+  html.fm-modern .tunnel-weights .wm-actions input.button-generic,
+  html.fm-modern .tunnel-weights .wm-actions button.button-generic{ min-height:44px; }
+  html.fm-modern .tunnel-weights .wm-slider.ui-slider .ui-slider-handle::before{ inset:-12px; }
+}

@@ -1084,7 +1084,15 @@ $(document).ready(function() {
                 parts.push($.trim($(this).parent().text()));
             }
         });
-        liveWhat.textContent = parts.filter(Boolean).join(', ');
+        var seen = {};
+        liveWhat.textContent = parts.filter(function(part) {
+            var key = part.toLowerCase();
+            if (!part || seen[key]) {
+                return false;
+            }
+            seen[key] = true;
+            return true;
+        }).join(', ');
     }
 
     var guardSelect = byId('guard-percent');
@@ -1128,6 +1136,7 @@ $(document).ready(function() {
         describe();
         syncClasses();
         describeLive();
+        window.setTimeout(describeLive, 0);
         syncGuard();
     }
 
