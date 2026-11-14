@@ -10,12 +10,14 @@
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
     {% include "chardata/jqueryui.html" %}
+    <script src="{% static "chardata/weights_minimums.js" %}"></script>
 
 {% trans "This will reset the tuning sliders back to the default for your build." as confirm_reset %}
 <form id="main_form" class="wm-page tunnel-atelier tunnel-weights" method="post" data-focus="{{ focus }}" data-save-before-tailor="1" data-confirm-reset="{{ confirm_reset }}">
     {% csrf_token %}
     <h1 align="center">{% trans "Weights and Minimums" %}</h1>
     {% include "chardata/weights_minimums_block.html" %}
+    <script>wmOpenSections(false);</script>
 
     <div class="wm-actions">
         {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
@@ -23,7 +25,6 @@
 </form>
 
 <script src="{% static "chardata/stateengine.js" %}"></script>
-<script src="{% static "chardata/weights_minimums.js" %}"></script>
 <script>
 $(document).ready(function() { wmInit("{% game_url 'weights_mins_post' char_id %}"); });
 </script>

@@ -12,6 +12,7 @@
     {% include "chardata/theme_css.html" with single=css_files.solution light=css_files.solutionlighttheme dark=css_files.solutiondarktheme cls="solution-css css-file" %}
     {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 
+<script src="{% static "chardata/weights_minimums.js" %}"></script>
 {% trans "This will reset the tuning sliders back to the default for your build." as confirm_reset %}
 <form id="wizard-form" class="tunnel-atelier tunnel-wizard" action="{% game_url 'wizard_post' char_id %}" method="post" data-confirm-reset="{{ confirm_reset }}">
     {% csrf_token %}
@@ -40,6 +41,7 @@
         <div class="wizard-div min-stat-name wm-page" align="center">
             <b>{% trans "Weights and Minimums" %}</b><br><br>
             {% include "chardata/weights_minimums_block.html" %}
+            <script>wmOpenSections(false);</script>
         </div>
     </td>
     </tr>
@@ -70,7 +72,6 @@
 {% include "chardata/jqueryui.html" %}
 <script src="{% static "chardata/inclusions.js" %}"></script>
 <script src="{% static "chardata/options.js" %}"></script>
-<script src="{% static "chardata/weights_minimums.js" %}"></script>
 <script src="{% static "chardata/solution_popup.js" %}"></script>
 <script>
 

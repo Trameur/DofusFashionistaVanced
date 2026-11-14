@@ -48,7 +48,8 @@ function $(arg) {
 $.grep = function() { return []; };
 var document = {
     activeElement: null,
-    getElementById: function() { return {textContent: '{}'}; }
+    getElementById: function() { return {textContent: '{}'}; },
+    querySelectorAll: function() { return []; }
 };
 var window = {location: {hash: ''}};
 setTimeout = function(fn) { pending.push(fn); };
