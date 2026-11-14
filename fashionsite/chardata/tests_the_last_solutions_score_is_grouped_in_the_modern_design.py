@@ -35,12 +35,12 @@ class TheLastSolutionsScoreTests(SimpleTestCase):
 
     def test_the_modern_delta_is_grouped_with_its_sign(self):
         html = self._render(1, 12345)
-        modern = re.search(r'<span class="fm-modern-only">(.*?)</span>', html).group(1)
-        classic = re.search(r'<span class="fm-classic-only">(.*?)</span>', html).group(1)
+        modern = re.search(r'<span class="[^"]*\bfm-modern-only">(.*?) <span>', html).group(1)
+        classic = re.search(r'<span class="[^"]*\bfm-classic-only">\s*(.*?) <span>', html).group(1)
         self.assertEqual('+12345', classic)
         self.assertRegex(modern, r'^\+12\s345$')
 
     def test_a_negative_delta_keeps_its_minus_sign(self):
         html = self._render(1, -4321)
-        modern = re.search(r'<span class="fm-modern-only">(.*?)</span>', html).group(1)
+        modern = re.search(r'<span class="[^"]*\bfm-modern-only">(.*?) <span>', html).group(1)
         self.assertRegex(modern, r'^-4\s321$')

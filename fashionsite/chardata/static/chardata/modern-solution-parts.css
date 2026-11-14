@@ -238,8 +238,34 @@ html.fm-modern :is(#char_tag_input,#comment_content,#workshop_add_mode,#link_sha
   html.fm-modern .solution-stat-table .solution-stat-summary-value-cell{ font-size:14px; }
 }
 
+html.fm-modern .solution-stat-table .solution-stat-summary-line .solution-stat-summary-name{ display:block; hyphens:auto; overflow-wrap:break-word; }
+
 html.fm-modern .solution-item-summary > .fm-sol-card-title{ margin:0 0 14px; }
 html.fm-modern .fm-sol-actions :is(.button-generic,.submit-button,.rerun-button){ min-height:42px; padding:0 18px !important; font-size:14px !important; }
 html.fm-modern :is(.fm-sol-crit-actions,.fm-sol-turn) .button-generic.fm-btn-sm{
   min-height:42px; padding:0 18px !important; font-size:14px !important; justify-content:flex-start; text-align:left;
+}
+
+@media (max-width:760px){
+  html.fm-modern .solution-item-expand-header .solution-item-button{ padding:15.5px !important; margin:-11.5px 0; }
+  html.fm-modern .solution-item-expand-header .solution-item-icons{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,44px); }
+  html.fm-modern .fm-sol-doll .solution-item-expand-header .solution-item-icons{ margin-left:-11.5px !important; }
+  html.fm-modern .solution-item-expand-header .solution-item-icons > .solution-item-button{ box-sizing:border-box !important; width:100% !important; height:44px !important; padding:15.5px calc(50% - 6.5px) !important; }
+  html.fm-modern .solution-item-expand-header .item-external-link{ padding:14.5px; margin:-14.5px; }
+  html.fm-modern .solution-history-actions .button-generic,
+  html.fm-modern .solution-history-notice .button-generic,
+  html.fm-modern .fm-sol-actions :is(.button-generic,.submit-button,.rerun-button){ min-height:44px; }
+}
+@media (max-width:760px){
+  html.fm-modern .solution-stat-table .solution-stat-summary-name{ position:relative; }
+  html.fm-modern .solution-stat-summary-name.spell-tip::after{ content:""; position:absolute; inset:0 -4px -20px; }
+  html.fm-modern .solution-set-encyclo-link{ display:inline-flex; align-items:center; min-height:44px; }
+  html.fm-modern #workshop_add_mode{ min-height:44px !important; }
+}
+@media (max-width:760px){
+  html.fm-modern .fm-sol-num-v > a,
+  html.fm-modern .solver-why-line > a{ display:inline-flex; align-items:center; min-height:44px; }
+  html.fm-modern .solution-support .solution-support-button:link,
+  html.fm-modern .solution-support .solution-support-button:visited{ min-height:44px; display:inline-flex; align-items:center; }
+  html.fm-modern :is(.fm-sol-crit-actions,.fm-sol-turn) .button-generic.fm-btn-sm{ min-height:44px; }
 }

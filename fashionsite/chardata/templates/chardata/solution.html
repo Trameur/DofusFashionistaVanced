@@ -347,9 +347,9 @@
                         <span>{% trans "Build score" %}</span>
                         <strong class="fm-classic-only">{{ generation.score }}</strong><strong class="fm-modern-only">{{ generation.score|floatformat:"0g" }}</strong>
                         {% if generation.has_score_delta %}
-                        <span class="solution-history-entry-score-delta solution-history-entry-score-delta-{{ generation.score_delta_class }}">
-                            <span class="fm-classic-only">{{ generation.score_delta_text }}</span><span class="fm-modern-only">{% if generation.score_delta > 0 %}+{% endif %}{{ generation.score_delta|floatformat:"0g" }}</span> <span>{% trans "vs current" %}</span>
-                        </span>
+                        <span class="solution-history-entry-score-delta solution-history-entry-score-delta-{{ generation.score_delta_class }} fm-classic-only">
+                            {{ generation.score_delta_text }} <span>{% trans "vs current" %}</span>
+                        </span><span class="solution-history-entry-score-delta solution-history-entry-score-delta-{{ generation.score_delta_class }} fm-modern-only">{% if generation.score_delta > 0 %}+{% endif %}{{ generation.score_delta|floatformat:"0g" }} <span>{% trans "vs current" %}</span></span>
                         {% endif %}
                     </div>
                     {% endif %}
