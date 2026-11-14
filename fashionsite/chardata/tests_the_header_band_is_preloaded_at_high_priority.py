@@ -107,13 +107,13 @@ class TheClassicDesignKeepsItsOwnBannerTests(TestCase):
                 self.assertRegex(header, r'<a [^>]*>\s*<img[^>]*data-fm-src.*?<noscript><img.*?</a>')
                 self.assertIn('<noscript><style>.banner img[data-fm-src]{display:none}</style></noscript>', html)
 
-    def test_classic_and_a_switch_to_classic_give_the_banner_its_picture(self):
+    def test_classic_and_a_reload_after_the_switch_give_the_banner_its_picture(self):
         base = source('base.html')
         after_banner = base[base.index('<div class="char-overlay"') - 400:base.index('<div class="char-overlay"')]
         self.assertIn("contains('fm-modern'))return;", after_banner)
         self.assertIn("i.src=i.getAttribute('data-fm-src')", after_banner)
         toggle = re.search(r'function fmToggleDesign\(\)\{.*?\}\n', base, re.S).group(0)
-        self.assertIn("if(!on){var i=document.querySelector('.banner img[data-fm-src]');if(i&&!i.getAttribute('src'))i.src=i.getAttribute('data-fm-src');}", toggle)
+        self.assertIn("location.reload()", toggle)
 
 
 class NoFontIsPreloadedTests(TestCase):

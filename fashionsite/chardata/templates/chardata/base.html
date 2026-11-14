@@ -213,7 +213,7 @@
     </script>
     
 <script>
-    function fmToggleDesign(){var on=document.documentElement.classList.toggle('fm-modern');if(!on){var i=document.querySelector('.banner img[data-fm-src]');if(i&&!i.getAttribute('src'))i.src=i.getAttribute('data-fm-src');}try{localStorage.setItem('fm_design',on?'modern':'classic');}catch(e){}var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';}
+    function fmToggleDesign(){var on=!document.documentElement.classList.contains('fm-modern');try{localStorage.setItem('fm_design',on?'modern':'classic');}catch(e){if(!document.documentElement.classList.toggle('fm-modern')){var i=document.querySelector('.banner img[data-fm-src]');if(i&&!i.getAttribute('src'))i.src=i.getAttribute('data-fm-src');}return;}location.reload();}
     document.addEventListener('DOMContentLoaded',function(){var on=document.documentElement.classList.contains('fm-modern');var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';});
     </script>
 <noscript><style>.banner img[data-fm-src]{display:none}</style></noscript>
@@ -460,7 +460,7 @@
             move(q('.login',hc),end);
             move(q('.fm-design-toggle',hc),end);
             move(q('.version-selector',hc),vers);
-            var vsel=q('.version-selector',vers);if(vsel){['dofus3','beta','touch','retro','dofus2','wakfu'].forEach(function(k){var a=q('.version-link[data-version="'+k+'"]',vsel);if(a)vsel.appendChild(a);});}
+            var vsel=q('.version-selector',vers);if(vsel){['dofus3','beta','touch','retro','dofus2','wakfu'].forEach(function(k){var a=q('.version-link[data-version="'+k+'"]',vsel);if(a)vsel.appendChild(a);});var fade=function(){var m=vsel.scrollWidth-vsel.clientWidth-1;vsel.classList.toggle('fm-vs-less',vsel.scrollLeft>1);vsel.classList.toggle('fm-vs-more',vsel.scrollLeft<m);};var on=q('.version-link.active',vsel);if(on&&vsel.scrollWidth>vsel.clientWidth){vsel.scrollLeft+=on.getBoundingClientRect().left-vsel.getBoundingClientRect().left-(vsel.clientWidth-on.offsetWidth)/2;}fade();vsel.addEventListener('scroll',fade,{passive:true});window.addEventListener('resize',fade);window.addEventListener('load',fade);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fade);}
             hc.classList.add('fm-moved');
           }
           var bar=q('.fm-buildbar');
@@ -491,8 +491,8 @@
             var place=function(){
               if(phone.matches){if(vers.nextSibling!==burger)inner.insertBefore(vers,burger);}
               else{setOpen(false);if(vers.previousSibling!==links0)inner.insertBefore(vers,links0.nextSibling);}
-              var act=q('.version-link.active',vers);
-              if(act&&phone.matches&&vers.scrollWidth>vers.clientWidth){var sel=q('.version-selector',vers);if(sel)sel.scrollLeft=act.offsetLeft-(sel.clientWidth-act.offsetWidth)/2;}
+              var act=q('.version-link.active',vers),sel=q('.version-selector',vers);
+              if(act&&sel&&sel.scrollWidth>sel.clientWidth){sel.scrollLeft+=act.getBoundingClientRect().left-sel.getBoundingClientRect().left-(sel.clientWidth-act.offsetWidth)/2;}
             };
             burger.addEventListener('click',function(){setOpen(!nav0.classList.contains('fm-open'));});
             document.addEventListener('keydown',function(e){

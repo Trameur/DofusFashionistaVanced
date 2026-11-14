@@ -3,7 +3,7 @@ html:not(.fm-modern) .fm-buildbar{ display:none !important; }
 
 html.fm-modern{
   --fm-nav:#20180D; --fm-navink:#F3EAD3; --fm-navmuted:#CDBF9E; --fm-navgold:#E3BF4D;
-  --fm-navline:rgba(255,255,255,.36); --fm-navfill:rgba(255,255,255,.08);
+  --fm-navline:rgba(255,255,255,.36); --fm-navfill:rgba(255,255,255,.08); --fm-navbtnline:#9a7f38;
 }
 html.fm-modern.fm-dark{ --fm-nav:#0C0904; --fm-navmuted:#BBAE8E; }
 
@@ -67,6 +67,9 @@ html.fm-modern .fm-topnav .version-selector{
   overflow-x:auto; overflow-y:hidden; max-width:100%; scrollbar-width:none;
 }
 html.fm-modern .fm-topnav .version-selector::-webkit-scrollbar{ display:none; }
+html.fm-modern .fm-topnav .version-selector.fm-vs-more{ -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent); mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent); }
+html.fm-modern .fm-topnav .version-selector.fm-vs-less{ -webkit-mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent); mask-image:linear-gradient(to left,#000 calc(100% - 28px),transparent); }
+html.fm-modern .fm-topnav .version-selector.fm-vs-less.fm-vs-more{ -webkit-mask-image:linear-gradient(to right,transparent,#000 28px,#000 calc(100% - 28px),transparent); mask-image:linear-gradient(to right,transparent,#000 28px,#000 calc(100% - 28px),transparent); }
 html.fm-modern .fm-topnav .version-link{
   height:auto; padding:7px 12px !important; border:0 !important; border-radius:999px; flex:0 0 auto;
   background:transparent !important; color:var(--fm-navmuted) !important; font-size:13px; font-weight:600; white-space:nowrap;
@@ -358,4 +361,20 @@ html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-w
 }
 @media (min-width:2100px){
   html.fm-modern .banner[data-band]:not([data-band="dofus3"]) a{ background-position:right 50%; }
+}
+
+@media (max-width:760px){
+  html.fm-modern .skip-link{ min-height:44px; box-sizing:border-box; display:inline-flex; align-items:center; }
+  html.fm-modern .fm-topnav .fm-topnav-brand{ min-height:44px; min-width:44px; justify-content:center; }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-burger{ height:44px; }
+  html.fm-modern .fm-topnav .version-link{ position:relative; }
+  html.fm-modern .fm-topnav .version-link::after{ content:""; position:absolute; inset:-7px -1px; }
+  html.fm-modern .fm-buildbar .fm-buildbar-in a:link,
+  html.fm-modern .fm-buildbar .fm-buildbar-in a:visited{ height:44px; }
+  html.fm-modern .fm-buildbar .fm-buildbar-in #proj-name-link{ line-height:44px; }
+  html.fm-modern .footer{ gap:0; }
+  html.fm-modern .footer > a{ display:inline-flex; align-items:center; min-height:44px; box-sizing:border-box; }
+  html.fm-modern .footer .discord-invite-btn,
+  html.fm-modern .footer .kofi-donate-btn{ height:44px; }
+  html.fm-modern .footer-social{ gap:4px 8px; }
 }
