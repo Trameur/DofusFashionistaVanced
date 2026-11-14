@@ -52,17 +52,20 @@ html.fm-modern h2.fm-stage-title{ margin:0; font-size:26px; line-height:1.1; }
 html.fm-modern .fm-stage-head p{ margin:0; color:var(--fm-muted); font-size:14.5px; }
 
 html.fm-modern .fm-runway{
-  display:grid; grid-auto-flow:column; grid-auto-columns:minmax(96px,1fr); overflow-x:auto; scroll-snap-type:x mandatory;
+  display:grid; grid-auto-flow:column; grid-auto-columns:minmax(max-content,1fr); overflow-x:auto; scroll-snap-type:x mandatory;
   padding:8px 22px 0; margin:0 -22px; scrollbar-width:thin;
 }
 html.fm-modern .fm-model{
-  scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; position:relative; cursor:pointer;
+  scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; position:relative; cursor:pointer; min-width:96px;
   color:var(--fm-head); font:600 13.5px/1.4 var(--fm-font); border-radius:10px;
+}
+@media (min-width:1800px){
+  html.fm-modern .fm-model{ min-width:84px; }
 }
 html.fm-modern .fm-model input{ position:absolute; left:50%; bottom:40px; width:1px; height:1px; margin:0; opacity:0; pointer-events:none; }
 html.fm-modern .fm-fig{ height:164px; width:100%; display:flex; align-items:flex-end; justify-content:center; position:relative; }
 html.fm-modern .fm-fig img{
-  height:164px; width:164px; max-width:none; flex:none; object-fit:contain; transition:transform .2s;
+  position:absolute; left:50%; bottom:0; margin-left:-82px; height:164px; width:164px; max-width:none; object-fit:contain; transition:transform .2s;
   filter:drop-shadow(0 6px 5px rgba(0,0,0,.2));
 }
 html.fm-modern .fm-fig-tile{
@@ -83,7 +86,7 @@ html.fm-modern .fm-floor{
   box-shadow:inset 0 -1px 0 var(--fm-border), inset 0 1px 0 var(--fm-border);
 }
 html.fm-modern .fm-ttag{
-  margin:10px 0 18px; padding:4px 10px 4px 18px; border-radius:3px 9px 9px 3px; background:var(--fm-surface-2);
+  margin:10px 4px 18px; padding:4px 10px 4px 18px; border-radius:3px 9px 9px 3px; background:var(--fm-surface-2);
   border:1px solid var(--fm-border); position:relative; white-space:nowrap;
 }
 html.fm-modern .fm-ttag::before{
@@ -168,9 +171,10 @@ html.fm-modern .fm-home-about p.fm-about-note{ margin:14px 0 0; max-width:none; 
 @media (max-width:759px){
   html.fm-modern .home-head{ padding-top:20px; }
   html.fm-modern .home-head p.fm-hero-lede{ font-size:15.5px; }
-  html.fm-modern .fm-runway{ grid-auto-columns:104px; }
+  html.fm-modern .fm-runway{ grid-auto-columns:max-content; }
+  html.fm-modern .fm-model{ min-width:104px; }
   html.fm-modern .fm-fig{ height:132px; }
-  html.fm-modern .fm-fig img{ height:132px; width:132px; }
+  html.fm-modern .fm-fig img{ height:132px; width:132px; margin-left:-66px; }
   html.fm-modern .fm-quickbar{ display:contents; }
   html.fm-modern .fm-quick{ margin:0 -22px; padding:16px 22px; background:var(--fm-surface-2); border-top:1px solid var(--fm-border); }
   html.fm-modern{ scroll-padding-bottom:80px; }
