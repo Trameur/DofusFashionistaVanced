@@ -57,6 +57,10 @@ class TheSharedBuildsGridTests(SimpleTestCase):
             self.assertTrue(grid_value(width) == '1fr' or 'minmax(0' in grid_value(width), width)
         self.assertEqual('0', winning(SHEETS, CARD_CHAIN, 'min-width', 375)[0])
 
+    def test_the_vote_buttons_are_touch_targets_on_a_phone(self):
+        self.assertEqual('44px', at(ROOT + ' .build-card .vote-btn', 'min-height', 375))
+        self.assertIsNone(at(ROOT + ' .build-card .vote-btn', 'min-height', 1280))
+
     def test_the_cards_still_come_from_one_loop_without_a_wrapper(self):
         page = template('shared_builds')
         self.assertEqual(1, page.count('class="builds-grid"'))

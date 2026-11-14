@@ -573,6 +573,10 @@ html.fm-modern table.fm-register-row.fm-card > tbody > tr > td:has(> img){ displ
 html.fm-modern .fm-login-card > br, html.fm-modern .fm-register-row br, html.fm-modern .fm-account-form > br,
 html.fm-modern .fm-account-form form > br, html.fm-modern .fm-account-form p > br, html.fm-modern .fm-login-card .google-login-form + br,
 html.fm-modern .fm-login-card div[align] > br{ display:none; }
+html.fm-modern .fm-login-card table tr:last-child{ margin-bottom:0; }
+html.fm-modern #password-error, html.fm-modern #incorrect-password-error, html.fm-modern #username-taken-error,
+html.fm-modern #email-error, html.fm-modern #wrong-password-error, html.fm-modern #login-error{ color:var(--fm-error-text); }
+html.fm-modern .fm-login-card #incorrect-password-error:not(:empty){ display:inline-block; margin-top:var(--fm-space-1); }
 html.fm-modern .fm-acct table, html.fm-modern .fm-acct table > tbody{ display:block; width:100% !important; }
 html.fm-modern .fm-acct table tr{ display:flex; flex-direction:column; gap:var(--fm-space-1); margin:0 0 var(--fm-space-4); }
 html.fm-modern .fm-acct table td{ display:block; width:auto !important; padding:0; text-align:left !important; }
@@ -757,7 +761,7 @@ html.fm-modern .profile-builds-title{ margin:6px 0 0; color:var(--fm-head); }
   html.fm-modern .build-boxes-section label,
   html.fm-modern label.filter-label:has(> input){ display:flex; align-items:center; min-height:44px; box-sizing:border-box; }
   html.fm-modern a.build-tag-pill{ display:inline-flex !important; align-items:center; min-height:44px; box-sizing:border-box; }
-  html.fm-modern .build-card a.build-link{ min-height:44px; box-sizing:border-box; }
+  html.fm-modern .build-card a.build-link, html.fm-modern .build-card .vote-btn{ min-height:44px; box-sizing:border-box; }
   html.fm-modern .build-card .build-value > a,
   html.fm-modern a.sharedbuilds-page-link{ display:inline-flex; align-items:center; min-height:44px; }
 }
