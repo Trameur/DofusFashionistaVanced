@@ -603,9 +603,14 @@ html.fm-modern .google-login-button{
 html.fm-modern .google-login-button:hover{ background:var(--fm-accent-soft); }
 html.fm-modern .google-login-button:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
 html.fm-modern .google-login-button img{ display:none; }
-html.fm-modern .fm-account-form form{ display:flex; flex-direction:column; gap:var(--fm-space-3); }
-html.fm-modern .fm-account-form form p{ margin:0; }
-html.fm-modern .fm-account-form form label{ font-weight:600; }
+html.fm-modern .fm-account-form form, html.fm-modern form.fm-account-form{ display:flex; flex-direction:column; gap:var(--fm-space-3); }
+html.fm-modern .fm-account-form form p, html.fm-modern form.fm-account-form p{ margin:0; }
+html.fm-modern .fm-account-form form label, html.fm-modern form.fm-account-form label,
+html.fm-modern form.fm-account-form > div > .big-text{ font-weight:600; }
+html.fm-modern form.fm-account-form p:has(> label){ display:flex; flex-direction:column; gap:var(--fm-space-1); }
+html.fm-modern form.fm-account-form > div:has(> .big-text){ margin-bottom:calc(var(--fm-space-1) - var(--fm-space-3)); }
+html.fm-modern .fm-form-error{ color:var(--fm-error-text) !important; }
+html.fm-modern p.fm-login-note{ max-width:30rem; margin:0 0 var(--fm-space-4); text-align:left; }
 html.fm-modern .fm-account-form form > div:has(> input[type="text"]){ margin:0; }
 html.fm-modern .fm-account-form form[align] label{ text-align:left; }
 html.fm-modern table.fm-page-art > tbody > tr > td.fm-card{ max-width:30rem; }

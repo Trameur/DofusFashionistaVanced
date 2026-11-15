@@ -44,13 +44,13 @@
 
     {% if from_confirmation %}
         {% if already_confirmed %}
-    <p align="center" class="big-text">{% trans "Your email had already been confirmed. Please type your password to enter." %}</p>
+    <p align="center" class="big-text fm-login-note">{% trans "Your email had already been confirmed. Please type your password to enter." %}</p>
         {% else %}
-    <p align="center" class="big-text">{% trans "Thanks for confirming your email. Please type your password to enter." %}</p>
+    <p align="center" class="big-text fm-login-note">{% trans "Thanks for confirming your email. Please type your password to enter." %}</p>
         {% endif %}
     {% endif %}
     {% if social_failed %}
-    <p align="center" class="big-text" id="social-login-failed">{% trans "Signing in with Google did not go through. You can try again, or enter with your username and password." %}</p>
+    <p align="center" class="big-text fm-login-note" id="social-login-failed">{% trans "Signing in with Google did not go through. You can try again, or enter with your username and password." %}</p>
     {% endif %}
     
 <div align="center" class="fm-login-grid">
