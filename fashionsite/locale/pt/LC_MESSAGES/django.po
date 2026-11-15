@@ -290,7 +290,7 @@ msgstr "Todos os feitiços de dano"
 
 #: .\chardata\compare_sets_view.py:426
 msgid "My builds"
-msgstr "Minhas builds"
+msgstr "Meus builds"
 
 #: .\chardata\compare_sets_view.py:427
 msgid "No saved builds with a solution yet."
@@ -3126,7 +3126,7 @@ msgstr ""
 #: .\chardata\templates\chardata\changelog_content.html:448
 msgid "Fixed old saved builds broken by item lock/forbid data migration"
 msgstr ""
-"Corrigidas builds antigas salvas danificadas pela migração de dados de "
+"Corrigidos builds antigos salvos danificados pela migração de dados de "
 "bloqueio/proibição de itens"
 
 #: .\chardata\templates\chardata\changelog_content.html:454
@@ -3339,7 +3339,7 @@ msgstr "nível"
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:113
 msgid "Log in to pick from your builds, favorites and likes."
-msgstr "Entre para escolher entre suas builds, favoritos e curtidas."
+msgstr "Entre para escolher entre seus builds, favoritos e curtidas."
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:116
 msgid "Manual links"
