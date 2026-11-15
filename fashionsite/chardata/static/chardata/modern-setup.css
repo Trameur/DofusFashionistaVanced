@@ -489,6 +489,9 @@ html.fm-modern .tunnel-weights .wm-section{
 }
 html.fm-modern .tunnel-weights .wm-section > summary{ padding:6px 4px; }
 html.fm-modern .tunnel-weights .wm-head{ font:700 11.5px/1.2 var(--fm-font); letter-spacing:.1em; text-transform:uppercase; color:var(--fm-muted); }
+@media (max-width:480px){
+  html.fm-modern .tunnel-weights .wm-head:lang(de){ letter-spacing:.02em; }
+}
 html.fm-modern .tunnel-weights .wm-row{ border-bottom:1px dotted var(--fm-border); background:transparent !important; box-shadow:none; }
 html.fm-modern .tunnel-weights .wm-name{ font:600 14.5px/1.25 var(--fm-font); color:var(--fm-head); }
 html.fm-modern .tunnel-weights .wm-idle .wm-name{ color:var(--fm-muted); }
