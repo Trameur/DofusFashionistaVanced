@@ -5,7 +5,7 @@ FASHIONISTA_VERSION = "3.7.13.17"
 FASHIONISTA_BETA_VERSION = "3.7.3.3"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
 FASHIONISTA_RETRO_VERSION = "1.49.10"
-FASHIONISTA_TOUCH_VERSION = "1.74.12"
+FASHIONISTA_TOUCH_VERSION = "1.74.13"
 
 # (UTC day, patch): Ankama's release day up to 2.68, the day our data went in from 2.69 on; retro and touch by hand
 PATCH_TIMELINE = {
@@ -109,7 +109,7 @@ PATCH_TIMELINE = {
 # seven lang categories and all 9428 rendered clips standing still. Both were
 # re-scraped on 2026-09-15 and both databases came out identical, every table
 # compared as a set of rows.
-WATCHED_RETRO_BUILD = "1.49.10.5731.468-e62fa1e"
+WATCHED_RETRO_BUILD = "1.49.10.5760.470-9aa8344"
 WATCHED_TOUCH_ASSETS = "3.3.11_1h-,mO*yuB0Adnu4P-_1Fa9c2gqbLXKo"
 
 # Retro item data comes from the lang CDN, not from the client build, and that
