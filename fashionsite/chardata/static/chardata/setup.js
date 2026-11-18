@@ -1535,7 +1535,7 @@ $(document).ready(function() {
             }
         });
         var classes = [];
-        $('#select-char-class option').each(function() { classes.push(this.value); });
+        $('#select-char-class option').each(function() { if (this.value) { classes.push(this.value); } });
         var priorities = [];
         $form.find('input[name="priority"]').each(function() { priorities.push(this.value); });
         var modes = ['general'];

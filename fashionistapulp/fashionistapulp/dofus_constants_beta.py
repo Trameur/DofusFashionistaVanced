@@ -20,7 +20,8 @@ from copy import copy
 CHARACTER_CLASSES = sorted(['Eniripsa', 'Iop', 'Xelor', 'Osamodas', 'Feca',
                      'Sacrier', 'Ecaflip', 'Enutrof', 'Sram', 'Sadida',
                      'Cra', 'Pandawa', 'Rogue', 'Masqueraider', 'Foggernaut',
-                     'Eliotrope', 'Huppermage', 'Ouginak', 'Forgelance'])
+                     'Eliotrope', 'Huppermage', 'Ouginak', 'Forgelance',
+                     'Bellaphone'])
 
 TYPE_NAME_TO_SLOT = {
     'Weapon': 'weapon',

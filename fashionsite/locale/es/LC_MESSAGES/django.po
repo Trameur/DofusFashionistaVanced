@@ -7219,6 +7219,10 @@ msgstr "Uginak"
 msgid "Forgelance"
 msgstr "Forjalanza"
 
+#: .\chardata\translation_util.py:41
+msgid "Bellaphone"
+msgstr "Belíade"
+
 #: .\chardata\translation_util.py:49
 msgid "Best element"
 msgstr "Mejor elemento"

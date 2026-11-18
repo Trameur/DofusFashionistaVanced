@@ -6469,6 +6469,10 @@ msgstr ""
 msgid "Forgelance"
 msgstr ""
 
+#: .\chardata\translation_util.py:41
+msgid "Bellaphone"
+msgstr ""
+
 #: .\chardata\translation_util.py:49
 msgid "Best element"
 msgstr "Best element"

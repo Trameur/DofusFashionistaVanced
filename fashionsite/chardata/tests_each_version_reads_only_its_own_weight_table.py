@@ -8,7 +8,7 @@ from django.test import SimpleTestCase
 from chardata.smart_build import _set_weights
 from chardata.weight_table import (DIRECTORY, SCENARIO_ASPECTS, SCENARIOS, VERSIONS, cell_table, engine_ratios,
                                    load_weight_table, override_weight_table, table_cell)
-from fashionistapulp.dofus_constants import CHARACTER_CLASSES
+from chardata.weight_table import GRID_CLASSES
 from fashionistapulp.game_versions import dofus_versions
 
 OTHER_VERSIONS = ('beta', 'touch', 'retro', 'dofus2')
@@ -84,4 +84,4 @@ class ATableOfDofus3NeverReachesAnotherVersionTests(SimpleTestCase):
         self.assertEqual({}, load_weight_table('beta'))
 
     def test_the_grid_classes_are_those_of_the_game(self):
-        self.assertEqual(19, len(CHARACTER_CLASSES))
+        self.assertEqual(19, len(GRID_CLASSES))

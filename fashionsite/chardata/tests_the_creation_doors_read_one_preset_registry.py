@@ -12,6 +12,7 @@ from chardata.char_blobs import read_char_blob
 from chardata.models import Char
 from chardata.nl_parser import parse_build_request
 from chardata.smart_build import ALL_ASPECTS
+from chardata.version_compat import classes_with_data
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.game_versions import GAME_VERSIONS
 from fashionistapulp.structure import set_current_game_version
@@ -49,7 +50,7 @@ class EveryPresetNamesWhatTheDoorsKnowTests(SimpleTestCase):
                 self.assertIn(presets.DEFAULT_STYLE, entry['styles'])
 
     def test_every_class_has_one_single_element_by_default(self):
-        for char_class in CHARACTER_CLASSES:
+        for char_class in classes_with_data(CHARACTER_CLASSES, 'beta'):
             with self.subTest(char_class=char_class):
                 self.assertIn(presets.CLASS_DEFAULT_ELEMENT.get(char_class), SINGLE_ELEMENTS)
 

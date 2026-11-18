@@ -153,7 +153,7 @@ class Command(BaseCommand):
             if name not in tuning.SCENARIOS:
                 raise CommandError('not a scenario: %s' % name)
         for name in split(options['classes']) or ():
-            if name not in tuning.CHARACTER_CLASSES:
+            if name not in tuning.GRID_CLASSES:
                 raise CommandError('not a class: %s' % name)
         return tuning.lot1_cells(split(options['classes']), elements, split(options['scenarios']))
 

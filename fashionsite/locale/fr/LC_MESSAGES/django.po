@@ -7328,6 +7328,10 @@ msgstr "Ouginak"
 msgid "Forgelance"
 msgstr "Forgelance"
 
+#: .\chardata\translation_util.py:41
+msgid "Bellaphone"
+msgstr "Bellaphone"
+
 #: .\chardata\translation_util.py:49
 msgid "Best element"
 msgstr "Meilleur élément"

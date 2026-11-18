@@ -22,10 +22,10 @@ from datetime import date
 from functools import partial
 
 from chardata.weapon_terms import CHARACTERISTIC_STEP
-from chardata.weight_table import (BANDS, DAMAGE_STATS, GRID_LEVEL, RESIST_STATS, SCENARIOS, SHARE_STATS, TABLE_STATS,
+from chardata.weight_table import (BANDS, DAMAGE_STATS, GRID_CLASSES, GRID_LEVEL, RESIST_STATS, SCENARIOS, SHARE_STATS, TABLE_STATS,
                                    cell_table, element_key, engine_ratios, grid_element_sets, override_weight_table,
                                    unit_of)
-from fashionistapulp.dofus_constants import CHARACTER_CLASSES, get_stat_maximum
+from fashionistapulp.dofus_constants import get_stat_maximum
 from fashionistapulp.item_effects import (COST_ONLY_STATUSES, ELEMENT_KEYS, PLAYED_SHARE, is_valued,
                                           load_effect_table, played_characteristics)
 
@@ -139,7 +139,7 @@ def instance_key(instance):
 def lot1_cells(classes=None, elements=None, scenarios=None):
     """The cells of the grid, one or two elements, filtered by class, element key and scenario."""
     cells = []
-    for char_class in CHARACTER_CLASSES:
+    for char_class in GRID_CLASSES:
         for played in grid_element_sets():
             for scenario in SCENARIOS:
                 if ((classes and char_class not in classes) or (elements and element_key(played) not in elements)
@@ -1698,6 +1698,6 @@ def parse_cell(text):
     """Cell of 'Class/str+int/scenario', the band being the grid's."""
     char_class, key, scenario = text.strip().split('/')[:3]
     elements = tuple(key.split('+'))
-    if (char_class not in CHARACTER_CLASSES or elements not in grid_element_sets() or scenario not in SCENARIOS):
+    if (char_class not in GRID_CLASSES or elements not in grid_element_sets() or scenario not in SCENARIOS):
         raise ValueError('not a cell of the grid: %s' % text)
     return Cell(char_class, elements, scenario, BANDS[0])

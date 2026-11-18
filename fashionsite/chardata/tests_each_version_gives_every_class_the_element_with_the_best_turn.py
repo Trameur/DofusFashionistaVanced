@@ -13,7 +13,7 @@ from chardata.models import Char
 from chardata.nl_parser import parse_build_request
 from chardata.smart_build import get_standard_weights
 from chardata.spell_combo import HpShare, castable_spells
-from chardata.version_compat import filter_classes_for_version
+from chardata.version_compat import classes_with_data, filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.game_versions import dofus_versions
 from fashionistapulp.structure import set_current_game_version
@@ -54,7 +54,7 @@ class EveryVersionTablePicksTheBestTurnTests(SimpleTestCase):
                 self.assertEqual(version, table.get('game_version'))
                 self.assertEqual(list(generator.LEVELS), table.get('levels'))
                 classes = table.get('classes') or {}
-                self.assertEqual(set(filter_classes_for_version(CHARACTER_CLASSES, version)),
+                self.assertEqual(set(classes_with_data(CHARACTER_CLASSES, version)),
                                  set(classes))
                 for char_class, by_level in classes.items():
                     self.assertEqual({str(level) for level in generator.LEVELS}, set(by_level),
@@ -292,7 +292,7 @@ class TheTableReaderGivesTheVersionElementTests(SimpleTestCase):
                     self.assertEqual(expected, presets.default_element('Iop', 'retro', level))
 
     def test_without_a_version_the_shared_element_stays(self):
-        for char_class in CHARACTER_CLASSES:
+        for char_class in classes_with_data(CHARACTER_CLASSES, 'beta'):
             with self.subTest(char_class=char_class):
                 self.assertEqual(presets.CLASS_DEFAULT_ELEMENT[char_class],
                                  presets.default_element(char_class))
