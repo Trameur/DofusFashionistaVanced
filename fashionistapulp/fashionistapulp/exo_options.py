@@ -27,6 +27,11 @@ FORGEABLE_WEAPON_TYPES = ('hammer', 'axe', 'shovel', 'staff', 'sword', 'dagger',
                           'bow', 'wand')
 
 
+def forgeable_type(type_name, weapon_key):
+    return (type_name in FORGEABLE_TYPES
+            or (type_name == 'Weapon' and weapon_key in FORGEABLE_WEAPON_TYPES))
+
+
 def exo_per_item(game_version):
     return get_game_version(game_version).exo_per_item
 

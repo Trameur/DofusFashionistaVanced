@@ -5,6 +5,9 @@ import json
 import os
 from decimal import ROUND_CEILING, ROUND_FLOOR, ROUND_HALF_UP, Decimal
 
+from . import weapon_forge
+from .exo_options import forgeable_type
+
 DEFAULT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                               'dracorunes')
 
@@ -35,6 +38,15 @@ def load_runes(version, folder=None):
 
 def eligible(item_type, runes):
     return bool(runes) and item_type in runes.get('item_types', ())
+
+
+def eligible_item(type_name, weapon_key, ankama_id, version, runes):
+    if not eligible(type_name, runes):
+        return False
+    if type_name != 'Weapon':
+        return True
+    return (forgeable_type(type_name, weapon_key)
+            and weapon_forge.can_forge(version, ankama_id))
 
 
 def _scaled(value, keep, rounding):

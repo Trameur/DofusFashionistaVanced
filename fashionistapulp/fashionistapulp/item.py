@@ -19,6 +19,7 @@
 class Item:
     
     forgeable = False
+    weapon_key = None
 
     def __init__(self):
         self.id = None
