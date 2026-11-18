@@ -23,6 +23,7 @@ Pipeline steps:
     spells/reference    store_spell_reference.py -> spell_reference/beta.json
     stats/starting      store_starting_stats.py -> starting_stats/beta.json
     items/weapon-conversions store_weapon_conversions.py -> weapon_conversions/beta.json
+    items/dracorunes    store_dracorunes.py   -> dracorunes/beta.json (only if the dump has runes)
     spells/states       store_spell_states.py -> spell_states/beta.json
     spells/constants    generate_damage_spells.py -> dofus_constants_beta.py
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
@@ -313,6 +314,10 @@ def main() -> None:
         ])
         step("items/weapon-conversions", [
             PY, "itemscraper/store_weapon_conversions.py",
+            "--game-version", "beta", "--tag", version,
+        ])
+        step("items/dracorunes", [
+            PY, "itemscraper/store_dracorunes.py",
             "--game-version", "beta", "--tag", version,
         ])
         # Names of the states a damage row is gated on; needs the transform

@@ -1,0 +1,50 @@
+{
+ "source_tag": "3.8.1.2",
+ "runes": [
+  {
+   "item_id": 31564,
+   "kind": "element",
+   "target": "agi"
+  },
+  {
+   "item_id": 31565,
+   "kind": "element",
+   "target": "int"
+  },
+  {
+   "item_id": 31566,
+   "kind": "element",
+   "target": "cha"
+  },
+  {
+   "item_id": 31569,
+   "kind": "element",
+   "target": "str"
+  },
+  {
+   "item_id": 31571,
+   "kind": "resistance"
+  },
+  {
+   "item_id": 31573,
+   "kind": "power",
+   "keep": 0.7
+  }
+ ],
+ "item_types": [
+  "Hat",
+  "Cloak",
+  "Amulet",
+  "Ring",
+  "Belt",
+  "Boots",
+  "Weapon"
+ ],
+ "rounding": "floor",
+ "power_takes_neutral": false,
+ "unverified": [
+  "rounding",
+  "power_takes_neutral"
+ ],
+ "unverified_source": "devblog 1772495"
+}
