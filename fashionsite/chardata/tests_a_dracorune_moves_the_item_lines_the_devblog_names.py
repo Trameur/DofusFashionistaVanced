@@ -133,6 +133,80 @@ class ADracoruneMovesTheLinesTheDevblogNamesTests(SimpleTestCase):
         self.assertEqual(floor['power']['pow'], 3)
         self.assertEqual(ceil['power']['pow'], 4)
 
+    def test_a_negative_resistance_line_moves_with_the_resistance_rune(self):
+        result = by_key([('earthres', 5), ('earthresper', -3)],
+                        only('resistance'))
+        self.assertEqual(result['resistance:earth>air'],
+                         {'airres': 5, 'airresper': -3})
+
+    def test_the_power_rune_adds_to_an_existing_power_and_damage_line(self):
+        stats = [('str', 100), ('pow', 10), ('earthdam', 10), ('dam', 3)]
+        result = by_key(stats, only('power', keep=0.7))
+        self.assertEqual(result, {'power': {'pow': 80, 'dam': 10}})
+
+    def test_the_power_rune_on_damage_lines_alone_adds_no_power_line(self):
+        result = by_key([('firedam', 10)], only('power', keep=0.7))
+        self.assertEqual(result, {'power': {'dam': 7}})
+
+    def test_a_negative_line_in_the_target_element_blocks_that_target(self):
+        runes = dict(RUNES, runes=[
+            {'item_id': 1, 'kind': 'element', 'target': 'agi'},
+            {'item_id': 2, 'kind': 'element', 'target': 'str'},
+            {'item_id': 3, 'kind': 'element', 'target': 'int'}])
+        result = by_key([('agi', -10), ('str', 30)], runes)
+        self.assertEqual(set(result), {'element:agi>int', 'element:str>int'})
+        self.assertEqual(result['element:agi>int'], {'int': -10, 'str': 30})
+        self.assertEqual(result['element:str>int'], {'agi': -10, 'int': 30})
+
+    def test_a_line_stored_at_zero_counts_as_present_and_is_kept(self):
+        stats = [('str', 30), ('agi', 0)]
+        self.assertEqual(by_key(stats, only('element', 'agi')), {})
+        result = by_key(stats, only('element', 'int'))
+        self.assertEqual(result, {'element:str>int': {'int': 30, 'agi': 0}})
+
+    def test_moving_a_zero_line_alone_gives_no_variant(self):
+        self.assertEqual(variants([('agi', 0), ('vit', 5)],
+                                  only('element', 'int')), [])
+
+    def test_a_zero_line_moves_with_its_nonzero_partner(self):
+        result = by_key([('agi', 0), ('airdam', 5)], only('element', 'int'))
+        self.assertEqual(result, {'element:agi>int': {'int': 0, 'firedam': 5}})
+
+    def test_a_zero_resistance_line_blocks_a_target_and_never_moves_alone(self):
+        result = by_key([('fireres', 4), ('airres', 0)], only('resistance'))
+        self.assertNotIn('resistance:fire>air', result)
+        self.assertFalse([key for key in result
+                          if key.startswith('resistance:air>')])
+
+    def test_the_power_rune_keeps_zero_lines_and_drops_a_created_zero(self):
+        result = by_key([('str', 1), ('vit', 0)], only('power', keep=0.7))
+        self.assertEqual(result, {'power': {'vit': 0}})
+
+
+    def test_the_same_variant_key_with_two_results_raises(self):
+        runes = dict(RUNES, runes=[
+            {'item_id': 1, 'kind': 'power', 'keep': 0.7},
+            {'item_id': 2, 'kind': 'power', 'keep': 0.5}])
+        with self.assertRaises(ValueError):
+            variants([('str', 100)], runes)
+
+    def test_a_moved_line_takes_the_place_of_its_source_line(self):
+        result = variants([('str', 30), ('ap', 1)], only('element', 'int'))
+        self.assertEqual(result, [('element:str>int',
+                                   [('int', 30), ('ap', 1)])])
+
+    def test_the_power_lines_take_the_place_of_the_first_dropped_lines(self):
+        stats = [('vit', 5), ('str', 10), ('wis', 2), ('cha', 20),
+                 ('earthdam', 4), ('sag', 1)]
+        result = variants(stats, only('power', keep=0.7))
+        self.assertEqual(result, [('power', [
+            ('vit', 5), ('pow', 14), ('wis', 2), ('dam', 2), ('sag', 1)])])
+
+    def test_an_existing_power_line_keeps_its_place(self):
+        stats = [('pow', 10), ('vit', 5), ('str', 100)]
+        result = variants(stats, only('power', keep=0.7))
+        self.assertEqual(result, [('power', [('pow', 80), ('vit', 5)])])
+
     def test_no_runes_gives_no_variants(self):
         self.assertEqual(variants([('str', 5)], None), [])
 

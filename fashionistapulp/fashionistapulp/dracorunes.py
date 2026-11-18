@@ -47,7 +47,7 @@ def _lines(stats):
     lines = {}
     for key, value in stats:
         lines[key] = lines.get(key, 0) + value
-    return {key: value for key, value in lines.items() if value != 0}
+    return lines
 
 
 def _moved(lines, moves):
@@ -100,14 +100,26 @@ def _power_variant(lines, rune, runes):
     dropped_damage = [lines[k] for k in damage_keys if lines.get(k, 0) > 0]
     if not dropped_stats and not dropped_damage:
         return None
-    result = {k: v for k, v in lines.items()
-              if not (v > 0 and (k in STAT_TO_DAMAGE or k in damage_keys))}
-    if dropped_stats:
-        result['pow'] = result.get('pow', 0) + _scaled(
-            max(dropped_stats), keep, rounding)
-    if dropped_damage:
-        result['dam'] = result.get('dam', 0) + _scaled(
-            max(dropped_damage), keep, rounding)
+    pow_add = _scaled(max(dropped_stats), keep, rounding) if dropped_stats else 0
+    dam_add = _scaled(max(dropped_damage), keep, rounding) if dropped_damage else 0
+    result = {}
+    placed = set()
+    for key, value in lines.items():
+        if value > 0 and key in STAT_TO_DAMAGE:
+            slot, add = 'pow', pow_add
+        elif value > 0 and key in damage_keys:
+            slot, add = 'dam', dam_add
+        else:
+            result[key] = value
+            continue
+        if slot in placed or slot in lines:
+            continue
+        placed.add(slot)
+        if add:
+            result[slot] = add
+    for slot, add in (('pow', pow_add), ('dam', dam_add)):
+        if slot in lines and add:
+            result[slot] = result[slot] + add
     return 'power', result
 
 
@@ -116,7 +128,7 @@ def variants(stats, runes):
     if not runes:
         return []
     lines = _lines(stats)
-    original = frozenset(lines.items())
+    original = _effective(lines)
     found = []
     for rune in runes.get('runes', ()):
         kind = rune.get('kind')
@@ -129,21 +141,22 @@ def variants(stats, runes):
             if one:
                 found.append(one)
     seen = {original}
-    keys = set()
+    by_key = {}
     out = []
     for key, result in found:
-        result = {k: v for k, v in result.items() if v != 0}
         signature = frozenset(result.items())
-        if signature in seen or key in keys:
+        if key in by_key:
+            if by_key[key] != signature:
+                raise ValueError('variant %s has two different results' % key)
             continue
-        seen.add(signature)
-        keys.add(key)
-        out.append((key, sorted(result.items(), key=lambda kv: _order(kv[0], stats))))
+        by_key[key] = signature
+        effective = _effective(result)
+        if effective in seen:
+            continue
+        seen.add(effective)
+        out.append((key, list(result.items())))
     return out
 
 
-def _order(key, stats):
-    for index, (name, _) in enumerate(stats):
-        if name == key:
-            return index
-    return len(stats)
+def _effective(lines):
+    return frozenset((k, v) for k, v in lines.items() if v != 0)
