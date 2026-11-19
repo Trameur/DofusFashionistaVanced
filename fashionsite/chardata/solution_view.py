@@ -495,13 +495,14 @@ def _build_og_description(char, solution, proven, tolerance=None):
 
 # Classes for which we ship 6 wizard avatars under chardata/designs/wizard/<class>/.
 _CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
-                      'Foggernaut', 'Huppermage', 'Iop', 'Masqueraider', 'Osamodas',
-                      'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram', 'Xelor'}
+                      'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
+                      'Osamodas', 'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram',
+                      'Xelor'}
 _CLASS_AVATAR_COUNT = 6
 
 
 def get_class_avatar(char):
-    """Stable per-char avatar URL; placeholder for classes with no art (Forgelance)."""
+    """Stable per-char avatar URL; placeholder for a class with no art."""
     cls = char.char_class or ''
     if cls not in _CLASS_AVATAR_DIRS:
         return static('chardata/QuestionMark-lighttheme.png')

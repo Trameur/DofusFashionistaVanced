@@ -9780,13 +9780,17 @@ class WizardAvatarFallbackTests(TestCase):
         self.client.force_login(owner)
         return char
 
-    def test_forgelance_wizard_uses_placeholder_not_404(self):
+    def test_a_class_with_no_art_uses_the_placeholder(self):
+        from types import SimpleNamespace
+        from chardata.solution_view import get_class_avatar
+        url = get_class_avatar(SimpleNamespace(char_class='ClassWithNoArt', id=3))
+        self.assertIn('QuestionMark', url)
+
+    def test_forgelance_wizard_shows_its_own_avatar(self):
         char = self._wizard_char('Forgelance')
         resp = self.client.get('/wizard/%d/' % char.pk)
         self.assertEqual(resp.status_code, 200)
-        html = resp.content.decode('utf-8')
-        self.assertIn('QuestionMark', html)
-        self.assertNotIn('designs/wizard/Forgelance', html)
+        self.assertIn('designs/wizard/Forgelance/myWizardForgelance', resp.content.decode('utf-8'))
 
     def test_class_with_art_keeps_its_avatar(self):
         char = self._wizard_char('Iop')

@@ -50,8 +50,9 @@ _ELEMENT_LOOK = {'str': ('earth', 'terre'), 'int': ('fire', 'feu'),
 FEATURED_BUILDS_COUNT = 6
 FEATURED_BUILDS_CACHE_SECONDS = 30 * 60
 _CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
-                      'Foggernaut', 'Huppermage', 'Iop', 'Masqueraider', 'Osamodas',
-                      'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram', 'Xelor'}
+                      'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
+                      'Osamodas', 'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram',
+                      'Xelor'}
 
 
 def _featured_avatar(char):

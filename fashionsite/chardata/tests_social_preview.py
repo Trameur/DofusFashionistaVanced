@@ -35,7 +35,7 @@ def dimensions(chemin):
 
 
 class ThePreviewPictureIsBigEnoughToRenderTests(TestCase):
-    """Forgelance has no artwork; get_class_avatar falls back to a 16x16 placeholder for it."""
+    """A class with no artwork gets a 16x16 placeholder from get_class_avatar, too small for a preview."""
 
     def setUp(self):
         from django.contrib.auth.models import User
@@ -88,8 +88,10 @@ class ThePreviewPictureIsBigEnoughToRenderTests(TestCase):
         return finders.find(chemin)
 
     def test_the_class_without_artwork_gets_a_card_not_a_16_pixel_mark(self):
-        url = self._og_image(self._char(char_class='Forgelance'))
-        self.assertIn('og-card', url, 'Forgelance still offers %s' % url)
+        from types import SimpleNamespace
+        from chardata.solution_view import get_og_image
+        url = get_og_image(SimpleNamespace(char_class='ClassWithNoArt', id=7))
+        self.assertIn('og-card', url, 'a class without artwork offers %s' % url)
 
     def test_a_class_with_artwork_keeps_its_own_avatar(self):
         # the fix must not replace every other class's avatar with a generic card; they are 260x260 and clear both floors
