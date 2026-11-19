@@ -41,11 +41,11 @@ class BellaphoneIsListedOnTheBetaAloneTests(SimpleTestCase):
         from fashionistapulp import dofus_constants_beta
         self.assertIn('Bellaphone', dofus_constants_beta.CHARACTER_CLASSES)
 
-    def test_the_quick_start_offers_it_on_the_beta_without_a_figure(self):
+    def test_the_quick_start_offers_it_on_the_beta_with_its_own_figure(self):
         from chardata.home_view import quick_start_classes
         beta = {entry['key']: entry for entry in quick_start_classes('beta')}
         self.assertIn('Bellaphone', beta)
-        self.assertIsNone(beta['Bellaphone']['figure'])
+        self.assertIn('designs/wizard/Bellaphone/myWizardBellaphone1.png', beta['Bellaphone']['figure'])
         for version in OTHER_VERSIONS:
             with self.subTest(version=version):
                 self.assertNotIn('Bellaphone', [e['key'] for e in quick_start_classes(version)])

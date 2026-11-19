@@ -494,8 +494,8 @@ def _build_og_description(char, solution, proven, tolerance=None):
     return sentence
 
 # Classes for which we ship 6 wizard avatars under chardata/designs/wizard/<class>/.
-_CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
-                      'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
+_CLASS_AVATAR_DIRS = {'Bellaphone', 'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof',
+                      'Feca', 'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
                       'Osamodas', 'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram',
                       'Xelor'}
 _CLASS_AVATAR_COUNT = 6

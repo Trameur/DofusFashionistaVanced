@@ -49,8 +49,8 @@ _ELEMENT_LOOK = {'str': ('earth', 'terre'), 'int': ('fire', 'feu'),
                  'cha': ('water', 'eau'), 'agi': ('air', 'air')}
 FEATURED_BUILDS_COUNT = 6
 FEATURED_BUILDS_CACHE_SECONDS = 30 * 60
-_CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
-                      'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
+_CLASS_AVATAR_DIRS = {'Bellaphone', 'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof',
+                      'Feca', 'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
                       'Osamodas', 'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram',
                       'Xelor'}
 
