@@ -1,12 +1,12 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """The count posted from the options page or the setup page is stored, clamped to the slots, and reaches the solver options."""
-import pickle
 from unittest import mock
 
 from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
 
 from chardata import fashion_action
+from chardata.char_blobs import read_char_blob
 from chardata.coaching_view import create_build
 from chardata.models import Char
 from chardata.options import get_available_options, get_options
@@ -79,7 +79,7 @@ class PostingADracoruneCountTests(TestCase):
         self.assertEqual(self.slots, self.stored(char))
 
     def raw(self, char):
-        return pickle.loads(Char.objects.get(id=char.id).options)
+        return read_char_blob(Char.objects.get(id=char.id).options, {}, 'options')
 
     def test_the_blob_itself_holds_the_clamped_count(self):
         char = self.build()
