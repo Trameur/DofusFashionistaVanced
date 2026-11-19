@@ -41,8 +41,9 @@ from static_s3.templatetags.static_s3 import static
 FEATURED_BUILDS_COUNT = 6
 FEATURED_BUILDS_CACHE_SECONDS = 30 * 60
 _CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
-                      'Foggernaut', 'Huppermage', 'Iop', 'Masqueraider', 'Osamodas',
-                      'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram', 'Xelor'}
+                      'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
+                      'Osamodas', 'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram',
+                      'Xelor'}
 
 
 def _featured_avatar(char):
