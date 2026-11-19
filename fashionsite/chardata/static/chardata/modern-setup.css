@@ -150,12 +150,6 @@ html.fm-modern .setup-atelier.setup-new #fm-card-style select{
   border:1.5px solid var(--fm-btnline); border-radius:10px;
 }
 
-/* ---------- 5 Search effort ---------- */
-html.fm-modern .setup-atelier.setup-new #fm-card-power .advanced-options-row{ display:block; margin:0; padding:0; border:0; }
-html.fm-modern .setup-atelier.setup-new #fm-card-power .advanced-options-name{
-  position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
-}
-
 /* ---------- 6 More options ---------- */
 html.fm-modern .setup-atelier.setup-new #setup-more{ max-width:none; }
 html.fm-modern .setup-atelier.setup-new #setup-more > summary{
@@ -308,43 +302,6 @@ html.fm-modern .setup-atelier.setup-new .fm-guard{
 html.fm-modern .setup-atelier.setup-new .fm-guard .fm-tape{ flex:1 1 auto; min-width:60px; }
 html.fm-modern .setup-atelier.setup-new #fm-card-style select:disabled{ opacity:.55; cursor:not-allowed; }
 html.fm-modern .setup-atelier.setup-new #fm-card-style .advanced-options-field:has(select:disabled) > .fm-guard > .fm-tape{ opacity:.45; }
-
-/* ---------- 5 Search effort notches ---------- */
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-field{ display:grid; grid-template-columns:minmax(0,1fr); margin-top:6px; }
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range,
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-steps{ grid-column:1; grid-row:1; }
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range{
-  -webkit-appearance:none; appearance:none; z-index:2; align-self:start; box-sizing:border-box; height:30px; min-height:30px; margin:0 calc(50% / var(--n, 3) - 15px); width:calc(100% - 100% / var(--n, 3) + 30px);
-  background:transparent; cursor:pointer;
-}
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-webkit-slider-runnable-track{ height:30px; background:transparent; border:0; }
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-moz-range-track{ height:30px; background:transparent; border:0; }
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-webkit-slider-thumb{
-  -webkit-appearance:none; appearance:none; width:30px; height:30px; border-radius:50%; box-sizing:border-box;
-  background:var(--fm-gold); border:2px solid var(--fm-gold); box-shadow:0 0 0 4px var(--fm-surface), 0 0 0 6px var(--fm-gold);
-}
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-moz-range-thumb{
-  width:26px; height:26px; border-radius:50%; background:var(--fm-gold); border:2px solid var(--fm-gold); box-shadow:0 0 0 4px var(--fm-surface), 0 0 0 6px var(--fm-gold);
-}
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range:focus-visible{ outline:none; }
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range:focus-visible::-webkit-slider-thumb{ box-shadow:0 0 0 4px var(--fm-surface), 0 0 0 7px var(--fm-goldtext); }
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range:focus-visible::-moz-range-thumb{ box-shadow:0 0 0 4px var(--fm-surface), 0 0 0 7px var(--fm-goldtext); }
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-steps{
-  position:relative; display:grid; grid-template-columns:repeat(var(--n, 3),minmax(0,1fr)); gap:0; z-index:1;
-}
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-steps::before{
-  content:""; position:absolute; left:calc(50% / var(--n, 3)); right:calc(50% / var(--n, 3)); top:13px; height:4px; border-radius:2px;
-  background:var(--fm-track); box-shadow:inset 0 0 0 1px var(--fm-border);
-}
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-step{
-  position:relative; display:flex; flex-direction:column; align-items:center; gap:8px; min-height:0; padding:0;
-  font:600 13px/1.2 var(--fm-font); color:var(--fm-muted); text-align:center;
-}
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-step::before{
-  content:""; flex:none; width:30px; height:30px; box-sizing:border-box; border-radius:50%; background:var(--fm-surface); border:2px solid var(--fm-btnline);
-}
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-step.setup-power-on{ color:var(--fm-head); font-weight:700; }
-html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-text{ margin-top:10px; font-size:13.5px; color:var(--fm-muted); }
 
 /* ---------- 7 Live panel ---------- */
 html.fm-modern .setup-atelier.setup-new #setup-preview > details{ display:block; }
@@ -542,10 +499,6 @@ html.fm-modern .tunnel-weights .wm-name-wide + .wm-min{ grid-column:5; }
   html.fm-modern .setup-atelier.setup-new #submit-mode input.setup-secondary,
   html.fm-modern .setup-atelier.setup-new #submit-mode input.setup-primary{ min-height:44px; }
   html.fm-modern .setup-atelier.setup-new #fm-how > summary{ display:flex; align-items:center; min-height:44px; }
-  html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range{ height:44px; min-height:44px; margin-top:-7px; margin-bottom:-7px; }
-  html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-webkit-slider-runnable-track{ height:44px; }
-  html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-moz-range-track{ height:44px; }
-  html.fm-modern .setup-atelier.setup-new #fm-card-power .setup-power-range::-webkit-slider-thumb{ margin-top:7px; }
   html.fm-modern .tunnel-weights .wm-actions input.button-generic,
   html.fm-modern .tunnel-weights .wm-actions button.button-generic{ min-height:44px; }
 }

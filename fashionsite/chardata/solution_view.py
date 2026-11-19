@@ -41,9 +41,7 @@ from chardata.character_assets import asset_formats, asset_token, preload_links
 from chardata.char_blobs import read_char_blob
 from chardata.closest_set import closest_set_facts
 from chardata.encoded_char_id import encode_char_id
-from chardata.fashion_action import (continuation_input, fashion, get_options,
-                                     retry_budget_seconds, search_gap)
-from chardata.power_steps import gap_percent
+from chardata.fashion_action import (continuation_input, fashion, get_options, search_gap)
 from chardata.fashionista_build import MAX_STAT_VALUE
 from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
@@ -59,7 +57,7 @@ from chardata.models import Char, BuildVote, SolutionGeneration
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.url_language import SITE_URL
 import chardata.smart_build
-from chardata.solution import (get_solution, get_solver_facts,
+from chardata.solution import (gap_percent, get_solution, get_solver_facts,
                                set_minimal_solution)
 from fashionistapulp import weapon_forge
 from fashionistapulp.lpproblem import TIME_LIMIT_SECONDS as SOLVER_TIME_LIMIT_SECONDS
@@ -920,7 +918,6 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'search_gap_is_small': (stopped_gap or 0) <= _NEARLY_OPTIMAL_GAP,
               'continue_search_url': continue_search_url,
               'continue_search_seconds': SOLVER_TIME_LIMIT_SECONDS,
-              'continue_search_budget': retry_budget_seconds(char) if continue_search_url else 0,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:

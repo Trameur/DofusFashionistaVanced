@@ -1475,8 +1475,6 @@ html.fm-modern .setup-atelier .advanced-options-name{ flex:0 0 8rem; font-size:.
 html.fm-modern .setup-atelier .advanced-options-field > label, html.fm-modern .setup-atelier .setup-more-choice > label{ display:flex; padding:0; }
 html.fm-modern .setup-atelier .advanced-options-field select{ min-height:44px; box-sizing:border-box; min-width:min(100%,12rem); }
 html.fm-modern .setup-atelier .setup-more-count input{ min-height:44px; width:5rem; box-sizing:border-box; }
-html.fm-modern .setup-atelier .setup-power-range{ min-height:44px; margin:0; }
-html.fm-modern .setup-atelier .setup-power-step{ display:flex; align-items:center; min-height:44px; }
 html.fm-modern .setup-atelier .setup-more-grid{ grid-template-columns:repeat(auto-fill,minmax(5.5rem,1fr)); }
 html.fm-modern .setup-atelier .setup-more-box{ min-height:44px; background:var(--fm-surface); }
 html.fm-modern .setup-atelier .setup-more-box-icon{

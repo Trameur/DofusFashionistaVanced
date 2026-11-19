@@ -92,11 +92,6 @@
                 <div class="fm-card-head"><span class="fm-no" aria-hidden="true"></span><h2 id="fm-card-style-title" class="fm-h2">{% trans "Playstyle" %}</h2></div>
                 <button type="button" id="fm-mode-general" class="fm-pill" aria-pressed="false">{% trans "General" %}</button>
             </section>
-            {% if power %}
-            <section id="fm-card-power" class="fm-setup-card fm-x" aria-labelledby="fm-card-power-title">
-                <div class="fm-card-head"><span class="fm-no" aria-hidden="true"></span><h2 id="fm-card-power-title" class="fm-h2">{% trans "Search effort" %}</h2></div>
-            </section>
-            {% endif %}
             {% endif %}
             <div class="setup-zone-form">
                 <table class='register fm-setup-card' role="presentation">
@@ -169,7 +164,6 @@
                         <div class="small-explain">{% trans "Compared with the balanced build, each stat the priority does not aim for loses at most this share: HP and resistances for Damage, damage stats for Defense and Heals, and for any priority AP, MP, Range and every other stat the build gives a weight to. At 0% none of them drops. The build page shows what was kept." %}</div>
                     </div>
                 </div>
-                {% if power %}{% include "chardata/setup_power.html" %}{% endif %}
             </details>
             {% if more %}{% include "chardata/setup_more_options.html" %}{% endif %}
 
@@ -375,11 +369,6 @@ function showChosenOptions() {
     if (guarded) {
         chosen.push($.trim($("label[for='guard-percent']").text()) + " "
                     + $.trim($("#guard-percent option:selected").text()));
-    }
-    var $power = $("#setup-power-row");
-    if ($power.length && $("#setup-power-key").val() !== $power.attr("data-default")) {
-        chosen.push($.trim($("label[for='setup-power']").text()) + " "
-                    + $.trim($power.find(".setup-power-on").text()));
     }
     $("#advanced-options-chosen").text(chosen.join(" · "));
 }

@@ -902,7 +902,6 @@ $(document).ready(function() {
     var more = byId('setup-more');
     var cardElement = byId('fm-card-element');
     var cardStyle = byId('fm-card-style');
-    var cardPower = byId('fm-card-power');
     var cells = [0, 1, 2, 3].map(function(i) { return byId('table-checkboxes-column-' + i); });
 
     cells.forEach(tipWrap);
@@ -930,9 +929,6 @@ $(document).ready(function() {
     cardStyle.appendChild(rowOf('guard-percent'));
 
     var details = byId('advanced-options');
-    if (cardPower) {
-        cardPower.appendChild(byId('setup-power-row'));
-    }
     if (details) {
         details.classList.add('fm-gone');
     }
@@ -948,13 +944,12 @@ $(document).ready(function() {
     place(colB, recipes, 2);
     place(colA, cardElement, 3);
     place(colB, cardStyle, 4);
-    place(colB, cardPower, 5);
     place(colB, more, 6);
     place(colB, byId('temporix-choice'), 7);
     place(colB, byId('publish-choice'), 8);
 
     var number = 0;
-    [register, recipes, cardElement, cardStyle, cardPower, more].forEach(function(card) {
+    [register, recipes, cardElement, cardStyle, more].forEach(function(card) {
         var marker = card && card.querySelector('.fm-no');
         if (marker) {
             number++;
@@ -1018,14 +1013,10 @@ $(document).ready(function() {
         if (names.length) {
             head += (head ? ', ' : '') + names.join(', ');
         }
-        var power = $.trim($('#setup-power-row .setup-power-on').text());
         var strong = make('b', '');
         strong.textContent = head;
         what.textContent = '';
         what.appendChild(strong);
-        if (power) {
-            what.appendChild(document.createTextNode((head ? ' \u00b7 ' : '') + power));
-        }
     }
 
     var classBox = byId('fm-classes');
@@ -1958,40 +1949,4 @@ $(document).ready(function() {
     follow();
     showChanges();
     showCawwot();
-});
-
-$(document).ready(function() {
-    var $row = $('#setup-power-row');
-    var $range = $('#setup-power');
-    if (!$row.length || !$range.length) {
-        return;
-    }
-    var $key = $('#setup-power-key');
-    var $steps = $row.find('.setup-power-step');
-
-    function show() {
-        var $step = $steps.filter(function() { return $(this).attr('data-index') === String($range.val()); });
-        if (!$step.length) {
-            return;
-        }
-        var key = $step.attr('data-power');
-        $key.val(key);
-        $range.attr('aria-valuetext', $.trim($step.text()));
-        $steps.removeClass('setup-power-on');
-        $step.addClass('setup-power-on');
-        $row.find('.setup-power-text > [data-power]').each(function() {
-            this.hidden = $(this).attr('data-power') !== key;
-        });
-        if (typeof showChosenOptions === 'function') {
-            showChosenOptions();
-        }
-    }
-
-    $range.on('input change', show);
-    $steps.on('click', function() {
-        $range.val($(this).attr('data-index'));
-        show();
-        $range.trigger('focus');
-    });
-    show();
 });

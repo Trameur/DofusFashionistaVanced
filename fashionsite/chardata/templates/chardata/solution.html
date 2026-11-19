@@ -446,7 +446,7 @@
         {% endif %}
         {% endif %}
         {% if continue_search_url %}
-        <form method="post" action="{{ continue_search_url }}" class="solver-continue-search" onsubmit="loadingAndRunUnchecked({% if continue_search_budget %}{{ continue_search_budget|unlocalize }}{% endif %});">
+        <form method="post" action="{{ continue_search_url }}" class="solver-continue-search" onsubmit="loadingAndRunUnchecked();">
             {% csrf_token %}
             <p class="solver-why-line"><button type="submit" class="button-generic">{% trans "Continue the search" %}</button></p>
             <p class="solver-why-line">{% blocktrans with limit=continue_search_seconds %}The search picks up from this set for up to {{ limit }} more seconds and only replaces it with a better one. To keep this set, there is nothing to do.{% endblocktrans %}</p>

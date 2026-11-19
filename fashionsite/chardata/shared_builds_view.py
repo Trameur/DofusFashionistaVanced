@@ -36,7 +36,7 @@ from chardata.models import BuildComment, BuildTag, BuildVote, Char, UserAlias
 from chardata.official_site import _slugify_name
 from chardata.version_compat import class_exists_in_version
 from chardata.pagination import pagination_items
-from chardata.power_steps import gap_percent
+from chardata.solution import gap_percent
 from chardata.url_language import SITE_URL
 from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id

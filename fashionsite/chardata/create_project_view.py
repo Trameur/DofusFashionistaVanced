@@ -33,7 +33,6 @@ from chardata.build_name import cleaned_at_creation
 from chardata import visitor_throttle
 from chardata.models import Char, CharBaseStats
 from chardata.options import initial_build_options, set_options
-from chardata.power_steps import apply_posted_power, power_context
 from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS,
                               apply_setup_choices, mode_boxes, option_column_modes,
                               posted_choices, posted_guard, priorities, setup_boxes,
@@ -122,7 +121,6 @@ def setup(request, char_id=0):
     lock_item = _wanted_item(request, game_version)
     preview_panel = panel_context(game_version) if is_new_char and can_create else {}
     more = more_options_context(request, char, game_version) if is_new_char and can_create else None
-    power = power_context() if is_new_char and can_create else None
 
     return set_response(request,
                         'chardata/projdetails.html',
@@ -153,7 +151,6 @@ def setup(request, char_id=0):
                          **temporix_window(),
                          **preview_panel,
                          'more': more,
-                         'power': power,
                          'is_new_char': is_new_char},
                         char)
 
@@ -303,7 +300,6 @@ def create_project(request):
     set_options(char, initial_options)
     apply_option_groups(request, char)
     apply_touched_fields(char, request.POST)
-    apply_posted_power(char, request.POST)
 
     char.save()
 
