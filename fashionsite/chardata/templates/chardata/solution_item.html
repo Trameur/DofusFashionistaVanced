@@ -91,6 +91,7 @@
             </span>
         {% endif %}
         </div>
+        {% include 'chardata/solution_dracorune.html' %}
         {% if item.condition_lines %}
             <hr class="solution-item-hr" />
             {% for line in item.condition_lines %}
@@ -104,7 +105,7 @@
             {% endfor %}
         {% endif %}
         </div>
-        {% if item.id and not disable_solution_item_actions %}
+        {% if item.id and not disable_solution_item_actions and not item.dracorune_label %}
         <div style="margin-top:6px;">
             <button type="button" id="stat-override-btn-sol-{{item.slot}}" class="button-generic" style="font-size:0.8em;padding:2px 8px;">{% trans "Customize stats" %}</button>
         </div>

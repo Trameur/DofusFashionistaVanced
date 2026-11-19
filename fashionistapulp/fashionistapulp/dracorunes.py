@@ -172,3 +172,35 @@ def variants(stats, runes):
 
 def _effective(lines):
     return frozenset((k, v) for k, v in lines.items() if v != 0)
+
+
+def rune_of(key, runes):
+    """The rune record a variant key comes from, or None."""
+    kind, _, move = (key or '').partition(':')
+    target = move.partition('>')[2]
+    for rune in (runes or {}).get('runes', ()):
+        if rune.get('kind') == kind and (kind != 'element'
+                                         or rune.get('target') == target):
+            return rune
+    return None
+
+
+def rune_name(rune, language):
+    """The game's name of the rune in the language, English when it has none."""
+    names = (rune or {}).get('names') or {}
+    return names.get(language) or names.get('en')
+
+
+def moves(key):
+    """{source line key: target line key} of a variant that moves lines as they are."""
+    kind, _, move = (key or '').partition(':')
+    source, _, target = move.partition('>')
+    if kind == 'element' and source in STAT_TO_DAMAGE and target in STAT_TO_DAMAGE:
+        return {source: target, STAT_TO_DAMAGE[source]: STAT_TO_DAMAGE[target]}
+    if kind == 'resistance':
+        elements = {name: element for element, name in RESISTANCE_NAMES.items()}
+        if source in elements and target in elements:
+            source, target = elements[source], elements[target]
+            return {source + 'res': target + 'res',
+                    source + 'resper': target + 'resper'}
+    return {}

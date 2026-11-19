@@ -6,7 +6,8 @@ fashionistapulp/fashionistapulp/dracorunes/<version>.json.
 A rune is an item whose effects carry action 4081 (an element, named by the
 effect's diceSide), 4082 (resistances) or 4083 (power). Nothing in the client
 defines those actions, so the rounding is the devblog's. The power rune's keep
-rate is the value of its 4083 effect. A dump without rune items writes nothing
+rate is the value of its 4083 effect. A rune's name comes from the <lang>.json
+files of the dump, when it has them. A dump without rune items writes nothing
 and removes the file a previous run left for that version.
 
     python itemscraper/store_dracorunes.py --game-version beta --tag 3.8.1.2
@@ -32,7 +33,8 @@ import fashionista_version  # noqa: E402
 from data_file_ops import replace_file  # noqa: E402
 from fashionistapulp.dracorunes import DEFAULT_FOLDER, ELEMENT_PAIRS  # noqa: E402
 from fashionistapulp.exo_options import FORGEABLE_TYPES  # noqa: E402
-from get_spells import ELEMENT_ID_TO_TOKEN, _load_json, _unwrap_array  # noqa: E402
+from get_spells import (  # noqa: E402
+    ELEMENT_ID_TO_TOKEN, LANGUAGES, _load_json, _load_translations, _unwrap_array)
 
 DEFAULT_TAG = {'beta': fashionista_version.FASHIONISTA_BETA_VERSION}
 
@@ -54,7 +56,7 @@ STAT_BY_ELEMENT = {
 
 
 def _items(folder):
-    """{item id: [effect records]} for the Unity export of items.json."""
+    """{item id: ([effect records], name id)} for the Unity export of items.json."""
     data = _load_json(Path(folder) / 'items.json')
     refs = {ref['rid']: ref for ref in data['references']['RefIds']}
     keys = data['objectsById']['m_keys']['Array']
@@ -64,11 +66,25 @@ def _items(folder):
         ref = refs.get(value.get('rid'))
         if ref is None:
             continue
-        items[int(key)] = [
+        effects = [
             refs[effect['rid']]['data']
             for effect in _unwrap_array(ref['data'].get('possibleEffects'))
             if effect.get('rid') in refs]
+        items[int(key)] = (effects, ref['data'].get('nameId'))
     return items
+
+
+def _translations(folder):
+    """{lang: {text id: text}} for the languages whose file the dump has."""
+    languages = [lang for lang in LANGUAGES
+                 if (Path(folder) / ('%s.json' % lang)).exists()]
+    return _load_translations(Path(folder), languages)
+
+
+def _names(name_id, translations):
+    names = {lang: texts[str(name_id)] for lang, texts in translations.items()
+             if name_id is not None and texts.get(str(name_id))}
+    return dict(sorted(names.items()))
 
 
 def _rune(item_id, effects):
@@ -97,9 +113,17 @@ def _rune(item_id, effects):
 
 
 def read_runes(folder):
-    runes = (_rune(item_id, effects)
-             for item_id, effects in sorted(_items(folder).items()))
-    return [rune for rune in runes if rune]
+    translations = _translations(folder)
+    runes = []
+    for item_id, (effects, name_id) in sorted(_items(folder).items()):
+        rune = _rune(item_id, effects)
+        if rune is None:
+            continue
+        names = _names(name_id, translations)
+        if names:
+            rune['names'] = names
+        runes.append(rune)
+    return runes
 
 
 def build(folder, tag):

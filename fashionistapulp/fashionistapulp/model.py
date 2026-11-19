@@ -1072,6 +1072,80 @@ class Model:
             chosen.extend([(item_id, key)] * copies)
         return chosen
 
+    _WASTED_RUNE_TOLERANCE = 1e-6
+
+    def _solution_holds(self, changed):
+        """True when every row and the bounds of the changed variables hold on the current values."""
+        eps = self._WASTED_RUNE_TOLERANCE
+        for variable in changed:
+            value = variable.varValue
+            if value is None:
+                return False
+            if variable.lowBound is not None and value < variable.lowBound - eps:
+                return False
+            if variable.upBound is not None and value > variable.upBound + eps:
+                return False
+        try:
+            return all(constraint.valid(eps)
+                       for constraint in self.problem.pulp_lp.constraints.values())
+        except TypeError:
+            return False
+
+    def _values_without_one_rune(self, column):
+        """{variable: value} once one copy of the column is off, its stat rows still balanced."""
+        variables = self.problem.pulp_vars
+        values = {column: column.varValue - 1}
+        for stat in self.stats_list:
+            row = self.restrictions.stat_total_constraints.get(stat.name)
+            change = row.expr.get(column) if row is not None else None
+            if not change:
+                continue
+            if stat.name in self.stat_maximum:
+                total = variables['total_%s' % stat.id]
+                cap = self.stat_maximum[stat.name]
+                values[total] = total.varValue - change
+                values[variables['stat_%s' % stat.id]] = min(cap, values[total])
+                values[variables['capped_%s' % stat.id]] = 1 if values[total] > cap else 0
+            else:
+                head = variables['stat_%s' % stat.id]
+                values[head] = head.varValue - change
+        return values
+
+    def useful_dracorunes(self, chosen):
+        """chosen less each rune the solution keeps every row and its objective without, so a wasted rune is not shown."""
+        columns = getattr(self, 'dracorune_columns', None)
+        if not chosen or not columns or self.problem.get_status() != 'Optimal':
+            return chosen
+        names = {pair: name for name, pair in columns.items()}
+        objective = self.problem.pulp_lp.objective
+        start = {}
+        kept = []
+        try:
+            best = objective.value()
+            if best is None or not self._solution_holds(()):
+                return chosen
+            for pair in sorted(chosen, key=repr):
+                column = self.problem.pulp_vars.get(names.get(pair))
+                if column is None or not column.varValue:
+                    kept.append(pair)
+                    continue
+                values = self._values_without_one_rune(column)
+                before = {variable: variable.varValue for variable in values}
+                for variable, value in values.items():
+                    start.setdefault(variable, variable.varValue)
+                    variable.varValue = value
+                now = objective.value()
+                if (now is not None and now >= best - self._WASTED_RUNE_TOLERANCE
+                        and self._solution_holds(values)):
+                    continue
+                for variable, value in before.items():
+                    variable.varValue = value
+                kept.append(pair)
+        finally:
+            for variable, value in start.items():
+                variable.varValue = value
+        return kept
+
     #def add_objective_term(self, stat_name, weight):
     #    for item in self.items_list:
     #        for stat_id, value in item.stats:
@@ -1940,7 +2014,7 @@ class Model:
         result = ModelResultMinimal.from_item_id_list(item_id_list, self.input, self.get_stats())
         if self._exo_per_item:
             result.exo_assumed = self._assumed_exos(grouped_vars)
-        chosen = self.chosen_dracorunes()
+        chosen = self.useful_dracorunes(self.chosen_dracorunes())
         if chosen:
             result.place_dracorunes(chosen)
         return result

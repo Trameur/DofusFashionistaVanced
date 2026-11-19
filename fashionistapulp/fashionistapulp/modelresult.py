@@ -23,6 +23,9 @@ from .dofus_constants import (ALL_TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SL
                              BASE_STATS, STAT_KEY_TO_NAME, NEUTRAL,
                              SLOT_NAME_TO_TYPE, slots_for)
 from . import weapon_forge
+from .dracorune_terms import is_eligible as takes_a_dracorune
+from .dracorunes import (load_runes, moves as dracorune_moves, rune_name as dracorune_name,
+                         rune_of, variants as dracorune_variants)
 from .item_flags import flag_lines
 from .spell_text import fold_spell_blocks
 from .structure import get_structure, get_current_game_version
@@ -203,8 +206,37 @@ def get_item_in_slot(structure, item_id, slot):
     return moved
 
 
+def _readable_runes():
+    version = get_current_game_version()
+    try:
+        return load_runes(version)
+    except (AttributeError, KeyError, OSError, TypeError, ValueError):
+        logger.exception('The runes file of %s cannot be read, its draconized pieces show as base items', version)
+        return None
+
+
+def _dracorune_in_slot(slot, item, wanted, runes):
+    """(variant key, runes) when the slot still holds the item its saved rune was on, else None."""
+    if wanted is None:
+        return None
+    try:
+        item_id, key = wanted
+    except (TypeError, ValueError):
+        logger.warning('Unreadable dracorune %r in slot %s, shown without it', wanted, slot)
+        return None
+    structure = get_structure()
+    if (item is None or item.id != item_id or runes is None
+            or not takes_a_dracorune(item, structure, runes)):
+        logger.warning('Slot %s no longer holds item %s for its dracorune %s, shown without it',
+                       slot, item_id, key)
+        return None
+    return key, runes
+
+
 def model_result_from_minimal(minimal, stat_overrides=None, forge_choice=None):
     structure = get_structure()
+    saved_runes = getattr(minimal, 'dracorunes', None) or {}
+    runes = _readable_runes() if saved_runes else None
     if hasattr(minimal, 'stats'):
         result = ModelResult(minimal.input, minimal.stats)
     else:
@@ -217,7 +249,9 @@ def model_result_from_minimal(minimal, stat_overrides=None, forge_choice=None):
         item = (get_item_in_slot(structure, item_id, slot)
                 if item_id is not None else None)
         if item is not None:
-            result.add_item_at_slot(item, slot, stat_overrides)
+            result.add_item_at_slot(
+                item, slot, stat_overrides,
+                _dracorune_in_slot(slot, item, saved_runes.get(slot), runes))
         else:
             if item_id is not None:
                 logger.warning('Missing item in structure for slot=%s item_id=%s', slot, item_id)
@@ -266,10 +300,19 @@ class ModelResult():
                       and item.id in stat_overrides)
         return as_worn(item, get_structure(), options, overridden=overridden)
 
-    def add_item_at_slot(self, item, slot, stat_overrides=None):
+    def add_item_at_slot(self, item, slot, stat_overrides=None, dracorune=None):
+        """dracorune is (variant key, runes data) for a draconized piece."""
         self._add_result_item_at_slot(
             slot, ModelResultItem(self._worn(item, stat_overrides),
-                                  stat_overrides))
+                                  stat_overrides, dracorune))
+
+    @property
+    def dracorunes(self):
+        """{slot: (item id, variant key)} of the draconized pieces worn, or None."""
+        runes = {result_item.slot: (result_item.id, result_item.dracorune['key'])
+                 for result_item in self.item_list
+                 if result_item.item_added and result_item.dracorune}
+        return runes or None
         
     def _add_result_item_at_slot(self, slot, result_item):
         result_item.set_slot(slot)
@@ -787,8 +830,10 @@ class ModelResultItem():
     heal_element = None
     forge_key = ()
     forge_explicit = False
+    dracorune = None
+    undraconized_stats = None
 
-    def __init__(self, item, stat_overrides=None):
+    def __init__(self, item, stat_overrides=None, dracorune=None):
         # Legacy pickles can be missing the newer weapon fields.
         self.is_mageable = False
         if item:
@@ -862,6 +907,8 @@ class ModelResultItem():
                             self.exo_overrides[stat.key] = override_val
                         else:
                             self.stats[stat.key] = override_val
+            if dracorune is not None:
+                self._draconize(*dracorune)
 
             self.min_stats_to_equip = {}
             for stat_id, stat_value in item.min_stats_to_equip:
@@ -911,6 +958,34 @@ class ModelResultItem():
             self.slot = None
             self.file = None
             
+    def _draconize(self, key, runes):
+        """Wears the rune's variant key on the lines, or keeps the base item when the lines no longer give it."""
+        try:
+            worn = dict(dracorune_variants(list(self.stats.items()), runes)).get(key)
+            base = dict(dracorune_variants(list(self.base_stats.items()), runes)).get(key)
+        except (KeyError, TypeError, ValueError):
+            logger.exception('The dracorune %s of item %s cannot be read', key, self.id)
+            return
+        if worn is None:
+            logger.warning('Item %s no longer takes the dracorune %s, shown without it', self.id, key)
+            return
+        before = self.stats
+        self.undraconized_stats = dict(before)
+        self.stats = dict(worn)
+        self.base_stats = dict(base) if base is not None else dict(worn)
+        moved = dracorune_moves(key)
+        ranges = {}
+        for line, bounds in self.stat_ranges.items():
+            target = moved.get(line, line)
+            if ((target == line or target not in before)
+                    and self.stats.get(target) == before.get(line)):
+                ranges[target] = bounds
+        self.stat_ranges = ranges
+        rune = rune_of(key, runes)
+        self.dracorune = {'key': key,
+                          'item_id': rune.get('item_id') if rune else None,
+                          'name': dracorune_name(rune, get_supported_language())}
+
     def holds_an_over(self):
         """A recorded roll above the catalogue on a stat other than AP, MP or Range."""
         exo_keys = {key for key, _option in EXO_OPTIONS}

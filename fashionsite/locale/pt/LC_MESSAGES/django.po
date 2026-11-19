@@ -9117,6 +9117,7 @@ msgid "A shared build is also served to other sites at:"
 msgstr "Um build compartilhado também fica disponível para outros sites em:"
 
 #: chardata/spells_view.py
+#: chardata/solution_result.py
 #, python-format
 msgid "%(item)s: %(changes)s"
 msgstr "%(item)s: %(changes)s"
@@ -9908,6 +9909,15 @@ msgstr "SIL Open Font License, versão 1.1"
 #: chardata/templates/chardata/license.html
 msgid "The fonts are hosted on this site, so your browser asks no other server for them."
 msgstr "As fontes ficam hospedadas neste site, então seu navegador não as pede a nenhum outro servidor."
+
+#: chardata/templates/chardata/solution_dracorune.html
+msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
+msgstr "Forje o exo antes da Dracorruna: ela impede qualquer forjamagia posterior no item."
+
+#: chardata/solution_result.py
+msgctxt "what a rune leaves of a removed line"
+msgid "nothing"
+msgstr "nada"
 
 
 #~ msgid "This game has no exos: they are left out."
