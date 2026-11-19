@@ -94,7 +94,7 @@ def options(request, char_id):
 def options_post(request, char_id):
     char = get_char_or_raise(request, char_id)
 
-    options = parse_options_post(request)
+    options = parse_options_post(request, char)
     parse_inventory_options(request, char, options)
     set_options(char, options)
     apply_posted_dofus(request, char)
@@ -121,7 +121,7 @@ def apply_posted_dofus(request, char):
     add_items_to_exclusions(char, forbidden_dofus)
     remove_items_from_exclusions(char, allowed_dofus)
 
-def parse_options_post(request):
+def parse_options_post(request, char=None):
     options = {}
     options['ap_exo'] = (request.POST.get('ap_exo', 'no') == 'yes')
     if 'range_exo' in request.POST:
@@ -161,7 +161,22 @@ def parse_options_post(request):
                 options[option] = _posted_exo_count(request.POST.get(option),
                                                     available['exo_slots'])
 
+    count = _posted_dracorunes(request.POST, available.get('dracorune_slots'), char)
+    if count is not None:
+        options['dracorunes'] = count
+
     return options
+
+
+def _posted_dracorunes(post, slots, char):
+    """The runes the build allows, None when nothing is to be stored: a build that never set the option keeps its options as they are."""
+    if not slots or 'dracorunes' not in post:
+        return None
+    count = min(max(safe_int(post.get('dracorunes'), 0), 0), slots)
+    stored = read_char_blob(char.options, {}, 'options', char) if char is not None and char.options else {}
+    if count == 0 and 'dracorunes' not in stored:
+        return None
+    return count
 
 
 def _posted_exo_count(value, slots):

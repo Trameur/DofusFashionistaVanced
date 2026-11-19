@@ -32,6 +32,7 @@
             {% endif %}
         </div>
     </div>
+    {% include "chardata/dracorune_option.html" with slots=more.dracorune_slots value=more.defaults.dracorunes as_row=True %}
     {% if more.mounts %}
     <div class="advanced-options-row" role="group" aria-labelledby="setup-more-mounts">
         <span id="setup-more-mounts" class="advanced-options-name">{% trans "Mounts" %}</span>

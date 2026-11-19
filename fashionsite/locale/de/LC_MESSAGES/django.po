@@ -9994,6 +9994,18 @@ msgstr "SIL Open Font License, Version 1.1"
 msgid "The fonts are hosted on this site, so your browser asks no other server for them."
 msgstr "Die Schriftarten liegen auf dieser Website, dein Browser fragt dafür bei keinem anderen Server an."
 
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Dracorunes allowed"
+msgstr "Erlaubte Drachenrunen"
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Pieces with a Dracorune"
+msgstr "Teile mit einer Drachenrune"
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "A Dracorune moves the stats of a piece to another element or to Power. Allow some and the solver gives them to the pieces where they help most, never more than this number."
+msgstr "Eine Drachenrune verschiebt die Werte eines Teils auf ein anderes Element oder auf Kraft. Erlaube ein paar davon: Der Solver gibt sie den Teilen, bei denen sie am meisten bringen, höchstens in dieser Anzahl."
+
 #: chardata/templates/chardata/solution_dracorune.html
 msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
 msgstr "Schmiede das Exo vor der Drachenrune: Danach lässt sich auf den Gegenstand keine Schmiedmagie mehr anwenden."

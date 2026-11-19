@@ -22,7 +22,8 @@ from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
 from fashionistapulp.exo_options import EXO_OPTIONS, forgeable_slot_count
 from fashionistapulp.game_versions import get_game_version
-from fashionistapulp.model import dracorune_count
+from fashionistapulp.dracorunes import slot_count
+from fashionistapulp.model import dracorune_count, readable_runes
 from fashionistapulp.structure import get_structure
 from fashionistapulp.temporix import version_has_temporix
 from fashionistapulp.translation import get_supported_language
@@ -126,8 +127,13 @@ _available_options_cache = {}
 
 
 def get_available_options(structure=None):
-    """Which dofuses, mounts and prysmaradite exist in the current game version."""
+    """Which dofuses, mounts and prysmaradite exist in the current game version, and how many runes it can take."""
     s = structure or get_structure()
+    return dict(_cached_available_options(s),
+                dracorune_slots=slot_count(s.game_version, readable_runes(s.game_version)))
+
+
+def _cached_available_options(s):
     ver = s.game_version
     cached = _available_options_cache.get(ver)
     if cached is not None:

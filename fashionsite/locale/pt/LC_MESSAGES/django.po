@@ -9910,6 +9910,18 @@ msgstr "SIL Open Font License, versão 1.1"
 msgid "The fonts are hosted on this site, so your browser asks no other server for them."
 msgstr "As fontes ficam hospedadas neste site, então seu navegador não as pede a nenhum outro servidor."
 
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Dracorunes allowed"
+msgstr "Dracorrunas permitidas"
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Pieces with a Dracorune"
+msgstr "Peças com uma Dracorruna"
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "A Dracorune moves the stats of a piece to another element or to Power. Allow some and the solver gives them to the pieces where they help most, never more than this number."
+msgstr "Uma Dracorruna transfere as características de uma peça para outro elemento ou para a Potência. Permita algumas: o solver as dá às peças em que mais ajudam, sem passar deste número."
+
 #: chardata/templates/chardata/solution_dracorune.html
 msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
 msgstr "Forje o exo antes da Dracorruna: ela impede qualquer forjamagia posterior no item."

@@ -1,0 +1,17 @@
+{% load i18n %}
+{% if slots %}
+{% if as_row %}
+<div class="advanced-options-row" role="group" aria-labelledby="setup-more-dracorunes">
+    <span id="setup-more-dracorunes" class="advanced-options-name">{% trans "Dracorunes allowed" %}</span>
+    <div class="advanced-options-field setup-more-field">
+{% else %}
+<div class="big-text" align="center">
+    <br>
+    <div class="brown-box" align="center">
+{% endif %}
+        {% if as_row %}<label class="setup-more-count"><span>{% trans "Pieces with a Dracorune" %}</span><input class="pretty-input exo-count-input" type="number" name="dracorunes" min="0" max="{{ slots }}" step="1" inputmode="numeric" value="{{ value|default:0 }}" autocomplete="off"></label>
+        {% else %}<label>{% trans "Pieces with a Dracorune" %}<br><input class="pretty-input change-modifies-state exo-count-input" type="number" name="dracorunes" min="0" max="{{ slots }}" step="1" inputmode="numeric" value="{{ value|default:0 }}" autocomplete="off"></label>{% endif %}
+        <p class="small-explain">{% trans "A Dracorune moves the stats of a piece to another element or to Power. Allow some and the solver gives them to the pieces where they help most, never more than this number." %}</p>
+    </div>
+</div>
+{% endif %}

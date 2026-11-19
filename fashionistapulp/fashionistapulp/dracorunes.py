@@ -6,6 +6,7 @@ import os
 from decimal import ROUND_CEILING, ROUND_FLOOR, ROUND_HALF_UP, Decimal
 
 from . import weapon_forge
+from .dofus_constants import SLOT_NAME_TO_TYPE, slots_for
 from .exo_options import forgeable_type
 
 DEFAULT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -38,6 +39,14 @@ def load_runes(version, folder=None):
 
 def eligible(item_type, runes):
     return bool(runes) and item_type in runes.get('item_types', ())
+
+
+def slot_count(version, runes):
+    """How many of the version's slots a rune can go on, 0 without a runes file."""
+    if not runes:
+        return 0
+    return sum(1 for slot in slots_for(version)
+               if eligible(SLOT_NAME_TO_TYPE[slot], runes))
 
 
 def eligible_item(type_name, weapon_key, ankama_id, version, runes):
