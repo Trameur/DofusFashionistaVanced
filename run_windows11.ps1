@@ -830,4 +830,4 @@ function Start-DofusFashionista {
 }
 
 # Run
-Start-DofusFashionista
+if ($MyInvocation.InvocationName -ne '.') { Start-DofusFashionista }
