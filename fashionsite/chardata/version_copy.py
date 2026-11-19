@@ -185,7 +185,7 @@ def _without_source_options(options):
     if not isinstance(options, dict):
         return options
     return {key: value for key, value in options.items()
-            if key not in _INVENTORY_OPTIONS_OF_THE_SOURCE}
+            if key not in _INVENTORY_OPTIONS_OF_THE_SOURCE and key != 'dracorune_locks'}
 
 
 def _default_exclusion_ankama_ids(game_version):

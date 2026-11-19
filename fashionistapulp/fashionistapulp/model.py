@@ -48,6 +48,7 @@ PERCENT_RESISTS = ('% Neutral Resist', '% Earth Resist', '% Fire Resist', '% Wat
 
 DRACORUNE_PREFIX = 'draco'
 DRACORUNE_TOTAL = 'draco_total'
+DRACORUNE_LOCKS = 'dracorune_locks'
 
 
 def dracorune_count(options):
@@ -958,7 +959,28 @@ class Model:
         self._dracorune_terms = []
         self._dracorune_constraints = []
         self._dracorune_variables = []
+        self._dracorune_forced = {}
         self.dracorune_columns = {}
+
+    def _forced_dracorunes(self, model_input, pool):
+        """{(item id, variant key): copies} the locked pieces already carry, the entries that no longer fit being left out."""
+        locks = (model_input.options or {}).get(DRACORUNE_LOCKS)
+        if not locks or not isinstance(locks, dict):
+            return {}
+        locked = model_input.locked_equips or {}
+        forced = {}
+        taken = {}
+        for slot, key in sorted(locks.items(), key=repr):
+            item_id = locked.get(slot)
+            variants = pool.get(item_id) if isinstance(item_id, int) else None
+            worn = self.problem.pulp_vars.get('x_%s' % str(item_id).replace('-', '_'))
+            if (not variants or worn is None or not isinstance(key, str)
+                    or not any(variant.key == key for variant in variants)
+                    or taken.get(item_id, 0) >= (worn.upBound or 0)):
+                continue
+            taken[item_id] = taken.get(item_id, 0) + 1
+            forced[(item_id, key)] = forced.get((item_id, key), 0) + 1
+        return forced
 
     def _could_be_worn(self, item):
         level = self.restrictions.level_constraints.get(item.id)
@@ -1018,6 +1040,10 @@ class Model:
             return
         wearable = [item for item in self.items_list if self._could_be_worn(item)]
         pool = {item.id: candidates[item.id] for item in wearable if item.id in candidates}
+        forced = self._forced_dracorunes(model_input, pool)
+        count = max(count, sum(forced.values()))
+        self._dracorune_setup = (count, model_input, for_minimums)
+        self._dracorune_forced = forced
         context = self.dracorune_context(model_input, wearable)
         kept, _capped = dracorune_terms.prune(pool, context)
         if for_minimums:
@@ -1026,6 +1052,10 @@ class Model:
                 known = {variant.key for variant in kept.get(item_id, ())}
                 kept[item_id] = list(kept.get(item_id, ())) + [
                     variant for variant in variants if variant.key not in known]
+        for item_id, key in forced:
+            if not any(variant.key == key for variant in kept.get(item_id, ())):
+                kept[item_id] = list(kept.get(item_id, ())) + [
+                    variant for variant in pool[item_id] if variant.key == key]
         if not kept:
             return
         lp = self.problem.pulp_lp
@@ -1046,7 +1076,8 @@ class Model:
                 if name in self.problem.pulp_vars:
                     logger.warning('Dracorune column %s named twice', name)
                     continue
-                column = pulp.LpVariable(name, 0, worn.upBound, pulp.LpInteger)
+                column = pulp.LpVariable(name, forced.get((item_id, variant.key), 0),
+                                         worn.upBound, pulp.LpInteger)
                 self.problem.pulp_vars[name] = column
                 self._dracorune_variables.append(name)
                 self.dracorune_columns[name] = (item_id, variant.key)
@@ -1124,7 +1155,12 @@ class Model:
             best = objective.value()
             if best is None or not self._solution_holds(()):
                 return chosen
+            owed = dict(getattr(self, '_dracorune_forced', None) or {})
             for pair in sorted(chosen, key=repr):
+                if owed.get(pair):
+                    owed[pair] -= 1
+                    kept.append(pair)
+                    continue
                 column = self.problem.pulp_vars.get(names.get(pair))
                 if column is None or not column.varValue:
                     kept.append(pair)
@@ -2102,11 +2138,16 @@ class ModelInput(object):
         if not isinstance(options, dict) or 'dracorunes' not in options:
             return options, None
         count = dracorune_count(options)
-        options = {key: value for key, value in options.items() if key != 'dracorunes'}
+        locks = options.get(DRACORUNE_LOCKS)
+        options = {key: value for key, value in options.items()
+                   if key not in ('dracorunes', DRACORUNE_LOCKS)}
         signature = dracorune_signature(get_current_game_version()) if count else None
         if signature is None:
             return options, None
-        return options, ['dracorunes', count, signature]
+        part = ['dracorunes', count, signature]
+        if locks and isinstance(locks, dict):
+            part.append(sorted(locks.items(), key=repr))
+        return options, part
 
     def _barred_to_the_wearer(self):
         """The pieces the sex and name rule out, None when neither is checked."""
@@ -2207,7 +2248,8 @@ class ModelInput(object):
         if gap:
             key += (('gap', gap),)
         if runes:
-            key += (('dracorunes', runes[1], tuple(runes[2])),)
+            key += (('dracorunes', runes[1], tuple(runes[2]))
+                    + tuple(tuple(tuple(pair) for pair in locks) for locks in runes[3:]),)
         return key.__hash__()
 
 def _is_number(value):

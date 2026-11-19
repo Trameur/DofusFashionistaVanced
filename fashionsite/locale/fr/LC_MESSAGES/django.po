@@ -10061,6 +10061,10 @@ msgstr "Pièces avec une Dracorune"
 msgid "A Dracorune moves the stats of a piece to another element or to Power. Allow some and the solver gives them to the pieces where they help most, never more than this number."
 msgstr "Une Dracorune déplace les stats d’une pièce vers un autre élément ou vers la Puissance. Autorise-en quelques-unes : le solveur les donne aux pièces où elles aident le plus, sans dépasser ce nombre."
 
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Locked pieces keep their Dracorune, even above this number."
+msgstr "Les pièces verrouillées gardent leur Dracorune, même au-delà de ce nombre."
+
 #: chardata/templates/chardata/solution_dracorune.html
 msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
 msgstr "Forge l’exo avant la Dracorune : elle empêche ensuite toute forgemagie sur l’objet."

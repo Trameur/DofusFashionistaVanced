@@ -33,6 +33,7 @@ from chardata.char_blobs import read_char_blob
 from chardata.crit_curve import SCOPE_LEVEL as CRIT_SCOPE_LEVEL, VERSIONS as CRIT_VERSIONS, crit_hinges
 from chardata.data_versions import current_data_version
 
+from chardata.dracorune_locks import KEY as LOCKS_KEY, valid_locks
 from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
                                   get_empty_slots)
 from chardata.inventory_solver import (get_inventory_solver_settings,
@@ -124,15 +125,19 @@ def get_options(request, char_id):
                      'shields': options.get('shields', True),
                      'trophies': options.get('trophies', True)}
     model_options.update(temporix_model_option(options, char.game_version))
-    model_options.update(dracorune_model_option(options, char.game_version))
+    locks = (valid_locks(options[LOCKS_KEY], get_inclusions_dict(char), char.game_version)
+             if LOCKS_KEY in options else {})
+    model_options.update(dracorune_model_option(options, char.game_version, locks))
     return model_options
 
 
-def dracorune_model_option(options, game_version):
-    """The runes a build allows, only when it allows some and the version has a runes file."""
-    count = dracorune_count(options)
+def dracorune_model_option(options, game_version, locks=None):
+    """The runes a build allows, only when it allows some and the version has a runes file; the runes of locked pieces count in them."""
+    count = max(dracorune_count(options), len(locks or {}))
     if not count or readable_runes(game_version) is None:
         return {}
+    if locks:
+        return {'dracorunes': count, LOCKS_KEY: dict(locks)}
     return {'dracorunes': count}
 
 

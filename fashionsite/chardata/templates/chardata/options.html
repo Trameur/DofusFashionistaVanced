@@ -142,7 +142,7 @@
     </div>
     {% endif %}
 
-    {% include "chardata/dracorune_option.html" with slots=version_options.dracorune_slots %}
+    {% include "chardata/dracorune_option.html" with slots=version_options.dracorune_slots locked=dracorune_locked %}
 
     {% if inventory_folders %}
     <div class='big-text' align="center">

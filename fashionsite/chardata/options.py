@@ -14,6 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from chardata.dracorune_locks import forget_stale_locks
 from chardata.lock_forbid import get_all_exclusions_en_names
 
 import pickle
@@ -239,7 +240,7 @@ def set_options(char, options):
     if char.options:
         old_options = read_char_blob(char.options, {}, 'options', char)
         old_options.update(options)
-        char.options = pickle.dumps(old_options)
+        char.options = pickle.dumps(forget_stale_locks(char, old_options))
     else:
         char.options = pickle.dumps(options)
 

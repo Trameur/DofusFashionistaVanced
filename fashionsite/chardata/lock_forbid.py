@@ -17,6 +17,7 @@
 import logging
 import pickle
 from chardata.char_blobs import read_char_blob
+from chardata.dracorune_locks import drop_changed_locks, record_lock
 
 from fashionistapulp.structure import (fits_the_class, fits_the_level,
                                        fits_the_wearer, get_structure)
@@ -497,7 +498,11 @@ def set_inclusions_dict_and_check_exclusions(char, inclusions_dict):
                for slot, value in inclusions_dict.items()})
     remove_items_from_exclusions(char, [item_id for item_id
                                         in included.values() if item_id != ''])
+    before = get_inclusions_dict(char)
     _save_inclusion_dict(char, included)
+    for slot, item_id in get_inclusions_dict(char).items():
+        if item_id and before.get(slot) != item_id:
+            record_lock(char, slot, item_id)
 
 def get_all_inclusions_en_names(char):
     item_dict = get_inclusions_dict(char)
@@ -574,6 +579,8 @@ def set_item_included(char, item_id, slot, included):
             inclusions[slot] = ''
 
     _save_inclusion_dict(char, inclusions)
+    if included:
+        record_lock(char, slot, _as_item_id(item_id))
     return True
 
 def get_all_exclusions_with_names(char, language):
@@ -629,6 +636,7 @@ def _item_id_to_local_or_name(item_id, language):
 def _save_inclusion_dict(char, inclusions):
     inclusions = {slot: int(value)
                   for slot, value in list(inclusions.items()) if value != ''}
+    drop_changed_locks(char, inclusions)
     char.inclusions = pickle.dumps(inclusions)
     char.save()
 

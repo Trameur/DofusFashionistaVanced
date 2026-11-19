@@ -18,6 +18,7 @@ import json
 import pickle
 from chardata.char_blobs import read_char_blob
 
+from chardata.dracorune_locks import locks_above_count
 from chardata.inventory_solver import get_inventory_mode
 from chardata.lock_forbid import add_items_to_exclusions, remove_items_from_exclusions
 from chardata.options import get_options, set_options, DOFUS_OPTIONS,\
@@ -81,6 +82,7 @@ def options(request, char_id):
     context = {'advanced': True,
                'options': json.dumps(options),
                'options_dict': options,
+               'dracorune_locked': locks_above_count(char, options),
                'version_options': get_available_options(),
                'char_id': char_id}
     context.update(temporix_window())
