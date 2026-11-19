@@ -153,14 +153,6 @@ function Test-Prerequisites {
         return $false
     }
     
-    # MySQL
-    if (-not (Test-CommandExists mysql)) {
-        Write-LogMessage "MySQL is not installed or not on the PATH." "WARNING"
-        Write-LogMessage "Some features may not work correctly." "WARNING"
-    } else {
-        Write-LogMessage "MySQL is installed." "SUCCESS"
-    }
-    
     # Key folders
     if (-not (Test-Path -Path "$PSScriptRoot\fashionistapulp")) {
         Write-LogMessage "The 'fashionistapulp' folder was not found." "ERROR"
