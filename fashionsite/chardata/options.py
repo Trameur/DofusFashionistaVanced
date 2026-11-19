@@ -22,6 +22,7 @@ from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
 from fashionistapulp.exo_options import EXO_OPTIONS, forgeable_slot_count
 from fashionistapulp.game_versions import get_game_version
+from fashionistapulp.model import dracorune_count
 from fashionistapulp.structure import get_structure
 from fashionistapulp.temporix import version_has_temporix
 from fashionistapulp.translation import get_supported_language
@@ -184,6 +185,8 @@ def get_options(char):
     options.setdefault('dofus', True)
     options.setdefault('trophies', True)
     options.setdefault('temporix', False)
+    if 'dracorunes' in options:
+        options['dracorunes'] = dracorune_count(options)
 
     exclusions = get_all_exclusions_en_names(char)
     dofus_opt = {}

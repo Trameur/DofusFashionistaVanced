@@ -56,7 +56,7 @@ from chardata.util_views import error
 from chardata.weapon_terms import VERSIONS as WEAPON_HIT_VERSIONS, weapon_hit_terms
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp import lpproblem, temporix
-from fashionistapulp.model import Model, ModelInput
+from fashionistapulp.model import Model, ModelInput, dracorune_count, readable_runes
 from fashionistapulp.model_pool import create_model, borrow_model, return_model
 from fashionistapulp.structure import get_current_game_version, get_structure
 
@@ -124,7 +124,16 @@ def get_options(request, char_id):
                      'shields': options.get('shields', True),
                      'trophies': options.get('trophies', True)}
     model_options.update(temporix_model_option(options, char.game_version))
+    model_options.update(dracorune_model_option(options, char.game_version))
     return model_options
+
+
+def dracorune_model_option(options, game_version):
+    """The runes a build allows, only when it allows some and the version has a runes file."""
+    count = dracorune_count(options)
+    if not count or readable_runes(game_version) is None:
+        return {}
+    return {'dracorunes': count}
 
 
 def temporix_model_option(options, game_version):
@@ -516,6 +525,8 @@ def _answer_of(char, model_input, closest):
         search = _new_search(tie_break['state'], model_input,
                              tie_break['limit'] or lpproblem.SOLVER.timeLimit)
         if search is not None:
+            if dracorune_count(model_input.options):
+                search['for_minimums'] = True
             result.search = search
             _bind_search(result, model_input, guard_plan(char))
     return result
@@ -863,6 +874,9 @@ def _continue_search(request, char, blob, minimal, solve_input, deadline):
     else:
         model = Model(stat_overrides=solve_input.stat_overrides, temporix=is_temporix)
     model.setup(solve_input)
+    if search.get('for_minimums'):
+        model.modify_dracorune_terms(dracorune_count(solve_input.options), solve_input,
+                                     for_minimums=True)
     with _solver_time_limit(deadline) as time_limit:
         # CBC is deterministic: the same start and seed replay the same search
         model.run(2, warm_start=_unpack_start(search['start']),

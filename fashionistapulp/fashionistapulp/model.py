@@ -58,6 +58,25 @@ def dracorune_count(options):
     return count
 
 
+def readable_runes(version):
+    """The version's runes file as load_runes reads it, None without one or when it cannot be read."""
+    try:
+        return dracorunes.load_runes(version)
+    except (AttributeError, KeyError, OSError, TypeError, ValueError):
+        logger.exception('The runes file of %s cannot be read, no dracorune is offered', version)
+        return None
+
+
+def dracorune_signature(version):
+    """[source tag, short sha of the content] of the version's runes file, None without a readable one."""
+    runes = readable_runes(version)
+    if runes is None:
+        return None
+    content = json.dumps(runes, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
+    return [runes.get('source_tag'),
+            hashlib.sha256(content.encode('ascii')).hexdigest()[:16]]
+
+
 def _dracorune_slug(key):
     kind, _, move = key.partition(':')
     return '_'.join([kind[:1]] + [part for part in move.split('>') if part])
@@ -178,8 +197,8 @@ class Model:
     def _build_dracorune_candidates(self):
         """{item id: [Variant]} of the worn lines, empty when the version has no runes file."""
         self.dracorune_candidates = {}
+        runes = readable_runes(getattr(self.structure, 'game_version', 'dofus3'))
         try:
-            runes = dracorunes.load_runes(getattr(self.structure, 'game_version', 'dofus3'))
             found, problems = dracorune_terms.candidates(self.items_list, runes, self.structure)
         except (KeyError, TypeError, ValueError):
             logger.exception('The runes file cannot be read, no dracorune is offered')
@@ -990,16 +1009,23 @@ class Model:
         capped = {stat.id for stat in self.stats_list if stat.name in self.stat_maximum}
         return dracorune_terms.build_context(weights, lower | both, upper | both, capped)
 
-    def modify_dracorune_terms(self, count, model_input):
-        """Up to count worn copies take a rune: a column per kept variant on its stat rows."""
+    def modify_dracorune_terms(self, count, model_input, for_minimums=False):
+        """Up to count worn copies take a rune: a column per kept variant on its stat rows; for_minimums also keeps what the minimums alone could use."""
         self._forget_dracorune_terms()
-        self._dracorune_setup = (count, model_input)
+        self._dracorune_setup = (count, model_input, for_minimums)
         candidates = getattr(self, 'dracorune_candidates', None)
         if not count or not candidates:
             return
         wearable = [item for item in self.items_list if self._could_be_worn(item)]
         pool = {item.id: candidates[item.id] for item in wearable if item.id in candidates}
-        kept, _capped = dracorune_terms.prune(pool, self.dracorune_context(model_input, wearable))
+        context = self.dracorune_context(model_input, wearable)
+        kept, _capped = dracorune_terms.prune(pool, context)
+        if for_minimums:
+            for_shortfall, _capped = dracorune_terms.prune(pool, context._replace(weights={}))
+            for item_id, variants in for_shortfall.items():
+                known = {variant.key for variant in kept.get(item_id, ())}
+                kept[item_id] = list(kept.get(item_id, ())) + [
+                    variant for variant in variants if variant.key not in known]
         if not kept:
             return
         lp = self.problem.pulp_lp
@@ -1769,6 +1795,9 @@ class Model:
         """The minimums turned into ones a shortfall can make up, as [(name, shortfall, asked, 1 / asked)]; never on a pooled model, ValueError when a minimum has no variable."""
         lp = self.problem.pulp_lp
         self.modify_minimum_stat_constraints({}, level)
+        setup = getattr(self, '_dracorune_setup', None)
+        if setup and setup[0]:
+            self.modify_dracorune_terms(setup[0], setup[1], for_minimums=True)
         version = getattr(getattr(self, 'structure', None), 'game_version', 'dofus3')
         dependencies = _minimum_dependencies(version)
 
@@ -1992,6 +2021,19 @@ class ModelInput(object):
         self.crit_hinges = tuple(tuple(hinge) for hinge in crit_hinges or ())
         self.gap = gap or 0
 
+    def _dracorune_key(self):
+        """(options without the runes option, ['dracorunes', N, file signature] or None)."""
+        from fashionistapulp.structure import get_current_game_version
+        options = getattr(self, 'options', None)
+        if not isinstance(options, dict) or 'dracorunes' not in options:
+            return options, None
+        count = dracorune_count(options)
+        options = {key: value for key, value in options.items() if key != 'dracorunes'}
+        signature = dracorune_signature(get_current_game_version()) if count else None
+        if signature is None:
+            return options, None
+        return options, ['dracorunes', count, signature]
+
     def _barred_to_the_wearer(self):
         """The pieces the sex and name rule out, None when neither is checked."""
         gender = getattr(self, 'gender', None)
@@ -2016,6 +2058,7 @@ class ModelInput(object):
         from fashionistapulp.structure import get_current_game_version
         minimum_stats = dict(self.minimum_stats or {})
         adv_mins = minimum_stats.pop('adv_mins', None)
+        options, runes = self._dracorune_key()
         parts = [
             get_current_game_version(),
             self.char_level,
@@ -2025,7 +2068,7 @@ class ModelInput(object):
             self.locked_equips,
             sorted(self.forbidden_equips or [], key=repr),
             self.objective_values,
-            self.options,
+            options,
             self.char_class,
             self.stat_points_to_distribute,
             sorted(self.empty_slot_types or [], key=repr),
@@ -2047,6 +2090,8 @@ class ModelInput(object):
         gap = getattr(self, 'gap', 0)
         if gap:
             parts.append(['gap', gap])
+        if runes:
+            parts.append(runes)
         return _stable_digest(parts)
 
     def __hash__(self, *args, **kwargs):
@@ -2056,6 +2101,7 @@ class ModelInput(object):
             (item_id, frozenset(stats.items()))
             for item_id, stats in self.stat_overrides.items()
         )
+        options, runes = self._dracorune_key()
         key = (get_current_game_version(),
                self.char_level,
                freeze(self.base_stats_by_attr),
@@ -2064,7 +2110,7 @@ class ModelInput(object):
                freeze(self.locked_equips),
                frozenset(self.forbidden_equips),
                freeze(self.objective_values),
-               freeze(self.options),
+               freeze(options),
                self.char_class,
                self.stat_points_to_distribute,
                frozenset(self.empty_slot_types),
@@ -2086,6 +2132,8 @@ class ModelInput(object):
         gap = getattr(self, 'gap', 0)
         if gap:
             key += (('gap', gap),)
+        if runes:
+            key += (('dracorunes', runes[1], tuple(runes[2])),)
         return key.__hash__()
 
 def _is_number(value):
