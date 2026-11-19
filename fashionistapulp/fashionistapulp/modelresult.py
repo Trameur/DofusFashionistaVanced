@@ -79,6 +79,8 @@ class ModelResultMinimal():
     exo_assumed = None
     # Older pickles lack it: their option counted the owned exos worn
     exo_option_tops_owned = False
+    # {slot: (item id, variant key)} of the draconized pieces; older pickles lack it
+    dracorunes = None
 
     def __init__(self, item_per_slot, input_, stats):
         self.item_per_slot = item_per_slot
@@ -146,7 +148,22 @@ class ModelResultMinimal():
         minimal = cls(item_per_slot, {k: input_[k] for k in input_ if k in RELEVANT_INPUT}, stats)
         minimal.exo_assumed = getattr(model_result, 'exo_assumed', None)
         minimal.exo_option_tops_owned = getattr(model_result, 'exo_option_tops_owned', True)
+        if getattr(model_result, 'dracorunes', None):
+            minimal.dracorunes = model_result.dracorunes
         return minimal
+
+    def place_dracorunes(self, runes):
+        """runes is [(item id, variant key)] per copy: each takes the next slot of its item."""
+        placed = {}
+        for item_id, key in sorted(runes, key=repr):
+            slot = next((slot for slot in slots_for(get_current_game_version())
+                         if self.item_per_slot.get(slot) == item_id and slot not in placed),
+                        None)
+            if slot is None:
+                logger.warning('No slot holds item %s for its dracorune %s', item_id, key)
+                continue
+            placed[slot] = (item_id, key)
+        self.dracorunes = placed or None
     
     @classmethod
     def generate_empty_solution(cls, input_):
