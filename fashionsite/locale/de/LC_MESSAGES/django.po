@@ -8343,9 +8343,6 @@ msgstr "Die Schmiedmagie der Waffe aus dem Link bleibt außen vor."
 msgid "These lines from the link belong to no piece and are left out:"
 msgstr "Diese Zeilen aus dem Link gehören zu keinem Teil und bleiben außen vor:"
 
-msgid "Read as Dracorunes:"
-msgstr "Als Drachenrunen gelesen:"
-
 msgid "The Dracorune on these pieces could not be read and is left out:"
 msgstr "Die Drachenrune dieser Teile konnte nicht gelesen werden und bleibt außen vor:"
 
@@ -9584,6 +9581,10 @@ msgstr "Das Spiel veröffentlicht diesen Satz nicht: Die Seite nimmt %(rate)d%% 
 #: chardata/templates/chardata/solution_item.html
 msgid "Weapon element"
 msgstr "Element der Waffe"
+
+#: chardata/templates/chardata/text_build.html
+msgid "Dracorunes read from the link:"
+msgstr "Aus dem Link gelesene Drachenrunen:"
 
 #: chardata/templates/chardata/text_build.html
 msgid "Weapon element read from the link:"

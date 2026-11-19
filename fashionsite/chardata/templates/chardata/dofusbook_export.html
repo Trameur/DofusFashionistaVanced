@@ -19,6 +19,7 @@
         border: 1px solid rgba(128,128,128,0.4); border-radius: 12px;
     }
     .export-note { font-size: 0.9em; margin-top: 6px; }
+    .export-note .nowrap-name { white-space: nowrap; }
     .export-go { margin: 22px 0 8px; }
 </style>
 {% endblock %}
@@ -69,7 +70,7 @@
     {% if forge_staying %}
     <p class="export-note" id="export-forge-staying">{% trans "Their forgemagie field cannot hold these, so they stay here:" %} {{ forge_staying|join:", " }}</p>
     {% endif %}
-    {% if dracorunes_staying %}<p class="export-note" id="export-dracorunes-staying">{% trans "Their forgemagie field cannot carry these Dracorunes, so they stay here:" %} {{ dracorunes_staying|join:", " }}</p>{% endif %}
+    {% if dracorunes_staying %}<p class="export-note" id="export-dracorunes-staying">{% trans "Their forgemagie field cannot carry these Dracorunes, so they stay here:" %} {% for name in dracorunes_staying %}<span class="nowrap-name">{{ name }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}</p>{% endif %}
     <p class="export-note">{% trans "The build name and the class do not travel: their link format has no room for them." %}</p>
 
     <div class="export-go">

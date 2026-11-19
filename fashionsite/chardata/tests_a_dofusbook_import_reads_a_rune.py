@@ -176,12 +176,12 @@ class TheSavedBuildHoldsTheRuneTests(TestCase):
         entries = [(slot_code('Hat'), self.hat, variant_lines(self.hat, RESISTANCE_KEY))]
         page = self.importing(entries, confirm=False).content.decode('utf-8')
         self.assertIn('import-link-dracorunes', page)
-        self.assertIn('Read as Dracorunes', page)
+        self.assertIn('Dracorunes read from the link', page)
         self.assertIn('Ivory Dracorune', page)
         self.assertNotIn('import-link-dracorunes-unread', page)
         french = self.importing(entries, confirm=False, language='fr').content.decode('utf-8')
         self.assertIn('Dracorune Ivoire', french)
-        self.assertIn('Lues comme Dracorunes', french)
+        self.assertIn('Dracorunes lues dans le lien', french)
 
     def test_a_rune_the_version_cannot_place_is_reported_in_the_preview(self):
         build = {'game_version': 'dofus3', 'item_ids': [self.hat.id],

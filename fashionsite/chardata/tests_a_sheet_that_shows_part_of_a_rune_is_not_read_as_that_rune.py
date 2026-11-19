@@ -5,7 +5,7 @@ from unittest import mock
 
 from django.test import TestCase
 
-from chardata import dofusbook_import
+from chardata import dofusbook_import, text_build_view
 from chardata.dofusbook_rune_fixtures import (LINK, RESISTANCE_KEY, code_of, lines_of, opener,
                                               piece, public_payload, runes, slot_code,
                                               stand_in_runes, structure, variant_lines)
@@ -64,3 +64,23 @@ class TwoVariantsOnOneSheetAreNotGuessedTests(_Sheet):
             lu = self.read(sheet)
         self.assertNotIn('dracorunes', lu)
         self.assertEqual([self.hat.id], lu['dracorunes_unread'])
+
+    def test_an_unread_piece_comes_in_at_its_base_roll_and_the_preview_names_it_once(self):
+        sheet = {'rnp': 0, 'rtp': variant_lines(self.hat, RESISTANCE_KEY)['earthresper']}
+        payload = public_payload([(slot_code('Hat'), self.hat, lines_of(self.hat))])
+        payload['fmItems'][slot_code('Hat')] = sheet
+
+        def reading(url, opener_=None):
+            return dofusbook_import.read_build(url, opener=opener(payload))
+
+        with mock.patch('fashionistapulp.dracorune_terms.item_variants', return_value=self.twins()):
+            lu = self.read(sheet)
+            self.assertNotIn(self.hat.id, lu['rolls'])
+            self.assertEqual([], lu['fm_unmapped'])
+            with mock.patch.object(text_build_view, 'read_build', reading):
+                page = self.client.post('/import/text/', {'text': LINK}).content.decode('utf-8')
+        self.assertEqual(1, page.count('import-link-dracorunes-unread'))
+        self.assertNotIn('import-link-fm"', page)
+        self.assertNotIn('import-link-exos', page)
+        self.assertNotIn('Resist outside', page)
+        self.assertNotIn('read as an exo', page)

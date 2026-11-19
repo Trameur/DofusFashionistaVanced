@@ -7315,9 +7315,6 @@ msgstr ""
 msgid "These lines from the link belong to no piece and are left out:"
 msgstr ""
 
-msgid "Read as Dracorunes:"
-msgstr ""
-
 msgid "The Dracorune on these pieces could not be read and is left out:"
 msgstr ""
 
@@ -8548,6 +8545,10 @@ msgstr ""
 
 #: chardata/templates/chardata/solution_item.html
 msgid "Weapon element"
+msgstr ""
+
+#: chardata/templates/chardata/text_build.html
+msgid "Dracorunes read from the link:"
 msgstr ""
 
 #: chardata/templates/chardata/text_build.html

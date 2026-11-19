@@ -8259,9 +8259,6 @@ msgstr "A forjamagia da arma do link fica de fora."
 msgid "These lines from the link belong to no piece and are left out:"
 msgstr "Estas linhas do link não pertencem a nenhuma peça e ficam de fora:"
 
-msgid "Read as Dracorunes:"
-msgstr "Lidas como Dracorrunas:"
-
 msgid "The Dracorune on these pieces could not be read and is left out:"
 msgstr "A Dracorruna destas peças não pôde ser lida e fica de fora:"
 
@@ -9500,6 +9497,10 @@ msgstr "O jogo não publica esta taxa: o site supõe %(rate)d%%."
 #: chardata/templates/chardata/solution_item.html
 msgid "Weapon element"
 msgstr "Elemento da arma"
+
+#: chardata/templates/chardata/text_build.html
+msgid "Dracorunes read from the link:"
+msgstr "Dracorrunas lidas do link:"
 
 #: chardata/templates/chardata/text_build.html
 msgid "Weapon element read from the link:"

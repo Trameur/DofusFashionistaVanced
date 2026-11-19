@@ -345,13 +345,13 @@ def rune_variant_of_lines(item, lines, structure, runes):
 
 
 def read_dracorunes(payload, game_version):
-    """({their slot code: (item id, variant key)}, [item ids whose rune is ambiguous]): empty on a version without a runes file."""
+    """({their slot code: (item id, variant key)}, [item ids whose rune is ambiguous], [their slot codes]): empty on a version without a runes file."""
     from fashionistapulp.model import readable_runes
     from fashionistapulp.structure import get_structure
     runes = readable_runes(game_version)
-    read, unread = {}, []
+    read, unread, unread_slots = {}, [], []
     if runes is None:
-        return read, unread
+        return read, unread, unread_slots
     structure = get_structure(game_version)
     for slot, item, lignes in _slot_items(payload, game_version):
         try:
@@ -362,7 +362,8 @@ def read_dracorunes(payload, game_version):
             read[slot] = (item.id, key)
         elif ambiguous:
             unread.append(item.id)
-    return read, unread
+            unread_slots.append(slot)
+    return read, unread, unread_slots
 
 
 def item_rolls(payload, game_version, skip_slots=(), only_slots=None):
@@ -413,8 +414,9 @@ def read_build(url, opener=None):
     stuff = payload.get('stuff') or {}
     niveau = stuff.get('character_level')
     points, parchos = base_stats(stuff)
-    runes_lues, runes_ambigues = read_dracorunes(payload, game_version)
-    rolls, sans_cle = item_rolls(payload, game_version, skip_slots=runes_lues)
+    runes_lues, runes_ambigues, slots_ambigus = read_dracorunes(payload, game_version)
+    rolls, sans_cle = item_rolls(payload, game_version,
+                                 skip_slots=set(runes_lues) | set(slots_ambigus))
     lu = {
         'game_version': game_version,
         'source_host': host,
