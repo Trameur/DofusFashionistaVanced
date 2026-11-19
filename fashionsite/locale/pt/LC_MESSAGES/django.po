@@ -9367,6 +9367,26 @@ msgid "November 2026"
 msgstr "Novembro de 2026"
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3 Beta"
+msgstr "Dofus 3 Beta"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dracorunes in the optimizer, and the Bellaphone class"
+msgstr "Dracorrunas no otimizador e a classe Beléfone"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "The optimizer can now dress your pieces with Dracorunes: allow them in the options and it puts them on the pieces where they help most."
+msgstr "O otimizador agora pode equipar suas peças com Dracorrunas: permita-as nas opções e ele as coloca nas peças em que ajudam mais."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Lock a piece and it keeps its Dracorune, and the build page shows every Dracorune worn."
+msgstr "Uma peça travada mantém sua Dracorruna, e a página do build mostra cada Dracorruna usada."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "The new Bellaphone class is here, with its own avatars."
+msgstr "Chegou a nova classe Beléfone, com avatares próprios."
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "Stronger builds, and a new way to start them"
 msgstr "Builds mais fortes e um novo jeito de começá-los"
 
