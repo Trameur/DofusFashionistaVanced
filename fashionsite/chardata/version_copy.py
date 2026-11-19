@@ -451,6 +451,15 @@ def link_build_in(build, target_version, language=None):
                       in (build.get('rolls') or {}).items() if item_id in ids}
     moved['fm_unmapped'] = [(ids[item_id], code, value) for item_id, code, value
                             in build.get('fm_unmapped') or [] if item_id in ids]
+    for key in ('dracorunes', 'dracorunes_unread'):
+        if key in build:
+            moved[key] = ([(ids[entry[0]], entry[1]) for entry in build[key]
+                           if entry[0] in ids] if key == 'dracorunes'
+                          else [ids[item_id] for item_id in build[key]
+                                if item_id in ids])
+    if 'dracorune_rolls' in build:
+        moved['dracorune_rolls'] = {ids[item_id]: rolls for item_id, rolls
+                                    in build['dracorune_rolls'].items() if item_id in ids}
     for key in ('fm_not_carried', 'not_wearable'):
         if key in build:
             moved[key] = [ids[item_id] for item_id in build.get(key) or []

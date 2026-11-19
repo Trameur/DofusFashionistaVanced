@@ -8287,6 +8287,12 @@ msgstr "La forjamagia del arma del enlace se deja fuera."
 msgid "These lines from the link belong to no piece and are left out:"
 msgstr "Estas líneas del enlace no pertenecen a ninguna pieza y se dejan fuera:"
 
+msgid "Read as Dracorunes:"
+msgstr "Leídas como Dracorrunas:"
+
+msgid "The Dracorune on these pieces could not be read and is left out:"
+msgstr "La Dracorruna de estas piezas no se pudo leer y se deja fuera:"
+
 msgid "These forgemagie lines could not be read and are left out:"
 msgstr "Estas líneas de forjamagia no se pudieron leer y se dejan fuera:"
 
@@ -8300,6 +8306,9 @@ msgstr "Las piezas brillantes de TemporiX no existen en DofusBook: lo que el x1,
 
 msgid "Their forgemagie field cannot hold these, so they stay here:"
 msgstr "Su campo de forjamagia no puede llevar estos, así que se quedan aquí:"
+
+msgid "Their forgemagie field cannot carry these Dracorunes, so they stay here:"
+msgstr "Su campo de forjamagia no puede llevar estas Dracorrunas, así que se quedan aquí:"
 
 msgid "The build name and the class do not travel: their link format has no room for them."
 msgstr "El nombre del build y la clase no viajan: su formato de enlace no tiene sitio para ellos."

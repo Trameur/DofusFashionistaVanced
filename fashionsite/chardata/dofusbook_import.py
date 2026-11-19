@@ -286,33 +286,96 @@ def read_weapon_forge(build, game_version):
     return choice, unread
 
 
-def item_rolls(payload, game_version):
-    """({item id: [{'key', 'value'}]}, [(item id, code, value) we have no key for])."""
+def _slot_items(payload, game_version):
+    """[(their slot code, item, {stat code: value})] for the pieces whose fmItems hold lines."""
     from fashionistapulp.structure import get_structure
     structure = get_structure(game_version)
     stuff = payload.get('stuff') or {}
     par_emplacement = stuff.get('stuffItem') or {}
+    fm = payload.get('fmItems') or {}
+    if not isinstance(fm, dict) or not isinstance(par_emplacement, dict):
+        return []
     officiel_par_leur_id = {}
     for entree in payload.get('items') or []:
         try:
             officiel_par_leur_id[str(entree.get('id'))] = int(entree.get('official'))
         except (TypeError, ValueError):
             continue
-    # fmItems: {their slot code: {stat code: final value of the line}}
-    fm = payload.get('fmItems') or {}
-    rolls, sans_cle = {}, []
-    if not isinstance(fm, dict) or not isinstance(par_emplacement, dict):
-        return rolls, sans_cle
+    trouves = []
     for slot, lignes in fm.items():
         if not isinstance(lignes, dict) or not lignes:
             continue
         leur_id = par_emplacement.get(slot)
         ankama = officiel_par_leur_id.get(str(leur_id)) if leur_id is not None else None
         item = structure.items_dict_ankama.get(ankama) if ankama is not None else None
+        if item is not None:
+            trouves.append((slot, item, lignes))
+    return trouves
+
+
+def rune_variant_of_lines(item, lines, structure, runes):
+    """(variant key, None) when the sheet's lines, laid over the item's own, equal one rune variant and not the base, (None, True) when two variants fit, else (None, None)."""
+    from fashionistapulp import dracorune_terms
+    if not dracorune_terms.is_eligible(item, structure, runes):
+        return None, None
+    base = {}
+    for stat_id, value in item.stats:
+        base[stat_id] = base.get(stat_id, 0) + value
+    shown = dict(base)
+    for code, value in lines.items():
+        if not isinstance(value, int) or isinstance(value, bool):
+            return None, None
+        stat = structure.get_stat_by_key(FM_CODES.get(code) or '')
+        if stat is None:
+            return None, None
+        shown[stat.id] = value
+    shown = {stat_id: value for stat_id, value in shown.items() if value}
+    if shown == {stat_id: value for stat_id, value in base.items() if value}:
+        return None, None
+    found = []
+    for variant in dracorune_terms.item_variants(item, runes, structure):
+        lines_of = dict(base)
+        for stat_id, change in variant.delta:
+            lines_of[stat_id] = lines_of.get(stat_id, 0) + change
+        if {stat_id: value for stat_id, value in lines_of.items() if value} == shown:
+            found.append(variant.key)
+    if len(found) == 1:
+        return found[0], None
+    return None, bool(found) or None
+
+
+def read_dracorunes(payload, game_version):
+    """({their slot code: (item id, variant key)}, [item ids whose rune is ambiguous]): empty on a version without a runes file."""
+    from fashionistapulp.model import readable_runes
+    from fashionistapulp.structure import get_structure
+    runes = readable_runes(game_version)
+    read, unread = {}, []
+    if runes is None:
+        return read, unread
+    structure = get_structure(game_version)
+    for slot, item, lignes in _slot_items(payload, game_version):
+        try:
+            key, ambiguous = rune_variant_of_lines(item, lignes, structure, runes)
+        except (KeyError, TypeError, ValueError):
+            continue
+        if key is not None:
+            read[slot] = (item.id, key)
+        elif ambiguous:
+            unread.append(item.id)
+    return read, unread
+
+
+def item_rolls(payload, game_version, skip_slots=(), only_slots=None):
+    """({item id: [{'key', 'value'}]}, [(item id, code, value) we have no key for])."""
+    from fashionistapulp.structure import get_structure
+    structure = get_structure(game_version)
+    # fmItems: {their slot code: {stat code: final value of the line}}
+    rolls, sans_cle = {}, []
+    for slot, item, lignes in _slot_items(payload, game_version):
+        if slot in skip_slots or (only_slots is not None and slot not in only_slots):
+            continue
         for code, valeur in lignes.items():
             if not isinstance(valeur, int) or isinstance(valeur, bool):
-                continue
-            if item is None:
                 continue
             cle = FM_CODES.get(code)
             if cle is None or structure.get_stat_by_key(cle) is None:
@@ -350,8 +413,9 @@ def read_build(url, opener=None):
     stuff = payload.get('stuff') or {}
     niveau = stuff.get('character_level')
     points, parchos = base_stats(stuff)
-    rolls, sans_cle = item_rolls(payload, game_version)
-    return {
+    runes_lues, runes_ambigues = read_dracorunes(payload, game_version)
+    rolls, sans_cle = item_rolls(payload, game_version, skip_slots=runes_lues)
+    lu = {
         'game_version': game_version,
         'source_host': host,
         'build_id': build_id,
@@ -373,6 +437,12 @@ def read_build(url, opener=None):
         # Their character_class is their own numbering, not Ankama's
         'class_is_unknown': True,
     }
+    if runes_lues:
+        lu['dracorunes'] = [runes_lues[slot] for slot in sorted(runes_lues)]
+        lu['dracorune_rolls'] = item_rolls(payload, game_version, only_slots=runes_lues)[0]
+    if runes_ambigues:
+        lu['dracorunes_unread'] = runes_ambigues
+    return lu
 
 
 def read_stuffer_link(host, stuff):

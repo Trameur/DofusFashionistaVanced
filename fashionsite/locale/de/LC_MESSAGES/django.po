@@ -8343,6 +8343,12 @@ msgstr "Die Schmiedmagie der Waffe aus dem Link bleibt außen vor."
 msgid "These lines from the link belong to no piece and are left out:"
 msgstr "Diese Zeilen aus dem Link gehören zu keinem Teil und bleiben außen vor:"
 
+msgid "Read as Dracorunes:"
+msgstr "Als Drachenrunen gelesen:"
+
+msgid "The Dracorune on these pieces could not be read and is left out:"
+msgstr "Die Drachenrune dieser Teile konnte nicht gelesen werden und bleibt außen vor:"
+
 msgid "These forgemagie lines could not be read and are left out:"
 msgstr "Diese Schmiedmagie-Zeilen konnten nicht gelesen werden und bleiben außen vor:"
 
@@ -8356,6 +8362,9 @@ msgstr "Glänzende TemporiX-Teile gibt es auf DofusBook nicht: was das x1,5 jede
 
 msgid "Their forgemagie field cannot hold these, so they stay here:"
 msgstr "Deren Schmiedmagie-Feld kann diese nicht tragen, sie bleiben hier:"
+
+msgid "Their forgemagie field cannot carry these Dracorunes, so they stay here:"
+msgstr "Deren Schmiedmagie-Feld kann diese Drachenrunen nicht tragen, sie bleiben hier:"
 
 msgid "The build name and the class do not travel: their link format has no room for them."
 msgstr "Der Name des Builds und die Klasse kommen nicht mit: ihr Linkformat hat dafür keinen Platz."
