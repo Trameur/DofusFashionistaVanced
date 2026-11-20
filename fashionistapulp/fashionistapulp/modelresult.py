@@ -473,6 +473,12 @@ class ModelResult():
                 for stat_key, _stat_name, max_cap in result_set.get_max_caps():
                     if stat_key in self.stats_total:
                         self.stats_total[stat_key] = min(self.stats_total[stat_key], max_cap)
+            for result_item in self.item_list:
+                if not result_item.item_added:
+                    continue
+                for stat_key, _stat_name, max_cap in result_item.get_max_caps():
+                    if stat_key in self.stats_total:
+                        self.stats_total[stat_key] = min(self.stats_total[stat_key], max_cap)
         return self.stats_total
         
     def switch_item(self, item, slot, stat_overrides=None):
@@ -920,6 +926,10 @@ class ModelResultItem():
                 tuple((structure.get_stat_by_id(stat_id).key, is_max, value)
                       for stat_id, is_max, value in gates)
                 for gates in getattr(item, 'or_conditions', None) or ())
+            self.max_caps = tuple(
+                (structure.get_stat_by_id(stat_id).key, structure.get_stat_by_id(stat_id).name, max_value)
+                for stat_id, max_value in getattr(item, 'max_caps', None) or ()
+                if structure.get_stat_by_id(stat_id) is not None)
             
     
             localized_extras = item.localized_extras.get(get_supported_language())
@@ -986,6 +996,10 @@ class ModelResultItem():
                           'item_id': rune.get('item_id') if rune else None,
                           'name': dracorune_name(rune, get_supported_language())}
 
+    def get_max_caps(self):
+        """[(stat key, stat name, max value)] the game caps while this piece is worn."""
+        return getattr(self, 'max_caps', None) or ()
+
     def holds_an_over(self):
         """A recorded roll above the catalogue on a stat other than AP, MP or Range."""
         exo_keys = {key for key, _option in EXO_OPTIONS}
@@ -1033,6 +1047,7 @@ class ModelResultSet():
         self.number_of_items = number_of_items
         self.bonus_per_num_items = item_set.bonus_per_num_items
         self.raw_max_caps = item_set.max_caps  # list of (num_items, stat_id, max_value)
+        self.localized_extras = getattr(item_set, 'localized_extras', None) or {}
         self.items = []
         for item_id in item_set.items:
             item = structure.get_item_by_id(item_id)
@@ -1042,6 +1057,14 @@ class ModelResultSet():
     def get_bonus(self):
         # Many Retro sets have no bonus for some piece counts
         return self.bonus_per_num_items.get(self.number_of_items, {})
+
+    def get_extras(self):
+        """(lines, {spell name: what it does}) of the special spells this many pieces grant."""
+        by_language = (getattr(self, 'localized_extras', None) or {}).get(self.number_of_items) or {}
+        lines = by_language.get(get_supported_language())
+        if lines is None:
+            lines = ['[!] ' + line for line in by_language.get('en', [])]
+        return fold_spell_blocks(lines)
 
     def get_max_caps(self):
         structure = get_structure()

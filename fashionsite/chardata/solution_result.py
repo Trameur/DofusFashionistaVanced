@@ -183,6 +183,11 @@ class SolutionResult:
 
             for stat_key, stat_name, max_value in result_set.get_max_caps():
                 result_set.stats_lines.append(CapLine(stat_key, stat_name, max_value))
+            set_extras, set_spell_tooltips = result_set.get_extras()
+            for extra in set_extras:
+                line = ExtraLine(extra)
+                line.spell_tip = spell_tip_for(line.text, set_spell_tooltips)
+                result_set.stats_lines.append(line)
                            
             # This is a dict to handle cases like Air Bwaks, that can be multiple different
             # items, but we only want to display one.
@@ -333,6 +338,15 @@ def stat_sources(model_result):
             over = running(stat_key) - max_cap
             if over > 0:
                 add(stat_key, name, -over, 'cap')
+    for result_item in getattr(model_result, 'item_list', None) or []:
+        get_max_caps = getattr(result_item, 'get_max_caps', None)
+        if not getattr(result_item, 'item_added', False) or get_max_caps is None:
+            continue
+        for stat_key, _stat_name, max_cap in get_max_caps():
+            over = running(stat_key) - max_cap
+            if over > 0:
+                add(stat_key, getattr(result_item, 'localized_name', None) or result_item.name,
+                    -over, 'cap')
 
     for lines in sources.values():
         # By signed value, so a malus sorts below the bonuses
@@ -423,6 +437,9 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
             elif stat_value < base_val:
                 line.formatting = '#o'
         result_item.stats_lines.append(line)
+    get_max_caps = getattr(result_item, 'get_max_caps', None)
+    for stat_key, stat_name, max_value in (get_max_caps() if get_max_caps else ()):
+        result_item.stats_lines.append(CapLine(stat_key, stat_name, max_value))
     spell_tooltips = getattr(result_item, 'spell_tooltips', None) or {}
     for extra in result_item.extras:
         if isinstance(extra, tuple):

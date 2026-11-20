@@ -217,6 +217,8 @@ class Structure:
             self.read_item_flags_table()
             self.read_set_bonus_table()
             self.read_set_max_caps_table()
+            self.read_item_max_caps_table()
+            self.read_set_extra_lines_table()
     #       self.read_weapon_is_onehanded_table()
             self.read_weapon_hits_table()
             #self.insert_turquoises()
@@ -1024,6 +1026,34 @@ class Structure:
             if item_set is None:
                 continue
             item_set.max_caps.append((num_items, stat_id, max_value))
+
+    def read_item_max_caps_table(self):
+        c = self.conn.cursor()
+        try:
+            rows = c.execute('SELECT item, stat, max_value FROM item_max_caps').fetchall()
+        except Exception:
+            return
+        for item_id, stat_id, max_value in rows:
+            item = self.get_item_by_id(item_id)
+            if item is not None:
+                item.max_caps.append((stat_id, max_value))
+
+    def read_set_extra_lines_table(self):
+        c = self.conn.cursor()
+        try:
+            rows = c.execute(
+                'SELECT item_set, num_pieces_used, line, language FROM set_extra_lines').fetchall()
+        except Exception:
+            return
+        for set_id, num_items, blob, language in rows:
+            item_set = self.sets_dict.get(set_id) or self.dt_sets_dict.get(set_id)
+            if item_set is None:
+                continue
+            if isinstance(blob, str):
+                blob = blob.encode()
+            lines = pickle.loads(blob)
+            assert type(lines) is list
+            item_set.localized_extras.setdefault(num_items, {})[language] = lines
 
     def build_indexes(self):
         self.items_list = list(self.items_dict.values())

@@ -52,6 +52,12 @@ def set_cap_stats(sets):
                      for _, stat_id, _ in item_set.max_caps)
 
 
+def item_cap_stats(items):
+    """The stat ids a worn item's max cap bounds from above."""
+    return frozenset(stat_id for item in items
+                     for stat_id, _ in getattr(item, 'max_caps', None) or ())
+
+
 def gain_bound(delta, context):
     """(ub, safe): the most the delta adds to the objective, and if it keeps G and L."""
     ub = 0

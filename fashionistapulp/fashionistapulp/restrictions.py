@@ -47,3 +47,4 @@ class Restrictions:
         self.third_stats_points_constraints = {}
         self.fourth_stats_points_constraint = None
         self.set_max_cap_constraints = {}
+        self.item_max_cap_constraints = {}

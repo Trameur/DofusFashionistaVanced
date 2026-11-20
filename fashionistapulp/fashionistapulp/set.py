@@ -25,6 +25,7 @@ class Set:
         self.bonus = []
         self.bonus_per_num_items = {}
         self.max_caps = []  # list of (num_items, stat_id, max_value)
+        self.localized_extras = {}
         self.items = []
         self.localized_names = {}
         self.dofus_touch = False

@@ -144,6 +144,13 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
                     </li>
                     {% endfor %}
                 </ul>
+                {% if group.extras %}
+                <ul class="encyclopedia-list">
+                    {% for extra in group.extras %}
+                    <li>{% if extra.spell_tip %}<span class="spell-line">{{ extra.text }}</span>{% include 'chardata/spell_tip.html' with tip=extra.spell_tip %}{% else %}{{ extra.text }}{% endif %}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 {% if group.caps %}
                 <div class="encyclopedia-item-meta">{% trans "Caps this set imposes" %}</div>
                 <ul class="encyclopedia-list encyclopedia-set-caps">

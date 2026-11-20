@@ -263,10 +263,14 @@ class Model:
     
     def create_set_variables(self):
         self.set_count = len(self.sets_list)     
+        self._max_set_pieces = max([8] + [
+            max([len(item_set.items)] + [num_items for num_items, _, _ in item_set.bonus]
+                + [num_items for num_items, _, _ in item_set.max_caps])
+            for item_set in self.sets_list])
      
         for item_set in self.sets_list:
-            self.problem.setup_variable('s', item_set.id, 0, 9)
-            for slot_number in range(0, 10):
+            self.problem.setup_variable('s', item_set.id, 0, self._max_set_pieces + 1)
+            for slot_number in range(0, self._max_set_pieces + 2):
                 self.problem.setup_variable('ss', '%d_%d' % (item_set.id, slot_number), 0, 1)    
 
     def create_stat_total_variables(self):
@@ -278,6 +282,11 @@ class Model:
             if not item_set.max_caps:
                 continue
             for num_items, stat_id, max_value in item_set.max_caps:
+                stat = self.structure.get_stat_by_id(stat_id)
+                if stat and stat.name in self.stat_maximum:
+                    self._capped_stat_ids.add(stat_id)
+        for item in self.items_list:
+            for stat_id, max_value in getattr(item, 'max_caps', None) or ():
                 stat = self.structure.get_stat_by_id(stat_id)
                 if stat and stat.name in self.stat_maximum:
                     self._capped_stat_ids.add(stat_id)
@@ -1023,6 +1032,7 @@ class Model:
         if minimum_stats.get(EFFECTIVE_HP_MINIMUM):
             lower |= ids(name for _coefficient, name in _effective_hp_terms(1))
         upper |= dracorune_terms.set_cap_stats(self.sets_list)
+        upper |= dracorune_terms.item_cap_stats(self.items_list)
         both = set()
         if getattr(self, '_modifier_terms', None):
             both.add(structure.get_stat_by_key('ap').id)
@@ -1503,29 +1513,30 @@ class Model:
                                                             + [(-1, 's', item_set.id)])
             self.restrictions.first_set_constraints[item_set.name] = restriction
         
+        most = self._max_set_pieces
         for item_set in self.sets_list:
             restrictions_list = []
-            for slot in range (1, 9):
+            for slot in range (1, most + 1):
                 restriction = self.problem.restriction_lt_eq(0, [(slot, 'ss', '%d_%d' % (item_set.id, slot + 1)), (-1, 's', item_set.id)])   
                 restrictions_list.append(restriction)
             self.restrictions.second_presence_constraints[item_set.name] = restrictions_list
 
         for item_set in self.sets_list:
-            restriction = self.problem.restriction_eq(1, [(1, 'ss', '%d_%d' % (item_set.id, slot + 1)) for slot in range (0, 9)]) 
+            restriction = self.problem.restriction_eq(1, [(1, 'ss', '%d_%d' % (item_set.id, slot + 1)) for slot in range (0, most + 1)]) 
             self.restrictions.third_set_constraints[item_set.name] = restriction
         
         for item_set in self.sets_list:
             restrictions_list = []
-            for slot in range (0, 9):
-                restriction = self.problem.restriction_lt_eq(8 + slot,
-                                                             [(8, 'ss', '%d_%d' % (item_set.id, slot + 1)),
+            for slot in range (0, most + 1):
+                restriction = self.problem.restriction_lt_eq(most + slot,
+                                                             [(most, 'ss', '%d_%d' % (item_set.id, slot + 1)),
                                                               (1, 's', item_set.id)])
                 restrictions_list.append(restriction)
             self.restrictions.fourth_set_constraints[item_set.name] = restrictions_list
     
     def create_set_max_cap_constraints(self):
-        """Big-M constraints for set-based stat caps (e.g. Cire Momore AP/MP/Range limits)."""
-        overage_ss_per_stat = {}  # stat_id -> list of (set_id, tier_index)
+        """Big-M constraints for the stat caps a set tier or a worn item imposes (e.g. Cire Momore MP/Range limits)."""
+        overage_ss_per_stat = {}
 
         for item_set in self.sets_list:
             if not item_set.max_caps:
@@ -1545,16 +1556,33 @@ class Model:
                 self.restrictions.set_max_cap_constraints[(item_set.id, num_items, stat_id)] = restriction
 
                 if stat_id in self._capped_stat_ids:
-                    overage_ss_per_stat.setdefault(stat_id, []).append((item_set.id, num_items + 1))
+                    overage_ss_per_stat.setdefault(stat_id, []).append(
+                        ('ss', '%d_%d' % (item_set.id, num_items + 1)))
 
-        for stat_id, ss_keys in overage_ss_per_stat.items():
+        for item in self.items_list:
+            for stat_id, max_value in getattr(item, 'max_caps', None) or ():
+                stat = self.structure.get_stat_by_id(stat_id)
+                if stat is None or stat.name not in self.stat_maximum:
+                    continue
+                global_max = self.stat_maximum[stat.name]
+                if max_value >= global_max:
+                    continue
+                restriction = self.problem.restriction_lt_eq(global_max, [
+                    (1, 'stat', stat_id),
+                    (global_max - max_value, 'p', item.id),
+                ])
+                self.restrictions.item_max_cap_constraints[(item.id, stat_id)] = restriction
+                if stat_id in self._capped_stat_ids:
+                    overage_ss_per_stat.setdefault(stat_id, []).append(('p', item.id))
+
+        for stat_id, keys in overage_ss_per_stat.items():
             stat = self.structure.get_stat_by_id(stat_id)
             if not stat or stat.name not in self.stat_maximum:
                 continue
             global_max = self.stat_maximum[stat.name]
             overage_matrix = [(1, 'overage', stat_id)]
-            for (set_id, k) in ss_keys:
-                overage_matrix.append((-global_max, 'ss', '%d_%d' % (set_id, k)))
+            for family, key in keys:
+                overage_matrix.append((-global_max, family, key))
             self.problem.restriction_lt_eq(0, overage_matrix)
 
     def create_light_set_constraints(self):
@@ -1586,7 +1614,7 @@ class Model:
         
         plist = []
         # Limits the number of bonus 4 or more to 0
-        for set_bonus in range(4, 9): 
+        for set_bonus in range(4, self._max_set_pieces + 1): 
             plist.extend([(1, 'ss', '%d_%d' % (item_set.id, set_bonus + 1)) for item_set in self.sets_list])
         plist.append((-N_TOTAL_SETS, 'ytrophy', 2))
         restriction = self.problem.restriction_lt_eq(0, plist)
