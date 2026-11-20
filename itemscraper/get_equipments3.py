@@ -26,6 +26,7 @@ project_root = os.path.dirname(current_directory)
 sys.path.append(project_root)
 sys.path.insert(0, current_directory)
 from max_effects import max_caps  # noqa: E402
+from untranslated_tag import clean_display_name  # noqa: E402
 
 _parser = argparse.ArgumentParser(description="Build SQLite dump from transformed equipment JSON")
 _parser.add_argument("--dump-output", default=None, help="Output path for the dump file (default: item_db_dumped.dump)")
@@ -356,7 +357,8 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
             for lang in LANGUAGES:
                 description = effect_data.get(f'special_spell_{lang}')
                 if description:
-                    hex_data = pickle.dumps(description.split('\n')).hex()
+                    lines = [clean_display_name(line) for line in description.split('\n')]
+                    hex_data = pickle.dumps(lines).hex()
                     f.write(f"INSERT INTO set_extra_lines VALUES({set_data['ankama_id']},{effect_key},X'{hex_data}','{lang}');\n")
 
     # Write CREATE TABLE for min_stat_to_equip
@@ -697,7 +699,7 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     description = item[special_spell_key]
                     
                     # Split the description into lines and store in a list
-                    description_lines = description.split('\n')
+                    description_lines = [clean_display_name(line) for line in description.split('\n')]
 
                     # Serialize the list using pickle
                     pickled_data = pickle.dumps(description_lines)
