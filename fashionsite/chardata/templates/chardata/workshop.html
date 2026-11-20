@@ -8,14 +8,14 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/workshop.css" %}">
 {% endblock %}
 
 {% block main %}
     <h1 align="center">{% trans "My Workshop" %}</h1>
 
-    <div class="workshop-wrapper">
+    <div class="workshop-wrapper tools-atelier">
         <p class="workshop-meta">
             <span>
                 {% blocktrans trimmed count counter=workshop_count %}

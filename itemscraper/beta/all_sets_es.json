@@ -92638,7 +92638,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 máx. 4"
+                        "formatted": "4 23 máx."
                     },
                     {
                         "int_minimum": 19,
@@ -92651,7 +92651,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 máx. 4"
+                        "formatted": "4 19 máx."
                     },
                     {
                         "int_minimum": 26,
@@ -92664,7 +92664,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 máx. 4"
+                        "formatted": "4 26 máx."
                     },
                     {
                         "int_minimum": -10,
@@ -92835,7 +92835,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 máx. 3"
+                        "formatted": "3 26 máx."
                     },
                     {
                         "int_minimum": 23,
@@ -92848,7 +92848,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 máx. 3"
+                        "formatted": "3 23 máx."
                     },
                     {
                         "int_minimum": 19,
@@ -92861,7 +92861,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 máx. 3"
+                        "formatted": "3 19 máx."
                     },
                     {
                         "int_minimum": -20,
@@ -93045,7 +93045,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 máx. 3"
+                        "formatted": "3 26 máx."
                     },
                     {
                         "int_minimum": 1,
@@ -93227,7 +93227,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 máx. 3"
+                        "formatted": "3 19 máx."
                     },
                     {
                         "int_minimum": 23,
@@ -93240,7 +93240,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 máx. 3"
+                        "formatted": "3 23 máx."
                     }
                 ],
                 "5": [
@@ -93255,7 +93255,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 máx. 3"
+                        "formatted": "3 26 máx."
                     },
                     {
                         "int_minimum": 1,
@@ -93437,7 +93437,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 máx. 3"
+                        "formatted": "3 19 máx."
                     },
                     {
                         "int_minimum": 23,
@@ -93450,7 +93450,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 máx. 3"
+                        "formatted": "3 23 máx."
                     }
                 ],
                 "6": [
@@ -93465,7 +93465,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 máx. 2"
+                        "formatted": "2 26 máx."
                     },
                     {
                         "int_minimum": 23,
@@ -93478,7 +93478,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 máx. 2"
+                        "formatted": "2 23 máx."
                     },
                     {
                         "int_minimum": 19,
@@ -93491,7 +93491,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 máx. 2"
+                        "formatted": "2 19 máx."
                     },
                     {
                         "int_minimum": -50,
@@ -122296,6 +122296,636 @@
             ]
         },
         {
+            "ankama_id": 1106,
+            "name": "Set de náufragos dieceros",
+            "items": 9,
+            "level": 10,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "fuerza",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 fuerza"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "inteligencia",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 inteligencia"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "agilidad",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 agilidad"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 suerte"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 de daño"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "agilidad",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 agilidad"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 suerte"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "inteligencia",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 inteligencia"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "fuerza",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 fuerza"
+                    }
+                ],
+                "4": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 de daño"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "agilidad",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 agilidad"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 suerte"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "inteligencia",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 inteligencia"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "fuerza",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 fuerza"
+                    }
+                ],
+                "5": [
+                    {
+                        "int_minimum": 2,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "2 de daño"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "agilidad",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 agilidad"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 suerte"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "inteligencia",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 inteligencia"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "fuerza",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 fuerza"
+                    }
+                ],
+                "6": [
+                    {
+                        "int_minimum": 2,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "2 de daño"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "agilidad",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 agilidad"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 suerte"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "inteligencia",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 inteligencia"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "fuerza",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 fuerza"
+                    }
+                ],
+                "7": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 de daño"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "agilidad",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 agilidad"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 suerte"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "inteligencia",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 inteligencia"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "fuerza",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 fuerza"
+                    }
+                ],
+                "8": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 de daño"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "agilidad",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 agilidad"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 suerte"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "inteligencia",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 inteligencia"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "fuerza",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 fuerza"
+                    }
+                ],
+                "9": [
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4 de daño"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "agilidad",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 agilidad"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 suerte"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "inteligencia",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 inteligencia"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "fuerza",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 fuerza"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34695,
+                34696,
+                34697,
+                34698,
+                34699,
+                34700,
+                34701,
+                34702,
+                34703
+            ]
+        },
+        {
+            "ankama_id": 1107,
+            "name": "Set salamandro",
+            "items": 3,
+            "level": 15,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "iniciativa",
+                            "id": 24,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 iniciativa"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 potencia (daños generales)"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "invocaciones",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 invocaciones"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 potencia (daños generales)"
+                    },
+                    {
+                        "int_minimum": 100,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "iniciativa",
+                            "id": 24,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "100 iniciativa"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34719,
+                34720,
+                34721
+            ]
+        },
+        {
             "ankama_id": 1108,
             "name": "Set cosmético de porceluna",
             "items": 6,
@@ -122380,6 +123010,1241 @@
                 34688,
                 34689,
                 34690
+            ]
+        },
+        {
+            "ankama_id": 1114,
+            "name": "Set galiverno",
+            "items": 3,
+            "level": 20,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "huida",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 huida"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 potencia (daños generales)"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "invocaciones",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 invocaciones"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "huida",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 huida"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 potencia (daños generales)"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34722,
+                34723,
+                34724
+            ]
+        },
+        {
+            "ankama_id": 1115,
+            "name": "Set dracornoque",
+            "items": 3,
+            "level": 25,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "placaje",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 placaje"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 potencia (daños generales)"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "invocaciones",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 invocaciones"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "placaje",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 placaje"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 potencia (daños generales)"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34725,
+                34726,
+                34727
+            ]
+        },
+        {
+            "ankama_id": 1116,
+            "name": "Set dragocampo",
+            "items": 3,
+            "level": 40,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% crítico",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 % crítico"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 potencia (daños generales)"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "invocaciones",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 invocaciones"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 potencia (daños generales)"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% crítico",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 % crítico"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34734,
+                34735,
+                34736
+            ]
+        },
+        {
+            "ankama_id": 1117,
+            "name": "Set prismántico",
+            "items": 3,
+            "level": 35,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "sabiduría",
+                            "id": 10,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 sabiduría"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de resistencia a la tierra",
+                            "id": 15,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 de resistencia a la tierra"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de resistencia al fuego",
+                            "id": 14,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 de resistencia al fuego"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de resistencia al agua",
+                            "id": 82,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 de resistencia al agua"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de resistencia al aire",
+                            "id": 60,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 de resistencia al aire"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "alcance",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 alcance"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "sabiduría",
+                            "id": 10,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 sabiduría"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de resistencia a la tierra",
+                            "id": 15,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 de resistencia a la tierra"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de resistencia al fuego",
+                            "id": 14,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 de resistencia al fuego"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de resistencia al agua",
+                            "id": 82,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 de resistencia al agua"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de resistencia al aire",
+                            "id": 60,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 de resistencia al aire"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34728,
+                34729,
+                34730
+            ]
+        },
+        {
+            "ankama_id": 1118,
+            "name": "Set de sombralmas",
+            "items": 3,
+            "level": 30,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 de daño"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 potencia (daños generales)"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "invocaciones",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 invocaciones"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 de daño"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 potencia (daños generales)"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34731,
+                34732,
+                34733
+            ]
+        },
+        {
+            "ankama_id": 1119,
+            "name": "Cenizas de Guira",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 80,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "80 potencia (daños generales)"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8395,1::Púrpura Profundo}}:\n• Cuando el portador es atacado, gana un 1% de daños finales durante 2 turnos (acumulable 10 veces)."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 80,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "80 potencia (daños generales)"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8395,1::Púrpura Profundo}}:\n• Cuando el portador es atacado, gana un 1% de daños finales durante 2 turnos (acumulable 10 veces)."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34737,
+                34738,
+                34739
+            ]
+        },
+        {
+            "ankama_id": 1120,
+            "name": "Reliquias de Elil",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 200,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "vitalidad",
+                            "id": 9,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "200 vitalidad"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8393,1::Verde Esmeralda}}:\n• Cuando el portador termina su turno, gana un 100% de su nivel en escudo durante 1 turno por cada enemigo en contacto con él. Los efectos se reducen a la mitad si el enemigo es una invocación."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 200,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "vitalidad",
+                            "id": 9,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "200 vitalidad"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8393,1::Verde Esmeralda}}:\n• Cuando el portador termina su turno, gana un 100% de su nivel en escudo durante 1 turno por cada enemigo en contacto con él. Los efectos se reducen a la mitad si el enemigo es una invocación."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34740,
+                34741,
+                34742
+            ]
+        },
+        {
+            "ankama_id": 1121,
+            "name": "Recuerdos de Ninma",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8394,1::Amarillo Ocre}}:\n• Al principio de cada turno, el portador gana 1 PA si no ha sufrido ningún ataque enemigo desde su turno de juego anterior. Si no, gana 20 de huida."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 2,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "2 PA"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8394,1::Amarillo Ocre}}:\n• Al principio de cada turno, el portador gana 1 PA si no ha sufrido ningún ataque enemigo desde su turno de juego anterior. Si no, gana 20 de huida."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34743,
+                34744,
+                34745
+            ]
+        },
+        {
+            "ankama_id": 1122,
+            "name": "Vestigios de Tiama",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% crítico",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 % crítico"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,5952,1::Azul Turquesa}}:\n• Cuando el portador asesta un golpe crítico, gana un 1% de daños finales durante 3 turnos (acumulable 10 veces)."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% crítico",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 % crítico"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,5952,1::Azul Turquesa}}:\n• Cuando el portador asesta un golpe crítico, gana un 1% de daños finales durante 3 turnos (acumulable 10 veces)."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34752,
+                34753,
+                34754
+            ]
+        },
+        {
+            "ankama_id": 1123,
+            "name": "Tesoros de Utu",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al aire",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia al aire"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18665,1::Blanco Marfil}}:\n• El portador reduce un 50% los daños de uno de cada 5 ataques. Los efectos de interceptación y de reparto de daños son incompatibles."
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia neutral",
+                            "id": 34,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia neutral"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al fuego",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia al fuego"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al agua",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia al agua"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia a la tierra",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia a la tierra"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al aire",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia al aire"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18665,1::Blanco Marfil}}:\n• El portador reduce un 50% los daños de uno de cada 5 ataques. Los efectos de interceptación y de reparto de daños son incompatibles."
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia neutral",
+                            "id": 34,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia neutral"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al fuego",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia al fuego"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al agua",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia al agua"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia a la tierra",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% resistencia a la tierra"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34746,
+                34747,
+                34748
+            ]
+        },
+        {
+            "ankama_id": 1124,
+            "name": "Estigmas de Eresh",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "huida",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 huida"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18629,1::Negro Ébano}}:\n• Cuando el portador ataca en cuerpo a cuerpo durante su turno, gana un 2% de daños a distancia, y, si ataca a distancia, gana un 2% de daños en cuerpo a cuerpo durante 3 turnos (acumulable 5 veces).\n• Activar ambos efectos en un mismo turno permite que el próximo ataque aplique un veneno de 16 con su elemento durante 2 turnos (acumulable 2 veces).\n• El intervalo de lanzamiento del veneno es de 2 turnos, pero se puede reinicializar si se acaba con el objetivo."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "huida",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 huida"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18629,1::Negro Ébano}}:\n• Cuando el portador ataca en cuerpo a cuerpo durante su turno, gana un 2% de daños a distancia, y, si ataca a distancia, gana un 2% de daños en cuerpo a cuerpo durante 3 turnos (acumulable 5 veces).\n• Activar ambos efectos en un mismo turno permite que el próximo ataque aplique un veneno de 16 con su elemento durante 2 turnos (acumulable 2 veces).\n• El intervalo de lanzamiento del veneno es de 2 turnos, pero se puede reinicializar si se acaba con el objetivo."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34749,
+                34750,
+                34751
+            ]
+        },
+        {
+            "ankama_id": 1125,
+            "name": "Set cosmético de Zabelle",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34795,
+                34796,
+                34797,
+                34798,
+                34837,
+                34840
+            ]
+        },
+        {
+            "ankama_id": 1126,
+            "name": "Set cosmético de Welsh",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34800,
+                34802,
+                34804,
+                34805
+            ]
+        },
+        {
+            "ankama_id": 1127,
+            "name": "Set cosmético de Shedar",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34801,
+                34803,
+                34806
+            ]
+        },
+        {
+            "ankama_id": 1128,
+            "name": "[!] Panoplie d'apparat préhistorique",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34908,
+                34909,
+                34910,
+                34911,
+                34913
+            ]
+        },
+        {
+            "ankama_id": 1129,
+            "name": "[!] Panoplie d'apparat de la Démone VIII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34949,
+                34950,
+                34952,
+                34956
+            ]
+        },
+        {
+            "ankama_id": 1130,
+            "name": "[!] Panoplie d'apparat diaprée de la Démone VIII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34951,
+                34953,
+                34954,
+                34955
+            ]
+        },
+        {
+            "ankama_id": 1131,
+            "name": "[!] Panoplie d'apparat de la source",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34991,
+                34992,
+                34993,
+                34995,
+                34996
+            ]
+        },
+        {
+            "ankama_id": 1132,
+            "name": "[!] Panoplie d'apparat Glucolique",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34998,
+                34999,
+                35000,
+                35001
+            ]
+        },
+        {
+            "ankama_id": 1133,
+            "name": "[!] Panoplie d'apparat Bellaphone",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                27939,
+                35006,
+                35008,
+                35009,
+                35010,
+                35011
             ]
         }
     ]

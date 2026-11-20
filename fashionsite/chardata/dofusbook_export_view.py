@@ -22,7 +22,7 @@ from chardata.translation_util import localized_stat_name
 from chardata.util import (get_char_or_raise, get_stats_and_scrolled,
                            set_response)
 from chardata.weapon_forge_text import conversion_line
-from fashionistapulp import temporix
+from fashionistapulp import dracorune_terms, temporix
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.exo_options import EXO_OPTIONS, exo_count, exo_per_item
 from fashionistapulp.game_versions import get_game_version
@@ -221,6 +221,62 @@ def _shiny_forge(structure, item_by_ankama, their_values, overrides):
     return totaux, sans_place
 
 
+def _rune_positions(item, positions, structure, theirs, overrides):
+    """{position in their `fm`: change} a rune adds to the totals already sent, None when a line has no usable position."""
+    stats = getattr(item, 'stats', None) or {}
+    delta = dracorune_terms.variant_delta(getattr(item, 'undraconized_stats', None) or {}, stats)
+    found = {}
+    for key in delta:
+        position = positions.get(key)
+        if position is None or position in dofusbook_export.EXO_INDEXES:
+            return None
+        stat = structure.get_stat_by_key(key)
+        if stat is not None and stat.id in overrides:
+            sent = int(overrides[stat.id])
+        else:
+            sent = int(theirs.get(dofusbook_export.VE[position], 0))
+        found[position] = found.get(position, 0) + int(stats.get(key, 0)) - sent
+    return {position: change for position, change in found.items() if change}
+
+
+def _worn_runes(retenus, connus, positions, structure, their_values, overrides):
+    """[(rune and piece name, {position: change} or None)] of the draconized pieces that travel."""
+    runes = []
+    for _slot, paires in sorted(retenus.items()):
+        for ankama, item in paires:
+            rune = getattr(item, 'dracorune', None)
+            if ankama not in connus or not rune:
+                continue
+            nom = _named(item)
+            if rune.get('name'):
+                nom = '%s (%s)' % (rune['name'], nom)
+            runes.append((nom, _rune_positions(
+                item, positions, structure, their_values.get(ankama) or {},
+                overrides.get(getattr(item, 'id', None)) or {})))
+    return runes
+
+
+def _carry_runes(runes, totaux, scrolls, level):
+    """(forge, refused positions, names of the runes DofusBook cannot carry): a rune travels whole or not at all."""
+    _base, refused_without = dofusbook_export.carriable_forge(totaux, scrolls, level)
+    left = [nom for nom, deltas in runes
+            if deltas is None or set(deltas) & set(refused_without)]
+    carried = [(nom, deltas) for nom, deltas in runes
+               if deltas is not None and not set(deltas) & set(refused_without)]
+    while True:
+        somme = dict(totaux)
+        for _nom, deltas in carried:
+            for position, change in deltas.items():
+                somme[position] = somme.get(position, 0) + change
+        forge, refused = dofusbook_export.carriable_forge(somme, scrolls, level)
+        causes = set(refused) - set(refused_without)
+        if not causes:
+            return forge, refused, left
+        left += [nom for nom, deltas in carried if set(deltas) & causes]
+        carried = [(nom, deltas) for nom, deltas in carried
+                   if not set(deltas) & causes]
+
+
 def _named_stats(structure, game_version, keys):
     noms = []
     for key in keys:
@@ -310,8 +366,15 @@ def dofusbook_export_page(request, char_id):
         for position, total in rayonnant.items():
             if position not in dofusbook_export.EXO_INDEXES:
                 totaux[position] = totaux.get(position, 0) + total
-    forge, refusees = dofusbook_export.carriable_forge(totaux, scrolls,
-                                                       char.level)
+    runes = _worn_runes(retenus, connus, dofusbook_export.index_by_stat_key(),
+                        structure, leurs_valeurs, overrides)
+    if runes:
+        forge, refusees, runes_restantes = _carry_runes(runes, totaux, scrolls,
+                                                        char.level)
+    else:
+        forge, refusees = dofusbook_export.carriable_forge(totaux, scrolls,
+                                                           char.level)
+        runes_restantes = []
     # Shiny AP, MP and Range are real points, not the exo bit
     for position in dofusbook_export.EXO_INDEXES:
         if rayonnant.get(position):
@@ -340,6 +403,8 @@ def dofusbook_export_page(request, char_id):
             dofusbook_export.vitality_scroll_is_forced(char.level)
             and scrolls.get(0, 0) < dofusbook_export.SCROLL_STEP),
     })
+    if runes_restantes:
+        params['dracorunes_staying'] = sorted(runes_restantes)
     response = set_response(request, 'chardata/dofusbook_export.html', params)
     export_count.count(request, export_count.DOFUSBOOK, char.id, char.game_version)
     return response

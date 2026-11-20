@@ -97,7 +97,7 @@ def ad_feed(context, counter, from_end, every=FEED_EVERY, limit=FEED_LIMIT,
 
 @register.simple_tag(takes_context=True)
 def ad_rails(context, slot_name='rail'):
-    """The two gutters a 1200px shell leaves empty on a wide screen.
+    """The two gutters a 1920px shell leaves empty on a wide screen.
 
     Both sides carry the same unit id. The CSS keeps them out of the page until
     the gutter is genuinely wide enough, and a unit that is display:none never

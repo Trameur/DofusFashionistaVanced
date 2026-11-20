@@ -11,12 +11,20 @@ Run as a script to strip it from a version already stored:
 """
 from __future__ import annotations
 
+import io
+import pickle
+import sqlite3
+
 TAG = '[!]'
+
+PICKLED_COLUMNS = frozenset({('extra_lines', 'line'), ('set_extra_lines', 'line'),
+                             ('spell_tooltips', 'tooltips')})
 
 # "[wip]" is the same kind of note on an unfinished text. It is stripped from
 # descriptions only: on an item name it is what the default-exclusion guard
 # reads to keep Ankama's own working content out of the pool.
 WIP_TAG = '[wip]'
+WIP_NOTE = 'wip'
 
 
 def clean_display_name(value):
@@ -31,6 +39,8 @@ def clean_description(value):
     value = clean_display_name(value)
     if not value:
         return value
+    if value.strip().lower() == WIP_NOTE:
+        return ''
     lowered = value.lower()
     while WIP_TAG in lowered:
         start = lowered.index(WIP_TAG)
@@ -53,6 +63,43 @@ def text_columns(cursor, table):
     return columns
 
 
+class _PlainDataUnpickler(pickle.Unpickler):
+    """Reads lists, dicts and strings, and refuses any class."""
+
+    def find_class(self, module, name):
+        raise pickle.UnpicklingError('%s.%s is not plain data' % (module, name))
+
+
+def read_pickled(blob):
+    """The list or dict a pickled item DB column holds, or None when it does not read back."""
+    if isinstance(blob, str):
+        blob = blob.encode()
+    try:
+        return _PlainDataUnpickler(io.BytesIO(blob)).load()
+    except Exception:
+        return None
+
+
+def clean_pickled(value):
+    """Lines lose the tag; a tooltip loses it from its name and its description."""
+    if isinstance(value, list):
+        return [clean_display_name(line) if isinstance(line, str) else line for line in value]
+    if isinstance(value, dict):
+        return {(clean_display_name(name) if isinstance(name, str) else name):
+                (clean_description(text) if isinstance(text, str) else text)
+                for name, text in value.items()}
+    return value
+
+
+def _tagged_pickles(cursor, table, column):
+    found = []
+    for rowid, blob in cursor.execute('SELECT rowid, "%s" FROM "%s"' % (column, table)).fetchall():
+        value = read_pickled(blob)
+        if value is not None and clean_pickled(value) != value:
+            found.append((table, column, rowid, value))
+    return found
+
+
 def cleaner_for(column):
     """Descriptions also lose the unfinished-text note; names keep it."""
     return clean_description if 'description' in column.lower() else clean_display_name
@@ -67,6 +114,9 @@ def tagged_rows(conn):
     found = []
     for table in tables:
         for column in text_columns(cursor, table):
+            if (table, column) in PICKLED_COLUMNS:
+                found.extend(_tagged_pickles(cursor, table, column))
+                continue
             clean = cleaner_for(column)
             markers = [TAG] if clean is clean_display_name else [TAG, WIP_TAG]
             for marker in markers:
@@ -87,7 +137,11 @@ def strip_tag_everywhere(conn):
     cursor = conn.cursor()
     stripped = 0
     for table, column, rowid, value in tagged_rows(conn):
+        if (table, column) in PICKLED_COLUMNS:
+            cleaned = sqlite3.Binary(pickle.dumps(clean_pickled(value)))
+        else:
+            cleaned = cleaner_for(column)(value)
         cursor.execute('UPDATE "%s" SET "%s" = ? WHERE rowid = ?'
-                       % (table, column), (cleaner_for(column)(value), rowid))
+                       % (table, column), (cleaned, rowid))
         stripped += 1
     return stripped

@@ -642,6 +642,25 @@ RACE_TO_BUILD_PROFILE = {
             'airdam': 6.0,
         },
     },
+    'Bellaphone': {
+        'all': {
+            'meleeness': 0.1,
+            'range_importance': 0.4,
+            'vit_importance': 0.7,
+        },
+        'str': {
+            'earthdam': 6.0,
+        },
+        'int': {
+            'firedam': 6.0,
+        },
+        'cha': {
+            'waterdam': 6.0,
+        },
+        'agi': {
+            'airdam': 6.0,
+        },
+    },
 }
 
 RACES_WITH_HYBRID_PROFILES = ['Huppermage']
@@ -807,6 +826,11 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
 }
 
 
+def _class_profile(race):
+    """A class with no profile of its own (new in a beta) takes the default one."""
+    return RACE_TO_BUILD_PROFILE.get(race) or {'all': {}}
+
+
 def _version_profile(race, game_version):
     return RACE_PROFILE_OVERRIDES_BY_VERSION.get(game_version, {}).get(race)
 
@@ -853,7 +877,7 @@ def _param_for_profile_element(race, element, param, is_combination, game_versio
         if val is not None:
             return val
 
-    profile = RACE_TO_BUILD_PROFILE[race]
+    profile = _class_profile(race)
     element_profile = profile.get(element, None)
     if element_profile is not None:
         val = element_profile.get(param, None)
@@ -872,7 +896,7 @@ def _param_for_race(race, param, game_version='dofus3'):
         if val is not None:
             return val
 
-    profile = RACE_TO_BUILD_PROFILE[race]
+    profile = _class_profile(race)
     val = profile['all'].get(param, None)
     if val is not None:
         return val

@@ -171,8 +171,11 @@ class HomeMetadataTests(TestCase):
                 self.assertLess(page.index('id="home-optimizer-intro"'),
                                 page.index('id="home-workshop-intro"'))
                 body = page[page.index('id="home-workshop-intro"'):]
+                self.assertIn('action="%squickstart/"' % path, body)
                 self.assertLess(body.index('href="%squickstart/"' % path),
-                                body.index('href="%ssharedbuilds/"' % path))
+                                body.index('class="fm-home-about'))
+                self.assertLess(body.index('action="%squickstart/"' % path),
+                                body.index('class="fm-home-about'))
                 button = re.search(
                     r'<a\b[^>]*class="giant-button-text"[^>]*>.*?</a>',
                     page, re.S).group(0)

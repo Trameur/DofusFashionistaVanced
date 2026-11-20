@@ -19,6 +19,7 @@
 class Item:
     
     forgeable = False
+    weapon_key = None
 
     def __init__(self):
         self.id = None
@@ -41,6 +42,7 @@ class Item:
         # Each inner list is one branch of an OR.
         self.or_conditions = []
         self.localized_extras = {}
+        self.max_caps = []
         # {language: {spell name: what the spell does}}
         self.spell_tooltips = {}
         self.flags = []

@@ -69,6 +69,13 @@ _VERSION_SWITCH_ENTITY_RE = re.compile(
     r'^encyclopedia/(?:(?:item|resource)/[^/]+/|(?:set|monster)/)\d+')
 
 
+BAND_VERSIONS = frozenset(GAME_VERSIONS)
+
+
+def band_version(gv):
+    return gv if gv in BAND_VERSIONS else 'dofus3'
+
+
 def game_version(request):
     # The language prefix comes before the version: /es/beta/, never /beta/es/
     from chardata.url_language import split_language_prefix
@@ -95,6 +102,7 @@ def game_version(request):
         'current_game_version': gv,
         'current_game_version_label': _GAME_VERSION_LABELS.get(gv, 'Dofus 3'),
         'current_game_version_seo': _GAME_VERSION_SEO_WORDS.get(gv, ''),
+        'game_band': band_version(gv),
         'active_game_versions': ACTIVE_GAME_VERSIONS,
         'version_switch_language_prefix': language_prefix,
         'version_switch_base_path': base_path,

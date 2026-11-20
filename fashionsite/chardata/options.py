@@ -14,6 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from chardata.dracorune_locks import forget_stale_locks
 from chardata.lock_forbid import get_all_exclusions_en_names
 
 import pickle
@@ -22,6 +23,8 @@ from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
 from fashionistapulp.exo_options import EXO_OPTIONS, forgeable_slot_count
 from fashionistapulp.game_versions import get_game_version
+from fashionistapulp.dracorunes import slot_count
+from fashionistapulp.model import dracorune_count, readable_runes
 from fashionistapulp.structure import get_structure
 from fashionistapulp.temporix import version_has_temporix
 from fashionistapulp.translation import get_supported_language
@@ -125,8 +128,13 @@ _available_options_cache = {}
 
 
 def get_available_options(structure=None):
-    """Which dofuses, mounts and prysmaradite exist in the current game version."""
+    """Which dofuses, mounts and prysmaradite exist in the current game version, and how many runes it can take."""
     s = structure or get_structure()
+    return dict(_cached_available_options(s),
+                dracorune_slots=slot_count(s.game_version, readable_runes(s.game_version)))
+
+
+def _cached_available_options(s):
     ver = s.game_version
     cached = _available_options_cache.get(ver)
     if cached is not None:
@@ -184,6 +192,8 @@ def get_options(char):
     options.setdefault('dofus', True)
     options.setdefault('trophies', True)
     options.setdefault('temporix', False)
+    if 'dracorunes' in options:
+        options['dracorunes'] = dracorune_count(options)
 
     exclusions = get_all_exclusions_en_names(char)
     dofus_opt = {}
@@ -230,7 +240,7 @@ def set_options(char, options):
     if char.options:
         old_options = read_char_blob(char.options, {}, 'options', char)
         old_options.update(options)
-        char.options = pickle.dumps(old_options)
+        char.options = pickle.dumps(forget_stale_locks(char, old_options))
     else:
         char.options = pickle.dumps(options)
 

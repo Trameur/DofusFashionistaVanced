@@ -153,11 +153,11 @@ select, .pretty-input {
     color: #3D200D;
 }
 
-html:not(.fm-modern) .wm-idle {
+html:not(.fm-modern, .fm-enhanced) .wm-idle {
     opacity: 1;
 }
 
-html:not(.fm-modern) .wm-idle .wm-name {
+html:not(.fm-modern, .fm-enhanced) .wm-idle .wm-name {
     color: #634E3A;
 }
 

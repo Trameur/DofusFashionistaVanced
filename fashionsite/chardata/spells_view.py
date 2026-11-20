@@ -1096,6 +1096,7 @@ _ATTACK_ELEMENT = 'Poison in the element of the attack'
 _STACK_LABEL = re.compile(r'^Stack (\d+)(?: - (.+))?$')
 _MP_LABEL = re.compile(r'^(\d+) MP used this turn$')
 _STATE_LABEL = re.compile(r'^State (!?\d+(?:,!?\d+)*)$')
+_COUNTER_LABEL = re.compile(r'^Counter (\d+)([=<>])(\d+)(?: - (.+))?$')
 # Faces of a hit split on the target, written by the generator's TARGET_CONDITIONS
 _WITH_SHIELD = 'Target with shield points'
 _WITHOUT_SHIELD = 'Target without shield points'
@@ -1165,6 +1166,16 @@ def _localized_aggregate_label(label, game_version=None):
     match = _STATE_LABEL.match(label)
     if match:
         return _localized_state_label(match.group(1), game_version)
+    match = _COUNTER_LABEL.match(label)
+    if match:
+        counter, sign, value, rest = match.groups()
+        name = state_name(game_version, 'Ct' + counter,
+                          get_supported_language()) or counter
+        head = '%s %s %s' % (name, sign, value)
+        if rest:
+            return '%s - %s' % (head,
+                                _localized_aggregate_label(rest, game_version))
+        return head
     match = _STACK_LABEL.match(label)
     if match:
         stack = _('Stack %(count)s') % {'count': match.group(1)}
@@ -1310,6 +1321,9 @@ _ONE_LANDS = {
 
 def _one_lands_kind(label):
     from chardata.spell_combo import PLACED_LABEL
+    match = _COUNTER_LABEL.match(label or '')
+    if match:
+        label = match.group(4) or ''
     match = _STACK_LABEL.match(label or '')
     if match and match.group(2):
         label = match.group(2)

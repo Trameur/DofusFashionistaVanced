@@ -88,7 +88,7 @@ class TheSheetsLoadInTheOrderTheCascadeCheckAssumesTests(SimpleTestCase):
     def test_the_page_loads_common_then_the_page_sheets_then_responsive_then_modern(self):
         base = io.open(os.path.join(TEMPLATES, 'base.html'), encoding='utf-8').read()
         order = [base.index(marker) for marker in ('chardata/common.css', '{% block css %}',
-                                                    'chardata/responsive.css', 'chardata/modern.css')]
+                                                    'chardata/responsive.css', 'chardata/modern-core.css')]
         self.assertEqual(sorted(order), order)
 
     def test_the_setup_page_adds_its_sheets_inside_the_css_block_after_the_forms_sheet(self):

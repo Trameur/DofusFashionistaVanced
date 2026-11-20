@@ -3,11 +3,11 @@
  "version": "dofus3",
  "generator": {
   "script": "effect_table.py",
-  "sha1": "92b4c6884430",
+  "sha1": "ba9c21b74d56",
   "report_module_sha1": "298f6a1cd959",
-  "text_functions": "fashionistapulp/fashionistapulp/item_effects.py (sha1 7f92b72eb346)"
+  "text_functions": "fashionistapulp/fashionistapulp/item_effects.py (sha1 9138d6fdb254)"
  },
- "game_data_sha1": "0c84a5e42654",
+ "game_data_sha1": "33c219386934",
  "measurement": {
   "file": "effects_dofus3_2026-10-10.json",
   "sha1": "d64be05bc909",
@@ -12001,12 +12001,12 @@
      "Déclenche le combat tactique \"Boufbowl\""
     ],
     "en": [
-     "[!] Déclenche le combat tactique \"Boufbowl\""
+     "Déclenche le combat tactique \"Boufbowl\""
     ]
    },
    "fingerprint": {
     "fr": "91f2d8021d463ff7",
-    "en": "98715e2753243094"
+    "en": "91f2d8021d463ff7"
    },
    "status": "no_value_for_bearer",
    "obtained": {

@@ -263,9 +263,9 @@ def _touch_tooltips():
     return tooltips
 
 
-def collect(game_version, tag=None):
+def collect(game_version, tag=None, raw_dir=None):
     if game_version in ('dofus3', 'beta'):
-        raw = os.path.join(CURRENT_DIRECTORY, 'raw', tag or _archive_tag(game_version))
+        raw = raw_dir or os.path.join(CURRENT_DIRECTORY, 'raw', tag or _archive_tag(game_version))
         return _dofusdude_tooltips(game_version, _datacenter_spells(raw))
     if game_version == 'dofus2':
         raw = os.path.join(CURRENT_DIRECTORY, 'raw', tag or _archive_tag(game_version))
@@ -338,8 +338,10 @@ def main(argv=None):
                         choices=dofus_versions())
     parser.add_argument('--tag', default=None,
                         help='archive under itemscraper/raw to read')
+    parser.add_argument('--raw-dir', default=None,
+                        help='extraction folder to read instead of itemscraper/raw/<tag>')
     args = parser.parse_args(argv)
-    tooltips = collect(args.game_version, args.tag)
+    tooltips = collect(args.game_version, args.tag, args.raw_dir)
     items, stored = store(args.game_version, tooltips)
     print('[%s] Stored spell tooltips for %d items, %d rows (%d items had a '
           'spell to look up).' % (args.game_version, items, stored, len(tooltips)))

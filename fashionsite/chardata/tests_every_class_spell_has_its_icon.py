@@ -137,7 +137,8 @@ class EveryClassSpellHasItsIconTests(SimpleTestCase):
                    13860: 'Compass', 13877: 'Compass (13877)',
                    13356: 'Wandering', 14604: 'Wandering (14604)'}
         # Dofus 2 still names the Eliotrope spell Flexible Portal
-        expected = {'dofus3': english, 'beta': english,
+        expected = {'dofus3': english,
+                    'beta': {**english, 13423: 'Inferno', 33218: 'Inferno (33218)'},
                     'dofus2': {spell_id: name
                                for spell_id, name in english.items()
                                if not name.startswith('Wandering')}}

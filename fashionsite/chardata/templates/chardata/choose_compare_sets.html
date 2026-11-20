@@ -11,7 +11,7 @@
 
 {% block main %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+{% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/choose_compare_sets.css" %}">
 
 <h1 align="center">{% trans "Choose sets to compare" %}</h1>
@@ -52,7 +52,7 @@ var compareTooManyBuildsError = "{{ too_many_builds_error|escapejs }}";
 {% endif %}
 
 <div class="compare-manual-title text">{% trans "Manual links" %}</div>
-<p class="text">{% blocktrans %}To compare builds that you own, type the build name or paste a link to the solution such as:{% endblocktrans %}<br>
+<p class="text compare-manual-help">{% blocktrans %}To compare builds that you own, type the build name or paste a link to the solution such as:{% endblocktrans %}<br>
 <span class="link-text">{{ site_url }}{% game_url 'solution_2' 12345 %}</span><br><br>
 {% blocktrans %}To compare other people's builds paste the sharing link, for example:{% endblocktrans %}<br>
 <span class="link-text">{{ site_url }}{% game_url 'solution_linked' 'xxLegolasxx' 'AbCdEf_' %}</span></p>

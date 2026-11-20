@@ -4,7 +4,7 @@
 
 {% if char %}
   <div class="proj_info">
-    <div style="display: table-cell; {% if is_guest or char_id and not user.is_anonymous %}width: 680px;{% else %}width: 840px;{% endif %}">
+    <div class="proj-info-main {% if is_guest or char_id and not user.is_anonymous %}proj-info-main-narrow{% else %}proj-info-main-wide{% endif %}">
     <table style="width: 100%;" role="presentation">
       <tr>
         <td><b>{% trans "Build Name" %}</b> {{char.name}}</td>
@@ -23,14 +23,14 @@
     </table>
     </div>
   {% if is_guest %}
-  <div style="display: table-cell; vertical-align: middle; width: 200px;">
+  <div class="proj-info-side">
     <form method="post" action="{% game_url 'duplicate_someones_project' encoded_char_id %}" class="build-copy-form" style="display: inline-block; margin: 0;">{% csrf_token %}<button type="submit" style="color: white; font-family: inherit; font-size: inherit;" class="submit-button button-generic copy-action-link">{% trans "Copy this build" %}</button></form>
     {% if char.link_shared %}{% copy_targets char.game_version as copy_versions %}{% for target in copy_versions %}
     <form method="post" action="{% game_url 'copy_shared_to_version' encoded_char_id %}" class="version-copy-form" style="display: inline-block; margin: 6px 0 0;">{% csrf_token %}<input type="hidden" name="version" value="{{ target.key }}"><button type="submit" style="color: white; font-family: inherit; font-size: inherit;" class="submit-button button-generic copy-action-link">{% blocktrans with version=target.name %}Copy to {{ version }}{% endblocktrans %}</button></form>
     {% endfor %}{% endif %}
   </div>
   {% elif char_id %}
-  <div style="display: table-cell; vertical-align: middle; width: 200px; text-align: right; padding-right: 14px;">
+  <div class="proj-info-side proj-info-side-owner">
     <a href="{% game_url 'project_setup' char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Edit" %}</a>
     {% if not user.is_anonymous %}
     <form method="post" action="{% game_url 'duplicate_my_project' char_id %}" class="build-duplicate-form" style="display: inline-block; margin: 0;">{% csrf_token %}<button type="submit" style="color: white; font-family: inherit; font-size: inherit;" class="submit-button button-generic copy-action-link">{% trans "Duplicate" %}</button></form>

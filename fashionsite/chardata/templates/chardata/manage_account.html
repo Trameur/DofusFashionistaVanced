@@ -6,7 +6,7 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 {% endblock %}
 
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Manage account" %}{% endblock %}
@@ -14,13 +14,13 @@
 {% block main %}
 
 <h1 align="center">{% trans "Manage account" %}</h1>
-<table width="100%">
+<table width="100%" class="fm-page-art">
 <tr>
 <td align="center">
     <img alt="" src="{% static "chardata/designs/myManage.png" %}"></img>
 </td>
 <td>
-    <div id="c_form">
+    <div id="c_form" class="fm-card fm-account-form fm-acct fm-seam">
         <form name="theform" method="post" id="main_form">
             {% csrf_token %}
                 <h3 align="center" class='text'>{% trans "Set account details" %}</h1>

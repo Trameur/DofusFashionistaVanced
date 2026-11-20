@@ -19,6 +19,9 @@
     opacity: 0.9;
     text-align: left;
 }
+.encyclopedia-hub-links {
+    margin: 6px 0 10px;
+}
 .encyclopedia-filter-box {
     border-radius: 8px;
     padding: 12px;
@@ -201,7 +204,6 @@
 }
 /* Same lightened red the set caps already use: #ad3025 sits at 2.43:1 on the
    dark surface, so a minus line was unreadable on every card. */
-.dark-theme-active .encyclopedia-card-stat-negative,
 html.fm-dark .encyclopedia-card-stat-negative {
     color: #f0837a;
 }

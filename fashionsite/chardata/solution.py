@@ -20,6 +20,7 @@ from fashionistapulp.wearer import Wearer
 
 import pickle
 from django.utils import timezone
+from django.utils.formats import number_format
 from chardata.util import get_stats_and_scrolled
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.legacy_ids import repair_minimal_solution
@@ -70,6 +71,13 @@ def get_solution(char):
     if char.minimal_solution:
         return get_solution_from_blob(char, char.minimal_solution)
     return None
+
+
+def gap_percent(gap):
+    """A relative gap as the percent the page writes, whole when it is."""
+    percent = round(gap * 100, 6)
+    return number_format(percent, 0 if percent == int(percent) else 1)
+
 
 def get_solver_facts(minimal_solution_blob):
     """(proven, seconds, candidate pool), each None when the solution predates it."""

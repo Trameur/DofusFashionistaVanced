@@ -81,7 +81,7 @@ _HORIZONTAL = re.compile(r'[^\S\n]{2,}')
 # and <sprite name="PA"> is an inline icon that always sits next to the word it
 # illustrates ("1 <sprite name=\"PA\"> AP used"), so it says nothing on its own.
 _SPELL_LINK = re.compile(r'\{\{spell,[^:}]*::(.*?)\}\}')
-_DISPLAY_TAG = re.compile(r'</?(?:sprite|color)\b[^>]*>')
+_DISPLAY_TAG = re.compile(r'</?(?:sprite|color|i|b)\b[^>]*>')
 _LETTER = re.compile(r'[^\W\d_]', re.UNICODE)
 
 # On these effects "#1" holds a monster id, not an amount; summon_effects finds the others.

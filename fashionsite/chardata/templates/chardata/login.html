@@ -9,13 +9,13 @@
 
 {% block main %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/common.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.common %}" class="common-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.common light=css_files.commonlighttheme dark=css_files.commondarktheme cls="common-css css-file" %}
     <h1 align="center">{% trans "Login" %}</h1>
     {% if user and not user.is_anonymous %}
     <div>
-    <table width="100%">
+    <table width="100%" class="fm-page-art">
     <tr>
         <td align="center">
             <img alt="" src="{% static "chardata/designs/MyLogin.png" %}">
@@ -44,16 +44,17 @@
 
     {% if from_confirmation %}
         {% if already_confirmed %}
-    <p align="center" class="big-text">{% trans "Your email had already been confirmed. Please type your password to enter." %}</p>
+    <p align="center" class="big-text fm-login-note">{% trans "Your email had already been confirmed. Please type your password to enter." %}</p>
         {% else %}
-    <p align="center" class="big-text">{% trans "Thanks for confirming your email. Please type your password to enter." %}</p>
+    <p align="center" class="big-text fm-login-note">{% trans "Thanks for confirming your email. Please type your password to enter." %}</p>
         {% endif %}
     {% endif %}
     {% if social_failed %}
-    <p align="center" class="big-text" id="social-login-failed">{% trans "Signing in with Google did not go through. You can try again, or enter with your username and password." %}</p>
+    <p align="center" class="big-text fm-login-note" id="social-login-failed">{% trans "Signing in with Google did not go through. You can try again, or enter with your username and password." %}</p>
     {% endif %}
     
-<div align="center">
+<div align="center" class="fm-login-grid">
+    <div class="fm-account-card fm-card fm-login-card fm-acct fm-seam">
     <table>
     <tr>
         <td align="right"><label class="big-text" for="login-username" style="vertical-align: top;">{% trans "Username" %}: </label></td>
@@ -66,8 +67,8 @@
         <label id="incorrect-password-error"></label></td>
     </tr>
     </table> 
-    <span class="big-text"><a style="font-size: 11px; vertical-align: top;" href="{% url 'recover_password_email_page' %}">{% trans "Forgot your password?" %}</a></span><br>
-    <button class='button-generic' id="login-enter">{% trans "Enter" %}</button> 
+    <span class="big-text"><a class="fm-forgot" style="font-size: 11px; vertical-align: top;" href="{% url 'recover_password_email_page' %}">{% trans "Forgot your password?" %}</a></span><br>
+    <button class='button-generic fm-btn-pri' id="login-enter">{% trans "Enter" %}</button> 
 
     
     <br><br>
@@ -82,6 +83,7 @@
             {% csrf_token %}
             <button type="submit" class="google-login-button">
                 <img src="{% static "chardata/google_login.png" %}" alt='{{_("Login with Google")|escapejs}}'>
+                <span class="fm-google-text">{% trans "Login with Google" %}</span>
             </button>
         </form>
         <style>
@@ -98,13 +100,14 @@
         <br>
         <span class="big-text">{% blocktrans %}We only use your Google account to sign you in, so you can save and share your builds. Nothing is ever posted on your behalf.{% endblocktrans %}</span>
     </div>
+    </div>
     <br>
     <br>
     
     
     {% if not from_confirmation %}
     <hr class="hr">
-    <table width="100%">
+    <table width="100%" class="fm-register-row fm-card fm-acct fm-seam">
     <tr>
     <td align="right">
         <div align="center" style="display: inline-block">
@@ -143,9 +146,9 @@
             </table>
             <br>
             {% if debug_mode %}
-            <input type='submit' class='button-generic' id="login-register" value='{{_("Register")|escapejs}}' />
+            <input type='submit' class='button-generic fm-btn-pri' id="login-register" value='{{_("Register")|escapejs}}' />
             {% else %}
-            <button type="button" class="g-recaptcha button-generic"
+            <button type="button" class="g-recaptcha button-generic fm-btn-pri"
                 data-sitekey="6LckESspAAAAAATetjumgWbl4RRpKQ3rGFjD6ZOt"
                 data-callback="onRegisterCaptcha"
                 data-action="register"

@@ -1,12 +1,12 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The preset chips and the share and saved controls of /setup/ are at least 32px tall on desktop and 44px below 768px, wrap their label, and read against the page in the four design and theme combinations."""
+"""The preset chips and the share and saved controls of /setup/ are at least 32px tall on desktop and 44px below 768px (44px at every width in the modern design), wrap their label, and read against the page in the four design and theme combinations."""
 import re
 
 from django.test import SimpleTestCase, TestCase
 
 from chardata.tests_the_setup_page_draws_the_live_weights_panel import _Versioned, setup_page
 from chardata.tests_the_setup_stylesheet_support import (
-    DESIGNS, chain_of, contrast, declared, flatten, matching, rgb, rule_order, setup_sheets,
+    DESIGNS, chain_of, contrast, declared, flatten, is_classic_only, matching, rgb, rule_order, setup_sheets,
     stylesheet, winning)
 
 SETUP = stylesheet('setup.css')
@@ -96,8 +96,9 @@ class TheCascadeGivesEveryTargetItsSizeInEveryDesignTests(_Versioned, TestCase):
                 for width in WIDTHS:
                     with self.subTest(design=design, target=name, width=width):
                         value, sheet, selector = winning(sheets, chain, 'min-height', width)
-                        self.assertEqual('setup.css', sheet)
-                        self.assertGreaterEqual(pixels((value,)), 44 if width < 768 else 32, selector)
+                        modern = design.startswith('modern')
+                        self.assertEqual('modern.css' if modern else 'setup.css', sheet)
+                        self.assertGreaterEqual(pixels((value,)), 44 if width < 768 or modern else 32, selector)
 
     def test_no_other_sheet_changes_the_look_of_a_chip_or_an_action(self):
         sheets = setup_sheets()
@@ -110,7 +111,9 @@ class TheCascadeGivesEveryTargetItsSizeInEveryDesignTests(_Versioned, TestCase):
                     for width in (375, 1024):
                         found = winning(sheets, chains[name], prop, width)
                         with self.subTest(design=design, target=name, prop=prop, width=width):
-                            self.assertTrue(found is None or found[1] == 'setup.css', found)
+                            own = found is None or found[1] == 'setup.css'
+                            atelier = design.startswith('modern') and prop == 'padding' and found[1] == 'modern.css'
+                            self.assertTrue(own or atelier, found)
 
 
 class TheChipsReadAgainstThePageInEveryDesignTests(SimpleTestCase):
@@ -176,7 +179,7 @@ class TheNewRulesKeepTheStylesTheOtherSetupTestsPinTests(SimpleTestCase):
 
     def test_no_new_rule_fills_a_classic_button(self):
         for rule in own_rules():
-            if any(':not(.fm-modern)' in selector for selector in rule['selectors']):
+            if any(is_classic_only(selector) for selector in rule['selectors']):
                 for prop in ('background', 'background-color', 'background-image'):
                     if prop in rule['declarations']:
                         self.assertEqual('transparent', rule['declarations'][prop][0], rule['selectors'])

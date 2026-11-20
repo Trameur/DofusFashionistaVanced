@@ -390,7 +390,7 @@ EXPERIMENTS = {
     'ITEM_LINKS': True,
 }
 
-DEFAULT_THEME = 'lighttheme'
+DEFAULT_THEME = 'auto'
 
 # Donation buttons shown on the /support/ page (a list of {'label', 'url'}).
 SUPPORT_LINKS = [

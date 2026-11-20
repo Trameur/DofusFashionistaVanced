@@ -24,11 +24,16 @@ import sys
 current_directory = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_directory)
 sys.path.append(project_root)
+sys.path.insert(0, current_directory)
+from max_effects import load_cap_stats, max_caps  # noqa: E402
+from untranslated_tag import clean_display_name  # noqa: E402
 
 _parser = argparse.ArgumentParser(description="Build SQLite dump from transformed equipment JSON")
 _parser.add_argument("--dump-output", default=None, help="Output path for the dump file (default: item_db_dumped.dump)")
 _parser.add_argument("--input-dir", default=None, help="Directory containing transformed_equipment.json and transformed_sets.json (default: script directory)")
+_parser.add_argument("--raw-dir", default=None, help="Client extraction holding characteristics.json, which names the characteristics a Max. effect caps")
 _args = _parser.parse_args()
+CAP_STAT_BY_ID, CAP_KEYWORD_BY_ID = load_cap_stats(_args.raw_dir)
 
 _default_dump = os.path.join(current_directory, '..', 'fashionistapulp', 'fashionistapulp', 'item_db_dumped.dump')
 dump_output_path = _args.dump_output if _args.dump_output else _default_dump
@@ -318,13 +323,6 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                         continue
                     f.write(f"INSERT INTO set_bonus VALUES({set_id},{effect_key},{list(STAT_NAME_TO_KEY_LOCAL).index(bonus[2]) + 1},{bonus[0]});\n")
 
-    # Dofus 3 internal characteristic IDs used inside "Max." set effects
-    MAX_EFFECT_CHAR_ID_TO_STAT_NAME = {
-        19: 'Summon',
-        23: 'MP',
-        26: 'Range',
-    }
-
     # Write CREATE TABLE for set_max_caps
     f.write("""CREATE TABLE set_max_caps
              (item_set INTEGER, num_pieces_used INTEGER, stat INTEGER, max_value INTEGER,
@@ -336,15 +334,34 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         if 'stats_list' in set_data:
             for effect_data in set_data['stats_list']:
                 effect_key = int(effect_data['effect_key'])
-                for bonus in effect_data['effects']:
-                    char_id, max_value, stat_name = bonus
-                    if stat_name != 'Max.' or max_value is None:
-                        continue
-                    mapped = MAX_EFFECT_CHAR_ID_TO_STAT_NAME.get(char_id)
-                    if mapped is None:
-                        continue
+                for mapped, max_value in max_caps(effect_data['effects'], CAP_STAT_BY_ID, CAP_KEYWORD_BY_ID):
                     stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(mapped) + 1
                     f.write(f"INSERT INTO set_max_caps VALUES({set_id},{effect_key},{stat_index},{max_value});\n")
+
+    f.write("""CREATE TABLE item_max_caps
+             (item INTEGER, stat INTEGER, max_value INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id),
+              FOREIGN KEY(stat) REFERENCES stats(id));\n""")
+
+    for item in original_data:
+        item_id = item_to_id[id(item)]
+        for mapped, max_value in max_caps(item['stats'], CAP_STAT_BY_ID, CAP_KEYWORD_BY_ID):
+            stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(mapped) + 1
+            f.write(f"INSERT INTO item_max_caps VALUES({item_id},{stat_index},{max_value});\n")
+
+    f.write("""CREATE TABLE set_extra_lines
+             (item_set INTEGER, num_pieces_used INTEGER, line text, language text,
+              FOREIGN KEY(item_set) REFERENCES sets(id));\n""")
+
+    for set_data in original_sets:
+        for effect_data in set_data.get('stats_list') or []:
+            effect_key = int(effect_data['effect_key'])
+            for lang in LANGUAGES:
+                description = effect_data.get(f'special_spell_{lang}')
+                if description:
+                    lines = [clean_display_name(line) for line in description.split('\n')]
+                    hex_data = pickle.dumps(lines).hex()
+                    f.write(f"INSERT INTO set_extra_lines VALUES({set_data['ankama_id']},{effect_key},X'{hex_data}','{lang}');\n")
 
     # Write CREATE TABLE for min_stat_to_equip
     f.write("""CREATE TABLE min_stat_to_equip
@@ -684,7 +701,7 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     description = item[special_spell_key]
                     
                     # Split the description into lines and store in a list
-                    description_lines = description.split('\n')
+                    description_lines = [clean_display_name(line) for line in description.split('\n')]
 
                     # Serialize the list using pickle
                     pickled_data = pickle.dumps(description_lines)

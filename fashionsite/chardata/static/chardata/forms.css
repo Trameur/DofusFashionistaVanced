@@ -622,3 +622,69 @@ select, .pretty-input {
     margin-right: 4px;
     vertical-align: middle;
 }
+
+.fm-prose {
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.exo-count-input {
+    width: 48px;
+}
+
+.option-cell-top {
+    vertical-align: top;
+}
+
+.lock-hint {
+    font-size: 0.9em;
+    margin-top: 4px;
+}
+
+td.solution-item-info.inclusion-info-cell {
+    vertical-align: middle;
+}
+
+img.button-remove.inclusion-remove-icon {
+    vertical-align: middle;
+}
+
+button.button-generic.inclusion-customize-button {
+    font-size: 0.8em;
+    padding: 2px 8px;
+}
+
+input.button-gap-after {
+    margin-right: 7px;
+}
+input.button-gap-before {
+    margin-left: 7px;
+}
+input.import-level-input {
+    width: 5.5em;
+}
+form.smart-form-confirm {
+    margin-top: 12px;
+}
+p.coaching-intro.coaching-full-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+.register input.setup-level-input {
+    width: 40px;
+}
+div.setup-class-guide {
+    font-size: 0.85em;
+    opacity: 0.9;
+    margin-top: 3px;
+}
+td.build-boxes-column.build-boxes-last-column {
+    border-radius: 0px 0px 4px 0px;
+}
+div.setup-choice-box {
+    margin-bottom: 10px;
+}
+.register td.setup-level-cell {
+    padding: 0px 3px;
+}

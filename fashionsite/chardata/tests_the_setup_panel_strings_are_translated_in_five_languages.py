@@ -36,6 +36,8 @@ PAGE_STRINGS = (
     'Your last choice changes the preset values.',
     'Keep my edits',
     'Recompute from the preset',
+    'Live',
+    'How it works',
 )
 INTRO = 'Get started by providing details about your character.'
 FORM_STRINGS = ('Optimize now',)

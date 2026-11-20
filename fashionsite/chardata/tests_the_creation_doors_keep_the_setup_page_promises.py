@@ -23,6 +23,7 @@ from chardata.models import Char
 from chardata.nl_parser import parse_build_request
 from chardata.smart_build import get_standard_weights, level_minimums
 from chardata.solution import get_solution
+from chardata.version_compat import classes_with_data
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.structure import get_structure, set_current_game_version
 
@@ -337,7 +338,7 @@ class AnImportWeighsTheElementsItsGearCarriesTests(_DoorMixin, TestCase):
         self.assertEqual(set(), self.elements({}))
 
     def test_retro_counts_characteristics_only(self):
-        for char_class in CHARACTER_CLASSES:
+        for char_class in classes_with_data(CHARACTER_CLASSES, 'beta'):
             with self.subTest(char_class=char_class):
                 points = presets.element_stat_points(char_class, 200, 'retro')
                 self.assertEqual({0}, {rate for stats in points.values()

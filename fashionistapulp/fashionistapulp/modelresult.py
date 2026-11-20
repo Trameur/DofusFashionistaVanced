@@ -23,6 +23,9 @@ from .dofus_constants import (ALL_TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SL
                              BASE_STATS, STAT_KEY_TO_NAME, NEUTRAL,
                              SLOT_NAME_TO_TYPE, slots_for)
 from . import weapon_forge
+from .dracorune_terms import is_eligible as takes_a_dracorune
+from .dracorunes import (load_runes, moves as dracorune_moves, rune_name as dracorune_name,
+                         rune_of, variants as dracorune_variants)
 from .item_flags import flag_lines
 from .spell_text import fold_spell_blocks
 from .structure import get_structure, get_current_game_version
@@ -79,6 +82,8 @@ class ModelResultMinimal():
     exo_assumed = None
     # Older pickles lack it: their option counted the owned exos worn
     exo_option_tops_owned = False
+    # {slot: (item id, variant key)} of the draconized pieces; older pickles lack it
+    dracorunes = None
 
     def __init__(self, item_per_slot, input_, stats):
         self.item_per_slot = item_per_slot
@@ -146,7 +151,22 @@ class ModelResultMinimal():
         minimal = cls(item_per_slot, {k: input_[k] for k in input_ if k in RELEVANT_INPUT}, stats)
         minimal.exo_assumed = getattr(model_result, 'exo_assumed', None)
         minimal.exo_option_tops_owned = getattr(model_result, 'exo_option_tops_owned', True)
+        if getattr(model_result, 'dracorunes', None):
+            minimal.dracorunes = model_result.dracorunes
         return minimal
+
+    def place_dracorunes(self, runes):
+        """runes is [(item id, variant key)] per copy: each takes the next slot of its item."""
+        placed = {}
+        for item_id, key in sorted(runes, key=repr):
+            slot = next((slot for slot in slots_for(get_current_game_version())
+                         if self.item_per_slot.get(slot) == item_id and slot not in placed),
+                        None)
+            if slot is None:
+                logger.warning('No slot holds item %s for its dracorune %s', item_id, key)
+                continue
+            placed[slot] = (item_id, key)
+        self.dracorunes = placed or None
     
     @classmethod
     def generate_empty_solution(cls, input_):
@@ -186,8 +206,37 @@ def get_item_in_slot(structure, item_id, slot):
     return moved
 
 
+def _readable_runes():
+    version = get_current_game_version()
+    try:
+        return load_runes(version)
+    except (AttributeError, KeyError, OSError, TypeError, ValueError):
+        logger.exception('The runes file of %s cannot be read, its draconized pieces show as base items', version)
+        return None
+
+
+def _dracorune_in_slot(slot, item, wanted, runes):
+    """(variant key, runes) when the slot still holds the item its saved rune was on, else None."""
+    if wanted is None:
+        return None
+    try:
+        item_id, key = wanted
+    except (TypeError, ValueError):
+        logger.warning('Unreadable dracorune %r in slot %s, shown without it', wanted, slot)
+        return None
+    structure = get_structure()
+    if (item is None or item.id != item_id or runes is None
+            or not takes_a_dracorune(item, structure, runes)):
+        logger.warning('Slot %s no longer holds item %s for its dracorune %s, shown without it',
+                       slot, item_id, key)
+        return None
+    return key, runes
+
+
 def model_result_from_minimal(minimal, stat_overrides=None, forge_choice=None):
     structure = get_structure()
+    saved_runes = getattr(minimal, 'dracorunes', None) or {}
+    runes = _readable_runes() if saved_runes else None
     if hasattr(minimal, 'stats'):
         result = ModelResult(minimal.input, minimal.stats)
     else:
@@ -200,7 +249,9 @@ def model_result_from_minimal(minimal, stat_overrides=None, forge_choice=None):
         item = (get_item_in_slot(structure, item_id, slot)
                 if item_id is not None else None)
         if item is not None:
-            result.add_item_at_slot(item, slot, stat_overrides)
+            result.add_item_at_slot(
+                item, slot, stat_overrides,
+                _dracorune_in_slot(slot, item, saved_runes.get(slot), runes))
         else:
             if item_id is not None:
                 logger.warning('Missing item in structure for slot=%s item_id=%s', slot, item_id)
@@ -249,10 +300,19 @@ class ModelResult():
                       and item.id in stat_overrides)
         return as_worn(item, get_structure(), options, overridden=overridden)
 
-    def add_item_at_slot(self, item, slot, stat_overrides=None):
+    def add_item_at_slot(self, item, slot, stat_overrides=None, dracorune=None):
+        """dracorune is (variant key, runes data) for a draconized piece."""
         self._add_result_item_at_slot(
             slot, ModelResultItem(self._worn(item, stat_overrides),
-                                  stat_overrides))
+                                  stat_overrides, dracorune))
+
+    @property
+    def dracorunes(self):
+        """{slot: (item id, variant key)} of the draconized pieces worn, or None."""
+        runes = {result_item.slot: (result_item.id, result_item.dracorune['key'])
+                 for result_item in self.item_list
+                 if result_item.item_added and result_item.dracorune}
+        return runes or None
         
     def _add_result_item_at_slot(self, slot, result_item):
         result_item.set_slot(slot)
@@ -411,6 +471,12 @@ class ModelResult():
             # Apply active set caps (e.g. 6-piece Cire Momore caps MP/Summon/Range)
             for result_set in self.sets:
                 for stat_key, _stat_name, max_cap in result_set.get_max_caps():
+                    if stat_key in self.stats_total:
+                        self.stats_total[stat_key] = min(self.stats_total[stat_key], max_cap)
+            for result_item in self.item_list:
+                if not result_item.item_added:
+                    continue
+                for stat_key, _stat_name, max_cap in result_item.get_max_caps():
                     if stat_key in self.stats_total:
                         self.stats_total[stat_key] = min(self.stats_total[stat_key], max_cap)
         return self.stats_total
@@ -770,8 +836,10 @@ class ModelResultItem():
     heal_element = None
     forge_key = ()
     forge_explicit = False
+    dracorune = None
+    undraconized_stats = None
 
-    def __init__(self, item, stat_overrides=None):
+    def __init__(self, item, stat_overrides=None, dracorune=None):
         # Legacy pickles can be missing the newer weapon fields.
         self.is_mageable = False
         if item:
@@ -845,6 +913,8 @@ class ModelResultItem():
                             self.exo_overrides[stat.key] = override_val
                         else:
                             self.stats[stat.key] = override_val
+            if dracorune is not None:
+                self._draconize(*dracorune)
 
             self.min_stats_to_equip = {}
             for stat_id, stat_value in item.min_stats_to_equip:
@@ -856,6 +926,10 @@ class ModelResultItem():
                 tuple((structure.get_stat_by_id(stat_id).key, is_max, value)
                       for stat_id, is_max, value in gates)
                 for gates in getattr(item, 'or_conditions', None) or ())
+            self.max_caps = tuple(
+                (structure.get_stat_by_id(stat_id).key, structure.get_stat_by_id(stat_id).name, max_value)
+                for stat_id, max_value in getattr(item, 'max_caps', None) or ()
+                if structure.get_stat_by_id(stat_id) is not None)
             
     
             localized_extras = item.localized_extras.get(get_supported_language())
@@ -894,6 +968,38 @@ class ModelResultItem():
             self.slot = None
             self.file = None
             
+    def _draconize(self, key, runes):
+        """Wears the rune's variant key on the lines, or keeps the base item when the lines no longer give it."""
+        try:
+            worn = dict(dracorune_variants(list(self.stats.items()), runes)).get(key)
+            base = dict(dracorune_variants(list(self.base_stats.items()), runes)).get(key)
+        except (KeyError, TypeError, ValueError):
+            logger.exception('The dracorune %s of item %s cannot be read', key, self.id)
+            return
+        if worn is None:
+            logger.warning('Item %s no longer takes the dracorune %s, shown without it', self.id, key)
+            return
+        before = self.stats
+        self.undraconized_stats = dict(before)
+        self.stats = dict(worn)
+        self.base_stats = dict(base) if base is not None else dict(worn)
+        moved = dracorune_moves(key)
+        ranges = {}
+        for line, bounds in self.stat_ranges.items():
+            target = moved.get(line, line)
+            if ((target == line or target not in before)
+                    and self.stats.get(target) == before.get(line)):
+                ranges[target] = bounds
+        self.stat_ranges = ranges
+        rune = rune_of(key, runes)
+        self.dracorune = {'key': key,
+                          'item_id': rune.get('item_id') if rune else None,
+                          'name': dracorune_name(rune, get_supported_language())}
+
+    def get_max_caps(self):
+        """[(stat key, stat name, max value)] the game caps while this piece is worn."""
+        return getattr(self, 'max_caps', None) or ()
+
     def holds_an_over(self):
         """A recorded roll above the catalogue on a stat other than AP, MP or Range."""
         exo_keys = {key for key, _option in EXO_OPTIONS}
@@ -941,6 +1047,7 @@ class ModelResultSet():
         self.number_of_items = number_of_items
         self.bonus_per_num_items = item_set.bonus_per_num_items
         self.raw_max_caps = item_set.max_caps  # list of (num_items, stat_id, max_value)
+        self.localized_extras = getattr(item_set, 'localized_extras', None) or {}
         self.items = []
         for item_id in item_set.items:
             item = structure.get_item_by_id(item_id)
@@ -950,6 +1057,14 @@ class ModelResultSet():
     def get_bonus(self):
         # Many Retro sets have no bonus for some piece counts
         return self.bonus_per_num_items.get(self.number_of_items, {})
+
+    def get_extras(self):
+        """(lines, {spell name: what it does}) of the special spells this many pieces grant."""
+        by_language = (getattr(self, 'localized_extras', None) or {}).get(self.number_of_items) or {}
+        lines = by_language.get(get_supported_language())
+        if lines is None:
+            lines = ['[!] ' + line for line in by_language.get('en', [])]
+        return fold_spell_blocks(lines)
 
     def get_max_caps(self):
         structure = get_structure()

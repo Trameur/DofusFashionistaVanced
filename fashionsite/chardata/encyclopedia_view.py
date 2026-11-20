@@ -553,10 +553,23 @@ def _get_pet_feedable_bonuses(structure, grouped_variants, language,
     return bonuses
 
 
+def _item_cap_lines(structure, item, language):
+    """The "Max." lines the game caps a stat with while this item is worn."""
+    lines = []
+    for stat_id, max_value in getattr(item, 'max_caps', None) or ():
+        stat = structure.get_stat_by_id(stat_id)
+        if stat is not None:
+            lines.append(_('Max. %(stat)s %(value)d') % {
+                'stat': _localized_stat(stat.name, language, structure.game_version),
+                'value': max_value})
+    return lines
+
+
 def _get_set_bonuses(structure, item_set, language):
     """Set bonuses grouped by number of pieces worn."""
     if item_set is None or not (getattr(item_set, 'bonus', None)
-                                or getattr(item_set, 'max_caps', None)):
+                                or getattr(item_set, 'max_caps', None)
+                                or getattr(item_set, 'localized_extras', None)):
         return []
     by_pieces = {}
     for num_items, stat_id, value in item_set.bonus:
@@ -586,13 +599,21 @@ def _get_set_bonuses(structure, item_set, language):
             },
         ))
 
+    extras_by_pieces = {}
+    for num_pieces, by_language in (getattr(item_set, 'localized_extras', None) or {}).items():
+        extras, tooltips = fold_spell_blocks(by_language.get(language, by_language.get('en', [])))
+        if extras:
+            extras_by_pieces[num_pieces] = [
+                {'text': line, 'spell_tip': spell_tip_for(line, tooltips)} for line in extras]
+
     groups = []
-    for num_pieces in sorted(set(by_pieces) | set(caps_by_pieces)):
+    for num_pieces in sorted(set(by_pieces) | set(caps_by_pieces) | set(extras_by_pieces)):
         lines = [line for _, line in sorted(by_pieces.get(num_pieces, []),
                                             key=lambda pair: pair[0])]
         caps = [line for _, line in sorted(caps_by_pieces.get(num_pieces, []),
                                            key=lambda pair: pair[0])]
-        groups.append({'num_pieces': num_pieces, 'lines': lines, 'caps': caps})
+        groups.append({'num_pieces': num_pieces, 'lines': lines, 'caps': caps,
+                       'extras': extras_by_pieces.get(num_pieces, [])})
     return groups
 
 
@@ -2717,6 +2738,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     with translation.override(language):
         extras = [label for label, _icon
                   in flag_lines(getattr(representative_item, 'flags', []))] + extras
+        extras = _item_cap_lines(structure, representative_item, language) + extras
     # Tooltips for extra lines naming a spell
     spell_tooltips = dict(
         getattr(representative_item, 'spell_tooltips', {}).get(language) or {},

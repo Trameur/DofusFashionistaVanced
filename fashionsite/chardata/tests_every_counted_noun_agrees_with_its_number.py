@@ -28,6 +28,7 @@ _NE_COMPTE_RIEN = {
     'build optimized on Dofus Fashionista. Like it, comment it, copy it.':
         'phrase de description',
     'damage': 'indenombrable',
+    'level': 'label between a class name and its level, <<Cra level 200>>',
     # Follows the set total, and no set has a single piece
     'pieces': 'ratio x/y, where y is at least 2 across the five versions',
 }

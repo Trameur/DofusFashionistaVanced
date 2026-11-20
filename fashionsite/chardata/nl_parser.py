@@ -11,7 +11,9 @@ import re
 import unicodedata
 
 from chardata.presets import DEFAULT_STYLE, capped_focus, offered_style, style_aspects
+from chardata.version_compat import class_exists_in_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
+from fashionistapulp.game_versions import DEFAULT_VERSION
 
 
 def _normalize(text):
@@ -79,6 +81,7 @@ _FARM_STAT_WORDS = {
 # Aliases on top of the canonical English names: the official French and German
 # names, which differ for several classes, plus the usual player abbreviations.
 _EXTRA_CLASS_ALIASES = {
+    'Bellaphone': ['bellaphon', 'beliade', 'belefone'],
     'Cra': ['craa', 'archer'],
     'Ecaflip': ['eca', 'ecaf', 'eca'],
     'Eliotrope': ['elio', 'eliot'],
@@ -199,6 +202,10 @@ def parse_build_request(text, game_version=None):
     tokens = set(re.findall(r'[a-z0-9]+', normalized))
 
     char_class = _match_class(tokens)
+    if (char_class is not None and game_version is not None
+            and not class_exists_in_version(char_class, game_version)
+            and not class_exists_in_version(char_class, DEFAULT_VERSION)):
+        char_class = None
     level = _match_level(normalized)
     element = _match_element(tokens)
     # Style and focus read the text without the level already parsed

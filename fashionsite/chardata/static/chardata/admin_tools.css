@@ -22,12 +22,12 @@ html.fm-dark .admin-tools {
     --ad-danger: #ff9a8d;
     --ad-ok: #7fd49b;
 }
-html.fm-modern.fm-light .admin-tools { --ad-link: var(--fm-accent-text, #715810); }
-html.fm-modern.fm-dark .admin-tools { --ad-link: var(--fm-accent-text, #e3bf4d); }
+html.fm-modern.fm-light .admin-tools, html.fm-enhanced.fm-light .admin-tools { --ad-link: var(--fm-accent-text, #715810); }
+html.fm-modern.fm-dark .admin-tools, html.fm-enhanced.fm-dark .admin-tools { --ad-link: var(--fm-accent-text, #e3bf4d); }
 html.fm-light .admin-tools { --ah-surface: #ffffff; }
 html.fm-dark .admin-tools { --ah-surface: #151515; }
-html.fm-modern.fm-light .admin-tools { --ah-surface: #f2ebdb; }
-html.fm-modern.fm-dark .admin-tools { --ah-surface: #211a10; }
+html.fm-modern.fm-light .admin-tools, html.fm-enhanced.fm-light .admin-tools { --ah-surface: #f2ebdb; }
+html.fm-modern.fm-dark .admin-tools, html.fm-enhanced.fm-dark .admin-tools { --ah-surface: #211a10; }
 .admin-tools a { color: var(--ad-link); }
 .admin-tools [hidden] { display: none !important; }
 

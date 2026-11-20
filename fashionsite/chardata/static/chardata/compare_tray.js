@@ -112,6 +112,17 @@
         render();
     }
 
+    function refocusRemove(index) {
+        var buttons = document.querySelectorAll('[data-ct-remove]');
+        var toggle = document.querySelector('.compare-cart-toggle');
+        if (buttons.length) {
+            if (toggle) {
+                toggle.focus({preventScroll: true});
+            }
+            buttons[Math.min(index, buttons.length - 1)].focus();
+        }
+    }
+
     function clear() {
         save([]);
         render();
@@ -208,7 +219,12 @@
         var rm = e.target.closest('[data-ct-remove]');
         if (rm) {
             e.preventDefault();
+            var at = Array.prototype.indexOf.call(
+                document.querySelectorAll('[data-ct-remove]'), rm);
             remove(rm.getAttribute('data-ct-remove'));
+            if (e.detail === 0) {
+                refocusRemove(at);
+            }
             return;
         }
         if (e.target.closest('.cc-go')) {

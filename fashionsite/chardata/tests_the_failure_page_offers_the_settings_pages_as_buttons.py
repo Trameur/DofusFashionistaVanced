@@ -19,7 +19,7 @@ BUTTONS = (('min_stats', 'Minimum Characteristics'), ('inclusions', 'Lock Items'
 
 
 def _failure_body(page):
-    start = page.index('class="infeasible-layout"')
+    start = page.index('<table class="infeasible-layout')
     return page[start:page.index('</ul>', start)]
 
 

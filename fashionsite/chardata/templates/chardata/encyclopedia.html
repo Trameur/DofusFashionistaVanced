@@ -13,17 +13,18 @@
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
+{% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-encyclopedia.css" %}">{% endblock %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+{% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia.css" %}">
 {% endblock %}
 
 {% block main %}
-<div class="encyclopedia-page text" id="encyclopedia-page">
+<div class="encyclopedia-page encyclopedia-atelier text" id="encyclopedia-page">
     <h1 class="encyclopedia-title">{{ t.title }}</h1>
     <p class="encyclopedia-subtitle small-explain">{{ t.subtitle }}</p>
-    <p align="center" style="margin: 6px 0 10px;"><a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_sets' %}">{% trans "Browse sets (panoplies)" %} &gt;</a> &nbsp; <a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_monsters' %}">{{ mt.monsters_label }} &gt;</a> &nbsp; {% if current_game_version == 'dofus3' %}{# Dofus 3 only: the other versions have too few builds to list #}<a class="encyclopedia-page-link" href="{% url 'encyclopedia_most_used' %}">{% trans "Most used items in builds" %} &gt;</a>{% endif %}</p>
+    <p align="center" class="encyclopedia-hub-links"><a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_sets' %}">{% trans "Browse sets (panoplies)" %} &gt;</a> &nbsp; <a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_monsters' %}">{{ mt.monsters_label }} &gt;</a> &nbsp; {% if current_game_version == 'dofus3' %}{# Dofus 3 only: the other versions have too few builds to list #}<a class="encyclopedia-page-link" href="{% url 'encyclopedia_most_used' %}">{% trans "Most used items in builds" %} &gt;</a>{% endif %}</p>
 
     <form method="get" class="encyclopedia-filter-box brown-box">
         <input type="hidden" name="order_rows_json" id="order-rows-json" value="">

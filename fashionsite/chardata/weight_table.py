@@ -11,9 +11,12 @@ import os
 from contextlib import contextmanager
 from types import SimpleNamespace
 
+from chardata.version_compat import filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES, DAMAGE_TYPES, MAIN_STATS
 
 logger = logging.getLogger(__name__)
+
+GRID_CLASSES = filter_classes_for_version(CHARACTER_CLASSES, 'dofus3')
 
 DIRECTORY = os.path.join(os.path.dirname(__file__), 'weight_tables')
 VERSIONS = ('dofus3',)
@@ -176,7 +179,7 @@ def engine_digest(game_version):
 def _compute_engine_digest(game_version, engine_params):
     digest = hashlib.sha1()
     digest.update(json.dumps(engine_params, sort_keys=True, default=list).encode('utf-8'))
-    for char_class in CHARACTER_CLASSES:
+    for char_class in GRID_CLASSES:
         for elements in grid_element_sets():
             for scenario in SCENARIOS:
                 weights = engine_weights(char_class, elements, scenario, game_version)

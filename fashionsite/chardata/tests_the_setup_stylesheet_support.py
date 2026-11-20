@@ -26,6 +26,21 @@ def _declarations(body):
     return found
 
 
+def top_level_split(text):
+    """The pieces of a selector list cut at the commas outside brackets, so an :is() or :where() list stays in one selector."""
+    pieces, depth, start = [], 0, 0
+    for position, char in enumerate(text):
+        if char in '([':
+            depth += 1
+        elif char in ')]':
+            depth -= 1
+        elif char == ',' and depth == 0:
+            pieces.append(text[start:position])
+            start = position + 1
+    pieces.append(text[start:])
+    return pieces
+
+
 def parse(source, media=None):
     rules = []
     position = 0
@@ -48,7 +63,7 @@ def parse(source, media=None):
             rules.extend(parse(body, ' '.join(prelude[len('@media'):].split())))
         elif not prelude.startswith('@'):
             rules.append({'media': media,
-                          'selectors': [' '.join(piece.split()) for piece in prelude.split(',')],
+                          'selectors': [' '.join(piece.split()) for piece in top_level_split(prelude)],
                           'declarations': _declarations(body)})
 
 
@@ -59,11 +74,23 @@ def stylesheet(name):
 SHEET_NAMES = ('common.css', 'forms.css', 'setup.css', 'responsive.css', 'modern.css')
 DESIGNS = {'classic dark': ('fm-dark',), 'classic light': ('fm-light',), 'modern light': ('fm-modern', 'fm-light'),
            'modern dark': ('fm-modern', 'fm-dark')}
+ENHANCED_DESIGNS = {'enhanced light': ('fm-enhanced', 'fm-light'), 'enhanced dark': ('fm-enhanced', 'fm-dark')}
+CLASSIC_ONLY = ':not(.fm-modern, .fm-enhanced)'
 
 
 def setup_sheets():
     """The stylesheets that style a /setup/ page and set the properties the tests ask about, in the order the page loads them."""
     return [(name, stylesheet(name)) for name in SHEET_NAMES]
+
+
+def enhanced_sheets():
+    """The /setup/ sheets with enhanced.css after them, where the enhanced classic design loads it."""
+    return setup_sheets() + [('enhanced.css', stylesheet('enhanced.css'))]
+
+
+def is_classic_only(selector):
+    """Whether a selector is kept from both the new design and the enhanced classic one."""
+    return CLASSIC_ONLY in selector
 
 
 def matching(rules, selector, media=None):
@@ -82,12 +109,13 @@ def rule_order(rules, selector, media=None):
 
 
 PART = re.compile(r"""(?P<tag>[a-zA-Z][\w-]*|\*)|#(?P<id>[\w-]+)|\.(?P<class>[\w-]+)|\[(?P<attr>[^\]]+)\]"""
-                  r"""|:not\((?P<not>[^)]*)\)|(?P<pseudo>::?[\w-]+(?:\([^)]*\))?)""")
+                  r"""|:not\((?P<not>[^)]*)\)|:(?P<any>where|is)\((?P<among>(?:[^()]|\([^()]*\))*)\)"""
+                  r"""|(?P<pseudo>::?[\w-]+(?:\([^)]*\))?)""")
 WIDTH = re.compile(r'(min|max)-width:\s*(\d+)px')
 
 
 def _parts(compound):
-    found = {'tag': None, 'ids': [], 'classes': [], 'attrs': [], 'nots': [], 'pseudos': []}
+    found = {'tag': None, 'ids': [], 'classes': [], 'attrs': [], 'nots': [], 'anys': [], 'pseudos': []}
     at = 0
     while at < len(compound):
         match = PART.match(compound, at)
@@ -103,7 +131,9 @@ def _parts(compound):
         elif match.group('attr'):
             found['attrs'].append(match.group('attr'))
         elif match.group('not') is not None:
-            found['nots'].append(match.group('not').strip())
+            found['nots'].append([piece.strip() for piece in top_level_split(match.group('not'))])
+        elif match.group('any'):
+            found['anys'].append((match.group('any'), [piece.strip() for piece in top_level_split(match.group('among'))]))
         else:
             found['pseudos'].append(match.group('pseudo'))
     return found
@@ -145,8 +175,12 @@ def specificity(selector):
             else:
                 classes += 1
         for negated in parts['nots']:
-            inner = specificity(negated)
+            inner = max(specificity(piece) for piece in negated)
             ids, classes, elements = ids + inner[0], classes + inner[1], elements + inner[2]
+        for kind, among in parts['anys']:
+            if kind == 'is':
+                inner = max(specificity(piece) for piece in among)
+                ids, classes, elements = ids + inner[0], classes + inner[1], elements + inner[2]
     return ids, classes, elements
 
 
@@ -183,7 +217,9 @@ def _fits_node(compound, element):
             return False
         if name not in element['attrs'] or (value and element['attrs'][name] != value.strip('"\'')):
             return False
-    return not any(_fits_node(negated, element) for negated in parts['nots'])
+    if not all(any(_fits_node(piece, element) for piece in among) for _, among in parts['anys']):
+        return False
+    return not any(_fits_node(piece, element) for negated in parts['nots'] for piece in negated)
 
 
 def _fits(compounds, joints, chain, at):
@@ -202,7 +238,7 @@ def selector_matches(selector, chain):
 
 
 def media_applies(media, width):
-    if media is None:
+    if media is None or media == 'screen':
         return True
     conditions = re.findall(r'\(([^)]*)\)', media)
     if not conditions:

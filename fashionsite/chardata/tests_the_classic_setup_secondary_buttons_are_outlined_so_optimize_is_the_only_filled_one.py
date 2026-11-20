@@ -4,15 +4,15 @@ from django.test import SimpleTestCase, TestCase
 
 from chardata.tests_every_preset_keeps_its_weights_and_minimums import VERSIONS
 from chardata.tests_the_setup_page_draws_the_live_weights_panel import setup_page
-from chardata.tests_the_setup_stylesheet_support import declared, stylesheet
+from chardata.tests_the_setup_stylesheet_support import declared, is_classic_only, stylesheet
 from fashionistapulp.structure import set_current_game_version
 
 SETUP = stylesheet('setup.css')
 LIGHT_SITE = stylesheet('common_lighttheme.css')
 DARK_SITE = stylesheet('common_darktheme.css')
 
-DARK = 'html:not(.fm-modern):not(.fm-light)'
-LIGHT = 'html.fm-light:not(.fm-modern)'
+DARK = 'html:not(.fm-modern, .fm-enhanced):not(.fm-light)'
+LIGHT = 'html.fm-light:not(.fm-modern, .fm-enhanced)'
 DOORS = '.setup-doors .setup-secondary'
 PANEL = '.setup-preview button.button-thin-foreground'
 FILL = ('background', 'background-color', 'background-image')
@@ -68,7 +68,7 @@ class OptimizeIsTheOnlyFilledButtonTests(SimpleTestCase):
     def test_no_classic_setup_rule_fills_a_button(self):
         filled = [(rule['selectors'], prop, rule['declarations'][prop]) for rule in SETUP
                   for prop in FILL if prop in rule['declarations']
-                  and any(':not(.fm-modern)' in selector for selector in rule['selectors'])
+                  and any(is_classic_only(selector) for selector in rule['selectors'])
                   and rule['declarations'][prop][0] != 'transparent']
         self.assertEqual([], filled)
 

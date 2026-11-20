@@ -8,7 +8,7 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+{% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 <style>
     .dev-page { max-width: 820px; margin: 0 auto; padding: 8px 16px 32px; line-height: 1.6; box-sizing: border-box; }
     .dev-page h1 { font-size: 1.7em; line-height: 1.2; margin: 0 0 12px; }

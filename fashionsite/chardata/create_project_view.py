@@ -33,7 +33,6 @@ from chardata.build_name import cleaned_at_creation
 from chardata import visitor_throttle
 from chardata.models import Char, CharBaseStats
 from chardata.options import initial_build_options, set_options
-from chardata.power_steps import apply_posted_power, power_context
 from chardata.presets import (FOCUS_LIMIT, GUARD_DEFAULT_PERCENT, GUARD_PERCENTS,
                               apply_setup_choices, mode_boxes, option_column_modes,
                               posted_choices, posted_guard, priorities, setup_boxes,
@@ -50,7 +49,8 @@ from chardata.util import (json_for_script, on_off_to_bool, set_response, safe_i
                            TESTER_USERS, HttpResponseText,
                            remove_cache_for_char, version_reverse)
 from chardata.version_compat import (filter_classes_for_version,
-                                     class_exists_in_version)
+                                     class_exists_in_version,
+                                     first_class_with_data)
 from fashionistapulp.temporix import version_has_temporix
 
 logger = logging.getLogger(__name__)
@@ -118,16 +118,17 @@ def setup(request, char_id=0):
     class_to_name = _get_class_to_name()
     kept_keys = set(filter_classes_for_version(class_to_name.values(), game_version))
     classes = [name for name, key in class_to_name.items() if key in kept_keys]
+    from chardata.home_view import quick_start_classes
 
     # Item from an encyclopedia page to build around, checked against the catalogue
     lock_item = _wanted_item(request, game_version)
     preview_panel = panel_context(game_version) if is_new_char and can_create else {}
     more = more_options_context(request, char, game_version) if is_new_char and can_create else None
-    power = power_context() if is_new_char and can_create else None
 
     return set_response(request,
                         'chardata/projdetails.html',
                         {'classes': sorted(classes),
+                         'class_tiles': quick_start_classes(game_version) if is_new_char else [],
                          'lock_item': lock_item,
                          'free_versions': _free_versions_for_anon(request),
                          'class_to_name': class_to_name,
@@ -153,7 +154,6 @@ def setup(request, char_id=0):
                          **temporix_window(),
                          **preview_panel,
                          'more': more,
-                         'power': power,
                          'is_new_char': is_new_char},
                         char)
 
@@ -303,7 +303,6 @@ def create_project(request):
     set_options(char, initial_options)
     apply_option_groups(request, char)
     apply_touched_fields(char, request.POST)
-    apply_posted_power(char, request.POST)
 
     char.save()
 
@@ -400,8 +399,8 @@ def _save_state_to_char(state, char):
             and class_exists_in_version(requested_class, char_version)):
         char.char_class = requested_class
     else:
-        available = filter_classes_for_version(CHARACTER_CLASSES, char_version)
-        char.char_class = available[0] if available else CHARACTER_CLASSES[0]
+        char.char_class = (first_class_with_data(CHARACTER_CLASSES, char_version)
+                           or CHARACTER_CLASSES[0])
 
 def _get_aspect_checklist(aspect_list):
     aspect_checklist = {aspect: aspect in aspect_list for aspect in ALL_ASPECTS}

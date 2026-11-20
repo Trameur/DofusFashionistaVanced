@@ -41,9 +41,7 @@ from chardata.character_assets import asset_formats, asset_token, preload_links
 from chardata.char_blobs import read_char_blob
 from chardata.closest_set import closest_set_facts
 from chardata.encoded_char_id import encode_char_id
-from chardata.fashion_action import (continuation_input, fashion, get_options,
-                                     retry_budget_seconds, search_gap)
-from chardata.power_steps import gap_percent
+from chardata.fashion_action import (continuation_input, fashion, get_options, search_gap)
 from chardata.fashionista_build import MAX_STAT_VALUE
 from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
@@ -59,7 +57,7 @@ from chardata.models import Char, BuildVote, SolutionGeneration
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.url_language import SITE_URL
 import chardata.smart_build
-from chardata.solution import (get_solution, get_solver_facts,
+from chardata.solution import (gap_percent, get_solution, get_solver_facts,
                                set_minimal_solution)
 from fashionistapulp import weapon_forge
 from fashionistapulp.lpproblem import TIME_LIMIT_SECONDS as SOLVER_TIME_LIMIT_SECONDS
@@ -75,7 +73,7 @@ from chardata import build_sites, dofusbook_export
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
     HttpResponseText, HttpResponseJson, get_base_stats_by_attr, \
     version_reverse, get_stats_and_scrolled, remove_cache_for_char
-from fashionistapulp.dofus_constants import (STAT_ORDER, STATS_NAMES,
+from fashionistapulp.dofus_constants import (percent_resist_cap, STAT_ORDER, STATS_NAMES,
                                              TYPE_NAME_TO_SLOT,
                                              TYPE_NAME_TO_SLOT_NUMBER,
                                              max_scroll_for_version, slots_for)
@@ -494,8 +492,8 @@ def _build_og_description(char, solution, proven, tolerance=None):
     return sentence
 
 # Classes for which we ship 6 wizard avatars under chardata/designs/wizard/<class>/.
-_CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
-                      'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
+_CLASS_AVATAR_DIRS = {'Bellaphone', 'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof',
+                      'Feca', 'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
                       'Osamodas', 'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram',
                       'Xelor'}
 _CLASS_AVATAR_COUNT = 6
@@ -808,6 +806,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     # Best turn
     best_turn = None
     best_turn_note = ''
+    best_turn_casts = []
+    best_turn_ap_used = None
+    best_turn_ap_available = None
     try:
         # Local import: spells_view imports this module
         from chardata.spells_view import _best_combo
@@ -819,6 +820,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                  note_without_buffs=False)
             best_turn = _combo['total'] if _combo else None
             if _combo:
+                best_turn_casts = _combo['casts']
+                best_turn_ap_used = _combo['ap_used']
+                best_turn_ap_available = _combo['ap_available']
                 # Same notes as the spell and compare pages
                 best_turn_note = ' '.join(
                     part for part in (_combo.get('buff_note'),
@@ -831,10 +835,17 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         logger.exception('Failed to build the best turn (char %s)', char.id)
         best_turn = None
         best_turn_note = ''
+        best_turn_casts = []
+        best_turn_ap_used = None
+        best_turn_ap_available = None
 
     params = {'char_id': char_id,
               'best_turn': best_turn,
               'best_turn_note': best_turn_note,
+              'best_turn_casts': best_turn_casts,
+              'best_turn_ap_used': best_turn_ap_used,
+              'best_turn_ap_available': best_turn_ap_available,
+              'resist_cap': percent_resist_cap(getattr(request, 'game_version', 'dofus3')),
               'lock_item': static('chardata/lock-icon.png'),
               'switch_item': static('chardata/1412645636_Left-right.png'),
               'delete_item': static('chardata/delete-icon.png'),
@@ -908,7 +919,6 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'search_gap_is_small': (stopped_gap or 0) <= _NEARLY_OPTIMAL_GAP,
               'continue_search_url': continue_search_url,
               'continue_search_seconds': SOLVER_TIME_LIMIT_SECONDS,
-              'continue_search_budget': retry_budget_seconds(char) if continue_search_url else 0,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:

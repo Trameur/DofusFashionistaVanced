@@ -521,6 +521,194 @@ class UpdateLauncherTests(TestCase):
                          for command in downloads}
                 self.assertEqual(1, len(repos))
 
+    def mapped_dir(self, *names):
+        folder = self.root / 'mapped'
+        folder.mkdir(exist_ok=True)
+        for name, rows in zip(release_items.ASSETS, (self.MAPPED_ITEMS, self.MAPPED_SETS, self.MAPPED_RECIPES)):
+            if name in names:
+                (folder / name).write_text(json.dumps(rows), encoding='utf-8')
+        return folder
+
+    def test_a_mapped_dir_rebuilds_the_item_pages_with_nothing_downloaded(self):
+        mapped = self.mapped_dir(*release_items.ASSETS)
+        work, calls, output = self.item_download('3.7.1.0', '--mapped-dir', str(mapped))
+        self.assertEqual([], calls)
+        self.assertEqual(30, len(list(work.glob('all_*.json'))))
+        equipment = json.loads((work / 'all_equipment_fr.json').read_text(encoding='utf-8'))
+        expected = release_items.rebuild(self.MAPPED_ITEMS, self.MAPPED_SETS, self.MAPPED_RECIPES, self.IMAGES,
+                                         ['equipment'], languages=['fr'])['equipment', 'fr']
+        self.assertEqual(expected['items'], equipment['items'])
+        sets = json.loads((work / 'all_sets_fr.json').read_text(encoding='utf-8'))
+        self.assertEqual([5], [row['ankama_id'] for row in sets['sets']])
+
+    def test_a_mapped_dir_without_one_of_its_files_writes_no_page(self):
+        for kept in (('MAPPED_ITEMS.json', 'MAPPED_SETS.json'), ()):
+            with self.subTest(kept=kept):
+                mapped = self.mapped_dir(*kept)
+                with self.assertRaises(SystemExit) as stopped:
+                    self.item_download('3.7.1.0', '--mapped-dir', str(mapped))
+                self.assertIn('MAPPED_RECIPES.json', stopped.exception.code)
+                self.assertEqual([], list((self.root / 'items').glob('all_*.json')))
+
+    BETA_STAMP = ('FASHIONISTA_BETA_VERSION = "%s"\n'
+                  'PATCH_TIMELINE = {\n    \'beta\': [\n        (\'2026-09-17\', \'3.7\'),%s\n    ],\n}\n')
+
+    def beta_stamp(self, version='3.7.3.3', timeline=''):
+        path = self.root / 'fashionista_version.py'
+        path.write_text(self.BETA_STAMP % (version, timeline), encoding='utf-8')
+        return path
+
+    def test_a_new_beta_patch_moves_the_one_stamp_and_notes_the_patch_once(self):
+        import update_data_beta
+        for timeline in ('', "\n        ('2026-11-20', '3.8'),"):
+            with self.subTest(timeline=timeline):
+                path = self.beta_stamp('3.7.3.3', timeline)
+                with mock.patch.object(update_data_beta, 'ROOT', self.root), contextlib.redirect_stdout(io.StringIO()):
+                    update_data_beta.set_beta_version('3.8.1.2')
+                content = path.read_text(encoding='utf-8')
+                self.assertIn('FASHIONISTA_BETA_VERSION = "3.8.1.2"', content)
+                self.assertNotIn('ITEMS_VERSION', content)
+                self.assertEqual(1, content.count("'3.8'),"))
+
+    def local_beta_import(self, *extra):
+        import update_data_beta
+        raw = self.root / 'itemscraper' / 'raw' / '3.8.1.2'
+        raw.mkdir(parents=True)
+        for name in update_data_beta.LOCAL_RAW_FILES:
+            (raw / name).write_text('[]', encoding='utf-8')
+        commands = []
+        def run_step(label, command, cwd=None):
+            commands.append((label, [str(part) for part in command]))
+            return True, []
+        argv = ['pipeline', '--version', '3.8.1.2', '--local-raw', str(raw),
+                '--local-mapped', str(self.root / 'mapped'), *extra]
+        with mock.patch.object(update_data_beta, 'run_step', side_effect=run_step), \
+                mock.patch.object(update_data_beta, 'ITEMSCRAPER', self.root / 'itemscraper'), \
+                mock.patch.object(update_data_beta, 'set_beta_version', side_effect=lambda v: v), \
+                mock.patch.object(update_data_beta.sys, 'argv', argv), \
+                contextlib.redirect_stdout(io.StringIO()):
+            update_data_beta.main()
+        return raw, commands
+
+    def test_a_local_beta_import_downloads_nothing_and_reads_its_extraction(self):
+        raw, commands = self.local_beta_import('--local-icons', str(self.root / 'icons'))
+        labels = [label for label, _ in commands]
+        steps = dict(commands)
+        self.assertFalse([label for label in labels if label in ('data/download', 'spells/download')])
+        download = steps['items/download']
+        self.assertEqual(str((self.root / 'mapped').resolve()), download[download.index('--mapped-dir') + 1])
+        self.assertNotIn('--tag', download)
+        for label in ('items/transform', 'items/weapon-conversions', 'spells/tooltips'):
+            with self.subTest(step=label):
+                self.assertEqual(str(raw), steps[label][steps[label].index('--raw-dir') + 1])
+        self.assertEqual(str(raw), steps['items/dracorunes'][2])
+        images = steps['item-images']
+        self.assertEqual(str((self.root / 'icons').resolve()), images[images.index('--local-icons') + 1])
+        for label in ('mount-looks', 'monster-subareas'):
+            with self.subTest(step=label):
+                self.assertEqual('3.8.1.2', steps[label][steps[label].index('--tag') + 1])
+        self.assertFalse([label for label in labels if label in ('resource-icons', 'monster-images')])
+
+    def test_a_local_beta_import_reads_the_map_and_icons_stored_with_its_extraction(self):
+        import update_data_beta
+        raw = self.root / 'itemscraper' / 'raw' / '3.8.1.2'
+        (raw / 'img' / 'item').mkdir(parents=True)
+        for name in update_data_beta.LOCAL_RAW_FILES + release_items.ASSETS:
+            (raw / name).write_text('[]', encoding='utf-8')
+        commands = []
+        def run_step(label, command, cwd=None):
+            commands.append((label, [str(part) for part in command]))
+            return True, []
+        argv = ['pipeline', '--version', '3.8.1.2', '--local-raw', str(raw)]
+        with mock.patch.object(update_data_beta, 'run_step', side_effect=run_step),                 mock.patch.object(update_data_beta, 'ITEMSCRAPER', self.root / 'itemscraper'),                 mock.patch.object(update_data_beta, 'set_beta_version', side_effect=lambda v: v),                 mock.patch.object(update_data_beta.sys, 'argv', argv),                 contextlib.redirect_stdout(io.StringIO()):
+            update_data_beta.main()
+        steps = dict(commands)
+        download = steps['items/download']
+        self.assertEqual(str(raw.resolve()), download[download.index('--mapped-dir') + 1])
+        images = steps['item-images']
+        self.assertEqual(str((raw / 'img' / 'item').resolve()), images[images.index('--local-icons') + 1])
+
+    def test_a_local_beta_import_without_its_map_stops_before_the_first_step(self):
+        import update_data_beta
+        raw = self.root / 'itemscraper' / 'raw' / '3.8.1.2'
+        raw.mkdir(parents=True)
+        for name in update_data_beta.LOCAL_RAW_FILES + release_items.ASSETS[1:]:
+            (raw / name).write_text('[]', encoding='utf-8')
+        argv = ['pipeline', '--version', '3.8.1.2', '--local-raw', str(raw)]
+        errors = io.StringIO()
+        with mock.patch.object(update_data_beta, 'run_step') as run_step, \
+                mock.patch.object(update_data_beta, 'ITEMSCRAPER', self.root / 'itemscraper'), \
+                mock.patch.object(update_data_beta, 'set_beta_version', side_effect=lambda v: v) as stamp, \
+                mock.patch.object(update_data_beta.sys, 'argv', argv), \
+                contextlib.redirect_stderr(errors), self.assertRaises(SystemExit):
+            update_data_beta.main()
+        self.assertIn(release_items.ASSETS[0], errors.getvalue())
+        run_step.assert_not_called()
+        stamp.assert_not_called()
+
+    def test_a_local_beta_import_runs_the_whole_spell_chain_from_the_tag(self):
+        raw, commands = self.local_beta_import()
+        labels = [label for label, _ in commands]
+        steps = dict(commands)
+        for label in ('spells/transform', 'spells/variants', 'spells/reference', 'spells/states',
+                      'spells/modifiers', 'monster-grades', 'monster-spells', 'stats/starting'):
+            with self.subTest(step=label):
+                self.assertEqual('3.8.1.2', steps[label][steps[label].index('--tag') + 1])
+        duplicates = steps['spells/duplicates']
+        self.assertEqual(str(raw.parent), duplicates[duplicates.index('--raw-root') + 1])
+        self.assertIn('spells/constants', labels)
+        self.assertLess(labels.index('spells/constants'), labels.index('spells/tooltips'))
+        self.assertLess(labels.index('items/load-db'), labels.index('spells/tooltips'))
+
+    def test_a_local_beta_import_restores_only_after_every_store_step(self):
+        _, commands = self.local_beta_import()
+        labels = [label for label, _ in commands]
+        steps = dict(commands)
+        self.assertLess(labels.index('items/keep-save'), labels.index('items/load-db'))
+        stores = [label for label in labels if label.startswith(('spells/', 'drops/', 'monster-', 'craftjobs/',
+                                                                  'items/obtainment', 'item-skins', 'mount-looks'))]
+        self.assertTrue(stores)
+        self.assertLess(max(labels.index(label) for label in stores), labels.index('items/keep-restore'))
+        self.assertLess(labels.index('items/keep-restore'), labels.index('items/corrections'))
+        self.assertEqual(steps['items/keep-save'][-1], steps['items/keep-restore'][-1])
+
+    def test_the_beta_spell_icons_follow_the_beta_book_and_prune_nothing(self):
+        _, commands = self.local_beta_import()
+        images = [(label, command) for label, command in commands if label.startswith('spell-images')]
+        self.assertEqual(['damage', 'class'], [command[command.index('--scope') + 1] for _, command in images])
+        for label, command in images:
+            with self.subTest(step=label):
+                self.assertEqual('beta', command[command.index('--game-version') + 1])
+                self.assertNotIn('--prune', command)
+
+    def test_the_default_elements_and_golden_presets_follow_the_new_data(self):
+        _, commands = self.local_beta_import()
+        labels = [label for label, _ in commands]
+        steps = dict(commands)
+        defaults = steps['elements/defaults']
+        self.assertIn('store_default_elements', defaults)
+        self.assertEqual('beta', defaults[defaults.index('--game-version') + 1])
+        self.assertLess(labels.index('spells/constants'), labels.index('elements/defaults'))
+        self.assertLess(labels.index('items/corrections'), labels.index('elements/defaults'))
+        if 'presets/golden' in steps:
+            self.assertLess(labels.index('elements/defaults'), labels.index('presets/golden'))
+            self.assertIn('chardata.tests_every_preset_keeps_its_weights_and_minimums', steps['presets/golden'])
+
+    def test_a_local_extraction_outside_the_raw_folder_of_its_version_is_refused(self):
+        import update_data_beta
+        raw = self.root / 'elsewhere'
+        raw.mkdir()
+        errors = io.StringIO()
+        argv = ['pipeline', '--version', '3.8.1.2', '--local-raw', str(raw), '--local-mapped', str(self.root)]
+        with mock.patch.object(update_data_beta, 'run_step') as run_step, \
+                mock.patch.object(update_data_beta, 'ITEMSCRAPER', self.root / 'itemscraper'), \
+                mock.patch.object(update_data_beta.sys, 'argv', argv), \
+                contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(errors):
+            with self.assertRaises(SystemExit):
+                update_data_beta.main()
+        run_step.assert_not_called()
+        self.assertIn('the spell steps read the raw folder of --version', errors.getvalue())
+
     def test_retro_probe_loads_the_flat_itemscraper_modules(self):
         manifest = {key: '123' for key in ('items', 'itemstats', 'itemsets', 'crafts', 'classes', 'effects', 'spells')}
         metadata = {'FASHIONISTA_RETRO_VERSION': '1.49', 'WATCHED_RETRO_BUILD': 'old',
@@ -1988,6 +2176,12 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
             with self.subTest(version=version):
                 names = {audit.relative_name(path) for path in audit.version_files(version)}
                 self.assertIn('fashionsite/chardata/starting_stats/%s.json' % version, names)
+
+    def test_each_version_backs_up_its_dracorune_file(self):
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            with self.subTest(version=version):
+                names = {audit.relative_name(path) for path in audit.version_files(version)}
+                self.assertIn('fashionistapulp/fashionistapulp/dracorunes/%s.json' % version, names)
 
     def test_a_restore_takes_the_spell_modifier_file_back(self):
         modifiers = self.root / 'fashionsite/chardata/spell_modifiers/dofus3.json'

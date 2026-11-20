@@ -2,6 +2,7 @@
 {% load version_url %}
 {% load i18n %}
 {% load ads %}
+{% load static_s3 %}
 
 {% block title %}{{ mt.monsters_label }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} - {% trans "The Dofus Fashionista" %}{% endblock %}
 
@@ -11,6 +12,7 @@
 
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
+{% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-encyclopedia.css" %}">{% endblock %}
 {% block css %}
 <style>
 .encyclopedia-monsters { padding: 12px; }
@@ -33,7 +35,6 @@
 .encyclopedia-monsters-weakness { display: block; opacity: 1; font-weight: 600; text-decoration: none; }
 .encyclopedia-monsters-weakness:hover { text-decoration: underline; }
 .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color: #0a7d0a; }
-.dark-theme-active .encyclopedia-monster-card a.encyclopedia-monsters-weakness,
 html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color: #74e074; }
 .encyclopedia-monsters-guide-note { margin: 0 0 12px; font-size: 0.9em; }
 .encyclopedia-monsters-guide-note a { font-weight: 600; }
@@ -59,7 +60,7 @@ html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color
 {% endblock %}
 
 {% block main %}
-<div class="encyclopedia-monsters text">
+<div class="encyclopedia-monsters encyclopedia-atelier text">
     <h1 align="center">{{ mt.monsters_label }}</h1>
     <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> &gt;

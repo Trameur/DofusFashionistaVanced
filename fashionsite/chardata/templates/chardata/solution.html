@@ -37,19 +37,46 @@
 {% endif %}
 {% endblock %}
 
+{% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-solution.css" %}">{% endblock %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/solution.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.solution %}" class="solution-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
+    {% include "chardata/theme_css.html" with single=css_files.solution light=css_files.solutionlighttheme dark=css_files.solutiondarktheme cls="solution-css css-file" %}
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/solution_overrides.css' %}">
 {% endblock %}
 
 {% block main %}
-    <h1 align="center">{% trans "Outfit Suggestion" %}</h1>
+    <link rel="stylesheet" type="text/css" href="{% static 'chardata/modern-solution-parts.css' %}">
+    <header class="fm-sol-head" id="fm-sol-head">
+        <div class="fm-sol-who">
+            <div class="fm-sol-coin" aria-hidden="true">{% if class_avatar %}<img src="{{ class_avatar }}" alt="">{% endif %}</div>
+            <div class="fm-sol-who-text">
+                <h1 class="fm-sol-title">{{ char.char_class|localized_class }} {% trans "level" %} {{ char.level }}</h1>
+                <div class="fm-sol-sub">
+                    <span class="fm-tag">{{ wrapped_char.build_string }}</span>
+                    <span class="fm-sol-meta">{{ current_game_version_label }}{% if char.solved_time %} · {{ char.solved_time|date:"SHORT_DATETIME_FORMAT" }}{% endif %}{% if owner_alias %} · {% trans "by" %} {{ owner_alias }}{% endif %}</span>
+                </div>
+            </div>
+        </div>
+        <div class="fm-sol-nums">
+            {% if has_build_score %}
+            <div class="fm-sol-num fm-sol-num-big"><span class="fm-sol-num-k">{% trans "Build score" %}</span><span class="fm-sol-num-v fm-num">{{ build_score|floatformat:"0g" }}</span></div>
+            {% endif %}
+            {% if best_turn %}
+            <div class="fm-sol-num fm-sol-num-big"><span class="fm-sol-num-k">{% trans "Best turn" %}</span><span class="fm-sol-num-v fm-num">{% if encoded_char_id %}<a href="{% game_url 'spells_linked' char.char_name|default:'shared' encoded_char_id %}">{{ best_turn|floatformat:"0g" }}</a>{% else %}<a href="{% game_url 'spells' char_id %}">{{ best_turn|floatformat:"0g" }}</a>{% endif %}</span></div>
+            {% endif %}
+            <div class="fm-sol-num"><span class="fm-sol-num-k"><img src="{% static 'chardata/AP.png' %}" alt="">{% trans "AP" %}</span><span class="fm-sol-num-v fm-num" data-fm-stat="ap"></span></div>
+            <div class="fm-sol-num"><span class="fm-sol-num-k"><img src="{% static 'chardata/MP.png' %}" alt="">{% trans "MP" %}</span><span class="fm-sol-num-v fm-num" data-fm-stat="mp"></span></div>
+            <div class="fm-sol-num"><span class="fm-sol-num-k"><img src="{% static 'chardata/Range.png' %}" alt="">{% trans "Range" %}</span><span class="fm-sol-num-v fm-num" data-fm-stat="range"></span></div>
+            <div class="fm-sol-num"><span class="fm-sol-num-k"><img src="{% static 'chardata/Health_Points.png' %}" alt="">{% trans "HP" %}</span><span class="fm-sol-num-v fm-num" data-fm-stat="hp"></span></div>
+        </div>
+        <div class="fm-sol-actions" id="fm-sol-actions"></div>
+    </header>
+    <h1 align="center" class="fm-sol-old-title">{% trans "Outfit Suggestion" %}</h1>
 
     {% if class_avatar %}
-    <div class="char-banner">
+    <div class="char-banner fm-card">
         {% if character_look %}
         <div class="char-banner-preview-box">
             <canvas id="character-preview" class="char-banner-preview"
@@ -57,7 +84,7 @@
                     style="width: {{ preview_box.css_width }}px; height: {{ preview_box.css_height }}px;"
                     title="{% trans 'Drag to turn your character' %}"></canvas>
         </div>
-        <div class="char-banner-controls">
+        <div class="char-banner-controls fm-sol-controls">
             <div class="char-banner-size">
                 <button type="button" id="character-smaller" class="char-banner-gender"
                         title="{% trans 'Smaller preview' %}">-</button>
@@ -176,11 +203,11 @@
     {% if not is_guest %}
 
     {% if is_generation_snapshot %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
         {% trans "This is a saved solution. Restore it to edit it, or compare it with your current build." %}
     </p>
     {% elif is_generated %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
     {% if char.char_name %}
         {% blocktrans with char.char_name as charname %}This is the set that we suggest for <b>{{charname}}</b>. {% endblocktrans %}
     {% else %}
@@ -192,19 +219,19 @@
     {% blocktrans with lock=lock_item switch=switch_item delete=delete_item %}If you don't like an item, click the forbid ( <img style='position: relative; bottom: -3px; left: -2px;' src={{delete}} title='Forbid'> ) button under its name and <a href="{{run_again_link}}" class="rerun-button">run again</a>. If, on the contrary, you want to lock in an item for future sets for this char, click the lock (<img style='position: relative; bottom: -1px; left: 0px;' src={{lock}} title='Lock'>) button. You can also switch any item for another you like best by clicking the switch (<img class='solution-item-button' style='position: relative; bottom: -5px; left: 0px;' src={{switch}} title='Switch'>) button.{% endblocktrans %}
     </p>
     {% elif is_imported %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
     {% blocktrans with add=add_item %}
     This is the gear you brought in, exactly as it was. Nothing here was chosen by the solver. Change any piece yourself with the add (<img style='position: relative; bottom: -4px; left: 1px;' src={{add}} title='Add'>) buttons, or run the optimizer when you want a suggestion.{% endblocktrans %}
     </p>
     {% else %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
     {% blocktrans with add=add_item %}
     This set starts empty. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src={{add}} title='Add'>) buttons to choose the items yourself.{% endblocktrans %}
     </p>
     {% endif %}
 
     {% if not is_generation_snapshot %}
-    <div align="center">
+    <div align="center" class="fm-sol-actions-row">
         <div style="display: inline-block;">
             <button type="button" class="button-generic" style="margin-right: 5px;"
                     data-compare-add
@@ -233,7 +260,7 @@
     <br>
     {% endif %}
     {% else %}
-    <p class="text">
+    <p class="text fm-sol-explain fm-card"><span class="fm-kicker fm-modern-only">{% trans "How it works" %}</span>
     {% if owner_alias %}
         {% if char.char_name %}
         {% blocktrans with charname=char.char_name owner=owner_alias %}This is {{owner}}'s set for {{charname}}. {% endblocktrans %}
@@ -251,7 +278,7 @@
     {% blocktrans %}If you wish to modify it, <button type="submit" form="copy-build-form" class="copy-action-link link-button">copy</button> it to your workspace.</p>{% endblocktrans %}
     <form id="copy-build-form" class="hidden-form" action="{{ copy_link }}" method="post" style="display: none;">{% csrf_token %}</form>
     
-    <div align="center">
+    <div align="center" class="fm-sol-actions-row">
     <form id="compare_form" class="hidden-form" action="{% game_url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{initial_link}}" name="char0"></input></form>
             <button type="button" class="button-generic" style="margin-right: 5px;"
                     data-compare-add
@@ -266,7 +293,7 @@
     
     <!-- Vote buttons for shared builds -->
     {% if link_shared and user.is_authenticated %}
-    <div align="center" style="margin-top: 15px;">
+    <div align="center" class="fm-sol-vote" style="margin-top: 15px;">
         <button id="like_button" class="button-generic {% if user_liked %}button-voted{% endif %}" 
                 onclick="voteBuild({{ char_id }}, 'like')" style="margin-right: 10px;">
             <span class="fm-st fm-st-like" aria-hidden="true"></span> <span id="like_text">{% if user_liked %}{% trans "Unlike" %}{% else %}{% trans "Like" %}{% endif %}</span> 
@@ -306,7 +333,7 @@
     {% endif %}
 
     {% if generation_history %}
-    <div class="solution-history-panel">
+    <div class="solution-history-panel fm-card">
         <div class="solution-history-panel-header">
             <strong>{% trans "Recent solutions" %}</strong>
         </div>
@@ -318,11 +345,11 @@
                     {% if generation.has_score %}
                     <div class="solution-history-entry-score">
                         <span>{% trans "Build score" %}</span>
-                        <strong>{{ generation.score }}</strong>
+                        <strong class="fm-classic-only">{{ generation.score }}</strong><strong class="fm-modern-only">{{ generation.score|floatformat:"0g" }}</strong>
                         {% if generation.has_score_delta %}
-                        <span class="solution-history-entry-score-delta solution-history-entry-score-delta-{{ generation.score_delta_class }}">
+                        <span class="solution-history-entry-score-delta solution-history-entry-score-delta-{{ generation.score_delta_class }} fm-classic-only">
                             {{ generation.score_delta_text }} <span>{% trans "vs current" %}</span>
-                        </span>
+                        </span><span class="solution-history-entry-score-delta solution-history-entry-score-delta-{{ generation.score_delta_class }} fm-modern-only">{% if generation.score_delta > 0 %}+{% endif %}{{ generation.score_delta|floatformat:"0g" }} <span>{% trans "vs current" %}</span></span>
                         {% endif %}
                     </div>
                     {% endif %}
@@ -356,8 +383,9 @@
     {% endif %}
 
     <table class="solution-table"><tr>
-    <td class="solution-item-summary">
+    <td class="solution-item-summary fm-card">
 
+    <h2 class="fm-sol-card-title fm-modern-only">{% trans "The build" %}</h2>
     <button id="expand_button" class="solution-item-summary-expand-all button-generic">{% trans "Expand All" %}</button>
     <button id="collapse_button" class="solution-item-summary-collapse-all button-generic">{% trans "Collapse All" %}</button>
 
@@ -366,7 +394,14 @@
     {% endif %}
 
     {% for section in item_sections %}
-    <div class="solution-item-section">
+    {% if forloop.counter == 2 and dofus_row_title %}<div class="fm-sol-row-title fm-modern-only">{{ dofus_row_title }}</div>{% endif %}
+    <div class="solution-item-section{% if forloop.first %} fm-sol-doll{% endif %}">
+        {% if forloop.first %}
+        <div class="fm-sol-figure">
+            <div class="fm-sol-stage"></div>
+            <div class="fm-sol-figure-name">{{ char.char_class|localized_class }} {% trans "level" %} {{ char.level }}</div>
+        </div>
+        {% endif %}
         {% for item_list_ordered in section %}
         <div class="solution-item-section-column">
             {% for item in item_list_ordered %}
@@ -385,7 +420,7 @@
 
     {# Older solutions have solver_proven None; False means the time limit hit #}
     {% if solver_proven is not None or solver_closest %}
-    <div class="solver-why">
+    <div class="solver-why fm-sol-why fm-card">
         <div class="solver-why-title">{% trans "Why this result?" %}</div>
         {% if solver_closest %}
         {% if not solver_closest.missed %}
@@ -411,7 +446,7 @@
         {% endif %}
         {% endif %}
         {% if continue_search_url %}
-        <form method="post" action="{{ continue_search_url }}" class="solver-continue-search" onsubmit="loadingAndRunUnchecked({% if continue_search_budget %}{{ continue_search_budget|unlocalize }}{% endif %});">
+        <form method="post" action="{{ continue_search_url }}" class="solver-continue-search" onsubmit="loadingAndRunUnchecked();">
             {% csrf_token %}
             <p class="solver-why-line"><button type="submit" class="button-generic">{% trans "Continue the search" %}</button></p>
             <p class="solver-why-line">{% blocktrans with limit=continue_search_seconds %}The search picks up from this set for up to {{ limit }} more seconds and only replaces it with a better one. To keep this set, there is nothing to do.{% endblocktrans %}</p>
@@ -419,12 +454,12 @@
         {% endif %}
         {% endif %}
         {% if solver_constraints or solver_closest.advanced_missed %}
-        <p class="solver-why-line">
+        <p class="solver-why-line fm-sol-dup">
             {% for line in solver_constraints %}<span class="solver-why-goal{% if not line.met %} solver-why-goal-missed{% endif %}">{{ line.name }} {{ line.reached }}{% if not line.met %} / {{ line.asked }}{% endif %}</span>{% if not forloop.last %} {% endif %}{% endfor %}{% for line in solver_closest.advanced_missed %} <span class="solver-why-goal solver-why-goal-missed">{{ line.name }} {{ line.reached }} / {{ line.asked }}</span>{% endfor %}
         </p>
         {% endif %}
         {% if solver_priorities %}
-        <p class="solver-why-line">
+        <p class="solver-why-line fm-sol-dup">
             {% trans "Priorities given to the solver:" %}
             {% for priority in solver_priorities %}<span class="solver-why-goal solver-priority">{{ priority.name }} {{ priority.weight }}</span>{% if not forloop.last %} {% endif %}{% endfor %}
         </p>
@@ -447,7 +482,7 @@
     {% endif %}
 
     {% if not is_guest and not is_generation_snapshot %}
-    <div align="center">
+    <div align="center" class="fm-sol-rerun-row">
 
     <a href="{% game_url 'fashion' char_id %}" style='color: white; text-decoration: none; margin:10px;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img" alt="">{% trans "Tailor a New Set" %}</a>
     <a class="button-thin" href="{% game_url 'stats' char_id %}">{% trans "Edit weights and minimums" %}</a>
@@ -479,10 +514,11 @@
     {% endif %}
 
     </td>
-    <td class="solution-stat-summary">
+    <td class="solution-stat-summary fm-card">
         <table class="solution-stat-table">
             <tr><td colspan="4">
-                <div class="solution-stat-summary-mode-option-container">       
+                <h2 class="fm-sol-card-title fm-sol-stats-title fm-modern-only">{% trans "Characteristics" %}</h2>
+                <div class="solution-stat-summary-mode-option-container">
                     <label>                    
                         <input type="radio" name="total_mode" value="final" checked="checked"> <span class="checkbox-text">{% trans "Total" %}</span>
                     </label>
@@ -542,6 +578,8 @@
             </tr>
             {% endif %}
 
+            <tr class="fm-stat-group"><td colspan="4">{% trans "Characteristics" %}</td></tr>
+            <tr class="fm-stat-group fm-stat-pad"><td colspan="4"></td></tr>
             {% trans "HP" as HP %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Health_Points.png" stat_name=HP stat_key="hp" %}
             {% trans "Vitality" as Vitality %}
@@ -570,6 +608,8 @@
             {% include "chardata/solution_stat_line.html" with stat_name=Power_spells stat_key="perspedam" %}
             {% endif %}
             {% include "chardata/solution_stat_line_empty.html" %}
+            <tr class="fm-stat-group"><td colspan="4">{% trans "Combat" %}</td></tr>
+            <tr class="fm-stat-group fm-stat-pad"><td colspan="4"></td></tr>
             {% trans "AP" as AP %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/AP.png" stat_name=AP stat_key="ap" %}
             {% trans "MP" as MP %}
@@ -581,6 +621,8 @@
             {% trans "Critical Hits" as Crits %}
             {% include "chardata/solution_stat_line.html" with stat_name=Crits stat_key="ch" %}
             {% include "chardata/solution_stat_line_empty.html" %}
+            <tr class="fm-stat-group"><td colspan="4">{% trans "Lock, dodge and reductions" %}</td></tr>
+            <tr class="fm-stat-group fm-stat-pad"><td colspan="4"></td></tr>
             {% trans "Initiative" as Initiative %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Initiative.png" stat_name=Initiative stat_key="init" %}
             {% trans "Prospecting" as Prospecting %}
@@ -613,6 +655,8 @@
             {% stat_name "% Trap Damage" as Per_Trap_Dam %}
             {% include "chardata/solution_stat_line.html" with stat_name=Per_Trap_Dam stat_key="trapdamper" %}
             {% include "chardata/solution_stat_line_empty.html" %}
+            <tr class="fm-stat-group"><td colspan="4">{% trans "Damage" %}</td></tr>
+            <tr class="fm-stat-group fm-stat-pad"><td colspan="4"></td></tr>
             {% trans "Damage" as Damage %}
             {% include "chardata/solution_stat_line.html" with stat_name=Damage stat_key="dam" %}
             {% trans "Neutral Damage" as Neutral_Damage %}
@@ -635,6 +679,8 @@
             {% trans "Heals" as Heals %}
             {% include "chardata/solution_stat_line.html" with stat_name=Heals stat_key="heals" %}
             {% include "chardata/solution_stat_line_empty.html" %}
+            <tr class="fm-stat-group"><td colspan="4">{% trans "Resistances" %}</td></tr>
+            <tr class="fm-stat-group fm-stat-pad"><td colspan="4"></td></tr>
             {% trans "Neutral Resist" as Neutral_Resist %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Neutral.png" stat_name=Neutral_Resist stat_key="neutres" %}
             {% trans "Earth Resist" as Earth_Resist %}
@@ -647,15 +693,15 @@
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Air_Resist stat_key="airres" %}
             {% include "chardata/solution_stat_line_empty.html" %}
             {% trans "% Neutral Resist" as Per_Neutral_Res %}
-            {% include "chardata/solution_stat_line.html" with icon="chardata/Neutral.png" stat_name=Per_Neutral_Res stat_key="neutresper" %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Neutral.png" stat_name=Per_Neutral_Res stat_key="neutresper" tape=True %}
             {% trans "% Earth Resist" as Per_Earth_Res %}
-            {% include "chardata/solution_stat_line.html" with icon="chardata/Strength.png" stat_name=Per_Earth_Res stat_key="earthresper" %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Strength.png" stat_name=Per_Earth_Res stat_key="earthresper" tape=True %}
             {% trans "% Fire Resist" as Per_Fire_Res %}
-            {% include "chardata/solution_stat_line.html" with icon="chardata/Intelligence.png" stat_name=Per_Fire_Res stat_key="fireresper" %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Intelligence.png" stat_name=Per_Fire_Res stat_key="fireresper" tape=True %}
             {% trans "% Water Resist" as Per_Water_Res %}
-            {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Per_Water_Res stat_key="waterresper" %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Per_Water_Res stat_key="waterresper" tape=True %}
             {% trans "% Air Resist" as Per_Air_Res %}
-            {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Per_Air_Res stat_key="airresper" %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Per_Air_Res stat_key="airresper" tape=True %}
             {% if current_game_version == 'retro' or current_game_version == 'touch' %}
             {# Retro 1.29 and Dofus Touch have no % final resist (Dofus 2.30+); they do have PvP resists (removed from Dofus 3). #}
             {% include "chardata/solution_stat_line_empty.html" %}
@@ -692,8 +738,96 @@
     </td>
     </tr></table>
 
+    {% if best_turn and best_turn_casts %}
+    <section class="fm-sol-turn fm-card" aria-labelledby="fm-sol-turn-title">
+        <h2 class="fm-sol-card-title" id="fm-sol-turn-title">{% trans "Best turn" %}</h2>
+        <div class="fm-sol-turn-total fm-num">{{ best_turn|floatformat:"0g" }}</div>
+        <p class="fm-sol-turn-sub">{% blocktrans with used=best_turn_ap_used available=best_turn_ap_available %}average damage on one target, {{ used }} AP out of {{ available }}{% endblocktrans %}</p>
+        <ol class="fm-sol-casts">
+            {% for cast in best_turn_casts %}
+            <li class="fm-sol-cast"><span class="fm-sol-cast-n fm-num">{{ forloop.counter }}</span><img class="fm-sol-cast-img" src="{{ cast.image_url }}" alt="" width="44" height="44" loading="lazy"><span class="fm-sol-cast-name">{{ cast.name }}</span><span class="fm-sol-cast-dmg fm-num">{{ cast.damage }}</span></li>
+            {% endfor %}
+        </ol>
+        {% if best_turn_note %}<p class="fm-sol-note">{{ best_turn_note }}</p>{% endif %}
+        <a class="button-generic fm-btn-sm fm-sol-turn-link" href="{% if encoded_char_id %}{% game_url 'spells_linked' char.char_name|default:'shared' encoded_char_id %}{% else %}{% game_url 'spells' char_id %}{% endif %}">{% trans "All spells and their damage" %}</a>
+    </section>
+    {% endif %}
+
+    {% if solver_constraints or solver_closest.advanced_missed or solver_priorities %}
+    <section class="fm-sol-crit fm-card" aria-labelledby="fm-sol-crit-title">
+        <h2 class="fm-sol-card-title" id="fm-sol-crit-title">{% trans "Your criteria" %}</h2>
+        {% if solver_constraints or solver_closest.advanced_missed %}
+        <h3 class="fm-kicker">{% trans "Minimums" %}</h3>
+        <ul class="fm-sol-mins">
+            {% for line in solver_constraints %}
+            <li class="fm-sol-min{% if not line.met %} fm-sol-min-missed{% endif %}"><span class="fm-sol-min-name">{{ line.name }}</span><span class="fm-sol-min-ask fm-num">&ge; {{ line.asked|floatformat:"0g" }}</span><b class="fm-sol-min-got fm-num">{{ line.reached|floatformat:"0g" }}</b></li>
+            {% endfor %}
+            {% for line in solver_closest.advanced_missed %}
+            <li class="fm-sol-min fm-sol-min-missed"><span class="fm-sol-min-name">{{ line.name }}</span><span class="fm-sol-min-ask fm-num">&ge; {{ line.asked }}</span><b class="fm-sol-min-got fm-num">{{ line.reached }}</b></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if solver_priorities %}
+        <h3 class="fm-kicker">{% trans "Weights given to the solver" %}</h3>
+        <ul class="fm-sol-weights">
+            {% for priority in solver_priorities %}
+            <li class="fm-sol-weight"><span class="fm-sol-weight-name">{{ priority.name }}</span><b class="fm-sol-weight-val fm-num">{{ priority.weight|floatformat:"-1g" }}</b><span class="fm-tape" aria-hidden="true" style="--w:{% widthratio priority.weight solver_priorities.0.weight 100 %}%"><i></i></span></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if not is_guest and not is_generation_snapshot %}
+        <div class="fm-sol-crit-actions">
+            <a class="button-generic fm-btn-sm" href="{% game_url 'stats' char_id %}">{% trans "Edit weights and minimums" %}</a>
+            <a class="button-generic fm-btn-sm" href="{% game_url 'inclusions' char_id %}">{% trans "Lock Items" %}</a>
+            <a class="button-generic fm-btn-sm" href="{% game_url 'exclusions' char_id %}">{% trans "Forbid Items" %}</a>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    <script>
+    (function(){
+        if(!document.documentElement.classList.contains('fm-modern'))return;
+        var q=function(s){return document.querySelector(s);};
+        var row=q('.solution-table tr'),why=q('.fm-sol-why'),acts=q('#fm-sol-actions');
+        ['.fm-sol-turn','.fm-sol-crit'].forEach(function(sel){var card=q(sel);if(row&&card)row.appendChild(card);});
+        if(row&&why)row.appendChild(why);
+        var figure=q('.fm-sol-figure'),stage=q('.fm-sol-stage');
+        if(stage){
+            var box=q('.char-banner-preview-box'),avatar=q('.char-banner-avatar'),controls=q('.fm-sol-controls');
+            if(box)stage.appendChild(box);else if(avatar)stage.appendChild(avatar);
+            if(controls)figure.appendChild(controls);
+        }
+        var statBody=q('.solution-stat-table > tbody');
+        if(statBody){
+            var statRows=Array.prototype.slice.call(statBody.children),blocks=[],head=[],cur=null;
+            statRows.forEach(function(tr){
+                if(tr.classList.contains('fm-stat-group')&&!tr.classList.contains('fm-stat-pad')){cur={title:tr,rows:[]};blocks.push(cur);}
+                if(cur)cur.rows.push(tr);else head.push(tr);
+            });
+            if(blocks.length===5){
+                [1,0,3,2,4].forEach(function(i){blocks[i].rows.forEach(function(tr){statBody.appendChild(tr);});});
+            }
+        }
+        var doll=q('.fm-sol-doll');
+        if(doll){
+            ['hat','cloak','amulet','ring1','ring2','weapon','shield','belt','boots','pet'].forEach(function(slot){
+                var item=document.getElementById('item-container-'+slot);if(item&&doll.contains(item))doll.appendChild(item);
+            });
+        }
+        if(acts){
+            ['.proj-info-side','.fm-sol-actions-row','.fm-sol-rerun-row .rerun-button'].forEach(function(sel){
+                var node=q(sel);if(node)acts.appendChild(node);
+            });
+            ['#link_sharing_url_text','#gallery_refusal','#link_sharing_state'].forEach(function(sel){
+                var node=q(sel);if(node&&acts.contains(node))acts.appendChild(node.parentNode);
+            });
+        }
+    })();
+    </script>
+
     {# from= only tracks the placement, checked against a closed list server side #}
-    <aside class="solution-support">
+    <aside class="solution-support fm-card">
         <p class="solution-support-text">
             {# ads_allowed, not ads_enabled: it loads AdSense auto ads, /s/ included #}
             {% if not ads_allowed %}<strong>{% trans "No ads, no subscription." %}</strong>{% endif %}
@@ -723,7 +857,7 @@
     </div>
 
     {% if link_shared %}
-    <div id="comments_section" class="comments-section">
+    <div id="comments_section" class="comments-section fm-card">
         <h3 class="comments-title">{% trans "Comments" %} (<span id="comments_count">{{ comments|length }}</span>)</h3>
 
         {% if user.is_authenticated %}
@@ -789,7 +923,7 @@
     </div>
     {% endif %}
 
-    <p align="center" class="text" style="margin: 0; padding: 0;">
+    <p align="center" class="text fm-sol-credit" style="margin: 0; padding: 0;">
         {% trans "Built using data from " %}
         {% if current_game_version == 'retro' %}
         <a href="https://www.ankama-games.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
@@ -981,12 +1115,7 @@
         function get_loader_img()
         {
             if ('{{theme}}' == 'auto'){
-                var now = new Date();
-                var h = now.getHours();
-                theme = 'lighttheme';
-                if (h < 6 || h >= 18 ) {
-                    theme = 'darktheme';
-                }
+                var theme = fmAutoTheme();
                 return loader[theme];
             }
             return loader;
@@ -995,12 +1124,7 @@
         function get_external_img()
         {
             if ('{{theme}}' == 'auto'){
-                var now = new Date();
-                var h = now.getHours();
-                theme = 'lighttheme';
-                if (h < 6 || h >= 18 ) {
-                    theme = 'darktheme';
-                }
+                var theme = fmAutoTheme();
                 return external[theme];
             }
             return external;
@@ -1045,11 +1169,16 @@
         var STAT_SOURCES = {{stat_sources_json | safe}};
         var STAT_GEAR_KINDS = {item: 1, set: 1, exo: 1};
 
+        var FM_GROUP_DIGITS = document.documentElement.classList.contains('fm-modern');
         function formatDofusStatValue(value) {
             if (value === null || value === undefined || value === '') {
                 return '0';
             }
-            return Math.round(Number(value)).toString();
+            var rounded = Math.round(Number(value));
+            if (FM_GROUP_DIGITS && Math.abs(rounded) >= 1000) {
+                return rounded.toLocaleString(document.documentElement.lang || undefined).replace(/\u202f/g, '\u00a0');
+            }
+            return rounded.toString();
         }
 
         // The character's class self-buffs, fully active. Computed server-side
@@ -1129,6 +1258,14 @@
                 $("td[name=stat_value_" + stat_key + "]").html(statValueString);
             });
             updateStatTips($("input[name='total_mode']:checked").val() == "equip");
+            $("[data-fm-stat]").each(function() {
+                $(this).text($("td[name=stat_value_" + $(this).data("fm-stat") + "]").text().trim());
+            });
+            $(".fm-stat-tape .fm-tape").each(function() {
+                var value = parseFloat($(this).closest("tr").find("td.solution-stat-summary-value-cell[name]").last().text());
+                var share = isFinite(value) ? Math.max(0, Math.min(100, value / {{ resist_cap|default:50 }} * 100)) : 0;
+                this.style.setProperty("--w", share + "%");
+            });
         }
 
         // The panel says how much; this says where it came from. Rebuilt on
@@ -1704,7 +1841,7 @@
                         }
                     });
                     if (EXO_PER_ITEM) exoBaselineByItem[itemIdStr] = exoCountsOf(itemIdStr);
-                    rebuildStatsDisplay(slot, itemId, itemStats);
+                    if (!$("#dracorune-" + slot).length) rebuildStatsDisplay(slot, itemId, itemStats);
                     update_stats();
                 });
             });

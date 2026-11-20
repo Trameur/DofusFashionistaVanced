@@ -26,13 +26,14 @@
 
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
+{% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-encyclopedia.css" %}">{% endblock %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia_detail.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia_item.css" %}">
 {% endblock %}
 
 {% block main %}
-<div class="encyclopedia-item text">
+<div class="encyclopedia-item encyclopedia-atelier text">
     <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
@@ -103,6 +104,13 @@
                     </li>
                     {% endfor %}
                 </ul>
+                {% if group.extras %}
+                <ul class="encyclopedia-list">
+                    {% for extra in group.extras %}
+                    <li>{% if extra.spell_tip %}<span class="spell-line">{{ extra.text }}</span>{% include 'chardata/spell_tip.html' with tip=extra.spell_tip %}{% else %}{{ extra.text }}{% endif %}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 {% if group.caps %}
                 <div class="encyclopedia-item-meta">{% trans "Caps this set imposes" %}</div>
                 <ul class="encyclopedia-list encyclopedia-set-caps">
@@ -237,7 +245,7 @@
                     <button type="submit" class="button-thin" id="enc-workshop-add-btn">{% trans "Add to workshop" %}</button>
                     <span id="enc-workshop-add-feedback" class="encyclopedia-workshop-add-feedback" aria-live="polite"></span>
                 </form>
-                <form id="enc-workshop-csrf" style="display:none;">{% csrf_token %}</form>
+                <form id="enc-workshop-csrf" class="encyclopedia-csrf-form">{% csrf_token %}</form>
                 {% else %}
                 <a href="{% game_url 'login_page' %}">{% trans "Log in" %}</a> {% trans "to add this item to the workshop." %}
                 {% endif %}
@@ -345,24 +353,16 @@
 </div>
 <script>
 (function() {
-    function getThemeStylesheet() {
-        return document.querySelector('.forms-css') || document.querySelector('.common-css');
-    }
+    var root = document.documentElement;
 
     function refreshThemeClass() {
-        var themeCss = getThemeStylesheet();
-        var href = themeCss && themeCss.getAttribute('href') ? themeCss.getAttribute('href').toLowerCase() : '';
-        var isDarkTheme = href.indexOf('darktheme') !== -1;
-        document.body.classList.toggle('dark-theme-active', isDarkTheme);
+        document.body.classList.toggle('dark-theme-active', root.classList.contains('fm-dark'));
     }
 
     refreshThemeClass();
 
-    // Keep class in sync when user switches theme without leaving the page.
-    var themeCss = getThemeStylesheet();
-    if (themeCss && typeof MutationObserver !== 'undefined') {
-        var observer = new MutationObserver(refreshThemeClass);
-        observer.observe(themeCss, { attributes: true, attributeFilter: ['href'] });
+    if (typeof MutationObserver !== 'undefined') {
+        new MutationObserver(refreshThemeClass).observe(root, { attributes: true, attributeFilter: ['class'] });
     }
 })();
 </script>

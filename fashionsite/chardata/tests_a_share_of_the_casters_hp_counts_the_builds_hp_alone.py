@@ -27,11 +27,14 @@ RETRIBUTION = 12741
 PUNISHMENT = 12760
 MASQUERADE = 13404
 REPRISAL = 32472
+OPALINE_SWORD = 33224
+SOLEMN_SCYTHE = 33230
 
 SACRIER = {TRANSFUSION, RETRIBUTION, PUNISHMENT}
 EXPECTED = {
     'dofus3': {'Cra': {REPRISAL}, 'Masqueraider': {MASQUERADE}, 'Sacrier': SACRIER},
-    'beta': {'Cra': {REPRISAL}, 'Masqueraider': {MASQUERADE}, 'Sacrier': SACRIER},
+    'beta': {'Cra': {REPRISAL}, 'Masqueraider': {MASQUERADE}, 'Sacrier': SACRIER,
+             'Bellaphone': {OPALINE_SWORD, SOLEMN_SCYTHE}},
     'dofus2': {'Masqueraider': {MASQUERADE}, 'Sacrier': SACRIER},
 }
 # {version: {spell id: (class, percent of the caster's HP at level 200)}}
@@ -209,12 +212,20 @@ class TheGeneratorReadsTheShareTests(SimpleTestCase):
         self.assertIsNone(_scraper('generate_damage_spells').hp_share_entry(
             _spell([_effect(CASTER_HP_TEXT, mask='a')])))
 
-    def test_a_share_landing_later_stops_the_generator(self):
-        generate = _scraper('generate_damage_spells')
-        for effect in (_effect(CASTER_HP_TEXT, delay=1), _effect(CASTER_HP_TEXT, triggers='DR')):
-            with self.subTest(effect=effect['triggers']):
-                with self.assertRaises(RuntimeError):
-                    generate.hp_share_entry(_spell([effect]))
+    def test_a_share_landing_on_another_trigger_stops_the_generator(self):
+        with self.assertRaises(RuntimeError):
+            _scraper('generate_damage_spells').hp_share_entry(
+                _spell([_effect(CASTER_HP_TEXT, triggers='DR')]))
+
+    def test_a_share_landing_turns_after_the_cast_is_left_out_of_the_turn(self):
+        import contextlib
+        import io
+        warned = io.StringIO()
+        with contextlib.redirect_stderr(warned):
+            entry = _scraper('generate_damage_spells').hp_share_entry(
+                _spell([_effect(CASTER_HP_TEXT, delay=1)]))
+        self.assertIsNone(entry)
+        self.assertIn('not counted', warned.getvalue())
 
     def test_a_gate_no_rule_reads_stops_the_generator(self):
         with self.assertRaises(RuntimeError):

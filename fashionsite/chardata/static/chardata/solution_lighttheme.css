@@ -91,13 +91,13 @@
    prise en flagrant delit: texte #3D200D sur fond #3D200D, un rapport de
    contraste de 1 contre 1, donc invisible. Elle prend le meme fond que sa
    voisine plutot qu'une teinte nouvelle. */
-html:not(.fm-modern) .solution-build-score,
-html:not(.fm-modern) .solution-level-warning {
+html:not(.fm-modern, .fm-enhanced) .solution-build-score,
+html:not(.fm-modern, .fm-enhanced) .solution-level-warning {
     background-color: #E4E6BC;
 }
 .solution-item-violates {
     color: #AA0000;
 }
-html:not(.fm-modern) .solution-weapon-forge {
+html:not(.fm-modern, .fm-enhanced) .solution-weapon-forge {
     color: #3D200D;
 }

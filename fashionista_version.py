@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 FASHIONISTA_VERSION = "3.7.14.18"
-FASHIONISTA_BETA_VERSION = "3.7.3.3"
+FASHIONISTA_BETA_VERSION = "3.8.2.3"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
 FASHIONISTA_RETRO_VERSION = "1.49.10"
 FASHIONISTA_TOUCH_VERSION = "1.74.13"
@@ -76,6 +76,7 @@ PATCH_TIMELINE = {
         ('2026-05-22', '3.5'),
         ('2026-06-03', '3.6'),
         ('2026-09-17', '3.7'),
+        ('2026-11-20', '3.8'),
     ],
     'dofus2': [
         ('2026-05-27', '2.73'),

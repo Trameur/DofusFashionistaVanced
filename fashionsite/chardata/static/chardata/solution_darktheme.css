@@ -85,6 +85,6 @@
 .solution-item-violates {
     color: #ff5e5e;
 }
-html:not(.fm-modern) .solution-weapon-forge {
+html:not(.fm-modern, .fm-enhanced) .solution-weapon-forge {
     color: #FFF;
 }

@@ -10,12 +10,12 @@
 {% block main %}
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
 <h1 align="center">{% if reason == 'too_many' %}{% trans "Too many searches" %}{% else %}{% trans "The solver is busy" %}{% endif %}</h1>
-<p align="center" class='text'>
+<p align="center" class='text fm-busy'>
     {% if reason == 'too_many' %}{% trans "You started a lot of searches in a short time. Please wait a few minutes before trying again." %}
     {% elif refresh_seconds %}{% trans "Many builds are being solved right now. This page tries again by itself in a few seconds." %}
     {% else %}{% trans "Many builds are being solved right now. Please try again in a few seconds." %}{% endif %}
 </p>
-<p align="center" class='text'>
+<p align="center" class='text fm-busy'>
     <a href="{{ retry_url }}" class="button-generic">{% if refresh_seconds or request.method == 'GET' %}{% trans "Try again" %}{% else %}{% trans "Back to your build" %}{% endif %}</a>
 </p>
 {% endblock %}

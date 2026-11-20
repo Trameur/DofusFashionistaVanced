@@ -15,21 +15,21 @@
 /* Classic look: links dressed as buttons kept the page's orange link
    color on the dark brown button background (2.5:1). Give every such
    link the buttons' cream text; the modern look restyles them. */
-html:not(.fm-modern) a.button-generic,
-html:not(.fm-modern) a.button-generic-foreground,
-html:not(.fm-modern) a.button-thin,
-html:not(.fm-modern) a.button-thin-foreground,
-html:not(.fm-modern) a.button-thin-chardata {
+html:not(.fm-modern, .fm-enhanced) a.button-generic,
+html:not(.fm-modern, .fm-enhanced) a.button-generic-foreground,
+html:not(.fm-modern, .fm-enhanced) a.button-thin,
+html:not(.fm-modern, .fm-enhanced) a.button-thin-foreground,
+html:not(.fm-modern, .fm-enhanced) a.button-thin-chardata {
     color: #F2E3C6;
 }
 
 /* Classic header: the version links' orange sat below 3:1 on the tan
    band. Lives here (not in home_lighttheme.css) because the header shows
    on EVERY page while the home sheets only load on the home page. */
-html:not(.fm-modern) .version-link:not(.active) {
+html:not(.fm-modern, .fm-enhanced) .version-link:not(.active) {
     color: #5E2A06;
 }
 
-html:not(.fm-modern) .link-button {
+html:not(.fm-modern, .fm-enhanced) .link-button {
     color: #9d4e1a;
 }

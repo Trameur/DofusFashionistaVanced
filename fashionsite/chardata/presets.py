@@ -22,7 +22,7 @@ from chardata.smart_build import (ASPECT_TO_NAME, get_char_aspects, get_elements
                                   get_standard_weights, inert_aspects, set_char_aspects)
 from chardata.stats_weights import get_stats_weights
 from chardata.translation_util import localized_stat_name
-from chardata.version_compat import class_exists_in_version, filter_classes_for_version
+from chardata.version_compat import class_exists_in_version, first_class_with_data
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.game_versions import DEFAULT_VERSION
 from fashionistapulp.model import EFFECTIVE_HP_MINIMUM
@@ -52,6 +52,7 @@ CLASS_DEFAULT_ELEMENT = {
     'Foggernaut': 'int',
     'Rogue': 'agi',
     'Forgelance': 'str',
+    'Bellaphone': 'cha',
 }
 FALLBACK_ELEMENT = 'str'
 
@@ -219,8 +220,7 @@ def version_class(char_class, game_version):
     """The class a build gets on the version: its own, else the version's first class."""
     if char_class in CHARACTER_CLASSES and class_exists_in_version(char_class, game_version):
         return char_class
-    classes = filter_classes_for_version(CHARACTER_CLASSES, game_version)
-    return classes[0] if classes else CHARACTER_CLASSES[0]
+    return first_class_with_data(CHARACTER_CLASSES, game_version) or CHARACTER_CLASSES[0]
 
 
 def default_element(char_class, game_version=None, level=None):

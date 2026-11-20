@@ -21,6 +21,7 @@
 
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
+{% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-encyclopedia.css" %}">{% endblock %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia_detail.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia_resource.css" %}">
@@ -28,7 +29,7 @@
 
 {% block main %}
 {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
-<div class="encyclopedia-item text">
+<div class="encyclopedia-item encyclopedia-atelier text">
     <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›

@@ -17,7 +17,7 @@ from chardata.smart_build import level_minimums, param_for_build
 from chardata.spell_combo import best_turn, castable_spells, combat_ap
 from chardata.spell_variants import variant_of
 from chardata.util import character_own_stats
-from chardata.version_compat import filter_classes_for_version
+from chardata.version_compat import classes_with_data
 from fashionistapulp.dofus_constants import (ATTRIBUTE_TO_ELEMENT, CHARACTER_CLASSES,
                                              STAT_KEY_TO_NAME, STAT_NAME_TO_KEY,
                                              get_soft_caps_for, max_scroll_for_version,
@@ -202,7 +202,7 @@ def bad_row_problems(game_version):
     """What no longer holds in the version's KNOWN_BAD_ROWS; empty while every entry still misreads."""
     listed = KNOWN_BAD_ROWS.get(game_version) or {}
     found = {}
-    for char_class in filter_classes_for_version(CHARACTER_CLASSES, game_version):
+    for char_class in classes_with_data(CHARACTER_CLASSES, game_version):
         for spell in castable_spells(char_class, TOP_LEVEL, game_version):
             if spell.spell_id in listed:
                 found.setdefault(spell.spell_id, []).append(spell)
@@ -304,7 +304,7 @@ def build(game_version, stored=None):
     gears = {level: gear_line(game_version, level) for level in LEVELS}
     classes = {}
     orders = {}
-    for char_class in filter_classes_for_version(CHARACTER_CLASSES, game_version):
+    for char_class in classes_with_data(CHARACTER_CLASSES, game_version):
         classes[char_class] = {}
         orders[char_class] = {}
         for level in LEVELS:

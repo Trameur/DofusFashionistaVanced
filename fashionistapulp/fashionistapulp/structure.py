@@ -32,7 +32,7 @@ from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL,
                              WEIRD_CONDITION_FROM_ID, LIGHT_SET_LIMIT_FROM_ID,
                              SETS_EQUIPPED_LIMIT_FROM_ID)
 from .dofus_stat import Stat
-from .exo_options import FORGEABLE_TYPES, FORGEABLE_WEAPON_TYPES
+from .exo_options import forgeable_type
 from .fashion_util import normalize_name, strip_accents
 from .fashionista_config import (get_items_db_path, load_items_db_from_dump)
 from .game_versions import get_game_version
@@ -217,6 +217,8 @@ class Structure:
             self.read_item_flags_table()
             self.read_set_bonus_table()
             self.read_set_max_caps_table()
+            self.read_item_max_caps_table()
+            self.read_set_extra_lines_table()
     #       self.read_weapon_is_onehanded_table()
             self.read_weapon_hits_table()
             #self.insert_turquoises()
@@ -683,6 +685,15 @@ class Structure:
     def read_forgeable_items_table(self):
         """The pieces a smithmagic rune can go on, read on exo_per_item versions."""
         c = self.conn.cursor()
+        weapon_keys = {}
+        if self._table_exists('weapon_weapontype'):
+            for item_id, weapon_type in c.execute(
+                    'SELECT item, weapontype FROM weapon_weapontype'):
+                key = getattr(self.weapon_type_dict.get(weapon_type), 'key', None)
+                weapon_keys[item_id] = key
+                for items in (self.items_dict, self.dt_items_dict):
+                    if item_id in items:
+                        items[item_id].weapon_key = key
         if self._table_exists('forgeable_items'):
             for (item_id,) in c.execute('SELECT item FROM forgeable_items'):
                 item = self.get_item_by_id(item_id)
@@ -691,18 +702,10 @@ class Structure:
             return
         if not get_game_version(self.game_version).exo_per_item:
             return
-        weapon_keys = {}
-        if self._table_exists('weapon_weapontype'):
-            for item_id, weapon_type in c.execute(
-                    'SELECT item, weapontype FROM weapon_weapontype'):
-                key = getattr(self.weapon_type_dict.get(weapon_type), 'key', None)
-                weapon_keys[item_id] = key
         for item in itertools.chain(self.items_dict.values(),
                                     self.dt_items_dict.values()):
             type_name = self.types_dict.get(item.type)
-            item.forgeable = (type_name in FORGEABLE_TYPES
-                              or (type_name == 'Weapon'
-                                  and weapon_keys.get(item.id) in FORGEABLE_WEAPON_TYPES))
+            item.forgeable = forgeable_type(type_name, weapon_keys.get(item.id))
 
     def read_wearer_tables(self):
         """The sex and the character names a piece asks for."""
@@ -1023,6 +1026,34 @@ class Structure:
             if item_set is None:
                 continue
             item_set.max_caps.append((num_items, stat_id, max_value))
+
+    def read_item_max_caps_table(self):
+        c = self.conn.cursor()
+        try:
+            rows = c.execute('SELECT item, stat, max_value FROM item_max_caps').fetchall()
+        except Exception:
+            return
+        for item_id, stat_id, max_value in rows:
+            item = self.get_item_by_id(item_id)
+            if item is not None:
+                item.max_caps.append((stat_id, max_value))
+
+    def read_set_extra_lines_table(self):
+        c = self.conn.cursor()
+        try:
+            rows = c.execute(
+                'SELECT item_set, num_pieces_used, line, language FROM set_extra_lines').fetchall()
+        except Exception:
+            return
+        for set_id, num_items, blob, language in rows:
+            item_set = self.sets_dict.get(set_id) or self.dt_sets_dict.get(set_id)
+            if item_set is None:
+                continue
+            if isinstance(blob, str):
+                blob = blob.encode()
+            lines = pickle.loads(blob)
+            assert type(lines) is list
+            item_set.localized_extras.setdefault(num_items, {})[language] = lines
 
     def build_indexes(self):
         self.items_list = list(self.items_dict.values())

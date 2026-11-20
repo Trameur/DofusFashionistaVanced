@@ -6,7 +6,7 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
     <style>
         .discord-invite-btn {
             display: inline-block;
@@ -39,13 +39,13 @@
 {% block main %}
 
 <h1 align="center">{% trans "Contact us" %}</h1>
-<table>
+<table class="fm-page-art">
 <tr>
 <td>
     <img alt="" src="{% static "chardata/designs/myContact.png" %}"></img>
 </td>
 <td>
-    <div id="c_form">
+    <div id="c_form" class="fm-seam">
         <form name="theform" action="{% game_url 'send_email' %}" method="post" id="theform">
             {% csrf_token %}
             

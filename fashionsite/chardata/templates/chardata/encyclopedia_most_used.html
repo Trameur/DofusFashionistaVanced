@@ -11,6 +11,7 @@
 
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
+{% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-encyclopedia.css" %}">{% endblock %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia_detail.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "chardata/most_used.css" %}">
@@ -37,6 +38,7 @@
     {% endif %}
 
     {% if slots %}
+    <div class="most-used-slots">
     {% for slot in slots %}
     <div class="most-used-slot">
         <h2 class="most-used-slot-title">{{ slot.label }}</h2>
@@ -52,6 +54,7 @@
         </ol>
     </div>
     {% endfor %}
+    </div>
     {% else %}
     <p class="most-used-method">{% trans "The usage counts have not been built yet." %}</p>
     {% endif %}

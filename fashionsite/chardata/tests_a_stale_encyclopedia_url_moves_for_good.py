@@ -135,7 +135,7 @@ class TheSiteLinksNoAddressThatMoves(TestCase):
             '/encyclopedia/item/equipment/16314-carapace-terre-mineure/')
         self.assertEqual(response.status_code, 200)
         html = response.content.decode('utf-8')
-        switcher = re.findall(r'<a class="version-link[^"]*" href="([^"]+)"', html)
+        switcher = re.findall(r'<a class="version-link[^"]*"(?: data-version="[^"]*")? href="([^"]+)"', html)
         block = re.search(r'encyclopedia-other-versions.*?</div>', html, re.S)
         self.assertIsNotNone(block, 'no other versions block')
         also_in = re.findall(r'href="([^"]+)"', block.group(0))

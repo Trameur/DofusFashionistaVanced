@@ -11,12 +11,13 @@
 
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
+{% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-encyclopedia.css" %}">{% endblock %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia_missing.css" %}">
 {% endblock %}
 
 {% block main %}
-<div class="encyclopedia-missing text">
+<div class="encyclopedia-missing encyclopedia-atelier text">
     <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> &gt;
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> &gt;

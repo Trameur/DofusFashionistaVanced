@@ -82,7 +82,7 @@ class EverySetupPageDrawsOnePanelTests(_Versioned, TestCase):
                 asides = page.find('aside', id='setup-preview')
                 states = page.find('script', id='wm-state')
                 defaults = page.find('script', id='wm-defaults')
-                sheets = [a for a, _ in page.find('link') if 'setup.css' in a.get('href', '')]
+                sheets = [a for a, _ in page.find('link') if 'chardata/setup.css' in a.get('href', '')]
                 scripts = [a.get('src', '') for a, _ in page.find('script')]
                 found = (page.h1, len(asides), len(states), len(defaults), len(sheets),
                          sum('chardata/setup.js' in src for src in scripts),
@@ -109,7 +109,7 @@ class EverySetupPageDrawsOnePanelTests(_Versioned, TestCase):
                 first_class = page.find('select', id='select-char-class')
                 classes = [a['value'] for a, ancestors in page.find('option')
                            if any(name == 'select' and attrs.get('id') == 'select-char-class'
-                                  for name, attrs in ancestors)]
+                                  for name, attrs in ancestors) and a['value']]
                 self.assertTrue(first_class and classes)
                 response = self.client.get(address, {'class': classes[0], 'level': '200'})
                 self.assertEqual(200, response.status_code)

@@ -18,7 +18,7 @@ import logging
 
 from django.conf import settings
 from django.utils.html import escape
-from django.utils.translation import get_language, gettext as _
+from django.utils.translation import get_language, gettext as _, pgettext
 import json
 
 logger = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ from chardata.image_store import get_image_url
 from chardata.item_sources import acquisition_summary, attach_acquisition
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE, STAT_KEY_TO_NAME
-from fashionistapulp.exo_options import exo_per_item
+from fashionistapulp.exo_options import EXO_OPTIONS, exo_count, exo_per_item
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.modelresult import (characteristic_passives,
                                          level_prospecting,
@@ -56,8 +56,34 @@ from chardata.wear_conditions import (class_condition_text,
                                       unusable_condition_text)
 from fashionistapulp.structure import name_fits
 from static_s3.templatetags.static_s3 import static
-from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
+from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES, localized_stat_name
 from chardata.official_site import get_set_link
+
+
+def piece_label_type(result_item):
+    """The type a card is labelled with: what is worn, not the slot it sits in."""
+    slot_type = SLOT_NAME_TO_TYPE.get(result_item.slot, '')
+    if (slot_type == 'Pet' and getattr(result_item, 'item_added', False)
+            and getattr(result_item, 'ankama_type', None) == 'mounts'):
+        return 'Mount'
+    return slot_type
+
+
+def dofus_row_title(game_version=None):
+    """The caption of the Dofus row, from the kinds of piece the version holds."""
+    structure = get_structure(game_version)
+    dofus_type = structure.get_type_id_by_name('Dofus')
+    pieces = [item for item in structure.items_dict.values()
+              if item.type == dofus_type]
+    has_trophies = any('Trophy' in item.flags for item in pieces)
+    has_dofus = any('Trophy' not in item.flags for item in pieces)
+    if has_dofus and has_trophies:
+        return _('Dofus and trophies')
+    if has_trophies:
+        return _('Trophies')
+    if has_dofus:
+        return _('Dofus')
+    return ''
 
 
 class SolutionResult:
@@ -117,7 +143,10 @@ class SolutionResult:
             attach_transcendence(result_item, self.weights)
         attach_acquisition(all_items)
 
+        tags = set_tags(r.sets, all_items)
         for result_item in all_items:
+            result_item.set_tag = tags.get(result_item.slot)
+            result_item.slot_type = piece_label_type(result_item)
             result_item.mageable = (SLOT_NAME_TO_TYPE.get(result_item.slot)
                                     in MAGEABLE_TYPES)
             item_per_slot[result_item.slot] = result_item
@@ -154,6 +183,11 @@ class SolutionResult:
 
             for stat_key, stat_name, max_value in result_set.get_max_caps():
                 result_set.stats_lines.append(CapLine(stat_key, stat_name, max_value))
+            set_extras, set_spell_tooltips = result_set.get_extras()
+            for extra in set_extras:
+                line = ExtraLine(extra)
+                line.spell_tip = spell_tip_for(line.text, set_spell_tooltips)
+                result_set.stats_lines.append(line)
                            
             # This is a dict to handle cases like Air Bwaks, that can be multiple different
             # items, but we only want to display one.
@@ -168,6 +202,7 @@ class SolutionResult:
                                                        used_in_set)
 
         params = {'item_sections': item_sections,
+                  'dofus_row_title': dofus_row_title(),
                   'sets': r.sets,
                   'all_items': all_items,
                   'acquisition_summary': acquisition_summary(all_items),
@@ -203,6 +238,18 @@ class SolutionResult:
     def is_item_forbidden(self, result_item):
         if result_item.item_added:
             return result_item.or_name in self.exclusions_set
+
+
+def set_tags(result_sets, items):
+    """Map each worn item's slot to (set name, pieces worn, pieces in the set) from the sets the result already holds."""
+    by_id = {result_set.id: result_set for result_set in result_sets}
+    tags = {}
+    for result_item in items:
+        result_set = by_id.get(result_item.set) if result_item.item_added else None
+        if result_set is not None:
+            tags[result_item.slot] = (result_set.localized_name, result_set.number_of_items,
+                                      result_set.total_number_of_items)
+    return tags
 
 
 def stat_sources(model_result):
@@ -291,6 +338,15 @@ def stat_sources(model_result):
             over = running(stat_key) - max_cap
             if over > 0:
                 add(stat_key, name, -over, 'cap')
+    for result_item in getattr(model_result, 'item_list', None) or []:
+        get_max_caps = getattr(result_item, 'get_max_caps', None)
+        if not getattr(result_item, 'item_added', False) or get_max_caps is None:
+            continue
+        for stat_key, _stat_name, max_cap in get_max_caps():
+            over = running(stat_key) - max_cap
+            if over > 0:
+                add(stat_key, getattr(result_item, 'localized_name', None) or result_item.name,
+                    -over, 'cap')
 
     for lines in sources.values():
         # By signed value, so a malus sorts below the bonuses
@@ -360,6 +416,10 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
     assumed_exo = getattr(result_item, 'assumed_exo', None)
     result_item.assumed_exo_label = _(STAT_KEY_TO_NAME[assumed_exo]) if assumed_exo else None
 
+    result_item.dracorune_label = dracorune_label(result_item)
+    result_item.dracorune_exo_note = bool(
+        result_item.dracorune_label and r is not None and build_uses_an_exo(r))
+
     result_item.stats_lines = []
     # Absent from solutions pickled before the ranges existed.
     stat_ranges = getattr(result_item, 'stat_ranges', None) or {}
@@ -377,6 +437,9 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
             elif stat_value < base_val:
                 line.formatting = '#o'
         result_item.stats_lines.append(line)
+    get_max_caps = getattr(result_item, 'get_max_caps', None)
+    for stat_key, stat_name, max_value in (get_max_caps() if get_max_caps else ()):
+        result_item.stats_lines.append(CapLine(stat_key, stat_name, max_value))
     spell_tooltips = getattr(result_item, 'spell_tooltips', None) or {}
     for extra in result_item.extras:
         if isinstance(extra, tuple):
@@ -517,6 +580,39 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
                                            result_item.ankama_id,
                                            result_item.localized_name,
                                            get_supported_language())
+
+
+def _stat_names(keys):
+    return ', '.join(localized_stat_name(get_structure().get_stat_by_key(key).name)
+                     for key in sorted(keys, key=lambda key: STAT_ORDER[key]))
+
+
+def dracorune_label(result_item):
+    """The rune's game name and the lines it moved, or None on a piece without one."""
+    rune = getattr(result_item, 'dracorune', None)
+    before = getattr(result_item, 'undraconized_stats', None)
+    if not rune or before is None:
+        return None
+    after = result_item.stats
+    sources = [key for key, value in before.items() if value and not after.get(key)]
+    targets = [key for key, value in after.items()
+               if value != before.get(key, 0) and key not in sources]
+    moved = '%s → %s' % (_stat_names(sources),
+                         _stat_names(targets) or pgettext('what a rune leaves of a removed line', 'nothing'))
+    if not rune.get('name'):
+        return moved
+    return _('%(item)s: %(changes)s') % {'item': rune['name'], 'changes': moved}
+
+
+def build_uses_an_exo(model_result):
+    """True when an exo option is on or a worn piece holds or is assumed to get an exo."""
+    options = (model_result.input or {}).get('options') or {}
+    if any(exo_count(options.get(option)) for _key, option in EXO_OPTIONS):
+        return True
+    return any(result_item.item_added
+               and (getattr(result_item, 'exo_overrides', None)
+                    or getattr(result_item, 'assumed_exo', None))
+               for result_item in model_result.item_list)
 
 
 def attach_transcendence(result_item, weights):

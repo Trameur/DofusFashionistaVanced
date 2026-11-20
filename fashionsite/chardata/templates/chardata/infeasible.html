@@ -10,14 +10,14 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/solution.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.solution %}" class="solution-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.solution light=css_files.solutionlighttheme dark=css_files.solutiondarktheme cls="solution-css css-file" %}
 {% endblock %}
 
 {% block main %}
 <br><br>
-<table class="infeasible-layout">
+<table class="infeasible-layout tunnel-atelier tunnel-infeasible">
     <tr>
         <td>
             <img alt="" src="{% static "chardata/designs/myCrying.png" %}"></img>
@@ -107,6 +107,7 @@
                     </form>
                 </div>
                 {% endif %}
+                <div class="tunnel-card infeasible-tips">
                 {% blocktrans %}Try one or more of the following tips and try again:{% endblocktrans %}
                 <ul>
                     {% if over_cap %}
@@ -118,6 +119,7 @@
                     <li>{% blocktrans %}<a href={{lock_link}}>Unlock</a> some items{% endblocktrans %}</li>
                     <li>{% blocktrans %}Allow <a href={{exo_link}}>exo mages</a>{% endblocktrans %}</li>
                 </ul>
+                </div>
             </div>
         </td>
     </tr>

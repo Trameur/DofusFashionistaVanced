@@ -8,14 +8,15 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/exclusions.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.exclusions %}" class="exclusions-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.exclusions light=css_files.exclusionslighttheme dark=css_files.exclusionsdarktheme cls="exclusions-css css-file" %}
 {% endblock %}
 
 {% block main %}
 
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+{% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
 
+<div class="tunnel-atelier tunnel-exclusions">
 <h1 align="center">{% trans "Forbid Items" %}</h1>
 
 <p align="center" class='big-text'>{% trans "Declare items that cannot be used on your character's set. By doing this you can avoid items that are expensive, hard to obtain, require a dungeon to be complete, or are just plain ugly." %}</p>
@@ -29,7 +30,7 @@
     </div>  
 
     <br>
-  <div align="center">
+  <div align="center" class="fm-savebar">
     {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
     <br><br>
     </div>
@@ -55,8 +56,16 @@
     {% endfor %}
 </div>
 
+</div>
+
 {% include "chardata/jqueryui.html" %}
 
+<script>
+if (document.documentElement.classList.contains("fm-modern")) {
+    var fmBar = document.querySelector(".tunnel-exclusions .fm-savebar");
+    if (fmBar) { fmBar.parentNode.parentNode.appendChild(fmBar); }
+}
+</script>
 <script src="{% static "chardata/stateengine.js" %}"></script>
 <script>
     $.ajaxSetup({

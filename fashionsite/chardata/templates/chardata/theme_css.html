@@ -1,0 +1,2 @@
+{% load static_s3 %}{% if theme == "auto" %}<link rel="stylesheet" type="text/css" href="{% static light %}" class="{{ cls }}" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" type="text/css" href="{% static dark %}" class="{{ cls }}" media="(prefers-color-scheme: dark)">{% else %}<link rel="stylesheet" type="text/css" href="{% static single %}" class="{{ cls }}">{% endif %}

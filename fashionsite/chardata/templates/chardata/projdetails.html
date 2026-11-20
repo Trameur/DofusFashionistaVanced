@@ -9,9 +9,11 @@
 {% block title %}{% trans "Dofus Set Builder" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% blocktrans %}Tell the optimizer your class, your level and what you want from your set. It picks the gear for you, on every version of Dofus. No account needed to try.{% endblocktrans %}{% endblock %}
 
+{% block modern_page_css %}{{ block.super }}{% if is_new_char and can_create %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-setup.css" %}">{% endif %}{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
     {% if is_new_char and can_create %}<link rel="stylesheet" type="text/css" href="{% static "chardata/setup.css" %}">{% endif %}
     <style>
     .advanced-options { max-width: 560px; margin: 0 auto 12px; text-align: left; }
@@ -22,7 +24,7 @@
     .advanced-options-field { flex: 1 1 260px; min-width: 0; }
     .advanced-options-field > label { display: block; padding: 3px 0; }
     .advanced-options-field select { max-width: 100%; }
-    html.fm-light:not(.fm-modern) .build-boxes-title .red-text { color: #ff8a80; }
+    html.fm-light:not(.fm-modern, .fm-enhanced) .build-boxes-title .red-text { color: #ff8a80; }
     @media (max-width: 480px) {
         .advanced-options-name { flex-basis: 100%; font-size: 13px; font-weight: 700; }
         .advanced-options-field > label { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 0; }
@@ -34,7 +36,7 @@
 
 {% block main %}
 
-<div align="center">
+<div align="center" class="setup-atelier{% if is_new_char %} setup-new{% endif %}">
     {% if is_new_char %}
     <h1>{% trans "Create a Build" %}</h1>
     {% else %}
@@ -45,14 +47,14 @@
     
     {% if can_create %}
         {% if is_new_char %}
-        <p class='big-text'>{% trans "Get started by providing details about your character." %}</p>
+        <p class='big-text fm-lede'>{% trans "Get started by providing details about your character." %}</p>
         {% else %}
         <p class='big-text'>{% trans "Modify the build and character configuration." %}</p>
         {% endif %}
     
         {% if is_new_char %}<div class="setup-layout"><div class="setup-form-col">{% endif %}
         {% if is_new_char and recipes %}
-        <section id="setup-recipes" class="setup-recipes" aria-labelledby="setup-recipes-title" data-version="{{ current_game_version }}" data-guard-default="{{ guard_default }}" hidden>
+        <section id="setup-recipes" class="setup-recipes fm-setup-card" aria-labelledby="setup-recipes-title" data-version="{{ current_game_version }}" data-guard-default="{{ guard_default }}" hidden>
             <p id="setup-recipes-title" class="setup-recipes-title big-text">{% trans "Start from a preset" %}</p>
             <div class="setup-chips" role="group" aria-labelledby="setup-recipes-title">
                 {% for recipe in recipes %}<button type="button" class="setup-chip" data-recipe="{{ recipe.key }}" data-focus="{{ recipe.focus|join:' ' }}" data-priority="{{ recipe.priority }}" data-mode="{{ recipe.mode }}"{% if recipe.guard_pct is not None %} data-guard="{{ recipe.guard_pct }}"{% endif %}{% if recipe.mule %} data-mule="true"{% endif %} aria-pressed="false">{{ recipe.label }}</button>
@@ -79,25 +81,41 @@
         <form id="main_form" action="{% game_url 'create_project' %}" method="post">
         {% if lock_item %}<input type="hidden" name="lock_item" value="{{ lock_item }}">{% endif %}
             {% csrf_token %}
-                <table class='register' role="presentation">
+            {% if is_new_char %}
+            <div id="fm-col-a" class="fm-col fm-x"></div>
+            <div id="fm-col-b" class="fm-col fm-x"></div>
+            <section id="fm-card-element" class="fm-setup-card fm-x" aria-labelledby="fm-card-element-title">
+                <div class="fm-card-head"><span class="fm-no" aria-hidden="true"></span><h2 id="fm-card-element-title" class="fm-h2"></h2><span class="fm-req">{% trans "required" %}</span></div>
+                <button type="button" id="fm-none" class="fm-pill" aria-pressed="false">{% trans "None (XP or Prospecting mule)" %}</button>
+            </section>
+            <section id="fm-card-style" class="fm-setup-card fm-x" aria-labelledby="fm-card-style-title" data-mode-title="{% trans 'Mode' %}">
+                <div class="fm-card-head"><span class="fm-no" aria-hidden="true"></span><h2 id="fm-card-style-title" class="fm-h2">{% trans "Playstyle" %}</h2></div>
+                <button type="button" id="fm-mode-general" class="fm-pill" aria-pressed="false">{% trans "General" %}</button>
+            </section>
+            {% endif %}
+            <div class="setup-zone-form">
+                <table class='register fm-setup-card' role="presentation">
+                  {% if is_new_char %}<caption class="fm-x"><div class="fm-card-head"><span class="fm-no" aria-hidden="true"></span><h2 class="fm-h2">{% trans "Your character" %}</h2></div></caption>{% endif %}
                   <tr class='register-line'>
                     <td class='input-name'><label for="input-char-name">{% trans "Character Name" %}</label></td> 
                     <td align="left"><input class='input-value pretty-input change-modifies-state' id="input-char-name" name="charname" maxlength="50" /></td>
                   </tr>  
                   <tr class='register-line'>
                     <td class='input-name'><label for="input-char-level">{% trans "Character Level" %}</label></td> 
-                    <td align="left" style="padding: 0px 3px;"><input class='input-value pretty-input change-modifies-state' id="input-char-level" type="number" name="level" min="1" max="200" required="required" style="width: 40px;"/></td>
+                    <td align="left" class="setup-level-cell"><input class='input-value pretty-input change-modifies-state setup-level-input' id="input-char-level" type="number" name="level" min="1" max="200" required="required"/></td>
                   </tr>  
                   <tr class='register-line'>
-                    <td class='input-name'><label for="select-char-class">{% trans "Character Class" %}</label></td> 
+                    <td class='input-name'><label for="select-char-class" id="fm-classes-label">{% trans "Character Class" %}</label></td> 
                     <td align="left"> 
+                    {% if is_new_char %}<div id="fm-classes" class="fm-classes fm-x" role="group" aria-labelledby="fm-classes-label">{% for tile in class_tiles %}<button type="button" class="fm-cls" data-class="{{ tile.key }}"{% if tile.figure %} data-figure="{{ tile.figure }}"{% endif %} aria-pressed="false"><span class="fm-cls-fig"><span class="fm-cls-ini" aria-hidden="true">{{ tile.initials }}</span></span><span class="fm-cls-name">{{ tile.label }}</span></button>{% endfor %}</div>{% endif %}
                     <select name="class" class="change-modifies-state" id="select-char-class" required="required">
+                        <option value=""></option>
                         {% for c in classes %}
                             <option value="{{class_to_name|get_item:c}}"{% if char.char_class == class_to_name|get_item:c %} selected="selected"{% endif %}>{{c}}</option>
                         {% endfor %}
                     </select>
                     {% if is_new_char %}
-                    <div style="font-size: 0.85em; opacity: 0.9; margin-top: 3px;"><a href="{% guide_url 'choosing-your-class' %}">{% trans "Not sure which class to pick? Read the guide" %}</a></div>
+                    <div class="setup-class-guide"><a href="{% guide_url 'choosing-your-class' %}">{% trans "Not sure which class to pick? Read the guide" %}</a></div>
                     {% endif %}
                     </td>
                   </tr>  
@@ -122,14 +140,15 @@
                     <td id="table-checkboxes-column-0" class="build-boxes-column build-boxes-element-column"></td>
                     <td id="table-checkboxes-column-1" class="build-boxes-column build-boxes-options-column"></td>
                     <td id="table-checkboxes-column-2" class="build-boxes-column build-boxes-aspects-column"></td>
-                    <td id="table-checkboxes-column-3" class="build-boxes-column build-boxes-aspects-column" style="
-    border-radius: 0px 0px 4px 0px;"></td>
+                    <td id="table-checkboxes-column-3" class="build-boxes-column build-boxes-aspects-column build-boxes-last-column"></td>
                 </tr>
             </table>
             <p id="no-element-warning" class="red-text" role="alert" style="display: none;">{% trans "No element checked: the build will not look for any damage. Click again to continue anyway." %}</p>
             <input type="hidden" name="play_mode" id="play-mode" value="general">
             <br>
+            </div>
 
+            <div class="setup-zone-options">
             <details id="advanced-options" class="advanced-options">
                 <summary>{% trans "Advanced options" %}<span id="advanced-options-chosen" class="advanced-options-chosen small-explain"></span></summary>
                 <div class="advanced-options-row" role="radiogroup" aria-labelledby="priority-name">
@@ -142,16 +161,15 @@
                 <div class="advanced-options-row">
                     <label for="guard-percent" class="advanced-options-name">{% trans "Safeguard" %}</label>
                     <div class="advanced-options-field">
-                        <select id="guard-percent" name="guard_pct" class="change-modifies-state">{% for percent in guard_percents %}<option value="{{ percent }}"{% if percent == guard_default %} selected{% endif %}>{{ percent }}%</option>{% endfor %}</select>
+                        <select id="guard-percent" name="guard_pct" class="change-modifies-state">{% for percent in guard_percents %}<option value="{{ percent }}"{% if percent == guard_default %} selected{% endif %}>{{ percent }}%</option>{% endfor %}</select>{% if is_new_char %}<span id="fm-guard-tape" class="fm-guard fm-x" aria-hidden="true"><span>{{ guard_percents|first }}%</span><span class="fm-tape"><i></i></span><span>{{ guard_percents|last }}%</span></span>{% endif %}
                         <div class="small-explain">{% trans "Compared with the balanced build, each stat the priority does not aim for loses at most this share: HP and resistances for Damage, damage stats for Defense and Heals, and for any priority AP, MP, Range and every other stat the build gives a weight to. At 0% none of them drops. The build page shows what was kept." %}</div>
                     </div>
                 </div>
-                {% if power %}{% include "chardata/setup_power.html" %}{% endif %}
             </details>
             {% if more %}{% include "chardata/setup_more_options.html" %}{% endif %}
 
             {% if temporix_available %}
-            <div id="temporix-choice" class="temporix-box" style="margin-bottom: 10px;">
+            <div id="temporix-choice" class="temporix-box setup-choice-box">
                 <label><input type="checkbox" name="temporix" value="on" id="temporix-cb">
                 <span class='input-name'>{% trans "TemporiX mode" %}</span></label>
                 <div class="small-explain">{% blocktrans with start=temporix_start|date:"DATE_FORMAT" end=temporix_end|date:"DATE_FORMAT" %}Valid from {{ start }} to {{ end }}{% endblocktrans %}</div>
@@ -161,7 +179,7 @@
 
             {# The switch is shown and ticked; hidden for a visitor without an account #}
             {% if user.is_authenticated %}
-            <div id="publish-choice" style="margin-bottom: 10px;">
+            <div id="publish-choice" class="setup-choice-box">
                 <input type="hidden" name="publish_choice" value="1">
                 <label><input type="checkbox" name="publish" value="on" checked id="publish-cb">
                 <span class='input-name'>{% trans "Show this build in the gallery once it has gear" %}</span></label>
@@ -169,6 +187,7 @@
             </div>
             {% endif %}
             <div id="submit-mode" class="setup-doors">
+                {% if is_new_char %}<p id="fm-bar-what" class="fm-bar-what fm-x" aria-live="polite"></p>{% endif %}
                 <input class="setup-default-door" name="byhand" type="submit" value="{{ _('Create a set by hand') }}" tabindex="-1" aria-hidden="true" />
                 <input class='submit-button button-generic setup-primary' name="optimize" type='submit' value="{{ _('Optimize now') }}" />
                 <div class="setup-doors-secondary">
@@ -181,12 +200,15 @@
                 <div id="choices-restart-note" class="small-explain" style="display: none;">{% trans "Changing the priority or the mode in the Options column always restarts the wizard." %}</div><br>
                 {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
             </div>
+            </div>
         </form>
         {% if is_new_char %}</div>
-        <aside id="setup-preview" class="setup-preview" aria-labelledby="setup-preview-title" data-preview-url="{% game_url 'setup_preview' %}" hidden>
+        <aside id="setup-preview" class="setup-preview fm-setup-card" aria-labelledby="setup-preview-title" data-preview-url="{% game_url 'setup_preview' %}" hidden>
             <details id="setup-preview-details" open>
-                <summary class="setup-preview-summary big-text"><span id="setup-preview-title">{% trans "What the optimizer will look for" %}</span><span id="setup-preview-badge" class="setup-badge" hidden></span></summary>
+                <summary class="setup-preview-summary big-text"><span id="setup-preview-title">{% trans "What the optimizer will look for" %}</span><span class="fm-live fm-x">{% trans "Live" %}</span><span id="setup-preview-badge" class="setup-badge" hidden></span></summary>
                 <div id="setup-preview-body" class="setup-preview-body" aria-busy="true">
+                    <p id="fm-live-what" class="fm-live-what fm-x"></p>
+                    <details id="fm-how" class="fm-how fm-x"><summary>{% trans "How it works" %}</summary></details>
                     <p id="setup-preview-note" class="small-explain setup-preview-note">{% trans "These values update as you choose. Edit any weight or minimum and your build starts with your values." %}</p>
                     <p id="setup-preview-door" class="small-explain setup-preview-door">{% trans '"Optimize now" and "Continue to Wizard" save the weights and the minimums. "Create a set by hand" saves the weights and only the minimums you edited.' %}</p>
                     <p id="setup-preview-empty" class="small-explain setup-preview-empty">{% trans "Pick a class to see the weights and minimums the optimizer will use." %}</p>
@@ -294,12 +316,7 @@ var aspectLayout = {{ aspect_layout | safe }}
 function get_questionmark_img()
 {
     if ('{{theme}}' == 'auto'){
-        var now = new Date();
-        var h = now.getHours();
-        theme = 'lighttheme';
-        if (h < 6 || h >= 18 ) {
-            theme = 'darktheme';
-        }
+        var theme = fmAutoTheme();
         return question[theme];
     }
     return question;
@@ -353,11 +370,6 @@ function showChosenOptions() {
     if (guarded) {
         chosen.push($.trim($("label[for='guard-percent']").text()) + " "
                     + $.trim($("#guard-percent option:selected").text()));
-    }
-    var $power = $("#setup-power-row");
-    if ($power.length && $("#setup-power-key").val() !== $power.attr("data-default")) {
-        chosen.push($.trim($("label[for='setup-power']").text()) + " "
-                    + $.trim($power.find(".setup-power-on").text()));
     }
     $("#advanced-options-chosen").text(chosen.join(" · "));
 }

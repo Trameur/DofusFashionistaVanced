@@ -1,3 +1,25 @@
+function wmSectionsKey(previewMode) {
+    return previewMode ? 'fm_setup_sections' : 'fm_wm_sections';
+}
+
+function wmOpenSections(previewMode) {
+    var stored = null;
+    try {
+        stored = JSON.parse(window.localStorage.getItem(wmSectionsKey(previewMode)) || 'null');
+    } catch (e) {
+    }
+    var wide = !previewMode && (window.matchMedia ? window.matchMedia('(min-width: 901px)').matches : true);
+    var sections = document.querySelectorAll('.wm-section');
+    for (var i = 0; i < sections.length; i++) {
+        var known = stored && stored[sections[i].getAttribute('data-section')];
+        if (typeof known === 'boolean') {
+            sections[i].open = known;
+        } else if (!stored && wide) {
+            sections[i].open = true;
+        }
+    }
+}
+
 function wmInit(postUrl, options) {
     var formMode = !!(options && options.mode === 'form');
     var previewMode = !!(options && options.mode === 'preview');
@@ -5,7 +27,7 @@ function wmInit(postUrl, options) {
     var state = JSON.parse(document.getElementById('wm-state').textContent);
     var defaults = JSON.parse(document.getElementById('wm-defaults').textContent);
     var ranges = state.ranges || {};
-    var STORE_KEY = previewMode ? 'fm_setup_sections' : 'fm_wm_sections';
+    var STORE_KEY = wmSectionsKey(previewMode);
 
     function media(query) {
         return window.matchMedia ? window.matchMedia(query).matches : true;
@@ -42,7 +64,7 @@ function wmInit(postUrl, options) {
 
     function refreshSlider($row) {
         var $slider = $row.find('.wm-slider');
-        if (!$slider.length || !$slider.data('wm-built')) {
+        if (!$slider.length || !$slider.data('wm-built') || $slider.data('wm-held')) {
             return;
         }
         var key = $row.attr('data-key');
@@ -209,6 +231,8 @@ function wmInit(postUrl, options) {
         };
         $slider.slider({min: range[0], max: range[1],
                         value: $box.val() === '' ? range[0] : Number($box.val()),
+                        start: function() { $slider.data('wm-held', true); },
+                        stop: function() { $slider.data('wm-held', false); },
                         slide: onMove, change: onMove});
         $slider.find('.ui-slider-handle').attr('tabindex', '-1');
         $slider.data('wm-built', true);
@@ -221,15 +245,6 @@ function wmInit(postUrl, options) {
         $section.find('.wm-row').each(function() { buildSlider($(this)); });
     }
 
-    function storedSections() {
-        try {
-            var raw = window.localStorage.getItem(STORE_KEY);
-            return raw ? JSON.parse(raw) : null;
-        } catch (e) {
-            return null;
-        }
-    }
-
     function storeSections() {
         var open = {};
         $('.wm-section').each(function() {
@@ -239,18 +254,6 @@ function wmInit(postUrl, options) {
             window.localStorage.setItem(STORE_KEY, JSON.stringify(open));
         } catch (e) {
         }
-    }
-
-    function openSections() {
-        var stored = storedSections();
-        $('.wm-section').each(function() {
-            var key = $(this).attr('data-section');
-            if (stored && typeof stored[key] === 'boolean') {
-                this.open = stored[key];
-            } else if (!stored && !previewMode && media('(min-width: 901px)')) {
-                this.open = true;
-            }
-        });
     }
 
     function openHash() {
@@ -385,7 +388,7 @@ function wmInit(postUrl, options) {
     }
     clearTheBar();
 
-    openSections();
+    wmOpenSections(previewMode);
     if (formMode || previewMode) {
         applyState(state);
     } else {

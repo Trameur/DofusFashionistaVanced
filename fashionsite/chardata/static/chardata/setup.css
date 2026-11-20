@@ -23,11 +23,11 @@ html.fm-light .setup-preview {
     --setup-edit: #8a5a00;
 }
 
-html:not(.fm-modern):not(.fm-light) .setup-preview {
+html:not(.fm-modern, .fm-enhanced):not(.fm-light) .setup-preview {
     --setup-flash: rgba(227, 191, 77, 0.26);
 }
 
-html.fm-modern .setup-preview {
+html.fm-modern .setup-preview, html.fm-enhanced .setup-preview {
     --setup-edit: var(--fm-accent-text);
     background: var(--fm-surface);
     border-color: var(--fm-border);
@@ -274,27 +274,27 @@ details[open] > summary > .setup-badge.setup-asking {
     font-size: 16px;
 }
 
-html:not(.fm-modern):not(.fm-light) .setup-doors .setup-secondary,
-html:not(.fm-modern):not(.fm-light) .setup-preview button.button-thin-foreground {
+html:not(.fm-modern, .fm-enhanced):not(.fm-light) .setup-doors .setup-secondary,
+html:not(.fm-modern, .fm-enhanced):not(.fm-light) .setup-preview button.button-thin-foreground {
     background: transparent;
     color: #ffffff;
     border: 1px solid #9a9a9a;
 }
 
-html.fm-light:not(.fm-modern) .setup-doors .setup-secondary,
-html.fm-light:not(.fm-modern) .setup-preview button.button-thin-foreground {
+html.fm-light:not(.fm-modern, .fm-enhanced) .setup-doors .setup-secondary,
+html.fm-light:not(.fm-modern, .fm-enhanced) .setup-preview button.button-thin-foreground {
     background: transparent;
     color: #3d200d;
     border: 1px solid #3d200d;
 }
 
-html.fm-modern .setup-doors input.setup-primary {
+html.fm-modern .setup-doors input.setup-primary, html.fm-enhanced .setup-doors input.setup-primary {
     padding: 11px 26px !important;
     font-size: 16px;
     white-space: normal;
 }
 
-html.fm-modern .setup-doors input.setup-secondary {
+html.fm-modern .setup-doors input.setup-secondary, html.fm-enhanced .setup-doors input.setup-secondary {
     background: var(--fm-surface) !important;
     color: var(--fm-accent-text) !important;
     border: 1px solid var(--fm-accent-line) !important;
@@ -303,16 +303,16 @@ html.fm-modern .setup-doors input.setup-secondary {
     white-space: normal;
 }
 
-html.fm-modern .setup-preview button.button-thin-foreground {
+html.fm-modern .setup-preview button.button-thin-foreground, html.fm-enhanced .setup-preview button.button-thin-foreground {
     white-space: normal;
 }
 
-html.fm-modern:not(.fm-dark) .setup-doors input.setup-secondary,
-html.fm-modern:not(.fm-dark) .setup-preview button.button-thin-foreground {
+html.fm-modern:not(.fm-dark) .setup-doors input.setup-secondary, html.fm-enhanced:not(.fm-dark) .setup-doors input.setup-secondary,
+html.fm-modern:not(.fm-dark) .setup-preview button.button-thin-foreground, html.fm-enhanced:not(.fm-dark) .setup-preview button.button-thin-foreground {
     border-color: var(--fm-accent-text) !important;
 }
 
-html.fm-modern .setup-doors input.setup-secondary:hover {
+html.fm-modern .setup-doors input.setup-secondary:hover, html.fm-enhanced .setup-doors input.setup-secondary:hover {
     background: var(--fm-accent-soft) !important;
     filter: none !important;
     box-shadow: none !important;
@@ -335,7 +335,7 @@ html.fm-light .setup-recipes {
     --setup-on: #8a5a00;
 }
 
-html.fm-modern .setup-recipes {
+html.fm-modern .setup-recipes, html.fm-enhanced .setup-recipes {
     --setup-ink: var(--fm-text);
     --setup-line: var(--fm-muted);
     --setup-on: var(--fm-accent-text);
@@ -398,12 +398,12 @@ html.fm-modern .setup-recipes {
     vertical-align: middle;
 }
 
-html.fm-modern .setup-chip,
-html.fm-modern .setup-action {
+html.fm-modern .setup-chip, html.fm-enhanced .setup-chip,
+html.fm-modern .setup-action, html.fm-enhanced .setup-action {
     border-radius: 999px;
 }
 
-html.fm-modern .setup-chip[aria-pressed="true"] {
+html.fm-modern .setup-chip[aria-pressed="true"], html.fm-enhanced .setup-chip[aria-pressed="true"] {
     background: var(--fm-accent-soft);
 }
 
@@ -578,7 +578,7 @@ html.fm-light .setup-more {
     --setup-on: #8a5a00;
 }
 
-html.fm-modern .setup-more {
+html.fm-modern .setup-more, html.fm-enhanced .setup-more {
     --setup-ink: var(--fm-text);
     --setup-line: var(--fm-muted);
     --setup-on: var(--fm-accent-text);
@@ -668,7 +668,7 @@ html.fm-modern .setup-more {
     cursor: pointer;
 }
 
-html.fm-modern .setup-more .setup-more-box {
+html.fm-modern .setup-more .setup-more-box, html.fm-enhanced .setup-more .setup-more-box {
     border-color: var(--fm-border);
     border-radius: var(--fm-radius);
 }
@@ -699,68 +699,5 @@ html.fm-modern .setup-more .setup-more-box {
     .setup-more-field input[type="checkbox"] {
         width: 20px;
         height: 20px;
-    }
-}
-
-.setup-power {
-    --setup-ink: #ffffff;
-    --setup-on: #e3bf4d;
-}
-
-html.fm-light .setup-power {
-    --setup-ink: #3d200d;
-    --setup-on: #8a5a00;
-}
-
-html.fm-modern .setup-power {
-    --setup-ink: var(--fm-text);
-    --setup-on: var(--fm-accent-text);
-}
-
-.setup-power .setup-power-field {
-    min-width: 0;
-}
-
-.setup-power-range {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    margin: 4px 0 0;
-    accent-color: var(--setup-on);
-    cursor: pointer;
-}
-
-.setup-power-steps {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-.setup-power-step {
-    color: var(--setup-ink);
-    font-size: 13px;
-    cursor: pointer;
-    user-select: none;
-}
-
-.setup-power-step.setup-power-on {
-    color: var(--setup-on);
-    font-weight: 700;
-}
-
-.setup-power-text [hidden] {
-    display: none !important;
-}
-
-@media (max-width: 767px) {
-    .setup-power-range {
-        min-height: 44px;
-        margin: 0;
-    }
-
-    .setup-power-step {
-        display: flex;
-        align-items: center;
-        min-height: 44px;
     }
 }

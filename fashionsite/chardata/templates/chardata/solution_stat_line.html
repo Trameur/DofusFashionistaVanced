@@ -1,7 +1,7 @@
 {% load static_s3 %}
 {% load chardata_stat_icons %}
 {% stat_icon_path stat_key as resolved_icon %}
-<tr class="solution-stat-summary-line">
+<tr class="solution-stat-summary-line{% if tape %} fm-stat-res{% endif %}">
     <td class="solution-stat-summary-icon-cell {% if is_last %}bottom-left-cell{% endif %}">
         {# Every icon of this table sits below the first screen, most in collapsed panels, so they load lazily #}
         {% if resolved_icon %}
@@ -21,6 +21,7 @@
         <span class="solution-stat-summary-name" data-stat-key="{{stat_key}}" data-stat-name="{{stat_name}}">{{stat_name}}</span>
     </td>
     {% endif %}
+    {% if tape %}<td class="fm-stat-tape"><span class="fm-tape" aria-hidden="true"><i></i></span></td>{% endif %}
     <td name="stat_value_{{stat_key}}" class="solution-stat-summary-value-cell {% if is_last %}bottom-right-cell{% endif %}">
     </td>
 </tr>

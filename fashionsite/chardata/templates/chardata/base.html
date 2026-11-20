@@ -6,11 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-    (function(){try{var h=document.documentElement;
-    if(localStorage.getItem('fm_design')!=='classic')h.classList.add('fm-modern');
-    var t=(document.cookie.match(/(?:^|;\s*)theme=([^;]+)/)||[])[1]||'lighttheme';
-    if(t==='auto'){var hr=new Date().getHours();t=(hr<6||hr>=18)?'darktheme':'lighttheme';}
-    h.classList.add(t==='darktheme'?'fm-dark':'fm-light');}catch(e){}})();
+    (function(){var h=document.documentElement,d={matches:false},l={matches:false};
+    try{d=window.matchMedia('(prefers-color-scheme: dark)');l=window.matchMedia('(prefers-color-scheme: light)');}catch(e){}
+    window.fmAutoTheme=function(){return d.matches?'darktheme':'lighttheme';};window.fmSchemeKnown=function(){return !!(d.matches||l.matches);};
+    var v=null;try{v=localStorage.getItem('fm_design_v2');}catch(e){h.classList.add('fm-nostore');}if(v==='enhanced'){h.classList.add('fm-enhanced');var r=document.createElement('link');r.rel='preload';r.as='style';r.href='{% static "chardata/enhanced.css" %}';document.head.appendChild(r);}else if(v!=='classic')h.classList.add('fm-modern');
+    function c(){var t=(document.cookie.match(/(?:^|;\s*)theme=([^;]+)/)||[])[1]||'auto';return t==='lighttheme'||t==='darktheme'?t:window.fmAutoTheme();}
+    function a(){h.classList.remove('fm-light','fm-dark');h.classList.add(c()==='darktheme'?'fm-dark':'fm-light');}
+    try{a();if(d.addEventListener)d.addEventListener('change',a);else if(d.addListener)d.addListener(a);}catch(e){}
+    document.addEventListener('DOMContentLoaded',function(){if(window.fmSchemeKnown())return;
+    var n=document.querySelectorAll('link[media="(prefers-color-scheme: light)"]');for(var i=0;i<n.length;i++)n[i].removeAttribute('media');});})();
+    </script>
+{% static "chardata/bands/band_"|add:game_band|add:"_light.webp" as band_light %}{% static "chardata/bands/band_"|add:game_band|add:"_dark.webp" as band_dark %}{% static "chardata/bands/band_"|add:game_band|add:"_light_m.webp" as band_light_m %}{% static "chardata/bands/band_"|add:game_band|add:"_dark_m.webp" as band_dark_m %}{% static "chardata/bands/band_"|add:game_band|add:"_light_s.webp" as band_light_s %}{% static "chardata/bands/band_"|add:game_band|add:"_dark_s.webp" as band_dark_s %}{% if current_game_version == "beta" %}{% static "chardata/fashionista_banner_fading_beta.webp" as legacy_banner %}{% elif current_game_version == "dofus2" or current_game_version == "retro" %}{% static "chardata/fashionista_banner.jpg" as legacy_banner %}{% else %}{% static "chardata/fashionista_banner_fading.webp" as legacy_banner %}{% endif %}
+    <script>
+    (function(){var h=document.documentElement,d=document.head;
+    function p(u,m){var l=document.createElement('link');l.rel='preload';l.as='image';l.href=u;l.setAttribute('fetchpriority','high');if(m)l.media=m;d.appendChild(l);}
+    if(!h.classList.contains('fm-modern')){p('{{ legacy_banner }}');return;}
+    var k=h.classList.contains('fm-dark');
+    {% block band_preload_phone %}p(k?'{{ band_dark_s }}':'{{ band_light_s }}','(max-width:760px)');p(k?'{{ band_dark_m }}':'{{ band_light_m }}','(min-width:761px) and (max-width:900px)');{% endblock %}
+    p(k?'{{ band_dark }}':'{{ band_light }}','(min-width:901px)');
+    })();
     </script>
     {# The title and the description are rendered once here and reused three times: the <title>, the meta description, and the Open Graph pair a chat shows under a pasted link. Before this, a page that did not override og_meta previewed as the site-wide sentence. #}
     {% capture as page_title %}{% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista{% endblock %}{% endcapture %}{% capture as page_description %}{% block meta_description %}{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Get Dofus {{ version }} sets created automatically, based on your specific needs.{% endblocktrans %}{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}{% endcapture %}
@@ -44,15 +58,18 @@
     {% load static_s3 %}
     {% load version_url %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/home.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.home %}" class="home-css">
+    {% include "chardata/theme_css.html" with single=css_files.home light=css_files.homelighttheme dark=css_files.homedarktheme cls="home-css" %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/common.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.common %}" class="common-css">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.changelog %}" class="changelog-css">
+    {% include "chardata/theme_css.html" with single=css_files.common light=css_files.commonlighttheme dark=css_files.commondarktheme cls="common-css" %}
+    {% include "chardata/theme_css.html" with single=css_files.changelog light=css_files.changeloglighttheme dark=css_files.changelogdarktheme cls="changelog-css" %}
     {% block css %}{% endblock %}
     <!-- Mobile responsive layer (loaded last; scoped to <=900px) -->
     <link rel="stylesheet" type="text/css" href="{% static "chardata/responsive.css" %}">
     <!-- Modern skin (opt-in via .fm-modern on <html>) -->
-    <link rel="stylesheet" type="text/css" href="{% static "chardata/modern.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/modern-core.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/modern-nav.css" %}">
+    {% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-rest.css" %}">{% endblock %}
+    <script>if(document.documentElement.classList.contains('fm-enhanced'))document.write('<link rel="stylesheet" type="text/css" href="{% static "chardata/enhanced.css" %}">');</script>
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
     <link rel="apple-touch-icon" href="{% static "chardata/apple-touch-icon.png" %}"/>
@@ -197,31 +214,82 @@
     </script>
     
 <script>
-    function fmToggleDesign(){var on=document.documentElement.classList.toggle('fm-modern');try{localStorage.setItem('fm_design',on?'modern':'classic');}catch(e){}var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';}
-    document.addEventListener('DOMContentLoaded',function(){var on=document.documentElement.classList.contains('fm-modern');var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';});
+    function fmDesign(){var c=document.documentElement.classList;return c.contains('fm-modern')?'atelier':(c.contains('fm-enhanced')?'enhanced':'classic');}
+    function fmStoredDesign(){var v;try{v=localStorage.getItem('fm_design_v2');}catch(e){return null;}return v==='classic'||v==='enhanced'?v:'atelier';}
+    function fmDesignMenu(b,open){var m=document.getElementById(b.getAttribute('aria-controls'));if(!m)return;if(open===undefined)open=m.hidden;if(open){var cur=fmDesign(),o=m.querySelectorAll('[data-design]');for(var i=0;i<o.length;i++)o[i].setAttribute('aria-pressed',o[i].getAttribute('data-design')===cur?'true':'false');}m.hidden=!open;b.setAttribute('aria-expanded',open?'true':'false');if(open){var s=m.querySelector('[aria-pressed="true"]');if(s)s.focus();}}
+    function fmSetDesign(v){var s=null;try{s=localStorage.getItem('fm_design_v2');if(s!==v)localStorage.setItem('fm_design_v2',v);s=v;}catch(e){}if(s===v&&v!==fmDesign()){location.reload();return;}var b=document.querySelector('.fm-design-toggle');if(b){fmDesignMenu(b,false);b.focus();}}
+    function fmDesignOpen(){return document.querySelector('.fm-design-toggle[aria-expanded="true"]');}
+    document.addEventListener('keydown',function(e){var b=fmDesignOpen();if(b&&e.key==='Escape'){e.stopPropagation();fmDesignMenu(b,false);b.focus();}},true);
+    document.addEventListener('click',function(e){var b=fmDesignOpen();if(b&&!b.parentNode.contains(e.target))fmDesignMenu(b,false);});
+    document.addEventListener('pointerdown',function(e){var b=fmDesignOpen();if(b&&!b.parentNode.contains(e.target))fmDesignMenu(b,false);});
+    document.addEventListener('focusout',function(e){var b=fmDesignOpen();if(b&&e.relatedTarget&&!b.parentNode.contains(e.relatedTarget))fmDesignMenu(b,false);});
+    window.addEventListener('pageshow',function(e){var s=fmStoredDesign();if(e.persisted&&s&&s!==fmDesign())location.reload();});
     </script>
+<noscript><style>.banner img[data-fm-src]{display:none}</style></noscript>
+<noscript><style>.fm-design-picker{display:none}</style></noscript>
 </head>
 <body class='body-base'>
     <a class="skip-link" href="#main-content">{% trans "Skip to content" %}</a>
     <div class='add-banner'>
     <div class='everything'>
     
-        <div class='banner' role="banner" ALIGN=CENTER "position:relative; z-index:1">
+        <div class='banner' role="banner" data-band="{{ game_band }}" ALIGN=CENTER "position:relative; z-index:1">
           <br>   
           {% if current_game_version == 'beta' %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img></a>
+          <a href="{% game_url 'home' %}"><img data-fm-src="{% static "chardata/fashionista_banner_fading_beta.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img><noscript><img src="{{ legacy_banner }}" alt="Dofus Fashionista" width="2560" height="500"></noscript></a>
           {% elif current_game_version == 'dofus2' or current_game_version == 'retro' %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner.jpg" %}" alt="Dofus Fashionista" width="1024" height="200"></img></a>
+          <a href="{% game_url 'home' %}"><img data-fm-src="{% static "chardata/fashionista_banner.jpg" %}" alt="Dofus Fashionista" width="1024" height="200"></img><noscript><img src="{{ legacy_banner }}" alt="Dofus Fashionista" width="1024" height="200"></noscript></a>
           {% else %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img></a>
+          <a href="{% game_url 'home' %}"><img data-fm-src="{% static "chardata/fashionista_banner_fading.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img><noscript><img src="{{ legacy_banner }}" alt="Dofus Fashionista" width="2560" height="500"></noscript></a>
           {% endif %}
         </div>
+        <script>(function(){if(document.documentElement.classList.contains('fm-modern'))return;var i=document.querySelector('.banner img[data-fm-src]');if(i)i.src=i.getAttribute('data-fm-src');})();</script>
         <div class="char-overlay" style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
           <a href="{% game_url 'home' %}" aria-label="{% trans 'Home' %}"><img class='char' src="{% static pic %}" alt=""></a>
         </div>
         
         
-        <div class='space header-controls'><button type="button" class="fm-design-toggle" onclick="fmToggleDesign()" title="{% trans 'Switch between the classic and new design' %}"><span class="mi mi-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.4 4 1.6 5.2 5.6 5.6-4 .4-5.2 1.6-5.6 5.6-.4-4-1.6-5.2-5.6-5.6C10.4 8.2 11.6 7 12 3z"/><path d="M18.5 14.5c.2 1.6.7 2.1 2.3 2.3-1.6.2-2.1.7-2.3 2.3-.2-1.6-.7-2.1-2.3-2.3 1.6-.2 2.1-.7 2.3-2.3z"/></svg></span> <span class="fm-design-label">{% trans "New look" %}</span></button>
+        <nav class="fm-topnav" aria-label="{% trans 'Main navigation' %}">
+          <div class="fm-topnav-in">
+            <a class="fm-topnav-brand" href="{% game_url 'home' %}"><span class="fm-topnav-brand-full">Dofus Fashionista</span><span class="fm-topnav-brand-mark" aria-hidden="true">DF</span></a>
+            <button type="button" class="fm-topnav-burger" aria-expanded="false" aria-controls="fm-topnav-links fm-topnav-end" aria-label="{% trans 'Menu' %}"><span class="fm-topnav-burger-txt">{% trans "Menu" %}</span><span class="fm-topnav-burger-ico" aria-hidden="true"></span></button>
+            <div class="fm-topnav-links" id="fm-topnav-links">
+              <a href="{% game_url 'setup' %}">{% trans "Create a build" %}</a>
+              <a href="{% game_url 'load_projects' %}">{% trans "My builds" %}</a>
+              <a href="{% game_url 'shared_builds' %}">{% trans "Gallery" %}</a>
+              <a href="{% game_url 'choose_compare_sets' %}">{% trans "Compare" %}</a>
+              <details class="fm-topnav-tools">
+                <summary>{% trans "Tools" %}<span class="fm-topnav-chev" aria-hidden="true"></span></summary>
+                <div class="fm-topnav-menu">
+                  <a class="fm-topnav-home" href="{% game_url 'home' %}">{% trans "Home" %}</a>
+                  <a href="{% game_url 'smart_build' %}">{% trans "Smart Build" %}</a>
+                  <a href="{% game_url 'random_build' %}">{% trans "Random Build" %}</a>
+                  <a href="{% game_url 'text_build_import' %}">{% trans "Import a build" %}</a>
+                  {% if user.is_authenticated %}<a href="{% game_url 'feed' %}">{% trans "My Feed" %}</a>
+                  <a href="{% game_url 'workshop' %}">{% trans "Workshop" %}</a>
+                  <a href="{% game_url 'inventory' %}">{% trans "Inventory" %}</a>{% endif %}
+                  <a href="{% game_url 'forgemagie' %}">{% trans "Smithmagic" %}</a>
+                  <a href="{% game_url 'encyclopedia' %}">{% trans "Encyclopedia" %}</a>
+                  <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a>
+                  <a href="{% game_url 'faq' %}">{% trans "FAQ" %}</a>
+                  <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a>
+                  {% if is_super_user or user.is_superuser %}<a class="fm-topnav-admin" href="{% url 'admin_tools' %}">Admin tools</a>{% endif %}
+                </div>
+              </details>
+            </div>
+            <div class="fm-topnav-vers" role="group" aria-label="{% trans 'Game version' %}"></div>
+            <div class="fm-topnav-end" id="fm-topnav-end"></div>
+          </div>
+        </nav>
+        {% if char_id and char_id != 0 %}
+        <nav class="fm-buildbar" aria-label="{% trans 'Build navigation' %}">
+          <div class="fm-buildbar-in">
+            <div class="fm-buildbar-tabs"></div>
+            <div class="fm-buildbar-end"></div>
+          </div>
+        </nav>
+        {% endif %}
+        <div class='space header-controls'><div class="fm-design-picker"><button type="button" class="fm-design-toggle" aria-expanded="false" aria-controls="fm-design-menu" onclick="fmDesignMenu(this)" title="{% trans 'Design' %}"><span class="mi mi-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.4 4 1.6 5.2 5.6 5.6-4 .4-5.2 1.6-5.6 5.6-.4-4-1.6-5.2-5.6-5.6C10.4 8.2 11.6 7 12 3z"/><path d="M18.5 14.5c.2 1.6.7 2.1 2.3 2.3-1.6.2-2.1.7-2.3 2.3-.2-1.6-.7-2.1-2.3-2.3 1.6-.2 2.1-.7 2.3-2.3z"/></svg></span> <span class="fm-design-label">{% trans "Design" %}</span></button><div class="fm-design-menu" id="fm-design-menu" role="group" aria-label="{% trans 'Design' %}" hidden><button type="button" data-design="classic" aria-pressed="false" onclick="fmSetDesign('classic')">{% trans "Classic" %}</button><button type="button" data-design="enhanced" aria-pressed="false" onclick="fmSetDesign('enhanced')">{% trans "Enhanced classic" %}</button><button type="button" data-design="atelier" aria-pressed="false" onclick="fmSetDesign('atelier')">{% trans "New" %}</button></div></div>
        <div id="compare-cart" class="compare-cart" hidden>
          <button type="button" class="compare-cart-toggle" aria-label="{% trans 'Comparison' %}" title="{% trans 'Comparison' %}">
            <span class="cc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M6 6l6-1 6 1"/><path d="M12 3v17"/><path d="M9 12 6 6l-3 6a3 3 0 0 0 6 0"/><path d="M21 12l-3-6-3 6a3 3 0 0 0 6 0"/></svg></span><span class="cc-count">0</span>
@@ -311,7 +379,7 @@
                             </div>
                             <div>
                                 <form class="nav-search" role="search" method="get" action="{% game_url 'encyclopedia' %}">
-                                    <input type="search" name="q" autocomplete="off" placeholder="{% trans "Search" %}" aria-label="{% trans "Search a set or item" %}">
+                                    <input type="search" name="q" autocomplete="off" placeholder="{% trans "Search" %}" data-fm-placeholder="{% trans "Item, set" %}" aria-label="{% trans "Search a set or item" %}">
                                     <button type="submit" aria-label="{% trans "Search" %}"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button>
                                 </form>
               </div>
@@ -386,6 +454,80 @@
           {% include "chardata/sidebar-stats.html" %}
         </div>
 
+        <script>
+        (function(){
+          var h=document.documentElement;
+          if(!h.classList.contains('fm-modern'))return;
+          var q=function(s,r){return (r||document).querySelector(s);};
+          var move=function(n,to){if(n&&to)to.appendChild(n);};
+          var end=q('.fm-topnav-end'),vers=q('.fm-topnav-vers'),hc=q('.space.header-controls'),sb=q('#main-sidebar');
+          if(end&&hc){
+            var find=q('.nav-search input',sb);if(find)find.placeholder=find.getAttribute('data-fm-placeholder');
+            move(q('.nav-search',sb),end);
+            move(q('#compare-cart',hc),end);
+            move(q('#language-div',hc),end);
+            move(q('#theme-div',hc),end);
+            move(q('.login',hc),end);
+            move(q('.fm-design-picker',hc),end);
+            move(q('.version-selector',hc),vers);
+            var vsel=q('.version-selector',vers);if(vsel){['dofus3','beta','touch','retro','dofus2','wakfu'].forEach(function(k){var a=q('.version-link[data-version="'+k+'"]',vsel);if(a)vsel.appendChild(a);});var fade=function(){var m=vsel.scrollWidth-vsel.clientWidth-1;vsel.classList.toggle('fm-vs-less',vsel.scrollLeft>1);vsel.classList.toggle('fm-vs-more',vsel.scrollLeft<m);};var on=q('.version-link.active',vsel);if(on&&vsel.scrollWidth>vsel.clientWidth){vsel.scrollLeft+=on.getBoundingClientRect().left-vsel.getBoundingClientRect().left-(vsel.clientWidth-on.offsetWidth)/2;}fade();vsel.addEventListener('scroll',fade,{passive:true});window.addEventListener('resize',fade);window.addEventListener('load',fade);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fade);}
+            hc.classList.add('fm-moved');
+          }
+          var bar=q('.fm-buildbar');
+          if(bar&&sb){
+            var tabs=q('.fm-buildbar-tabs',bar),tail=q('.fm-buildbar-end',bar);
+            var menus=sb.querySelectorAll('.mini-menu'),bm=menus[menus.length-1];
+            if(bm){
+              var links=bm.querySelectorAll('a');
+              for(var i=0;i<links.length;i++){
+                var a=links[i];
+                if(a.id==='advanced-button')continue;
+                if(a.classList.contains('rerun-button')&&a.id!=='solution-link')move(a,tail);else move(a,tabs);
+              }
+            }
+          }
+          var nav0=q('.fm-topnav'),inner=q('.fm-topnav-in'),burger=q('.fm-topnav-burger'),links0=q('.fm-topnav-links');
+          var lg=q('.fm-topnav-end .login');
+          if(lg){
+            var kids=lg.childNodes,alias=q('#logged_user_alias',lg);
+            for(var k=0;k<kids.length;k++){var c=kids[k];
+              if(c.nodeType===3&&c.nodeValue.replace(/[\s\u00b7]/g,'')){var sp=document.createElement('span');sp.className='fm-login-txt';lg.insertBefore(sp,c);sp.appendChild(c);k++;}}
+            if(alias){alias.title=alias.textContent.trim();var tn=q('.fm-topnav');if(tn)tn.classList.add('fm-nav-user');}
+          }
+          if(nav0&&inner&&burger&&vers&&links0){
+            nav0.classList.add('fm-nav-js');
+            var phone=window.matchMedia('(max-width:767px)');
+            var setOpen=function(on){nav0.classList.toggle('fm-open',on);burger.setAttribute('aria-expanded',on?'true':'false');};
+            var place=function(){
+              if(phone.matches){if(vers.nextSibling!==burger)inner.insertBefore(vers,burger);}
+              else{setOpen(false);if(vers.previousSibling!==links0)inner.insertBefore(vers,links0.nextSibling);}
+              var act=q('.version-link.active',vers),sel=q('.version-selector',vers);
+              if(act&&sel&&sel.scrollWidth>sel.clientWidth){sel.scrollLeft+=act.getBoundingClientRect().left-sel.getBoundingClientRect().left-(sel.clientWidth-act.offsetWidth)/2;}
+            };
+            burger.addEventListener('click',function(){setOpen(!nav0.classList.contains('fm-open'));});
+            document.addEventListener('keydown',function(e){
+              if(e.key!=='Escape'||!nav0.classList.contains('fm-open')||q('.fm-topnav-tools[open]'))return;
+              var inside=nav0.contains(document.activeElement)&&document.activeElement!==burger;
+              setOpen(false);if(inside)burger.focus();});
+            if(phone.addEventListener)phone.addEventListener('change',place);else if(phone.addListener)phone.addListener(place);
+            place();
+          }
+          var path=location.pathname,homeLink=q('.fm-topnav-home'),home=homeLink?homeLink.pathname:'/';
+          var mark=function(root,prefix){var as=root.querySelectorAll('a[href]'),hit=null,best=0;
+            for(var i=0;i<as.length;i++){var a=as[i],p=a.pathname;
+              if(p===home||(a.classList.contains('rerun-button')&&a.id!=='solution-link'))continue;
+              if(p===path){hit=a;break;}
+              if(prefix&&p.length>best&&p.length>home.length&&p.slice(-1)==='/'&&path.indexOf(p)===0){hit=a;best=p.length;}}
+            if(hit){hit.classList.add('on');hit.setAttribute('aria-current','page');}return hit;};
+          var barHit=bar?mark(bar,false):null,nav=q('.fm-topnav-links');
+          if(nav){var hit=mark(nav,!barHit);if(hit&&hit.closest('.fm-topnav-menu'))q('.fm-topnav-tools > summary').classList.add('on');}
+          var closeTools=function(back){var d=q('.fm-topnav-tools[open]');if(!d)return;d.removeAttribute('open');if(back)q('summary',d).focus();};
+          document.addEventListener('keydown',function(e){if(e.key==='Escape')closeTools(true);});
+          document.addEventListener('click',function(e){var d=q('.fm-topnav-tools[open]');if(d&&!d.contains(e.target))closeTools(false);});
+          document.addEventListener('focusin',function(e){var d=q('.fm-topnav-tools[open]');if(d&&!d.contains(e.target))closeTools(false);});
+        })();
+        </script>
+
         <div class="maincolumn" role="main" id="main-content">
         {% if not home %}
             <div class="maincontent" >
@@ -404,7 +546,7 @@
                 {# 2012 is the lineage of the original tool; the About page tells the story #}
                 <a class="footer-heritage" href="{% game_url 'about' %}#how-its-made">{% trans "Dofus Fashionista, set optimization since 2012" %}</a>
                 <br>
-                {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
+                <span class="footer-items">{% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}</span>
                 <br>
                 <!-- General Site Links -->
                 {# changelog.js hides the mark once the reader opened this key #}
@@ -418,6 +560,7 @@
                 <br><br> <!-- Adds space between general links and Discord links -->
             
                 <!-- Discord Invite Buttons -->
+                <span class="footer-social">
                 <a href="https://discord.gg/a7b4a4dnVU" target="_blank" rel="noopener noreferrer" class="discord-invite-btn">
                     <img src="{% static 'chardata/discord.png' %}" alt="Discord" class="discord-logo" width="26" height="20" loading="lazy" decoding="async" />
                     dofusdude
@@ -431,7 +574,8 @@
                 <a href="{% url 'donate' %}?from=footer" class="kofi-donate-btn" rel="nofollow noopener">
                     {% trans "Support Fashionista" %}
                 </a>
-                
+                </span>
+
             </div>
             <style>
                 /* Deliberately NO opacity, and no colour of its own. It was
@@ -504,7 +648,7 @@
         </div>
      </div>
     </div>
-    {# The shell stops at 1200px; the rails live outside every column #}
+    {# The shell stops at 1920px; the rails live outside every column #}
 {% ad_rails %}
 {% include "chardata/changelog_modal.html" %}
 <script>window.CHANGELOG_CONTENT_URL = "{% url 'changelog_content' %}?lang={{ LANGUAGE_CODE|urlencode }}";</script>
@@ -517,13 +661,13 @@
           data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
         });
 
-    var ajaxloader = {{ajaxloader | safe}};
-    var images = {{themeimages | safe}};
+    var ajaxloader = {{ajaxloader|default:"{}"|safe}};
+    var images = {{themeimages|default:"{}"|safe}};
 
     function getAllImages(theme)
     {
         if (theme == 'auto') {
-            theme = checkTimeForTheme()
+            theme = fmAutoTheme();
         }
         return images[theme];
     }
@@ -541,13 +685,7 @@
     function get_loading_img()
     {
         if ('{{theme}}' == 'auto'){
-            var now = new Date();
-            var h = now.getHours();
-            theme = 'lighttheme';
-            if (h < 6 || h >= 18 ) {
-                theme = 'darktheme';
-            }
-            return ajaxloader[theme];
+            return ajaxloader[fmAutoTheme()];
         }
         return ajaxloader;
     }
@@ -575,84 +713,29 @@
         $("#language-selector").submit();
     }
     
-    function checkAutoTheme(){
-        if ('{{theme}}' == 'auto') {
-            updateAutoThemeFromDjango();
-        }
-    }
-    
-    function softCheckTimeForTheme()
-    {
-        var now = new Date();
-        var h = now.getHours();
-        theme = 'lighttheme';
-        if (h < 6 || h >= 18 ) {
-            theme = 'darktheme';
-        }
-        return theme;
-    }
-    
-    function checkTimeForTheme()
-    {
-        theme = softCheckTimeForTheme()
-        $.post("/changeautotheme/",
-           {current: theme},
-           function(data) {
-           });
-        return theme;
-    }
-    
-    function updateAutoThemeFromDjango(){
-        theme = checkTimeForTheme();
-        if (theme == 'lighttheme') {
-            $(".common-css").attr("href", '{% static css_files.commonlighttheme %}');
-            $(".home-css").attr("href", '{% static css_files.homelighttheme %}');
-            $(".compare-css").attr("href", '{% static css_files.comparelighttheme %}');
-            $(".exclusions-css").attr("href", '{% static css_files.exclusionslighttheme %}');
-            $(".forms-css").attr("href", '{% static css_files.formslighttheme %}');
-            $(".solution-css").attr("href", '{% static css_files.solutionlighttheme %}');
-            $(".spells-css").attr("href", '{% static css_files.spellslighttheme %}');
-            $(".changelog-css").attr("href", '{% static "chardata/changelog_lighttheme.css" %}');
-        }
-        if (theme == 'darktheme') {
-            $(".common-css").attr("href", '{% static css_files.commondarktheme %}');
-            $(".home-css").attr("href", '{% static css_files.homedarktheme %}');
-            $(".compare-css").attr("href", '{% static css_files.comparedarktheme %}');
-            $(".exclusions-css").attr("href", '{% static css_files.exclusionsdarktheme %}');
-            $(".forms-css").attr("href", '{% static css_files.formsdarktheme %}');
-            $(".solution-css").attr("href", '{% static css_files.solutiondarktheme %}');
-            $(".spells-css").attr("href", '{% static css_files.spellsdarktheme %}');
-            $(".changelog-css").attr("href", '{% static "chardata/changelog_darktheme.css" %}');
-        }
+    function fmSetSheets(data, auto){
+        var single = !auto || !fmSchemeKnown();
+        ['common','home','compare','exclusions','forms','solution','spells','changelog'].forEach(function(name){
+            $('link.' + name + '-css').each(function(){
+                var el = $(this), media = el.attr('media') || '';
+                if (single) {
+                    if (media.indexOf('dark') !== -1) { el.remove(); return; }
+                    el.attr('href', auto ? data[name + 'lighttheme'] : data[name]).removeAttr('media');
+                } else if (media.indexOf('dark') !== -1) {
+                    el.attr('href', data[name + 'darktheme']);
+                } else if (media) {
+                    el.attr('href', data[name + 'lighttheme']);
+                } else {
+                    el.attr({href: data[name + 'lighttheme'], media: '(prefers-color-scheme: light)'});
+                    el.clone().attr({href: data[name + 'darktheme'], media: '(prefers-color-scheme: dark)'}).insertAfter(el);
+                }
+            });
+        });
     }
 
-        function updateAutoThemeFromData(data){
-        theme = checkTimeForTheme();
-        if (theme == 'lighttheme') {
-            $(".common-css").attr("href", data['commonlighttheme']);
-            $(".home-css").attr("href", data['homelighttheme']);
-            $(".compare-css").attr("href", data['comparelighttheme']);
-            $(".exclusions-css").attr("href", data['exclusionslighttheme']);
-            $(".forms-css").attr("href", data['formslighttheme']);
-            $(".solution-css").attr("href", data['solutionlighttheme']);
-            $(".spells-css").attr("href", data['spellslighttheme']);
-            $(".changelog-css").attr("href", '{% static "chardata/changelog_lighttheme.css" %}');
-        }
-        if (theme == 'darktheme') {
-            $(".common-css").attr("href", data['commondarktheme']);
-            $(".home-css").attr("href", data['homedarktheme']);
-            $(".compare-css").attr("href", data['comparedarktheme']);
-            $(".exclusions-css").attr("href", data['exclusionsdarktheme']);
-            $(".forms-css").attr("href", data['formsdarktheme']);
-            $(".solution-css").attr("href", data['solutiondarktheme']);
-            $(".spells-css").attr("href", data['spellsdarktheme']);
-            $(".changelog-css").attr("href", '{% static "chardata/changelog_darktheme.css" %}');
-        }
-    }
-    
     function fmApplyThemeClass(theme){
         var t = theme;
-        if (t === 'auto') { var h = new Date().getHours(); t = (h < 6 || h >= 18) ? 'darktheme' : 'lighttheme'; }
+        if (t === 'auto') { t = fmAutoTheme(); }
         var el = document.documentElement;
         el.classList.remove('fm-light','fm-dark');
         el.classList.add(t === 'darktheme' ? 'fm-dark' : 'fm-light');
@@ -663,18 +746,7 @@
         $.post("/changetheme/",
            {theme: theme},
            function(data) {
-              if (theme == 'auto') {
-                   updateAutoThemeFromData(data);
-              } else {
-                  $(".common-css").attr("href", data['common']);
-                  $(".home-css").attr("href", data['home']);
-                  $(".compare-css").attr("href", data['compare']);
-                  $(".exclusions-css").attr("href", data['exclusions']);
-                  $(".forms-css").attr("href", data['forms']);
-                  $(".solution-css").attr("href", data['solution']);
-                  $(".spells-css").attr("href", data['spells']);
-                  $(".changelog-css").attr("href", data['changelog']);
-              }
+              fmSetSheets(data, theme == 'auto');
               setAllImages(theme);
               toggleBlanket('blanket-theme');
               toggleBlanket('other-themes');
@@ -733,7 +805,7 @@
     
     function getCurrentTheme() {
         if ('{{theme}}' == 'auto') {
-            return softCheckTimeForTheme();
+            return fmAutoTheme();
         }
         else {
             return '{{theme}}';
@@ -743,8 +815,12 @@
     
     function toggleMobileNav(btn){var sb=document.getElementById("main-sidebar");if(!sb)return;var o=sb.classList.toggle("open");if(btn)btn.setAttribute("aria-expanded",o?"true":"false");}
 
+    (function(){try{var mq = window.matchMedia('(prefers-color-scheme: dark)');
+        var onScheme = function(){ var t = (document.cookie.match(/(?:^|;\s*)theme=([^;]+)/) || [])[1] || 'auto'; if (t !== 'lighttheme' && t !== 'darktheme') { setAllImages('auto'); } };
+        if (mq.addEventListener) { mq.addEventListener('change', onScheme); } else if (mq.addListener) { mq.addListener(onScheme); }
+    }catch(e){}})();
+
     $(document).ready(function() {
-        checkAutoTheme();
         setFlags();
         setThemeChoices();
         setLoadingImg();

@@ -12,8 +12,8 @@
   {% load static_s3 %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "chardata/spells.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
-    <link rel="stylesheet" type="text/css" href="{% static css_files.spells %}" class="spells-css css-file">
+    {% include "chardata/theme_css.html" with single=css_files.forms light=css_files.formslighttheme dark=css_files.formsdarktheme cls="forms-css css-file" %}
+    {% include "chardata/theme_css.html" with single=css_files.spells light=css_files.spellslighttheme dark=css_files.spellsdarktheme cls="spells-css css-file" %}
 
     <h1 align="center"> {% trans "Spells Damage" %} </h1>
     
@@ -1232,7 +1232,7 @@
         }
         
         return $('\
-            <div class="circle-container" id="level-' + i + '" style="width: 14px">\
+            <div class="circle-container" data-level="' + i + '" style="width: 14px">\
                 <div class="level-circle"></div>\
                 <div class="level-number" style="margin-left:' + margin + 'px">' + text + '</div>\
             </div>');
@@ -1498,7 +1498,7 @@
     function setDot(spell) {
         var spellCell = cells[spell.name];
         if (spellCell) {
-            spellCell.header.find('#level-' + spellLevel[spell.name]).trigger('click');
+            spellCell.header.find('.circle-container[data-level="' + spellLevel[spell.name] + '"]').trigger('click');
         }
     }
     
@@ -1743,20 +1743,31 @@
         }
     }
 
+    var SIDE_BY_SIDE_QUERY = '(min-width: 1280px)';
+
+    function spellsStacked() {
+        return document.documentElement.classList.contains('fm-modern')
+            && !window.matchMedia(SIDE_BY_SIDE_QUERY).matches;
+    }
+
     function createLines(){
         var placed = 0;
         var ads = 0;
+        var stacked = spellsStacked();
         feedAdsCreated = false;
         for ( var i = 0; i < spellDigests.length; i++ ) {
             if (spellDigests[i].is_linked == null
             || (spellDigests[i].is_linked && spellDigests[i].is_linked[0] != 2)) {
                 var cell = $("#spells0");
-                for ( var j = 1; j < 3; j++ ){
+                for ( var j = 1; j < 3 && !stacked; j++ ){
                     if ($("#spells" + j).height() < cell.height()){
                         cell = $("#spells" + j);
                     }
                 }
                 var new_cell = createSpellPairOrSingle(spellDigests[i]);
+                if (new_cell) {
+                    $(new_cell).attr('data-deal', i);
+                }
                 cell.append(new_cell);
                 placed++;
                 // The shortest column is where the reader's eye lands next, so
@@ -1775,6 +1786,32 @@
         if (feedAdsCreated && window.fmAdScan) {
             window.fmAdScan();
         }
+    }
+
+    function redealSpells() {
+        var stacked = spellsStacked();
+        var groups = [];
+        $("#spells0, #spells1, #spells2").children().each(function() {
+            var order = $(this).attr('data-deal');
+            if (order === undefined && groups.length) {
+                groups[groups.length - 1].nodes.push(this);
+            } else {
+                groups.push({order: Number(order), nodes: [this]});
+            }
+        });
+        groups.sort(function(a, b) { return a.order - b.order; });
+        $.each(groups, function(i, group) {
+            $(group.nodes).detach();
+        });
+        $.each(groups, function(i, group) {
+            var cell = $("#spells0");
+            for (var j = 1; j < 3 && !stacked; j++) {
+                if ($("#spells" + j).height() < cell.height()) {
+                    cell = $("#spells" + j);
+                }
+            }
+            cell.append(group.nodes);
+        });
     }
 
     function decideLevel(spell) {
@@ -1964,6 +2001,14 @@
             }
             reloadSpells();
         });
+        var sideBySide = window.matchMedia && window.matchMedia(SIDE_BY_SIDE_QUERY);
+        if (sideBySide && sideBySide.addEventListener) {
+            sideBySide.addEventListener('change', function() {
+                if (document.documentElement.classList.contains('fm-modern')) {
+                    redealSpells();
+                }
+            });
+        }
         function familyFilter(id, read, write) {
             $(id).on('click', function() {
                 var hidden = !read();

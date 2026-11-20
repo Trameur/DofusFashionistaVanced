@@ -65,25 +65,25 @@ RATE_NOTE = 'not published by the game'
 UNREPORTED_FIELDS = {'conversions', 'gems', 'unforgeable', 'data_version'}
 
 
-def _modern_dir(version, tag=None):
-    return os.path.join(CURRENT_DIRECTORY, 'raw', tag or DEFAULT_TAG[version])
+def _modern_dir(version, tag=None, raw_dir=None):
+    return raw_dir or os.path.join(CURRENT_DIRECTORY, 'raw', tag or DEFAULT_TAG[version])
 
 
-def source_path(version, tag=None, language=RETRO_LANGUAGE):
+def source_path(version, tag=None, language=RETRO_LANGUAGE, raw_dir=None):
     if version == 'touch':
         return os.path.join(CURRENT_DIRECTORY, 'touch_raw', 'Items_fr.json')
     if version == 'retro':
         return os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'items_%s.json' % language)
-    return os.path.join(_modern_dir(version, tag), 'items.json')
+    return os.path.join(_modern_dir(version, tag, raw_dir), 'items.json')
 
 
-def available_languages(version, tag=None):
+def available_languages(version, tag=None, raw_dir=None):
     if version == 'touch':
         pattern = os.path.join(CURRENT_DIRECTORY, 'touch_raw', 'Items_%s.json')
     elif version == 'retro':
         pattern = os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'items_%s.json')
     else:
-        pattern = os.path.join(_modern_dir(version, tag), '%s.json')
+        pattern = os.path.join(_modern_dir(version, tag, raw_dir), '%s.json')
     return [language for language in LANGUAGES
             if os.path.exists(pattern % language)]
 
@@ -237,8 +237,8 @@ def _effect_rows(items, names_of, notes, codes):
     return _ranked(rows, notes), gems
 
 
-def _modern(version, tag, languages, notes):
-    folder = _modern_dir(version, tag)
+def _modern(version, tag, languages, notes, raw_dir=None):
+    folder = _modern_dir(version, tag, raw_dir)
     items, flag = _modern_items(folder)
     texts = _load_translations(Path(folder), languages)
     codes = client_codes(folder, items, texts.get('en'))
@@ -357,18 +357,18 @@ def _retro(languages, notes, source_language=RETRO_LANGUAGE):
             'unforgeable_source': 'smithmagic skill types and the fm flag'}
 
 
-def extract(version, tag=None, languages=None, source_language=RETRO_LANGUAGE):
+def extract(version, tag=None, languages=None, source_language=RETRO_LANGUAGE, raw_dir=None):
     """(table, notes): what the version's client states, and what it could not read."""
     notes = []
     if languages is None:
-        languages = available_languages(version, tag)
+        languages = available_languages(version, tag, raw_dir)
     languages = [language for language in LANGUAGES if language in languages]
     if version == 'touch':
         body = _touch(languages, notes)
     elif version == 'retro':
         body = _retro(languages, notes, source_language)
     else:
-        body = _modern(version, tag, languages, notes)
+        body = _modern(version, tag, languages, notes, raw_dir)
     table = {'game_version': version, 'languages': languages}
     if version in DEFAULT_TAG:
         table['data_version'] = tag or DEFAULT_TAG[version]
@@ -434,13 +434,15 @@ def main(argv=None):
     parser.add_argument('--tag', default=None,
                         help='archive under itemscraper/raw to read; touch_raw '
                              'and retro_raw carry no version')
+    parser.add_argument('--raw-dir', default=None,
+                        help='dofus3, beta, dofus2: read this client extraction instead of itemscraper/raw/<tag>')
     parser.add_argument('--lang', default=RETRO_LANGUAGE,
                         help='retro: language of the lang files update_data_retro.py '
                              'downloaded first')
     args = parser.parse_args(argv)
     version = args.game_version
 
-    source = source_path(version, args.tag, args.lang)
+    source = source_path(version, args.tag, args.lang, args.raw_dir)
     if not os.path.exists(source):
         print('%s: no %s on this machine, weapon conversions kept as they were'
               % (version, os.path.relpath(source, PROJECT_ROOT)))
@@ -453,7 +455,7 @@ def main(argv=None):
         languages, notes = touch_languages(previous)
         for line in notes:
             print('warning: touch: %s' % line)
-    table, notes = extract(version, args.tag, languages, args.lang)
+    table, notes = extract(version, args.tag, languages, args.lang, args.raw_dir)
     for line in notes:
         print('warning: %s: %s' % (version, line))
     if previous is not None:

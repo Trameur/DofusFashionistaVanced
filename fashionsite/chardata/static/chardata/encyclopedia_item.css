@@ -2,6 +2,9 @@
    crumbs layout (and its dark-theme overrides) lives in encyclopedia_detail.css,
    linked before this sheet; only the item head and stat rows are page-specific. */
 
+.encyclopedia-csrf-form {
+    display: none;
+}
 .encyclopedia-item-head {
     display: flex;
     gap: 12px;

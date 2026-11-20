@@ -92638,7 +92638,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 23 4"
+                        "formatted": "Max. 4 23"
                     },
                     {
                         "int_minimum": 19,
@@ -92651,7 +92651,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 19 4"
+                        "formatted": "Max. 4 19"
                     },
                     {
                         "int_minimum": 26,
@@ -92664,7 +92664,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 26 4"
+                        "formatted": "Max. 4 26"
                     },
                     {
                         "int_minimum": -10,
@@ -92835,7 +92835,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 26 3"
+                        "formatted": "Max. 3 26"
                     },
                     {
                         "int_minimum": 23,
@@ -92848,7 +92848,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 23 3"
+                        "formatted": "Max. 3 23"
                     },
                     {
                         "int_minimum": 19,
@@ -92861,7 +92861,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 19 3"
+                        "formatted": "Max. 3 19"
                     },
                     {
                         "int_minimum": -20,
@@ -93045,7 +93045,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 26 3"
+                        "formatted": "Max. 3 26"
                     },
                     {
                         "int_minimum": 1,
@@ -93227,7 +93227,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 19 3"
+                        "formatted": "Max. 3 19"
                     },
                     {
                         "int_minimum": 23,
@@ -93240,7 +93240,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 23 3"
+                        "formatted": "Max. 3 23"
                     }
                 ],
                 "5": [
@@ -93255,7 +93255,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 26 3"
+                        "formatted": "Max. 3 26"
                     },
                     {
                         "int_minimum": 1,
@@ -93437,7 +93437,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 19 3"
+                        "formatted": "Max. 3 19"
                     },
                     {
                         "int_minimum": 23,
@@ -93450,7 +93450,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 23 3"
+                        "formatted": "Max. 3 23"
                     }
                 ],
                 "6": [
@@ -93465,7 +93465,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 26 2"
+                        "formatted": "Max. 2 26"
                     },
                     {
                         "int_minimum": 23,
@@ -93478,7 +93478,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 23 2"
+                        "formatted": "Max. 2 23"
                     },
                     {
                         "int_minimum": 19,
@@ -93491,7 +93491,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "Max. 19 2"
+                        "formatted": "Max. 2 19"
                     },
                     {
                         "int_minimum": -50,
@@ -122296,6 +122296,636 @@
             ]
         },
         {
+            "ankama_id": 1106,
+            "name": "Tenian Castaway Set",
+            "items": 9,
+            "level": 10,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Strength",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Strength"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligence",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Intelligence"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Agility",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Agility"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Chance"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Damage"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Agility",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Agility"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Chance"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligence",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Intelligence"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Strength",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Strength"
+                    }
+                ],
+                "4": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Damage"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Agility",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Agility"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Chance"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligence",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Intelligence"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Strength",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Strength"
+                    }
+                ],
+                "5": [
+                    {
+                        "int_minimum": 2,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "2 Damage"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Agility",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Agility"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Chance"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligence",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Intelligence"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Strength",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Strength"
+                    }
+                ],
+                "6": [
+                    {
+                        "int_minimum": 2,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "2 Damage"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Agility",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 Agility"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 Chance"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligence",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 Intelligence"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Strength",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 Strength"
+                    }
+                ],
+                "7": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Damage"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Agility",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Agility"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Chance"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligence",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Intelligence"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Strength",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Strength"
+                    }
+                ],
+                "8": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Damage"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Agility",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 Agility"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 Chance"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligence",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 Intelligence"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Strength",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 Strength"
+                    }
+                ],
+                "9": [
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4 Damage"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Agility",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Agility"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Chance"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligence",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Intelligence"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Strength",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Strength"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34695,
+                34696,
+                34697,
+                34698,
+                34699,
+                34700,
+                34701,
+                34702,
+                34703
+            ]
+        },
+        {
+            "ankama_id": 1107,
+            "name": "Salamuncher Set",
+            "items": 3,
+            "level": 15,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Initiative",
+                            "id": 24,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 Initiative"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Power"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Summons",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Summons"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Power"
+                    },
+                    {
+                        "int_minimum": 100,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Initiative",
+                            "id": 24,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "100 Initiative"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34719,
+                34720,
+                34721
+            ]
+        },
+        {
             "ankama_id": 1108,
             "name": "Porcelunar Ceremonial Set",
             "items": 6,
@@ -122368,7 +122998,7 @@
         },
         {
             "ankama_id": 1113,
-            "name": "[!] Panoplie d'apparat du Gardien des âmes",
+            "name": "Soul Guardian Ceremonial Set",
             "items": 6,
             "level": 60,
             "contains_cosmetics": true,
@@ -122380,6 +123010,1241 @@
                 34688,
                 34689,
                 34690
+            ]
+        },
+        {
+            "ankama_id": 1114,
+            "name": "Wyngvern Set",
+            "items": 3,
+            "level": 20,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Dodge",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Dodge"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Power"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Summons",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Summons"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Dodge",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 Dodge"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Power"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34722,
+                34723,
+                34724
+            ]
+        },
+        {
+            "ankama_id": 1115,
+            "name": "Draconifer Set",
+            "items": 3,
+            "level": 25,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Lock",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Lock"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Power"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Summons",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Summons"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Lock",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 Lock"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Power"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34725,
+                34726,
+                34727
+            ]
+        },
+        {
+            "ankama_id": 1116,
+            "name": "Seadragon Set",
+            "items": 3,
+            "level": 40,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Critical",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3% Critical"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Power"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Summons",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Summons"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Power"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Critical",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6% Critical"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34734,
+                34735,
+                34736
+            ]
+        },
+        {
+            "ankama_id": 1117,
+            "name": "Prismancient Set",
+            "items": 3,
+            "level": 35,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Wisdom",
+                            "id": 10,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Wisdom"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Earth Resistance",
+                            "id": 15,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Earth Resistance"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Fire Resistance",
+                            "id": 14,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Fire Resistance"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Water Resistance",
+                            "id": 82,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Water Resistance"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Air Resistance",
+                            "id": 60,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Air Resistance"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Range",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Range"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Wisdom",
+                            "id": 10,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Wisdom"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Earth Resistance",
+                            "id": 15,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Earth Resistance"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Fire Resistance",
+                            "id": 14,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Fire Resistance"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Water Resistance",
+                            "id": 82,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Water Resistance"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Air Resistance",
+                            "id": 60,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Air Resistance"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34728,
+                34729,
+                34730
+            ]
+        },
+        {
+            "ankama_id": 1118,
+            "name": "Umbranima Set",
+            "items": 3,
+            "level": 30,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Damage"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Power"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Summons",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Summons"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 Damage"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Power"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34731,
+                34732,
+                34733
+            ]
+        },
+        {
+            "ankama_id": 1119,
+            "name": "Guira's Ashes",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 80,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "80 Power"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8395,1::Deep Crimson}}:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times)."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 80,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "80 Power"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8395,1::Deep Crimson}}:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times)."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34737,
+                34738,
+                34739
+            ]
+        },
+        {
+            "ankama_id": 1120,
+            "name": "Elil's Relics",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 200,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Vitality",
+                            "id": 9,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "200 Vitality"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 200,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Vitality",
+                            "id": 9,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "200 Vitality"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34740,
+                34741,
+                34742
+            ]
+        },
+        {
+            "ankama_id": 1121,
+            "name": "Ninma's Memories",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8394,1::Ochre Yellow}}:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 2,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "2 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8394,1::Ochre Yellow}}:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34743,
+                34744,
+                34745
+            ]
+        },
+        {
+            "ankama_id": 1122,
+            "name": "Tiama's Artefacts",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Critical",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10% Critical"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,5952,1::Turquoise Blue}}:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times)."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Critical",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10% Critical"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,5952,1::Turquoise Blue}}:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times)."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34752,
+                34753,
+                34754
+            ]
+        },
+        {
+            "ankama_id": 1123,
+            "name": "Utu's Treasures",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Air Resistance",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Air Resistance"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18665,1::Ivory White}}:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible."
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Neutral Resistance",
+                            "id": 34,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Neutral Resistance"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Fire Resistance",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Fire Resistance"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Water Resistance",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Water Resistance"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Earth Resistance",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Earth Resistance"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Air Resistance",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Air Resistance"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18665,1::Ivory White}}:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible."
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Neutral Resistance",
+                            "id": 34,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Neutral Resistance"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Fire Resistance",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Fire Resistance"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Water Resistance",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Water Resistance"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Earth Resistance",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Earth Resistance"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34746,
+                34747,
+                34748
+            ]
+        },
+        {
+            "ankama_id": 1124,
+            "name": "Eresh's Scars",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Dodge",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Dodge"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18629,1::Ebony Black}}:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Dodge",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Dodge"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18629,1::Ebony Black}}:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34749,
+                34750,
+                34751
+            ]
+        },
+        {
+            "ankama_id": 1125,
+            "name": "Zabelle Ceremonial Set",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34795,
+                34796,
+                34797,
+                34798,
+                34837,
+                34840
+            ]
+        },
+        {
+            "ankama_id": 1126,
+            "name": "Welsh Ceremonial Set",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34800,
+                34802,
+                34804,
+                34805
+            ]
+        },
+        {
+            "ankama_id": 1127,
+            "name": "Shedar Ceremonial Set",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34801,
+                34803,
+                34806
+            ]
+        },
+        {
+            "ankama_id": 1128,
+            "name": "[!] Panoplie d'apparat préhistorique",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34908,
+                34909,
+                34910,
+                34911,
+                34913
+            ]
+        },
+        {
+            "ankama_id": 1129,
+            "name": "[!] Panoplie d'apparat de la Démone VIII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34949,
+                34950,
+                34952,
+                34956
+            ]
+        },
+        {
+            "ankama_id": 1130,
+            "name": "[!] Panoplie d'apparat diaprée de la Démone VIII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34951,
+                34953,
+                34954,
+                34955
+            ]
+        },
+        {
+            "ankama_id": 1131,
+            "name": "[!] Panoplie d'apparat de la source",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34991,
+                34992,
+                34993,
+                34995,
+                34996
+            ]
+        },
+        {
+            "ankama_id": 1132,
+            "name": "[!] Panoplie d'apparat Glucolique",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34998,
+                34999,
+                35000,
+                35001
+            ]
+        },
+        {
+            "ankama_id": 1133,
+            "name": "[!] Panoplie d'apparat Bellaphone",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                27939,
+                35006,
+                35008,
+                35009,
+                35010,
+                35011
             ]
         }
     ]

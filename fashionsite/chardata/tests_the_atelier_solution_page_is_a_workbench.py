@@ -1,0 +1,235 @@
+# Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
+"""The solution page of the modern design: columns at each width, loot frames, shiny, a title with no ribbon under it, lifted caps."""
+import re
+
+from django.test import SimpleTestCase
+
+from chardata.tests_the_atelier_modern_rules_stay_under_the_modern_prefix import FROZEN_UNPREFIXED
+from chardata.tests_the_setup_stylesheet_support import media_applies, read_css, rule_order, stylesheet
+
+MODERN = stylesheet('modern.css')
+ROOT = 'html.fm-modern'
+ROW = ROOT + ' .solution-table > tbody > tr'
+TABLE = ROOT + ' .solution-table'
+FRAME = TABLE + ' .solution-item-icon-container'
+SUMMARY = ROOT + ' .solution-item-summary'
+SHINY = FRAME + '.shiny-slot'
+REDUCED = '(prefers-reduced-motion:reduce)'
+
+
+def at(selector, prop, width):
+    """The value modern.css gives a property for exactly this selector at a viewport width: the last rule in file order."""
+    found = None
+    for rule in MODERN:
+        if selector in rule['selectors'] and prop in rule['declarations'] and media_applies(rule['media'], width):
+            found = rule['declarations'][prop][0]
+    return found
+
+
+def tracks(value):
+    depth, count, inside = 0, 0, False
+    for char in value:
+        if char == '(':
+            depth += 1
+        elif char == ')':
+            depth -= 1
+        if char.isspace() and depth == 0:
+            inside = False
+        elif not inside:
+            inside = True
+            count += 1
+    return count
+
+
+def media_rules(selector, prop, media):
+    return [rule for rule in MODERN if rule['media'] == media and selector in rule['selectors'] and prop in rule['declarations']]
+
+
+class TheSolutionTableHasColumnsFromTheWidthTests(SimpleTestCase):
+
+    def test_the_table_row_is_one_column_below_760(self):
+        for width in (375, 600, 759):
+            with self.subTest(width=width):
+                self.assertEqual('grid', at(ROW, 'display', width))
+                self.assertEqual(1, tracks(at(ROW, 'grid-template-columns', width)))
+
+    def test_the_row_has_two_columns_from_760_up_to_1359(self):
+        for width in (760, 1100, 1359):
+            with self.subTest(width=width):
+                self.assertEqual(2, tracks(at(ROW, 'grid-template-columns', width)))
+
+    def test_the_row_has_a_criteria_column_the_gear_and_the_stats_from_1360(self):
+        for width in (1360, 1536, 1679, 1680, 1920, 2560):
+            with self.subTest(width=width):
+                self.assertEqual(3, tracks(at(ROW, 'grid-template-columns', width)))
+
+    def test_the_row_has_a_fourth_column_for_the_best_turn_from_1680(self):
+        turn = ROW + ':has(.fm-sol-turn)'
+        self.assertIsNone(at(turn, 'grid-template-columns', 1679))
+        for width in (1680, 1920, 2560):
+            with self.subTest(width=width):
+                self.assertEqual(4, tracks(at(turn, 'grid-template-columns', width)))
+
+    def test_the_stats_card_neither_sticks_nor_scrolls(self):
+        stats = ROOT + ' .solution-stat-summary'
+        for width in (375, 1280, 1536, 1920):
+            with self.subTest(width=width):
+                self.assertIsNone(at(stats, 'position', width))
+                self.assertIsNone(at(stats, 'max-height', width))
+
+    def test_the_summary_stays_a_block_and_its_sections_are_grids(self):
+        section = SUMMARY + ' > .solution-item-section'
+        for width in (375, 1280, 1759, 1920):
+            with self.subTest(width=width):
+                self.assertEqual('block', at(SUMMARY, 'display', width))
+                self.assertIsNone(at(section, 'display', width))
+
+    def test_the_item_cards_fill_a_grid_at_every_width(self):
+        section = ROOT + ' .solution-item-section'
+        for width in (375, 1280, 1920):
+            with self.subTest(width=width):
+                self.assertEqual('grid', at(section, 'display', width))
+        self.assertEqual('contents', at(ROOT + ' .solution-item-section-column', 'display', 375))
+
+
+class TheSlotsWearTheLootFrameTests(SimpleTestCase):
+
+    def test_the_icon_container_has_the_double_gold_frame(self):
+        border = at(FRAME, 'border', 1440)
+        self.assertGreaterEqual(int(border.split('px')[0]), 2)
+        self.assertEqual('var(--fm-frame-gold)', border.split()[-1])
+        card = at(ROOT + ' .solution-item-expand-header', 'border', 1440)
+        self.assertNotEqual(card.split()[-1], border.split()[-1])
+        shadow = at(FRAME, 'box-shadow', 1440)
+        self.assertEqual(2, shadow.count('inset'))
+        self.assertIn('var(--fm-frame-gold)', shadow)
+
+    def test_the_frame_stays_on_the_solution_table(self):
+        for rule in MODERN:
+            if ROOT + ' .solution-item-icon-container' in rule['selectors']:
+                self.assertNotIn('border', rule['declarations'])
+
+    def test_the_popup_slot_wears_the_same_frame(self):
+        shared = [rule for rule in MODERN if FRAME in rule['selectors'] and ROOT + ' .item-exchange-icon-container' in rule['selectors']
+                  and 'border' in rule['declarations']]
+        self.assertTrue(shared)
+
+    def test_the_frame_has_a_fallback_for_forced_colours(self):
+        rules = media_rules(FRAME, 'border-color', '(forced-colors:active)')
+        self.assertEqual('CanvasText', rules[0]['declarations']['border-color'][0])
+
+
+class ShinyDiffersFromTheFrameTests(SimpleTestCase):
+
+    def test_the_shiny_border_is_not_the_frame_border(self):
+        self.assertNotEqual('var(--fm-frame-gold)', at(SHINY, 'border-color', 1440))
+        self.assertEqual('var(--fm-tape)', at(SHINY, 'border-color', 1440))
+        self.assertNotEqual(at(FRAME, 'box-shadow', 1440), at(SHINY, 'box-shadow', 1440))
+
+    def test_a_diamond_marks_it_without_any_animation(self):
+        marker = SHINY + '::before'
+        self.assertEqual('""', at(marker, 'content', 1440))
+        self.assertEqual('rotate(45deg)', at(marker, 'transform', 1440))
+        self.assertIsNone(at(marker, 'animation', 1440))
+        self.assertIsNone(at(marker, 'opacity', 1440))
+
+    def test_reduced_motion_stops_the_glint_and_leaves_the_marker_alone(self):
+        glint = media_rules(SHINY + '::after', 'animation', REDUCED)
+        self.assertEqual('none', glint[0]['declarations']['animation'][0])
+        for rule in MODERN:
+            if rule['media'] == REDUCED:
+                for selector in rule['selectors']:
+                    self.assertNotIn('::before', selector)
+                    self.assertFalse(selector.endswith('.shiny-slot'), selector)
+
+    def test_the_glint_is_one_keyframe_animation(self):
+        self.assertTrue(at(SHINY + '::after', 'animation', 1440).startswith('fm-shiny-glint '))
+        self.assertIn('@keyframes fm-shiny-glint', read_css('modern.css'))
+
+
+class TheTitleHasNoRibbonTests(SimpleTestCase):
+
+    TITLE = ROOT + ' h1'
+
+    def test_the_title_draws_no_ribbon_at_any_width(self):
+        for width in (375, 900, 1440, 2560):
+            with self.subTest(width=width):
+                self.assertEqual('none', at(self.TITLE + '::after', 'content', width))
+
+    def test_no_rule_brings_a_ribbon_back_on_a_title(self):
+        drawn = [(selector, rule['declarations']['content'][0]) for rule in MODERN for selector in rule['selectors']
+                 if re.search(r'h1(\[[^\]]*\])?::after$', selector) and 'content' in rule['declarations']
+                 and rule['declarations']['content'][0] != 'none']
+        self.assertEqual([], drawn)
+
+    def test_a_centred_title_and_a_title_in_the_content_column_sit_on_the_left(self):
+        for selector in (self.TITLE, ROOT + ' h1[align="center"]', ROOT + ' .maincontent h1', ROOT + ' .main-div h1'):
+            with self.subTest(selector=selector):
+                self.assertEqual('left', at(selector, 'text-align', 1440))
+        self.assertGreater(rule_order(MODERN, ROOT + ' h1[align="center"]')[0], rule_order(MODERN, self.TITLE)[0])
+
+    def test_the_title_keeps_no_room_under_it_for_a_ribbon(self):
+        self.assertEqual('0', at(self.TITLE, 'padding-bottom', 1440))
+        self.assertEqual('0 0 8px', at(self.TITLE, 'margin', 1440))
+
+    def test_the_title_size_reads_the_page_size_token_and_the_solution_token_is_42px(self):
+        self.assertTrue(at(self.TITLE, 'font-size', 1440).startswith('var(--fm-h1-size,'))
+        self.assertEqual('42px', at(ROOT, '--fm-h1-solution', 1440))
+
+
+class TheSolutionCapsAreLiftedTests(SimpleTestCase):
+
+    def test_the_banner_and_the_build_check_are_uncapped_from_1280_only(self):
+        for selector in (ROOT + ' .char-banner', ROOT + ' .build-check', ROOT + ' .comments-section'):
+            with self.subTest(selector=selector):
+                self.assertIsNone(at(selector, 'max-width', 1279))
+                self.assertEqual('none', at(selector, 'max-width', 1280))
+
+    def test_the_explanation_panel_is_uncapped_from_1280(self):
+        self.assertEqual('none', at(TABLE + ' .solver-why', 'max-width', 1280))
+        self.assertIsNone(at(TABLE + ' .solver-why', 'max-width', 1279))
+        self.assertIsNone(at(ROOT + ' .solver-why', 'max-width', 1920))
+
+    def test_the_hint_paragraph_keeps_the_reading_measure(self):
+        self.assertEqual('var(--fm-measure)', at(ROOT + ' .maincontent p.text', 'max-width', 1920))
+
+    def test_the_ingredient_note_beats_its_inline_width(self):
+        rule = [r for r in MODERN if ROOT + ' #solution_ingredients' in r['selectors'] and 'max-width' in r['declarations']][0]
+        self.assertTrue(rule['declarations']['max-width'][1])
+
+
+class TheLoadingTapeTests(SimpleTestCase):
+
+    def test_the_tape_is_wide_tall_and_ticked(self):
+        bar = ROOT + ' .loading-progress'
+        self.assertTrue(at(bar, 'max-width', 1440).endswith(',100%)'))
+        self.assertGreaterEqual(int(re.search(r'\d+', at(bar, 'max-width', 1440)).group()), 400)
+        self.assertGreaterEqual(int(at(bar, 'height', 1440)[:-2]), 16)
+        self.assertIn('repeating-linear-gradient', at(bar, 'background', 1440))
+
+    def test_the_fill_is_the_tape(self):
+        shared = [r for r in MODERN if ROOT + ' .loading-progress > span' in r['selectors'] and 'background' in r['declarations']]
+        self.assertIn('var(--fm-tape)', shared[0]['declarations']['background'][0])
+
+    def test_the_blanket_covers_the_window_and_never_widens_the_page(self):
+        blanket = ROOT + ' #blanket'
+        self.assertEqual('fixed', at(blanket, 'position', 1440))
+        self.assertEqual('0', at(blanket, 'inset', 1440))
+        self.assertEqual('auto', at(blanket, 'width', 2560))
+        self.assertEqual('auto', at(blanket, 'height', 2560))
+
+    def test_the_wider_popup_is_limited_to_the_solution_page(self):
+        self.assertEqual('560px', at(ROOT + ':has(.solution-table) #popUpDiv', 'width', 1280))
+        self.assertIsNone(at(ROOT + ':has(.solution-table) #popUpDiv', 'width', 1279))
+        self.assertIsNone(at(ROOT + ' #popUpDiv', 'width', 1440))
+
+
+class TheSolutionRulesStayUnderThePrefixTests(SimpleTestCase):
+
+    def test_every_rule_about_the_solution_page_starts_with_the_modern_prefix(self):
+        pattern = re.compile(r'solution-|loading-progress|#popUpDiv|#blanket|item-exchange|char-banner|build-check|proj_info')
+        for rule in MODERN:
+            for selector in rule['selectors']:
+                if pattern.search(selector) and selector not in FROZEN_UNPREFIXED:
+                    with self.subTest(selector=selector):
+                        self.assertTrue(selector.startswith(ROOT), selector)
