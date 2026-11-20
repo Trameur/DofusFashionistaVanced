@@ -74,11 +74,23 @@ def stylesheet(name):
 SHEET_NAMES = ('common.css', 'forms.css', 'setup.css', 'responsive.css', 'modern.css')
 DESIGNS = {'classic dark': ('fm-dark',), 'classic light': ('fm-light',), 'modern light': ('fm-modern', 'fm-light'),
            'modern dark': ('fm-modern', 'fm-dark')}
+ENHANCED_DESIGNS = {'enhanced light': ('fm-enhanced', 'fm-light'), 'enhanced dark': ('fm-enhanced', 'fm-dark')}
+CLASSIC_ONLY = ':not(.fm-modern, .fm-enhanced)'
 
 
 def setup_sheets():
     """The stylesheets that style a /setup/ page and set the properties the tests ask about, in the order the page loads them."""
     return [(name, stylesheet(name)) for name in SHEET_NAMES]
+
+
+def enhanced_sheets():
+    """The /setup/ sheets with enhanced.css after them, where the enhanced classic design loads it."""
+    return setup_sheets() + [('enhanced.css', stylesheet('enhanced.css'))]
+
+
+def is_classic_only(selector):
+    """Whether a selector is kept from both the new design and the enhanced classic one."""
+    return CLASSIC_ONLY in selector
 
 
 def matching(rules, selector, media=None):
@@ -119,7 +131,7 @@ def _parts(compound):
         elif match.group('attr'):
             found['attrs'].append(match.group('attr'))
         elif match.group('not') is not None:
-            found['nots'].append(match.group('not').strip())
+            found['nots'].append([piece.strip() for piece in top_level_split(match.group('not'))])
         elif match.group('any'):
             found['anys'].append((match.group('any'), [piece.strip() for piece in top_level_split(match.group('among'))]))
         else:
@@ -163,7 +175,7 @@ def specificity(selector):
             else:
                 classes += 1
         for negated in parts['nots']:
-            inner = specificity(negated)
+            inner = max(specificity(piece) for piece in negated)
             ids, classes, elements = ids + inner[0], classes + inner[1], elements + inner[2]
         for kind, among in parts['anys']:
             if kind == 'is':
@@ -207,7 +219,7 @@ def _fits_node(compound, element):
             return False
     if not all(any(_fits_node(piece, element) for piece in among) for _, among in parts['anys']):
         return False
-    return not any(_fits_node(negated, element) for negated in parts['nots'])
+    return not any(_fits_node(piece, element) for negated in parts['nots'] for piece in negated)
 
 
 def _fits(compounds, joints, chain, at):
