@@ -1752,52 +1752,66 @@ def _not_a_self_buff(spell: Mapping[str, Any]) -> bool:
     return True
 
 
-def _extract_stat_buff_rows(spell: Mapping[str, Any], level_count: int) -> List[Dict[str, Any]]:
+def _stat_buff_gates(effect: Mapping[str, Any]) -> Tuple[Tuple[str, str, str], ...]:
+    """The caster counter gates an effect's mask puts on it."""
+    return tuple(CASTER_COUNTER_BRANCH.findall(str(effect.get("target_mask") or "")))
+
+
+def _stat_buff_rows_by_gate(spell: Mapping[str, Any], level_count: int
+                            ) -> Dict[Tuple[str, Tuple[Tuple[str, str, str], ...]], Dict[str, Any]]:
+    """{(token, counter gates): row}, one row per stat and gate so a gated effect keeps its own value."""
+    rows: Dict[Tuple[str, Tuple[Tuple[str, str, str], ...]], Dict[str, Any]] = {}
+    for key in ("effects", "critical_effects"):
+        for level_idx, level in enumerate(spell.get("levels") or []):
+            for effect in level.get(key, []):
+                token = _stat_buff_token(effect)
+                if not token:
+                    continue
+                value = _format_buff_value(effect.get("dice"))
+                if not value:
+                    continue
+                row = rows.setdefault((token, _stat_buff_gates(effect)), {
+                    "token": token,
+                    "normal": [None] * level_count,
+                    "critical": None,
+                    "order": effect.get("order") or 0,
+                })
+                if key == "effects":
+                    row["normal"][level_idx] = value
+                    continue
+                if row["critical"] is None:
+                    row["critical"] = [None] * level_count
+                row["critical"][level_idx] = value
+    return rows
+
+
+def _holds_at_the_start(spell: Mapping[str, Any], gates: Sequence[Tuple[str, str, str]],
+                        spell_lookup: Optional[Mapping[int, Mapping[str, Any]]]) -> bool:
+    """True when every counter gate holds at the value the counter starts a fight with."""
+    starts = _counter_starts(spell_lookup, {gate[0] for gate in gates})
+    unread = sorted({gate[0] for gate in gates} - set(starts))
+    if unread:
+        raise SystemExit(
+            "spell %s gates a buff on counter %s, whose start value the counter spell "
+            "does not give; the buff row cannot be chosen"
+            % (spell.get("ankama_id"), ", ".join(unread)))
+    return all(_gate_holds(gate, starts[gate[0]]) for gate in gates)
+
+
+def _extract_stat_buff_rows(spell: Mapping[str, Any], level_count: int,
+                            spell_lookup: Optional[Mapping[int, Mapping[str, Any]]] = None
+                            ) -> List[Dict[str, Any]]:
     if _not_a_self_buff(spell):
         return []
     levels = spell.get("levels") or []
     if not levels or level_count <= 0:
         return []
-    rows: Dict[str, Dict[str, Any]] = {}
-
-    def _ensure_row(token: str, order: int) -> Dict[str, Any]:
-        row = rows.get(token)
-        if row is None:
-            row = {
-                "token": token,
-                "normal": [None] * level_count,
-                "critical": None,
-                "order": order,
-            }
-            rows[token] = row
-        return row
-
-    for level_idx, level in enumerate(levels):
-        for effect in level.get("effects", []):
-            token = _stat_buff_token(effect)
-            if not token:
-                continue
-            value = _format_buff_value(effect.get("dice"))
-            if not value:
-                continue
-            row = _ensure_row(token, effect.get("order") or 0)
-            row["normal"][level_idx] = value
-
-    for level_idx, level in enumerate(levels):
-        for effect in level.get("critical_effects", []):
-            token = _stat_buff_token(effect)
-            if not token:
-                continue
-            value = _format_buff_value(effect.get("dice"))
-            if not value:
-                continue
-            row = _ensure_row(token, effect.get("order") or 0)
-            if row["critical"] is None:
-                row["critical"] = [None] * level_count
-            row["critical"][level_idx] = value
+    rows = _stat_buff_rows_by_gate(spell, level_count)
 
     supplemental: List[Dict[str, Any]] = []
-    for token, row in rows.items():
+    for (token, gates), row in rows.items():
+        if gates and not _holds_at_the_start(spell, gates, spell_lookup):
+            continue
         filled_normal = _fill_missing_row(row["normal"])
         filled_crit = _fill_missing_row(row["critical"]) if row["critical"] else None
         supplemental.append(
@@ -2763,7 +2777,7 @@ def convert_spell(
     heals_raw = [bool(row.get("heals")) for row in normal_rows]
     heals = heals_raw if any(heals_raw) else None
 
-    buff_rows = _extract_stat_buff_rows(spell, len(level_requirements))
+    buff_rows = _extract_stat_buff_rows(spell, len(level_requirements), spell_lookup)
     if buff_rows:
         for row in buff_rows:
             non_crit.append(row["normal"])
