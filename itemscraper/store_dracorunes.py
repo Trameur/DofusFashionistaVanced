@@ -4,14 +4,17 @@
 fashionistapulp/fashionistapulp/dracorunes/<version>.json.
 
 A rune is an item whose effects carry action 4081 (an element, named by the
-effect's diceSide), 4082 (resistances) or 4083 (power). Nothing in the client
-defines those actions, so the rounding is the devblog's. The power rune's keep
+effect's diceSide), 4082 (resistances) or 4083 (power). Since 3.8.2.3 the
+client's effects.json defines those three as transformations, and 4180 as the
+mark that forbids any later smithmagic. It does not give the rounding nor
+whether the power rune takes the neutral element: both stay the devblog's
+(ROUNDING, power_takes_neutral, listed in UNVERIFIED). The power rune's keep
 rate is the value of its 4083 effect. A rune's name comes from the <lang>.json
 files of the dump, when it has them. A dump without rune items writes nothing
 and removes the file a previous run left for that version.
 
-    python itemscraper/store_dracorunes.py --game-version beta --tag 3.8.1.2
-    python itemscraper/store_dracorunes.py path/to/raw/3.8.1.2
+    python itemscraper/store_dracorunes.py --game-version beta --tag 3.8.2.3
+    python itemscraper/store_dracorunes.py path/to/raw/3.8.2.3
 """
 from __future__ import annotations
 

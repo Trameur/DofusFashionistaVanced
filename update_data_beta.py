@@ -312,6 +312,7 @@ def main() -> None:
             "--tag", version,
             "--filter", "items.json",
             "--filter", "breeds.json",
+            "--filter", "characteristics.json",
             "--filter", "en.json",
             "--filter", "effects.json",
             "--filter", "spells.json",
@@ -326,7 +327,8 @@ def main() -> None:
         step("items/transform", [PY, "get_equipments2.py", "--work-dir", BETA_WORK_DIR,
                                  "--raw-dir", str(raw_dir),
                                  "--game-version", "beta"], cwd=ITEMSCRAPER)
-        step("items/dump", [PY, "get_equipments3.py", "--input-dir", BETA_WORK_DIR, "--dump-output", BETA_DUMP], cwd=ITEMSCRAPER)
+        step("items/dump", [PY, "get_equipments3.py", "--input-dir", BETA_WORK_DIR,
+                                 "--raw-dir", str(raw_dir), "--dump-output", BETA_DUMP], cwd=ITEMSCRAPER)
         if snapshot:
             step("items/keep-save", [PY, "keep_db_tables.py", "--game-version", "beta",
                                      "--save", str(snapshot)], cwd=ITEMSCRAPER)

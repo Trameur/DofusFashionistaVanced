@@ -25,13 +25,15 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_directory)
 sys.path.append(project_root)
 sys.path.insert(0, current_directory)
-from max_effects import max_caps  # noqa: E402
+from max_effects import load_cap_stats, max_caps  # noqa: E402
 from untranslated_tag import clean_display_name  # noqa: E402
 
 _parser = argparse.ArgumentParser(description="Build SQLite dump from transformed equipment JSON")
 _parser.add_argument("--dump-output", default=None, help="Output path for the dump file (default: item_db_dumped.dump)")
 _parser.add_argument("--input-dir", default=None, help="Directory containing transformed_equipment.json and transformed_sets.json (default: script directory)")
+_parser.add_argument("--raw-dir", default=None, help="Client extraction holding characteristics.json, which names the characteristics a Max. effect caps")
 _args = _parser.parse_args()
+CAP_STAT_BY_ID, CAP_KEYWORD_BY_ID = load_cap_stats(_args.raw_dir)
 
 _default_dump = os.path.join(current_directory, '..', 'fashionistapulp', 'fashionistapulp', 'item_db_dumped.dump')
 dump_output_path = _args.dump_output if _args.dump_output else _default_dump
@@ -332,7 +334,7 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         if 'stats_list' in set_data:
             for effect_data in set_data['stats_list']:
                 effect_key = int(effect_data['effect_key'])
-                for mapped, max_value in max_caps(effect_data['effects']):
+                for mapped, max_value in max_caps(effect_data['effects'], CAP_STAT_BY_ID, CAP_KEYWORD_BY_ID):
                     stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(mapped) + 1
                     f.write(f"INSERT INTO set_max_caps VALUES({set_id},{effect_key},{stat_index},{max_value});\n")
 
@@ -343,7 +345,7 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
 
     for item in original_data:
         item_id = item_to_id[id(item)]
-        for mapped, max_value in max_caps(item['stats']):
+        for mapped, max_value in max_caps(item['stats'], CAP_STAT_BY_ID, CAP_KEYWORD_BY_ID):
             stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(mapped) + 1
             f.write(f"INSERT INTO item_max_caps VALUES({item_id},{stat_index},{max_value});\n")
 
