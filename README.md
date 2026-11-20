@@ -54,6 +54,10 @@ DofusFashionista_Windows11.bat
 
 This batch file sets up and starts the application in one step.
 
+### Testing a work branch next to main
+
+`DofusFashionista_Branches_Windows11.bat` lists the branches that have a git worktree and are ahead of main, and starts the one you pick. Each branch gets its own test copy (a detached worktree named `try-<name>` next to its worktree), its own copy of the local database (`fashionista_br_<name>`, made from the main one on the first start) and its own port from 8001, served at `http://<name>.localhost:<port>/` so that each branch keeps its own login. Main keeps port 8000 and its database. Type `2r` instead of `2` to start branch 2 again from a fresh copy of the main database; `run_branch_windows11.ps1 -Branch <name> -Remove` deletes a branch's test copy and database.
+
 ### Other install options
 
 #### Option 1: install with PowerShell

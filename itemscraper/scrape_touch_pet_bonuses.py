@@ -41,9 +41,33 @@ SIMPLE_STATS = {
 # A pet still in the game data whose pages answer 404 in both languages keeps
 # its last scraped caps here until a page comes back.
 OVERRIDES = {
+    'Blue Piwin': [['Chance', 110]],
     'Bontarian Bow Meow': [['Dodge', 55]],
+    'Bontarian Tofu': [['Initiative', 2100]],
+    'Bontick': [['Vitality', 550]],
+    'Borbat': [['Pods', 1100]],
+    'Brakarina': [['Vitality', 550]],
+    'Brakmarian Boon': [['Pods', 1100]],
+    'Brakmarian Bow Meow': [['Lock', 55]],
+    'Crocodyl': [['Power', 75]],
+    'Grauler': [['Power', 50], ['Wisdom', 90]],
+    'Jumbow Meow': [['Wisdom', 220]],
+    'Mandrog': [['Pushback Resist', 65]],
+    'Mastostroke': [['Intelligence', 110]],
+    'Mechadrhell': [['Critical Resist', 66]],
+    'Mekrab': [['Damage', 17]],
     'Miniminotot': [['Power', 75]],
+    'Mischievous Squirrel': [['Power', 75]],
+    'Moowitty': [['Prospecting', 53], ['Wisdom', 98]],
+    'Mosk': [['Agility', 110]],
+    'Pandawa Cub': [['Power', 75]],
+    'Paunchy Bow Meow': [['Fire Damage', 22]],
+    'Paunchy Godron': [['Fire Resist', 44]],
     'Plump Tofurby': [['Wisdom', 220]],
+    'Scarakiri': [['Pushback Resist', 30], ['Damage', 15]],
+    'Tarzantula': [['Pushback Damage', 66]],
+    'Tofrazzle': [['Damage', 17]],
+    'Tubskito': [['Wisdom', 220]],
 }
 
 _PCT_RESIST_RE = re.compile(
