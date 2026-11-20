@@ -95,6 +95,7 @@ def version_files(version):
         files.add(ROOT / 'itemscraper/transformed_wakfu.json')
     else:
         files.add(DATA / 'weapon_conversions' / (version + '.json'))
+        files.add(DATA / 'dracorunes' / (version + '.json'))
     if version == 'retro':
         files.add(ROOT / 'itemscraper/retro/retro_damage_spells.json')
     return files

@@ -10,7 +10,8 @@ from django.test import SimpleTestCase
 from chardata import weight_tuning as tuning
 from chardata.management.commands import tune_weights
 from chardata.weight_table import BANDS, SCENARIOS, grid_element_sets
-from fashionistapulp.dofus_constants import CHARACTER_CLASSES, MAIN_STATS
+from chardata.weight_table import GRID_CLASSES
+from fashionistapulp.dofus_constants import MAIN_STATS
 
 #: moves only with the plan: change the plan, bump the version, pin the new digest (the version also moves with the
 #: acceptance, which leaves the digest where it is)
@@ -98,7 +99,7 @@ class TheGridTests(SimpleTestCase):
 
     def test_the_grid_is_every_class_every_one_or_two_elements_and_every_scenario(self):
         cells = tuning.lot1_cells()
-        self.assertEqual(len(CHARACTER_CLASSES) * 10 * len(SCENARIOS), len(cells))
+        self.assertEqual(len(GRID_CLASSES) * 10 * len(SCENARIOS), len(cells))
         self.assertEqual(570, len(cells))
         self.assertEqual(10, len(grid_element_sets()))
         self.assertEqual({1: 4, 2: 6}, dict(Counter(len(played) for played in grid_element_sets())))
@@ -111,7 +112,7 @@ class TheGridTests(SimpleTestCase):
 
     def test_the_cells_are_grouped_by_class_number_of_elements_and_scenario(self):
         groups = tuning.groups_of(tuning.lot1_cells())
-        self.assertEqual(len(CHARACTER_CLASSES) * 2 * len(SCENARIOS), len(groups))
+        self.assertEqual(len(GRID_CLASSES) * 2 * len(SCENARIOS), len(groups))
         self.assertEqual({4, 6}, {len(group) for group in groups})
         for group in groups:
             self.assertEqual(1, len({(cell.char_class, len(cell.elements), cell.scenario) for cell in group}))

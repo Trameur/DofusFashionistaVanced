@@ -13,10 +13,11 @@ from fashionistapulp.exo_options import EXO_OPTIONS, exo_count
 from fashionistapulp.structure import get_structure
 
 GROUP_FIELD = 'setup_options'
-GROUPS = ('exos', 'mounts', 'dofus', 'scrolls', 'points', 'inventory')
+GROUPS = ('exos', 'dracorunes', 'mounts', 'dofus', 'scrolls', 'points', 'inventory')
 EXO_FIELDS = tuple(option for _key, option in EXO_OPTIONS)
 MOUNT_FIELDS = ('dragoturkey', 'seemyool', 'rhineetle')
 DOFUS_GROUP_OPTIONS = ('prysmaradite', 'trophies')
+DRACORUNE_FIELD = 'dracorunes'
 SCROLL_FIELD = 'scrolling'
 POINTS_FIELD = 'choose_stats'
 INVENTORY_FIELD = 'inventory_mode'
@@ -30,6 +31,8 @@ def posted_groups(post):
 def _option_keys(group, available):
     if group == 'exos':
         return EXO_FIELDS
+    if group == 'dracorunes':
+        return (DRACORUNE_FIELD,) if available.get('dracorune_slots') else ()
     if group == 'mounts':
         return tuple(name for name in MOUNT_FIELDS if available.get(name))
     if group == 'dofus':
@@ -43,7 +46,7 @@ def apply_option_groups(request, char):
     if not groups:
         return
     available = get_available_options()
-    parsed = parse_options_post(request)
+    parsed = parse_options_post(request, char)
     options = {key: parsed[key] for group in sorted(groups)
                for key in _option_keys(group, available) if key in parsed}
     if 'inventory' in groups:
@@ -129,11 +132,14 @@ def more_options_context(request, char, game_version):
         base[entry['key']] = None if item.id in excluded else CHECKED
     if available['trophies']:
         base['trophies'] = CHECKED
+    if available.get('dracorune_slots'):
+        base[DRACORUNE_FIELD] = '0'
     base[SCROLL_FIELD] = 'fully'
     distributed = Char._meta.get_field('allow_points_distribution').default
     base[POINTS_FIELD] = POINTS_FIELD if distributed else None
     folders = _folders(request, game_version)
     groups = [['exos', list(EXO_FIELDS)],
+              ['dracorunes', list(_option_keys('dracorunes', available))],
               ['mounts', list(_option_keys('mounts', available))],
               ['dofus', [entry['key'] for entry in dofuses] + list(_option_keys('dofus', available))],
               ['scrolls', [SCROLL_FIELD]],
@@ -148,6 +154,7 @@ def more_options_context(request, char, game_version):
     return {'per_item': available['exo_per_item'],
             'exo_slots': available['exo_slots'],
             'gelano': available['gelano'],
+            'dracorune_slots': available.get('dracorune_slots', 0),
             'mounts': _option_keys('mounts', available),
             'dofuses': dofuses,
             'prysmaradite': available['prysmaradite'],

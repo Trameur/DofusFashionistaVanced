@@ -6469,6 +6469,10 @@ msgstr ""
 msgid "Forgelance"
 msgstr ""
 
+#: .\chardata\translation_util.py:41
+msgid "Bellaphone"
+msgstr ""
+
 #: .\chardata\translation_util.py:49
 msgid "Best element"
 msgstr "Best element"
@@ -7311,6 +7315,9 @@ msgstr ""
 msgid "These lines from the link belong to no piece and are left out:"
 msgstr ""
 
+msgid "The Dracorune on these pieces could not be read and is left out:"
+msgstr ""
+
 msgid "These forgemagie lines could not be read and are left out:"
 msgstr ""
 
@@ -7323,6 +7330,9 @@ msgid "Shiny TemporiX pieces do not exist on DofusBook: what the x1.5 adds to ea
 msgstr ""
 
 msgid "Their forgemagie field cannot hold these, so they stay here:"
+msgstr ""
+
+msgid "Their forgemagie field cannot carry these Dracorunes, so they stay here:"
 msgstr ""
 
 msgid "The build name and the class do not travel: their link format has no room for them."
@@ -8162,6 +8172,7 @@ msgid "A shared build is also served to other sites at:"
 msgstr "A shared build is also served to other sites at:"
 
 #: chardata/spells_view.py
+#: chardata/solution_result.py
 #, python-format
 msgid "%(item)s: %(changes)s"
 msgstr "%(item)s: %(changes)s"
@@ -8405,6 +8416,26 @@ msgid "November 2026"
 msgstr ""
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3 Beta"
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dracorunes in the optimizer, and the Bellaphone class"
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "The optimizer can now dress your pieces with Dracorunes: allow them in the options and it puts them on the pieces where they help most."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Lock a piece and it keeps its Dracorune, and the build page shows every Dracorune worn."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "The new Bellaphone class is here, with its own avatars."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "Stronger builds, and a new way to start them"
 msgstr ""
 
@@ -8534,6 +8565,10 @@ msgstr ""
 
 #: chardata/templates/chardata/solution_item.html
 msgid "Weapon element"
+msgstr ""
+
+#: chardata/templates/chardata/text_build.html
+msgid "Dracorunes read from the link:"
 msgstr ""
 
 #: chardata/templates/chardata/text_build.html
@@ -8913,6 +8948,31 @@ msgstr "SIL Open Font License, version 1.1"
 #: chardata/templates/chardata/license.html
 msgid "The fonts are hosted on this site, so your browser asks no other server for them."
 msgstr "The fonts are hosted on this site, so your browser asks no other server for them."
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Dracorunes allowed"
+msgstr ""
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Pieces with a Dracorune"
+msgstr ""
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "A Dracorune moves the stats of a piece to another element or to Power. Allow some and the solver gives them to the pieces where they help most, never more than this number."
+msgstr ""
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Locked pieces keep their Dracorune, even above this number."
+msgstr ""
+
+#: chardata/templates/chardata/solution_dracorune.html
+msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
+msgstr "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
+
+#: chardata/solution_result.py
+msgctxt "what a rune leaves of a removed line"
+msgid "nothing"
+msgstr "nothing"
 
 
 #~ msgid "This game has no exos: they are left out."

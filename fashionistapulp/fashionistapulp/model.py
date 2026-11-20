@@ -21,6 +21,7 @@ import json
 import logging
 from copy import deepcopy
 
+from . import dracorune_terms, dracorunes
 from .exo_options import exo_count
 from .game_versions import get_game_version
 from .item_effects import effect_term, load_effect_table
@@ -44,6 +45,48 @@ EFFECTIVE_HP_MINIMUM = 'Effective HP'
 EFFECTIVE_HP_CONSTRAINT = 'effective_hp_minimum'
 PERCENT_RESISTS = ('% Neutral Resist', '% Earth Resist', '% Fire Resist', '% Water Resist',
                    '% Air Resist')
+
+DRACORUNE_PREFIX = 'draco'
+DRACORUNE_TOTAL = 'draco_total'
+DRACORUNE_LOCKS = 'dracorune_locks'
+
+
+def dracorune_count(options):
+    """The runes a build allows, 0 unless its options carry a positive int."""
+    count = (options or {}).get('dracorunes', 0)
+    if not isinstance(count, int) or isinstance(count, bool) or count <= 0:
+        return 0
+    return count
+
+
+def readable_runes(version):
+    """The version's runes file as load_runes reads it, None without one or when it cannot be read."""
+    try:
+        return dracorunes.load_runes(version)
+    except (AttributeError, KeyError, OSError, TypeError, ValueError):
+        logger.exception('The runes file of %s cannot be read, no dracorune is offered', version)
+        return None
+
+
+def dracorune_signature(version):
+    """[source tag, short sha of the content] of the version's runes file, None without a readable one."""
+    runes = readable_runes(version)
+    if runes is None:
+        return None
+    content = json.dumps(runes, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
+    return [runes.get('source_tag'),
+            hashlib.sha256(content.encode('ascii')).hexdigest()[:16]]
+
+
+def _dracorune_slug(key):
+    kind, _, move = key.partition(':')
+    return '_'.join([kind[:1]] + [part for part in move.split('>') if part])
+
+
+def _effective_hp_terms(floor):
+    """(coefficient, stat name) of the effective HP row for that floor."""
+    return ([(1, 'HP'), (1, 'Vitality')]
+            + [(floor / 500.0, name) for name in PERCENT_RESISTS])
 
 
 def _minimum_dependencies(version):
@@ -86,6 +129,7 @@ class Model:
             self._wear_shiny(stat_overrides or {})
         if stat_overrides:
             self._apply_stat_overrides(stat_overrides)
+        self._build_dracorune_candidates()
 
         self.problem = LpProblem2()
         self.restrictions = Restrictions()
@@ -151,6 +195,19 @@ class Model:
             new_items_list.append(item)
         self.items_list = new_items_list
         
+    def _build_dracorune_candidates(self):
+        """{item id: [Variant]} of the worn lines, empty when the version has no runes file."""
+        self.dracorune_candidates = {}
+        runes = readable_runes(getattr(self.structure, 'game_version', 'dofus3'))
+        try:
+            found, problems = dracorune_terms.candidates(self.items_list, runes, self.structure)
+        except (KeyError, TypeError, ValueError):
+            logger.exception('The runes file cannot be read, no dracorune is offered')
+            return
+        for item_id, message in problems:
+            logger.error('No dracorune for item %s: %s', item_id, message)
+        self.dracorune_candidates = found
+
     def _wear_shiny(self, stat_overrides):
         # A piece with recorded rolls was forgemaged, so it can't be shiny
         shiny = shiny_items_by_id(self.structure)
@@ -880,6 +937,251 @@ class Model:
             self._crit_hinge_constraints.append(constraint_name)
             self._crit_hinge_terms[('crithinge', number)] = -drop
 
+    def _forget_dracorune_terms(self):
+        lp = self.problem.pulp_lp
+        for restriction, variable in getattr(self, '_dracorune_terms', ()):
+            restriction.expr.pop(variable, None)
+        removed = set()
+        for name in getattr(self, '_dracorune_constraints', ()):
+            constraint = lp.constraints.pop(name, None)
+            if constraint is not None:
+                removed.add(id(constraint))
+        if removed:
+            lp.modifiedConstraints = [c for c in lp.modifiedConstraints
+                                      if id(c) not in removed]
+        stale = set(getattr(self, '_dracorune_variables', ()))
+        if stale:
+            lp._variables = [v for v in lp._variables if v.name not in stale]
+            lp._variable_ids = {key: v for key, v in lp._variable_ids.items()
+                                if v.name not in stale}
+            for name in stale:
+                self.problem.pulp_vars.pop(name, None)
+        self._dracorune_terms = []
+        self._dracorune_constraints = []
+        self._dracorune_variables = []
+        self._dracorune_forced = {}
+        self.dracorune_columns = {}
+
+    def _forced_dracorunes(self, model_input, pool):
+        """{(item id, variant key): copies} the locked pieces already carry, the entries that no longer fit being left out."""
+        locks = (model_input.options or {}).get(DRACORUNE_LOCKS)
+        if not locks or not isinstance(locks, dict):
+            return {}
+        locked = model_input.locked_equips or {}
+        forced = {}
+        taken = {}
+        for slot, key in sorted(locks.items(), key=repr):
+            item_id = locked.get(slot)
+            variants = pool.get(item_id) if isinstance(item_id, int) else None
+            worn = self.problem.pulp_vars.get('x_%s' % str(item_id).replace('-', '_'))
+            if (not variants or worn is None or not isinstance(key, str)
+                    or not any(variant.key == key for variant in variants)
+                    or taken.get(item_id, 0) >= (worn.upBound or 0)):
+                continue
+            taken[item_id] = taken.get(item_id, 0) + 1
+            forced[(item_id, key)] = forced.get((item_id, key), 0) + 1
+        return forced
+
+    def _could_be_worn(self, item):
+        level = self.restrictions.level_constraints.get(item.id)
+        forbidden = self.restrictions.forbidden_items_constraints.get(item.id)
+        if level is None or forbidden is None:
+            return False
+        if -level.constant <= 0 or -forbidden.constant <= 0:
+            return False
+        slots = self.restrictions.type_constraints.get(
+            self.structure.get_type_name_by_id(item.type))
+        return slots is None or -slots.constant > 0
+
+    def dracorune_context(self, model_input, items):
+        """The pruning context of a setup: weights, G, L and C by stat id, for these candidates."""
+        structure = self.structure
+        version = getattr(structure, 'game_version', 'dofus3')
+        weights = {}
+        for key, value in (model_input.objective_values or {}).items():
+            if key in NON_STAT_WEIGHT_KEYS or not value:
+                continue
+            stat = structure.get_stat_by_key(key)
+            if stat is not None:
+                weights[stat.id] = weights.get(stat.id, 0) + value
+
+        def ids(names):
+            return {stat.id for stat in map(structure.get_stat_by_name, names)
+                    if stat is not None}
+
+        minimum_stats = model_input.minimum_stats or {}
+        dependencies = _minimum_dependencies(version)
+        lower, upper = (set(bound) for bound in dracorune_terms.condition_bounds(items))
+        for stat in self.stats_list:
+            if _is_number(minimum_stats.get(stat.name)):
+                lower.add(stat.id)
+                lower |= ids(dependencies.get(stat.name, [[], []])[0])
+        advanced = minimum_stats.get('adv_mins') or {}
+        for entry in structure.get_adv_mins():
+            if _is_number(advanced.get(entry['name'])):
+                lower |= ids(entry['stats'])
+        if minimum_stats.get(EFFECTIVE_HP_MINIMUM):
+            lower |= ids(name for _coefficient, name in _effective_hp_terms(1))
+        upper |= dracorune_terms.set_cap_stats(self.sets_list)
+        both = set()
+        if getattr(self, '_modifier_terms', None):
+            both.add(structure.get_stat_by_key('ap').id)
+        if getattr(self, '_crit_hinge_terms', None):
+            both.add(structure.get_stat_by_key('ch').id)
+        capped = {stat.id for stat in self.stats_list if stat.name in self.stat_maximum}
+        return dracorune_terms.build_context(weights, lower | both, upper | both, capped)
+
+    def modify_dracorune_terms(self, count, model_input, for_minimums=False):
+        """Up to count worn copies take a rune: a column per kept variant on its stat rows; for_minimums also keeps what the minimums alone could use."""
+        self._forget_dracorune_terms()
+        self._dracorune_setup = (count, model_input, for_minimums)
+        candidates = getattr(self, 'dracorune_candidates', None)
+        if not count or not candidates:
+            return
+        wearable = [item for item in self.items_list if self._could_be_worn(item)]
+        pool = {item.id: candidates[item.id] for item in wearable if item.id in candidates}
+        forced = self._forced_dracorunes(model_input, pool)
+        count = max(count, sum(forced.values()))
+        self._dracorune_setup = (count, model_input, for_minimums)
+        self._dracorune_forced = forced
+        context = self.dracorune_context(model_input, wearable)
+        kept, _capped = dracorune_terms.prune(pool, context)
+        if for_minimums:
+            for_shortfall, _capped = dracorune_terms.prune(pool, context._replace(weights={}))
+            for item_id, variants in for_shortfall.items():
+                known = {variant.key for variant in kept.get(item_id, ())}
+                kept[item_id] = list(kept.get(item_id, ())) + [
+                    variant for variant in variants if variant.key not in known]
+        for item_id, key in forced:
+            if not any(variant.key == key for variant in kept.get(item_id, ())):
+                kept[item_id] = list(kept.get(item_id, ())) + [
+                    variant for variant in pool[item_id] if variant.key == key]
+        if not kept:
+            return
+        lp = self.problem.pulp_lp
+        rows = self.restrictions.stat_total_constraints
+        columns = []
+        for item_id in sorted(kept):
+            worn = self.problem.pulp_vars['x_%s' % str(item_id).replace('-', '_')]
+            item_columns = []
+            for variant in kept[item_id]:
+                stats = [(self.structure.get_stat_by_id(stat_id), change)
+                         for stat_id, change in variant.delta]
+                if any(stat is None or stat.name not in rows for stat, _change in stats):
+                    logger.warning('No stat row for dracorune %s of item %s',
+                                   variant.key, item_id)
+                    continue
+                name = '%s_%s_%s' % (DRACORUNE_PREFIX, str(item_id).replace('-', '_'),
+                                     _dracorune_slug(variant.key))
+                if name in self.problem.pulp_vars:
+                    logger.warning('Dracorune column %s named twice', name)
+                    continue
+                column = pulp.LpVariable(name, forced.get((item_id, variant.key), 0),
+                                         worn.upBound, pulp.LpInteger)
+                self.problem.pulp_vars[name] = column
+                self._dracorune_variables.append(name)
+                self.dracorune_columns[name] = (item_id, variant.key)
+                for stat, change in stats:
+                    rows[stat.name].expr.addterm(column, change)
+                    self._dracorune_terms.append((rows[stat.name], column))
+                item_columns.append(column)
+            if item_columns:
+                link = '%s_link_%s' % (DRACORUNE_PREFIX, str(item_id).replace('-', '_'))
+                lp.addConstraint(pulp.lpSum(item_columns) - worn <= 0, link)
+                self._dracorune_constraints.append(link)
+                columns.extend(item_columns)
+        if columns:
+            lp.addConstraint(pulp.lpSum(columns) <= count, DRACORUNE_TOTAL)
+            self._dracorune_constraints.append(DRACORUNE_TOTAL)
+
+    def chosen_dracorunes(self):
+        """[(item id, variant key)], once per draconized copy in the last solution."""
+        chosen = []
+        for name, (item_id, key) in sorted(getattr(self, 'dracorune_columns', {}).items()):
+            column = self.problem.pulp_vars.get(name)
+            copies = int(round((column.varValue if column is not None else 0) or 0))
+            chosen.extend([(item_id, key)] * copies)
+        return chosen
+
+    _WASTED_RUNE_TOLERANCE = 1e-6
+
+    def _solution_holds(self, changed):
+        """True when every row and the bounds of the changed variables hold on the current values."""
+        eps = self._WASTED_RUNE_TOLERANCE
+        for variable in changed:
+            value = variable.varValue
+            if value is None:
+                return False
+            if variable.lowBound is not None and value < variable.lowBound - eps:
+                return False
+            if variable.upBound is not None and value > variable.upBound + eps:
+                return False
+        try:
+            return all(constraint.valid(eps)
+                       for constraint in self.problem.pulp_lp.constraints.values())
+        except TypeError:
+            return False
+
+    def _values_without_one_rune(self, column):
+        """{variable: value} once one copy of the column is off, its stat rows still balanced."""
+        variables = self.problem.pulp_vars
+        values = {column: column.varValue - 1}
+        for stat in self.stats_list:
+            row = self.restrictions.stat_total_constraints.get(stat.name)
+            change = row.expr.get(column) if row is not None else None
+            if not change:
+                continue
+            if stat.name in self.stat_maximum:
+                total = variables['total_%s' % stat.id]
+                cap = self.stat_maximum[stat.name]
+                values[total] = total.varValue - change
+                values[variables['stat_%s' % stat.id]] = min(cap, values[total])
+                values[variables['capped_%s' % stat.id]] = 1 if values[total] > cap else 0
+            else:
+                head = variables['stat_%s' % stat.id]
+                values[head] = head.varValue - change
+        return values
+
+    def useful_dracorunes(self, chosen):
+        """chosen less each rune the solution keeps every row and its objective without, so a wasted rune is not shown."""
+        columns = getattr(self, 'dracorune_columns', None)
+        if not chosen or not columns or self.problem.get_status() != 'Optimal':
+            return chosen
+        names = {pair: name for name, pair in columns.items()}
+        objective = self.problem.pulp_lp.objective
+        start = {}
+        kept = []
+        try:
+            best = objective.value()
+            if best is None or not self._solution_holds(()):
+                return chosen
+            owed = dict(getattr(self, '_dracorune_forced', None) or {})
+            for pair in sorted(chosen, key=repr):
+                if owed.get(pair):
+                    owed[pair] -= 1
+                    kept.append(pair)
+                    continue
+                column = self.problem.pulp_vars.get(names.get(pair))
+                if column is None or not column.varValue:
+                    kept.append(pair)
+                    continue
+                values = self._values_without_one_rune(column)
+                before = {variable: variable.varValue for variable in values}
+                for variable, value in values.items():
+                    start.setdefault(variable, variable.varValue)
+                    variable.varValue = value
+                now = objective.value()
+                if (now is not None and now >= best - self._WASTED_RUNE_TOLERANCE
+                        and self._solution_holds(values)):
+                    continue
+                for variable, value in before.items():
+                    variable.varValue = value
+                kept.append(pair)
+        finally:
+            for variable, value in start.items():
+                variable.varValue = value
+        return kept
+
     #def add_objective_term(self, stat_name, weight):
     #    for item in self.items_list:
     #        for stat_id, value in item.stats:
@@ -940,6 +1242,7 @@ class Model:
         self.modify_spell_modifier_terms(modifier_values,
                                          getattr(model_input, 'modifier_overlaps', None))
         self.modify_crit_hinges(getattr(model_input, 'crit_hinges', None))
+        self.modify_dracorune_terms(dracorune_count(model_input.options), model_input)
 
         self.item_terms = dict(getattr(model_input, 'item_terms', None) or {})
         self.write_objective_function(model_input.objective_values, model_input.char_level,
@@ -1585,8 +1888,7 @@ class Model:
         if not floor:
             return
         terms = []
-        for coefficient, name in ([(1, 'HP'), (1, 'Vitality')]
-                                  + [(floor / 500.0, name) for name in PERCENT_RESISTS]):
+        for coefficient, name in _effective_hp_terms(floor):
             stat = self.structure.get_stat_by_name(name)
             if stat is not None:
                 terms.append(coefficient * self.problem.pulp_vars['stat_%s' % stat.id])
@@ -1603,6 +1905,9 @@ class Model:
         """The minimums turned into ones a shortfall can make up, as [(name, shortfall, asked, 1 / asked)]; never on a pooled model, ValueError when a minimum has no variable."""
         lp = self.problem.pulp_lp
         self.modify_minimum_stat_constraints({}, level)
+        setup = getattr(self, '_dracorune_setup', None)
+        if setup and setup[0]:
+            self.modify_dracorune_terms(setup[0], setup[1], for_minimums=True)
         version = getattr(getattr(self, 'structure', None), 'game_version', 'dofus3')
         dependencies = _minimum_dependencies(version)
 
@@ -1668,6 +1973,8 @@ class Model:
     def run(self, retries=0, change_of=False, warm_start=None, seed=None, gap=0):
         if change_of:
             self.input['objective_values']['vit'] += 1
+            if getattr(self, '_dracorune_variables', None):
+                self.modify_dracorune_terms(*self._dracorune_setup)
             self.write_objective_function(self.input['objective_values'], self.input['char_level'],
                                           getattr(self, 'item_terms', None))
         try:
@@ -1743,6 +2050,9 @@ class Model:
         result = ModelResultMinimal.from_item_id_list(item_id_list, self.input, self.get_stats())
         if self._exo_per_item:
             result.exo_assumed = self._assumed_exos(grouped_vars)
+        chosen = self.useful_dracorunes(self.chosen_dracorunes())
+        if chosen:
+            result.place_dracorunes(chosen)
         return result
 
     def _assumed_exos(self, grouped_vars):
@@ -1821,6 +2131,24 @@ class ModelInput(object):
         self.crit_hinges = tuple(tuple(hinge) for hinge in crit_hinges or ())
         self.gap = gap or 0
 
+    def _dracorune_key(self):
+        """(options without the runes option, ['dracorunes', N, file signature] or None)."""
+        from fashionistapulp.structure import get_current_game_version
+        options = getattr(self, 'options', None)
+        if not isinstance(options, dict) or 'dracorunes' not in options:
+            return options, None
+        count = dracorune_count(options)
+        locks = options.get(DRACORUNE_LOCKS)
+        options = {key: value for key, value in options.items()
+                   if key not in ('dracorunes', DRACORUNE_LOCKS)}
+        signature = dracorune_signature(get_current_game_version()) if count else None
+        if signature is None:
+            return options, None
+        part = ['dracorunes', count, signature]
+        if locks and isinstance(locks, dict):
+            part.append(sorted(locks.items(), key=repr))
+        return options, part
+
     def _barred_to_the_wearer(self):
         """The pieces the sex and name rule out, None when neither is checked."""
         gender = getattr(self, 'gender', None)
@@ -1845,6 +2173,7 @@ class ModelInput(object):
         from fashionistapulp.structure import get_current_game_version
         minimum_stats = dict(self.minimum_stats or {})
         adv_mins = minimum_stats.pop('adv_mins', None)
+        options, runes = self._dracorune_key()
         parts = [
             get_current_game_version(),
             self.char_level,
@@ -1854,7 +2183,7 @@ class ModelInput(object):
             self.locked_equips,
             sorted(self.forbidden_equips or [], key=repr),
             self.objective_values,
-            self.options,
+            options,
             self.char_class,
             self.stat_points_to_distribute,
             sorted(self.empty_slot_types or [], key=repr),
@@ -1876,6 +2205,8 @@ class ModelInput(object):
         gap = getattr(self, 'gap', 0)
         if gap:
             parts.append(['gap', gap])
+        if runes:
+            parts.append(runes)
         return _stable_digest(parts)
 
     def __hash__(self, *args, **kwargs):
@@ -1885,6 +2216,7 @@ class ModelInput(object):
             (item_id, frozenset(stats.items()))
             for item_id, stats in self.stat_overrides.items()
         )
+        options, runes = self._dracorune_key()
         key = (get_current_game_version(),
                self.char_level,
                freeze(self.base_stats_by_attr),
@@ -1893,7 +2225,7 @@ class ModelInput(object):
                freeze(self.locked_equips),
                frozenset(self.forbidden_equips),
                freeze(self.objective_values),
-               freeze(self.options),
+               freeze(options),
                self.char_class,
                self.stat_points_to_distribute,
                frozenset(self.empty_slot_types),
@@ -1915,6 +2247,9 @@ class ModelInput(object):
         gap = getattr(self, 'gap', 0)
         if gap:
             key += (('gap', gap),)
+        if runes:
+            key += (('dracorunes', runes[1], tuple(runes[2]))
+                    + tuple(tuple(tuple(pair) for pair in locks) for locks in runes[3:]),)
         return key.__hash__()
 
 def _is_number(value):

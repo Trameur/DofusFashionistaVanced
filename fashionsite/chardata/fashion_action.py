@@ -33,6 +33,7 @@ from chardata.char_blobs import read_char_blob
 from chardata.crit_curve import SCOPE_LEVEL as CRIT_SCOPE_LEVEL, VERSIONS as CRIT_VERSIONS, crit_hinges
 from chardata.data_versions import current_data_version
 
+from chardata.dracorune_locks import KEY as LOCKS_KEY, valid_locks
 from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
                                   get_empty_slots)
 from chardata.inventory_solver import (get_inventory_solver_settings,
@@ -55,7 +56,7 @@ from chardata.util_views import error
 from chardata.weapon_terms import VERSIONS as WEAPON_HIT_VERSIONS, weapon_hit_terms
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp import lpproblem, temporix
-from fashionistapulp.model import Model, ModelInput
+from fashionistapulp.model import Model, ModelInput, dracorune_count, readable_runes
 from fashionistapulp.model_pool import create_model, borrow_model, return_model
 from fashionistapulp.structure import get_current_game_version, get_structure
 
@@ -120,7 +121,20 @@ def get_options(request, char_id):
                      'shields': options.get('shields', True),
                      'trophies': options.get('trophies', True)}
     model_options.update(temporix_model_option(options, char.game_version))
+    locks = (valid_locks(options[LOCKS_KEY], get_inclusions_dict(char), char.game_version)
+             if LOCKS_KEY in options else {})
+    model_options.update(dracorune_model_option(options, char.game_version, locks))
     return model_options
+
+
+def dracorune_model_option(options, game_version, locks=None):
+    """The runes a build allows, only when it allows some and the version has a runes file; the runes of locked pieces count in them."""
+    count = max(dracorune_count(options), len(locks or {}))
+    if not count or readable_runes(game_version) is None:
+        return {}
+    if locks:
+        return {'dracorunes': count, LOCKS_KEY: dict(locks)}
+    return {'dracorunes': count}
 
 
 def temporix_model_option(options, game_version):
@@ -440,6 +454,8 @@ def _answer_of(char, model_input, closest):
         search = _new_search(tie_break['state'], model_input,
                              tie_break['limit'] or lpproblem.SOLVER.timeLimit)
         if search is not None:
+            if dracorune_count(model_input.options):
+                search['for_minimums'] = True
             result.search = search
             _bind_search(result, model_input, guard_plan(char))
     return result
@@ -780,6 +796,9 @@ def _continue_search(request, char, blob, minimal, solve_input, deadline):
     else:
         model = Model(stat_overrides=solve_input.stat_overrides, temporix=is_temporix)
     model.setup(solve_input)
+    if search.get('for_minimums'):
+        model.modify_dracorune_terms(dracorune_count(solve_input.options), solve_input,
+                                     for_minimums=True)
     with _solver_time_limit(deadline) as time_limit:
         # CBC is deterministic: the same start and seed replay the same search
         model.run(2, warm_start=_unpack_start(search['start']),

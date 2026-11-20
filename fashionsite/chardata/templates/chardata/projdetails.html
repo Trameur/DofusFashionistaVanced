@@ -109,6 +109,7 @@
                     <td align="left"> 
                     {% if is_new_char %}<div id="fm-classes" class="fm-classes fm-x" role="group" aria-labelledby="fm-classes-label">{% for tile in class_tiles %}<button type="button" class="fm-cls" data-class="{{ tile.key }}"{% if tile.figure %} data-figure="{{ tile.figure }}"{% endif %} aria-pressed="false"><span class="fm-cls-fig"><span class="fm-cls-ini" aria-hidden="true">{{ tile.initials }}</span></span><span class="fm-cls-name">{{ tile.label }}</span></button>{% endfor %}</div>{% endif %}
                     <select name="class" class="change-modifies-state" id="select-char-class" required="required">
+                        <option value=""></option>
                         {% for c in classes %}
                             <option value="{{class_to_name|get_item:c}}"{% if char.char_class == class_to_name|get_item:c %} selected="selected"{% endif %}>{{c}}</option>
                         {% endfor %}

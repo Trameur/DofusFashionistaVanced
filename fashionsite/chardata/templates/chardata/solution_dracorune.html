@@ -1,0 +1,4 @@
+{% load i18n %}{% if item.dracorune_label %}
+        <div class="small-explain" id="dracorune-{{ item.slot }}">{{ item.dracorune_label }}</div>
+        {% if item.dracorune_exo_note %}<div class="small-explain">{% trans "Forge the exo before the Dracorune: it prevents any further smithmagic on the item." %}</div>{% endif %}
+{% endif %}

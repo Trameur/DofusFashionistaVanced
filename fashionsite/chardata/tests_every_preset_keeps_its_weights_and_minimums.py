@@ -26,7 +26,7 @@ from chardata.create_project_view import create_project, save_project
 from chardata.models import Char
 from chardata.nl_build_view import smart_build
 from chardata.nl_parser import parse_build_request
-from chardata.version_compat import filter_classes_for_version
+from chardata.version_compat import classes_with_data
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.structure import get_structure, set_current_game_version
 
@@ -234,7 +234,7 @@ def _version_path(version, path):
 
 
 def _classes(version):
-    return filter_classes_for_version(CHARACTER_CLASSES, version)
+    return classes_with_data(CHARACTER_CLASSES, version)
 
 
 def _page(version, path):
@@ -520,7 +520,7 @@ class TheSmartBuildKeepsItsParsingAndPresetsTests(_GoldenDoorMixin, TestCase):
                         'q': phrase, 'confirm': '1', 'element': presets.NO_ELEMENT})
                     cases['%s %s %s none' % (version, language, phrase)] = \
                         _record(char, identity=True)
-        for char_class in CHARACTER_CLASSES:
+        for char_class in _classes('dofus3'):
             cases['parse class %s' % char_class] = _parsed(parse_build_request(char_class))
             char = self._post(smart_build, 'dofus3', self._confirm(char_class, 'dofus3'))
             cases['dofus3 class %s' % char_class] = _record(char, identity=True)

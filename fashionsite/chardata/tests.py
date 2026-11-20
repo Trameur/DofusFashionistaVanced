@@ -67,6 +67,10 @@ def itemscraper_module(name):
 from django.utils import translation
 from django.utils.translation import gettext
 
+from chardata.version_compat import CLASSES_AWAITING_DATA
+
+CLASSES_AWAITING_DATA_EVERYWHERE = set().union(*CLASSES_AWAITING_DATA.values())
+
 
 class PoFileFormatTests(SimpleTestCase):
     """msgfmt --check-format rejects a bare % in a msgstr whose msgid has %%."""
@@ -9776,13 +9780,17 @@ class WizardAvatarFallbackTests(TestCase):
         self.client.force_login(owner)
         return char
 
-    def test_forgelance_wizard_uses_placeholder_not_404(self):
+    def test_a_class_with_no_art_uses_the_placeholder(self):
+        from types import SimpleNamespace
+        from chardata.solution_view import get_class_avatar
+        url = get_class_avatar(SimpleNamespace(char_class='ClassWithNoArt', id=3))
+        self.assertIn('QuestionMark', url)
+
+    def test_forgelance_wizard_shows_its_own_avatar(self):
         char = self._wizard_char('Forgelance')
         resp = self.client.get('/wizard/%d/' % char.pk)
         self.assertEqual(resp.status_code, 200)
-        html = resp.content.decode('utf-8')
-        self.assertIn('QuestionMark', html)
-        self.assertNotIn('designs/wizard/Forgelance', html)
+        self.assertIn('designs/wizard/Forgelance/myWizardForgelance', resp.content.decode('utf-8'))
 
     def test_class_with_art_keeps_its_avatar(self):
         char = self._wizard_char('Iop')
@@ -15057,6 +15065,8 @@ class CharacterLookTests(TestCase):
         from chardata.character_look import CLASS_TO_BREED, _breed_looks
         looks = _breed_looks()
         for char_class in CHARACTER_CLASSES:
+            if char_class in CLASSES_AWAITING_DATA_EVERYWHERE:
+                continue
             with self.subTest(char_class=char_class):
                 breed = CLASS_TO_BREED.get(char_class)
                 self.assertIsNotNone(breed, char_class)
@@ -15226,11 +15236,13 @@ class CharacterLookTests(TestCase):
         # The numbered bones are monsters and mounts
         from chardata.character_look import CLASS_TO_BREED, get_character_look
         seen = set()
-        for char_class, breed in CLASS_TO_BREED.items():
+        classes = {name: breed for name, breed in CLASS_TO_BREED.items()
+                   if name not in CLASSES_AWAITING_DATA_EVERYWHERE}
+        for char_class, breed in classes.items():
             look = get_character_look(self._char(char_class), None)
             self.assertEqual(look['bones'], '1-%d-static' % breed, char_class)
             seen.add(look['bones'])
-        self.assertEqual(len(seen), len(CLASS_TO_BREED))
+        self.assertEqual(len(seen), len(classes))
 
     def test_a_bone_name_cannot_walk_out_of_the_cache(self):
         from chardata import character_assets
@@ -15252,6 +15264,8 @@ class CharacterLookTests(TestCase):
                                              DEFAULT_COLORS, breed_colors)
         self.assertEqual(len(DEFAULT_COLORS), COLOR_SLOTS)
         for name, breed in CLASS_TO_BREED.items():
+            if name in CLASSES_AWAITING_DATA_EVERYWHERE:
+                continue
             for gender in (0, 1):
                 with self.subTest(char_class=name, gender=gender):
                     colors = breed_colors(breed, gender)
@@ -17722,6 +17736,8 @@ class CombatApTests(SimpleTestCase):
         stats.update({'str': 300, 'int': 300, 'cha': 300, 'agi': 300, 'dam': 40})
         ap = combat_ap(0, 'dofus3')
         for char_class in sorted(LOCALIZED_CHARACTER_CLASSES):
+            if char_class in CLASSES_AWAITING_DATA_EVERYWHERE:
+                continue
             with self.subTest(char_class=char_class):
                 spells = castable_spells(char_class, 200, 'dofus3')
                 self.assertGreater(len(spells), 5, char_class)

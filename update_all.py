@@ -108,6 +108,7 @@ STEP_TITLES = {
     'pets/store-bonuses': 'Saving pet bonuses',
     'sets/bonuses': 'Set bonuses', 'descriptions/store': 'Item descriptions',
     'stats/starting': 'Starting stats', 'items/weapon-conversions': 'Weapon element conversions',
+    'items/dracorunes': 'Dracorunes',
     'dynamic-translations': 'Data translations', 'verify/rebuild': 'Rebuild check',
 }
 

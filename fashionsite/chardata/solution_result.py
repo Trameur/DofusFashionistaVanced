@@ -18,7 +18,7 @@ import logging
 
 from django.conf import settings
 from django.utils.html import escape
-from django.utils.translation import get_language, gettext as _
+from django.utils.translation import get_language, gettext as _, pgettext
 import json
 
 logger = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ from chardata.image_store import get_image_url
 from chardata.item_sources import acquisition_summary, attach_acquisition
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE, STAT_KEY_TO_NAME
-from fashionistapulp.exo_options import exo_per_item
+from fashionistapulp.exo_options import EXO_OPTIONS, exo_count, exo_per_item
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.modelresult import (characteristic_passives,
                                          level_prospecting,
@@ -56,7 +56,7 @@ from chardata.wear_conditions import (class_condition_text,
                                       unusable_condition_text)
 from fashionistapulp.structure import name_fits
 from static_s3.templatetags.static_s3 import static
-from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
+from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES, localized_stat_name
 from chardata.official_site import get_set_link
 
 
@@ -402,6 +402,10 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
     assumed_exo = getattr(result_item, 'assumed_exo', None)
     result_item.assumed_exo_label = _(STAT_KEY_TO_NAME[assumed_exo]) if assumed_exo else None
 
+    result_item.dracorune_label = dracorune_label(result_item)
+    result_item.dracorune_exo_note = bool(
+        result_item.dracorune_label and r is not None and build_uses_an_exo(r))
+
     result_item.stats_lines = []
     # Absent from solutions pickled before the ranges existed.
     stat_ranges = getattr(result_item, 'stat_ranges', None) or {}
@@ -559,6 +563,39 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
                                            result_item.ankama_id,
                                            result_item.localized_name,
                                            get_supported_language())
+
+
+def _stat_names(keys):
+    return ', '.join(localized_stat_name(get_structure().get_stat_by_key(key).name)
+                     for key in sorted(keys, key=lambda key: STAT_ORDER[key]))
+
+
+def dracorune_label(result_item):
+    """The rune's game name and the lines it moved, or None on a piece without one."""
+    rune = getattr(result_item, 'dracorune', None)
+    before = getattr(result_item, 'undraconized_stats', None)
+    if not rune or before is None:
+        return None
+    after = result_item.stats
+    sources = [key for key, value in before.items() if value and not after.get(key)]
+    targets = [key for key, value in after.items()
+               if value != before.get(key, 0) and key not in sources]
+    moved = '%s → %s' % (_stat_names(sources),
+                         _stat_names(targets) or pgettext('what a rune leaves of a removed line', 'nothing'))
+    if not rune.get('name'):
+        return moved
+    return _('%(item)s: %(changes)s') % {'item': rune['name'], 'changes': moved}
+
+
+def build_uses_an_exo(model_result):
+    """True when an exo option is on or a worn piece holds or is assumed to get an exo."""
+    options = (model_result.input or {}).get('options') or {}
+    if any(exo_count(options.get(option)) for _key, option in EXO_OPTIONS):
+        return True
+    return any(result_item.item_added
+               and (getattr(result_item, 'exo_overrides', None)
+                    or getattr(result_item, 'assumed_exo', None))
+               for result_item in model_result.item_list)
 
 
 def attach_transcendence(result_item, weights):

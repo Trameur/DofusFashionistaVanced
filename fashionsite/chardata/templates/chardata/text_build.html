@@ -37,6 +37,7 @@
     .import-roll-odd { border-color: #a4741f; border-width: 2px; }
     .import-warn { font-style: italic; }
     .import-missing { font-size: 0.9em; margin-top: 6px; }
+    .import-missing .nowrap-name { white-space: nowrap; }
     .import-ignored { font-size: 0.88em; opacity: 0.85; margin-top: 10px; text-align: left; }
     .import-ignored li { margin: 1px 0; }
     /* Opaque border: a translucent grey had too little contrast in every theme. */
@@ -166,6 +167,8 @@
         {% if link.exos %}
         <p class="import-missing" id="import-link-exos">{% if link.sent %}{% blocktrans with stats=link.exos|join:", " %}The exos of the build become its exo options: {{ stats }}.{% endblocktrans %}{% else %}{% blocktrans with stats=link.exos|join:", " %}The exos from the link become the build's exo options: {{ stats }}.{% endblocktrans %}{% endif %}</p>
         {% endif %}
+        {% if link.dracorunes %}<p class="import-missing" id="import-link-dracorunes">{% trans "Dracorunes read from the link:" %} {% for name in link.dracorunes %}<span class="nowrap-name">{{ name }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+        {% if link.dracorunes_unread %}<p class="import-missing" id="import-link-dracorunes-unread">{% trans "The Dracorune on these pieces could not be read and is left out:" %} {{ link.dracorunes_unread|join:", " }}</p>{% endif %}
         {% if link.fm_unmapped %}
         <p class="import-missing" id="import-link-fm-unmapped">{% trans "These forgemagie lines could not be read and are left out:" %} {{ link.fm_unmapped|join:", " }}</p>
         {% endif %}

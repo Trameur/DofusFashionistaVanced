@@ -109,7 +109,7 @@ class EverySetupPageDrawsOnePanelTests(_Versioned, TestCase):
                 first_class = page.find('select', id='select-char-class')
                 classes = [a['value'] for a, ancestors in page.find('option')
                            if any(name == 'select' and attrs.get('id') == 'select-char-class'
-                                  for name, attrs in ancestors)]
+                                  for name, attrs in ancestors) and a['value']]
                 self.assertTrue(first_class and classes)
                 response = self.client.get(address, {'class': classes[0], 'level': '200'})
                 self.assertEqual(200, response.status_code)

@@ -1841,7 +1841,7 @@
                         }
                     });
                     if (EXO_PER_ITEM) exoBaselineByItem[itemIdStr] = exoCountsOf(itemIdStr);
-                    rebuildStatsDisplay(slot, itemId, itemStats);
+                    if (!$("#dracorune-" + slot).length) rebuildStatsDisplay(slot, itemId, itemStats);
                     update_stats();
                 });
             });

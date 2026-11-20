@@ -7273,6 +7273,10 @@ msgstr "Ouginak"
 msgid "Forgelance"
 msgstr "Speerschmied"
 
+#: .\chardata\translation_util.py:41
+msgid "Bellaphone"
+msgstr "Bellaphon"
+
 #: .\chardata\translation_util.py:49
 msgid "Best element"
 msgstr "Bestes Element"
@@ -8339,6 +8343,9 @@ msgstr "Die Schmiedmagie der Waffe aus dem Link bleibt außen vor."
 msgid "These lines from the link belong to no piece and are left out:"
 msgstr "Diese Zeilen aus dem Link gehören zu keinem Teil und bleiben außen vor:"
 
+msgid "The Dracorune on these pieces could not be read and is left out:"
+msgstr "Die Drachenrune dieser Teile konnte nicht gelesen werden und bleibt außen vor:"
+
 msgid "These forgemagie lines could not be read and are left out:"
 msgstr "Diese Schmiedmagie-Zeilen konnten nicht gelesen werden und bleiben außen vor:"
 
@@ -8352,6 +8359,9 @@ msgstr "Glänzende TemporiX-Teile gibt es auf DofusBook nicht: was das x1,5 jede
 
 msgid "Their forgemagie field cannot hold these, so they stay here:"
 msgstr "Deren Schmiedmagie-Feld kann diese nicht tragen, sie bleiben hier:"
+
+msgid "Their forgemagie field cannot carry these Dracorunes, so they stay here:"
+msgstr "Deren Schmiedmagie-Feld kann diese Drachenrunen nicht tragen, sie bleiben hier:"
 
 msgid "The build name and the class do not travel: their link format has no room for them."
 msgstr "Der Name des Builds und die Klasse kommen nicht mit: ihr Linkformat hat dafür keinen Platz."
@@ -9197,6 +9207,7 @@ msgid "A shared build is also served to other sites at:"
 msgstr "Ein geteilter Build steht anderen Seiten auch hier bereit:"
 
 #: chardata/spells_view.py
+#: chardata/solution_result.py
 #, python-format
 msgid "%(item)s: %(changes)s"
 msgstr "%(item)s: %(changes)s"
@@ -9440,6 +9451,26 @@ msgid "November 2026"
 msgstr "November 2026"
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3 Beta"
+msgstr "Dofus 3 Beta"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Dracorunes in the optimizer, and the Bellaphone class"
+msgstr "Drachenrunen im Optimierer und die Klasse Bellaphon"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "The optimizer can now dress your pieces with Dracorunes: allow them in the options and it puts them on the pieces where they help most."
+msgstr "Der Optimierer kann deine Teile jetzt mit Drachenrunen ausstatten: Erlaube sie in den Optionen, dann setzt er sie auf die Teile, bei denen sie am meisten helfen."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Lock a piece and it keeps its Dracorune, and the build page shows every Dracorune worn."
+msgstr "Ein gesperrtes Teil behält seine Drachenrune, und die Build-Seite zeigt jede getragene Drachenrune."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "The new Bellaphone class is here, with its own avatars."
+msgstr "Die neue Klasse Bellaphon ist da, mit eigenen Avataren."
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "Stronger builds, and a new way to start them"
 msgstr "Stärkere Builds und ein neuer Weg, sie anzulegen"
 
@@ -9570,6 +9601,10 @@ msgstr "Das Spiel veröffentlicht diesen Satz nicht: Die Seite nimmt %(rate)d%% 
 #: chardata/templates/chardata/solution_item.html
 msgid "Weapon element"
 msgstr "Element der Waffe"
+
+#: chardata/templates/chardata/text_build.html
+msgid "Dracorunes read from the link:"
+msgstr "Aus dem Link gelesene Drachenrunen:"
 
 #: chardata/templates/chardata/text_build.html
 msgid "Weapon element read from the link:"
@@ -9957,6 +9992,31 @@ msgstr "SIL Open Font License, Version 1.1"
 #: chardata/templates/chardata/license.html
 msgid "The fonts are hosted on this site, so your browser asks no other server for them."
 msgstr "Die Schriftarten liegen auf dieser Website, dein Browser fragt dafür bei keinem anderen Server an."
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Dracorunes allowed"
+msgstr "Erlaubte Drachenrunen"
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Pieces with a Dracorune"
+msgstr "Teile mit einer Drachenrune"
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "A Dracorune moves the stats of a piece to another element or to Power. Allow some and the solver gives them to the pieces where they help most, never more than this number."
+msgstr "Eine Drachenrune verschiebt die Werte eines Teils auf ein anderes Element oder auf Kraft. Erlaube ein paar davon: Der Solver gibt sie den Teilen, bei denen sie am meisten bringen, höchstens in dieser Anzahl."
+
+#: chardata/templates/chardata/dracorune_option.html
+msgid "Locked pieces keep their Dracorune, even above this number."
+msgstr "Gesperrte Teile behalten ihre Drachenrune, auch über dieser Anzahl."
+
+#: chardata/templates/chardata/solution_dracorune.html
+msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
+msgstr "Schmiede das Exo vor der Drachenrune: Danach lässt sich auf den Gegenstand keine Schmiedmagie mehr anwenden."
+
+#: chardata/solution_result.py
+msgctxt "what a rune leaves of a removed line"
+msgid "nothing"
+msgstr "nichts"
 
 
 #~ msgid "This game has no exos: they are left out."

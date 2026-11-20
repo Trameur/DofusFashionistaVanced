@@ -14,7 +14,7 @@ from chardata import weight_tuning as tuning
 from chardata.data_versions import current_data_version
 from chardata.weight_table import (BANDS, DIRECTORY, SCENARIOS, SHARE_STATS, TABLE_STATS, element_key, engine_digest,
                                    grid_element_sets)
-from fashionistapulp.dofus_constants import CHARACTER_CLASSES
+from chardata.weight_table import GRID_CLASSES
 
 VERSION = 'dofus3'
 PATH = os.path.join(DIRECTORY, '%s.json' % VERSION)
@@ -25,7 +25,7 @@ WEAK_REASONS = {'folds', 'switch', 'no_runs', 'held'}
 HEADER = {'generated', 'game_version', 'generator_version', 'engine_digest', 'split_digest', 'game_data_sha1',
           'data_version', 'repository_head', 'solver', 'lambda', 'run_sha1', 'created'}
 CELL_KEYS = {class_name + '/' + element_key(played) + '/' + scenario + '/' + BANDS[0]
-             for class_name in CHARACTER_CLASSES for played in grid_element_sets() for scenario in SCENARIOS}
+             for class_name in GRID_CLASSES for played in grid_element_sets() for scenario in SCENARIOS}
 TOLERANCE = 1e-9
 ENGINE = 2.0
 BUILDS = {'a': 2.0, 'b': 2.4, 'c': 2.2, 'd': 2.6}

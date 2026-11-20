@@ -49,7 +49,8 @@ from chardata.util import (json_for_script, on_off_to_bool, set_response, safe_i
                            TESTER_USERS, HttpResponseText,
                            remove_cache_for_char, version_reverse)
 from chardata.version_compat import (filter_classes_for_version,
-                                     class_exists_in_version)
+                                     class_exists_in_version,
+                                     first_class_with_data)
 from fashionistapulp.temporix import version_has_temporix
 
 logger = logging.getLogger(__name__)
@@ -114,7 +115,9 @@ def setup(request, char_id=0):
             too_many_projects_problem = True
     
     game_version = getattr(request, 'game_version', 'dofus3')
-    classes = filter_classes_for_version(_get_class_to_name().keys(), game_version)
+    class_to_name = _get_class_to_name()
+    kept_keys = set(filter_classes_for_version(class_to_name.values(), game_version))
+    classes = [name for name, key in class_to_name.items() if key in kept_keys]
     from chardata.home_view import quick_start_classes
 
     # Item from an encyclopedia page to build around, checked against the catalogue
@@ -128,7 +131,7 @@ def setup(request, char_id=0):
                          'class_tiles': quick_start_classes(game_version) if is_new_char else [],
                          'lock_item': lock_item,
                          'free_versions': _free_versions_for_anon(request),
-                         'class_to_name': _get_class_to_name(),
+                         'class_to_name': class_to_name,
                          'can_create': can_create,
                          'login_problem': login_problem,
                          'too_many_projects_problem': too_many_projects_problem,
@@ -396,8 +399,8 @@ def _save_state_to_char(state, char):
             and class_exists_in_version(requested_class, char_version)):
         char.char_class = requested_class
     else:
-        available = filter_classes_for_version(CHARACTER_CLASSES, char_version)
-        char.char_class = available[0] if available else CHARACTER_CLASSES[0]
+        char.char_class = (first_class_with_data(CHARACTER_CLASSES, char_version)
+                           or CHARACTER_CLASSES[0])
 
 def _get_aspect_checklist(aspect_list):
     aspect_checklist = {aspect: aspect in aspect_list for aspect in ALL_ASPECTS}

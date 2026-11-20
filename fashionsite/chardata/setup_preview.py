@@ -17,7 +17,7 @@ from chardata.presets import (DEFAULT_PLAY_MODE, DEFAULT_PRIORITY, GUARD_KIND, P
                               within_focus_limit)
 from chardata.smart_build import (ALL_ASPECTS, get_standard_weights, inert_aspects,
                                   level_minimums)
-from chardata.version_compat import class_exists_in_version
+from chardata.version_compat import class_exists_in_version, first_class_with_data
 from chardata.weights_minimums import _caps, block_context, page_state
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.structure import get_current_game_version, set_current_game_version
@@ -69,8 +69,7 @@ def preview_state(game_version, char_class, level, aspects,
 
 def panel_context(game_version):
     """What the read-only panel on /setup/ renders: the rows of the version, filled in by the first preview."""
-    char_class = sorted(name for name in CHARACTER_CLASSES
-                        if class_exists_in_version(name, game_version))[0]
+    char_class = first_class_with_data(sorted(CHARACTER_CLASSES), game_version)
     with _in_version(game_version):
         char = _preview_char(game_version, char_class, MAX_LEVEL, frozenset(),
                              DEFAULT_PRIORITY, DEFAULT_PLAY_MODE, False)

@@ -9,13 +9,13 @@ from fashionistapulp.structure import get_structure
 
 from chardata.character_assets import has_bone
 
-# Ankama breed ids. 19 is unused, Forgelance is 20.
+# Ankama breed ids. 19 is unused, Forgelance is 20, Bellaphone 21.
 CLASS_TO_BREED = {
     'Feca': 1, 'Osamodas': 2, 'Enutrof': 3, 'Sram': 4, 'Xelor': 5,
     'Ecaflip': 6, 'Eniripsa': 7, 'Iop': 8, 'Cra': 9, 'Sadida': 10,
     'Sacrier': 11, 'Pandawa': 12, 'Rogue': 13, 'Masqueraider': 14,
     'Foggernaut': 15, 'Eliotrope': 16, 'Huppermage': 17, 'Ouginak': 18,
-    'Forgelance': 20,
+    'Forgelance': 20, 'Bellaphone': 21,
 }
 
 # The look string says 1, and the player skeletons are the named bundles

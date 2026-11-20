@@ -1,0 +1,92 @@
+{
+ "source_tag": "3.8.1.2",
+ "runes": [
+  {
+   "item_id": 31564,
+   "kind": "element",
+   "target": "agi",
+   "names": {
+    "de": "Smaragd-Drachenrune",
+    "en": "Emerald Dracorune",
+    "es": "Dracorruna esmeralda",
+    "fr": "Dracorune \u00c9meraude",
+    "pt": "Dracorruna Esmeralda"
+   }
+  },
+  {
+   "item_id": 31565,
+   "kind": "element",
+   "target": "int",
+   "names": {
+    "de": "Purpur-Drachenrune",
+    "en": "Crimson Dracorune",
+    "es": "Dracorruna p\u00farpura",
+    "fr": "Dracorune Pourpre",
+    "pt": "Dracorruna P\u00farpura"
+   }
+  },
+  {
+   "item_id": 31566,
+   "kind": "element",
+   "target": "cha",
+   "names": {
+    "de": "T\u00fcrkis-Drachenrune",
+    "en": "Turquoise Dracorune",
+    "es": "Dracorruna turquesa",
+    "fr": "Dracorune Turquoise",
+    "pt": "Dracorruna Turquesa"
+   }
+  },
+  {
+   "item_id": 31569,
+   "kind": "element",
+   "target": "str",
+   "names": {
+    "de": "Ocker-Drachenrune",
+    "en": "Ochre Dracorune",
+    "es": "Dracorruna ocre",
+    "fr": "Dracorune Ocre",
+    "pt": "Dracorruna Ocre"
+   }
+  },
+  {
+   "item_id": 31571,
+   "kind": "resistance",
+   "names": {
+    "de": "Elfenbein-Drachenrune",
+    "en": "Ivory Dracorune",
+    "es": "Dracorruna marfil",
+    "fr": "Dracorune Ivoire",
+    "pt": "Dracorruna Marfim"
+   }
+  },
+  {
+   "item_id": 31573,
+   "kind": "power",
+   "keep": 0.7,
+   "names": {
+    "de": "Ebenholz-Drachenrune",
+    "en": "Ebony Dracorune",
+    "es": "Dracorruna \u00e9bano",
+    "fr": "Dracorune \u00c9b\u00e8ne",
+    "pt": "Dracorruna \u00c9bano"
+   }
+  }
+ ],
+ "item_types": [
+  "Hat",
+  "Cloak",
+  "Amulet",
+  "Ring",
+  "Belt",
+  "Boots",
+  "Weapon"
+ ],
+ "rounding": "floor",
+ "power_takes_neutral": false,
+ "unverified": [
+  "rounding",
+  "power_takes_neutral"
+ ],
+ "unverified_source": "devblog 1772495"
+}

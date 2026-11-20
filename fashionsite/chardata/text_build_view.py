@@ -23,7 +23,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
 from chardata import (build_link_import, dofusbook_import, dofuscreator_import,
-                      fashionista_build)
+                      dracorune_import, fashionista_build)
 from chardata.dofusbook_import import ImportError_, MAX_POINTS, read_weapon_forge
 from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _preview, _solution_path,
@@ -601,6 +601,7 @@ def _lis(request, texte, version_page, formulaire, action=None):
     forge_choice, forge_unread = (read_weapon_forge(build, version) if build
                                   else ({}, []))
     if build:
+        build = dracorune_import.rejected_as_rolls(build, version)
         structure = get_structure(version)
         langue = get_supported_language()
         pieces_du_lien, overrides_du_lien, refuses_du_lien = _pieces_du_lien(
@@ -633,6 +634,13 @@ def _lis(request, texte, version_page, formulaire, action=None):
                 'wrong_game': build.get('wrong_game') or [],
                 'left_out': build.get('left_out') or [],
                 'worn_twice': build.get('worn_twice') or []}
+        if build.get('dracorunes') or build.get('dracorunes_unread'):
+            valides, illisibles_runes = dracorune_import.checked(build, version)
+            if valides:
+                lien['dracorunes'] = dracorune_import.rune_names(valides, version, langue)
+            if illisibles_runes:
+                lien['dracorunes_unread'] = dracorune_import.item_names(
+                    illisibles_runes, version, langue)
 
     # Rolls: the link's first, the text's on top for the same piece
     overrides = {}
@@ -708,6 +716,8 @@ def _lis(request, texte, version_page, formulaire, action=None):
     # Never 'generated': the solver did not produce these items
     _place_items(char, item_ids,
                  origin='dofusbook' if build else 'pasted_text')
+    if build:
+        dracorune_import.put_on_solution(char, build)
     # After _place_items: its set_minimal_solution would overwrite the overrides
     if overrides:
         set_stat_overrides(char, overrides)
