@@ -68,17 +68,30 @@ def read_json(path):
         return json.load(handle)
 
 
+def save_rebuilt_pages(release_dir, api_base, work_dir, categories):
+    items, sets, recipes = (read_json(release_dir / name) for name in release_items.ASSETS)
+    pages = release_items.rebuild(items, sets, recipes, f"{api_base}img/item", categories)
+    for lang in LANGUAGES:
+        for category in categories:
+            save(work_dir, category, lang, pages[category, lang])
+
+
 def rebuild_from_release(repo, tag, api_base, work_dir, categories):
     listed = download_assets(repo, tag, RAW_DIR, filters=list(release_items.ASSETS), skip_existing=False)
     release_dir = RAW_DIR / tag
     missing = [name for name in release_items.ASSETS if name not in listed or not (release_dir / name).is_file()]
     if missing:
         raise SystemExit(f"Release {repo}@{tag} lacks {', '.join(missing)}: items cannot be rebuilt")
-    items, sets, recipes = (read_json(release_dir / name) for name in release_items.ASSETS)
-    pages = release_items.rebuild(items, sets, recipes, f"{api_base}img/item", categories)
-    for lang in LANGUAGES:
-        for category in categories:
-            save(work_dir, category, lang, pages[category, lang])
+    save_rebuilt_pages(release_dir, api_base, work_dir, categories)
+
+
+def rebuild_from_mapped(mapped_dir, api_base, work_dir, categories):
+    """The pages from the MAPPED_* files that doduda map wrote in mapped_dir, nothing downloaded."""
+    mapped_dir = Path(mapped_dir)
+    missing = [name for name in release_items.ASSETS if not (mapped_dir / name).is_file()]
+    if missing:
+        raise SystemExit(f"{mapped_dir} lacks {', '.join(missing)}: items cannot be rebuilt")
+    save_rebuilt_pages(mapped_dir, api_base, work_dir, categories)
 
 
 def main(argv=None):
@@ -90,6 +103,9 @@ def main(argv=None):
     parser.add_argument("--tag", help="Version to import: read from the API only when it serves this version, "
                                       "rebuilt from the release files of this tag otherwise")
     parser.add_argument("--repo", default=DEFAULT_REPO, help="dofusdude release repo for --tag")
+    parser.add_argument("--mapped-dir", metavar="DIR",
+                        help="Rebuild the items from the MAPPED_* files of a local doduda map run, "
+                             "instead of the API or the release")
     args = parser.parse_args(argv)
 
     api_base = args.api_url
@@ -100,6 +116,10 @@ def main(argv=None):
     os.makedirs(work_dir, exist_ok=True)
 
     categories = [category for category in endpoints if category not in args.skip_endpoints]
+    if args.mapped_dir:
+        print(f"Items rebuilt from the MAPPED files in {args.mapped_dir}")
+        rebuild_from_mapped(args.mapped_dir, api_base, work_dir, categories)
+        return
     if args.tag:
         served = served_version(api_base)
         if served != args.tag:

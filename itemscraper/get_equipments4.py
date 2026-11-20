@@ -54,6 +54,26 @@ def source_urls(item, game_version):
     return urls
 
 
+_SIZED_ICON = re.compile(r'/img/item/(\d+)-(\d+)\.png$')
+LOCAL_ICON_SCALES = {'128': '2x', '64': '1x'}
+
+
+def local_icon(item, folder):
+    """The picture of an item in a doduda image export (2x/<icon>.png for the -128 url), or None."""
+    for url in (item.get('image_url'), item.get('image_url_fallback')):
+        match = _SIZED_ICON.search(url or '')
+        if not match:
+            continue
+        icon_id, size = match.groups()
+        candidates = [Path(folder) / f'{icon_id}-{size}.png']
+        if size in LOCAL_ICON_SCALES:
+            candidates.insert(0, Path(folder) / LOCAL_ICON_SCALES[size] / f'{icon_id}.png')
+        for path in candidates:
+            if path.is_file():
+                return path.read_bytes()
+    return None
+
+
 def sanitize_filename(name):
     # The runtime looks icons up under safe_icon_name(normalize_name(item)),
     # so the files must be written under that exact name.
@@ -130,6 +150,8 @@ def main():
                         help="Game version (dofus3, beta, retro, touch). Default: dofus3")
     parser.add_argument("--input-file", default=None,
                         help="Path to transformed_equipment.json (default: ./transformed_equipment.json)")
+    parser.add_argument("--local-icons", metavar="DIR", default=None,
+                        help="doduda image export (img/item, with 1x and 2x) read before any download")
     args = parser.parse_args()
 
     game_version = args.game_version
@@ -152,6 +174,7 @@ def main():
     count = 0
     missing = 0
     failed = 0
+    local = 0
     last_percentage = -1
     print(f"Total images to download: {total}")
     for item in data:
@@ -167,10 +190,15 @@ def main():
             # (see image_url_fallback in get_equipments2.py), tried only when
             # this one answered without it: a dropped connection fails the item.
             new_content, connection_failed = None, False
-            for url in source_urls(item, game_version):
-                new_content, connection_failed = fetch_image(session, url)
-                if new_content is not None or connection_failed:
-                    break
+            if args.local_icons:
+                new_content = local_icon(item, args.local_icons)
+                if new_content is not None:
+                    local += 1
+            if new_content is None:
+                for url in source_urls(item, game_version):
+                    new_content, connection_failed = fetch_image(session, url)
+                    if new_content is not None or connection_failed:
+                        break
             if new_content is None:
                 if connection_failed:
                     failed += 1
@@ -191,6 +219,8 @@ def main():
                 print(f"Progress: {percentage}%")
                 last_percentage = percentage
 
+    if args.local_icons:
+        print(f"{local} of {total} images read from {args.local_icons}")
     if missing:
         print(f"{missing} of {total} images are not at the source.")
     if failed:

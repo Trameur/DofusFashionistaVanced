@@ -550,6 +550,27 @@ def _normalize_set_effects(effects):
     return by_combo
 
 
+sets_by_ankama_id = {lang: {s['ankama_id']: s for s in set_data[lang]['sets'] if 'ankama_id' in s}
+                     for lang in LANGUAGES}
+
+
+def _set_special_spells(set_id, effect_key):
+    """{language: text} of the special spells a set grants at this number of pieces."""
+    special = {}
+    for lang in LANGUAGES:
+        lang_set = sets_by_ankama_id[lang].get(set_id)
+        if lang_set is None:
+            continue
+        group = (_normalize_set_effects(deepcopy(lang_set.get('effects'))) or {}).get(effect_key) or []
+        lines = [eff['formatted'] for eff in group
+                 if eff.get('type', {}).get('name') == '-special spell-' and eff.get('formatted')]
+        if lines:
+            special[lang] = '\n'.join(lines)
+    if effect_texts is not None and special:
+        special = effect_texts.rebuild_numbers(special)
+    return special
+
+
 new_data = []
 
 for item in set_data['en']["sets"]:
@@ -604,6 +625,9 @@ for item in set_data['en']["sets"]:
                     ] for eff in effect_value
                 ]
             }
+            special = _set_special_spells(item["ankama_id"], effect_key)
+            for lang, text in special.items():
+                stats_entry[f"special_spell_{lang}"] = text
             transformed_item["stats_list"].append(stats_entry)
     if "equipment_ids" in item:
         transformed_item["equipment_ids"] = item["equipment_ids"]
