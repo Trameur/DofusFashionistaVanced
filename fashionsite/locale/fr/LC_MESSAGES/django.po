@@ -2033,17 +2033,6 @@ msgstr ""
 "Tu as des modifications non enregistrées. Elles seront perdues si tu quittes "
 "la page."
 
-#: .\chardata\templates\chardata\base.html:120
-#: .\chardata\templates\chardata\base.html:121
-msgid "Classic look"
-msgstr "Ancien look"
-
-#: .\chardata\templates\chardata\base.html:120
-#: .\chardata\templates\chardata\base.html:121
-#: .\chardata\templates\chardata\base.html:143
-msgid "New look"
-msgstr "Nouveau look"
-
 #: .\chardata\templates\chardata\base.html:242
 msgid "Main navigation"
 msgstr "Navigation principale"
@@ -2113,10 +2102,6 @@ msgstr "Gratuit, pour Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro et Dofus Touch
 #: .\chardata\templates\chardata\guide.html:57
 msgid "Home"
 msgstr "Accueil"
-
-#: .\chardata\templates\chardata\base.html:143
-msgid "Switch between the classic and new design"
-msgstr "Basculer entre l'ancien et le nouveau design"
 
 #: .\chardata\templates\chardata\base.html:145
 #: .\chardata\templates\chardata\base.html:657
@@ -10072,6 +10057,22 @@ msgstr "Forge l’exo avant la Dracorune : elle empêche ensuite toute forgemagi
 msgctxt "what a rune leaves of a removed line"
 msgid "nothing"
 msgstr "rien"
+
+#: chardata/templates/chardata/base.html
+msgid "Design"
+msgstr "Design"
+
+#: chardata/templates/chardata/base.html
+msgid "Classic"
+msgstr "Classique"
+
+#: chardata/templates/chardata/base.html
+msgid "Enhanced classic"
+msgstr "Classique amélioré"
+
+#: chardata/templates/chardata/base.html
+msgid "New"
+msgstr "Nouveau"
 
 
 #~ msgid "This game has no exos: they are left out."

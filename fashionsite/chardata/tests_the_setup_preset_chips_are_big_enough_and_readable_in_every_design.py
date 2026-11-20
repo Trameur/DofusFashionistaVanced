@@ -6,7 +6,7 @@ from django.test import SimpleTestCase, TestCase
 
 from chardata.tests_the_setup_page_draws_the_live_weights_panel import _Versioned, setup_page
 from chardata.tests_the_setup_stylesheet_support import (
-    DESIGNS, chain_of, contrast, declared, flatten, matching, rgb, rule_order, setup_sheets,
+    DESIGNS, chain_of, contrast, declared, flatten, is_classic_only, matching, rgb, rule_order, setup_sheets,
     stylesheet, winning)
 
 SETUP = stylesheet('setup.css')
@@ -179,7 +179,7 @@ class TheNewRulesKeepTheStylesTheOtherSetupTestsPinTests(SimpleTestCase):
 
     def test_no_new_rule_fills_a_classic_button(self):
         for rule in own_rules():
-            if any(':not(.fm-modern)' in selector for selector in rule['selectors']):
+            if any(is_classic_only(selector) for selector in rule['selectors']):
                 for prop in ('background', 'background-color', 'background-image'):
                     if prop in rule['declarations']:
                         self.assertEqual('transparent', rule['declarations'][prop][0], rule['selectors'])

@@ -112,8 +112,8 @@ class TheClassicDesignKeepsItsOwnBannerTests(TestCase):
         after_banner = base[base.index('<div class="char-overlay"') - 400:base.index('<div class="char-overlay"')]
         self.assertIn("contains('fm-modern'))return;", after_banner)
         self.assertIn("i.src=i.getAttribute('data-fm-src')", after_banner)
-        toggle = re.search(r'function fmToggleDesign\(\)\{.*?\}\n', base, re.S).group(0)
-        self.assertIn("location.reload()", toggle)
+        picker = re.search(r'function fmSetDesign\(v\)\{.*?\}\n', base, re.S).group(0)
+        self.assertIn("location.reload()", picker)
 
 
 class NoFontIsPreloadedTests(TestCase):

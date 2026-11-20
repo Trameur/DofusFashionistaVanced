@@ -161,8 +161,21 @@ html.fm-modern .flag-choose{ width:24px !important; height:24px !important; bord
 html.fm-modern .fm-design-toggle span[aria-hidden]{ display:none; }
 .fm-design-toggle:hover{ background:rgba(227,191,77,.30); transform:translateY(-1px); }
 .fm-design-toggle:active{ transform:translateY(0); }
-html:not(.fm-modern) .space.header-controls .fm-design-toggle{ float:right; margin:5px 6px 0 0; height:24px; padding:0 11px; font-size:12px; gap:5px; }
-html:not(.fm-modern) .fm-design-toggle svg{ width:13px; height:13px; }
+html:not(.fm-modern, .fm-enhanced) .space.header-controls .fm-design-picker{ float:right; margin:5px 6px 0 0; }
+html:not(.fm-modern, .fm-enhanced) .space.header-controls .fm-design-toggle{ height:24px; padding:0 11px; font-size:12px; gap:5px; }
+html:not(.fm-modern, .fm-enhanced) .fm-design-toggle svg{ width:13px; height:13px; }
+.fm-design-picker{ position:relative; display:inline-flex; }
+html.fm-nostore .fm-design-picker, .fm-design-menu[hidden]{ display:none; }
+.fm-design-menu{ position:absolute; top:calc(100% + 6px); right:0; z-index:60; display:flex; flex-direction:column; gap:2px; min-width:180px; padding:6px; box-sizing:border-box; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.25); text-align:left; }
+.fm-design-menu button{ display:block; width:100%; padding:8px 10px; border:0; border-radius:6px; background:transparent; color:inherit; font:inherit; font-size:13px; text-align:left; cursor:pointer; white-space:nowrap; }
+.fm-design-menu button[aria-pressed="true"]{ font-weight:700; }
+.fm-design-menu button:focus-visible{ outline:2px solid currentColor; outline-offset:-2px; }
+@media (max-width:900px){ .fm-design-menu{ left:0; right:auto; } }
+html.fm-light:not(.fm-modern, .fm-enhanced) .fm-design-menu{ background:#F2E3C6; color:#5E2A06; border:1px solid #9d4e1a; }
+html.fm-dark:not(.fm-modern, .fm-enhanced) .fm-design-menu{ background:#2b2b2b; color:#f1f1f4; border:1px solid rgba(255,255,255,.22); }
+html:not(.fm-modern, .fm-enhanced) .fm-design-menu button:hover{ background:rgba(128,128,128,.18); }
+html.fm-modern .fm-design-menu{ background:var(--fm-surface); color:var(--fm-text); border:1px solid var(--fm-border); box-shadow:var(--fm-shadow); }
+html.fm-modern .fm-design-menu button:hover{ background:var(--fm-accent-soft); }
 html.fm-modern .maincolumn{
   margin:0 auto !important; width:100%; max-width:var(--fm-maxw); padding:18px var(--fm-gutter) 0; box-sizing:border-box;
 }
@@ -757,10 +770,10 @@ html.fm-modern .rerun-button:active, html.fm-modern .button-generic:active, html
   border:1px solid rgba(128,128,128,.35); border-radius:999px; padding:3px 10px;
 }
 .compare-cart-toggle:hover{ background:rgba(128,128,128,.16); }
-@media (min-width:901px){ html:not(.fm-modern) .compare-cart-toggle{ position:relative; z-index:3; } html:not(.fm-modern) .compare-cart-panel{ left:0; right:auto; } }
-@media (max-width:600px){ html:not(.fm-modern) .space.header-controls{ position:relative; } html:not(.fm-modern) .compare-cart{ position:static; } html:not(.fm-modern) .compare-cart-panel{ left:50%; right:auto; transform:translateX(-50%); top:auto; margin-top:8px; max-width:calc(100vw - 12px); } }
-@media (min-width:601px) and (max-width:900px){ html:not(.fm-modern) .compare-cart-panel{ left:0; right:auto; } }
-html.fm-dark:not(.fm-modern) .compare-cart-toggle{ color:#f1f1f4; }
+@media (min-width:901px){ html:not(.fm-modern, .fm-enhanced) .compare-cart-toggle{ position:relative; z-index:3; } html:not(.fm-modern, .fm-enhanced) .compare-cart-panel{ left:0; right:auto; } }
+@media (max-width:600px){ html:not(.fm-modern, .fm-enhanced) .space.header-controls{ position:relative; } html:not(.fm-modern, .fm-enhanced) .compare-cart{ position:static; } html:not(.fm-modern, .fm-enhanced) .compare-cart-panel{ left:50%; right:auto; transform:translateX(-50%); top:auto; margin-top:8px; max-width:calc(100vw - 12px); } }
+@media (min-width:601px) and (max-width:900px){ html:not(.fm-modern, .fm-enhanced) .compare-cart-panel{ left:0; right:auto; } }
+html.fm-dark:not(.fm-modern, .fm-enhanced) .compare-cart-toggle{ color:#f1f1f4; }
 .compare-cart .cc-icon{ display:inline-flex; align-items:center; }
 .compare-cart .cc-icon svg{ display:block; }
 .compare-cart .cc-count{

@@ -80,13 +80,24 @@ FROZEN_UNPREFIXED = frozenset((
     'html.fm-dark .spell-tip.st-open .spell-tip-mark',
     'html.fm-dark .spell-tip:focus-visible .spell-tip-mark',
     'html.fm-dark .spell-tip:hover .spell-tip-mark',
-    'html.fm-dark:not(.fm-modern) .compare-cart-toggle',
-    'html:not(.fm-modern) .compare-cart',
-    'html:not(.fm-modern) .compare-cart-panel',
-    'html:not(.fm-modern) .compare-cart-toggle',
-    'html:not(.fm-modern) .space.header-controls',
-    'html:not(.fm-modern) .fm-design-toggle svg',
-    'html:not(.fm-modern) .space.header-controls .fm-design-toggle',
+    'html.fm-dark:not(.fm-modern, .fm-enhanced) .compare-cart-toggle',
+    'html:not(.fm-modern, .fm-enhanced) .compare-cart',
+    'html:not(.fm-modern, .fm-enhanced) .compare-cart-panel',
+    'html:not(.fm-modern, .fm-enhanced) .compare-cart-toggle',
+    'html:not(.fm-modern, .fm-enhanced) .space.header-controls',
+    'html:not(.fm-modern, .fm-enhanced) .fm-design-toggle svg',
+    'html:not(.fm-modern, .fm-enhanced) .space.header-controls .fm-design-toggle',
+    'html:not(.fm-modern, .fm-enhanced) .space.header-controls .fm-design-picker',
+    '.fm-design-picker',
+    'html.fm-nostore .fm-design-picker',
+    '.fm-design-menu',
+    '.fm-design-menu[hidden]',
+    '.fm-design-menu button',
+    '.fm-design-menu button[aria-pressed="true"]',
+    '.fm-design-menu button:focus-visible',
+    'html.fm-light:not(.fm-modern, .fm-enhanced) .fm-design-menu',
+    'html.fm-dark:not(.fm-modern, .fm-enhanced) .fm-design-menu',
+    'html:not(.fm-modern, .fm-enhanced) .fm-design-menu button:hover',
 ))
 
 NAV_CLASSIC_HIDING = frozenset((
@@ -118,6 +129,14 @@ class EveryModernRuleIsPrefixedTests(SimpleTestCase):
         self.assertTrue(selector_matches('html.fm-modern :where(.a,.b)', chain))
         self.assertFalse(selector_matches('html.fm-modern :where(.a,.c)', chain))
         self.assertFalse(selector_matches('html.fm-modern :where(.a,.b):hover', chain))
+
+    def test_the_reader_weighs_a_negation_list_as_its_heaviest_piece_and_refuses_every_piece(self):
+        self.assertEqual((0, 2, 1), specificity('html:not(.fm-modern, .fm-enhanced) .a'))
+        self.assertEqual((0, 2, 1), specificity('html:not(.fm-modern) .a'))
+        self.assertEqual((1, 1, 1), specificity('html:not(.a, #b) .c'))
+        for classes, expected in ((('fm-light',), True), (('fm-modern', 'fm-light'), False), (('fm-enhanced', 'fm-dark'), False)):
+            chain = chain_of((('html', {}),), 'div', {'class': 'a'}, classes)
+            self.assertEqual(expected, selector_matches('html:not(.fm-modern, .fm-enhanced) .a', chain), classes)
 
     def test_the_navigation_sheet_is_prefixed_except_the_rules_that_hide_its_bars_in_classic(self):
         unprefixed = {selector for selector, _ in selectors(NAV) if not selector.startswith('html.fm-modern')}

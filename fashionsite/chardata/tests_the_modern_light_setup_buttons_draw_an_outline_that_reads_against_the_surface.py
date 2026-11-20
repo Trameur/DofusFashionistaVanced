@@ -56,7 +56,9 @@ class TheLightOutlineReadsAgainstTheSurfaceTests(SimpleTestCase):
                              for selector in rule['selectors'])]
         self.assertEqual(1, len(overrides))
         self.assertEqual({'html.fm-modern:not(.fm-dark) ' + DOORS,
-                          'html.fm-modern:not(.fm-dark) ' + PANEL},
+                          'html.fm-modern:not(.fm-dark) ' + PANEL,
+                          'html.fm-enhanced:not(.fm-dark) ' + DOORS,
+                          'html.fm-enhanced:not(.fm-dark) ' + PANEL},
                          set(overrides[0]['selectors']))
         self.assertEqual({'border-color'}, set(overrides[0]['declarations']))
 

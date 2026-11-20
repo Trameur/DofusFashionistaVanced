@@ -2042,17 +2042,6 @@ msgstr ""
 "Du hast ungespeicherte Änderungen. Sie gehen verloren, wenn du die Seite "
 "verlässt."
 
-#: .\chardata\templates\chardata\base.html:120
-#: .\chardata\templates\chardata\base.html:121
-msgid "Classic look"
-msgstr "Klassisches Design"
-
-#: .\chardata\templates\chardata\base.html:120
-#: .\chardata\templates\chardata\base.html:121
-#: .\chardata\templates\chardata\base.html:143
-msgid "New look"
-msgstr "Neues Design"
-
 #: .\chardata\templates\chardata\base.html:242
 msgid "Main navigation"
 msgstr "Hauptnavigation"
@@ -2122,10 +2111,6 @@ msgstr "Kostenlos, für Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro und Dofus To
 #: .\chardata\templates\chardata\guide.html:57
 msgid "Home"
 msgstr "Startseite"
-
-#: .\chardata\templates\chardata\base.html:143
-msgid "Switch between the classic and new design"
-msgstr "Zwischen klassischem und neuem Design wechseln"
 
 #: .\chardata\templates\chardata\base.html:145
 #: .\chardata\templates\chardata\base.html:657
@@ -10017,6 +10002,22 @@ msgstr "Schmiede das Exo vor der Drachenrune: Danach lässt sich auf den Gegenst
 msgctxt "what a rune leaves of a removed line"
 msgid "nothing"
 msgstr "nichts"
+
+#: chardata/templates/chardata/base.html
+msgid "Design"
+msgstr "Darstellung"
+
+#: chardata/templates/chardata/base.html
+msgid "Classic"
+msgstr "Klassisch"
+
+#: chardata/templates/chardata/base.html
+msgid "Enhanced classic"
+msgstr "Klassisch (verbessert)"
+
+#: chardata/templates/chardata/base.html
+msgid "New"
+msgstr "Neu"
 
 
 #~ msgid "This game has no exos: they are left out."

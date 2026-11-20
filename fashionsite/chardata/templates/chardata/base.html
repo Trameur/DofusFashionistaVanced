@@ -9,7 +9,7 @@
     (function(){var h=document.documentElement,d={matches:false},l={matches:false};
     try{d=window.matchMedia('(prefers-color-scheme: dark)');l=window.matchMedia('(prefers-color-scheme: light)');}catch(e){}
     window.fmAutoTheme=function(){return d.matches?'darktheme':'lighttheme';};window.fmSchemeKnown=function(){return !!(d.matches||l.matches);};
-    try{if(localStorage.getItem('fm_design')!=='classic')h.classList.add('fm-modern');}catch(e){h.classList.add('fm-modern');}
+    var v=null;try{v=localStorage.getItem('fm_design_v2');}catch(e){h.classList.add('fm-nostore');}if(v==='enhanced'){h.classList.add('fm-enhanced');var r=document.createElement('link');r.rel='preload';r.as='style';r.href='{% static "chardata/enhanced.css" %}';document.head.appendChild(r);}else if(v!=='classic')h.classList.add('fm-modern');
     function c(){var t=(document.cookie.match(/(?:^|;\s*)theme=([^;]+)/)||[])[1]||'auto';return t==='lighttheme'||t==='darktheme'?t:window.fmAutoTheme();}
     function a(){h.classList.remove('fm-light','fm-dark');h.classList.add(c()==='darktheme'?'fm-dark':'fm-light');}
     try{a();if(d.addEventListener)d.addEventListener('change',a);else if(d.addListener)d.addListener(a);}catch(e){}
@@ -69,6 +69,7 @@
     <link rel="stylesheet" type="text/css" href="{% static "chardata/modern-core.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "chardata/modern-nav.css" %}">
     {% block modern_page_css %}<link rel="stylesheet" type="text/css" href="{% static "chardata/modern-rest.css" %}">{% endblock %}
+    <script>if(document.documentElement.classList.contains('fm-enhanced'))document.write('<link rel="stylesheet" type="text/css" href="{% static "chardata/enhanced.css" %}">');</script>
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
     <link rel="apple-touch-icon" href="{% static "chardata/apple-touch-icon.png" %}"/>
@@ -213,10 +214,19 @@
     </script>
     
 <script>
-    function fmToggleDesign(){var on=!document.documentElement.classList.contains('fm-modern');try{localStorage.setItem('fm_design',on?'modern':'classic');}catch(e){if(!document.documentElement.classList.toggle('fm-modern')){var i=document.querySelector('.banner img[data-fm-src]');if(i&&!i.getAttribute('src'))i.src=i.getAttribute('data-fm-src');}return;}location.reload();}
-    document.addEventListener('DOMContentLoaded',function(){var on=document.documentElement.classList.contains('fm-modern');var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';});
+    function fmDesign(){var c=document.documentElement.classList;return c.contains('fm-modern')?'atelier':(c.contains('fm-enhanced')?'enhanced':'classic');}
+    function fmStoredDesign(){var v;try{v=localStorage.getItem('fm_design_v2');}catch(e){return null;}return v==='classic'||v==='enhanced'?v:'atelier';}
+    function fmDesignMenu(b,open){var m=document.getElementById(b.getAttribute('aria-controls'));if(!m)return;if(open===undefined)open=m.hidden;if(open){var cur=fmDesign(),o=m.querySelectorAll('[data-design]');for(var i=0;i<o.length;i++)o[i].setAttribute('aria-pressed',o[i].getAttribute('data-design')===cur?'true':'false');}m.hidden=!open;b.setAttribute('aria-expanded',open?'true':'false');if(open){var s=m.querySelector('[aria-pressed="true"]');if(s)s.focus();}}
+    function fmSetDesign(v){var s=null;try{s=localStorage.getItem('fm_design_v2');if(s!==v)localStorage.setItem('fm_design_v2',v);s=v;}catch(e){}if(s===v&&v!==fmDesign()){location.reload();return;}var b=document.querySelector('.fm-design-toggle');if(b){fmDesignMenu(b,false);b.focus();}}
+    function fmDesignOpen(){return document.querySelector('.fm-design-toggle[aria-expanded="true"]');}
+    document.addEventListener('keydown',function(e){var b=fmDesignOpen();if(b&&e.key==='Escape'){e.stopPropagation();fmDesignMenu(b,false);b.focus();}},true);
+    document.addEventListener('click',function(e){var b=fmDesignOpen();if(b&&!b.parentNode.contains(e.target))fmDesignMenu(b,false);});
+    document.addEventListener('pointerdown',function(e){var b=fmDesignOpen();if(b&&!b.parentNode.contains(e.target))fmDesignMenu(b,false);});
+    document.addEventListener('focusout',function(e){var b=fmDesignOpen();if(b&&e.relatedTarget&&!b.parentNode.contains(e.relatedTarget))fmDesignMenu(b,false);});
+    window.addEventListener('pageshow',function(e){var s=fmStoredDesign();if(e.persisted&&s&&s!==fmDesign())location.reload();});
     </script>
 <noscript><style>.banner img[data-fm-src]{display:none}</style></noscript>
+<noscript><style>.fm-design-picker{display:none}</style></noscript>
 </head>
 <body class='body-base'>
     <a class="skip-link" href="#main-content">{% trans "Skip to content" %}</a>
@@ -279,7 +289,7 @@
           </div>
         </nav>
         {% endif %}
-        <div class='space header-controls'><button type="button" class="fm-design-toggle" onclick="fmToggleDesign()" title="{% trans 'Switch between the classic and new design' %}"><span class="mi mi-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.4 4 1.6 5.2 5.6 5.6-4 .4-5.2 1.6-5.6 5.6-.4-4-1.6-5.2-5.6-5.6C10.4 8.2 11.6 7 12 3z"/><path d="M18.5 14.5c.2 1.6.7 2.1 2.3 2.3-1.6.2-2.1.7-2.3 2.3-.2-1.6-.7-2.1-2.3-2.3 1.6-.2 2.1-.7 2.3-2.3z"/></svg></span> <span class="fm-design-label">{% trans "New look" %}</span></button>
+        <div class='space header-controls'><div class="fm-design-picker"><button type="button" class="fm-design-toggle" aria-expanded="false" aria-controls="fm-design-menu" onclick="fmDesignMenu(this)" title="{% trans 'Design' %}"><span class="mi mi-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.4 4 1.6 5.2 5.6 5.6-4 .4-5.2 1.6-5.6 5.6-.4-4-1.6-5.2-5.6-5.6C10.4 8.2 11.6 7 12 3z"/><path d="M18.5 14.5c.2 1.6.7 2.1 2.3 2.3-1.6.2-2.1.7-2.3 2.3-.2-1.6-.7-2.1-2.3-2.3 1.6-.2 2.1-.7 2.3-2.3z"/></svg></span> <span class="fm-design-label">{% trans "Design" %}</span></button><div class="fm-design-menu" id="fm-design-menu" role="group" aria-label="{% trans 'Design' %}" hidden><button type="button" data-design="classic" aria-pressed="false" onclick="fmSetDesign('classic')">{% trans "Classic" %}</button><button type="button" data-design="enhanced" aria-pressed="false" onclick="fmSetDesign('enhanced')">{% trans "Enhanced classic" %}</button><button type="button" data-design="atelier" aria-pressed="false" onclick="fmSetDesign('atelier')">{% trans "New" %}</button></div></div>
        <div id="compare-cart" class="compare-cart" hidden>
          <button type="button" class="compare-cart-toggle" aria-label="{% trans 'Comparison' %}" title="{% trans 'Comparison' %}">
            <span class="cc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M6 6l6-1 6 1"/><path d="M12 3v17"/><path d="M9 12 6 6l-3 6a3 3 0 0 0 6 0"/><path d="M21 12l-3-6-3 6a3 3 0 0 0 6 0"/></svg></span><span class="cc-count">0</span>
@@ -458,7 +468,7 @@
             move(q('#language-div',hc),end);
             move(q('#theme-div',hc),end);
             move(q('.login',hc),end);
-            move(q('.fm-design-toggle',hc),end);
+            move(q('.fm-design-picker',hc),end);
             move(q('.version-selector',hc),vers);
             var vsel=q('.version-selector',vers);if(vsel){['dofus3','beta','touch','retro','dofus2','wakfu'].forEach(function(k){var a=q('.version-link[data-version="'+k+'"]',vsel);if(a)vsel.appendChild(a);});var fade=function(){var m=vsel.scrollWidth-vsel.clientWidth-1;vsel.classList.toggle('fm-vs-less',vsel.scrollLeft>1);vsel.classList.toggle('fm-vs-more',vsel.scrollLeft<m);};var on=q('.version-link.active',vsel);if(on&&vsel.scrollWidth>vsel.clientWidth){vsel.scrollLeft+=on.getBoundingClientRect().left-vsel.getBoundingClientRect().left-(vsel.clientWidth-on.offsetWidth)/2;}fade();vsel.addEventListener('scroll',fade,{passive:true});window.addEventListener('resize',fade);window.addEventListener('load',fade);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fade);}
             hc.classList.add('fm-moved');

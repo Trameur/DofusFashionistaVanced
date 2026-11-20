@@ -5,9 +5,11 @@ import re
 
 from django.test import SimpleTestCase
 
+from chardata.tests_the_setup_stylesheet_support import top_level_split
+
 STATIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'chardata')
 AA = 4.5
-CLASSIC_DARK_FLASH = 'html:not(.fm-modern):not(.fm-light) .setup-preview'
+CLASSIC_DARK_FLASH = 'html:not(.fm-modern, .fm-enhanced):not(.fm-light) .setup-preview'
 CLASSIC_LIGHT_FLASH = 'html.fm-light .setup-preview'
 THEME_SHEETS = {'dark': ('forms_darktheme.css', CLASSIC_DARK_FLASH),
                 'light': ('forms_lighttheme.css', CLASSIC_LIGHT_FLASH)}
@@ -20,7 +22,7 @@ def rules(name):
     for selectors, body in re.findall(r'([^{}]+)\{([^{}]*)\}', source):
         declarations = dict((key.strip(), value.strip()) for key, value in
                             re.findall(r'([\w-]+)\s*:\s*([^;]+);?', body))
-        found.append(([part.strip() for part in selectors.split(',')], declarations))
+        found.append(([part.strip() for part in top_level_split(selectors)], declarations))
     return found
 
 

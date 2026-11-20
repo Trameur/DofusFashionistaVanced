@@ -33,16 +33,18 @@ NODE = shutil.which('node')
 
 HARNESS = '''
 var vm = require('vm'), src = process.argv[1], opt = JSON.parse(process.argv[2]);
-var classes = new Set(), ready = [], links = (opt.lightLinks || []).map(function(){ var a = {media: 'light'}; a.removeAttribute = function(){ a.media = null; }; return a; });
+var classes = new Set(), ready = [], preloads = [], links = (opt.lightLinks || []).map(function(){ var a = {media: 'light'}; a.removeAttribute = function(){ a.media = null; }; return a; });
 var document = {documentElement: {classList: {add: function(c){ classes.add(c); }, remove: function(){ for (var i = 0; i < arguments.length; i++) classes.delete(arguments[i]); }, contains: function(c){ return classes.has(c); }}},
+  head: {appendChild: function(n){ preloads.push(n); }}, createElement: function(t){ return {tag: t}; },
   cookie: opt.cookie || '', addEventListener: function(n, f){ if (n === 'DOMContentLoaded') ready.push(f); }, querySelectorAll: function(s){ return s === 'link[media="(prefers-color-scheme: light)"]' ? links : []; }};
 var ctx = {document: document, window: {}};
 ctx.window.matchMedia = opt.noMatchMedia ? undefined : function(q){ return {matches: !!opt.matches[q], addEventListener: function(){}}; };
 if (opt.storageThrows) Object.defineProperty(ctx, 'localStorage', {get: function(){ throw new Error('blocked'); }});
-else ctx.localStorage = {getItem: function(){ return opt.design || null; }};
+else ctx.localStorage = {getItem: function(k){ var s = opt.storage || {}; return Object.prototype.hasOwnProperty.call(s, k) ? s[k] : null; }};
 vm.runInNewContext(src, ctx);
 ready.forEach(function(f){ f(); });
-console.log(JSON.stringify({classes: Array.from(classes).sort(), auto: typeof ctx.window.fmAutoTheme === 'function' ? ctx.window.fmAutoTheme() : null, media: links.map(function(l){ return l.media; })}));
+console.log(JSON.stringify({classes: Array.from(classes).sort(), auto: typeof ctx.window.fmAutoTheme === 'function' ? ctx.window.fmAutoTheme() : null, media: links.map(function(l){ return l.media; }),
+  preloads: preloads.map(function(n){ return {tag: n.tag, rel: n.rel, as: n.as, href: n.href}; })}));
 '''
 
 
@@ -160,7 +162,9 @@ class DefaultThemeTests(SimpleTestCase):
 
     def test_the_modern_design_is_the_default_and_classic_is_a_stored_choice(self):
         text = head_script()
-        self.assertIn("if(localStorage.getItem('fm_design')!=='classic')h.classList.add('fm-modern')", text)
+        self.assertIn("v=localStorage.getItem('fm_design_v2');", text)
+        self.assertIn("if(v==='enhanced'){h.classList.add('fm-enhanced');", text)
+        self.assertIn("else if(v!=='classic')h.classList.add('fm-modern');", text)
 
     def test_the_automatic_resolver_is_defined_before_the_storage_is_touched(self):
         text = head_script()
@@ -183,7 +187,7 @@ class HeadScriptBehaviourTests(SimpleTestCase):
         self.assertIn('fm-modern', run_head(storageThrows=True, cookie='theme=auto')['classes'])
 
     def test_a_stored_classic_choice_is_not_given_the_modern_design(self):
-        self.assertNotIn('fm-modern', run_head(design='classic', cookie='theme=auto')['classes'])
+        self.assertNotIn('fm-modern', run_head(storage={'fm_design_v2': 'classic'}, cookie='theme=auto')['classes'])
 
     def test_a_browser_that_answers_neither_scheme_query_gets_the_light_sheets_without_media(self):
         for options in ({'matches': {}}, {'noMatchMedia': True}):

@@ -135,6 +135,7 @@ html.fm-modern .fm-topnav .fm-design-toggle{
   color:var(--fm-navmuted); font-size:12px; font-weight:600;
 }
 html.fm-modern .fm-topnav .fm-design-toggle:hover{ background:var(--fm-navfill); color:#fff; transform:none; }
+html.fm-modern .fm-topnav .fm-design-menu{ top:calc(100% + 8px); right:0; left:auto; z-index:50; }
 
 html.fm-modern .fm-topnav .compare-cart-toggle{
   display:inline-flex; align-items:center; justify-content:center; gap:4px; min-width:40px; height:40px; padding:0 8px; box-sizing:border-box;
@@ -292,6 +293,8 @@ html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-w
   html.fm-modern .fm-topnav .login{ flex-wrap:wrap; height:auto; min-height:40px; padding:6px 14px; border-radius:20px; }
   html.fm-modern .fm-topnav .fm-design-toggle{ padding:0 11px; font-size:15px; line-height:1.2; color:var(--fm-navink); }
   html.fm-modern .fm-topnav .fm-design-toggle .fm-design-label{ font-size:15px; line-height:1.2; }
+  html.fm-modern:not(.fm-nostore) .fm-topnav .fm-design-picker{ display:contents; }
+  html.fm-modern .fm-topnav .fm-design-menu{ position:static; flex:0 0 100%; width:100%; box-shadow:none; }
 }
 @media (min-width:768px) and (max-width:839px){
   html.fm-modern .fm-topnav-menu{ left:auto; right:0; }

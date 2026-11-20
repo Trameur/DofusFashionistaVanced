@@ -121,7 +121,7 @@ class AThirdFocusBoxIsRefusedWhenTickedTests(TestCase):
             r'function refuseExtraFocus\(.*?\n\}', page, re.S).group(0))
 
     def test_the_limit_flash_is_readable_on_the_classic_light_header(self):
-        flash = re.search(r'html\.fm-light:not\(\.fm-modern\) \.build-boxes-title \.red-text\s*'
+        flash = re.search(r'html\.fm-light:not\(\.fm-modern, \.fm-enhanced\) \.build-boxes-title \.red-text\s*'
                           r'\{\s*color:\s*(#[0-9a-fA-F]{6})', self.page()).group(1)
         css = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'chardata',
                            'forms_lighttheme.css')

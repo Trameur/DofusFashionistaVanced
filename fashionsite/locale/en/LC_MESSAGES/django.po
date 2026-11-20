@@ -1940,17 +1940,6 @@ msgstr ""
 msgid "You have unsaved changes. They will be discarded if you leave."
 msgstr ""
 
-#: .\chardata\templates\chardata\base.html:120
-#: .\chardata\templates\chardata\base.html:121
-msgid "Classic look"
-msgstr ""
-
-#: .\chardata\templates\chardata\base.html:120
-#: .\chardata\templates\chardata\base.html:121
-#: .\chardata\templates\chardata\base.html:143
-msgid "New look"
-msgstr ""
-
 #: .\chardata\templates\chardata\base.html:242
 msgid "Main navigation"
 msgstr ""
@@ -2019,10 +2008,6 @@ msgstr ""
 #: .\chardata\templates\chardata\guide.html:41
 #: .\chardata\templates\chardata\guide.html:57
 msgid "Home"
-msgstr ""
-
-#: .\chardata\templates\chardata\base.html:143
-msgid "Switch between the classic and new design"
 msgstr ""
 
 #: .\chardata\templates\chardata\base.html:145
@@ -8973,6 +8958,22 @@ msgstr "Forge the exo before the Dracorune: it prevents any further smithmagic o
 msgctxt "what a rune leaves of a removed line"
 msgid "nothing"
 msgstr "nothing"
+
+#: chardata/templates/chardata/base.html
+msgid "Design"
+msgstr ""
+
+#: chardata/templates/chardata/base.html
+msgid "Classic"
+msgstr ""
+
+#: chardata/templates/chardata/base.html
+msgid "Enhanced classic"
+msgstr ""
+
+#: chardata/templates/chardata/base.html
+msgid "New"
+msgstr ""
 
 
 #~ msgid "This game has no exos: they are left out."

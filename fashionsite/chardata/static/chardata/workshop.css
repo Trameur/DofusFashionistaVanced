@@ -161,7 +161,7 @@ html.fm-dark {
 /* Owned / multiplier inputs: exempted from responsive.css's
    .pretty-input { width:100% !important }, the same way .stat-input is,
    with extra specificity so load order cannot flip it back. */
-.ws-num, html.fm-modern .ws-num, .maincontent .ws-num {
+.ws-num, html.fm-modern .ws-num, html.fm-enhanced .ws-num, .maincontent .ws-num {
     width: 8ch !important;
     min-width: 0 !important;
     padding: 6px 4px !important;
