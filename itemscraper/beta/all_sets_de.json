@@ -92638,7 +92638,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 max. 4"
+                        "formatted": "423 max."
                     },
                     {
                         "int_minimum": 19,
@@ -92651,7 +92651,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 max. 4"
+                        "formatted": "419 max."
                     },
                     {
                         "int_minimum": 26,
@@ -92664,7 +92664,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 max. 4"
+                        "formatted": "426 max."
                     },
                     {
                         "int_minimum": -10,
@@ -92835,7 +92835,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 max. 3"
+                        "formatted": "326 max."
                     },
                     {
                         "int_minimum": 23,
@@ -92848,7 +92848,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 max. 3"
+                        "formatted": "323 max."
                     },
                     {
                         "int_minimum": 19,
@@ -92861,7 +92861,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 max. 3"
+                        "formatted": "319 max."
                     },
                     {
                         "int_minimum": -20,
@@ -93045,7 +93045,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 max. 3"
+                        "formatted": "326 max."
                     },
                     {
                         "int_minimum": 1,
@@ -93227,7 +93227,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 max. 3"
+                        "formatted": "319 max."
                     },
                     {
                         "int_minimum": 23,
@@ -93240,7 +93240,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 max. 3"
+                        "formatted": "323 max."
                     }
                 ],
                 "5": [
@@ -93255,7 +93255,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 max. 3"
+                        "formatted": "326 max."
                     },
                     {
                         "int_minimum": 1,
@@ -93437,7 +93437,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 max. 3"
+                        "formatted": "319 max."
                     },
                     {
                         "int_minimum": 23,
@@ -93450,7 +93450,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 max. 3"
+                        "formatted": "323 max."
                     }
                 ],
                 "6": [
@@ -93465,7 +93465,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "26 max. 2"
+                        "formatted": "226 max."
                     },
                     {
                         "int_minimum": 23,
@@ -93478,7 +93478,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "23 max. 2"
+                        "formatted": "223 max."
                     },
                     {
                         "int_minimum": 19,
@@ -93491,7 +93491,7 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": false,
-                        "formatted": "19 max. 2"
+                        "formatted": "219 max."
                     },
                     {
                         "int_minimum": -50,
@@ -122296,6 +122296,636 @@
             ]
         },
         {
+            "ankama_id": 1106,
+            "name": "Ausrüstungsset der schiffbrüchigen Zehnianer",
+            "items": 9,
+            "level": 10,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Stärke",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Stärke"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligenz",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Intelligenz"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Flinkheit",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Flinkheit"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Glück",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Glück"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Schaden"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Flinkheit",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Flinkheit"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Glück",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Glück"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligenz",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Intelligenz"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Stärke",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Stärke"
+                    }
+                ],
+                "4": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Schaden"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Flinkheit",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Flinkheit"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Glück",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Glück"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligenz",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Intelligenz"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Stärke",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Stärke"
+                    }
+                ],
+                "5": [
+                    {
+                        "int_minimum": 2,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "2 Schaden"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Flinkheit",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Flinkheit"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Glück",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Glück"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligenz",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Intelligenz"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Stärke",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Stärke"
+                    }
+                ],
+                "6": [
+                    {
+                        "int_minimum": 2,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "2 Schaden"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Flinkheit",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 Flinkheit"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Glück",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 Glück"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligenz",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 Intelligenz"
+                    },
+                    {
+                        "int_minimum": 25,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Stärke",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "25 Stärke"
+                    }
+                ],
+                "7": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Schaden"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Flinkheit",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Flinkheit"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Glück",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Glück"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligenz",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Intelligenz"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Stärke",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Stärke"
+                    }
+                ],
+                "8": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Schaden"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Flinkheit",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 Flinkheit"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Glück",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 Glück"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligenz",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 Intelligenz"
+                    },
+                    {
+                        "int_minimum": 35,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Stärke",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "35 Stärke"
+                    }
+                ],
+                "9": [
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4 Schaden"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Flinkheit",
+                            "id": 36,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Flinkheit"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Glück",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Glück"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Intelligenz",
+                            "id": 13,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Intelligenz"
+                    },
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Stärke",
+                            "id": 45,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Stärke"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34695,
+                34696,
+                34697,
+                34698,
+                34699,
+                34700,
+                34701,
+                34702,
+                34703
+            ]
+        },
+        {
+            "ankama_id": 1107,
+            "name": "Ausrüstungsset der Salamanger",
+            "items": 3,
+            "level": 15,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Initiative",
+                            "id": 24,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 Initiative"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Schlagkraft"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Beschwörung",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Beschwörung"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Schlagkraft"
+                    },
+                    {
+                        "int_minimum": 100,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Initiative",
+                            "id": 24,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "100 Initiative"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34719,
+                34720,
+                34721
+            ]
+        },
+        {
             "ankama_id": 1108,
             "name": "Porzelluna-Prunkset",
             "items": 6,
@@ -122380,6 +123010,1241 @@
                 34688,
                 34689,
                 34690
+            ]
+        },
+        {
+            "ankama_id": 1114,
+            "name": "Ausrüstungsset der Wyvern",
+            "items": 3,
+            "level": 20,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Ausweichen",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Ausweichen"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Schlagkraft"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Beschwörung",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Beschwörung"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Ausweichen",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 Ausweichen"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Schlagkraft"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34722,
+                34723,
+                34724
+            ]
+        },
+        {
+            "ankama_id": 1115,
+            "name": "Drachenborken-Ausrüstungsset",
+            "items": 3,
+            "level": 25,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Blocken",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Blocken"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Schlagkraft"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Beschwörung",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Beschwörung"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Blocken",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 Blocken"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Schlagkraft"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34725,
+                34726,
+                34727
+            ]
+        },
+        {
+            "ankama_id": 1116,
+            "name": "Seedrachen-Ausrüstungsset",
+            "items": 3,
+            "level": 40,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% KT",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3% KT"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Schlagkraft"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Beschwörung",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Beschwörung"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Schlagkraft"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% KT",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6% KT"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34734,
+                34735,
+                34736
+            ]
+        },
+        {
+            "ankama_id": 1117,
+            "name": "Prismantisches Ausrüstungsset",
+            "items": 3,
+            "level": 35,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Weisheit",
+                            "id": 10,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Weisheit"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Resistenz gegen Erdschaden",
+                            "id": 15,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Resistenz gegen Erdschaden"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Resistenz gegen Feuerschaden",
+                            "id": 14,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Resistenz gegen Feuerschaden"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Resistenz gegen Wasserschaden",
+                            "id": 82,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Resistenz gegen Wasserschaden"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Resistenz gegen Luftschaden",
+                            "id": 60,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5 Resistenz gegen Luftschaden"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "RW",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 RW"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Weisheit",
+                            "id": 10,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Weisheit"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Resistenz gegen Erdschaden",
+                            "id": 15,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Resistenz gegen Erdschaden"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Resistenz gegen Feuerschaden",
+                            "id": 14,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Resistenz gegen Feuerschaden"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Resistenz gegen Wasserschaden",
+                            "id": 82,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Resistenz gegen Wasserschaden"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Resistenz gegen Luftschaden",
+                            "id": 60,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Resistenz gegen Luftschaden"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34728,
+                34729,
+                34730
+            ]
+        },
+        {
+            "ankama_id": 1118,
+            "name": "Ausrüstungsset der Schattenseelen",
+            "items": 3,
+            "level": 30,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3 Schaden"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Schlagkraft"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Beschwörung",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Beschwörung"
+                    },
+                    {
+                        "int_minimum": 6,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "6 Schaden"
+                    },
+                    {
+                        "int_minimum": 20,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "20 Schlagkraft"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34731,
+                34732,
+                34733
+            ]
+        },
+        {
+            "ankama_id": 1119,
+            "name": "Guiras Asche",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 80,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "80 Schlagkraft"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8395,1::Purpurrot}}:\n• Wenn der Träger angegriffen wird, erhöht sich sein Endschaden 2 Runden lang um 1 % (10-mal kumulierbar)."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 80,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "80 Schlagkraft"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8395,1::Purpurrot}}:\n• Wenn der Träger angegriffen wird, erhöht sich sein Endschaden 2 Runden lang um 1 % (10-mal kumulierbar)."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34737,
+                34738,
+                34739
+            ]
+        },
+        {
+            "ankama_id": 1120,
+            "name": "Elils Relikte",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 200,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Vitalität",
+                            "id": 9,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "200 Vitalität"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8393,1::Smaragdgrün}}:\n• Am Rundenende erhält der Träger 1 Runde lang für jeden Gegner in Reichweite 100 % seiner Stufe als Schild. Handelt es sich beim Gegner um eine Beschwörung, werden die Wirkungen um die Hälfte verringert."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 200,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Vitalität",
+                            "id": 9,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "200 Vitalität"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8393,1::Smaragdgrün}}:\n• Am Rundenende erhält der Träger 1 Runde lang für jeden Gegner in Reichweite 100 % seiner Stufe als Schild. Handelt es sich beim Gegner um eine Beschwörung, werden die Wirkungen um die Hälfte verringert."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34740,
+                34741,
+                34742
+            ]
+        },
+        {
+            "ankama_id": 1121,
+            "name": "Ninmas Erinnerungen",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8394,1::Ockergelb}}:\n• Wenn der Träger seit seiner letzten Spielrunde nicht von einem Gegner angegriffen wurde, erhält er jeweils zu Rundenbeginn 1 AP. Ansonsten erhält er 20 Ausweichen."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 2,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "2 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,8394,1::Ockergelb}}:\n• Wenn der Träger seit seiner letzten Spielrunde nicht von einem Gegner angegriffen wurde, erhält er jeweils zu Rundenbeginn 1 AP. Ansonsten erhält er 20 Ausweichen."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34743,
+                34744,
+                34745
+            ]
+        },
+        {
+            "ankama_id": 1122,
+            "name": "Tiamas Überreste",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% KT",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10% KT"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,5952,1::Türkisblau}}:\n• Wenn der Träger einen kritischen Treffer landet, erhöht sich sein Endschaden 3 Runden lang um 1 % (10-mal kumulierbar)."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% KT",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10% KT"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,5952,1::Türkisblau}}:\n• Wenn der Träger einen kritischen Treffer landet, erhöht sich sein Endschaden 3 Runden lang um 1 % (10-mal kumulierbar)."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34752,
+                34753,
+                34754
+            ]
+        },
+        {
+            "ankama_id": 1123,
+            "name": "Utus Schätze",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Luftresistenz",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Luftresistenz"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18665,1::Elfenbeinweiß}}:\n• Bei jedem fünften Angriff des Trägers reduziert sich der Schaden um 50 %. Die Wirkungen von „Abfangen“ und „Schadensteilung“ sind damit nicht kompatibel."
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Neutralresistenz",
+                            "id": 34,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Neutralresistenz"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Feuerresistenz",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Feuerresistenz"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Wasserresistenz",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Wasserresistenz"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Erdresistenz",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Erdresistenz"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Luftresistenz",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Luftresistenz"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18665,1::Elfenbeinweiß}}:\n• Bei jedem fünften Angriff des Trägers reduziert sich der Schaden um 50 %. Die Wirkungen von „Abfangen“ und „Schadensteilung“ sind damit nicht kompatibel."
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Neutralresistenz",
+                            "id": 34,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Neutralresistenz"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Feuerresistenz",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Feuerresistenz"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Wasserresistenz",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Wasserresistenz"
+                    },
+                    {
+                        "int_minimum": 4,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Erdresistenz",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "4% Erdresistenz"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34746,
+                34747,
+                34748
+            ]
+        },
+        {
+            "ankama_id": 1124,
+            "name": "Ereshs Stigmata",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Ausweichen",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Ausweichen"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18629,1::Ebenholzschwarz}}:\n• Wenn der Träger während seiner Runde einen Nahkampfangriff ausführt, erhöht sich sein Fernkampfschaden 3 Runden lang um 2 %, und wenn er einen Fernkampfangriff ausführt, erhöht sich sein Nahkampfschaden 3 Runden lang um 2 % (5-mal kumulierbar).\n• Werden beide Wirkungen in derselben Runde ausgelöst, kann der Träger beim nächsten Angriff ein Gift anwenden, das 2 Runden lang 16 Schaden in seinem Element verursacht (2-mal kumulierbar).\n• Die Abklingzeit des Gifts beträgt 2 Runden, sie kann aber zurückgesetzt werden, wenn das Ziel besiegt wird."
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 40,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Ausweichen",
+                            "id": 59,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "40 Ausweichen"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 0,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "-special spell-",
+                            "id": 163,
+                            "is_meta": true,
+                            "is_active": false
+                        },
+                        "ignore_int_min": true,
+                        "ignore_int_max": true,
+                        "formatted": "{{spell,18629,1::Ebenholzschwarz}}:\n• Wenn der Träger während seiner Runde einen Nahkampfangriff ausführt, erhöht sich sein Fernkampfschaden 3 Runden lang um 2 %, und wenn er einen Fernkampfangriff ausführt, erhöht sich sein Nahkampfschaden 3 Runden lang um 2 % (5-mal kumulierbar).\n• Werden beide Wirkungen in derselben Runde ausgelöst, kann der Träger beim nächsten Angriff ein Gift anwenden, das 2 Runden lang 16 Schaden in seinem Element verursacht (2-mal kumulierbar).\n• Die Abklingzeit des Gifts beträgt 2 Runden, sie kann aber zurückgesetzt werden, wenn das Ziel besiegt wird."
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34749,
+                34750,
+                34751
+            ]
+        },
+        {
+            "ankama_id": 1125,
+            "name": "Zabelle-Prunkset",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34795,
+                34796,
+                34797,
+                34798,
+                34837,
+                34840
+            ]
+        },
+        {
+            "ankama_id": 1126,
+            "name": "Welsh-Prunkset",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34800,
+                34802,
+                34804,
+                34805
+            ]
+        },
+        {
+            "ankama_id": 1127,
+            "name": "Shedar-Prunkset",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34801,
+                34803,
+                34806
+            ]
+        },
+        {
+            "ankama_id": 1128,
+            "name": "[!] Panoplie d'apparat préhistorique",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34908,
+                34909,
+                34910,
+                34911,
+                34913
+            ]
+        },
+        {
+            "ankama_id": 1129,
+            "name": "[!] Panoplie d'apparat de la Démone VIII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34949,
+                34950,
+                34952,
+                34956
+            ]
+        },
+        {
+            "ankama_id": 1130,
+            "name": "[!] Panoplie d'apparat diaprée de la Démone VIII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34951,
+                34953,
+                34954,
+                34955
+            ]
+        },
+        {
+            "ankama_id": 1131,
+            "name": "[!] Panoplie d'apparat de la source",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34991,
+                34992,
+                34993,
+                34995,
+                34996
+            ]
+        },
+        {
+            "ankama_id": 1132,
+            "name": "[!] Panoplie d'apparat Glucolique",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34998,
+                34999,
+                35000,
+                35001
+            ]
+        },
+        {
+            "ankama_id": 1133,
+            "name": "[!] Panoplie d'apparat Bellaphone",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                27939,
+                35006,
+                35008,
+                35009,
+                35010,
+                35011
             ]
         }
     ]

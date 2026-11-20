@@ -23,7 +23,7 @@
    "level": 20,
    "names": {
     "de": "Elementartrank: Nieselregen",
-    "en": "Drizzle Potion",
+    "en": "Spittle Potion",
     "es": "Pócima de llovizna",
     "fr": "Potion de Crachin",
     "pt": "Poção de Garoa"
@@ -71,7 +71,7 @@
    "level": 80,
    "names": {
     "de": "Elementartrank: Flächenbrand",
-    "en": "Wildfire Potion",
+    "en": "Blaze Potion",
     "es": "Pócima de incendio",
     "fr": "Potion d'Incendie",
     "pt": "Poção de incêndio"
@@ -167,7 +167,7 @@
    "level": 80,
    "names": {
     "de": "Feuersbrunst-Gravur",
-    "en": "Blazing Engraving",
+    "en": "Blaze Engraving",
     "es": "Grabado de incendio",
     "fr": "Gravure d'Incendie",
     "pt": "Gravura de Incêndio"
@@ -385,7 +385,7 @@
    "type_id": 335
   }
  ],
- "data_version": "3.7.3.3",
+ "data_version": "3.8.2.3",
  "game_version": "beta",
  "gems": [
   {
@@ -480,7 +480,8 @@
   25952,
   26198,
   27268,
-  30832
+  30832,
+  34695
  ],
  "unforgeable_source": "m_flags bit 0x40"
 }

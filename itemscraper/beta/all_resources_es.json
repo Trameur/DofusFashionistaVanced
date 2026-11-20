@@ -3447,6 +3447,34 @@
                     "quantity": 100
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 14,
@@ -3509,6 +3537,34 @@
                     "quantity": 100
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 14,
@@ -3571,6 +3627,34 @@
                     "quantity": 100
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 14,
@@ -3618,6 +3702,34 @@
                     "quantity": 100
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 14,
@@ -3695,6 +3807,34 @@
                     "quantity": 300
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 14,
@@ -3742,6 +3882,34 @@
                     "quantity": 300
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 14,
@@ -3789,6 +3957,34 @@
                     "quantity": 300
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 14,
@@ -3836,6 +4032,34 @@
                     "quantity": 300
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 14,
@@ -44312,14 +44536,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44380,14 +44604,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44448,14 +44672,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44516,14 +44740,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44584,14 +44808,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44652,14 +44876,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44720,14 +44944,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44788,14 +45012,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44856,14 +45080,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44924,14 +45148,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -44992,14 +45216,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45060,14 +45284,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45128,14 +45352,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45196,14 +45420,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45264,14 +45488,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45332,14 +45556,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45400,14 +45624,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45468,14 +45692,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45536,14 +45760,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45604,14 +45828,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45672,14 +45896,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45740,14 +45964,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45808,14 +46032,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45876,14 +46100,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -45944,14 +46168,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46012,14 +46236,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46080,14 +46304,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46148,14 +46372,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46216,14 +46440,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46284,14 +46508,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46352,14 +46576,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46420,14 +46644,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46488,14 +46712,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46556,14 +46780,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46624,14 +46848,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46692,14 +46916,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46760,14 +46984,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46828,14 +47052,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46896,14 +47120,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -46964,14 +47188,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47032,14 +47256,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47100,14 +47324,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47168,14 +47392,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47236,14 +47460,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47304,14 +47528,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47372,14 +47596,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47440,14 +47664,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47508,14 +47732,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47576,14 +47800,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47644,14 +47868,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47712,14 +47936,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47780,14 +48004,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47848,14 +48072,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47916,14 +48140,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -47984,14 +48208,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48052,14 +48276,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48120,14 +48344,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48188,14 +48412,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48256,14 +48480,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48324,14 +48548,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48392,14 +48616,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48460,14 +48684,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48528,14 +48752,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48596,14 +48820,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48664,14 +48888,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48732,14 +48956,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48800,14 +49024,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48868,14 +49092,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -48936,14 +49160,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49004,14 +49228,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49072,14 +49296,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49140,14 +49364,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49208,14 +49432,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49276,14 +49500,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49344,14 +49568,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49412,14 +49636,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49480,14 +49704,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49548,14 +49772,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49616,14 +49840,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49684,14 +49908,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -49752,14 +49976,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -50783,6 +51007,17 @@
                     "quantity": 100
                 }
             ],
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 2075,
+                    "element": {
+                        "name": "Quest completed",
+                        "id": -1
+                    }
+                },
+                "is_operand": true
+            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -54973,6 +55208,34 @@
                     "quantity": 300
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 57,
@@ -55020,6 +55283,34 @@
                     "quantity": 300
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 57,
@@ -55067,6 +55358,34 @@
                     "quantity": 300
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 57,
@@ -55114,6 +55433,34 @@
                     "quantity": 300
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 57,
@@ -55161,6 +55508,34 @@
                     "quantity": 100
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 57,
@@ -55208,6 +55583,34 @@
                     "quantity": 100
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 57,
@@ -55255,6 +55658,34 @@
                     "quantity": 100
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 57,
@@ -55302,6 +55733,34 @@
                     "quantity": 100
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 57,
@@ -58489,6 +58948,17 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/40716-128.png"
             },
             "description": "Con este cristal el efecto del reciclado en la durabilidad del prisma se reducirá a la mitad durante las próximas doce horas.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 4,
+                    "element": {
+                        "name": "Alliance right",
+                        "id": -1
+                    }
+                },
+                "is_operand": true
+            },
             "pods": 10
         },
         {
@@ -58504,6 +58974,17 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/40717-128.png"
             },
             "description": "Este extraño cristal es capaz de influir en los espíritus y de erradicar cualquier tipo de hostilidad que se dirija al prisma protegiéndolo de los ataques durante las próximas doce horas. Atención, cuando este cristal se utiliza, se desactivan los módulos presentes en el prisma.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 4,
+                    "element": {
+                        "name": "Alliance right",
+                        "id": -1
+                    }
+                },
+                "is_operand": true
+            },
             "pods": 10
         },
         {
@@ -58994,14 +59475,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -59050,14 +59531,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -59106,14 +59587,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -59162,14 +59643,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Ninguna forjamagia futura",
-                        "id": 76,
+                        "name": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia",
+                        "id": 283,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ninguna forjamagia futura"
+                    "formatted": "Trascendido: impide el uso de las runas de forjamagia y de trascendencia"
                 },
                 {
                     "int_minimum": 0,
@@ -60454,6 +60935,306 @@
             },
             "description": "Con su grueso caparazón de quitina, el Bzupervibzor tiene pinta de jalabolista. Aun así, es poco probable que lo veamos disputar un partido con juego limpio: seguramente lo expulsarían por exclosiones inoportunas.",
             "pods": 10
+        },
+        {
+            "ankama_id": 31564,
+            "name": "Dracorruna esmeralda",
+            "type": {
+                "name": "Dracorruna",
+                "id": 269
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26031-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26031-128.png"
+            },
+            "description": "Esta runa permite transformar las características ofensivas de un elemento de un objeto al elemento aire.\nSin embargo, impide volver a forjamaguear el objeto.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34757,
+                    "item_subtype": "resources",
+                    "quantity": 50
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 4,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "[!] Transformation des caractéristiques offensives d'un élément vers l'élément",
+                        "id": 287,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "[!] Transformation des caractéristiques offensives d'un élément vers l'élément 4"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ninguna forjamagia futura",
+                        "id": 76,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ninguna forjamagia futura"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 31565,
+            "name": "Dracorruna púrpura",
+            "type": {
+                "name": "Dracorruna",
+                "id": 269
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26032-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26032-128.png"
+            },
+            "description": "Esta runa permite transformar las características ofensivas de un elemento de un objeto al elemento fuego.\nSin embargo, impide volver a forjamaguear el objeto.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34756,
+                    "item_subtype": "resources",
+                    "quantity": 50
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 2,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "[!] Transformation des caractéristiques offensives d'un élément vers l'élément",
+                        "id": 287,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "[!] Transformation des caractéristiques offensives d'un élément vers l'élément 2"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ninguna forjamagia futura",
+                        "id": 76,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ninguna forjamagia futura"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 31566,
+            "name": "Dracorruna turquesa",
+            "type": {
+                "name": "Dracorruna",
+                "id": 269
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26033-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26033-128.png"
+            },
+            "description": "Esta runa permite transformar las características ofensivas de un elemento de un objeto al elemento agua.\nSin embargo, impide volver a forjamaguear el objeto.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34758,
+                    "item_subtype": "resources",
+                    "quantity": 50
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "[!] Transformation des caractéristiques offensives d'un élément vers l'élément",
+                        "id": 287,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "[!] Transformation des caractéristiques offensives d'un élément vers l'élément 3"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ninguna forjamagia futura",
+                        "id": 76,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ninguna forjamagia futura"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 31569,
+            "name": "Dracorruna ocre",
+            "type": {
+                "name": "Dracorruna",
+                "id": 269
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26034-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26034-128.png"
+            },
+            "description": "Esta runa permite transformar las características ofensivas de un elemento de un objeto al elemento tierra.\nSin embargo, impide volver a forjamaguear el objeto.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34759,
+                    "item_subtype": "resources",
+                    "quantity": 50
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "[!] Transformation des caractéristiques offensives d'un élément vers l'élément",
+                        "id": 287,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "[!] Transformation des caractéristiques offensives d'un élément vers l'élément 1"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ninguna forjamagia futura",
+                        "id": 76,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ninguna forjamagia futura"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 31571,
+            "name": "Dracorruna marfil",
+            "type": {
+                "name": "Dracorruna",
+                "id": 269
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26035-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26035-128.png"
+            },
+            "description": "Esta runa permite transformar las resistencias elementales de un elemento de un objeto a otro de tu elección.\nSin embargo, impide volver a forjamaguear el objeto.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34760,
+                    "item_subtype": "resources",
+                    "quantity": 50
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "[!] Transformation des caractéristiques défensives d'un élément vers l'élément",
+                        "id": 286,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "[!] Transformation des caractéristiques défensives d'un élément vers l'élément"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ninguna forjamagia futura",
+                        "id": 76,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ninguna forjamagia futura"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 31573,
+            "name": "Dracorruna ébano",
+            "type": {
+                "name": "Dracorruna",
+                "id": 269
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26036-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26036-128.png"
+            },
+            "description": "Esta runa permite transformar las características ofensivas elementales de un objeto en potencia.\nSin embargo, impide volver a forjamaguear el objeto.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34761,
+                    "item_subtype": "resources",
+                    "quantity": 50
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "[!] Transformation des caractéristiques élémentaires offensives vers la Puissance",
+                        "id": 285,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "[!] Transformation des caractéristiques élémentaires offensives vers la Puissance"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ninguna forjamagia futura",
+                        "id": 76,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ninguna forjamagia futura"
+                }
+            ],
+            "pods": 1
         },
         {
             "ankama_id": 31620,
@@ -79875,6 +80656,34 @@
                     "quantity": 10
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 533,
@@ -79917,11 +80726,39 @@
                     "quantity": 300
                 },
                 {
-                    "item_ankama_id": 16493,
-                    "item_subtype": "resources",
-                    "quantity": 1
+                    "item_ankama_id": 31519,
+                    "item_subtype": "consumables",
+                    "quantity": 10
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 533,
@@ -79969,6 +80806,34 @@
                     "quantity": 10
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 533,
@@ -80016,6 +80881,34 @@
                     "quantity": 10
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 533,
@@ -80063,6 +80956,34 @@
                     "quantity": 10
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 533,
@@ -80110,6 +81031,34 @@
                     "quantity": 10
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 533,
@@ -80157,6 +81106,34 @@
                     "quantity": 10
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 533,
@@ -80204,6 +81181,34 @@
                     "quantity": 10
                 }
             ],
+            "conditions": {
+                "is_operand": false,
+                "relation": "or",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 44,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 48,
+                            "element": {
+                                "name": "Profession learned",
+                                "id": -1
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
             "effects": [
                 {
                     "int_minimum": 533,
@@ -80540,7 +81545,382 @@
             "pods": 0
         },
         {
-            "ankama_id": 34675,
+            "ankama_id": 34630,
+            "name": "[!] Revanche Turquoise",
+            "type": {
+                "name": "Llave",
+                "id": 50
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136168-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136168-128.png"
+            },
+            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34631,
+            "name": "[!] Revanche Pourpre",
+            "type": {
+                "name": "Llave",
+                "id": 50
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136163-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136163-128.png"
+            },
+            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34632,
+            "name": "[!] Revanche d'Émeraude",
+            "type": {
+                "name": "Llave",
+                "id": 50
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136164-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136164-128.png"
+            },
+            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34633,
+            "name": "[!] Revanche Ocre",
+            "type": {
+                "name": "Llave",
+                "id": 50
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136165-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136165-128.png"
+            },
+            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34634,
+            "name": "[!] Revanche d'Ébène",
+            "type": {
+                "name": "Llave",
+                "id": 50
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136167-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136167-128.png"
+            },
+            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34635,
+            "name": "[!] Revanche d'Ivoire",
+            "type": {
+                "name": "Llave",
+                "id": 50
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136166-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136166-128.png"
+            },
+            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34756,
+            "name": "Fragmento de dracorruna púrpura",
+            "type": {
+                "name": "Fragmento de dracorruna",
+                "id": 271
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26038-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26038-128.png"
+            },
+            "description": "Este fragmento, procedente de la Fuente, encierra un poder extraordinario.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34757,
+            "name": "Fragmento de dracorruna esmeralda",
+            "type": {
+                "name": "Fragmento de dracorruna",
+                "id": 271
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26037-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26037-128.png"
+            },
+            "description": "Este fragmento, procedente de la Fuente, encierra un poder extraordinario.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34758,
+            "name": "Fragmento de dracorruna turquesa",
+            "type": {
+                "name": "Fragmento de dracorruna",
+                "id": 271
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26039-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26039-128.png"
+            },
+            "description": "Este fragmento, procedente de la Fuente, encierra un poder extraordinario.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34759,
+            "name": "Fragmento de dracorruna ocre",
+            "type": {
+                "name": "Fragmento de dracorruna",
+                "id": 271
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26040-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26040-128.png"
+            },
+            "description": "Este fragmento, procedente de la Fuente, encierra un poder extraordinario.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34760,
+            "name": "Fragmento de dracorruna marfil",
+            "type": {
+                "name": "Fragmento de dracorruna",
+                "id": 271
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26041-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26041-128.png"
+            },
+            "description": "Este fragmento, procedente de la Fuente, encierra un poder extraordinario.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34761,
+            "name": "Fragmento de dracorruna ébano",
+            "type": {
+                "name": "Fragmento de dracorruna",
+                "id": 271
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/26042-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/26042-128.png"
+            },
+            "description": "Este fragmento, procedente de la Fuente, encierra un poder extraordinario.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34878,
+            "name": "Cola de salamandro",
+            "type": {
+                "name": "Cola",
+                "id": 143
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24544-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24544-128.png"
+            },
+            "description": "",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34879,
+            "name": "Brote de dracornoque",
+            "type": {
+                "name": "Brote",
+                "id": 94
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24546-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24546-128.png"
+            },
+            "description": "",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34880,
+            "name": "Pico galiverno",
+            "type": {
+                "name": "Hueso",
+                "id": 2
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24545-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24545-128.png"
+            },
+            "description": "",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34881,
+            "name": "Ektoplasma",
+            "type": {
+                "name": "Recurso variado",
+                "id": 231
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24548-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24548-128.png"
+            },
+            "description": "Esta sustancia parece ser lo único que queda de una sombralma. Se pueden encontrar cantidades ingentes en el fondo del pozo de las almas.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34882,
+            "name": "Escama prismántica",
+            "type": {
+                "name": "Piel",
+                "id": 77
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24547-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24547-128.png"
+            },
+            "description": "",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34883,
+            "name": "Aleta de dragocampo",
+            "type": {
+                "name": "Recurso variado",
+                "id": 231
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24549-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24549-128.png"
+            },
+            "description": "",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34884,
+            "name": "Máscara de la ira",
+            "type": {
+                "name": "Ropaje",
+                "id": 51
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24550-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24550-128.png"
+            },
+            "description": "",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34885,
+            "name": "Máscara de la carga",
+            "type": {
+                "name": "Ropaje",
+                "id": 51
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24552-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24552-128.png"
+            },
+            "description": "",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34886,
+            "name": "Máscara de la melancolía",
+            "type": {
+                "name": "Ropaje",
+                "id": 51
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24551-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24551-128.png"
+            },
+            "description": "",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34887,
+            "name": "Máscara de la amargura",
+            "type": {
+                "name": "Ropaje",
+                "id": 51
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24554-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24554-128.png"
+            },
+            "description": "[!] Tous les chemins ne mènent qu'à une seule issue, la mort.",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34888,
+            "name": "Máscara de la negación",
+            "type": {
+                "name": "Ropaje",
+                "id": 51
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24553-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24553-128.png"
+            },
+            "description": "",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34889,
+            "name": "Tiara de la decana",
+            "type": {
+                "name": "Ropaje",
+                "id": 51
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24555-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24555-128.png"
+            },
+            "description": "",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34890,
+            "name": "Vértebra de Zuhul",
+            "type": {
+                "name": "Hueso",
+                "id": 2
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24556-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24556-128.png"
+            },
+            "description": "",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34938,
             "name": "Vitoricha",
             "type": {
                 "name": "Recurso variado",

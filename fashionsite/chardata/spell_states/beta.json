@@ -1721,20 +1721,6 @@
   "fr": "Infecté (effets sur cible)",
   "pt": "Infectado (alvo)"
  },
- "5418": {
-  "de": "Puppenhafte Präparation 1/3",
-  "en": "Dollish Decoction 1/3",
-  "es": "Preparación Muñequera 1/3",
-  "fr": "Préparation Poupesque 1/3",
-  "pt": "Preparação Bonecal 1/3"
- },
- "5420": {
-  "de": "Puppenhafte Präparation 3/3",
-  "en": "Dollish Decoction 3/3",
-  "es": "Preparación Muñequera 3/3",
-  "fr": "Préparation Poupesque 3/3",
-  "pt": "Preparação Bonecal 3/3"
- },
  "5424": {
   "de": "Ansteckung (Ziel)",
   "en": "Contagion (target)",
@@ -2617,6 +2603,20 @@
   "fr": "Poing Gris I",
   "pt": "Punho Cinza I"
  },
+ "7145": {
+  "de": "Enflammé",
+  "en": "Enflammé",
+  "es": "Enflammé",
+  "fr": "Enflammé",
+  "pt": "Enflammé"
+ },
+ "7148": {
+  "de": "Seelenvermischung",
+  "en": "Amalganima",
+  "es": "Amalgalma",
+  "fr": "Amalgâme",
+  "pt": "Amálgalma"
+ },
  "715": {
   "de": "Graue Faust II",
   "en": "Grey Fist II",
@@ -2638,12 +2638,124 @@
   "fr": "Évadé",
   "pt": "Fugitivo"
  },
+ "7181": {
+  "de": "Lumière Prismatique (aura)",
+  "en": "Lumière Prismatique (aura)",
+  "es": "Lumière Prismatique (aura)",
+  "fr": "Lumière Prismatique (aura)",
+  "pt": "Lumière Prismatique (aura)"
+ },
+ "7219": {
+  "de": "Ocre renforcé",
+  "en": "Ocre renforcé",
+  "es": "Ocre renforcé",
+  "fr": "Ocre renforcé",
+  "pt": "Ocre renforcé"
+ },
+ "7235": {
+  "de": "Brûlure Pourpre",
+  "en": "Brûlure Pourpre",
+  "es": "Brûlure Pourpre",
+  "fr": "Brûlure Pourpre",
+  "pt": "Brûlure Pourpre"
+ },
+ "7259": {
+  "de": "Khamsin (ciblé)",
+  "en": "Khamsin (ciblé)",
+  "es": "Khamsin (ciblé)",
+  "fr": "Khamsin (ciblé)",
+  "pt": "Khamsin (ciblé)"
+ },
+ "7267": {
+  "de": "queueIvoire NORD-OUEST",
+  "en": "queueIvoire NORD-OUEST",
+  "es": "queueIvoire NORD-OUEST",
+  "fr": "queueIvoire NORD-OUEST",
+  "pt": "queueIvoire NORD-OUEST"
+ },
+ "7268": {
+  "de": "queueIvoire SUD-OUEST",
+  "en": "queueIvoire SUD-OUEST",
+  "es": "queueIvoire SUD-OUEST",
+  "fr": "queueIvoire SUD-OUEST",
+  "pt": "queueIvoire SUD-OUEST"
+ },
+ "7269": {
+  "de": "queueIvoire SUD-EST",
+  "en": "queueIvoire SUD-EST",
+  "es": "queueIvoire SUD-EST",
+  "fr": "queueIvoire SUD-EST",
+  "pt": "queueIvoire SUD-EST"
+ },
+ "7281": {
+  "de": "Elfenbeinturm 1/1",
+  "en": "Ivory Tower 1/1",
+  "es": "Torre de Marfil 1/1",
+  "fr": "Tour d'Ivoire 1/1",
+  "pt": "Torre de Marfim 1/1"
+ },
+ "7282": {
+  "de": "Königreich der Schatten 1/1",
+  "en": "Shadow Realm 1/1",
+  "es": "Reino de las Sombras 1/1",
+  "fr": "Royaume des Ombres 1/1",
+  "pt": "Reino das Sombras 1/1"
+ },
+ "7300": {
+  "de": "Uroboros",
+  "en": "Ouroboros",
+  "es": "Uróboro",
+  "fr": "Ouroboros",
+  "pt": "Ouroboros"
+ },
+ "7306": {
+  "de": "TITAN NORMAL MODE",
+  "en": "TITAN NORMAL MODE",
+  "es": "TITAN NORMAL MODE",
+  "fr": "TITAN NORMAL MODE",
+  "pt": "TITAN NORMAL MODE"
+ },
+ "7321": {
+  "de": "Schlangholz-Gestalt",
+  "en": "Stumpagon Form",
+  "es": "Forma Lagartocón",
+  "fr": "Forme Troncaille",
+  "pt": "Forma Cascama"
+ },
+ "7322": {
+  "de": "Lindwurzel-Gestalt",
+  "en": "Alligroot Form",
+  "es": "Forma Arraigón",
+  "fr": "Forme Dracinaire",
+  "pt": "Forma Arraidraga"
+ },
+ "7323": {
+  "de": "Reißzapfen-Gestalt",
+  "en": "Coniferocious Form",
+  "es": "Forma Coniferoz",
+  "fr": "Forme Coniféroce",
+  "pt": "Forma Coniferoz"
+ },
+ "7324": {
+  "de": "Skorpinien-Gestalt",
+  "en": "Scorpulp Form",
+  "es": "Forma Cortezón",
+  "fr": "Forme Scorbois",
+  "pt": "Forma Escorpinha"
+ },
  "738": {
   "de": "Garn des Schicksals",
   "en": "Thread of Destiny",
   "es": "Hilo del Destino",
   "fr": "Fil du Destin",
   "pt": "Fio do Destino"
+ },
+ "7389": {
+  "de": "Aubade (lancer)",
+  "en": "Aubade (lancer)",
+  "es": "Aubade (lancer)",
+  "fr": "Aubade (lancer)",
+  "pt": "Aubade (lancer)"
  },
  "74": {
   "de": "Zombie",
@@ -2812,5 +2924,19 @@
   "es": "Sáikopat",
   "fr": "Psychopathe",
   "pt": "Psicopata"
+ },
+ "Ct33276": {
+  "de": "Größe der Bellaura",
+  "en": "Bellaura Size",
+  "es": "Tamaño de la Belaura",
+  "fr": "Taille de la Bellaura",
+  "pt": "Tamanho da Belaura"
+ },
+ "Ct33278": {
+  "de": "Gegner in der Bellaura",
+  "en": "Enemies in the Bellaura",
+  "es": "Enemigos en la Belaura",
+  "fr": "Ennemis dans la Bellaura",
+  "pt": "Inimigos na Belaura"
  }
 }

@@ -16301,7 +16301,9 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/81026-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/81026-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 6,
         "criteria": "PJ>2,40|PJ>24,40|PJ>36,40|PJ>28,40|PJ>26,40|PJ>41,40"
     },
     {
@@ -16410,7 +16412,9 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/81028-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/81028-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 6,
         "criteria": "PJ>2,80|PJ>24,80|PJ>36,80|PJ>28,80|PJ>26,80|PJ>41,80"
     },
     {
@@ -16433,7 +16437,9 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/81029-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/81029-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 6,
         "criteria": "PJ>2,120|PJ>24,120|PJ>36,120|PJ>28,120|PJ>26,120|PJ>41,120"
     },
     {
@@ -16456,7 +16462,9 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/81030-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/81030-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 6,
         "criteria": "PJ>2,180|PJ>24,180|PJ>36,180|PJ>28,180|PJ>26,180|PJ>41,180"
     },
     {
@@ -16940,7 +16948,7 @@
             [
                 4,
                 6,
-                "(Neutral damage)"
+                "(best-element damage)"
             ],
             [
                 null,
@@ -17476,6 +17484,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17020-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17020-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Ps=2"
     },
@@ -17493,6 +17502,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17034-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17034-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Ps=1"
     },
@@ -17536,6 +17546,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9007-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9007-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~Silaisie&BI=1",
         "unusable": true,
@@ -17568,6 +17579,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1019-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1019-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~Silaisie&BI=1",
         "unusable": true,
@@ -17603,6 +17615,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6016-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6016-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~Silaisie&BI=1",
         "unusable": true,
@@ -17705,6 +17718,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/2008-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/2008-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Ps=1"
     },
@@ -29379,6 +29393,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5034-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/5034-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~Lordsoth",
         "names": [
@@ -32562,6 +32577,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6018-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6018-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PG=6&PS=0",
         "classes": [
@@ -32604,6 +32620,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6018-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6018-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PG=6&PS=1",
         "classes": [
@@ -56055,6 +56072,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5060-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/5060-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=166"
     },
@@ -56498,6 +56516,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~xxramboplxx&BI=1",
         "unusable": true,
@@ -73382,6 +73401,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9171-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9171-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73425,6 +73445,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1146-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1146-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73468,6 +73489,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10156-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10156-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73506,6 +73528,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17168-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17168-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73549,6 +73572,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11139-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11139-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73587,6 +73611,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16244-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16244-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -75725,7 +75750,7 @@
             [
                 5,
                 6,
-                "(Neutral steal)"
+                "(best-element steal)"
             ],
             [
                 1,
@@ -81491,6 +81516,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16276-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16276-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [
             "Chance = 0"
         ],
@@ -82022,6 +82048,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10179-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10179-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [
             "Chance = 0"
         ],
@@ -86421,6 +86448,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10198-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10198-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=0",
         "unusable": true
@@ -87688,6 +87716,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4101-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/4101-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -95094,6 +95123,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1196-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1196-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PS=0&Qf=714",
         "sexes": [
@@ -95114,6 +95144,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1196-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1196-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PS=1&Qf=714",
         "sexes": [
@@ -97218,6 +97249,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/121000-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/121000-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PE=51"
     },
@@ -101462,6 +101494,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4111-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/4111-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=0",
         "unusable": true
@@ -103717,6 +103750,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/18088-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/18088-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "PE=65"
     },
@@ -103881,7 +103915,7 @@
                 ": modifiable Range"
             ]
         ],
-        "special_spell_en": "Hoofbeat: modifiable Range\nPeriscope: +2 Maximum Range\nTide: line of sight off\nScaphander: -1 AP\nArmour-Plating: -1 AP\nEvolution: modifiable Range\nHypertension: modifiable Range\nVapour: modifiable Range",
+        "special_spell_en": "Sabotage: modifiable Range\nPeriscope: +2 Maximum Range\nTide: line of sight off\nScaphander: -1 AP\nArmour-Plating: -1 AP\nEvolution: modifiable Range\nHypertension: modifiable Range\nVapour: modifiable Range",
         "special_spell_fr": "Sabotage : Portée modifiable\nPériscope : +2 Portée maximale\nMarée : ligne de vue désactivée\nScaphandre : -1 PA\nBlindage : -1 PA\nÉvolution : Portée modifiable\nSurtension : Portée modifiable\nVapor : Portée modifiable",
         "special_spell_es": "Sabotaje: alcance modificable\nPeriscopio: +2 de alcance máximo\nMarea: línea de visión desactivada\nEscafandra: -1 PA\nBlindaje: -1 PA\nEvolución: alcance modificable\nSobretensión: alcance modificable\nVapor: alcance modificable",
         "special_spell_pt": "Sabotagem: alcance modificável\nPeriscópio: +2 de alcance máximo\nMaré: linha de visão desativada\nEscafandro: -1 PA\nBlindagem: -1 PA\nEvolução: alcance modificável\nSobretensão: alcance modificável\nVapor: alcance modificável",
@@ -104930,6 +104964,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16005-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16005-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "(Sc=968&SG=08&Sd>18&Sd<27)|PX=A"
     },
@@ -123309,6 +123344,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16410-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16410-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "(Sc=994&SG=03&Sd<9)|PX=A"
     },
@@ -128955,6 +128991,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5028-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/5028-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -136460,6 +136497,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1008-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1008-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=0",
         "unusable": true
@@ -136484,6 +136522,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1024-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1024-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=0",
         "unusable": true
@@ -145839,6 +145878,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16463-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16463-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -145857,6 +145897,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17341-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17341-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -152638,6 +152679,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6061-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6061-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Pm=181404680&Qa=1865&Qo>12441&Qo<12443"
     },
@@ -154018,6 +154060,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6061-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6061-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Pm=181404680&Qa=1865&Qo>12441&Qo<12443"
     },
@@ -156668,6 +156711,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/20005-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/20005-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=1942&Qo>13493&Qo<13498"
     },
@@ -156704,7 +156748,9 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6098-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6098-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 2,
         "criteria": "Qa=1936|Qf=1936"
     },
     {
@@ -158656,6 +158702,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/7748-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/7748-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -158680,6 +158727,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82001-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82001-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -158704,6 +158752,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17356-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17356-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -159580,6 +159629,7 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 3,
         "criteria": "PZ=1&(Qa=2035|Qa=2036|Qa=2037)"
     },
     {
@@ -159612,6 +159662,7 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 8,
         "criteria": "PZ=1&((Qa=2037&Qo>14621)|Qa=2038|Qa=2039|Qa=2040|Qa=2041|Qa=2042|Qa=2043|Qa=2044)"
     },
     {
@@ -164093,6 +164144,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/7001-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/7001-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2113&Qo=15771"
     },
@@ -165800,11 +165852,11 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "{{spell,15996,1::Trial of the Scales}}:\n• When the bearer suffers an attempted AP, MP or Range reduction, they steal 2% resistance from their attacker for 2 turns (stackable 4 times).\n• The effects cannot be triggered by the bearer.",
-        "special_spell_fr": "{{spell,15996,1::Épreuve de la Balance}} :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 2% de résistances à son attaquant pendant 2 tours (cumulable 4 fois).\n• Les effets ne peuvent pas être déclenchés par le porteur.",
-        "special_spell_es": "{{spell,15996,1::Prueba de la Balanza}}:\n• Cuando el portador sufre un intento de retirada de PA, PM o alcance, roba un 2% de resistencias a su atacante durante 2 turnos (acumulable 4 veces).\n• El portador no puede activar los efectos.",
-        "special_spell_pt": "{{spell,15996,1::Prova da Balança}}:\n• Quando o portador sofre uma tentativa de retirada de PA, PM ou AL, ele rouba 2% de resistência de seu atacante por 2 turnos (acumula até 4 vezes).\n• Os efeitos não podem ser acionados pelo portador.",
-        "special_spell_de": "{{spell,15996,1::Prüfung der Waage}}:\n• Wenn versucht wird, dem Träger AP, BP oder Reichweite zu entziehen, stiehlt er 2 Runden lang 2 % der Resistenzen seines Angreifers (4-mal kumulierbar).\n• Die Wirkungen können nicht durch den Träger ausgelöst werden.",
+        "special_spell_en": "{{spell,15996,1::Trial of the Scales}}:\n• When the bearer is debuffed, they steal 2% resistances from their attacker for 2 turns (stackable 4 times).\n• The effects cannot be triggered by the bearer.",
+        "special_spell_fr": "{{spell,15996,1::Épreuve de la Balance}} :\n• Lorsque le porteur est entravé, il vole 2% de résistances à son attaquant pendant 2 tours (cumulable 4 fois).\n• Les effets ne peuvent pas être déclenchés par le porteur.",
+        "special_spell_es": "{{spell,15996,1::Prueba de la Balanza}}:\n• Cuando el portador es trabado, roba un 2% de resistencias a su atacante durante 2 turnos (acumulable 4 veces).\n• El portador no puede activar los efectos.",
+        "special_spell_pt": "{{spell,15996,1::Prova da Balança}}:\n• Quando o portador é entravado, ele rouba 2% de resistência de seu atacante por 2 turnos (acumula até 4 vezes).\n• Os efeitos não podem ser acionados pelo portador.",
+        "special_spell_de": "{{spell,15996,1::Prüfung der Waage}}:\n• Wenn der Träger gefesselt wird, stiehlt er 2 Runden lang 2 % der Resistenzen seines Angreifers (4-mal kumulierbar).\n• Die Wirkungen können nicht durch den Träger ausgelöst werden.",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4138-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/4138-64.png",
         "dofustouch": false,
@@ -167904,6 +167956,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/164730-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/164730-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Qf=2183"
     },
@@ -167985,6 +168038,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4108-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/4108-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Qf=2181"
     },
@@ -171351,6 +171405,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6749-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6749-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2415"
     },
@@ -171652,6 +171707,7 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 2,
         "criteria": "PZ=1&Pn!8&(Pm=74186754|Pm=74187778)&BI=1",
         "unusable": true
     },
@@ -173794,6 +173850,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/172000-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/172000-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "SC=5&ST=7"
     },
@@ -173817,6 +173874,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/15750-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/15750-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "SC=5&ST=7"
     },
@@ -173840,6 +173898,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/15751-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/15751-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "SC=5&ST=7"
     },
@@ -173849,7 +173908,7 @@
         "name_en": "Khardboard Celestial Brooch",
         "name_fr": "La Broche Céleste Ankarton",
         "name_es": "El Broche Celeste Ankartón",
-        "name_pt": "Broche Celestial Ankarton",
+        "name_pt": "Broche Celestial Ankartolina",
         "name_de": "Die Himmlische Ankarton-Brosche",
         "w_type": "Amulet",
         "level": 175,
@@ -173868,6 +173927,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1322-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1322-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -173877,7 +173937,7 @@
         "name_en": "Khardboard Moowolf Belt",
         "name_fr": "Ceinture du Meulou Ankarton",
         "name_es": "Cinturón de Maxilubo Ankartón",
-        "name_pt": "Cinto do Mulobo Ankarton",
+        "name_pt": "Cinto do Mulobo Ankartolina",
         "name_de": "Ankarton-MuWulf-Gürtel",
         "w_type": "Belt",
         "level": 150,
@@ -173896,6 +173956,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10352-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10352-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -173905,7 +173966,7 @@
         "name_en": "Khardboard Dazzling Cloak",
         "name_fr": "Cape Fulgurante Ankarton",
         "name_es": "Capa Fulgurante Ankartón",
-        "name_pt": "Capa Fulgurante Ankarton",
+        "name_pt": "Capa Fulgurante Ankartolina",
         "name_de": "Schillernder Ankarton-Umhang",
         "w_type": "Cloak",
         "level": 75,
@@ -173924,6 +173985,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17553-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17553-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -173933,7 +173995,7 @@
         "name_en": "Khardboard Goultard",
         "name_fr": "Goultard Ankarton",
         "name_es": "Gúltar Ankartón",
-        "name_pt": "Gultar Ankarton",
+        "name_pt": "Gultar Ankartolina",
         "name_de": "Ankarton-Goultard",
         "w_type": "Sword",
         "level": 50,
@@ -173980,6 +174042,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6754-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6754-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -173989,7 +174052,7 @@
         "name_en": "Khardboard Getas",
         "name_fr": "Geta Ankarton",
         "name_es": "Geta Ankartón",
-        "name_pt": "Tamanca Ankarton",
+        "name_pt": "Tamanca Ankartolina",
         "name_de": "Ankarton-Geta",
         "w_type": "Boots",
         "level": 125,
@@ -174008,6 +174071,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11375-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11375-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -174017,7 +174081,7 @@
         "name_en": "Khardboard Bowisse's Shield",
         "name_fr": "Bouclier de Bowisse Ankarton",
         "name_es": "Escudo de Bowis Ankartón",
-        "name_pt": "Escudo de Bowis Ankarton",
+        "name_pt": "Escudo de Bowis Ankartolina",
         "name_de": "Ankarton-Bowissen-Schild",
         "w_type": "Shield",
         "level": 100,
@@ -174036,6 +174100,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82418-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82418-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -174045,7 +174110,7 @@
         "name_en": "Khardboard Gobball Headgear",
         "name_fr": "Coiffe du Bouftou Ankarton",
         "name_es": "Sombrero de jalató Ankartón",
-        "name_pt": "Chapéu do Papatudo Celestial Ankarton",
+        "name_pt": "Chapéu do Papatudo Celestial Ankartolina",
         "name_de": "Ankarton-Fresssackkapp",
         "w_type": "Hat",
         "level": 50,
@@ -174064,6 +174129,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16739-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16739-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -174073,7 +174139,7 @@
         "name_en": "Khardboard Gelano",
         "name_fr": "Gelano Ankarton",
         "name_es": "Gelanillo Ankartón",
-        "name_pt": "Gelano Ankarton",
+        "name_pt": "Gelano Ankartolina",
         "name_de": "Ankarton-Gelano",
         "w_type": "Ring",
         "level": 200,
@@ -174092,6 +174158,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9371-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9371-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -177063,6 +177130,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/165052-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/165052-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Pm=225972993&Qa=2463"
     },
@@ -177153,6 +177221,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82476-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82476-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2488&Qo>18967"
     },
@@ -177201,6 +177270,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82477-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82477-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2488&Qo>18968"
     },
@@ -177224,7 +177294,9 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/23036-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/23036-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 2,
         "criteria": "Qa=2488|Qa=2489"
     },
     {
@@ -177262,6 +177334,7 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/23037-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/23037-64.png",
         "dofustouch": false,
+        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2488&Qo>18971"
     },
@@ -183631,9 +183704,9 @@
         ],
         "special_spell_en": "{{spell,31859,1::Order of Thunder}}:\n• The bearer gains 6 Pushback Damage for 2 turns for each MP they use.\n• At the end of each turn, the bearer gives 1 MP to all allies in their line of sight for 1 turn (stackable 1 time).",
         "special_spell_fr": "{{spell,31859,1::Ordre du Tonnerre}} :\n• Le porteur gagne 6 Dommages Poussée pendant 2 tours pour chaque PM qu'il utilise.\n• À chaque fin de tour, le porteur donne 1 PM pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois).",
-        "special_spell_es": "{{spell,31859,1::Orden del Trueno}}:\n• El portador gana 6 de daños de empuje durante 2 turnos por cada PM que use.\n• Al final de cada turno, el portador da 1 PM durante 1 turno a todos los aliados en su línea de visión (acumulable 1 vez).",
-        "special_spell_pt": "{{spell,31859,1::Ordem do Trovão}}:\n• O portador ganha 6 de danos de empurrão durante 2 turnos para cada PM que ele utilizar.\n• No fim de cada turno, o portador concede 1 PM durante 1 turno a todos os aliados em sua linha de visão (acumula até 1 vez).",
-        "special_spell_de": "{{spell,31859,1::Orden des Donners}}:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 6 Schubsschaden.\n• Am Ende jeder Runde gewährt der Träger allen Verbündeten in seiner Sichtlinie 1 Runde lang 1 BP und 40 Schubsschaden (1-mal kumulierbar).",
+        "special_spell_es": "{{spell,31859,1::Orden del Trueno}}:\n• El portador gana 6 de daños de empuje durante 2 turnos por cada PM que utiliza.\n• Al final de cada turno, el portador da 1 PM durante 1 turno a todos los aliados en su línea de visión (acumulable 1 vez).",
+        "special_spell_pt": "{{spell,31859,1::Ordem do Trovão}}:\n• O portador ganha 6 de danos de empurrão durante 2 turnos para cada PM que usa.\n• No fim de cada turno, o portador concede 1 PM durante 1 turno a todos os aliados em sua linha de visão (acumula 1 vez).",
+        "special_spell_de": "{{spell,31859,1::Orden des Donners}}:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 6 Schubsschaden.\n• Am Ende jeder Runde gewährt der Träger allen Verbündeten in seiner Sichtlinie 1 Runde lang 1 BP (1-mal kumulierbar).",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/183011-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/183011-64.png",
         "dofustouch": false,
@@ -184035,7 +184108,7 @@
                 "Vitality"
             ],
             [
-                71,
+                81,
                 100,
                 "Power"
             ],
@@ -203071,6 +203144,43 @@
         "conditions": []
     },
     {
+        "ankama_id": 34577,
+        "ankama_type": "equipment",
+        "name_en": "Dofus de la Source",
+        "name_fr": "Dofus de la Source",
+        "name_es": "Dofus de la Source",
+        "name_pt": "Dofus de la Source",
+        "name_de": "Dofus de la Source",
+        "w_type": "Dofus",
+        "level": 40,
+        "stats": [
+            [
+                null,
+                null,
+                "Exchangeable"
+            ],
+            [
+                null,
+                null,
+                "-special spell-"
+            ],
+            [
+                null,
+                null,
+                "Experience x% (excluding arenas) ( minute)"
+            ]
+        ],
+        "special_spell_en": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
+        "special_spell_fr": "{{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
+        "special_spell_es": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
+        "special_spell_pt": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
+        "special_spell_de": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/23040-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/23040-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
         "ankama_id": 34612,
         "ankama_type": "equipment",
         "name_en": "Trainer",
@@ -203196,6 +203306,2595 @@
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34695,
+        "ankama_type": "equipment",
+        "name_en": "Greyed Oar",
+        "name_fr": "Rame grisée",
+        "name_es": "Remo grisáceo",
+        "name_pt": "Remo Cinza",
+        "name_de": "Vergrautes Ruder",
+        "w_type": "Shovel",
+        "level": 3,
+        "ap": 3,
+        "uses_per_turn": 2,
+        "range": [
+            1,
+            1
+        ],
+        "crit_chance": 20,
+        "crit_bonus": 10,
+        "stats": [
+            [
+                10,
+                null,
+                "Power"
+            ],
+            [
+                4,
+                6,
+                "(best-element steal)"
+            ],
+            [
+                null,
+                null,
+                "Exchangeable"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/183021-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/183021-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34696,
+        "ankama_type": "equipment",
+        "name_en": "Faded Toga",
+        "name_fr": "Toge délavée",
+        "name_es": "Toga descolorida",
+        "name_pt": "Toga Desbotada",
+        "name_de": "Verwaschene Toga",
+        "w_type": "Cloak",
+        "level": 4,
+        "stats": [
+            [
+                null,
+                null,
+                "Exchangeable"
+            ],
+            [
+                150,
+                null,
+                "Initiative"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17713-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17713-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34697,
+        "ankama_type": "equipment",
+        "name_en": "Tarnished Torc",
+        "name_fr": "Torque terni",
+        "name_es": "Torque deslustrado",
+        "name_pt": "Torque Manchado",
+        "name_de": "Angelaufener Reif",
+        "w_type": "Amulet",
+        "level": 5,
+        "stats": [
+            [
+                null,
+                null,
+                "Exchangeable"
+            ],
+            [
+                15,
+                null,
+                "Wisdom"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1345-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1345-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34698,
+        "ankama_type": "equipment",
+        "name_en": "Ancient Helmet",
+        "name_fr": "Casque ancien",
+        "name_es": "Casco viejo",
+        "name_pt": "Capacete Antigo",
+        "name_de": "Antiker Helm",
+        "w_type": "Hat",
+        "level": 6,
+        "stats": [
+            [
+                30,
+                null,
+                "Vitality"
+            ],
+            [
+                null,
+                null,
+                "Exchangeable"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16931-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16931-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34699,
+        "ankama_type": "equipment",
+        "name_en": "Threadbare Sandals",
+        "name_fr": "Sandales élimées",
+        "name_es": "Sandalias raídas",
+        "name_pt": "Sandálias Gastas",
+        "name_de": "Ausgelatschte Sandalen",
+        "w_type": "Boots",
+        "level": 7,
+        "stats": [
+            [
+                5,
+                null,
+                "Dodge"
+            ],
+            [
+                null,
+                null,
+                "Exchangeable"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11392-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11392-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34700,
+        "ankama_type": "equipment",
+        "name_en": "Chipped Hoplon",
+        "name_fr": "Hoplon ébréché",
+        "name_es": "Hoplon mellado",
+        "name_pt": "Hóplon Lascado",
+        "name_de": "Schartiger Rundschild",
+        "w_type": "Shield",
+        "level": 3,
+        "stats": [
+            [
+                5,
+                null,
+                "Lock"
+            ],
+            [
+                null,
+                null,
+                "Exchangeable"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82612-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82612-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34701,
+        "ankama_type": "equipment",
+        "name_en": "Worn Sarong",
+        "name_fr": "Pagne usé",
+        "name_es": "Taparrabos desgastado",
+        "name_pt": "Tanga Gasta",
+        "name_de": "Abgetragener Lendenschurz",
+        "w_type": "Belt",
+        "level": 8,
+        "stats": [
+            [
+                300,
+                null,
+                "Pods"
+            ],
+            [
+                null,
+                null,
+                "Exchangeable"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10372-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10372-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34702,
+        "ankama_type": "equipment",
+        "name_en": "Rusty Armband",
+        "name_fr": "Brassard rouillé",
+        "name_es": "Brazalete oxidado",
+        "name_pt": "Braçadeira Enferrujada",
+        "name_de": "Rostige Armschiene",
+        "w_type": "Ring",
+        "level": 9,
+        "stats": [
+            [
+                1,
+                null,
+                "Summon"
+            ],
+            [
+                null,
+                null,
+                "Exchangeable"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9419-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9419-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34703,
+        "ankama_type": "equipment",
+        "name_en": "Corroded Ring",
+        "name_fr": "Bague corrodée",
+        "name_es": "Anillo corroído",
+        "name_pt": "Anel Corroído",
+        "name_de": "Korrodierter Ring",
+        "w_type": "Ring",
+        "level": 10,
+        "stats": [
+            [
+                1,
+                null,
+                "Range"
+            ],
+            [
+                null,
+                null,
+                "Exchangeable"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9418-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9418-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34719,
+        "ankama_type": "equipment",
+        "name_en": "Salamuncher Sari",
+        "name_fr": "Sari des Charbosaures",
+        "name_es": "Sari de los salamandros",
+        "name_pt": "Sári dos Salamangues",
+        "name_de": "Sari der Salamanger",
+        "w_type": "Belt",
+        "level": 11,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Water Resist"
+            ],
+            [
+                2,
+                3,
+                "% Fire Resist"
+            ],
+            [
+                6,
+                10,
+                "Power"
+            ],
+            [
+                11,
+                15,
+                "Vitality"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10375-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10375-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34720,
+        "ankama_type": "equipment",
+        "name_en": "Salamuncher Seal",
+        "name_fr": "Sceau des Charbosaures",
+        "name_es": "Sello de los salamandros",
+        "name_pt": "Selo dos Salamangues",
+        "name_de": "Siegel der Salamanger",
+        "w_type": "Ring",
+        "level": 13,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Water Resist"
+            ],
+            [
+                2,
+                3,
+                "% Fire Resist"
+            ],
+            [
+                6,
+                10,
+                "Vitality"
+            ],
+            [
+                51,
+                100,
+                "Initiative"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9423-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9423-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34721,
+        "ankama_type": "equipment",
+        "name_en": "Salamuncher Hammer",
+        "name_fr": "Marteau Charbosaure",
+        "name_es": "Martillo salamandro",
+        "name_pt": "Martelo Salamangue",
+        "name_de": "Salamanger-Hammer",
+        "w_type": "Hammer",
+        "level": 15,
+        "ap": 5,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            1
+        ],
+        "crit_chance": 40,
+        "crit_bonus": 3,
+        "stats": [
+            [
+                51,
+                100,
+                "Initiative"
+            ],
+            [
+                11,
+                15,
+                "Power"
+            ],
+            [
+                2,
+                3,
+                "% Fire Resist"
+            ],
+            [
+                -3,
+                null,
+                "% Water Resist"
+            ],
+            [
+                30,
+                36,
+                "(Fire damage)"
+            ],
+            [
+                9,
+                11,
+                "(Fire damage)"
+            ],
+            [
+                4,
+                5,
+                "(Fire damage)"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/7756-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/7756-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34722,
+        "ankama_type": "equipment",
+        "name_en": "Wyngvern Wings",
+        "name_fr": "Ailes de Zéphyvernes",
+        "name_es": "Alas galivernas",
+        "name_pt": "Asas Vouiverns",
+        "name_de": "Wyvernflügel",
+        "w_type": "Cloak",
+        "level": 16,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Earth Resist"
+            ],
+            [
+                2,
+                3,
+                "% Air Resist"
+            ],
+            [
+                7,
+                10,
+                "Power"
+            ],
+            [
+                1,
+                null,
+                "MP"
+            ],
+            [
+                23,
+                4,
+                "Max."
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17720-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17720-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34723,
+        "ankama_type": "equipment",
+        "name_en": "Wyngvern Escutcheon",
+        "name_fr": "Pelta des Zéphyvernes",
+        "name_es": "Pelta galiverna",
+        "name_pt": "Pelta dos Vouiverns",
+        "name_de": "Wyvern-Pelta",
+        "w_type": "Shield",
+        "level": 18,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Earth Resist"
+            ],
+            [
+                2,
+                3,
+                "% Air Resist"
+            ],
+            [
+                11,
+                15,
+                "Vitality"
+            ],
+            [
+                3,
+                4,
+                "Dodge"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82620-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82620-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34724,
+        "ankama_type": "equipment",
+        "name_en": "Wyngvern Chakrams",
+        "name_fr": "Chakrams Zéphyvernes",
+        "name_es": "Chakrams galivernos",
+        "name_pt": "Chakrams Vouiverns",
+        "name_de": "Wyvern-Chakrams",
+        "w_type": "Dagger",
+        "level": 20,
+        "ap": 3,
+        "uses_per_turn": 2,
+        "range": [
+            1,
+            1
+        ],
+        "crit_chance": 20,
+        "crit_bonus": 10,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Earth Resist"
+            ],
+            [
+                2,
+                3,
+                "% Air Resist"
+            ],
+            [
+                16,
+                20,
+                "Power"
+            ],
+            [
+                3,
+                4,
+                "Dodge"
+            ],
+            [
+                6,
+                7,
+                "(Air damage)"
+            ],
+            [
+                6,
+                7,
+                "(Air damage)"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5113-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/5113-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34725,
+        "ankama_type": "equipment",
+        "name_en": "Draconifer Finery",
+        "name_fr": "Parure de Mandragon",
+        "name_es": "Adorno de dracornoque",
+        "name_pt": "Adereço de Drakasca",
+        "name_de": "Drachenborken-Schmuck",
+        "w_type": "Amulet",
+        "level": 21,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Air Resist"
+            ],
+            [
+                2,
+                3,
+                "% Earth Resist"
+            ],
+            [
+                21,
+                30,
+                "Vitality"
+            ],
+            [
+                1,
+                null,
+                "AP"
+            ],
+            [
+                1,
+                7,
+                "Max."
+            ],
+            [
+                3,
+                4,
+                "Lock"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1348-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1348-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34726,
+        "ankama_type": "equipment",
+        "name_en": "Draconifer Ring",
+        "name_fr": "Alliance Mandragon",
+        "name_es": "Alianza de dracornoque",
+        "name_pt": "Aliança Drakasca",
+        "name_de": "Drachenborken-Trauring",
+        "w_type": "Ring",
+        "level": 23,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Air Resist"
+            ],
+            [
+                2,
+                3,
+                "% Earth Resist"
+            ],
+            [
+                16,
+                20,
+                "Vitality"
+            ],
+            [
+                11,
+                15,
+                "Power"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9422-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9422-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34727,
+        "ankama_type": "equipment",
+        "name_en": "Draconifer Axe",
+        "name_fr": "Hache Mandragon",
+        "name_es": "Hacha de dracornoque",
+        "name_pt": "Machado Drakasca",
+        "name_de": "Drachenborken-Axt",
+        "w_type": "Axe",
+        "level": 25,
+        "ap": 5,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            1
+        ],
+        "crit_chance": 30,
+        "crit_bonus": 20,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Air Resist"
+            ],
+            [
+                2,
+                3,
+                "% Earth Resist"
+            ],
+            [
+                16,
+                25,
+                "Power"
+            ],
+            [
+                3,
+                4,
+                "Lock"
+            ],
+            [
+                42,
+                48,
+                "(Earth damage)"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/19090-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/19090-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34728,
+        "ankama_type": "equipment",
+        "name_en": "Prismancient Psyche",
+        "name_fr": "Psyché Prismantique",
+        "name_es": "Psiquis prismántica",
+        "name_pt": "Psiquê Prismântica",
+        "name_de": "Prismantischer Standspiegel",
+        "w_type": "Shield",
+        "level": 31,
+        "stats": [
+            [
+                4,
+                6,
+                "Earth Resist"
+            ],
+            [
+                4,
+                6,
+                "Fire Resist"
+            ],
+            [
+                4,
+                6,
+                "Water Resist"
+            ],
+            [
+                4,
+                6,
+                "Air Resist"
+            ],
+            [
+                1,
+                null,
+                "Range"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82622-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82622-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34729,
+        "ankama_type": "equipment",
+        "name_en": "Prismancient Laurels",
+        "name_fr": "Lauriers Prismantiques",
+        "name_es": "Laureles prismánticos",
+        "name_pt": "Louros Prismânticos",
+        "name_de": "Prismantischer Lorbeerkranz",
+        "w_type": "Hat",
+        "level": 33,
+        "stats": [
+            [
+                11,
+                15,
+                "Wisdom"
+            ],
+            [
+                16,
+                25,
+                "Power"
+            ],
+            [
+                3,
+                4,
+                "Earth Resist"
+            ],
+            [
+                3,
+                4,
+                "Fire Resist"
+            ],
+            [
+                3,
+                4,
+                "Water Resist"
+            ],
+            [
+                3,
+                4,
+                "Air Resist"
+            ],
+            [
+                21,
+                30,
+                "Vitality"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16946-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16946-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34730,
+        "ankama_type": "equipment",
+        "name_en": "Prismancient Blade",
+        "name_fr": "Glaive Prismantique",
+        "name_es": "Jabalina prismántica",
+        "name_pt": "Gládio Prismântico",
+        "name_de": "Prismantisches Schwert",
+        "w_type": "Sword",
+        "level": 35,
+        "ap": 4,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            1
+        ],
+        "crit_chance": 15,
+        "crit_bonus": 6,
+        "stats": [
+            [
+                31,
+                40,
+                "Vitality"
+            ],
+            [
+                11,
+                15,
+                "Wisdom"
+            ],
+            [
+                21,
+                30,
+                "Power"
+            ],
+            [
+                6,
+                7,
+                "(Earth damage)"
+            ],
+            [
+                6,
+                7,
+                "(Fire damage)"
+            ],
+            [
+                6,
+                7,
+                "(Water damage)"
+            ],
+            [
+                6,
+                7,
+                "(Air damage)"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6768-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6768-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34731,
+        "ankama_type": "equipment",
+        "name_en": "Umbranima Finery",
+        "name_fr": "Parure d'Ombrâme",
+        "name_es": "Adorno de sombralma",
+        "name_pt": "Adereço de Sombralma",
+        "name_de": "Schmuck der Schattenseele",
+        "w_type": "Amulet",
+        "level": 26,
+        "stats": [
+            [
+                4,
+                6,
+                "Damage"
+            ],
+            [
+                3,
+                4,
+                "% Neutral Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Earth Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Fire Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Water Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Air Resist"
+            ],
+            [
+                1,
+                null,
+                "AP"
+            ],
+            [
+                1,
+                7,
+                "Max."
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1347-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1347-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34732,
+        "ankama_type": "equipment",
+        "name_en": "Umbranima Diadem",
+        "name_fr": "Diadème d'Ombrâme",
+        "name_es": "Diadema de sombralma",
+        "name_pt": "Diadema de Sombralma",
+        "name_de": "Diadem der Schattenseele",
+        "w_type": "Hat",
+        "level": 28,
+        "stats": [
+            [
+                16,
+                20,
+                "Vitality"
+            ],
+            [
+                16,
+                25,
+                "Power"
+            ],
+            [
+                3,
+                4,
+                "% Neutral Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Earth Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Fire Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Water Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Air Resist"
+            ],
+            [
+                1,
+                null,
+                "Summon"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16947-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16947-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34733,
+        "ankama_type": "equipment",
+        "name_en": "Umbranima Scythe",
+        "name_fr": "Faux d'Ombrâme",
+        "name_es": "Guadaña de sombralma",
+        "name_pt": "Foice de Sombralma",
+        "name_de": "Sense der Schattenseele",
+        "w_type": "Scythe",
+        "level": 30,
+        "ap": 4,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            2
+        ],
+        "crit_chance": 0,
+        "crit_bonus": 0,
+        "stats": [
+            [
+                11,
+                15,
+                "Power"
+            ],
+            [
+                3,
+                4,
+                "Damage"
+            ],
+            [
+                3,
+                4,
+                "% Neutral Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Earth Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Fire Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Water Resist"
+            ],
+            [
+                -1,
+                null,
+                "% Air Resist"
+            ],
+            [
+                26,
+                27,
+                "(Neutral damage)"
+            ],
+            [
+                16,
+                17,
+                "(Neutral steal)"
+            ],
+            [
+                16,
+                25,
+                "Vitality"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/22022-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/22022-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34734,
+        "ankama_type": "equipment",
+        "name_en": "Sandales Thalassydres",
+        "name_fr": "Sandales Thalassydres",
+        "name_es": "Sandales Thalassydres",
+        "name_pt": "Sandales Thalassydres",
+        "name_de": "Sandales Thalassydres",
+        "w_type": "Boots",
+        "level": 36,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Fire Resist"
+            ],
+            [
+                2,
+                3,
+                "% Water Resist"
+            ],
+            [
+                41,
+                50,
+                "Vitality"
+            ],
+            [
+                1,
+                null,
+                "MP"
+            ],
+            [
+                23,
+                4,
+                "Max."
+            ],
+            [
+                4,
+                6,
+                "Critical Hits"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11393-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11393-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34735,
+        "ankama_type": "equipment",
+        "name_en": "Seadragon Sari",
+        "name_fr": "Sari Thalassydre",
+        "name_es": "Sari de dragocampo",
+        "name_pt": "Sári Dragão-Marinho",
+        "name_de": "Seedrachen-Sari",
+        "w_type": "Belt",
+        "level": 38,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Fire Resist"
+            ],
+            [
+                2,
+                3,
+                "% Water Resist"
+            ],
+            [
+                3,
+                4,
+                "Critical Hits"
+            ],
+            [
+                21,
+                30,
+                "Power"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10374-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10374-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34736,
+        "ankama_type": "equipment",
+        "name_en": "Seadragon Lance",
+        "name_fr": "Lance Thalassydre",
+        "name_es": "Lanza de dragocampo",
+        "name_pt": "Lança Dragão-Marinho",
+        "name_de": "Seedrachen-Lanze",
+        "w_type": "Lance",
+        "level": 40,
+        "ap": 4,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            1
+        ],
+        "crit_chance": 15,
+        "crit_bonus": 15,
+        "stats": [
+            [
+                -3,
+                null,
+                "% Fire Resist"
+            ],
+            [
+                2,
+                3,
+                "% Water Resist"
+            ],
+            [
+                41,
+                50,
+                "Vitality"
+            ],
+            [
+                26,
+                37,
+                "(Water damage)"
+            ],
+            [
+                16,
+                25,
+                "Power"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/183022-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/183022-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34737,
+        "ankama_type": "equipment",
+        "name_en": "Guira Sari",
+        "name_fr": "Sari de Guira",
+        "name_es": "Sari de Guira",
+        "name_pt": "Sári de Guira",
+        "name_de": "Guiras Sari",
+        "w_type": "Belt",
+        "level": 200,
+        "stats": [
+            [
+                351,
+                400,
+                "Vitality"
+            ],
+            [
+                31,
+                40,
+                "Intelligence"
+            ],
+            [
+                41,
+                60,
+                "Power"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                4,
+                6,
+                "Critical Hits"
+            ],
+            [
+                7,
+                10,
+                "Fire Damage"
+            ],
+            [
+                16,
+                25,
+                "Critical Damage"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                11,
+                15,
+                "AP Loss Resist"
+            ],
+            [
+                -15,
+                null,
+                "MP Loss Resist"
+            ],
+            [
+                4,
+                6,
+                "% Earth Resist"
+            ],
+            [
+                4,
+                6,
+                "% Air Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10371-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10371-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34738,
+        "ankama_type": "equipment",
+        "name_en": "Guira Seal",
+        "name_fr": "Sceau de Guira",
+        "name_es": "Sello de Guira",
+        "name_pt": "Selo de Guira",
+        "name_de": "Guiras Siegel",
+        "w_type": "Ring",
+        "level": 200,
+        "stats": [
+            [
+                201,
+                250,
+                "Vitality"
+            ],
+            [
+                31,
+                40,
+                "Intelligence"
+            ],
+            [
+                41,
+                60,
+                "Power"
+            ],
+            [
+                16,
+                25,
+                "Wisdom"
+            ],
+            [
+                3,
+                4,
+                "Critical Hits"
+            ],
+            [
+                11,
+                15,
+                "Critical Damage"
+            ],
+            [
+                7,
+                10,
+                "Prospecting"
+            ],
+            [
+                9,
+                12,
+                "% Fire Resist"
+            ],
+            [
+                -6,
+                null,
+                "% Water Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34739,
+        "ankama_type": "equipment",
+        "name_en": "Guira Hammer",
+        "name_fr": "Marteau de Guira",
+        "name_es": "Martillo de Guira",
+        "name_pt": "Martelo de Guira",
+        "name_de": "Guiras Hammer",
+        "w_type": "Hammer",
+        "level": 200,
+        "ap": 5,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            2
+        ],
+        "crit_chance": 15,
+        "crit_bonus": 7,
+        "stats": [
+            [
+                351,
+                400,
+                "Vitality"
+            ],
+            [
+                41,
+                50,
+                "Intelligence"
+            ],
+            [
+                41,
+                50,
+                "Power"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                4,
+                6,
+                "Critical Hits"
+            ],
+            [
+                15,
+                18,
+                "Fire Damage"
+            ],
+            [
+                16,
+                20,
+                "Prospecting"
+            ],
+            [
+                11,
+                15,
+                "AP Loss Resist"
+            ],
+            [
+                -15,
+                null,
+                "MP Loss Resist"
+            ],
+            [
+                3,
+                4,
+                "% Earth Resist"
+            ],
+            [
+                3,
+                4,
+                "% Air Resist"
+            ],
+            [
+                9,
+                12,
+                "% Fire Resist"
+            ],
+            [
+                -6,
+                null,
+                "% Water Resist"
+            ],
+            [
+                55,
+                58,
+                "(Fire damage)"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/19089-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/19089-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34740,
+        "ankama_type": "equipment",
+        "name_en": "Elil Wings",
+        "name_fr": "Ailes d'Elil",
+        "name_es": "Alas de Elil",
+        "name_pt": "Asas de Elil",
+        "name_de": "Elils Flügel",
+        "w_type": "Cloak",
+        "level": 200,
+        "stats": [
+            [
+                451,
+                500,
+                "Vitality"
+            ],
+            [
+                31,
+                40,
+                "Agility"
+            ],
+            [
+                31,
+                40,
+                "Power"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                3,
+                5,
+                "Critical Hits"
+            ],
+            [
+                15,
+                18,
+                "Air Damage"
+            ],
+            [
+                1,
+                null,
+                "MP"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                11,
+                15,
+                "Lock"
+            ],
+            [
+                -15,
+                null,
+                "Dodge"
+            ],
+            [
+                4,
+                6,
+                "% Fire Resist"
+            ],
+            [
+                4,
+                6,
+                "% Water Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17711-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17711-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34741,
+        "ankama_type": "equipment",
+        "name_en": "Elil Escutcheon",
+        "name_fr": "Pelta d'Elil",
+        "name_es": "Pelta de Elil",
+        "name_pt": "Pelta de Elil",
+        "name_de": "Elils Pelta",
+        "w_type": "Shield",
+        "level": 200,
+        "stats": [
+            [
+                251,
+                300,
+                "Vitality"
+            ],
+            [
+                31,
+                40,
+                "Agility"
+            ],
+            [
+                31,
+                40,
+                "Power"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                3,
+                5,
+                "Critical Hits"
+            ],
+            [
+                21,
+                30,
+                "Pushback Damage"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                9,
+                12,
+                "% Air Resist"
+            ],
+            [
+                -6,
+                null,
+                "% Earth Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82621-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82621-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34742,
+        "ankama_type": "equipment",
+        "name_en": "Elil Chakrams",
+        "name_fr": "Chakrams d'Elil",
+        "name_es": "Chakrams de Elil",
+        "name_pt": "Chakrams de Elil",
+        "name_de": "Elils Chakrams",
+        "w_type": "Dagger",
+        "level": 200,
+        "ap": 3,
+        "uses_per_turn": 2,
+        "range": [
+            1,
+            1
+        ],
+        "crit_chance": 20,
+        "crit_bonus": 5,
+        "stats": [
+            [
+                12,
+                14,
+                "(Air damage)"
+            ],
+            [
+                9,
+                11,
+                "(Air steal)"
+            ],
+            [
+                451,
+                500,
+                "Vitality"
+            ],
+            [
+                31,
+                40,
+                "Agility"
+            ],
+            [
+                31,
+                40,
+                "Power"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                2,
+                3,
+                "Critical Hits"
+            ],
+            [
+                16,
+                20,
+                "Air Damage"
+            ],
+            [
+                16,
+                20,
+                "Prospecting"
+            ],
+            [
+                11,
+                15,
+                "Lock"
+            ],
+            [
+                -15,
+                null,
+                "Dodge"
+            ],
+            [
+                3,
+                4,
+                "% Fire Resist"
+            ],
+            [
+                3,
+                4,
+                "% Water Resist"
+            ],
+            [
+                9,
+                12,
+                "% Air Resist"
+            ],
+            [
+                -6,
+                null,
+                "% Earth Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5112-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/5112-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34743,
+        "ankama_type": "equipment",
+        "name_en": "Ninma Finery",
+        "name_fr": "Parure de Ninma",
+        "name_es": "Adorno de Ninma",
+        "name_pt": "Adereço de Ninma",
+        "name_de": "Ninmas Schmuck",
+        "w_type": "Amulet",
+        "level": 200,
+        "stats": [
+            [
+                1,
+                null,
+                "AP"
+            ],
+            [
+                351,
+                400,
+                "Vitality"
+            ],
+            [
+                31,
+                40,
+                "Strength"
+            ],
+            [
+                41,
+                60,
+                "Power"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                3,
+                5,
+                "Critical Hits"
+            ],
+            [
+                15,
+                18,
+                "Earth Damage"
+            ],
+            [
+                401,
+                500,
+                "Initiative"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                11,
+                15,
+                "Dodge"
+            ],
+            [
+                -15,
+                null,
+                "Lock"
+            ],
+            [
+                4,
+                6,
+                "% Fire Resist"
+            ],
+            [
+                4,
+                6,
+                "% Water Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1344-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1344-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34744,
+        "ankama_type": "equipment",
+        "name_en": "Ninma Ring",
+        "name_fr": "Alliance de Ninma",
+        "name_es": "Alianza de Ninma",
+        "name_pt": "Aliança de Ninma",
+        "name_de": "Ninmas Reif",
+        "w_type": "Ring",
+        "level": 200,
+        "stats": [
+            [
+                201,
+                250,
+                "Vitality"
+            ],
+            [
+                31,
+                40,
+                "Strength"
+            ],
+            [
+                41,
+                60,
+                "Power"
+            ],
+            [
+                16,
+                25,
+                "Wisdom"
+            ],
+            [
+                3,
+                5,
+                "Critical Hits"
+            ],
+            [
+                5,
+                8,
+                "Earth Damage"
+            ],
+            [
+                7,
+                10,
+                "Prospecting"
+            ],
+            [
+                9,
+                12,
+                "% Earth Resist"
+            ],
+            [
+                -6,
+                null,
+                "% Air Resist"
+            ],
+            [
+                201,
+                300,
+                "Initiative"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34745,
+        "ankama_type": "equipment",
+        "name_en": "Ninma Axe",
+        "name_fr": "Hache de Ninma",
+        "name_es": "Hacha de Ninma",
+        "name_pt": "Machado de Ninma",
+        "name_de": "Ninmas Axt",
+        "w_type": "Axe",
+        "level": 200,
+        "ap": 5,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            2
+        ],
+        "crit_chance": 15,
+        "crit_bonus": 10,
+        "stats": [
+            [
+                51,
+                62,
+                "(Earth damage)"
+            ],
+            [
+                -6,
+                null,
+                "% Air Resist"
+            ],
+            [
+                9,
+                12,
+                "% Earth Resist"
+            ],
+            [
+                3,
+                4,
+                "% Water Resist"
+            ],
+            [
+                3,
+                4,
+                "% Fire Resist"
+            ],
+            [
+                -15,
+                null,
+                "Lock"
+            ],
+            [
+                11,
+                15,
+                "Dodge"
+            ],
+            [
+                16,
+                20,
+                "Prospecting"
+            ],
+            [
+                15,
+                18,
+                "Earth Damage"
+            ],
+            [
+                2,
+                3,
+                "Critical Hits"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                41,
+                50,
+                "Power"
+            ],
+            [
+                41,
+                50,
+                "Strength"
+            ],
+            [
+                401,
+                450,
+                "Vitality"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/7755-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/7755-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34746,
+        "ankama_type": "equipment",
+        "name_en": "Utu Psyche",
+        "name_fr": "Psyché d'Utu",
+        "name_es": "Psiquis de Utu",
+        "name_pt": "Psiquê de Utu",
+        "name_de": "Utus Standspiegel",
+        "w_type": "Shield",
+        "level": 200,
+        "stats": [
+            [
+                201,
+                250,
+                "Vitality"
+            ],
+            [
+                41,
+                50,
+                "Power"
+            ],
+            [
+                41,
+                50,
+                "Wisdom"
+            ],
+            [
+                1,
+                null,
+                "Range"
+            ],
+            [
+                3,
+                4,
+                "% Fire Resist"
+            ],
+            [
+                3,
+                4,
+                "% Water Resist"
+            ],
+            [
+                3,
+                4,
+                "% Earth Resist"
+            ],
+            [
+                3,
+                4,
+                "% Air Resist"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                -1,
+                null,
+                "Summon"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82609-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82609-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34747,
+        "ankama_type": "equipment",
+        "name_en": "Utu Laurels",
+        "name_fr": "Lauriers d'Utu",
+        "name_es": "Laureles de Utu",
+        "name_pt": "Louros de Utu",
+        "name_de": "Utus Lorbeerkranz",
+        "w_type": "Hat",
+        "level": 200,
+        "stats": [
+            [
+                301,
+                350,
+                "Vitality"
+            ],
+            [
+                41,
+                60,
+                "Power"
+            ],
+            [
+                41,
+                60,
+                "Wisdom"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                11,
+                15,
+                "Earth Damage"
+            ],
+            [
+                11,
+                15,
+                "Fire Damage"
+            ],
+            [
+                11,
+                15,
+                "Water Damage"
+            ],
+            [
+                11,
+                15,
+                "Air Damage"
+            ],
+            [
+                3,
+                4,
+                "% Earth Resist"
+            ],
+            [
+                3,
+                4,
+                "% Fire Resist"
+            ],
+            [
+                3,
+                4,
+                "% Water Resist"
+            ],
+            [
+                3,
+                4,
+                "% Air Resist"
+            ],
+            [
+                1,
+                null,
+                "Range"
+            ],
+            [
+                -1,
+                null,
+                "Summon"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16948-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16948-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34748,
+        "ankama_type": "equipment",
+        "name_en": "Utu Blade",
+        "name_fr": "Glaive d'Utu",
+        "name_es": "Jabalina de Utu",
+        "name_pt": "Gládio de Utu",
+        "name_de": "Utus Schwert",
+        "w_type": "Sword",
+        "level": 200,
+        "ap": 4,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            2
+        ],
+        "crit_chance": 15,
+        "crit_bonus": 3,
+        "stats": [
+            [
+                351,
+                400,
+                "Vitality"
+            ],
+            [
+                41,
+                60,
+                "Power"
+            ],
+            [
+                41,
+                50,
+                "Wisdom"
+            ],
+            [
+                3,
+                4,
+                "% Earth Resist"
+            ],
+            [
+                3,
+                4,
+                "% Fire Resist"
+            ],
+            [
+                3,
+                4,
+                "% Air Resist"
+            ],
+            [
+                3,
+                4,
+                "% Water Resist"
+            ],
+            [
+                1,
+                null,
+                "Range"
+            ],
+            [
+                7,
+                9,
+                "(Air steal)"
+            ],
+            [
+                7,
+                9,
+                "(Water steal)"
+            ],
+            [
+                7,
+                9,
+                "Fire Steal"
+            ],
+            [
+                7,
+                9,
+                "(Earth steal)"
+            ],
+            [
+                -1,
+                null,
+                "Summon"
+            ],
+            [
+                11,
+                15,
+                "Earth Damage"
+            ],
+            [
+                11,
+                15,
+                "Fire Damage"
+            ],
+            [
+                11,
+                15,
+                "Water Damage"
+            ],
+            [
+                11,
+                15,
+                "Air Damage"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6767-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6767-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34749,
+        "ankama_type": "equipment",
+        "name_en": "Eresh Finery",
+        "name_fr": "Parure d'Eresh",
+        "name_es": "Adorno de Eresh",
+        "name_pt": "Adereço de Eresh",
+        "name_de": "Ereshs Schmuck",
+        "w_type": "Amulet",
+        "level": 200,
+        "stats": [
+            [
+                1,
+                null,
+                "AP"
+            ],
+            [
+                351,
+                400,
+                "Vitality"
+            ],
+            [
+                9,
+                12,
+                "Damage"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                4,
+                6,
+                "% Ranged Damage"
+            ],
+            [
+                9,
+                12,
+                "% Neutral Resist"
+            ],
+            [
+                1,
+                null,
+                "Summon"
+            ],
+            [
+                -1,
+                null,
+                "Range"
+            ],
+            [
+                16,
+                25,
+                "Critical Resist"
+            ],
+            [
+                11,
+                15,
+                "Pushback Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1346-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1346-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34750,
+        "ankama_type": "equipment",
+        "name_en": "Eresh Diadem",
+        "name_fr": "Diadème d'Eresh",
+        "name_es": "Diadema de Eresh",
+        "name_pt": "Diadema de Eresh",
+        "name_de": "Ereshs Diadem",
+        "w_type": "Hat",
+        "level": 200,
+        "stats": [
+            [
+                401,
+                450,
+                "Vitality"
+            ],
+            [
+                9,
+                12,
+                "Damage"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                4,
+                6,
+                "% Melee Damage"
+            ],
+            [
+                9,
+                12,
+                "% Neutral Resist"
+            ],
+            [
+                1,
+                null,
+                "Summon"
+            ],
+            [
+                -1,
+                null,
+                "Range"
+            ],
+            [
+                11,
+                15,
+                "Critical Resist"
+            ],
+            [
+                16,
+                25,
+                "Pushback Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16929-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16929-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34751,
+        "ankama_type": "equipment",
+        "name_en": "Eresh Scythe",
+        "name_fr": "Faux d'Eresh",
+        "name_es": "Guadaña de Eresh",
+        "name_pt": "Foice de Eresh",
+        "name_de": "Ereshs Sense",
+        "w_type": "Scythe",
+        "level": 200,
+        "ap": 5,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            3
+        ],
+        "crit_chance": 0,
+        "crit_bonus": 0,
+        "stats": [
+            [
+                36,
+                37,
+                "(Neutral damage)"
+            ],
+            [
+                26,
+                27,
+                "(Neutral steal)"
+            ],
+            [
+                401,
+                450,
+                "Vitality"
+            ],
+            [
+                9,
+                12,
+                "Damage"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                16,
+                25,
+                "Prospecting"
+            ],
+            [
+                3,
+                4,
+                "% Melee Damage"
+            ],
+            [
+                3,
+                4,
+                "% Ranged Damage"
+            ],
+            [
+                11,
+                15,
+                "% Neutral Resist"
+            ],
+            [
+                1,
+                null,
+                "Summon"
+            ],
+            [
+                -1,
+                null,
+                "Range"
+            ],
+            [
+                11,
+                15,
+                "Critical Resist"
+            ],
+            [
+                11,
+                15,
+                "Pushback Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/22021-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/22021-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34752,
+        "ankama_type": "equipment",
+        "name_en": "Sandales de Tiama",
+        "name_fr": "Sandales de Tiama",
+        "name_es": "Sandales de Tiama",
+        "name_pt": "Sandales de Tiama",
+        "name_de": "Sandales de Tiama",
+        "w_type": "Boots",
+        "level": 200,
+        "stats": [
+            [
+                31,
+                40,
+                "Chance"
+            ],
+            [
+                31,
+                40,
+                "Power"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                7,
+                10,
+                "Critical Hits"
+            ],
+            [
+                11,
+                15,
+                "Water Damage"
+            ],
+            [
+                16,
+                20,
+                "Prospecting"
+            ],
+            [
+                16,
+                20,
+                "Heals"
+            ],
+            [
+                9,
+                12,
+                "% Water Resist"
+            ],
+            [
+                -6,
+                null,
+                "% Fire Resist"
+            ],
+            [
+                1,
+                null,
+                "MP"
+            ],
+            [
+                351,
+                400,
+                "Vitality"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11391-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11391-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34753,
+        "ankama_type": "equipment",
+        "name_en": "Tiama Sari",
+        "name_fr": "Sari de Tiama",
+        "name_es": "Sari de Tiama",
+        "name_pt": "Sári de Tiama",
+        "name_de": "Tiamas Sari",
+        "w_type": "Belt",
+        "level": 200,
+        "stats": [
+            [
+                351,
+                400,
+                "Vitality"
+            ],
+            [
+                31,
+                40,
+                "Chance"
+            ],
+            [
+                31,
+                40,
+                "Power"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                7,
+                10,
+                "Critical Hits"
+            ],
+            [
+                15,
+                18,
+                "Water Damage"
+            ],
+            [
+                7,
+                10,
+                "Heals"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                11,
+                15,
+                "MP Loss Resist"
+            ],
+            [
+                -15,
+                null,
+                "AP Loss Resist"
+            ],
+            [
+                4,
+                6,
+                "% Earth Resist"
+            ],
+            [
+                4,
+                6,
+                "% Air Resist"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10373-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10373-64.png",
+        "dofustouch": false,
+        "conditions": []
+    },
+    {
+        "ankama_id": 34754,
+        "ankama_type": "equipment",
+        "name_en": "Tiama Lance",
+        "name_fr": "Lance de Tiama",
+        "name_es": "Lanza de Tiama",
+        "name_pt": "Lança de Tiama",
+        "name_de": "Tiamas Lanze",
+        "w_type": "Lance",
+        "level": 200,
+        "ap": 4,
+        "uses_per_turn": 1,
+        "range": [
+            1,
+            2
+        ],
+        "crit_chance": 10,
+        "crit_bonus": 15,
+        "stats": [
+            [
+                31,
+                37,
+                "(Water damage)"
+            ],
+            [
+                -6,
+                null,
+                "% Fire Resist"
+            ],
+            [
+                9,
+                12,
+                "% Water Resist"
+            ],
+            [
+                3,
+                4,
+                "% Earth Resist"
+            ],
+            [
+                3,
+                4,
+                "% Air Resist"
+            ],
+            [
+                -15,
+                null,
+                "AP Loss Resist"
+            ],
+            [
+                11,
+                15,
+                "MP Loss Resist"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
+            ],
+            [
+                16,
+                20,
+                "Water Damage"
+            ],
+            [
+                5,
+                7,
+                "Critical Hits"
+            ],
+            [
+                31,
+                40,
+                "Wisdom"
+            ],
+            [
+                31,
+                40,
+                "Power"
+            ],
+            [
+                31,
+                40,
+                "Chance"
+            ],
+            [
+                351,
+                400,
+                "Vitality"
+            ]
+        ],
+        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/183020-128.png",
+        "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/183020-64.png",
         "dofustouch": false,
         "conditions": []
     }

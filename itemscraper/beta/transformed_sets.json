@@ -42954,7 +42954,7 @@
         "name_en": "Khardboard Set",
         "name_fr": "Panoplie Ankarton",
         "name_es": "Set Ankartón",
-        "name_pt": "Conjunto Dikartolina",
+        "name_pt": "Conjunto Ankartolina",
         "name_de": "Ankarton-Ausrüstungsset",
         "items": 8,
         "stats_list": [
@@ -61930,6 +61930,314 @@
         ]
     },
     {
+        "ankama_id": 1106,
+        "name_en": "Tenian Castaway Set",
+        "name_fr": "Panoplie des naufragés Dixiens",
+        "name_es": "Set de náufragos dieceros",
+        "name_pt": "Conjunto dos Náufragos Dezianos",
+        "name_de": "Ausrüstungsset der schiffbrüchigen Zehnianer",
+        "items": 9,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        5,
+                        null,
+                        "Strength"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Chance"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Strength"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "4",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Strength"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "5",
+                "effects": [
+                    [
+                        2,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Strength"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "6",
+                "effects": [
+                    [
+                        2,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Strength"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "7",
+                "effects": [
+                    [
+                        3,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Strength"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "8",
+                "effects": [
+                    [
+                        3,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        35,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        35,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        35,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        35,
+                        null,
+                        "Strength"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "9",
+                "effects": [
+                    [
+                        4,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        40,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        40,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        40,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        40,
+                        null,
+                        "Strength"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34695,
+            34696,
+            34697,
+            34698,
+            34699,
+            34700,
+            34701,
+            34702,
+            34703
+        ]
+    },
+    {
+        "ankama_id": 1107,
+        "name_en": "Salamuncher Set",
+        "name_fr": "Panoplie des Charbosaures",
+        "name_es": "Set salamandro",
+        "name_pt": "Conjunto dos Salamangues",
+        "name_de": "Ausrüstungsset der Salamanger",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        50,
+                        null,
+                        "Initiative"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Power"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        100,
+                        null,
+                        "Initiative"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34719,
+            34720,
+            34721
+        ]
+    },
+    {
         "ankama_id": 1108,
         "name_en": "Porcelunar Ceremonial Set",
         "name_fr": "Panoplie d'apparat de Porcelune",
@@ -62007,7 +62315,7 @@
     },
     {
         "ankama_id": 1113,
-        "name_en": "Panoplie d'apparat du Gardien des âmes",
+        "name_en": "Soul Guardian Ceremonial Set",
         "name_fr": "Panoplie d'apparat du Gardien des âmes",
         "name_es": "Set cosmético de guardián de las almas",
         "name_pt": "Conjunto de Aparência do Guardião das Almas",
@@ -62020,6 +62328,832 @@
             34688,
             34689,
             34690
+        ]
+    },
+    {
+        "ankama_id": 1114,
+        "name_en": "Wyngvern Set",
+        "name_fr": "Panoplie des Zéphyvernes",
+        "name_es": "Set galiverno",
+        "name_pt": "Conjunto dos Vouiverns",
+        "name_de": "Ausrüstungsset der Wyvern",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        3,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Power"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        6,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34722,
+            34723,
+            34724
+        ]
+    },
+    {
+        "ankama_id": 1115,
+        "name_en": "Draconifer Set",
+        "name_fr": "Panoplie Mandragon",
+        "name_es": "Set dracornoque",
+        "name_pt": "Conjunto Drakasca",
+        "name_de": "Drachenborken-Ausrüstungsset",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        3,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Power"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        6,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34725,
+            34726,
+            34727
+        ]
+    },
+    {
+        "ankama_id": 1116,
+        "name_en": "Seadragon Set",
+        "name_fr": "Panoplie Thalassydre",
+        "name_es": "Set dragocampo",
+        "name_pt": "Conjunto Dragão-Marinho",
+        "name_de": "Seedrachen-Ausrüstungsset",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        3,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Power"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        6,
+                        null,
+                        "Critical Hits"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34734,
+            34735,
+            34736
+        ]
+    },
+    {
+        "ankama_id": 1117,
+        "name_en": "Prismancient Set",
+        "name_fr": "Panoplie Prismantique",
+        "name_es": "Set prismántico",
+        "name_pt": "Conjunto Prismântico",
+        "name_de": "Prismantisches Ausrüstungsset",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        10,
+                        null,
+                        "Wisdom"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Earth Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Fire Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Water Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Air Resist"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Range"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Wisdom"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Earth Resist"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Fire Resist"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Water Resist"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Air Resist"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34728,
+            34729,
+            34730
+        ]
+    },
+    {
+        "ankama_id": 1118,
+        "name_en": "Umbranima Set",
+        "name_fr": "Panoplie des Ombrâmes",
+        "name_es": "Set de sombralmas",
+        "name_pt": "Conjunto das Sombralmas",
+        "name_de": "Ausrüstungsset der Schattenseelen",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        3,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Power"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        6,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34731,
+            34732,
+            34733
+        ]
+    },
+    {
+        "ankama_id": 1119,
+        "name_en": "Guira's Ashes",
+        "name_fr": "Cendres de Guira",
+        "name_es": "Cenizas de Guira",
+        "name_pt": "Cinzas de Guira",
+        "name_de": "Guiras Asche",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        80,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,8395,1::Deep Crimson}}:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).",
+                "special_spell_fr": "{{spell,8395,1::Pourpre Profond}} :\n• Lorsque le porteur est attaqué, il gagne 1% de dommages finaux pendant 2 tours (cumulable 10 fois).",
+                "special_spell_es": "{{spell,8395,1::Púrpura Profundo}}:\n• Cuando el portador es atacado, gana un 1% de daños finales durante 2 turnos (acumulable 10 veces).",
+                "special_spell_pt": "{{spell,8395,1::Púrpura Profundo}}:\n• Quando o portador é atacado, ele recebe 1% de danos finais por 2 turnos (acumula 10 vezes).",
+                "special_spell_de": "{{spell,8395,1::Purpurrot}}:\n• Wenn der Träger angegriffen wird, erhöht sich sein Endschaden 2 Runden lang um 1 % (10-mal kumulierbar)."
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        80,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,8395,1::Deep Crimson}}:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).",
+                "special_spell_fr": "{{spell,8395,1::Pourpre Profond}} :\n• Lorsque le porteur est attaqué, il gagne 1% de dommages finaux pendant 2 tours (cumulable 10 fois).",
+                "special_spell_es": "{{spell,8395,1::Púrpura Profundo}}:\n• Cuando el portador es atacado, gana un 1% de daños finales durante 2 turnos (acumulable 10 veces).",
+                "special_spell_pt": "{{spell,8395,1::Púrpura Profundo}}:\n• Quando o portador é atacado, ele recebe 1% de danos finais por 2 turnos (acumula 10 vezes).",
+                "special_spell_de": "{{spell,8395,1::Purpurrot}}:\n• Wenn der Träger angegriffen wird, erhöht sich sein Endschaden 2 Runden lang um 1 % (10-mal kumulierbar)."
+            }
+        ],
+        "equipment_ids": [
+            34737,
+            34738,
+            34739
+        ]
+    },
+    {
+        "ankama_id": 1120,
+        "name_en": "Elil's Relics",
+        "name_fr": "Reliques d'Elil",
+        "name_es": "Reliquias de Elil",
+        "name_pt": "Relíquias de Elil",
+        "name_de": "Elils Relikte",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        200,
+                        null,
+                        "Vitality"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons.",
+                "special_spell_fr": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact. Les effets sont réduits de moitié si l'ennemi est une invocation.",
+                "special_spell_es": "{{spell,8393,1::Verde Esmeralda}}:\n• Cuando el portador termina su turno, gana un 100% de su nivel en escudo durante 1 turno por cada enemigo en contacto con él. Los efectos se reducen a la mitad si el enemigo es una invocación.",
+                "special_spell_pt": "{{spell,8393,1::Verde-Esmeralda}}:\n• Quando o portador termina seu turno, ele ganha 100% de seu nível em escudo durante 1 turno por inimigo em contato com ele. Os efeitos são reduzidos pela metade se o inimigo for uma invocação.",
+                "special_spell_de": "{{spell,8393,1::Smaragdgrün}}:\n• Am Rundenende erhält der Träger 1 Runde lang für jeden Gegner in Reichweite 100 % seiner Stufe als Schild. Handelt es sich beim Gegner um eine Beschwörung, werden die Wirkungen um die Hälfte verringert."
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        200,
+                        null,
+                        "Vitality"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons.",
+                "special_spell_fr": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact. Les effets sont réduits de moitié si l'ennemi est une invocation.",
+                "special_spell_es": "{{spell,8393,1::Verde Esmeralda}}:\n• Cuando el portador termina su turno, gana un 100% de su nivel en escudo durante 1 turno por cada enemigo en contacto con él. Los efectos se reducen a la mitad si el enemigo es una invocación.",
+                "special_spell_pt": "{{spell,8393,1::Verde-Esmeralda}}:\n• Quando o portador termina seu turno, ele ganha 100% de seu nível em escudo durante 1 turno por inimigo em contato com ele. Os efeitos são reduzidos pela metade se o inimigo for uma invocação.",
+                "special_spell_de": "{{spell,8393,1::Smaragdgrün}}:\n• Am Rundenende erhält der Träger 1 Runde lang für jeden Gegner in Reichweite 100 % seiner Stufe als Schild. Handelt es sich beim Gegner um eine Beschwörung, werden die Wirkungen um die Hälfte verringert."
+            }
+        ],
+        "equipment_ids": [
+            34740,
+            34741,
+            34742
+        ]
+    },
+    {
+        "ankama_id": 1121,
+        "name_en": "Ninma's Memories",
+        "name_fr": "Souvenirs de Ninma",
+        "name_es": "Recuerdos de Ninma",
+        "name_pt": "Lembranças de Ninma",
+        "name_de": "Ninmas Erinnerungen",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,8394,1::Ochre Yellow}}:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge.",
+                "special_spell_fr": "{{spell,8394,1::Jaune Ocre}} :\n• À chaque début de tour, le porteur gagne 1 PA s'il n'a subi aucune attaque ennemie depuis son précédent tour de jeu. Sinon, il gagne 20 de Fuite.",
+                "special_spell_es": "{{spell,8394,1::Amarillo Ocre}}:\n• Al principio de cada turno, el portador gana 1 PA si no ha sufrido ningún ataque enemigo desde su turno de juego anterior. Si no, gana 20 de huida.",
+                "special_spell_pt": "{{spell,8394,1::Amarelo Ocre}}:\n• A cada início de turno, o portador ganha 1 PA se não tiver sofrido nenhum ataque inimigo desde seu turno de jogo anterior. Do contrário, ganha 20 de fuga.",
+                "special_spell_de": "{{spell,8394,1::Ockergelb}}:\n• Wenn der Träger seit seiner letzten Spielrunde nicht von einem Gegner angegriffen wurde, erhält er jeweils zu Rundenbeginn 1 AP. Ansonsten erhält er 20 Ausweichen."
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        2,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,8394,1::Ochre Yellow}}:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge.",
+                "special_spell_fr": "{{spell,8394,1::Jaune Ocre}} :\n• À chaque début de tour, le porteur gagne 1 PA s'il n'a subi aucune attaque ennemie depuis son précédent tour de jeu. Sinon, il gagne 20 de Fuite.",
+                "special_spell_es": "{{spell,8394,1::Amarillo Ocre}}:\n• Al principio de cada turno, el portador gana 1 PA si no ha sufrido ningún ataque enemigo desde su turno de juego anterior. Si no, gana 20 de huida.",
+                "special_spell_pt": "{{spell,8394,1::Amarelo Ocre}}:\n• A cada início de turno, o portador ganha 1 PA se não tiver sofrido nenhum ataque inimigo desde seu turno de jogo anterior. Do contrário, ganha 20 de fuga.",
+                "special_spell_de": "{{spell,8394,1::Ockergelb}}:\n• Wenn der Träger seit seiner letzten Spielrunde nicht von einem Gegner angegriffen wurde, erhält er jeweils zu Rundenbeginn 1 AP. Ansonsten erhält er 20 Ausweichen."
+            }
+        ],
+        "equipment_ids": [
+            34743,
+            34744,
+            34745
+        ]
+    },
+    {
+        "ankama_id": 1122,
+        "name_en": "Tiama's Artefacts",
+        "name_fr": "Vestiges de Tiama",
+        "name_es": "Vestigios de Tiama",
+        "name_pt": "Vestígios de Tiama",
+        "name_de": "Tiamas Überreste",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        10,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,5952,1::Turquoise Blue}}:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times).",
+                "special_spell_fr": "{{spell,5952,1::Bleu Turquoise}} :\n• Lorsque le porteur effectue un coup critique, il gagne 1% de dommages finaux pendant 3 tours (cumulable 10 fois).",
+                "special_spell_es": "{{spell,5952,1::Azul Turquesa}}:\n• Cuando el portador asesta un golpe crítico, gana un 1% de daños finales durante 3 turnos (acumulable 10 veces).",
+                "special_spell_pt": "{{spell,5952,1::Azul-Turquesa}}:\n• Quando o portador efetua um golpe crítico, ele recebe 1% de danos finais por 3 turnos (acumula 10 vezes).",
+                "special_spell_de": "{{spell,5952,1::Türkisblau}}:\n• Wenn der Träger einen kritischen Treffer landet, erhöht sich sein Endschaden 3 Runden lang um 1 % (10-mal kumulierbar)."
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        10,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,5952,1::Turquoise Blue}}:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times).",
+                "special_spell_fr": "{{spell,5952,1::Bleu Turquoise}} :\n• Lorsque le porteur effectue un coup critique, il gagne 1% de dommages finaux pendant 3 tours (cumulable 10 fois).",
+                "special_spell_es": "{{spell,5952,1::Azul Turquesa}}:\n• Cuando el portador asesta un golpe crítico, gana un 1% de daños finales durante 3 turnos (acumulable 10 veces).",
+                "special_spell_pt": "{{spell,5952,1::Azul-Turquesa}}:\n• Quando o portador efetua um golpe crítico, ele recebe 1% de danos finais por 3 turnos (acumula 10 vezes).",
+                "special_spell_de": "{{spell,5952,1::Türkisblau}}:\n• Wenn der Träger einen kritischen Treffer landet, erhöht sich sein Endschaden 3 Runden lang um 1 % (10-mal kumulierbar)."
+            }
+        ],
+        "equipment_ids": [
+            34752,
+            34753,
+            34754
+        ]
+    },
+    {
+        "ankama_id": 1123,
+        "name_en": "Utu's Treasures",
+        "name_fr": "Trésors d'Utu",
+        "name_es": "Tesoros de Utu",
+        "name_pt": "Tesouros de Utu",
+        "name_de": "Utus Schätze",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        4,
+                        null,
+                        "% Air Resist"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Water Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Earth Resist"
+                    ]
+                ],
+                "special_spell_en": "{{spell,18665,1::Ivory White}}:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible.",
+                "special_spell_fr": "{{spell,18665,1::Blanc Ivoire}} :\n• Le porteur réduit de 50% les dommages d'une attaque sur 5. Les effets d'interception et de partage de dommages sont incompatibles.",
+                "special_spell_es": "{{spell,18665,1::Blanco Marfil}}:\n• El portador reduce un 50% los daños de uno de cada 5 ataques. Los efectos de interceptación y de reparto de daños son incompatibles.",
+                "special_spell_pt": "{{spell,18665,1::Branco-Marfim}}:\n• O portador reduz em 50% os danos de um ataque em 5. Os efeitos de interceptação e partilha de dano são incompatíveis.",
+                "special_spell_de": "{{spell,18665,1::Elfenbeinweiß}}:\n• Bei jedem fünften Angriff des Trägers reduziert sich der Schaden um 50 %. Die Wirkungen von „Abfangen“ und „Schadensteilung“ sind damit nicht kompatibel."
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        4,
+                        null,
+                        "% Air Resist"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Water Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Earth Resist"
+                    ]
+                ],
+                "special_spell_en": "{{spell,18665,1::Ivory White}}:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible.",
+                "special_spell_fr": "{{spell,18665,1::Blanc Ivoire}} :\n• Le porteur réduit de 50% les dommages d'une attaque sur 5. Les effets d'interception et de partage de dommages sont incompatibles.",
+                "special_spell_es": "{{spell,18665,1::Blanco Marfil}}:\n• El portador reduce un 50% los daños de uno de cada 5 ataques. Los efectos de interceptación y de reparto de daños son incompatibles.",
+                "special_spell_pt": "{{spell,18665,1::Branco-Marfim}}:\n• O portador reduz em 50% os danos de um ataque em 5. Os efeitos de interceptação e partilha de dano são incompatíveis.",
+                "special_spell_de": "{{spell,18665,1::Elfenbeinweiß}}:\n• Bei jedem fünften Angriff des Trägers reduziert sich der Schaden um 50 %. Die Wirkungen von „Abfangen“ und „Schadensteilung“ sind damit nicht kompatibel."
+            }
+        ],
+        "equipment_ids": [
+            34746,
+            34747,
+            34748
+        ]
+    },
+    {
+        "ankama_id": 1124,
+        "name_en": "Eresh's Scars",
+        "name_fr": "Stigmates d'Eresh",
+        "name_es": "Estigmas de Eresh",
+        "name_pt": "Estigmas de Eresh",
+        "name_de": "Ereshs Stigmata",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        40,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,18629,1::Ebony Black}}:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed.",
+                "special_spell_fr": "{{spell,18629,1::Noir Ébène}} :\n• Lorsque le porteur attaque en mêlée durant son tour, il gagne 2% de dommages à distance, et s'il attaque à distance, il gagne 2% de dommages en mêlée pendant 3 tours (cumulable 5 fois).\n• Déclencher les 2 effets dans le tour permet à la prochaine attaque d'appliquer un poison de 16 dans son élément pendant 2 tours (cumulable 2 fois).\n• Le temps de relance du poison est de 2 tours, mais peut être réinitialisé si la cible est achevée.",
+                "special_spell_es": "{{spell,18629,1::Negro Ébano}}:\n• Cuando el portador ataca en cuerpo a cuerpo durante su turno, gana un 2% de daños a distancia, y, si ataca a distancia, gana un 2% de daños en cuerpo a cuerpo durante 3 turnos (acumulable 5 veces).\n• Activar ambos efectos en un mismo turno permite que el próximo ataque aplique un veneno de 16 con su elemento durante 2 turnos (acumulable 2 veces).\n• El intervalo de lanzamiento del veneno es de 2 turnos, pero se puede reinicializar si se acaba con el objetivo.",
+                "special_spell_pt": "{{spell,18629,1::Negro Ébano}}:\n• Quando o portador efetua um ataque corpo a corpo durante seu turno, ele recebe 2% de danos a distância, e, quando ataca a distância, ele recebe 2% de danos corpo a corpo durante 3 turnos (acumula até 5 vezes).\n• Acionar os 2 efeitos em um turno permite que o próximo ataque aplique um veneno de 16 em seu elemento durante 2 turnos (acumula até 2 vezes).\n• O intervalo de relançamento do veneno é de 2 turnos, mas pode ser reinicializado se o alvo for derrotado.",
+                "special_spell_de": "{{spell,18629,1::Ebenholzschwarz}}:\n• Wenn der Träger während seiner Runde einen Nahkampfangriff ausführt, erhöht sich sein Fernkampfschaden 3 Runden lang um 2 %, und wenn er einen Fernkampfangriff ausführt, erhöht sich sein Nahkampfschaden 3 Runden lang um 2 % (5-mal kumulierbar).\n• Werden beide Wirkungen in derselben Runde ausgelöst, kann der Träger beim nächsten Angriff ein Gift anwenden, das 2 Runden lang 16 Schaden in seinem Element verursacht (2-mal kumulierbar).\n• Die Abklingzeit des Gifts beträgt 2 Runden, sie kann aber zurückgesetzt werden, wenn das Ziel besiegt wird."
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        40,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        null,
+                        null,
+                        "-special spell-"
+                    ]
+                ],
+                "special_spell_en": "{{spell,18629,1::Ebony Black}}:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed.",
+                "special_spell_fr": "{{spell,18629,1::Noir Ébène}} :\n• Lorsque le porteur attaque en mêlée durant son tour, il gagne 2% de dommages à distance, et s'il attaque à distance, il gagne 2% de dommages en mêlée pendant 3 tours (cumulable 5 fois).\n• Déclencher les 2 effets dans le tour permet à la prochaine attaque d'appliquer un poison de 16 dans son élément pendant 2 tours (cumulable 2 fois).\n• Le temps de relance du poison est de 2 tours, mais peut être réinitialisé si la cible est achevée.",
+                "special_spell_es": "{{spell,18629,1::Negro Ébano}}:\n• Cuando el portador ataca en cuerpo a cuerpo durante su turno, gana un 2% de daños a distancia, y, si ataca a distancia, gana un 2% de daños en cuerpo a cuerpo durante 3 turnos (acumulable 5 veces).\n• Activar ambos efectos en un mismo turno permite que el próximo ataque aplique un veneno de 16 con su elemento durante 2 turnos (acumulable 2 veces).\n• El intervalo de lanzamiento del veneno es de 2 turnos, pero se puede reinicializar si se acaba con el objetivo.",
+                "special_spell_pt": "{{spell,18629,1::Negro Ébano}}:\n• Quando o portador efetua um ataque corpo a corpo durante seu turno, ele recebe 2% de danos a distância, e, quando ataca a distância, ele recebe 2% de danos corpo a corpo durante 3 turnos (acumula até 5 vezes).\n• Acionar os 2 efeitos em um turno permite que o próximo ataque aplique um veneno de 16 em seu elemento durante 2 turnos (acumula até 2 vezes).\n• O intervalo de relançamento do veneno é de 2 turnos, mas pode ser reinicializado se o alvo for derrotado.",
+                "special_spell_de": "{{spell,18629,1::Ebenholzschwarz}}:\n• Wenn der Träger während seiner Runde einen Nahkampfangriff ausführt, erhöht sich sein Fernkampfschaden 3 Runden lang um 2 %, und wenn er einen Fernkampfangriff ausführt, erhöht sich sein Nahkampfschaden 3 Runden lang um 2 % (5-mal kumulierbar).\n• Werden beide Wirkungen in derselben Runde ausgelöst, kann der Träger beim nächsten Angriff ein Gift anwenden, das 2 Runden lang 16 Schaden in seinem Element verursacht (2-mal kumulierbar).\n• Die Abklingzeit des Gifts beträgt 2 Runden, sie kann aber zurückgesetzt werden, wenn das Ziel besiegt wird."
+            }
+        ],
+        "equipment_ids": [
+            34749,
+            34750,
+            34751
+        ]
+    },
+    {
+        "ankama_id": 1125,
+        "name_en": "Zabelle Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Zabelle",
+        "name_es": "Set cosmético de Zabelle",
+        "name_pt": "Conjunto de Aparência de Zabelle",
+        "name_de": "Zabelle-Prunkset",
+        "items": 6,
+        "equipment_ids": [
+            34795,
+            34796,
+            34797,
+            34798,
+            34837,
+            34840
+        ]
+    },
+    {
+        "ankama_id": 1126,
+        "name_en": "Welsh Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Welsh",
+        "name_es": "Set cosmético de Welsh",
+        "name_pt": "Conjunto de Aparência de Welsh",
+        "name_de": "Welsh-Prunkset",
+        "items": 4,
+        "equipment_ids": [
+            34800,
+            34802,
+            34804,
+            34805
+        ]
+    },
+    {
+        "ankama_id": 1127,
+        "name_en": "Shedar Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Shedar",
+        "name_es": "Set cosmético de Shedar",
+        "name_pt": "Conjunto de Aparência de Shedar",
+        "name_de": "Shedar-Prunkset",
+        "items": 3,
+        "equipment_ids": [
+            34801,
+            34803,
+            34806
+        ]
+    },
+    {
+        "ankama_id": 1128,
+        "name_en": "Panoplie d'apparat préhistorique",
+        "name_fr": "Panoplie d'apparat préhistorique",
+        "name_es": "Panoplie d'apparat préhistorique",
+        "name_pt": "Panoplie d'apparat préhistorique",
+        "name_de": "Panoplie d'apparat préhistorique",
+        "items": 5,
+        "equipment_ids": [
+            34908,
+            34909,
+            34910,
+            34911,
+            34913
+        ]
+    },
+    {
+        "ankama_id": 1129,
+        "name_en": "Panoplie d'apparat de la Démone VIII",
+        "name_fr": "Panoplie d'apparat de la Démone VIII",
+        "name_es": "Panoplie d'apparat de la Démone VIII",
+        "name_pt": "Panoplie d'apparat de la Démone VIII",
+        "name_de": "Panoplie d'apparat de la Démone VIII",
+        "items": 4,
+        "equipment_ids": [
+            34949,
+            34950,
+            34952,
+            34956
+        ]
+    },
+    {
+        "ankama_id": 1130,
+        "name_en": "Panoplie d'apparat diaprée de la Démone VIII",
+        "name_fr": "Panoplie d'apparat diaprée de la Démone VIII",
+        "name_es": "Panoplie d'apparat diaprée de la Démone VIII",
+        "name_pt": "Panoplie d'apparat diaprée de la Démone VIII",
+        "name_de": "Panoplie d'apparat diaprée de la Démone VIII",
+        "items": 4,
+        "equipment_ids": [
+            34951,
+            34953,
+            34954,
+            34955
+        ]
+    },
+    {
+        "ankama_id": 1131,
+        "name_en": "Panoplie d'apparat de la source",
+        "name_fr": "Panoplie d'apparat de la source",
+        "name_es": "Panoplie d'apparat de la source",
+        "name_pt": "Panoplie d'apparat de la source",
+        "name_de": "Panoplie d'apparat de la source",
+        "items": 5,
+        "equipment_ids": [
+            34991,
+            34992,
+            34993,
+            34995,
+            34996
+        ]
+    },
+    {
+        "ankama_id": 1132,
+        "name_en": "Panoplie d'apparat Glucolique",
+        "name_fr": "Panoplie d'apparat Glucolique",
+        "name_es": "Panoplie d'apparat Glucolique",
+        "name_pt": "Panoplie d'apparat Glucolique",
+        "name_de": "Panoplie d'apparat Glucolique",
+        "items": 4,
+        "equipment_ids": [
+            34998,
+            34999,
+            35000,
+            35001
+        ]
+    },
+    {
+        "ankama_id": 1133,
+        "name_en": "Panoplie d'apparat Bellaphone",
+        "name_fr": "Panoplie d'apparat Bellaphone",
+        "name_es": "Panoplie d'apparat Bellaphone",
+        "name_pt": "Panoplie d'apparat Bellaphone",
+        "name_de": "Panoplie d'apparat Bellaphone",
+        "items": 6,
+        "equipment_ids": [
+            27939,
+            35006,
+            35008,
+            35009,
+            35010,
+            35011
         ]
     }
 ]
