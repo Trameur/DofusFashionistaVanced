@@ -26,7 +26,7 @@ _MOITIE_QUI_FRAPPE = {
 
 # Spells with a buff-only group, spells with several element runs
 _AVEC_GROUPE_DE_BUFF = 14
-_AVEC_PLUSIEURS_SERIES = 28
+_AVEC_PLUSIEURS_SERIES = 35
 
 _ZEROS_RESTANTS = {'dofus3': 52, 'beta': 52, 'dofus2': 26,
                   'touch': 96, 'retro': 48}
@@ -152,7 +152,7 @@ class TheTwoRulesStayNarrowTests(SimpleTestCase):
                     soigne_dabord.add((version, classe, sort.name))
         self.assertEqual(_AVEC_PLUSIEURS_SERIES, len(plusieurs))
         self.assertEqual(
-            {'All or Nothing'}, {nom for _v, _c, nom in soigne_dabord},
+            {'All or Nothing', 'Ivory Tower', 'White Fire'}, {nom for _v, _c, nom in soigne_dabord},
             'another spell now starts with a healing run, and it has not been '
             'read against its card: %s' % sorted(soigne_dabord))
 

@@ -7,7 +7,7 @@ LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
-_SANS_CRITIQUE = {'dofus3': 55, 'beta': 55, 'dofus2': 52, 'touch': 0,
+_SANS_CRITIQUE = {'dofus3': 55, 'beta': 57, 'dofus2': 52, 'touch': 0,
                   'retro': 0}
 
 _PHRASES = {

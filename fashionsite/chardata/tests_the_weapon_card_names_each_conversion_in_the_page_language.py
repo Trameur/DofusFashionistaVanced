@@ -17,7 +17,7 @@ from fashionistapulp.structure import get_structure, set_current_game_version
 _LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 _MALLEFISK_WAND = 15216
 _HIDSAD_BOW = 1355
-_LEVEL_ONE_WEAPONS = (('dofus3', 1934), ('beta', 1934), ('dofus2', 1934),
+_LEVEL_ONE_WEAPONS = (('dofus3', 1934), ('beta', 2587), ('dofus2', 1934),
                       ('touch', 497), ('retro', 88))
 _BASE = {'Vitality': 0, 'Wisdom': 0, 'Strength': 0, 'Intelligence': 0,
          'Chance': 0, 'Agility': 0}

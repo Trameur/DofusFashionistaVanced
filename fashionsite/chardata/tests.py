@@ -2333,7 +2333,8 @@ class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
         modern, beta = (get_spell_reference('dofus3'),
                         get_spell_reference('beta'))
         self.assertTrue(modern and beta)
-        self.assertEqual(self._spell_ids(modern), self._spell_ids(beta))
+        shared = {name: block for name, block in beta.items() if name in modern}
+        self.assertEqual(self._spell_ids(modern), self._spell_ids(shared))
 
     def test_no_class_is_served_a_spell_the_archive_does_not_name(self):
         from chardata.spell_buffs import (_flattened,
@@ -9133,6 +9134,31 @@ class NoUntranslatedTagIsShippedTests(SimpleTestCase):
                     self.assertNotIn('[wip', body.lower())
         self.assertTrue(checked, 'no spell asset was read')
 
+    def test_a_pickled_line_with_the_tag_is_found_and_stripped(self):
+        import pickle
+        import sqlite3
+        module = itemscraper_module('untranslated_tag')
+        conn = sqlite3.connect(':memory:')
+        try:
+            conn.execute('CREATE TABLE extra_lines (item INTEGER, line text, language text)')
+            conn.execute('CREATE TABLE spell_tooltips (item INTEGER, language text, tooltips text)')
+            line = '[!] {{spell,31720,1::Dofus de la Source}} :'
+            conn.execute('INSERT INTO extra_lines VALUES (1, ?, ?)',
+                         (sqlite3.Binary(pickle.dumps([line, 'Clean'])), 'en'))
+            conn.execute('INSERT INTO extra_lines VALUES (2, ?, ?)',
+                         (sqlite3.Binary(pickle.dumps(['Clean'])), 'en'))
+            conn.execute('INSERT INTO spell_tooltips VALUES (1, ?, ?)',
+                         ('en', sqlite3.Binary(pickle.dumps({'Source': '[!] Heals'}))))
+            self.assertEqual([('extra_lines', 1), ('spell_tooltips', 1)],
+                             [(table, rowid) for table, _column, rowid, _value in module.tagged_rows(conn)])
+            self.assertEqual(2, module.strip_tag_everywhere(conn))
+            self.assertEqual([], module.tagged_rows(conn))
+            stored = conn.execute('SELECT line FROM extra_lines WHERE item = 1').fetchone()[0]
+            self.assertEqual(['{{spell,31720,1::Dofus de la Source}} :', 'Clean'],
+                             module.read_pickled(stored))
+        finally:
+            conn.close()
+
     def test_the_tag_is_stripped_and_the_rest_is_kept(self):
         clean = itemscraper_module('untranslated_tag').clean_display_name
         self.assertEqual('Willorque', clean('[!] Willorque'))
@@ -9150,6 +9176,15 @@ class NoUntranslatedTagIsShippedTests(SimpleTestCase):
                          module.clean_description('[!] [wip]Vous perdez des PdV.'))
         self.assertEqual('[wip] Coiffe de test',
                          module.clean_display_name('[wip] Coiffe de test'))
+
+    def test_a_description_that_is_only_the_unfinished_note_becomes_empty(self):
+        clean = itemscraper_module('untranslated_tag').clean_description
+        self.assertEqual('', clean('[!] WIP'))
+        self.assertEqual('', clean(' [!]wip '))
+        self.assertEqual('', clean('[!] [wip]'))
+        self.assertEqual('Wipe out', clean('[!] Wipe out'))
+        self.assertEqual('', clean(''))
+        self.assertIsNone(clean(None))
 
 
 class SimilarItemsOnAnItemPageTests(TestCase):
@@ -14235,6 +14270,10 @@ class EncyclopediaMonsterPageTests(TestCase):
             module.strip_display_markup(
                 '200 Neutral damage for 1 <sprite name="PA"> AP used'),
             '200 Neutral damage for 1 AP used')
+        self.assertEqual(
+            module.strip_display_markup(
+                'Damage.\n\n<i>1% critical failure.</i> <b>Bramble</b>'),
+            'Damage.\n\n1% critical failure. Bramble')
 
     def test_no_version_stores_an_unusable_grade_row(self):
         # A row with no level, or neither life points nor a share of the summoner's, is not a grade
@@ -15280,6 +15319,23 @@ class CharacterLookTests(TestCase):
                     'ff0000,00ff00,0000ff,ffffff,zzzzzz'):
             self.assertEqual(parse_colors(bad), DEFAULT_COLORS, repr(bad))
         self.assertEqual(parse_colors(None, ['a' * 6] * 6), ['a' * 6] * 6)
+
+    def test_a_breed_look_takes_the_body_of_its_look_and_the_first_head(self):
+        import importlib.util
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'itemscraper', 'store_breed_colors.py')
+        spec = importlib.util.spec_from_file_location('store_breed_colors', path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        breeds = {21: {'maleLook': '{1|6245||50}', 'femaleLook': '{1|6246||50}'},
+                  22: {'maleLook': '{1|7000||52}', 'femaleLook': ''}}
+        heads = {1: {'breed': 21, 'gender': 0, 'order': 1, 'skins': '6258'},
+                 2: {'breed': 21, 'gender': 0, 'order': 0, 'skins': '6247'},
+                 3: {'breed': 21, 'gender': 1, 'order': 0, 'skins': '6248'}}
+        self.assertEqual(module.breed_looks(breeds, heads), {
+            '21-0': {'bones': 1, 'body': 6245, 'scale': '50', 'head': 6247, 'heads': 2},
+            '21-1': {'bones': 1, 'body': 6246, 'scale': '50', 'head': 6248, 'heads': 1}})
 
     def test_hashes_and_capitals_are_accepted(self):
         from chardata.character_look import parse_colors
@@ -17732,11 +17788,13 @@ class CombatApTests(SimpleTestCase):
         from fashionistapulp.structure import get_structure
         from chardata.spell_combo import best_turn, castable_spells, combat_ap
         from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
+        from chardata.version_compat import class_exists_in_version
         stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
         stats.update({'str': 300, 'int': 300, 'cha': 300, 'agi': 300, 'dam': 40})
         ap = combat_ap(0, 'dofus3')
         for char_class in sorted(LOCALIZED_CHARACTER_CLASSES):
-            if char_class in CLASSES_AWAITING_DATA_EVERYWHERE:
+            if (char_class in CLASSES_AWAITING_DATA_EVERYWHERE
+                    or not class_exists_in_version(char_class, 'dofus3')):
                 continue
             with self.subTest(char_class=char_class):
                 spells = castable_spells(char_class, 200, 'dofus3')
@@ -21859,16 +21917,45 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     self.assertGreaterEqual(100 * (matched or 0) // total,
                                             floors[name], name)
 
+    PAGE_FOLDERS = {'dofus3': '', 'beta': 'beta', 'dofus2': 'dofus2'}
+
+    def _pieces_no_item_page_carries(self, version):
+        """{set name: pieces its game page lists that no item page of the version carries}."""
+        if version not in self.PAGE_FOLDERS:
+            return {}
+        folder = os.path.join(settings.BASE_DIR, '..', 'itemscraper', self.PAGE_FOLDERS[version])
+        sets_path = os.path.join(folder, 'all_sets_en.json')
+        if not os.path.exists(sets_path):
+            return {}
+        carried = set()
+        for category in ('equipment', 'cosmetics'):
+            path = os.path.join(folder, 'all_%s_en.json' % category)
+            if os.path.exists(path):
+                with open(path, encoding='utf-8') as handle:
+                    carried |= {item.get('ankama_id') for item in json.load(handle)['items']}
+        with open(sets_path, encoding='utf-8') as handle:
+            sets = json.load(handle)['sets']
+        lacking = {}
+        for item_set in sets:
+            missing = [i for i in item_set.get('equipment_ids') or [] if i not in carried]
+            if missing:
+                lacking[item_set['name']] = len(missing)
+        return lacking
+
     def test_a_set_holds_as_many_pieces_as_its_bonuses_ask_for(self):
         for version in self.VERSIONS:
             rows = self._rows(version,
                 'SELECT s.name, MAX(b.num_pieces_used),'
                 ' (SELECT COUNT(*) FROM items i WHERE i.item_set = s.id)'
                 ' FROM sets s JOIN set_bonus b ON b.item_set = s.id GROUP BY s.id')
+            lacking = self._pieces_no_item_page_carries(version)
             for name, top_tier, pieces in rows:
                 with self.subTest(version=version, set=name):
                     self.assertTrue(pieces, name)
-                    self.assertLessEqual(top_tier, pieces, name)
+                    self.assertLessEqual(top_tier, pieces + lacking.get(name, 0), name)
+
+    def test_every_beta_set_piece_has_its_item_page(self):
+        self.assertEqual({}, self._pieces_no_item_page_carries('beta'))
 
     def test_the_tables_a_rebuild_must_not_gut(self):
         # A store step that dies empties its table and the run still exits 0

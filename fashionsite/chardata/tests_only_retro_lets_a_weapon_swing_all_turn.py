@@ -11,7 +11,7 @@ PULP = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
 # version -> (db file, weapons carrying a per-turn use limit)
 BASES = {
     'dofus3': ('items.db', 766),
-    'beta': ('items_beta.db', 766),
+    'beta': ('items_beta.db', 779),
     'dofus2': ('items_dofus2.db', 723),
     'touch': ('items_touch.db', 698),
     'retro': ('items_retro.db', 0),
