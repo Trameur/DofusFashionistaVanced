@@ -642,6 +642,25 @@ RACE_TO_BUILD_PROFILE = {
             'airdam': 6.0,
         },
     },
+    'Bellaphone': {
+        'all': {
+            'meleeness': 0.1,
+            'range_importance': 0.4,
+            'vit_importance': 0.7,
+        },
+        'str': {
+            'earthdam': 6.0,
+        },
+        'int': {
+            'firedam': 6.0,
+        },
+        'cha': {
+            'waterdam': 6.0,
+        },
+        'agi': {
+            'airdam': 6.0,
+        },
+    },
 }
 
 RACES_WITH_HYBRID_PROFILES = ['Huppermage']

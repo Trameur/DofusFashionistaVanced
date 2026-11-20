@@ -32,7 +32,7 @@ def class_exists_in_version(char_class, game_version):
 
 
 CLASSES_AWAITING_DATA = {
-    'beta': {'Bellaphone'},
+    'beta': set(),
 }
 
 

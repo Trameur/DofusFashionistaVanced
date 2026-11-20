@@ -52,6 +52,7 @@ CLASS_DEFAULT_ELEMENT = {
     'Foggernaut': 'int',
     'Rogue': 'agi',
     'Forgelance': 'str',
+    'Bellaphone': 'cha',
 }
 FALLBACK_ELEMENT = 'str'
 
