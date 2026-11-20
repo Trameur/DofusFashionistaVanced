@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Add the game's own default colours to breed_looks.json.
+"""Add the game's own looks and default colours to breed_looks.json.
 
-The client carries them per breed and per gender in breeds.json. Six of them,
-one per ColorGray slot the art uses; the preview was inventing five, so every
-piece in slot 6 stayed grey.
+The client carries the colours per breed and per gender in breeds.json. Six of
+them, one per ColorGray slot the art uses; the preview was inventing five, so
+every piece in slot 6 stayed grey.
+
+When the dump also holds heads.json (the client's HeadsDataRoot), every breed
+and gender gets its look too: skeleton, body skin and scale from the breed's
+maleLook or femaleLook, the head of order 0 and the number of heads.
 
     python itemscraper/store_breed_colors.py [--tag 3.6.8.8]
 """
@@ -45,6 +49,32 @@ def hex_colours(raw):
     return out
 
 
+def parse_breed_look(raw):
+    """`{1|6245||50}` -> (bones, body skin, scale), or None."""
+    fields = (raw or '').strip('{}').split('|')
+    if len(fields) < 4 or not fields[0].isdigit() or not fields[1].isdigit():
+        return None
+    return int(fields[0]), int(fields[1]), fields[3]
+
+
+def breed_looks(breeds, heads):
+    """{'<breed>-<gender>': look} for every breed and gender with a look and a head."""
+    looks = {}
+    for breed_id, breed in breeds.items():
+        for gender, field in ((0, 'maleLook'), (1, 'femaleLook')):
+            parsed = parse_breed_look(breed.get(field))
+            choices = sorted((head for head in heads.values()
+                              if head.get('breed') == breed_id and head.get('gender') == gender),
+                             key=lambda head: head.get('order', 0))
+            if parsed is None or not choices or not str(choices[0].get('skins', '')).isdigit():
+                continue
+            bones, body, scale = parsed
+            looks['%d-%d' % (breed_id, gender)] = {
+                'bones': bones, 'body': body, 'scale': scale,
+                'head': int(choices[0]['skins']), 'heads': len(choices)}
+    return looks
+
+
 def latest_tag():
     return _latest_tag(RAW_ROOT)
 
@@ -58,6 +88,14 @@ def main():
     breeds = _table(os.path.join(dump, 'breeds.json'))
     with io.open(LOOKS, encoding='utf-8') as handle:
         looks = json.load(handle)
+
+    heads_path = os.path.join(dump, 'heads.json')
+    if os.path.isfile(heads_path):
+        found = breed_looks(breeds, _table(heads_path))
+        added = sorted(set(found) - set(looks))
+        for key, look in found.items():
+            looks.setdefault(key, {}).update(look)
+        print('%d looks read from the client, added %s' % (len(found), ', '.join(added) or 'none'))
 
     written = missing = 0
     for key, entry in looks.items():

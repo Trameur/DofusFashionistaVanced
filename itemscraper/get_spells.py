@@ -58,6 +58,7 @@ BOMB_EFFECT_ID = 1008
 # Damage that waits for something (an enemy, a detonation, a state); the rest is only late
 PLACED_WAITS = frozenset(("trap", "bomb", "glyph", "aura", "state"))
 CAST_EFFECT_IDS = frozenset((792, 1160, 2794, 2960))
+PREVIEW_MARK_EFFECT_ID = 4074
 TOOLTIP_FLAG = 1
 CLIENT_ONLY_FLAG = 16
 SUMMON_STACK_CAP = 10
@@ -294,6 +295,8 @@ class SpellTransformer:
         self.missing_effects: Dict[int, List[int]] = {}
         self._breeds: Optional[Dict[int, Dict[str, Any]]] = None
         self._breed_names: Optional[Dict[int, Dict[str, Optional[str]]]] = None
+        self._breed_books: Dict[int, set] = {}
+        self._variant_owners: Dict[int, int] = {}
         self.spell_entries_by_id: Dict[int, Dict[str, Any]] = {}
 
     def _load_bomb_table(self) -> Dict[int, int]:
@@ -625,6 +628,16 @@ class SpellTransformer:
             return None
         return int(target), int(grade or 0)
 
+    def _previewed_spell(self, effect: Mapping[str, Any]) -> Optional[Tuple[int, int]]:
+        """(spell id, grade) a preview mark shows, or None."""
+        if effect.get("effect_id") != PREVIEW_MARK_EFFECT_ID:
+            return None
+        dice = effect.get("dice") or {}
+        target, grade = dice.get("min"), dice.get("max")
+        if not target or not grade or target not in self.spells:
+            return None
+        return int(target), int(grade)
+
     def _levels_of(self, spell_id: int) -> List[Dict[str, Any]]:
         levels = self._levels_cache.get(spell_id)
         if levels is None:
@@ -667,7 +680,7 @@ class SpellTransformer:
         for level_idx, level in enumerate(levels):
             shown = list(level.get("effects") or [])
             for effect in level.get("effects") or []:
-                child = self._placed_child(effect)
+                child = self._placed_child(effect) or self._previewed_spell(effect)
                 if child is not None:
                     by_grade = {lvl.get("grade"): lvl for lvl in self._levels_of(child[0])}
                     shown.extend((by_grade.get(child[1]) or {}).get("effects") or [])
@@ -882,7 +895,7 @@ class SpellTransformer:
             # Recent classes (Forgelance) carry the breed only in spell_variants
             variant_link = self.variant_lookup.get(int(spell_id))
             if variant_link and variant_link.breed_id:
-                breed_ids.add(variant_link.breed_id)
+                breed_ids.add(self._variant_owner(variant_link))
             breed_ids = sorted(breed_ids)
             if breed_ids:
                 entry["breed_ids"] = breed_ids
@@ -953,9 +966,56 @@ class SpellTransformer:
             )
         self._breeds = _load_datacenter_table(breed_path)
         self._breed_names = {}
+        self._breed_books = {}
         for breed_id, record in self._breeds.items():
             localized = self._localized_map(record.get("shortNameId")) or {}
             self._breed_names[breed_id] = localized
+            book = {int(spell_id) for spell_id in _unwrap_array(record.get("breedSpellsId"))}
+            for spell_id in list(book):
+                link = self.variant_lookup.get(spell_id)
+                if link:
+                    book.update(link.spell_ids)
+            self._breed_books[breed_id] = book
+        self._variant_owners = self._adopted_variant_groups()
+        for variant_id, breed_id in self._variant_owners.items():
+            for link in self.variant_lookup.values():
+                if link.variant_id == variant_id and self._breed_books.get(breed_id):
+                    self._breed_books[breed_id].update(link.spell_ids)
+
+    def _adopted_variant_groups(self) -> Dict[int, int]:
+        """{variant id: breed id} for groups filed under no real breed whose spell type names one breed in every language."""
+        assert self._breed_names is not None
+        owners: Dict[int, int] = {}
+        links = {link.variant_id: link for link in self.variant_lookup.values()}
+        for variant_id, link in links.items():
+            if link.breed_id in self._breed_names:
+                continue
+            type_ids = {(self.spells.get(spell_id) or {}).get("typeId") for spell_id in link.spell_ids}
+            if len(type_ids) != 1 or None in type_ids:
+                continue
+            kind = self.spell_types.get(int(next(iter(type_ids)))) or {}
+            kind_names = self._localized_map(kind.get("longNameId")) or {}
+            matches = []
+            for breed_id, breed_names in self._breed_names.items():
+                pairs = [(breed_names.get(lang), kind_names.get(lang)) for lang in self.languages]
+                pairs = [(breed, kind_name) for breed, kind_name in pairs if breed and kind_name]
+                if pairs and all(re.search(r"\b%s\b" % re.escape(breed), kind_name)
+                                 for breed, kind_name in pairs):
+                    matches.append(breed_id)
+            if len(matches) == 1:
+                owners[variant_id] = matches[0]
+        return owners
+
+    def _variant_owner(self, link: "VariantLink") -> int:
+        """The breed a variant group belongs to, reading the spell type when its own breed id is a placeholder."""
+        if self._breeds is None and (self.dataset_dir / "breeds.json").exists():
+            self._ensure_breeds()
+        return self._variant_owners.get(link.variant_id, link.breed_id)
+
+    def _in_breed_book(self, breed_id: int, spell_id: Any) -> bool:
+        """Whether the breed's spell book holds the spell; a breed without a book takes every spell naming it."""
+        book = self._breed_books.get(breed_id)
+        return not book or int(spell_id or 0) in book
 
     def _class_key(self, breed_id: int) -> str:
         assert self._breed_names is not None
@@ -1002,7 +1062,8 @@ class SpellTransformer:
         assert self._breed_names is not None
         grouped: Dict[str, Dict[str, Any]] = {}
         for entry in payload:
-            breed_ids = [bid for bid in entry.get("breed_ids", []) if bid in self._breed_names]
+            breed_ids = [bid for bid in entry.get("breed_ids", [])
+                         if bid in self._breed_names and self._in_breed_book(bid, entry.get("ankama_id"))]
             if not breed_ids:
                 continue
             class_spell = self._spell_for_class(entry)

@@ -440,6 +440,7 @@ BASE_CLASSES = [
     "Huppermage",
     "Ouginak",
     "Forgelance",
+    "Bellaphone",
 ]
 CHARACTER_CLASSES = sorted(BASE_CLASSES)
 BESTIAL_PACT_ANKAMA_ID = 31141
@@ -1006,14 +1007,19 @@ def _apply_custom_stack_labels(
 
 def build_spell_map(class_data: Mapping[str, Any], all_spells: Sequence[Mapping[str, Any]]) -> Dict[str, List[SpellEntry]]:
     breed_lookup = _build_breed_lookup(class_data)
+    books = _class_books(class_data)
     spell_lookup = _build_spell_lookup(all_spells)
-    spells_by_class: Dict[str, List[SpellEntry]] = {cls: [] for cls in CHARACTER_CLASSES}
+    spells_by_class: Dict[str, List[SpellEntry]] = {
+        cls: [] for cls in CHARACTER_CLASSES if cls in breed_lookup.values()}
 
     for spell in sorted(all_spells, key=_sort_key):
         converted = convert_spell(spell, spell_lookup=spell_lookup)
         if not converted:
             continue
-        matched_classes = _classes_for_spell(spell, breed_lookup)
+        matched_classes = {class_name for class_name in _classes_for_spell(spell, breed_lookup)
+                           if class_name in spells_by_class
+                           and (class_name not in books
+                                or spell.get("ankama_id") in books[class_name])}
         if matched_classes and converted.draw_problem:
             print("Warning: %s (%s) rolls a chance on its damage rows and is summed "
                   "as usual: %s" % (converted.name, converted.ankama_id,
@@ -1026,6 +1032,7 @@ def build_spell_map(class_data: Mapping[str, Any], all_spells: Sequence[Mapping[
             raise RuntimeError("%s (%s): %s" % (converted.name, converted.ankama_id,
                                                 converted.trigger_problem))
         if matched_classes:
+            converted = _first_grade_when_one_level_opens_them(converted)
             for class_name in matched_classes:
                 spells_by_class[class_name].append(replace(converted))
 
@@ -1319,7 +1326,11 @@ def _hp_share_hit(effect: Mapping[str, Any], spell_id: Any) -> Optional[Tuple[An
     element = ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
     if not element:
         raise RuntimeError("spell %s deals a share of HP in no element" % spell_id)
-    if not _lands_on_cast(effect.get("triggers")) or effect.get("delay"):
+    if _lands_on_cast(effect.get("triggers")) and effect.get("delay"):
+        print("Warning: spell %s deals a share of HP %s turn(s) after the cast, not counted"
+              % (spell_id, effect.get("delay")), file=sys.stderr)
+        return None
+    if not _lands_on_cast(effect.get("triggers")):
         raise RuntimeError("spell %s deals a share of HP on trigger %s, delay %s"
                            % (spell_id, effect.get("triggers"), effect.get("delay")))
     gate = None
@@ -1532,6 +1543,19 @@ def _build_breed_lookup(class_data: Mapping[str, Any]) -> Dict[int, str]:
     return lookup
 
 
+def _class_books(class_data: Mapping[str, Any]) -> Dict[str, Set[Any]]:
+    """{class: the spell ids its class block lists}, the book get_spells read from the breed."""
+    books: Dict[str, Set[Any]] = {}
+    for class_name, payload in class_data.items():
+        if class_name == "default" or not isinstance(payload, Mapping):
+            continue
+        spells = payload.get("spells")
+        if isinstance(spells, list) and spells:
+            books[class_name] = {entry.get("ankama_id") for entry in spells
+                                 if isinstance(entry, Mapping)}
+    return books
+
+
 def _classes_for_spell(spell: Mapping[str, Any], breed_lookup: Mapping[int, str]) -> Set[str]:
     classes: Set[str] = set()
     variant = spell.get("variant_group")
@@ -1691,6 +1715,21 @@ def _charged_grade_only(entry: SpellEntry) -> SpellEntry:
         crit_ranges=([[row[-1]] for row in entry.crit_ranges]
                      if entry.crit_ranges is not None else None),
         casting=({cle: valeurs[-1:] for cle, valeurs in entry.casting.items()}
+                 if entry.casting else entry.casting),
+    )
+
+
+def _first_grade_when_one_level_opens_them(entry: SpellEntry) -> SpellEntry:
+    """Keep the first grade when every grade opens at one level: the caster's level does not pick it."""
+    if len(entry.level_requirements) < 2 or len(set(entry.level_requirements)) != 1:
+        return entry
+    return replace(
+        entry,
+        level_requirements=entry.level_requirements[:1],
+        non_crit_ranges=[row[:1] for row in entry.non_crit_ranges],
+        crit_ranges=([row[:1] for row in entry.crit_ranges]
+                     if entry.crit_ranges is not None else None),
+        casting=({key: values[:1] for key, values in entry.casting.items()}
                  if entry.casting else entry.casting),
     )
 
@@ -2008,6 +2047,158 @@ def _build_duplicated_row_aggregates(
     if [copied(row) for row in rows[:kept]] != [copied(row) for row in rows[kept:]]:
         return None
     aggregates = [("", list(range(kept))), ("", list(range(kept, len(rows))))]
+    for idx in range(len(rows), total_row_count):
+        aggregates.append(("", [idx]))
+    return aggregates
+
+
+CASTER_COUNTER_BRANCH = re.compile(r"\*Ct(\d+)([=<>])(\d+)")
+COUNTER_INIT_EFFECT_ID = 4070
+COUNTER_LABEL = "Counter %s%s%s"
+
+
+def _counter_starts(spell_lookup: Optional[Mapping[int, Mapping[str, Any]]],
+                    counter_ids: Iterable[str]) -> Dict[str, int]:
+    """{counter id: the value its first grade sets it to}, read from the counter spell."""
+    starts: Dict[str, int] = {}
+    for counter in counter_ids:
+        levels = ((spell_lookup or {}).get(int(counter)) or {}).get("levels") or []
+        for effect in (levels[0].get("effects") or []) if levels else []:
+            if effect.get("effect_id") == COUNTER_INIT_EFFECT_ID:
+                starts[counter] = int((effect.get("dice") or {}).get("min") or 0)
+                break
+    return starts
+
+
+def _previewed_counter_gate(spell: Mapping[str, Any], row: Mapping[str, Any],
+                            spell_lookup: Optional[Mapping[int, Mapping[str, Any]]]
+                            ) -> Optional[Tuple[str, str, str]]:
+    """The counter gate a preview row stands for, read on the child spell the cast runs."""
+    found: Set[Tuple[str, str, str]] = set()
+    for grade_index, level in enumerate(spell.get("levels") or []):
+        ranges = row.get("ranges") or []
+        if grade_index >= len(ranges):
+            return None
+        wanted = _parse_damage_literal(str(ranges[grade_index]))
+        tokens: Set[Tuple[str, str, str]] = set()
+        for effect in level.get("effects") or []:
+            dice = effect.get("dice") or {}
+            child = (spell_lookup or {}).get(dice.get("min") or 0)
+            if not child or child is spell:
+                continue
+            for child_level in child.get("levels") or []:
+                if child_level.get("grade") != dice.get("max"):
+                    continue
+                for child_effect in child_level.get("effects") or []:
+                    child_dice = child_effect.get("dice") or {}
+                    low = child_dice.get("min") or 0
+                    if (low, child_dice.get("max") or low) != wanted:
+                        continue
+                    tokens.update(CASTER_COUNTER_BRANCH.findall(
+                        str(child_effect.get("target_mask") or "")))
+        if len(tokens) != 1:
+            return None
+        found |= tokens
+    return next(iter(found)) if len(found) == 1 else None
+
+
+def _row_counter_gates(spell: Mapping[str, Any], rows: Sequence[Mapping[str, Any]],
+                       spell_lookup: Optional[Mapping[int, Mapping[str, Any]]]
+                       ) -> List[Optional[Tuple[str, str, str]]]:
+    """The caster counter each row is gated on, from its own mask or the child spell its preview stands for."""
+    gates: List[Optional[Tuple[str, str, str]]] = []
+    for row in rows:
+        own = CASTER_COUNTER_BRANCH.findall(str(row.get("situation") or ""))
+        if len(own) == 1:
+            gates.append(own[0])
+        elif not own and "F50000" in str(row.get("situation") or ""):
+            gates.append(_previewed_counter_gate(spell, row, spell_lookup))
+        else:
+            gates.append(None)
+    return gates
+
+
+def _gate_holds(gate: Tuple[str, str, str], value: int) -> bool:
+    _counter, sign, wanted = gate
+    return {"=": value == int(wanted), ">": value > int(wanted),
+            "<": value < int(wanted)}[sign]
+
+
+def _label_counter_groups(
+    aggregates: Optional[List[Tuple[str, List[int]]]],
+    gates: Sequence[Optional[Tuple[str, str, str]]],
+    spell_lookup: Optional[Mapping[int, Mapping[str, Any]]],
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """Name each alternative group after its counter gate, the one the counter starts in first."""
+    if not aggregates or not any(gates):
+        return aggregates
+    base = len(gates)
+    units: List[List[Tuple[str, List[int]]]] = []
+    headed = any(label for label, _indices in aggregates)
+    for label, indices in aggregates:
+        joins = (units and headed and not label
+                 and all(index < base for index in indices)
+                 and all(index < base for _label, group in units[-1] for index in group))
+        if joins:
+            units[-1].append((label, indices))
+        else:
+            units.append([(label, indices)])
+    gated, rest = [], []
+    for unit in units:
+        indices = [index for _label, group in unit for index in group]
+        if all(index >= base for index in indices):
+            rest.append((unit, None))
+            continue
+        unit_gates = {gates[index] if index < base else None for index in indices}
+        if len(unit_gates) != 1 or None in unit_gates:
+            return aggregates
+        gated.append((unit, next(iter(unit_gates))))
+    if len(gated) < 2 or len({gate for _unit, gate in gated}) != len(gated):
+        return aggregates
+    starts = _counter_starts(spell_lookup, {gate[0] for _unit, gate in gated})
+    labelled = []
+    for unit, gate in gated:
+        head_label, head_indices = unit[0]
+        name = COUNTER_LABEL % gate
+        unit = [(name if not head_label else "%s - %s" % (name, head_label), head_indices)] + unit[1:]
+        start = starts.get(gate[0])
+        labelled.append((0 if start is not None and _gate_holds(gate, start) else 1, unit))
+    labelled.sort(key=lambda pair: pair[0])
+    out: List[Tuple[str, List[int]]] = []
+    for _rank, unit in labelled:
+        out.extend(unit)
+    for unit, _gate in rest:
+        out.extend(unit)
+    return out
+
+
+def _counter_branches(spell: Mapping[str, Any]) -> Dict[str, Set[str]]:
+    """{counter id: the values the bound scripts branch on}, read from their caster masks."""
+    branches: Dict[str, Set[str]] = {}
+    for script in spell.get("bound_scripts") or []:
+        for counter, sign, value in CASTER_COUNTER_BRANCH.findall(
+                str(script.get("caster_mask") or "")):
+            branches.setdefault(counter, set()).add(sign + value)
+    return branches
+
+
+def _build_counter_branch_aggregates(
+    spell: Mapping[str, Any],
+    rows: Sequence[Mapping[str, Any]],
+    total_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """One row per branch of a caster counter (Bellaura size): the rows are its cases."""
+    branches = _counter_branches(spell)
+    if len(branches) != 1 or len(rows) < 2:
+        return None
+    if len(next(iter(branches.values()))) != len(rows):
+        return None
+    if len({(row.get("element"), row.get("situation"), row.get("triggers"))
+            for row in rows}) != 1:
+        return None
+    if len({tuple(row.get("ranges") or ()) for row in rows}) != len(rows):
+        return None
+    aggregates = [("", [idx]) for idx in range(len(rows))]
     for idx in range(len(rows), total_row_count):
         aggregates.append(("", [idx]))
     return aggregates
@@ -2632,6 +2823,8 @@ def convert_spell(
         aggregates = _build_duplicated_row_aggregates(
             spell.get("ankama_id"), normal_rows, len(non_crit))
     if not aggregates:
+        aggregates = _build_counter_branch_aggregates(spell, normal_rows, len(non_crit))
+    if not aggregates:
         aggregates = _build_target_condition_aggregates(normal_rows, len(non_crit))
     if not aggregates:
         aggregates = _build_summon_target_aggregates(normal_rows, len(non_crit))
@@ -2644,7 +2837,8 @@ def convert_spell(
         collapsed = _label_state_aggregates(normal_rows, collapsed)
     elif state_aggregates is not None and collapsed is not None:
         collapsed = _split_the_one_state_on_its_target(normal_rows, collapsed) or collapsed
-    aggregates = collapsed
+    aggregates = _label_counter_groups(
+        collapsed, _row_counter_gates(spell, normal_rows, spell_lookup), spell_lookup)
     placed_blocks = damage.get("placed") or []
     block_waits: Dict[int, str] = {}
     block_lands: Dict[int, str] = {}
@@ -2846,7 +3040,7 @@ def _convert_variant_link(variant_link: Optional[Mapping[str, Any]]) -> Optional
     if not variant_link:
         return None
     linked = variant_link.get("linked_spells") or []
-    if not linked:
+    if len(linked) != 1 or variant_link.get("count", 2) != 2:
         return None
     linked_name = pick_name(linked[0].get("names", {}))
     if not linked_name:

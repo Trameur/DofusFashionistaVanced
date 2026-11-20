@@ -14,12 +14,15 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Store where each Dofus 3 / Beta monster can be found, from the DofusDB API.
+"""Store where each Dofus 3 / Beta monster can be found, from the DofusDB API or a raw dump.
 
 Commit both the db and its dump: structure.py rebuilds the db from the dump.
 
 Usage (from itemscraper/):
-    python store_dofusdb_monster_subareas.py [--game-version dofus3|beta]
+    python store_dofusdb_monster_subareas.py [--game-version dofus3|beta] [--tag 3.8.2.3]
+
+With --tag the subareas are read from raw/<tag> (monsters.json, subareas.json
+and the five lang files) and nothing is downloaded.
 """
 
 import argparse
@@ -32,6 +35,11 @@ import urllib.request
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
+if CURRENT_DIR not in sys.path:
+    sys.path.append(CURRENT_DIR)
+
+from store_monster_spells import RAW_ROOT, _labels, _table  # noqa: E402
+from untranslated_tag import clean_display_name  # noqa: E402
 
 BASES = {
     'dofus3': 'https://api.dofusdb.fr',
@@ -70,25 +78,53 @@ def fetch_paged(base, path, selects):
     return records
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--game-version', default='dofus3',
-                        choices=sorted(BASES))
-    args = parser.parse_args()
-    base = BASES[args.game_version]
-
+def from_api(base):
+    """({subarea id: {language: name}}, {monster id: [subarea id]}) from DofusDB."""
     subarea_names = {}
     for record in fetch_paged(base, '/subareas', ('id', 'name')):
         name = record.get('name') or {}
         if isinstance(name, dict):
             subarea_names[record['id']] = name
-    print('%s: %d subareas with names' % (args.game_version, len(subarea_names)))
-
     monster_subareas = {}
     for record in fetch_paged(base, '/monsters', ('id', 'subareas')):
         ids = record.get('subareas') or []
         if ids:
             monster_subareas[record['id']] = ids
+    return subarea_names, monster_subareas
+
+
+def from_raw(dump_dir):
+    """Same pair, read from a datacenter dump."""
+    labels = _labels(dump_dir)
+    subarea_names = {}
+    for subarea_id, subarea in _table(os.path.join(dump_dir, 'subareas.json')).items():
+        key = str(subarea.get('nameId'))
+        subarea_names[subarea_id] = {language: labels[language].get(key)
+                                     for language in LANGUAGES}
+    monster_subareas = {}
+    for monster_id, monster in _table(os.path.join(dump_dir, 'monsters.json')).items():
+        ids = (monster.get('subareas') or {}).get('Array') or []
+        if ids:
+            monster_subareas[monster_id] = ids
+    return subarea_names, monster_subareas
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--game-version', default='dofus3',
+                        choices=sorted(BASES))
+    parser.add_argument('--tag', help='datacenter dump under raw/ to read instead of DofusDB')
+    args = parser.parse_args()
+
+    if args.tag:
+        dump_dir = os.path.join(RAW_ROOT, args.tag)
+        if not os.path.isdir(dump_dir):
+            raise SystemExit('no such dump: %s' % dump_dir)
+        print('%s: reading %s' % (args.game_version, dump_dir))
+        subarea_names, monster_subareas = from_raw(dump_dir)
+    else:
+        subarea_names, monster_subareas = from_api(BASES[args.game_version])
+    print('%s: %d subareas with names' % (args.game_version, len(subarea_names)))
     print('%s: %d monsters with subareas' % (args.game_version, len(monster_subareas)))
 
     db_path = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
@@ -116,7 +152,7 @@ def main():
         for lang in LANGUAGES:
             names = []
             for subarea_id in subarea_ids:
-                name = (subarea_names.get(subarea_id) or {}).get(lang)
+                name = clean_display_name((subarea_names.get(subarea_id) or {}).get(lang))
                 if name and name not in names:
                     names.append(name)
             for position, name in enumerate(names):

@@ -84,6 +84,33 @@ def state_ids_in_use(spells_path):
     return found
 
 
+_COUNTER_TOKEN = re.compile(r'\*Ct(\d+)[=<>]')
+
+
+def counter_names_in_use(spells_path):
+    """{'Ct<id>': {lang: name}} for every caster counter a damage row of the archive is gated on."""
+    with open(spells_path, encoding='utf-8') as handle:
+        spells = json.load(handle)
+    wanted = set()
+    for spell in spells:
+        for level in spell.get('levels') or []:
+            for effect in level.get('effects') or []:
+                if (effect.get('effect_metadata') or {}).get('category') != 2:
+                    continue
+                wanted.update(_COUNTER_TOKEN.findall(effect.get('target_mask') or ''))
+    names = {}
+    for spell in spells:
+        counter = str(spell.get('ankama_id'))
+        if counter not in wanted:
+            continue
+        localized = {lang: clean_text(spell.get('name_%s' % lang) or '')
+                     for lang in LANGUAGES}
+        localized = {lang: name for lang, name in localized.items() if name}
+        if localized.get('en') or localized.get('fr'):
+            names['Ct%s' % counter] = localized
+    return names
+
+
 def read_states(tag, wanted):
     """id -> {lang: name}, from the datacenter dump and the lang files."""
     root = os.path.join(CURRENT_DIRECTORY, 'raw', tag)
@@ -140,15 +167,18 @@ def main():
     states = read_states(args.tag or default_tag, wanted)
     if not states:
         raise SystemExit('%s: no state name found' % args.game_version)
+    counters = counter_names_in_use(os.path.join(CURRENT_DIRECTORY, spells_name))
+    states.update(counters)
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     path = os.path.join(OUTPUT_DIR, '%s.json' % args.game_version)
     with open(path, 'w', encoding='utf-8', newline='') as handle:
         json.dump(states, handle, ensure_ascii=False, indent=1, sort_keys=True)
-    missing = len(wanted) - len(states)
-    print('%s: %d states named out of %d in use%s'
-          % (args.game_version, len(states), len(wanted),
-             ', %d unnamed' % missing if missing else ''))
+    named = len(states) - len(counters)
+    missing = len(wanted) - named
+    print('%s: %d states named out of %d in use%s, %d counters named'
+          % (args.game_version, named, len(wanted),
+             ', %d unnamed' % missing if missing else '', len(counters)))
 
 
 if __name__ == '__main__':

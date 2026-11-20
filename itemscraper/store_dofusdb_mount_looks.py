@@ -3,7 +3,10 @@
 """Store the skeleton, colours and scale behind each mount, from the DofusDB
 mounts endpoint.
 
-    python itemscraper/store_dofusdb_mount_looks.py [--game-version dofus3|beta]
+    python itemscraper/store_dofusdb_mount_looks.py [--game-version dofus3|beta] [--tag 3.8.2.3]
+
+With --tag the mounts are read from raw/<tag> (mounts.json and the five lang
+files) and nothing is downloaded.
 
 Our mount items carry synthetic ankama_ids, so DofusDB's certificateId matches
 nothing: mounts are paired on their name in all five languages.
@@ -21,6 +24,9 @@ import urllib.request
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
 sys.path.insert(0, CURRENT_DIR)
+
+from store_monster_spells import RAW_ROOT, _labels, _table  # noqa: E402
+from untranslated_tag import clean_display_name  # noqa: E402
 
 BASES = {
     'dofus3': 'https://api.dofusdb.fr',
@@ -51,6 +57,15 @@ def iter_mounts(base_url):
         skip += PAGE_SIZE
         if skip >= page.get('total', 0):
             return
+
+
+def raw_mounts(dump_dir):
+    """The mounts of a datacenter dump, shaped like DofusDB's records."""
+    labels = _labels(dump_dir)
+    for mount in _table(os.path.join(dump_dir, 'mounts.json')).values():
+        key = str(mount.get('nameId'))
+        yield {'look': mount.get('look'),
+               'name': {language: labels[language].get(key) for language in LANGUAGES}}
 
 
 def parse_look(look):
@@ -108,7 +123,16 @@ def our_mounts(cursor):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--game-version', default='dofus3', choices=sorted(BASES))
+    parser.add_argument('--tag', help='datacenter dump under raw/ to read instead of DofusDB')
     args = parser.parse_args()
+    if args.tag:
+        dump_dir = os.path.join(RAW_ROOT, args.tag)
+        if not os.path.isdir(dump_dir):
+            raise SystemExit('no such dump: %s' % dump_dir)
+        print('%s: reading %s' % (args.game_version, dump_dir))
+        mounts = raw_mounts(dump_dir)
+    else:
+        mounts = iter_mounts(BASES[args.game_version])
 
     db_path = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
                            DB_FILES[args.game_version])
@@ -130,7 +154,7 @@ def main():
 
     seen = matched = unparsed = 0
     bones = {}
-    for mount in iter_mounts(BASES[args.game_version]):
+    for mount in mounts:
         seen += 1
         parsed = parse_look(mount.get('look'))
         if parsed is None:
@@ -138,7 +162,7 @@ def main():
             continue
         bone, colours, scale = parsed
         names = mount.get('name') or {}
-        key = tuple((names.get(language) or '').strip().lower()
+        key = tuple(clean_display_name(names.get(language) or '').strip().lower()
                     for language in LANGUAGES)
         item_id = keyed.get(key)
         if item_id is None:
