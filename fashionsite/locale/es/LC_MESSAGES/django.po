@@ -9384,6 +9384,22 @@ msgid "Dofus 3 Beta"
 msgstr "Dofus 3 Beta"
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "A new look for the whole site"
+msgstr "Un nuevo aspecto para todo el sitio"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Every page gets a new design, wider and easier to read."
+msgstr "Cada página estrena un nuevo diseño, más ancho y más fácil de leer."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Prefer the old look? The Design menu at the top brings back the classic design, or an enhanced classic one."
+msgstr "¿Prefieres el aspecto de antes? El menú Diseño, arriba, te devuelve al diseño Clásico o al Clásico mejorado."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Light or dark: by default the site now follows your system, and the button at the top still lets you choose."
+msgstr "Claro u oscuro: por defecto, el sitio ahora sigue a tu sistema, y el botón de arriba te deja elegir igualmente."
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "Dracorunes in the optimizer, and the Bellaphone class"
 msgstr "Dracorrunas en el optimizador y la clase Belíade"
 

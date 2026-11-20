@@ -47,10 +47,11 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
     def test_three_entries_of_at_most_four_bullets(self):
         entrees = _entrees()
         self.assertEqual(NOUVEAU_MOIS, entrees[0][0])
-        self.assertEqual(['Dracorunes in the optimizer, and the Bellaphone class',
+        self.assertEqual(['A new look for the whole site',
+                          'Dracorunes in the optimizer, and the Bellaphone class',
                           'Stronger builds, and a new way to start them'],
                          [e[1] for e in entrees if e[0] == NOUVEAU_MOIS])
-        self.assertEqual('Dracorunes in the optimizer, and the Bellaphone class', entrees[0][1])
+        self.assertEqual('A new look for the whole site', entrees[0][1])
         self.assertEqual(['Dofus 3.7 update', 'Weights and minimums on one page'],
                          [e[1] for e in entrees if e[0] == OCTOBRE])
         de_ce_mois = [e for e in entrees if e[0] == MOIS]
@@ -205,6 +206,13 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
         self.assertIn(include, self._template('wizard.html'))
         self.assertNotIn('wizard_sliders', self._template('wizard.html'))
         self.assertNotIn('wizard_min_stats', self._template('wizard.html'))
+
+    def test_the_design_menu_brings_back_both_classic_designs_and_the_theme_follows_the_system(self):
+        base = self._template('base.html')
+        self.assertIn('fm-design-menu', base)
+        self.assertIn('{% trans "Classic" %}', base)
+        self.assertIn('{% trans "Enhanced classic" %}', base)
+        self.assertEqual('auto', settings.DEFAULT_THEME)
 
     def test_a_build_copies_between_dofus3_and_the_beta(self):
         from fashionistapulp.game_versions import GAME_VERSIONS
