@@ -1,7 +1,6 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """The build page marks every date-time so the browser can show it in the player's time zone."""
 
-import pickle
 import re
 from datetime import datetime, timezone as dt_timezone
 
@@ -16,13 +15,15 @@ class TheBuildPageTimeTests(TestCase):
     _response = TheBestTurnCardTests._response
 
     def _solved_page(self):
+        from chardata.char_blobs import read_char_blob
         from chardata.models import Char, SolutionGeneration
         from chardata.solution_history import record_solution_generation
         self._response()
         solved = datetime(2026, 11, 21, 1, 43, 5, tzinfo=dt_timezone.utc)
         Char.objects.filter(pk=self.char.pk).update(solved_time=solved)
         self.char.refresh_from_db()
-        generation = record_solution_generation(self.char, pickle.loads(self.char.minimal_solution))
+        generation = record_solution_generation(
+            self.char, read_char_blob(self.char.minimal_solution, None, 'minimal_solution', self.char))
         self.assertIsNotNone(generation)
         saved = datetime(2026, 11, 20, 23, 15, 0, tzinfo=dt_timezone.utc)
         SolutionGeneration.objects.filter(pk=generation.pk).update(created_time=saved)
