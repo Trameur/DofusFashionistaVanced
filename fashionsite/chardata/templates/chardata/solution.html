@@ -1135,27 +1135,31 @@
             $('.item-external-image-link').attr("src",image);
         }
         
-        function toggle_expand() {;
-            $header = $(this);
-            $content = $header.next();
+        function toggle_expand() {
+            var $header = $(this);
+            var $content = $header.next();
             if ($content.css('display') == 'none') {
                 $header.css("border-radius", "10px 10px 0 0");
+                $header.parent().addClass('fm-open');
                 $content.slideToggle(250);
             } else {
                 $content.slideToggle(250, function () {
                     $header.css("border-radius", "10px");
+                    $header.parent().toggleClass('fm-open', $content.is(':visible'));
                 });
             }
         }
         function expand_expand($header) {
-            $content = $header.next();
+            var $content = $header.next();
             $header.css("border-radius", "10px 10px 0px 0px" );
+            $header.parent().addClass('fm-open');
             $content.slideDown(250);
         }
         function collapse_expand($header) {
-            $content = $header.next();
+            var $content = $header.next();
             $content.slideUp(250, function () {
                 $header.css("border-radius", "10px");
+                $header.parent().removeClass('fm-open');
             });
         }
         $(".expand-header").click(toggle_expand);

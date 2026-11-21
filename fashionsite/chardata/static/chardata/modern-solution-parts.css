@@ -101,6 +101,14 @@ html.fm-modern .solution-item-section:not(.fm-sol-doll) .fm-slot-label{ display:
 html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-name-div{ justify-content:center; padding-right:0; font-size:13px; line-height:1.2; }
 html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-icons{ justify-content:center; margin:2px 0 0; }
 html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-link-div{ top:4px; right:4px; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll){ container:fm-row / inline-size; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll):has(.expand-container.fm-open){ grid-auto-flow:row dense; align-items:start; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open{ grid-column:span 3; }
+@container fm-row (min-width:700px){
+  html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open{ grid-column:span 2; }
+}
+html.fm-modern .solution-item-section .expand-container.fm-open > .solution-item-expand-header{ flex:0 0 auto; }
+html.fm-modern .solution-item-expand-content .button-generic{ max-width:100%; white-space:normal; height:auto; box-sizing:border-box; }
 
 /* Sets as data tapes */
 html.fm-modern .solution-item-summary > div:has(> .expand-container > .solution-set-expand-header){
