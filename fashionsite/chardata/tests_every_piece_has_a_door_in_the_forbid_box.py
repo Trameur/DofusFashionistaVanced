@@ -16,7 +16,7 @@ _PORTES_GAGNEES = {
     'beta': {'en': 0, 'fr': 5, 'es': 13, 'pt': 7, 'de': 10},
     'dofus2': {'en': 0, 'fr': 5, 'es': 45, 'pt': 37, 'de': 42},
     'touch': {'en': 29, 'fr': 25, 'es': 31, 'pt': 31, 'de': 36},
-    'retro': {'en': 63, 'fr': 61, 'es': 65, 'pt': 66, 'de': 66},
+    'retro': {'en': 64, 'fr': 62, 'es': 64, 'pt': 68, 'de': 67},
 }
 
 

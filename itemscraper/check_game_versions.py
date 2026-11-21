@@ -45,11 +45,17 @@ def cytrus_version(game_version, raw=None):
     return raw.split('_', 1)[-1] if '_' in raw else raw
 
 
-def retro_lang_versions():
+def retro_lang_root(manifest=None):
+    """The lang root named by the config.xml of the live Retro client."""
+    from download_retro_langs import lang_root
+    return lang_root(manifest=manifest)
+
+
+def retro_lang_versions(root=None):
     """{category: version} for the lang files the item pipeline reads."""
     import fashionista_version as ours
     from download_retro_langs import fetch_manifest
-    live = fetch_manifest('fr')
+    live = fetch_manifest('fr', root)
     return {name: str(live.get(name, 'missing'))
             for name in ours.WATCHED_RETRO_LANG}
 
@@ -313,7 +319,16 @@ def main(argv=None):
         print('%-8s tag  %s' % (name, tag))
 
     import fashionista_version as watched
-    live_lang = retro_lang_versions()
+    live_root = retro_lang_root(retro_manifest)
+    root_moved = live_root != watched.WATCHED_RETRO_LANG_ROOT
+    print('%-8s lang root %s %s'
+          % ('retro', live_root, 'MOVED' if root_moved else 'ok'))
+    if root_moved:
+        moved.append(('retro lang root', live_root))
+        print('retro lang root MOVED from %s, re-scrape retro and update '
+              'WATCHED_RETRO_LANG_ROOT and WATCHED_RETRO_LANG'
+              % watched.WATCHED_RETRO_LANG_ROOT)
+    live_lang = retro_lang_versions(live_root)
     lang_moved = sorted(name for name, version in live_lang.items()
                         if version != watched.WATCHED_RETRO_LANG[name])
     print('%-8s lang %s'
@@ -365,7 +380,8 @@ def main(argv=None):
             print('after re-scraping %s, set WATCHED_%s_%s = "%s"'
                   % (name, name.upper(),
                      'ASSETS', live))
-    if retro_build != ours.WATCHED_RETRO_BUILD and not lang_moved and not assets_moved:
+    if (retro_build != ours.WATCHED_RETRO_BUILD and not root_moved
+            and not lang_moved and not assets_moved):
         print('retro build moved but the lang data and all %d rendered clips '
               'are unchanged; no item re-scrape or image refresh required'
               % len(live_entries))

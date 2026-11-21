@@ -960,7 +960,7 @@ RETRO_SPELL_NAMES = {
   "en": "Punch of the Crackler",
   "es": "Golpe del Crujidor",
   "fr": "Frappe du Craqueleur",
-  "pt": "Soco de Crackler"
+  "pt": "Golpe do Smagador"
  },
  "Furie": {
   "de": "Raserei",

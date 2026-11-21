@@ -5,11 +5,17 @@ Download and parse the Dofus Retro "lang" files from Ankama's CDN.
 These are the same localisation files the Retro client itself downloads, so they're
 the authoritative source for items, stats, sets and recipes.
 
-  manifest : https://dofusretro.cdn.ankama.com/lang/versions_<lang>.txt
-             body: "&f=items,fr,1260|itemstats,fr,1259|itemsets,fr,1254|..."
+  lang root: the remote dataserver the client config.xml (inside the cytrus
+             main manifest) ranks first, plus lang, shaped like
+             https://dofusretro.cdn.ankama.com/static-data/<n>/lang
+  manifest : <lang root>/versions_<lang>.txt
+             body: "&f=items,fr,<version>|itemstats,fr,<version>|..."
              (each entry = <category>,<lang>,<version>)
-  swf file : https://dofusretro.cdn.ankama.com/lang/swf/<category>_<lang>_<version>.swf
+  swf file : <lang root>/swf/<category>_<lang>_<version>.swf
              CWS = zlib-compressed SWF (decompress from byte 8).
+
+The old root https://dofusretro.cdn.ankama.com/lang still answers but stopped
+moving, so it lags the files the live client reads.
 
 For each category we want, this downloads and decompresses the SWF and writes:
   - the raw decompressed SWF bytes      -> retro_raw/<category>_<lang>.swfdata
@@ -23,9 +29,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import zlib
 from pathlib import Path
+from urllib.parse import urlparse
+from xml.etree import ElementTree
 
 import requests
 
@@ -34,18 +43,65 @@ try:
 except ImportError:  # when run as a module
     from itemscraper.retro_swf_parser import parse_lang_swf
 
-CDN_BASE = "https://dofusretro.cdn.ankama.com/lang"
+try:
+    import cytrus_cdn
+except ImportError:
+    from itemscraper import cytrus_cdn
+
+CLIENT_CONFIG = 'resources/app/retroclient/config.xml'
+LANG_ROOT_ENV = 'RETRO_LANG_ROOT'
+LANG_HOST_SUFFIX = '.ankama.com'
+_resolved_roots = {}
 # Categories needed to build an equipment optimizer (others exist: spells, maps…)
 DEFAULT_CATEGORIES = ['items', 'itemstats', 'itemsets', 'crafts', 'classes', 'effects']
 
 
-def fetch_manifest(lang: str) -> dict:
-    """Return {category: version} parsed from versions_<lang>.txt."""
-    url = f"{CDN_BASE}/versions_{lang}.txt"
-    resp = requests.get(url, timeout=60)
-    resp.raise_for_status()
-    body = resp.text
-    # body looks like: &f=items,fr,1260|itemstats,fr,1259|...|
+def lang_root_from_config(config) -> str:
+    """The lang folder of the remote dataserver the Retro client config ranks first."""
+    tree = ElementTree.fromstring(config)
+    remote = []
+    for server in tree.iter('dataserver'):
+        url = (server.get('url') or '').strip()
+        if server.get('type') == 'local':
+            continue
+        parsed = urlparse(url)
+        if parsed.scheme != 'https' or not (parsed.hostname or '').endswith(LANG_HOST_SUFFIX):
+            raise ValueError(f"unexpected Retro dataserver {url!r}")
+        remote.append((int(server.get('priority')), url))
+    if not remote:
+        raise ValueError("no remote dataserver in the Retro client config")
+    first = min(priority for priority, _url in remote)
+    urls = sorted({url.rstrip('/') for priority, url in remote if priority == first})
+    if len(urls) != 1:
+        raise ValueError(f"{len(urls)} Retro dataservers share priority {first}: {urls}")
+    return urls[0] + '/lang'
+
+
+def client_config(release: str = 'retro', manifest: bytes | None = None) -> bytes:
+    """config.xml of the Retro client build cytrus serves for this release."""
+    if manifest is None:
+        manifest = cytrus_cdn.download_manifest(release)
+    entry = cytrus_cdn.find_file(manifest, CLIENT_CONFIG)
+    if entry is None:
+        raise LookupError(f"{CLIENT_CONFIG} is not in the {release} manifest")
+    return cytrus_cdn.fetch_file(entry, game=cytrus_cdn.RELEASES[release][0])
+
+
+def lang_root(release: str = 'retro', manifest: bytes | None = None) -> str:
+    """The lang root the live Retro client reads, or RETRO_LANG_ROOT when a pipeline already resolved it."""
+    if manifest is None:
+        override = os.environ.get(LANG_ROOT_ENV, '').strip()
+        if override:
+            return override.rstrip('/')
+        if release in _resolved_roots:
+            return _resolved_roots[release]
+    root = lang_root_from_config(client_config(release, manifest))
+    _resolved_roots[release] = root
+    return root
+
+
+def parse_manifest(body: str) -> dict:
+    """{category: version} from the body of versions_<lang>.txt."""
     body = body.split('=', 1)[-1]
     versions = {}
     for entry in body.split('|'):
@@ -56,8 +112,17 @@ def fetch_manifest(lang: str) -> dict:
     return versions
 
 
-def download_swf(category: str, lang: str, version: str, dest_dir: Path) -> bytes:
-    url = f"{CDN_BASE}/swf/{category}_{lang}_{version}.swf"
+def fetch_manifest(lang: str, root: str | None = None) -> dict:
+    """Return {category: version} parsed from versions_<lang>.txt."""
+    url = f"{root or lang_root()}/versions_{lang}.txt"
+    resp = requests.get(url, timeout=60)
+    resp.raise_for_status()
+    return parse_manifest(resp.text)
+
+
+def download_swf(category: str, lang: str, version: str, dest_dir: Path,
+                 root: str | None = None) -> bytes:
+    url = f"{root or lang_root()}/swf/{category}_{lang}_{version}.swf"
     resp = requests.get(url, timeout=120)
     resp.raise_for_status()
     data = resp.content
@@ -88,8 +153,9 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     dest_dir = Path(args.dest)
-    print(f"Fetching Retro lang manifest ({args.lang})...")
-    versions = fetch_manifest(args.lang)
+    root = lang_root()
+    print(f"Fetching Retro lang manifest ({args.lang}) from {root}...")
+    versions = fetch_manifest(args.lang, root)
     if not versions:
         print("No versions parsed from manifest", file=sys.stderr)
         return 1
@@ -101,7 +167,7 @@ def main(argv=None):
             print(f"  ! category '{cat}' not in manifest, skipping")
             continue
         try:
-            raw = download_swf(cat, args.lang, ver, dest_dir)
+            raw = download_swf(cat, args.lang, ver, dest_dir, root)
             print(f"  ok {cat}_{args.lang}_{ver}.swf -> {len(raw)} bytes decompressed")
         except Exception as exc:
             print(f"  FAILED {cat}: {exc}", file=sys.stderr)

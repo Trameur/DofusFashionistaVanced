@@ -119,14 +119,15 @@ WATCHED_TOUCH_ASSETS = "3.3.11_1h-,mO*yuB0Adnu4P-_1Fa9c2gqbLXKo"
 # gave a byte-identical database -- 39 tables, content compared row by row, not
 # a count. So a Retro build string that moves says nothing about the items, and
 # the categories the item pipeline reads are what to watch.
+WATCHED_RETRO_LANG_ROOT = "https://dofusretro.cdn.ankama.com/static-data/612/lang"
 WATCHED_RETRO_LANG = {
-    'items': '1260',
-    'itemstats': '1259',
-    'itemsets': '1254',
-    'crafts': '1258',
-    'effects': '1258',
-    'classes': '1258',
-    'spells': '1254',
+    'items': '1399',
+    'itemstats': '1398',
+    'itemsets': '1393',
+    'crafts': '1397',
+    'effects': '1397',
+    'classes': '1397',
+    'spells': '1393',
 }
 
 # Whether the committed Retro renders need a refresh, over the WHOLE set the
