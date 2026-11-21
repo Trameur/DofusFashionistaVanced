@@ -11,10 +11,10 @@ from pathlib import Path
 
 import requests
 
-# The live channel; the "early" channel that replaced proxyconnection.touch.
-# dofus.com is the test server and serves items nobody can own.
-CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
-FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
+import touch_channels
+
+CONFIG_URL = touch_channels.config_url('login')
+FALLBACK_DATA_URL = touch_channels.fallback_data_url('login')
 
 # The data API does not gate on the UA.
 USER_AGENT = "Dofus/2 CFNetwork"
@@ -34,10 +34,10 @@ DEFAULT_CLASSES = [
 ALL_LANGS = ['fr', 'en', 'es', 'pt', 'de']
 
 
-def served_languages(lang: str = 'fr') -> set:
+def served_languages(lang: str = 'fr', channel: str = touch_channels.DEFAULT_CHANNEL) -> set:
     """The languages Touch still serves, from its own config; a dropped language is answered in English with no marker, and an empty set means unreadable, so the caller skips nothing"""
     try:
-        resp = requests.get(f"{CONFIG_URL}?lang={lang}",
+        resp = requests.get(f"{touch_channels.config_url(channel)}?lang={lang}",
                             headers={'User-Agent': USER_AGENT}, timeout=30)
         resp.raise_for_status()
         served = resp.json().get('serverLanguages')
@@ -48,10 +48,10 @@ def served_languages(lang: str = 'fr') -> set:
         return set()
 
 
-def resolve_data_url(lang: str = 'fr') -> str:
-    """Read the live client Config to get the current dataUrl (proxy host)."""
+def resolve_data_url(lang: str = 'fr', channel: str = touch_channels.DEFAULT_CHANNEL) -> str:
+    """Read the channel's client Config to get the current dataUrl (proxy host)."""
     try:
-        resp = requests.get(f"{CONFIG_URL}?lang={lang}",
+        resp = requests.get(f"{touch_channels.config_url(channel)}?lang={lang}",
                             headers={'User-Agent': USER_AGENT}, timeout=30)
         resp.raise_for_status()
         cfg = resp.json()
@@ -61,7 +61,7 @@ def resolve_data_url(lang: str = 'fr') -> str:
         print(f"  ! config.json had no dataUrl; using fallback", file=sys.stderr)
     except Exception as exc:
         print(f"  ! could not read config.json ({exc}); using fallback", file=sys.stderr)
-    return FALLBACK_DATA_URL
+    return touch_channels.fallback_data_url(channel)
 
 
 def fetch_table(data_url: str, cls: str, lang: str) -> dict:
@@ -86,15 +86,16 @@ def main(argv=None):
     parser.add_argument('--classes', nargs='*', default=DEFAULT_CLASSES)
     parser.add_argument('--data-url', default=None,
                         help='Override the data proxy base (else resolved live)')
-    default_dest = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'touch_raw')
-    parser.add_argument('--dest', default=default_dest)
+    touch_channels.add_channel_argument(parser)
+    parser.add_argument('--dest', default=None,
+                        help='Where the raw tables go (default: the raw folder of the channel)')
     args = parser.parse_args(argv)
 
-    dest_dir = Path(args.dest)
+    dest_dir = Path(args.dest or touch_channels.raw_dir(args.channel))
     dest_dir.mkdir(parents=True, exist_ok=True)
 
-    data_url = args.data_url.rstrip('/') if args.data_url else resolve_data_url(args.lang)
-    print(f"Dofus Touch data proxy: {data_url}")
+    data_url = args.data_url.rstrip('/') if args.data_url else resolve_data_url(args.lang, args.channel)
+    print(f"Dofus Touch data proxy ({args.channel}): {data_url}")
 
     # Primary language: every requested table.
     failures = 0
@@ -114,7 +115,7 @@ def main(argv=None):
     if args.all_langs:
         name_tables = [c for c in ('Items', 'ItemSets', 'ItemTypes', 'Monsters', 'Recipes')
                        if c in args.classes]
-        served = served_languages(args.lang)
+        served = served_languages(args.lang, args.channel)
         for lang in ALL_LANGS:
             if lang == args.lang:
                 continue

@@ -30,8 +30,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from fashionistapulp.fashion_util import normalize_name, safe_icon_name
 from get_equipments_touch import load_item_types, resolve_type
+import touch_channels
 
-CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
+CONFIG_URL = touch_channels.config_url('login')
 FALLBACK_ASSETS_URL = ("https://dofustouch.cdn.ankama.com/assets/"
                        "3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5")
 USER_AGENT = "Dofus/2 CFNetwork"
@@ -42,9 +43,10 @@ WEB_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
           "(KHTML, like Gecko) Chrome/120 Safari/537.36")
 
 
-def resolve_assets_url() -> str:
+def resolve_assets_url(channel=touch_channels.DEFAULT_CHANNEL) -> str:
     try:
-        r = requests.get(CONFIG_URL + '?lang=fr', headers={'User-Agent': USER_AGENT}, timeout=30)
+        r = requests.get(touch_channels.config_url(channel) + '?lang=fr',
+                         headers={'User-Agent': USER_AGENT}, timeout=30)
         r.raise_for_status()
         url = r.json().get('assetsUrl')
         if url:
@@ -52,6 +54,26 @@ def resolve_assets_url() -> str:
     except Exception as exc:
         print(f"  ! could not read config.json ({exc}); using fallback", file=sys.stderr)
     return FALLBACK_ASSETS_URL
+
+
+def _item_name(item, item_id, names_en):
+    return names_en.get(item_id) or item.get('nameId') or ''
+
+
+def icon_pairs(raw):
+    """The set of (name, iconId) of every item in a raw folder, empty when it has no Items_fr.json."""
+    raw = Path(raw)
+    fr_path = raw / 'Items_fr.json'
+    if not fr_path.exists():
+        return set()
+    items = json.loads(fr_path.read_text(encoding='utf-8'))
+    names_en = {}
+    en_path = raw / 'Items_en.json'
+    if en_path.exists():
+        names_en = {k: v.get('nameId') for k, v in json.loads(
+            en_path.read_text(encoding='utf-8')).items() if isinstance(v, dict)}
+    return {(_item_name(it, iid, names_en), it.get('iconId'))
+            for iid, it in items.items() if isinstance(it, dict) and it.get('iconId')}
 
 
 def _fetch_resized(session, base_url, icon_id):
@@ -71,12 +93,18 @@ def _fetch_resized(session, base_url, icon_id):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('--raw-dir', default=str(Path(__file__).resolve().parent / 'touch_raw'))
+    p.add_argument('--raw-dir', default=None,
+                   help='Raw tables folder (default: the raw folder of the channel)')
+    touch_channels.add_channel_argument(p)
     p.add_argument('--assets-url', default=None, help='Override assetsUrl (else resolved live)')
     p.add_argument('--force', action='store_true', help='Re-download icons already on disk')
     args = p.parse_args(argv)
 
-    raw = Path(args.raw_dir)
+    channel = args.channel
+    subdir = touch_channels.static_subdir(channel)
+    raw = Path(args.raw_dir or touch_channels.raw_dir(channel))
+    known = (icon_pairs(touch_channels.raw_dir(touch_channels.DEFAULT_CHANNEL))
+             if channel != touch_channels.DEFAULT_CHANNEL else set())
     items = json.loads((raw / 'Items_fr.json').read_text(encoding='utf-8'))
     en_path = raw / 'Items_en.json'
     names_en = {}
@@ -84,12 +112,12 @@ def main(argv=None):
         en_items = json.loads(en_path.read_text(encoding='utf-8'))
         names_en = {k: v.get('nameId') for k, v in en_items.items() if isinstance(v, dict)}
 
-    base_url = args.assets_url.rstrip('/') if args.assets_url else resolve_assets_url()
-    print(f"Dofus Touch assets CDN: {base_url}")
+    base_url = args.assets_url.rstrip('/') if args.assets_url else resolve_assets_url(channel)
+    print(f"Dofus Touch assets CDN ({channel}): {base_url}")
 
     session = requests.Session()
     cache = {}  # icon_id -> resized PNG bytes or None (missing on CDN)
-    written = skipped = missing = bad_name = 0
+    written = skipped = missing = bad_name = same_as_login = 0
 
     super_types = load_item_types(raw)
     for iid, it in items.items():
@@ -101,11 +129,14 @@ def main(argv=None):
         icon_id = it.get('iconId')
         if not icon_id:
             continue
-        name = names_en.get(iid) or it.get('nameId') or ''
+        name = _item_name(it, iid, names_en)
         if not name:
             continue
+        if (name, icon_id) in known:
+            same_as_login += 1
+            continue
         type_dir = 'pets' if resolved_type[0] == 'Pet' else 'items'
-        dest = STATIC / type_dir / 'touch' / '60x60' / ('%s-60-60.png' % safe_icon_name(normalize_name(name)))
+        dest = STATIC / type_dir / subdir / '60x60' / ('%s-60-60.png' % safe_icon_name(normalize_name(name)))
         try:
             if dest.exists() and not args.force:
                 skipped += 1
@@ -131,19 +162,24 @@ def main(argv=None):
             print(f'  ... {written} written')
 
     print(f'Done. written={written} skipped(existing)={skipped} missing(no CDN icon)={missing} '
-          f'bad-filename(OS)={bad_name}, unique icons fetched={sum(1 for v in cache.values() if v)}')
+          f'bad-filename(OS)={bad_name} same-as-login={same_as_login}, unique icons fetched={sum(1 for v in cache.values() if v)}')
 
     # Mounts: rendered by the Touch CDN from their look string (download_touch_mounts.py).
     mounts_path = raw / 'mounts.json'
     if mounts_path.exists():
         mounts = json.loads(mounts_path.read_text(encoding='utf-8'))
+        login_mounts = touch_channels.raw_dir(touch_channels.DEFAULT_CHANNEL) + '/mounts.json'
+        known_mounts = set()
+        if channel != touch_channels.DEFAULT_CHANNEL and Path(login_mounts).exists():
+            known_mounts = {(m.get('name_en'), m.get('look')) for m in
+                            json.loads(Path(login_mounts).read_text(encoding='utf-8'))}
         m_written = m_skipped = m_missing = 0
         for m in mounts:
             look = m.get('look')
             name = m.get('name_en')
-            if not look or not name:
+            if not look or not name or (name, look) in known_mounts:
                 continue
-            dest = STATIC / 'pets' / 'touch' / '60x60' / ('%s-60-60.png' % normalize_name(name))
+            dest = STATIC / 'pets' / subdir / '60x60' / ('%s-60-60.png' % normalize_name(name))
             try:
                 if dest.exists() and not args.force:
                     m_skipped += 1

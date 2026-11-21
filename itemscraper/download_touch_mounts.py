@@ -12,9 +12,11 @@ from pathlib import Path
 
 import requests
 
+import touch_channels
+
 LANGS = ['en', 'fr', 'es', 'pt', 'de']
-CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
-FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
+CONFIG_URL = touch_channels.config_url('login')
+FALLBACK_DATA_URL = touch_channels.fallback_data_url('login')
 ENCY_URL = "https://www.dofus-touch.com/en/mmorpg/encyclopedia/mounts/%s"
 BACKEND_UA = "Dofus/2 CFNetwork"
 WEB_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -39,13 +41,24 @@ STAT_MAP = {
 }
 
 
-def resolve_data_url() -> str:
+def resolve_data_url(channel: str = touch_channels.DEFAULT_CHANNEL) -> str:
     try:
-        cfg = requests.get(CONFIG_URL + '?lang=fr', headers={'User-Agent': BACKEND_UA},
-                           timeout=30).json()
-        return (cfg.get('dataUrl') or FALLBACK_DATA_URL).rstrip('/')
+        cfg = requests.get(touch_channels.config_url(channel) + '?lang=fr',
+                           headers={'User-Agent': BACKEND_UA}, timeout=30).json()
+        return (cfg.get('dataUrl') or touch_channels.fallback_data_url(channel)).rstrip('/')
     except Exception:
-        return FALLBACK_DATA_URL
+        return touch_channels.fallback_data_url(channel)
+
+
+def reuse_login_mounts(dest: Path) -> int:
+    """Copy the login channel's mounts.json into dest, returning how many rows it holds, 0 when it has none."""
+    source = Path(touch_channels.raw_dir(touch_channels.DEFAULT_CHANNEL)) / 'mounts.json'
+    if not source.exists():
+        return 0
+    text = source.read_text(encoding='utf-8')
+    dest.mkdir(parents=True, exist_ok=True)
+    (dest / 'mounts.json').write_text(text, encoding='utf-8')
+    return len(json.loads(text))
 
 
 def fetch_mount_catalogue(data_url: str):
@@ -110,16 +123,30 @@ def lost_mounts(previous, current):
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('--dest', default='itemscraper/touch_raw')
+    parser.add_argument('--dest', default=None,
+                        help='Where mounts.json goes (default: the raw folder of the channel)')
+    touch_channels.add_channel_argument(parser)
     parser.add_argument('--delay', type=float, default=0.15, help='Seconds between page fetches')
     parser.add_argument('--allow-shrink', action='store_true',
                         help='write even if mounts the file already had are gone')
     args = parser.parse_args(argv)
 
-    data_url = resolve_data_url()
-    print(f"Dofus Touch data proxy: {data_url}")
-    names, looks = fetch_mount_catalogue(data_url)
+    dest_dir = Path(args.dest or touch_channels.raw_dir(args.channel))
+    data_url = resolve_data_url(args.channel)
+    print(f"Dofus Touch data proxy ({args.channel}): {data_url}")
+    try:
+        names, looks = fetch_mount_catalogue(data_url)
+    except Exception as exc:
+        if args.channel == touch_channels.DEFAULT_CHANNEL:
+            raise
+        names, looks = {}, {}
+        print(f"  ! the {args.channel} channel serves no Mounts table ({exc})", file=sys.stderr)
     print(f"  {len(names)} mounts in the backend catalogue")
+    if not names and args.channel != touch_channels.DEFAULT_CHANNEL:
+        reused = reuse_login_mounts(dest_dir)
+        print(f"Reused the {reused} Touch mounts of the login channel; "
+              f"the {args.channel} channel has none of its own.")
+        return 0 if reused else 1
 
     session = make_session()
 
@@ -169,7 +196,7 @@ def main(argv=None):
         print(f"  not published by Ankama (404), no stats to read: mounts "
               f"{', '.join(unpublished)}")
 
-    dest = Path(args.dest)
+    dest = dest_dir
     out = dest / 'mounts.json'
     if out.exists() and not args.allow_shrink:
         lost = lost_mounts(json.loads(out.read_text(encoding='utf-8')), mounts)

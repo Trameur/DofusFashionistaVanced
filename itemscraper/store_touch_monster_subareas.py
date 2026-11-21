@@ -22,28 +22,32 @@ import os
 import sqlite3
 import sys
 
+import touch_channels
+
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
-DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
-                       'items_touch.db')
-RAW_DIR = os.path.join(CURRENT_DIR, 'touch_raw')
 
 LANGUAGES = ('fr', 'en', 'es', 'pt', 'de')
 KEEP_FIELDS = ('id', 'nameId', 'areaId', 'level', 'monsters')
 
 
-def raw_path(lang):
-    return os.path.join(RAW_DIR, 'SubAreas_%s.json' % lang)
+def raw_path(lang, channel=touch_channels.DEFAULT_CHANNEL):
+    return os.path.join(touch_channels.raw_dir(channel), 'SubAreas_%s.json' % lang)
 
 
-def download():
+def db_path(channel=touch_channels.DEFAULT_CHANNEL):
+    return os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
+                        'items_%s.db' % touch_channels.game_version(channel))
+
+
+def download(channel=touch_channels.DEFAULT_CHANNEL):
     sys.path.insert(0, CURRENT_DIR)
     import requests
     from download_touch_data import resolve_data_url, served_languages
 
-    data_url = resolve_data_url()
+    data_url = resolve_data_url('fr', channel)
     # Touch answers a language it no longer serves with English and no marker; an empty served set means unreadable, and nothing is skipped
-    served = served_languages()
+    served = served_languages('fr', channel)
     for lang in LANGUAGES:
         if served and lang not in served:
             print('%s: no longer served by Touch, keeping the file on disk'
@@ -60,7 +64,8 @@ def download():
             for key, record in table.items()
             if isinstance(record, dict)
         }
-        with open(raw_path(lang), 'w', encoding='utf-8') as out:
+        os.makedirs(touch_channels.raw_dir(channel), exist_ok=True)
+        with open(raw_path(lang, channel), 'w', encoding='utf-8') as out:
             json.dump(filtered, out, ensure_ascii=False)
         print('%s: %d subareas saved' % (lang, len(filtered)))
 
@@ -70,12 +75,15 @@ def main():
     parser.add_argument('--download', action='store_true',
                         help='Refresh touch_raw/SubAreas_<lang>.json from '
                              'the live proxy first')
+    touch_channels.add_channel_argument(parser)
     args = parser.parse_args()
+    channel = args.channel
+    key = touch_channels.game_version(channel)
 
-    if args.download or not os.path.exists(raw_path('fr')):
-        download()
+    if args.download or not os.path.exists(raw_path('fr', channel)):
+        download(channel)
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(db_path(channel))
     cursor = conn.cursor()
     known_ids = {row[0] for row in cursor.execute(
         'SELECT DISTINCT monster_ankama_id FROM monster_names')}
@@ -93,7 +101,7 @@ def main():
     stored = 0
     matched = set()
     for lang in LANGUAGES:
-        path = raw_path(lang)
+        path = raw_path(lang, channel)
         if not os.path.exists(path):
             print('WARNING: %s missing, skipping %s' % (path, lang))
             continue
@@ -118,12 +126,12 @@ def main():
                 stored += 1
     conn.commit()
     conn.close()
-    print('stored %d subarea rows for %d touch monsters' % (stored, len(matched)))
+    print('stored %d subarea rows for %d %s monsters' % (stored, len(matched), key))
     # The pipeline's load-db rebuilds the db from the dump.
     sys.path.insert(0, CURRENT_DIR)
     from store_item_obtainment import _save_db_to_dump
-    _save_db_to_dump(DB_PATH, 'touch')
-    print('touch dump refreshed')
+    _save_db_to_dump(db_path(channel), key)
+    print('%s dump refreshed' % key)
     return 0
 
 

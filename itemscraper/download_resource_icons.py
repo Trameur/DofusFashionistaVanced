@@ -34,6 +34,8 @@ import sys
 import requests
 from PIL import Image
 
+import touch_channels
+
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
 
@@ -45,7 +47,7 @@ RAW_DIRS = [CURRENT_DIR, os.path.join(CURRENT_DIR, 'beta')]
 RAW_KINDS = ('resources', 'consumables', 'quest_items', 'equipment', 'cosmetics')
 
 TOUCH_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_touch.db')
-TOUCH_CONFIG_URL = 'https://dt-proxy-production-login.ankama-games.com/config.json'
+TOUCH_CONFIG_URL = touch_channels.config_url('login')
 TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
                              '3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5')
 
@@ -56,6 +58,7 @@ RETRO_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_
 SOURCE_RECORDS = {
     'dofus3': os.path.join(CURRENT_DIR, 'resource_icon_sources.json'),
     'touch': os.path.join(CURRENT_DIR, 'touch', 'resource_icon_sources.json'),
+    'touchbeta': os.path.join(CURRENT_DIR, 'touchbeta', 'resource_icon_sources.json'),
     'dofus2': os.path.join(CURRENT_DIR, 'dofus2', 'resource_icon_sources.json'),
 }
 
@@ -103,26 +106,43 @@ def icon_urls(raw_dirs=RAW_DIRS):
     return urls
 
 
-def touch_assets_url():
+def touch_assets_url(channel=touch_channels.DEFAULT_CHANNEL):
     try:
-        assets = requests.get(TOUCH_CONFIG_URL, timeout=30).json().get('assetsUrl')
+        assets = requests.get(touch_channels.config_url(channel), timeout=30).json().get('assetsUrl')
     except Exception:
         assets = None
     return assets or TOUCH_FALLBACK_ASSETS_URL
 
 
-def touch_icon_paths():
-    """ankama id -> the icon path under the Touch assets, which a client update does not move."""
-    path = os.path.join(CURRENT_DIR, 'touch_raw', 'Items_fr.json')
+def touch_items(channel=touch_channels.DEFAULT_CHANNEL):
+    """The Items table of a channel's raw folder."""
+    path = os.path.join(touch_channels.raw_dir(channel), 'Items_fr.json')
     with open(path, encoding='utf-8') as fh:
-        items = json.load(fh)
+        return json.load(fh)
+
+
+def touch_icon_paths(channel=touch_channels.DEFAULT_CHANNEL):
+    """ankama id -> the icon path under the Touch assets, which a client update does not move."""
     return {int(item_id): TOUCH_ICON_PATH % item['iconId']
-            for item_id, item in items.items() if item.get('iconId')}
+            for item_id, item in touch_items(channel).items() if item.get('iconId')}
 
 
-def touch_icon_urls():
-    assets = touch_assets_url()
-    return {ankama_id: '%s/%s' % (assets, path) for ankama_id, path in touch_icon_paths().items()}
+def icons_that_differ_from_login(channel):
+    """ankama id -> icon path for the rows of a channel whose (name, iconId) are not the login ones."""
+    login = touch_items(touch_channels.DEFAULT_CHANNEL)
+    changed = {}
+    for item_id, item in touch_items(channel).items():
+        if not item.get('iconId'):
+            continue
+        before = login.get(item_id) or {}
+        if (item.get('nameId'), item['iconId']) != (before.get('nameId'), before.get('iconId')):
+            changed[int(item_id)] = TOUCH_ICON_PATH % item['iconId']
+    return changed
+
+
+def touch_icon_urls(channel=touch_channels.DEFAULT_CHANNEL):
+    assets = touch_assets_url(channel)
+    return {ankama_id: '%s/%s' % (assets, path) for ankama_id, path in touch_icon_paths(channel).items()}
 
 
 def read_sources(path):
@@ -301,19 +321,29 @@ def main():
                         help='dofus3 (default, shared with beta), touch, retro or dofus2')
     parser.add_argument('--force', action='store_true',
                         help='Fetch every icon again, whatever source it was written from')
+    touch_channels.add_channel_argument(parser)
     args = parser.parse_args()
+
+    if args.channel != touch_channels.DEFAULT_CHANNEL and args.game_version != 'touch':
+        parser.error('--channel early only applies to --game-version touch')
 
     if args.game_version == 'retro':
         run_retro(args.force)
         return
 
     keys = None
+    record_key = args.game_version
     if args.game_version == 'touch':
-        ids = ingredient_ids([TOUCH_DB_PATH])
-        keys = touch_icon_paths()
-        assets = touch_assets_url()
+        record_key = touch_channels.game_version(args.channel)
+        if args.channel == touch_channels.DEFAULT_CHANNEL:
+            ids = ingredient_ids([TOUCH_DB_PATH])
+            keys = touch_icon_paths()
+        else:
+            ids = ingredient_ids([TOUCH_DB_PATH.replace('items_touch.db', 'items_%s.db' % record_key)])
+            keys = icons_that_differ_from_login(args.channel)
+        assets = touch_assets_url(args.channel)
         urls = {ankama_id: '%s/%s' % (assets, path) for ankama_id, path in keys.items()}
-        targets_root = target_dirs('touch')
+        targets_root = target_dirs(touch_channels.static_subdir(args.channel))
     elif args.game_version == 'dofus2':
         dofus2_db = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_dofus2.db')
         ids = ingredient_ids([dofus2_db])
@@ -334,7 +364,7 @@ def main():
         print('no icon url (left without image): %s%s'
               % (missing[:20], '...' if len(missing) > 20 else ''))
 
-    record_path = SOURCE_RECORDS[args.game_version]
+    record_path = SOURCE_RECORDS[record_key]
     counts, record = sync_icons(ids, urls, targets_root, read_sources(record_path),
                                 http_fetch(), force=args.force, keys=keys)
     write_sources(record_path, record)

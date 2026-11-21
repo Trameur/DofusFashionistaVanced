@@ -8,6 +8,7 @@ id in diceNum. The resolved line is stored per language in extra_lines, where
 get_equipments3 also puts Dofus 3's "-special spell-" lines.
 """
 
+import argparse
 import json
 import os
 import pickle
@@ -25,12 +26,11 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
 from store_item_obtainment import (  # noqa: E402
     get_items_db_path, _open_items_db, _save_db_to_dump, _resolve_item_id, _table_exists)
 from get_equipments_touch import _top_level_parts  # noqa: E402
+import touch_channels  # noqa: E402
 
-GAME_VERSION = 'touch'
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
-RAW_DIR = os.path.join(CURRENT_DIRECTORY, 'touch_raw')
-CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
-FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
+CONFIG_URL = touch_channels.config_url('login')
+FALLBACK_DATA_URL = touch_channels.fallback_data_url('login')
 UA = "Dofus/2 CFNetwork"
 
 # effect id -> (field holding the cast spell id, placeholder in the description).
@@ -46,12 +46,13 @@ SPELL_MODIFIER_EFFECTS = set(range(281, 292))
 SPELL_RANK_CRITERION = re.compile(r'\s*Pt\s*=\s*(\d+)\s*')
 
 
-def _data_url():
+def _data_url(channel=touch_channels.DEFAULT_CHANNEL):
     try:
-        cfg = requests.get(CONFIG_URL + '?lang=fr', headers={'User-Agent': UA}, timeout=30).json()
-        return (cfg.get('dataUrl') or FALLBACK_DATA_URL).rstrip('/')
+        cfg = requests.get(touch_channels.config_url(channel) + '?lang=fr',
+                           headers={'User-Agent': UA}, timeout=30).json()
+        return (cfg.get('dataUrl') or touch_channels.fallback_data_url(channel)).rstrip('/')
     except Exception:
-        return FALLBACK_DATA_URL
+        return touch_channels.fallback_data_url(channel)
 
 
 def _fetch(data_url, cls, lang):
@@ -100,9 +101,14 @@ def store_spell_rank_conditions(cursor, conditions):
     return stored
 
 
-def main():
-    items = json.loads(open(os.path.join(RAW_DIR, 'Items_fr.json'), encoding='utf-8').read())
-    data_url = _data_url()
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    touch_channels.add_channel_argument(parser)
+    args = parser.parse_args(argv)
+    game_version = touch_channels.game_version(args.channel)
+    raw_dir = touch_channels.raw_dir(args.channel)
+    items = json.loads(open(os.path.join(raw_dir, 'Items_fr.json'), encoding='utf-8').read())
+    data_url = _data_url(args.channel)
     spells = {lang: _fetch(data_url, 'Spells', lang) for lang in LANGUAGES}
     effects = {lang: _fetch(data_url, 'Effects', lang) for lang in LANGUAGES}
     spell_levels = _fetch(data_url, 'SpellLevels', 'fr')
@@ -130,7 +136,7 @@ def main():
                     line = line.replace('#3', str(pe.get('value') or 0))
                 lines_by_item.setdefault(int(ankama_id), {}).setdefault(lang, []).append(line)
 
-    conn = _open_items_db(GAME_VERSION)
+    conn = _open_items_db(game_version)
     cursor = conn.cursor()
     if not _table_exists(cursor, 'extra_lines'):
         cursor.execute("CREATE TABLE extra_lines (item INTEGER, line text, language text)")
@@ -151,9 +157,9 @@ def main():
 
     conn.commit()
     conn.close()
-    _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
-    print('[touch] Stored special-spell lines for %d items.' % len(lines_by_item))
-    print('[touch] Stored %d spell rank conditions.' % ranks_stored)
+    _save_db_to_dump(get_items_db_path(game_version), game_version)
+    print('[%s] Stored special-spell lines for %d items.' % (game_version, len(lines_by_item)))
+    print('[%s] Stored %d spell rank conditions.' % (game_version, ranks_stored))
 
 
 if __name__ == '__main__':

@@ -18,9 +18,11 @@ from pathlib import Path
 
 import requests
 
+import touch_channels
+
 LANGS = ['fr', 'en', 'es', 'pt', 'de']
-CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
-FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
+CONFIG_URL = touch_channels.config_url('login')
+FALLBACK_DATA_URL = touch_channels.fallback_data_url('login')
 UA = "Dofus/2 CFNetwork"
 WEB_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'fashionistapulp'))
@@ -29,8 +31,10 @@ from fashionistapulp.reserved_filenames import safe_asset_stem  # noqa: E402
 
 # Spell icons live on the assets CDN, prefixed "sort_".
 SPELL_ICON_URL = "%s/gfx/spells/sort_%s.png"
-SPELLS_STATIC = (Path(__file__).resolve().parent.parent / 'fashionsite' / 'chardata'
-                 / 'static' / 'chardata' / 'spells' / 'touch')
+SPELLS_ROOT = (Path(__file__).resolve().parent.parent / 'fashionsite' / 'chardata'
+               / 'static' / 'chardata' / 'spells')
+SPELLS_STATIC = SPELLS_ROOT / 'touch'
+MODULE_DIR = Path(__file__).resolve().parent.parent / 'fashionistapulp' / 'fashionistapulp'
 
 # 96-100 elemental damage, 91-95 elemental steals (same hit, heals the caster).
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
@@ -99,14 +103,15 @@ CLASS_ID_TO_NAME = {
 }
 
 
-def resolve_config():
-    """Return (dataUrl, assetsUrl) from the live client config."""
+def resolve_config(channel=touch_channels.DEFAULT_CHANNEL):
+    """Return (dataUrl, assetsUrl) from the client config of the channel."""
     try:
-        cfg = requests.get(CONFIG_URL + '?lang=fr', headers={'User-Agent': UA}, timeout=30).json()
-        return ((cfg.get('dataUrl') or FALLBACK_DATA_URL).rstrip('/'),
+        cfg = requests.get(touch_channels.config_url(channel) + '?lang=fr',
+                           headers={'User-Agent': UA}, timeout=30).json()
+        return ((cfg.get('dataUrl') or touch_channels.fallback_data_url(channel)).rstrip('/'),
                 (cfg.get('assetsUrl') or '').rstrip('/'))
     except Exception:
-        return FALLBACK_DATA_URL, ''
+        return touch_channels.fallback_data_url(channel), ''
 
 
 def class_spells(breeds, spells):
@@ -119,8 +124,22 @@ def class_spells(breeds, spells):
     return out
 
 
-def download_spell_images(by_class, spells, assets_url):
-    """Save each class spell's icon 96x96 as chardata/spells/touch/<French name>.png."""
+def unchanged_spell_names(by_class, spells, reference):
+    """The names of class spells whose (name, iconId) are the same in the reference spell table."""
+    same = set()
+    for class_spells in by_class.values():
+        for s in class_spells:
+            now = spells.get(str(s['id'])) or {}
+            before = reference.get(str(s['id'])) or {}
+            pair = (now.get('nameId'), now.get('iconId'))
+            if now.get('iconId') is not None and pair == (before.get('nameId'), before.get('iconId')):
+                same.add(s.get('name') or s.get('nameId'))
+    return same
+
+
+def download_spell_images(by_class, spells, assets_url, dest_dir=None, skip_names=()):
+    """Save each class spell's icon 96x96 as chardata/spells/touch/<French name>.png, leaving out skip_names."""
+    dest_dir = Path(dest_dir) if dest_dir else SPELLS_STATIC
     try:
         from PIL import Image
     except ImportError:
@@ -129,20 +148,20 @@ def download_spell_images(by_class, spells, assets_url):
     if not assets_url:
         print("  no assetsUrl; skipping spell images", file=sys.stderr)
         return
-    SPELLS_STATIC.mkdir(parents=True, exist_ok=True)
+    dest_dir.mkdir(parents=True, exist_ok=True)
     session = requests.Session()
     seen, written, missing = set(), 0, 0
     for class_spells in by_class.values():
         for s in class_spells:
             name = s.get('name') or s.get('nameId')
-            if not name or name in seen:
+            if not name or name in seen or name in skip_names:
                 continue
             seen.add(name)
             icon_id = (spells.get(str(s['id'])) or {}).get('iconId')
             if icon_id is None:
                 continue
             safe = safe_asset_stem(re.sub(r'[\\/*?:"<>|]', '', name).strip())
-            dest = SPELLS_STATIC / ('%s.png' % safe)
+            dest = dest_dir / ('%s.png' % safe)
             try:
                 r = session.get(SPELL_ICON_URL % (assets_url, icon_id),
                                 headers={'User-Agent': WEB_UA}, timeout=30)
@@ -866,15 +885,16 @@ def emit_module(by_class, spell_names, path, taken_by_class=None):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('--module-out',
-                   default=str(Path(__file__).resolve().parent.parent
-                               / 'fashionistapulp' / 'fashionistapulp'
-                               / 'dofus_constants_touch_spells.py'))
+    p.add_argument('--module-out', default=None,
+                   help='Where the module is written (default: the module of the channel)')
     p.add_argument('--skip-images', action='store_true', help='Skip the spell-icon download')
+    touch_channels.add_channel_argument(p)
     args = p.parse_args(argv)
+    key = touch_channels.game_version(args.channel)
+    module_out = args.module_out or str(MODULE_DIR / ('dofus_constants_%s_spells.py' % key))
 
-    data_url, assets_url = resolve_config()
-    print(f"Dofus Touch data proxy: {data_url}")
+    data_url, assets_url = resolve_config(args.channel)
+    print(f"Dofus Touch data proxy ({args.channel}): {data_url}")
     breeds = fetch_table(data_url, 'Breeds')
     spell_levels = fetch_table(data_url, 'SpellLevels')
     spells_by_lang = {lang: fetch_table(data_url, 'Spells', lang) for lang in LANGS}
@@ -890,10 +910,10 @@ def main(argv=None):
         breeds, spells, spell_levels, bombs,
         {lang: text for lang, text in taken_text.items() if text})
     spell_names = build_spell_names(by_class, spells_by_lang)
-    emit_module(by_class, spell_names, args.module_out, taken_by_class)
+    emit_module(by_class, spell_names, module_out, taken_by_class)
 
     total = sum(len(v) for v in by_class.values())
-    print(f"Wrote {total} damage spells across {len(by_class)} classes to {args.module_out}")
+    print(f"Wrote {total} damage spells across {len(by_class)} classes to {module_out}")
     print("  damage taken: " + ", ".join(
         "%s %s" % (cls, entry['name']) for cls, entries in sorted(taken_by_class.items())
         for entry in entries))
@@ -902,7 +922,14 @@ def main(argv=None):
         print("  classes with no damage spells: " + ", ".join(empty))
 
     if not args.skip_images:
-        download_spell_images(class_spells(breeds, spells), spells, assets_url)
+        by_class_spells = class_spells(breeds, spells)
+        skip, dest_dir = (), SPELLS_STATIC
+        if args.channel != touch_channels.DEFAULT_CHANNEL:
+            reference = fetch_table(resolve_config()[0], 'Spells')
+            skip = unchanged_spell_names(by_class_spells, spells, reference)
+            dest_dir = SPELLS_ROOT / touch_channels.static_subdir(args.channel)
+            print(f"  {len(skip)} spell icons identical to login, not fetched")
+        download_spell_images(by_class_spells, spells, assets_url, dest_dir, skip)
     return 0
 
 

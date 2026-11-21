@@ -6,6 +6,7 @@ Usage:
     python update_data_touch.py                  # full update (latest live Touch data)
     python update_data_touch.py --skip-images    # skip the item-icon download
     python update_data_touch.py --skip-translations  # FR names only (faster)
+    python update_data_touch.py --channel early  # Touch Beta data, from Ankama's test server
 """
 
 from __future__ import annotations
@@ -25,6 +26,9 @@ ROOT = Path(__file__).resolve().parent
 ITEMSCRAPER = ROOT / "itemscraper"
 PY = sys.executable
 
+sys.path.insert(0, str(ITEMSCRAPER))
+import touch_channels  # noqa: E402
+
 TOUCH_RAW_DIR = str(ITEMSCRAPER / "touch_raw")
 TOUCH_WORK_DIR = str(ITEMSCRAPER / "touch")
 TOUCH_DUMP = str(ROOT / "fashionistapulp" / "fashionistapulp" / "item_db_dumped_touch.dump")
@@ -36,6 +40,20 @@ NOISE_PATTERNS = [
     r"^wrote \d+", r"^\s*ok ", r"^done", r"^\s*\.\.\. \d+ written",
     r"^skipping ",                 # dump routes weapon hit lines out of stats_of_item
 ]
+
+
+def registered_versions() -> set:
+    """The game versions the registry knows."""
+    sys.path.insert(0, str(ROOT / "fashionistapulp"))
+    from fashionistapulp.game_versions import version_keys
+    return set(version_keys())
+
+
+def with_channel(cmd: list, channel: str) -> list:
+    """The command, asked to read a channel other than the default one."""
+    if channel == touch_channels.DEFAULT_CHANNEL:
+        return cmd
+    return cmd + ["--channel", channel]
 
 
 def _is_noise(line: str) -> bool:
@@ -82,132 +100,158 @@ def main() -> None:
                         help="Skip the item/pet icon download from the Touch CDN")
     parser.add_argument("--skip-translations", action="store_true",
                         help="Skip the EN/ES/PT/DE name downloads (use FR names everywhere)")
+    touch_channels.add_channel_argument(parser)
     args = parser.parse_args()
+
+    channel = args.channel
+    key = touch_channels.game_version(channel)
+    early = channel != touch_channels.DEFAULT_CHANNEL
+    raw_dir = touch_channels.raw_dir(channel) if early else TOUCH_RAW_DIR
+    work_dir = touch_channels.work_dir(channel) if early else TOUCH_WORK_DIR
+    dump = touch_channels.dump_path(channel) if early else TOUCH_DUMP
+    staged = early and key not in registered_versions()
 
     t_total = time.time()
     all_notices: list[str] = []
     failed_steps: list[str] = []
 
     print(f"\n{'-'*60}")
-    print("  DofusFashionista update - DOFUS TOUCH")
+    print("  DofusFashionista update - DOFUS TOUCH" + (" (%s channel)" % channel if early else ""))
     print(f"{'-'*60}")
 
-    def step(label: str, cmd: list, cwd: Path | None = None) -> bool:
+    def step(label: str, cmd: list, cwd: Path | None = None, aware: bool = True) -> bool:
+        if early and not aware:
+            print(f"\n[{label}]\n  skipped: not read from the {channel} channel yet")
+            return True
         ok, lines = run_step(label, cmd, cwd)
         all_notices.extend(l.strip() for l in lines if _is_notice(l))
         if not ok:
             failed_steps.append(label)
         return ok
 
-    download_cmd = [PY, "download_touch_data.py", "--lang", "fr", "--dest", TOUCH_RAW_DIR]
+    download_cmd = [PY, "download_touch_data.py", "--lang", "fr", "--dest", raw_dir]
     if not args.skip_translations:
         download_cmd.append("--all-langs")
-    step("data/download", download_cmd, cwd=ITEMSCRAPER)
+    step("data/download", with_channel(download_cmd, channel), cwd=ITEMSCRAPER)
 
     # Backend has no mount stats, they come from the encyclopedia. Before items/transform
-    step("data/mounts", [PY, "download_touch_mounts.py", "--dest", TOUCH_RAW_DIR],
+    step("data/mounts", with_channel([PY, "download_touch_mounts.py", "--dest", raw_dir], channel),
          cwd=ITEMSCRAPER)
 
     step("stats/starting", [
         PY, "itemscraper/store_starting_stats.py", "--game-version", "touch",
-    ])
+    ], aware=False)
 
     step("items/weapon-conversions", [
         PY, "itemscraper/store_weapon_conversions.py", "--game-version", "touch",
-    ])
+    ], aware=False)
 
     step("items/transform", [
         PY, "get_equipments_touch.py",
-        "--raw-dir", TOUCH_RAW_DIR, "--out-dir", TOUCH_WORK_DIR,
+        "--raw-dir", raw_dir, "--out-dir", work_dir,
     ], cwd=ITEMSCRAPER)
+
+    if staged:
+        print(f"\n{key} is not in the game version registry yet: raw tables, mounts and the "
+              f"transformed files are written, the database steps wait for it.")
+        if failed_steps:
+            print("\nFAILED steps: " + ", ".join(failed_steps))
+            sys.exit(1)
+        return
 
     step("items/dump", [
         PY, "get_equipments3.py",
-        "--input-dir", TOUCH_WORK_DIR, "--dump-output", TOUCH_DUMP,
+        "--input-dir", work_dir, "--dump-output", dump,
     ], cwd=ITEMSCRAPER)
 
-    step("items/load-db", [PY, "load_item_db.py", "--game-version", "touch"])
+    step("items/load-db", [PY, "load_item_db.py", "--game-version", key])
 
     # The dump has no recipes, added after load-db
-    step("items/recipes", [PY, "store_touch_recipes.py"], cwd=ITEMSCRAPER)
+    step("items/recipes", [PY, "store_touch_recipes.py"], cwd=ITEMSCRAPER, aware=False)
 
     # "Casts spell at start of combat" tooltip lines (Dofus/shields) -> extra_lines.
-    step("items/special-spells", [PY, "store_touch_special_spells.py"], cwd=ITEMSCRAPER)
+    step("items/special-spells", with_channel([PY, "store_touch_special_spells.py"], channel),
+         cwd=ITEMSCRAPER)
 
     # What those spells do, for their tooltip
     step("spells/tooltips", [
-        PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", "touch",
-    ])
+        PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", key,
+    ], aware=False)
     step("spells/modifiers", [
-        PY, "-m", "itemscraper.store_spell_modifiers", "--game-version", "touch",
-    ])
+        PY, "-m", "itemscraper.store_spell_modifiers", "--game-version", key,
+    ], aware=False)
 
     # Pet bonuses from the encyclopedia; before drops/store or the variants get no drops
-    step("pets/scrape-bonuses", [PY, "scrape_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
-    step("pets/store-bonuses", [PY, "store_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
+    step("pets/scrape-bonuses", [PY, "scrape_touch_pet_bonuses.py"], cwd=ITEMSCRAPER,
+         aware=False)
+    step("pets/store-bonuses", [PY, "store_touch_pet_bonuses.py"], cwd=ITEMSCRAPER,
+         aware=False)
 
     # Monster drops -> item_drops / monster_names
     step("drops/transform", [
         PY, "get_monsters_touch.py",
-        "--raw-dir", TOUCH_RAW_DIR, "--output", "transformed_drops_touch.json",
-    ], cwd=ITEMSCRAPER)
+        "--raw-dir", raw_dir, "--output", "transformed_drops_touch.json",
+    ], cwd=ITEMSCRAPER, aware=False)
     step("drops/store", [
         PY, "store_drops.py",
-        "--drops", "transformed_drops_touch.json", "--game-version", "touch",
-    ], cwd=ITEMSCRAPER)
+        "--drops", "transformed_drops_touch.json", "--game-version", key,
+    ], cwd=ITEMSCRAPER, aware=False)
     step("monsters/grades", [
-        PY, "store_touch_monster_grades.py", "--raw-dir", TOUCH_RAW_DIR,
-    ], cwd=ITEMSCRAPER)
+        PY, "store_touch_monster_grades.py", "--raw-dir", raw_dir,
+    ], cwd=ITEMSCRAPER, aware=False)
 
     # Monster locations from the SubAreas table
     step("monsters/subareas", [
         PY, "store_touch_monster_subareas.py", "--download",
-    ], cwd=ITEMSCRAPER)
+    ] + (["--channel", channel] if early else []), cwd=ITEMSCRAPER)
 
     # Craft professions -> item_craft_jobs / job_names, names need --all-langs
     step("craftjobs/transform", [
         PY, "get_craft_jobs_touch.py",
-        "--raw-dir", TOUCH_RAW_DIR,
+        "--raw-dir", raw_dir,
         "--output", "transformed_craft_jobs_touch.json",
-    ], cwd=ITEMSCRAPER)
+    ], cwd=ITEMSCRAPER, aware=False)
     step("craftjobs/store", [
         PY, "store_craft_jobs.py",
         "--jobs", "transformed_craft_jobs_touch.json",
-        "--game-version", "touch",
-    ], cwd=ITEMSCRAPER)
+        "--game-version", key,
+    ], cwd=ITEMSCRAPER, aware=False)
 
     # Dofus 3 skins by ankama id, or type and name; the preview cache only knows Dofus 3 ids
-    step("item-skins", [PY, "store_item_skins.py", "--game-version", "touch",
+    step("item-skins", [PY, "store_item_skins.py", "--game-version", key,
                         "--input", "item_skins.json",
-                        "--names", "item_skins_by_name.json"], cwd=ITEMSCRAPER)
+                        "--names", "item_skins_by_name.json"], cwd=ITEMSCRAPER, aware=False)
 
     # Manual fixes last
     step("items/corrections", [
-        PY, "store_item_corrections.py", "--game-version", "touch",
-    ], cwd=ITEMSCRAPER)
+        PY, "store_item_corrections.py", "--game-version", key,
+    ], cwd=ITEMSCRAPER, aware=False)
 
     # Runtime-translated strings (item types, stats...) for makemessages
-    step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
+    step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER,
+         aware=False)
 
     # Damage spells per class -> dofus_constants_touch_spells.py (independent of items).
-    step("spells/build", [PY, "get_spells_touch.py"], cwd=ITEMSCRAPER)
+    step("spells/build", with_channel([PY, "get_spells_touch.py"], channel), cwd=ITEMSCRAPER)
     step("spells/reference", [
         PY, "itemscraper/store_spell_reference.py",
-        "--game-version", "touch",
-    ])
+        "--game-version", key,
+    ], aware=False)
 
     if not args.skip_images:
-        step("item-images", [PY, "download_touch_images.py", "--raw-dir", TOUCH_RAW_DIR],
+        step("item-images", with_channel(
+            [PY, "download_touch_images.py", "--raw-dir", raw_dir], channel), cwd=ITEMSCRAPER)
+        step("resource-icons", with_channel(
+            [PY, "download_resource_icons.py", "--game-version", "touch"], channel),
              cwd=ITEMSCRAPER)
-        step("resource-icons", [PY, "download_resource_icons.py", "--game-version", "touch"],
-             cwd=ITEMSCRAPER)
-        step("monster-images", [PY, "download_monster_images.py", "--game-version", "touch"],
+        step("monster-images", with_channel(
+            [PY, "download_monster_images.py", "--game-version", "touch"], channel),
              cwd=ITEMSCRAPER)
 
 
     # Tables that lost rows, items whose row id moved
     step("verify/rebuild", [PY, "check_rebuild.py", "--only", "touch"],
-         cwd=ITEMSCRAPER)
+         cwd=ITEMSCRAPER, aware=False)
 
     elapsed = time.time() - t_total
     print(f"\n{'='*60}")

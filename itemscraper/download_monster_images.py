@@ -25,6 +25,7 @@ download_retro_monster_artworks.py.
 
 import argparse
 import io
+import json
 import os
 import sqlite3
 import sys
@@ -32,6 +33,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 import requests
 from PIL import Image
+
+import touch_channels
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
@@ -47,7 +50,7 @@ TOUCH_DB_PATHS = [
 # mapping has to come from the monsters API.
 DOFUSDB_MONSTERS_URL = 'https://api.dofusdb.fr/monsters?%%24limit=%d&%%24skip=%d'
 PAGE_SIZE = 50
-TOUCH_CONFIG_URL = 'https://dt-proxy-production-login.ankama-games.com/config.json'
+TOUCH_CONFIG_URL = touch_channels.config_url('login')
 TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
                              '3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5')
 SIZE = 96
@@ -119,9 +122,20 @@ def fetch_one(session, monster_id, url, dirs):
     return 'ok'
 
 
-def touch_image_urls(session, ids):
+def monsters_not_in_login(ids):
+    """The ids the login channel's Monsters table does not know; all of them when that table is not saved."""
+    path = os.path.join(touch_channels.raw_dir(touch_channels.DEFAULT_CHANNEL), 'Monsters_fr.json')
     try:
-        assets = session.get(TOUCH_CONFIG_URL, timeout=30).json().get('assetsUrl')
+        with open(path, encoding='utf-8') as fh:
+            known = {int(key) for key in json.load(fh)}
+    except (OSError, ValueError):
+        return list(ids)
+    return [mid for mid in ids if mid not in known]
+
+
+def touch_image_urls(session, ids, channel=touch_channels.DEFAULT_CHANNEL):
+    try:
+        assets = session.get(touch_channels.config_url(channel), timeout=30).json().get('assetsUrl')
     except Exception:
         assets = None
     assets = assets or TOUCH_FALLBACK_ASSETS_URL
@@ -133,21 +147,28 @@ def main():
     parser.add_argument('--game-version', default='dofus3',
                         choices=['dofus3', 'touch'])
     parser.add_argument('--workers', type=int, default=8)
+    touch_channels.add_channel_argument(parser)
     args = parser.parse_args()
+    if args.channel != touch_channels.DEFAULT_CHANNEL and args.game_version != 'touch':
+        parser.error('--channel early only applies to --game-version touch')
 
-    subdir = 'touch' if args.game_version == 'touch' else ''
+    subdir = touch_channels.static_subdir(args.channel) if args.game_version == 'touch' else ''
     dirs = target_dirs(subdir)
     for directory in dirs:
         os.makedirs(directory, exist_ok=True)
 
     db_paths = TOUCH_DB_PATHS if args.game_version == 'touch' else DB_PATHS
+    if args.game_version == 'touch' and args.channel != touch_channels.DEFAULT_CHANNEL:
+        db_paths = [path.replace('items_touch.db', 'items_%s.db' % subdir) for path in db_paths]
     ids = sorted(monster_ids(db_paths))
+    if args.game_version == 'touch' and args.channel != touch_channels.DEFAULT_CHANNEL:
+        ids = monsters_not_in_login(ids)
     print('monsters to check: %d' % len(ids))
     session = requests.Session()
     session.headers['User-Agent'] = 'Mozilla/5.0 (DofusFashionista asset sync)'
 
     if args.game_version == 'touch':
-        urls = touch_image_urls(session, ids)
+        urls = touch_image_urls(session, ids, args.channel)
         print('touch cdn candidates: %d (missing ones just 403/404)' % len(urls))
     else:
         urls = image_urls(session)
