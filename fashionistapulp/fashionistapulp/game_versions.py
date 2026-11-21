@@ -24,7 +24,8 @@ class GameVersion:
                  seo_word='', experimental=False, dofus=True,
                  rings_can_double=True, temporix=False,
                  weapon_element_rate=0.85, element_potion_heals=True,
-                 extra_slot_types=(), family=None, exo_per_item=False):
+                 extra_slot_types=(), family=None, exo_per_item=False,
+                 channel='main'):
         self.key = key
         self.label = label
         self.db_file = db_file
@@ -49,6 +50,7 @@ class GameVersion:
         self.family = family or key
         # Retro: one exo per forgeable piece, no build limit
         self.exo_per_item = exo_per_item
+        self.channel = channel
 
     @property
     def game_name(self):
@@ -68,7 +70,7 @@ GAME_VERSIONS = {
         GameVersion('beta', 'Beta', 'items_beta.db',
                     'item_db_dumped_beta.dump', seo_word='3 Beta',
                     weapon_element_rate=1.0, element_potion_heals=False,
-                    family='dofus3'),
+                    family='dofus3', channel='beta'),
         GameVersion('dofus2', 'Dofus 2', 'items_dofus2.db',
                     'item_db_dumped_dofus2.dump', seo_word='2'),
         GameVersion('touch', 'Touch', 'items_touch.db',
@@ -85,6 +87,8 @@ GAME_VERSIONS = {
 }
 
 DEFAULT_VERSION = 'dofus3'
+
+SWITCHER_FAMILY_ORDER = ('dofus3', 'touch', 'retro', 'dofus2', 'wakfu')
 
 
 def get_game_version(key):
@@ -122,3 +126,36 @@ def sibling_versions(key):
         return []
     return [other for other in version_keys()
             if other != key and GAME_VERSIONS[other].family == family]
+
+
+def main_of(key):
+    """The main version of the game this version belongs to."""
+    return get_game_version(key).family
+
+
+def is_beta(key):
+    """True when this version is the beta channel of a game."""
+    return get_game_version(key).channel == 'beta'
+
+
+def family_members(key):
+    """The reader-facing versions of this version's game, main version first."""
+    main = main_of(key)
+    members = [other for other in version_keys()
+               if GAME_VERSIONS[other].family == main]
+    return sorted(members, key=lambda other: other != main)
+
+
+def switcher_games():
+    """The reader-facing games in switcher order, as (main key, member keys)."""
+    games = []
+    for main in SWITCHER_FAMILY_ORDER:
+        members = family_members(main) if main in version_keys() else []
+        if members:
+            games.append((main, members))
+    return games
+
+
+def reader_dofus_versions():
+    """The Dofus versions readers can reach, without the experimental ones."""
+    return [key for key in dofus_versions() if not GAME_VERSIONS[key].experimental]

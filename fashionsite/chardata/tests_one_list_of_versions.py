@@ -4,6 +4,8 @@ from django.test import SimpleTestCase
 
 from fashionistapulp.game_versions import (DEFAULT_VERSION, GAME_VERSIONS,
                                            prefixed_reader_versions,
+                                           reader_dofus_versions,
+                                           switcher_games,
                                            version_keys)
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
@@ -43,3 +45,12 @@ class OneListOfVersions(SimpleTestCase):
             self.assertNotIn(key, prefixed_reader_versions())
             self.assertNotIn(key, VERSION_PREFIXES)
             self.assertNotIn(key, version_keys())
+
+    def test_the_switcher_games_cover_exactly_the_reader_versions(self):
+        self.assertEqual(sorted(key for _main, members in switcher_games()
+                                for key in members),
+                         sorted(version_keys()))
+
+    def test_no_experimental_version_is_a_reader_dofus_version(self):
+        for key in reader_dofus_versions():
+            self.assertFalse(GAME_VERSIONS[key].experimental)
