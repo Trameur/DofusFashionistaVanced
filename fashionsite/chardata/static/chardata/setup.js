@@ -941,8 +941,8 @@ $(document).ready(function() {
     }
 
     place(colA, register, 1);
-    place(colB, recipes, 2);
-    place(colA, cardElement, 3);
+    place(colA, recipes, 2);
+    place(colB, cardElement, 3);
     place(colB, cardStyle, 4);
     place(colB, more, 6);
     place(colB, byId('temporix-choice'), 7);
