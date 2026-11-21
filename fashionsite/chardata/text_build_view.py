@@ -36,7 +36,7 @@ from chardata.presets import gear_elements
 from chardata.screenshot_reader import language_options
 from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
                                         read_items)
-from chardata.translation_util import localized_stat_name
+from chardata.translation_util import localized_stat_name, stat_label_for_count
 from chardata.util import set_response, safe_int
 from chardata.version_copy import import_offers, link_build_in
 from chardata import visitor_throttle
@@ -354,13 +354,13 @@ def _pieces_du_lien(build, structure, version):
     return pieces, overrides, refuses
 
 
-def _nom_de_leur_code(structure, code):
-    """Their stat code in the reader's language, or the code itself when unknown."""
+def _nom_de_leur_code(structure, code, count=0):
+    """Their stat code in the reader's language, in the singular for a count of one, or the code itself when unknown."""
     from chardata.dofusbook_import import FM_CODES
     stat = structure.get_stat_by_key(FM_CODES.get(code) or '')
     if stat is None:
         return code
-    return localized_stat_name(stat.name, structure.game_version)
+    return stat_label_for_count(stat.name, count, structure.game_version)
 
 
 # Exo options a link sets, with the word the page shows
@@ -418,7 +418,7 @@ def _forgemagie_laissee(build, structure, langue):
     for code, valeur in sorted((build.get('fm_global') or {}).items()):
         if not isinstance(valeur, int) or isinstance(valeur, bool):
             continue
-        global_.append('%d %s' % (valeur, _nom_de_leur_code(structure, code)))
+        global_.append('%d %s' % (valeur, _nom_de_leur_code(structure, code, valeur)))
     sans_cle = []
     for item_id, code, valeur in build.get('fm_unmapped') or []:
         item = structure.get_item_by_id(item_id)

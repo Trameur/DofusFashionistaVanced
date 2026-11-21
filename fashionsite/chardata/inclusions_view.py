@@ -17,7 +17,7 @@
 import json
 import jsonpickle
 
-from chardata.translation_util import localized_stat_name
+from chardata.translation_util import localized_stat_name, singular_stat_label
 from chardata.fashionista_build import MAX_STAT_VALUE
 from chardata.lock_forbid import (get_inclusions_dict,
     set_inclusions_dict_and_check_exclusions, the_build_can_wear,
@@ -119,6 +119,7 @@ def get_item_details(request):
             info['stats'].append({
                 'stat_id': stat_id,
                 'name': localized_stat_name(stat.name),
+                'name_one': singular_stat_label(stat.name, 1),
                 'value': value,
                 'icon_url': static(icon_path) if icon_path else None,
             })

@@ -1460,7 +1460,7 @@
                         .css({width:'15px',height:'15px',maxWidth:'15px',maxHeight:'15px',verticalAlign:'middle'}));
                     row.append(" ");
                 }
-                row.append(displayVal + ' ' + stat.name);
+                row.append(displayVal + ' ' + ((Math.abs(displayVal) === 1 && stat.name_one) ? stat.name_one : stat.name));
                 statLines.append(row).append($("<br>"));
             });
         }

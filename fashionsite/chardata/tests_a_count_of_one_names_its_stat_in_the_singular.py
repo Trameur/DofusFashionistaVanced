@@ -1,14 +1,16 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """A counted stat reads in the singular when the count is exactly one."""
 
+import json
 from unittest import mock
 
-from django.test import SimpleTestCase
+from django.test import RequestFactory, SimpleTestCase
 from django.utils import translation
 
-from chardata import encyclopedia_view
+from chardata import encyclopedia_view, inclusions_view, text_build_view
 from chardata.solution_result import AttributeLine
 from chardata.translation_util import stat_label_for_count
+from fashionistapulp.structure import get_structure
 
 SINGULAR = {
     'fr': {'Summon': 'Invocation', 'Heals': 'Soin', 'Earth Damage': 'Dommage Terre'},
@@ -59,3 +61,22 @@ class ACountOfOneNamesItsStatInTheSingularTests(SimpleTestCase):
         self.assertEqual(0, ranged)
         self.assertEqual('Invocation', encyclopedia_view._counted_stat('Summon', 'fr', None, fixed))
         self.assertEqual('Invocations', encyclopedia_view._counted_stat('Summon', 'fr', None, ranged))
+
+    def test_a_link_forgemagie_of_one_summon_reads_in_the_singular(self):
+        build = {'fm_global': {'ic': 1, 'so': 2}}
+        with translation.override('fr'):
+            lignes, _sans_cle = text_build_view._forgemagie_laissee(build, get_structure(), 'fr')
+        self.assertEqual(['1 Invocation', '2 Soins'], lignes)
+
+    def test_the_item_details_carry_the_singular_only_for_a_counted_stat(self):
+        structure = get_structure()
+        summon = structure.get_stat_by_key('summon').id
+        ap = structure.get_stat_by_key('ap').id
+        item = next(item for item in structure.get_items_list()
+                    if {summon, ap} <= {stat_id for stat_id, _value in item.stats})
+        request = RequestFactory().post('/getitemdetails/', {'item': item.id})
+        with translation.override('fr'):
+            payload = json.loads(inclusions_view.get_item_details(request).content)
+        names = {line['stat_id']: line['name_one'] for line in payload['stats']}
+        self.assertEqual('Invocation', names[summon])
+        self.assertIsNone(names[ap])
