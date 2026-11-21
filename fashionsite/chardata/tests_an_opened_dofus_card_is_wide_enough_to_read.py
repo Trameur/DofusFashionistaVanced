@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""An opened Dofus or trophy card takes several columns of its row, so its stats and buttons stay inside it."""
+"""An opened Dofus or trophy card takes the whole row while a closed card remains and several columns once all are open, so its stats and buttons stay inside it."""
 import os
 import re
 
@@ -21,15 +21,21 @@ def script_function(name):
 
 class AnOpenedDofusCardTests(SimpleTestCase):
 
-    def test_an_open_card_spans_three_columns_and_two_on_a_wide_row(self):
+    def test_an_open_card_among_other_open_ones_spans_three_columns_and_two_on_a_wide_row(self):
         self.assertEqual('span 3', declared(PARTS, OPEN, 'grid-column')[0])
         self.assertEqual('fm-row / inline-size', declared(PARTS, ROW, 'container')[0])
         wide = re.search(r'@container fm-row \(min-width:700px\)\{(?P<rule>.*?)\n\}', read_css('modern-solution-parts.css'), re.S)
         self.assertIn(OPEN + '{ grid-column:span 2; }', wide.group('rule'))
 
-    def test_the_closed_cards_beside_it_keep_their_own_height(self):
+    def test_an_open_card_beside_a_closed_one_takes_the_whole_row_after_the_wide_row_rule(self):
+        whole = ROW + ':has(.expand-container:not(.fm-open)) .expand-container.fm-open'
+        self.assertEqual('1 / -1', declared(PARTS, whole, 'grid-column')[0])
+        source = read_css('modern-solution-parts.css')
+        self.assertGreater(source.index(whole + '{'), source.index('@container fm-row (min-width:700px)'))
+
+    def test_the_closed_cards_fill_the_rows_around_it_at_their_closed_height(self):
         busy = ROW + ':has(.expand-container.fm-open)'
-        self.assertEqual('start', declared(PARTS, busy, 'align-items')[0])
+        self.assertIsNone(declared(PARTS, busy, 'align-items'))
         self.assertEqual('row dense', declared(PARTS, busy, 'grid-auto-flow')[0])
         self.assertEqual('0 0 auto', declared(
             PARTS, 'html.fm-modern .solution-item-section .expand-container.fm-open > .solution-item-expand-header', 'flex')[0])
