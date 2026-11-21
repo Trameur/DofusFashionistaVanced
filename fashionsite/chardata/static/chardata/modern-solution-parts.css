@@ -233,6 +233,15 @@ html.fm-modern .solution-history-notice .button-generic{
   min-height:34px; padding:0 12px !important; font-size:13px !important; display:inline-flex; align-items:center; box-sizing:border-box;
 }
 html.fm-modern .solution-history-actions form, html.fm-modern .solution-history-notice-actions form{ margin:0; }
+html.fm-modern .solution-history-entry-score-delta{ opacity:1; }
+html.fm-modern .solution-history-entry-score-delta-positive{ color:var(--fm-ok); }
+html.fm-modern .solution-history-entry-score-delta-negative{ color:var(--fm-bad); }
+html.fm-modern #pages .pages-link,
+html.fm-modern #pages .pages-current{ display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box; min-width:24px; min-height:24px; padding:0 4px; border-radius:6px; }
+html.fm-modern #pages .pages-current{ background:var(--fm-accent-soft); box-shadow:inset 0 0 0 1px var(--fm-border); }
+html.fm-modern #pages .pages-link{ cursor:pointer; }
+html.fm-modern #pages .pages-link:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
+html.fm-modern #pages .pages-current:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
 
 html.fm-modern .solution-support{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px 20px; border-top:0; border-bottom:0; }
 html.fm-modern .solution-support-text{ flex:1 1 20em; font-size:13.5px; color:var(--fm-muted); }
@@ -300,6 +309,9 @@ html.fm-modern :is(.fm-sol-crit-actions,.fm-sol-turn) .button-generic.fm-btn-sm{
 
 @media (max-width:760px){
   html.fm-modern .solution-item-expand-header .solution-item-button{ padding:15.5px !important; margin:-11.5px 0; }
+  html.fm-modern .solution-item-expand-header .solution-item-icons{ margin-top:12px !important; }
+  html.fm-modern #pages .pages-link,
+  html.fm-modern #pages .pages-current{ min-width:32px; min-height:32px; }
   html.fm-modern .solution-item-expand-header .solution-item-icons{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,44px); }
   html.fm-modern .fm-sol-doll .solution-item-expand-header .solution-item-icons{ margin-left:-11.5px !important; }
   html.fm-modern .solution-item-expand-header .solution-item-icons > .solution-item-button{ box-sizing:border-box !important; width:100% !important; height:44px !important; padding:15.5px calc(50% - 6.5px) !important; }

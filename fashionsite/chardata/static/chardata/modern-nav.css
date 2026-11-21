@@ -105,6 +105,7 @@ html.fm-modern .fm-topnav .base-language-selector-div{
 }
 html.fm-modern .fm-topnav .base-language-selector-div:hover{ background:var(--fm-navfill) !important; border-color:var(--fm-navline) !important; }
 html.fm-modern .fm-topnav .flag-btn{ background:transparent; border:0; padding:0; display:flex; align-items:center; justify-content:center; }
+html.fm-modern .fm-topnav #flag.flag-btn{ display:flex; width:38px; height:38px; border-radius:50%; }
 
 html.fm-modern .fm-topnav .current-theme,
 html.fm-modern .fm-topnav .auto-current{
@@ -152,6 +153,10 @@ html.fm-modern .fm-buildbar-tabs{
   display:flex; flex-wrap:wrap; align-items:stretch; gap:0 2px; flex:1 1 auto; min-width:0;
 }
 html.fm-modern .fm-buildbar-end{ display:flex; align-items:center; flex:0 0 auto; }
+@media (min-width:761px) and (max-width:1439px){
+  html.fm-modern .fm-buildbar .fm-buildbar-in .fm-buildbar-tabs a:link,
+  html.fm-modern .fm-buildbar .fm-buildbar-in .fm-buildbar-tabs a:visited{ padding:0 7px !important; }
+}
 html.fm-modern .fm-buildbar .fm-buildbar-in a:link,
 html.fm-modern .fm-buildbar .fm-buildbar-in a:visited{
   display:inline-flex !important; align-items:center; flex:0 0 auto; width:auto !important; height:40px; box-sizing:border-box;
@@ -241,6 +246,10 @@ html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-w
   html.fm-modern .fm-topnav.fm-nav-user .fm-design-toggle span[aria-hidden]{ display:inline-flex; }
   html.fm-modern .fm-topnav.fm-nav-user .login > b{ display:none; }
   html.fm-modern .fm-topnav.fm-nav-user .login #logged_user_alias{ max-width:5em; }
+  html.fm-modern .fm-topnav.fm-nav-user .nav-search{ min-width:120px; }
+}
+@media (min-width:1366px) and (max-width:1535px){
+  html.fm-modern .fm-topnav.fm-nav-user .login #logged_user_alias{ max-width:9em; }
 }
 
 @media (max-width:767px){

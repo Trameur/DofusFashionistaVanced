@@ -383,6 +383,8 @@ function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, 
                             header.click();
                         }
                     });
+               }).fail(function() {
+                   pageFocusPending = false;
                });
     } else {
         $.post(apiBase + "/itemadd/" + char_id + "/",
@@ -400,6 +402,8 @@ function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, 
                             header.click();
                         }
                     });
+               }).fail(function() {
+                   pageFocusPending = false;
                });
     }
 }
@@ -772,6 +776,8 @@ function radioComparisonsClick(attributes, comparison, attrDiv, compDiv){
     compDiv.show();
 }
 
+var pageFocusPending = false;
+
 function setPage(page, maxPages, key, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat) {
     var pages = [];
     page = parseInt(page);
@@ -806,7 +812,7 @@ function setPage(page, maxPages, key, itemNames, char_id, searchTerm, callBack, 
     div.empty();
     for (var i = 0; i < pages.length; i++) {
         if (pages[i] === page){
-                div.append($("<label class='pages-current'> "+ page +" </label>"));
+                div.append($("<label class='pages-current' aria-current='page'> "+ page +" </label>"));
         } else {
             if (i === 0){
                 var label = createPageLabel(pages[i], key, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat);
@@ -821,12 +827,25 @@ function setPage(page, maxPages, key, itemNames, char_id, searchTerm, callBack, 
             }
         }
     }
+    if (pageFocusPending) {
+        pageFocusPending = false;
+        div.find('.pages-current').attr('tabindex', -1).focus();
+    }
 }
 
 function createPageLabel(page, key, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat) {
     var label = $("<label class='pages-link'>" + page + "</label>");
-    label.click(function() {
+    label.attr({role: 'button', tabindex: 0});
+    var go = function() {
         populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat);
+    };
+    label.click(go);
+    label.keydown(function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            pageFocusPending = true;
+            go();
+        }
     });
     return label;
 }
