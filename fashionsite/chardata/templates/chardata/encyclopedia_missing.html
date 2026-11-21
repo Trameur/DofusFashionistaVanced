@@ -38,6 +38,9 @@
         </div>
         {% endif %}
         <div class="encyclopedia-missing-actions">
+            {% if missing.sets_url %}
+            <a class="button-generic" href="{{ missing.sets_url }}">{{ missing.sets_label }}</a>
+            {% endif %}
             <a class="button-generic" href="{{ missing.encyclopedia_url }}">{{ missing.cta_label }}</a>
         </div>
     </div>
