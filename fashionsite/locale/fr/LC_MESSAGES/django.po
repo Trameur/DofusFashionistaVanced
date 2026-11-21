@@ -9516,6 +9516,18 @@ msgid "Light or dark: by default the site now follows your system, and the butto
 msgstr "Clair ou sombre : par défaut, le site suit maintenant ton système, et le bouton en haut te laisse toujours choisir."
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "Dofus 3 Beta 3.8 update"
+msgstr "Mise à jour 3.8 de Dofus 3 Beta"
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "The Beta has the new 3.8 items and sets, with its spells and damage updated."
+msgstr "La Beta a les nouveaux objets et panoplies de la 3.8, avec ses sorts et ses dégâts mis à jour."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Item and set pages show the spell lines that set bonuses add."
+msgstr "Les pages d’objet et de panoplie montrent les lignes de sort que les bonus de panoplie ajoutent."
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "Dracorunes in the optimizer, and the Bellaphone class"
 msgstr "Les Dracorunes dans l’optimiseur et la classe Bellaphone"
 
@@ -9528,8 +9540,8 @@ msgid "Lock a piece and it keeps its Dracorune, and the build page shows every D
 msgstr "Une pièce verrouillée garde sa Dracorune, et la page du build montre chaque Dracorune portée."
 
 #: chardata/templates/chardata/changelog_content.html
-msgid "The new Bellaphone class is here, with its own avatars."
-msgstr "La nouvelle classe Bellaphone est là, avec ses propres avatars."
+msgid "The new Bellaphone class is here, with its spells, its best combo and its own avatars."
+msgstr "La nouvelle classe Bellaphone est là, avec ses sorts, son meilleur combo et ses propres avatars."
 
 #: chardata/templates/chardata/changelog_content.html
 msgid "Stronger builds, and a new way to start them"

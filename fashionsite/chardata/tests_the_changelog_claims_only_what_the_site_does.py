@@ -44,10 +44,11 @@ def _catalogue(langue):
 
 class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
 
-    def test_three_entries_of_at_most_four_bullets(self):
+    def test_four_entries_of_at_most_four_bullets(self):
         entrees = _entrees()
         self.assertEqual(NOUVEAU_MOIS, entrees[0][0])
         self.assertEqual(['A new look for the whole site',
+                          'Dofus 3 Beta 3.8 update',
                           'Dracorunes in the optimizer, and the Bellaphone class',
                           'Stronger builds, and a new way to start them'],
                          [e[1] for e in entrees if e[0] == NOUVEAU_MOIS])
@@ -102,7 +103,8 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
                 self.assertNotIn('\u2013', msgstr, (langue, phrase))
 
     def test_the_dropped_sentences_left_the_catalogues(self):
-        orphelines = ('The sidebar counter now says solver answers',
+        orphelines = ('The new Bellaphone class is here, with its own avatars',
+                      'The sidebar counter now says solver answers',
                       'From the encyclopedia to the solver',
                       'Icons back, policy honest',
                       'The privacy page names DofusBook',
@@ -315,3 +317,29 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
         page = response.content.decode('utf-8')
         self.assertIn('<th>Power</th>', page)
         self.assertIn('<th>Pushback Resistance</th>', page)
+
+    def test_the_beta_runs_the_3_8_data(self):
+        import fashionista_version as ours
+        self.assertTrue(ours.FASHIONISTA_BETA_VERSION.startswith('3.8.'))
+
+    def test_item_and_set_pages_show_the_spell_lines_set_bonuses_add(self):
+        from fashionistapulp.structure import get_structure
+        for name in ('encyclopedia_item.html', 'encyclopedia_set.html'):
+            self.assertIn('<span class="spell-line">', self._template(name), name)
+        sets = [item_set for item_set in get_structure('beta').sets_list
+                if getattr(item_set, 'localized_extras', None)]
+        self.assertTrue(sets)
+
+    def test_the_build_page_marks_every_dracorune_worn_on_the_piece_card(self):
+        self.assertIn('solution-item-dracorune-mark', self._template('solution_item.html'))
+        self.assertIn('solution_dracorune.html', self._template('solution_item.html'))
+
+    def test_the_bellaphone_has_spells_a_best_combo_and_avatars(self):
+        import json
+        from chardata.home_view import _CLASS_AVATAR_DIRS
+        from chardata.spell_reference import get_spell_reference
+        self.assertTrue(get_spell_reference('beta')['Bellaphone'])
+        path = os.path.join(settings.BASE_DIR, 'chardata', 'default_elements', 'beta.json')
+        with io.open(path, encoding='utf-8') as handle:
+            self.assertIn('Bellaphone', json.load(handle)['classes'])
+        self.assertIn('Bellaphone', _CLASS_AVATAR_DIRS)
