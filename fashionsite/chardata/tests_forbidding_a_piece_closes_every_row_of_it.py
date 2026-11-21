@@ -8,7 +8,7 @@ from fashionistapulp.structure import get_structure, set_current_game_version
 
 # (repeated pieces, extra rows)
 _REPETITIONS = {'dofus3': (2, 11), 'beta': (2, 11), 'dofus2': (2, 11),
-                'touch': (2, 11), 'retro': (19, 28)}
+                'touch': (2, 11), 'retro': (21, 30)}
 
 # Most repeated Retro piece
 _PATTE = 8941

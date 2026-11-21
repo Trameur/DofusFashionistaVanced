@@ -137,14 +137,22 @@ def _fetch_language(lang: str, delay: float, max_pages: int,
 
 # Ankama's Retro lang files, for the languages Solomonk lacks
 ANKAMA_LANGUAGES: Sequence[str] = ("pt", "de")
-ANKAMA_CDN = "https://dofusretro.cdn.ankama.com/lang"
 # Far below this means the payload key moved
 MIN_ANKAMA_NAMES = 800
 
 
-def _ankama_manifest(lang: str) -> Dict[str, str]:
+def _ankama_lang_root() -> str:
+    """The lang root the live Retro client reads."""
+    try:
+        from download_retro_langs import lang_root
+    except ImportError:
+        from itemscraper.download_retro_langs import lang_root
+    return lang_root()
+
+
+def _ankama_manifest(lang: str, root: str) -> Dict[str, str]:
     """{category: version} parsed from versions_<lang>.txt."""
-    request = Request("%s/versions_%s.txt" % (ANKAMA_CDN, lang),
+    request = Request("%s/versions_%s.txt" % (root, lang),
                       headers={"User-Agent": USER_AGENT})
     with urlopen(request, timeout=60) as response:
         body = response.read().decode("utf-8", "replace")
@@ -165,15 +173,16 @@ def ankama_monster_names(languages: Sequence[str] = ANKAMA_LANGUAGES,
         from itemscraper.retro_swf_parser import parse_lang_swf
 
     names: Dict[int, Dict[str, str]] = {}
+    root = _ankama_lang_root()
     for lang in languages:
         time.sleep(delay)
-        version = _ankama_manifest(lang).get("monsters")
+        version = _ankama_manifest(lang, root).get("monsters")
         if not version:
             raise RuntimeError(
                 "no `monsters` category in the %s manifest: the CDN layout "
                 "moved, the names did not disappear" % lang)
         request = Request("%s/swf/monsters_%s_%s.swf"
-                          % (ANKAMA_CDN, lang, version),
+                          % (root, lang, version),
                           headers={"User-Agent": USER_AGENT})
         with urlopen(request, timeout=120) as response:
             data = response.read()

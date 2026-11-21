@@ -135,7 +135,7 @@ class TheRetroWeaponLineTests(_SpellsPage):
         set_current_game_version('retro')
         self.addCleanup(set_current_game_version, 'dofus3')
         stored = self._retro_weapons(lambda weapon: (weapon.crit_chance or 0) < 0)
-        self.assertEqual(4, len(stored))
+        self.assertEqual(3, len(stored))
         for item_id, weapon in stored:
             with self.subTest(item=item_id):
                 self.assertEqual(0.0, crit_chance(weapon.crit_chance,

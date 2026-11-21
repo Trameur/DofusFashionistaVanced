@@ -3,7 +3,7 @@
 update_data_retro.py - DofusFashionista data pipeline for Dofus Retro (1.29)
 
 Usage:
-    python update_data_retro.py                    # full update (latest CDN lang versions)
+    python update_data_retro.py                    # full update (the lang tree the live client reads)
     python update_data_retro.py --skip-translations  # FR names only (faster)
 """
 
@@ -90,6 +90,16 @@ def run_step(label: str, cmd: list, cwd: Path | None = None) -> tuple[bool, list
     return ok, lines
 
 
+def export_lang_root() -> str:
+    """Resolve the lang root once from the live client config and hand it to every step."""
+    if str(ITEMSCRAPER) not in sys.path:
+        sys.path.insert(0, str(ITEMSCRAPER))
+    import download_retro_langs
+    root = download_retro_langs.lang_root()
+    os.environ[download_retro_langs.LANG_ROOT_ENV] = root
+    return root
+
+
 def extract_notices(lines: list[str]) -> list[str]:
     return [l.strip() for l in lines if _is_notice(l)]
 
@@ -114,6 +124,8 @@ def main() -> None:
     print(f"\n{'-'*60}")
     print(f"  DofusFashionista update - DOFUS RETRO 1.29 (lang: {args.lang})")
     print(f"{'-'*60}")
+
+    print(f"  lang root: {export_lang_root()}")
 
     def step(label: str, cmd: list, cwd: Path | None = None) -> bool:
         ok, lines = run_step(label, cmd, cwd)

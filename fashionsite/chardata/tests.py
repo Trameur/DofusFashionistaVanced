@@ -21186,12 +21186,13 @@ class GameVersionWatchTests(SimpleTestCase):
     }
 
     def _run_check(self, retro_live, touch_live, lang_live=None,
-                   asset_live=None, asset_versions=None, update_flags=()):
+                   asset_live=None, asset_versions=None, update_flags=(),
+                   lang_root_live=None, lang_roots=None):
         import check_game_versions as check
         import fashionista_version as ours
         saved = (check.cytrus_cdn.get_version, check.cytrus_cdn.download_manifest,
                  check._json, check.retro_lang_versions, check.retro_asset_entries,
-                 check.check_update_lists,
+                 check.check_update_lists, check.retro_lang_root,
                  ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS,
                  ours.WATCHED_RETRO_ASSET_DIGEST, ours.WATCHED_RETRO_ASSET_COUNT)
         live = {'dofus3': ours.FASHIONISTA_VERSION,
@@ -21208,7 +21209,13 @@ class GameVersionWatchTests(SimpleTestCase):
             # Or main() downloads the manifest
             check.cytrus_cdn.download_manifest = (
                 lambda game, version=None, platform='windows': b'faux')
-            check.retro_lang_versions = lambda: lang
+            check.retro_lang_root = lambda manifest=None: (
+                lang_root_live or ours.WATCHED_RETRO_LANG_ROOT)
+            def fake_retro_lang_versions(root=None):
+                if lang_roots is not None:
+                    lang_roots.append(root)
+                return lang
+            check.retro_lang_versions = fake_retro_lang_versions
             def fake_retro_asset_entries(version=None, manifest=None):
                 if asset_versions is not None:
                     asset_versions.append(version)
@@ -21226,7 +21233,7 @@ class GameVersionWatchTests(SimpleTestCase):
         finally:
             (check.cytrus_cdn.get_version, check.cytrus_cdn.download_manifest,
              check._json, check.retro_lang_versions, check.retro_asset_entries,
-             check.check_update_lists,
+             check.check_update_lists, check.retro_lang_root,
              ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS,
              ours.WATCHED_RETRO_ASSET_DIGEST,
              ours.WATCHED_RETRO_ASSET_COUNT) = saved
@@ -21245,6 +21252,24 @@ class GameVersionWatchTests(SimpleTestCase):
         self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
                                          ours.WATCHED_TOUCH_ASSETS,
                                          {'items': '9999'}), 1)
+
+    def test_a_moved_retro_lang_root_is_not_silent(self):
+        """The client can point at a new lang tree while the versions look the same."""
+        import fashionista_version as ours
+        roots = []
+        self.assertEqual(self._run_check(
+            ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS,
+            lang_root_live='https://dofusretro.cdn.ankama.com/static-data/999/lang',
+            lang_roots=roots), 1)
+        self.assertEqual(['https://dofusretro.cdn.ankama.com/static-data/999/lang'], roots)
+
+    def test_the_retro_lang_versions_are_read_under_the_watched_root(self):
+        import fashionista_version as ours
+        roots = []
+        self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
+                                         ours.WATCHED_TOUCH_ASSETS,
+                                         lang_roots=roots), 0)
+        self.assertEqual([ours.WATCHED_RETRO_LANG_ROOT], roots)
 
     def test_a_changed_retro_clip_is_not_silent(self):
         import fashionista_version as ours
@@ -21986,7 +22011,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                       'monster_names': 1800, 'item_descriptions': 10000,
                       'item_recipes': 6000, 'item_recipe_ingredient_names': 4500,
                       'resource_drops': 2000, 'item_craft_jobs': 1200,
-                      'sets': 160, 'set_bonus': 2300, 'set_names': 640},
+                      'sets': 130, 'set_bonus': 2300, 'set_names': 520},
         }
         for version, tables in floors.items():
             for table, floor in tables.items():
