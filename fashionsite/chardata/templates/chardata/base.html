@@ -848,6 +848,18 @@
             popup(0, 'other-themes', 'blanket-theme');
             $(".current-theme").attr("aria-expanded", "true");
         });
+        document.addEventListener("keydown", function(e) {
+            if (e.key !== "Escape") return;
+            if ($("#blanket-language").is(":visible")) {
+                e.stopPropagation();
+                $("#blanket-language").click();
+                $("#flag").focus();
+            } else if ($("#blanket-theme").is(":visible")) {
+                e.stopPropagation();
+                $("#blanket-theme").click();
+                $(".current-theme").first().focus();
+            }
+        }, true);
         {% if not advanced %}
             var menu = $("#menu-collapse");
             menu.hide();

@@ -29,10 +29,16 @@ def _to_blob(minimal_solution):
 def record_solution_generation(char, minimal_solution):
     if minimal_solution is None:
         return None
+    blob = _to_blob(minimal_solution)
+    latest = (SolutionGeneration.objects
+              .filter(char=char, game_version=char.game_version)
+              .order_by('-created_time', '-id').first())
+    if latest is not None and bytes(latest.minimal_solution) == blob:
+        return latest
     generation = SolutionGeneration.objects.create(
         char=char,
         game_version=char.game_version,
-        minimal_solution=_to_blob(minimal_solution),
+        minimal_solution=blob,
         data_version=char.solved_version,
     )
     old_ids = list(
