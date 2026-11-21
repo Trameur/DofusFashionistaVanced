@@ -9008,6 +9008,41 @@ msgstr ""
 msgid "New"
 msgstr ""
 
+msgctxt "one"
+msgid "Summon"
+msgstr "Summon"
+
+msgctxt "one"
+msgid "Summons"
+msgstr "Summon"
+
+msgctxt "one"
+msgid "Heals"
+msgstr "Heal"
+
+msgctxt "one"
+msgid "Damage"
+msgstr "Damage"
+
+msgctxt "one"
+msgid "Neutral Damage"
+msgstr "Neutral Damage"
+
+msgctxt "one"
+msgid "Earth Damage"
+msgstr "Earth Damage"
+
+msgctxt "one"
+msgid "Fire Damage"
+msgstr "Fire Damage"
+
+msgctxt "one"
+msgid "Water Damage"
+msgstr "Water Damage"
+
+msgctxt "one"
+msgid "Air Damage"
+msgstr "Air Damage"
 
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "This game has no exos: they are left out."

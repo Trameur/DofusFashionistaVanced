@@ -10052,6 +10052,41 @@ msgstr "Klassisch (verbessert)"
 msgid "New"
 msgstr "Neu"
 
+msgctxt "one"
+msgid "Summon"
+msgstr "Beschwörung"
+
+msgctxt "one"
+msgid "Summons"
+msgstr "Beschwörung"
+
+msgctxt "one"
+msgid "Heals"
+msgstr "Heilung"
+
+msgctxt "one"
+msgid "Damage"
+msgstr "Schaden"
+
+msgctxt "one"
+msgid "Neutral Damage"
+msgstr "Neutraler Schaden"
+
+msgctxt "one"
+msgid "Earth Damage"
+msgstr "Erdschaden"
+
+msgctxt "one"
+msgid "Fire Damage"
+msgstr "Feuerschaden"
+
+msgctxt "one"
+msgid "Water Damage"
+msgstr "Wasserschaden"
+
+msgctxt "one"
+msgid "Air Damage"
+msgstr "Luftschaden"
 
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Dieses Spiel hat keine Exos: Sie bleiben außen vor."

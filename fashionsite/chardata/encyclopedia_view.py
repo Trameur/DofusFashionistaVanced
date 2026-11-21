@@ -35,7 +35,8 @@ from chardata.url_language import (build_alternate_urls,
                                    redirect_to_own_address)
 from chardata.stat_range import format_stat_range, get_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
-from chardata.translation_util import localized_stat_name, LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
+from chardata.translation_util import (localized_stat_name, stat_label_for_count,
+                                       LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES)
 from chardata.wear_conditions import a_new_build_can_wear, condition_texts
 from static_s3.templatetags.static_s3 import static
 
@@ -440,6 +441,13 @@ def _localized_stat(stat_name, language, game_version=None):
         return localized_stat_name(stat_name, game_version)
 
 
+def _counted_stat(stat_name, language, game_version, count):
+    if not stat_name:
+        return ''
+    with translation.override(language):
+        return stat_label_for_count(stat_name, count, game_version)
+
+
 def _is_searchable_stat_key(stat_key):
     if not stat_key:
         return False
@@ -579,7 +587,8 @@ def _get_set_bonuses(structure, item_set, language):
         by_pieces.setdefault(num_items, []).append((
             STAT_ORDER.get(stat.key, 9999),
             {
-                'name': _localized_stat(stat.name, language, structure.game_version),
+                'name': _counted_stat(stat.name, language, structure.game_version,
+                                      int(round(value))),
                 'value': int(round(value)),
                 'icon_url': _get_stat_icon_url(stat.key),
             },
@@ -593,7 +602,8 @@ def _get_set_bonuses(structure, item_set, language):
         caps_by_pieces.setdefault(num_items, []).append((
             STAT_ORDER.get(stat.key, 9999),
             {
-                'name': _localized_stat(stat.name, language, structure.game_version),
+                'name': _counted_stat(stat.name, language, structure.game_version,
+                                      int(round(max_value))),
                 'value': int(round(max_value)),
                 'icon_url': _get_stat_icon_url(stat.key),
             },
@@ -746,6 +756,13 @@ def _stat_amount_text(item, stat_id, best_value):
     return format_stat_range(*stat_range)
 
 
+def _stat_count(item, stat_id, stat_value):
+    """The count a stat label agrees with: the value, or 0 for a rolled range."""
+    if get_stat_range(item, stat_id) is not None:
+        return 0
+    return int(round(stat_value))
+
+
 def _get_stat_lines(structure, item, language):
     stat_lines = []
     for stat_id, stat_value in sorted(
@@ -760,7 +777,8 @@ def _get_stat_lines(structure, item, language):
             'text': '%s%s%s' % (
                 _stat_amount_text(item, stat_id, rounded_value),
                 '' if stat.name.startswith('%') else ' ',
-                _localized_stat(stat.name, language, structure.game_version),
+                _counted_stat(stat.name, language, structure.game_version,
+                              _stat_count(item, stat_id, stat_value)),
             ),
             'negative': stat_value < 0,
             'icon_url': _get_stat_icon_url(stat.key),
@@ -2712,7 +2730,9 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         if stat is None:
             continue
         stat_lines.append({
-            'name': _localized_stat(stat.name, language, structure.game_version),
+            'name': _counted_stat(
+                stat.name, language, structure.game_version,
+                _stat_count(representative_item, stat_id, stat_value)),
             'value': stat_value,
             'amount_text': _stat_amount_text(representative_item, stat_id,
                                              int(round(stat_value))),

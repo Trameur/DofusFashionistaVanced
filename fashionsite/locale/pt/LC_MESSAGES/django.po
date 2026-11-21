@@ -9968,6 +9968,41 @@ msgstr "Clássico aprimorado"
 msgid "New"
 msgstr "Novo"
 
+msgctxt "one"
+msgid "Summon"
+msgstr "Invocação"
+
+msgctxt "one"
+msgid "Summons"
+msgstr "Invocação"
+
+msgctxt "one"
+msgid "Heals"
+msgstr "Cura"
+
+msgctxt "one"
+msgid "Damage"
+msgstr "Dano"
+
+msgctxt "one"
+msgid "Neutral Damage"
+msgstr "Dano Neutro"
+
+msgctxt "one"
+msgid "Earth Damage"
+msgstr "Dano Terra"
+
+msgctxt "one"
+msgid "Fire Damage"
+msgstr "Dano Fogo"
+
+msgctxt "one"
+msgid "Water Damage"
+msgstr "Dano Água"
+
+msgctxt "one"
+msgid "Air Damage"
+msgstr "Dano Ar"
 
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Este jogo não tem exos: eles ficam de fora."

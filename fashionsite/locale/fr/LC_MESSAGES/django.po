@@ -10107,6 +10107,41 @@ msgstr "Classique amélioré"
 msgid "New"
 msgstr "Nouveau"
 
+msgctxt "one"
+msgid "Summon"
+msgstr "Invocation"
+
+msgctxt "one"
+msgid "Summons"
+msgstr "Invocation"
+
+msgctxt "one"
+msgid "Heals"
+msgstr "Soin"
+
+msgctxt "one"
+msgid "Damage"
+msgstr "Dommage"
+
+msgctxt "one"
+msgid "Neutral Damage"
+msgstr "Dommage Neutre"
+
+msgctxt "one"
+msgid "Earth Damage"
+msgstr "Dommage Terre"
+
+msgctxt "one"
+msgid "Fire Damage"
+msgstr "Dommage Feu"
+
+msgctxt "one"
+msgid "Water Damage"
+msgstr "Dommage Eau"
+
+msgctxt "one"
+msgid "Air Damage"
+msgstr "Dommage Air"
 
 #~ msgid "This game has no exos: they are left out."
 #~ msgstr "Ce jeu n’a pas d’exos : ils restent de côté."

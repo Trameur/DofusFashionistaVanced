@@ -56,7 +56,8 @@ from chardata.wear_conditions import (class_condition_text,
                                       unusable_condition_text)
 from fashionistapulp.structure import name_fits
 from static_s3.templatetags.static_s3 import static
-from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES, localized_stat_name
+from .translation_util import (LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES, localized_stat_name,
+                               singular_stat_label)
 from chardata.official_site import get_set_link
 
 
@@ -638,7 +639,7 @@ class AttributeLine:
         self.text = ('%d%s%s'
                      % (rounded_value,
                         '' if stat_name.startswith('%') else ' ',
-                        _(stat_name)))
+                        singular_stat_label(stat_name, rounded_value) or _(stat_name)))
         self.range_text = format_stat_range(*stat_range) if stat_range else None
         self.formatting = '#r' if stat_value < 0 else ''
         icon_path = get_stat_icon_path(stat_key)

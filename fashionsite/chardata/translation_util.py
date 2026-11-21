@@ -49,6 +49,24 @@ def localized_stat_name(name, game_version=None):
     return _(name)
 
 
+COUNTED_STAT_NAMES = frozenset((
+    'Summon', 'Summons', 'Heals', 'Damage', 'Neutral Damage', 'Earth Damage',
+    'Fire Damage', 'Water Damage', 'Air Damage',
+))
+
+
+def singular_stat_label(name, count):
+    """The singular wording of a counted stat when the count is one or minus one, else None."""
+    if name in COUNTED_STAT_NAMES and abs(count) == 1:
+        return pgettext('one', name)
+    return None
+
+
+def stat_label_for_count(name, count, game_version=None):
+    """The stat's name, in the singular when the count is one or minus one."""
+    return singular_stat_label(name, count) or localized_stat_name(name, game_version)
+
+
 LOCALIZED_CHARACTER_CLASSES = {
     'Eniripsa': gettext_lazy('Eniripsa'),
     'Iop': gettext_lazy('Iop'),
