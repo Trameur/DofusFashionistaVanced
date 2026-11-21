@@ -8,8 +8,9 @@ from django.test import SimpleTestCase
 from chardata.tests_the_setup_stylesheet_support import chain_of, declared, matching, stylesheet, winning
 
 PHONE = '(max-width: 600px)'
-TABLE = 'html:not(.fm-modern) .fm-table.fm-workbench-table'
-INPUTS = 'html:not(.fm-modern) body .fm-table.fm-workbench-table input[type="number"]'
+DESIGNS = ('html:not(.fm-modern, .fm-enhanced)', 'html.fm-enhanced')
+TABLES = tuple(design + ' .fm-table.fm-workbench-table' for design in DESIGNS)
+INPUTS = tuple(design + ' body .fm-table.fm-workbench-table input[type="number"]' for design in DESIGNS)
 TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates', 'chardata', 'forgemagie.html')
 
 
@@ -37,29 +38,35 @@ class TheClassicWorkbenchTableKeepsWholeWordsAndFingerSizedInputsOnAPhone(Simple
 
     def test_the_columns_size_to_their_content_instead_of_sharing_the_width_equally(self):
         rules = phone_rules()
-        self.assertEqual(declared(rules, TABLE, 'table-layout', PHONE), ('auto', False))
-        self.assertEqual(declared(rules, TABLE, 'width', PHONE), ('auto', True))
-        minimum = int(declared(rules, TABLE, 'min-width', PHONE)[0].replace('px', ''))
-        self.assertGreaterEqual(minimum, 700)
+        for table in TABLES:
+            with self.subTest(table=table):
+                self.assertEqual(declared(rules, table, 'table-layout', PHONE), ('auto', False))
+                self.assertEqual(declared(rules, table, 'width', PHONE), ('auto', True))
+                minimum = int(declared(rules, table, 'min-width', PHONE)[0].replace('px', ''))
+                self.assertGreaterEqual(minimum, 700)
 
     def test_a_stat_name_breaks_between_words_only(self):
         rules = phone_rules()
-        cells = [rule for rule in matching(rules, TABLE + ' th', PHONE) if rule['selectors'] == [TABLE + ' th', TABLE + ' td']]
+        cells = [rule for rule in matching(rules, TABLES[0] + ' th', PHONE)
+                 if rule['selectors'] == [table + ' ' + cell for table in TABLES for cell in ('th', 'td')]]
         self.assertEqual(len(cells), 1)
         declarations = cells[0]['declarations']
         self.assertEqual(declarations['overflow-wrap'][0], 'normal')
         self.assertEqual(declarations['word-break'][0], 'normal')
-        first = TABLE + ' td:first-child'
-        self.assertTrue(matching(rules, first, PHONE))
+        for table in TABLES:
+            with self.subTest(table=table):
+                self.assertTrue(matching(rules, table + ' td:first-child', PHONE))
 
     def test_the_number_inputs_show_four_digits_and_a_sign_and_stay_44_pixels_tall(self):
         rules = phone_rules()
-        found = matching(rules, INPUTS, PHONE)
-        self.assertEqual(len(found), 1)
-        declarations = found[0]['declarations']
-        self.assertGreaterEqual(int(declarations['width'][0].replace('px', '')), 72)
-        self.assertEqual(declarations['min-height'][0], '44px')
-        self.assertEqual(declarations['box-sizing'][0], 'border-box')
+        for inputs in INPUTS:
+            with self.subTest(inputs=inputs):
+                found = matching(rules, inputs, PHONE)
+                self.assertEqual(len(found), 1)
+                declarations = found[0]['declarations']
+                self.assertGreaterEqual(int(declarations['width'][0].replace('px', '')), 72)
+                self.assertEqual(declarations['min-height'][0], '44px')
+                self.assertEqual(declarations['box-sizing'][0], 'border-box')
 
     def test_the_forced_width_wins_the_cascade_in_both_classic_designs(self):
         for classes in (('fm-light',), ('fm-dark',), ('fm-enhanced', 'fm-light'), ('fm-enhanced', 'fm-dark')):
@@ -80,7 +87,7 @@ class TheClassicWorkbenchTableKeepsWholeWordsAndFingerSizedInputsOnAPhone(Simple
                 continue
             for selector in rule['selectors']:
                 if 'fm-workbench-table' in selector or 'input[type="number"]' in selector:
-                    self.assertTrue(selector.startswith('html:not(.fm-modern) '), selector)
+                    self.assertTrue(selector.startswith(tuple(design + ' ' for design in DESIGNS)), selector)
 
     def test_the_atelier_rules_for_the_workbench_are_still_in_the_modern_sheet(self):
         modern = stylesheet('modern.css')

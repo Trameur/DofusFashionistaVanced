@@ -332,9 +332,9 @@
 }
 
 @media (max-width: 600px) {
-  html:not(.fm-modern) .fm-table.fm-workbench-table { table-layout: auto; width: auto !important; min-width: 780px; }
-  html:not(.fm-modern) .fm-table.fm-workbench-table th, html:not(.fm-modern) .fm-table.fm-workbench-table td { overflow-wrap: normal; word-break: normal; padding: 2px 5px !important; font-size: 11px; }
-  html:not(.fm-modern) .fm-table.fm-workbench-table th:first-child, html:not(.fm-modern) .fm-table.fm-workbench-table td:first-child { min-width: 112px; }
-  html:not(.fm-modern) .fm-table.fm-workbench-table th.fm-cell-runes, html:not(.fm-modern) .fm-table.fm-workbench-table td.fm-cell-runes { min-width: 150px !important; }
-  html:not(.fm-modern) body .fm-table.fm-workbench-table input[type="number"], html:not(.fm-modern) body .fm-table.fm-workbench-table .fm-input { width: 76px !important; min-width: 76px !important; min-height: 44px; padding: 4px !important; font-size: 16px; text-align: center; box-sizing: border-box; }
+  html:not(.fm-modern, .fm-enhanced) .fm-table.fm-workbench-table, html.fm-enhanced .fm-table.fm-workbench-table { table-layout: auto; width: auto !important; min-width: 780px; }
+  html:not(.fm-modern, .fm-enhanced) .fm-table.fm-workbench-table th, html:not(.fm-modern, .fm-enhanced) .fm-table.fm-workbench-table td, html.fm-enhanced .fm-table.fm-workbench-table th, html.fm-enhanced .fm-table.fm-workbench-table td { overflow-wrap: normal; word-break: normal; padding: 2px 5px !important; font-size: 11px; }
+  html:not(.fm-modern, .fm-enhanced) .fm-table.fm-workbench-table th:first-child, html:not(.fm-modern, .fm-enhanced) .fm-table.fm-workbench-table td:first-child, html.fm-enhanced .fm-table.fm-workbench-table th:first-child, html.fm-enhanced .fm-table.fm-workbench-table td:first-child { min-width: 112px; }
+  html:not(.fm-modern, .fm-enhanced) .fm-table.fm-workbench-table th.fm-cell-runes, html:not(.fm-modern, .fm-enhanced) .fm-table.fm-workbench-table td.fm-cell-runes, html.fm-enhanced .fm-table.fm-workbench-table th.fm-cell-runes, html.fm-enhanced .fm-table.fm-workbench-table td.fm-cell-runes { min-width: 150px !important; }
+  html:not(.fm-modern, .fm-enhanced) body .fm-table.fm-workbench-table input[type="number"], html:not(.fm-modern, .fm-enhanced) body .fm-table.fm-workbench-table .fm-input, html.fm-enhanced body .fm-table.fm-workbench-table input[type="number"], html.fm-enhanced body .fm-table.fm-workbench-table .fm-input { width: 76px !important; min-width: 76px !important; min-height: 44px; padding: 4px !important; font-size: 16px; text-align: center; box-sizing: border-box; }
 }
