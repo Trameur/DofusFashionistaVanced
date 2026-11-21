@@ -4790,6 +4790,11 @@ msgctxt "exo mark on an item"
 msgid "Exo"
 msgstr "Exo"
 
+#: chardata/templates/chardata/solution_item.html
+msgctxt "dracorune mark on an item"
+msgid "Dracorune"
+msgstr "Dracorune"
+
 #: .\chardata\templates\chardata\solution_item.html
 msgctxt "shiny mark on an item"
 msgid "Shiny"
