@@ -30,8 +30,8 @@ html.fm-modern .solution-item-name-div .solution-item-source{ flex:0 0 100%; fon
 html.fm-modern .solution-item-name-div .solution-item-mark{ font-size:11px; }
 html.fm-modern .fm-set-tag{ max-width:100%; min-width:0; box-sizing:border-box; }
 html.fm-modern .solution-item-name-div:has(> .fm-set-tag){ contain:inline-size; }
-html.fm-modern .fm-set-tag .fm-set-tag-name{ overflow:hidden; text-overflow:ellipsis; min-width:0; }
-html.fm-modern .solution-item-name-div :is(.fm-set-tag,.fm-set-tag-name){ white-space:nowrap !important; overflow-wrap:normal; word-break:normal; }
+html.fm-modern .solution-item-name-div .fm-set-tag{ white-space:nowrap !important; align-items:center; line-height:1.25; padding-top:2px; padding-bottom:2px; }
+html.fm-modern .solution-item-name-div .fm-set-tag .fm-set-tag-name{ white-space:normal !important; overflow:visible; text-overflow:clip; overflow-wrap:break-word; word-break:normal; min-width:0; }
 
 html.fm-modern .solution-item-expand-header .solution-item-icons{ display:flex; flex-wrap:wrap; align-items:center; gap:0; margin:4px 0 0 -5px; padding:0; }
 html.fm-modern .solution-item-expand-header .solution-item-button{
@@ -323,4 +323,13 @@ html.fm-modern :is(.fm-sol-crit-actions,.fm-sol-turn) .button-generic.fm-btn-sm{
   html.fm-modern .solution-support .solution-support-button:link,
   html.fm-modern .solution-support .solution-support-button:visited{ min-height:44px; display:inline-flex; align-items:center; }
   html.fm-modern :is(.fm-sol-crit-actions,.fm-sol-turn) .button-generic.fm-btn-sm{ min-height:44px; }
+}
+
+@media (max-width:759px){
+  html.fm-modern .fm-sol-nums{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; width:100%; }
+  html.fm-modern .fm-sol-nums .fm-sol-num{ min-width:0; padding-left:12px; padding-right:12px; }
+  html.fm-modern .fm-sol-nums .fm-sol-num-v{ overflow-wrap:anywhere; }
+}
+@media (max-width:520px){
+  html.fm-modern .fm-sol-nums{ grid-template-columns:repeat(2,minmax(0,1fr)); }
 }

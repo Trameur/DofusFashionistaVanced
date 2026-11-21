@@ -29,6 +29,9 @@ class ADollCardOnALaptopTests(SimpleTestCase):
         self.assertIn('.solution-table .solution-item-section.fm-sol-doll .expand-container > .solution-item-expand-header{ align-items:flex-start; }',
                       self.narrow_rules())
 
-    def test_a_set_chip_stays_on_one_line_and_keeps_its_count_whole(self):
-        chip = 'html.fm-modern .solution-item-name-div :is(.fm-set-tag,.fm-set-tag-name)'
+    def test_a_set_chip_wraps_its_name_between_words_and_keeps_its_count_whole(self):
+        chip = 'html.fm-modern .solution-item-name-div .fm-set-tag'
+        name = chip + ' .fm-set-tag-name'
         self.assertEqual(('nowrap', True), declared(PARTS, chip, 'white-space'))
+        self.assertEqual(('normal', True), declared(PARTS, name, 'white-space'))
+        self.assertEqual(('clip', False), declared(PARTS, name, 'text-overflow'))
