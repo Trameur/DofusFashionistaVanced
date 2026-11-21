@@ -121,7 +121,7 @@ def smart_build(request):
                             parsed['aspects'] | element_aspects(element), game_version,
                             name=name)
         note_guest_create(request)
-        return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+        return HttpResponseRedirect(version_reverse(request, 'tailoring', char.id))
 
     return set_response(request, 'chardata/smart_build.html', {
         # Same page under the five versions, only the footer's version line changes; canonical at the unversioned address

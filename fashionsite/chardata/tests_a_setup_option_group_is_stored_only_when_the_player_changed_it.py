@@ -209,11 +209,11 @@ class AnUncheckedPointsBoxOpensTheCharacteristicsPageBeforeAnySolveTests(_Creati
                 self.assertFalse(char.allow_points_distribution)
                 self.assertIn('/initbasestats/%d/' % char.pk, location)
 
-    def test_a_checked_box_or_the_hand_door_goes_where_it_always_went(self):
+    def test_a_checked_box_or_the_hand_door_skips_the_characteristics_page(self):
         checked = markers('points') + [('choose_stats', 'choose_stats')]
-        for door, extra, path in (('optimize', checked, '/solution/%d/'),
+        for door, extra, path in (('optimize', checked, '/tailoring/%d/'),
                                   ('wizard', checked, '/wizard/%d/'),
-                                  ('optimize', [], '/solution/%d/'),
+                                  ('optimize', [], '/tailoring/%d/'),
                                   ('byhand', markers('points'), '/solution/%d/')):
             with self.subTest(door=door, extra=extra):
                 location, char = self.door(door, extra)

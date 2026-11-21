@@ -174,7 +174,7 @@ def get_alias(user):
 # Their address holds a token or a username: no analytics, and no full referrer for the next page
 PRIVATE_ROUTES = frozenset(('confirm_email', 'confirm_email_change',
                             'confirm_account_deletion',
-                            'email_confirmed_page', 'recover_password'))
+                            'email_confirmed_page', 'recover_password', 'tailoring'))
 
 
 def set_response(request, path, params, char=None):

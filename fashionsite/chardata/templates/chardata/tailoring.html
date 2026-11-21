@@ -1,0 +1,28 @@
+{% extends 'chardata/base.html' %}
+
+{% load i18n %}
+{% load version_url %}
+
+{% block main %}
+{% game_url 'fashion' char_id as tailor_url %}
+<p align="center" id="tailor-fallback"><a href="{{ tailor_url }}" class="submit-button button-generic">{% trans "Tailor a New Set" %}</a></p>
+<script>
+(function() {
+    var fallback = document.getElementById('tailor-fallback');
+    fallback.style.display = 'none';
+    function tailor() {
+        try {
+            loadingAndRunUnchecked();
+        } catch (e) {
+            fallback.style.display = '';
+        }
+        setTimeout(function() { window.location.replace('{{ tailor_url|escapejs }}'); }, 0);
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tailor);
+    } else {
+        tailor();
+    }
+})();
+</script>
+{% endblock %}

@@ -1,5 +1,7 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """A visitor who posts the /setup/ form with Optimize now is sent to the solution page of the new build and reads the solved build there."""
+import re
+
 from django.test import TestCase
 from django.urls import resolve
 
@@ -13,6 +15,11 @@ from fashionistapulp.structure import set_current_game_version
 MOST_HOPS = 4
 
 
+def fashion_url_on(page):
+    """The search address the loading screen's script goes to."""
+    return re.search(r"location\.replace\('([^']+)'\)", page.content.decode('utf-8')).group(1)
+
+
 class ThePostedOptimizeNowEndsOnTheSolutionPageTests(TestCase):
 
     def setUp(self):
@@ -24,22 +31,27 @@ class ThePostedOptimizeNowEndsOnTheSolutionPageTests(TestCase):
         return self.client.post(_version_path(version, '/createproject/'), dict(fields))
 
     def follow(self, response):
-        """The hops a browser makes; the test client refuses the solution page redirecting to itself."""
+        """The hops a browser makes, the loading screen's own step to the search included."""
         hops = []
-        while response.status_code == 302 and len(hops) < MOST_HOPS:
-            hops.append(response['Location'])
-            response = self.client.get(response['Location'])
+        while len(hops) < MOST_HOPS:
+            if response.status_code == 302:
+                hops.append(response['Location'])
+            elif 'chardata/tailoring.html' in [t.name for t in response.templates]:
+                hops.append(fashion_url_on(response))
+            else:
+                break
+            response = self.client.get(hops[-1])
         return hops, response
 
-    def test_the_first_hop_is_the_solution_page_of_the_new_build_in_every_version(self):
+    def test_the_first_hop_is_the_loading_screen_of_the_new_build_in_every_version(self):
         for version in VERSIONS:
             with self.subTest(version=version):
                 response = self.post(version, 'optimize')
                 char = Char.objects.order_by('-id').first()
                 self.assertEqual(302, response.status_code)
-                self.assertEqual(_version_path(version, '/solution/%d/' % char.pk),
+                self.assertEqual(_version_path(version, '/tailoring/%d/' % char.pk),
                                  response['Location'])
-                self.assertEqual('solution_2', resolve(response['Location']).url_name)
+                self.assertEqual('tailoring', resolve(response['Location']).url_name)
 
     def test_the_hand_door_posted_the_same_way_goes_to_the_empty_solution_page(self):
         for version in VERSIONS:
@@ -55,8 +67,8 @@ class ThePostedOptimizeNowEndsOnTheSolutionPageTests(TestCase):
         self.assertIsNone(get_solution(char))
         hops, page = self.follow(response)
         self.assertEqual(200, page.status_code)
-        self.assertEqual('/solution/%d/' % char.pk, hops[0])
-        self.assertLess(len(hops), MOST_HOPS)
+        self.assertEqual(['/tailoring/%d/' % char.pk, '/fashion/%d/' % char.pk,
+                          '/solution/%d/' % char.pk], hops)
         self.assertIn('chardata/solution.html', [template.name for template in page.templates])
         char.refresh_from_db()
         self.assertIsNotNone(get_solution(char))

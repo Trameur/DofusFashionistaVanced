@@ -346,7 +346,7 @@ def create_project(request):
     if state['where_to_go'] == 'wizard':
         return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))
     if state['where_to_go'] == 'optimize':
-        return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+        return HttpResponseRedirect(version_reverse(request, 'tailoring', char.id))
     return HttpResponseRedirect(version_reverse(request, 'solution', char.id, True))
 
 # TODO: This state should be a class.

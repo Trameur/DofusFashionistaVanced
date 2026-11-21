@@ -339,4 +339,4 @@ def _create_from_coaching(request, game_version, element):
         char.minimum_stats = pickle.dumps({})
         set_inclusions_dict_and_check_exclusions(char, locked)
 
-    return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+    return HttpResponseRedirect(version_reverse(request, 'tailoring', char.id))

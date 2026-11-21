@@ -83,14 +83,14 @@ class TheOptimizeDoorTests(TestCase):
                 optimize, _ = self.press(version, 'optimize', touched=touched)
                 self.assertEqual(stored_build(wizard), stored_build(optimize))
 
-    def test_it_redirects_to_the_solution_page_of_the_new_build_in_every_version(self):
+    def test_it_redirects_to_the_loading_screen_of_the_new_build_in_every_version(self):
         for version in VERSIONS:
             with self.subTest(version=version):
                 char, response = self.press(version, 'optimize')
-                self.assertEqual(_version_path(version, '/solution/%d/' % char.pk), response.url)
+                self.assertEqual(_version_path(version, '/tailoring/%d/' % char.pk), response.url)
                 match = resolve(response.url)
-                self.assertEqual('solution_2', match.url_name)
-                self.assertIs(solution_view.solution, match.func)
+                self.assertEqual('tailoring', match.url_name)
+                self.assertIs(solution_view.tailoring, match.func)
                 self.assertEqual(str(char.pk), match.kwargs['char_id'])
 
     def test_it_lands_on_the_page_quick_start_lands_on(self):

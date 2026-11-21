@@ -10,6 +10,7 @@ from chardata.min_stats import get_min_stats_digested
 from chardata.models import Char
 from chardata.setup_edits import touched_fields
 from chardata.tests_every_preset_keeps_its_weights_and_minimums import VERSIONS, _version_path
+from chardata.tests_a_posted_optimize_now_ends_on_the_solution_page_of_the_new_build import fashion_url_on
 from chardata.tests_the_hand_door_saves_no_minimum_as_the_setup_panel_says import one_element_box
 from chardata.tests_the_setup_creation_doors_support import (
     DOORS, TouchedDoors, door_fields, panel_rows)
@@ -103,9 +104,15 @@ class TheSolutionPageAnswersAfterAnOversizedMinimumTests(TestCase):
 
     def follow(self, response):
         hops = 0
-        while response.status_code == 302 and hops < MOST_HOPS:
+        while hops < MOST_HOPS:
+            if response.status_code == 302:
+                target = response['Location']
+            elif 'chardata/tailoring.html' in [template.name for template in response.templates]:
+                target = fashion_url_on(response)
+            else:
+                break
             hops += 1
-            response = self.client.get(response['Location'])
+            response = self.client.get(target)
         return response
 
     def test_the_optimize_door_solves_and_shows_the_build_without_the_minimum(self):

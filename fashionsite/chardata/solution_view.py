@@ -617,6 +617,21 @@ def solution(request, char_id, empty=False):
     return _solution(request, char_id, False, char=char)
 
 
+def tailoring(request, char_id):
+    """The loading screen a new build waits on while the browser asks for its search."""
+    char = get_char_or_raise(request, char_id)
+    if get_solution(char) is not None:
+        return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+    response = set_response(request, 'chardata/tailoring.html',
+                            {'request': request,
+                             'user': request.user,
+                             'char_id': char.id,
+                             'noindex': True},
+                            char)
+    response['Cache-Control'] = 'no-store'
+    return response
+
+
 def _generation_compare_id(generation):
     return 'g%d' % generation.id
 
