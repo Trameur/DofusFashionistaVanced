@@ -31,6 +31,7 @@ html.fm-modern .solution-item-name-div .solution-item-mark{ font-size:11px; }
 html.fm-modern .fm-set-tag{ max-width:100%; min-width:0; box-sizing:border-box; }
 html.fm-modern .solution-item-name-div:has(> .fm-set-tag){ contain:inline-size; }
 html.fm-modern .fm-set-tag .fm-set-tag-name{ overflow:hidden; text-overflow:ellipsis; min-width:0; }
+html.fm-modern .solution-item-name-div :is(.fm-set-tag,.fm-set-tag-name){ white-space:nowrap !important; overflow-wrap:normal; word-break:normal; }
 
 html.fm-modern .solution-item-expand-header .solution-item-icons{ display:flex; flex-wrap:wrap; align-items:center; gap:0; margin:4px 0 0 -5px; padding:0; }
 html.fm-modern .solution-item-expand-header .solution-item-button{
@@ -106,6 +107,19 @@ html.fm-modern .solution-item-section:not(.fm-sol-doll):has(.expand-container.fm
 html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open{ grid-column:span 3; }
 @container fm-row (min-width:700px){
   html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open{ grid-column:span 2; }
+}
+html.fm-modern .solution-table .solution-item-summary{ container:fm-items / inline-size; }
+@media (min-width:760px){
+  @container fm-items (max-width:699px){
+    html.fm-modern .solution-table .solution-item-section.fm-sol-doll .expand-container > .solution-item-expand-header{ align-items:flex-start; }
+    html.fm-modern .fm-sol-doll .solution-item-expand-header > table{ display:block; flex:1 1 auto; min-width:0; }
+    html.fm-modern .fm-sol-doll .solution-item-expand-header > table > tbody{ display:block; }
+    html.fm-modern .fm-sol-doll .solution-item-expand-header > table > tbody > tr{ display:flex; flex-direction:column; align-items:stretch; gap:6px; }
+    html.fm-modern .fm-sol-doll .solution-item-expand-header td{ display:block; width:auto !important; padding:0 !important; max-width:100%; }
+    html.fm-modern .fm-sol-doll .solution-item-expand-header td:first-child{ align-self:center; }
+    html.fm-modern .fm-sol-doll .solution-item-name-div{ justify-content:center; text-align:center; padding-right:0; }
+    html.fm-modern .fm-sol-doll .solution-item-icons{ justify-content:center; }
+  }
 }
 html.fm-modern .solution-item-section .expand-container.fm-open > .solution-item-expand-header{ flex:0 0 auto; }
 html.fm-modern .solution-item-expand-content .button-generic{ max-width:100%; white-space:normal; height:auto; box-sizing:border-box; }
