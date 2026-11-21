@@ -72,6 +72,24 @@
             </div>
             <div class="fm-totals" id="fm-totals"></div>
             <div class="fm-verdict" id="fm-verdict"></div>
+            {% if draco_t %}
+            <div id="fm-draco" style="display:none;">
+                <div class="fm-section-title fm-section-title-spaced" id="fm-draco-preview-label">{{ draco_t.title }}</div>
+                <div class="fm-exo-row">
+                    <label for="fm-draco-select">{{ draco_t.pick }}:</label>
+                    <select class="pretty-input" id="fm-draco-select"><option value="">{{ draco_t.none }}</option></select>
+                </div>
+                <div class="small-explain" id="fm-draco-nothing" style="display:none;">{{ draco_t.nothing_moves }}</div>
+                <div class="fm-table-wrapper" data-fm-label="fm-draco-preview-label" id="fm-draco-preview" aria-live="polite" style="display:none;">
+                    <table class="fm-table">
+                        <thead><tr><th>{{ t.wb_stat }}</th><th>{{ t.wb_target }}</th><th>{{ draco_t.after }}</th></tr></thead>
+                        <tbody id="fm-draco-rows"></tbody>
+                    </table>
+                </div>
+                <p class="fm-warn">{{ draco_t.lock }}</p>
+                {% if draco_t.unverified %}<p class="small-explain">{{ draco_t.unverified }}</p>{% endif %}
+            </div>
+            {% endif %}
             {% if user.is_authenticated %}
             <form id="fm-csrf" style="display:none;">{% csrf_token %}</form>
             <div class="fm-exo-row" id="fm-inv-row">
@@ -342,6 +360,20 @@
     </div>
     {% endif %}
 
+    {% if draco_rows %}
+    <div class="fm-box brown-box">
+        <div class="fm-section-title big-text" id="fm-draco-label">{{ draco_t.ref_title }}</div>
+        <ul class="fm-list">{% for rule in draco_rules %}<li>{{ rule }}</li>{% endfor %}</ul>
+        <div class="fm-table-wrapper" data-fm-label="fm-draco-label">
+            <table class="fm-table">
+                <thead><tr><th>{{ draco_t.ref_rune }}</th><th>{{ draco_t.ref_effect }}</th></tr></thead>
+                <tbody>{% for row in draco_rows %}<tr><td>{{ row.name }}</td><td>{{ row.description|linebreaksbr }}</td></tr>{% endfor %}</tbody>
+            </table>
+        </div>
+        {% if draco_t.unverified %}<p class="fm-footer-note">{{ draco_t.unverified }}</p>{% endif %}
+    </div>
+    {% endif %}
+
     {{ js_config|json_script:"fm-config" }}
     <script>
     (function() {
@@ -356,6 +388,15 @@
         var exoAddButton = document.getElementById('fm-exo-add');
         var totalsDiv = document.getElementById('fm-totals');
         var verdictDiv = document.getElementById('fm-verdict');
+        var dracoBox = document.getElementById('fm-draco');
+        var dracoSelect = document.getElementById('fm-draco-select');
+        var dracoNothing = document.getElementById('fm-draco-nothing');
+        var dracoPreview = document.getElementById('fm-draco-preview');
+        var dracoRows = document.getElementById('fm-draco-rows');
+        var dracoVariants = [];
+        var dracoTimer = null;
+        var dracoSequence = 0;
+        var dracoWanted = (config.preload && config.preload.dracorune) || null;
 
         var currentItem = null;
         var currentInvId = null;
@@ -670,6 +711,7 @@
             initSimForItem();
             loadInventoryFolders();
             syncInvButtons();
+            dracoRefresh();
         }
 
         function makeNumberInput(value, onChange) {
@@ -886,6 +928,131 @@
                         max: row.exo ? 0 : row.max
                     };
                 }));
+            dracoRefresh();
+        }
+
+        function dracoHide() {
+            dracoBox.style.display = 'none';
+        }
+
+        function dracoRefresh() {
+            if (!dracoBox || !config.dracorunes) {
+                return;
+            }
+            if (dracoTimer) {
+                clearTimeout(dracoTimer);
+            }
+            dracoTimer = setTimeout(dracoFetch, 250);
+        }
+
+        function dracoFetch() {
+            dracoTimer = null;
+            if (!dracoBox || !config.dracorunes) {
+                return;
+            }
+            if (!currentItem) {
+                dracoHide();
+                return;
+            }
+            var sequence = ++dracoSequence;
+            var url = config.dracorunes.url + '?item=' + encodeURIComponent(currentItem.id);
+            rows.forEach(function(row) {
+                var value = parseInt(row.target, 10) || 0;
+                if (value || !row.exo) {
+                    url += '&line=' + encodeURIComponent(row.key + ':' + value);
+                }
+            });
+            fetch(url, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                if (sequence === dracoSequence) {
+                    dracoRender(data);
+                }
+            }).catch(function() {
+                if (sequence === dracoSequence) {
+                    dracoHide();
+                }
+            });
+        }
+
+        function dracoRender(data) {
+            if (!data.eligible) {
+                dracoHide();
+                return;
+            }
+            dracoBox.style.display = 'block';
+            dracoVariants = data.variants || [];
+            var wanted = dracoSelect.value || dracoWanted;
+            dracoWanted = null;
+            while (dracoSelect.options.length > 1) {
+                dracoSelect.remove(1);
+            }
+            var offered = false;
+            dracoVariants.forEach(function(variant) {
+                var option = document.createElement('option');
+                option.value = variant.key;
+                option.textContent = variant.label;
+                dracoSelect.appendChild(option);
+                if (variant.key === wanted) {
+                    offered = true;
+                }
+            });
+            dracoSelect.value = offered ? wanted : '';
+            var none = !dracoVariants.length;
+            dracoSelect.parentNode.style.display = none ? 'none' : '';
+            dracoNothing.style.display = none ? 'block' : 'none';
+            dracoDraw();
+        }
+
+        function dracoDraw() {
+            var chosen = null;
+            dracoVariants.forEach(function(variant) {
+                if (variant.key === dracoSelect.value) {
+                    chosen = variant;
+                }
+            });
+            dracoRows.innerHTML = '';
+            if (!chosen) {
+                dracoPreview.style.display = 'none';
+                return;
+            }
+            chosen.lines.forEach(function(line) {
+                var tr = document.createElement('tr');
+                var statTd = document.createElement('td');
+                var statCell = document.createElement('span');
+                statCell.className = 'fm-stat-cell';
+                if (line.icon) {
+                    var icon = document.createElement('img');
+                    icon.src = line.icon;
+                    icon.alt = '';
+                    statCell.appendChild(icon);
+                }
+                var statName = document.createElement('span');
+                statName.textContent = line.name;
+                statCell.appendChild(statName);
+                statTd.appendChild(statCell);
+                tr.appendChild(statTd);
+                var beforeTd = document.createElement('td');
+                beforeTd.textContent = line.before;
+                tr.appendChild(beforeTd);
+                var afterTd = document.createElement('td');
+                if (line.after !== line.before) {
+                    var strong = document.createElement('strong');
+                    strong.textContent = line.after;
+                    afterTd.appendChild(strong);
+                } else {
+                    afterTd.textContent = line.after;
+                }
+                tr.appendChild(afterTd);
+                dracoRows.appendChild(tr);
+            });
+            dracoPreview.style.display = 'block';
+        }
+
+        if (dracoSelect) {
+            dracoSelect.addEventListener('change', dracoDraw);
         }
 
         exoAddButton.addEventListener('click', function() {

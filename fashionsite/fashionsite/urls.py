@@ -893,6 +893,7 @@ urlpatterns = [
             name='encyclopedia_set'),
     re_path(r'^forgemagie/$', forgemagie_view.forgemagie, name='forgemagie'),
     re_path(r'^forgemagie/items/$', forgemagie_view.forgemagie_items, name='forgemagie_items'),
+    re_path(r'^forgemagie/dracorunes/$', forgemagie_view.forgemagie_dracorunes, name='forgemagie_dracorunes'),
     re_path(r'^inventory/$', inventory_view.inventory, name='inventory'),
     re_path(r'^inventory/folders/$', inventory_view.inventory_folders, name='inventory_folders'),
     re_path(r'^inventory/folder/add/$', inventory_view.inventory_folder_add, name='inventory_folder_add'),

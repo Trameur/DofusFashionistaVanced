@@ -17,9 +17,11 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import math
+import re
+from decimal import Decimal
 
 from django.http import JsonResponse
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, pgettext
 from django.utils import translation
 
 from chardata.forgemagie_data import (
@@ -32,10 +34,13 @@ from chardata.forgemagie_odds import (get_documented_odds,
 from chardata.forgemagie_rune_names import rune_display_name
 from chardata.forgemagie_transcendance import get_transcendence_by_stat
 from chardata.image_store import get_image_url
+from chardata.solution_result import dracorune_change_label
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
+from fashionistapulp import dracorune_terms, dracorunes
 from fashionistapulp.dofus_constants import STAT_ORDER
 from fashionistapulp.fashion_util import strip_accents
+from fashionistapulp.model import readable_runes
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static
@@ -1120,6 +1125,206 @@ TRANSCENDENCE_UI = {
 }
 
 
+DRACORUNE_UI = {
+    'en': {
+        'pick': "Rune to apply",
+        'none': "No Dracorune",
+        'after': "After the rune",
+        'nothing_moves': "No Dracorune changes these lines.",
+        'lock': "A Dracorune always passes, only one fits an item, and it is applied last: the item can no longer be modified afterwards, so finish any smithmagic, exo or transcendence before it.",
+        'unverified': "Not confirmed by Ankama yet, the tool assumes that %(assumptions)s.",
+        'join': '; ',
+        'rounding_floor': "values round down",
+        'rounding_ceil': "values round up",
+        'rounding_round': "values round to the nearest whole number",
+        'neutral_false': "the %(ebony)s leaves neutral damage as it is",
+        'neutral_true': "the %(ebony)s also converts neutral damage",
+        'exo_blocks': "an exo on an element also blocks the runes that aim at it",
+        'ref_title': "Dracorunes",
+        'ref_rune': "Rune",
+        'ref_effect': "Effect (game text)",
+        'rule_where': "Applied like a smithmagic rune, in a workshop, by the smithmagic job of the item’s type at the item’s level.",
+        'rule_once': "One Dracorune per item, and it always passes (100%%).",
+        'rule_final': "The item can no longer be modified afterwards. A transcended item, or one with an over or an exo, still accepts a rune.",
+        'rule_weapon': "On a weapon the rune changes the characteristic lines only, and the element of its neutral hits can still be changed afterwards.",
+        'rule_target': "A rune never moves lines onto an element the item already has.",
+        'rule_ivory': "The %(ivory)s moves the fixed and %% resistances of one element together. Critical, pushback, ranged and melee resistances never move.",
+        'rule_ebony': "The %(ebony)s turns every positive elemental characteristic into one %(power)s line and every positive elemental damage into one %(damage)s line, each worth %(keep)s%% of the highest value it replaces.",
+        'rule_negative': "Element runes and the %(ivory)s move a negative line too; the %(ebony)s leaves a negative line as it is.",
+    },
+    'fr': {
+        'pick': "Rune à appliquer",
+        'none': "Aucune Dracorune",
+        'after': "Après la rune",
+        'nothing_moves': "Aucune Dracorune ne change ces lignes.",
+        'lock': "Une Dracorune passe toujours, une seule va sur un objet, et elle se pose en dernier : l’objet ne peut plus être modifié ensuite, terminez donc la forgemagie, l’exo ou la transcendance avant.",
+        'unverified': "Pas encore confirmé par Ankama, l’outil suppose que %(assumptions)s.",
+        'join': ' ; ',
+        'rounding_floor': "les valeurs sont arrondies à l’inférieur",
+        'rounding_ceil': "les valeurs sont arrondies au supérieur",
+        'rounding_round': "les valeurs sont arrondies à l’entier le plus proche",
+        'neutral_false': "la %(ebony)s laisse les dommages neutres tels quels",
+        'neutral_true': "la %(ebony)s convertit aussi les dommages neutres",
+        'exo_blocks': "un exo sur un élément bloque aussi les runes qui visent cet élément",
+        'ref_title': "Dracorunes",
+        'ref_rune': "Rune",
+        'ref_effect': "Effet (texte du jeu)",
+        'rule_where': "S’applique comme une rune de forgemagie, dans un atelier, par le métier de forgemage du type de l’objet, au niveau de l’objet.",
+        'rule_once': "Une seule Dracorune par objet, et elle passe toujours (100 %%).",
+        'rule_final': "L’objet ne peut plus être modifié ensuite. Un objet transcendé, ou avec un over ou un exo, accepte encore une rune.",
+        'rule_weapon': "Sur une arme, la rune change seulement les lignes de caractéristiques, et l’élément de ses coups neutres peut encore changer ensuite.",
+        'rule_target': "Une rune ne déplace jamais de lignes vers un élément que l’objet a déjà.",
+        'rule_ivory': "La %(ivory)s déplace ensemble les résistances fixes et en %% d’un élément. Les résistances critiques, aux poussées, à distance et en mêlée ne bougent jamais.",
+        'rule_ebony': "La %(ebony)s change toutes les caractéristiques élémentaires positives en une ligne de %(power)s et tous les dommages élémentaires positifs en une ligne de %(damage)s, chacune valant %(keep)s %% de la plus haute valeur remplacée.",
+        'rule_negative': "Les runes d’élément et la %(ivory)s déplacent aussi une ligne négative ; la %(ebony)s laisse une ligne négative telle quelle.",
+    },
+    'es': {
+        'pick': "Runa que aplicar",
+        'none': "Ninguna Dracorruna",
+        'after': "Tras la runa",
+        'nothing_moves': "Ninguna Dracorruna cambia estas líneas.",
+        'lock': "Una Dracorruna siempre entra, solo cabe una por objeto y se aplica la última: el objeto ya no se puede modificar después, así que termina antes la forjamagia, el exo o la trascendencia.",
+        'unverified': "Aún sin confirmar por Ankama, la herramienta supone que %(assumptions)s.",
+        'join': '; ',
+        'rounding_floor': "los valores se redondean hacia abajo",
+        'rounding_ceil': "los valores se redondean hacia arriba",
+        'rounding_round': "los valores se redondean al entero más cercano",
+        'neutral_false': "la %(ebony)s deja el daño neutral como está",
+        'neutral_true': "la %(ebony)s también convierte el daño neutral",
+        'exo_blocks': "un exo en un elemento también bloquea las runas que apuntan a ese elemento",
+        'ref_title': "Dracorrunas",
+        'ref_rune': "Runa",
+        'ref_effect': "Efecto (texto del juego)",
+        'rule_where': "Se aplica como una runa de forjamagia, en un taller, con el oficio de forjamagia del tipo del objeto, al nivel del objeto.",
+        'rule_once': "Una sola Dracorruna por objeto, y siempre entra (100 %%).",
+        'rule_final': "El objeto ya no se puede modificar después. Un objeto trascendido, o con un over o un exo, sigue aceptando una runa.",
+        'rule_weapon': "En un arma la runa solo cambia las líneas de características, y el elemento de sus golpes neutrales aún puede cambiar después.",
+        'rule_target': "Una runa nunca mueve líneas hacia un elemento que el objeto ya tiene.",
+        'rule_ivory': "La %(ivory)s mueve juntas las resistencias fijas y en %% de un elemento. Las resistencias a críticos, a empujes, a distancia y cuerpo a cuerpo nunca se mueven.",
+        'rule_ebony': "La %(ebony)s convierte todas las características elementales positivas en una línea de %(power)s y todos los daños elementales positivos en una línea de %(damage)s, cada una con el %(keep)s %% del valor más alto que sustituye.",
+        'rule_negative': "Las runas de elemento y la %(ivory)s también mueven una línea negativa; la %(ebony)s deja una línea negativa como está.",
+    },
+    'pt': {
+        'pick': "Runa a aplicar",
+        'none': "Nenhuma Dracorruna",
+        'after': "Após a runa",
+        'nothing_moves': "Nenhuma Dracorruna altera estas linhas.",
+        'lock': "Uma Dracorruna sempre passa, só cabe uma por item e é aplicada por último: o item não pode mais ser modificado depois, então termine antes a forjamagia, o exo ou a transcendência.",
+        'unverified': "Ainda não confirmado pela Ankama, a ferramenta supõe que %(assumptions)s.",
+        'join': '; ',
+        'rounding_floor': "os valores são arredondados para baixo",
+        'rounding_ceil': "os valores são arredondados para cima",
+        'rounding_round': "os valores são arredondados para o inteiro mais próximo",
+        'neutral_false': "a %(ebony)s deixa o dano neutro como está",
+        'neutral_true': "a %(ebony)s também converte o dano neutro",
+        'exo_blocks': "um exo num elemento também bloqueia as runas que o visam",
+        'ref_title': "Dracorrunas",
+        'ref_rune': "Runa",
+        'ref_effect': "Efeito (texto do jogo)",
+        'rule_where': "Aplicada como uma runa de forjamagia, numa oficina, pela profissão de forjamagia do tipo do item, no nível do item.",
+        'rule_once': "Uma só Dracorruna por item, e ela sempre passa (100 %%).",
+        'rule_final': "O item não pode mais ser modificado depois. Um item transcendido, ou com um over ou um exo, ainda aceita uma runa.",
+        'rule_weapon': "Numa arma a runa muda só as linhas de atributos, e o elemento dos golpes neutros ainda pode mudar depois.",
+        'rule_target': "Uma runa nunca move linhas para um elemento que o item já tem.",
+        'rule_ivory': "A %(ivory)s move juntas as resistências fixas e em %% de um elemento. As resistências a críticos, a empurrões, à distância e corpo a corpo nunca se movem.",
+        'rule_ebony': "A %(ebony)s transforma todos os atributos elementares positivos numa linha de %(power)s e todos os danos elementares positivos numa linha de %(damage)s, cada uma valendo %(keep)s %% do maior valor substituído.",
+        'rule_negative': "As runas de elemento e a %(ivory)s também movem uma linha negativa; a %(ebony)s deixa uma linha negativa como está.",
+    },
+    'de': {
+        'pick': "Anzuwendende Rune",
+        'none': "Keine Drachenrune",
+        'after': "Nach der Rune",
+        'nothing_moves': "Keine Drachenrune ändert diese Linien.",
+        'lock': "Eine Drachenrune gelingt immer, nur eine passt auf einen Gegenstand, und sie wird zuletzt angewendet: Danach lässt sich der Gegenstand nicht mehr verändern, also schließe vorher Schmiedemagie, Exo oder Transzendenz ab.",
+        'unverified': "Noch nicht von Ankama bestätigt, das Tool nimmt an, dass %(assumptions)s.",
+        'join': '; ',
+        'rounding_floor': "die Werte abgerundet werden",
+        'rounding_ceil': "die Werte aufgerundet werden",
+        'rounding_round': "die Werte auf die nächste ganze Zahl gerundet werden",
+        'neutral_false': "die %(ebony)s neutralen Schaden unverändert lässt",
+        'neutral_true': "die %(ebony)s auch neutralen Schaden umwandelt",
+        'exo_blocks': "ein Exo auf einem Element auch die Runen sperrt, die es anvisieren",
+        'ref_title': "Drachenrunen",
+        'ref_rune': "Rune",
+        'ref_effect': "Wirkung (Spieltext)",
+        'rule_where': "Wird wie eine Schmiedemagie-Rune in einer Werkstatt angewandt, mit dem Schmiedemagie-Beruf des Gegenstandstyps auf der Stufe des Gegenstands.",
+        'rule_once': "Eine Drachenrune pro Gegenstand, und sie gelingt immer (100 %%).",
+        'rule_final': "Danach lässt sich der Gegenstand nicht mehr verändern. Ein transzendierter Gegenstand oder einer mit Over oder Exo nimmt trotzdem eine Rune an.",
+        'rule_weapon': "Auf einer Waffe ändert die Rune nur die Attributlinien, und das Element ihrer neutralen Treffer lässt sich danach noch ändern.",
+        'rule_target': "Eine Rune verschiebt nie Linien auf ein Element, das der Gegenstand schon hat.",
+        'rule_ivory': "Die %(ivory)s verschiebt die festen und die %%-Resistenzen eines Elements zusammen. Kritische, Stoß-, Distanz- und Nahkampfresistenzen bewegen sich nie.",
+        'rule_ebony': "Die %(ebony)s wandelt alle positiven elementaren Attribute in eine %(power)s-Linie und allen positiven elementaren Schaden in eine %(damage)s-Linie um, jede mit %(keep)s %% des höchsten ersetzten Werts.",
+        'rule_negative': "Element-Runen und die %(ivory)s verschieben auch eine negative Linie; die %(ebony)s lässt eine negative Linie unverändert.",
+    },
+}
+
+
+_DRACORUNE_RULES = ('where', 'once', 'final', 'weapon', 'target', 'ivory',
+                    'ebony', 'negative')
+_RULE_NEEDS_KIND = {'ivory': 'resistance', 'ebony': 'power'}
+_MAX_DRACORUNE_LINES = 40
+_LINE_VALUE = re.compile(r'-?\d{1,9}')
+
+
+def _rune_of_kind(runes, kind):
+    return next((rune for rune in runes.get('runes', ())
+                 if rune.get('kind') == kind), None)
+
+
+def _dracorune_text(language, runes, structure):
+    """The Dracorune strings of the language with the game's rune names filled in."""
+    texts = DRACORUNE_UI.get(language, DRACORUNE_UI['en'])
+    ivory = _rune_of_kind(runes, 'resistance')
+    ebony = _rune_of_kind(runes, 'power')
+    tokens = {
+        'ivory': dracorunes.rune_name(ivory, language) or '',
+        'ebony': dracorunes.rune_name(ebony, language) or '',
+        'keep': '',
+        'power': _localized_label(
+            structure.get_stat_by_key(dracorunes.POWER_LINE).name, language),
+        'damage': _localized_label(
+            structure.get_stat_by_key(dracorunes.DAMAGE_LINE).name, language),
+    }
+    if ebony is not None:
+        tokens['keep'] = format(
+            (Decimal(str(ebony['keep'])) * 100).normalize(), 'f')
+    plain = {key: value % tokens for key, value in texts.items()
+             if not key.startswith(('rule_', 'rounding_', 'neutral_',
+                                    'unverified', 'join', 'exo_'))}
+    kinds = {rune.get('kind') for rune in runes.get('runes', ())}
+    rules = []
+    for name in _DRACORUNE_RULES:
+        needed = _RULE_NEEDS_KIND.get(name)
+        if needed and needed not in kinds:
+            continue
+        if name == 'weapon' and 'Weapon' not in runes.get('item_types', ()):
+            continue
+        rules.append(texts['rule_' + name] % tokens)
+    phrases = []
+    for name in runes.get('unverified') or ():
+        if name == 'rounding':
+            key = 'rounding_%s' % runes.get('rounding')
+        elif name == 'power_takes_neutral':
+            key = 'neutral_%s' % ('true' if runes.get(name) else 'false')
+        elif name == 'exo_blocks':
+            key = name
+        else:
+            continue
+        if key in texts:
+            phrases.append(texts[key] % tokens)
+    plain['unverified'] = (texts['unverified'] % dict(
+        tokens, assumptions=texts['join'].join(phrases)) if phrases else '')
+    plain['title'] = pgettext('dracorune mark on an item', 'Dracorune')
+    plain['rules'] = rules
+    return plain
+
+
+def _dracorune_rows(language, runes):
+    return [{'name': dracorunes.rune_name(rune, language),
+             'description': dracorunes.rune_description(rune, language)}
+            for rune in runes.get('runes', ())]
+
+
 def _transcendence_text(language, ruleset):
     texts = TRANSCENDENCE_UI.get(language, TRANSCENDENCE_UI['en'])
     trans_t = {key: value for key, value in texts.items()
@@ -1154,6 +1359,7 @@ def forgemagie(request):
     transcendence_rows = _build_transcendence_rows(
         structure, game_version, language, trans_t)
 
+    runes = readable_runes(game_version)
     js_config = {
         'overCap': OVER_WEIGHT_CAP,
         'onePercentOverWeight': get_one_percent_over_weight(game_version),
@@ -1197,8 +1403,19 @@ def forgemagie(request):
         'transT': trans_t,
     }
 
+    draco_context = {}
+    if runes:
+        draco_t = _dracorune_text(language, runes, structure)
+        draco_context = {
+            'draco_t': draco_t,
+            'draco_rules': draco_t['rules'],
+            'draco_rows': _dracorune_rows(language, runes),
+        }
+        js_config['dracorunes'] = {
+            'url': version_reverse(request, 'forgemagie_dracorunes')}
+
     preload = (_inventory_preload(request, structure, language, game_version)
-               or _catalogue_preload(request, structure, language))
+               or _catalogue_preload(request, structure, language, runes))
     if preload is not None:
         js_config['preload'] = preload
 
@@ -1206,6 +1423,7 @@ def forgemagie(request):
         request,
         'chardata/forgemagie.html',
         {
+            **draco_context,
             'request': request,
             'char_id': 0,
             't': t,
@@ -1259,7 +1477,7 @@ def _item_payload(structure, item, language, display_name=None):
     }
 
 
-def _catalogue_preload(request, structure, language):
+def _catalogue_preload(request, structure, language, runes=None):
     """Workbench preload for /forgemagie/?item=<item id>, no saved rolls."""
     item_id = safe_int(request.GET.get('item'), None)
     if item_id is None:
@@ -1269,7 +1487,17 @@ def _catalogue_preload(request, structure, language):
         return None
     if structure.get_type_name_by_id(item.type) not in MAGEABLE_TYPES:
         return None
-    return {'item': _item_payload(structure, item, language)}
+    preload = {'item': _item_payload(structure, item, language)}
+    asked = request.GET.get('dracorune')
+    if asked and runes and dracorune_terms.is_eligible(item, structure, runes):
+        try:
+            offered = {variant.key for variant in
+                       dracorune_terms.item_variants(item, runes, structure)}
+        except ValueError:
+            offered = set()
+        if asked in offered:
+            preload['dracorune'] = asked
+    return preload
 
 
 def _inventory_preload(request, structure, language, game_version):
@@ -1459,3 +1687,58 @@ def forgemagie_items(request):
             items.append(payload)
 
     return JsonResponse({'items': items})
+
+
+def _posted_lines(request, structure):
+    """{line key: value} of the repeated line=<key>:<value> parameters that are known and whole."""
+    lines = {}
+    for entry in request.GET.getlist('line')[:_MAX_DRACORUNE_LINES]:
+        key, _, value = entry.partition(':')
+        if (key not in STAT_ORDER or structure.get_stat_by_key(key) is None
+                or not _LINE_VALUE.fullmatch(value)):
+            continue
+        lines[key] = int(value)
+    return lines
+
+
+def forgemagie_dracorunes(request):
+    """The Dracorune versions of an item's lines, as the solver applies them, no side effect."""
+    structure = get_structure()
+    language = get_supported_language()
+    game_version = getattr(request, 'game_version', 'dofus3')
+    runes = readable_runes(game_version)
+    item_id = safe_int(request.GET.get('item'), None)
+    item = structure.get_item_by_id(item_id) if item_id is not None else None
+    if (not runes or item is None
+            or not dracorune_terms.is_eligible(item, structure, runes)):
+        return JsonResponse({'eligible': False, 'variants': []})
+    lines = _posted_lines(request, structure)
+    try:
+        found = dracorunes.variants(list(lines.items()), runes)
+    except ValueError:
+        return JsonResponse({'eligible': False, 'variants': []})
+    variants = []
+    for key, result in found:
+        after = dict(result)
+        shown = []
+        for line_key in sorted(set(lines) | set(after),
+                               key=lambda one: STAT_ORDER[one]):
+            stat = structure.get_stat_by_key(line_key)
+            before_value = lines.get(line_key, 0)
+            after_value = after.get(line_key, 0)
+            if stat is None or not (before_value or after_value):
+                continue
+            shown.append({
+                'key': line_key,
+                'name': _localized_label(stat.name, language),
+                'icon': _get_stat_icon_url(line_key),
+                'before': before_value,
+                'after': after_value,
+            })
+        rune_title = dracorunes.rune_name(dracorunes.rune_of(key, runes), language)
+        variants.append({
+            'key': key,
+            'label': dracorune_change_label(rune_title, lines, after),
+            'lines': shown,
+        })
+    return JsonResponse({'eligible': True, 'variants': variants})

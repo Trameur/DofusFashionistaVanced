@@ -1300,7 +1300,8 @@ html.fm-modern .fm-page.tools-atelier .fm-box > .fm-section-title.big-text{
   font-family:var(--fm-font-display); font-weight:400; font-synthesis:none; font-size:1.375rem; letter-spacing:.5px; color:var(--fm-head);
 }
 html.fm-modern .fm-page.tools-atelier .fm-trans-panel .fm-section-title, html.fm-modern .fm-page.tools-atelier .fm-sim-side .fm-section-title,
-html.fm-modern .fm-page.tools-atelier .fm-sim-profit .fm-section-title, html.fm-modern .fm-page.tools-atelier .fm-box > .fm-section-title:not(.big-text){
+html.fm-modern .fm-page.tools-atelier .fm-sim-profit .fm-section-title, html.fm-modern .fm-page.tools-atelier .fm-box > .fm-section-title:not(.big-text),
+html.fm-modern .fm-page.tools-atelier #fm-draco > .fm-section-title{
   margin-top:var(--fm-space-4); font-size:1.05rem; color:var(--fm-head);
 }
 html.fm-modern .fm-page.tools-atelier .small-explain, html.fm-modern .fm-page.tools-atelier .fm-footer-note{ opacity:1; color:var(--fm-muted); }

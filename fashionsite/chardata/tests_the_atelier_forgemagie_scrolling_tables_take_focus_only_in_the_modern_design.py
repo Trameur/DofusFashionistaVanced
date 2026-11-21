@@ -9,7 +9,8 @@ from django.test import SimpleTestCase
 from chardata.tests_the_setup_stylesheet_support import stylesheet
 
 TEMPLATES = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates', 'chardata')
-LABELS = ('fm-odds-label', 'fm-ref-label', 'fm-nostat-label', 'fm-trans-label')
+LABELS = ('fm-odds-label', 'fm-ref-label', 'fm-nostat-label', 'fm-trans-label',
+          'fm-draco-preview-label', 'fm-draco-label')
 
 
 def source():
@@ -101,7 +102,7 @@ class ForgemagieTableFocusTests(SimpleTestCase):
 
     def test_the_markup_carries_no_tab_stop_role_or_name_of_its_own(self):
         boxes = re.findall(r'<div class="fm-table-wrapper"[^>]*>', source())
-        self.assertEqual(6, len(boxes))
+        self.assertEqual(8, len(boxes))
         for box in boxes:
             for attribute in ('tabindex', 'role=', 'aria-labelledby'):
                 self.assertNotIn(attribute, box)

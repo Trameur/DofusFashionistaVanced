@@ -5376,9 +5376,10 @@ class LocalizedUiParityTests(SimpleTestCase):
         self._assert_parity(LOCALIZED_UI, 'inventory')
 
     def test_forgemagie_ui_parity(self):
-        from chardata.forgemagie_view import LOCALIZED_UI, TRANSCENDENCE_UI
+        from chardata.forgemagie_view import DRACORUNE_UI, LOCALIZED_UI, TRANSCENDENCE_UI
         self._assert_parity(LOCALIZED_UI, 'forgemagie')
         self._assert_parity(TRANSCENDENCE_UI, 'forgemagie_transcendence')
+        self._assert_parity(DRACORUNE_UI, 'forgemagie_dracorune')
 
     def test_encyclopedia_ui_parity(self):
         from chardata.encyclopedia_view import LOCALIZED_UI
@@ -5395,6 +5396,7 @@ class LocalizedUiParityTests(SimpleTestCase):
             'encyclopedia.LOCALIZED_UI': encyclopedia_view.LOCALIZED_UI,
             'encyclopedia.MONSTER_UI': encyclopedia_view.MONSTER_UI,
             'forgemagie.LOCALIZED_UI': forgemagie_view.LOCALIZED_UI,
+            'forgemagie.DRACORUNE_UI': forgemagie_view.DRACORUNE_UI,
             'inventory.LOCALIZED_UI': inventory_view.LOCALIZED_UI,
         }
         for name, d in dicts.items():

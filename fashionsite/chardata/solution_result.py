@@ -594,15 +594,19 @@ def dracorune_label(result_item):
     before = getattr(result_item, 'undraconized_stats', None)
     if not rune or before is None:
         return None
-    after = result_item.stats
+    return dracorune_change_label(rune.get('name'), before, result_item.stats)
+
+
+def dracorune_change_label(rune_name, before, after):
+    """The rune's name and the lines it moved from before to after, the lines alone without a name."""
     sources = [key for key, value in before.items() if value and not after.get(key)]
     targets = [key for key, value in after.items()
                if value != before.get(key, 0) and key not in sources]
     moved = '%s → %s' % (_stat_names(sources),
                          _stat_names(targets) or pgettext('what a rune leaves of a removed line', 'nothing'))
-    if not rune.get('name'):
+    if not rune_name:
         return moved
-    return _('%(item)s: %(changes)s') % {'item': rune['name'], 'changes': moved}
+    return _('%(item)s: %(changes)s') % {'item': rune_name, 'changes': moved}
 
 
 def build_uses_an_exo(model_result):
