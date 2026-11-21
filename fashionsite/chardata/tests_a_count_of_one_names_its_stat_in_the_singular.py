@@ -2,6 +2,8 @@
 """A counted stat reads in the singular when the count is exactly one."""
 
 import json
+import os
+import unittest
 from unittest import mock
 
 from django.test import RequestFactory, SimpleTestCase
@@ -9,7 +11,7 @@ from django.utils import translation
 
 from chardata import encyclopedia_view, inclusions_view, text_build_view
 from chardata.solution_result import AttributeLine
-from chardata.translation_util import stat_label_for_count
+from chardata.translation_util import COUNTED_STAT_NAMES, stat_label_for_count
 from fashionistapulp.structure import get_structure
 
 SINGULAR = {
@@ -19,6 +21,8 @@ SINGULAR = {
     'de': {'Summon': 'Beschwörung', 'Heals': 'Heilung'},
     'en': {'Summon': 'Summon', 'Heals': 'Heal'},
 }
+LOCALE_DIR = os.path.join(os.path.dirname(__file__), '..', 'locale')
+LANGUAGES = ('fr', 'de', 'es', 'pt', 'en')
 PLURAL_FR = {'Summon': 'Invocations', 'Heals': 'Soins', 'Earth Damage': 'Dommages Terre'}
 
 
@@ -80,3 +84,16 @@ class ACountOfOneNamesItsStatInTheSingularTests(SimpleTestCase):
         names = {line['stat_id']: line['name_one'] for line in payload['stats']}
         self.assertEqual('Invocation', names[summon])
         self.assertIsNone(names[ap])
+
+    def test_every_counted_stat_has_a_live_singular_entry_in_every_catalogue(self):
+        try:
+            import polib
+        except ImportError:
+            raise unittest.SkipTest('polib not installed')
+        for language in LANGUAGES:
+            po = polib.pofile(os.path.join(LOCALE_DIR, language, 'LC_MESSAGES', 'django.po'))
+            live = {entry.msgid: entry.msgstr for entry in po
+                    if entry.msgctxt == 'one' and not entry.obsolete}
+            for name in COUNTED_STAT_NAMES:
+                with self.subTest(language=language, name=name):
+                    self.assertTrue(live.get(name), name)
