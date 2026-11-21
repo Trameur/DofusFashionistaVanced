@@ -485,6 +485,7 @@
                 if(a.classList.contains('rerun-button')&&a.id!=='solution-link')move(a,tail);else move(a,tabs);
               }
             }
+            if(tabs){var tfade=function(){var m=tabs.scrollWidth-tabs.clientWidth-1;tabs.classList.toggle('fm-tabs-less',tabs.scrollLeft>1);tabs.classList.toggle('fm-tabs-more',tabs.scrollLeft<m);};var seen=false;var tcenter=function(){var ton=q('a.on',tabs);if(seen||!ton||tabs.scrollWidth<=tabs.clientWidth)return;seen=true;tabs.scrollLeft+=ton.getBoundingClientRect().left-tabs.getBoundingClientRect().left-(tabs.clientWidth-ton.offsetWidth)/2;};var tsync=function(){tcenter();tfade();};tsync();tabs.addEventListener('scroll',tfade,{passive:true});window.addEventListener('resize',tsync);window.addEventListener('load',tsync);document.addEventListener('DOMContentLoaded',tsync);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(tsync);}
           }
           var nav0=q('.fm-topnav'),inner=q('.fm-topnav-in'),burger=q('.fm-topnav-burger'),links0=q('.fm-topnav-links');
           var lg=q('.fm-topnav-end .login');
@@ -550,7 +551,7 @@
                 <br>
                 <!-- General Site Links -->
                 {# changelog.js hides the mark once the reader opened this key #}
-                <a href="javascript:void(0)" onclick="openChangelog()" id="changelog-link" data-changelog-latest="{{ changelog_latest }}">{% trans "Changelog" %}<span class="changelog-new" id="changelog-new" hidden> ({% trans "new entries" %})</span></a> &middot;
+                <a href="javascript:void(0)" onclick="openChangelog()" id="changelog-link" data-changelog-latest="{{ changelog_latest }}">{% trans "Changelog" %}<span class="changelog-new" id="changelog-new" hidden>&nbsp;({% trans "new entries" %})</span></a> &middot;
                 <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a> &middot;
                 <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a> &middot;
                 <a href="{% game_url 'contact' %}">{% trans "Contact us" %}</a> &middot;

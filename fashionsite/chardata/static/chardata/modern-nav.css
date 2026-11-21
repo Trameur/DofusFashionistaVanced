@@ -303,7 +303,16 @@ html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-w
   html.fm-modern .fm-topnav-in{ padding:6px 16px; }
   html.fm-modern .fm-buildbar-in{ flex-wrap:wrap; padding:4px 16px 8px; }
   html.fm-modern .fm-buildbar-tabs{ flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; scrollbar-width:thin; }
+  html.fm-modern .fm-buildbar-tabs > a{ flex:0 0 auto; }
+  html.fm-modern .fm-buildbar-tabs.fm-tabs-more{ -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 40px),transparent); mask-image:linear-gradient(to right,#000 calc(100% - 40px),transparent); }
+  html.fm-modern .fm-buildbar-tabs.fm-tabs-less{ -webkit-mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent); mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent); }
+  html.fm-modern .fm-buildbar-tabs.fm-tabs-less.fm-tabs-more{ -webkit-mask-image:linear-gradient(to right,transparent,#000 40px,#000 calc(100% - 40px),transparent); mask-image:linear-gradient(to right,transparent,#000 40px,#000 calc(100% - 40px),transparent); }
   html.fm-modern .footer-social{ margin-left:0; }
+}
+@media (max-width:599px){
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-vers{ grid-column:1 / -1; grid-row:2; }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-vers .version-selector{ flex:1 1 auto; margin:0; }
+  html.fm-modern .fm-topnav.fm-nav-js .version-link{ flex:1 1 auto; text-align:center; padding:8px 8px !important; }
 }
 @media (max-width:479px){
   html.fm-modern .fm-topnav-brand-full{
