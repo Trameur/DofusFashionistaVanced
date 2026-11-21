@@ -7,12 +7,13 @@ from django.db.models import F
 from django.utils import timezone, translation
 from django.utils.html import format_html
 
+from fashionistapulp.game_versions import GAME_VERSIONS, prefixed_reader_versions
 from fashionistapulp.structure import set_current_game_version
 from static_s3.templatetags.static_s3 import static
 
 logger = logging.getLogger(__name__)
 
-GAME_VERSION_PREFIXES = {'beta', 'retro', 'touch', 'dofus2'}
+GAME_VERSION_PREFIXES = frozenset(GAME_VERSIONS[key].prefix for key in prefixed_reader_versions())
 
 _LANGUAGE_PREFIXES = None
 

@@ -986,6 +986,13 @@ urlpatterns += staticfiles_urlpatterns()
 _game_urls = ('chardata.game_urls', 'chardata')
 
 
+def _prefixed_version_routes():
+    """One include of the game urls per prefixed reader version, namespaced by its key."""
+    from fashionistapulp.game_versions import GAME_VERSIONS, prefixed_reader_versions
+    return [path(GAME_VERSIONS[key].prefix + '/', include(_game_urls, namespace=key))
+            for key in prefixed_reader_versions()]
+
+
 def _as_routes(entries):
     return [re_path(str(entry.pattern), entry.callback, name=entry.name)
             for entry in entries]
@@ -999,10 +1006,7 @@ urlpatterns += i18n_patterns(
             name='encyclopedia_most_used'),
 
     # The other versions, prefixed the same way: /es/dofus2/encyclopedia/
-    path('beta/', include(_game_urls, namespace='beta')),
-    path('dofus2/', include(_game_urls, namespace='dofus2')),
-    path('retro/', include(_game_urls, namespace='retro')),
-    path('touch/', include(_game_urls, namespace='touch')),
+    *_prefixed_version_routes(),
     prefix_default_language=False,
 )
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-"""The reader-facing version list, sitemap hubs and guide prefixes must all derive from one registry."""
-from django.test import SimpleTestCase
+"""Every reader-facing version list (routes, middleware, SEO words, sitemap hubs, guide prefixes) derives from one registry."""
+from django.test import RequestFactory, SimpleTestCase
+from django.urls import get_resolver, reverse
 
 from fashionistapulp.game_versions import (DEFAULT_VERSION, GAME_VERSIONS,
                                            prefixed_reader_versions,
@@ -8,8 +9,9 @@ from fashionistapulp.game_versions import (DEFAULT_VERSION, GAME_VERSIONS,
                                            switcher_games,
                                            version_keys)
 
-from chardata.context_processors import ACTIVE_GAME_VERSIONS
+from chardata.context_processors import ACTIVE_GAME_VERSIONS, game_version
 from chardata.guides_view import VERSION_PREFIXES
+from chardata.middleware import GameVersionMiddleware
 
 
 class OneListOfVersions(SimpleTestCase):
@@ -54,3 +56,39 @@ class OneListOfVersions(SimpleTestCase):
     def test_no_experimental_version_is_a_reader_dofus_version(self):
         for key in reader_dofus_versions():
             self.assertFalse(GAME_VERSIONS[key].experimental)
+
+    def test_the_url_namespaces_are_the_prefixed_reader_versions(self):
+        namespaces = set(get_resolver().namespace_dict) & set(GAME_VERSIONS)
+        self.assertEqual(namespaces, set(prefixed_reader_versions()))
+        for key in prefixed_reader_versions():
+            with self.subTest(key=key):
+                self.assertEqual(reverse('%s:home' % key),
+                                 '/%s/' % GAME_VERSIONS[key].prefix)
+
+    def test_each_version_path_sets_its_version_seo_word_and_switch_base(self):
+        factory = RequestFactory()
+        middleware = GameVersionMiddleware(lambda request: None)
+        for key in version_keys():
+            prefix = GAME_VERSIONS[key].prefix
+            for path, base in (('/%s/setup/' % prefix, '/setup/'),
+                               ('/es/%s/encyclopedia/' % prefix, '/encyclopedia/')):
+                path = path.replace('//', '/')
+                with self.subTest(path=path):
+                    request = factory.get(path)
+                    middleware(request)
+                    self.assertEqual(request.game_version, key)
+                    context = game_version(request)
+                    self.assertEqual(context['current_game_version_seo'],
+                                     GAME_VERSIONS[key].seo_word)
+                    self.assertEqual(context['version_switch_base_path'], base)
+
+    def test_an_experimental_prefix_falls_back_to_the_default_version(self):
+        factory = RequestFactory()
+        middleware = GameVersionMiddleware(lambda request: None)
+        for key, version in GAME_VERSIONS.items():
+            if not version.experimental:
+                continue
+            with self.subTest(key=key):
+                request = factory.get('/%s/setup/' % version.prefix)
+                middleware(request)
+                self.assertEqual(request.game_version, DEFAULT_VERSION)

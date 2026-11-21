@@ -5,7 +5,7 @@ import re
 from django.core.cache import cache
 from django.db.models import Sum
 
-from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
+from fashionistapulp.game_versions import GAME_VERSIONS, prefixed_reader_versions, version_keys
 
 logger = logging.getLogger(__name__)
 
@@ -50,15 +50,9 @@ ACTIVE_GAME_VERSIONS = [(key, GAME_VERSIONS[key].label)
 _GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
 
 # Word between "Dofus" and "Fashionista" in SEO titles, empty on dofus3
-_GAME_VERSION_SEO_WORDS = {
-    'dofus3': '',
-    'beta': '3 Beta',
-    'dofus2': '2',
-    'retro': 'Retro',
-    'touch': 'Touch',
-}
+_GAME_VERSION_SEO_WORDS = {key: GAME_VERSIONS[key].seo_word for key in version_keys()}
 
-_VERSION_PREFIXES = ('beta/', 'dofus2/', 'retro/', 'touch/')
+_VERSION_PREFIXES = tuple(GAME_VERSIONS[key].prefix + '/' for key in prefixed_reader_versions())
 _CHAR_ID_RE = re.compile(r'/\d+/')
 # Shared build pages carry an encoded char id that _CHAR_ID_RE misses
 _LINKED_PREFIXES = ('s/', 'spells_linked/')
