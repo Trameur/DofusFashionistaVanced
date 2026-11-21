@@ -500,7 +500,7 @@ html.fm-modern .encyclopedia-small-btn, html.fm-modern .encyclopedia-page-link{
 html.fm-modern .encyclopedia-small-btn{ border-radius:999px !important; }
 html.fm-modern .encyclopedia-page-link:hover, html.fm-modern .encyclopedia-small-btn:hover{ background:var(--fm-accent-soft) !important; }
 html.fm-modern .wizard-div{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); }
-html.fm-modern .error-message{ color:#e0584f; }
+html.fm-modern .error-message{ color:var(--fm-error-text); }
 @media (min-width:1280px){ html.fm-modern{ --fm-gutter:24px; } }
 @media (min-width:1440px){ html.fm-modern{ --fm-gutter:28px; } }
 @media (min-width:1920px){ html.fm-modern{ --fm-gutter:32px; } }
@@ -719,6 +719,9 @@ html.fm-modern p.text img[src*="add-icon"]{ content:url("data:image/svg+xml,%3Cs
   html.fm-modern .solution-item-link-div{ position:absolute !important; top:6px; right:8px; margin:0 !important; width:auto !important; z-index:2; }
   html.fm-modern .solution-item-name-div{ padding-right:26px; }
 }
+@media (max-width:760px){
+  html.fm-modern .solution-item-section .transcendence-tip{ padding:20px 15px 6px; margin:-20px -15px -6px; }
+}
 html.fm-modern :where(.button-generic,.button-generic-foreground,.submit-button,.rerun-button,input[type="submit"],button.button-generic,.filter-button){
   background:transparent !important; color:var(--fm-head) !important; border:1.5px solid var(--fm-btnline) !important;
   border-radius:999px !important; padding:0 18px !important; font-size:14px; font-weight:600 !important; line-height:1.2;
@@ -869,6 +872,7 @@ html.fm-dark .spell-tip.st-open .spell-tip-mark{ color:#a7ddea; }
 .transcendence-tip .spell-tip-mark{ opacity:.7; }
 .transcendence-tip .spell-tip-text + .spell-tip-text{ margin-top:5px; opacity:.75; }
 html.fm-modern #changelog-overlay, html.fm-modern #changelog-modal{ display:none; }
+html.fm-modern .changelog-close{ display:inline-flex; align-items:center; justify-content:center; min-width:44px; min-height:44px; margin:-11px -10px -11px 0; }
 html:not(.fm-modern) .fm-google-text{ display:none !important; }
 @media (hover:hover){ html.fm-modern .compare-cart:focus-within .compare-cart-panel{ display:block; } }
 @media (min-width:601px) and (max-width:900px){

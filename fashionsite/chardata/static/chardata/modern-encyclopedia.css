@@ -217,6 +217,9 @@ html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-mo
 html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card a.encyclopedia-monsters-weakness{ padding:var(--fm-space-1) 0; }
 html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-preview{ margin-top:auto; padding-top:var(--fm-space-2); color:var(--fm-text); }
 html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-rate{ color:var(--fm-muted); opacity:1; }
+@media (max-width:700px){
+  html.fm-modern .encyclopedia-atelier .encyclopedia-monster-drop-link{ display:inline-block; padding:4px 0; }
+}
 html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box{ display:block; column-width:380px; column-gap:var(--fm-space-4); }
 html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box > :not(.encyclopedia-section){ column-span:all; }
 html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box > #monster-stats{ column-span:all; }

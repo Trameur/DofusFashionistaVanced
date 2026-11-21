@@ -515,6 +515,9 @@ html.fm-modern .loading-progress > span{ transition:width .9s linear; }
 html.fm-modern .loading-progress-label{ color:var(--fm-muted); font-size:.95em; }
 html.fm-modern .loading .tailoring{ color:var(--fm-head); }
 html.fm-modern .item-exchange-icon-container{ margin-right:var(--fm-space-2); }
+html.fm-modern #popUpDiv .item-exchange-icon{ max-width:none !important; }
+html.fm-modern #popUpDiv .item-atrib-text, html.fm-modern #popUpDiv .item-comp-text{ display:inline-block; }
+html.fm-modern .item-exchange-violations-warning{ color:var(--fm-warn); }
 @media (min-width:1280px){
   html.fm-modern:has(.solution-table) #popUpDiv{ width:560px; }
 }

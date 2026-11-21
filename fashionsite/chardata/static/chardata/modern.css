@@ -574,7 +574,7 @@ html.fm-modern .encyclopedia-page-link:hover, html.fm-modern .encyclopedia-small
 
 /* ---------- Wizard / form pages ---------- */
 html.fm-modern .wizard-div{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); }
-html.fm-modern .error-message{ color:#e0584f; }
+html.fm-modern .error-message{ color:var(--fm-error-text); }
 
 /* ---------- Wide shell ---------- */
 @media (min-width:1280px){ html.fm-modern{ --fm-gutter:24px; } }
@@ -837,6 +837,9 @@ html.fm-modern p.text img[src*="add-icon"]{ content:url("data:image/svg+xml,%3Cs
   html.fm-modern .solution-item-expand-header{ position:relative; }
   html.fm-modern .solution-item-link-div{ position:absolute !important; top:6px; right:8px; margin:0 !important; width:auto !important; z-index:2; }
   html.fm-modern .solution-item-name-div{ padding-right:26px; }
+}
+@media (max-width:760px){
+  html.fm-modern .solution-item-section .transcendence-tip{ padding:20px 15px 6px; margin:-20px -15px -6px; }
 }
 
 /* ---------- Gold buttons ---------- */
@@ -1456,6 +1459,9 @@ html.fm-modern .loading .tailoring{ color:var(--fm-head); }
 
 /* Switch-item popup */
 html.fm-modern .item-exchange-icon-container{ margin-right:var(--fm-space-2); }
+html.fm-modern #popUpDiv .item-exchange-icon{ max-width:none !important; }
+html.fm-modern #popUpDiv .item-atrib-text, html.fm-modern #popUpDiv .item-comp-text{ display:inline-block; }
+html.fm-modern .item-exchange-violations-warning{ color:var(--fm-warn); }
 @media (min-width:1280px){
   html.fm-modern:has(.solution-table) #popUpDiv{ width:560px; }
 }
@@ -1615,6 +1621,7 @@ html.fm-modern .dev-table th, html.fm-modern .dev-table td{ border-bottom-color:
 /* shell: begin */
 /* The changelog dialog is closed until a script opens it, even without the themed sheet */
 html.fm-modern #changelog-overlay, html.fm-modern #changelog-modal{ display:none; }
+html.fm-modern .changelog-close{ display:inline-flex; align-items:center; justify-content:center; min-width:44px; min-height:44px; margin:-11px -10px -11px 0; }
 html:not(.fm-modern) .fm-google-text{ display:none !important; }
 /* shell: end */
 
@@ -1751,6 +1758,7 @@ html.fm-modern .profile-builds-title{ margin:6px 0 0; color:var(--fm-head); }
   html.fm-modern .fm-check-hit{ display:inline-flex; align-items:center; justify-content:center; min-width:44px; min-height:44px; margin:-12px 0; }
   html.fm-modern .load-project-table th.load-project-header a,
   html.fm-modern .load-project-cell a{ display:inline-flex; align-items:center; min-height:44px; }
+  html.fm-modern .load-project-line > td:nth-child(3) a{ display:flex; width:100%; }
   html.fm-modern .build-boxes-section label,
   html.fm-modern label.filter-label:has(> input){ display:flex; align-items:center; min-height:44px; box-sizing:border-box; }
   html.fm-modern .filters-section .build-boxes-section input[type="checkbox"], html.fm-modern .filters-section label.filter-label input[type="checkbox"]{ width:20px; height:20px; margin:0 8px 0 0; flex:0 0 auto; }
@@ -2095,6 +2103,9 @@ html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .encyclopedia-mo
 html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card a.encyclopedia-monsters-weakness{ padding:var(--fm-space-1) 0; }
 html.fm-modern .encyclopedia-atelier .encyclopedia-monsters-preview{ margin-top:auto; padding-top:var(--fm-space-2); color:var(--fm-text); }
 html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card .drop-rate{ color:var(--fm-muted); opacity:1; }
+@media (max-width:700px){
+  html.fm-modern .encyclopedia-atelier .encyclopedia-monster-drop-link{ display:inline-block; padding:4px 0; }
+}
 
 /* Monster page: one card, sections as tiles that grow with the width */
 html.fm-modern .encyclopedia-atelier .encyclopedia-monster-card.brown-box{ display:block; column-width:380px; column-gap:var(--fm-space-4); }
@@ -2405,8 +2416,12 @@ html.fm-modern .fm-page.tools-atelier .fm-table tbody td:first-child{ background
     white-space:normal !important; padding:var(--fm-space-2) var(--fm-space-1) !important;
   }
   html.fm-modern .fm-page.tools-atelier .fm-table:has(#fm-sim-rows) td:has(> .fm-sac-btn){ white-space:nowrap !important; }
+  html.fm-modern .fm-page.tools-atelier .fm-table:not(:has(th:nth-child(4))){ min-width:0; }
+  html.fm-modern .fm-page.tools-atelier .fm-table:not(:has(th:nth-child(4))) td{ white-space:normal !important; }
+  html.fm-modern .fm-page.tools-atelier .fm-table:not(:has(th:nth-child(4))) td.fm-cell-runes{ min-width:0 !important; }
 }
 @media (max-width:700px){
+  html.fm-modern .fm-page.tools-atelier .fm-table:not(:has(#fm-rows)) th, html.fm-modern .fm-page.tools-atelier .fm-table:not(:has(#fm-rows)) td:first-child{ white-space:normal !important; }
   html.fm-modern .fm-page.tools-atelier .fm-box{ padding:var(--fm-space-3) !important; }
   html.fm-modern .fm-page.tools-atelier .fm-exo-row select{ min-width:0; flex:1 1 100%; }
   html.fm-modern .fm-page.tools-atelier .fm-exo-row .fm-new-folder-input{ flex:1 1 100%; width:auto; }
@@ -2828,6 +2843,8 @@ html.fm-modern .tunnel-smartbuild .smart-chips{ justify-content:flex-start; }
 html.fm-modern .tunnel-smartbuild .smart-chip{ background:var(--fm-surface); border-color:var(--fm-border-strong); }
 html.fm-modern .tunnel-smartbuild .smart-examples{ margin-top:0; font-size:.9rem; }
 html.fm-modern .tunnel-smartbuild .smart-example{ margin:var(--fm-space-1); padding:0 14px; border-color:var(--fm-border-strong); }
+html.fm-modern.fm-light .tunnel-smartbuild .smart-example:hover, html.fm-modern.fm-light .tunnel-import .import-partner:hover,
+html.fm-modern.fm-light .tunnel-import .import-developers a:hover, html.fm-modern.fm-light .tunnel-import .import-back a:hover{ color:var(--fm-link-hover); }
 html.fm-modern .tunnel-smartbuild .smart-confirm{ margin:0; }
 html.fm-modern .tunnel-smartbuild .smart-element{ max-width:100%; }
 
