@@ -7,8 +7,9 @@ A rune is an item whose effects carry action 4081 (an element, named by the
 effect's diceSide), 4082 (resistances) or 4083 (power). Since 3.8.2.3 the
 client's effects.json defines those three as transformations, and 4180 as the
 mark that forbids any later smithmagic. It does not give the rounding nor
-whether the power rune takes the neutral element: both stay the devblog's
-(ROUNDING, power_takes_neutral, listed in UNVERIFIED). The power rune's keep
+whether the power rune takes the neutral element nor whether an exo line
+blocks a rune: all three stay assumptions (ROUNDING, power_takes_neutral,
+exo_blocks, listed in UNVERIFIED). The power rune's keep
 rate is the value of its 4083 effect. A rune's name comes from the <lang>.json
 files of the dump, when it has them. A dump without rune items writes nothing
 and removes the file a previous run left for that version.
@@ -49,7 +50,7 @@ RUNE_ACTIONS = (ELEMENT_RUNE, RESISTANCE_RUNE, POWER_RUNE)
 ITEM_TYPES = FORGEABLE_TYPES + ('Weapon',)
 
 ROUNDING = 'floor'
-UNVERIFIED = ['rounding', 'power_takes_neutral']
+UNVERIFIED = ['rounding', 'power_takes_neutral', 'exo_blocks']
 UNVERIFIED_SOURCE = 'devblog 1772495'
 
 STAT_BY_ELEMENT = {
@@ -59,7 +60,7 @@ STAT_BY_ELEMENT = {
 
 
 def _items(folder):
-    """{item id: ([effect records], name id)} for the Unity export of items.json."""
+    """{item id: ([effect records], name id, description id)} for the Unity export of items.json."""
     data = _load_json(Path(folder) / 'items.json')
     refs = {ref['rid']: ref for ref in data['references']['RefIds']}
     keys = data['objectsById']['m_keys']['Array']
@@ -73,7 +74,8 @@ def _items(folder):
             refs[effect['rid']]['data']
             for effect in _unwrap_array(ref['data'].get('possibleEffects'))
             if effect.get('rid') in refs]
-        items[int(key)] = (effects, ref['data'].get('nameId'))
+        items[int(key)] = (effects, ref['data'].get('nameId'),
+                           ref['data'].get('descriptionId'))
     return items
 
 
@@ -84,9 +86,9 @@ def _translations(folder):
     return _load_translations(Path(folder), languages)
 
 
-def _names(name_id, translations):
-    names = {lang: texts[str(name_id)] for lang, texts in translations.items()
-             if name_id is not None and texts.get(str(name_id))}
+def _texts(text_id, translations):
+    names = {lang: texts[str(text_id)] for lang, texts in translations.items()
+             if text_id is not None and texts.get(str(text_id))}
     return dict(sorted(names.items()))
 
 
@@ -118,13 +120,16 @@ def _rune(item_id, effects):
 def read_runes(folder):
     translations = _translations(folder)
     runes = []
-    for item_id, (effects, name_id) in sorted(_items(folder).items()):
+    for item_id, (effects, name_id, description_id) in sorted(_items(folder).items()):
         rune = _rune(item_id, effects)
         if rune is None:
             continue
-        names = _names(name_id, translations)
+        names = _texts(name_id, translations)
         if names:
             rune['names'] = names
+        descriptions = _texts(description_id, translations)
+        if descriptions:
+            rune['descriptions'] = descriptions
         runes.append(rune)
     return runes
 

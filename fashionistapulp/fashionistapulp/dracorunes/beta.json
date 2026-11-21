@@ -11,6 +11,13 @@
     "es": "Dracorruna esmeralda",
     "fr": "Dracorune \u00c9meraude",
     "pt": "Dracorruna Esmeralda"
+   },
+   "descriptions": {
+    "de": "Mit dieser Rune k\u00f6nnt ihr die offensiven Attribute eines Elements auf einem Gegenstand in das Element Luft umwandeln.\nDanach l\u00e4sst sich auf den Gegenstand jedoch keine Schmiedmagie mehr anwenden.",
+    "en": "This rune has the ability to transform the offensive characteristics of an element on an item into the Air element.\nHowever, it prevents any future use of smithmagic on the item.",
+    "es": "Esta runa permite transformar las caracter\u00edsticas ofensivas de un elemento de un objeto al elemento aire.\nSin embargo, impide volver a forjamaguear el objeto.",
+    "fr": "Cette rune a la capacit\u00e9 de transformer les caract\u00e9ristiques offensives d'un \u00e9l\u00e9ment sur un objet vers l'\u00e9l\u00e9ment Air.\nCependant, elle emp\u00eache toutes futures forgemagies sur l'objet.",
+    "pt": "Esta runa tem a capacidade de transformar as caracter\u00edsticas ofensivas de um elemento do item no elemento ar.\nNo entanto, isso impede futuras forjamagias no item."
    }
   },
   {
@@ -23,6 +30,13 @@
     "es": "Dracorruna p\u00farpura",
     "fr": "Dracorune Pourpre",
     "pt": "Dracorruna P\u00farpura"
+   },
+   "descriptions": {
+    "de": "Mit dieser Rune k\u00f6nnt ihr die offensiven Attribute eines Elements auf einem Gegenstand in das Element Feuer umwandeln.\nDanach l\u00e4sst sich auf den Gegenstand jedoch keine Schmiedmagie mehr anwenden.",
+    "en": "This rune has the ability to transform the offensive characteristics of an element on an item into the Fire element.\nHowever, it prevents any future use of smithmagic on the item.",
+    "es": "Esta runa permite transformar las caracter\u00edsticas ofensivas de un elemento de un objeto al elemento fuego.\nSin embargo, impide volver a forjamaguear el objeto.",
+    "fr": "Cette rune a la capacit\u00e9 de transformer les caract\u00e9ristiques offensives d'un \u00e9l\u00e9ment sur un objet vers l'\u00e9l\u00e9ment Feu.\nCependant, elle emp\u00eache toutes futures forgemagies sur l'objet.",
+    "pt": "Esta runa tem a capacidade de transformar as caracter\u00edsticas ofensivas de um elemento do item no elemento fogo.\nNo entanto, isso impede futuras forjamagias no item."
    }
   },
   {
@@ -35,6 +49,13 @@
     "es": "Dracorruna turquesa",
     "fr": "Dracorune Turquoise",
     "pt": "Dracorruna Turquesa"
+   },
+   "descriptions": {
+    "de": "Mit dieser Rune k\u00f6nnt ihr die offensiven Attribute eines Elements auf einem Gegenstand in das Element Wasser umwandeln.\nDanach l\u00e4sst sich auf den Gegenstand jedoch keine Schmiedmagie mehr anwenden.",
+    "en": "This rune has the ability to transform the offensive characteristics of an element on an item into the Water element.\nHowever, it prevents any future use of smithmagic on the item.",
+    "es": "Esta runa permite transformar las caracter\u00edsticas ofensivas de un elemento de un objeto al elemento agua.\nSin embargo, impide volver a forjamaguear el objeto.",
+    "fr": "Cette rune a la capacit\u00e9 de transformer les caract\u00e9ristiques offensives d'un \u00e9l\u00e9ment sur un objet vers l'\u00e9l\u00e9ment Eau.\nCependant, elle emp\u00eache toutes futures forgemagies sur l'objet.",
+    "pt": "Esta runa tem a capacidade de transformar as caracter\u00edsticas ofensivas de um elemento do item no elemento \u00e1gua.\nNo entanto, isso impede futuras forjamagias no item."
    }
   },
   {
@@ -47,6 +68,13 @@
     "es": "Dracorruna ocre",
     "fr": "Dracorune Ocre",
     "pt": "Dracorruna Ocre"
+   },
+   "descriptions": {
+    "de": "Mit dieser Rune k\u00f6nnt ihr die offensiven Attribute eines Elements auf einem Gegenstand in das Element Erde umwandeln.\nDanach l\u00e4sst sich auf den Gegenstand jedoch keine Schmiedmagie mehr anwenden.",
+    "en": "This rune has the ability to transform the offensive characteristics of an element on an item into the Earth element.\nHowever, it prevents any future use of smithmagic on the item.",
+    "es": "Esta runa permite transformar las caracter\u00edsticas ofensivas de un elemento de un objeto al elemento tierra.\nSin embargo, impide volver a forjamaguear el objeto.",
+    "fr": "Cette rune a la capacit\u00e9 de transformer les caract\u00e9ristiques offensives d'un \u00e9l\u00e9ment sur un objet vers l'\u00e9l\u00e9ment Terre.\nCependant, elle emp\u00eache toutes futures forgemagies sur l'objet.",
+    "pt": "Esta runa tem a capacidade de transformar as caracter\u00edsticas ofensivas de um elemento do item no elemento terra.\nNo entanto, isso impede futuras forjamagias no item."
    }
   },
   {
@@ -58,6 +86,13 @@
     "es": "Dracorruna marfil",
     "fr": "Dracorune Ivoire",
     "pt": "Dracorruna Marfim"
+   },
+   "descriptions": {
+    "de": "Mit dieser Rune k\u00f6nnt ihr die offensiven Attribute eines Elements auf einem Gegenstand in ein Element eurer Wahl umwandeln.\nDanach l\u00e4sst sich auf den Gegenstand jedoch keine Schmiedmagie mehr anwenden.",
+    "en": "This rune has the ability to transform the elemental resistances of an element on an item into another element of your choice.\nHowever, it prevents any future use of smithmagic on the item.",
+    "es": "Esta runa permite transformar las resistencias elementales de un elemento de un objeto a otro de tu elecci\u00f3n.\nSin embargo, impide volver a forjamaguear el objeto.",
+    "fr": "Cette rune a la capacit\u00e9 de transformer les r\u00e9sistances \u00e9l\u00e9mentaires d'un \u00e9l\u00e9ment sur un objet vers un autre au choix.\nCependant, elle emp\u00eache toutes futures forgemagies sur l'objet.",
+    "pt": "Esta runa tem a capacidade de transformar as resist\u00eancias elementares de um elemento do item em outro \u00e0 sua escolha.\nNo entanto, isso impede futuras forjamagias no item."
    }
   },
   {
@@ -70,6 +105,13 @@
     "es": "Dracorruna \u00e9bano",
     "fr": "Dracorune \u00c9b\u00e8ne",
     "pt": "Dracorruna \u00c9bano"
+   },
+   "descriptions": {
+    "de": "Mit dieser Rune k\u00f6nnt ihr die offensiven Attribute eines Elements auf einem Gegenstand in Schlagkraft umwandeln.\nDanach l\u00e4sst sich auf den Gegenstand jedoch keine Schmiedmagie mehr anwenden.",
+    "en": "This rune has the ability to transform the elemental offensive characteristics on an item into Power.\nHowever, it prevents any future use of smithmagic on the item.",
+    "es": "Esta runa permite transformar las caracter\u00edsticas ofensivas elementales de un objeto en potencia.\nSin embargo, impide volver a forjamaguear el objeto.",
+    "fr": "Cette rune a la capacit\u00e9 de transformer les caract\u00e9ristiques offensives \u00e9l\u00e9mentaires sur un objet vers de la Puissance.\nCependant, elle emp\u00eache toutes futures forgemagies sur l'objet.",
+    "pt": "Esta runa tem a capacidade de transformar as caracter\u00edsticas ofensivas elementares do item em pot\u00eancia.\nNo entanto, isso impede futuras forjamagias no item."
    }
   }
  ],
@@ -86,7 +128,8 @@
  "power_takes_neutral": false,
  "unverified": [
   "rounding",
-  "power_takes_neutral"
+  "power_takes_neutral",
+  "exo_blocks"
  ],
  "unverified_source": "devblog 1772495"
 }

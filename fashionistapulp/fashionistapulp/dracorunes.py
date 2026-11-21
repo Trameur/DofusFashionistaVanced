@@ -15,6 +15,8 @@ DEFAULT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 ELEMENT_PAIRS = (('str', 'earthdam'), ('int', 'firedam'),
                  ('cha', 'waterdam'), ('agi', 'airdam'))
 STAT_TO_DAMAGE = dict(ELEMENT_PAIRS)
+POWER_LINE = 'pow'
+DAMAGE_LINE = 'dam'
 RESISTANCE_ELEMENTS = ('neut', 'earth', 'fire', 'water', 'air')
 RESISTANCE_NAMES = {'neut': 'neutral', 'earth': 'earth', 'fire': 'fire',
                     'water': 'water', 'air': 'air'}
@@ -127,9 +129,9 @@ def _power_variant(lines, rune, runes):
     placed = set()
     for key, value in lines.items():
         if value > 0 and key in STAT_TO_DAMAGE:
-            slot, add = 'pow', pow_add
+            slot, add = POWER_LINE, pow_add
         elif value > 0 and key in damage_keys:
-            slot, add = 'dam', dam_add
+            slot, add = DAMAGE_LINE, dam_add
         else:
             result[key] = value
             continue
@@ -138,7 +140,7 @@ def _power_variant(lines, rune, runes):
         placed.add(slot)
         if add:
             result[slot] = add
-    for slot, add in (('pow', pow_add), ('dam', dam_add)):
+    for slot, add in ((POWER_LINE, pow_add), (DAMAGE_LINE, dam_add)):
         if slot in lines and add:
             result[slot] = result[slot] + add
     return 'power', result
@@ -198,6 +200,12 @@ def rune_name(rune, language):
     """The game's name of the rune in the language, English when it has none."""
     names = (rune or {}).get('names') or {}
     return names.get(language) or names.get('en')
+
+
+def rune_description(rune, language):
+    """The game's text of the rune in the language, English when it has none."""
+    texts = (rune or {}).get('descriptions') or {}
+    return texts.get(language) or texts.get('en')
 
 
 def moves(key):

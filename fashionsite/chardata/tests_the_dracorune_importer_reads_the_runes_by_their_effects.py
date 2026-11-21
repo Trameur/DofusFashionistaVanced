@@ -103,7 +103,7 @@ class TheDracoruneImporterReadsTheRunesByTheirEffectsTests(SimpleTestCase):
         self.assertEqual('floor', table['rounding'])
         self.assertFalse(table['power_takes_neutral'])
         self.assertEqual(0.6, table['runes'][-1]['keep'])
-        self.assertEqual(['rounding', 'power_takes_neutral'],
+        self.assertEqual(['rounding', 'power_takes_neutral', 'exo_blocks'],
                          table['unverified'])
         self.assertEqual('devblog 1772495', table['unverified_source'])
 
