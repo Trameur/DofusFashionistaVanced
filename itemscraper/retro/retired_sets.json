@@ -1,0 +1,367 @@
+{
+ "sets": [
+  {
+   "ankama_id": 75,
+   "names": {
+    "de": "Viewtiful-Set",
+    "en": "Viootifool Set",
+    "es": "Set Viewtiful",
+    "fr": "Panoplie Vioutifoule",
+    "pt": "Conjunto Viewtiful"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 76,
+   "names": {
+    "de": "Megaman-Set",
+    "en": "Megaman Set",
+    "es": "Set Megamán",
+    "fr": "Panoplie Mégaman",
+    "pt": "Conjunto Megaman"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 110,
+   "names": {
+    "de": "Nasch-Set",
+    "en": "Gato Set",
+    "es": "Set de los Pasteles",
+    "fr": "Panoplie Gato",
+    "pt": "Conjunto Gato"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 111,
+   "names": {
+    "de": "Robusta-Set",
+    "en": "Beanie Set",
+    "es": "Set Saymassa",
+    "fr": "Panoplie Paupayahn",
+    "pt": "Conjunto de Gorro"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 112,
+   "names": {
+    "de": "Bzzz-Set",
+    "en": "BzzZet",
+    "es": "Set de la Bella Mahi-Ha",
+    "fr": "Panoplie Bzz",
+    "pt": "Conjunto Abelhudo"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 113,
+   "names": {
+    "de": "Aimy Airwutz-Set",
+    "en": "Peggy the Lousy Pig Set",
+    "es": "Set de Peggy la Puerkaza",
+    "fr": "Panoplie de Peggy la Porkass",
+    "pt": "Conjunto Peggy a Porca Imunda"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 114,
+   "names": {
+    "de": "Ostwald-Set",
+    "en": "Set of Eastern Wood",
+    "es": "Set del Bosque del Este",
+    "fr": "Panoplie du Bois de l'Est",
+    "pt": "Conjunto de Xerife Astrubiano"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 115,
+   "names": {
+    "de": "Zitronen-Set",
+    "en": "Lemon Set",
+    "es": "Set Cítrico",
+    "fr": "Citronoplie",
+    "pt": "Conjunto Limão"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 116,
+   "names": {
+    "de": "Charlies Set",
+    "en": "Charlie's Set",
+    "es": "Set de Charlie",
+    "fr": "Panoplie de Charlie",
+    "pt": "Conjunto Chaplin"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 117,
+   "names": {
+    "de": "Imperiales Set",
+    "en": "The Empire Set",
+    "es": "Set del Imperio",
+    "fr": "Panoplie de l'empire",
+    "pt": "Conjunto do Império"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 122,
+   "names": {
+    "de": "Zikaden-Set",
+    "en": "Cicada Set",
+    "es": "Set Cigarra",
+    "fr": "Panoplie Cigale",
+    "pt": "Conjunto da Cigarra"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 123,
+   "names": {
+    "de": "Posh-Set",
+    "en": "Posh Set",
+    "es": "Set de Posh",
+    "fr": "Panoplie Posh",
+    "pt": "Conjunto Elegante"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 124,
+   "names": {
+    "de": "Pom-Pom-Set",
+    "en": "Bobble Set",
+    "es": "Set pomposo",
+    "fr": "Pompanoplie",
+    "pt": "Conjunto da Bolha"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 125,
+   "names": {
+    "de": "Kristall-Set",
+    "en": "Cristalline Set",
+    "es": "Set Cristalino",
+    "fr": "Panoplie Cristaline",
+    "pt": "Conjunto de Cristal"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 126,
+   "names": {
+    "de": "Set des Paten",
+    "en": "The Godfather Set",
+    "es": "Set del Padrino",
+    "fr": "Panoplie du Parrain",
+    "pt": "Conjunto do Chefão"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 127,
+   "names": {
+    "de": "Black Wab - Set",
+    "en": "Black Wab Set",
+    "es": "Set del Black Wab",
+    "fr": "Panoplie du Black Wab",
+    "pt": "Conjunto Wab Preto"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 128,
+   "names": {
+    "de": "Slait-Set",
+    "en": "Slait Set",
+    "es": "Set Sliat",
+    "fr": "Panoplie de Slait",
+    "pt": "Conjunto Slait"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 129,
+   "names": {
+    "de": "Papayo-Set",
+    "en": "Alowa Set",
+    "es": "Set del Director Kuno",
+    "fr": "Panoplie Papayou",
+    "pt": "Conjunto Alowa"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 131,
+   "names": {
+    "de": "Mysterio-Set",
+    "en": "Mystery Set",
+    "es": "Set Tor Nyquete",
+    "fr": "Panoplie Mystère",
+    "pt": "Conjunto Lutador"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 132,
+   "names": {
+    "de": "Panoplie Tetounik",
+    "en": "Slamdance set.",
+    "es": "Set taktikonik",
+    "fr": "Panoplie Tétounik",
+    "pt": "Conjunto Confusão"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 133,
+   "names": {
+    "de": "Morgentau-Set",
+    "en": "Oxo Set ",
+    "es": "Set del amigo extraterrestre",
+    "fr": "Panoplie de la Denrée",
+    "pt": "Conjunto Oxo"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 134,
+   "names": {
+    "de": "Yug-Set",
+    "en": "Ugo Set",
+    "es": "Set Ugo",
+    "fr": "Panoplie Yug",
+    "pt": "Conjunto Ugo"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 135,
+   "names": {
+    "de": "Nokes Mono-Set",
+    "en": "Noke Set",
+    "es": "Set de Noke",
+    "fr": "Panoplie de Noké",
+    "pt": "Conjunto Noke"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 136,
+   "names": {
+    "de": "Sonnen-Set",
+    "en": "Solaris Set",
+    "es": "Set Solar",
+    "fr": "Panoplie Solaire",
+    "pt": "Conjunto Solaris"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 137,
+   "names": {
+    "de": "Schnecksel-Set",
+    "en": "Slugly Set",
+    "es": "Set Asobab",
+    "fr": "Panoplie Mace",
+    "pt": "Conjunto Feio"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 138,
+   "names": {
+    "de": "Chisp-Set",
+    "en": "Chisp Set",
+    "es": "Set Chisp",
+    "fr": "Panoplie Chisp",
+    "pt": "Conjunto Chisp"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 139,
+   "names": {
+    "de": "Goldobrak-Set",
+    "en": "Goldobrak Set",
+    "es": "Set Grandaiser",
+    "fr": "Panoplie Goldobrak",
+    "pt": "Conjunto Robô"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 140,
+   "names": {
+    "de": "Slump-Set",
+    "en": "Slump Set",
+    "es": "Set Slump",
+    "fr": "Panoplie Sleump",
+    "pt": "Conjunto Tombo"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 142,
+   "names": {
+    "de": "FC Humpelstilz-Set",
+    "en": "Real Gobbly Set",
+    "es": "Set del Atleticojos de Bonta",
+    "fr": "Panoplie Real Boitar",
+    "pt": "Conjunto Seleção de Brasiwawa"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 143,
+   "names": {
+    "de": "Arsenal Roter Fresssack-Set",
+    "en": "Lamechester United Set",
+    "es": "Set del Sporting Jalatín",
+    "fr": "Panoplie des Bouftons Rouges",
+    "pt": "Conjunto Seleção Lusiwawa"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 155,
+   "names": {
+    "de": "Rabenschwarzes Set",
+    "en": "Black Crow Set",
+    "es": "Set del Cuervo Negro",
+    "fr": "Panoplie du Corbeau Noir",
+    "pt": "Conjunto do Corvo Negro"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 161,
+   "names": {
+    "de": "Grillians-Set",
+    "en": "Grillian's Set",
+    "es": "Set de Grilyan",
+    "fr": "Panoplie de Grilliane",
+    "pt": "Conjunto de Grillian"
+   },
+   "removed_in": "1393"
+  },
+  {
+   "ankama_id": 162,
+   "names": {
+    "de": "Gedschets-Set",
+    "en": "Gadjet's Set",
+    "es": "Set de Gadjèt",
+    "fr": "Panoplie de Gadjète",
+    "pt": "Conjunto Bugiganga"
+   },
+   "removed_in": "1393"
+  }
+ ]
+}

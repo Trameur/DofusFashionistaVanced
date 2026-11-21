@@ -14,6 +14,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import item_criteria  # noqa: E402
+import record_retired_sets  # noqa: E402
 from get_spells_retro import CLASS_ID_TO_NAME  # noqa: E402
 
 # Retro item type id -> (slot, weapon subtype or None); equippable types only
@@ -489,6 +490,16 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
     return equipment, sets
 
 
+def write_sets(out, sets, data_version):
+    """Write transformed_sets.json and record the sets it no longer has."""
+    path = out / 'transformed_sets.json'
+    previous = json.loads(path.read_text(encoding='utf-8')) if path.exists() else []
+    recorded = record_retired_sets.record_retired_sets(
+        previous, sets, out / record_retired_sets.RETIRED_SETS_FILE, data_version)
+    path.write_text(json.dumps(sets, ensure_ascii=False), encoding='utf-8')
+    return recorded
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -502,7 +513,8 @@ def main(argv=None):
     raw = Path(args.raw_dir)
     items_root = json.loads((raw / f'items_{args.lang}.json').read_text(encoding='utf-8'))['I']
     ista = json.loads((raw / f'itemstats_{args.lang}.json').read_text(encoding='utf-8'))['ISTA']
-    sets_root = json.loads((raw / f'itemsets_{args.lang}.json').read_text(encoding='utf-8'))['IS']
+    sets_doc = json.loads((raw / f'itemsets_{args.lang}.json').read_text(encoding='utf-8'))
+    sets_root = sets_doc['IS']
     skills_root = json.loads((raw / f'skills_{args.lang}.json').read_text(encoding='utf-8'))['SK']
 
     # Attach the stat strings onto each item under 'istats' for decode_stats.
@@ -557,13 +569,14 @@ def main(argv=None):
     out.mkdir(parents=True, exist_ok=True)
     (out / 'transformed_equipment.json').write_text(
         json.dumps(equipment, ensure_ascii=False), encoding='utf-8')
-    (out / 'transformed_sets.json').write_text(
-        json.dumps(sets, ensure_ascii=False), encoding='utf-8')
+    retired = write_sets(out, sets, str(sets_doc['VERSION']))
 
     with_stats = sum(1 for e in equipment if e['stats'])
     forgeable = sum(1 for e in equipment if e.get('forgeable'))
     print(f"Wrote {len(equipment)} equipment ({with_stats} with stats, "
           f"{forgeable} forgeable) and {len(sets)} sets to {out}/")
+    if retired:
+        print(f"Warning: {len(retired)} sets left the game files, recorded in {record_retired_sets.RETIRED_SETS_FILE}: {retired}")
     return 0
 
 
