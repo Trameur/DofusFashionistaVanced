@@ -55,7 +55,7 @@
                 <h1 class="fm-sol-title">{{ char.char_class|localized_class }} {% trans "level" %} {{ char.level }}</h1>
                 <div class="fm-sol-sub">
                     <span class="fm-tag">{{ wrapped_char.build_string }}</span>
-                    <span class="fm-sol-meta">{{ current_game_version_label }}{% if char.solved_time %} · {{ char.solved_time|date:"SHORT_DATETIME_FORMAT" }}{% endif %}{% if owner_alias %} · {% trans "by" %} {{ owner_alias }}{% endif %}</span>
+                    <span class="fm-sol-meta">{{ current_game_version_label }}{% if char.solved_time %} · <time datetime="{{ char.solved_time|date:'c' }}" data-fm-local-time>{{ char.solved_time|date:"SHORT_DATETIME_FORMAT" }}</time>{% endif %}{% if owner_alias %} · {% trans "by" %} {{ owner_alias }}{% endif %}</span>
                 </div>
             </div>
         </div>
@@ -320,7 +320,7 @@
     <div class="solution-history-notice">
         <div>
             <strong>{% trans "Viewing a saved solution" %}</strong>
-            <span>{{ generation_created_time|date:"SHORT_DATETIME_FORMAT" }}</span>
+            <span><time datetime="{{ generation_created_time|date:'c' }}" data-fm-local-time>{{ generation_created_time|date:"SHORT_DATETIME_FORMAT" }}</time></span>
         </div>
         <div class="solution-history-notice-actions">
             <form method="post" action="{{ restore_generation_url }}">
@@ -341,7 +341,7 @@
             {% for generation in generation_history %}
             <div class="solution-history-entry{% if generation.is_current_snapshot %} solution-history-entry-current{% endif %}">
                 <div class="solution-history-entry-main">
-                    <div class="solution-history-entry-date">{{ generation.created_time|date:"SHORT_DATETIME_FORMAT" }}</div>
+                    <div class="solution-history-entry-date"><time datetime="{{ generation.created_time|date:'c' }}" data-fm-local-time>{{ generation.created_time|date:"SHORT_DATETIME_FORMAT" }}</time></div>
                     {% if generation.has_score %}
                     <div class="solution-history-entry-score">
                         <span>{% trans "Build score" %}</span>
@@ -883,7 +883,7 @@
                 <div class="comment-meta">
                     {% profile_url comment.author as author_url %}
                     {% if author_url %}<a class="comment-author" href="{{ author_url }}">{{ comment.author }}</a>{% else %}<span class="comment-author">{{ comment.author }}</span>{% endif %}
-                    <span class="comment-date">{{ comment.created_time }}</span>
+                    <span class="comment-date">{% if comment.created_time %}<time datetime="{{ comment.created_time }}" data-fm-local-time>{{ comment.created_time }}</time>{% endif %}</span>
                     {% if comment.can_delete %}
                     <a href="#" class="comment-delete" onclick="deleteComment(event, {{ comment.id }});">{% trans "delete" %}</a>
                     {% endif %}
@@ -947,6 +947,7 @@
         var apiBase = '{{ api_base }}';
     </script>
     <script src="{% static 'chardata/solution_popup.js' %}"></script>
+    <script src="{% static 'chardata/local_time.js' %}"></script>
     {% if character_look %}
     <script src="{% static 'chardata/character_preview.js' %}"></script>
     <script>
@@ -2174,7 +2175,8 @@
             var profileUrl = '{{ api_base }}/user/' + encodeURIComponent(comment.author) + '/';
             $meta.append($('<a>').addClass('comment-author').attr('href', profileUrl).text(comment.author));
             $meta.append(' ');
-            $meta.append($('<span>').addClass('comment-date').text(comment.created_time));
+            $meta.append($('<span>').addClass('comment-date').append(
+                $('<time>').attr('datetime', comment.created_time).attr('data-fm-local-time', '').text(comment.created_time)));
             if (comment.can_delete) {
                 $meta.append(' ');
                 $meta.append($('<a>').attr('href', '#').addClass('comment-delete')
@@ -2192,6 +2194,9 @@
             var $content = $('<div>').addClass('comment-content').text(comment.content);
             $li.append($content);
             $('#comments_list').append($li);
+            if (window.fmLocalizeTimes) {
+                window.fmLocalizeTimes($li[0]);
+            }
         }
 
         var _reportTargetCommentId = null;
