@@ -1394,6 +1394,7 @@ html.fm-modern .fm-sol-cast-img{
 }
 html.fm-modern .fm-sol-cast-name{ font-size:14px; color:var(--fm-text); min-width:0; overflow-wrap:anywhere; }
 html.fm-modern .fm-sol-cast-dmg{ font-size:14px; color:var(--fm-muted); }
+html.fm-modern .fm-sol-cast-note{ display:block; margin-top:2px; font-size:12.5px; line-height:1.35; color:var(--fm-muted); }
 html.fm-modern .fm-sol-note{ margin:0 0 14px; font-size:12.5px; line-height:1.45; color:var(--fm-muted); text-align:left; }
 html.fm-modern .fm-sol-turn-link, html.fm-modern .fm-sol-crit-actions .button-generic{ width:100%; }
 html.fm-modern .fm-sol-crit .fm-kicker{ margin:0 0 6px; font-size:11.5px; }
