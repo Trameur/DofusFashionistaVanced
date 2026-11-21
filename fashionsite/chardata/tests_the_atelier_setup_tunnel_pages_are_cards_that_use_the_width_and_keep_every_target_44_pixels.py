@@ -11,6 +11,7 @@ from chardata.tests_the_setup_stylesheet_support import STATIC, parse, styleshee
 TEMPLATES = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates', 'chardata')
 MARKER = '/* ---------- Setup tunnel: weights, wizard, options, lock items, forbid items ---------- */'
 PREFIX = 'html.fm-modern .tunnel-atelier'
+MODERN_PREFIXES = ('html.fm-modern ', 'html.fm-modern.fm-light ', 'html.fm-modern.fm-dark ')
 PAGES = {
     'weights_minimums.html': 'tunnel-weights',
     'wizard.html': 'tunnel-wizard',
@@ -89,7 +90,7 @@ class TheFormsCapsAreLoosenedUnderTheOptInClassOnlyTests(SimpleTestCase):
     def test_every_rule_of_the_section_starts_with_the_modern_class(self):
         for rule in tunnel_rules():
             for selector in rule['selectors']:
-                self.assertTrue(selector.startswith('html.fm-modern '), selector)
+                self.assertTrue(selector.startswith(MODERN_PREFIXES), selector)
                 self.assertIn('.tunnel-', selector)
             self.assertNotIn('print', rule['media'] or '')
 
