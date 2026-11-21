@@ -1753,6 +1753,7 @@ html.fm-modern .profile-builds-title{ margin:6px 0 0; color:var(--fm-head); }
   html.fm-modern .load-project-cell a{ display:inline-flex; align-items:center; min-height:44px; }
   html.fm-modern .build-boxes-section label,
   html.fm-modern label.filter-label:has(> input){ display:flex; align-items:center; min-height:44px; box-sizing:border-box; }
+  html.fm-modern .filters-section .build-boxes-section input[type="checkbox"], html.fm-modern .filters-section label.filter-label input[type="checkbox"]{ width:20px; height:20px; margin:0 8px 0 0; flex:0 0 auto; }
   html.fm-modern a.build-tag-pill{ display:inline-flex !important; align-items:center; min-height:44px; box-sizing:border-box; }
   html.fm-modern .build-card a.build-link, html.fm-modern .build-card .vote-btn{ min-height:44px; box-sizing:border-box; }
   html.fm-modern .build-card .build-value > a,
