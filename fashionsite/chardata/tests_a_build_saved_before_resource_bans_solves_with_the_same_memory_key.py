@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
 
 from chardata import resource_ban
+from chardata.char_blobs import read_char_blob
 from chardata.coaching_view import create_build
 from chardata.fashion_action import _model_input
 from chardata.inventory_solver import apply_inventory_restriction
@@ -64,7 +65,9 @@ class ABuildWithoutABanKeepsItsInputTests(_ABuild):
         self.assertNotEqual(before.cache_key(), self.model_input().cache_key())
         set_setup_choices(self.char, {resource_ban.OPTION_KEY: None})
         after = self.model_input()
-        self.assertEqual(pickle.loads(stored), pickle.loads(self.char.options))
+        options_before = read_char_blob(stored, None, 'options')
+        self.assertIsInstance(options_before, dict)
+        self.assertEqual(options_before, read_char_blob(self.char.options, None, 'options'))
         self.assertEqual(before.cache_key(), after.cache_key())
         self.assertEqual(before.forbidden_equips, after.forbidden_equips)
 
