@@ -150,6 +150,23 @@ function optionsInit(options) {
 
     var $temporixCheckbox = $('input:checkbox[name=temporix]');
     $temporixCheckbox.prop('checked', options.temporix);
+
+    if (options.inventory_mode !== undefined) {
+        $('input:radio[name=inventory_mode]').each(function() {
+            $(this).prop('checked', this.value === options.inventory_mode);
+        });
+        var $folderSelect = $('select[name=inventory_folder]');
+        if (options.inventory_folder === null || options.inventory_folder === undefined) {
+            $folderSelect.prop('selectedIndex', 0);
+        } else {
+            $folderSelect.val(String(options.inventory_folder));
+            if ($folderSelect.prop('selectedIndex') < 0) {
+                $folderSelect.prop('selectedIndex', 0);
+            }
+        }
+    }
+
+    disableUnusableDofus(options.dofusnotforchar);
 }
 
 function disableUnusableDofus(unusable){

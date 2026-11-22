@@ -74,10 +74,19 @@ def inventory_source_context(request, char):
     }
 
 
+def options_state(char):
+    """The options the page replays, with the item source read as the solver reads it."""
+    state = get_options(char)
+    saved = read_char_blob(char.options, {}, 'options', char)
+    state['inventory_mode'] = get_inventory_mode(saved)
+    state['inventory_folder'] = saved.get('inventory_folder')
+    return state
+
+
 def options(request, char_id):
     char = get_char_or_raise(request, char_id)
 
-    options = get_options(char)
+    options = options_state(char)
 
     context = {'advanced': True,
                'options': json.dumps(options),
@@ -101,7 +110,7 @@ def options_post(request, char_id):
     set_options(char, options)
     apply_posted_dofus(request, char)
     
-    return HttpResponseJson(json.dumps(get_options(char)))
+    return HttpResponseJson(json.dumps(options_state(char)))
 
 
 def apply_posted_dofus(request, char):
