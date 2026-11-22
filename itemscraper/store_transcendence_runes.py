@@ -21,6 +21,7 @@ import argparse
 import json
 import os
 import re
+import struct
 import sys
 import tempfile
 from pathlib import Path
@@ -95,6 +96,29 @@ def stat_key(effect_id, effects, english):
     return _STAT_KEY_BY_NAME.get(_STAT_ALIASES.get(name, name))
 
 
+def _float32(value):
+    return struct.unpack('f', struct.pack('f', value))[0]
+
+
+def normalize_rate(rate):
+    """The shortest decimal that reads back as the same float32 as the rate."""
+    target = _float32(rate)
+    for digits in range(1, 10):
+        candidate = float('%.*g' % (digits, rate))
+        if _float32(candidate) == target:
+            return candidate
+    return rate
+
+
+def _density(effect_id, effects):
+    """The effectPowerRate of an effect, an int when integral, None when absent."""
+    rate = (effects.get(effect_id) or {}).get('effectPowerRate')
+    if isinstance(rate, bool) or not isinstance(rate, (int, float)):
+        return None
+    rate = normalize_rate(float(rate))
+    return int(rate) if rate.is_integer() else rate
+
+
 def _rank(names):
     match = re.match(r'Rune (\S+) ', names.get(NAME_LANGUAGE, ''))
     label = match.group(1) if match else None
@@ -131,6 +155,10 @@ def scan(folder):
         if key is None:
             print('warning: rune %s, effect %s names no known stat, skipped' % (item_id, action))
             continue
+        density = _density(action, effects)
+        if density is None:
+            print('warning: rune %s, effect %s has no effectPowerRate, skipped' % (item_id, action))
+            continue
         names = _texts(record.get('nameId'), translations)
         rank, label = _rank(names)
         if rank is None:
@@ -140,7 +168,7 @@ def scan(folder):
         stat_line = by_action[action]
         rune = {'id': item_id, 'names': names, 'action': action, 'stat_key': key,
                 'bonus': max(stat_line.get('diceNum') or 0, stat_line.get('diceSide') or 0),
-                'weight': by_action[WEIGHT_EFFECT].get('value'),
+                'weight': by_action[WEIGHT_EFFECT].get('value'), 'density': density,
                 'level': record.get('level'), 'rank': rank, 'rank_label': label,
                 'icon_id': record.get('iconId')}
         notice = _texts(record.get('importantNoticeId'), translations)

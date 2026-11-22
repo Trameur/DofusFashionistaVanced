@@ -3,6 +3,7 @@
 
 import json
 import os
+from pathlib import Path
 
 from django.test import SimpleTestCase
 
@@ -53,6 +54,14 @@ class TranscendenceRuneFilesMatchTheirDumpsTests(SimpleTestCase):
         self.assertEqual(table['count'], _count_rune_items(folder))
         self.assertEqual(len(table['runes']), table['count'])
         self.assertEqual(table['runes'], _extract(folder))
+        self._check_density(table, folder)
+
+    def _check_density(self, table, folder):
+        module = itemscraper_module('store_transcendence_runes')
+        effects = itemscraper_module('get_spells')._load_datacenter_table(Path(folder) / 'effects.json')
+        for rune in table['runes']:
+            rate = effects[rune['action']]['effectPowerRate']
+            self.assertEqual(rune['density'], module.normalize_rate(float(rate)), rune['id'])
 
     def test_the_beta_file_matches_its_dump(self):
         self._check_matches('beta')
@@ -76,6 +85,11 @@ class TranscendenceRuneFilesContentTests(SimpleTestCase):
             self.assertTrue(rune['beta_only'])
             self.assertEqual(sorted(rune['notice']), ['de', 'en', 'es', 'fr', 'pt'])
             self.assertEqual(sorted(rune['names']), ['de', 'en', 'es', 'fr', 'pt'])
+
+    def test_the_beta_file_carries_the_density_of_the_four_new_runes(self):
+        runes = {rune['id']: rune for rune in transcendence.load_runes('beta')}
+        densities = {item_id: runes[item_id]['density'] for item_id in NEW_BETA_RUNES}
+        self.assertEqual(densities, {29679: 100, 29680: 90, 29681: 51, 29682: 30})
 
     def test_only_the_four_new_runes_are_beta_only(self):
         flagged = {rune['id'] for rune in transcendence.load_runes('beta') if rune['beta_only']}
