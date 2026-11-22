@@ -1949,13 +1949,13 @@ msgstr ""
 "Alguns dados não têm uma fonte oficial utilizável; eles vêm destes projetos "
 "comunitários, aos quais agradecemos:"
 
-#: .\chardata\templates\chardata\about.html:47
+#: chardata/templates/chardata/about.html
 msgid ""
-"open data and API for the Dofus 3 and Beta items, sets, spells, recipes and "
-"drops"
+"open data and API for the Dofus 3 and Beta items, sets, spells, recipes, "
+"drops and where monsters are found"
 msgstr ""
-"dados abertos e API para os itens, conjuntos, feitiços, receitas e drops do "
-"Dofus 3 e do Beta"
+"dados abertos e API para os itens, conjuntos, feitiços, receitas, drops e "
+"zonas onde encontrar os monstros do Dofus 3 e do Beta"
 
 #: .\chardata\templates\chardata\about.html:48
 msgid "monster stats and artwork for Dofus 3 and the Beta"
@@ -8415,8 +8415,9 @@ msgstr "no máximo que um turno permite num alvo"
 msgid "Critical failure is not counted; this version is the only one that has it."
 msgstr "A falha crítica não é contada; esta versão é a única que a tem."
 
-msgid "where monsters are found and their artwork for Dofus 3 and the Beta"
-msgstr "zonas onde encontrar os monstros e as suas ilustrações para o Dofus 3 e o Beta"
+#: chardata/templates/chardata/about.html
+msgid "monster artwork for Dofus 3 and the Beta"
+msgstr "ilustrações dos monstros para o Dofus 3 e o Beta"
 
 msgid "No critical hit"
 msgstr "Sem golpe crítico"

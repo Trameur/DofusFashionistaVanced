@@ -1875,10 +1875,10 @@ msgid ""
 "with our thanks:"
 msgstr ""
 
-#: .\chardata\templates\chardata\about.html:47
+#: chardata/templates/chardata/about.html
 msgid ""
-"open data and API for the Dofus 3 and Beta items, sets, spells, recipes and "
-"drops"
+"open data and API for the Dofus 3 and Beta items, sets, spells, recipes, "
+"drops and where monsters are found"
 msgstr ""
 
 #: .\chardata\templates\chardata\about.html:48
@@ -7471,7 +7471,8 @@ msgstr ""
 msgid "Critical failure is not counted; this version is the only one that has it."
 msgstr ""
 
-msgid "where monsters are found and their artwork for Dofus 3 and the Beta"
+#: chardata/templates/chardata/about.html
+msgid "monster artwork for Dofus 3 and the Beta"
 msgstr ""
 
 msgid "No critical hit"

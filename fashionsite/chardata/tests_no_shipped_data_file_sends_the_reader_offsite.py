@@ -190,11 +190,27 @@ class TheCreditsSayWhatTheSiteTakesFromDofusDBTests(TestCase):
 
     # One translated phrase per language, not the brand name
     TEMOINS = {
+        'en': 'monster artwork for Dofus 3 and the Beta',
+        'fr': 'illustrations des monstres pour Dofus 3 et la Beta',
+        'es': 'ilustraciones de los monstruos para Dofus 3 y la Beta',
+        'pt': 'ilustrações dos monstros para o Dofus 3 e o Beta',
+        'de': 'Illustrationen der Monster für Dofus 3 und die Beta',
+    }
+
+    ANCIENS_LIEUX = {
         'en': 'where monsters are found and their artwork for Dofus 3 and the Beta',
         'fr': 'zones où trouver les monstres et leurs illustrations pour Dofus 3 et la Beta',
         'es': 'zonas donde encontrar los monstruos y sus ilustraciones para Dofus 3 y la Beta',
         'pt': 'zonas onde encontrar os monstros e as suas ilustrações para o Dofus 3 e o Beta',
         'de': 'Fundorte und Illustrationen der Monster für Dofus 3 und die Beta',
+    }
+
+    DOFUSDUDE = {
+        'en': 'recipes, drops and where monsters are found',
+        'fr': 'butins et zones où trouver les monstres de Dofus 3 et de la Beta',
+        'es': 'botines y zonas donde encontrar los monstruos de Dofus 3 y de la Beta',
+        'pt': 'drops e zonas onde encontrar os monstros do Dofus 3 e do Beta',
+        'de': 'Drops und Fundorte der Monster von Dofus 3 und der Beta',
     }
 
     # What the credit used to add, now that the runes come from the game files
@@ -207,7 +223,7 @@ class TheCreditsSayWhatTheSiteTakesFromDofusDBTests(TestCase):
     }
 
     def test_the_about_page_credits_only_the_monsters_in_five_languages(self):
-        manquants, restes = [], []
+        manquants, restes, sans_dofusdude = [], [], []
         for langue in LANGUES:
             reponse = self.client.get('/about/',
                                       headers={'accept-language': langue})
@@ -216,15 +232,20 @@ class TheCreditsSayWhatTheSiteTakesFromDofusDBTests(TestCase):
             self.assertIn('dofusdb.fr', corps, langue)
             if self.TEMOINS[langue] not in corps:
                 manquants.append(langue)
-            if self.ANCIENS[langue] in corps:
+            if self.ANCIENS[langue] in corps or self.ANCIENS_LIEUX[langue] in corps:
                 restes.append(langue)
+            if self.DOFUSDUDE[langue] not in corps:
+                sans_dofusdude.append(langue)
         self.assertFalse(
             manquants,
             'the credit never reached the page in these languages: %s'
             % manquants)
         self.assertFalse(
             restes,
-            'the page still credits DofusDB for the runes in: %s' % restes)
+            'the page still credits DofusDB for the runes or the locations in: %s' % restes)
+        self.assertFalse(
+            sans_dofusdude,
+            'the dofusdude credit does not say where monsters are found in: %s' % sans_dofusdude)
 
     def test_the_five_languages_do_not_all_answer_in_english(self):
         """A fuzzy .po entry silently falls back to English."""
