@@ -55,7 +55,12 @@ def eligible_items(type_name):
 
 def piece(type_name, lines, number=0, keep_lines=False):
     """A copy of the number-th eligible piece of that type, with these lines and no condition."""
-    item = deepcopy(next(itertools.islice(eligible_items(type_name), number, None)))
+    return bare(deepcopy(next(itertools.islice(eligible_items(type_name), number, None))),
+                lines, keep_lines)
+
+
+def bare(item, lines, keep_lines=False):
+    """item with these lines and no condition."""
     if not keep_lines:
         item.stats = [(stat_id(key), value) for key, value in lines.items()]
         item.stat_ranges = {}
@@ -165,7 +170,12 @@ def real_input(runes_allowed=NOT_ASKED):
 
 def written(model, runes_allowed=NOT_ASKED):
     """The MPS bytes of the model set up for real_input, under one problem name."""
-    model.setup(real_input(runes_allowed))
+    return mps(model, real_input(runes_allowed))
+
+
+def mps(model, model_input):
+    """The MPS bytes of the model set up for model_input, under one problem name."""
+    model.setup(model_input)
     handle, path = tempfile.mkstemp(suffix='.mps')
     os.close(handle)
     try:

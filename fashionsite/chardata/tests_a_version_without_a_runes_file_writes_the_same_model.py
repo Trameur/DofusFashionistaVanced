@@ -17,7 +17,7 @@ VERSIONS = ('dofus3', 'beta')
 def before_runes():
     """The MPS of a model built and set up with the rune code skipped."""
     with mock.patch.object(Model, '_build_dracorune_candidates', lambda self: None), \
-            mock.patch.object(Model, 'modify_dracorune_terms', lambda self, count, given: None):
+            mock.patch.object(Model, '_rebuild_rune_terms', lambda self, *args, **kwargs: None):
         return written(Model())
 
 

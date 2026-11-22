@@ -21,7 +21,9 @@ import json
 import logging
 from copy import deepcopy
 
-from . import dracorune_terms, dracorunes
+from . import dracorune_terms, dracorunes, transcendence
+from .transcendence_terms import (TRANSCENDENCE_VERSIONS, class_key, class_runes,
+                                  copy_takes_rune, runes_by_stat)
 from .exo_options import exo_count
 from .game_versions import get_game_version
 from .item_effects import effect_term, load_effect_table
@@ -49,14 +51,26 @@ PERCENT_RESISTS = ('% Neutral Resist', '% Earth Resist', '% Fire Resist', '% Wat
 DRACORUNE_PREFIX = 'draco'
 DRACORUNE_TOTAL = 'draco_total'
 DRACORUNE_LOCKS = 'dracorune_locks'
+TRANSCENDENCE_OPTION = 'transcendence'
+TRANSCENDENCE_PREFIX = 'trans'
+TRANSCENDENCE_TOTAL = 'trans_total'
+
+
+def _positive_count(options, key):
+    count = (options or {}).get(key, 0)
+    if not isinstance(count, int) or isinstance(count, bool) or count <= 0:
+        return 0
+    return count
 
 
 def dracorune_count(options):
     """The runes a build allows, 0 unless its options carry a positive int."""
-    count = (options or {}).get('dracorunes', 0)
-    if not isinstance(count, int) or isinstance(count, bool) or count <= 0:
-        return 0
-    return count
+    return _positive_count(options, 'dracorunes')
+
+
+def transcendence_count(options):
+    """The transcendence runes a build allows, 0 unless its options carry a positive int."""
+    return _positive_count(options, TRANSCENDENCE_OPTION)
 
 
 def readable_runes(version):
@@ -76,6 +90,26 @@ def dracorune_signature(version):
     content = json.dumps(runes, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
     return [runes.get('source_tag'),
             hashlib.sha256(content.encode('ascii')).hexdigest()[:16]]
+
+
+def readable_transcendence_runes(version):
+    """The version's transcendence runes, [] outside TRANSCENDENCE_VERSIONS, without a file or when it cannot be read."""
+    if version not in TRANSCENDENCE_VERSIONS:
+        return []
+    try:
+        return transcendence.load_runes(version)
+    except (AttributeError, KeyError, OSError, TypeError, ValueError):
+        logger.exception('The transcendence runes file of %s cannot be read, no rune is offered', version)
+        return []
+
+
+def transcendence_signature(version):
+    """Short sha of the version's transcendence runes, None when it offers none."""
+    runes = readable_transcendence_runes(version)
+    if not runes:
+        return None
+    content = json.dumps(runes, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
+    return hashlib.sha256(content.encode('ascii')).hexdigest()[:16]
 
 
 def _dracorune_slug(key):
@@ -130,6 +164,7 @@ class Model:
         if stat_overrides:
             self._apply_stat_overrides(stat_overrides)
         self._build_dracorune_candidates()
+        self._build_transcendence_candidates()
 
         self.problem = LpProblem2()
         self.restrictions = Restrictions()
@@ -207,6 +242,36 @@ class Model:
         for item_id, message in problems:
             logger.error('No dracorune for item %s: %s', item_id, message)
         self.dracorune_candidates = found
+
+    def _build_transcendence_candidates(self):
+        """{item id: {stat key: line}} of the pieces a transcendence rune may go on, and the runes by stat; empty outside TRANSCENDENCE_VERSIONS."""
+        self.transcendence_candidates = {}
+        self.transcendence_runes = {}
+        runes = readable_transcendence_runes(getattr(self.structure, 'game_version', 'dofus3'))
+        if not runes:
+            return
+        try:
+            by_stat = runes_by_stat(runes)
+        except (KeyError, TypeError, ValueError):
+            logger.exception('The transcendence runes file cannot be read, no rune is offered')
+            return
+        carriers = set().union(*(getattr(self, '_exo_carriers', None) or {}).values())
+        overed = getattr(self, '_overed_items', None) or set()
+        found = {}
+        for item in self.items_list:
+            if not copy_takes_rune(self.structure.get_type_name_by_id(item.type),
+                                   getattr(item, 'weapon_key', None),
+                                   overed=item.id in overed, exo_carrier=item.id in carriers,
+                                   temporix=self.temporix):
+                continue
+            lines = {}
+            for stat_id, value in item.stats:
+                stat = self.structure.get_stat_by_id(stat_id)
+                if stat is not None:
+                    lines[stat.key] = lines.get(stat.key, 0) + value
+            found[item.id] = lines
+        self.transcendence_candidates = found
+        self.transcendence_runes = by_stat
 
     def _wear_shiny(self, stat_overrides):
         # A piece with recorded rolls was forgemaged, so it can't be shiny
@@ -946,30 +1011,46 @@ class Model:
             self._crit_hinge_constraints.append(constraint_name)
             self._crit_hinge_terms[('crithinge', number)] = -drop
 
-    def _forget_dracorune_terms(self):
+    def _drop_rune_entries(self, terms, constraints, variables):
+        """Takes these row terms, named rows and columns out of the LP."""
         lp = self.problem.pulp_lp
-        for restriction, variable in getattr(self, '_dracorune_terms', ()):
+        for restriction, variable in terms:
             restriction.expr.pop(variable, None)
         removed = set()
-        for name in getattr(self, '_dracorune_constraints', ()):
+        for name in constraints:
             constraint = lp.constraints.pop(name, None)
             if constraint is not None:
                 removed.add(id(constraint))
         if removed:
             lp.modifiedConstraints = [c for c in lp.modifiedConstraints
                                       if id(c) not in removed]
-        stale = set(getattr(self, '_dracorune_variables', ()))
+        stale = set(variables)
         if stale:
             lp._variables = [v for v in lp._variables if v.name not in stale]
             lp._variable_ids = {key: v for key, v in lp._variable_ids.items()
                                 if v.name not in stale}
             for name in stale:
                 self.problem.pulp_vars.pop(name, None)
+
+    def _forget_dracorune_terms(self):
+        self._drop_rune_entries(getattr(self, '_dracorune_terms', ()),
+                                getattr(self, '_dracorune_constraints', ()),
+                                getattr(self, '_dracorune_variables', ()))
         self._dracorune_terms = []
         self._dracorune_constraints = []
         self._dracorune_variables = []
         self._dracorune_forced = {}
         self.dracorune_columns = {}
+
+    def _forget_transcendence_terms(self):
+        self._drop_rune_entries(getattr(self, '_transcendence_terms', ()),
+                                getattr(self, '_transcendence_constraints', ()),
+                                getattr(self, '_transcendence_variables', ()))
+        self._transcendence_terms = []
+        self._transcendence_constraints = []
+        self._transcendence_variables = []
+        self.transcendence_columns = {}
+        self.transcendence_classes = {}
 
     def _forced_dracorunes(self, model_input, pool):
         """{(item id, variant key): copies} the locked pieces already carry, the entries that no longer fit being left out."""
@@ -1042,10 +1123,16 @@ class Model:
         capped = {stat.id for stat in self.stats_list if stat.name in self.stat_maximum}
         return dracorune_terms.build_context(weights, lower | both, upper | both, capped)
 
-    def modify_dracorune_terms(self, count, model_input, for_minimums=False):
-        """Up to count worn copies take a rune: a column per kept variant on its stat rows; for_minimums also keeps what the minimums alone could use."""
+    def _rebuild_rune_terms(self, count, model_input, for_minimums=False):
+        """Forgets both rune kinds, then adds up to count Dracorunes and the transcendence runes model_input allows."""
+        self._forget_transcendence_terms()
         self._forget_dracorune_terms()
         self._dracorune_setup = (count, model_input, for_minimums)
+        self._add_dracorune_terms(count, model_input, for_minimums)
+        self._add_transcendence_terms(model_input)
+
+    def _add_dracorune_terms(self, count, model_input, for_minimums=False):
+        """Up to count worn copies take a rune: a column per kept variant on its stat rows; for_minimums also keeps what the minimums alone could use."""
         candidates = getattr(self, 'dracorune_candidates', None)
         if not count or not candidates:
             return
@@ -1104,6 +1191,87 @@ class Model:
         if columns:
             lp.addConstraint(pulp.lpSum(columns) <= count, DRACORUNE_TOTAL)
             self._dracorune_constraints.append(DRACORUNE_TOTAL)
+
+    def _add_transcendence_terms(self, model_input):
+        """Up to N worn copies take a transcendence rune: per class of copies a column per rune it takes, T1 and the count row."""
+        count = transcendence_count(model_input.options)
+        candidates = getattr(self, 'transcendence_candidates', None)
+        by_stat = getattr(self, 'transcendence_runes', None)
+        if not count or not candidates or not by_stat:
+            return
+        wearable = [item for item in self.items_list if self._could_be_worn(item)]
+        pool = sorted(item.id for item in wearable if item.id in candidates)
+        if not pool:
+            return
+        upper, capped = self._transcendence_stats(self.dracorune_context(model_input, wearable))
+        upper &= set(by_stat)
+        if not upper:
+            return
+        classes = {}
+        for item_id in pool:
+            key = class_key(by_stat, candidates[item_id], upper)
+            if any(rank for _stat, rank in key):
+                classes.setdefault(key, []).append(item_id)
+        rows = self.restrictions.stat_total_constraints
+        every = []
+        for number, key in enumerate(sorted(classes)):
+            members = classes[key]
+            worn = [self.problem.pulp_vars['x_%s' % str(item_id).replace('-', '_')]
+                    for item_id in members]
+            bound = sum(variable.upBound or 0 for variable in worn)
+            class_columns = []
+            for rune in class_runes(by_stat, candidates[members[0]], upper, capped):
+                stat = self.structure.get_stat_by_key(rune['stat_key'])
+                if stat is None or stat.name not in rows:
+                    logger.warning('No stat row for transcendence rune %s', rune['id'])
+                    continue
+                name = '%s_%d_%s_%d' % (TRANSCENDENCE_PREFIX, number, rune['stat_key'], rune['rank'])
+                column = pulp.LpVariable(name, 0, bound, pulp.LpInteger)
+                self.problem.pulp_vars[name] = column
+                self._transcendence_variables.append(name)
+                self.transcendence_columns[name] = (number, rune['id'])
+                rows[stat.name].expr.addterm(column, rune['bonus'])
+                self._transcendence_terms.append((rows[stat.name], column))
+                class_columns.append((column, rune))
+            if class_columns:
+                self.transcendence_classes[number] = list(members)
+                self._add_transcendence_class_rows(number, worn, class_columns)
+                every.extend(class_columns)
+        if every:
+            self._add_transcendence_global_rows(every, count)
+
+    def _transcendence_stats(self, context):
+        """(U, L) as stat keys: the stats a rune may usefully raise, and those a bigger rune may overshoot."""
+        def keys(ids):
+            return {stat.key for stat in map(self.structure.get_stat_by_id, ids)
+                    if stat is not None}
+        raised = {stat_id for stat_id, weight in context.weights.items() if weight > 0}
+        lowered = {stat_id for stat_id, weight in context.weights.items() if weight < 0}
+        return keys(raised | context.lower), keys(lowered | context.upper)
+
+    def _add_transcendence_class_rows(self, number, worn, class_columns):
+        """T1: a class takes no more runes than its copies worn."""
+        self._add_transcendence_row(
+            pulp.lpSum(column for column, _rune in class_columns) - pulp.lpSum(worn) <= 0,
+            '%s_t1_%d' % (TRANSCENDENCE_PREFIX, number))
+
+    def _add_transcendence_global_rows(self, columns, count):
+        """The build takes at most count runes."""
+        self._add_transcendence_row(
+            pulp.lpSum(column for column, _rune in columns) <= count, TRANSCENDENCE_TOTAL)
+
+    def _add_transcendence_row(self, constraint, name):
+        self.problem.pulp_lp.addConstraint(constraint, name)
+        self._transcendence_constraints.append(name)
+
+    def chosen_transcendences(self):
+        """[(class number, rune id)], once per rune the last solution counts."""
+        chosen = []
+        for name, (number, rune_id) in sorted(getattr(self, 'transcendence_columns', {}).items()):
+            column = self.problem.pulp_vars.get(name)
+            copies = int(round((column.varValue if column is not None else 0) or 0))
+            chosen.extend([(number, rune_id)] * copies)
+        return chosen
 
     def chosen_dracorunes(self):
         """[(item id, variant key)], once per draconized copy in the last solution."""
@@ -1267,7 +1435,7 @@ class Model:
         self.modify_spell_modifier_terms(modifier_values,
                                          getattr(model_input, 'modifier_overlaps', None))
         self.modify_crit_hinges(getattr(model_input, 'crit_hinges', None))
-        self.modify_dracorune_terms(dracorune_count(model_input.options), model_input)
+        self._rebuild_rune_terms(dracorune_count(model_input.options), model_input)
 
         self.item_terms = dict(getattr(model_input, 'item_terms', None) or {})
         self.write_objective_function(model_input.objective_values, model_input.char_level,
@@ -1952,7 +2120,7 @@ class Model:
         self.modify_minimum_stat_constraints({}, level)
         setup = getattr(self, '_dracorune_setup', None)
         if setup and setup[0]:
-            self.modify_dracorune_terms(setup[0], setup[1], for_minimums=True)
+            self._rebuild_rune_terms(setup[0], setup[1], for_minimums=True)
         version = getattr(getattr(self, 'structure', None), 'game_version', 'dofus3')
         dependencies = _minimum_dependencies(version)
 
@@ -2018,8 +2186,9 @@ class Model:
     def run(self, retries=0, change_of=False, warm_start=None, seed=None, gap=0):
         if change_of:
             self.input['objective_values']['vit'] += 1
-            if getattr(self, '_dracorune_variables', None):
-                self.modify_dracorune_terms(*self._dracorune_setup)
+            if (getattr(self, '_dracorune_variables', None)
+                    or getattr(self, '_transcendence_variables', None)):
+                self._rebuild_rune_terms(*self._dracorune_setup)
             self.write_objective_function(self.input['objective_values'], self.input['char_level'],
                                           getattr(self, 'item_terms', None))
         try:
@@ -2176,23 +2345,34 @@ class ModelInput(object):
         self.crit_hinges = tuple(tuple(hinge) for hinge in crit_hinges or ())
         self.gap = gap or 0
 
-    def _dracorune_key(self):
-        """(options without the runes option, ['dracorunes', N, file signature] or None)."""
+    def _rune_keys(self):
+        """(options without the rune options, the key parts of those that are on, Dracorunes first)."""
         from fashionistapulp.structure import get_current_game_version
         options = getattr(self, 'options', None)
-        if not isinstance(options, dict) or 'dracorunes' not in options:
-            return options, None
-        count = dracorune_count(options)
-        locks = options.get(DRACORUNE_LOCKS)
-        options = {key: value for key, value in options.items()
-                   if key not in ('dracorunes', DRACORUNE_LOCKS)}
-        signature = dracorune_signature(get_current_game_version()) if count else None
-        if signature is None:
-            return options, None
-        part = ['dracorunes', count, signature]
-        if locks and isinstance(locks, dict):
-            part.append(sorted(locks.items(), key=repr))
-        return options, part
+        if not isinstance(options, dict):
+            return options, []
+        version = get_current_game_version()
+        stripped = set()
+        parts = []
+        if 'dracorunes' in options:
+            stripped |= {'dracorunes', DRACORUNE_LOCKS}
+            count = dracorune_count(options)
+            signature = dracorune_signature(version) if count else None
+            if signature is not None:
+                part = ['dracorunes', count, signature]
+                locks = options.get(DRACORUNE_LOCKS)
+                if locks and isinstance(locks, dict):
+                    part.append(sorted(locks.items(), key=repr))
+                parts.append(part)
+        if TRANSCENDENCE_OPTION in options:
+            stripped.add(TRANSCENDENCE_OPTION)
+            count = transcendence_count(options)
+            signature = transcendence_signature(version) if count else None
+            if signature is not None:
+                parts.append([TRANSCENDENCE_OPTION, count, signature])
+        if stripped:
+            options = {key: value for key, value in options.items() if key not in stripped}
+        return options, parts
 
     def _barred_to_the_wearer(self):
         """The pieces the sex and name rule out, None when neither is checked."""
@@ -2218,7 +2398,7 @@ class ModelInput(object):
         from fashionistapulp.structure import get_current_game_version
         minimum_stats = dict(self.minimum_stats or {})
         adv_mins = minimum_stats.pop('adv_mins', None)
-        options, runes = self._dracorune_key()
+        options, rune_parts = self._rune_keys()
         parts = [
             get_current_game_version(),
             self.char_level,
@@ -2250,8 +2430,7 @@ class ModelInput(object):
         gap = getattr(self, 'gap', 0)
         if gap:
             parts.append(['gap', gap])
-        if runes:
-            parts.append(runes)
+        parts.extend(rune_parts)
         return _stable_digest(parts)
 
     def __hash__(self, *args, **kwargs):
@@ -2261,7 +2440,7 @@ class ModelInput(object):
             (item_id, frozenset(stats.items()))
             for item_id, stats in self.stat_overrides.items()
         )
-        options, runes = self._dracorune_key()
+        options, rune_parts = self._rune_keys()
         key = (get_current_game_version(),
                self.char_level,
                freeze(self.base_stats_by_attr),
@@ -2292,9 +2471,12 @@ class ModelInput(object):
         gap = getattr(self, 'gap', 0)
         if gap:
             key += (('gap', gap),)
-        if runes:
-            key += (('dracorunes', runes[1], tuple(runes[2]))
-                    + tuple(tuple(tuple(pair) for pair in locks) for locks in runes[3:]),)
+        for part in rune_parts:
+            if part[0] == 'dracorunes':
+                key += (('dracorunes', part[1], tuple(part[2]))
+                        + tuple(tuple(tuple(pair) for pair in locks) for locks in part[3:]),)
+            else:
+                key += (tuple(part),)
         return key.__hash__()
 
 def _is_number(value):

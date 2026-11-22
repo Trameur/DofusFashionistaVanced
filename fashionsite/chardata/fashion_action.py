@@ -800,8 +800,8 @@ def _continue_search(request, char, blob, minimal, solve_input, deadline):
         model = Model(stat_overrides=solve_input.stat_overrides, temporix=is_temporix)
     model.setup(solve_input)
     if search.get('for_minimums'):
-        model.modify_dracorune_terms(dracorune_count(solve_input.options), solve_input,
-                                     for_minimums=True)
+        model._rebuild_rune_terms(dracorune_count(solve_input.options), solve_input,
+                                  for_minimums=True)
     with _solver_time_limit(deadline) as time_limit:
         # CBC is deterministic: the same start and seed replay the same search
         model.run(2, warm_start=_unpack_start(search['start']),

@@ -326,16 +326,16 @@ class NoRetrofitTests(_Locks):
 
     def test_the_runes_part_of_a_cache_key_without_locks_is_the_old_one(self):
         found = ModelInput(200, {}, {}, {}, [], {}, {'dofus': True, 'dracorunes': 2},
-                           'Iop', 0)._dracorune_key()
+                           'Iop', 0)._rune_keys()
         self.assertEqual({'dofus': True}, found[0])
-        self.assertEqual(3, len(found[1]))
-        self.assertEqual(['dracorunes', 2], found[1][:2])
+        self.assertEqual(3, len(found[1][0]))
+        self.assertEqual(['dracorunes', 2], found[1][0][:2])
 
     def test_an_empty_lock_dict_leaves_the_runes_part_of_the_cache_key_alone(self):
         plain = ModelInput(200, {}, {}, {}, [], {}, {'dracorunes': 2}, 'Iop', 0)
         empty = ModelInput(200, {}, {}, {}, [], {}, {'dracorunes': 2, 'dracorune_locks': {}},
                            'Iop', 0)
-        self.assertEqual(plain._dracorune_key(), empty._dracorune_key())
+        self.assertEqual(plain._rune_keys(), empty._rune_keys())
         self.assertEqual(plain.cache_key(), empty.cache_key())
 
     def test_an_empty_lock_dict_is_not_passed_to_the_solver(self):
