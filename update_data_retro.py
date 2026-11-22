@@ -138,7 +138,7 @@ def main() -> None:
         PY, "download_retro_langs.py",
         "--lang", args.lang,
         "--categories", "items", "itemstats", "itemsets", "spells", "classes",
-        "jobs", "skills", "monsters", "kb", "effects",
+        "jobs", "skills", "monsters", "kb", "effects", "maps",
         "--dest", RETRO_RAW_DIR,
     ], cwd=ITEMSCRAPER)
 
@@ -154,7 +154,7 @@ def main() -> None:
             step(f"lang/download-{lang}", [
                 PY, "download_retro_langs.py",
                 "--lang", lang,
-                "--categories", "items", "itemstats", "itemsets", "spells", "jobs",
+                "--categories", "items", "itemstats", "itemsets", "spells", "jobs", "maps",
                 "--dest", RETRO_RAW_DIR,
             ], cwd=ITEMSCRAPER)
 
@@ -214,14 +214,8 @@ def main() -> None:
         PY, "store_retro_monster_grades.py",
     ], cwd=ITEMSCRAPER)
 
-    # Where each monster can be found, from Solomonk
     step("monsters/subareas", [
         PY, "store_retro_monster_subareas.py",
-    ], cwd=ITEMSCRAPER)
-
-    # Subarea names in five languages, after monsters/subareas which rebuilds the table
-    step("monsters/subarea-langs", [
-        PY, "store_retro_subarea_languages.py",
     ], cwd=ITEMSCRAPER)
 
     # Monster artworks from the 1.29 client, needs java, ffdec and resvg

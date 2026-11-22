@@ -164,7 +164,7 @@ def main(argv=None):
     for cat in args.categories:
         ver = versions.get(cat)
         if ver is None:
-            print(f"  ! category '{cat}' not in manifest, skipping")
+            print(f"  warning: category '{cat}' not in manifest, skipping")
             continue
         try:
             raw = download_swf(cat, args.lang, ver, dest_dir, root)

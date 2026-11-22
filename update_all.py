@@ -94,7 +94,6 @@ STEP_TITLES = {
     'mount-looks': 'Mount appearances', 'monster-grades': 'Monster grades',
     'monster-subareas': 'Monster subareas', 'monster-spells': 'Monster spells',
     'monsters/grades': 'Monster grades', 'monsters/subareas': 'Monster subareas',
-    'monsters/subarea-langs': 'Subarea names',
     'spells/download': 'Downloading spells', 'spells/transform': 'Transforming spells',
     'spells/duplicates': 'Duplicate damage rows', 'spells/build': 'Building spells',
     'spells/reference': 'Spell reference', 'spells/states': 'Spell states',

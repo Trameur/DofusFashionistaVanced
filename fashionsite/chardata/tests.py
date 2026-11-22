@@ -14411,7 +14411,6 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('Niveau %s - Monstre' % d2_span, resp.content.decode('utf-8'))
 
     def test_retro_monster_page_lists_its_subareas(self):
-        # Retro subareas come from the Solomonk bestiary
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
 

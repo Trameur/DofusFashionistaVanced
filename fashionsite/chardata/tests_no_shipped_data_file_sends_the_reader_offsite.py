@@ -250,3 +250,46 @@ class TheCreditsSayWhatTheSiteTakesFromDofusDBTests(TestCase):
     def test_the_five_languages_do_not_all_answer_in_english(self):
         """A fuzzy .po entry silently falls back to English."""
         self.assertEqual(5, len(set(self.TEMOINS.values())))
+
+
+class TheCreditsSayWhatTheSiteTakesFromSolomonkTests(TestCase):
+
+    EXPECTED = {
+        'en': 'monster drops and stats per grade',
+        'fr': 'butins et caractéristiques par grade des monstres',
+        'es': 'botines y características por grado de los monstruos',
+        'pt': 'drops e características por grau dos monstros',
+        'de': 'Drops und Werte pro Stufe der Monster',
+    }
+
+    RETIRED = {
+        'en': 'stats per grade and locations',
+        'fr': 'par grade et zones des monstres',
+        'es': 'por grado y zonas de los monstruos',
+        'pt': 'por grau e zonas dos monstros',
+        'de': 'Werte pro Stufe und Fundorte der Monster',
+    }
+
+    def test_the_about_page_credits_solomonk_only_for_drops_and_grades_in_five_languages(self):
+        missing, left = [], []
+        for language in LANGUES:
+            response = self.client.get('/about/',
+                                      headers={'accept-language': language})
+            self.assertEqual(200, response.status_code, language)
+            body = response.content.decode('utf-8')
+            self.assertIn('solomonk.fr', body, language)
+            if self.EXPECTED[language] not in body:
+                missing.append(language)
+            if self.RETIRED[language] in body:
+                left.append(language)
+        self.assertFalse(
+            missing,
+            'the credit never reached the page in these languages: %s'
+            % missing)
+        self.assertFalse(
+            left,
+            'the page still credits Solomonk for the locations in: %s' % left)
+
+    def test_the_five_languages_do_not_all_answer_in_english(self):
+        """A fuzzy .po entry silently falls back to English."""
+        self.assertEqual(5, len(set(self.EXPECTED.values())))

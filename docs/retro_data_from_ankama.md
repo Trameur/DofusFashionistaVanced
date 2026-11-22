@@ -58,6 +58,14 @@ decodes it with the item effect decoder and writes `retro_set_bonuses.json`.
 Community set-bonus data (Solomonk, Dofus Retro Tools) is only compared with
 it: the differences are printed and never change the output.
 
+Where each monster can be found comes from two lang files. The `monsters` file
+gives each monster a `spawn` entry: `a` lists subarea ids and `m` lists some
+maps. The `maps` file gives the subarea and area names in every language
+(`MA.sa`, `MA.a`) and the subarea of each map (`MA.m`). A subarea whose name
+starts with `//` is a developer placeholder, so it shows the name of its area
+instead, and a subarea that owns no map is left out because no player can stand
+in it.
+
 ## 4. What isn't in the lang data
 
 One thing genuinely isn't published in Ankama's public lang files:
@@ -66,5 +74,5 @@ One thing genuinely isn't published in Ankama's public lang files:
   aren't in the lang data and are sourced separately.
 
 Everything else (items, stats, equip conditions, sets and their bonuses,
-recipes and spells) comes straight from Ankama's official CDN as described
-above.
+recipes, spells and where each monster is found) comes straight from
+Ankama's official CDN as described above.

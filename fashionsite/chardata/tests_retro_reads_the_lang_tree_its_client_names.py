@@ -1,5 +1,6 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """The Retro importer reads its lang files under the dataserver the live client config ranks first."""
+import io
 import os
 from pathlib import Path
 import sys
@@ -10,7 +11,6 @@ from unittest import TestCase, mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'itemscraper'))
 import download_retro_langs as langs  # noqa: E402
 import get_monsters_retro  # noqa: E402
-import store_retro_subarea_languages  # noqa: E402
 
 LIVE_ROOT = 'https://dofusretro.cdn.ankama.com/static-data/612/lang'
 
@@ -129,14 +129,25 @@ class TheRetroLangFilesAreReadUnderThatRootTests(TestCase):
         self.assertEqual([LIVE_ROOT + '/versions_fr.txt', LIVE_ROOT + '/swf/items_fr_1399.swf',
                           LIVE_ROOT + '/swf/itemstats_fr_1398.swf'], urls)
 
-    def test_the_monster_and_subarea_steps_take_the_same_root(self):
+    def test_the_monster_step_takes_the_live_root(self):
         with mock.patch.object(langs, 'lang_root', return_value=LIVE_ROOT):
             self.assertEqual(LIVE_ROOT, get_monsters_retro._ankama_lang_root())
-            self.assertEqual(LIVE_ROOT, store_retro_subarea_languages._lang_root())
+
+    def test_a_category_the_manifest_lacks_is_a_warning(self):
+        def get(url, timeout):
+            return Response(text='&f=items,fr,1399')
+
+        with mock.patch.object(langs, 'lang_root', return_value=LIVE_ROOT), \
+                mock.patch.object(langs.requests, 'get', side_effect=get), \
+                mock.patch.object(langs, 'parse_lang_swf', return_value={}), \
+                tempfile.TemporaryDirectory() as folder, \
+                mock.patch('sys.stdout', new_callable=io.StringIO) as out:
+            langs.main(['--categories', 'maps', '--dest', folder])
+        self.assertIn("warning: category 'maps' not in manifest, skipping", out.getvalue())
 
     def test_no_retro_step_names_the_old_frozen_lang_root(self):
         folder = Path(__file__).resolve().parents[2] / 'itemscraper'
-        for name in ('download_retro_langs.py', 'get_monsters_retro.py', 'store_retro_subarea_languages.py'):
+        for name in ('download_retro_langs.py', 'get_monsters_retro.py', 'store_retro_monster_subareas.py'):
             with self.subTest(name=name):
                 source = (folder / name).read_text(encoding='utf-8')
                 self.assertNotIn("'https://dofusretro.cdn.ankama.com/lang'", source)

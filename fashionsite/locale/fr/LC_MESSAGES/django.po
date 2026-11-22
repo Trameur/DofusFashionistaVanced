@@ -1979,8 +1979,8 @@ msgid "monster stats and artwork for Dofus 3 and the Beta"
 msgstr "caractéristiques et illustrations des monstres pour Dofus 3 et la Beta"
 
 #: .\chardata\templates\chardata\about.html:49
-msgid "Dofus Retro bestiary: monster drops, stats per grade and locations"
-msgstr "bestiaire de Dofus Retro : butins, caractéristiques par grade et zones des monstres"
+msgid "Dofus Retro bestiary: monster drops and stats per grade"
+msgstr "bestiaire de Dofus Retro : butins et caractéristiques par grade des monstres"
 
 #: .\chardata\templates\chardata\about.html:51
 msgid "Dofus Retro spell icons"
