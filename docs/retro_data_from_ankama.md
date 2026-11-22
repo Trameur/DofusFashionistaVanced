@@ -50,14 +50,21 @@ via `crafts`. The result is loaded into `items_retro.db`, and the linear-program
 solver is conditioned for Retro rules (12 classes, no ring doubling, no
 exomages/prysmaradite). Spells come from the Retro spell lang the same way.
 
+Set bonuses come from the same `itemsets` file: in the live lang tree each set
+`IS[id]` carries `b`, one entry `eN` per number of pieces worn, written in the
+`itemstats` effect syntax.
+[itemscraper/get_retro_set_bonuses.py](../itemscraper/get_retro_set_bonuses.py)
+decodes it with the item effect decoder and writes `retro_set_bonuses.json`.
+Community set-bonus data (Solomonk, Dofus Retro Tools) is only compared with
+it: the differences are printed and never change the output.
+
 ## 4. What isn't in the lang data
 
-A couple of things genuinely aren't published in Ankama's public lang files:
+One thing genuinely isn't published in Ankama's public lang files:
 
-- **Set bonuses** are applied server-side in Retro, so they're not in the lang
-  data. They're filled from community-maintained data instead.
-- **Familiar (pet) feedable bonuses** — the stat a pet grows toward when fed —
-  likewise aren't in the lang data and are sourced separately.
+- **Familiar (pet) feedable bonuses**, the stat a pet grows toward when fed,
+  aren't in the lang data and are sourced separately.
 
-Everything else — items, stats, equip conditions, set membership, recipes and
-spells — comes straight from Ankama's official CDN as described above.
+Everything else (items, stats, equip conditions, sets and their bonuses,
+recipes and spells) comes straight from Ankama's official CDN as described
+above.

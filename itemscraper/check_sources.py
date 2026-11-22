@@ -76,7 +76,7 @@ def probe_retro_set_bonuses_solomonk():
 
 
 def probe_retro_set_bonuses_drt():
-    """Dofus Retro Tools, which fills the sets solomonk does not list."""
+    """Dofus Retro Tools, the second source of the community set bonus snapshot."""
     import store_retro_set_bonuses as scraper
     records = scraper.fetch_api_records(report_unmapped=False)
     return len(records), 'sets with bonuses'

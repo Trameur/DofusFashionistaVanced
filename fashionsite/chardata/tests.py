@@ -22956,7 +22956,7 @@ class RetroEffectMapTests(SimpleTestCase):
 
 
 class RetroSetBonusCodeTests(SimpleTestCase):
-    """Retro set bonuses: Solomonk first, the dofusretrotools API for the rest."""
+    """Retro set bonuses in the database and the stat codes of the community snapshot."""
 
     RETRO_SETS = ((35, 'Aerdala Set'), (68, 'Black Rat Set'))
     # ankama id -> {pieces: {stat: value}}

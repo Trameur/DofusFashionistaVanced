@@ -153,7 +153,6 @@ SPELL_EFFECT_TEMPLATES = {
           'de': 'Erhöht die maximale Anzahl an Zaubern pro Ziel von %(spell)s um %(value)d'},
 }
 
-# Set bonuses are not in the lang; the scrapstuff snapshot labels them in French
 _SET_STAT_FR_TO_EN = {
     'force': 'Strength', 'intelligence': 'Intelligence', 'agilite': 'Agility',
     'chance': 'Chance', 'sagesse': 'Wisdom', 'vitalite': 'Vitality', 'vie': 'HP',
@@ -198,11 +197,10 @@ def _map_set_stat(fr_type):
 
 
 def load_set_bonuses(path):
-    """scrapstuff sets.json -> [(ankama_id, frozenset(item names), stats_list)]."""
+    """retro_set_bonuses.json -> [(ankama_id, frozenset(item names), stats_list)]."""
     p = Path(path)
     if not p.exists():
         return []
-    # A 1.29 snapshot: sets added since have no bonus
     data = json.loads(p.read_text(encoding='utf-8'))
     out = []
     for s in data:
@@ -472,7 +470,6 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
             return (set_names_by_lang.get(lang) or {}).get(sid) or name_fr
 
         equipment_ids = [int(x) for x in sd['i']]
-        # Members from the lang, bonuses from the snapshot; the model has 9 slots
         lang_item_names = {item_name_by_id.get(str(i), '') for i in sd['i']}
         lang_item_names.discard('')
         max_pieces = min(len(equipment_ids), 9)
@@ -506,7 +503,7 @@ def main(argv=None):
     p.add_argument('--raw-dir', default='itemscraper/retro_raw')
     p.add_argument('--out-dir', default='itemscraper/retro')
     p.add_argument('--set-bonuses', default='itemscraper/retro_set_bonuses.json',
-                   help='Vendored community set-bonus snapshot (not in the lang CDN)')
+                   help='Set bonuses decoded from the itemsets lang file')
     p.add_argument('--lang', default='fr')
     args = p.parse_args(argv)
 

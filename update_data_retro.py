@@ -154,7 +154,7 @@ def main() -> None:
             step(f"lang/download-{lang}", [
                 PY, "download_retro_langs.py",
                 "--lang", lang,
-                "--categories", "items", "itemstats", "spells", "jobs",
+                "--categories", "items", "itemstats", "itemsets", "spells", "jobs",
                 "--dest", RETRO_RAW_DIR,
             ], cwd=ITEMSCRAPER)
 
@@ -163,7 +163,6 @@ def main() -> None:
         "--lang", args.lang,
     ])
 
-    # Set bonuses are server-side: solomonk.fr, then the Dofus Retro Tools API
     step("sets/bonuses", [
         PY, "get_retro_set_bonuses.py",
     ], cwd=ITEMSCRAPER)

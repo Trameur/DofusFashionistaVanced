@@ -85,10 +85,6 @@
      "value": "5"
     },
     {
-     "type": "HP",
-     "value": "30"
-    },
-    {
      "type": "Intelligence",
      "value": "50"
     },
@@ -97,12 +93,16 @@
      "value": "50"
     },
     {
+     "type": "Vitality",
+     "value": "30"
+    },
+    {
      "type": "Wisdom",
      "value": "20"
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 2,
@@ -274,7 +274,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 3,
@@ -298,11 +298,11 @@
    ],
    [
     {
-     "type": "HP",
+     "type": "Strength",
      "value": "10"
     },
     {
-     "type": "Strength",
+     "type": "Vitality",
      "value": "10"
     }
    ],
@@ -312,11 +312,11 @@
      "value": "10"
     },
     {
-     "type": "HP",
+     "type": "Strength",
      "value": "20"
     },
     {
-     "type": "Strength",
+     "type": "Vitality",
      "value": "20"
     }
    ],
@@ -330,11 +330,11 @@
      "value": "15"
     },
     {
-     "type": "HP",
+     "type": "Strength",
      "value": "30"
     },
     {
-     "type": "Strength",
+     "type": "Vitality",
      "value": "30"
     }
    ],
@@ -399,7 +399,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 4,
@@ -500,7 +500,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 5,
@@ -646,7 +646,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 6,
@@ -704,7 +704,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 7,
@@ -730,7 +730,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 8,
@@ -797,7 +797,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 9,
@@ -853,7 +853,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 10,
@@ -882,7 +882,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 11,
@@ -987,7 +987,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 12,
@@ -1112,7 +1112,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 13,
@@ -1284,7 +1284,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 14,
@@ -1432,7 +1432,7 @@
     },
     {
      "type": "Chance",
-     "value": "35"
+     "value": "30"
     },
     {
      "type": "MP",
@@ -1456,7 +1456,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 15,
@@ -1628,7 +1628,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 16,
@@ -1765,7 +1765,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 17,
@@ -1890,7 +1890,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 18,
@@ -2027,7 +2027,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 19,
@@ -2164,7 +2164,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 20,
@@ -2301,7 +2301,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 21,
@@ -2330,7 +2330,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 22,
@@ -2382,7 +2382,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 23,
@@ -2426,7 +2426,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 24,
@@ -2474,7 +2474,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 25,
@@ -2526,7 +2526,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 26,
@@ -2584,7 +2584,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 27,
@@ -2636,7 +2636,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 28,
@@ -2688,7 +2688,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 29,
@@ -2740,7 +2740,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 30,
@@ -2792,7 +2792,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 31,
@@ -2844,7 +2844,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 32,
@@ -2965,7 +2965,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 33,
@@ -3040,7 +3040,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 34,
@@ -3160,7 +3160,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 35,
@@ -3304,7 +3304,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 36,
@@ -3424,7 +3424,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 37,
@@ -3568,7 +3568,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 38,
@@ -3636,7 +3636,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 39,
@@ -3692,7 +3692,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 40,
@@ -3717,7 +3717,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 41,
@@ -3761,7 +3761,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 42,
@@ -3817,7 +3817,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 43,
@@ -3922,7 +3922,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 44,
@@ -3978,7 +3978,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 45,
@@ -4022,7 +4022,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 46,
@@ -4146,7 +4146,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 47,
@@ -4251,7 +4251,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 49,
@@ -4307,7 +4307,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 50,
@@ -4432,7 +4432,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 51,
@@ -4545,7 +4545,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 52,
@@ -4666,7 +4666,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 53,
@@ -4827,7 +4827,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 54,
@@ -4912,7 +4912,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 55,
@@ -4990,7 +4990,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 56,
@@ -5152,7 +5152,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 57,
@@ -5269,7 +5269,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 58,
@@ -5390,7 +5390,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 59,
@@ -5499,7 +5499,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 60,
@@ -5561,7 +5561,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 61,
@@ -5623,7 +5623,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 62,
@@ -5677,7 +5677,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 63,
@@ -5789,7 +5789,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 64,
@@ -5879,7 +5879,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 65,
@@ -6005,7 +6005,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 66,
@@ -6107,7 +6107,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 67,
@@ -6228,7 +6228,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 68,
@@ -6365,7 +6365,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 69,
@@ -6390,15 +6390,15 @@
      "value": "5"
     },
     {
-     "type": "HP",
-     "value": "5"
-    },
-    {
      "type": "Intelligence",
      "value": "5"
     },
     {
      "type": "Strength",
+     "value": "5"
+    },
+    {
+     "type": "Vitality",
      "value": "5"
     },
     {
@@ -6416,15 +6416,15 @@
      "value": "10"
     },
     {
-     "type": "HP",
-     "value": "10"
-    },
-    {
      "type": "Intelligence",
      "value": "10"
     },
     {
      "type": "Strength",
+     "value": "10"
+    },
+    {
+     "type": "Vitality",
      "value": "10"
     },
     {
@@ -6442,15 +6442,15 @@
      "value": "15"
     },
     {
-     "type": "HP",
-     "value": "15"
-    },
-    {
      "type": "Intelligence",
      "value": "15"
     },
     {
      "type": "Strength",
+     "value": "15"
+    },
+    {
+     "type": "Vitality",
      "value": "15"
     },
     {
@@ -6468,15 +6468,15 @@
      "value": "20"
     },
     {
-     "type": "HP",
-     "value": "20"
-    },
-    {
      "type": "Intelligence",
      "value": "20"
     },
     {
      "type": "Strength",
+     "value": "20"
+    },
+    {
+     "type": "Vitality",
      "value": "20"
     },
     {
@@ -6494,15 +6494,15 @@
      "value": "25"
     },
     {
-     "type": "HP",
-     "value": "25"
-    },
-    {
      "type": "Intelligence",
      "value": "25"
     },
     {
      "type": "Strength",
+     "value": "25"
+    },
+    {
+     "type": "Vitality",
      "value": "25"
     },
     {
@@ -6511,7 +6511,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 70,
@@ -6528,56 +6528,56 @@
    [],
    [
     {
-     "type": "HP",
-     "value": "2"
-    },
-    {
      "type": "Heals",
      "value": "1"
-    }
-   ],
-   [
-    {
-     "type": "HP",
-     "value": "4"
     },
     {
-     "type": "Heals",
+     "type": "Vitality",
      "value": "2"
     }
    ],
    [
     {
-     "type": "HP",
-     "value": "6"
+     "type": "Heals",
+     "value": "2"
     },
+    {
+     "type": "Vitality",
+     "value": "4"
+    }
+   ],
+   [
     {
      "type": "Heals",
      "value": "3"
+    },
+    {
+     "type": "Vitality",
+     "value": "6"
     }
    ],
    [
-    {
-     "type": "HP",
-     "value": "8"
-    },
     {
      "type": "Heals",
      "value": "4"
+    },
+    {
+     "type": "Vitality",
+     "value": "8"
     }
    ],
    [
     {
-     "type": "HP",
-     "value": "12"
-    },
-    {
      "type": "Heals",
      "value": "6"
+    },
+    {
+     "type": "Vitality",
+     "value": "12"
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 71,
@@ -6639,7 +6639,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 72,
@@ -6701,7 +6701,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 74,
@@ -6726,7 +6726,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 77,
@@ -6794,7 +6794,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 78,
@@ -6839,7 +6839,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 79,
@@ -6907,7 +6907,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 80,
@@ -6944,7 +6944,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 81,
@@ -7163,7 +7163,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 82,
@@ -7382,7 +7382,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 83,
@@ -7601,7 +7601,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 84,
@@ -7820,7 +7820,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 85,
@@ -8039,7 +8039,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 86,
@@ -8258,7 +8258,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 87,
@@ -8477,7 +8477,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 88,
@@ -8696,7 +8696,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 89,
@@ -8724,12 +8724,12 @@
      "value": "3"
     },
     {
-     "type": "Heals",
-     "value": "3"
-    },
-    {
      "type": "Intelligence",
      "value": "20"
+    },
+    {
+     "type": "Power",
+     "value": "3"
     },
     {
      "type": "Prospecting",
@@ -8762,12 +8762,12 @@
      "value": "7"
     },
     {
-     "type": "Heals",
-     "value": "7"
-    },
-    {
      "type": "Intelligence",
      "value": "40"
+    },
+    {
+     "type": "Power",
+     "value": "7"
     },
     {
      "type": "Prospecting",
@@ -8820,12 +8820,12 @@
      "value": "12"
     },
     {
-     "type": "Heals",
-     "value": "12"
-    },
-    {
      "type": "Intelligence",
      "value": "70"
+    },
+    {
+     "type": "Power",
+     "value": "12"
     },
     {
      "type": "Prospecting",
@@ -8886,12 +8886,12 @@
      "value": "20"
     },
     {
-     "type": "Heals",
-     "value": "20"
-    },
-    {
      "type": "Intelligence",
      "value": "100"
+    },
+    {
+     "type": "Power",
+     "value": "20"
     },
     {
      "type": "Prospecting",
@@ -8915,7 +8915,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 90,
@@ -9056,7 +9056,7 @@
     },
     {
      "type": "Summon",
-     "value": "2"
+     "value": "1"
     },
     {
      "type": "Vitality",
@@ -9122,7 +9122,7 @@
     },
     {
      "type": "Summon",
-     "value": "3"
+     "value": "1"
     },
     {
      "type": "Vitality",
@@ -9134,7 +9134,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 91,
@@ -9353,7 +9353,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 92,
@@ -9572,7 +9572,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 93,
@@ -9594,7 +9594,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 94,
@@ -9616,7 +9616,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 95,
@@ -9634,7 +9634,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 96,
@@ -9683,7 +9683,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 97,
@@ -9712,7 +9712,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 98,
@@ -9820,7 +9820,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 99,
@@ -9928,7 +9928,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 100,
@@ -10036,7 +10036,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 101,
@@ -10144,7 +10144,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 102,
@@ -10200,7 +10200,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 103,
@@ -10256,7 +10256,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 104,
@@ -10312,7 +10312,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 105,
@@ -10368,7 +10368,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 106,
@@ -10428,7 +10428,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 107,
@@ -10447,19 +10447,11 @@
      "value": "20"
     },
     {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
      "type": "Wisdom",
      "value": "5"
     }
    ],
    [
-    {
-     "type": "Heals",
-     "value": "5"
-    },
     {
      "type": "Intelligence",
      "value": "30"
@@ -10467,10 +10459,6 @@
     {
      "type": "Summon",
      "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "50"
     },
     {
      "type": "Wisdom",
@@ -10483,10 +10471,6 @@
      "value": "1"
     },
     {
-     "type": "Heals",
-     "value": "10"
-    },
-    {
      "type": "Intelligence",
      "value": "40"
     },
@@ -10495,16 +10479,12 @@
      "value": "2"
     },
     {
-     "type": "Vitality",
-     "value": "100"
-    },
-    {
      "type": "Wisdom",
      "value": "20"
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 108,
@@ -10560,7 +10540,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 109,
@@ -10616,7 +10596,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 118,
@@ -10676,7 +10656,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 119,
@@ -10732,7 +10712,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 120,
@@ -10777,7 +10757,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 121,
@@ -10814,7 +10794,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 130,
@@ -10892,7 +10872,46 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
+ },
+ {
+  "ankama_id": 141,
+  "name": "Givranoplie",
+  "items": [],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitality",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitality",
+     "value": "20"
+    },
+    {
+     "type": "Wisdom",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Prospecting",
+     "value": "20"
+    },
+    {
+     "type": "Vitality",
+     "value": "40"
+    },
+    {
+     "type": "Wisdom",
+     "value": "20"
+    }
+   ]
+  ],
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 144,
@@ -10936,7 +10955,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 145,
@@ -10980,7 +10999,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 146,
@@ -11024,7 +11043,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 147,
@@ -11080,7 +11099,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 148,
@@ -11136,7 +11155,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 149,
@@ -11180,7 +11199,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 150,
@@ -11268,7 +11287,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 151,
@@ -11331,7 +11350,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 152,
@@ -11375,7 +11394,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 153,
@@ -11419,7 +11438,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 154,
@@ -11463,7 +11482,163 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
+ },
+ {
+  "ankama_id": 156,
+  "name": "Panoplie de Rapine",
+  "items": [],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitality",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Heals",
+     "value": "3"
+    },
+    {
+     "type": "Vitality",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Heals",
+     "value": "6"
+    },
+    {
+     "type": "Power",
+     "value": "20"
+    },
+    {
+     "type": "Vitality",
+     "value": "40"
+    }
+   ]
+  ],
+  "source": "itemsets_fr.json"
+ },
+ {
+  "ankama_id": 157,
+  "name": "Panoplie de Phong Huss",
+  "items": [],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitality",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Damage",
+     "value": "3"
+    },
+    {
+     "type": "Vitality",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Damage",
+     "value": "6"
+    },
+    {
+     "type": "Prospecting",
+     "value": "10"
+    },
+    {
+     "type": "Vitality",
+     "value": "40"
+    }
+   ]
+  ],
+  "source": "itemsets_fr.json"
+ },
+ {
+  "ankama_id": 158,
+  "name": "Panoplie d'Hectaupe",
+  "items": [],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitality",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Summon",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Damage",
+     "value": "5"
+    },
+    {
+     "type": "Summon",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "40"
+    }
+   ]
+  ],
+  "source": "itemsets_fr.json"
+ },
+ {
+  "ankama_id": 159,
+  "name": "Paniop",
+  "items": [],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitality",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Damage",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Damage",
+     "value": "4"
+    },
+    {
+     "type": "Range",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "40"
+    }
+   ]
+  ],
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 163,
@@ -11523,7 +11698,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 164,
@@ -11583,7 +11758,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 200,
@@ -11599,7 +11774,56 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "15"
+    },
+    {
+     "type": "Chance",
+     "value": "15"
+    },
+    {
+     "type": "Damage",
+     "value": "4"
+    },
+    {
+     "type": "Intelligence",
+     "value": "15"
+    },
+    {
+     "type": "Power",
+     "value": "4"
+    },
+    {
+     "type": "Prospecting",
+     "value": "15"
+    },
+    {
+     "type": "Range",
+     "value": "1"
+    },
+    {
+     "type": "Strength",
+     "value": "80"
+    },
+    {
+     "type": "Summon",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "80"
+    },
+    {
+     "type": "Wisdom",
+     "value": "30"
+    }
+   ],
    [
     {
      "type": "AP",
@@ -11626,6 +11850,10 @@
      "value": "5"
     },
     {
+     "type": "Prospecting",
+     "value": "20"
+    },
+    {
      "type": "Range",
      "value": "1"
     },
@@ -11647,7 +11875,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 201,
@@ -11663,7 +11891,56 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "15"
+    },
+    {
+     "type": "Chance",
+     "value": "15"
+    },
+    {
+     "type": "Damage",
+     "value": "4"
+    },
+    {
+     "type": "Intelligence",
+     "value": "80"
+    },
+    {
+     "type": "Power",
+     "value": "4"
+    },
+    {
+     "type": "Prospecting",
+     "value": "15"
+    },
+    {
+     "type": "Range",
+     "value": "1"
+    },
+    {
+     "type": "Strength",
+     "value": "15"
+    },
+    {
+     "type": "Summon",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "80"
+    },
+    {
+     "type": "Wisdom",
+     "value": "30"
+    }
+   ],
    [
     {
      "type": "AP",
@@ -11690,6 +11967,10 @@
      "value": "5"
     },
     {
+     "type": "Prospecting",
+     "value": "20"
+    },
+    {
      "type": "Range",
      "value": "1"
     },
@@ -11711,7 +11992,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 202,
@@ -11727,7 +12008,56 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "15"
+    },
+    {
+     "type": "Chance",
+     "value": "80"
+    },
+    {
+     "type": "Damage",
+     "value": "4"
+    },
+    {
+     "type": "Intelligence",
+     "value": "15"
+    },
+    {
+     "type": "Power",
+     "value": "4"
+    },
+    {
+     "type": "Prospecting",
+     "value": "15"
+    },
+    {
+     "type": "Range",
+     "value": "1"
+    },
+    {
+     "type": "Strength",
+     "value": "15"
+    },
+    {
+     "type": "Summon",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "80"
+    },
+    {
+     "type": "Wisdom",
+     "value": "30"
+    }
+   ],
    [
     {
      "type": "AP",
@@ -11754,6 +12084,10 @@
      "value": "5"
     },
     {
+     "type": "Prospecting",
+     "value": "20"
+    },
+    {
      "type": "Range",
      "value": "1"
     },
@@ -11775,7 +12109,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 203,
@@ -11791,7 +12125,56 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "80"
+    },
+    {
+     "type": "Chance",
+     "value": "15"
+    },
+    {
+     "type": "Damage",
+     "value": "4"
+    },
+    {
+     "type": "Intelligence",
+     "value": "15"
+    },
+    {
+     "type": "Power",
+     "value": "4"
+    },
+    {
+     "type": "Prospecting",
+     "value": "15"
+    },
+    {
+     "type": "Range",
+     "value": "1"
+    },
+    {
+     "type": "Strength",
+     "value": "15"
+    },
+    {
+     "type": "Summon",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "80"
+    },
+    {
+     "type": "Wisdom",
+     "value": "30"
+    }
+   ],
    [
     {
      "type": "AP",
@@ -11816,6 +12199,10 @@
     {
      "type": "Power",
      "value": "5"
+    },
+    {
+     "type": "Prospecting",
+     "value": "20"
     },
     {
      "type": "Range",
@@ -11839,7 +12226,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 204,
@@ -11855,7 +12242,60 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Damage",
+     "value": "8"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "8"
+    },
+    {
+     "type": "Prospecting",
+     "value": "20"
+    },
+    {
+     "type": "Range",
+     "value": "1"
+    },
+    {
+     "type": "Strength",
+     "value": "100"
+    },
+    {
+     "type": "Summon",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "160"
+    },
+    {
+     "type": "Wisdom",
+     "value": "50"
+    }
+   ],
    [
     {
      "type": "AP",
@@ -11886,6 +12326,10 @@
      "value": "10"
     },
     {
+     "type": "Prospecting",
+     "value": "25"
+    },
+    {
      "type": "Range",
      "value": "1"
     },
@@ -11907,7 +12351,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 205,
@@ -11923,7 +12367,60 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Damage",
+     "value": "8"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "8"
+    },
+    {
+     "type": "Prospecting",
+     "value": "20"
+    },
+    {
+     "type": "Range",
+     "value": "1"
+    },
+    {
+     "type": "Strength",
+     "value": "20"
+    },
+    {
+     "type": "Summon",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "160"
+    },
+    {
+     "type": "Wisdom",
+     "value": "50"
+    }
+   ],
    [
     {
      "type": "AP",
@@ -11954,6 +12451,10 @@
      "value": "10"
     },
     {
+     "type": "Prospecting",
+     "value": "25"
+    },
+    {
      "type": "Range",
      "value": "1"
     },
@@ -11975,7 +12476,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 206,
@@ -11991,7 +12492,60 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Damage",
+     "value": "8"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "8"
+    },
+    {
+     "type": "Prospecting",
+     "value": "20"
+    },
+    {
+     "type": "Range",
+     "value": "1"
+    },
+    {
+     "type": "Strength",
+     "value": "20"
+    },
+    {
+     "type": "Summon",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "160"
+    },
+    {
+     "type": "Wisdom",
+     "value": "50"
+    }
+   ],
    [
     {
      "type": "AP",
@@ -12003,7 +12557,7 @@
     },
     {
      "type": "Chance",
-     "value": "125"
+     "value": "150"
     },
     {
      "type": "Damage",
@@ -12022,12 +12576,12 @@
      "value": "10"
     },
     {
-     "type": "Range",
-     "value": "1"
+     "type": "Prospecting",
+     "value": "25"
     },
     {
-     "type": "Strength",
-     "value": "25"
+     "type": "Range",
+     "value": "1"
     },
     {
      "type": "Summon",
@@ -12043,7 +12597,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 207,
@@ -12059,7 +12613,6 @@
    [],
    [],
    [],
-   [],
    [
     {
      "type": "AP",
@@ -12067,11 +12620,61 @@
     },
     {
      "type": "Agility",
-     "value": "125"
+     "value": "100"
     },
     {
      "type": "Chance",
-     "value": "25"
+     "value": "20"
+    },
+    {
+     "type": "Damage",
+     "value": "8"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "8"
+    },
+    {
+     "type": "Prospecting",
+     "value": "20"
+    },
+    {
+     "type": "Range",
+     "value": "1"
+    },
+    {
+     "type": "Strength",
+     "value": "20"
+    },
+    {
+     "type": "Summon",
+     "value": "1"
+    },
+    {
+     "type": "Vitality",
+     "value": "160"
+    },
+    {
+     "type": "Wisdom",
+     "value": "50"
+    }
+   ],
+   [
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "150"
     },
     {
      "type": "Damage",
@@ -12088,6 +12691,10 @@
     {
      "type": "Power",
      "value": "10"
+    },
+    {
+     "type": "Prospecting",
+     "value": "25"
     },
     {
      "type": "Range",
@@ -12111,7 +12718,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 208,
@@ -12127,7 +12734,80 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "% Air Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Earth Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Fire Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Neutral Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Water Resist",
+     "value": "4"
+    },
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "25"
+    },
+    {
+     "type": "Chance",
+     "value": "25"
+    },
+    {
+     "type": "Damage",
+     "value": "12"
+    },
+    {
+     "type": "Intelligence",
+     "value": "25"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "12"
+    },
+    {
+     "type": "Prospecting",
+     "value": "25"
+    },
+    {
+     "type": "Range",
+     "value": "2"
+    },
+    {
+     "type": "Strength",
+     "value": "120"
+    },
+    {
+     "type": "Summon",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "240"
+    },
+    {
+     "type": "Wisdom",
+     "value": "70"
+    }
+   ],
    [
     {
      "type": "% Air Resist",
@@ -12178,6 +12858,10 @@
      "value": "15"
     },
     {
+     "type": "Prospecting",
+     "value": "30"
+    },
+    {
      "type": "Range",
      "value": "2"
     },
@@ -12199,7 +12883,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 209,
@@ -12215,7 +12899,80 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "% Air Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Earth Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Fire Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Neutral Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Water Resist",
+     "value": "4"
+    },
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "25"
+    },
+    {
+     "type": "Chance",
+     "value": "25"
+    },
+    {
+     "type": "Damage",
+     "value": "12"
+    },
+    {
+     "type": "Intelligence",
+     "value": "120"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "12"
+    },
+    {
+     "type": "Prospecting",
+     "value": "25"
+    },
+    {
+     "type": "Range",
+     "value": "2"
+    },
+    {
+     "type": "Strength",
+     "value": "25"
+    },
+    {
+     "type": "Summon",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "240"
+    },
+    {
+     "type": "Wisdom",
+     "value": "70"
+    }
+   ],
    [
     {
      "type": "% Air Resist",
@@ -12266,6 +13023,10 @@
      "value": "15"
     },
     {
+     "type": "Prospecting",
+     "value": "30"
+    },
+    {
      "type": "Range",
      "value": "2"
     },
@@ -12287,7 +13048,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 210,
@@ -12303,7 +13064,80 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "% Air Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Earth Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Fire Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Neutral Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Water Resist",
+     "value": "4"
+    },
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "25"
+    },
+    {
+     "type": "Chance",
+     "value": "120"
+    },
+    {
+     "type": "Damage",
+     "value": "12"
+    },
+    {
+     "type": "Intelligence",
+     "value": "25"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "12"
+    },
+    {
+     "type": "Prospecting",
+     "value": "25"
+    },
+    {
+     "type": "Range",
+     "value": "2"
+    },
+    {
+     "type": "Strength",
+     "value": "25"
+    },
+    {
+     "type": "Summon",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "240"
+    },
+    {
+     "type": "Wisdom",
+     "value": "70"
+    }
+   ],
    [
     {
      "type": "% Air Resist",
@@ -12354,6 +13188,10 @@
      "value": "15"
     },
     {
+     "type": "Prospecting",
+     "value": "30"
+    },
+    {
      "type": "Range",
      "value": "2"
     },
@@ -12375,7 +13213,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 211,
@@ -12391,7 +13229,80 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "% Air Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Earth Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Fire Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Neutral Resist",
+     "value": "4"
+    },
+    {
+     "type": "% Water Resist",
+     "value": "4"
+    },
+    {
+     "type": "AP",
+     "value": "1"
+    },
+    {
+     "type": "Agility",
+     "value": "120"
+    },
+    {
+     "type": "Chance",
+     "value": "25"
+    },
+    {
+     "type": "Damage",
+     "value": "12"
+    },
+    {
+     "type": "Intelligence",
+     "value": "25"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "12"
+    },
+    {
+     "type": "Prospecting",
+     "value": "25"
+    },
+    {
+     "type": "Range",
+     "value": "2"
+    },
+    {
+     "type": "Strength",
+     "value": "25"
+    },
+    {
+     "type": "Summon",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "240"
+    },
+    {
+     "type": "Wisdom",
+     "value": "70"
+    }
+   ],
    [
     {
      "type": "% Air Resist",
@@ -12442,6 +13353,10 @@
      "value": "15"
     },
     {
+     "type": "Prospecting",
+     "value": "30"
+    },
+    {
      "type": "Range",
      "value": "2"
     },
@@ -12463,7 +13378,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 212,
@@ -12479,7 +13394,80 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "% Air Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Earth Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Fire Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Neutral Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Water Resist",
+     "value": "8"
+    },
+    {
+     "type": "AP",
+     "value": "2"
+    },
+    {
+     "type": "Agility",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Damage",
+     "value": "15"
+    },
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "15"
+    },
+    {
+     "type": "Prospecting",
+     "value": "30"
+    },
+    {
+     "type": "Range",
+     "value": "2"
+    },
+    {
+     "type": "Strength",
+     "value": "140"
+    },
+    {
+     "type": "Summon",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "400"
+    },
+    {
+     "type": "Wisdom",
+     "value": "100"
+    }
+   ],
    [
     {
      "type": "% Air Resist",
@@ -12530,6 +13518,10 @@
      "value": "20"
     },
     {
+     "type": "Prospecting",
+     "value": "40"
+    },
+    {
      "type": "Range",
      "value": "2"
     },
@@ -12551,7 +13543,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 213,
@@ -12567,7 +13559,80 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "% Air Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Earth Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Fire Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Neutral Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Water Resist",
+     "value": "8"
+    },
+    {
+     "type": "AP",
+     "value": "2"
+    },
+    {
+     "type": "Agility",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Damage",
+     "value": "15"
+    },
+    {
+     "type": "Intelligence",
+     "value": "140"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "15"
+    },
+    {
+     "type": "Prospecting",
+     "value": "30"
+    },
+    {
+     "type": "Range",
+     "value": "2"
+    },
+    {
+     "type": "Strength",
+     "value": "30"
+    },
+    {
+     "type": "Summon",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "400"
+    },
+    {
+     "type": "Wisdom",
+     "value": "100"
+    }
+   ],
    [
     {
      "type": "% Air Resist",
@@ -12618,6 +13683,10 @@
      "value": "20"
     },
     {
+     "type": "Prospecting",
+     "value": "40"
+    },
+    {
      "type": "Range",
      "value": "2"
     },
@@ -12639,7 +13708,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 214,
@@ -12655,7 +13724,80 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "% Air Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Earth Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Fire Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Neutral Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Water Resist",
+     "value": "8"
+    },
+    {
+     "type": "AP",
+     "value": "2"
+    },
+    {
+     "type": "Agility",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "140"
+    },
+    {
+     "type": "Damage",
+     "value": "15"
+    },
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "15"
+    },
+    {
+     "type": "Prospecting",
+     "value": "30"
+    },
+    {
+     "type": "Range",
+     "value": "2"
+    },
+    {
+     "type": "Strength",
+     "value": "30"
+    },
+    {
+     "type": "Summon",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "400"
+    },
+    {
+     "type": "Wisdom",
+     "value": "100"
+    }
+   ],
    [
     {
      "type": "% Air Resist",
@@ -12706,6 +13848,10 @@
      "value": "20"
     },
     {
+     "type": "Prospecting",
+     "value": "40"
+    },
+    {
      "type": "Range",
      "value": "2"
     },
@@ -12727,7 +13873,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 215,
@@ -12743,7 +13889,80 @@
    [],
    [],
    [],
-   [],
+   [
+    {
+     "type": "% Air Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Earth Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Fire Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Neutral Resist",
+     "value": "8"
+    },
+    {
+     "type": "% Water Resist",
+     "value": "8"
+    },
+    {
+     "type": "AP",
+     "value": "2"
+    },
+    {
+     "type": "Agility",
+     "value": "140"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Damage",
+     "value": "15"
+    },
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "MP",
+     "value": "1"
+    },
+    {
+     "type": "Power",
+     "value": "15"
+    },
+    {
+     "type": "Prospecting",
+     "value": "30"
+    },
+    {
+     "type": "Range",
+     "value": "2"
+    },
+    {
+     "type": "Strength",
+     "value": "30"
+    },
+    {
+     "type": "Summon",
+     "value": "2"
+    },
+    {
+     "type": "Vitality",
+     "value": "400"
+    },
+    {
+     "type": "Wisdom",
+     "value": "100"
+    }
+   ],
    [
     {
      "type": "% Air Resist",
@@ -12794,6 +14013,10 @@
      "value": "20"
     },
     {
+     "type": "Prospecting",
+     "value": "40"
+    },
+    {
      "type": "Range",
      "value": "2"
     },
@@ -12815,7 +14038,7 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  },
  {
   "ankama_id": 216,
@@ -12875,6 +14098,6 @@
     }
    ]
   ],
-  "source": "solomonk"
+  "source": "itemsets_fr.json"
  }
 ]

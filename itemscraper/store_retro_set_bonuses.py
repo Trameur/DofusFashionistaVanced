@@ -1,30 +1,17 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""Fill missing Dofus Retro set bonuses from solomonk.fr, then dofusretrotools.com.
+"""Refresh retro_set_bonuses_drt.json, the community set bonuses the pipeline compares the game's against."""
 
-Run after load_item_db. --scrape refreshes retro_set_bonuses_drt.json first, --all refills every set.
-"""
-
-import argparse
 import json
 import os
 import re
-import sys
 import unicodedata
 
 import requests
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.dirname(CURRENT_DIRECTORY)
-for path in (PROJECT_ROOT, CURRENT_DIRECTORY, os.path.join(PROJECT_ROOT, 'fashionistapulp')):
-    if path not in sys.path:
-        sys.path.append(path)
 
-from store_item_obtainment import (  # noqa: E402  (sys.path set above)
-    get_items_db_path, _open_items_db, _save_db_to_dump, _table_exists)
-
-GAME_VERSION = 'retro'
 API_URL = 'https://dofusretrotools.com/api/set-bonuses'
 SOLOMONK_URL = 'https://solomonk.fr/fr/panoplies'
 HEADERS = {'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json'}
@@ -193,90 +180,12 @@ def fetch_records(report_unmapped=True):
     return records
 
 
-def apply_records(cursor, records, set_id_by_ankama, stat_id_by_name, fill_ankama, dry_run):
-    """Write set_bonus rows for sets in fill_ankama -> (sets_filled, rows_written, unknown_stats)."""
-    filled = 0
-    rows_written = 0
-    unknown_stats = set()
-    for record in records:
-        ankama_id = record['ankama_id']
-        set_id = set_id_by_ankama.get(ankama_id)
-        if set_id is None or ankama_id not in fill_ankama:
-            continue
-        rows = []
-        for num_pieces, entries in record['tiers'].items():
-            for stat_name, value in entries.items():
-                stat_id = stat_id_by_name.get(stat_name)
-                if stat_id is None:
-                    unknown_stats.add(stat_name)
-                    continue
-                rows.append((set_id, int(num_pieces), stat_id, int(value)))
-        if not rows:
-            continue
-        if not dry_run:
-            cursor.execute("DELETE FROM set_bonus WHERE item_set = ?", (set_id,))
-            cursor.executemany(
-                "INSERT INTO set_bonus(item_set, num_pieces_used, stat, value) VALUES (?, ?, ?, ?)",
-                rows)
-        filled += 1
-        rows_written += len(rows)
-    return filled, rows_written, unknown_stats
-
-
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--scrape', action='store_true',
-                        help='Refresh the vendored snapshot from the API (needs network).')
-    parser.add_argument('--all', action='store_true',
-                        help='Apply to every set, not just those missing bonuses.')
-    parser.add_argument('--dry-run', action='store_true',
-                        help='Report only; do not write the snapshot or the DB.')
-    args = parser.parse_args()
-
-    conn = _open_items_db(GAME_VERSION)
-    cursor = conn.cursor()
-    for table in ('sets', 'set_bonus', 'stats'):
-        if not _table_exists(cursor, table):
-            raise RuntimeError('%s table missing in %s' % (table, get_items_db_path(GAME_VERSION)))
-
-    stat_id_by_name = {name: sid for sid, name in cursor.execute("SELECT id, name FROM stats")}
-    sets = cursor.execute("SELECT id, ankama_id FROM sets").fetchall()
-    set_id_by_ankama = {ankama_id: set_id for set_id, ankama_id in sets}
-    have_bonus = {row[0] for row in cursor.execute("SELECT DISTINCT item_set FROM set_bonus")}
-    missing_ankama = {ankama_id for set_id, ankama_id in sets if set_id not in have_bonus}
-    print('[retro] %d sets total, %d without bonuses.' % (len(sets), len(missing_ankama)))
-
-    if args.scrape:
-        records = fetch_records()
-        if not args.dry_run:
-            with open(CACHE_PATH, 'w', encoding='utf-8') as out_file:
-                json.dump(records, out_file, ensure_ascii=False, indent=2, sort_keys=True)
-            print('[retro] Wrote snapshot %s (%d sets).' % (CACHE_PATH, len(records)))
-    else:
-        if not os.path.exists(CACHE_PATH):
-            raise SystemExit('No snapshot at %s -- run with --scrape first (needs network).' % CACHE_PATH)
-        with open(CACHE_PATH, encoding='utf-8') as in_file:
-            records = json.load(in_file)
-        print('[retro] Loaded snapshot %s (%d sets).' % (CACHE_PATH, len(records)))
-
-    fill_ankama = set(set_id_by_ankama) if args.all else missing_ankama
-    filled, rows_written, unknown_stats = apply_records(
-        cursor, records, set_id_by_ankama, stat_id_by_name, fill_ankama, args.dry_run)
-    if unknown_stats:
-        print('  ! unmapped stat names (skipped): %s' % ', '.join(sorted(unknown_stats)))
-    still_missing = sorted(missing_ankama - {r['ankama_id'] for r in records})
-    print('[retro] Filled %d sets (%d bonus rows). %d missing sets not in API: %s'
-          % (filled, rows_written, len(still_missing), still_missing))
-
-    if args.dry_run:
-        print('[retro] dry-run: no changes written.')
-        conn.close()
-        return
-
-    conn.commit()
-    conn.close()
-    _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
-    print('[retro] Wrote set_bonus rows and re-dumped items_retro.db.')
+    """Fetch both community sources and rewrite the vendored snapshot."""
+    records = fetch_records()
+    with open(CACHE_PATH, 'w', encoding='utf-8') as out_file:
+        json.dump(records, out_file, ensure_ascii=False, indent=2, sort_keys=True)
+    print('[retro] Wrote snapshot %s (%d sets).' % (CACHE_PATH, len(records)))
 
 
 if __name__ == '__main__':
