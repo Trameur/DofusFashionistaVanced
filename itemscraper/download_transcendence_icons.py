@@ -5,10 +5,11 @@ version's table lists, into fashionsite/chardata/static/chardata/runes_transcend
 
 The picture of a rune is the one the dofusdude item data names for its id (the
 image_urls of itemscraper/<work folder>/all_resources_en.json, extracted from
-the game client). An icon already on disk is kept. Pictures are stored at
-96x96, WEBP quality 90, like the existing ones.
+the game client). An icon already on disk is kept unless --replace asks for a
+fresh copy. Pictures are stored at 96x96, WEBP quality 90, like the existing ones.
 
     python itemscraper/download_transcendence_icons.py --game-version beta
+    python itemscraper/download_transcendence_icons.py --game-version beta --replace
 """
 from __future__ import annotations
 
@@ -58,11 +59,13 @@ def source_urls(version):
     return urls
 
 
-def missing_icons(version, icon_folder=ICON_FOLDER, table_folder=DEFAULT_FOLDER):
-    """[(item id, icon id)] of the table's runes whose icon is not on disk."""
+def missing_icons(version, icon_folder=ICON_FOLDER, table_folder=DEFAULT_FOLDER,
+                  replace=False):
+    """[(item id, icon id)] of the runes to fetch: those not on disk, or all with replace."""
     table = _read(os.path.join(table_folder, '%s.json' % version))
     return [(rune['id'], rune['icon_id']) for rune in table['runes']
-            if not os.path.isfile(os.path.join(icon_folder, '%d.webp' % rune['icon_id']))]
+            if replace or not os.path.isfile(
+                os.path.join(icon_folder, '%d.webp' % rune['icon_id']))]
 
 
 def save_icon(data, destination):
@@ -74,10 +77,12 @@ def save_icon(data, destination):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--game-version', default='beta', choices=sorted(WORK_FOLDER))
+    parser.add_argument('--replace', action='store_true',
+                        help='fetch again the icons already on disk')
     args = parser.parse_args()
     urls = source_urls(args.game_version)
     failed = 0
-    for item_id, icon_id in missing_icons(args.game_version):
+    for item_id, icon_id in missing_icons(args.game_version, replace=args.replace):
         url = urls.get(item_id)
         if url is None:
             print('no picture url for rune %s (icon %s)' % (item_id, icon_id))
