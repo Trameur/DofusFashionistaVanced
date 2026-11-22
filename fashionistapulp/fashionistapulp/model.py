@@ -976,7 +976,8 @@ class Model:
         locks = (model_input.options or {}).get(DRACORUNE_LOCKS)
         if not locks or not isinstance(locks, dict):
             return {}
-        locked = model_input.locked_equips or {}
+        locked = ((getattr(self, 'input', None) or {}).get('locked_equips')
+                  or model_input.locked_equips or {})
         forced = {}
         taken = {}
         for slot, key in sorted(locks.items(), key=repr):
@@ -1225,8 +1226,22 @@ class Model:
         self.create_prysmaradite_constraints()
         self.create_not_worn_together_constraints()
         
+    def _gelano_locks_read_by_the_option(self, locked_equips, options):
+        """The locks on either Gelano row moved to the row the MP exo option lets the build wear."""
+        gelano1 = self.structure.get_item_by_name('Gelano (#1)')
+        gelano2 = self.structure.get_item_by_name('Gelano (#2)')
+        if not (gelano1 and gelano2) or not locked_equips:
+            return locked_equips
+        worn = gelano1.id if (options or {}).get('mp_exo') == 'gelano' else gelano2.id
+        rows = {gelano1.id, gelano2.id}
+        return {slot: worn if item_id in rows else item_id
+                for slot, item_id in locked_equips.items()}
+
     def setup(self, model_input):
         self.input = model_input.get_old_input()
+        locked_equips = self._gelano_locks_read_by_the_option(model_input.locked_equips,
+                                                              model_input.options)
+        self.input['locked_equips'] = locked_equips
         modifier_values = getattr(model_input, 'modifier_values', None) or {}
         self._valued_items = {item_id for item_id, per_ap in modifier_values.items()
                               if any(value > 0 for value in per_ap.values())}
@@ -1238,8 +1253,8 @@ class Model:
                                              model_input.char_level)
         self.modify_effective_hp_constraint(model_input.minimum_stats.get(EFFECTIVE_HP_MINIMUM),
                                             model_input.char_level)
-        self.modify_locked_equip_constraints(model_input.locked_equips)
-        self.modify_not_worn_together_constraints(model_input.locked_equips)
+        self.modify_locked_equip_constraints(locked_equips)
+        self.modify_not_worn_together_constraints(locked_equips)
         self.modify_forbidden_items_constraints(model_input.forbidden_equips,
                                                 model_input.options,
                                                 model_input.char_class,

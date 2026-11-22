@@ -575,7 +575,8 @@ def set_item_included(char, item_id, slot, included):
         inclusions[slot] = item_id
         set_excluded(char, item_id, False)
     else:
-        if inclusions.get(slot, '') == item_id:
+        rows = _every_row_of(_structure_of(char), [_as_item_id(item_id)])
+        if inclusions.get(slot, '') in rows - {''}:
             inclusions[slot] = ''
 
     _save_inclusion_dict(char, inclusions)
@@ -633,6 +634,19 @@ def _item_id_to_local_or_name(item_id, language):
 
     return str(item_id)
 
+def _every_row_of(structure, item_ids):
+    """The ids with every other row of the same piece, as the solver forbids them."""
+    rows = set(item_ids)
+    if structure is None:
+        return rows
+    for item_id in item_ids:
+        if not isinstance(item_id, int):
+            continue
+        rows.update(row.id for row in structure.get_items_by_or_id(item_id)
+                    if row is not None)
+        rows.update(structure.get_rows_of_the_same_item(item_id))
+    return rows
+
 def _save_inclusion_dict(char, inclusions):
     inclusions = {slot: int(value)
                   for slot, value in list(inclusions.items()) if value != ''}
@@ -643,9 +657,10 @@ def _save_inclusion_dict(char, inclusions):
 def _remove_inclusions_by_id(char, item_ids):
     inclusions = get_inclusions_dict(char)
 
+    unwanted = _every_row_of(_structure_of(char), item_ids)
     changed = False
     for slot in list(inclusions):
-        if inclusions.get(slot, '') in item_ids:
+        if inclusions.get(slot, '') in unwanted:
             inclusions[slot] = ''
             changed = True
     
@@ -688,7 +703,7 @@ def remove_items_from_exclusions(char, item_ids):
     exclusions = get_all_exclusions_ids(char)
 
     # Old builds can hold an id twice, remove every copy
-    unwanted = set(item_ids)
+    unwanted = _every_row_of(_structure_of(char), item_ids)
     kept = [item_id for item_id in exclusions if item_id not in unwanted]
     changed = len(kept) != len(exclusions)
     exclusions = kept
