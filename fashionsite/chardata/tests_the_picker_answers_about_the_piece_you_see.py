@@ -13,7 +13,7 @@ from chardata.util import get_picker_cache_key
 from fashionistapulp.structure import get_structure, set_current_game_version
 
 _HOMONYMES = {'dofus3': (0, 0, 0), 'beta': (0, 0, 0), 'dofus2': (0, 0, 0),
-              'touch': (17, 14, 0), 'retro': (40, 1, 0)}
+              'touch': (17, 14, 0), 'retro': (43, 2, 0)}
 
 _CARACAPE = (2532, 19624)
 

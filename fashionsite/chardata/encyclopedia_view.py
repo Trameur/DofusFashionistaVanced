@@ -12,6 +12,7 @@ from django.utils import translation
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.pagination import pagination_items
+from chardata.retired_sets import retired_set_name
 from chardata.image_store import get_image_url, _static_exists, list_static_dir
 from chardata.official_site import (
     get_item_link, get_monster_link, get_resource_link, get_set_link)
@@ -22,6 +23,7 @@ from chardata.util import shared_build_path
 from fashionistapulp.dofus_constants import STAT_ORDER, type_names_for
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import is_same_item_name, strip_accents
+from fashionistapulp.game_versions import get_game_version
 from fashionistapulp.item_flags import flag_lines
 from fashionistapulp.modelresult import sets_equipped_text, wisdom_per_ap_mp_dodge_point
 from fashionistapulp.spell_text import fold_spell_blocks
@@ -106,6 +108,9 @@ LOCALIZED_UI = {
         'missing_monster_message': 'The monster %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own monsters, drops and data.',
         'missing_set_title': 'Set unavailable in this version',
         'missing_set_message': 'The set %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own sets, items and bonuses.',
+        'missing_retired_set_title': 'Set removed from the game',
+        'missing_retired_set_message': '%(name)s has been removed from %(game)s and no longer exists in the game. Its items may still exist, but without a set bonus.',
+        'missing_sets_link': 'See the %(game)s sets',
         'missing_resource_message': 'The resource %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own resources, drops and data.',
         'missing_back_to_encyclopedia': 'Back to this version encyclopedia',
         'missing_available_in': 'It exists in:',
@@ -175,6 +180,9 @@ LOCALIZED_UI = {
         'missing_monster_message': "Le monstre %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres monstres, drops et données.",
         'missing_set_title': 'Panoplie indisponible dans cette version',
         'missing_set_message': "La panoplie %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres panoplies, objets et bonus.",
+        'missing_retired_set_title': 'Panoplie retirée du jeu',
+        'missing_retired_set_message': "%(name)s a été retirée de %(game)s et n'existe plus dans le jeu. Ses objets existent peut-être encore, mais sans bonus de panoplie.",
+        'missing_sets_link': 'Voir les panoplies de %(game)s',
         'missing_resource_message': "La ressource %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres ressources, drops et données.",
         'missing_back_to_encyclopedia': "Retourner à l'encyclopédie de cette version",
         'missing_available_in': 'Il existe dans :',
@@ -244,6 +252,9 @@ LOCALIZED_UI = {
         'missing_monster_message': 'El monstruo %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios monstruos, drops y datos.',
         'missing_set_title': 'Conjunto no disponible en esta versión',
         'missing_set_message': 'El conjunto %(name)s no existe en la enciclopedia %(version)s. Cada versión de Dofus tiene sus propios conjuntos, objetos y bonus.',
+        'missing_retired_set_title': 'Conjunto retirado del juego',
+        'missing_retired_set_message': '%(name)s se ha retirado de %(game)s y ya no existe en el juego. Puede que sus objetos sigan existiendo, pero sin bonus de conjunto.',
+        'missing_sets_link': 'Ver los conjuntos de %(game)s',
         'missing_resource_message': 'El recurso %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios recursos, drops y datos.',
         'missing_back_to_encyclopedia': 'Volver a la enciclopedia de esta versión',
         'missing_available_in': 'Existe en:',
@@ -313,6 +324,9 @@ LOCALIZED_UI = {
         'missing_monster_message': 'O monstro %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios monstros, drops e dados.',
         'missing_set_title': 'Conjunto indisponível nesta versão',
         'missing_set_message': 'O conjunto %(name)s não existe na enciclopédia %(version)s. Cada versão de Dofus tem os seus próprios conjuntos, itens e bónus.',
+        'missing_retired_set_title': 'Conjunto removido do jogo',
+        'missing_retired_set_message': '%(name)s foi removido de %(game)s e não existe mais no jogo. Seus itens ainda podem existir, mas sem bônus de conjunto.',
+        'missing_sets_link': 'Ver os conjuntos de %(game)s',
         'missing_resource_message': 'O recurso %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios recursos, drops e dados.',
         'missing_back_to_encyclopedia': 'Voltar para a enciclopédia desta versão',
         'missing_available_in': 'Existe em:',
@@ -382,6 +396,9 @@ LOCALIZED_UI = {
         'missing_monster_message': 'Das Monster %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Monster, Drops und Daten.',
         'missing_set_title': 'Set in dieser Version nicht verfügbar',
         'missing_set_message': 'Das Set %(name)s existiert in der %(version)s-Enzyklopädie nicht. Jede Dofus-Version hat ihre eigenen Sets, Gegenstände und Boni.',
+        'missing_retired_set_title': 'Set aus dem Spiel entfernt',
+        'missing_retired_set_message': '%(name)s wurde aus %(game)s entfernt und existiert im Spiel nicht mehr. Seine Gegenstände gibt es vielleicht noch, aber ohne Setbonus.',
+        'missing_sets_link': 'Alle Sets von %(game)s ansehen',
         'missing_resource_message': 'Die Ressource %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Ressourcen, Drops und Daten.',
         'missing_back_to_encyclopedia': 'Zur Enzyklopädie dieser Version',
         'missing_available_in': 'Gibt es in:',
@@ -1383,15 +1400,17 @@ def _versions_carrying(kind, current_version, language, slug=None,
 
 
 def _encyclopedia_missing_response(request, kind, requested_name,
-                                   elsewhere=None):
-    """404 for an entity this version does not carry; elsewhere lists those that do."""
+                                   elsewhere=None, status=404, sets_url=None):
+    """The page for an entity this version lacks, 404 or 410 for a set the game removed; elsewhere lists the versions that carry it."""
     t = _ui_text()
     game_version = getattr(request, 'game_version', 'dofus3')
     version_label = _version_label(game_version)
+    game_name = get_game_version(game_version).game_name
     title = t['missing_%s_title' % kind]
     message = t['missing_%s_message' % kind] % {
         'name': requested_name,
         'version': version_label,
+        'game': game_name,
     }
     encyclopedia_url = version_reverse(request, 'encyclopedia')
     canonical_url = _absolute_versioned_url('/encyclopedia/', game_version)
@@ -1419,9 +1438,11 @@ def _encyclopedia_missing_response(request, kind, requested_name,
                 'cta_label': t['missing_back_to_encyclopedia'],
                 'elsewhere': elsewhere or [],
                 'elsewhere_label': t['missing_available_in'],
+                'sets_url': sets_url,
+                'sets_label': t['missing_sets_link'] % {'game': game_name},
             },
         })
-    response.status_code = 404
+    response.status_code = status
     return response
 
 
@@ -2310,11 +2331,16 @@ def encyclopedia_set(request, set_id, slug=None):
     if set_id is not None:
         item_set = structure.sets_dict.get(set_id) or structure.dt_sets_dict.get(set_id)
     if item_set is None:
+        game_version = getattr(request, 'game_version', 'dofus3')
+        retired_name = retired_set_name(game_version, set_id, language)
+        if retired_name is not None:
+            return _encyclopedia_missing_response(
+                request, 'retired_set', retired_name, status=410,
+                sets_url=version_reverse(request, 'encyclopedia_sets'))
         return _encyclopedia_missing_response(
             request, 'set', slug or set_id,
             elsewhere=_versions_carrying(
-                'set', getattr(request, 'game_version', 'dofus3'),
-                language, slug=slug, set_id=set_id))
+                'set', game_version, language, slug=slug, set_id=set_id))
 
     game_version = getattr(request, 'game_version', 'dofus3')
 

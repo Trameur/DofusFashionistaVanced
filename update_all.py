@@ -35,7 +35,7 @@ METADATA = dict(zip(VERSIONS[:5], ('FASHIONISTA_VERSION',
                     'FASHIONISTA_BETA_VERSION', 'FASHIONISTA_DOFUS2_VERSION',
                     'FASHIONISTA_TOUCH_VERSION', 'FASHIONISTA_RETRO_VERSION')))
 WATCHED = {'touch': ('WATCHED_TOUCH_ASSETS',),
-           'retro': ('WATCHED_RETRO_BUILD', 'WATCHED_RETRO_LANG',
+           'retro': ('WATCHED_RETRO_BUILD', 'WATCHED_RETRO_LANG_ROOT', 'WATCHED_RETRO_LANG',
                      'WATCHED_RETRO_ASSET_DIGEST', 'WATCHED_RETRO_ASSET_COUNT')}
 APIS = {'dofus3': 'https://api.dofusdu.de/dofus3/v1/',
         'beta': 'https://api.dofusdu.de/dofus3beta/v1/',
@@ -227,6 +227,8 @@ def set_watched_sources(content, row):
     if row['key'] == 'retro':
         if source.get('build'):
             content = replace_constant(content, 'WATCHED_RETRO_BUILD', json.dumps(source['build']))
+        if source.get('lang_root'):
+            content = replace_constant(content, 'WATCHED_RETRO_LANG_ROOT', json.dumps(source['lang_root']))
         served = (source.get('languages') or {}).get('fr') or {}
         watched = read_metadata().get('WATCHED_RETRO_LANG') or {}
         if served and all(name in served for name in watched):
@@ -347,26 +349,33 @@ def probe(version, catalog=None):
                              or any(previous.get(field) != result['source'][field]
                                     for field in ('build', 'languages', 'data_url')))
     elif version == 'retro':
-        from download_retro_langs import fetch_manifest
+        import cytrus_cdn
+        from download_retro_langs import fetch_manifest, lang_root
         from check_game_versions import retro_asset_entries, retro_asset_digest
         catalog = catalog or fetch_json(CYTRUS)
         build = catalog['games']['retro']['platforms']['windows']['main']
-        languages = {lang: fetch_manifest(lang) for lang in ('fr', 'en', 'es', 'pt', 'de')}
+        manifest = cytrus_cdn.download_manifest('retro', version=build)
+        root = lang_root(manifest=manifest)
+        languages = {lang: fetch_manifest(lang, root) for lang in ('fr', 'en', 'es', 'pt', 'de')}
         for lang, entries in languages.items():
             if not {'items', 'itemstats', 'itemsets', 'crafts', 'classes', 'effects', 'spells'} <= entries.keys():
                 raise ValueError('Incomplete Retro manifest: ' + lang)
-        entries = retro_asset_entries(version=build)
+        entries = retro_asset_entries(manifest=manifest)
         if not entries:
             raise ValueError('Retro manifest without any known image')
         result['available'] = retro_game_version(build)
         result['official'] = result['available']
-        result['source'] = {'build': build.split('_')[-1], 'languages': languages,
+        result['source'] = {'build': build.split('_')[-1], 'lang_root': root, 'languages': languages,
                             'image_digest': retro_asset_digest(entries), 'image_count': len(entries)}
         previous = state.get(version, {}).get('source')
         result['current_data'] = (previous or {}).get('build', ours['WATCHED_RETRO_BUILD'])
-        result['changed'] = result['current'] != result['available'] or (previous != result['source'] if previous else
-            any(languages['fr'].get(k) != str(v) for k, v in ours['WATCHED_RETRO_LANG'].items())
-            or result['source']['image_digest'] != ours['WATCHED_RETRO_ASSET_DIGEST'])
+        if previous and 'lang_root' in previous:
+            source_changed = previous != result['source']
+        else:
+            source_changed = (root != ours.get('WATCHED_RETRO_LANG_ROOT')
+                              or any(languages['fr'].get(k) != str(v) for k, v in ours['WATCHED_RETRO_LANG'].items())
+                              or result['source']['image_digest'] != ours['WATCHED_RETRO_ASSET_DIGEST'])
+        result['changed'] = result['current'] != result['available'] or source_changed
     else:
         tag = fetch_json(WAKFU)['version']
         local = read_json(ROOT / 'itemscraper/transformed_wakfu.json', {})
@@ -774,6 +783,9 @@ def worker(job_path):
     job = read_json(job_path)
     key = job['key']
     module = importlib.import_module(PIPELINES[key])
+    if key == 'retro' and (job.get('source') or {}).get('lang_root'):
+        from download_retro_langs import LANG_ROOT_ENV
+        os.environ[LANG_ROOT_ENV] = job['source']['lang_root']
     setter = {'dofus3': 'set_version', 'beta': 'set_beta_version', 'dofus2': 'set_dofus2_version'}.get(key)
     if setter:
         setattr(module, setter, lambda version: version)

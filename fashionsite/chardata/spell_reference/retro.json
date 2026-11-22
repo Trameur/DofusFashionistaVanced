@@ -3969,7 +3969,7 @@
    ],
    "description": {
     "de": "Wort der Stärkung heilt mehrere Charaktere.",
-    "en": "Revitalizing Word heals several players at once.",
+    "en": "Revitalising Word heals several players at once.",
     "es": "Palabra Revigorizante permite curar a varios personajes.",
     "fr": "Le Mot Revitalisant permet de soigner plusieurs personnages.",
     "pt": "Revigorar permite a cura de vários personagens."
@@ -3985,7 +3985,7 @@
    ],
    "name": {
     "de": "Wort der Stärkung",
-    "en": "Revitalizing Word",
+    "en": "Revitalising Word",
     "es": "Palabra Revigorizante",
     "fr": "Mot Revitalisant",
     "pt": "Palavra do Poder: Revigorar"
@@ -4394,81 +4394,6 @@
   },
   {
    "ap": [
-    6,
-    6,
-    5,
-    5,
-    4,
-    3
-   ],
-   "crit": [
-    50,
-    50,
-    50,
-    45,
-    40,
-    40
-   ],
-   "description": {
-    "de": "Wort der Heilung gibt LP zurück.",
-    "en": "Curative Word restores HP.",
-    "es": "Palabra Curativa permite recuperar PDV.",
-    "fr": "Le Mot Curatif permet de récupérer des PDV.",
-    "pt": "Cura permite recuperar PV."
-   },
-   "id": 121,
-   "levels": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    101
-   ],
-   "name": {
-    "de": "Wort der Heilung",
-    "en": "Curative Word",
-    "es": "Palabra Curativa",
-    "fr": "Mot Curatif",
-    "pt": "Palavra do Poder: Cura"
-   },
-   "per_target": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-   ],
-   "range": [
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ]
-   ]
-  },
-  {
-   "ap": [
     3,
     3,
     2,
@@ -4598,6 +4523,81 @@
     [
      1,
      4
+    ]
+   ]
+  },
+  {
+   "ap": [
+    6,
+    6,
+    5,
+    5,
+    4,
+    3
+   ],
+   "crit": [
+    50,
+    50,
+    50,
+    45,
+    40,
+    40
+   ],
+   "description": {
+    "de": "Wort der Heilung gibt LP zurück.",
+    "en": "Curative Word restores HP.",
+    "es": "Palabra Curativa permite recuperar PDV.",
+    "fr": "Le Mot Curatif permet de récupérer des PDV.",
+    "pt": "Cura permite recuperar PV."
+   },
+   "id": 121,
+   "levels": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
+   "name": {
+    "de": "Wort der Heilung",
+    "en": "Curative Word",
+    "es": "Palabra Curativa",
+    "fr": "Mot Curatif",
+    "pt": "Palavra do Poder: Cura"
+   },
+   "per_target": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "range": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
     ]
    ]
   }
@@ -9282,7 +9282,7 @@
     "en": "Summons a powerful Crackler which injures and stuns enemies.",
     "es": "Invoca a un potente crujidor que ocasiona numerosos daños y atonta al enemigo.",
     "fr": "Invoque un Craqueleur puissant qui occasionne de nombreux dégâts et étourdit l'ennemi.",
-    "pt": "Permite a invocação de um poderoso Crackler que causa muito mais danos e desnorteia inimigos."
+    "pt": "Invoca um poderoso Smagador que provoca inúmeros danos e desorienta o inimigo."
    },
    "id": 40,
    "levels": [
@@ -9298,7 +9298,7 @@
     "en": "Summoning of Crackler",
     "es": "Invocación de Crujidor",
     "fr": "Invocation de Craqueleur",
-    "pt": "Invocação de Crackler"
+    "pt": "Invocação de Smagador"
    },
    "range": [
     [
@@ -9590,7 +9590,7 @@
     "en": "Punch of the Crackler",
     "es": "Golpe del Crujidor",
     "fr": "Frappe du Craqueleur",
-    "pt": "Soco de Crackler"
+    "pt": "Golpe do Smagador"
    },
    "range": [
     [
@@ -10417,73 +10417,6 @@
     5,
     5,
     5,
-    5,
-    5,
-    4
-   ],
-   "cooldown": [
-    5,
-    4,
-    3,
-    2,
-    1,
-    0
-   ],
-   "description": {
-    "de": "Dieser Zauberspruch beschwört einen Tofu, der für euch kämpft.",
-    "en": "Summons a Tofu which will fight for you.",
-    "es": "Este hechizo permite invocar a un tofu que luchará para ti.",
-    "fr": "Ce sort permet d'invoquer un Tofu qui partira au combat pour vous.",
-    "pt": "Permite a invocação de um Tofu que lutará para você."
-   },
-   "id": 34,
-   "levels": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    101
-   ],
-   "name": {
-    "de": "Tofu beschwören",
-    "en": "Summoning of Tofu",
-    "es": "Invocación de Tofu",
-    "fr": "Invocation de Tofu",
-    "pt": "Invocação de Tofu"
-   },
-   "range": [
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ]
-   ]
-  },
-  {
-   "ap": [
-    5,
-    5,
-    5,
     4,
     4,
     4
@@ -10543,6 +10476,73 @@
     [
      1,
      7
+    ]
+   ]
+  },
+  {
+   "ap": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    4
+   ],
+   "cooldown": [
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+   ],
+   "description": {
+    "de": "Dieser Zauberspruch beschwört einen Tofu, der für euch kämpft.",
+    "en": "Summons a Tofu which will fight for you.",
+    "es": "Este hechizo permite invocar a un tofu que luchará para ti.",
+    "fr": "Ce sort permet d'invoquer un Tofu qui partira au combat pour vous.",
+    "pt": "Permite a invocação de um Tofu que lutará para você."
+   },
+   "id": 34,
+   "levels": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
+   "name": {
+    "de": "Tofu beschwören",
+    "en": "Summoning of Tofu",
+    "es": "Invocación de Tofu",
+    "fr": "Invocation de Tofu",
+    "pt": "Invocação de Tofu"
+   },
+   "range": [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
     ]
    ]
   },
@@ -14972,81 +14972,6 @@
   },
   {
    "ap": [
-    6,
-    5,
-    5,
-    4,
-    3,
-    3
-   ],
-   "cooldown": [
-    6,
-    5,
-    4,
-    3,
-    2,
-    1
-   ],
-   "description": {
-    "de": "Wie der Name schon sagt, stellt sich das Blockpüppchen in den Weg der Gegner.",
-    "en": "As the name suggests, the Block disrupts enemies by standing in their way.",
-    "es": "La Bloqueadora, como lo indica su nombre, molesta a los adversarios poniéndose en su trayectoria.",
-    "fr": "La Bloqueuse, comme son nom l'indique, gêne les adversaires en se plaçant sur leur trajectoire.",
-    "pt": "Como o nome indica, o Bloqueio interrompe os inimigos que estiverem em seu caminho."
-   },
-   "id": 193,
-   "levels": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    101
-   ],
-   "name": {
-    "de": "Blockpüppchen",
-    "en": "The Block",
-    "es": "La Bloqueadora",
-    "fr": "La Bloqueuse",
-    "pt": "O Bloqueio"
-   },
-   "per_target": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-   ],
-   "range": [
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ],
-    [
-     1,
-     1
-    ]
-   ]
-  },
-  {
-   "ap": [
     5,
     5,
     5,
@@ -15117,6 +15042,81 @@
     [
      1,
      8
+    ]
+   ]
+  },
+  {
+   "ap": [
+    6,
+    5,
+    5,
+    4,
+    3,
+    3
+   ],
+   "cooldown": [
+    6,
+    5,
+    4,
+    3,
+    2,
+    1
+   ],
+   "description": {
+    "de": "Wie der Name schon sagt, stellt sich das Blockpüppchen in den Weg der Gegner.",
+    "en": "As the name suggests, the Block disrupts enemies by standing in their way.",
+    "es": "La Bloqueadora, como lo indica su nombre, molesta a los adversarios poniéndose en su trayectoria.",
+    "fr": "La Bloqueuse, comme son nom l'indique, gêne les adversaires en se plaçant sur leur trajectoire.",
+    "pt": "Como o nome indica, o Bloqueio interrompe os inimigos que estiverem em seu caminho."
+   },
+   "id": 193,
+   "levels": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
+   "name": {
+    "de": "Blockpüppchen",
+    "en": "The Block",
+    "es": "La Bloqueadora",
+    "fr": "La Bloqueuse",
+    "pt": "O Bloqueio"
+   },
+   "per_target": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "range": [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     1
     ]
    ]
   }

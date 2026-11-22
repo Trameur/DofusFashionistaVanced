@@ -3,13 +3,13 @@
   "ankama_id": 1,
   "name": "Panoplie du Bouftou",
   "items": [
-   "Amulette du Bouftou",
-   "Ceinture du Bouftou",
-   "Cape Bouffante",
-   "Anneau de Bouze le Clerc",
    "Coiffe du Bouftou",
+   "Anneau de Bouze le Clerc",
+   "Cape Bouffante",
+   "Amulette du Bouftou",
+   "Marteau du Bouftou",
    "Boufbottes",
-   "Marteau du Bouftou"
+   "Ceinture du Bouftou"
   ],
   "bonus": [
    [],
@@ -280,13 +280,13 @@
   "ankama_id": 3,
   "name": "Panoplie de l'Abraknyde",
   "items": [
+   "Anobra",
    "Abracaska",
    "Abrabottes",
-   "Abrature",
    "L'Araknamu",
    "Abraton",
    "Abracapa",
-   "Anobra"
+   "Abrature"
   ],
   "bonus": [
    [],
@@ -406,11 +406,11 @@
   "name": "Panoplie du Bouftou Royal",
   "items": [
    "Cape Bouffante Royale",
-   "Epée Royale du Bouftou",
-   "Anneau Royal du Bouftou",
+   "Épée Royale du Bouftou",
    "Boufbottes Royales",
-   "Ceinture Royale du Bouftou",
    "Boufcoiffe Royale",
+   "Ceinture Royale du Bouftou",
+   "Anneau Royal du Bouftou",
    "Amulette Royale du Bouftou"
   ],
   "bonus": [
@@ -736,11 +736,11 @@
   "ankama_id": 8,
   "name": "Panoplie du Corbac",
   "items": [
-   "Corbacoiffe",
    "Vilain Petit Corbac",
-   "Corbottes",
    "Corbalame",
-   "Corbacape"
+   "Corbacape",
+   "Corbacoiffe",
+   "Corbottes"
   ],
   "bonus": [
    [],
@@ -803,10 +803,10 @@
   "ankama_id": 9,
   "name": "Panoplie Tortue",
   "items": [
+   "Atouin",
    "Caracoiffe",
    "Caracape",
-   "Carabottes",
-   "Atouin"
+   "Carabottes"
   ],
   "bonus": [
    [],
@@ -889,12 +889,12 @@
   "name": "Panoplie du Wabbit",
   "items": [
    "Wabbit",
-   "Slip Kangouwou du Wabbit GM",
-   "Tongues Wabbits",
    "Oreilles de Wabbits",
    "Sac-Cawotte",
    "Bâton du Wobot",
-   "Amulette \"Dents de Wabbits\""
+   "Amulette \"Dents de Wabbits\"",
+   "Slip Kangouwou du Wabbit GM",
+   "Tongues Wabbits"
   ],
   "bonus": [
    [],
@@ -993,13 +993,13 @@
   "ankama_id": 12,
   "name": "Panoplie de l'Homme Ours",
   "items": [
-   "Coiffe de l'Homme Ours",
-   "Bottes de l'Homme Ours",
-   "Ceinture de l'Homme Ours",
-   "Cape de l'Homme Ours",
    "Bâton de l'Homme Ours",
+   "Cape de l'Homme Ours",
+   "Coiffe de l'Homme Ours",
+   "Alliance de l'Homme Ours",
    "Amulette de l'Homme Ours",
-   "Alliance de l'Homme Ours"
+   "Bottes de l'Homme Ours",
+   "Ceinture de l'Homme Ours"
   ],
   "bonus": [
    [],
@@ -1118,14 +1118,14 @@
   "ankama_id": 13,
   "name": "Panoplie du Kwak de Glace",
   "items": [
+   "Kwakobottes de Glace",
    "Kwakanneau de Glace",
    "Amukwak de Glace",
+   "Bwak d'Eau",
    "Kwaklame de Glace",
    "Kwakoiffe de Glace",
    "Kwakture de Glace",
-   "Kwape de Glace",
-   "Bwak d'Eau",
-   "Kwakobottes de Glace"
+   "Kwape de Glace"
   ],
   "bonus": [
    [],
@@ -1292,9 +1292,9 @@
   "items": [
    "Kwape de Terre",
    "Kwakobottes de Terre",
-   "Bwak de Terre",
-   "Amukwak de Terre",
    "Kwakanneau de Terre",
+   "Amukwak de Terre",
+   "Bwak de Terre",
    "Kwaklame de Terre",
    "Kwakoiffe de Terre",
    "Kwakture de Terre"
@@ -1635,12 +1635,12 @@
   "name": "Panoplie Fourbasse",
   "items": [
    "Fourbacoiffe",
-   "Ceinture Fourbissante",
    "Fourbacapa",
    "Fourbasse-Ton",
    "Fourbabottes",
+   "Fourballiance",
    "Fourbamulette",
-   "Fourballiance"
+   "Ceinture Fourbissante"
   ],
   "bonus": [
    [],
@@ -1771,13 +1771,13 @@
   "ankama_id": 17,
   "name": "Panoplie de Farle Ingalsse",
   "items": [
-   "Epis de Farle",
-   "Bracelet Magique de Farle",
-   "Sabots de Farle",
-   "Bâton de Farle",
    "Cape de Farle",
    "Farlature",
-   "Farlacoiffe"
+   "Sabots de Farle",
+   "Epis de Farle",
+   "Farlacoiffe",
+   "Bracelet Magique de Farle",
+   "Bâton de Farle"
   ],
   "bonus": [
    [],
@@ -1896,13 +1896,13 @@
   "ankama_id": 18,
   "name": "Panoplie Champêtre",
   "items": [
-   "Ceinture Fleurie",
    "Capouze des Champs",
    "La Plantouze des Champs",
    "Bottes Champêtres",
-   "Anneau Champêtre",
+   "Coiffe Champêtre",
    "Amulette des Champs",
-   "Coiffe Champêtre"
+   "Anneau Champêtre",
+   "Ceinture Fleurie"
   ],
   "bonus": [
    [],
@@ -2033,13 +2033,13 @@
   "ankama_id": 19,
   "name": "Panoplie du Chef Bwork",
   "items": [
-   "Lame du Chef Bwork",
    "Casque du Chef Bwork",
    "Slip du Chef Bwork",
    "Cape du Chef Bwork",
-   "Bracelet du Chef Bwork",
    "Amulette du Chef Bwork",
-   "Bottes du Chef Bwork"
+   "Bracelet du Chef Bwork",
+   "Bottes du Chef Bwork",
+   "Lame du Chef Bwork"
   ],
   "bonus": [
    [],
@@ -2170,13 +2170,13 @@
   "ankama_id": 20,
   "name": "Panoplie du Chef Crocodaille",
   "items": [
-   "Bracelet du Chef Crocodaille",
-   "Amulette du Chef Crocodaille",
+   "Lame du Chef Crocodaille",
    "Petit sac d'écolier du Chef Crocodaille",
    "Coiffe du Chef Crocodaille",
-   "Lame du Chef Crocodaille",
    "Ceinture du Chef Crocodaille",
-   "Pantoufles Crochues du Chef Crocodaille"
+   "Pantoufles Crochues du Chef Crocodaille",
+   "Amulette du Chef Crocodaille",
+   "Bracelet du Chef Crocodaille"
   ],
   "bonus": [
    [],
@@ -2307,9 +2307,9 @@
   "ankama_id": 21,
   "name": "Panoplie du Sanglier",
   "items": [
+   "Anneau du Sanglier",
    "Pieds du Sanglier",
-   "Sanglature",
-   "Anneau du Sanglier"
+   "Sanglature"
   ],
   "bonus": [
    [],
@@ -2388,10 +2388,10 @@
   "ankama_id": 23,
   "name": "Panoplie Moskito",
   "items": [
-   "Amulette du Moskito",
+   "Mos Kitano",
    "Sac du Petit Moskito",
    "Moskitogalurette",
-   "Mos Kitano"
+   "Amulette du Moskito"
   ],
   "bonus": [
    [],
@@ -2480,8 +2480,8 @@
   "ankama_id": 25,
   "name": "Panoplie du Bandit",
   "items": [
-   "Dagues du Bandit",
    "Anneau du Bandit",
+   "Dagues du Bandit",
    "Amulette du Bandit",
    "Ceinture du Bandit"
   ],
@@ -2532,11 +2532,11 @@
   "ankama_id": 26,
   "name": "Panoplie du Craqueleur",
   "items": [
-   "Ceinture du Craqueleur",
    "Bottes du Craqueleur",
-   "Lame du Craqueleur",
-   "Craquelocape",
    "Casque du Craqueleur",
+   "Craquelocape",
+   "Lame du Craqueleur",
+   "Ceinture du Craqueleur",
    "Craquamulette"
   ],
   "bonus": [
@@ -2590,10 +2590,10 @@
   "ankama_id": 27,
   "name": "Panoplie du Scarafeuille Vert",
   "items": [
-   "Scarature Verte",
-   "Scaranneau Vert",
+   "Scaracoiffe Verte",
    "Scaracape Verte",
-   "Scaracoiffe Verte"
+   "Scaranneau Vert",
+   "Scarature Verte"
   ],
   "bonus": [
    [],
@@ -2798,10 +2798,10 @@
   "ankama_id": 31,
   "name": "Panoplie du Prespic",
   "items": [
-   "Coiffe du Prespic",
-   "Cape du Prespic",
+   "Ceinture du Prespic",
    "Anneau du Prespic",
-   "Ceinture du Prespic"
+   "Cape du Prespic",
+   "Coiffe du Prespic"
   ],
   "bonus": [
    [],
@@ -2850,13 +2850,13 @@
   "ankama_id": 32,
   "name": "Panoplie du Mulou",
   "items": [
-   "Amuloumulette",
    "Hache du Mulou",
-   "Anneau du Mulou",
    "String du Mulou",
+   "Cape du Mulou",
    "Bottines du Mulou",
    "Coiffe du Mulou",
-   "Cape du Mulou"
+   "Amuloumulette",
+   "Anneau du Mulou"
   ],
   "bonus": [
    [],
@@ -2971,11 +2971,11 @@
   "ankama_id": 33,
   "name": "Panoplie Larvesque",
   "items": [
-   "Larvasac",
+   "Baguette Larvesque",
    "Larvabottes",
-   "Larvamulette",
+   "Larvasac",
    "Larvacoiffe",
-   "Baguette Larvesque"
+   "Larvamulette"
   ],
   "bonus": [
    [],
@@ -3047,12 +3047,12 @@
   "name": "Panoplie Akwadala",
   "items": [
    "Bouclier Akwadala",
+   "Ceinture Akwadala",
    "Chapeau Akwadala",
    "Bâton Akwadala",
    "Alliance Akwadala",
    "Amulette Akwadala",
    "Geta Akwadala",
-   "Ceinture Akwadala",
    "Cape Akwadala"
   ],
   "bonus": [
@@ -3166,12 +3166,12 @@
   "ankama_id": 35,
   "name": "Panoplie Aerdala",
   "items": [
-   "Chapeau Aerdala",
-   "Amulette Aerdala",
    "Alliance Aerdala",
+   "Amulette Aerdala",
    "Geta Aerdala",
-   "Dagues Aerdala",
    "Bouclier Aerdala",
+   "Dagues Aerdala",
+   "Chapeau Aerdala",
    "Ceinture Aerdala",
    "Cape Aerdala"
   ],
@@ -3310,14 +3310,14 @@
   "ankama_id": 36,
   "name": "Panoplie Terrdala",
   "items": [
-   "Chapeau Terrdala",
    "Hache Terrdala",
-   "Bouclier Terrdala",
    "Alliance Terrdala",
-   "Amulette Terrdala",
-   "Geta Terrdala",
+   "Bouclier Terrdala",
    "Ceinture Terrdala",
-   "Cape Terrdala"
+   "Cape Terrdala",
+   "Chapeau Terrdala",
+   "Amulette Terrdala",
+   "Geta Terrdala"
   ],
   "bonus": [
    [],
@@ -3430,14 +3430,14 @@
   "ankama_id": 37,
   "name": "Panoplie Feudala",
   "items": [
-   "Amulette Feudala",
-   "Geta Feudala",
-   "Cape Feudala",
+   "Chapeau Feudala",
    "Sabre Feudala",
-   "Bouclier Feudala",
    "Alliance Feudala",
+   "Geta Feudala",
+   "Bouclier Feudala",
+   "Amulette Feudala",
    "Ceinture Feudala",
-   "Chapeau Feudala"
+   "Cape Feudala"
   ],
   "bonus": [
    [],
@@ -3574,10 +3574,10 @@
   "ankama_id": 38,
   "name": "Panoplie O'Boul",
   "items": [
-   "Crystal O'Boul",
    "Cape du Désir O'Boul",
-   "Kryst O'Boul",
-   "La Doubitch O'Boul"
+   "Crystal O'Boul",
+   "La Doubitch O'Boul",
+   "Kryst O'Boul"
   ],
   "bonus": [
    [],
@@ -3642,10 +3642,10 @@
   "ankama_id": 39,
   "name": "Panoplie d'Elya Wood",
   "items": [
-   "Alliance d'Elya Wood",
    "Talisman d'Elya Wood",
    "Baguette d'Elya Wood",
-   "Cape d'Elya Wood"
+   "Cape d'Elya Wood",
+   "Alliance d'Elya Wood"
   ],
   "bonus": [
    [],
@@ -3724,8 +3724,8 @@
   "name": "Panoplie du Kitsou",
   "items": [
    "Anneau du Kitsou",
-   "Coiffe du Kitsou",
    "Cape du Kitsou",
+   "Coiffe du Kitsou",
    "Amulette du Kitsou"
   ],
   "bonus": [
@@ -3767,10 +3767,10 @@
   "ankama_id": 42,
   "name": "Panoplie Dindo",
   "items": [
-   "Capodindo",
-   "Chapodindo",
+   "Anodindo",
    "Botodindo",
-   "Anodindo"
+   "Chapodindo",
+   "Capodindo"
   ],
   "bonus": [
    [],
@@ -3823,12 +3823,12 @@
   "ankama_id": 43,
   "name": "Panoplie du Boufcool",
   "items": [
-   "Cape du Boufcoul",
-   "Bottes du Boufcoul",
-   "Anneau du Boufcoul",
-   "Marteau du Boufcoul",
-   "Coiffe du Boufcoul",
    "Amulette du Boufcoul",
+   "Anneau du Boufcoul",
+   "Bottes du Boufcoul",
+   "Cape du Boufcoul",
+   "Coiffe du Boufcoul",
+   "Marteau du Boufcoul",
    "Ceinture du Boufcoul"
   ],
   "bonus": [
@@ -3928,8 +3928,8 @@
   "ankama_id": 44,
   "name": "Panoplie du Koulosse",
   "items": [
-   "Coiffe du Koulosse",
    "Bâton du Koulosse",
+   "Coiffe du Koulosse",
    "Bottes du Koulosse",
    "Sac du Koulosse"
   ],
@@ -3984,11 +3984,11 @@
   "ankama_id": 45,
   "name": "Panoplie du Champion",
   "items": [
+   "Ceinture du Champion",
    "Mini Champion",
-   "Bottes du Champion",
    "Coiffe du Champion",
-   "Cape du Champion",
-   "Ceinture du Champion"
+   "Bottes du Champion",
+   "Cape du Champion"
   ],
   "bonus": [
    [],
@@ -4029,13 +4029,13 @@
   "name": "Panoplie du Koalak",
   "items": [
    "Koalak Sanguin",
-   "Amulette du Koalak",
    "Cape du Koalak",
-   "Anneau du Koalak",
    "Bottes du Koalak",
    "Arc du Koalak",
-   "Coiffe du Koalak",
-   "Ceinture du Koalak"
+   "Anneau du Koalak",
+   "Amulette du Koalak",
+   "Ceinture du Koalak",
+   "Coiffe du Koalak"
   ],
   "bonus": [
    [],
@@ -4257,10 +4257,10 @@
   "ankama_id": 49,
   "name": "Panoplie du Scarafeuille Noir",
   "items": [
-   "Scarature Noire",
-   "Scaracoiffe Noire",
+   "Scaranneau Noir",
    "Scaracape Noire",
-   "Scaranneau Noir"
+   "Scaracoiffe Noire",
+   "Scarature Noire"
   ],
   "bonus": [
    [],
@@ -4313,11 +4313,11 @@
   "ankama_id": 50,
   "name": "Panoplie du Tofu",
   "items": [
+   "Amulette du Tofu",
+   "Anneau du Tofu",
    "Ceinture du Tofu",
    "Cape du Tofu",
    "Pantoufles du Tofu",
-   "Anneau du Tofu",
-   "Amulette du Tofu",
    "Baguette du Tofu",
    "Kaskofu"
   ],
@@ -4440,10 +4440,10 @@
   "items": [
    "Scarature Dorée",
    "Scaracape Dorée",
-   "Scarabottes Dorées",
    "Baguette du Scarabosse Doré",
-   "Anneau du Scarabosse Doré",
+   "Scarabottes Dorées",
    "Amulette Scarabosse Doré",
+   "Anneau du Scarabosse Doré",
    "Scaracoiffe Dorée"
   ],
   "bonus": [
@@ -4551,13 +4551,13 @@
   "ankama_id": 52,
   "name": "Panoplie du Craqueleur Légendaire",
   "items": [
-   "Ceinture du Craqueleur Légendaire",
-   "Casque du Craqueleur Légendaire",
    "Marteau du Craqueleur Légendaire",
+   "Casque du Craqueleur Légendaire",
+   "Ceinture du Craqueleur Légendaire",
    "Craquelocape Légendaire",
    "Bottes Du Craqueleur Légendaire",
-   "Craquanneau Légendaire",
-   "Amulette du Craqueleur Légendaire"
+   "Amulette du Craqueleur Légendaire",
+   "Craquanneau Légendaire"
   ],
   "bonus": [
    [],
@@ -4672,13 +4672,13 @@
   "ankama_id": 53,
   "name": "Panoplie de Shika Ingalsse",
   "items": [
-   "Bracelet Magique de Shika",
-   "Shikacoiffe",
-   "Shikature",
    "Cape de Shika",
+   "Shikature",
+   "Shikacoiffe",
    "Bâton de Shika",
    "Sabots de Shika",
-   "Epis de Shika"
+   "Epis de Shika",
+   "Bracelet Magique de Shika"
   ],
   "bonus": [
    [],
@@ -4833,13 +4833,13 @@
   "ankama_id": 54,
   "name": "Panoplie du Minotoror",
   "items": [
-   "Cape du Minotoror",
-   "Collier du Minotoror",
-   "Anneau du Minotoror",
-   "Bottes du Minotoror",
    "Hache du Minotoror",
    "Minotokorno",
-   "Ceinture du Minotoror"
+   "Ceinture du Minotoror",
+   "Collier du Minotoror",
+   "Cape du Minotoror",
+   "Bottes du Minotoror",
+   "Anneau du Minotoror"
   ],
   "bonus": [
    [],
@@ -4918,10 +4918,10 @@
   "ankama_id": 55,
   "name": "Panoplie du Meulou",
   "items": [
-   "Cape du Meulou",
-   "Bottes du Meulou",
-   "Anneau du Meulou",
    "La Meulette",
+   "Anneau du Meulou",
+   "Bottes du Meulou",
+   "Cape du Meulou",
    "Coiffe du Meulou",
    "Ceinture du Meulou"
   ],
@@ -4996,12 +4996,12 @@
   "ankama_id": 56,
   "name": "Panoplie du Dragoeuf",
   "items": [
-   "Ceinture du Dragoeuf",
    "Cape Dragoeuf",
    "Bottes du Dragoeuf",
    "Anneau du Dragoeuf",
    "Amulette du Dragoeuf",
-   "Casque Dragoeuf"
+   "Casque Dragoeuf",
+   "Ceinture du Dragoeuf"
   ],
   "bonus": [
    [],
@@ -5158,10 +5158,10 @@
   "ankama_id": 57,
   "name": "Panoplie du Minotot",
   "items": [
-   "Collier du Minotot",
-   "Bracelet du Minotot",
-   "Sceptre du Minotot",
    "Sandales du Minotot",
+   "Sceptre du Minotot",
+   "Bracelet du Minotot",
+   "Collier du Minotot",
    "Coiffe du Minotot",
    "Ceinture du Minotot",
    "Cape du Minotot"
@@ -5399,10 +5399,10 @@
    "Marteau du Mominotor",
    "Coiffe du Mominotor",
    "Ceinture du Mominotor",
-   "Cape du Mominotor",
+   "Bottes du Mominotor",
    "Anneau du Mominotor",
    "Amulette du Mominotor",
-   "Bottes du Mominotor"
+   "Cape du Mominotor"
   ],
   "bonus": [
    [],
@@ -5505,12 +5505,12 @@
   "ankama_id": 60,
   "name": "Panoplie du Piou Rouge",
   "items": [
-   "Chapeau du Piou Rouge",
-   "Ceinture du Piou Rouge",
-   "Cape du Piou Rouge",
    "Amulette du Piou Rouge",
    "Anneau du Piou Rouge",
-   "Sandales du Piou Rouge"
+   "Sandales du Piou Rouge",
+   "Cape du Piou Rouge",
+   "Chapeau du Piou Rouge",
+   "Ceinture du Piou Rouge"
   ],
   "bonus": [
    [],
@@ -5567,12 +5567,12 @@
   "ankama_id": 61,
   "name": "Panoplie du Piou Bleu",
   "items": [
-   "Ceinture du Piou Bleu",
    "Cape du Piou Bleu",
-   "Chapeau du Piou Bleu",
-   "Amulette du Piou Bleu",
+   "Sandales du Piou Bleu",
    "Anneau du Piou Bleu",
-   "Sandales du Piou Bleu"
+   "Amulette du Piou Bleu",
+   "Chapeau du Piou Bleu",
+   "Ceinture du Piou Bleu"
   ],
   "bonus": [
    [],
@@ -5631,8 +5631,8 @@
   "items": [
    "Cape du Piou Violet",
    "Sandales du Piou Violet",
-   "Amulette du Piou Violet",
    "Anneau du Piou Violet",
+   "Amulette du Piou Violet",
    "Chapeau du Piou Violet",
    "Ceinture du Piou Violet"
   ],
@@ -5795,12 +5795,12 @@
   "ankama_id": 64,
   "name": "Panoplie Cérémoniale",
   "items": [
-   "Coiffe Cérémoniale du Seigneur des Rats",
-   "Ceinture Cérémoniale du Seigneur des Rats",
+   "Cape Cérémoniale du Seigneur des Rats",
    "Bottes Cérémoniales du Seigneur des Rats",
    "Anneau Cérémonial du Seigneur des Rats",
    "Collier Cérémonial du Seigneur des Rats",
-   "Cape Cérémoniale du Seigneur des Rats"
+   "Coiffe Cérémoniale du Seigneur des Rats",
+   "Ceinture Cérémoniale du Seigneur des Rats"
   ],
   "bonus": [
    [],
@@ -5885,12 +5885,12 @@
   "ankama_id": 65,
   "name": "Panoplie Ancestrale",
   "items": [
-   "Torque Ancestral",
-   "Anneau Ancestral",
-   "Protège-Tibias Ancestraux",
-   "Abracapa Ancestrale",
    "Abracaska Ancestral",
-   "Abrature Ancestrale"
+   "Abrature Ancestrale",
+   "Abracapa Ancestrale",
+   "Anneau Ancestral",
+   "Torque Ancestral",
+   "Protège-Tibias Ancestraux"
   ],
   "bonus": [
    [],
@@ -6011,12 +6011,12 @@
   "ankama_id": 66,
   "name": "Panoplie du Chêne Mou",
   "items": [
-   "Cape Usée du Chêne Mou",
-   "Tongues du dimanche du Chêne Mou",
-   "Anneau du Chêne Mou",
    "Talisman du Chêne Mou",
+   "Cape Usée du Chêne Mou",
+   "String Automnal du Chêne Mou",
    "Coiffe du Chêne Mou",
-   "String Automnal du Chêne Mou"
+   "Tongues du dimanche du Chêne Mou",
+   "Anneau du Chêne Mou"
   ],
   "bonus": [
    [],
@@ -6113,13 +6113,13 @@
   "ankama_id": 67,
   "name": "Panoplie du Rat Blanc",
   "items": [
-   "Cape du Rat Blanc",
    "Bottes du Rat Blanc",
    "Gantelet du Rat Blanc",
    "Collier du Rat Blanc",
-   "Epée du Rat Blanc",
+   "Épée du Rat Blanc",
    "Coiffe du Rat Blanc",
-   "Ceinture du Rat Blanc"
+   "Ceinture du Rat Blanc",
+   "Cape du Rat Blanc"
   ],
   "bonus": [
    [],
@@ -6234,13 +6234,13 @@
   "ankama_id": 68,
   "name": "Panoplie du Rat Noir",
   "items": [
-   "Dagues du Rat Noir",
-   "Masque du Rat Noir",
-   "Ceinture du Rat Noir",
    "Cape du Rat Noir",
    "Bottes du Rat Noir",
    "Collier du Rat Noir",
-   "Anneau du Rat Noir"
+   "Anneau du Rat Noir",
+   "Dagues du Rat Noir",
+   "Masque du Rat Noir",
+   "Ceinture du Rat Noir"
   ],
   "bonus": [
    [],
@@ -6371,10 +6371,10 @@
   "ankama_id": 69,
   "name": "Panoplie du Boune",
   "items": [
-   "Le S'Mesme",
-   "Le Plussain",
-   "Les Incrustes",
    "La Cape S'loque",
+   "Les Incrustes",
+   "Le Plussain",
+   "Le S'Mesme",
    "Le Floude",
    "La Spamette"
   ],
@@ -6517,12 +6517,12 @@
   "ankama_id": 70,
   "name": "Panoplie du Piou Rose",
   "items": [
+   "Ceinture du Piou Rose",
    "Cape du Piou Rose",
    "Sandales du Piou Rose",
    "Anneau du Piou Rose",
    "Amulette du Piou Rose",
-   "Chapeau du Piou Rose",
-   "Ceinture du Piou Rose"
+   "Chapeau du Piou Rose"
   ],
   "bonus": [
    [],
@@ -6583,10 +6583,10 @@
   "ankama_id": 71,
   "name": "Panoplie du Piou Vert",
   "items": [
-   "Sandales du Piou Vert",
-   "Cape du Piou Vert",
-   "Anneau du Piou Vert",
    "Amulette du Piou Vert",
+   "Anneau du Piou Vert",
+   "Cape du Piou Vert",
+   "Sandales du Piou Vert",
    "Chapeau du Piou Vert",
    "Ceinture du Piou Vert"
   ],
@@ -6707,9 +6707,9 @@
   "ankama_id": 74,
   "name": "Panoplie Ananas",
   "items": [
-   "Bottananas",
+   "Maskananas",
    "Capananas",
-   "Maskananas"
+   "Bottananas"
   ],
   "bonus": [
    [],
@@ -6729,116 +6729,12 @@
   "source": "solomonk"
  },
  {
-  "ankama_id": 75,
-  "name": "Panoplie Vioutifoule",
-  "items": [
-   "Bottes Vioutifoule",
-   "Casque Vioutifoule",
-   "Ceinture Vioutifoule",
-   "Cape Vioutifoule"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "% Fire Resist",
-     "value": "5"
-    },
-    {
-     "type": "Intelligence",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "% Fire Resist",
-     "value": "10"
-    },
-    {
-     "type": "Intelligence",
-     "value": "40"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    }
-   ],
-   [
-    {
-     "type": "% Fire Resist",
-     "value": "20"
-    },
-    {
-     "type": "Intelligence",
-     "value": "60"
-    },
-    {
-     "type": "Vitality",
-     "value": "80"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 76,
-  "name": "Panoplie Mégaman",
-  "items": [
-   "Mégabottes",
-   "Mégacape",
-   "Mégature",
-   "Mégacoiffe"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "% Water Resist",
-     "value": "5"
-    },
-    {
-     "type": "Chance",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "% Water Resist",
-     "value": "10"
-    },
-    {
-     "type": "Chance",
-     "value": "40"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    }
-   ],
-   [
-    {
-     "type": "% Water Resist",
-     "value": "20"
-    },
-    {
-     "type": "Chance",
-     "value": "60"
-    },
-    {
-     "type": "Vitality",
-     "value": "80"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
   "ankama_id": 77,
   "name": "Panoplie Vassale",
   "items": [
-   "Ouassulette",
    "Capuche de la Ouassingue",
    "Cape de la Ouassingue",
+   "Ouassulette",
    "Bottes Horchons"
   ],
   "bonus": [
@@ -6904,9 +6800,9 @@
   "ankama_id": 78,
   "name": "Panoplie Souveraine",
   "items": [
-   "Capuche Souveraine du Roissingue",
    "Sceau Souverain du Roissingue",
-   "Cape Souveraine du Roissingue"
+   "Cape Souveraine du Roissingue",
+   "Capuche Souveraine du Roissingue"
   ],
   "bonus": [
    [],
@@ -6950,9 +6846,9 @@
   "name": "Panoplie Claire",
   "items": [
    "Masque de l'Abrakleur clair",
+   "Bottines en bois d'abrakleur",
    "Ceinture Claire en Abrakleur",
-   "Branche de l'Abrakleur clair",
-   "Bottines en bois d'abrakleur"
+   "Branche de l'Abrakleur clair"
   ],
   "bonus": [
    [],
@@ -7018,8 +6914,8 @@
   "name": "Panoplie Sombre",
   "items": [
    "Masque de l'Abrakleur sombre",
-   "Branche de l'Abrakleur sombre",
-   "Ceinture sombre en Abrakleur"
+   "Ceinture sombre en Abrakleur",
+   "Branche de l'Abrakleur sombre"
   ],
   "bonus": [
    [],
@@ -7054,9 +6950,9 @@
   "ankama_id": 81,
   "name": "Panoplie Témeraire",
   "items": [
-   "Bottes Antrin",
-   "Bague Harre",
    "Cape Aurale",
+   "Bague Harre",
+   "Bottes Antrin",
    "Casque Keutumedi",
    "Sangle Hynère"
   ],
@@ -7713,9 +7609,9 @@
   "items": [
    "Capuche Apin",
    "Ceinture Bodiézèle",
-   "Bottes Swana",
    "Bague Héra",
-   "Cape Lyne"
+   "Cape Lyne",
+   "Bottes Swana"
   ],
   "bonus": [
    [],
@@ -7930,11 +7826,11 @@
   "ankama_id": 85,
   "name": "Panoplie Vénérable",
   "items": [
+   "Chapeau Taufeu",
    "Ceinture Gessant",
-   "Cape Haharnum",
-   "Anneau Stalgik",
    "Chaussures Lepon-Davignon",
-   "Chapeau Taufeu"
+   "Anneau Stalgik",
+   "Cape Haharnum"
   ],
   "bonus": [
    [],
@@ -8151,8 +8047,8 @@
   "items": [
    "Ceinture Lupine",
    "Cape Huchon",
-   "Botte Hairo",
    "Anneau Tilus",
+   "Botte Hairo",
    "Bonnet Nufar"
   ],
   "bonus": [
@@ -8368,11 +8264,11 @@
   "ankama_id": 87,
   "name": "Panoplie Exsangue",
   "items": [
-   "Sangle Hans",
+   "Bonnet Spairance",
    "Cape Ytale",
    "Tong Aclou",
    "Anneau Pitale",
-   "Bonnet Spairance"
+   "Sangle Hans"
   ],
   "bonus": [
    [],
@@ -8807,10 +8703,10 @@
   "name": "Panoplie Criminelle",
   "items": [
    "Chapeau Grave",
-   "Sangle Glinglin",
    "Cape Routh",
    "Bottes Hox",
-   "Anneau Hell"
+   "Anneau Hell",
+   "Sangle Glinglin"
   ],
   "bonus": [
    [],
@@ -9726,8 +9622,8 @@
   "ankama_id": 95,
   "name": "Panoplie du Zothicien",
   "items": [
-   "Casque du Guerrier Zoth",
-   "Hache du Guerrier Zoth"
+   "Hache du Guerrier Zoth",
+   "Casque du Guerrier Zoth"
   ],
   "bonus": [
    [],
@@ -9744,9 +9640,9 @@
   "ankama_id": 96,
   "name": "Panoplie Baveuse",
   "items": [
-   "Kask'Arc Go",
+   "Kaskargo",
    "Anneau Skargo",
-   "Kaskargo"
+   "Kask'Arc Go"
   ],
   "bonus": [
    [],
@@ -9793,9 +9689,9 @@
   "ankama_id": 97,
   "name": "Panoplie Ventouse",
   "items": [
-   "Kralamansion",
    "Annolamour",
-   "Kralano"
+   "Kralano",
+   "Kralamansion"
   ],
   "bonus": [
    [],
@@ -9822,9 +9718,9 @@
   "ankama_id": 98,
   "name": "Panoplie Blop Griotte",
   "items": [
-   "Amublop Griotte",
    "Blopanneau Griotte",
    "Blopture Griotte",
+   "Amublop Griotte",
    "Bloptes Griottes"
   ],
   "bonus": [
@@ -10039,9 +9935,9 @@
   "name": "Panoplie Blop Coco",
   "items": [
    "Blopture Coco",
-   "Blopanneau Coco",
+   "Bloptes Coco",
    "Amublop Coco",
-   "Bloptes Coco"
+   "Blopanneau Coco"
   ],
   "bonus": [
    [],
@@ -10146,10 +10042,10 @@
   "ankama_id": 101,
   "name": "Panoplie Blop Indigo",
   "items": [
-   "Blopanneau Indigo",
-   "Bloptes Indigo",
    "Blopture Indigo",
-   "Amublop Indigo"
+   "Amublop Indigo",
+   "Blopanneau Indigo",
+   "Bloptes Indigo"
   ],
   "bonus": [
    [],
@@ -10255,8 +10151,8 @@
   "name": "Panoplie Blop Griotte Royale",
   "items": [
    "Amublop Griotte Royale",
-   "Bloptes Griotte Royales",
    "Blopture Griotte Royale",
+   "Bloptes Griotte Royales",
    "Blopanneau Griotte Royal"
   ],
   "bonus": [
@@ -10310,10 +10206,10 @@
   "ankama_id": 103,
   "name": "Panoplie Blop Reinette Royale",
   "items": [
-   "Blopture Reinette Royale",
    "Bloptes Reinette Royales",
-   "Amublop Reinette Royale",
-   "Blopanneau Reinette Royal"
+   "Blopture Reinette Royale",
+   "Blopanneau Reinette Royal",
+   "Amublop Reinette Royale"
   ],
   "bonus": [
    [],
@@ -10366,10 +10262,10 @@
   "ankama_id": 104,
   "name": "Panoplie Blop Coco Royale",
   "items": [
-   "Bloptes Coco Royales",
    "Blopanneau Coco Royal",
-   "Amublop Coco Royale",
-   "Blopture Coco Royale"
+   "Blopture Coco Royale",
+   "Bloptes Coco Royales",
+   "Amublop Coco Royale"
   ],
   "bonus": [
    [],
@@ -10422,10 +10318,10 @@
   "ankama_id": 105,
   "name": "Panoplie Blop Indigo Royale",
   "items": [
-   "Blopture Indigo Royale",
    "Blopanneau Indigo Royal",
-   "Amublop Indigo Royale",
-   "Bloptes Indigo Royales"
+   "Blopture Indigo Royale",
+   "Bloptes Indigo Royales",
+   "Amublop Indigo Royale"
   ],
   "bonus": [
    [],
@@ -10478,10 +10374,10 @@
   "ankama_id": 106,
   "name": "Panoplie Blop Multicolore Royale",
   "items": [
-   "Bloptes Multicolores Royales",
    "Amublop Multicolore Royale",
-   "Blopanneau Multicolore Royal",
-   "Blopture Multicolore Royale"
+   "Bloptes Multicolores Royales",
+   "Blopture Multicolore Royale",
+   "Blopanneau Multicolore Royal"
   ],
   "bonus": [
    [],
@@ -10539,9 +10435,9 @@
   "name": "Panoplie Tue-Mouche",
   "items": [
    "String Tue-Mouche",
-   "Alliance Boletée",
+   "Capignon",
    "Amunite",
-   "Capignon"
+   "Alliance Boletée"
   ],
   "bonus": [
    [],
@@ -10614,9 +10510,9 @@
   "ankama_id": 108,
   "name": "Panoplie du Bworker Berserker",
   "items": [
+   "Bracelet Ventré",
    "Cape Erforée",
    "Amulette Ripage",
-   "Bracelet Ventré",
    "Lame Assacre"
   ],
   "bonus": [
@@ -10670,10 +10566,10 @@
   "ankama_id": 109,
   "name": "Panoplie du Bworker Gladiateur",
   "items": [
-   "Ceinture Toré",
    "Casque Harnage",
-   "Bottes Répané",
-   "Anneau Bliteré"
+   "Ceinture Toré",
+   "Anneau Bliteré",
+   "Bottes Répané"
   ],
   "bonus": [
    [],
@@ -10723,409 +10619,13 @@
   "source": "solomonk"
  },
  {
-  "ankama_id": 110,
-  "name": "Panoplie Gato",
-  "items": [
-   "Tartamulette",
-   "Caskogato",
-   "Beignature",
-   "Capogato"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "% Earth Resist",
-     "value": "5"
-    },
-    {
-     "type": "Strength",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "% Earth Resist",
-     "value": "10"
-    },
-    {
-     "type": "Strength",
-     "value": "40"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    }
-   ],
-   [
-    {
-     "type": "% Earth Resist",
-     "value": "20"
-    },
-    {
-     "type": "Strength",
-     "value": "60"
-    },
-    {
-     "type": "Vitality",
-     "value": "80"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 111,
-  "name": "Panoplie Paupayahn",
-  "items": [
-   "Chapeau Paupayahn",
-   "Bottes Paupayahn",
-   "Anneau Paupayahn",
-   "Cape Paupayahn"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "% Air Resist",
-     "value": "5"
-    },
-    {
-     "type": "Agility",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "% Air Resist",
-     "value": "10"
-    },
-    {
-     "type": "Agility",
-     "value": "40"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    }
-   ],
-   [
-    {
-     "type": "% Air Resist",
-     "value": "20"
-    },
-    {
-     "type": "Agility",
-     "value": "60"
-    },
-    {
-     "type": "Vitality",
-     "value": "80"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 112,
-  "name": "Panoplie Bzz",
-  "items": [
-   "Pantoufrelons",
-   "Caskabeille",
-   "Cape Kifébzz",
-   "Masse O'dard"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Damage",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "4"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "8"
-    },
-    {
-     "type": "Summon",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 113,
-  "name": "Panoplie de Peggy la Porkass",
-  "items": [
-   "Ceinture Lardière",
-   "Cochobits",
-   "Cape Bouchon",
-   "Jambanneau"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Critical Hits",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Critical Hits",
-     "value": "4"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Critical Hits",
-     "value": "6"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
-     "type": "Wisdom",
-     "value": "10"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 114,
-  "name": "Panoplie du Bois de l'Est",
-  "items": [
-   "Cape du bois de l'est",
-   "Bottes du bois de l'est",
-   "Ceinture du bois de l'est",
-   "Chapeau du bois de l'est"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Agility",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Agility",
-     "value": "20"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Agility",
-     "value": "30"
-    },
-    {
-     "type": "Damage",
-     "value": "3"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 115,
-  "name": "Citronoplie",
-  "items": [
-   "Anneau Zest",
-   "Cape Grume",
-   "Borsitrono",
-   "Pailleton"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Chance",
-     "value": "10"
-    },
-    {
-     "type": "Intelligence",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Chance",
-     "value": "20"
-    },
-    {
-     "type": "Intelligence",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Chance",
-     "value": "30"
-    },
-    {
-     "type": "Critical Hits",
-     "value": "3"
-    },
-    {
-     "type": "Intelligence",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 116,
-  "name": "Panoplie de Charlie",
-  "items": [
-   "La Chaplivate",
-   "Les Chaplures",
-   "La Chaplanne",
-   "Le Chapleau"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Power",
-     "value": "20"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "4"
-    },
-    {
-     "type": "Power",
-     "value": "30"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 117,
-  "name": "Panoplie de l'empire",
-  "items": [
-   "Sabroh",
-   "Sac de Bouba le Prophète",
-   "Anneau de la mort",
-   "Caskostar"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Strength",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "4"
-    },
-    {
-     "type": "Strength",
-     "value": "20"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "8"
-    },
-    {
-     "type": "Range",
-     "value": "1"
-    },
-    {
-     "type": "Strength",
-     "value": "30"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
   "ankama_id": 118,
   "name": "Panoplie Ougah",
   "items": [
-   "Ougalurette",
    "Ougarteau",
-   "Ougamulette",
-   "Ougature"
+   "Ougalurette",
+   "Ougature",
+   "Ougamulette"
   ],
   "bonus": [
    [],
@@ -11183,9 +10683,9 @@
   "name": "Panoplignon",
   "items": [
    "Couteaux à Champignons",
+   "Chapignon",
    "Caprin",
-   "Anneau Colerette",
-   "Chapignon"
+   "Anneau Colerette"
   ],
   "bonus": [
    [],
@@ -11317,396 +10817,15 @@
   "source": "solomonk"
  },
  {
-  "ankama_id": 122,
-  "name": "Panoplie Cigale",
-  "items": [
-   "Cigaloclier",
-   "Cigalocape",
-   "Cigalocoiffe"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
-     "type": "Wisdom",
-     "value": "10"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 123,
-  "name": "Panoplie Posh",
-  "items": [
-   "Poshoclier",
-   "Poshocape",
-   "Poshocoiffe"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Initiative",
-     "value": "100"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "5"
-    },
-    {
-     "type": "Initiative",
-     "value": "200"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 124,
-  "name": "Pompanoplie",
-  "items": [
-   "Pompocape",
-   "Pompanneau",
-   "Pompamulette",
-   "Pompocoiffe"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Summon",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Summon",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 125,
-  "name": "Panoplie Cristaline",
-  "items": [
-   "Anneau Cristalin",
-   "Coiffe Cristaline",
-   "Cape Cristaline",
-   "Ceinture Cristaline"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Heals",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Heals",
-     "value": "4"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Heals",
-     "value": "8"
-    },
-    {
-     "type": "Range",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 126,
-  "name": "Panoplie du Parrain",
-  "items": [
-   "Souliers laqués du Parrain",
-   "Borsalino du Parrain",
-   "Cape du Parrain",
-   "Caleçon à bretelles du Parrain",
-   "Grosse Bagouze du Parrain"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Agility",
-     "value": "10"
-    },
-    {
-     "type": "Chance",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Agility",
-     "value": "20"
-    },
-    {
-     "type": "Chance",
-     "value": "20"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Agility",
-     "value": "30"
-    },
-    {
-     "type": "Chance",
-     "value": "30"
-    },
-    {
-     "type": "Range",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
-     "type": "Wisdom",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Agility",
-     "value": "40"
-    },
-    {
-     "type": "Chance",
-     "value": "40"
-    },
-    {
-     "type": "MP",
-     "value": "1"
-    },
-    {
-     "type": "Range",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    },
-    {
-     "type": "Wisdom",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 127,
-  "name": "Panoplie du Black Wab",
-  "items": [
-   "Coiffe du Black Wab",
-   "Cape du Black Wab",
-   "Bottines du Black Wab",
-   "Ceinture du Black Wab"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Power",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Power",
-     "value": "20"
-    },
-    {
-     "type": "Summon",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 128,
-  "name": "Panoplie de Slait",
-  "items": [
-   "Anneau de Slait",
-   "Cape de Slait",
-   "Bottes de Slait",
-   "Noreilles de Slait"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Heals",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Heals",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    },
-    {
-     "type": "Wisdom",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Heals",
-     "value": "4"
-    },
-    {
-     "type": "Range",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    },
-    {
-     "type": "Wisdom",
-     "value": "20"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 129,
-  "name": "Panoplie Papayou",
-  "items": [
-   "Amulette Papayou",
-   "Sandales Papayou",
-   "Bandeau Papayou",
-   "Cape Papayou"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "5"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Power",
-     "value": "10"
-    },
-    {
-     "type": "Prospecting",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
   "ankama_id": 130,
   "name": "Panoplie du Vampyre maudit",
   "items": [
-   "Anneau du Vampyre",
    "Masque du Vampyre",
    "Bottes du Vampyre",
-   "Ceinture du Vampyre",
    "Cape du Vampyre",
-   "Amulette du Vampyre"
+   "Amulette du Vampyre",
+   "Anneau du Vampyre",
+   "Ceinture du Vampyre"
   ],
   "bonus": [
    [],
@@ -11776,587 +10895,13 @@
   "source": "solomonk"
  },
  {
-  "ankama_id": 131,
-  "name": "Panoplie Mystère",
-  "items": [
-   "Cape Siks Won Naïne",
-   "Ceinture Siks Won Naïne",
-   "Bottes Siks Won Naïne",
-   "Masque Siks Won Naïne"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Prospecting",
-     "value": "5"
-    },
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "2"
-    },
-    {
-     "type": "Prospecting",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "4"
-    },
-    {
-     "type": "Prospecting",
-     "value": "15"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 132,
-  "name": "Panoplie Tétounik",
-  "items": [
-   "Chaussures du Tétounik",
-   "Ceinture du Tétounik",
-   "Bracelet du Tétounik",
-   "Coiffe Mulet du Tétounik"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Intelligence",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Intelligence",
-     "value": "20"
-    },
-    {
-     "type": "Range",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 133,
-  "name": "Panoplie de la Denrée",
-  "items": [
-   "Bottines de la Denrée",
-   "Coiffe de la Denrée",
-   "L'oxolature",
-   "Oxano"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Vitality",
-     "value": "20"
-    },
-    {
-     "type": "Wisdom",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "5"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
-     "type": "Wisdom",
-     "value": "20"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 134,
-  "name": "Panoplie Yug",
-  "items": [
-   "Yugoufle",
-   "Yugure",
-   "Yugonnet",
-   "Yugolette"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "4"
-    },
-    {
-     "type": "Summon",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 135,
-  "name": "Panoplie de Noké",
-  "items": [
-   "Cape de Noké",
-   "Masque de Noké",
-   "Collier de Noké",
-   "Dagues de Noké"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Vitality",
-     "value": "20"
-    },
-    {
-     "type": "Wisdom",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Critical Hits",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
-     "type": "Wisdom",
-     "value": "20"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 136,
-  "name": "Panoplie Solaire",
-  "items": [
-   "L'Esteban",
-   "Anneau solaire",
-   "Bouclier solaire",
-   "Masque solaire"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Chance",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Chance",
-     "value": "20"
-    },
-    {
-     "type": "Summon",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 137,
-  "name": "Panoplie Mace",
-  "items": [
-   "Collertue",
-   "Libottes",
-   "Limape",
-   "Limasque"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Intelligence",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Intelligence",
-     "value": "20"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
-     "type": "Wisdom",
-     "value": "15"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 138,
-  "name": "Panoplie Chisp",
-  "items": [
-   "Chispottes",
-   "Chispouclier",
-   "Chispocasque",
-   "Mitaines de Chisp"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Agility",
-     "value": "10"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Agility",
-     "value": "20"
-    },
-    {
-     "type": "Power",
-     "value": "15"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 139,
-  "name": "Panoplie Goldobrak",
-  "items": [
-   "Corno fulgures",
-   "Fulgu au poing",
-   "Golbottes",
-   "Hache Téreau hache"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Critical Hits",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Chance",
-     "value": "20"
-    },
-    {
-     "type": "Critical Hits",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 140,
-  "name": "Panoplie Sleump",
-  "items": [
-   "Kaskwette",
-   "Les Sleumpettes",
-   "Collier Sleump",
-   "Bâton Poupinateur"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Critical Hits",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Critical Hits",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
-     "type": "Wisdom",
-     "value": "20"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 142,
-  "name": "Panoplie Real Boitar",
-  "items": [
-   "Bouclier du Real Boitar",
-   "Gantelet du Real Boitar",
-   "Ceinture de Tolot",
-   "Bottes du Real Boitar",
-   "Chapeau de Tolot"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Vitality",
-     "value": "20"
-    },
-    {
-     "type": "Wisdom",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "4"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
-     "type": "Wisdom",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "8"
-    },
-    {
-     "type": "Summon",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    },
-    {
-     "type": "Wisdom",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
-  "ankama_id": 143,
-  "name": "Panoplie des Bouftons Rouges",
-  "items": [
-   "Bouclier des Bouftons Rouges",
-   "Gantelet des Bouftons Rouges",
-   "Ceinture de Mounu",
-   "Bottes des Bouftons Rouges",
-   "Chapeau de Beneji"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Vitality",
-     "value": "20"
-    },
-    {
-     "type": "Wisdom",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "4"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    },
-    {
-     "type": "Wisdom",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "8"
-    },
-    {
-     "type": "Summon",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    },
-    {
-     "type": "Wisdom",
-     "value": "30"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
- },
- {
   "ankama_id": 144,
   "name": "Panoplie de Grüt",
   "items": [
    "Bottes de Grüt",
    "Ceinture de Grüt",
    "Amulette de Grüt",
-   "Epée de Grüt"
+   "Épée de Grüt"
   ],
   "bonus": [
    [],
@@ -12399,8 +10944,8 @@
   "items": [
    "Ceinture de Kocksis",
    "Bottes de Kocksis",
-   "Epée de Kocksis",
-   "Anneau de Kocksis"
+   "Anneau de Kocksis",
+   "Épée de Kocksis"
   ],
   "bonus": [
    [],
@@ -12441,10 +10986,10 @@
   "ankama_id": 146,
   "name": "Panoplie de Gobeuf",
   "items": [
-   "Amulette de Gobeuf",
-   "Bâton de Gobeuf",
    "Anneau de Gobeuf",
-   "Ceinture de Gobeuf"
+   "Ceinture de Gobeuf",
+   "Amulette de Gobeuf",
+   "Bâton de Gobeuf"
   ],
   "bonus": [
    [],
@@ -12542,9 +11087,9 @@
   "name": "Panoplie de Rekto Topi",
   "items": [
    "Bottes de Rekto Topi",
-   "Ceinture de Rekto Topi",
    "Amulette de Rekto Topi",
-   "Epée de Rekto Topi"
+   "Épée de Rekto Topi",
+   "Ceinture de Rekto Topi"
   ],
   "bonus": [
    [],
@@ -12599,8 +11144,8 @@
   "items": [
    "Pioche de Grizou",
    "Anneau de Grizou",
-   "Bottes de Grizou",
-   "Ceinture de Grizou"
+   "Ceinture de Grizou",
+   "Bottes de Grizou"
   ],
   "bonus": [
    [],
@@ -12645,10 +11190,10 @@
    "Ceinture du débutant",
    "Amulette du débutant",
    "Chapeau du débutant",
-   "Cape du débutant",
-   "Anneau du débutant",
    "Bouclier du débutant",
-   "Epée Tulante du débutant"
+   "Épée Tulante du débutant",
+   "Anneau du débutant",
+   "Cape du débutant"
   ],
   "bonus": [
    [],
@@ -12729,11 +11274,11 @@
   "ankama_id": 151,
   "name": "Panoplie du Roks Or",
   "items": [
-   "Dragoune Dorée",
    "Casque du Roks Or",
    "Cape du Roks Or",
    "Ceinture du Roks Or",
-   "Anneau du Roks Or"
+   "Anneau du Roks Or",
+   "Dragoune Dorée"
   ],
   "bonus": [
    [],
@@ -12836,10 +11381,10 @@
   "ankama_id": 153,
   "name": "Panoplie de Klüme",
   "items": [
-   "Marteau de Klüme",
    "Bottes de Klüme",
    "Ceinture de Klüme",
-   "Anneau de Klüme"
+   "Anneau de Klüme",
+   "Marteau de Klüme"
   ],
   "bonus": [
    [],
@@ -12880,10 +11425,10 @@
   "ankama_id": 154,
   "name": "Panoplie de Kloug",
   "items": [
-   "Amulette de Kloug",
-   "Anneau de Kloug",
+   "Baguette de Kloug",
    "Ceinture de Kloug",
-   "Baguette de Kloug"
+   "Anneau de Kloug",
+   "Amulette de Kloug"
   ],
   "bonus": [
    [],
@@ -12919,69 +11464,6 @@
    ]
   ],
   "source": "solomonk"
- },
- {
-  "ankama_id": 155,
-  "name": "Panoplie du Corbeau Noir",
-  "items": [
-   "Cape du Corbeau Noir",
-   "Casque du Corbeau Noir",
-   "Bottes du Corbeau Noir",
-   "Pik Epik du Corbeau Noir",
-   "Anneau du Corbeau Noir"
-  ],
-  "bonus": [
-   [],
-   [
-    {
-     "type": "Vitality",
-     "value": "10"
-    }
-   ],
-   [
-    {
-     "type": "Damage",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "20"
-    }
-   ],
-   [
-    {
-     "type": "Critical Hits",
-     "value": "2"
-    },
-    {
-     "type": "Damage",
-     "value": "2"
-    },
-    {
-     "type": "Vitality",
-     "value": "30"
-    }
-   ],
-   [
-    {
-     "type": "Critical Hits",
-     "value": "4"
-    },
-    {
-     "type": "Damage",
-     "value": "3"
-    },
-    {
-     "type": "Range",
-     "value": "1"
-    },
-    {
-     "type": "Vitality",
-     "value": "40"
-    }
-   ]
-  ],
-  "source": "dofusretrotools"
  },
  {
   "ankama_id": 163,
@@ -13434,8 +11916,8 @@
    "Bottes en argent",
    "Alliance en argent",
    "Anneau en argent",
-   "Épée en argent",
-   "Médaille en argent"
+   "Médaille en argent",
+   "Épée en argent"
   ],
   "bonus": [
    [],
@@ -14339,10 +12821,10 @@
   "ankama_id": 216,
   "name": "Panoplie Grobe",
   "items": [
-   "Pandalache",
    "Coiffe de Bill de Grobe",
    "L'amulette Grobe Bambou",
-   "Les Grollbes"
+   "Les Grollbes",
+   "Pandalache"
   ],
   "bonus": [
    [],

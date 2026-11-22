@@ -1,4 +1,5 @@
 {
+  "Aguabi": [],
   "Air Bwak": [
     [
       "Vitality",
@@ -15,6 +16,8 @@
   ],
   "Amaknian Hijinkx": [],
   "Angora Bow Meow": [],
+  "Ankadrak": [],
+  "Arcanowl": [],
   "Armoured Dragoone": [
     [
       "Wisdom",
@@ -30,6 +33,9 @@
     ]
   ],
   "Baby Elante": [],
+  "Baby Ogrest": [],
+  "Bibliohoot": [],
+  "Biface": [],
   "Bilby": [],
   "Black Dragoone": [
     [
@@ -84,6 +90,9 @@
       80
     ]
   ],
+  "Brumulus": [],
+  "Brutone": [],
+  "Buchado": [],
   "Budshu": [],
   "Bworky": [
     [
@@ -91,7 +100,10 @@
       1000
     ]
   ],
+  "Cervideus": [],
+  "Chamelefoux": [],
   "Chazam": [],
+  "Chillemall": [],
   "Chocowa": [],
   "Crocodyl": [],
   "Croum": [
@@ -117,8 +129,12 @@
     ]
   ],
   "Dakal": [],
-  "Dragodindonowel": [],
+  "Dardikil": [],
+  "Demoglobin": [],
+  "Dogtagnan": [],
+  "Dragoscale": [],
   "Dragoshu": [],
+  "Drhelmuth": [],
   "Earth Bwak": [
     [
       "Vitality",
@@ -201,6 +217,7 @@
     ]
   ],
   "Feanor": [],
+  "Fiduval": [],
   "Fiery Croum": [
     [
       "Intelligence",
@@ -222,6 +239,7 @@
     ]
   ],
   "Flibalak": [],
+  "Frozanblud": [],
   "Galeapagos": [],
   "Ghast": [
     [
@@ -231,6 +249,7 @@
   ],
   "Glutton": [],
   "Gobballanster": [],
+  "Gobbsplash": [],
   "Gobtubby": [
     [
       "Vitality",
@@ -251,15 +270,21 @@
     ]
   ],
   "Groug": [],
+  "Grougalou": [],
+  "Hek the Grass Snake": [],
   "Hidweg": [],
   "Hunting Bow Wow": [],
+  "Ignemikling": [],
   "Immature Koalak": [],
+  "Inya Vain": [],
   "Jellufo": [
     [
       "Vitality",
       150
     ]
   ],
+  "Kanoobis": [],
+  "Karah Paice": [],
   "Karne": [],
   "Kerubaby": [],
   "Koalak Coveiro": [],
@@ -269,7 +294,10 @@
       80
     ]
   ],
-  "Kurial": [],
+  "Kourial": [],
+  "Kralaffect": [],
+  "Krosmic Weegle Owl": [],
+  "Kwismas Dragoturklet": [],
   "Kwismas Reindeer": [
     [
       "Prospecting",
@@ -280,6 +308,7 @@
   "Leopardo": [],
   "Lethal Ström": [],
   "Lilboss": [],
+  "Liltoror": [],
   "Little Black Bow Wow": [],
   "Little White Bow Meow": [
     [
@@ -287,6 +316,7 @@
       800
     ]
   ],
+  "Madreggobball": [],
   "Mikhal": [],
   "Mini Champion": [],
   "Mini Traiharrd": [],
@@ -314,6 +344,7 @@
       50
     ]
   ],
+  "Minikitt": [],
   "Minimino": [],
   "Miniminotot": [],
   "Minipoth": [
@@ -325,14 +356,18 @@
   "Mischievous Squirrel": [],
   "Mount Certificate": [],
   "Necrobulb": [],
+  "Ned T. Cheri": [],
   "Nomoon": [
     [
       "Prospecting",
       80
     ]
   ],
+  "Nox Tofu": [],
+  "Ogrest Tofu": [],
   "Ogrine Seeker": [],
   "Original Boon": [],
+  "Oropo Tofu": [],
   "Pandawa Cub": [],
   "Pandiscamp": [
     [
@@ -341,6 +376,7 @@
     ]
   ],
   "Paradoxine": [],
+  "Party Piwi": [],
   "Patrick the Sandcastle": [],
   "Peki": [
     [
@@ -349,7 +385,7 @@
     ]
   ],
   "Permafrosty Piwi": [],
-  "Phormuth": [],
+  "Pikulgrude": [],
   "Pingoku": [],
   "Pink Dragoone": [
     [
@@ -358,8 +394,15 @@
     ]
   ],
   "Pink Piwin": [],
+  "Plisssssken": [],
+  "Poached Dreggon": [],
+  "Poucheling": [],
   "Purple Piwin": [],
+  "Qilby Tofu": [],
   "Rafal": [],
+  "Rapteye": [],
+  "Raptrike": [],
+  "Reanimated Skull": [],
   "Red Dragoone": [
     [
       "Wisdom",
@@ -372,6 +415,7 @@
       80
     ]
   ],
+  "Rickquiem": [],
   "Ross": [],
   "Rushu's Shushu": [
     [
@@ -380,14 +424,20 @@
     ]
   ],
   "Salar": [],
+  "Scrollawan": [],
   "Scrowl": [],
+  "Sinister Crow": [],
+  "Sipho": [],
   "Skeleton Dragoturkey": [],
+  "Skwhirrle": [],
+  "Smitty": [],
   "Smush": [
     [
       "Heals",
       10
     ]
   ],
+  "Snazzoo": [],
   "Snow Bow Meow": [
     [
       "Prospecting",
@@ -402,6 +452,7 @@
     ]
   ],
   "Tabby Bow Meow": [],
+  "Tame Peony": [],
   "Tarzantula": [
     [
       "Reflects",
@@ -416,10 +467,13 @@
     ]
   ],
   "Tibilax": [],
+  "Tirrakou": [],
   "Tiwabbit Wosungwee": [],
+  "Tofookie": [],
   "Tofoone Tribe": [],
   "Tofrazzle": [],
   "Tofus": [],
+  "Toross Tofu": [],
   "Treechster": [],
   "Vampyrina": [
     [
@@ -500,6 +554,8 @@
       80
     ]
   ],
+  "Welldonn": [],
+  "Whistliphon": [],
   "Wild Almond Dragoturkey": [],
   "Wild Ginger Dragoturkey": [],
   "Wild Golden Dragoturkey": [],

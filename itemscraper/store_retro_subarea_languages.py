@@ -15,7 +15,6 @@ sys.path.insert(0, CURRENT_DIR)
 
 DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
                        'items_retro.db')
-CDN_BASE = 'https://dofusretro.cdn.ankama.com/lang'
 SOURCE_LANGUAGE = 'fr'
 DEFAULT_LANGUAGES = ('pt', 'de')
 USER_AGENT = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
@@ -36,8 +35,17 @@ def _fetch(url, timeout=120):
         return response.read()
 
 
-def _manifest(language):
-    body = _fetch('%s/versions_%s.txt' % (CDN_BASE, language),
+def _lang_root():
+    """The lang root the live Retro client reads."""
+    try:
+        from download_retro_langs import lang_root
+    except ImportError:
+        from itemscraper.download_retro_langs import lang_root
+    return lang_root()
+
+
+def _manifest(language, root):
+    body = _fetch('%s/versions_%s.txt' % (root, language),
                   timeout=60).decode('utf-8', 'replace')
     versions = {}
     for entry in body.split('=', 1)[-1].split('|'):
@@ -54,12 +62,13 @@ def subarea_names(language):
     except ImportError:  # when run as a module
         from itemscraper.retro_swf_parser import parse_lang_swf
 
-    version = _manifest(language).get('maps')
+    root = _lang_root()
+    version = _manifest(language, root).get('maps')
     if not version:
         raise SystemExit(
             'no `maps` category in the %s manifest: the CDN layout moved, the '
             'subarea names did not disappear' % language)
-    data = _fetch('%s/swf/maps_%s_%s.swf' % (CDN_BASE, language, version))
+    data = _fetch('%s/swf/maps_%s_%s.swf' % (root, language, version))
     if data[:3] == b'CWS':
         zlib.decompress(data[8:])  # fail loudly here rather than in the parser
     payload = (parse_lang_swf(data) or {}).get('MA') or {}

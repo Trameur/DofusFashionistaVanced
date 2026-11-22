@@ -716,12 +716,62 @@ class UpdateLauncherTests(TestCase):
                     'WATCHED_RETRO_LANG': {key: 'old' for key in manifest}}
         catalog = {'games': {'retro': {'platforms': {'windows': {'main': 'retro_1.49.5.5656.445'}}}}}
         with mock.patch.object(updater, 'read_metadata', return_value=metadata), \
+                mock.patch('cytrus_cdn.download_manifest', return_value=b'manifest'), \
+                mock.patch('download_retro_langs.lang_root', return_value=self.LANG_ROOT), \
                 mock.patch('download_retro_langs.fetch_manifest', return_value=manifest), \
                 mock.patch('check_game_versions.retro_asset_entries', return_value=[{'name': 'clip.swf'}]), \
                 mock.patch('check_game_versions.retro_asset_digest', return_value='digest'):
             row = updater.probe('retro', catalog)
         self.assertEqual('1.49.5', row['available'])
         self.assertEqual('1.49.5.5656.445', row['source']['build'])
+        self.assertTrue(row['changed'])
+
+    LANG_ROOT = 'https://dofusretro.cdn.ankama.com/static-data/612/lang'
+
+    def retro_probe(self, watched_root, live_root, state=None):
+        manifest = {key: '1399' for key in ('items', 'itemstats', 'itemsets', 'crafts', 'classes', 'effects', 'spells')}
+        metadata = {'FASHIONISTA_RETRO_VERSION': '1.49.5', 'WATCHED_RETRO_BUILD': '1.49.5.5656.445',
+                    'WATCHED_RETRO_ASSET_DIGEST': 'digest', 'WATCHED_RETRO_LANG_ROOT': watched_root,
+                    'WATCHED_RETRO_LANG': dict(manifest)}
+        catalog = {'games': {'retro': {'platforms': {'windows': {'main': '6.0_1.49.5.5656.445'}}}}}
+        with mock.patch.object(updater, 'read_metadata', return_value=metadata), \
+                mock.patch.object(updater, 'read_json', return_value=state or {}), \
+                mock.patch('cytrus_cdn.download_manifest', return_value=b'manifest') as download, \
+                mock.patch('download_retro_langs.lang_root', return_value=live_root) as root, \
+                mock.patch('download_retro_langs.fetch_manifest', return_value=manifest) as fetch, \
+                mock.patch('check_game_versions.retro_asset_entries', return_value={'clip.swf': 'a 1'}) as assets, \
+                mock.patch('check_game_versions.retro_asset_digest', return_value='digest'):
+            row = updater.probe('retro', catalog)
+        return row, download, root, fetch, assets
+
+    def test_the_retro_probe_reads_the_lang_versions_under_the_root_its_client_names(self):
+        row, download, root, fetch, assets = self.retro_probe(self.LANG_ROOT, self.LANG_ROOT)
+        download.assert_called_once_with('retro', version='6.0_1.49.5.5656.445')
+        root.assert_called_once_with(manifest=b'manifest')
+        self.assertEqual({(lang, self.LANG_ROOT) for lang in ('fr', 'en', 'es', 'pt', 'de')},
+                         {call.args for call in fetch.call_args_list})
+        assets.assert_called_once_with(manifest=b'manifest')
+        self.assertEqual(self.LANG_ROOT, row['source']['lang_root'])
+        self.assertFalse(row['changed'])
+
+    def test_a_moved_retro_lang_root_is_a_change_even_with_the_same_versions(self):
+        row = self.retro_probe(self.LANG_ROOT, 'https://dofusretro.cdn.ankama.com/static-data/613/lang')[0]
+        self.assertTrue(row['changed'])
+
+    def saved_source_before_the_lang_root(self):
+        old_root_versions = {key: '1301' for key in ('items', 'itemstats', 'itemsets', 'crafts', 'classes', 'effects',
+                                                     'spells')}
+        return {'retro': {'source': {'build': '1.49.5.5656.445',
+                                     'languages': {lang: dict(old_root_versions) for lang in ('fr', 'en', 'es', 'pt', 'de')},
+                                     'image_digest': 'digest', 'image_count': 1}}}
+
+    def test_a_saved_retro_source_without_its_lang_root_is_not_a_change(self):
+        row = self.retro_probe(self.LANG_ROOT, self.LANG_ROOT, self.saved_source_before_the_lang_root())[0]
+        self.assertFalse(row['changed'])
+
+    def test_a_saved_retro_source_without_its_lang_root_still_sees_a_moved_root(self):
+        row = self.retro_probe(self.LANG_ROOT, 'https://dofusretro.cdn.ankama.com/static-data/613/lang',
+                               self.saved_source_before_the_lang_root())[0]
         self.assertTrue(row['changed'])
 
     def test_touch_reads_the_build_shown_by_the_official_client(self):
@@ -1100,6 +1150,7 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
 
     WATCHED_FILE = ('FASHIONISTA_TOUCH_VERSION = "1.74"\nFASHIONISTA_RETRO_VERSION = "1.49"\n'
                     'WATCHED_RETRO_BUILD = "1.49.3.1"\nWATCHED_TOUCH_ASSETS = "3.3.5_old"\n'
+                    'WATCHED_RETRO_LANG_ROOT = "https://dofusretro.cdn.ankama.com/lang"\n'
                     "WATCHED_RETRO_LANG = {\n    'items': '1260',\n    'spells': '1254',\n}\n"
                     'WATCHED_RETRO_ASSET_DIGEST = "old"\nWATCHED_RETRO_ASSET_COUNT = 10\n')
 
@@ -1126,6 +1177,41 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                                                        metadata['WATCHED_RETRO_BUILD'],
                                                        metadata['WATCHED_RETRO_ASSET_DIGEST']))
         self.assertEqual('3.3.6_new', metadata['WATCHED_TOUCH_ASSETS'])
+
+    def test_a_retro_import_records_the_lang_root_it_read(self):
+        path = self.root / 'fashionista_version.py'
+        path.write_text(self.WATCHED_FILE, encoding='utf-8')
+        retro = {'key': 'retro', 'available': '1.49.5', 'images': False,
+                 'source': {'build': '1.49.5.2', 'lang_root': self.LANG_ROOT,
+                            'languages': {'fr': {'items': '1399', 'spells': '1393'}}}}
+        with contextlib.redirect_stdout(io.StringIO()):
+            updater.set_game_versions([retro])
+        metadata = updater.read_metadata()
+        self.assertEqual(self.LANG_ROOT, metadata['WATCHED_RETRO_LANG_ROOT'])
+        self.assertEqual({'items': '1399', 'spells': '1393'}, metadata['WATCHED_RETRO_LANG'])
+        restored = updater.transplant_label(path.read_text(encoding='utf-8'), self.WATCHED_FILE, 'retro')
+        path.write_text(restored, encoding='utf-8')
+        self.assertEqual('https://dofusretro.cdn.ankama.com/lang', updater.read_metadata()['WATCHED_RETRO_LANG_ROOT'])
+
+    def test_the_retro_worker_hands_the_probed_lang_root_to_every_step(self):
+        module = SimpleNamespace(__file__='legacy.py')
+        def main():
+            module.run_step('lang/download-fr', ['python', 'download_retro_langs.py'])
+        module.main = main
+        seen = []
+        def run(command, log, *args, **kwargs):
+            seen.append(os.environ.get('RETRO_LANG_ROOT'))
+            log.write_text('ok', encoding='utf-8')
+            return {'exit_code': 0, 'log': str(log)}
+        job = self.root / 'job.json'
+        updater.write_json(job, {'key': 'retro', 'images': False, 'available': '1.49.5', 'timeout': 60,
+                                 'source': {'lang_root': self.LANG_ROOT}})
+        with mock.patch.dict(os.environ, {}), \
+                mock.patch.object(updater.importlib, 'import_module', return_value=module), \
+                mock.patch.object(updater, 'run_command', side_effect=run), \
+                mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
+            updater.worker(job)
+        self.assertEqual([self.LANG_ROOT], seen)
 
     def test_retro_images_left_alone_keep_the_watched_render_digest(self):
         path = self.root / 'fashionista_version.py'
