@@ -488,7 +488,7 @@ def _without_new_locks_it_cannot_wear(char, included):
             continue
         item = structure.get_item_by_id(item_id)
         beside = {other for other in kept.values() if other != ''}
-        wearable = item is None or the_build_can_wear(char, item, beside)
+        wearable = item is not None and the_build_can_wear(char, item, beside)
         kept[slot] = item_id if wearable else ''
     return {slot: kept[slot] for slot in included}
 

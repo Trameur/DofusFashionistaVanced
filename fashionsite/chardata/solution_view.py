@@ -1109,8 +1109,15 @@ def generate_link(request, char):
     """Canonical link of the build, on SITE_URL whatever host the request used."""
     return SITE_URL + shared_build_path(char)
 
-def _item_id_for_name(structure, item_name):
+def _item_id_for_name(structure, item_name, posted_id=None):
     """Id the lock and forbid lists store, or None if the version lacks the item."""
+    try:
+        posted = structure.get_item_by_id(int(posted_id))
+    except (TypeError, ValueError):
+        posted = None
+    if (posted is not None and not getattr(posted, 'dofus_touch', False)
+            and item_name in (posted.name, getattr(posted, 'or_name', None))):
+        return posted.id
     item = structure.get_item_by_name(item_name)
     if item is not None:
         return item.id
@@ -1130,7 +1137,7 @@ def set_item_locked(request, char_id):
         return HttpResponseBadRequest('unknown slot')
 
     structure = get_structure()
-    item_id = _item_id_for_name(structure, item_name)
+    item_id = _item_id_for_name(structure, item_name, request.POST.get('item_id'))
     if item_id is None:
         return HttpResponseBadRequest('unknown item')
     if locked == 'true':
@@ -1220,7 +1227,7 @@ def set_item_forbidden(request, char_id):
     forbidden = request.POST.get('forbidden', None)
     
     structure = get_structure()
-    item_id = _item_id_for_name(structure, item_name)
+    item_id = _item_id_for_name(structure, item_name, request.POST.get('item_id'))
     if item_id is None:
         return HttpResponseBadRequest('unknown item')
 
