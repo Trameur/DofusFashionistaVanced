@@ -10043,11 +10043,22 @@ class StatsWeightCapTests(TestCase):
 
 
 def _pulp_solver_available():
-    try:
+    """True when the CBC binary the site solves with is installed."""
+    from fashionistapulp.lpproblem import SOLVER
+    return SOLVER is not None and SOLVER.available()
+
+
+class TheSolverGuardReadsTheSiteSolverTests(SimpleTestCase):
+
+    def test_the_guard_holds_when_the_site_can_solve(self):
+        from fashionistapulp.lpproblem import SOLVER
+        self.assertTrue(SOLVER.available())
+        self.assertTrue(_pulp_solver_available())
+
+    def test_a_solver_the_site_never_uses_cannot_turn_the_guard_off(self):
         import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
+        with unittest.mock.patch.object(pulp, 'listSolvers', side_effect=OSError('busy')):
+            self.assertTrue(_pulp_solver_available())
 
 
 class SolverSmokeTests(TestCase):

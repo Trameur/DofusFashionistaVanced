@@ -10,6 +10,7 @@ from django.utils import translation
 
 from chardata.smart_build import _set_weights
 from chardata.solution_result import stat_sources
+from chardata.tests import _pulp_solver_available
 from chardata.util import character_own_stats
 from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
 from fashionistapulp.model import Model
@@ -142,14 +143,6 @@ def _sheet(version, trained=None, level=200):
         'options': {'ap_exo': False, 'mp_exo': False, 'range_exo': False},
         'char_level': level,
     })
-
-
-def _pulp_solver_available():
-    try:
-        import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
 
 
 def _weights(version, aspects, race='Iop', level=200):

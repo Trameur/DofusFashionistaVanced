@@ -21,17 +21,11 @@ import unittest
 from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
 
+from chardata.tests import _pulp_solver_available
+
 from fashionistapulp.dofus_constants import (DEFAULT_SOFT_CAPS,
                                              scrolls_push_cost_curve,
                                              tier_widths_after_scroll)
-
-
-def _pulp_solver_available():
-    try:
-        import pulp
-        return pulp.PULP_CBC_CMD(msg=False).available()
-    except Exception:
-        return False
 
 
 class ScrollCostCurveTests(TestCase):
