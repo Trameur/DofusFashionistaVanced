@@ -21,7 +21,8 @@ from django.utils.translation import gettext, gettext_lazy
 
 import json
 
-from chardata.lock_forbid import get_all_exclusions_with_names, get_all_exclusions_ids, set_exclusions_list_and_check_inclusions
+from chardata.lock_forbid import (get_all_exclusions_ids, get_all_exclusions_with_names,
+                                  set_exclusions_list_and_check_inclusions)
 from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, get_char_or_raise, HttpResponseJson
 from fashionistapulp.dofus_constants import TYPE_NAMES, type_names_for
@@ -153,6 +154,37 @@ def _one_door_per_piece(structure, language, forbiddable_id):
     return doors
 
 
+def _forbiddable_id_of(structure, all_items):
+    """The function mapping a piece id to the row of its or_name the page draws, itself when none."""
+    forbiddable_ids = set(all_items)
+    or_name_to_forbiddable = {}
+    for item_id in all_items:
+        item = structure.get_item_by_id(item_id)
+        if item is not None:
+            or_name_to_forbiddable.setdefault(item.or_name, item_id)
+
+    def forbiddable_id(item_id):
+        if item_id is None or item_id in forbiddable_ids:
+            return item_id
+        item = structure.get_item_by_id(item_id)
+        alt = (or_name_to_forbiddable.get(item.or_name)
+               if item is not None else None)
+        return alt if alt is not None else item_id
+
+    return forbiddable_id
+
+
+def _exclusions_the_page_draws(char, language, forbiddable_id):
+    """The stored exclusions named, each on the row the page can draw, in stored order, once."""
+    entries, seen = [], set()
+    for entry in get_all_exclusions_with_names(char, language):
+        item_id = forbiddable_id(int(entry['id']))
+        if item_id not in seen:
+            seen.add(item_id)
+            entries.append(dict(entry, id=item_id))
+    return entries
+
+
 def exclusions(request, char_id):
     char = get_char_or_raise(request, char_id) 
     s = get_structure()
@@ -163,22 +195,7 @@ def exclusions(request, char_id):
 
     all_items = s.get_all_unique_items_ids_with_type()
 
-    # Grouped variants (Gelano) are indexed under an id that cannot be forbidden;
-    # map them to a forbiddable variant, which forbids the whole group.
-    forbiddable_ids = set(all_items)
-    or_name_to_forbiddable = {}
-    for item_id in all_items:
-        item = s.get_item_by_id(item_id)
-        if item is not None:
-            or_name_to_forbiddable.setdefault(item.or_name, item_id)
-
-    def forbiddable_id(item_id):
-        if item_id is None or item_id in forbiddable_ids:
-            return item_id
-        item = s.get_item_by_id(item_id)
-        alt = (or_name_to_forbiddable.get(item.or_name)
-               if item is not None else None)
-        return alt if alt is not None else item_id
+    forbiddable_id = _forbiddable_id_of(s, all_items)
 
     doors = _one_door_per_piece(s, language, forbiddable_id)
     # A set is forbidden through the plain name of each of its pieces, which
@@ -196,7 +213,7 @@ def exclusions(request, char_id):
     all_names.update(doors)
     
     complete_sets = s.get_complete_sets_list(language)
-    exclusions = get_all_exclusions_with_names(char, language)
+    exclusions = _exclusions_the_page_draws(char, language, forbiddable_id)
 
     return set_response(request, 
                         'chardata/exclusions.html', 
@@ -226,6 +243,13 @@ def exclusions_post(request, char_id):
         actual_exclusions = [int(iditem) for iditem in exclusions]
     except (TypeError, ValueError):
         return HttpResponseBadRequest('exclusions list not understood')
-    set_exclusions_list_and_check_inclusions(char, actual_exclusions)
-    
-    return HttpResponseJson(json.dumps(get_all_exclusions_ids(char)))
+    structure = get_structure()
+    all_items = structure.get_all_unique_items_ids_with_type()
+    forbiddable_id = _forbiddable_id_of(structure, all_items)
+    kept_unseen = [item_id for item_id in get_all_exclusions_ids(char)
+                   if forbiddable_id(item_id) not in all_items
+                   and item_id not in actual_exclusions]
+    set_exclusions_list_and_check_inclusions(char, actual_exclusions + kept_unseen)
+
+    return HttpResponseJson(json.dumps(_exclusions_the_page_draws(
+        char, get_supported_language(), forbiddable_id)))
