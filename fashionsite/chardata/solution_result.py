@@ -620,13 +620,32 @@ def build_uses_an_exo(model_result):
                for result_item in model_result.item_list)
 
 
+def _carries_a_recorded_change(result_item):
+    """True when the piece holds an over, an exo, an assumed exo or a Dracorune."""
+    if (getattr(result_item, 'exo_overrides', None)
+            or getattr(result_item, 'assumed_exo', None)
+            or getattr(result_item, 'dracorune', None)):
+        return True
+    base_stats = getattr(result_item, 'base_stats', None)
+    if base_stats is None:
+        return False
+    stats = getattr(result_item, 'stats', None) or {}
+    return any(value > base_stats.get(key, 0) for key, value in stats.items())
+
+
+def _weapon_key(result_item):
+    item = get_structure().get_item_by_id(getattr(result_item, 'id', None))
+    return getattr(item, 'weapon_key', None)
+
+
 def attach_transcendence(result_item, weights):
     result_item.transcendence = None
     if not result_item.item_added or not weights:
         return
     rune = best_transcendence(get_current_game_version(),
                               getattr(result_item, 'stats', None) or {}, weights,
-                              result_item.type)
+                              result_item.type, _weapon_key(result_item),
+                              _carries_a_recorded_change(result_item))
     if rune is None:
         return
     # Each client names the runes in its own language

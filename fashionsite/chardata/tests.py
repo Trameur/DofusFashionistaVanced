@@ -11717,7 +11717,7 @@ class TranscendenceAdviceTests(SimpleTestCase):
     def _best(self, weights, version='dofus3', stats=None):
         from chardata.transcendence_advice import best_transcendence
         return best_transcendence(version, self.RING if stats is None else stats,
-                                  weights)
+                                  weights, 'Ring')
 
     def test_it_names_the_rune_the_build_values(self):
         rune = self._best({'vit': 1})
@@ -11752,10 +11752,12 @@ class TranscendenceAdviceTests(SimpleTestCase):
             with self.subTest(item_type=item_type):
                 self.assertIsNone(best_transcendence('dofus3', self.RING,
                                                      {'str': 1}, item_type))
-        for item_type in ('Ring', 'Hat', 'Weapon', None):
+        for item_type, weapon_key in (('Ring', None), ('Hat', None),
+                                      ('Weapon', 'sword')):
             with self.subTest(item_type=item_type):
                 self.assertIsNotNone(best_transcendence('dofus3', self.RING,
-                                                        {'str': 1}, item_type))
+                                                        {'str': 1}, item_type,
+                                                        weapon_key))
 
 
 class ReadOnlyStatsWeightsTests(TestCase):
