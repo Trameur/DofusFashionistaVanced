@@ -568,32 +568,6 @@ def lost_images(before):
     return sorted(path for path in good if image_problem(STATIC / path))
 
 
-def preserve_table(before, after, table):
-    with readonly(before) as old, writable(after) as new:
-        schema = old.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name=?", (table,)).fetchone()
-        if not schema:
-            raise ValueError('Local table missing: ' + table)
-        rows = old.execute('SELECT * FROM ' + quoted(table)).fetchall()
-        if table == 'mount_looks':
-            query = 'SELECT id, ankama_id, ankama_type FROM items'
-            current = {(ankama, kind): item for item, ankama, kind in new.execute(query)}
-            old_items = {item: (ankama, kind) for item, ankama, kind in old.execute(query)}
-            rows = [(current[old_items[row[0]]], *row[1:]) for row in rows if old_items[row[0]] in current]
-        else:
-            known = {row[0] for row in new.execute('SELECT DISTINCT monster_ankama_id FROM monster_names')}
-            rows = [row for row in rows if row[0] in known]
-        new.execute('DROP TABLE IF EXISTS ' + quoted(table))
-        new.execute(schema[0])
-        if rows:
-            new.executemany('INSERT INTO %s VALUES (%s)' % (quoted(table), ','.join('?' for _ in rows[0])), rows)
-    dump = after.with_name(after.name.replace('items', 'item_db_dumped', 1)).with_suffix('.dump')
-    temporary = dump.with_name(dump.name + '.tmp')
-    with readonly(after) as connection, temporary.open('w', encoding='utf-8') as output:
-        for statement in connection.iterdump():
-            output.write(statement + '\n')
-    replace_file(temporary, dump)
-
-
 def image_problem(path):
     from PIL import Image
     try:

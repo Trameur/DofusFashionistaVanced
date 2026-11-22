@@ -313,6 +313,7 @@ def main() -> None:
             "--repo", BETA_REPO,
             "--tag", version,
             "--filter", "items.json",
+            "--filter", "mounts.json",
             "--filter", "breeds.json",
             "--filter", "characteristics.json",
             "--filter", "en.json",
@@ -340,8 +341,8 @@ def main() -> None:
             "--game-version", "beta",
             str(ITEMSCRAPER / "beta"),
         ], cwd=ITEMSCRAPER)
-        step("mount-looks", [PY, "store_dofusdb_mount_looks.py", "--game-version", "beta",
-                             *(["--tag", version] if local_raw else [])], cwd=ITEMSCRAPER)
+        step("mount-looks", [PY, "store_mount_looks.py", "--game-version", "beta", "--tag", version],
+             cwd=ITEMSCRAPER)
         # Replayed from the repo; --names catches items beta renumbered
         step("item-skins", [PY, "store_item_skins.py", "--game-version", "beta",
                             "--input", "item_skins.json",

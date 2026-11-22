@@ -114,11 +114,6 @@ def probe_beta_items():
     return len(payload.get('items') or []), 'items on one page'
 
 
-def probe_beta_monsters():
-    payload = _get_json('https://api.beta.dofusdb.fr/monsters?$limit=50')
-    return len(payload.get('data') or []), 'monsters on one page'
-
-
 def probe_touch_config():
     """The Touch login proxy, which points at the build's data map."""
     payload = _get_json(
@@ -145,7 +140,6 @@ PROBES = (
     ('dofus3', 'dofusdude sets', probe_dofus3_sets, 40),
     ('dofus3', 'dofusdb monsters', probe_dofusdb_monsters, 40),
     ('beta', 'dofusdude items', probe_beta_items, 40),
-    ('beta', 'dofusdb monsters', probe_beta_monsters, 40),
     ('touch', 'ankama touch config', probe_touch_config, 1),
 )
 

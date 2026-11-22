@@ -52,7 +52,6 @@ TOUCH_CLIENT = 'https://dt-proxy-production-login.ankama-games.com/build/script.
 WAKFU = 'https://wakfu.cdn.ankama.com/gamedata/config.json'
 IMAGE_STEPS = {'item-images', 'resource-icons', 'monster-images',
                'monsters/artworks', 'spell-images', 'spell-icons', 'resize'}
-LOCAL_TABLES = {'mount-looks': 'mount_looks'}
 NETWORK_STEP = re.compile(r'download|mirror|scrape|data/sets|data/spells|data/mounts|images|icons|artworks')
 RETRY_DELAY = 20
 PIPELINE_TIMEOUT = 4 * 3600
@@ -288,7 +287,7 @@ def newer(version, than):
 
 def release_assets(version):
     """The release files a version's pipeline reads."""
-    return RELEASE_ASSETS | {'subareas.json'} if version in ITEMS_FROM_RELEASE else RELEASE_ASSETS
+    return RELEASE_ASSETS | {'subareas.json', 'mounts.json'} if version in ITEMS_FROM_RELEASE else RELEASE_ASSETS
 
 
 def importable_release(version, served, official, current, warnings):
@@ -814,12 +813,6 @@ def worker(job_path):
         if label == 'monster-images' and key in ('dofus3', 'beta'):
             progress(title + ': kept, not refreshed')
             return kept_locally(label, 'Monster artwork kept, not refreshed (DofusDB API disabled).')
-        if label in LOCAL_TABLES and key in ('dofus3', 'beta'):
-            table = LOCAL_TABLES[label]
-            database = audit.database_path(key)
-            with phase(title):
-                audit.preserve_table(report_dir / key / audit.relative_name(database), database, table)
-            return kept_locally(label, '%s: kept from the local database, not refreshed (DofusDB disabled).' % table)
         if any('dofusdb' in str(part).lower() for part in command):
             raise RuntimeError('DofusDB step not allowed: ' + label)
         if label == 'verify/rebuild':

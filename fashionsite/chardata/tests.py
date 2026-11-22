@@ -15539,7 +15539,7 @@ class MountLookTests(TestCase):
             conn.close()
 
     def test_the_look_string_is_read_the_way_the_client_writes_it(self):
-        from store_dofusdb_mount_looks import parse_look
+        from store_mount_looks import parse_look
         # Four colours, the Dragoturkey shape.
         self.assertEqual(
             parse_look('{639||1=16772045,2=16772045,3=16301825,4=7758915|120}'),
@@ -15560,7 +15560,7 @@ class MountLookTests(TestCase):
                          (639, ['060000'], 120))
 
     def test_a_look_that_is_not_one_is_refused_rather_than_guessed(self):
-        from store_dofusdb_mount_looks import parse_look
+        from store_mount_looks import parse_look
         for bad in ('', None, 'nope', '{}', '{|||}', '{abc||1=1|100}',
                     '{639||1=1}'):
             self.assertIsNone(parse_look(bad), repr(bad))

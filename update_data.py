@@ -228,6 +228,7 @@ def main() -> None:
             PY, "-m", "itemscraper.download_raw_data",
             "--tag", version,
             "--filter", "items.json",
+            "--filter", "mounts.json",
             "--filter", "breeds.json",
             "--filter", "en.json",
             "--filter", "effects.json",
@@ -247,7 +248,8 @@ def main() -> None:
         # After load-db, which rebuilds items.db from the dump
         # Retro recipes: itemscraper/store_retro_recipes.py
         step("items/obtainment", [PY, "store_item_obtainment.py"], cwd=ITEMSCRAPER)
-        step("mount-looks", [PY, "store_dofusdb_mount_looks.py"], cwd=ITEMSCRAPER)
+        step("mount-looks", [PY, "store_mount_looks.py", "--game-version", "dofus3", "--tag", version],
+             cwd=ITEMSCRAPER)
         # Replays item_skins.json, matching from the art takes hours
         step("item-skins", [PY, "store_item_skins.py", "--game-version", "dofus3",
                             "--input", "item_skins.json"], cwd=ITEMSCRAPER)

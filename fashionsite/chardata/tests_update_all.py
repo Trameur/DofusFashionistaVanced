@@ -120,7 +120,7 @@ class UpdateLauncherTests(TestCase):
             updater.selection('99', rows)
 
     def test_the_importable_version_uses_the_matching_api_and_archive(self):
-        assets = [{'name': name + '.json'} for name in ('spells', 'effects', 'breeds', 'monsters', 'subareas', 'recipes', 'en', 'fr', 'es', 'pt', 'de')]
+        assets = [{'name': name + '.json'} for name in ('spells', 'effects', 'breeds', 'monsters', 'subareas', 'mounts', 'recipes', 'en', 'fr', 'es', 'pt', 'de')]
         catalog = {'games': {'dofus': {'platforms': {'windows': {'dofus3': '6.0_3.6.11.0'}}}}}
         absent = urllib.error.HTTPError('url', 404, 'Not Found', {}, None)
         with mock.patch.object(updater, 'fetch_json', side_effect=[
@@ -136,7 +136,7 @@ class UpdateLauncherTests(TestCase):
             with self.assertRaisesRegex(ValueError, 'Incomplete archive'):
                 updater.probe('dofus3')
 
-    DATA_FILES = ('spells.json', 'effects.json', 'breeds.json', 'monsters.json', 'subareas.json', 'recipes.json',
+    DATA_FILES = ('spells.json', 'effects.json', 'breeds.json', 'monsters.json', 'subareas.json', 'mounts.json', 'recipes.json',
                   'en.json', 'fr.json', 'es.json', 'pt.json', 'de.json')
     ITEM_FILES = ('MAPPED_ITEMS.json', 'MAPPED_SETS.json', 'MAPPED_RECIPES.json')
 
@@ -164,15 +164,17 @@ class UpdateLauncherTests(TestCase):
         with mock.patch.object(updater, 'fetch_json', side_effect=fetch):
             return updater.probe(key)
 
-    def test_a_dofus3_or_beta_release_without_the_subareas_is_incomplete_but_dofus2_does_not_need_them(self):
-        without = tuple(name for name in self.DATA_FILES if name != 'subareas.json')
-        for key in ('dofus3', 'beta'):
-            with self.subTest(key=key):
-                with self.assertRaisesRegex(ValueError, 'Incomplete archive'):
-                    self.dofusdude_probe(key, '3.7.4.4', '3.7.4.4', {'3.7.4.4': self.release(*without)})
-        row = self.dofusdude_probe('dofus2', '2.73.3.14', '2.73.3.14', {'2.73.3.14': self.release(*without)})
-        self.assertIsNone(row['error'])
-        self.assertEqual('2.73.3.14', row['available'])
+    def test_a_dofus3_or_beta_release_without_the_subareas_or_the_mounts_is_incomplete_but_dofus2_does_not_need_them(self):
+        for missing in ('subareas.json', 'mounts.json'):
+            without = tuple(name for name in self.DATA_FILES if name != missing)
+            for key in ('dofus3', 'beta'):
+                with self.subTest(key=key, missing=missing):
+                    with self.assertRaisesRegex(ValueError, 'Incomplete archive'):
+                        self.dofusdude_probe(key, '3.7.4.4', '3.7.4.4', {'3.7.4.4': self.release(*without)})
+            with self.subTest(key='dofus2', missing=missing):
+                row = self.dofusdude_probe('dofus2', '2.73.3.14', '2.73.3.14', {'2.73.3.14': self.release(*without)})
+                self.assertIsNone(row['error'])
+                self.assertEqual('2.73.3.14', row['available'])
 
     def test_the_target_is_the_client_version_when_its_release_is_complete(self):
         for key in ('dofus3', 'beta'):
@@ -1082,22 +1084,6 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         self.assertEqual(b'old', changed.read_bytes())
         self.assertEqual([changed], [call.args[1] for call in replace.call_args_list])
 
-    def test_preserved_mount_looks_follow_the_ankama_id_and_type_through_a_rename(self):
-        audit.DATA.mkdir(parents=True)
-        before = self.root / 'previous.db'
-        after = audit.database_path('dofus3')
-        with audit.writable(before) as db:
-            db.executescript("CREATE TABLE items(id, ankama_id, ankama_type, name);"
-                             "INSERT INTO items VALUES(1, 123, 'mounts', 'Mount'), (2, 123, 'equipment', 'Hat');"
-                             "CREATE TABLE mount_looks(item, look); INSERT INTO mount_looks VALUES(1, 'appearance');")
-        with audit.writable(after) as db:
-            db.executescript("CREATE TABLE items(id, ankama_id, ankama_type, name);"
-                             "INSERT INTO items VALUES(7, 123, 'mounts', 'Renamed Mount'), (8, 123, 'equipment', 'Hat');")
-        audit.preserve_table(before, after, 'mount_looks')
-        with audit.writable(':memory:') as reloaded:
-            reloaded.executescript((audit.DATA / 'item_db_dumped.dump').read_text(encoding='utf-8'))
-            self.assertEqual([(7, 'appearance')], reloaded.execute('SELECT * FROM mount_looks').fetchall())
-
     def test_a_download_that_prints_failure_but_exits_zero_stops_the_pipeline(self):
         calls = []
         module = SimpleNamespace(__file__='legacy.py')
@@ -1666,7 +1652,7 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
             self.assertEqual(1, updater.execute([row], ['dofus3'], {'dofus3': False}, args))
         run.assert_not_called()
 
-    def test_no_dofusdb_command_runs_including_the_monster_image_downloader(self):
+    def test_a_dofusdb_command_is_refused_and_the_monster_artwork_is_kept(self):
         module = SimpleNamespace(__file__='legacy.py')
         def main():
             module.run_step('monster-images', ['python', 'download_monster_images.py'])
@@ -1676,14 +1662,13 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         updater.write_json(job, {'key': 'dofus3', 'images': True, 'available': '3.6.10.0', 'timeout': 60})
         with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
                 mock.patch.object(updater, 'run_command') as run, \
-                mock.patch.object(audit, 'preserve_table') as preserve, \
                 mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
-            updater.worker(job)
+            with self.assertRaisesRegex(RuntimeError, 'DofusDB step not allowed: mount-looks'):
+                updater.worker(job)
         run.assert_not_called()
-        preserve.assert_called_once()
         steps = updater.read_json(self.root / 'dofus3-steps.json')
-        self.assertEqual(2, len(steps))
-        self.assertTrue(all(step['warning'] and step['kept'] for step in steps))
+        self.assertEqual(1, len(steps))
+        self.assertTrue(steps[0]['warning'] and steps[0]['kept'])
 
     def test_monster_grades_are_stored_from_the_dump_on_dofus3_and_beta(self):
         for key in ('dofus3', 'beta'):
@@ -1703,10 +1688,8 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                 updater.write_json(job, {'key': key, 'images': False, 'available': '3.7.2.2', 'timeout': 60})
                 with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
                         mock.patch.object(updater, 'run_command', side_effect=run), \
-                        mock.patch.object(audit, 'preserve_table') as preserve, \
                         mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
                     updater.worker(job)
-                preserve.assert_not_called()
                 self.assertEqual([command], commands)
 
     def test_monster_subareas_are_stored_from_the_dump_on_dofus3_and_beta(self):
@@ -1727,11 +1710,34 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                 updater.write_json(job, {'key': key, 'images': False, 'available': '3.7.2.2', 'timeout': 60})
                 with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
                         mock.patch.object(updater, 'run_command', side_effect=run), \
-                        mock.patch.object(audit, 'preserve_table') as preserve, \
                         mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
                     updater.worker(job)
-                preserve.assert_not_called()
                 self.assertEqual([command], commands)
+
+    def test_mount_looks_are_stored_from_the_dump_on_dofus3_and_beta(self):
+        for key in ('dofus3', 'beta'):
+            with self.subTest(key=key):
+                command = ['python', 'store_mount_looks.py', '--game-version', key, '--tag', '3.7.2.2']
+                module = SimpleNamespace(__file__='legacy.py')
+                def main():
+                    module.run_step('mount-looks', command)
+                module.main = main
+                commands = []
+                def run(command, log, *args, **kwargs):
+                    commands.append(command)
+                    log.write_text('ok\n', encoding='utf-8')
+                    return {'exit_code': 0, 'log': str(log), 'seconds': .1}
+                job = self.root / key / 'job.json'
+                job.parent.mkdir()
+                updater.write_json(job, {'key': key, 'images': False, 'available': '3.7.2.2', 'timeout': 60})
+                with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
+                        mock.patch.object(updater, 'run_command', side_effect=run), \
+                        mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
+                    updater.worker(job)
+                self.assertEqual([command], commands)
+                steps = updater.read_json(self.root / key / ('%s-steps.json' % key))
+                self.assertEqual(1, len(steps))
+                self.assertFalse(steps[0].get('kept'))
 
     def test_both_pipelines_store_monster_subareas_from_the_dump_of_their_own_tag(self):
         import update_data
@@ -1754,6 +1760,31 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                                  [Path(commands['monster-subareas'][1]).name] + commands['monster-subareas'][2:])
                 source = (Path(module.__file__)).read_text(encoding='utf-8')
                 self.assertNotIn('dofusdb_monster_subareas', source)
+
+    def test_both_pipelines_store_mount_looks_from_the_dump_of_their_own_tag(self):
+        import update_data
+        import update_data_beta
+        for module, setter, key in ((update_data, 'set_version', 'dofus3'), (update_data_beta, 'set_beta_version', 'beta')):
+            with self.subTest(pipeline=module.__name__):
+                commands = {}
+                order = []
+                def run_step(label, command, cwd=None):
+                    commands[label] = [str(part) for part in command]
+                    order.append(label)
+                    return True, []
+                with mock.patch.object(module, 'run_step', side_effect=run_step), \
+                        mock.patch.object(module, setter, side_effect=lambda version: version), \
+                        mock.patch.object(module.sys, 'argv', ['pipeline', '--version', '3.7.4.4', '--skip-images']), \
+                        contextlib.redirect_stdout(io.StringIO()):
+                    module.main()
+                download = commands['data/download']
+                filters = [download[index + 1] for index, part in enumerate(download) if part == '--filter']
+                self.assertIn('mounts.json', filters)
+                self.assertLess(order.index('data/download'), order.index('mount-looks'))
+                self.assertEqual(['store_mount_looks.py', '--game-version', key, '--tag', '3.7.4.4'],
+                                 [Path(commands['mount-looks'][1]).name] + commands['mount-looks'][2:])
+                source = (Path(module.__file__)).read_text(encoding='utf-8')
+                self.assertNotIn('dofusdb_mount_looks', source)
 
     def test_both_pipelines_store_monster_grades_from_their_own_tag(self):
         repo = Path(__file__).resolve().parents[2]

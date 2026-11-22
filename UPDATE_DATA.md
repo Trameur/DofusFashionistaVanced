@@ -253,14 +253,19 @@ unfinished is always kept. Logs, summaries and data backups stay.
 
 ## Kept sources
 
-The DofusDB API is disabled in this launcher. Mount appearances for Dofus 3
-and Dofus 3 Beta are taken from the backup of the same version and saved in the
-database and its dump. Appearances follow the Ankama id and type of each mount,
-so they survive a rename. Monster grades for Dofus 3 and Dofus 3 Beta are read
-from that version's own client dump (`raw/<version>/monsters.json`), and so are
-the monster subareas (`monsters.json`, `subareas.json` and the five language
-files). Dofus 3 and Dofus 3 Beta monster artwork stays local. The summary says
-so once per version.
+The DofusDB API is disabled in this launcher. For Dofus 3 and Dofus 3 Beta,
+mount appearances, monster grades and monster subareas are read from that
+version's own client dump:
+
+- mount appearances from `raw/<version>/mounts.json`, `items.json` and the five
+  language files;
+- monster grades from `monsters.json`;
+- monster subareas from `monsters.json`, `subareas.json` and the five language
+  files.
+
+A mount item gets the look of the mount whose names match its own in all five
+languages. Mounts no item carries are left out. Dofus 3 and Dofus 3 Beta
+monster artwork stays local. The summary says so once per version.
 
 The "without images" choice also applies to Dofus Touch spells and Dofus Retro
 artwork. With images, the scripts reuse their usual caches.
