@@ -1923,7 +1923,7 @@
                     }
                     updateLockButtonState(lockButton, key);
                     $.post(apiBase + "/setitemlocked/{{char_id}}/",
-                           {slot: key.toString(), equip: itemNames[key], locked: itemIsLocked[key]},
+                           {slot: key.toString(), equip: itemNames[key], item_id: itemIds[key], locked: itemIsLocked[key]},
                            function(data) {
                            }).fail(function(xhr) {
                         itemIsLocked[key] = wasLocked;
@@ -1955,7 +1955,7 @@
                     } 
                     updateForbidButtonState(forbidButton, key);
                     $.post(apiBase + "/setitemforbidden/{{char_id}}/",
-                           {slot: key.toString(), equip: itemNames[key], forbidden: itemIsForbidden[key]},
+                           {slot: key.toString(), equip: itemNames[key], item_id: itemIds[key], forbidden: itemIsForbidden[key]},
                            function(data) {
                            });
                 });

@@ -1501,6 +1501,8 @@ class Model:
         for item_id, occurrences in locked_dic.items():
             if occurrences > 1 and item_id != '':
                 item = self.structure.get_item_by_id(item_id)
+                if item is None:
+                    continue
                 locked_dic[item_id] = 2 if self.structure.get_type_name_by_id(item.type) == 'Ring' and item.set == None else 1
         for item_name, occurrences in locked_dic_names.items():
             if occurrences > 1 and item_name != '':
