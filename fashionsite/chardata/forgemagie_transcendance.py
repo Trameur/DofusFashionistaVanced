@@ -5,7 +5,7 @@ import os
 
 from static_s3.templatetags.static_s3 import static
 
-from chardata.forgemagie_data import get_ruleset
+from fashionistapulp.transcendence_terms import TRANSCENDENCE_VERSIONS
 
 _PATH = os.path.join(os.path.dirname(__file__), 'forgemagie_transcendance.json')
 _ICON_PATH = 'chardata/runes_transcendance/%d.webp'
@@ -40,13 +40,9 @@ def _load():
     return _CACHE
 
 
-# Dofus 2 has them too; Touch and Retro never did
-_RULESETS_WITH_TRANSCENDENCE = ('modern', 'dofus2')
-
-
 def get_transcendence_runes(game_version):
     """List of transcendence runes for this version (empty where it has none)."""
-    if get_ruleset(game_version) not in _RULESETS_WITH_TRANSCENDENCE:
+    if game_version not in TRANSCENDENCE_VERSIONS:
         return []
     return _load()['runes']
 

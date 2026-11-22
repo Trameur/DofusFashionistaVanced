@@ -99,10 +99,10 @@ class OnlyTheVersionsWithTheMechanicOfferItTests(SimpleTestCase):
     def test_the_site_offers_them_on_three_versions_and_no_other(self):
         from chardata.forgemagie_transcendance import get_transcendence_runes
         offertes = {}
-        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu'):
             offertes[version] = len(get_transcendence_runes(version))
         self.assertEqual({'dofus3': 81, 'beta': 81, 'dofus2': 81,
-                          'touch': 0, 'retro': 0}, offertes)
+                          'touch': 0, 'retro': 0, 'wakfu': 0}, offertes)
 
 
 class TheRunesTakeTheNameTheReadersClientGivesThemTests(SimpleTestCase):
