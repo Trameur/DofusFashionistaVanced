@@ -39,6 +39,7 @@ from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
 from chardata.inventory_solver import (get_inventory_solver_settings,
     apply_inventory_restriction, get_effective_stat_overrides)
 from chardata.min_stats import get_min_stats_digested
+from chardata.resource_ban import items_the_ban_forbids
 from chardata.models import Char, CharBaseStats, SolutionMemory
 from chardata.presets import (balanced_weights, cross_reading, guard_minimums, guard_plan,
                               guard_reading, guarded_stats, short_of_floors, stat_floors)
@@ -155,6 +156,8 @@ def _model_input(request, char, weights):
     inv_mode, inv_folder = get_inventory_solver_settings(char)
     if inv_mode == 'only':
         exclusions = apply_inventory_restriction(char, exclusions, inv_folder)
+    exclusions = set(exclusions) | items_the_ban_forbids(
+        char, get_structure(), set(inclusions_dic.values()))
     # Manual per-project overrides win over the inventory rolls.
     stat_overrides = get_effective_stat_overrides(char)
 
