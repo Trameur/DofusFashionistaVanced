@@ -94,6 +94,46 @@ def class_runes(by_stat, lines, upper_stats, capped_stats):
     return [chosen[key] for key in sorted(chosen)]
 
 
+ROW_BOUND_STATS = frozenset({'ap', 'mp', 'range'})
+
+
+def blocking_kinds(stat_key):
+    """The Dracorune kinds whose block table holds this stat."""
+    return frozenset(kind for kind, stats in _BLOCKED_BY_KIND.items()
+                     if stat_key in stats)
+
+
+def _gain(rune, weights):
+    return Fraction(str(weights[rune['stat_key']])) * _exact(rune['bonus'])
+
+
+def copy_runes(by_stat, lines, upper_stats, capped_stats, pinned, free_weights,
+               draconized, bounded_weights=None):
+    """class_runes without a rune on a stat no minimum reads that another free rune of the copy beats and blocks no more kinds."""
+    runes = class_runes(by_stat, lines, upper_stats, capped_stats)
+    weights = dict(bounded_weights or {})
+    weights.update(free_weights)
+    free = [rune for rune in runes
+            if rune['stat_key'] in weights and rune['stat_key'] not in pinned]
+
+    def kinds(rune):
+        return blocking_kinds(rune['stat_key'])
+
+    ordered = sorted(free, key=lambda rune: (-_gain(rune, weights),
+                                             len(kinds(rune)) if draconized else 0,
+                                             rune['id']))
+    dominators = []
+    dropped = set()
+    for rune in ordered:
+        gain = _gain(rune, weights)
+        if any(other_gain >= gain and (not draconized or kinds(other) <= kinds(rune))
+               for other, other_gain in dominators):
+            dropped.add(rune['id'])
+        elif rune['stat_key'] in free_weights and rune['stat_key'] not in ROW_BOUND_STATS:
+            dominators.append((rune, gain))
+    return [rune for rune in runes if rune['id'] not in dropped]
+
+
 def dracorune_kind(variant_key):
     """'element', 'resistance' or 'power' for a Dracorune variant key."""
     return variant_key.split(':', 1)[0]

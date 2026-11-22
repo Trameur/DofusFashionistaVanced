@@ -22,7 +22,7 @@ import logging
 from copy import deepcopy
 
 from . import dracorune_terms, dracorunes, transcendence
-from .transcendence_terms import (TRANSCENDENCE_VERSIONS, class_key, class_runes,
+from .transcendence_terms import (TRANSCENDENCE_VERSIONS, class_key, copy_runes,
                                   copy_takes_rune, dracorune_kind, hall_rows, runes_by_stat)
 from .exo_options import exo_count, forgeable_type
 from .game_versions import get_game_version
@@ -1205,31 +1205,41 @@ class Model:
         pool = sorted(item.id for item in wearable if item.id in candidates)
         if not pool:
             return
-        upper, capped = self._transcendence_stats(self.dracorune_context(model_input, wearable))
+        context = self.dracorune_context(model_input, wearable)
+        upper, capped = self._transcendence_stats(context)
         upper &= set(by_stat)
         if not upper:
             return
-        classes = {}
-        for item_id in pool:
-            key = class_key(by_stat, candidates[item_id], upper)
-            if any(rank for _stat, rank in key):
-                classes.setdefault(key, []).append(item_id)
+        pinned, free_weights, bounded_weights = self._transcendence_dominance(context)
         draconized = self._dracorune_columns_by_item()
+        classes = {}
+        kept_runes = {}
+        for item_id in pool:
+            kept = copy_runes(by_stat, candidates[item_id], upper, capped, pinned,
+                              free_weights, item_id in draconized, bounded_weights)
+            kept_stats = {rune['stat_key'] for rune in kept}
+            key = (item_id in draconized, class_key(by_stat, candidates[item_id], kept_stats),
+                   tuple(rune['id'] for rune in kept))
+            if kept:
+                classes.setdefault(key, []).append(item_id)
+                kept_runes[key] = kept
+        row_bound = {stat.key for stat in self.stats_list if stat.key in self._EXO_STAT_KEYS}
         rows = self.restrictions.stat_total_constraints
         every = []
         for number, key in enumerate(sorted(classes)):
             members = classes[key]
             worn = [self.problem.pulp_vars['x_%s' % str(item_id).replace('-', '_')]
                     for item_id in members]
-            bound = sum(variable.upBound or 0 for variable in worn)
+            bound = min(sum(variable.upBound or 0 for variable in worn), count)
             class_columns = []
-            for rune in class_runes(by_stat, candidates[members[0]], upper, capped):
+            for rune in kept_runes[key]:
                 stat = self.structure.get_stat_by_key(rune['stat_key'])
                 if stat is None or stat.name not in rows:
                     logger.warning('No stat row for transcendence rune %s', rune['id'])
                     continue
                 name = '%s_%d_%s_%d' % (TRANSCENDENCE_PREFIX, number, rune['stat_key'], rune['rank'])
-                column = pulp.LpVariable(name, 0, bound, pulp.LpInteger)
+                column = pulp.LpVariable(name, 0, 1 if rune['stat_key'] in row_bound else bound,
+                                         pulp.LpInteger)
                 self.problem.pulp_vars[name] = column
                 self._transcendence_variables.append(name)
                 self.transcendence_columns[name] = (number, rune['id'])
@@ -1253,6 +1263,33 @@ class Model:
         raised = {stat_id for stat_id, weight in context.weights.items() if weight > 0}
         lowered = {stat_id for stat_id, weight in context.weights.items() if weight < 0}
         return keys(raised | context.lower), keys(lowered | context.upper)
+
+    def _transcendence_dominance(self, context):
+        """(pinned, free weights, bounded weights) as stat keys: the stats a minimum or condition reads, the weight of each stat nothing but its own row reads, and that of each other stat a maximum or cap bounds."""
+        rows = self.restrictions.stat_total_constraints
+        pinned = {stat.key for stat in map(self.structure.get_stat_by_id, context.lower)
+                  if stat is not None}
+        pinned |= self._floored_resist_keys()
+        free = {}
+        bounded = {}
+        for stat_id, weight in context.weights.items():
+            stat = self.structure.get_stat_by_id(stat_id)
+            if stat is None or stat.name not in rows or weight <= 0:
+                continue
+            if dracorune_terms.classify(stat_id, context) == ('F',):
+                free[stat.key] = weight
+            elif stat_id not in context.lower:
+                bounded[stat.key] = weight
+        return pinned, free, bounded
+
+    def _floored_resist_keys(self):
+        """Keys of the % resists a capped_resist row floors at 0, whatever the minimums asked."""
+        found = set()
+        for adv in self.structure.get_adv_mins():
+            if all(name.strip().startswith('%') and name.strip().endswith('Resist') for name in adv['stats']):
+                found.update(stat.key for stat in map(self.structure.get_stat_by_name, adv['stats'])
+                             if stat is not None)
+        return found
 
     def _exo_gelano_id(self):
         """Id of Gelano (#1), whose MP line is the build's MP exo, None without it."""

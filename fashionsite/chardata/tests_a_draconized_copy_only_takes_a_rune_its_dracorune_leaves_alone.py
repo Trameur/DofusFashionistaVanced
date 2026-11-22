@@ -27,7 +27,7 @@ class ADraconizedCopyOnlyTakesARuneItsDracoruneLeavesAloneTests(BetaModelTestCas
         super().setUp()
         self.source, self.target = element_move()
         self.stat_of = {rune['id']: rune['stat_key'] for rune in load_runes(VERSION)}
-        self.weights = {self.target: 1, 'fireresper': 1, 'pow': 1, 'vit': 1}
+        self.weights = {self.target: 1, 'fireresper': 3, 'pow': 1, 'vit': 0.05}
 
     def model_of(self, weights, runes, dracorunes):
         pieces = [piece(type_name, {self.source: 50, 'neutres': 10}) for type_name in TYPES]
