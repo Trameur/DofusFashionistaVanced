@@ -13,6 +13,7 @@ LOCALE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'loc
 
 DJANGO_MSGIDS = [
     'Forbidden resources',
+    'Forbid an item or a set',
     'Forbid by resource',
     'An item is forbidden when its recipe, or the recipe of an item it is crafted from, uses one of these resources. Locked items stay allowed.',
 ]

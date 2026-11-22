@@ -1721,6 +1721,8 @@ html.fm-modern .tunnel-exclusions > *{ min-width:0; margin-top:0; margin-bottom:
 html.fm-modern .tunnel-exclusions > form br{ display:none; }
 html.fm-modern .tunnel-exclusions > form > div[align="center"]{ display:flex; flex-wrap:wrap; gap:var(--fm-space-3); justify-content:flex-start; margin-bottom:var(--fm-space-3); }
 html.fm-modern .tunnel-exclusions #input-item-to-forbid, html.fm-modern .tunnel-exclusions #input-resource-to-forbid{ flex:1 1 260px; max-width:var(--fm-measure); }
+html.fm-modern .tunnel-exclusions > form > div[align="center"] > label{ flex:0 0 15rem; }
+html.fm-modern .tunnel-exclusions > form > p.small-explain{ text-align:left; }
 html.fm-modern .tunnel-exclusions img.resource-icon{ width:24px; height:24px; vertical-align:middle; }
 html.fm-modern .tunnel-exclusions p.big-text{ margin:0; }
 html.fm-modern .tunnel-exclusions .exclusions-types-section{ display:grid; grid-template-columns:minmax(0,1fr); gap:var(--fm-space-3); width:100%; }

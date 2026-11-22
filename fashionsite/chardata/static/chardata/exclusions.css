@@ -30,8 +30,18 @@
     vertical-align: middle;
 }
 
+#form_container label,
 #resource_form_container label {
     margin-right: 8px;
+}
+
+html:not(.fm-modern, .fm-enhanced) #form_container label,
+html:not(.fm-modern, .fm-enhanced) #resource_form_container label,
+html.fm-enhanced #form_container label,
+html.fm-enhanced #resource_form_container label {
+    display: inline-block;
+    min-width: 16em;
+    text-align: right;
 }
 
 .resources-total {
@@ -45,10 +55,14 @@
 }
 
 @media (max-width: 600px) {
+    html:not(.fm-modern, .fm-enhanced) #form_container label,
     html:not(.fm-modern, .fm-enhanced) #resource_form_container label,
+    html.fm-enhanced #form_container label,
     html.fm-enhanced #resource_form_container label {
         display: block;
+        min-width: 0;
         margin: 0 0 6px;
+        text-align: center;
     }
 }
 

@@ -3458,6 +3458,10 @@ msgid "Forbidden resources"
 msgstr ""
 
 #: chardata/templates/chardata/exclusions.html
+msgid "Forbid an item or a set"
+msgstr ""
+
+#: chardata/templates/chardata/exclusions.html
 msgid "Forbid by resource"
 msgstr ""
 
