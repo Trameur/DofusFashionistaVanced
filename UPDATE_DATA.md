@@ -76,6 +76,12 @@ are run again once after 20 seconds if they fail; the log of the first attempt
 is kept next to it (`.attempt-1.log`). A step that runs past its time limit is
 not run again. Other steps are never run again.
 
+## Transcendence runes
+
+`items/transcendence` reads the type 211 items of the dump of Dofus 3, Dofus 3
+Beta and Dofus 2 into `fashionistapulp/fashionistapulp/transcendence/<version>.json`;
+on the Beta, `transcendence-icons` fetches the icons that are not on disk yet.
+
 ## Images
 
 If at least one version downloads images, the image folders of

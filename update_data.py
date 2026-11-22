@@ -23,6 +23,7 @@ Pipeline steps:
     spells/reference    store_spell_reference.py -> spell_reference/dofus3.json
     stats/starting      store_starting_stats.py -> starting_stats/dofus3.json
     items/weapon-conversions store_weapon_conversions.py -> weapon_conversions/dofus3.json
+    items/transcendence store_transcendence_runes.py -> transcendence/dofus3.json
     spells/states       store_spell_states.py -> spell_states/dofus3.json
     spells/constants    generate_damage_spells.py -> dofus_constants.py
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
@@ -290,6 +291,10 @@ def main() -> None:
         ])
         step("items/weapon-conversions", [
             PY, "itemscraper/store_weapon_conversions.py",
+            "--game-version", "dofus3", "--tag", version,
+        ])
+        step("items/transcendence", [
+            PY, "itemscraper/store_transcendence_runes.py",
             "--game-version", "dofus3", "--tag", version,
         ])
         # State names for damage rows, reads the transform

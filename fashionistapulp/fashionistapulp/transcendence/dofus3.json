@@ -1,0 +1,1545 @@
+{
+ "source_tag": "3.7.14.18",
+ "count": 81,
+ "runes": [
+  {
+   "id": 20492,
+   "names": {
+    "de": "Tra-Int-Rune",
+    "en": "Tra Int Rune",
+    "es": "Runa Ta Inte",
+    "fr": "Rune Ta Ine",
+    "pt": "Runa Ta Int"
+   },
+   "action": 126,
+   "stat_key": "int",
+   "bonus": 10,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78179,
+   "beta_only": false
+  },
+  {
+   "id": 20556,
+   "names": {
+    "de": "Pa-Tra-Int-Rune",
+    "en": "Pa Tra Int Rune",
+    "es": "Runa Buta Inte",
+    "fr": "Rune Pata Ine",
+    "pt": "Runa Pata Int"
+   },
+   "action": 126,
+   "stat_key": "int",
+   "bonus": 15,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78180,
+   "beta_only": false
+  },
+  {
+   "id": 20557,
+   "names": {
+    "de": "Ra-Tra-Int-Rune",
+    "en": "Ra Tra Int Rune",
+    "es": "Runa Suta Inte",
+    "fr": "Rune Rata Ine",
+    "pt": "Runa Rata Int"
+   },
+   "action": 126,
+   "stat_key": "int",
+   "bonus": 20,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78181,
+   "beta_only": false
+  },
+  {
+   "id": 20558,
+   "names": {
+    "de": "Tra-Kra-Rune",
+    "en": "Tra Str Rune",
+    "es": "Runa Ta Fu",
+    "fr": "Rune Ta Fo",
+    "pt": "Runa Ta For"
+   },
+   "action": 118,
+   "stat_key": "str",
+   "bonus": 10,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78182,
+   "beta_only": false
+  },
+  {
+   "id": 20559,
+   "names": {
+    "de": "Pa-Tra-Kra-Rune",
+    "en": "Pa Tra Str Rune",
+    "es": "Runa Buta Fu",
+    "fr": "Rune Pata Fo",
+    "pt": "Runa Pata For"
+   },
+   "action": 118,
+   "stat_key": "str",
+   "bonus": 15,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78183,
+   "beta_only": false
+  },
+  {
+   "id": 20560,
+   "names": {
+    "de": "Ra-Tra-Kra-Rune",
+    "en": "Ra Tra Str Rune",
+    "es": "Runa Suta Fu",
+    "fr": "Rune Rata Fo",
+    "pt": "Runa Rata For"
+   },
+   "action": 118,
+   "stat_key": "str",
+   "bonus": 20,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78184,
+   "beta_only": false
+  },
+  {
+   "id": 20561,
+   "names": {
+    "de": "Tra-Fli-Rune",
+    "en": "Tra Agi Rune",
+    "es": "Runa Ta Agi",
+    "fr": "Rune Ta Age",
+    "pt": "Runa Ta Agi"
+   },
+   "action": 119,
+   "stat_key": "agi",
+   "bonus": 10,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78185,
+   "beta_only": false
+  },
+  {
+   "id": 20562,
+   "names": {
+    "de": "Pa-Tra-Fli-Rune",
+    "en": "Pa Tra Agi Rune",
+    "es": "Runa Buta Agi",
+    "fr": "Rune Pata Age",
+    "pt": "Runa Pata Agi"
+   },
+   "action": 119,
+   "stat_key": "agi",
+   "bonus": 15,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78186,
+   "beta_only": false
+  },
+  {
+   "id": 20563,
+   "names": {
+    "de": "Ra-Tra-Fli-Rune",
+    "en": "Ra Tra Agi Rune",
+    "es": "Runa Suta Agi",
+    "fr": "Rune Rata Age",
+    "pt": "Runa Rata Agi"
+   },
+   "action": 119,
+   "stat_key": "agi",
+   "bonus": 20,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78187,
+   "beta_only": false
+  },
+  {
+   "id": 20564,
+   "names": {
+    "de": "Tra-Glü-Rune",
+    "en": "Tra Cha Rune",
+    "es": "Runa Ta Sue",
+    "fr": "Rune Ta Cha",
+    "pt": "Runa Ta Sor"
+   },
+   "action": 123,
+   "stat_key": "cha",
+   "bonus": 10,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78188,
+   "beta_only": false
+  },
+  {
+   "id": 20565,
+   "names": {
+    "de": "Pa-Tra-Glü-Rune",
+    "en": "Pa Tra Cha Rune",
+    "es": "Runa Buta Sue",
+    "fr": "Rune Pata Cha",
+    "pt": "Runa Pata Sor"
+   },
+   "action": 123,
+   "stat_key": "cha",
+   "bonus": 15,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78189,
+   "beta_only": false
+  },
+  {
+   "id": 20566,
+   "names": {
+    "de": "Ra-Tra-Glü-Rune",
+    "en": "Ra Tra Cha Rune",
+    "es": "Runa Suta Sue",
+    "fr": "Rune Rata Cha",
+    "pt": "Runa Rata Sor"
+   },
+   "action": 123,
+   "stat_key": "cha",
+   "bonus": 20,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78190,
+   "beta_only": false
+  },
+  {
+   "id": 20567,
+   "names": {
+    "de": "Tra-Vi-Rune",
+    "en": "Tra Vit Rune",
+    "es": "Runa Ta Vi",
+    "fr": "Rune Ta Vi",
+    "pt": "Runa Ta Vi"
+   },
+   "action": 125,
+   "stat_key": "vit",
+   "bonus": 50,
+   "weight": 40,
+   "level": 124,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78251,
+   "beta_only": false
+  },
+  {
+   "id": 20568,
+   "names": {
+    "de": "Pa-Tra-Vi-Rune",
+    "en": "Pa Tra Vit Rune",
+    "es": "Runa Buta Vi",
+    "fr": "Rune Pata Vi",
+    "pt": "Runa Pata Vi"
+   },
+   "action": 125,
+   "stat_key": "vit",
+   "bonus": 75,
+   "weight": 60,
+   "level": 146,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78252,
+   "beta_only": false
+  },
+  {
+   "id": 20569,
+   "names": {
+    "de": "Ra-Tra-Vi-Rune",
+    "en": "Ra Tra Vit Rune",
+    "es": "Runa Suta Vi",
+    "fr": "Rune Rata Vi",
+    "pt": "Runa Rata Vi"
+   },
+   "action": 125,
+   "stat_key": "vit",
+   "bonus": 100,
+   "weight": 80,
+   "level": 168,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78253,
+   "beta_only": false
+  },
+  {
+   "id": 20570,
+   "names": {
+    "de": "Tra-Ini-Rune",
+    "en": "Tra Ini Rune",
+    "es": "Runa Ta Ini",
+    "fr": "Rune Ta Ini",
+    "pt": "Runa Ta Ini"
+   },
+   "action": 174,
+   "stat_key": "init",
+   "bonus": 100,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78254,
+   "beta_only": false
+  },
+  {
+   "id": 20571,
+   "names": {
+    "de": "Pa-Tra-Ini-Rune",
+    "en": "Pa Tra Ini Rune",
+    "es": "Runa Buta Ini",
+    "fr": "Rune Pata Ini",
+    "pt": "Runa Pata Ini"
+   },
+   "action": 174,
+   "stat_key": "init",
+   "bonus": 150,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78255,
+   "beta_only": false
+  },
+  {
+   "id": 20572,
+   "names": {
+    "de": "Ra-Tra-Ini-Rune",
+    "en": "Ra Tra Ini Rune",
+    "es": "Runa Suta Ini",
+    "fr": "Rune Rata Ini",
+    "pt": "Runa Rata Ini"
+   },
+   "action": 174,
+   "stat_key": "init",
+   "bonus": 200,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78256,
+   "beta_only": false
+  },
+  {
+   "id": 20573,
+   "names": {
+    "de": "Tra-Pod-Rune",
+    "en": "Tra Pod Rune",
+    "es": "Runa Ta Pod",
+    "fr": "Rune Ta Pod",
+    "pt": "Runa Ta Pod"
+   },
+   "action": 158,
+   "stat_key": "pod",
+   "bonus": 100,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78257,
+   "beta_only": false
+  },
+  {
+   "id": 20574,
+   "names": {
+    "de": "Pa-Tra-Pod-Rune",
+    "en": "Pa Tra Pod Rune",
+    "es": "Runa Buta Pod",
+    "fr": "Rune Pata Pod",
+    "pt": "Runa Pata Pod"
+   },
+   "action": 158,
+   "stat_key": "pod",
+   "bonus": 200,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78258,
+   "beta_only": false
+  },
+  {
+   "id": 20575,
+   "names": {
+    "de": "Ra-Tra-Pod-Rune",
+    "en": "Ra Tra Pod Rune",
+    "es": "Runa Suta Pod",
+    "fr": "Rune Rata Pod",
+    "pt": "Runa Rata Pod"
+   },
+   "action": 158,
+   "stat_key": "pod",
+   "bonus": 400,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78259,
+   "beta_only": false
+  },
+  {
+   "id": 20576,
+   "names": {
+    "de": "Tra-Schla-Rune",
+    "en": "Tra Pow Rune",
+    "es": "Runa Ta Pot",
+    "fr": "Rune Ta Pui",
+    "pt": "Runa Ta Po"
+   },
+   "action": 138,
+   "stat_key": "pow",
+   "bonus": 6,
+   "weight": 40,
+   "level": 124,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78191,
+   "beta_only": false
+  },
+  {
+   "id": 20577,
+   "names": {
+    "de": "Pa-Tra-Schla-Rune",
+    "en": "Pa Tra Pow Rune",
+    "es": "Runa Buta Pot",
+    "fr": "Rune Pata Pui",
+    "pt": "Runa Pata Po"
+   },
+   "action": 138,
+   "stat_key": "pow",
+   "bonus": 9,
+   "weight": 60,
+   "level": 146,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78192,
+   "beta_only": false
+  },
+  {
+   "id": 20578,
+   "names": {
+    "de": "Ra-Tra-Schla-Rune",
+    "en": "Ra Tra Pow Rune",
+    "es": "Runa Suta Pot",
+    "fr": "Rune Rata Pui",
+    "pt": "Runa Rata Po"
+   },
+   "action": 138,
+   "stat_key": "pow",
+   "bonus": 12,
+   "weight": 80,
+   "level": 168,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78193,
+   "beta_only": false
+  },
+  {
+   "id": 20579,
+   "names": {
+    "de": "Tra-Res-Schu-Rune",
+    "en": "Tra Psh Res Rune",
+    "es": "Runa Ta Re Emp",
+    "fr": "Rune Ta Ré Pou",
+    "pt": "Runa Ta Res Emp"
+   },
+   "action": 416,
+   "stat_key": "pshres",
+   "bonus": 9,
+   "weight": 60,
+   "level": 166,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78194,
+   "beta_only": false
+  },
+  {
+   "id": 20580,
+   "names": {
+    "de": "Pa-Tra-Res-Schu-Rune",
+    "en": "Pa Tra Psh Res Rune",
+    "es": "Runa Buta Re Emp",
+    "fr": "Rune Pata Ré Pou",
+    "pt": "Runa Pata Res Emp"
+   },
+   "action": 416,
+   "stat_key": "pshres",
+   "bonus": 12,
+   "weight": 80,
+   "level": 188,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78195,
+   "beta_only": false
+  },
+  {
+   "id": 20581,
+   "names": {
+    "de": "Tra-Res-Kri-Rune",
+    "en": "Tra Cri Res Rune",
+    "es": "Runa Ta Re Cri",
+    "fr": "Rune Ta Ré Cri",
+    "pt": "Runa Ta Res Cri"
+   },
+   "action": 420,
+   "stat_key": "crires",
+   "bonus": 9,
+   "weight": 60,
+   "level": 166,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78196,
+   "beta_only": false
+  },
+  {
+   "id": 20582,
+   "names": {
+    "de": "Pa-Tra-Res-Kri-Rune",
+    "en": "Pa Tra Cri Res Rune",
+    "es": "Runa Buta Re Cri",
+    "fr": "Rune Pata Ré Cri",
+    "pt": "Runa Pata Res Cri"
+   },
+   "action": 420,
+   "stat_key": "crires",
+   "bonus": 12,
+   "weight": 80,
+   "level": 188,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78197,
+   "beta_only": false
+  },
+  {
+   "id": 20583,
+   "names": {
+    "de": "Tra-Schu-Scha-Rune",
+    "en": "Tra Psh Dam Rune",
+    "es": "Runa Ta Da Emp",
+    "fr": "Rune Ta Do Pou",
+    "pt": "Runa Ta Da Emp"
+   },
+   "action": 414,
+   "stat_key": "pshdam",
+   "bonus": 6,
+   "weight": 60,
+   "level": 166,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78198,
+   "beta_only": false
+  },
+  {
+   "id": 20584,
+   "names": {
+    "de": "Pa-Tra-Schu-Scha-Rune",
+    "en": "Pa Tra Psh Dam Rune",
+    "es": "Runa Buta Da Emp",
+    "fr": "Rune Pata Do Pou",
+    "pt": "Runa Pata Da Emp"
+   },
+   "action": 414,
+   "stat_key": "pshdam",
+   "bonus": 8,
+   "weight": 80,
+   "level": 188,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78199,
+   "beta_only": false
+  },
+  {
+   "id": 20585,
+   "names": {
+    "de": "Tra-Kri-Scha-Rune",
+    "en": "Tra Cri Dam Rune",
+    "es": "Runa Ta Da Cri",
+    "fr": "Rune Ta Do Cri",
+    "pt": "Runa Ta Da Cri"
+   },
+   "action": 418,
+   "stat_key": "cridam",
+   "bonus": 6,
+   "weight": 60,
+   "level": 166,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78200,
+   "beta_only": false
+  },
+  {
+   "id": 20586,
+   "names": {
+    "de": "Pa-Tra-Kri-Scha-Rune",
+    "en": "Pa Tra Cri Dam Rune",
+    "es": "Runa Buta Da Cri",
+    "fr": "Rune Pata Do Cri",
+    "pt": "Runa Pata Da Cri"
+   },
+   "action": 418,
+   "stat_key": "cridam",
+   "bonus": 8,
+   "weight": 80,
+   "level": 188,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78201,
+   "beta_only": false
+  },
+  {
+   "id": 20596,
+   "names": {
+    "de": "Tra-Erd-Scha-Rune",
+    "en": "Tra Earth Dam Rune",
+    "es": "Runa Ta Da Tierra",
+    "fr": "Rune Ta Do Terre",
+    "pt": "Runa Ta Da Terra"
+   },
+   "action": 422,
+   "stat_key": "earthdam",
+   "bonus": 2,
+   "weight": 40,
+   "level": 144,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78202,
+   "beta_only": false
+  },
+  {
+   "id": 20597,
+   "names": {
+    "de": "Pa-Tra-Erd-Scha-Rune",
+    "en": "Pa Tra Earth Dam Rune",
+    "es": "Runa Buta Da Tierra",
+    "fr": "Rune Pata Do Terre",
+    "pt": "Runa Pata Da Terra"
+   },
+   "action": 422,
+   "stat_key": "earthdam",
+   "bonus": 4,
+   "weight": 60,
+   "level": 166,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78203,
+   "beta_only": false
+  },
+  {
+   "id": 20598,
+   "names": {
+    "de": "Ra-Tra-Erd-Scha-Rune",
+    "en": "Ra Tra Earth Dam Rune",
+    "es": "Runa Suta Da Tierra",
+    "fr": "Rune Rata Do Terre",
+    "pt": "Runa Rata Da Terra"
+   },
+   "action": 422,
+   "stat_key": "earthdam",
+   "bonus": 6,
+   "weight": 80,
+   "level": 188,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78204,
+   "beta_only": false
+  },
+  {
+   "id": 20599,
+   "names": {
+    "de": "Tra-Feu-Scha-Rune",
+    "en": "Tra Fire Dam Rune",
+    "es": "Runa Ta Da Fuego",
+    "fr": "Rune Ta Do Feu",
+    "pt": "Runa Ta Da Fogo"
+   },
+   "action": 424,
+   "stat_key": "firedam",
+   "bonus": 2,
+   "weight": 40,
+   "level": 144,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78205,
+   "beta_only": false
+  },
+  {
+   "id": 20600,
+   "names": {
+    "de": "Pa-Tra-Feu-Scha-Rune",
+    "en": "Pa Tra Fire Dam Rune",
+    "es": "Runa Buta Da Fuego",
+    "fr": "Rune Pata Do Feu",
+    "pt": "Runa Pata Da Fogo"
+   },
+   "action": 424,
+   "stat_key": "firedam",
+   "bonus": 4,
+   "weight": 60,
+   "level": 166,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78206,
+   "beta_only": false
+  },
+  {
+   "id": 20601,
+   "names": {
+    "de": "Ra-Tra-Feu-Scha-Rune",
+    "en": "Ra Tra Fire Dam Rune",
+    "es": "Runa Suta Da Fuego",
+    "fr": "Rune Rata Do Feu",
+    "pt": "Runa Rata Da Fogo"
+   },
+   "action": 424,
+   "stat_key": "firedam",
+   "bonus": 6,
+   "weight": 80,
+   "level": 188,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78207,
+   "beta_only": false
+  },
+  {
+   "id": 20602,
+   "names": {
+    "de": "Tra-Was-Scha-Rune",
+    "en": "Tra Water Dam Rune",
+    "es": "Runa Ta Da Agua",
+    "fr": "Rune Ta Do Eau",
+    "pt": "Runa Ta Da Água"
+   },
+   "action": 426,
+   "stat_key": "waterdam",
+   "bonus": 2,
+   "weight": 40,
+   "level": 144,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78208,
+   "beta_only": false
+  },
+  {
+   "id": 20603,
+   "names": {
+    "de": "Pa-Tra-Was-Scha-Rune",
+    "en": "Pa Tra Water Dam Rune",
+    "es": "Runa Buta Da Agua",
+    "fr": "Rune Pata Do Eau",
+    "pt": "Runa Pata Da Água"
+   },
+   "action": 426,
+   "stat_key": "waterdam",
+   "bonus": 4,
+   "weight": 60,
+   "level": 166,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78209,
+   "beta_only": false
+  },
+  {
+   "id": 20604,
+   "names": {
+    "de": "Ra-Tra-Was-Scha-Rune",
+    "en": "Ra Tra Water Dam Rune",
+    "es": "Runa Suta Da Agua",
+    "fr": "Rune Rata Do Eau",
+    "pt": "Runa Rata Da Água"
+   },
+   "action": 426,
+   "stat_key": "waterdam",
+   "bonus": 6,
+   "weight": 80,
+   "level": 188,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78210,
+   "beta_only": false
+  },
+  {
+   "id": 20605,
+   "names": {
+    "de": "Tra-Lu-Scha-Rune",
+    "en": "Tra Air Dam Rune",
+    "es": "Runa Ta Da Aire",
+    "fr": "Rune Ta Do Air",
+    "pt": "Runa Ta Da Ar"
+   },
+   "action": 428,
+   "stat_key": "airdam",
+   "bonus": 2,
+   "weight": 40,
+   "level": 144,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78211,
+   "beta_only": false
+  },
+  {
+   "id": 20606,
+   "names": {
+    "de": "Pa-Tra-Lu-Scha-Rune",
+    "en": "Pa Tra Air Dam Rune",
+    "es": "Runa Buta Da Aire",
+    "fr": "Rune Pata Do Air",
+    "pt": "Runa Pata Da Ar"
+   },
+   "action": 428,
+   "stat_key": "airdam",
+   "bonus": 4,
+   "weight": 60,
+   "level": 166,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78212,
+   "beta_only": false
+  },
+  {
+   "id": 20607,
+   "names": {
+    "de": "Ra-Tra-Lu-Scha-Rune",
+    "en": "Ra Tra Air Dam Rune",
+    "es": "Runa Suta Da Aire",
+    "fr": "Rune Rata Do Air",
+    "pt": "Runa Rata Da Ar"
+   },
+   "action": 428,
+   "stat_key": "airdam",
+   "bonus": 6,
+   "weight": 80,
+   "level": 188,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78213,
+   "beta_only": false
+  },
+  {
+   "id": 20608,
+   "names": {
+    "de": "Tra-Neu-Scha-Rune",
+    "en": "Tra Neutral Dam Rune",
+    "es": "Runa Ta Da Neutral",
+    "fr": "Rune Ta Do Neutre",
+    "pt": "Runa Ta Da Neutro"
+   },
+   "action": 430,
+   "stat_key": "neutdam",
+   "bonus": 2,
+   "weight": 40,
+   "level": 144,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78214,
+   "beta_only": false
+  },
+  {
+   "id": 20609,
+   "names": {
+    "de": "Pa-Tra-Neu-Scha-Rune",
+    "en": "Pa Tra Neutral Dam Rune",
+    "es": "Runa Buta Da Neutral",
+    "fr": "Rune Pata Do Neutre",
+    "pt": "Runa Pata Da Neutro"
+   },
+   "action": 430,
+   "stat_key": "neutdam",
+   "bonus": 4,
+   "weight": 60,
+   "level": 166,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78215,
+   "beta_only": false
+  },
+  {
+   "id": 20610,
+   "names": {
+    "de": "Ra-Tra-Neu-Scha-Rune",
+    "en": "Ra Tra Neutral Dam Rune",
+    "es": "Runa Suta Da Neutral",
+    "fr": "Rune Rata Do Neutre",
+    "pt": "Runa Rata Da Neutro"
+   },
+   "action": 430,
+   "stat_key": "neutdam",
+   "bonus": 6,
+   "weight": 80,
+   "level": 188,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78216,
+   "beta_only": false
+  },
+  {
+   "id": 20611,
+   "names": {
+    "de": "Tra-Res-Pro-Fern-Rune",
+    "en": "Tra Dis Res Per Rune",
+    "es": "Runa Ta Re Por Di",
+    "fr": "Rune Ta Ré Per Di",
+    "pt": "Runa Ta Res Por Di"
+   },
+   "action": 2807,
+   "stat_key": "resperran",
+   "bonus": 1,
+   "weight": 60,
+   "level": 200,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78217,
+   "beta_only": false
+  },
+  {
+   "id": 20612,
+   "names": {
+    "de": "Tra-Res-Pro-Nah-Rune",
+    "en": "Tra Mel Res Per Rune",
+    "es": "Runa Ta Re Por Di",
+    "fr": "Rune Ta Ré Per Mé",
+    "pt": "Runa Ta Res Por CaC"
+   },
+   "action": 2803,
+   "stat_key": "respermee",
+   "bonus": 1,
+   "weight": 60,
+   "level": 200,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78218,
+   "beta_only": false
+  },
+  {
+   "id": 20613,
+   "names": {
+    "de": "Tra-Pro-Zau-Scha-Rune",
+    "en": "Tra Spe Dam Per Rune",
+    "es": "Runa Ta Da Por He",
+    "fr": "Rune Ta Do Per So",
+    "pt": "Runa Ta Da Por Fe"
+   },
+   "action": 2812,
+   "stat_key": "perspedam",
+   "bonus": 1,
+   "weight": 60,
+   "level": 200,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78219,
+   "beta_only": false
+  },
+  {
+   "id": 20614,
+   "names": {
+    "de": "Tra-Pro-Waf-Scha-Rune",
+    "en": "Tra Wep Dam Per Rune",
+    "es": "Runa Ta Da Por Ar",
+    "fr": "Rune Ta Do Per Ar",
+    "pt": "Runa Ta Da Por Arm"
+   },
+   "action": 2808,
+   "stat_key": "perweadam",
+   "bonus": 1,
+   "weight": 60,
+   "level": 200,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78220,
+   "beta_only": false
+  },
+  {
+   "id": 20615,
+   "names": {
+    "de": "Tra-Pro-Fern-Scha-Rune",
+    "en": "Tra Dis Dam Per Rune",
+    "es": "Runa Ta Da Por Di",
+    "fr": "Rune Ta Do Per Di",
+    "pt": "Runa Ta Da Por Di"
+   },
+   "action": 2804,
+   "stat_key": "perrandam",
+   "bonus": 1,
+   "weight": 60,
+   "level": 200,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78221,
+   "beta_only": false
+  },
+  {
+   "id": 20616,
+   "names": {
+    "de": "Tra-Pro-Nah-Scha-Rune",
+    "en": "Tra Mel Dam Per Rune",
+    "es": "Runa Ta Da Por CC",
+    "fr": "Rune Ta Do Per Mé",
+    "pt": "Runa Ta Da Por CaC"
+   },
+   "action": 2800,
+   "stat_key": "permedam",
+   "bonus": 1,
+   "weight": 60,
+   "level": 200,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78222,
+   "beta_only": false
+  },
+  {
+   "id": 20617,
+   "names": {
+    "de": "Tra-Aus-Rune",
+    "en": "Tra Dod Rune",
+    "es": "Runa Ta Hui",
+    "fr": "Rune Ta Fui",
+    "pt": "Runa Ta Fu"
+   },
+   "action": 752,
+   "stat_key": "dodge",
+   "bonus": 4,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78223,
+   "beta_only": false
+  },
+  {
+   "id": 20618,
+   "names": {
+    "de": "Pa-Tra-Aus-Rune",
+    "en": "Pa Tra Dod Rune",
+    "es": "Runa Buta Hui",
+    "fr": "Rune Pata Fui",
+    "pt": "Runa Pata Fu"
+   },
+   "action": 752,
+   "stat_key": "dodge",
+   "bonus": 6,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78224,
+   "beta_only": false
+  },
+  {
+   "id": 20619,
+   "names": {
+    "de": "Ra-Tra-Aus-Rune",
+    "en": "Ra Tra Dod Rune",
+    "es": "Runa Suta Hui",
+    "fr": "Rune Rata Fui",
+    "pt": "Runa Rata Fu"
+   },
+   "action": 752,
+   "stat_key": "dodge",
+   "bonus": 8,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78225,
+   "beta_only": false
+  },
+  {
+   "id": 20620,
+   "names": {
+    "de": "Tra-Blo-Rune",
+    "en": "Tra Loc Rune",
+    "es": "Runa Ta Pla",
+    "fr": "Rune Ta Tac",
+    "pt": "Runa Ta Blo"
+   },
+   "action": 753,
+   "stat_key": "lock",
+   "bonus": 4,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78226,
+   "beta_only": false
+  },
+  {
+   "id": 20621,
+   "names": {
+    "de": "Pa-Tra-Blo-Rune",
+    "en": "Pa Tra Loc Rune",
+    "es": "Runa Buta Pla",
+    "fr": "Rune Pata Tac",
+    "pt": "Runa Pata Blo"
+   },
+   "action": 753,
+   "stat_key": "lock",
+   "bonus": 6,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78227,
+   "beta_only": false
+  },
+  {
+   "id": 20622,
+   "names": {
+    "de": "Ra-Tra-Blo-Rune",
+    "en": "Ra Tra Loc Rune",
+    "es": "Runa Suta Pla",
+    "fr": "Rune Rata Tac",
+    "pt": "Runa Rata Blo"
+   },
+   "action": 753,
+   "stat_key": "lock",
+   "bonus": 8,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78228,
+   "beta_only": false
+  },
+  {
+   "id": 20623,
+   "names": {
+    "de": "Tra-Res-AP-Rune",
+    "en": "Tra Ap Res Rune",
+    "es": "Runa Ta Re PA",
+    "fr": "Rune Ta Ré Pa",
+    "pt": "Runa Ta Res Pa"
+   },
+   "action": 160,
+   "stat_key": "apres",
+   "bonus": 2,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78229,
+   "beta_only": false
+  },
+  {
+   "id": 20624,
+   "names": {
+    "de": "Pa-Tra-Res-AP-Rune",
+    "en": "Pa Tra Ap Res Rune",
+    "es": "Runa Buta Re PA",
+    "fr": "Rune Pata Ré Pa",
+    "pt": "Runa Pata Res Pa"
+   },
+   "action": 160,
+   "stat_key": "apres",
+   "bonus": 4,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78230,
+   "beta_only": false
+  },
+  {
+   "id": 20625,
+   "names": {
+    "de": "Ra-Tra-Res-AP-Rune",
+    "en": "Ra Tra Ap Res Rune",
+    "es": "Runa Suta Re PA",
+    "fr": "Rune Rata Ré Pa",
+    "pt": "Runa Rata Res Pa"
+   },
+   "action": 160,
+   "stat_key": "apres",
+   "bonus": 6,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78231,
+   "beta_only": false
+  },
+  {
+   "id": 20626,
+   "names": {
+    "de": "Tra-Res-BP-Rune",
+    "en": "Tra Mp Res Rune",
+    "es": "Runa Ta Re PM",
+    "fr": "Rune Ta Ré Pme",
+    "pt": "Runa Ta Res Pm"
+   },
+   "action": 161,
+   "stat_key": "mpres",
+   "bonus": 2,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78232,
+   "beta_only": false
+  },
+  {
+   "id": 20627,
+   "names": {
+    "de": "Pa-Tra-Res-BP-Rune",
+    "en": "Pa Tra Mp Res Rune",
+    "es": "Runa Buta Re PM",
+    "fr": "Rune Pata Ré Pme",
+    "pt": "Runa Pata Res Pm"
+   },
+   "action": 161,
+   "stat_key": "mpres",
+   "bonus": 4,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78233,
+   "beta_only": false
+  },
+  {
+   "id": 20628,
+   "names": {
+    "de": "Ra-Tra-Res-BP-Rune",
+    "en": "Ra Tra Mp Res Rune",
+    "es": "Runa Suta Re PM",
+    "fr": "Rune Rata Ré Pme",
+    "pt": "Runa Rata Res Pm"
+   },
+   "action": 161,
+   "stat_key": "mpres",
+   "bonus": 6,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78234,
+   "beta_only": false
+  },
+  {
+   "id": 20629,
+   "names": {
+    "de": "Tra-Res-AP-Rune",
+    "en": "Tra Ap Red Rune",
+    "es": "Runa Ta Ret PA",
+    "fr": "Rune Ta Ret Pa",
+    "pt": "Runa Ta Ret Pa"
+   },
+   "action": 410,
+   "stat_key": "apred",
+   "bonus": 2,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78235,
+   "beta_only": false
+  },
+  {
+   "id": 20630,
+   "names": {
+    "de": "Pa-Tra-Res-AP-Rune",
+    "en": "Pa Tra Ap Red Rune",
+    "es": "Runa Buta Ret PA",
+    "fr": "Rune Pata Ret Pa",
+    "pt": "Runa Pata Ret Pa"
+   },
+   "action": 410,
+   "stat_key": "apred",
+   "bonus": 3,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78236,
+   "beta_only": false
+  },
+  {
+   "id": 20631,
+   "names": {
+    "de": "Ra-Tra-Res-AP-Rune",
+    "en": "Ra Tra Ap Red Rune",
+    "es": "Runa Suta Ret PA",
+    "fr": "Rune Rata Ret Pa",
+    "pt": "Runa Rata Ret Pa"
+   },
+   "action": 410,
+   "stat_key": "apred",
+   "bonus": 4,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78237,
+   "beta_only": false
+  },
+  {
+   "id": 20632,
+   "names": {
+    "de": "Tra-Res-BP-Rune",
+    "en": "Tra Mp Red Rune",
+    "es": "Runa Ta Ret PM",
+    "fr": "Rune Ta Ret Pme",
+    "pt": "Runa Ta Ret Pm"
+   },
+   "action": 412,
+   "stat_key": "mpred",
+   "bonus": 2,
+   "weight": 40,
+   "level": 104,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78238,
+   "beta_only": false
+  },
+  {
+   "id": 20633,
+   "names": {
+    "de": "Pa-Tra-Res-BP-Rune",
+    "en": "Pa Tra Mp Red Rune",
+    "es": "Runa Buta Ret PM",
+    "fr": "Rune Pata Ret Pme",
+    "pt": "Runa Pata Ret Pm"
+   },
+   "action": 412,
+   "stat_key": "mpred",
+   "bonus": 3,
+   "weight": 60,
+   "level": 126,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78239,
+   "beta_only": false
+  },
+  {
+   "id": 20634,
+   "names": {
+    "de": "Ra-Tra-Res-BP-Rune",
+    "en": "Ra Tra Mp Red Rune",
+    "es": "Runa Suta Ret PM",
+    "fr": "Rune Rata Ret Pme",
+    "pt": "Runa Rata Ret Pm"
+   },
+   "action": 412,
+   "stat_key": "mpred",
+   "bonus": 4,
+   "weight": 80,
+   "level": 148,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78240,
+   "beta_only": false
+  },
+  {
+   "id": 20635,
+   "names": {
+    "de": "Tra-Res-Pro-Erd-Rune",
+    "en": "Tra Earth Res Per Rune",
+    "es": "Runa Ta Re Por Tierra",
+    "fr": "Rune Ta Ré Per Terre",
+    "pt": "Runa Ta Res Por Terra"
+   },
+   "action": 210,
+   "stat_key": "earthresper",
+   "bonus": 2,
+   "weight": 80,
+   "level": 188,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78241,
+   "beta_only": false
+  },
+  {
+   "id": 20636,
+   "names": {
+    "de": "Tra-Res-Pro-Feu-Rune",
+    "en": "Tra Fire Res Per Rune",
+    "es": "Runa Ta Re Por Fuego",
+    "fr": "Rune Ta Ré Per Feu",
+    "pt": "Runa Ta Res Por Fogo"
+   },
+   "action": 213,
+   "stat_key": "fireresper",
+   "bonus": 2,
+   "weight": 80,
+   "level": 188,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78242,
+   "beta_only": false
+  },
+  {
+   "id": 20637,
+   "names": {
+    "de": "Tra-Res-Pro-Was-Rune",
+    "en": "Tra Water Res Per Rune",
+    "es": "Runa Ta Re Por Agua",
+    "fr": "Rune Ta Ré Per Eau",
+    "pt": "Runa Ta Res Por Água"
+   },
+   "action": 211,
+   "stat_key": "waterresper",
+   "bonus": 2,
+   "weight": 80,
+   "level": 188,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78243,
+   "beta_only": false
+  },
+  {
+   "id": 20638,
+   "names": {
+    "de": "Tra-Res-Pro-Lu-Rune",
+    "en": "Tra Air Res Per Rune",
+    "es": "Runa Ta Re Por Aire",
+    "fr": "Rune Ta Ré Per Air",
+    "pt": "Runa Ta Res Por Ar"
+   },
+   "action": 212,
+   "stat_key": "airresper",
+   "bonus": 2,
+   "weight": 80,
+   "level": 188,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78244,
+   "beta_only": false
+  },
+  {
+   "id": 20639,
+   "names": {
+    "de": "Tra-Res-Pro-Neu-Rune",
+    "en": "Tra Neutral Res Per Rune",
+    "es": "Runa Ta Re Por Neutral",
+    "fr": "Rune Ta Ré Per Neutre",
+    "pt": "Runa Ta Res Por Neutro"
+   },
+   "action": 214,
+   "stat_key": "neutresper",
+   "bonus": 2,
+   "weight": 80,
+   "level": 188,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78245,
+   "beta_only": false
+  },
+  {
+   "id": 20640,
+   "names": {
+    "de": "Tra-Kri-Rune",
+    "en": "Tra Cri Rune",
+    "es": "Runa Ta Cri",
+    "fr": "Rune Ta Cri",
+    "pt": "Runa Ta Cri"
+   },
+   "action": 115,
+   "stat_key": "ch",
+   "bonus": 1,
+   "weight": 40,
+   "level": 164,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78246,
+   "beta_only": false
+  },
+  {
+   "id": 20641,
+   "names": {
+    "de": "Pa-Tra-Kri-Rune",
+    "en": "Pa Tra Cri Rune",
+    "es": "Runa Buta Cri",
+    "fr": "Rune Pata Cri",
+    "pt": "Runa Pata Cri"
+   },
+   "action": 115,
+   "stat_key": "ch",
+   "bonus": 2,
+   "weight": 80,
+   "level": 188,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78247,
+   "beta_only": false
+  },
+  {
+   "id": 20642,
+   "names": {
+    "de": "Tra-Zau-Rune",
+    "en": "Tra Spe Rune",
+    "es": "Runa Ta He",
+    "fr": "Rune Ta So",
+    "pt": "Runa Ta Fe"
+   },
+   "action": 178,
+   "stat_key": "heals",
+   "bonus": 4,
+   "weight": 40,
+   "level": 124,
+   "rank": 1,
+   "rank_label": "Ta",
+   "icon_id": 78248,
+   "beta_only": false
+  },
+  {
+   "id": 20643,
+   "names": {
+    "de": "Pa-Tra-Zau-Rune",
+    "en": "Pa Tra Spe Rune",
+    "es": "Runa Buta He",
+    "fr": "Rune Pata So",
+    "pt": "Runa Pata Fe"
+   },
+   "action": 178,
+   "stat_key": "heals",
+   "bonus": 7,
+   "weight": 60,
+   "level": 146,
+   "rank": 2,
+   "rank_label": "Pata",
+   "icon_id": 78249,
+   "beta_only": false
+  },
+  {
+   "id": 20644,
+   "names": {
+    "de": "Ra-Tra-Zau-Rune",
+    "en": "Ra Tra Spe Rune",
+    "es": "Runa Suta He",
+    "fr": "Rune Rata So",
+    "pt": "Runa Rata Fe"
+   },
+   "action": 178,
+   "stat_key": "heals",
+   "bonus": 10,
+   "weight": 80,
+   "level": 168,
+   "rank": 3,
+   "rank_label": "Rata",
+   "icon_id": 78250,
+   "beta_only": false
+  }
+ ]
+}

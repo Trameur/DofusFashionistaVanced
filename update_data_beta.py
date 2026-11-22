@@ -34,6 +34,8 @@ Pipeline steps:
     stats/starting      store_starting_stats.py -> starting_stats/beta.json
     items/weapon-conversions store_weapon_conversions.py -> weapon_conversions/beta.json
     items/dracorunes    store_dracorunes.py   -> dracorunes/beta.json (only if the dump has runes)
+    items/transcendence store_transcendence_runes.py -> transcendence/beta.json
+    transcendence-icons download_transcendence_icons.py -> static rune icons (missing ones)
     spells/states       store_spell_states.py -> spell_states/beta.json
     spells/constants    generate_damage_spells.py -> dofus_constants_beta.py
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
@@ -404,6 +406,10 @@ def main() -> None:
             PY, "itemscraper/store_dracorunes.py", str(raw_dir),
             "--game-version", "beta", "--tag", version,
         ])
+        step("items/transcendence", [
+            PY, "itemscraper/store_transcendence_runes.py", str(raw_dir),
+            "--game-version", "beta", "--tag", version,
+        ])
         # Names of the states a damage row is gated on; needs the transform
         step("spells/states", [
             PY, "itemscraper/store_spell_states.py",
@@ -469,6 +475,9 @@ def main() -> None:
     step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
 
     if do_images:
+        step("transcendence-icons", [
+            PY, "download_transcendence_icons.py", "--game-version", "beta",
+        ], cwd=ITEMSCRAPER)
         for label, scope in (("spell-images", "damage"), ("spell-images/class", "class")):
             step(label, [
                 PY, "-m", "itemscraper.download_spell_images",

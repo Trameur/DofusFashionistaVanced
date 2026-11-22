@@ -111,6 +111,7 @@ STEP_TITLES = {
     'sets/bonuses': 'Set bonuses', 'descriptions/store': 'Item descriptions',
     'stats/starting': 'Starting stats', 'items/weapon-conversions': 'Weapon element conversions',
     'items/dracorunes': 'Dracorunes', 'spells/variants': 'Spell variants',
+    'items/transcendence': 'Transcendence runes', 'transcendence-icons': 'Transcendence rune icons',
     'elements/defaults': 'Default elements', 'presets/golden': 'Golden presets',
     'dynamic-translations': 'Data translations', 'verify/rebuild': 'Rebuild check',
 }
