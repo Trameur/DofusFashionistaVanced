@@ -137,6 +137,8 @@ _DOFUS2_STATS.update({
     'waterres': _stat(2, 'Ré Eau', [('', 1), ('Pa', 3)]),
     'airres': _stat(2, 'Ré Air', [('', 1), ('Pa', 3)]),
     'crires': _stat(2, 'Ré Cri', [('', 1), ('Pa', 3)]),
+    'respermee': _stat(15, 'Ré Per Mé', [('', 1)]),
+    'resperran': _stat(15, 'Ré Per Di', [('', 1)]),
 })
 
 # 1.29: no Power, Lock, AP/MP reduction or dodge runes; 'pow' is the % damage line (Do Per)
