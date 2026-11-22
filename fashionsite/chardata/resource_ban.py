@@ -11,9 +11,14 @@ import re
 import sqlite3
 
 from chardata.char_blobs import read_char_blob
+from chardata.encyclopedia_view import (_INGREDIENT_ICON_DIRS, _ingredient_icon_ids,
+                                        _ingredient_icon_url, _resource_names_by_key)
+from chardata.lock_forbid import get_inclusions_dict
+from chardata.options import set_setup_choices
 from chardata.recipe_util import _LOCAL_INGREDIENT_TYPES, MAX_SUBRECIPE_DEPTH
 from fashionistapulp.fashionista_config import get_items_db_path
-from fashionistapulp.structure import get_current_game_version, get_structure
+from fashionistapulp.structure import fits_the_level, get_current_game_version, get_structure
+from static_s3.templatetags.static_s3 import static
 
 OPTION_KEY = 'banned_resources'
 MAX_BANNED_RESOURCES = 50
@@ -99,18 +104,43 @@ def _items_by_resource(game_version=None):
     return result
 
 
-def banned_resource_keys(char):
-    """The well-formed banned keys the build's version knows, sorted; an unreadable value is no ban."""
+def is_resource_key(key):
+    """Whether the value is a well-formed 'ankama_id:subtype' key."""
+    return isinstance(key, str) and _KEY_PATTERN.fullmatch(key) is not None
+
+
+def known_keys(keys, game_version=None):
+    """The keys, in order, that a recipe of the version uses."""
+    known = _items_by_resource(game_version)
+    return [key for key in keys if key in known]
+
+
+def _stored_keys(char):
+    """The well-formed keys the build stores, whether its version knows them or not."""
     options = read_char_blob(char.options, {}, 'options', char)
     if not isinstance(options, dict):
         return []
     stored = options.get(OPTION_KEY)
     if not isinstance(stored, (list, tuple)):
         return []
-    known = _items_by_resource(getattr(char, 'game_version', None) or None)
-    keys = {key for key in stored
-            if isinstance(key, str) and _KEY_PATTERN.match(key) and key in known}
+    return [key for key in stored if is_resource_key(key)]
+
+
+def _known_to_the_build(char):
+    return _items_by_resource(getattr(char, 'game_version', None) or None)
+
+
+def banned_resource_keys(char):
+    """The well-formed banned keys the build's version knows, sorted; an unreadable value is no ban."""
+    known = _known_to_the_build(char)
+    keys = {key for key in _stored_keys(char) if key in known}
     return sorted(keys)[:MAX_BANNED_RESOURCES]
+
+
+def keys_the_version_does_not_know(char):
+    """The well-formed stored keys no recipe of the build's version uses, which a page save keeps."""
+    known = _known_to_the_build(char)
+    return sorted({key for key in _stored_keys(char) if key not in known})
 
 
 def _spared_closure(structure, item_ids):
@@ -141,17 +171,9 @@ def _owned_item_ids(char, structure):
             .values_list('item_id', flat=True)}
 
 
-def items_the_ban_forbids(char, structure, locked_ids=()):
-    """The item ids to forbid for the build's banned resources, less the locked and owned pieces."""
-    keys = banned_resource_keys(char)
-    if not keys:
-        return set()
+def _forbidden_per_resource(char, structure, locked_ids, keys):
+    """{key: the item ids that resource forbids}, less the locked and owned pieces."""
     by_resource = _items_by_resource(structure.game_version)
-    forbidden = set()
-    for key in keys:
-        forbidden.update(by_resource.get(key, ()))
-    forbidden = {item_id for item_id in forbidden
-                 if getattr(structure.get_item_by_id(item_id), 'id', None) == item_id}
     spared = set()
     for item_id in locked_ids:
         try:
@@ -159,4 +181,114 @@ def items_the_ban_forbids(char, structure, locked_ids=()):
         except (TypeError, ValueError):
             continue
     spared |= _owned_item_ids(char, structure)
-    return forbidden - _spared_closure(structure, spared)
+    spared = _spared_closure(structure, spared)
+    return {
+        key: {item_id for item_id in by_resource.get(key, ())
+              if getattr(structure.get_item_by_id(item_id), 'id', None) == item_id}
+        - spared
+        for key in keys}
+
+
+def items_the_ban_forbids(char, structure, locked_ids=()):
+    """The item ids to forbid for the build's banned resources, less the locked and owned pieces."""
+    keys = banned_resource_keys(char)
+    if not keys:
+        return set()
+    forbidden = set()
+    for item_ids in _forbidden_per_resource(char, structure, locked_ids, keys).values():
+        forbidden.update(item_ids)
+    return forbidden
+
+
+def set_banned_resource_keys(char, keys, kept=()):
+    """Stores the banned keys up to the cap, plus the kept ones, sorted and without repeats; nothing left removes the ban."""
+    capped = sorted(set(keys or ()))[:MAX_BANNED_RESOURCES]
+    stored = sorted(set(capped) | set(kept))
+    return set_setup_choices(char, {OPTION_KEY: stored or None})
+
+
+def _piece_of(structure, item):
+    """What the forbid box counts as one piece: an OR family, or the rows of one item."""
+    family = structure.get_available_or_items().get(item.or_name)
+    if family is not None and len(family) > 1:
+        return ('or', item.or_name)
+    rows = structure.get_rows_of_the_same_item(item.id)
+    return min(rows) if rows else item.id
+
+
+def _pieces_at_the_level(structure, item_ids, level):
+    pieces = set()
+    for item_id in item_ids:
+        item = structure.get_item_by_id(item_id)
+        if item is not None and fits_the_level(item, level):
+            pieces.add(_piece_of(structure, item))
+    return pieces
+
+
+def _label_of(names, language):
+    return names.get(language) or names.get('en') or next(iter(names.values()))
+
+
+_labels_cache = {}
+
+
+def _resource_labels(game_version, language):
+    """{key: name in the language, English when missing, ' (#ankama_id)' added when two share a name}."""
+    cached = _labels_cache.get((game_version, language))
+    if cached is not None:
+        return cached
+    known = _items_by_resource(game_version)
+    labels = {}
+    for (ankama_id, subtype), names in _resource_names_by_key(game_version).items():
+        key = '%d:%s' % (ankama_id, subtype)
+        if key in known and names:
+            labels[key] = _label_of(names, language)
+    taken = {}
+    for label in labels.values():
+        taken[label] = taken.get(label, 0) + 1
+    labels = {key: ('%s (#%s)' % (label, key.split(':')[0]) if taken[label] > 1 else label)
+              for key, label in labels.items()}
+    _labels_cache[(game_version, language)] = labels
+    return labels
+
+
+def _has_icon(game_version, key):
+    return (_INGREDIENT_ICON_DIRS.get(game_version) is not None
+            and int(key.split(':')[0]) in _ingredient_icon_ids(game_version))
+
+
+def icon_url_base(game_version):
+    """The static folder of the version's resource icons, each named '<ankama id>-60-60.png', None when it has none."""
+    subdir = _INGREDIENT_ICON_DIRS.get(game_version)
+    return None if subdir is None else static('chardata/resources/%s60x60/' % subdir)
+
+
+def picker_index(game_version, language):
+    """{label: [key, items it forbids at any level, has an icon]} for every resource a recipe uses."""
+    known = _items_by_resource(game_version)
+    return {label: [key, len(known[key]), _has_icon(game_version, key)]
+            for key, label in _resource_labels(game_version, language).items()}
+
+
+def ban_state(char, structure, language, locked_ids=None):
+    """(rows {key, name, count, image_url} of the banned resources by name, distinct pieces they forbid at the build's level)."""
+    keys = banned_resource_keys(char)
+    if not keys:
+        return [], 0
+    if locked_ids is None:
+        locked_ids = get_inclusions_dict(char).values()
+    game_version = structure.game_version
+    labels = _resource_labels(game_version, language)
+    per_resource = _forbidden_per_resource(char, structure, locked_ids, keys)
+    rows, everything = [], set()
+    for key in keys:
+        pieces = _pieces_at_the_level(structure, per_resource[key], char.level)
+        everything |= pieces
+        rows.append({
+            'key': key,
+            'name': labels.get(key, key),
+            'count': len(pieces),
+            'image_url': (_ingredient_icon_url(game_version, int(key.split(':')[0]))
+                          if _has_icon(game_version, key) else None)})
+    rows.sort(key=lambda row: (row['name'].casefold(), row['key']))
+    return rows, len(everything)
