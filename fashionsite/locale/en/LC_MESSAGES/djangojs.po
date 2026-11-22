@@ -443,6 +443,18 @@ msgstr ""
 msgid "You have unsaved changes. They will be discarded if you leave."
 msgstr ""
 
+#: chardata/templates/chardata/exclusions.html
+#, javascript-format
+msgid "%(count)s item forbidden"
+msgid_plural "%(count)s items forbidden"
+msgstr[0] ""
+msgstr[1] ""
+
+#: chardata/templates/chardata/exclusions.html
+#, javascript-format
+msgid "You can forbid at most %(count)s resources."
+msgstr "You can forbid at most %(count)s resources."
+
 #: chardata/static/chardata/stateengine.js
 msgid "The changes could not be saved. Try again."
 msgstr ""

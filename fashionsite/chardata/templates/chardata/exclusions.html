@@ -29,12 +29,31 @@
         <button id="button-forbid" class="button-generic">{% trans "Forbid" %}</button>
     </div>  
 
+    <div align="center" id="resource_form_container">
+        <label for="input-resource-to-forbid">{% trans "Forbid by resource" %}</label>
+        <input id="input-resource-to-forbid">
+        <button type="button" id="button-forbid-resource" class="button-generic">{% trans "Forbid" %}</button>
+    </div>
+    <p id="resources-limit-note" align="center" class="small-explain" hidden></p>
+    <p align="center" class="small-explain">{% trans "An item is forbidden when its recipe, or the recipe of an item it is crafted from, uses one of these resources. Locked items stay allowed." %}</p>
+
     <br>
   <div align="center" class="fm-savebar">
     {% include "chardata/state_engine_all_buttons.html" with include_tailor=True %}
     <br><br>
     </div>
 </form>
+
+<div class="exclusions-types-section exclusions-resources-section">
+    <div class="exclusions-types-column">
+        <div id="div-forbidden-resources" class="exclusions-types-cell">
+            <div class="type-name-span" align="center">{% trans "Forbidden resources" %}</div>
+            <table id="table-forbidden-resources" class="excluded-items-for-type-container">
+            </table>
+            <p id="resources-total" class="small-explain resources-total" hidden></p>
+        </div>
+    </div>
+</div>
 
 <div class="exclusions-types-section">
     {% for types_in_column in type_columns %}
@@ -66,6 +85,9 @@ if (document.documentElement.classList.contains("fm-modern")) {
     if (fmBar) { fmBar.parentNode.parentNode.appendChild(fmBar); }
 }
 </script>
+{{ exclusions_state|json_script:"exclusions-state" }}
+{{ resource_picker|json_script:"resource-picker" }}
+{{ resource_icon_base|json_script:"resource-icon-base" }}
 <script src="{% static "chardata/stateengine.js" %}"></script>
 <script>
     $.ajaxSetup({
@@ -76,7 +98,10 @@ if (document.documentElement.classList.contains("fm-modern")) {
     var allItemsNames = {{all_items_names_json | safe}};
     var idsByPlainName = {{ids_by_plain_name_json | safe}};
     var allSets = {{sets_with_items_json | safe}};
-    var excludedItemsInput = {{exclusions | safe}};
+    var excludedItemsInput = JSON.parse(document.getElementById("exclusions-state").textContent);
+    var resourcePicker = JSON.parse(document.getElementById("resource-picker").textContent);
+    var resourceIconBase = JSON.parse(document.getElementById("resource-icon-base").textContent);
+    var MAX_FORBIDDEN_RESOURCES = 50;
 
     var itemSet;
     var itemsNotExcludedSet;
@@ -84,7 +109,12 @@ if (document.documentElement.classList.contains("fm-modern")) {
     var itemsExcludedSetByType;
     var itemList;
     
-    function init(excludedItems) {
+    var resourcesExcluded;
+    var resourceKeysInOrder;
+
+    function init(state) {
+        var excludedItems = $.isArray(state) ? state : (state.items || []);
+        var excludedResources = $.isArray(state) ? [] : (state.resources || []);
         itemSet = {};
         itemsNotExcludedSet = {};
         itemsExcludedSet = {};
@@ -99,6 +129,18 @@ if (document.documentElement.classList.contains("fm-modern")) {
         $.each(excludedItems, function (i, excludedItem) {
             forbidItem(excludedItem, false);
         });
+        resourcesExcluded = {};
+        resourceKeysInOrder = [];
+        $("#table-forbidden-resources").empty();
+        $.each(excludedResources, function (i, resource) {
+            forbidResource(resource, false);
+        });
+        updateResourceContainer();
+        showResourcesTotal($.isArray(state) ? "" : (state.total_text || ""));
+    }
+
+    function showResourcesTotal(text) {
+        $("#resources-total").text(text).prop("hidden", !text);
     }
     
     // A door can close more than one piece: those the reader cannot tell
@@ -141,6 +183,7 @@ if (document.documentElement.classList.contains("fm-modern")) {
             updateContainer(itemType);
 
             if (changeState) {
+                showResourcesTotal("");
                 setChangesPendingStateEngine(true);
             }
         }
@@ -153,6 +196,7 @@ if (document.documentElement.classList.contains("fm-modern")) {
         delete itemsExcludedSetByType[itemType][item.id];
         updateContainer(itemType);
         if (changeState) {
+            showResourcesTotal("");
             setChangesPendingStateEngine(true);
         }
     }
@@ -177,17 +221,126 @@ if (document.documentElement.classList.contains("fm-modern")) {
         return newDiv;
     }
 
+    function resourceCountText(count) {
+        return interpolate(ngettext("%(count)s item forbidden", "%(count)s items forbidden", count),
+                           {count: count}, true);
+    }
+
+    function createForbiddenResourceEntry(resource) {
+        var row = $("<tr class='forbidden-resource'></tr>");
+        var cross = $("<img class='button-unforbid'>").attr(
+            {alt: "", src: "{% static "chardata/cross-icon.png" %}"});
+        var cell = $("<td class='forbidden-item'></td>");
+        if (resource.image_url) {
+            cell.append($("<img class='resource-icon'>").attr(
+                {alt: "", src: resource.image_url, width: 24, height: 24}));
+            cell.append(document.createTextNode(" "));
+        }
+        cell.append($("<span class='resource-name'></span>").text(resource.name));
+        if (resource.count !== null && resource.count !== undefined) {
+            cell.append($("<br>"));
+            cell.append($("<span class='small-explain resource-count'></span>").text(
+                resourceCountText(resource.count)));
+        }
+        row.append($("<td></td>").append(cross)).append(cell);
+        cross.click(function() {
+            unforbidResource(resource, true);
+            row.remove();
+        });
+        return row;
+    }
+
+    function updateResourceContainer() {
+        var header = $("#div-forbidden-resources").find(".type-name-span");
+        if (resourceKeysInOrder.length > 0) {
+            header.css("border-radius", "10px 10px 0px 0px");
+        } else {
+            header.css("border-radius", "10px");
+            $("#table-forbidden-resources").empty();
+        }
+    }
+
+    function forbidResource(resource, changeState) {
+        if (resource.key in resourcesExcluded) {
+            return;
+        }
+        if (resourceKeysInOrder.length >= MAX_FORBIDDEN_RESOURCES) {
+            if (changeState) {
+                $("#input-resource-to-forbid").val("");
+                $("#resources-limit-note").text(interpolate(
+                    gettext("You can forbid at most %(count)s resources."),
+                    {count: MAX_FORBIDDEN_RESOURCES}, true)).prop("hidden", false);
+            }
+            return;
+        }
+        $("#resources-limit-note").prop("hidden", true);
+        resourcesExcluded[resource.key] = true;
+        resourceKeysInOrder.push(resource.key);
+        $("#input-resource-to-forbid").val("");
+        $("#table-forbidden-resources").append(createForbiddenResourceEntry(resource));
+        updateResourceContainer();
+        if (changeState) {
+            showResourcesTotal("");
+            setChangesPendingStateEngine(true);
+        }
+    }
+
+    function unforbidResource(resource, changeState) {
+        delete resourcesExcluded[resource.key];
+        resourceKeysInOrder = $.grep(resourceKeysInOrder, function (key) {
+            return key !== resource.key;
+        });
+        updateResourceContainer();
+        if (changeState) {
+            showResourcesTotal("");
+            setChangesPendingStateEngine(true);
+        }
+    }
+
+    function forbidResourceByLabel(label) {
+        var entry = resourcePicker[label];
+        if (entry == null) {
+            return;
+        }
+        forbidResource({
+            key: entry[0],
+            name: label,
+            count: null,
+            image_url: entry[2] && resourceIconBase
+                ? resourceIconBase + entry[0].split(":")[0] + "-60-60.png" : null
+        }, true);
+    }
+
+    function onForbidResourceButtonClick(event) {
+        event.preventDefault();
+        forbidResourceByLabel($("#input-resource-to-forbid").val());
+    }
+
     function postData() {
-        return {exclusions: JSON.stringify(Object.keys(itemsExcludedSet))};
+        return {exclusions: JSON.stringify(Object.keys(itemsExcludedSet)),
+                resources: JSON.stringify(resourceKeysInOrder)};
     }
 
     $(document).ready(function() {
         $("#button-forbid").click(onForbidButtonClick);
+        $("#button-forbid-resource").click(onForbidResourceButtonClick);
+        $("#input-resource-to-forbid").keydown(function(event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                var widget = $(this).autocomplete("widget");
+                var highlighted = widget.is(":visible")
+                    ? $.trim(widget.find(".ui-state-active").text()) : "";
+                event.stopImmediatePropagation();
+                $(this).autocomplete("close");
+                forbidResourceByLabel(highlighted || $(this).val());
+            }
+        });
         
         setupStateEngine(init,
             "{% game_url 'exclusions_post' char_id %}",
              excludedItemsInput,
-             postData);
+             postData,
+             init);
 
         var forbidInput = $("#input-item-to-forbid").autocomplete({
             source: function(request, response) {
@@ -198,6 +351,28 @@ if (document.documentElement.classList.contains("fm-modern")) {
                 $('#input-item-to-forbid').autocomplete("widget").width(250);
             }
         });
+
+        $("#input-resource-to-forbid").autocomplete({
+            source: function(request, response) {
+                var results = $.ui.autocomplete.filter(Object.keys(resourcePicker), request.term);
+                response(results.slice(0, 10));
+            },
+            open: function() {
+                var menu = $('#input-resource-to-forbid').autocomplete("widget");
+                var room = $(window).width() - menu.offset().left - 16;
+                menu.width(Math.max(120, Math.min(250, room)));
+            }
+        }).autocomplete("instance")._renderItem = function(ul, item) {
+            var entry = resourcePicker[item.label];
+            var line = $("<div></div>");
+            if (entry && entry[2] && resourceIconBase) {
+                line.append($("<img class='resource-icon'>").attr({
+                    alt: "", width: 24, height: 24, loading: "lazy",
+                    src: resourceIconBase + entry[0].split(":")[0] + "-60-60.png"}));
+            }
+            line.append(document.createTextNode(item.label));
+            return $("<li></li>").append(line).appendTo(ul);
+        };
     });
 </script>
 

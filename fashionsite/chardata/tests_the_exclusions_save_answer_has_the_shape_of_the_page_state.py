@@ -34,26 +34,37 @@ class _AnExclusionsPage(TestCase):
 
     def _save_then_open_the_page(self, item_ids):
         saved = self.client.post('%s/exclusionspost/%d/' % (self.PREFIX, self.char.pk),
-                                 {'exclusions': json.dumps(item_ids)})
+                                 {'exclusions': json.dumps(item_ids), 'resources': '[]'})
         self.assertEqual(200, saved.status_code, saved.content)
         page = self.client.get('%s/exclusions/%d/' % (self.PREFIX, self.char.pk))
         self.assertEqual(200, page.status_code)
-        return json.loads(saved.content), json.loads(page.context['exclusions'])
+        return (json.loads(saved.content),
+                json.loads(json.dumps(page.context['exclusions_state'])))
 
 
 class TheSaveAnswerIsThePageStateTests(_AnExclusionsPage):
 
-    def test_the_answer_equals_the_list_the_page_embeds(self):
+    def test_the_answer_equals_the_state_the_page_embeds(self):
         answer, embedded = self._save_then_open_the_page(self._some_item_ids())
 
-        self.assertTrue(embedded)
+        self.assertTrue(embedded['items'])
         self.assertEqual(embedded, answer)
+        self.assertEqual({'items', 'resources', 'total_text'}, set(answer))
+
+    def test_a_post_without_a_resources_field_gets_the_bare_items_list(self):
+        saved = self.client.post('%s/exclusionspost/%d/' % (self.PREFIX, self.char.pk),
+                                 {'exclusions': json.dumps(self._some_item_ids())})
+
+        self.assertEqual(200, saved.status_code, saved.content)
+        answer = json.loads(saved.content)
+        self.assertIsInstance(answer, list)
+        self.assertTrue(answer)
 
     def test_each_entry_has_an_id_and_a_name(self):
         answer, _ = self._save_then_open_the_page(self._some_item_ids())
 
-        self.assertTrue(answer)
-        for entry in answer:
+        self.assertTrue(answer['items'])
+        for entry in answer['items']:
             with self.subTest(entry=entry):
                 self.assertIsInstance(entry, dict)
                 self.assertIn('id', entry)
@@ -66,12 +77,12 @@ class TheSaveAnswerOnATouchBuildTests(_AnExclusionsPage):
     PREFIX = '/touch'
     LEVEL = 60
 
-    def test_the_answer_equals_the_list_the_page_embeds(self):
+    def test_the_answer_equals_the_state_the_page_embeds(self):
         answer, embedded = self._save_then_open_the_page(self._some_item_ids())
 
-        self.assertTrue(embedded)
+        self.assertTrue(embedded['items'])
         self.assertEqual(embedded, answer)
-        for entry in answer:
+        for entry in answer['items']:
             self.assertTrue(entry['name'])
 
 
@@ -84,6 +95,6 @@ class TheSaveAnswerInFrenchTests(_AnExclusionsPage):
 
         self.assertEqual(embedded, answer)
         english = {item.id: item.name for item in self.structure.get_concatenated_items_lists()}
-        french = [entry['name'] for entry in answer]
+        french = [entry['name'] for entry in answer['items']]
         self.assertTrue(all(french))
-        self.assertNotEqual([english[entry['id']] for entry in answer], french)
+        self.assertNotEqual([english[entry['id']] for entry in answer['items']], french)

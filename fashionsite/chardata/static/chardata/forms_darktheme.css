@@ -1,4 +1,4 @@
-.input-value, #input-item-to-forbid {
+.input-value, #input-item-to-forbid, #input-resource-to-forbid {
     background-color: #212121;
 }
 
@@ -6,7 +6,7 @@
     color:#DDD;
 }
 
-.input-stat-name, .stat-softcap, .softcap-stat-name, .big-text, #input-item-to-forbid, .weight-stat-name {
+.input-stat-name, .stat-softcap, .softcap-stat-name, .big-text, #input-item-to-forbid, #input-resource-to-forbid, .weight-stat-name {
     color:#DDD;
 }
 

@@ -50,17 +50,18 @@ class TheForbidPageOnDofus3Tests(TestCase):
     def _page_state(self):
         page = self.client.get('%s/exclusions/%d/' % (self.prefix, self.char.pk))
         self.assertEqual(200, page.status_code)
-        return json.loads(page.context['exclusions'])
+        return page.context['exclusions_state']['items']
 
     def _drawn(self, state):
         return [entry['id'] for entry in state if entry['id'] in self.all_items]
 
     def _save(self, item_ids):
         saved = self.client.post('%s/exclusionspost/%d/' % (self.prefix, self.char.pk),
-                                 {'exclusions': json.dumps([str(i) for i in item_ids])})
+                                 {'exclusions': json.dumps([str(i) for i in item_ids]),
+                                  'resources': '[]'})
         self.assertEqual(200, saved.status_code, saved.content)
         self.char.refresh_from_db()
-        return json.loads(saved.content)
+        return json.loads(saved.content)['items']
 
     def _gelano_rows_the_solver_opens(self, item_ids, mp_exo):
         base = {name: 0 for name, _key in STATS_NAMES}

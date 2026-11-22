@@ -2585,12 +2585,12 @@ html.fm-modern .tunnel-atelier .button-generic, html.fm-modern .tunnel-atelier .
 html.fm-modern .tunnel-atelier .button-thin-foreground, html.fm-modern .tunnel-atelier .submit-button,
 html.fm-modern .tunnel-atelier select, html.fm-modern .tunnel-atelier .pretty-input, html.fm-modern .tunnel-atelier .white-pretty-input,
 html.fm-modern .tunnel-atelier input[type="text"], html.fm-modern .tunnel-atelier input[type="number"],
-html.fm-modern .tunnel-exclusions #input-item-to-forbid{ min-height:44px; box-sizing:border-box; }
-html.fm-modern .tunnel-exclusions #input-item-to-forbid{
+html.fm-modern .tunnel-exclusions #input-item-to-forbid, html.fm-modern .tunnel-exclusions #input-resource-to-forbid{ min-height:44px; box-sizing:border-box; }
+html.fm-modern .tunnel-exclusions #input-item-to-forbid, html.fm-modern .tunnel-exclusions #input-resource-to-forbid{
   font-size:16px; background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-field-line) !important;
   border-radius:var(--fm-radius-xs) !important; padding:9px 11px !important; outline:none;
 }
-html.fm-modern .tunnel-exclusions #input-item-to-forbid:focus{ border-color:var(--fm-accent) !important; box-shadow:var(--fm-ring) !important; }
+html.fm-modern .tunnel-exclusions #input-item-to-forbid:focus, html.fm-modern .tunnel-exclusions #input-resource-to-forbid:focus{ border-color:var(--fm-accent) !important; box-shadow:var(--fm-ring) !important; }
 html.fm-modern .tunnel-atelier select{ min-width:min(100%,240px); }
 html.fm-modern .tunnel-atelier label{ display:inline-flex; align-items:center; gap:var(--fm-space-2); min-height:44px; box-sizing:border-box; }
 html.fm-modern .tunnel-atelier label input[type="radio"], html.fm-modern .tunnel-atelier label input[type="checkbox"]{ width:20px; height:20px; margin:0; flex:0 0 auto; }
@@ -2746,7 +2746,8 @@ html.fm-modern .tunnel-exclusions{ display:grid; grid-template-columns:minmax(0,
 html.fm-modern .tunnel-exclusions > *{ min-width:0; margin-top:0; margin-bottom:0; }
 html.fm-modern .tunnel-exclusions > form br{ display:none; }
 html.fm-modern .tunnel-exclusions > form > div[align="center"]{ display:flex; flex-wrap:wrap; gap:var(--fm-space-3); justify-content:flex-start; margin-bottom:var(--fm-space-3); }
-html.fm-modern .tunnel-exclusions #input-item-to-forbid{ flex:1 1 260px; max-width:var(--fm-measure); }
+html.fm-modern .tunnel-exclusions #input-item-to-forbid, html.fm-modern .tunnel-exclusions #input-resource-to-forbid{ flex:1 1 260px; max-width:var(--fm-measure); }
+html.fm-modern .tunnel-exclusions img.resource-icon{ width:24px; height:24px; vertical-align:middle; }
 html.fm-modern .tunnel-exclusions p.big-text{ margin:0; }
 html.fm-modern .tunnel-exclusions .exclusions-types-section{ display:grid; grid-template-columns:minmax(0,1fr); gap:var(--fm-space-3); width:100%; }
 html.fm-modern .tunnel-exclusions .exclusions-types-column{ display:contents; }
@@ -2758,6 +2759,7 @@ html.fm-modern .tunnel-exclusions .type-name-span{ margin:var(--fm-space-2); bac
 html.fm-modern .tunnel-exclusions .forbidden-item{ font-size:.9rem; padding-bottom:0; color:var(--fm-text); }
 html.fm-modern .tunnel-exclusions img.button-unforbid{ box-sizing:content-box; padding:14px; cursor:pointer; vertical-align:middle; }
 html.fm-modern .tunnel-exclusions .excluded-items-for-type-container{ margin:0 var(--fm-space-2) var(--fm-space-2); }
+html.fm-modern .tunnel-exclusions .resources-total{ margin:0 var(--fm-space-2) var(--fm-space-2); padding:0 var(--fm-space-2); }
 @media (min-width:901px){
   html.fm-modern .tunnel-exclusions .exclusions-types-section{ grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); }
 }

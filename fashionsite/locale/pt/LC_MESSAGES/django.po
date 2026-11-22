@@ -3703,6 +3703,25 @@ msgstr "Declare aqui quais itens não podem ser usados no set do seu personagem.
 msgid "Forbid"
 msgstr "Proibir"
 
+#: chardata/templates/chardata/exclusions.html
+msgid "Forbidden resources"
+msgstr "Recursos proibidos"
+
+#: chardata/templates/chardata/exclusions.html
+msgid "Forbid by resource"
+msgstr "Proibir por recurso"
+
+#: chardata/templates/chardata/exclusions.html
+msgid "An item is forbidden when its recipe, or the recipe of an item it is crafted from, uses one of these resources. Locked items stay allowed."
+msgstr "Um item fica proibido quando a receita dele, ou a de um item usado para fabricá-lo, usa um destes recursos. Itens travados continuam permitidos."
+
+#: chardata/exclusions_view.py
+#, python-format
+msgid "In all, these resources forbid %(count)s item at your level."
+msgid_plural "In all, these resources forbid %(count)s items at your level."
+msgstr[0] "No total, estes recursos proíbem %(count)s item no seu nível."
+msgstr[1] "No total, estes recursos proíbem %(count)s itens no seu nível."
+
 #: .\chardata\templates\chardata\exclusions.html:45
 msgid "Dofus or Trophy"
 msgstr "Dofus ou Troféu"

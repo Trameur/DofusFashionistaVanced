@@ -17,10 +17,11 @@
 from django.http import HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from django.utils import translation
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext, gettext_lazy, ngettext
 
 import json
 
+from chardata import resource_ban
 from chardata.lock_forbid import (get_all_exclusions_ids, get_all_exclusions_with_names,
                                   set_exclusions_list_and_check_inclusions)
 from chardata.translation_util import localized_stat_name
@@ -185,6 +186,22 @@ def _exclusions_the_page_draws(char, language, forbiddable_id):
     return entries
 
 
+def _total_text(total):
+    if not total:
+        return ''
+    return ngettext('In all, these resources forbid %(count)s item at your level.',
+                    'In all, these resources forbid %(count)s items at your level.',
+                    total) % {'count': total}
+
+
+def _page_state(char, structure, language, forbiddable_id):
+    """{items, resources, total_text}: what the page draws and what a save answers."""
+    resources, total = resource_ban.ban_state(char, structure, language)
+    return {'items': _exclusions_the_page_draws(char, language, forbiddable_id),
+            'resources': resources,
+            'total_text': _total_text(total)}
+
+
 def exclusions(request, char_id):
     char = get_char_or_raise(request, char_id) 
     s = get_structure()
@@ -213,7 +230,7 @@ def exclusions(request, char_id):
     all_names.update(doors)
     
     complete_sets = s.get_complete_sets_list(language)
-    exclusions = _exclusions_the_page_draws(char, language, forbiddable_id)
+    state = _page_state(char, s, language, forbiddable_id)
 
     return set_response(request, 
                         'chardata/exclusions.html', 
@@ -224,7 +241,11 @@ def exclusions(request, char_id):
                          'all_items_names_json': json.dumps(all_names),
                          'ids_by_plain_name_json': json.dumps(ids_by_plain_name),
                          'sets_with_items_json': json.dumps(complete_sets),
-                         'exclusions': json.dumps(exclusions)}, 
+                         'exclusions_state': state,
+                         'resource_picker': resource_ban.picker_index(
+                             char.game_version, language),
+                         'resource_icon_base': resource_ban.icon_url_base(
+                             char.game_version)},
                         char)
 
 
@@ -241,15 +262,42 @@ def exclusions_post(request, char_id):
     try:
         exclusions = json.loads(exclusions_string)
         actual_exclusions = [int(iditem) for iditem in exclusions]
-    except (TypeError, ValueError):
+    except (TypeError, ValueError, RecursionError):
         return HttpResponseBadRequest('exclusions list not understood')
+    resources = _posted_resources(request)
+    if resources is False:
+        return HttpResponseBadRequest('resources list not understood')
     structure = get_structure()
     all_items = structure.get_all_unique_items_ids_with_type()
     forbiddable_id = _forbiddable_id_of(structure, all_items)
     kept_unseen = [item_id for item_id in get_all_exclusions_ids(char)
                    if forbiddable_id(item_id) not in all_items
                    and item_id not in actual_exclusions]
-    set_exclusions_list_and_check_inclusions(char, actual_exclusions + kept_unseen)
+    saved = actual_exclusions + kept_unseen
+    if set(saved) != set(get_all_exclusions_ids(char)):
+        set_exclusions_list_and_check_inclusions(char, saved)
+    if resources is not None:
+        resource_ban.set_banned_resource_keys(
+            char, resources, kept=resource_ban.keys_the_version_does_not_know(char))
 
-    return HttpResponseJson(json.dumps(_exclusions_the_page_draws(
-        char, get_supported_language(), forbiddable_id)))
+    language = get_supported_language()
+    if resources is None:
+        return HttpResponseJson(json.dumps(
+            _exclusions_the_page_draws(char, language, forbiddable_id)))
+    return HttpResponseJson(json.dumps(
+        _page_state(char, structure, language, forbiddable_id)))
+
+
+def _posted_resources(request):
+    """None when the field is absent, False when unreadable, else the keys the version knows."""
+    raw = request.POST.get('resources', None)
+    if raw is None:
+        return None
+    try:
+        posted = json.loads(raw)
+    except (ValueError, RecursionError):
+        return False
+    if (not isinstance(posted, list) or len(posted) > resource_ban.MAX_BANNED_RESOURCES
+            or not all(resource_ban.is_resource_key(key) for key in posted)):
+        return False
+    return resource_ban.known_keys(posted, get_structure().game_version)

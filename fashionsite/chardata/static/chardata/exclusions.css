@@ -24,3 +24,31 @@
     padding-bottom: 5px;
 }
 
+.resource-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+#resource_form_container label {
+    margin-right: 8px;
+}
+
+.resources-total {
+    margin: 0;
+    padding: 0 10px 10px;
+    text-wrap: pretty;
+}
+
+.ui-menu-item .resource-icon {
+    margin-right: 6px;
+}
+
+@media (max-width: 600px) {
+    html:not(.fm-modern, .fm-enhanced) #resource_form_container label,
+    html.fm-enhanced #resource_form_container label {
+        display: block;
+        margin: 0 0 6px;
+    }
+}
+

@@ -448,6 +448,18 @@ msgstr ""
 "Du hast ungespeicherte Änderungen. Sie gehen verloren, wenn du die Seite "
 "verlässt."
 
+#: chardata/templates/chardata/exclusions.html
+#, javascript-format
+msgid "%(count)s item forbidden"
+msgid_plural "%(count)s items forbidden"
+msgstr[0] "%(count)s Gegenstand verboten"
+msgstr[1] "%(count)s Gegenstände verboten"
+
+#: chardata/templates/chardata/exclusions.html
+#, javascript-format
+msgid "You can forbid at most %(count)s resources."
+msgstr "Du kannst höchstens %(count)s Ressourcen verbieten."
+
 #: chardata/static/chardata/stateengine.js
 msgid "The changes could not be saved. Try again."
 msgstr "Die Änderungen konnten nicht gespeichert werden. Probier es erneut."

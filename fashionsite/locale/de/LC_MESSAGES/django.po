@@ -3742,6 +3742,25 @@ msgstr ""
 msgid "Forbid"
 msgstr "Verbieten"
 
+#: chardata/templates/chardata/exclusions.html
+msgid "Forbidden resources"
+msgstr "Verbotene Ressourcen"
+
+#: chardata/templates/chardata/exclusions.html
+msgid "Forbid by resource"
+msgstr "Nach Ressource verbieten"
+
+#: chardata/templates/chardata/exclusions.html
+msgid "An item is forbidden when its recipe, or the recipe of an item it is crafted from, uses one of these resources. Locked items stay allowed."
+msgstr "Ein Gegenstand ist verboten, wenn sein Rezept oder das Rezept eines Gegenstands, aus dem er hergestellt wird, eine dieser Ressourcen verwendet. Gesperrte Gegenstände bleiben erlaubt."
+
+#: chardata/exclusions_view.py
+#, python-format
+msgid "In all, these resources forbid %(count)s item at your level."
+msgid_plural "In all, these resources forbid %(count)s items at your level."
+msgstr[0] "Insgesamt verbieten diese Ressourcen %(count)s Gegenstand auf deiner Stufe."
+msgstr[1] "Insgesamt verbieten diese Ressourcen %(count)s Gegenstände auf deiner Stufe."
+
 #: .\chardata\templates\chardata\exclusions.html:45
 msgid "Dofus or Trophy"
 msgstr "Dofus oder Trophäe"
