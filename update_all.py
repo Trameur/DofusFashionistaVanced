@@ -52,7 +52,7 @@ TOUCH_CLIENT = 'https://dt-proxy-production-login.ankama-games.com/build/script.
 WAKFU = 'https://wakfu.cdn.ankama.com/gamedata/config.json'
 IMAGE_STEPS = {'item-images', 'resource-icons', 'monster-images',
                'monsters/artworks', 'spell-images', 'spell-icons', 'resize'}
-LOCAL_TABLES = {'mount-looks': 'mount_looks', 'monster-subareas': 'monster_subareas'}
+LOCAL_TABLES = {'mount-looks': 'mount_looks'}
 NETWORK_STEP = re.compile(r'download|mirror|scrape|data/sets|data/spells|data/mounts|images|icons|artworks')
 RETRY_DELAY = 20
 PIPELINE_TIMEOUT = 4 * 3600
@@ -286,12 +286,17 @@ def newer(version, than):
             and version_number(version) > version_number(than))
 
 
+def release_assets(version):
+    """The release files a version's pipeline reads."""
+    return RELEASE_ASSETS | {'subareas.json'} if version in ITEMS_FROM_RELEASE else RELEASE_ASSETS
+
+
 def importable_release(version, served, official, current, warnings):
     """(tag, release or None): the Ankama client's version when it is newer than the API's and dofusdude has
     its full release; else the API's, or the local one when that release is missing and the API is older."""
     if version in ITEMS_FROM_RELEASE and newer(official, served):
         try:
-            release = complete_release(version, official, RELEASE_ASSETS | ITEM_ASSETS)
+            release = complete_release(version, official, release_assets(version) | ITEM_ASSETS)
         except (OSError, ValueError, KeyError) as exc:
             missing = 'The Ankama client is %s but dofusdude has no complete %s release (%s)' % (official, official, exc)
         else:
@@ -329,7 +334,7 @@ def probe(version, catalog=None):
         if newer(current, tag):
             raise ValueError('Source older than the local version: %s < %s; downgrade refused.' % (tag, current))
         if release is None:
-            release = complete_release(version, tag, RELEASE_ASSETS if tag == served else RELEASE_ASSETS | ITEM_ASSETS)
+            release = complete_release(version, tag, release_assets(version) if tag == served else release_assets(version) | ITEM_ASSETS)
         result['available'] = tag
         result['source'] = {'version': tag, 'archive': release['tag_name']}
         if served == tag:

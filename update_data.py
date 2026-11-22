@@ -265,6 +265,7 @@ def main() -> None:
             "--filter", "effects.json",
             "--filter", "breeds.json",
             "--filter", "monsters.json",
+            "--filter", "subareas.json",
             "--filter", "recipes.json",
             "--filter", "jobs.json",
             "--filter", "en.json",
@@ -332,7 +333,9 @@ def main() -> None:
         step("monster-grades", [PY, "store_monster_grades.py",
                                 "--game-version", "dofus3", "--tag", version],
              cwd=ITEMSCRAPER)
-        step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py"], cwd=ITEMSCRAPER)
+        step("monster-subareas", [PY, "store_monster_subareas.py",
+                                  "--game-version", "dofus3", "--tag", version],
+             cwd=ITEMSCRAPER)
         # Its own dump, not the newest under raw/: that one is the beta's.
         step("monster-spells", [PY, "store_monster_spells.py",
                                 "--tag", version], cwd=ITEMSCRAPER)

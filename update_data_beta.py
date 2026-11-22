@@ -368,6 +368,7 @@ def main() -> None:
                 "--filter", "effects.json",
                 "--filter", "breeds.json",
                 "--filter", "monsters.json",
+                "--filter", "subareas.json",
                 "--filter", "recipes.json",
                 "--filter", "jobs.json",
                 "--filter", "en.json",
@@ -446,8 +447,9 @@ def main() -> None:
         step("monster-grades", [PY, "store_monster_grades.py",
                                 "--game-version", "beta", "--tag", version],
              cwd=ITEMSCRAPER)
-        step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py", "--game-version", "beta",
-                                  *(["--tag", version] if local_raw else [])], cwd=ITEMSCRAPER)
+        step("monster-subareas", [PY, "store_monster_subareas.py",
+                                  "--game-version", "beta", "--tag", version],
+             cwd=ITEMSCRAPER)
         step("monster-spells", [PY, "store_monster_spells.py",
                                 "--game-version", "beta", "--tag", version],
              cwd=ITEMSCRAPER)

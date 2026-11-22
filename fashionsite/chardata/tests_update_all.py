@@ -120,7 +120,7 @@ class UpdateLauncherTests(TestCase):
             updater.selection('99', rows)
 
     def test_the_importable_version_uses_the_matching_api_and_archive(self):
-        assets = [{'name': name + '.json'} for name in ('spells', 'effects', 'breeds', 'monsters', 'recipes', 'en', 'fr', 'es', 'pt', 'de')]
+        assets = [{'name': name + '.json'} for name in ('spells', 'effects', 'breeds', 'monsters', 'subareas', 'recipes', 'en', 'fr', 'es', 'pt', 'de')]
         catalog = {'games': {'dofus': {'platforms': {'windows': {'dofus3': '6.0_3.6.11.0'}}}}}
         absent = urllib.error.HTTPError('url', 404, 'Not Found', {}, None)
         with mock.patch.object(updater, 'fetch_json', side_effect=[
@@ -136,7 +136,7 @@ class UpdateLauncherTests(TestCase):
             with self.assertRaisesRegex(ValueError, 'Incomplete archive'):
                 updater.probe('dofus3')
 
-    DATA_FILES = ('spells.json', 'effects.json', 'breeds.json', 'monsters.json', 'recipes.json',
+    DATA_FILES = ('spells.json', 'effects.json', 'breeds.json', 'monsters.json', 'subareas.json', 'recipes.json',
                   'en.json', 'fr.json', 'es.json', 'pt.json', 'de.json')
     ITEM_FILES = ('MAPPED_ITEMS.json', 'MAPPED_SETS.json', 'MAPPED_RECIPES.json')
 
@@ -163,6 +163,16 @@ class UpdateLauncherTests(TestCase):
             return dict(releases[tag], tag_name=tag)
         with mock.patch.object(updater, 'fetch_json', side_effect=fetch):
             return updater.probe(key)
+
+    def test_a_dofus3_or_beta_release_without_the_subareas_is_incomplete_but_dofus2_does_not_need_them(self):
+        without = tuple(name for name in self.DATA_FILES if name != 'subareas.json')
+        for key in ('dofus3', 'beta'):
+            with self.subTest(key=key):
+                with self.assertRaisesRegex(ValueError, 'Incomplete archive'):
+                    self.dofusdude_probe(key, '3.7.4.4', '3.7.4.4', {'3.7.4.4': self.release(*without)})
+        row = self.dofusdude_probe('dofus2', '2.73.3.14', '2.73.3.14', {'2.73.3.14': self.release(*without)})
+        self.assertIsNone(row['error'])
+        self.assertEqual('2.73.3.14', row['available'])
 
     def test_the_target_is_the_client_version_when_its_release_is_complete(self):
         for key in ('dofus3', 'beta'):
@@ -1660,7 +1670,7 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         module = SimpleNamespace(__file__='legacy.py')
         def main():
             module.run_step('monster-images', ['python', 'download_monster_images.py'])
-            module.run_step('monster-subareas', ['python', 'store_dofusdb_monster_subareas.py'])
+            module.run_step('mount-looks', ['python', 'store_dofusdb_mount_looks.py'])
         module.main = main
         job = self.root / 'job.json'
         updater.write_json(job, {'key': 'dofus3', 'images': True, 'available': '3.6.10.0', 'timeout': 60})
@@ -1698,6 +1708,52 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                     updater.worker(job)
                 preserve.assert_not_called()
                 self.assertEqual([command], commands)
+
+    def test_monster_subareas_are_stored_from_the_dump_on_dofus3_and_beta(self):
+        for key in ('dofus3', 'beta'):
+            with self.subTest(key=key):
+                command = ['python', 'store_monster_subareas.py', '--game-version', key, '--tag', '3.7.2.2']
+                module = SimpleNamespace(__file__='legacy.py')
+                def main():
+                    module.run_step('monster-subareas', command)
+                module.main = main
+                commands = []
+                def run(command, log, *args, **kwargs):
+                    commands.append(command)
+                    log.write_text('ok\n', encoding='utf-8')
+                    return {'exit_code': 0, 'log': str(log), 'seconds': .1}
+                job = self.root / key / 'job.json'
+                job.parent.mkdir()
+                updater.write_json(job, {'key': key, 'images': False, 'available': '3.7.2.2', 'timeout': 60})
+                with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
+                        mock.patch.object(updater, 'run_command', side_effect=run), \
+                        mock.patch.object(audit, 'preserve_table') as preserve, \
+                        mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
+                    updater.worker(job)
+                preserve.assert_not_called()
+                self.assertEqual([command], commands)
+
+    def test_both_pipelines_store_monster_subareas_from_the_dump_of_their_own_tag(self):
+        import update_data
+        import update_data_beta
+        for module, setter, key in ((update_data, 'set_version', 'dofus3'), (update_data_beta, 'set_beta_version', 'beta')):
+            with self.subTest(pipeline=module.__name__):
+                commands = {}
+                def run_step(label, command, cwd=None):
+                    commands[label] = [str(part) for part in command]
+                    return True, []
+                with mock.patch.object(module, 'run_step', side_effect=run_step), \
+                        mock.patch.object(module, setter, side_effect=lambda version: version), \
+                        mock.patch.object(module.sys, 'argv', ['pipeline', '--version', '3.7.4.4', '--skip-images']), \
+                        contextlib.redirect_stdout(io.StringIO()):
+                    module.main()
+                download = commands['spells/download']
+                filters = [download[index + 1] for index, part in enumerate(download) if part == '--filter']
+                self.assertIn('subareas.json', filters)
+                self.assertEqual(['store_monster_subareas.py', '--game-version', key, '--tag', '3.7.4.4'],
+                                 [Path(commands['monster-subareas'][1]).name] + commands['monster-subareas'][2:])
+                source = (Path(module.__file__)).read_text(encoding='utf-8')
+                self.assertNotIn('dofusdb_monster_subareas', source)
 
     def test_both_pipelines_store_monster_grades_from_their_own_tag(self):
         repo = Path(__file__).resolve().parents[2]

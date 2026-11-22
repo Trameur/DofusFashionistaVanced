@@ -14458,7 +14458,6 @@ class EncyclopediaMonsterPageTests(TestCase):
         for (name,) in touch_rows[:2]:
             self.assertIn(name, body)
 
-        # dofus3 locations come from DofusDB.
         conn = sqlite3.connect(get_items_db_path('dofus3'))
         try:
             d3_rows = conn.execute(
