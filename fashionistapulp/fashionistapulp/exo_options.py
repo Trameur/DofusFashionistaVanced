@@ -24,7 +24,7 @@ EXO_OPTIONS = (('ap', 'ap_exo'), ('mp', 'mp_exo'), ('range', 'range_exo'))
 # Without forgeable_items: the types a smithmagic skill works on
 FORGEABLE_TYPES = ('Hat', 'Cloak', 'Amulet', 'Ring', 'Belt', 'Boots')
 FORGEABLE_WEAPON_TYPES = ('hammer', 'axe', 'shovel', 'staff', 'sword', 'dagger',
-                          'bow', 'wand')
+                          'bow', 'wand', 'lance')
 
 
 def forgeable_type(type_name, weapon_key):

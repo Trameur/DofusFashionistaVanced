@@ -25,7 +25,7 @@ class TheTipSkipsPiecesThatTakeNoRuneTests(SimpleTestCase):
 
     def test_the_tip_keeps_the_forgeable_weapons(self):
         for weapon_key in ('hammer', 'axe', 'shovel', 'staff', 'sword',
-                           'dagger', 'bow', 'wand'):
+                           'dagger', 'bow', 'wand', 'lance'):
             with self.subTest(weapon_key=weapon_key):
                 self.assertIsNotNone(self._tip('Weapon', weapon_key))
 
