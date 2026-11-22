@@ -4,10 +4,13 @@
 from copy import deepcopy
 
 from fashionistapulp.dofus_constants import STATS_NAMES
+from fashionistapulp.exo_options import forgeable_type
 from fashionistapulp.model import TRANSCENDENCE_OPTION, ModelInput
 from fashionistapulp.transcendence import load_runes
+from fashionistapulp.transcendence_terms import rune_allowed_on
 
-from chardata.dracorune_fixtures import NOT_ASKED, OPTIONS, VERSION, bare, build_input, structure
+from chardata.dracorune_fixtures import (NOT_ASKED, OPTIONS, VERSION, bare, build_input, stat_id,
+                                         structure)
 
 
 def plain_piece(type_name, lines, number=0):
@@ -62,3 +65,66 @@ def trans_traces(model):
 def beta_rune(stat_key, rank):
     return next(rune for rune in load_runes(VERSION)
                 if rune['stat_key'] == stat_key and rune['rank'] == rank)
+
+
+def exo_input(weights, allowed, dracorunes=None, **exos):
+    """trans_input with these exo options, such as ap_exo=True or mp_exo='gelano'."""
+    model_input = trans_input(weights, allowed, dracorunes)
+    model_input.options = dict(model_input.options, **exos)
+    return model_input
+
+
+def exo_value(model, stat_key):
+    """The exo point the last solution counts on stat_key."""
+    return model.problem.pulp_vars['exo_%d' % stat_id(stat_key)].varValue
+
+
+def forgeable_weapon():
+    """A copy of the first setless weapon a smithmagic skill works on, with no line and no condition."""
+    found = structure()
+    item = next(item for item in sorted(found.get_available_items_list(), key=lambda one: one.id)
+                if found.get_type_name_by_id(item.type) == 'Weapon' and item.set is None
+                and forgeable_type('Weapon', item.weapon_key))
+    return bare(deepcopy(item), {})
+
+
+def _stat_keys():
+    return {rune['id']: rune['stat_key'] for rune in load_runes(VERSION)}
+
+
+def stat_runes(model, stat_key):
+    """The LP columns of the runes on stat_key, every class together."""
+    keys = _stat_keys()
+    return [model.problem.pulp_vars[name]
+            for name, (_number, rune_id) in sorted(model.transcendence_columns.items())
+            if keys[rune_id] == stat_key]
+
+
+def runes_on(model, stat_key):
+    """How many runes the last solution puts on stat_key."""
+    keys = _stat_keys()
+    return sum(1 for _number, rune_id in model.chosen_transcendences()
+               if keys[rune_id] == stat_key)
+
+
+def can_place(copy_kinds, demand):
+    """True when each rune of demand {stat: count} finds its own copy whose Dracorune kind leaves that stat alone."""
+    stats = sorted(demand)
+
+    def place(index, left):
+        if not any(left.values()):
+            return True
+        if index == len(copy_kinds):
+            return False
+        if place(index + 1, left):
+            return True
+        for stat in stats:
+            if left[stat] and rune_allowed_on(copy_kinds[index], stat):
+                left[stat] -= 1
+                found = place(index + 1, left)
+                left[stat] += 1
+                if found:
+                    return True
+        return False
+
+    return place(0, dict(demand))

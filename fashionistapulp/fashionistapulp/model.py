@@ -23,8 +23,8 @@ from copy import deepcopy
 
 from . import dracorune_terms, dracorunes, transcendence
 from .transcendence_terms import (TRANSCENDENCE_VERSIONS, class_key, class_runes,
-                                  copy_takes_rune, runes_by_stat)
-from .exo_options import exo_count
+                                  copy_takes_rune, dracorune_kind, hall_rows, runes_by_stat)
+from .exo_options import exo_count, forgeable_type
 from .game_versions import get_game_version
 from .item_effects import effect_term, load_effect_table
 from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
@@ -257,12 +257,14 @@ class Model:
             return
         carriers = set().union(*(getattr(self, '_exo_carriers', None) or {}).values())
         overed = getattr(self, '_overed_items', None) or set()
+        exo_gelano = self._exo_gelano_id()
         found = {}
         for item in self.items_list:
-            if not copy_takes_rune(self.structure.get_type_name_by_id(item.type),
-                                   getattr(item, 'weapon_key', None),
-                                   overed=item.id in overed, exo_carrier=item.id in carriers,
-                                   temporix=self.temporix):
+            if item.id == exo_gelano or not copy_takes_rune(
+                    self.structure.get_type_name_by_id(item.type),
+                    getattr(item, 'weapon_key', None),
+                    overed=item.id in overed, exo_carrier=item.id in carriers,
+                    temporix=self.temporix):
                 continue
             lines = {}
             for stat_id, value in item.stats:
@@ -1193,7 +1195,7 @@ class Model:
             self._dracorune_constraints.append(DRACORUNE_TOTAL)
 
     def _add_transcendence_terms(self, model_input):
-        """Up to N worn copies take a transcendence rune: per class of copies a column per rune it takes, T1 and the count row."""
+        """Up to N worn copies take a transcendence rune: per class of copies a column per rune it takes, the Hall rows T1 to T4, the exo rows and the count row."""
         count = transcendence_count(model_input.options)
         candidates = getattr(self, 'transcendence_candidates', None)
         by_stat = getattr(self, 'transcendence_runes', None)
@@ -1212,6 +1214,7 @@ class Model:
             key = class_key(by_stat, candidates[item_id], upper)
             if any(rank for _stat, rank in key):
                 classes.setdefault(key, []).append(item_id)
+        draconized = self._dracorune_columns_by_item()
         rows = self.restrictions.stat_total_constraints
         every = []
         for number, key in enumerate(sorted(classes)):
@@ -1235,10 +1238,12 @@ class Model:
                 class_columns.append((column, rune))
             if class_columns:
                 self.transcendence_classes[number] = list(members)
-                self._add_transcendence_class_rows(number, worn, class_columns)
+                self._add_transcendence_class_rows(
+                    number, worn, class_columns,
+                    [entry for item_id in members for entry in draconized.get(item_id, ())])
                 every.extend(class_columns)
         if every:
-            self._add_transcendence_global_rows(every, count)
+            self._add_transcendence_global_rows(every, count, wearable)
 
     def _transcendence_stats(self, context):
         """(U, L) as stat keys: the stats a rune may usefully raise, and those a bigger rune may overshoot."""
@@ -1249,16 +1254,91 @@ class Model:
         lowered = {stat_id for stat_id, weight in context.weights.items() if weight < 0}
         return keys(raised | context.lower), keys(lowered | context.upper)
 
-    def _add_transcendence_class_rows(self, number, worn, class_columns):
-        """T1: a class takes no more runes than its copies worn."""
-        self._add_transcendence_row(
-            pulp.lpSum(column for column, _rune in class_columns) - pulp.lpSum(worn) <= 0,
-            '%s_t1_%d' % (TRANSCENDENCE_PREFIX, number))
+    def _exo_gelano_id(self):
+        """Id of Gelano (#1), whose MP line is the build's MP exo, None without it."""
+        gelano = self.structure.get_item_by_name('Gelano (#1)')
+        return None if gelano is None else gelano.id
 
-    def _add_transcendence_global_rows(self, columns, count):
-        """The build takes at most count runes."""
+    def _presence(self, item_id):
+        """The p column of an item."""
+        return self.problem.pulp_vars['p_%s' % str(item_id).replace('-', '_')]
+
+    def _dracorune_columns_by_item(self):
+        """{item id: [(column, kind)]} of the Dracorune columns the setup kept."""
+        found = {}
+        for name, (item_id, key) in getattr(self, 'dracorune_columns', {}).items():
+            found.setdefault(item_id, []).append((self.problem.pulp_vars[name], dracorune_kind(key)))
+        return found
+
+    def _add_transcendence_class_rows(self, number, worn, class_columns, draconized=()):
+        """T1 to T4: the runes a Dracorune kind blocks fit on the class copies that kind leaves alone."""
+        for row, blocked, kinds in hall_rows():
+            runes = [column for column, rune in class_columns
+                     if blocked is None or rune['stat_key'] in blocked]
+            taken = [column for column, kind in draconized if kind in kinds]
+            if not runes or (blocked is not None and not taken):
+                continue
+            self._add_transcendence_row(
+                pulp.lpSum(runes + taken) - pulp.lpSum(worn) <= 0,
+                '%s_%s_%d' % (TRANSCENDENCE_PREFIX, row.lower(), number))
+
+    def _add_transcendence_global_rows(self, columns, count, wearable):
+        """The count row, at most one AP, MP or range from exos, the exo Gelano and runes, and a piece for each rune and counted exo."""
         self._add_transcendence_row(
             pulp.lpSum(column for column, _rune in columns) <= count, TRANSCENDENCE_TOTAL)
+        exos = {stat.key: self.problem.pulp_vars['exo_%s' % stat.id]
+                for stat in self.stats_list if stat.key in self._EXO_STAT_KEYS}
+        for key in sorted(exos):
+            on_stat = [column for column, rune in columns if rune['stat_key'] == key]
+            if on_stat:
+                self._add_transcendence_row(exos[key] + pulp.lpSum(on_stat) <= 1,
+                                            '%s_cap_%s' % (TRANSCENDENCE_PREFIX, key))
+        gelano = self._exo_gelano_id()
+        on_mp = [column for column, rune in columns if rune['stat_key'] == 'mp']
+        if on_mp and any(item.id == gelano for item in wearable):
+            self._add_transcendence_row(self._presence(gelano) + pulp.lpSum(on_mp) <= 1,
+                                        '%s_gelano' % TRANSCENDENCE_PREFIX)
+        self._add_transcendence_pieces_row(columns, exos, wearable)
+
+    def _add_transcendence_pieces_row(self, columns, exos, wearable):
+        """Runes and counted exos fit on the free forgeable copies worn, a worn exo carrier holding its own exo."""
+        carriers = getattr(self, '_exo_carriers', None) or {}
+        overed = getattr(self, '_overed_items', None) or set()
+        holding = set().union(*carriers.values()) if carriers else set()
+        worn_ids = {item.id for item in wearable}
+        counted = []
+        held = []
+        for key in sorted(exos):
+            restriction = self.restrictions.exo_constraints.get(key)
+            holders = [self._presence(item_id) for item_id in sorted(carriers.get(key, ()))
+                       if item_id in worn_ids]
+            if restriction is None or (-restriction.constant <= 0 and not holders):
+                continue
+            counted.append(exos[key])
+            if holders:
+                held.append(self._add_held_exo(key, exos[key], holders))
+        if not counted:
+            return
+        gelano = self._exo_gelano_id()
+        room = [self.problem.pulp_vars['x_%s' % str(item.id).replace('-', '_')] for item in wearable
+                if forgeable_type(self.structure.get_type_name_by_id(item.type),
+                                  getattr(item, 'weapon_key', None))
+                and item.id not in overed and item.id not in holding and item.id != gelano]
+        self._add_transcendence_row(
+            pulp.lpSum([column for column, _rune in columns] + counted)
+            - pulp.lpSum(held + room) <= 0,
+            '%s_pieces' % TRANSCENDENCE_PREFIX)
+
+    def _add_held_exo(self, key, exo, holders):
+        """A column for the stat's exo when a worn carrier holds it, which takes no free piece."""
+        name = '%s_held_%s' % (TRANSCENDENCE_PREFIX, key)
+        column = pulp.LpVariable(name, 0, 1, pulp.LpInteger)
+        self.problem.pulp_vars[name] = column
+        self._transcendence_variables.append(name)
+        self._add_transcendence_row(column - exo <= 0, '%s_held_%s_exo' % (TRANSCENDENCE_PREFIX, key))
+        self._add_transcendence_row(column - pulp.lpSum(holders) <= 0,
+                                    '%s_held_%s_worn' % (TRANSCENDENCE_PREFIX, key))
+        return column
 
     def _add_transcendence_row(self, constraint, name):
         self.problem.pulp_lp.addConstraint(constraint, name)
