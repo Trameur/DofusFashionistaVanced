@@ -52,6 +52,13 @@ def _shipped():
         return json.load(handle)
 
 
+def _database_pieces(connection):
+    rows = connection.execute(
+        """SELECT s.ankama_id, COUNT(i.id) FROM sets s
+           LEFT JOIN items i ON i.item_set = s.id GROUP BY s.id""").fetchall()
+    return dict(rows)
+
+
 def _database_bonuses(connection):
     rows = connection.execute(
         """SELECT s.ankama_id, b.num_pieces_used, st.name, b.value
@@ -74,17 +81,20 @@ class EachRetroSetBonusComesFromTheItemsetsLangFileTests(SimpleTestCase):
         entries, _unmapped = _decoder().decode_sets(*roots)
         self.assertEqual(entries, _shipped())
 
-    def test_the_database_holds_the_lines_the_transform_reads(self):
+    def test_the_database_holds_each_line_the_pieces_of_its_set_can_reach(self):
         connection = _database()
         if connection is None:
             self.skipTest('no retro database')
         try:
             stored = _database_bonuses(connection)
+            pieces = _database_pieces(connection)
         finally:
             connection.close()
         wanted = {}
         for ankama_id, _names, stats_list in _transform().load_set_bonuses(SHIPPED):
             for tier in stats_list:
+                if tier['effect_key'] > min(pieces.get(ankama_id, 0), 9):
+                    continue
                 for value, _same, stat in tier['effects']:
                     wanted.setdefault(ankama_id, {}).setdefault(
                         tier['effect_key'], {})[stat] = value
@@ -105,16 +115,34 @@ class EachRetroSetBonusComesFromTheItemsetsLangFileTests(SimpleTestCase):
             sorted(t for t in types if transform._map_set_stat(t) != t), [])
         self.assertEqual(sorted(types - known), [])
 
-    def test_every_set_in_the_database_has_a_bonus(self):
+    def test_every_set_with_a_piece_in_the_database_has_a_bonus(self):
         connection = _database()
         if connection is None:
             self.skipTest('no retro database')
         try:
-            ids = {row[0] for row in connection.execute('SELECT ankama_id FROM sets')}
+            ids = {aid for aid, count in _database_pieces(connection).items() if count}
             stored = set(_database_bonuses(connection))
         finally:
             connection.close()
         self.assertEqual(sorted(ids - stored), [])
+
+    def test_a_set_no_lang_file_carries_a_piece_of_keeps_its_row_and_no_bonus(self):
+        tier = {'effect_key': 2, 'effects': [[5, 5, 'Vitality']]}
+        _equipment, sets = _transform().build(
+            {'u': {}}, {'7': {'n': 'Paniop', 'i': [11041, 11042]}},
+            set_bonuses=[(7, frozenset(), [tier])])
+        self.assertEqual([(s['ankama_id'], s['equipment_ids'], s['stats_list']) for s in sets],
+                         [(7, [11041, 11042], [])])
+
+    def test_a_set_takes_no_tier_above_the_pieces_the_lang_files_carry(self):
+        tiers = [{'effect_key': n, 'effects': [[n, n, 'Vitality']]} for n in (2, 3)]
+        items = {'u': {'100': {'n': 'Hat', 't': 16, 'l': 50},
+                       '102': {'n': 'Amulet', 't': 1, 'l': 60},
+                       '200': {'n': 'Rune', 't': 78, 'l': 1}}}
+        _equipment, sets = _transform().build(
+            items, {'7': {'n': 'a', 'i': [100, 102, 200, 999]}},
+            set_bonuses=[(7, frozenset(), tiers)])
+        self.assertEqual(sets[0]['stats_list'], tiers[:1])
 
     def test_a_line_with_no_stat_is_one_the_item_decoder_drops(self):
         roots = _raw_roots()

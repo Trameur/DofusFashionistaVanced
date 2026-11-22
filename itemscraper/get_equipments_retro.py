@@ -395,6 +395,12 @@ def mage_item_types(skills_root):
             if isinstance(skill, dict) and 'f' in skill}
 
 
+def worn_pieces(equipment_ids, items):
+    """Members of a set that a lang file carries as a piece the site models."""
+    return [i for i in equipment_ids if isinstance(items.get(str(i)), dict)
+            and str(items[str(i)].get('t')) in TYPE_MAP]
+
+
 def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
           set_names_by_lang=None, spell_names_by_lang=None, mage_types=None):
     items = items_root['u']
@@ -472,7 +478,7 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
         equipment_ids = [int(x) for x in sd['i']]
         lang_item_names = {item_name_by_id.get(str(i), '') for i in sd['i']}
         lang_item_names.discard('')
-        max_pieces = min(len(equipment_ids), 9)
+        max_pieces = min(len(worn_pieces(equipment_ids, items)), 9)
         stats_list = [t for t in _match_set_bonuses(lang_item_names, set_bonuses,
                                                     set_ankama_id)
                       if t['effect_key'] <= max_pieces]
