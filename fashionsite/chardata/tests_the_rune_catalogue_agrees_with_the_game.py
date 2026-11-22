@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The transcendence rune catalogue matches the Dofus 2.73 client."""
+"""The transcendence rune tables match the Dofus 2.73 client and the game dumps."""
 
 import io
 import json
@@ -9,8 +9,10 @@ import re
 from django.test import SimpleTestCase, TestCase
 from django.utils.translation import override
 
-# Runes per rank
+# Runes per rank on Dofus 3 and Dofus 2; the Beta adds two Ta and two Gata
 _RANGS_ATTENDUS = {'Ta': 36, 'Pata': 25, 'Rata': 20}
+_RANGS_DE_LA_BETA = {'Ta': 38, 'Pata': 25, 'Rata': 20, 'Gata': 2}
+_RUNES_PAR_VERSION = {'dofus3': 81, 'beta': 85, 'dofus2': 81}
 
 # Names Touch would carry if it had transcendence
 _MARQUEURS = ('Rune Ta ', 'Rune Pata', 'Rune Rata')
@@ -27,23 +29,22 @@ def _racine_depot():
         os.path.abspath(__file__))))
 
 
-def _catalogue():
-    chemin = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                          'forgemagie_transcendance.json')
+def _table(version):
+    chemin = os.path.join(_racine_depot(), 'fashionistapulp',
+                          'fashionistapulp', 'transcendence',
+                          '%s.json' % version)
     with io.open(chemin, encoding='utf-8') as f:
         return json.load(f)
 
 
-def _source_du_scraper():
-    chemin = os.path.join(_racine_depot(), 'scripts',
-                          'scrape_transcendance_runes.py')
-    with io.open(chemin, encoding='utf-8') as f:
-        return f.read()
+def _runes(version):
+    from fashionistapulp.transcendence import load_runes
+    return load_runes(version)
 
 
-def _rangs_du_catalogue():
+def _rangs_du_catalogue(version):
     rangs = {}
-    for rune in _catalogue()['runes']:
+    for rune in _runes(version):
         rangs[rune['rank_label']] = rangs.get(rune['rank_label'], 0) + 1
     return rangs
 
@@ -67,8 +68,12 @@ def _rangs_du_client_dofus2():
 class TheCatalogueAgreesWithAnkamasOwnClientTests(SimpleTestCase):
 
     def test_the_catalogue_splits_the_ranks_the_way_it_was_measured(self):
-        self.assertEqual(_RANGS_ATTENDUS, _rangs_du_catalogue())
-        self.assertEqual(81, len(_catalogue()['runes']))
+        for version in ('dofus3', 'dofus2'):
+            with self.subTest(version=version):
+                self.assertEqual(_RANGS_ATTENDUS, _rangs_du_catalogue(version))
+                self.assertEqual(81, len(_runes(version)))
+        self.assertEqual(_RANGS_DE_LA_BETA, _rangs_du_catalogue('beta'))
+        self.assertEqual(85, len(_runes('beta')))
 
     def test_ankamas_own_client_names_exactly_the_same_runes(self):
         self.assertEqual(_RANGS_ATTENDUS, _rangs_du_client_dofus2())
@@ -78,7 +83,11 @@ class TheCatalogueAgreesWithAnkamasOwnClientTests(SimpleTestCase):
         chemin = os.path.join(_racine_depot(), 'itemscraper', 'raw',
                               '2.73.3.14', 'fr.json')
         self.assertTrue(os.path.exists(chemin), 'the 2.73 text table is gone')
-        self.assertIn('DofusDB', _catalogue()['source'])
+        for version in _RUNES_PAR_VERSION:
+            donnees = _table(version)
+            self.assertEqual(len(donnees['runes']), donnees['count'], version)
+            self.assertNotIn('dofusdb', json.dumps(donnees).lower(), version)
+        self.assertEqual('2.73.3.14', _table('dofus2')['source_tag'])
 
 
 class OnlyTheVersionsWithTheMechanicOfferItTests(SimpleTestCase):
@@ -101,7 +110,7 @@ class OnlyTheVersionsWithTheMechanicOfferItTests(SimpleTestCase):
         offertes = {}
         for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu'):
             offertes[version] = len(get_transcendence_runes(version))
-        self.assertEqual({'dofus3': 81, 'beta': 81, 'dofus2': 81,
+        self.assertEqual({'dofus3': 81, 'beta': 85, 'dofus2': 81,
                           'touch': 0, 'retro': 0, 'wakfu': 0}, offertes)
 
 
@@ -127,17 +136,18 @@ class TheRunesTakeTheNameTheReadersClientGivesThemTests(SimpleTestCase):
 
     def test_the_catalogue_carries_a_name_in_every_language(self):
         vides = [(rune['id'], langue)
-                 for rune in _catalogue()['runes']
+                 for version in _RUNES_PAR_VERSION
+                 for rune in _runes(version)
                  for langue in LANGUES_JEU
-                 if not (rune.get('name') or {}).get(langue)]
+                 if not (rune.get('names') or {}).get(langue)]
         self.assertFalse(vides, 'runes with a missing name: %s' % vides[:6])
 
     def test_ankamas_own_client_confirms_all_four_hundred_and_five(self):
         ankama = self._noms_ankama()
         self.assertEqual(81, len(ankama))
         desaccords, verifies = [], 0
-        for rune in _catalogue()['runes']:
-            noms = rune['name']
+        for rune in _runes('dofus2'):
+            noms = rune['names']
             chez_ankama = ankama.get(noms['fr'])
             self.assertIsNotNone(
                 chez_ankama, 'Ankama does not name %s' % noms['fr'])
@@ -152,8 +162,9 @@ class TheRunesTakeTheNameTheReadersClientGivesThemTests(SimpleTestCase):
                          % desaccords[:4])
 
     def test_every_rune_is_renamed_by_the_game_in_every_language(self):
-        pareils = [rune['name']['fr'] for rune in _catalogue()['runes']
-                   if len(set(rune['name'][l] for l in LANGUES_JEU)) == 1]
+        pareils = [rune['names']['fr'] for version in _RUNES_PAR_VERSION
+                   for rune in _runes(version)
+                   if len(set(rune['names'][l] for l in LANGUES_JEU)) == 1]
         self.assertFalse(
             pareils,
             'these runes carry one name in all five languages, so translating '
@@ -161,15 +172,16 @@ class TheRunesTakeTheNameTheReadersClientGivesThemTests(SimpleTestCase):
 
     def test_the_rank_is_read_in_french_because_it_is_a_key(self):
         """Spanish ranks are Ta/Buta/Suta."""
-        source = _source_du_scraper()
-        self.assertIn('.get("fr")', source)
+        rangs = set(rune['rank_label'] for version in _RUNES_PAR_VERSION
+                    for rune in _runes(version))
+        self.assertEqual({'Ta', 'Pata', 'Rata', 'Gata'}, rangs)
         espagnols = set()
-        for rune in _catalogue()['runes']:
-            morceaux = rune['name']['es'].split()
+        for rune in _runes('dofus3'):
+            morceaux = rune['names']['es'].split()
             if len(morceaux) > 1:
                 espagnols.add(morceaux[1])
         self.assertTrue(
-            espagnols - set(_RANGS_ATTENDUS),
+            espagnols - rangs,
             'Spanish now uses the French rank words, so this reason is stale')
 
 
@@ -186,8 +198,8 @@ class ThePagesNameTheRuneInTheReadersLanguageTests(TestCase):
 
     def test_the_workshop_serves_each_language_its_own_names(self):
         attendus = {}
-        for rune in _catalogue()['runes']:
-            attendus[rune['id']] = rune['name']
+        for rune in _runes('dofus3'):
+            attendus[rune['id']] = rune['names']
         vus = {}
         for langue in LANGUES_JEU:
             config = self._config(langue)
@@ -205,7 +217,7 @@ class ThePagesNameTheRuneInTheReadersLanguageTests(TestCase):
                     'the page still serves the French names to %s' % langue)
 
     def test_the_chip_says_the_stat_in_the_readers_language_too(self):
-        """The catalogue stores the stat label in French."""
+        """The tables carry no stat label: the page reads the site's own."""
         vus = {}
         for langue in LANGUES_JEU:
             config = self._config(langue)
@@ -243,8 +255,8 @@ class ThePagesNameTheRuneInTheReadersLanguageTests(TestCase):
 
     def test_an_unknown_language_falls_back_instead_of_showing_nothing(self):
         from chardata.forgemagie_transcendance import rune_name
-        rune = _catalogue()['runes'][0]
-        self.assertEqual(rune['name']['en'], rune_name(rune, 'it'))
-        self.assertEqual(rune['name']['fr'], rune_name({'name': {
-            'fr': rune['name']['fr']}}, 'it'))
+        rune = _runes('dofus3')[0]
+        self.assertEqual(rune['names']['en'], rune_name(rune, 'it'))
+        self.assertEqual(rune['names']['fr'], rune_name({'names': {
+            'fr': rune['names']['fr']}}, 'it'))
         self.assertEqual('', rune_name({}, 'en'))

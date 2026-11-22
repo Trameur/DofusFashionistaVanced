@@ -6,6 +6,7 @@ import os
 from django.test import SimpleTestCase
 
 from chardata.forgemagie_data import get_fm_stats
+from fashionistapulp import transcendence
 
 # The resource table's own type for a transcendence rune, not DofusDB's.
 TRANSCENDENCE_TYPE = 140
@@ -16,18 +17,24 @@ def repository_root():
     return get_fashionista_path()
 
 
+VERSION_FOLDERS = {'dofus3': '', 'beta': 'beta'}
+
+
 class TheTranscendenceRunesExist(SimpleTestCase):
 
     def setUp(self):
-        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                            'forgemagie_transcendance.json')
-        with open(path, encoding='utf-8') as handle:
-            self.data = json.load(handle)
+        self.tables = {}
+        for version in VERSION_FOLDERS:
+            path = os.path.join(transcendence.DEFAULT_FOLDER,
+                                '%s.json' % version)
+            with open(path, encoding='utf-8') as handle:
+                self.tables[version] = json.load(handle)
+        self.data = self.tables['dofus3']
         self.runes = self.data['runes']
 
-    def game_names(self):
+    def game_names(self, version='dofus3'):
         path = os.path.join(repository_root(), 'itemscraper',
-                            'all_resources_fr.json')
+                            VERSION_FOLDERS[version], 'all_resources_fr.json')
         if not os.path.exists(path):
             self.skipTest('%s not in this checkout' % path)
         with open(path, encoding='utf-8') as handle:
@@ -38,20 +45,29 @@ class TheTranscendenceRunesExist(SimpleTestCase):
                 and (item.get('type') or {}).get('id') == TRANSCENDENCE_TYPE}
 
     def test_the_page_names_no_rune_the_game_does_not_have(self):
-        game = self.game_names()
-        invented = sorted({r['name']['fr'] for r in self.runes} - game)
-        self.assertEqual([], invented,
-                         'the page would send a player looking for these on '
-                         'the market, and the game has no such rune')
+        for version, table in self.tables.items():
+            with self.subTest(version=version):
+                game = self.game_names(version)
+                invented = sorted({r['names']['fr'] for r in table['runes']}
+                                  - game)
+                self.assertEqual([], invented,
+                                 'the page would send a player looking for '
+                                 'these on the market, and the game has no '
+                                 'such rune')
 
     def test_no_transcendence_rune_is_left_out(self):
         """The other half: a rune missing from the page is a hole this catches."""
-        game = self.game_names()
-        missing = sorted(game - {r['name']['fr'] for r in self.runes})
-        self.assertEqual([], missing)
+        for version, table in self.tables.items():
+            with self.subTest(version=version):
+                game = self.game_names(version)
+                missing = sorted(game - {r['names']['fr']
+                                         for r in table['runes']})
+                self.assertEqual([], missing)
 
     def test_the_count_it_announces_is_the_count_it_holds(self):
-        self.assertEqual(self.data['count'], len(self.runes))
+        for version, table in self.tables.items():
+            with self.subTest(version=version):
+                self.assertEqual(table['count'], len(table['runes']))
 
     def test_every_stat_key_is_one_the_rest_of_the_tool_knows(self):
         known = set(get_fm_stats('dofus3'))

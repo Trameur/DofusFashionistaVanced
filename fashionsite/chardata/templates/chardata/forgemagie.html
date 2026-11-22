@@ -349,7 +349,7 @@
                         </td>
                         <td class="fm-cell-runes">
                             {% for rune in row.runes %}
-                            <span class="fm-ref-tier">{{ rune }}</span>
+                            <span class="fm-ref-tier">{{ rune.text }}{% if rune.notice %}<small class="fm-rune-notice">{{ rune.notice }}</small>{% endif %}</span>
                             {% endfor %}
                         </td>
                     </tr>
@@ -2064,6 +2064,12 @@
                 var label = document.createElement('span');
                 label.textContent = r.name + ' (+' + r.bonus + ' ' + entry.label +
                     ' · ' + weightWord + ')';
+                if (r.notice) {
+                    var note = document.createElement('small');
+                    note.className = 'fm-rune-notice';
+                    note.textContent = r.notice;
+                    label.appendChild(note);
+                }
                 opt.appendChild(label);
                 var blocked = session && !session.locked ? transcendenceBlock(r) : null;
                 if (session && !session.locked && blocked === null) {

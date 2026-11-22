@@ -28,32 +28,40 @@ def _dossier_chardata():
     return os.path.dirname(os.path.abspath(__file__))
 
 
+def _dossier_des_tables():
+    return os.path.join(
+        os.path.dirname(os.path.dirname(_dossier_chardata())),
+        'fashionistapulp', 'fashionistapulp', 'transcendence')
+
+
 def _fichiers_de_donnees():
-    """(relative path, content) for each shipped .json file."""
-    racine = _dossier_chardata()
+    """(relative path, content) for each shipped .json file, rune tables included."""
     trouve = []
-    for dossier, sous, fichiers in os.walk(racine):
-        sous[:] = [d for d in sous if d not in ('__pycache__', 'node_modules')]
-        for nom in fichiers:
-            if not nom.endswith('.json'):
-                continue
-            chemin = os.path.join(dossier, nom)
-            with io.open(chemin, encoding='utf-8', errors='replace') as f:
-                trouve.append((os.path.relpath(chemin, racine), f.read()))
+    depot = os.path.dirname(os.path.dirname(_dossier_chardata()))
+    for racine in (_dossier_chardata(), _dossier_des_tables()):
+        for dossier, sous, fichiers in os.walk(racine):
+            sous[:] = [d for d in sous
+                       if d not in ('__pycache__', 'node_modules')]
+            for nom in fichiers:
+                if not nom.endswith('.json'):
+                    continue
+                chemin = os.path.join(dossier, nom)
+                with io.open(chemin, encoding='utf-8', errors='replace') as f:
+                    trouve.append((os.path.relpath(chemin, depot), f.read()))
     return trouve
 
 
-def _catalogue_brut():
-    """The file as shipped, without the loader."""
-    chemin = os.path.join(_dossier_chardata(), 'forgemagie_transcendance.json')
+def _catalogue_brut(version='dofus3'):
+    """The table as shipped, without the loader."""
+    chemin = os.path.join(_dossier_des_tables(), '%s.json' % version)
     with io.open(chemin, encoding='utf-8') as f:
         return json.load(f)
 
 
-def _source_du_scraper():
+def _source_du_telechargeur():
     chemin = os.path.join(
         os.path.dirname(os.path.dirname(_dossier_chardata())),
-        'scripts', 'scrape_transcendance_runes.py')
+        'itemscraper', 'download_transcendence_icons.py')
     with io.open(chemin, encoding='utf-8') as f:
         return f.read()
 
@@ -63,9 +71,9 @@ class TheShippedDataNamesNoForeignHostTests(SimpleTestCase):
     def test_the_scan_actually_reads_the_shipped_data_files(self):
         vus = dict(_fichiers_de_donnees())
         self.assertIn(
-            'forgemagie_transcendance.json', vus,
-            'the scan no longer sees the file that carried the address, so it '
-            'guards nothing')
+            os.path.join('fashionistapulp', 'fashionistapulp', 'transcendence',
+                         'beta.json'), vus,
+            'the scan no longer sees the rune tables, so it guards nothing')
         self.assertGreaterEqual(
             len(vus), 12,
             'only %d data files found, down from the 14 measured on '
@@ -87,13 +95,16 @@ class TheShippedDataNamesNoForeignHostTests(SimpleTestCase):
 class TheRuneIconsAreMirroredLocallyTests(SimpleTestCase):
 
     def test_every_rune_in_the_catalogue_has_its_icon_on_disk(self):
-        runes = _catalogue_brut()['runes']
-        self.assertEqual(81, len(runes), 'the catalogue changed size')
         dossier = os.path.join(_dossier_chardata(), 'static', 'chardata',
                                'runes_transcendance')
-        manquantes = [r['icon_id'] for r in runes
-                      if not os.path.exists(
-                          os.path.join(dossier, '%d.webp' % r['icon_id']))]
+        manquantes = []
+        for version, taille in (('dofus3', 81), ('beta', 85), ('dofus2', 81)):
+            runes = _catalogue_brut(version)['runes']
+            self.assertEqual(taille, len(runes), 'the %s table changed size'
+                             % version)
+            manquantes += [r['icon_id'] for r in runes
+                           if not os.path.exists(
+                               os.path.join(dossier, '%d.webp' % r['icon_id']))]
         self.assertFalse(
             manquantes,
             'these runes are listed but their icon was never mirrored, so the '
@@ -101,7 +112,8 @@ class TheRuneIconsAreMirroredLocallyTests(SimpleTestCase):
 
     def test_the_catalogue_records_an_icon_id_and_no_address(self):
         """The loader builds the address from the id."""
-        runes = _catalogue_brut()['runes']
+        runes = [r for version in ('dofus3', 'beta', 'dofus2')
+                 for r in _catalogue_brut(version)['runes']]
         sans_id = [r['id'] for r in runes if not isinstance(
             r.get('icon_id'), int)]
         self.assertFalse(sans_id, 'runes with no usable icon_id: %s'
@@ -136,7 +148,8 @@ class TheForgemagiePageHandsOutOnlyOurOwnAddressesTests(TestCase):
                 _corps, config = self._config(version)
                 runes = [r for entree in config['transcendence'].values()
                          for r in entree['runes']]
-                self.assertEqual(81, len(runes), version)
+                self.assertEqual(85 if version == 'beta' else 81, len(runes),
+                                 version)
                 for rune in runes:
                     self.assertTrue(
                         rune['img'].endswith(
@@ -157,27 +170,35 @@ class TheForgemagiePageHandsOutOnlyOurOwnAddressesTests(TestCase):
                 self.assertFalse(config.get('transcendence'))
 
 
-class TheScraperCannotPutTheAddressBackTests(SimpleTestCase):
-    """The catalogue is regenerated by the scraper."""
+class TheIconsComeFromTheGameDataNotFromDofusDBTests(SimpleTestCase):
+    """The icons are fetched by itemscraper/download_transcendence_icons.py."""
 
-    def test_the_scraper_writes_no_address_into_the_catalogue(self):
-        source = _source_du_scraper()
-        self.assertIn('"icon_id": icon,', source)
-        self.assertNotIn('"img":', source)
+    def test_the_downloader_reads_the_dofusdude_resource_files_only(self):
+        source = _source_du_telechargeur()
+        self.assertIn('all_resources_en.json', source)
+        self.assertNotIn('dofusdb', source.lower())
+        self.assertNotIn('http://', source)
+        self.assertNotIn('https://', source)
 
-    def test_the_scraper_always_mirrors_the_icons(self):
-        """The scraper still names --images in a comment: look for the declaration."""
-        source = _source_du_scraper()
-        self.assertIn('    download_images(runes)', source)
-        self.assertNotIn('add_argument("--images"', source)
-        self.assertNotIn("add_argument('--images'", source)
-        self.assertIn('.webp', source)
+    def test_the_downloader_can_fetch_the_icons_again_and_writes_webp(self):
+        source = _source_du_telechargeur()
+        self.assertIn("'--replace'", source)
+        self.assertIn("'WEBP'", source)
 
 
 class TheCreditsSayWhatTheSiteTakesFromDofusDBTests(TestCase):
 
     # One translated phrase per language, not the brand name
     TEMOINS = {
+        'en': 'where monsters are found and their artwork for Dofus 3 and the Beta',
+        'fr': 'zones où trouver les monstres et leurs illustrations pour Dofus 3 et la Beta',
+        'es': 'zonas donde encontrar los monstruos y sus ilustraciones para Dofus 3 y la Beta',
+        'pt': 'zonas onde encontrar os monstros e as suas ilustrações para o Dofus 3 e o Beta',
+        'de': 'Fundorte und Illustrationen der Monster für Dofus 3 und die Beta',
+    }
+
+    # What the credit used to add, now that the runes come from the game files
+    ANCIENS = {
         'en': 'transcendence runes with their icons',
         'fr': 'runes de transcendance avec leurs icônes',
         'es': 'runas de trascendencia con sus iconos',
@@ -185,8 +206,8 @@ class TheCreditsSayWhatTheSiteTakesFromDofusDBTests(TestCase):
         'de': 'Transzendenzrunen mit ihren Symbolen',
     }
 
-    def test_the_about_page_credits_the_runes_in_five_languages(self):
-        manquants = []
+    def test_the_about_page_credits_only_the_monsters_in_five_languages(self):
+        manquants, restes = [], []
         for langue in LANGUES:
             reponse = self.client.get('/about/',
                                       headers={'accept-language': langue})
@@ -195,10 +216,15 @@ class TheCreditsSayWhatTheSiteTakesFromDofusDBTests(TestCase):
             self.assertIn('dofusdb.fr', corps, langue)
             if self.TEMOINS[langue] not in corps:
                 manquants.append(langue)
+            if self.ANCIENS[langue] in corps:
+                restes.append(langue)
         self.assertFalse(
             manquants,
-            'the credit never reached the page in these languages, so it '
-            'still names only the monsters: %s' % manquants)
+            'the credit never reached the page in these languages: %s'
+            % manquants)
+        self.assertFalse(
+            restes,
+            'the page still credits DofusDB for the runes in: %s' % restes)
 
     def test_the_five_languages_do_not_all_answer_in_english(self):
         """A fuzzy .po entry silently falls back to English."""

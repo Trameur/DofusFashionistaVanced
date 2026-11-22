@@ -11636,7 +11636,7 @@ class NoStatRuneTests(TestCase):
                     self.assertEqual(len(vit), 1)
                     # Ankama's English name is Tra Vit Rune
                     self.assertTrue(
-                        any('Tra Vit Rune' in cell
+                        any('Tra Vit Rune' in cell['text']
                             for cell in vit[0]['runes']),
                         vit[0]['runes'][:3])
                 else:
@@ -11648,21 +11648,17 @@ class TranscendenceCatalogueTests(SimpleTestCase):
 
     @classmethod
     def _runes(cls):
-        import json
-        import chardata
-        path = os.path.join(os.path.dirname(chardata.__file__),
-                            'forgemagie_transcendance.json')
-        with open(path, encoding='utf-8') as fh:
-            return json.load(fh)['runes']
+        from fashionistapulp.transcendence import load_runes
+        return load_runes('dofus3')
 
     def test_every_rune_carries_a_weight(self):
         runes = self._runes()
         self.assertEqual(len(runes), 81)
         self.assertEqual(
-            [r['name']['fr'] for r in runes if not r.get('weight')], [])
+            [r['names']['fr'] for r in runes if not r.get('weight')], [])
 
     def test_the_ladder_and_its_exceptions(self):
-        by_name = {r['name']['fr']: r for r in self._runes()}
+        by_name = {r['names']['fr']: r for r in self._runes()}
         expected = {
             'Rune Ta Vi': (50, 40), 'Rune Pata Vi': (75, 60),
             'Rune Rata Vi': (100, 80),
@@ -11675,6 +11671,22 @@ class TranscendenceCatalogueTests(SimpleTestCase):
                 rune = by_name[name]
                 self.assertEqual((rune['bonus'], rune['weight']),
                                  (bonus, weight))
+
+    def test_a_caller_that_edits_a_rune_never_changes_the_next_reader(self):
+        from chardata.forgemagie_transcendance import (
+            get_transcendence_by_stat, get_transcendence_runes)
+        first = get_transcendence_runes('dofus3')
+        first[0]['bonus'] = -1
+        first[0]['names']['fr'] = 'MUTATED'
+        first.pop()
+        again = get_transcendence_runes('dofus3')
+        self.assertEqual(81, len(again))
+        self.assertNotEqual(-1, again[0]['bonus'])
+        self.assertNotEqual('MUTATED', again[0]['names']['fr'])
+        grouped = get_transcendence_by_stat('dofus3', 'en')
+        grouped['vit']['runes'][0]['weight'] = -1
+        self.assertNotEqual(
+            -1, get_transcendence_by_stat('dofus3', 'en')['vit']['runes'][0]['weight'])
 
     def test_transcendence_stays_out_of_touch_and_retro(self):
         from chardata.forgemagie_transcendance import get_transcendence_runes
@@ -11721,7 +11733,7 @@ class TranscendenceAdviceTests(SimpleTestCase):
 
     def test_it_names_the_rune_the_build_values(self):
         rune = self._best({'vit': 1})
-        self.assertEqual((rune['name']['fr'], rune['bonus']),
+        self.assertEqual((rune['names']['fr'], rune['bonus']),
                          ('Rune Ta Vi', 50))
 
     def test_a_maxed_line_leaves_no_room_for_its_rune(self):
@@ -11730,11 +11742,11 @@ class TranscendenceAdviceTests(SimpleTestCase):
 
     def test_the_cap_picks_the_tier_that_still_fits(self):
         # 5 critical hits weigh 50, so Ta Cri (40) fits and Pata Cri (80) does not.
-        self.assertEqual(self._best({'ch': 1})['name']['fr'],
+        self.assertEqual(self._best({'ch': 1})['names']['fr'],
                          'Rune Ta Cri')
 
     def test_an_empty_line_takes_the_biggest_rune(self):
-        self.assertEqual(self._best({'str': 1})['name']['fr'],
+        self.assertEqual(self._best({'str': 1})['names']['fr'],
                          'Rune Rata Fo')
 
     def test_a_stat_the_build_ignores_is_never_suggested(self):

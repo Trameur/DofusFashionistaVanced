@@ -2370,6 +2370,7 @@ html.fm-modern .fm-page.tools-atelier .fm-sim-side{ gap:var(--fm-space-4); }
 html.fm-modern .fm-page.tools-atelier .fm-sim-history{ padding:var(--fm-space-2) var(--fm-space-3); background:var(--fm-surface); border:1px solid var(--fm-border); border-radius:var(--fm-radius-xs); }
 html.fm-modern .fm-page.tools-atelier .fm-sim-stop{ background:var(--fm-surface); }
 html.fm-modern .fm-page.tools-atelier .fm-ref-tier{ padding:1px 0; }
+html.fm-modern .fm-page.tools-atelier .fm-rune-notice{ display:block; font-size:.8em; opacity:1; color:var(--fm-muted); font-weight:400; }
 html.fm-modern .fm-page.tools-atelier .fm-how .fm-list{ padding-left:var(--fm-space-5); }
 html.fm-modern .fm-page.tools-atelier .fm-how{ column-width:420px; column-gap:var(--fm-space-6); }
 html.fm-modern .fm-page.tools-atelier .fm-how > .fm-section-title.big-text, html.fm-modern .fm-page.tools-atelier .fm-how > table, html.fm-modern .fm-page.tools-atelier .fm-how > .fm-table-wrapper{ column-span:all; }

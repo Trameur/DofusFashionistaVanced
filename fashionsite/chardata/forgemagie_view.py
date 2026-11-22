@@ -964,18 +964,9 @@ def _throwable_no_stat_runes(game_version, t):
             if rune['mageable'] and rune['weight']]
 
 
-def _localized_transcendence(by_stat, structure, language):
-    """Stat labels in the reader's language, the catalogue has them in French."""
-    for stat_key, entry in by_stat.items():
-        stat = structure.get_stat_by_key(stat_key)
-        if stat is not None:
-            entry['label'] = _localized_label(stat.name, language)
-    return by_stat
-
-
 def _build_transcendence_rows(structure, game_version, language, trans_t):
     """One row per stat a transcendence rune can raise, in reference order."""
-    by_stat = get_transcendence_by_stat(game_version, language)
+    by_stat = get_transcendence_by_stat(game_version, language, structure)
     if not by_stat:
         return []
     rows = []
@@ -983,16 +974,15 @@ def _build_transcendence_rows(structure, game_version, language, trans_t):
         entry = by_stat.get(stat_key)
         if entry is None:
             continue
-        stat = structure.get_stat_by_key(stat_key)
         rows.append({
             'key': stat_key,
-            'name': (_localized_label(stat.name, language) if stat is not None
-                     else entry['label']),
+            'name': entry['label'],
             'icon_url': _get_stat_icon_url(stat_key),
             'runes': [
-                '%s: +%d / %s' % (rune['name'], rune['bonus'],
-                                  trans_t['weight_word']
-                                  % _format_weight(rune['weight']))
+                {'text': '%s: +%d / %s' % (rune['name'], rune['bonus'],
+                                           trans_t['weight_word']
+                                           % _format_weight(rune['weight'])),
+                 'notice': rune['notice']}
                 for rune in entry['runes']
             ],
         })
@@ -1397,9 +1387,8 @@ def forgemagie(request):
             )
         },
         'noStatRunes': _throwable_no_stat_runes(game_version, t),
-        'transcendence': _localized_transcendence(
-            get_transcendence_by_stat(game_version, language), structure,
-            language),
+        'transcendence': get_transcendence_by_stat(game_version, language,
+                                                   structure),
         'transT': trans_t,
     }
 
