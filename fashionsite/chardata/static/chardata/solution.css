@@ -160,6 +160,12 @@
     vertical-align: top;
 }
 
+html:not(.fm-modern, .fm-enhanced) .solution-item-section-column .solution-item-expand-content {
+    width: 0;
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
 .solution-item-expand-header {
     width: 260px;
 }
