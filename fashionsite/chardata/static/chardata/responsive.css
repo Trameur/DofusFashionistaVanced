@@ -111,6 +111,7 @@
   .compare-link-input, .edit-item-long-input,
   .smart-build-input, input.big-text { width: 100% !important; }
   .pretty-input, .white-pretty-input { width: 100% !important; box-sizing: border-box; }
+  html:not(.fm-modern, .fm-enhanced) .pretty-input.exo-count-input, html.fm-enhanced .pretty-input.exo-count-input { width: 60px !important; }
   /* but small number inputs (base/min stats, weights) must stay compact */
   .stat-input { width: 46px !important; }
   .crits-table, .weight-stat-table {

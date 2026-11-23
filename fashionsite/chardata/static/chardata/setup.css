@@ -632,6 +632,16 @@ html.fm-modern .setup-more, html.fm-enhanced .setup-more {
     width: 56px;
 }
 
+@media (min-width: 768px) {
+    html:not(.fm-modern, .fm-enhanced) .setup-more-count:not(:has(.setup-more-icon)) {
+        align-items: baseline;
+    }
+
+    html:not(.fm-modern, .fm-enhanced) .setup-more-count:not(:has(.setup-more-icon)) > span {
+        flex: 0 1 15em;
+    }
+}
+
 .setup-more .setup-more-inline {
     display: flex;
     flex-wrap: wrap;

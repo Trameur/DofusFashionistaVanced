@@ -2718,6 +2718,7 @@ html.fm-modern .tunnel-atelier .fm-savebar .button-generic:focus-visible{ outlin
 @media (max-width:760px){
   html.fm-modern .tunnel-atelier .fm-savebar input.button-generic,
   html.fm-modern .tunnel-atelier .fm-savebar button.button-generic{ min-height:44px; }
+  html.fm-modern .tunnel-atelier .fm-savebar{ margin-inline:-16px; padding-inline:16px; }
 }
 
 /* Lock items */

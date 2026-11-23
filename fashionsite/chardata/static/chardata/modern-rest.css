@@ -1696,6 +1696,7 @@ html.fm-modern .tunnel-atelier .fm-savebar .button-generic:focus-visible{ outlin
 @media (max-width:760px){
   html.fm-modern .tunnel-atelier .fm-savebar input.button-generic,
   html.fm-modern .tunnel-atelier .fm-savebar button.button-generic{ min-height:44px; }
+  html.fm-modern .tunnel-atelier .fm-savebar{ margin-inline:-16px; padding-inline:16px; }
 }
 html.fm-modern .tunnel-inclusions{ display:grid; grid-template-columns:minmax(0,1fr); gap:var(--fm-space-3); align-content:start; }
 html.fm-modern .tunnel-inclusions > *{ min-width:0; margin-top:0; margin-bottom:0; }
