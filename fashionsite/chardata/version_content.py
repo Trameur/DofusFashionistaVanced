@@ -14,13 +14,14 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Tell whether a version's item page repeats the Dofus 3 one, by its data."""
+"""Tell whether a version's item page repeats the one it is compared with, by its data."""
 
 import hashlib
 import sqlite3
 import time
 
 from fashionistapulp.fashionista_config import get_items_db_path
+from fashionistapulp.game_versions import DEFAULT_VERSION, is_beta, main_of
 
 _TTL = 6 * 3600
 
@@ -107,13 +108,24 @@ def _cached_signatures(version):
     return signatures
 
 
+def _compared_with(game_version):
+    """The version a page is compared with: its game's main for a beta, else Dofus 3."""
+    try:
+        if is_beta(game_version):
+            return main_of(game_version)
+    except KeyError:
+        pass
+    return DEFAULT_VERSION
+
+
 def repeats_the_live_version(game_version, ankama_type, ankama_id):
-    """True when the page repeats the Dofus 3 one, picture included. False if unsure."""
-    if not game_version or game_version == 'dofus3':
+    """True when the page repeats its reference one (its main for a beta, else Dofus 3), picture included."""
+    if not game_version or game_version == DEFAULT_VERSION:
         return False
 
+    reference = _compared_with(game_version)
     key = (ankama_type, ankama_id)
-    live = _cached_signatures('dofus3').get(key)
+    live = _cached_signatures(reference).get(key)
     mine = _cached_signatures(game_version).get(key)
     if live is None or mine is None:
         return False
@@ -125,4 +137,12 @@ def repeats_the_live_version(game_version, ankama_type, ankama_id):
 
     from chardata.image_store import get_image_url
     return (get_image_url(type_name, name, game_version)
-            == get_image_url(live_type, live_name, 'dofus3'))
+            == get_image_url(live_type, live_name, reference))
+
+
+def canonical_version(game_version, ankama_type, ankama_id):
+    """The version whose page is the canonical one, following a beta to its main's."""
+    if repeats_the_live_version(game_version, ankama_type, ankama_id):
+        return canonical_version(_compared_with(game_version),
+                                 ankama_type, ankama_id)
+    return game_version

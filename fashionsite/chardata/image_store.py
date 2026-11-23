@@ -21,7 +21,7 @@ from django.conf import settings
 from django.contrib.staticfiles import finders
 
 from fashionistapulp.fashion_util import normalize_name, safe_icon_name
-from fashionistapulp.game_versions import get_game_version
+from fashionistapulp.game_versions import get_game_version, main_of
 from fashionistapulp.structure import get_current_game_version
 
 
@@ -90,9 +90,10 @@ def get_image_url(type, name, game_version=None, picture=None):
     # right and belongs to another game.
     if not get_game_version(game_version).dofus:
         if picture:
-            path = _PICTURE_PATH % (game_version, picture)
-            if _static_exists(path):
-                return path
+            for owner in dict.fromkeys((game_version, main_of(game_version))):
+                path = _PICTURE_PATH % (owner, picture)
+                if _static_exists(path):
+                    return path
         return RETRO_PLACEHOLDER
     type_dir = 'items' if type != 'Pet' else 'pets'
     base_name = _VARIANT_SUFFIX.sub('', name)
@@ -110,9 +111,18 @@ def get_image_url(type, name, game_version=None, picture=None):
         versioned_base = _icon_path(type_dir, base_name, game_version)
         if _static_exists(versioned_base):
             return versioned_base
+    main = main_of(game_version)
+    if main not in (game_version, 'dofus3'):
+        main_path = _icon_path(type_dir, name, main)
+        if _static_exists(main_path):
+            return main_path
+        if base_name != name:
+            main_base = _icon_path(type_dir, base_name, main)
+            if _static_exists(main_base):
+                return main_base
     # Beta/Dofus 2 items look like Dofus 3; Retro items are visually distinct, so a
     # Dofus 3 icon would show the wrong item.
-    if game_version == 'retro':
+    if main == 'retro':
         return RETRO_PLACEHOLDER
     if base_name != name and not _static_exists(dofus3_path):
         fallback = _icon_path(type_dir, base_name)

@@ -2799,13 +2799,10 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         variant_items=grouped_variants)
     weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
-    # Same data as the live version: canonical on dofus3
-    from chardata.version_content import repeats_the_live_version
-    canonical_version = game_version
-    if repeats_the_live_version(game_version,
-                                representative_item.ankama_type,
-                                representative_item.ankama_id):
-        canonical_version = 'dofus3'
+    from chardata.version_content import canonical_version as canonical_version_of
+    canonical_version = canonical_version_of(game_version,
+                                             representative_item.ankama_type,
+                                             representative_item.ankama_id)
 
     canonical_path = get_item_link(representative_item.ankama_type,
                                    representative_item.ankama_id, localized_name,
