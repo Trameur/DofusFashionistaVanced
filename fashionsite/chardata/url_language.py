@@ -22,6 +22,7 @@ from django.conf import settings
 from django.http import HttpResponsePermanentRedirect
 from django.middleware.locale import LocaleMiddleware
 from django.utils import translation
+from django.utils.cache import patch_vary_headers
 from django.utils.http import url_has_allowed_host_and_scheme
 
 from fashionistapulp.translation import SUPPORTED_LANGUAGES
@@ -238,6 +239,33 @@ def hreflang_alternates(request, canonical_url):
     return alternates
 
 
+PAGE_LANGUAGE_HEADER = 'HTTP_X_PAGE_LANGUAGE'
+
+
+def page_language_from_header(request):
+    """Language the calling page says it is in, when it is one we serve, else None."""
+    code = (request.META.get(PAGE_LANGUAGE_HEADER) or '').strip().lower()
+    if code in {lang for lang, _name in settings.LANGUAGES}:
+        return code
+    return None
+
+
+def negotiated_language(request):
+    """Language of an unprefixed url: the calling page's, else cookie then Accept-Language."""
+    language = page_language_from_header(request)
+    if language is not None:
+        return language
+    return translation.get_language_from_request(request, check_path=False)
+
+
+def activate_negotiated_language(request):
+    """Switches the thread to the language of an unprefixed url."""
+    language = negotiated_language(request)
+    if language and language != translation.get_language():
+        translation.activate(language)
+        request.LANGUAGE_CODE = translation.get_language()
+
+
 class PrefixOptionalLocaleMiddleware(LocaleMiddleware):
     """Negotiates the language on unprefixed urls (Django pins LANGUAGE_CODE)."""
 
@@ -246,22 +274,21 @@ class PrefixOptionalLocaleMiddleware(LocaleMiddleware):
         if translation.get_language_from_path(request.path_info):
             return None
 
-        language = translation.get_language_from_request(
-            request, check_path=False)
-        if language and language != translation.get_language():
-            translation.activate(language)
-            request.LANGUAGE_CODE = translation.get_language()
+        activate_negotiated_language(request)
         return None
+
+    def process_response(self, request, response):
+        response = super().process_response(request, response)
+        if not translation.get_language_from_path(request.path_info):
+            patch_vary_headers(response, ['X-Page-Language'])
+        return response
 
 
 def negotiate_language_for_unmatched_path(request):
     """Same as PrefixOptionalLocaleMiddleware, for a 404 (no process_view)."""
     if translation.get_language_from_path(request.path_info):
         return
-    language = translation.get_language_from_request(request, check_path=False)
-    if language and language != translation.get_language():
-        translation.activate(language)
-        request.LANGUAGE_CODE = translation.get_language()
+    activate_negotiated_language(request)
 
 
 class RestoreLanguageMiddleware(object):

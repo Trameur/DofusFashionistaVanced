@@ -69,7 +69,10 @@ def controls(version, chosen, stored, language=None):
             note = _('The game does not publish this rate: the site assumes '
                      '%(rate)d%%.') % {
                          'rate': weapon_forge.percent(version, kind, weapon_forge.STRONG)}
+        current = _current(stored, chosen, kind)
+        current_text = next((option['text'] for option in options
+                             if option['value'] == current), '')
         found.append({'kind': kind, 'label': str(KIND_LABELS[kind]),
-                      'current': _current(stored, chosen, kind),
+                      'current': current, 'current_text': current_text,
                       'options': options, 'note': note})
     return found

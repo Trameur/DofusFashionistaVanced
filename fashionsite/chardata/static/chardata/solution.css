@@ -351,6 +351,10 @@ html:not(.fm-modern, .fm-enhanced) .solution-item-section-column .solution-item-
     max-width: 100%;
 }
 
+.solution-weapon-forge-current {
+    display: none;
+}
+
 .solution-weapon-forge-note {
     font-size: 12px;
     opacity: 0.75;

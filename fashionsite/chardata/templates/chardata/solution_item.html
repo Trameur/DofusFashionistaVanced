@@ -61,6 +61,7 @@
                         <option value="{{ option.value }}"{% if option.value == control.current %} selected{% endif %}>{{ option.text }}</option>
                         {% endfor %}
                     </select>
+                    <div class="solution-weapon-forge-current" aria-hidden="true">{{ control.current_text }}</div>
                 </div>
                 {% if control.note %}<div class="solution-weapon-forge-note">{{ control.note }}</div>{% endif %}
                 {% endfor %}

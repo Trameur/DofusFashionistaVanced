@@ -660,6 +660,9 @@
 <script>    
         $.ajaxSetup({
           data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+          beforeSend: function(xhr, settings) {
+            if (!settings.crossDomain) { xhr.setRequestHeader('X-Page-Language', '{{ LANGUAGE_CODE|escapejs }}'); }
+          },
         });
 
     var ajaxloader = {{ajaxloader|default:"{}"|safe}};
