@@ -28,7 +28,8 @@ def _entrees():
     entrees = []
     for bloc in source.split('<div class="cl-entry">')[1:]:
         chaines = _TRANS.findall(bloc)
-        date, titre = chaines[0], chaines[2]
+        date = chaines[0]
+        titre = _TRANS.findall(bloc.split('cl-title">', 1)[1])[0]
         puces = _TRANS.findall(bloc.split('<ul>', 1)[1])
         entrees.append((date, titre, puces))
     return entrees
@@ -48,6 +49,7 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
         entrees = _entrees()
         self.assertEqual(NOUVEAU_MOIS, entrees[0][0])
         self.assertEqual(['A new look for the whole site',
+                          'Transcendence runes in the optimizer',
                           'Dofus 3 Beta 3.8 update',
                           'Dracorunes in the optimizer, and the Bellaphone class',
                           'Stronger builds, and a new way to start them'],
@@ -343,3 +345,18 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
         with io.open(path, encoding='utf-8') as handle:
             self.assertIn('Bellaphone', json.load(handle)['classes'])
         self.assertIn('Bellaphone', _CLASS_AVATAR_DIRS)
+
+    def test_the_transcendence_runes_are_offered_placed_exported_and_suggested(self):
+        from fashionistapulp.transcendence_terms import TRANSCENDENCE_VERSIONS
+        self.assertEqual(('dofus3', 'beta', 'dofus2'), TRANSCENDENCE_VERSIONS)
+        self.assertIn('transcendence_option.html', self._template('options.html'))
+        self.assertIn('transcendence_option.html', self._template('setup_more_options.html'))
+        self.assertIn('transcendence_rune_name', self._template('solution_item.html'))
+        self.assertIn('transcendence_rune.id', self._template('solution_item.html'))
+        from chardata import dofusbook_export
+        self.assertTrue(dofusbook_export.supports('dofus3'))
+        modele = self._template('changelog_content.html')
+        self.assertRegex(modele, r'\{% if build_sites\.dofusbook %\}\s*<li>\{% trans "Sending a Dofus 3 build to another build site carries their bonuses where it can\." %\}</li>\s*\{% endif %\}')
+        self.assertIn('transcendence', io.open(os.path.join(
+            settings.BASE_DIR, 'chardata', 'dofusbook_export_view.py'),
+            encoding='utf-8').read())

@@ -8438,6 +8438,26 @@ msgid "Dofus 3 Beta"
 msgstr ""
 
 #: chardata/templates/chardata/changelog_content.html
+msgid "Transcendence runes in the optimizer"
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Allow transcendence runes in the options and the optimizer puts them on the pieces where they help most."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "The build page names each rune worn."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Sending a Dofus 3 build to another build site carries their bonuses where it can."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "The Smithmagic button of a transcended piece opens the Smithmagic page with its rune already suggested."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_content.html
 msgid "A new look for the whole site"
 msgstr ""
 
