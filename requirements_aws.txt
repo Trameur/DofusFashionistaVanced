@@ -16,17 +16,17 @@
 
 asgiref==3.13.0
 beautifulsoup4==4.15.0
-boto3==1.44.1
-botocore==1.44.1
-certifi==2026.10.23
+boto3==1.44.9
+botocore==1.44.9
+certifi==2026.11.20
 cffi==2.1.1
-charset-normalizer==3.5.2
+charset-normalizer==3.5.3
 cryptography==50.0.2
 defusedxml==0.7.1
 django-htmlmin==0.11.0
 django-sslserver==0.22
 Django==6.1.3
-gunicorn==27.0.0
+gunicorn==27.0.1
 html5lib==1.1
 idna==3.20
 jmespath==1.1.0
@@ -44,9 +44,9 @@ requests-oauthlib==2.0.0
 requests==2.34.2
 s3transfer==0.19.3
 six==1.17.0
-social-auth-app-django==7.2.0
-social-auth-core==6.2.0
-soupsieve==4.1
+social-auth-app-django==8.1.0
+social-auth-core==7.2.0
+soupsieve==4.1.3
 sqlparse==0.6.1
 typing_extensions==4.16.0
 tzdata==2026.6

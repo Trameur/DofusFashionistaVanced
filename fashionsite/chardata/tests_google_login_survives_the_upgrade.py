@@ -147,7 +147,7 @@ class TheStateOfALogin(GoogleLogin):
     def test_a_state_just_inside_its_lifetime_still_works(self):
         state = self.begin()
         now = time.time()
-        with google_api(), mock.patch('social_core.backends.oauth.time.time', return_value=now + 1790):
+        with google_api(), mock.patch('social_core.backends.oauth._time', return_value=now + 1790):
             self.complete(state)
         self.assertIsNotNone(self.logged_in_user_id())
 
@@ -155,7 +155,7 @@ class TheStateOfALogin(GoogleLogin):
     def test_a_state_past_its_lifetime_signs_nobody_in(self):
         state = self.begin()
         now = time.time()
-        with google_api(), mock.patch('social_core.backends.oauth.time.time', return_value=now + 1810):
+        with google_api(), mock.patch('social_core.backends.oauth._time', return_value=now + 1810):
             response = self.complete(state)
         self.assertEqual(response.status_code, 302)
         self.assertIsNone(self.logged_in_user_id())
