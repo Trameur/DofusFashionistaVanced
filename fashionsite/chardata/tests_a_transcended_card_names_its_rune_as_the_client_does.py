@@ -53,14 +53,16 @@ class ATranscendedCardNamesItsRuneAsTheClientDoesTests(SimpleTestCase):
             with self.subTest(language=language):
                 piece, page = self.card('beta', rune, language)
                 self.assertEqual(rune['notice'][language], piece.transcendence_notice)
-                self.assertIn('id="transcendence-hat">%s %s<' % (
-                    escape(piece.transcendence_label), escape(rune['notice'][language])), page)
+                self.assertIn('id="transcendence-hat">%s<' % escape(piece.transcendence_label), page)
+                self.assertIn('id="transcendence-notice-hat">%s<' % escape(rune['notice'][language]),
+                              page)
 
     def test_a_rune_of_every_client_shows_no_notice(self):
         for version in VERSIONS:
             with self.subTest(version=version):
                 piece, page = self.card(version, rune_of_stat('vit', version), 'en')
                 self.assertIsNone(piece.transcendence_notice)
+                self.assertNotIn('id="transcendence-notice-hat"', page)
                 self.assertIn('id="transcendence-hat">%s<' % escape(piece.transcendence_label), page)
 
     def test_the_label_is_the_rune_name_a_colon_and_the_line_it_adds(self):

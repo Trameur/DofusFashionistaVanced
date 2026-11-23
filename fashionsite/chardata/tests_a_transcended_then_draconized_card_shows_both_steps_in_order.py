@@ -37,8 +37,10 @@ class ATranscendedThenDraconizedCardShowsBothStepsInOrderTests(BetaModelTestCase
         self.assertLess(rune_at, dracorune_at)
         self.assertIn('id="transcendence-hat">1. %s' % escape(piece.transcendence_label), page)
         self.assertIn('id="dracorune-hat">2. %s' % escape(piece.dracorune_label), page)
-        self.assertLess(page.index(ORDER_SENTENCE), dracorune_at)
-        self.assertGreater(page.index(ORDER_SENTENCE), rune_at)
+
+    def test_the_order_sentence_comes_before_both_steps(self):
+        _piece, page = self.card()
+        self.assertLess(page.index(ORDER_SENTENCE), page.index('id="transcendence-hat"'))
 
     def test_the_rune_alone_carries_no_number_and_no_order_sentence(self):
         piece, page = self.card(with_dracorune=False)

@@ -10004,8 +10004,10 @@ msgstr[1] "Build teórico: este set cuenta con %(count)s runas de trascendencia.
 
 #: chardata/templates/chardata/solution.html
 #, python-format
-msgid "Without these runes, these minimums fail: %(minimums)s"
-msgstr "Sin estas runas, estos mínimos no se cumplen: %(minimums)s"
+msgid "Minimums met only with this rune: %(minimums)s"
+msgid_plural "Minimums met only with these runes: %(minimums)s"
+msgstr[0] "Mínimos que solo se cumplen con esta runa: %(minimums)s"
+msgstr[1] "Mínimos que solo se cumplen con estas runas: %(minimums)s"
 
 #: chardata/transcendence_result.py
 msgid "Effective HP"

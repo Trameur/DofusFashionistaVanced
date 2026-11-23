@@ -62,8 +62,8 @@ class TheBannerNamesTheMinimumsTheRunesMeetTests(BetaModelTestCase):
     def totals(self, with_rune):
         return model_result_from_minimal(self.minimal(with_rune)).get_stats_total()
 
-    def render(self, facts):
-        with override('en'):
+    def render(self, facts, language='en'):
+        with override(language):
             return _banner_template().render(Context({'theoretical_build': facts}))
 
     def guarded(self, floor):
@@ -82,14 +82,23 @@ class TheBannerNamesTheMinimumsTheRunesMeetTests(BetaModelTestCase):
         page = self.render(one)
         self.assertIn('Theoretical build: this set counts 1 transcendence rune.', page)
         self.assertIn('class="solution-acquisition-summary"', page)
-        self.assertNotIn('Without these runes', page)
+        self.assertNotIn('Minimums met only with', page)
 
     def test_a_minimum_met_only_with_the_runes_is_named(self):
         self.minimums = {'Vitality': self.totals(False)['vit'] + 1}
         facts = self.banner(self.minimal())
         self.assertEqual(['Vitality'], facts['minimums'])
-        self.assertIn('Without these runes, these minimums fail: Vitality',
-                      self.render(facts))
+        self.assertIn('Minimums met only with this rune: Vitality', self.render(facts))
+
+    def test_the_minimums_line_agrees_with_the_number_of_runes(self):
+        for language, one, many in (
+                ('en', 'Minimums met only with this rune: Vitality',
+                 'Minimums met only with these runes: Vitality'),
+                ('fr', 'Minimums tenus seulement grâce à cette rune : Vitality',
+                 'Minimums tenus seulement grâce à ces runes : Vitality')):
+            with self.subTest(language=language):
+                self.assertIn(one, self.render({'count': 1, 'minimums': ['Vitality']}, language))
+                self.assertIn(many, self.render({'count': 2, 'minimums': ['Vitality']}, language))
 
     def test_a_minimum_met_either_way_is_not_named(self):
         self.minimums = {'Vitality': self.totals(False)['vit'], 'Wisdom': 99999}
