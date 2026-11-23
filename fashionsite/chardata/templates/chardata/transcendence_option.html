@@ -1,0 +1,17 @@
+{% load i18n %}
+{% if slots %}
+{% if as_row %}
+<div class="advanced-options-row" role="group" aria-labelledby="setup-more-transcendence">
+    <span id="setup-more-transcendence" class="advanced-options-name">{% trans "Transcendence runes allowed" %}</span>
+    <div class="advanced-options-field setup-more-field">
+{% else %}
+<div class="big-text" align="center">
+    <br>
+    <div class="brown-box" align="center">
+{% endif %}
+        {% if as_row %}<label class="setup-more-count"><span>{% trans "Pieces with a transcendence rune" %}</span><input class="pretty-input exo-count-input" type="number" name="transcendence" min="0" max="{{ slots }}" step="1" inputmode="numeric" value="{{ value|default:0 }}" autocomplete="off"></label>
+        {% else %}<label>{% trans "Pieces with a transcendence rune" %}<br><input class="pretty-input change-modifies-state exo-count-input" type="number" name="transcendence" min="0" max="{{ slots }}" step="1" inputmode="numeric" value="{{ value|default:0 }}" autocomplete="off"></label>{% endif %}
+        <p class="small-explain">{% trans "A transcendence rune adds a bonus to one stat of a piece. Allow some and the solver gives them to the pieces where they help most, never more than this number. This makes a theoretical build: the build page names each rune and the minimums that rely on them." %}</p>
+    </div>
+</div>
+{% endif %}

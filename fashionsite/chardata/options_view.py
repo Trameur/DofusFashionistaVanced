@@ -26,6 +26,7 @@ from chardata.options import get_options, set_options, DOFUS_OPTIONS,\
 from chardata.util import safe_int, set_response, get_char_or_raise, HttpResponseJson
 from django.views.decorators.http import require_POST
 from fashionistapulp.exo_options import EXO_OPTIONS
+from fashionistapulp.model import TRANSCENDENCE_OPTION
 from fashionistapulp.structure import get_structure
 from chardata.temporix_mode import temporix_window
 from chardata.views import forbidden
@@ -176,6 +177,10 @@ def parse_options_post(request, char=None):
     if count is not None:
         options['dracorunes'] = count
 
+    count = _posted_transcendence(request.POST, available.get('transcendence_slots'), char)
+    if count is not None:
+        options[TRANSCENDENCE_OPTION] = count
+
     return options
 
 
@@ -186,6 +191,17 @@ def _posted_dracorunes(post, slots, char):
     count = min(max(safe_int(post.get('dracorunes'), 0), 0), slots)
     stored = read_char_blob(char.options, {}, 'options', char) if char is not None and char.options else {}
     if count == 0 and 'dracorunes' not in stored:
+        return None
+    return count
+
+
+def _posted_transcendence(post, slots, char):
+    """The transcendence runes the build allows, None when nothing is to be stored: a build that never set the option keeps its options as they are."""
+    if not slots or TRANSCENDENCE_OPTION not in post:
+        return None
+    count = min(max(safe_int(post.get(TRANSCENDENCE_OPTION), 0), 0), slots)
+    stored = read_char_blob(char.options, {}, 'options', char) if char is not None and char.options else {}
+    if count == 0 and TRANSCENDENCE_OPTION not in stored:
         return None
     return count
 

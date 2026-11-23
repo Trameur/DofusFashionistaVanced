@@ -24,7 +24,9 @@ from django.utils.translation import gettext_lazy as _
 from fashionistapulp.exo_options import EXO_OPTIONS, forgeable_slot_count
 from fashionistapulp.game_versions import get_game_version
 from fashionistapulp.dracorunes import slot_count
-from fashionistapulp.model import dracorune_count, readable_runes
+from fashionistapulp.transcendence_terms import transcendence_slot_count
+from fashionistapulp.model import (dracorune_count, readable_runes, readable_transcendence_runes,
+                                    transcendence_count, TRANSCENDENCE_OPTION)
 from fashionistapulp.structure import get_structure
 from fashionistapulp.temporix import version_has_temporix
 from fashionistapulp.translation import get_supported_language
@@ -131,7 +133,9 @@ def get_available_options(structure=None):
     """Which dofuses, mounts and prysmaradite exist in the current game version, and how many runes it can take."""
     s = structure or get_structure()
     return dict(_cached_available_options(s),
-                dracorune_slots=slot_count(s.game_version, readable_runes(s.game_version)))
+                dracorune_slots=slot_count(s.game_version, readable_runes(s.game_version)),
+                transcendence_slots=(transcendence_slot_count(s.game_version)
+                                     if readable_transcendence_runes(s.game_version) else 0))
 
 
 def _cached_available_options(s):
@@ -194,6 +198,8 @@ def get_options(char):
     options.setdefault('temporix', False)
     if 'dracorunes' in options:
         options['dracorunes'] = dracorune_count(options)
+    if TRANSCENDENCE_OPTION in options:
+        options[TRANSCENDENCE_OPTION] = transcendence_count(options)
 
     exclusions = get_all_exclusions_en_names(char)
     dofus_opt = {}

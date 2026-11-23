@@ -4,6 +4,7 @@
 from fractions import Fraction
 from functools import lru_cache
 
+from .dofus_constants import SLOT_NAME_TO_TYPE, slots_for
 from .dracorunes import (ELEMENT_PAIRS, POWER_LINE, DAMAGE_LINE,
                          RESISTANCE_ELEMENTS)
 from .exo_options import forgeable_type
@@ -32,6 +33,14 @@ _BLOCKED_BY_KIND = {'element': ELEMENT_BLOCKED,
 def solver_takes_rune(type_name, weapon_key):
     """True when the solver may put a rune on a piece of this type (no weapons)."""
     return bool(forgeable_type(type_name, weapon_key)) and type_name != 'Weapon'
+
+
+def transcendence_slot_count(version):
+    """How many of the version's slots the solver may put a transcendence rune on, 0 outside TRANSCENDENCE_VERSIONS."""
+    if version not in TRANSCENDENCE_VERSIONS:
+        return 0
+    return sum(1 for slot in slots_for(version)
+               if solver_takes_rune(SLOT_NAME_TO_TYPE[slot], None))
 
 
 def copy_takes_rune(type_name, weapon_key, overed=False, exo_carrier=False,

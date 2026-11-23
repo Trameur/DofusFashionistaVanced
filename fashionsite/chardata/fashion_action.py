@@ -57,7 +57,10 @@ from chardata.util_views import error
 from chardata.weapon_terms import VERSIONS as WEAPON_HIT_VERSIONS, weapon_hit_terms
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp import lpproblem, temporix
-from fashionistapulp.model import Model, ModelInput, dracorune_count, readable_runes
+from fashionistapulp.model import (Model, ModelInput, TRANSCENDENCE_OPTION, dracorune_count,
+                                    readable_runes, readable_transcendence_runes,
+                                    transcendence_count)
+from fashionistapulp.transcendence_terms import transcendence_slot_count
 from fashionistapulp.model_pool import create_model, borrow_model, return_model
 from fashionistapulp.structure import get_current_game_version, get_structure
 
@@ -125,7 +128,17 @@ def get_options(request, char_id):
     locks = (valid_locks(options[LOCKS_KEY], get_inclusions_dict(char), char.game_version)
              if LOCKS_KEY in options else {})
     model_options.update(dracorune_model_option(options, char.game_version, locks))
+    model_options.update(transcendence_model_option(options, char.game_version))
     return model_options
+
+
+def transcendence_model_option(options, game_version):
+    """The transcendence runes a build allows, only when it allows some and the version offers them and can read its runes file."""
+    count = transcendence_count(options)
+    if (not count or not transcendence_slot_count(game_version)
+            or not readable_transcendence_runes(game_version)):
+        return {}
+    return {TRANSCENDENCE_OPTION: count}
 
 
 def dracorune_model_option(options, game_version, locks=None):

@@ -10,14 +10,16 @@ from chardata.setup_preview import MAX_LEVEL
 from chardata.wizard_view import HUNDRED
 from fashionistapulp.dofus_constants import max_scroll_for_version
 from fashionistapulp.exo_options import EXO_OPTIONS, exo_count
+from fashionistapulp.model import TRANSCENDENCE_OPTION
 from fashionistapulp.structure import get_structure
 
 GROUP_FIELD = 'setup_options'
-GROUPS = ('exos', 'dracorunes', 'mounts', 'dofus', 'scrolls', 'points', 'inventory')
+GROUPS = ('exos', 'dracorunes', 'transcendence', 'mounts', 'dofus', 'scrolls', 'points', 'inventory')
 EXO_FIELDS = tuple(option for _key, option in EXO_OPTIONS)
 MOUNT_FIELDS = ('dragoturkey', 'seemyool', 'rhineetle')
 DOFUS_GROUP_OPTIONS = ('prysmaradite', 'trophies')
 DRACORUNE_FIELD = 'dracorunes'
+TRANSCENDENCE_FIELD = TRANSCENDENCE_OPTION
 SCROLL_FIELD = 'scrolling'
 POINTS_FIELD = 'choose_stats'
 INVENTORY_FIELD = 'inventory_mode'
@@ -33,6 +35,8 @@ def _option_keys(group, available):
         return EXO_FIELDS
     if group == 'dracorunes':
         return (DRACORUNE_FIELD,) if available.get('dracorune_slots') else ()
+    if group == 'transcendence':
+        return (TRANSCENDENCE_FIELD,) if available.get('transcendence_slots') else ()
     if group == 'mounts':
         return tuple(name for name in MOUNT_FIELDS if available.get(name))
     if group == 'dofus':
@@ -134,12 +138,15 @@ def more_options_context(request, char, game_version):
         base['trophies'] = CHECKED
     if available.get('dracorune_slots'):
         base[DRACORUNE_FIELD] = '0'
+    if available.get('transcendence_slots'):
+        base[TRANSCENDENCE_FIELD] = '0'
     base[SCROLL_FIELD] = 'fully'
     distributed = Char._meta.get_field('allow_points_distribution').default
     base[POINTS_FIELD] = POINTS_FIELD if distributed else None
     folders = _folders(request, game_version)
     groups = [['exos', list(EXO_FIELDS)],
               ['dracorunes', list(_option_keys('dracorunes', available))],
+              ['transcendence', list(_option_keys('transcendence', available))],
               ['mounts', list(_option_keys('mounts', available))],
               ['dofus', [entry['key'] for entry in dofuses] + list(_option_keys('dofus', available))],
               ['scrolls', [SCROLL_FIELD]],
@@ -155,6 +162,7 @@ def more_options_context(request, char, game_version):
             'exo_slots': available['exo_slots'],
             'gelano': available['gelano'],
             'dracorune_slots': available.get('dracorune_slots', 0),
+            'transcendence_slots': available.get('transcendence_slots', 0),
             'mounts': _option_keys('mounts', available),
             'dofuses': dofuses,
             'prysmaradite': available['prysmaradite'],

@@ -9955,6 +9955,18 @@ msgstr "SIL Open Font License, versão 1.1"
 msgid "The fonts are hosted on this site, so your browser asks no other server for them."
 msgstr "As fontes ficam hospedadas neste site, então seu navegador não as pede a nenhum outro servidor."
 
+#: chardata/templates/chardata/transcendence_option.html
+msgid "Transcendence runes allowed"
+msgstr "Runas de transcendência permitidas"
+
+#: chardata/templates/chardata/transcendence_option.html
+msgid "Pieces with a transcendence rune"
+msgstr "Peças com uma runa de transcendência"
+
+#: chardata/templates/chardata/transcendence_option.html
+msgid "A transcendence rune adds a bonus to one stat of a piece. Allow some and the solver gives them to the pieces where they help most, never more than this number. This makes a theoretical build: the build page names each rune and the minimums that rely on them."
+msgstr "Uma runa de transcendência adiciona um bônus a uma característica de uma peça. Permita algumas: o solver as dá às peças em que mais ajudam, sem passar deste número. Isso gera um build teórico: a página do build nomeia cada runa e os mínimos que dependem delas."
+
 #: chardata/templates/chardata/dracorune_option.html
 msgid "Dracorunes allowed"
 msgstr "Dracorrunas permitidas"

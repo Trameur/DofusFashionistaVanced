@@ -35,6 +35,7 @@ function optionsInit(options) {
     });
 
     $('input[type=number][name=dracorunes]').val(exoCount(options.dracorunes));
+    $('input[type=number][name=transcendence]').val(exoCount(options.transcendence));
 
     var $apExoRadios = $('input:radio[name=ap_exo]');
     $apExoRadios.filter('[value=' + optionsBooleanToYesNo(options['ap_exo']) + ']')
