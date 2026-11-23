@@ -21,7 +21,7 @@ from chardata import export_count, fashionista_build, text_build_view
 from chardata.api_view import _api_endpoint, _absent, _json
 from chardata.fashionista_build import FormatError
 from chardata.util import get_char_or_raise, set_response, version_free_canonical
-from fashionistapulp.game_versions import version_keys
+from fashionistapulp.game_versions import get_game_version, version_keys
 
 VALIDATE_WINDOW = 600
 VALIDATE_PER_ADDRESS = 120
@@ -156,7 +156,7 @@ def send_a_build(request):
         path = _import_url(game).split('/import/build/')[0]
         examples.append({
             'game': game,
-            'label': 'Dofus Retro' if game == 'retro' else 'Dofus 3',
+            'label': get_game_version(game).game_name,
             'json': json.dumps(payload, indent=2, ensure_ascii=False),
             'link': '%s%s/import/build/?data=%s' % (
                 SITE_URL, '' if game == 'dofus3' else '/' + game, data),

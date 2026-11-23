@@ -36,6 +36,7 @@ from django.shortcuts import get_object_or_404
 from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy as _lazy
+from fashionistapulp.game_versions import main_game
 from fashionistapulp.reserved_filenames import safe_asset_stem
 from fashionistapulp.structure import get_current_game_version
 from fashionistapulp.translation import get_supported_language
@@ -119,7 +120,7 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                              '%s %s' % (piece['name'], piece['level'])
                              for piece in hors_niveau),
                          # Retro states a critical rate as the X of 1/X.
-                         'crit_is_fraction': game_version == 'retro',
+                         'crit_is_fraction': main_game(game_version) == 'retro',
                          'char_stats_json': stats_json,
                          'best_combo': _best_combo(char, solution, game_version),
                          'canonical_path': (
@@ -222,7 +223,7 @@ def _modifier_phrase(modifier, game_version):
         return '%s %d' % (_('Cooldown'), modifier.amount)
     if modifier.kind == 'critical':
         # Retro counts critical hits as the X of 1/X, not in percent
-        if game_version == 'retro':
+        if main_game(game_version) == 'retro':
             return '%s %s' % (value, _('crit'))
         return '%s%% %s' % (value, _('crit'))
     if modifier.kind == 'damage':
@@ -271,10 +272,15 @@ SPELL_ICON_LANGUAGE = {'dofus3': 'en', 'beta': 'en', 'dofus2': 'en',
 _shared_icon_names = {}
 
 
+def _icon_language(game_version):
+    """The language a version's spell icons are filed under: its own entry, then its main game's."""
+    return SPELL_ICON_LANGUAGE.get(game_version, SPELL_ICON_LANGUAGE.get(main_game(game_version), 'en'))
+
+
 def _shared_icon_name_keepers(game_version):
     """{name: lowest id} for the names several spells share; the others are filed as "<name> (<id>)"."""
     if game_version not in _shared_icon_names:
-        langue = SPELL_ICON_LANGUAGE.get(game_version, 'en')
+        langue = _icon_language(game_version)
         ids_by_name = {}
         for entries in get_spell_reference(game_version).values():
             for entry in entries or []:
@@ -296,7 +302,7 @@ def _spell_icon_name(name, spell_id, game_version):
 
 def _reference_icon_name(entry, shown_name, game_version=None):
     """The icon file's name, in the language that version files them under."""
-    langue = SPELL_ICON_LANGUAGE.get(game_version, 'en')
+    langue = _icon_language(game_version)
     name = localized(entry, 'name', langue) or shown_name
     return _spell_icon_name(name, entry.get('id'), game_version)
 
@@ -382,10 +388,10 @@ def _linked_spell_id(spell, game_version):
 def _localized_spell_name(name, language, game_version, spell_id=None):
     # Retro and Touch name maps are keyed by the French name
     version_names = None
-    if game_version == 'retro':
+    if main_game(game_version) == 'retro':
         from fashionistapulp.dofus_constants_retro_spells import RETRO_SPELL_NAMES
         version_names = RETRO_SPELL_NAMES
-    elif game_version == 'touch':
+    elif main_game(game_version) == 'touch':
         from fashionistapulp.dofus_constants_touch_spells import TOUCH_SPELL_NAMES
         version_names = TOUCH_SPELL_NAMES
     if version_names is not None:
@@ -576,7 +582,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'melee_note': _melee_note(stats),
             'item_effects_note': _item_effects_note([solution], game_version),
             'crit_failure_note': (str(_CRIT_FAILURE_NOTE)
-                                  if game_version == 'retro' else ''),
+                                  if main_game(game_version) == 'retro' else ''),
             'later': late,
             'later_total': montre_differe,
             'pushback': bool(pushback),
@@ -828,11 +834,11 @@ def _languages_left_english(game_version):
     """Languages whose spell names all equal the English ones."""
     if game_version in _NAMES_LEFT_ENGLISH:
         return _NAMES_LEFT_ENGLISH[game_version]
-    if game_version == 'touch':
+    if main_game(game_version) == 'touch':
         from fashionistapulp.dofus_constants_touch_spells import (
             TOUCH_SPELL_NAMES)
         table = TOUCH_SPELL_NAMES
-    elif game_version == 'retro':
+    elif main_game(game_version) == 'retro':
         from fashionistapulp.dofus_constants_retro_spells import (
             RETRO_SPELL_NAMES)
         table = RETRO_SPELL_NAMES

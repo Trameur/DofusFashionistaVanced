@@ -16,6 +16,8 @@
 
 """Smithmagic (forgemagie) rune data per game version."""
 
+from fashionistapulp.game_versions import main_game
+
 # Max over/exo weight on one stat, every version
 OVER_WEIGHT_CAP = 101
 
@@ -213,7 +215,7 @@ _STATS_BY_RULESET = {
 
 
 def get_ruleset(game_version):
-    return _RULESET_BY_VERSION.get(game_version, 'modern')
+    return _RULESET_BY_VERSION.get(main_game(game_version), 'modern')
 
 
 def get_one_percent_over_weight(game_version):

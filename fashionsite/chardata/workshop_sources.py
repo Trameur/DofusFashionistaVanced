@@ -19,6 +19,7 @@ from chardata.encyclopedia_view import (
 from chardata.item_sources import get_source_ankama_ids
 from chardata.official_site import get_monster_link
 from fashionistapulp.fashionista_config import get_items_db_path
+from fashionistapulp.game_versions import main_game
 
 MAX_SOURCE_KEYS_PER_REQUEST = 60
 MAX_MONSTERS_PER_RESOURCE = 3
@@ -171,7 +172,7 @@ def get_item_craft_jobs(item_ids, game_version, language):
         if conn is not None:
             conn.close()
 
-    hide_level = game_version in NO_LEVEL_VERSIONS
+    hide_level = main_game(game_version) in NO_LEVEL_VERSIONS
     items = {}
     by_job = {}
     for item_id, job_ankama_id, level, name_loc, name_en in rows:

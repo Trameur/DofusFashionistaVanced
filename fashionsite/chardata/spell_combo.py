@@ -32,6 +32,7 @@ from fashionistapulp.dofus_constants import (AIR, EARTH, FIRE, NEUTRAL,
                                              NON_ELEMENTAL_HIT_TYPES, WATER,
                                              Effects, Spell, calculate_damage,
                                              get_stat_maximum)
+from fashionistapulp.game_versions import main_game
 from fashionistapulp.structure import get_current_game_version
 
 from chardata.pushback import pushback_damage
@@ -57,6 +58,12 @@ ONLY_HITS_A_SUMMON = {
         198: 'punissant une invocation',   # Sadida, Sacrifice Poupesque
     },
 }
+
+
+def summon_only_spells(game_version):
+    """{spell id: words} of the spells that only hit a summon: the version's own entry, then its main game's."""
+    return ONLY_HITS_A_SUMMON.get(game_version, ONLY_HITS_A_SUMMON.get(main_game(game_version))) or {}
+
 
 # Spells whose pushback row ends their late rows, with the words of their description
 PUSH_ENDS_THE_LATE_ROWS = {
@@ -490,9 +497,9 @@ def crit_chance(base_rate, stats, game_version):
     if not base_rate or base_rate < 0:
         return 0.0
     bonus = stats.get('ch', 0) or 0
-    if game_version == 'retro':
+    if main_game(game_version) == 'retro':
         return 1.0 / retro_critical_x(base_rate, bonus, stats.get('agi', 0) or 0)
-    floor = 0 if game_version == 'dofus2' else 1
+    floor = 0 if main_game(game_version) == 'dofus2' else 1
     return min(100, max(floor, base_rate + bonus)) / 100.0
 
 
@@ -606,21 +613,21 @@ _DAMAGE_TAKEN_CACHE = {}
 
 def damage_taken_for_version(game_version):
     """{class: [DAMAGE_TAKEN entry]}; Retro carries none."""
-    if game_version == 'retro':
+    if main_game(game_version) == 'retro':
         return {}
     if game_version in _DAMAGE_TAKEN_CACHE:
         return _DAMAGE_TAKEN_CACHE[game_version]
-    if game_version == 'touch':
+    if main_game(game_version) == 'touch':
         from fashionistapulp.dofus_constants_touch_spells import \
             TOUCH_DAMAGE_TAKEN as DAMAGE_TAKEN
     elif game_version == 'beta':
         from fashionistapulp.dofus_constants_beta import DAMAGE_TAKEN
-    elif game_version == 'dofus2':
+    elif main_game(game_version) == 'dofus2':
         from fashionistapulp.dofus_constants_dofus2 import DAMAGE_TAKEN
     else:
         from fashionistapulp.dofus_constants import DAMAGE_TAKEN
     kept = DAMAGE_TAKEN
-    if game_version == 'dofus2':
+    if main_game(game_version) == 'dofus2':
         # Like its DAMAGE_SPELLS: only the spells a Dofus 2 player can still cast
         from chardata.spell_reference import get_spell_reference
         reference = get_spell_reference('dofus2') or {}
@@ -682,12 +689,12 @@ _HP_SHARE_CACHE = {}
 
 def hp_share_hits_for_version(game_version):
     """{class: {spell id: HP_SHARE_HITS entry}}; Retro and Touch carry none."""
-    if game_version in ('retro', 'touch'):
+    if main_game(game_version) in ('retro', 'touch'):
         return {}
     if game_version not in _HP_SHARE_CACHE:
         if game_version == 'beta':
             from fashionistapulp import dofus_constants_beta as constants
-        elif game_version == 'dofus2':
+        elif main_game(game_version) == 'dofus2':
             from fashionistapulp import dofus_constants_dofus2 as constants
         else:
             from fashionistapulp import dofus_constants as constants
@@ -764,7 +771,7 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     by_class = get_damage_spells_for_version(game_version)
     pushing = pushing_spell_ids(game_version)
     spells = by_class.get(char_class, [])
-    summon_only = ONLY_HITS_A_SUMMON.get(game_version) or {}
+    summon_only = summon_only_spells(game_version)
     taken_by_id = {entry['spell_id']: entry for entry in
                    damage_taken_for_version(game_version).get(char_class, [])}
     hp_share_by_id = hp_share_hits_for_version(game_version).get(char_class, {})

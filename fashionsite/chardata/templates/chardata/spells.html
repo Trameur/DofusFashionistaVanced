@@ -209,7 +209,7 @@
     // percentage.
     var CRIT_IS_FRACTION = {{ crit_is_fraction|yesno:"true,false" }};
     // Same floor as spell_combo.crit_chance
-    var CRIT_FLOOR_PERCENT = {% if current_game_version == 'dofus2' %}0{% else %}1{% endif %};
+    var CRIT_FLOOR_PERCENT = {% if current_main_version == 'dofus2' %}0{% else %}1{% endif %};
 
     function hpShareLines(spell, isCrit, rank) {
         var block = spell.hp_share && spell.hp_share[isCrit ? 'critical' : 'normal'];

@@ -600,7 +600,7 @@
             {% stat_name "Power" as Power %}
             {% include "chardata/solution_stat_line.html" with stat_name=Power stat_key="pow" %}
             {# % final damage is a Dofus 2.30+ stat, absent from Retro and Touch #}
-            {% if current_game_version != 'retro' and current_game_version != 'touch' %}
+            {% if current_main_version != 'retro' and current_main_version != 'touch' %}
             {% trans "% Melee Damage" as Power_melee %}
             {% include "chardata/solution_stat_line.html" with stat_name=Power_melee stat_key="permedam" %}
             {% trans "% Ranged Damage" as Power_distance %}
@@ -643,7 +643,7 @@
             {% trans "MP Loss Resist" as MP_Resist %}
             {% include "chardata/solution_stat_line.html" with stat_name=MP_Resist stat_key="mpres" %}
             {# Pushback and Critical Resist are Dofus 2+ stats, absent from Retro #}
-            {% if current_game_version != 'retro' %}
+            {% if current_main_version != 'retro' %}
             {% trans "Pushback Resist" as Pushback_Resist %}
             {% include "chardata/solution_stat_line.html" with stat_name=Pushback_Resist stat_key="pshres" %}
             {% trans "Critical Resist" as Critical_Resist %}
@@ -673,7 +673,7 @@
             {% trans "Air Damage" as Air_Damage %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Air_Damage stat_key="airdam" %}
             {# Critical Damage and Pushback Damage are Dofus 2+ stats, absent from Retro #}
-            {% if current_game_version != 'retro' %}
+            {% if current_main_version != 'retro' %}
             {% trans "Critical Damage" as Critical_Damage %}
             {% include "chardata/solution_stat_line.html" with stat_name=Critical_Damage stat_key="cridam" %}
             {% trans "Pushback Damage" as Pushback_Damage %}
@@ -705,7 +705,7 @@
             {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Per_Water_Res stat_key="waterresper" tape=True %}
             {% trans "% Air Resist" as Per_Air_Res %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Per_Air_Res stat_key="airresper" tape=True %}
-            {% if current_game_version == 'retro' or current_game_version == 'touch' %}
+            {% if current_main_version == 'retro' or current_main_version == 'touch' %}
             {# Retro 1.29 and Dofus Touch have no % final resist (Dofus 2.30+); they do have PvP resists (removed from Dofus 3). #}
             {% include "chardata/solution_stat_line_empty.html" %}
             {% trans "Neutral Resist (PvP)" as Neutral_Res_PvP %}
@@ -984,12 +984,12 @@
 
     <p align="center" class="text fm-sol-credit" style="margin: 0; padding: 0;">
         {% trans "Built using data from " %}
-        {% if current_game_version == 'retro' %}
+        {% if current_main_version == 'retro' %}
         <a href="https://www.ankama-games.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
             Ankama
         </a>
         (<a href="https://github.com/Trameur/DofusFashionistaVanced/blob/main/docs/retro_data_from_ankama.md" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">{% trans "how the data is parsed" %}</a>)
-        {% elif current_game_version == 'touch' %}
+        {% elif current_main_version == 'touch' %}
         <a href="https://www.ankama-games.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
             Ankama
         </a>

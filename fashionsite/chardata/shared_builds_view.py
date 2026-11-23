@@ -52,6 +52,7 @@ from chardata.presets import option_box_labels, setup_columns
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
 from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, slots_for
 from fashionistapulp.fashion_util import strip_accents
+from fashionistapulp.game_versions import main_game
 from chardata.legacy_ids import repair_minimal_solution
 from fashionistapulp.modelresult import get_item_in_slot
 from fashionistapulp.structure import (get_current_game_version, get_structure,
@@ -395,7 +396,7 @@ def _gallery(request, forced_class=None):
     # the parameter is ignored, whatever value it carries.
     game_version = getattr(request, 'game_version', 'dofus3')
     temporix_filter = request.GET.get('temporix', '')
-    if game_version != 'touch' or temporix_filter not in _TEMPORIX_FILTER_VALUES:
+    if main_game(game_version) != 'touch' or temporix_filter not in _TEMPORIX_FILTER_VALUES:
         temporix_filter = ''
 
     # Get selected build aspects from checkboxes

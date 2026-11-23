@@ -5,7 +5,8 @@ import re
 from django.core.cache import cache
 from django.db.models import Sum
 
-from fashionistapulp.game_versions import GAME_VERSIONS, prefixed_reader_versions, version_keys
+from fashionistapulp.game_versions import (GAME_VERSIONS, main_game, prefixed_reader_versions,
+                                           version_keys)
 
 logger = logging.getLogger(__name__)
 
@@ -94,6 +95,7 @@ def game_version(request):
 
     return {
         'current_game_version': gv,
+        'current_main_version': main_game(gv),
         'current_game_version_label': _GAME_VERSION_LABELS.get(gv, 'Dofus 3'),
         'current_game_version_seo': _GAME_VERSION_SEO_WORDS.get(gv, ''),
         'game_band': band_version(gv),

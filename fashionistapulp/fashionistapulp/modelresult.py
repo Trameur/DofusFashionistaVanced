@@ -19,6 +19,7 @@ import logging
 from django.utils.translation import gettext as _
 
 from .exo_options import EXO_OPTIONS, exo_count, exo_per_item
+from .game_versions import main_game
 from .dofus_constants import (ALL_TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER,
                              BASE_STATS, STAT_KEY_TO_NAME, NEUTRAL,
                              SLOT_NAME_TO_TYPE, slots_for)
@@ -74,12 +75,12 @@ def or_conditions_text(branches):
 
 def wisdom_per_ap_mp_dodge_point(game_version):
     """Wisdom behind one point of AP/MP dodge and of AP/MP reduction."""
-    return 4 if game_version == 'retro' else 10
+    return 4 if main_game(game_version) == 'retro' else 10
 
 
 def characteristic_passives(game_version):
     """(stat, characteristic, points per step, gain) for Dodge, Lock, Prospecting, Pods."""
-    if game_version == 'touch':
+    if main_game(game_version) == 'touch':
         return (('dodge', 'cha', 10, 1), ('lock', 'agi', 10, 1))
     return (('dodge', 'agi', 10, 1), ('lock', 'agi', 10, 1),
             ('pp', 'cha', 10, 1), ('pod', 'str', 1, 5))
@@ -87,7 +88,7 @@ def characteristic_passives(game_version):
 
 def level_prospecting(game_version, level):
     """Prospecting from the level alone, a third of it on Touch."""
-    return level // 3 if game_version == 'touch' else 0
+    return level // 3 if main_game(game_version) == 'touch' else 0
 
 
 class ModelResultMinimal():

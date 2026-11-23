@@ -16,6 +16,8 @@
 
 from copy import copy
 
+from .game_versions import main_game
+
 
 CHARACTER_CLASSES = sorted(['Eniripsa', 'Iop', 'Xelor', 'Osamodas', 'Feca',
                      'Sacrier', 'Ecaflip', 'Enutrof', 'Sram', 'Sadida',
@@ -257,7 +259,7 @@ STAT_ORDER = {
 
 def percent_resist_cap(game_version):
     """The game's cap on a player's % resistance per element; Touch lowered it to 35 in 1.59."""
-    return 35 if game_version == 'touch' else 50
+    return 35 if main_game(game_version) == 'touch' else 50
 
 
 # Build total caps per version. Retro has no AP/MP/Range limit; gear Range stops at 6
@@ -271,7 +273,7 @@ def get_stat_maximum(game_version, temporix=False):
         '% Water Resist': resist,
         '% Earth Resist': resist,
     }
-    if game_version != 'retro':
+    if main_game(game_version) != 'retro':
         caps['AP'] = 12
         caps['MP'] = 6
         caps['Range'] = 6
@@ -5436,16 +5438,16 @@ DEFAULT_SOFT_CAPS_TOUCH = {
 
 def get_soft_caps_for(game_version, char_class):
     """Characteristic soft caps for a class, per game version."""
-    if game_version == 'retro':
+    if main_game(game_version) == 'retro':
         return SOFT_CAPS_RETRO.get(char_class, DEFAULT_SOFT_CAPS)
-    if game_version == 'touch':
+    if main_game(game_version) == 'touch':
         return DEFAULT_SOFT_CAPS_TOUCH
     return SOFT_CAPS.get(char_class, DEFAULT_SOFT_CAPS)
 
 
 def scrolls_push_cost_curve(game_version):
     """Whether scrolled points use up the cheap cost tiers (Retro only, pre-2.48 rule)."""
-    return game_version == 'retro'
+    return main_game(game_version) == 'retro'
 
 
 def tier_widths_after_scroll(caps_for_stat, scrolled):
@@ -5471,12 +5473,12 @@ TOUCH_HIGH_SCROLL_LEVEL = 200
 
 def max_scroll_for_version(game_version, char_level=None):
     """Highest a characteristic can be scrolled; char_level None gives the version max."""
-    if game_version == 'touch':
+    if main_game(game_version) == 'touch':
         if char_level is not None and char_level < TOUCH_HIGH_SCROLL_LEVEL:
             return 100
         return 150
     # Retro caps at 101: 100 of scrolls plus one of food
-    if game_version == 'retro':
+    if main_game(game_version) == 'retro':
         return 101
     return 100
 

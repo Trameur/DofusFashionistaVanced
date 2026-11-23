@@ -29,6 +29,7 @@ from chardata.version_compat import filter_classes_for_version
 from chardata.wear_conditions import a_new_build_can_wear
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
+from fashionistapulp.game_versions import main_game
 
 
 DEFAULT_LEVELS = [20, 50, 100, 150, 180, 200]
@@ -265,9 +266,9 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
     set_char_aspects(char, aspects, True, False)
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     # Retro 1.29 has no Turquoise Dofus or prysmaradites.
-    modern = game_version != 'retro'
+    modern = main_game(game_version) != 'retro'
     # Retro shields only work in PvP.
-    shields = game_version != 'retro' or 'pvp' in aspects
+    shields = main_game(game_version) != 'retro' or 'pvp' in aspects
     options = initial_exo_options(game_version, char_level)
     options.update({'turq_dofus': modern and char_level >= 199,
                     'dragoturkey': True,

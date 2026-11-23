@@ -134,6 +134,11 @@ def main_of(key):
     return get_game_version(key).family
 
 
+def main_game(key):
+    """The main version whose rules this version follows; an unknown key stays itself."""
+    return main_of(key) if key in GAME_VERSIONS else key
+
+
 def is_beta(key):
     """True when this version is the beta channel of a game."""
     return get_game_version(key).channel == 'beta'

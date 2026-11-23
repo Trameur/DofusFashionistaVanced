@@ -15,7 +15,7 @@ import sqlite3
 import weakref
 from itertools import zip_longest
 
-from fashionistapulp.game_versions import GAME_VERSIONS, get_game_version, version_keys
+from fashionistapulp.game_versions import GAME_VERSIONS, get_game_version, main_game, version_keys
 
 from chardata.guides_slugs import GUIDE_SLUGS
 
@@ -5513,8 +5513,8 @@ def _guide_group(guide, game_version):
     """The content group for a per-version guide, None for a plain one."""
     if 'i18n_by_group' not in guide:
         return None
-    return (guide.get('version_groups') or {}).get(
-        game_version, _DEFAULT_GUIDE_GROUP)
+    groups = guide.get('version_groups') or {}
+    return groups.get(game_version, groups.get(main_game(game_version), _DEFAULT_GUIDE_GROUP))
 
 
 def _guide_i18n(guide, game_version):

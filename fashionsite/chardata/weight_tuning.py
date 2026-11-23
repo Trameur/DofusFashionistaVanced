@@ -406,7 +406,7 @@ def visible_damage_share(char_class, level, game_version):
     turn cannot cast. A summon that hits has no rows in the data, so the share is unknown.
     """
     from chardata.spell_buffs import get_damage_spells_for_version
-    from chardata.spell_combo import ONLY_HITS_A_SUMMON, Castable, _chosen_level, castable_spells
+    from chardata.spell_combo import Castable, _chosen_level, castable_spells, summon_only_spells
     from chardata.spell_reference import get_spell_reference
     entries = (get_spell_reference(game_version) or {}).get(char_class)
     spells = (get_damage_spells_for_version(game_version) or {}).get(char_class) or []
@@ -441,7 +441,7 @@ def visible_damage_share(char_class, level, game_version):
         waiting += later
     for spell in spells:
         if (spell.spell_id in evaluated or not spell.casting or level < spell.level_req[0]
-                or spell.spell_id in (ONLY_HITS_A_SUMMON.get(game_version) or {})):
+                or spell.spell_id in summon_only_spells(game_version)):
             continue
         landed, later = per_ap(Castable(spell, _chosen_level(None, spell, level), False))
         waiting += landed + later

@@ -18,6 +18,8 @@ from django.utils.translation import gettext_lazy
 from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 
+from fashionistapulp.game_versions import main_game
+
 
 # A stat whose name the versions do not agree on. Dofus 3 calls the percent
 # trap stat Trap Power and Dofus 2 Traps (Power), both characteristics; Retro's
@@ -44,8 +46,8 @@ def localized_stat_name(name, game_version=None):
     if game_version is None:
         from fashionistapulp.structure import get_current_game_version
         game_version = get_current_game_version()
-    if (game_version, name) in VERSION_STAT_NAMES:
-        return pgettext(game_version, name)
+    if (main_game(game_version), name) in VERSION_STAT_NAMES:
+        return pgettext(main_game(game_version), name)
     return _(name)
 
 

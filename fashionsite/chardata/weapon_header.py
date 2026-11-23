@@ -7,6 +7,7 @@ Retro states the rate the way the game does, one hit in X: its data holds 30,
 field into a percentage and every later version kept that.
 """
 from django.utils.translation import gettext as _
+from fashionistapulp.game_versions import main_game
 
 # Retro and Touch heal lines carry no element in the game, so none is printed
 _ELEMENTLESS_HEAL_BY_VERSION = {'dofus3': False, 'beta': False, 'dofus2': False,
@@ -24,7 +25,7 @@ def format_weapon_header(game_version, weapon_type, ap, crit_chance, crit_bonus)
     every weapon parameter, so their AP cost is unknown. Writing an unknown cost
     as a number answered 500 on the item picker, so it is left out instead.
     """
-    retro = game_version == 'retro'
+    retro = main_game(game_version) == 'retro'
     values = {'weapon_type': weapon_type, 'AP': ap,
               'crit_chance': crit_chance, 'crit_bonus': crit_bonus}
 
@@ -55,7 +56,7 @@ def format_weapon_header(game_version, weapon_type, ap, crit_chance, crit_bonus)
 
 def format_heal_hit(game_version, min_dam, max_dam, element, localized_elements):
     values = {'min': min_dam, 'max': max_dam}
-    if game_version in _ELEMENTLESS_HEAL_VERSIONS or element not in localized_elements:
+    if main_game(game_version) in _ELEMENTLESS_HEAL_VERSIONS or element not in localized_elements:
         return _('%(min)d to %(max)d (HP restored)') % values
     values['element'] = localized_elements[element]
     return _('%(min)d to %(max)d %(element)s heals') % values

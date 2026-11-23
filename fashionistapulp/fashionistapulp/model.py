@@ -26,7 +26,7 @@ from .transcendence_terms import (TRANSCENDENCE_VERSIONS, class_key, copy_runes,
                                   copy_takes_rune, dracorune_kind, hall_rows, rune_fits,
                                   runes_by_stat)
 from .exo_options import exo_count, forgeable_type
-from .game_versions import get_game_version
+from .game_versions import get_game_version, main_game
 from .item_effects import effect_term, load_effect_table
 from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
                        temporix_only_item_ids)
@@ -139,7 +139,7 @@ def _minimum_dependencies(version):
                     'Prospecting': [['Chance'],[0.1]],
                     'Pods': [['Strength'],[5]],
                     'HP': [['Vitality'],[1]]}
-    if version == 'touch':
+    if main_game(version) == 'touch':
         dependencies['Dodge'] = [['Chance'], [0.1]]
         del dependencies['Prospecting']
         del dependencies['Pods']
@@ -149,7 +149,7 @@ def _minimum_bound(version, stat_name, value, level):
     """What the stat and its dependencies must sum to for a minimum of value."""
     if stat_name == 'HP':
         return value - 55 - 5*(level-1)
-    if stat_name == 'Prospecting' and version == 'touch':
+    if stat_name == 'Prospecting' and main_game(version) == 'touch':
         return value - level_prospecting(version, level)
     return value
 
@@ -2114,7 +2114,7 @@ class Model:
 
     def create_condition_contraints(self):
         self._condition_gates = set()
-        gated = (getattr(self.structure, 'game_version', 'dofus3')
+        gated = (main_game(getattr(self.structure, 'game_version', 'dofus3'))
                  in self._GATED_CONDITION_VERSIONS)
         for item in self.items_list:
             for stat, value in item.min_stats_to_equip:
