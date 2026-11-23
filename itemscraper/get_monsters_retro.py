@@ -3,24 +3,39 @@
 
 Usage (from repo root):
     python itemscraper/get_monsters_retro.py --output itemscraper/transformed_drops_retro.json
+
+With --release beta nothing is asked from Solomonk, which shows the live
+servers: the beta rows come from the beta lang monsterdrops category where it
+differs from main's, the main rows are reused where it does not, and every
+main row is reused when the category does not answer. The counts are printed.
 """
 from __future__ import annotations
 
 import argparse
 import html
+import http.client
 import json
 import re
+import struct
 import sys
 import time
+import zlib
 from pathlib import Path
 from typing import Any, Dict, List, Sequence, Tuple
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+if str(Path(__file__).resolve().parent) not in sys.path:
+    sys.path.append(str(Path(__file__).resolve().parent))
+import retro_release  # noqa: E402
+
 # Solomonk only answers fr, en and es; pt and de come from Ankama below
 LANGUAGES: Sequence[str] = ("fr", "en", "es")
 DEFAULT_OUTPUT = Path("itemscraper/transformed_drops_retro.json")
+MAIN_DROPS = Path(__file__).resolve().parent / "transformed_drops_retro.json"
+BETA_OUTPUT_NAME = "transformed_drops_retrobeta.json"
+NAME_LANGUAGES: Sequence[str] = ("fr", "en", "es", "pt", "de")
 
 BASE = "https://solomonk.fr"
 AJAX = BASE + "/ajax/select_monster.php"
@@ -141,12 +156,14 @@ ANKAMA_LANGUAGES: Sequence[str] = ("pt", "de")
 MIN_ANKAMA_NAMES = 800
 
 
-def _ankama_lang_root() -> str:
-    """The lang root the live Retro client reads."""
+def _ankama_lang_root(release: str = retro_release.MAIN) -> str:
+    """The lang root the Retro client of this release reads."""
     try:
         from download_retro_langs import lang_root
     except ImportError:
         from itemscraper.download_retro_langs import lang_root
+    if retro_release.is_beta(release):
+        return lang_root(retro_release.version_key(release))
     return lang_root()
 
 
@@ -165,7 +182,8 @@ def _ankama_manifest(lang: str, root: str) -> Dict[str, str]:
 
 
 def ankama_monster_names(languages: Sequence[str] = ANKAMA_LANGUAGES,
-                         delay: float = 0.2) -> Dict[int, Dict[str, str]]:
+                         delay: float = 0.2, root: str | None = None
+                         ) -> Dict[int, Dict[str, str]]:
     """Monster names from Ankama's files, as {monster_ankama_id: {lang: name}}."""
     try:
         from retro_swf_parser import parse_lang_swf
@@ -173,7 +191,7 @@ def ankama_monster_names(languages: Sequence[str] = ANKAMA_LANGUAGES,
         from itemscraper.retro_swf_parser import parse_lang_swf
 
     names: Dict[int, Dict[str, str]] = {}
-    root = _ankama_lang_root()
+    root = root or _ankama_lang_root()
     for lang in languages:
         time.sleep(delay)
         version = _ankama_manifest(lang, root).get("monsters")
@@ -278,13 +296,172 @@ def build_drops_index(languages: Sequence[str] = LANGUAGES,
     return out
 
 
+def as2_number(value: Any) -> Any:
+    """A lang number as the client reads it: the parser takes an AS2 double with its two words swapped."""
+    if not isinstance(value, float):
+        return value
+    low, high = struct.unpack("<II", struct.pack("<d", value))
+    return struct.unpack("<d", struct.pack("<II", high, low))[0]
+
+
+LANG_FAILURES = (OSError, ValueError, IndexError, struct.error, zlib.error, http.client.HTTPException)
+
+
+def lang_drops(root: str, lang: str = "fr"
+               ) -> Tuple[str | None, Dict[Tuple[int, int], Dict[str, Any]] | None]:
+    """(version, {(item id, monster id): entry}) of a lang tree's monsterdrops, (None, None) without one."""
+    try:
+        from retro_swf_parser import parse_lang_swf
+    except ImportError:  # when run as a module
+        from itemscraper.retro_swf_parser import parse_lang_swf
+
+    version = _ankama_manifest(lang, root).get("monsterdrops")
+    if not version:
+        return None, None
+    request = Request("%s/swf/monsterdrops_%s_%s.swf" % (root, lang, version),
+                      headers={"User-Agent": USER_AGENT})
+    with urlopen(request, timeout=120) as response:
+        data = response.read()
+    table = (parse_lang_swf(data) or {}).get("MD") or {}
+    entries: Dict[Tuple[int, int], Dict[str, Any]] = {}
+    for monster_id, drops in table.items():
+        if not isinstance(drops, dict):
+            continue
+        for item_id, entry in drops.items():
+            if not isinstance(entry, dict):
+                continue
+            entries[(int(item_id), int(monster_id))] = {
+                key: ([as2_number(v) for v in value] if isinstance(value, list)
+                      else as2_number(value))
+                for key, value in entry.items()}
+    return version, entries
+
+
+def drop_rate(entry: Dict[str, Any]) -> float:
+    """The rate of the last grade on Solomonk's scale, the lang rate divided by its sr when it has one."""
+    rates = [rate for rate in entry.get("t") or [] if isinstance(rate, (int, float))]
+    if not rates:
+        return 0.0
+    divisor = entry.get("sr")
+    if isinstance(divisor, (int, float)) and divisor > 0:
+        return float(rates[-1]) / divisor
+    return float(rates[-1])
+
+
+def rate_inputs(entry: Dict[str, Any]) -> Tuple[Any, Any]:
+    """The fields of a lang entry that drive its rate."""
+    return entry.get("t"), entry.get("sr")
+
+
+def merge_release_drops(main_index: Dict[str, Any],
+                        main_lang: Dict[Tuple[int, int], Dict[str, Any]] | None,
+                        lang: Dict[Tuple[int, int], Dict[str, Any]] | None,
+                        names_of) -> Tuple[Dict[str, Any], Dict[str, int]]:
+    """The drops index of a release: its lang where it differs from main's lang, main's rows elsewhere."""
+    counts = {"read": 0, "reused": 0, "reused_unlisted": 0, "removed": 0,
+              "zero_rate": 0, "left_out_as_main": 0, "reused_other_fields": 0}
+    rows: Dict[Tuple[int, int], Dict[str, Any]] = {}
+    for item_id, monsters in main_index.items():
+        for row in monsters:
+            rows[(int(item_id), int(row["monster_ankama_id"]))] = row
+    pairs: Dict[Tuple[int, int], Dict[str, Any]] = {}
+    if main_lang is None or lang is None:
+        pairs = dict(rows)
+        counts["reused"] = len(rows)
+    else:
+        for pair, row in rows.items():
+            ours, theirs = lang.get(pair), main_lang.get(pair)
+            if ours is None and theirs is None:
+                pairs[pair] = row
+                counts["reused_unlisted"] += 1
+            elif ours is None:
+                counts["removed"] += 1
+            elif ours == theirs or (theirs is not None and rate_inputs(ours) == rate_inputs(theirs)):
+                pairs[pair] = row
+                counts["reused"] += 1
+                if ours != theirs:
+                    counts["reused_other_fields"] += 1
+            elif drop_rate(ours) > 0:
+                pairs[pair] = {"monster_ankama_id": pair[1], "names": row.get("names") or {},
+                               "rates": [drop_rate(ours)]}
+                counts["read"] += 1
+            else:
+                counts["zero_rate"] += 1
+        for pair, ours in sorted(lang.items()):
+            if pair in rows:
+                continue
+            theirs = main_lang.get(pair)
+            if theirs is not None and rate_inputs(theirs) == rate_inputs(ours):
+                counts["left_out_as_main"] += 1
+            elif drop_rate(ours) > 0:
+                pairs[pair] = {"monster_ankama_id": pair[1], "names": names_of(pair[1]),
+                               "rates": [drop_rate(ours)]}
+                counts["read"] += 1
+            else:
+                counts["zero_rate"] += 1
+    by_item: Dict[int, List[Dict[str, Any]]] = {}
+    for (item_id, _monster_id), row in pairs.items():
+        by_item.setdefault(item_id, []).append(row)
+    index = {str(item_id): sorted(by_item[item_id], key=lambda row: (-row["rates"][0],
+                                                                     row["monster_ankama_id"]))
+             for item_id in sorted(by_item)}
+    return index, counts
+
+
+def build_release_drops(release: str, main_drops: Path) -> Tuple[Dict[str, Any], Dict[str, int]]:
+    """The drops index of a release other than main, with the counts it reports."""
+    main_index = json.loads(main_drops.read_text(encoding="utf-8"))
+    root = _ankama_lang_root(release)
+    try:
+        version, lang = lang_drops(root)
+    except LANG_FAILURES as exc:
+        print("the %s monsterdrops did not answer: %s" % (release, exc))
+        version, lang = None, None
+    main_version, main_lang = (None, None)
+    if lang is not None:
+        try:
+            main_version, main_lang = lang_drops(_ankama_lang_root())
+        except LANG_FAILURES as exc:
+            print("the main monsterdrops did not answer: %s" % exc)
+    known: Dict[int, Dict[str, str]] = {}
+    for monsters in main_index.values():
+        for row in monsters:
+            known.setdefault(int(row["monster_ankama_id"]), row.get("names") or {})
+    fetched: Dict[int, Dict[str, str]] = {}
+
+    def names_of(monster_id: int) -> Dict[str, str]:
+        if monster_id in known:
+            return known[monster_id]
+        if not fetched:
+            fetched.update(ankama_monster_names(NAME_LANGUAGES, root=root))
+        return fetched.get(monster_id, {})
+
+    index, counts = merge_release_drops(main_index, main_lang, lang, names_of)
+    if lang is None or main_lang is None:
+        retro_release.notice(
+            "drops: the %s lang has no monsterdrops to compare (%s %s, main %s), "
+            "all %d main rows reused" % (release, release, version, main_version, counts["reused"]))
+    else:
+        retro_release.notice(
+            "drops: monsterdrops %s VERSION %s against main VERSION %s: %d rows read from the %s lang, "
+            "%d main rows reused unchanged, %d main rows the lang does not list reused, "
+            "%d main rows removed, %d pairs left out as main leaves them, %d at a zero rate; "
+            "%d of the reused rows changed only in fields that do not drive the rate, rates on main's scale (t over sr)"
+            % (release, version, main_version, counts["read"], release, counts["reused"],
+               counts["reused_unlisted"], counts["removed"], counts["left_out_as_main"],
+               counts["zero_rate"], counts["reused_other_fields"]))
+    return index, counts
+
+
 # Far below this means the markup moved
 MIN_PAIRS = 500
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build the Retro item->drops index from Solomonk")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--output", type=Path, default=None,
+                        help="default %s, or the beta work folder with --release beta"
+                             % DEFAULT_OUTPUT)
     parser.add_argument("--languages", nargs="*", default=list(LANGUAGES))
     parser.add_argument("--delay", type=float, default=0.1,
                         help="seconds between requests (be polite to the source)")
@@ -295,7 +472,25 @@ def main() -> int:
     parser.add_argument("--enrich-only", type=Path, default=None,
                         help="add the languages Solomonk cannot serve to an "
                              "existing index, without rescraping it")
+    parser.add_argument("--main-drops", type=Path, default=MAIN_DROPS,
+                        help="main's index, which --release beta starts from")
+    retro_release.add_release_argument(parser)
     args = parser.parse_args()
+    if args.output is None:
+        args.output = (retro_release.work_dir(args.release) / BETA_OUTPUT_NAME
+                       if retro_release.is_beta(args.release) else DEFAULT_OUTPUT)
+
+    if retro_release.is_beta(args.release):
+        if not args.main_drops.exists():
+            print("ERROR: %s missing, the beta drops start from main's" % args.main_drops)
+            return 1
+        index, counts = build_release_drops(args.release, args.main_drops)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        with args.output.open("w", encoding="utf-8") as fh:
+            json.dump(index, fh, ensure_ascii=False)
+        print("items with drops: %d | item/monster pairs: %d -> %s"
+              % (len(index), sum(len(v) for v in index.values()), args.output))
+        return 0
 
     if args.enrich_only:
         with args.enrich_only.open(encoding="utf-8") as fh:

@@ -17,6 +17,9 @@ the authoritative source for items, stats, sets and recipes.
 The old root https://dofusretro.cdn.ankama.com/lang still answers but stopped
 moving, so it lags the files the live client reads.
 
+With --release beta the config.xml comes from the beta manifest, which names
+the beta lang tree, and the files land in retrobeta_raw/.
+
 For each category we want, this downloads and decompresses the SWF and writes:
   - the raw decompressed SWF bytes      -> retro_raw/<category>_<lang>.swfdata
   - the parsed data as JSON             -> retro_raw/<category>_<lang>.json
@@ -47,6 +50,11 @@ try:
     import cytrus_cdn
 except ImportError:
     from itemscraper import cytrus_cdn
+
+try:
+    import retro_release
+except ImportError:
+    from itemscraper import retro_release
 
 CLIENT_CONFIG = 'resources/app/retroclient/config.xml'
 LANG_ROOT_ENV = 'RETRO_LANG_ROOT'
@@ -87,10 +95,15 @@ def client_config(release: str = 'retro', manifest: bytes | None = None) -> byte
     return cytrus_cdn.fetch_file(entry, game=cytrus_cdn.RELEASES[release][0])
 
 
+def lang_root_env(release: str = 'retro') -> str:
+    """The variable a pipeline hands its resolved lang root through: RETRO_LANG_ROOT for main."""
+    return LANG_ROOT_ENV if release == 'retro' else '%s_LANG_ROOT' % release.upper()
+
+
 def lang_root(release: str = 'retro', manifest: bytes | None = None) -> str:
-    """The lang root the live Retro client reads, or RETRO_LANG_ROOT when a pipeline already resolved it."""
+    """The lang root the Retro client of this release reads, or the one its pipeline already resolved."""
     if manifest is None:
-        override = os.environ.get(LANG_ROOT_ENV, '').strip()
+        override = os.environ.get(lang_root_env(release), '').strip()
         if override:
             return override.rstrip('/')
         if release in _resolved_roots:
@@ -149,11 +162,16 @@ def main(argv=None):
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--lang', default='fr')
     parser.add_argument('--categories', nargs='*', default=DEFAULT_CATEGORIES)
-    parser.add_argument('--dest', default='itemscraper/retro_raw')
+    parser.add_argument('--dest', default=None,
+                        help='default itemscraper/retro_raw, or the beta raw folder with --release beta')
+    retro_release.add_release_argument(parser)
     args = parser.parse_args(argv)
 
+    if args.dest is None:
+        args.dest = (str(retro_release.raw_dir(args.release)) if retro_release.is_beta(args.release)
+                     else 'itemscraper/retro_raw')
     dest_dir = Path(args.dest)
-    root = lang_root()
+    root = lang_root(retro_release.version_key(args.release))
     print(f"Fetching Retro lang manifest ({args.lang}) from {root}...")
     versions = fetch_manifest(args.lang, root)
     if not versions:

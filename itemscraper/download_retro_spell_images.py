@@ -33,6 +33,11 @@ Saved as: fashionsite/chardata/static/chardata/spells/retro/<name_fr>.png
 (96x96 PNG, the name the spell view expects). When two spells share the
 French name, the lowest id keeps it and each other one is saved as
 <name_fr> (<id>).png. Existing files are never overwritten.
+
+With --release beta the recipes come from retrobeta_raw and the stencils from
+the beta manifest; only the spells whose recipe or stencil clip differs from
+main's are composed, into spells/retrobeta/, the others keep main's icon. The
+frame is still learned from main's icons and lang, and the mirror is not asked.
 """
 
 from __future__ import annotations
@@ -51,6 +56,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(ROOT / 'fashionistapulp'))
 
 from fashionistapulp.reserved_filenames import safe_asset_stem  # noqa: E402
+import retro_release  # noqa: E402
 
 DEST = ROOT / 'fashionsite' / 'chardata' / 'static' / 'chardata' / 'spells' / 'retro'
 SPELL_REFERENCE = ROOT / 'fashionsite' / 'chardata' / 'spell_reference' / 'retro.json'
@@ -85,8 +91,38 @@ def load_targets(spells_path):
     return targets
 
 
-def _icon_path(name):
-    return DEST / ('%s.png' % safe_asset_stem(name))
+def _icon_path(name, dest=DEST):
+    return dest / ('%s.png' % safe_asset_stem(name))
+
+
+def release_paths(release=retro_release.MAIN):
+    """(icon folder, spells lang file, stencil cache, spell reference) of a release."""
+    if not retro_release.is_beta(release):
+        return DEST, LANG_SPELLS, STENCIL_CACHE, SPELL_REFERENCE
+    raw = retro_release.raw_dir(release)
+    reference = SPELL_REFERENCE.with_name('%s.json' % retro_release.version_key(release))
+    return (retro_release.static_dir('spells', release), raw / 'spells_fr.json',
+            raw / 'spell_stencils', reference if reference.exists() else SPELL_REFERENCE)
+
+
+def _recipe(lang, sid):
+    entry = lang.get(str(sid))
+    return entry.get('i') if isinstance(entry, dict) else None
+
+
+def recipes_that_changed(targets, lang, main_lang, files, main_files):
+    """The spells whose icon recipe or stencil clip is not main's."""
+    from download_retro_monster_artworks import clip_differs
+
+    changed = {}
+    for name, sid in targets.items():
+        info = _recipe(lang, sid)
+        if info != _recipe(main_lang, sid):
+            changed[name] = sid
+        elif (isinstance(info, dict) and info.get('up', -1) > 0
+              and clip_differs('%s%d.swf' % (UP_PREFIX, info['up']), files, main_files)):
+            changed[name] = sid
+    return changed
 
 
 def fetch_from_mirror(sid):
@@ -128,7 +164,8 @@ def download_from_mirror(missing):
     return left
 
 
-def compose_missing(missing, targets, java, ffdec_jar, resvg_exe):
+def compose_missing(missing, targets, java, ffdec_jar, resvg_exe,
+                    release=retro_release.MAIN, fragment=None):
     import glob
     import subprocess
     import tempfile
@@ -139,6 +176,7 @@ def compose_missing(missing, targets, java, ffdec_jar, resvg_exe):
     from download_retro_monster_artworks import (
         download_manifest, load_fragment, download_file, svg_to_cropped_png)
 
+    dest, lang_spells, stencil_cache, _reference = release_paths(release)
     lang = json.loads(LANG_SPELLS.read_text(encoding='utf-8'))['S']
     by_stem = {safe_asset_stem(name): sid for name, sid in targets.items()}
 
@@ -169,9 +207,11 @@ def compose_missing(missing, targets, java, ffdec_jar, resvg_exe):
         model[:, :, ch, :] = coef.T.reshape(SIZE, SIZE, 3)
     print('frame model learned from %d icons' % n)
 
-    manifest = download_manifest()
-    files, chunk_map = load_fragment(manifest, 'classic')
-    STENCIL_CACHE.mkdir(parents=True, exist_ok=True)
+    lang = json.loads(lang_spells.read_text(encoding='utf-8'))['S']
+    if fragment is None:
+        fragment = load_fragment(download_manifest(release), 'classic')
+    files, chunk_map = fragment
+    stencil_cache.mkdir(parents=True, exist_ok=True)
     yy, xx = np.mgrid[0:SIZE, 0:SIZE]
     rad = np.hypot(yy - (SIZE - 1) / 2.0, xx - (SIZE - 1) / 2.0)
 
@@ -183,7 +223,7 @@ def compose_missing(missing, targets, java, ffdec_jar, resvg_exe):
             print('  %s: no icon recipe in the lang' % name)
             failed += 1
             continue
-        swf = STENCIL_CACHE / ('%d.swf' % info['up'])
+        swf = stencil_cache / ('%d.swf' % info['up'])
         cdn_entry = files.get('%s%d.swf' % (UP_PREFIX, info['up']))
         if cdn_entry is None:
             print('  %s: stencil %d not in the client' % (name, info['up']))
@@ -222,19 +262,22 @@ def compose_missing(missing, targets, java, ffdec_jar, resvg_exe):
         white.putalpha(m.split()[3])
         out.paste(white, (SIZE // 2 - m.width // 2, SIZE // 2 - m.height // 2),
                   white)
-        out.save(_icon_path(name))
+        dest.mkdir(parents=True, exist_ok=True)
+        out.save(_icon_path(name, dest))
         written += 1
         print('  %s: composed (up %d)' % (name, info['up']))
     print('composed=%d failed=%d' % (written, failed))
+    if retro_release.is_beta(release):
+        retro_release.notice('spell icons composed for the beta: %d, failed %d' % (written, failed))
     return 0 if failed == 0 else 1
 
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('--spells', default=str(SPELL_REFERENCE),
+    p.add_argument('--spells', default=None,
                    help='spells by class, each with id and name '
-                        '(a string or {lang: name})')
+                        '(a string or {lang: name}); default the spell reference')
     p.add_argument('--no-mirror', action='store_true',
                    help='Do not ask the mirror; go straight to composing')
     p.add_argument('--compose-missing', action='store_true',
@@ -243,21 +286,44 @@ def main(argv=None):
     p.add_argument('--java', help='java executable')
     p.add_argument('--ffdec-jar', help='path to ffdec.jar')
     p.add_argument('--resvg', help='resvg executable')
+    retro_release.add_release_argument(p)
     args = p.parse_args(argv)
+    beta = retro_release.is_beta(args.release)
+    dest, lang_spells, _stencils, reference = release_paths(args.release)
+    if args.spells is None:
+        args.spells = str(reference)
 
     targets = load_targets(args.spells)
+    candidates = targets
+    fragment = None
+    if beta:
+        from download_retro_monster_artworks import download_manifest, load_fragment
+
+        if not lang_spells.exists():
+            print('WARNING: %s missing (run the retro lang download step first); '
+                  'skipping.' % lang_spells)
+            return 0
+        fragment = load_fragment(download_manifest(args.release), 'classic')
+        main_files, _main_chunks = load_fragment(download_manifest(), 'classic')
+        candidates = recipes_that_changed(
+            targets, json.loads(lang_spells.read_text(encoding='utf-8'))['S'],
+            json.loads(LANG_SPELLS.read_text(encoding='utf-8'))['S'],
+            fragment[0], main_files)
+        retro_release.notice('spell icons: %d spells, %d recipes or stencils differ from main, '
+                             '%d reuse the icon of main'
+                             % (len(targets), len(candidates), len(targets) - len(candidates)))
     missing = {}
-    for name, sid in targets.items():
+    for name, sid in candidates.items():
         try:
-            if not _icon_path(name).exists():
+            if not _icon_path(name, dest).exists():
                 missing[name] = sid
         except OSError:
             continue
     print('spells: %d | icons present: %d | missing: %d'
-          % (len(targets), len(targets) - len(missing), len(missing)))
+          % (len(candidates), len(candidates) - len(missing), len(missing)))
     if not missing:
         return 0
-    if not args.no_mirror:
+    if not (args.no_mirror or beta):
         missing = download_from_mirror(missing)
         if not missing:
             return 0
@@ -275,7 +341,8 @@ def main(argv=None):
         print('WARNING: java + ffdec.jar + resvg are needed to compose the '
               'missing icons; skipping, the committed PNGs stay as they are.')
         return 0
-    return compose_missing(missing, targets, java, ffdec_jar, resvg_exe)
+    return compose_missing(missing, targets, java, ffdec_jar, resvg_exe,
+                           args.release, fragment)
 
 
 if __name__ == '__main__':

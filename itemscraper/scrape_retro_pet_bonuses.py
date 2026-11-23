@@ -3,6 +3,7 @@
 
 """Build retro_pet_bonuses.json from dofux.org's food block per pet; French names map to English through the ankama id in the retro_raw lang files."""
 
+import argparse
 import json
 import os
 import re
@@ -18,6 +19,7 @@ for _path in (PROJECT_ROOT, CURRENT_DIRECTORY):
     if _path not in sys.path:
         sys.path.append(_path)
 from store_item_obtainment import get_items_db_path  # noqa: E402
+import retro_release  # noqa: E402
 
 DOFUX_URL = 'https://www.dofux.org/item-familier.dx'
 RAW_DIR = os.path.join(CURRENT_DIRECTORY, 'retro_raw')
@@ -161,14 +163,32 @@ def _fetch_solomonk_pets():
     return pets
 
 
-def _lang_names(lang):
-    with open(os.path.join(RAW_DIR, 'items_%s.json' % lang), encoding='utf-8') as in_file:
+def release_paths(release=retro_release.MAIN):
+    """(raw folder, output file) of a release; the beta writes into its work folder."""
+    if retro_release.is_beta(release):
+        return (str(retro_release.raw_dir(release)),
+                str(retro_release.work_dir(release) / os.path.basename(OUT_PATH)))
+    return RAW_DIR, OUT_PATH
+
+
+def release_db_path(release=retro_release.MAIN):
+    """The items database of a release, main's while the beta has none registered."""
+    try:
+        return get_items_db_path(retro_release.version_key(release))
+    except KeyError:
+        retro_release.notice('pet bonuses: no %s database yet, the feedable pets come from main'
+                             % retro_release.version_key(release))
+        return get_items_db_path('retro')
+
+
+def _lang_names(lang, raw_dir=RAW_DIR):
+    with open(os.path.join(raw_dir, 'items_%s.json' % lang), encoding='utf-8') as in_file:
         return (json.load(in_file).get('I') or {}).get('u') or {}
 
 
-def _db_feedable_en_names():
+def _db_feedable_en_names(db_path=None):
     """EN names of pets with no characteristic stats (so candidates for variants)."""
-    conn = sqlite3.connect(get_items_db_path('retro'))
+    conn = sqlite3.connect(db_path or get_items_db_path('retro'))
     cursor = conn.cursor()
     pet_type = cursor.execute("SELECT id FROM item_types WHERE name = 'Pet'").fetchone()[0]
     rows = cursor.execute(
@@ -178,14 +198,22 @@ def _db_feedable_en_names():
     return sorted(name for (name,) in rows)
 
 
-def main():
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--allow-shrink', action='store_true',
+                        help='write even when pets the file had lost their bonuses')
+    retro_release.add_release_argument(parser)
+    args = parser.parse_args(argv)
+    raw_dir, out_path = release_paths(args.release)
+    db_path = release_db_path(args.release) if retro_release.is_beta(args.release) else None
+
     print('Fetching %s ...' % DOFUX_URL)
     html = requests.get(DOFUX_URL, timeout=60, headers={'User-Agent': 'Mozilla/5.0'}).text
     by_fr = _parse_dofux(html)
     print('Parsed bonuses for %d pets from dofux.' % len(by_fr))
 
-    fr_items = _lang_names('fr')
-    en_items = _lang_names('en')
+    fr_items = _lang_names('fr', raw_dir)
+    en_items = _lang_names('en', raw_dir)
     fr_norm_to_id = {_norm(v.get('n')): int(k) for k, v in fr_items.items()
                      if isinstance(v, dict) and v.get('n')}
     en_by_id = {int(k): v.get('n') for k, v in en_items.items() if isinstance(v, dict)}
@@ -215,7 +243,7 @@ def main():
 
     # Every DB-feedable pet gets a key, so the file is a complete checklist.
     result = {}
-    for en_name in _db_feedable_en_names():
+    for en_name in _db_feedable_en_names(db_path):
         result[en_name] = scraped_en.get(en_name, [])
     for en_name, bonuses in scraped_en.items():
         result.setdefault(en_name, bonuses)
@@ -226,24 +254,26 @@ def main():
     result = dict(sorted(result.items()))
 
     # A pet whose bonuses go blank loses its variants and renumbers the ones after it, which a saved build keeps: refuse to shrink unless --allow-shrink
-    if os.path.exists(OUT_PATH):
-        with open(OUT_PATH, encoding='utf-8') as existing_file:
+    if os.path.exists(out_path):
+        with open(out_path, encoding='utf-8') as existing_file:
             existing = json.load(existing_file)
         emptied = sorted(name for name, bonuses in existing.items()
                          if bonuses and not result.get(name))
-        if emptied and '--allow-shrink' not in sys.argv:
+        if emptied and not args.allow_shrink:
             print('%d pet(s) the file already had lost their bonuses: %s'
                   % (len(emptied), ', '.join(emptied[:15])))
             print('nothing written. Add them to OVERRIDES, or pass '
                   '--allow-shrink if the game really dropped them.')
             return 1
 
-    with open(OUT_PATH, 'w', encoding='utf-8') as out_file:
+    if retro_release.is_beta(args.release):
+        os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, 'w', encoding='utf-8') as out_file:
         json.dump(result, out_file, ensure_ascii=False, indent=2)
 
     filled = sum(1 for v in result.values() if v)
     print('Wrote %s: %d pets (%d with bonuses, %d blank).'
-          % (OUT_PATH, len(result), filled, len(result) - filled))
+          % (out_path, len(result), filled, len(result) - filled))
     if unmatched:
         print('FR names not matched to an ankama id (%d): %s'
               % (len(unmatched), ', '.join(sorted(unmatched)[:15])))

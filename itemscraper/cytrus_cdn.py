@@ -28,12 +28,13 @@ import urllib.request
 CDN = 'https://cytrus.cdn.ankama.com'
 VERSIONS_URL = '%s/cytrus.json' % CDN
 
-# (game, release) as Ankama names them. Retro is a game of its own, on main.
+# (game, release) as Ankama names them. Retro is a game of its own, on main and beta.
 RELEASES = {
     'dofus3': ('dofus', 'dofus3'),
     'beta': ('dofus', 'beta'),
     'dofus2': ('dofus', 'main'),
     'retro': ('retro', 'main'),
+    'retrobeta': ('retro', 'beta'),
 }
 
 

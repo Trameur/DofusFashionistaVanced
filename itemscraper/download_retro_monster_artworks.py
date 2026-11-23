@@ -22,7 +22,11 @@ until the viewBox is recomputed from the path points. Needs JPEXS ffdec
 or the FFDEC_JAR/JAVA_EXE/RESVG_EXE env vars.
 
 Usage (from itemscraper/):
-    python download_retro_monster_artworks.py [--workers 6]
+    python download_retro_monster_artworks.py [--workers 6] [--release beta]
+
+With --release beta the clips come from the beta manifest, and only the
+monsters whose clip differs from main's (gfx id or content hash) are rendered,
+into monsters/retrobeta/96; the others keep main's artwork.
 """
 
 import argparse
@@ -41,6 +45,8 @@ import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor
 
 from PIL import Image
+
+import retro_release
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
@@ -62,8 +68,8 @@ ET.register_namespace('xlink', XLINK_NS)
 _NUM = re.compile(r'-?\d+(?:\.\d+)?(?:e-?\d+)?')
 
 
-def target_dirs():
-    parts = ['monsters', 'retro', '96']
+def target_dirs(release=retro_release.MAIN):
+    parts = ['monsters', retro_release.version_key(release), '96']
     return [
         os.path.join(ROOT, 'fashionsite', 'chardata', 'static', 'chardata',
                      *parts),
@@ -165,12 +171,20 @@ def load_fragment(manifest_buf, fragment_name):
     raise RuntimeError('fragment %r not found in manifest' % fragment_name)
 
 
-def download_manifest():
+def download_manifest(release=retro_release.MAIN):
     cytrus = json.loads(fetch_bytes(CYTRUS_BASE + '/cytrus.json'))
-    version = cytrus['games']['retro']['platforms']['windows']['main']
-    print('retro client version: %s' % version)
-    url = '%s/retro/releases/main/windows/%s.manifest' % (CYTRUS_BASE, version)
+    version = cytrus['games']['retro']['platforms']['windows'][release]
+    if retro_release.is_beta(release):
+        print('retro %s client version: %s' % (release, version))
+    else:
+        print('retro client version: %s' % version)
+    url = '%s/retro/releases/%s/windows/%s.manifest' % (CYTRUS_BASE, release, version)
     return fetch_bytes(url)
+
+
+def clip_differs(name, files, main_files):
+    """True when a clip is not the same file in both manifests."""
+    return (files.get(name) or {}).get('hash') != (main_files.get(name) or {}).get('hash')
 
 
 def download_file(entry, chunk_map, out_path):
@@ -424,26 +438,54 @@ def find_tool(explicit, env_var, candidates):
     return None
 
 
-def monster_gfx_ids():
-    """ankama id -> gfxId for every monster that has an encyclopedia page."""
-    with open(LANG_MONSTERS, encoding='utf-8') as fh:
+def lang_gfx_ids(lang_path):
+    """ankama id -> gfxId for every monster of a monsters lang file."""
+    with open(lang_path, encoding='utf-8') as fh:
         lang = json.load(fh)
-    gfx_of = {int(mid): m.get('g') for mid, m in lang['M'].items()
-              if isinstance(m, dict) and str(mid).isdigit()}
-    con = sqlite3.connect(DB_PATH)
+    return {int(mid): m.get('g') for mid, m in lang['M'].items()
+            if isinstance(m, dict) and str(mid).isdigit()}
+
+
+def monster_gfx_ids(lang_path=LANG_MONSTERS, db_path=DB_PATH, also=()):
+    """ankama id -> gfxId for every monster that has an encyclopedia page."""
+    gfx_of = lang_gfx_ids(lang_path)
+    con = sqlite3.connect(db_path)
     known = [row[0] for row in con.execute(
         'SELECT DISTINCT monster_ankama_id FROM monster_names')]
     con.close()
+    known = sorted(set(known) | set(also))
     return {mid: gfx_of[mid] for mid in known if gfx_of.get(mid)}
 
 
-def main():
+def changed_since_main(wanted, main_gfx, files, main_files):
+    """The monsters whose beta clip is not the one main rendered, by gfx id or content hash."""
+    changed = {}
+    for mid, gfx in wanted.items():
+        artwork = '%s%d.swf' % (ARTWORK_PREFIX, gfx)
+        sprite = '%s%d.swf' % (SPRITE_PREFIX, gfx)
+        if (main_gfx.get(mid) != gfx or clip_differs(artwork, files, main_files)
+                or (artwork not in files and clip_differs(sprite, files, main_files))):
+            changed[mid] = gfx
+    return changed
+
+
+def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--workers', type=int, default=6)
     parser.add_argument('--java', help='java executable')
     parser.add_argument('--ffdec-jar', help='path to ffdec.jar')
     parser.add_argument('--resvg', help='resvg executable')
-    args = parser.parse_args()
+    retro_release.add_release_argument(parser)
+    args = parser.parse_args(argv)
+    beta = retro_release.is_beta(args.release)
+    if beta:
+        raw = retro_release.raw_dir(args.release)
+        lang_monsters = os.path.join(raw, 'monsters_fr.json')
+        swf_cache_dir = os.path.join(raw, 'artworks_big')
+        sprite_cache_dir = os.path.join(raw, 'sprites')
+    else:
+        lang_monsters, swf_cache_dir, sprite_cache_dir = (
+            LANG_MONSTERS, SWF_CACHE_DIR, SPRITE_CACHE_DIR)
 
     java = find_tool(args.java, 'JAVA_EXE', ['java'])
     ffdec_jar = args.ffdec_jar or os.environ.get('FFDEC_JAR')
@@ -453,18 +495,34 @@ def main():
               'artworks (see the module docstring); skipping, the committed '
               'WebPs stay as they are.')
         return 0
-    if not os.path.exists(LANG_MONSTERS):
-        print('WARNING: %s missing (run the retro lang download step first); '
-              'skipping.' % LANG_MONSTERS)
-        return 0
+    for path in (lang_monsters, LANG_MONSTERS) if beta else (lang_monsters,):
+        if not os.path.exists(path):
+            print('WARNING: %s missing (run the retro lang download step first); '
+                  'skipping.' % path)
+            return 0
 
-    dirs = target_dirs()
+    dirs = target_dirs(args.release)
     for directory in dirs:
         os.makedirs(directory, exist_ok=True)
-    os.makedirs(SWF_CACHE_DIR, exist_ok=True)
-    os.makedirs(SPRITE_CACHE_DIR, exist_ok=True)
+    os.makedirs(swf_cache_dir, exist_ok=True)
+    os.makedirs(sprite_cache_dir, exist_ok=True)
 
-    wanted = monster_gfx_ids()
+    manifest = None
+    if beta:
+        main_gfx = lang_gfx_ids(LANG_MONSTERS)
+        new_ids = set(lang_gfx_ids(lang_monsters)) - set(main_gfx)
+        wanted = monster_gfx_ids(lang_monsters, DB_PATH, also=new_ids)
+        manifest = download_manifest(args.release)
+        files, chunk_map = load_fragment(manifest, 'classic')
+        main_files, _main_chunks = load_fragment(download_manifest(), 'classic')
+        changed = changed_since_main(wanted, main_gfx, files, main_files)
+        retro_release.notice(
+            'monster artworks: %d monsters with a page (%d new to the beta), '
+            '%d clips differ from main, %d reuse the artwork of main'
+            % (len(wanted), len(new_ids), len(changed), len(wanted) - len(changed)))
+        wanted = changed
+    else:
+        wanted = monster_gfx_ids()
     todo = {mid: gfx for mid, gfx in wanted.items()
             if not all(os.path.exists(os.path.join(d, '%d.webp' % mid))
                        for d in dirs)}
@@ -473,8 +531,9 @@ def main():
         print('done: everything already rendered')
         return 0
 
-    manifest = download_manifest()
-    files, chunk_map = load_fragment(manifest, 'classic')
+    if manifest is None:
+        manifest = download_manifest()
+        files, chunk_map = load_fragment(manifest, 'classic')
 
     counts = {'ok': 0, 'ok_sprite': 0, 'no_artwork': 0, 'empty': 0,
               'error': 0}
@@ -484,7 +543,7 @@ def main():
         try:
             entry = files.get('%s%d.swf' % (ARTWORK_PREFIX, gfx))
             if entry is not None:
-                swf_path = os.path.join(SWF_CACHE_DIR, '%d.swf' % gfx)
+                swf_path = os.path.join(swf_cache_dir, '%d.swf' % gfx)
                 if not os.path.exists(swf_path):
                     download_file(entry, chunk_map, swf_path)
                 rendered = render_swf(swf_path, '%d.webp' % mid, dirs,
@@ -494,7 +553,7 @@ def main():
             entry = files.get('%s%d.swf' % (SPRITE_PREFIX, gfx))
             if entry is None:
                 return 'no_artwork', mid
-            swf_path = os.path.join(SPRITE_CACHE_DIR, '%d.swf' % gfx)
+            swf_path = os.path.join(sprite_cache_dir, '%d.swf' % gfx)
             if not os.path.exists(swf_path):
                 download_file(entry, chunk_map, swf_path)
             rendered = render_static_sprite(swf_path, '%d.webp' % mid, dirs,
@@ -511,6 +570,8 @@ def main():
             if done % 100 == 0:
                 print('  %d/%d %s' % (done, len(todo), counts))
     print('done: %s' % counts)
+    if beta:
+        retro_release.notice('monster artworks rendered for the beta: %s' % counts)
     return 0 if counts['error'] == 0 else 1
 
 
