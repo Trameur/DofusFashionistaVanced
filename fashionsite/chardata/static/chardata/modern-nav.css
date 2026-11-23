@@ -81,6 +81,47 @@ html.fm-modern .version-game{ border-radius:999px; overflow:visible; }
 html.fm-modern .fm-topnav .version-game{ display:flex; flex:0 0 auto; gap:0; }
 html.fm-modern .fm-topnav .version-game[data-menu]{ box-shadow:inset 0 0 0 1px var(--fm-navline); }
 html.fm-modern .fm-topnav .version-link.version-beta{ font-size:11.5px; }
+html.fm-modern .fm-topnav-vers{ position:relative; }
+html.fm-modern .fm-topnav .version-link[hidden]{ display:none !important; }
+html.fm-modern .fm-topnav .version-link.fm-vs-pill .version-game-name{ position:static; width:auto; height:auto; overflow:visible; clip:auto; clip-path:none; }
+html.fm-modern .fm-topnav .version-link.version-beta.fm-vs-pill{ font-size:13px; }
+html.fm-modern .fm-topnav.fm-nav-js .version-link.fm-vs-pill{ padding-right:4px !important; border-radius:999px 0 0 999px; }
+html.fm-modern .fm-topnav .version-link.fm-vs-pill .version-channel{
+  display:inline-block; margin-left:1px; padding:2px 6px; border-radius:999px; background:#241A06; color:var(--fm-navgold);
+  font-size:10.5px; font-weight:700; line-height:1.2; letter-spacing:.02em;
+}
+html.fm-modern .fm-topnav button.fm-vs-more{
+  position:relative; display:inline-flex; align-items:center; justify-content:center; flex:0 0 32px; width:32px; height:auto; min-height:0;
+  margin:0; padding:0; box-sizing:border-box; background:transparent; border:0; border-radius:0 999px 999px 0; box-shadow:none;
+  color:var(--fm-navmuted); font:inherit; line-height:1; cursor:pointer;
+}
+html.fm-modern .fm-topnav button.fm-vs-more::after{ content:""; position:absolute; inset:-3px 0; }
+html.fm-modern .fm-topnav button.fm-vs-more:hover,
+html.fm-modern .fm-topnav button.fm-vs-more[aria-expanded="true"]{ background:var(--fm-navfill); color:#fff; }
+html.fm-modern .fm-topnav .version-link.active + button.fm-vs-more{ background:var(--fm-navgold); color:#241A06; }
+html.fm-modern .fm-topnav button.fm-vs-more .fm-topnav-chev{ margin:0; }
+html.fm-modern .fm-topnav button.fm-vs-more[aria-expanded="true"] .fm-topnav-chev{ transform:translateY(1px) rotate(-135deg); }
+html.fm-modern .fm-topnav button.fm-vs-more:focus-visible{ outline-offset:-2px; }
+html.fm-modern .fm-vs-menu{
+  position:absolute; top:calc(100% + 5px); left:0; z-index:40; display:flex; flex-direction:column; gap:2px;
+  width:max-content; max-width:calc(100vw - 32px); padding:6px; box-sizing:border-box;
+  background:var(--fm-nav); border:1px solid var(--fm-navline); border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.42);
+  opacity:1; transition:opacity .12s ease-out;
+}
+html.fm-modern .fm-vs-menu[hidden]{ display:none; }
+html.fm-modern .fm-vs-menu.fm-vs-enter{ opacity:0; }
+html.fm-modern .fm-vs-menu::before{ content:""; position:absolute; left:0; right:0; bottom:100%; height:8px; }
+html.fm-modern .fm-vs-menu a.fm-vs-choice{
+  display:flex; align-items:center; padding:9px 12px; border-radius:8px; box-sizing:border-box;
+  color:var(--fm-navink) !important; font-size:14px; font-weight:600; line-height:1.2; text-decoration:none; white-space:nowrap;
+}
+html.fm-modern .fm-vs-menu a.fm-vs-choice:hover{ background:var(--fm-navfill); color:#fff !important; }
+html.fm-modern .fm-vs-menu a.fm-vs-choice[aria-current="page"]{ color:var(--fm-navgold) !important; box-shadow:inset 3px 0 0 var(--fm-navgold); }
+html.fm-modern .fm-vs-menu a.fm-vs-choice:focus-visible{ outline-offset:-2px; }
+html.fm-modern .fm-vs-menu .version-game-name,
+html.fm-modern .fm-vs-menu .version-patch{ position:static; width:auto; height:auto; overflow:visible; clip:auto; clip-path:none; }
+html.fm-modern .fm-vs-menu .version-patch{ margin-left:auto; padding-left:20px; color:var(--fm-navmuted); font-size:12.5px; font-variant-numeric:tabular-nums; }
+html.fm-modern .fm-vs-menu a.fm-vs-choice:hover .version-patch{ color:var(--fm-navink); }
 
 html.fm-modern .fm-topnav-end{
   display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin-left:auto; min-width:0;
@@ -327,6 +368,7 @@ html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-w
   html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-vers .version-selector{ flex:1 1 auto; margin:0; }
   html.fm-modern .fm-topnav.fm-nav-js .version-game{ flex:1 1 auto; }
   html.fm-modern .fm-topnav.fm-nav-js .version-link{ flex:1 1 auto; text-align:center; padding:8px 8px !important; }
+  html.fm-modern .fm-topnav.fm-nav-js button.fm-vs-more{ flex:0 0 32px; }
 }
 @media (max-width:479px){
   html.fm-modern .fm-topnav-brand-full{
@@ -339,9 +381,14 @@ html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-w
   html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-burger{ padding:0; width:44px; }
   html.fm-modern .fm-topnav .version-link{ padding:7px 9px !important; font-size:12.5px; }
   html.fm-modern .fm-topnav .version-link.version-beta{ font-size:11.5px; }
+  html.fm-modern .fm-topnav .version-link.version-beta.fm-vs-pill{ font-size:12.5px; }
 }
 @media (max-width:389px){
   html.fm-modern{ --fm-band-h:calc(100vw * 84 / 390); }
+  html.fm-modern .fm-topnav.fm-nav-js .version-link{ padding:8px 6px !important; font-size:12px; }
+  html.fm-modern .fm-topnav.fm-nav-js .version-link.fm-vs-pill{ padding-right:3px !important; }
+  html.fm-modern .fm-topnav.fm-nav-js .version-link.version-beta.fm-vs-pill{ font-size:12px; }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-vers .version-selector{ gap:1px; }
 }
 @media (max-width:760px){
   html.fm-modern.fm-dark .banner[data-band="dofus3"] a{ background-image:url("bands/band_dofus3_dark_s.webp"); background-position:right center; }
@@ -396,6 +443,9 @@ html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-w
   html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-burger{ height:44px; }
   html.fm-modern .fm-topnav .version-link{ position:relative; }
   html.fm-modern .fm-topnav .version-link::after{ content:""; position:absolute; inset:-7px -1px; }
+  html.fm-modern .fm-topnav button.fm-vs-more::after{ inset:-7px -1px; }
+  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-vers .version-selector{ padding:6px 3px !important; margin:-3px 0; box-shadow:inset 0 3px 0 var(--fm-nav), inset 0 -3px 0 var(--fm-nav); }
+  html.fm-modern .fm-vs-menu a.fm-vs-choice{ min-height:44px; }
   html.fm-modern .fm-buildbar .fm-buildbar-in a:link,
   html.fm-modern .fm-buildbar .fm-buildbar-in a:visited{ height:44px; }
   html.fm-modern .fm-buildbar .fm-buildbar-in #proj-name-link{ line-height:44px; }
@@ -404,4 +454,8 @@ html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-w
   html.fm-modern .footer .discord-invite-btn,
   html.fm-modern .footer .kofi-donate-btn{ height:44px; }
   html.fm-modern .footer-social{ gap:4px 8px; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html.fm-modern .fm-vs-menu{ transition:none; }
 }
