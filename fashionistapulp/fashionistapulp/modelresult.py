@@ -31,6 +31,7 @@ from .spell_text import fold_spell_blocks
 from .structure import get_structure, get_current_game_version
 from .temporix import as_worn, is_on as temporix_is_on
 from .translation import get_supported_language
+from .transcendence_terms import dracorune_kind, rune_allowed_on
 from .violation import Violation
 from fashionistapulp.dofus_constants import (STAT_NAME_TO_KEY,
                                              get_stat_maximum)
@@ -38,6 +39,18 @@ from fashionistapulp.dofus_constants import (STAT_NAME_TO_KEY,
 RELEVANT_INPUT = ['options', 'base_stats_by_attr', 'char_level', 'origin']
 
 logger = logging.getLogger(__name__)
+
+
+def exo_points_shown(options, worn_exos):
+    """The stat keys the page adds one exo point to on a version without exos per piece."""
+    shown = set()
+    if options.get('ap_exo') or 'ap' in worn_exos:
+        shown.add('ap')
+    if ('range_exo' in options and options['range_exo']) or 'range' in worn_exos:
+        shown.add('range')
+    if options.get('mp_exo') is True or 'mp' in worn_exos:
+        shown.add('mp')
+    return shown
 
 
 def sets_equipped_text(cap):
@@ -84,6 +97,7 @@ class ModelResultMinimal():
     exo_option_tops_owned = False
     # {slot: (item id, variant key)} of the draconized pieces; older pickles lack it
     dracorunes = None
+    transcendences = None
 
     def __init__(self, item_per_slot, input_, stats):
         self.item_per_slot = item_per_slot
@@ -153,6 +167,8 @@ class ModelResultMinimal():
         minimal.exo_option_tops_owned = getattr(model_result, 'exo_option_tops_owned', True)
         if getattr(model_result, 'dracorunes', None):
             minimal.dracorunes = model_result.dracorunes
+        if getattr(model_result, 'transcendences', None):
+            minimal.transcendences = model_result.transcendences
         return minimal
 
     def place_dracorunes(self, runes):
@@ -167,6 +183,44 @@ class ModelResultMinimal():
                 continue
             placed[slot] = (item_id, key)
         self.dracorunes = placed or None
+
+    def place_transcendences(self, picks):
+        """picks is [(ids of the worn members that fit, rune id, stat key)]: each rune takes its own slot holding one of those ids, whose Dracorune leaves the stat alone; returns the picks left unplaced."""
+        ordered = sorted(picks, key=lambda pick: (pick[1], sorted(pick[0])))
+        slots = slots_for(get_current_game_version())
+        held = self.dracorunes or {}
+        options = []
+        for ids, _rune_id, stat_key in ordered:
+            options.append([
+                slot for slot in slots
+                if self.item_per_slot.get(slot) in ids
+                and rune_allowed_on(dracorune_kind(held[slot][1]) if slot in held else None,
+                                    stat_key)])
+        owner = {}
+
+        def augment(index, seen):
+            free = next((slot for slot in options[index] if slot not in owner), None)
+            if free is not None:
+                owner[free] = index
+                return True
+            for slot in options[index]:
+                if slot in seen:
+                    continue
+                seen.add(slot)
+                if slot not in owner or augment(owner[slot], seen):
+                    owner[slot] = index
+                    return True
+            return False
+
+        unplaced = []
+        for index, pick in enumerate(ordered):
+            if not augment(index, set()):
+                logger.error('No worn piece can take the transcendence rune %s on %s',
+                             pick[1], pick[2])
+                unplaced.append(pick)
+        self.transcendences = {slot: (self.item_per_slot[slot], ordered[index][1])
+                               for slot, index in owner.items()} or None
+        return unplaced
     
     @classmethod
     def generate_empty_solution(cls, input_):
@@ -380,14 +434,8 @@ class ModelResult():
             for result_item in self.item_list:
                 if result_item.item_added:
                     worn_exos.update(getattr(result_item, 'exo_overrides', {}))
-            options = self.input['options']
-            if options['ap_exo'] or 'ap' in worn_exos:
-                self.stats_gear['ap'] += 1
-            if ('range_exo' in options and options['range_exo']) or 'range' in worn_exos:
-                self.stats_gear['range'] += 1
-            # 'gelano' swaps in Gelano (#1), its MP is already in the sum
-            if options['mp_exo'] is True or 'mp' in worn_exos:
-                self.stats_gear['mp'] += 1
+            for key in exo_points_shown(self.input['options'], worn_exos):
+                self.stats_gear[key] += 1
         return self.stats_gear
 
     def _count_exos_per_piece(self):

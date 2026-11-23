@@ -7,7 +7,7 @@ from unittest import mock
 
 from django.test import SimpleTestCase
 
-from fashionistapulp import transcendence
+from fashionistapulp import model as model_module, transcendence
 from fashionistapulp.model import ModelInput
 from fashionistapulp.structure import set_current_game_version
 
@@ -127,3 +127,24 @@ class TheCacheKeyStripsBothRuneOptionsTests(SimpleTestCase):
             changed = keys(transcendence=2)
         self.assertNotEqual(keys(transcendence=2)[0], changed[0])
         self.assertNotEqual(keys(transcendence=2)[1], changed[1])
+
+    def test_the_option_on_key_carries_the_revision(self):
+        self.on('beta')
+        part = key_input(transcendence=2)._rune_keys()[1][-1]
+        self.assertEqual(model_module.TRANSCENDENCE_KEY_REVISION, part[-1])
+        self.assertEqual(['transcendence', 2], [part[0], part[1]])
+        first = keys(transcendence=2)
+        with mock.patch.object(model_module, 'TRANSCENDENCE_KEY_REVISION',
+                               model_module.TRANSCENDENCE_KEY_REVISION + 1):
+            second = keys(transcendence=2)
+            self.assertEqual(PINNED['beta'], key_input().cache_key())
+            self.assertEqual(PINNED['beta'], key_input(transcendence=0).cache_key())
+        self.assertNotEqual(first[0], second[0])
+        self.assertNotEqual(first[1], second[1])
+
+    def test_the_revision_leaves_the_dracorune_key_alone(self):
+        self.on('beta')
+        before = keys(dracorunes=2)
+        with mock.patch.object(model_module, 'TRANSCENDENCE_KEY_REVISION',
+                               model_module.TRANSCENDENCE_KEY_REVISION + 1):
+            self.assertEqual(before, keys(dracorunes=2))

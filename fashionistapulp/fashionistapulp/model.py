@@ -32,7 +32,7 @@ from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
                        temporix_only_item_ids)
 from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, percent_resist_cap, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve, NON_STAT_WEIGHT_KEYS
 from .lpproblem import LpProblem2
-from .modelresult import (ModelResultMinimal, level_prospecting,
+from .modelresult import (ModelResultMinimal, exo_points_shown, level_prospecting,
                           wisdom_per_ap_mp_dodge_point)
 import pulp
 from .restrictions import Restrictions
@@ -53,6 +53,7 @@ DRACORUNE_PREFIX = 'draco'
 DRACORUNE_TOTAL = 'draco_total'
 DRACORUNE_LOCKS = 'dracorune_locks'
 TRANSCENDENCE_OPTION = 'transcendence'
+TRANSCENDENCE_KEY_REVISION = 1
 TRANSCENDENCE_PREFIX = 'trans'
 TRANSCENDENCE_TOTAL = 'trans_total'
 
@@ -1521,45 +1522,83 @@ class Model:
                 values[head] = head.varValue - change
         return values
 
-    def useful_dracorunes(self, chosen):
-        """chosen less each rune the solution keeps every row and its objective without, so a wasted rune is not shown."""
-        columns = getattr(self, 'dracorune_columns', None)
-        if not chosen or not columns or self.problem.get_status() != 'Optimal':
-            return chosen
-        names = {pair: name for name, pair in columns.items()}
+    def _keep_useful(self, chosen, names, owed, start, best):
+        """chosen less each rune the solution holds every row and its objective without, the values of the removals staying in place and the first ones met kept in start."""
         objective = self.problem.pulp_lp.objective
-        start = {}
         kept = []
-        try:
-            best = objective.value()
-            if best is None or not self._solution_holds(()):
-                return chosen
-            owed = dict(getattr(self, '_dracorune_forced', None) or {})
-            for pair in sorted(chosen, key=repr):
-                if owed.get(pair):
-                    owed[pair] -= 1
-                    kept.append(pair)
-                    continue
-                column = self.problem.pulp_vars.get(names.get(pair))
-                if column is None or not column.varValue:
-                    kept.append(pair)
-                    continue
-                values = self._values_without_one_rune(column)
-                before = {variable: variable.varValue for variable in values}
-                for variable, value in values.items():
-                    start.setdefault(variable, variable.varValue)
-                    variable.varValue = value
-                now = objective.value()
-                if (now is not None and now >= best - self._WASTED_RUNE_TOLERANCE
-                        and self._solution_holds(values)):
-                    continue
-                for variable, value in before.items():
-                    variable.varValue = value
+        for pair in sorted(chosen, key=repr):
+            if owed.get(pair):
+                owed[pair] -= 1
                 kept.append(pair)
+                continue
+            column = self.problem.pulp_vars.get(names.get(pair))
+            if column is None or not column.varValue:
+                kept.append(pair)
+                continue
+            values = self._values_without_one_rune(column)
+            before = {variable: variable.varValue for variable in values}
+            for variable, value in values.items():
+                start.setdefault(variable, variable.varValue)
+                variable.varValue = value
+            now = objective.value()
+            if (now is not None and now >= best - self._WASTED_RUNE_TOLERANCE
+                    and self._solution_holds(values)):
+                continue
+            for variable, value in before.items():
+                variable.varValue = value
+            kept.append(pair)
+        return kept
+
+    def useful_rune_choices(self, dracorunes, transcendences):
+        """(dracorunes, transcendences) less each rune the solution keeps every row and its objective without, the removals adding up across both kinds."""
+        dracorune_columns = getattr(self, 'dracorune_columns', None) or {}
+        transcendence_columns = getattr(self, 'transcendence_columns', None) or {}
+        if (not (dracorunes or transcendences) or not (dracorune_columns or transcendence_columns)
+                or self.problem.get_status() != 'Optimal'):
+            return dracorunes, transcendences
+        start = {}
+        try:
+            best = self.problem.pulp_lp.objective.value()
+            if best is None or not self._solution_holds(()):
+                return dracorunes, transcendences
+            owed = dict(getattr(self, '_dracorune_forced', None) or {})
+            kept_dracorunes = self._keep_useful(
+                dracorunes, {pair: name for name, pair in dracorune_columns.items()}, owed,
+                start, best)
+            kept_transcendences = self._keep_useful(
+                transcendences, {pair: name for name, pair in transcendence_columns.items()}, {},
+                start, best)
         finally:
             for variable, value in start.items():
                 variable.varValue = value
-        return kept
+        return kept_dracorunes, kept_transcendences
+
+    def useful_dracorunes(self, chosen):
+        """chosen less each rune the solution keeps every row and its objective without, so a wasted rune is not shown."""
+        return self.useful_rune_choices(chosen, [])[0]
+
+    def transcendence_picks(self, chosen, worn_ids):
+        """[(ids of the worn members that fit the rune, rune id, stat key)] of the chosen runes, less a rune on a stat the page's exo point already gives."""
+        if not chosen:
+            return []
+        worn = set(worn_ids)
+        runes = {rune['id']: rune for group in self.transcendence_runes.values() for rune in group}
+        shown = set()
+        if not self._exo_per_item:
+            carriers = {key for key, ids in (getattr(self, '_exo_carriers', None) or {}).items()
+                        if ids & worn}
+            shown = exo_points_shown(self.input['options'], carriers)
+        picks = []
+        for number, rune_id in chosen:
+            rune = runes[rune_id]
+            stat = rune['stat_key']
+            if stat in shown:
+                continue
+            ids = sorted(item_id for item_id in self.transcendence_classes.get(number, ())
+                         if item_id in worn
+                         and rune_fits(rune, self.transcendence_candidates[item_id].get(stat)))
+            picks.append((ids, rune_id, stat))
+        return picks
 
     #def add_objective_term(self, stat_name, weight):
     #    for item in self.items_list:
@@ -2464,9 +2503,13 @@ class Model:
         result = ModelResultMinimal.from_item_id_list(item_id_list, self.input, self.get_stats())
         if self._exo_per_item:
             result.exo_assumed = self._assumed_exos(grouped_vars)
-        chosen = self.useful_dracorunes(self.chosen_dracorunes())
-        if chosen:
-            result.place_dracorunes(chosen)
+        dracorunes, transcendences = self.useful_rune_choices(
+            self.chosen_dracorunes(), self.chosen_transcendences())
+        if dracorunes:
+            result.place_dracorunes(dracorunes)
+        picks = self.transcendence_picks(transcendences, item_id_list)
+        if picks:
+            result.place_transcendences(picks)
         return result
 
     def _assumed_exos(self, grouped_vars):
@@ -2569,7 +2612,7 @@ class ModelInput(object):
             count = transcendence_count(options)
             signature = transcendence_signature(version) if count else None
             if signature is not None:
-                parts.append([TRANSCENDENCE_OPTION, count, signature])
+                parts.append([TRANSCENDENCE_OPTION, count, signature, TRANSCENDENCE_KEY_REVISION])
         if stripped:
             options = {key: value for key, value in options.items() if key not in stripped}
         return options, parts
