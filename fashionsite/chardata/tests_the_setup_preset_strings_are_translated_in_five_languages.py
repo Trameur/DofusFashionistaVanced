@@ -10,7 +10,7 @@ import tempfile
 from django.test import SimpleTestCase, TestCase
 from django.utils import translation
 
-from chardata.presets import RECIPES, setup_recipes
+from chardata.presets import RECIPE_GROUPS, RECIPES, setup_recipes
 from chardata.tests_every_preset_keeps_its_weights_and_minimums import VERSIONS
 from chardata.tests_the_setup_page_draws_the_live_weights_panel import setup_page
 from chardata.tests_the_setup_panel_strings_are_translated_in_five_languages import (
@@ -49,8 +49,11 @@ RECIPE_LABELS = (
     'All-round', 'Damage dealer', 'Tank', 'Healer', 'Pusher', 'Summoner', 'Trapper', 'XP mule',
     'Prospecting mule', 'Farm', 'Pod carrier',
 )
+NEW_GROUP_TITLES = ('Roles', 'Specialties', 'Mules and farming')
+RECIPE_GROUP_TITLES = NEW_GROUP_TITLES[:2] + ('PvP',) + NEW_GROUP_TITLES[2:]
 # Loanwords the language writes as English does
-SAME_AS_ENGLISH = {('fr', 'Tank'), ('de', 'Tank'), ('fr', 'Farm'), ('pt', 'Farm')}
+SAME_AS_ENGLISH = {('fr', 'Tank'), ('de', 'Tank'), ('fr', 'Farm'), ('pt', 'Farm'), ('es', 'Roles'), ('fr', 'PvP'),
+                   ('de', 'PvP'), ('es', 'PvP'), ('pt', 'PvP')}
 
 
 class TheScriptAsksForTheStringsTheCataloguesCarryTests(SimpleTestCase):
@@ -67,6 +70,11 @@ class TheScriptAsksForTheStringsTheCataloguesCarryTests(SimpleTestCase):
         found = re.findall(r'\{%\s*trans\s+(?:"([^"]+)"|\'([^\']+)\')\s*%\}', section)
         asked = {double or single for double, single in found if double or single}
         self.assertEqual(set(RECIPE_PAGE_STRINGS), asked)
+
+    def test_every_group_title_is_one_this_module_lists(self):
+        with translation.override('en'):
+            titles = {str(title) for _group, title, _keys in RECIPE_GROUPS}
+        self.assertEqual(set(RECIPE_GROUP_TITLES), titles)
 
     def test_every_label_of_a_recipe_is_one_this_module_lists_or_one_the_french_catalogue_already_had(self):
         with translation.override('en'):
@@ -146,7 +154,7 @@ class EveryLanguageTranslatesThePageAndTheLabelsOfThePresetsTests(TestCase):
             catalog = catalogue(lang, 'django')
             for msgid, source in (
                     [(text, 'chardata/templates/chardata/projdetails.html') for text in RECIPE_PAGE_STRINGS]
-                    + [(text, 'chardata/presets.py') for text in RECIPE_LABELS]):
+                    + [(text, 'chardata/presets.py') for text in RECIPE_LABELS + NEW_GROUP_TITLES]):
                 with self.subTest(lang=lang, msgid=msgid):
                     entry = catalog.find(msgid)
                     self.assertIsNotNone(entry)
@@ -161,14 +169,14 @@ class EveryLanguageTranslatesThePageAndTheLabelsOfThePresetsTests(TestCase):
     def test_each_foreign_language_differs_from_english_unless_it_borrows_the_word(self):
         for lang in TRANSLATED:
             with translation.override(lang):
-                for msgid in RECIPE_PAGE_STRINGS + RECIPE_LABELS:
+                for msgid in RECIPE_PAGE_STRINGS + RECIPE_LABELS + RECIPE_GROUP_TITLES:
                     with self.subTest(lang=lang, msgid=msgid):
                         if (lang, msgid) in SAME_AS_ENGLISH:
                             self.assertEqual(msgid, translation.gettext(msgid))
                         else:
                             self.assertNotEqual(msgid, translation.gettext(msgid))
         with translation.override('en'):
-            for msgid in RECIPE_PAGE_STRINGS + RECIPE_LABELS:
+            for msgid in RECIPE_PAGE_STRINGS + RECIPE_LABELS + RECIPE_GROUP_TITLES:
                 self.assertEqual(msgid, translation.gettext(msgid))
 
     def test_the_setup_page_of_each_version_shows_the_strings_and_its_chip_labels_in_the_language_of_the_reader(self):
@@ -186,7 +194,7 @@ class EveryLanguageTranslatesThePageAndTheLabelsOfThePresetsTests(TestCase):
     def test_no_translation_has_a_dash_or_an_emoji_or_a_polite_french_form(self):
         for lang in TRANSLATED:
             with translation.override(lang):
-                for msgid in RECIPE_PAGE_STRINGS + RECIPE_LABELS:
+                for msgid in RECIPE_PAGE_STRINGS + RECIPE_LABELS + RECIPE_GROUP_TITLES:
                     text = translation.gettext(msgid)
                     with self.subTest(lang=lang, msgid=msgid):
                         self.assertIsNone(DASH.search(text))

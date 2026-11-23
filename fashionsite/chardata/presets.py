@@ -152,6 +152,14 @@ class Recipe(namedtuple('Recipe', 'key label focus priority mode guard_pct')):
     def mule(self):
         return bool(self.focus) and set(self.focus) <= MULE_BOXES
 
+    @property
+    def group(self):
+        return _GROUP_OF_RECIPE[self.key][0]
+
+    @property
+    def group_title(self):
+        return _GROUP_OF_RECIPE[self.key][1]
+
 
 def _recipe(key, label, focus=(), priority=DEFAULT_PRIORITY, mode=DEFAULT_PLAY_MODE,
             guard_pct=None):
@@ -178,6 +186,15 @@ RECIPES = (
     _recipe('farm', gettext_lazy('Farm'), focus=('wis', 'pp')),
     _recipe('pod_carrier', gettext_lazy('Pod carrier'), focus=('pods',)),
 )
+
+RECIPE_GROUPS = (
+    ('roles', gettext_lazy('Roles'), ('balanced', 'damage', 'glass_cannon', 'tank', 'healer')),
+    ('specialties', gettext_lazy('Specialties'),
+     ('critical', 'fixed_damage', 'no_crit', 'ap_removal', 'mp_removal', 'pusher', 'summoner', 'trapper')),
+    ('pvp', gettext_lazy('PvP'), tuple(mode.key for mode in PLAY_MODES if mode.boxes)),
+    ('mules', gettext_lazy('Mules and farming'), ('xp_mule', 'prospecting_mule', 'farm', 'pod_carrier')),
+)
+_GROUP_OF_RECIPE = {key: (group, title) for group, title, keys in RECIPE_GROUPS for key in keys}
 
 
 def _offers(recipe, game_version, entry):

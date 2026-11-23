@@ -8689,6 +8689,18 @@ msgstr ""
 msgid "Pod carrier"
 msgstr ""
 
+#: chardata/presets.py
+msgid "Roles"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Specialties"
+msgstr ""
+
+#: chardata/presets.py
+msgid "Mules and farming"
+msgstr ""
+
 #: chardata/templates/chardata/projdetails.html
 msgid "Start from a preset"
 msgstr ""

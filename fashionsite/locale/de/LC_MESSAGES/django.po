@@ -9724,6 +9724,18 @@ msgstr "Farmen"
 msgid "Pod carrier"
 msgstr "Pod-Träger"
 
+#: chardata/presets.py
+msgid "Roles"
+msgstr "Rollen"
+
+#: chardata/presets.py
+msgid "Specialties"
+msgstr "Spezialisierungen"
+
+#: chardata/presets.py
+msgid "Mules and farming"
+msgstr "Mules und Farmen"
+
 #: chardata/templates/chardata/projdetails.html
 msgid "Start from a preset"
 msgstr "Mit einer Voreinstellung beginnen"

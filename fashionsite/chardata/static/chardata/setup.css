@@ -357,6 +357,10 @@ html.fm-modern .setup-recipes, html.fm-enhanced .setup-recipes {
     gap: 6px 8px;
 }
 
+.setup-chips > .setup-chip-group {
+    display: contents;
+}
+
 .setup-chip,
 .setup-action {
     box-sizing: border-box;

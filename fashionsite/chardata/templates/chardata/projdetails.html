@@ -57,7 +57,9 @@
         <section id="setup-recipes" class="setup-recipes fm-setup-card" aria-labelledby="setup-recipes-title" data-version="{{ current_game_version }}" data-guard-default="{{ guard_default }}" hidden>
             <p id="setup-recipes-title" class="setup-recipes-title big-text">{% trans "Start from a preset" %}</p>
             <div class="setup-chips" role="group" aria-labelledby="setup-recipes-title">
-                {% for recipe in recipes %}<button type="button" class="setup-chip" data-recipe="{{ recipe.key }}" data-focus="{{ recipe.focus|join:' ' }}" data-priority="{{ recipe.priority }}" data-mode="{{ recipe.mode }}"{% if recipe.guard_pct is not None %} data-guard="{{ recipe.guard_pct }}"{% endif %}{% if recipe.mule %} data-mule="true"{% endif %} aria-pressed="false">{{ recipe.label }}</button>
+                {% regroup recipes by group as recipe_groups %}{% for chip_group in recipe_groups %}<div class="setup-chip-group" role="group" aria-labelledby="setup-chip-group-{{ chip_group.grouper }}"><p id="setup-chip-group-{{ chip_group.grouper }}" class="setup-chip-group-title fm-x">{{ chip_group.list.0.group_title }}</p>
+                {% for recipe in chip_group.list %}<button type="button" class="setup-chip" data-recipe="{{ recipe.key }}" data-focus="{{ recipe.focus|join:' ' }}" data-priority="{{ recipe.priority }}" data-mode="{{ recipe.mode }}"{% if recipe.guard_pct is not None %} data-guard="{{ recipe.guard_pct }}"{% endif %}{% if recipe.mule %} data-mule="true"{% endif %} aria-pressed="false">{{ recipe.label }}</button>
+                {% endfor %}</div>
                 {% endfor %}
             </div>
             <p id="setup-recipes-note" class="small-explain setup-recipes-note" role="status"></p>

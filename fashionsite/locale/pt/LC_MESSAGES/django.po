@@ -9640,6 +9640,18 @@ msgstr "Farm"
 msgid "Pod carrier"
 msgstr "Carregador de pods"
 
+#: chardata/presets.py
+msgid "Roles"
+msgstr "Funções"
+
+#: chardata/presets.py
+msgid "Specialties"
+msgstr "Especialidades"
+
+#: chardata/presets.py
+msgid "Mules and farming"
+msgstr "Mulas e farm"
+
 #: chardata/templates/chardata/projdetails.html
 msgid "Start from a preset"
 msgstr "Comece com uma predefinição"
