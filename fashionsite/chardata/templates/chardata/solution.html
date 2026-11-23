@@ -814,10 +814,66 @@
         }
         var doll=q('.fm-sol-doll');
         if(doll){
-            ['hat','cloak','amulet','ring1','ring2','weapon','shield','belt','boots','pet'].forEach(function(slot){
-                var item=document.getElementById('item-container-'+slot);if(item&&doll.contains(item))doll.appendChild(item);
+            var sides=doll.querySelectorAll(':scope > .solution-item-section-column');
+            ['hat','cloak','amulet','ring1','ring2','weapon','shield','belt','boots','pet'].forEach(function(slot,i){
+                var item=document.getElementById('item-container-'+slot),side=sides.length===2?sides[i<5?0:1]:doll;
+                if(item&&doll.contains(item))side.appendChild(item);
             });
         }
+        var tiles=function(){
+            var focused=document.activeElement;
+            document.querySelectorAll('.solution-item-section:not(.fm-sol-doll)').forEach(function(section){
+                var cards=Array.prototype.slice.call(section.querySelectorAll('.expand-container')).map(function(card,i){if(!card.dataset.fmOrder)card.dataset.fmOrder=String(i);return card;}).sort(function(a,b){return a.dataset.fmOrder-b.dataset.fmOrder;}),
+                    count=Math.min(getComputedStyle(section).gridTemplateColumns.split(' ').length,cards.length),
+                    cols=section.querySelectorAll(':scope > .fm-sol-col');
+                if(!count||cols.length===count)return;
+                Array.prototype.forEach.call(cols,function(col){col.remove();});
+                for(var c=0;c<count;c++){
+                    var col=document.createElement('div');
+                    col.className='fm-sol-col';
+                    cards.forEach(function(card,i){if(i%count===c)col.appendChild(card);});
+                    section.appendChild(col);
+                }
+            });
+            if(focused&&focused!==document.activeElement&&document.contains(focused))focused.focus({preventScroll:true});
+        };
+        var fit=function(){
+            document.querySelectorAll('.solution-item-section').forEach(function(section){
+                if(section.querySelector('.expand-container.fm-open')){section.dataset.fmStale='1';return;}
+                delete section.dataset.fmStale;
+                var cards=section.querySelectorAll('.expand-container'),figure=section.querySelector(':scope > .fm-sol-figure'),tall=0;
+                if(figure){
+                    var sides=section.querySelectorAll(':scope > .solution-item-section-column');
+                    figure.style.height='';
+                    Array.prototype.forEach.call(cards,function(card){card.style.minHeight='';});
+                    if(sides.length!==2||!window.matchMedia('(min-width:760px)').matches)return;
+                    var left=sides[0].querySelectorAll(':scope > .expand-container'),right=sides[1].querySelectorAll(':scope > .expand-container'),rows=Math.min(left.length,right.length),natural=[];
+                    for(var i=0;i<rows;i++)natural.push(Math.max(left[i].getBoundingClientRect().height,right[i].getBoundingClientRect().height));
+                    for(var j=0;j<rows;j++){left[j].style.minHeight=natural[j]+'px';right[j].style.minHeight=natural[j]+'px';}
+                    Array.prototype.forEach.call(sides,function(col){tall=Math.max(tall,col.getBoundingClientRect().height);});
+                    figure.style.height=tall+'px';
+                    return;
+                }
+                Array.prototype.forEach.call(cards,function(card){card.style.minHeight='';});
+                var cols=section.querySelectorAll(':scope > .fm-sol-col'),depth=0;
+                Array.prototype.forEach.call(cols,function(col){depth=Math.max(depth,col.children.length);});
+                for(var k=0;k<depth;k++){
+                    var rowCards=[];
+                    tall=0;
+                    Array.prototype.forEach.call(cols,function(col){if(col.children[k])rowCards.push(col.children[k]);});
+                    rowCards.forEach(function(card){tall=Math.max(tall,card.getBoundingClientRect().height);});
+                    rowCards.forEach(function(card){card.style.minHeight=tall+'px';});
+                }
+            });
+        };
+        var refit=function(){tiles();fit();};
+        refit();
+        window.matchMedia('(min-width:760px)').addEventListener('change',refit);
+        var refitTimer=null;
+        window.addEventListener('resize',function(){clearTimeout(refitTimer);refitTimer=setTimeout(refit,150);});
+        window.addEventListener('load',refit);
+        document.addEventListener('click',function(){setTimeout(function(){if(document.querySelector('.solution-item-section[data-fm-stale]'))refit();},450);});
+        if(document.fonts&&document.fonts.ready)document.fonts.ready.then(refit);
         if(acts){
             ['.proj-info-side','.fm-sol-actions-row','.fm-sol-rerun-row .rerun-button'].forEach(function(sel){
                 var node=q(sel);if(node)acts.appendChild(node);
@@ -1650,7 +1706,7 @@
                 statLines.append(row);
             });
 
-            var addRow = $("<div style='margin-top:6px;display:flex;gap:4px;align-items:center;border-top:1px solid rgba(128,128,128,0.3);padding-top:5px;'></div>");
+            var addRow = $("<div class='sol-stat-add-row' style='margin-top:6px;display:flex;gap:4px;align-items:center;border-top:1px solid rgba(128,128,128,0.3);padding-top:5px;'></div>");
             var statSelect = $("<select style='font-size:0.85em;max-width:130px;'></select>");
             statSelect.append($("<option value=''>{% trans "Add a stat..." %}</option>"));
             $.each(statFilterOptions, function(_, opt) {
@@ -2010,7 +2066,7 @@
                                 var currentStats = btn.data('itemStats') || [];
                                 rebuildStatsDisplay(capturedKey, capturedItemId, currentStats);
                                 btn.data('editing', false);
-                                btn.text('{% trans "Customize stats" %}');
+                                btn.text('{% trans "Customize stats" %}').attr('title','{% trans "Customize stats" %}').removeClass('fm-editing');
                             } else {
                                 $.post(apiBase + "/getitemdetails/", {item: capturedItemId}, function(data) {
                                     var itemStats = data.stats || [];
@@ -2032,7 +2088,7 @@
                                     btn.data('itemStats', itemStats);
                                     btn.data('editing', true);
                                     showEditMode(capturedKey, capturedItemId, itemStats);
-                                    btn.text('{% trans "Done" %}');
+                                    btn.text('{% trans "Done" %}').attr('title','{% trans "Done" %}').addClass('fm-editing');
                                 });
                             }
                         };

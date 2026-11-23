@@ -426,22 +426,14 @@ html.fm-modern .fm-sol-stage::after{
 html.fm-modern .fm-sol-stage > *{ position:relative; z-index:1; }
 html.fm-modern .fm-sol-figure-name{ font-family:var(--fm-font-display); font-size:18px; color:var(--fm-head); text-align:center; }
 html.fm-modern .fm-sol-figure .char-banner-controls{ align-items:center; max-width:100%; }
+html.fm-modern .solution-item-section.fm-sol-doll > .solution-item-section-column{ display:flex !important; flex-direction:column; gap:10px; min-width:0; align-self:start; }
 @media (min-width:760px){
   html.fm-modern .solution-item-section.fm-sol-doll{
-    grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr);
-    grid-template-areas:"hat fig weapon" "cloak fig shield" "amulet fig belt" "ring1 fig boots" "ring2 fig pet";
+    grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr); grid-template-areas:"left fig right"; align-items:start;
   }
-  html.fm-modern .fm-sol-doll > .fm-sol-figure{ order:0; grid-area:fig; }
-  html.fm-modern .fm-sol-doll #item-container-hat{ grid-area:hat; }
-  html.fm-modern .fm-sol-doll #item-container-cloak{ grid-area:cloak; }
-  html.fm-modern .fm-sol-doll #item-container-amulet{ grid-area:amulet; }
-  html.fm-modern .fm-sol-doll #item-container-ring1{ grid-area:ring1; }
-  html.fm-modern .fm-sol-doll #item-container-ring2{ grid-area:ring2; }
-  html.fm-modern .fm-sol-doll #item-container-weapon{ grid-area:weapon; }
-  html.fm-modern .fm-sol-doll #item-container-shield{ grid-area:shield; }
-  html.fm-modern .fm-sol-doll #item-container-belt{ grid-area:belt; }
-  html.fm-modern .fm-sol-doll #item-container-boots{ grid-area:boots; }
-  html.fm-modern .fm-sol-doll #item-container-pet{ grid-area:pet; }
+  html.fm-modern .fm-sol-doll > .fm-sol-figure{ order:0; grid-area:fig; align-self:start; }
+  html.fm-modern .fm-sol-doll > .fm-sol-figure + .solution-item-section-column{ grid-area:left; }
+  html.fm-modern .fm-sol-doll > .solution-item-section-column + .solution-item-section-column{ grid-area:right; }
 }
 html.fm-modern .fm-sol-turn, html.fm-modern .fm-sol-crit, html.fm-modern .solution-table .solver-why{ box-sizing:border-box; padding:20px; text-align:left; }
 html.fm-modern .fm-sol-card-title, html.fm-modern .solver-why-title{

@@ -82,7 +82,7 @@ html.fm-modern .solution-item-expand-header .solution-item-icons .solution-item-
 /* Dofus, trophies and shards in cells */
 html.fm-modern .fm-sol-row-title{ margin:0 0 8px; font-size:11.5px; line-height:1.2; letter-spacing:.16em; text-transform:uppercase; font-weight:700; color:var(--fm-muted); text-align:left; }
 html.fm-modern .solution-item-section:not(.fm-sol-doll){
-  grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; align-items:stretch;
+  grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; align-items:start;
 }
 @media (min-width:760px){
   html.fm-modern .solution-item-section:not(.fm-sol-doll){ grid-template-columns:repeat(6,minmax(0,1fr)); }
@@ -102,13 +102,17 @@ html.fm-modern .solution-item-section:not(.fm-sol-doll) .fm-slot-label{ display:
 html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-name-div{ justify-content:center; padding-right:0; font-size:13px; line-height:1.2; }
 html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-icons{ justify-content:center; margin:2px 0 0; }
 html.fm-modern .solution-item-section:not(.fm-sol-doll) .solution-item-link-div{ top:4px; right:4px; }
-html.fm-modern .solution-item-section:not(.fm-sol-doll){ container:fm-row / inline-size; }
-html.fm-modern .solution-item-section:not(.fm-sol-doll):has(.expand-container.fm-open){ grid-auto-flow:row dense; }
-html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open{ grid-column:span 3; }
-@container fm-row (min-width:700px){
-  html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open{ grid-column:span 2; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) > .fm-sol-col{ display:flex; flex-direction:column; gap:10px; min-width:0; align-self:start; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) > .fm-sol-col > .expand-container{ min-width:0; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open .solution-item-name-div{ overflow-wrap:break-word; hyphens:auto; font-size:11.5px; letter-spacing:0; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open > .solution-item-expand-content{ padding:8px 6px; font-size:12.5px; overflow-wrap:break-word; hyphens:auto; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open [id^="stat-override-btn-sol-"]{ position:relative; display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box; width:40px; min-width:40px; height:40px !important; min-height:40px; padding:0 !important; margin:0 auto; font-size:0 !important; line-height:0; overflow:hidden; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open [id^="stat-override-btn-sol-"]::before{ content:""; width:20px; height:20px; background-color:currentColor; -webkit-mask:center/contain no-repeat; mask:center/contain no-repeat; -webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23000%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M14%204l6%206-3%203-6-6z%27/%3E%3Cpath%20d=%27M12.5%208.5%204%2017a1.5%201.5%200%200%200%202%202l8.5-8.5%27/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23000%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M14%204l6%206-3%203-6-6z%27/%3E%3Cpath%20d=%27M12.5%208.5%204%2017a1.5%201.5%200%200%200%202%202l8.5-8.5%27/%3E%3C/svg%3E"); }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open [id^="stat-override-btn-sol-"].fm-editing::before{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23000%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M5%2013l4%204L19%207%27/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23000%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M5%2013l4%204L19%207%27/%3E%3C/svg%3E"); }
+@media (max-width:760px){
+  html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open [id^="stat-override-btn-sol-"]{ width:44px; min-width:44px; height:44px !important; min-height:44px; }
 }
-html.fm-modern .solution-item-section:not(.fm-sol-doll):has(.expand-container:not(.fm-open)) .expand-container.fm-open{ grid-column:1 / -1; }
+html.fm-modern .solution-item-section:not(.fm-sol-doll) .expand-container.fm-open .solution-inline-stat-line{ flex-wrap:wrap; max-width:100%; }
 html.fm-modern .solution-table .solution-item-summary{ container:fm-items / inline-size; }
 @media (min-width:760px){
   @container fm-items (max-width:699px){
@@ -126,32 +130,14 @@ html.fm-modern .solution-item-section .expand-container.fm-open > .solution-item
 html.fm-modern .solution-item-section .expand-container.fm-open [id^="stat-lines-"]:has(> .solution-inline-stat-line){ column-width:14em; column-gap:24px; }
 @media (min-width:760px){
   html.fm-modern body{ overflow-anchor:none; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)){ grid-template-columns:minmax(0,1fr) minmax(0,1fr) 190px; grid-template-rows:repeat(6,auto); grid-template-areas:none; grid-auto-flow:row dense; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > :is(#item-container-hat,#item-container-cloak,#item-container-amulet,#item-container-ring1,#item-container-ring2){ grid-area:auto / 1; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > :is(#item-container-weapon,#item-container-shield,#item-container-belt,#item-container-boots,#item-container-pet){ grid-area:auto / 2; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > .fm-sol-figure{ grid-area:1 / 3 / -1 / 4; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > .expand-container.fm-open:is(#item-container-hat,#item-container-cloak,#item-container-amulet,#item-container-ring1,#item-container-ring2,#item-container-weapon,#item-container-shield,#item-container-belt,#item-container-boots,#item-container-pet){ grid-column:1 / 3; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-hat{ order:4; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-weapon{ order:6; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-cloak{ order:8; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-shield{ order:10; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-amulet{ order:12; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-belt{ order:14; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-ring1{ order:16; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-boots{ order:18; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-ring2{ order:20; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > #item-container-pet{ order:22; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > .expand-container.fm-open:is(#item-container-hat,#item-container-weapon){ order:3; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > .expand-container.fm-open:is(#item-container-cloak,#item-container-shield){ order:7; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > .expand-container.fm-open:is(#item-container-amulet,#item-container-belt){ order:11; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > .expand-container.fm-open:is(#item-container-ring1,#item-container-boots){ order:15; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)) > .expand-container.fm-open:is(#item-container-ring2,#item-container-pet){ order:19; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)):has(> .expand-container.fm-open:is(#item-container-weapon,#item-container-shield,#item-container-belt,#item-container-boots,#item-container-pet)):not(:has(> .expand-container.fm-open:is(#item-container-hat,#item-container-cloak,#item-container-amulet,#item-container-ring1,#item-container-ring2))){ grid-template-columns:190px minmax(0,1fr) minmax(0,1fr); }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)):has(> .expand-container.fm-open:is(#item-container-weapon,#item-container-shield,#item-container-belt,#item-container-boots,#item-container-pet)):not(:has(> .expand-container.fm-open:is(#item-container-hat,#item-container-cloak,#item-container-amulet,#item-container-ring1,#item-container-ring2))) > :is(#item-container-hat,#item-container-cloak,#item-container-amulet,#item-container-ring1,#item-container-ring2){ grid-area:auto / 2; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)):has(> .expand-container.fm-open:is(#item-container-weapon,#item-container-shield,#item-container-belt,#item-container-boots,#item-container-pet)):not(:has(> .expand-container.fm-open:is(#item-container-hat,#item-container-cloak,#item-container-amulet,#item-container-ring1,#item-container-ring2))) > :is(#item-container-weapon,#item-container-shield,#item-container-belt,#item-container-boots,#item-container-pet){ grid-area:auto / 3; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)):has(> .expand-container.fm-open:is(#item-container-weapon,#item-container-shield,#item-container-belt,#item-container-boots,#item-container-pet)):not(:has(> .expand-container.fm-open:is(#item-container-hat,#item-container-cloak,#item-container-amulet,#item-container-ring1,#item-container-ring2))) > .fm-sol-figure{ grid-area:1 / 1 / -1 / 2; }
-  html.fm-modern .solution-item-section.fm-sol-doll:has(> .expand-container.fm-open):has(> .expand-container:not(.fm-open)):has(> .expand-container.fm-open:is(#item-container-weapon,#item-container-shield,#item-container-belt,#item-container-boots,#item-container-pet)):not(:has(> .expand-container.fm-open:is(#item-container-hat,#item-container-cloak,#item-container-amulet,#item-container-ring1,#item-container-ring2))) > .expand-container.fm-open:is(#item-container-hat,#item-container-cloak,#item-container-amulet,#item-container-ring1,#item-container-ring2,#item-container-weapon,#item-container-shield,#item-container-belt,#item-container-boots,#item-container-pet){ grid-column:2 / 4; }
 }
+html.fm-modern .solution-item-section .expand-container.fm-open .sol-stat-edit-row, html.fm-modern .solution-item-section .expand-container.fm-open .sol-stat-add-row{ flex-wrap:wrap; min-width:0; max-width:100%; box-sizing:border-box; }
+html.fm-modern .solution-item-section .expand-container.fm-open .sol-stat-edit-row > span:not(.save-feedback){ flex:1 1 0 !important; min-width:0; order:1; overflow-wrap:break-word; hyphens:auto; }
+html.fm-modern .solution-item-section .expand-container.fm-open .sol-stat-edit-row > .save-feedback{ order:2; }
+html.fm-modern .solution-item-section .expand-container.fm-open .sol-stat-edit-row > button{ order:3; }
+html.fm-modern .solution-item-section .expand-container.fm-open .sol-stat-edit-row > input{ order:4; flex:0 0 100% !important; width:100% !important; min-width:0; max-width:100%; box-sizing:border-box; }
+html.fm-modern .solution-item-section .expand-container.fm-open .sol-stat-add-row > select, html.fm-modern .solution-item-section .expand-container.fm-open .sol-stat-add-row > input{ flex:0 0 100%; width:100% !important; min-width:0; max-width:100% !important; box-sizing:border-box; }
+html.fm-modern .solution-item-section .expand-container.fm-open .sol-stat-add-row > button{ flex:0 0 auto; }
 html.fm-modern .solution-item-expand-content .button-generic{ max-width:100%; white-space:normal; height:auto; box-sizing:border-box; }
 
 /* Sets as data tapes */

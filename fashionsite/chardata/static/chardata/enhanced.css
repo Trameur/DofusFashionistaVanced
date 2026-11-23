@@ -536,6 +536,7 @@ html.fm-enhanced .item-exchange-header,
 html.fm-enhanced .solution-item-expand-header, html.fm-enhanced .solution-set-expand-header{
   background:var(--fm-surface-3) !important; color:var(--fm-head) !important;
 }
+html.fm-enhanced .solution-item-section-column .solution-item-expand-content{ width:0; min-width:100%; box-sizing:border-box; overflow-wrap:anywhere; }
 html.fm-enhanced .item-exchange-stats, html.fm-enhanced .item-exchange-comparison,
 html.fm-enhanced .item-exchange-violations,
 html.fm-enhanced .solution-item-expand-content, html.fm-enhanced .solution-set-expand-content{
