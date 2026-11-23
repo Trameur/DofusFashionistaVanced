@@ -2691,6 +2691,12 @@ html.fm-modern .tunnel-options .big-text{ text-align:left; }
 html.fm-modern .tunnel-options .temporix-box label.temporix{ font-family:var(--fm-font-display); font-size:1.25rem; color:var(--fm-head); }
 html.fm-modern .tunnel-options > .big-text > br{ display:none; }
 html.fm-modern .tunnel-options > div[align="center"]:not(.big-text){ display:flex; flex-wrap:wrap; justify-content:flex-start; gap:var(--fm-space-3); margin-top:var(--fm-space-4); }
+@media (max-width:900px){
+  html.fm-modern .tunnel-options label:has(> .exo-count-input){ display:flex; align-items:center; gap:var(--fm-space-3); }
+  html.fm-modern .tunnel-options label:has(> .exo-count-input) > br{ display:none; }
+  html.fm-modern .tunnel-options label:has(> .exo-count-input) + br{ display:none; }
+  html.fm-modern .tunnel-options .pretty-input.exo-count-input{ flex:none; width:5rem !important; min-height:44px; box-sizing:border-box; }
+}
 html.fm-modern .tunnel-atelier .fm-savebar{
   position:sticky; bottom:0; z-index:20; display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:10px 14px; box-sizing:border-box; min-height:76px;
   margin:var(--fm-space-4) calc(0px - var(--fm-gutter)) 0; padding:12px var(--fm-gutter); background:var(--fm-nav); border-top:1px solid var(--fm-seam);
