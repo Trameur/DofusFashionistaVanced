@@ -7718,6 +7718,15 @@ msgstr "am Ende der Runde des Ziels, und nur bei den Gegnern um das Ziel herum, 
 msgid "only when the flask is destroyed, and only on the enemies around it"
 msgstr "nur wenn die Phiole zerstört wird, und nur bei den Gegnern um sie herum"
 
+msgid "only when the target uses AP or MP"
+msgstr "nur wenn das Ziel AP oder BP verwendet"
+
+msgid "only when an enemy enters the Bellaura, once per enemy and per turn"
+msgstr "nur wenn ein Gegner die Bellaura betritt, einmal pro Gegner und Runde"
+
+msgid "only when an enemy leaves the Bellaura, once per enemy and per turn"
+msgstr "nur wenn ein Gegner die Bellaura verlässt, einmal pro Gegner und Runde"
+
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "nur wenn der Zauber auf den Zaubernden gewirkt wird, und nur bei den Gegnern um den Zaubernden und den Wurfspeer herum"
 
@@ -8454,6 +8463,9 @@ msgstr "kein eigener Schaden, verstärkt die folgenden Zauber"
 
 msgid "no damage now, its own lands later and is counted apart"
 msgstr "jetzt kein Schaden, der eigene folgt später und wird getrennt gezählt"
+
+msgid "its poison and its steal are both counted, but the steal only lands on a target standing in the Bellaura"
+msgstr "sein Gift und sein Diebstahl werden beide gezählt, aber der Diebstahl trifft nur ein Ziel in der Bellaura"
 
 msgid "What the character has without gear: scrolls and spent points."
 msgstr "Was der Charakter ohne Ausrüstung hat: Schriftrollen und verteilte Punkte."

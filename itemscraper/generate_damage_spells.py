@@ -285,10 +285,17 @@ _MODERN_CONDITIONAL_ROWS = {
             11: "initial_enemy"},   # Cra, Devouring Arrow
 }
 
+_BETA_CONDITIONAL_ROWS = dict(_MODERN_CONDITIONAL_ROWS)
+_BETA_CONDITIONAL_ROWS.update({
+    33220: dict.fromkeys((4, 5, 6, 7), "target_uses_ap_or_mp"),
+    33227: dict.fromkeys((4, 5, 6, 7), "enemy_enters_the_bellaura"),
+    33233: dict.fromkeys((4, 5, 6, 7), "enemy_leaves_the_bellaura"),
+})
+
 CONDITIONAL_ROWS_BY_VERSION = {
     "dofus3": _MODERN_CONDITIONAL_ROWS,
     # beta: same client, one patch ahead
-    "beta": _MODERN_CONDITIONAL_ROWS,
+    "beta": _BETA_CONDITIONAL_ROWS,
     # 2.73 marks all these rows "I"
     "dofus2": {
         23735: {1: "pushback"},   # Forgelance, Noa

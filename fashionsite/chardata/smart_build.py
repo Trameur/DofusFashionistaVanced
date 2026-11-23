@@ -645,7 +645,7 @@ RACE_TO_BUILD_PROFILE = {
     'Bellaphone': {
         'all': {
             'meleeness': 0.1,
-            'range_importance': 0.4,
+            'range_importance': 0.5,
             'vit_importance': 0.7,
         },
         'str': {

@@ -6856,6 +6856,15 @@ msgstr "at the end of the target's turn, and only on the enemies around it, neve
 msgid "only when the flask is destroyed, and only on the enemies around it"
 msgstr "only when the flask is destroyed, and only on the enemies around it"
 
+msgid "only when the target uses AP or MP"
+msgstr "only when the target uses AP or MP"
+
+msgid "only when an enemy enters the Bellaura, once per enemy and per turn"
+msgstr "only when an enemy enters the Bellaura, once per enemy and per turn"
+
+msgid "only when an enemy leaves the Bellaura, once per enemy and per turn"
+msgstr "only when an enemy leaves the Bellaura, once per enemy and per turn"
+
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "only when cast on the caster, and only on the enemies around the caster and the Lance"
 
@@ -7425,6 +7434,9 @@ msgid "no damage of its own, it raises the casts that follow"
 msgstr ""
 
 msgid "no damage now, its own lands later and is counted apart"
+msgstr ""
+
+msgid "its poison and its steal are both counted, but the steal only lands on a target standing in the Bellaura"
 msgstr ""
 
 msgid "What the character has without gear: scrolls and spent points."

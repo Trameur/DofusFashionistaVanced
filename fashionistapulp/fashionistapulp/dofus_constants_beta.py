@@ -689,7 +689,7 @@ DAMAGE_SPELLS = {
  ('Hit in best element', [4]),
  ('', [5]),
  ('', [6]),
- ('', [7])], casting={'ap': [6], 'cooldown': [63], 'crit': [25]}, spell_id=33220),
+ ('', [7])], casting={'ap': [6], 'cooldown': [63], 'crit': [25]}, spell_id=33220, conditional={4: 'target_uses_ap_or_mp', 5: 'target_uses_ap_or_mp', 6: 'target_uses_ap_or_mp', 7: 'target_uses_ap_or_mp'}),
         Spell('Ivory Tower', [1], Effects(
             [['46-50'], ['46-50'], ['46-50'], ['46-50'], ['25'], ['25'], ['25'], ['25']],
             [['55-60'], ['55-60'], ['55-60'], ['55-60'], ['25'], ['25'], ['25'], ['25']],
@@ -702,7 +702,7 @@ DAMAGE_SPELLS = {
  ('Hit in best element', [4]),
  ('', [5]),
  ('', [6]),
- ('', [7])], casting={'ap': [6], 'cooldown': [63], 'crit': [25]}, spell_id=33227),
+ ('', [7])], casting={'ap': [6], 'cooldown': [63], 'crit': [25]}, spell_id=33227, conditional={4: 'enemy_enters_the_bellaura', 5: 'enemy_enters_the_bellaura', 6: 'enemy_enters_the_bellaura', 7: 'enemy_enters_the_bellaura'}),
         Spell('Funeral', [180], Effects(
             [['39-43'],
              ['39-43'],
@@ -752,7 +752,7 @@ DAMAGE_SPELLS = {
  ('Hit in best element', [4]),
  ('', [5]),
  ('', [6]),
- ('', [7])], casting={'ap': [6], 'cooldown': [63], 'crit': [25]}, spell_id=33233),
+ ('', [7])], casting={'ap': [6], 'cooldown': [63], 'crit': [25]}, spell_id=33233, conditional={4: 'enemy_leaves_the_bellaura', 5: 'enemy_leaves_the_bellaura', 6: 'enemy_leaves_the_bellaura', 7: 'enemy_leaves_the_bellaura'}),
         Spell('Ovation', [125, 192], Effects(
             [['80', '80']],
             None,

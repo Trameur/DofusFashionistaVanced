@@ -7662,6 +7662,15 @@ msgstr "al final del turno del objetivo, y solo en los enemigos alrededor de est
 msgid "only when the flask is destroyed, and only on the enemies around it"
 msgstr "solo cuando se destruye el frasco, y solo en los enemigos a su alrededor"
 
+msgid "only when the target uses AP or MP"
+msgstr "solo cuando el objetivo utiliza PA o PM"
+
+msgid "only when an enemy enters the Bellaura, once per enemy and per turn"
+msgstr "solo cuando un enemigo entra en la belaura, una vez por enemigo y turno"
+
+msgid "only when an enemy leaves the Bellaura, once per enemy and per turn"
+msgstr "solo cuando un enemigo sale de la belaura, una vez por enemigo y turno"
+
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "solo si se lanza sobre el lanzador, y solo en los enemigos alrededor del lanzador y de la lanza"
 
@@ -8398,6 +8407,9 @@ msgstr "sin daño propio, aumenta los lanzamientos que siguen"
 
 msgid "no damage now, its own lands later and is counted apart"
 msgstr "sin daño ahora, el suyo cae más tarde y se cuenta aparte"
+
+msgid "its poison and its steal are both counted, but the steal only lands on a target standing in the Bellaura"
+msgstr "su veneno y su robo se cuentan ambos, pero el robo solo alcanza a un objetivo situado en la belaura"
 
 msgid "What the character has without gear: scrolls and spent points."
 msgstr "Lo que el personaje tiene sin equipo: sus pergaminos y sus puntos gastados."

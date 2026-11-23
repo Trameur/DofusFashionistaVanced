@@ -28,11 +28,11 @@ _MOITIE_QUI_FRAPPE = {
 _AVEC_GROUPE_DE_BUFF = 14
 _AVEC_PLUSIEURS_SERIES = 35
 
-_ZEROS_RESTANTS = {'dofus3': 52, 'beta': 52, 'dofus2': 26,
+_ZEROS_RESTANTS = {'dofus3': 52, 'beta': 54, 'dofus2': 26,
                   'touch': 96, 'retro': 48}
 _SORT_DES_ZEROS_RESTANTS = 'Ebony Dofus'
 _ATTENTES_DES_CHOSES_POSEES = {'trap', 'bomb', 'glyph', 'aura', 'state',
-                               'flask_destroyed'}
+                               'flask_destroyed', 'enemy_enters_the_bellaura'}
 
 
 def _tous_les_sorts():

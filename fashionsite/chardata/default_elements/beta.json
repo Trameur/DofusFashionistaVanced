@@ -11,12 +11,12 @@
  },
  "classes": {
   "Bellaphone": {
-   "20": {"element": "agi", "inputs": "56031a95b270", "turns": {"agi": 230.3, "cha": 230.3, "int": 230.3, "str": 230.3}},
-   "50": {"element": "cha", "inputs": "0b4e5fd560ac", "turns": {"agi": 306.0, "cha": 314.8, "int": 306.0, "str": 306.0}},
-   "100": {"element": "cha", "inputs": "0144d8208344", "turns": {"agi": 536.4, "cha": 584.5, "int": 544.0, "str": 532.4}},
-   "150": {"element": "cha", "inputs": "771f82fb5083", "turns": {"agi": 985.5, "cha": 1180.7, "int": 1001.9, "str": 1019.6}},
-   "180": {"element": "cha", "inputs": "ba9aaaf0c049", "turns": {"agi": 1343.0, "cha": 1535.7, "int": 1367.0, "str": 1372.7}},
-   "200": {"element": "cha", "inputs": "d1185fa8dc33", "turns": {"agi": 1923.4, "cha": 2277.6, "int": 1955.2, "str": 1972.0}}
+   "20": {"element": "agi", "inputs": "6f7096e0e86e", "turns": {"agi": 230.3, "cha": 230.3, "int": 230.3, "str": 230.3}},
+   "50": {"element": "cha", "inputs": "19e810f90901", "turns": {"agi": 306.0, "cha": 314.8, "int": 306.0, "str": 306.0}},
+   "100": {"element": "cha", "inputs": "6c3622444c2f", "turns": {"agi": 609.8, "cha": 639.7, "int": 609.8, "str": 609.8}},
+   "150": {"element": "cha", "inputs": "68e180a8da4c", "turns": {"agi": 1124.6, "cha": 1223.0, "int": 1119.6, "str": 1130.7}},
+   "180": {"element": "cha", "inputs": "7b75149e2272", "turns": {"agi": 1488.8, "cha": 1607.4, "int": 1503.3, "str": 1507.7}},
+   "200": {"element": "cha", "inputs": "daf0cf5e837f", "turns": {"agi": 2106.6, "cha": 2416.6, "int": 2144.1, "str": 2160.3}}
   },
   "Cra": {
    "20": {"element": "str", "inputs": "7cefe275913b", "turns": {"agi": 154.1, "cha": 126.4, "int": 157.7, "str": 162.4}},

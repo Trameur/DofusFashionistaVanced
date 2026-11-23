@@ -139,6 +139,33 @@ def _element_alternatives(aggregates, effects):
     return _run_that_hurts(runs, effects)
 
 
+def runs_landing_together(aggregates, effects, late_rows=(), waiting_rows=()):
+    """Faces of a cast whose two runs both land, one late and one on the cast, else None."""
+    runs = [[set(indices) for _label, indices in run]
+            for run in element_runs(aggregates, effects)]
+    if len(runs) != 2 or len(runs[0]) != len(runs[1]):
+        return None
+    late_rows = set(late_rows or ())
+    waiting_rows = set(waiting_rows or ())
+    for run in runs:
+        rows = [index for group in run for index in group]
+        if (any(index in waiting_rows for index in rows)
+                or not all(not getattr(effects[index], 'heals', False)
+                           and (effects[index].min_dam or effects[index].max_dam)
+                           for index in rows)):
+            return None
+    late = [all(index in late_rows for group in run for index in group)
+            for run in runs]
+    instant = [not any(index in late_rows for group in run for index in group)
+               for run in runs]
+    if not ((late[0] and instant[1]) or (late[1] and instant[0])):
+        return None
+    if any(effects[min(first)].element != effects[min(second)].element
+           for first, second in zip(*runs)):
+        return None
+    return [first | second for first, second in zip(*runs)]
+
+
 def _first_group_that_hurts(aggregates, hits):
     """First aggregate group that hits; a heals-only group is the ally half."""
     def frappe(indices):
@@ -255,14 +282,20 @@ class Castable(object):
 
         # Rows waiting on something the cast does not do, like a push (Noa)
         waiting_rows = set(getattr(spell, 'conditional', None) or {})
+        together = []
 
-        def landed(effects):
+        def landed(effects, late_rows=()):
             """The damage a cast can land, one list per alternative."""
             hits = [(index, effect) for index, effect in enumerate(effects)
                     if not effect.element.startswith('buff')
                     and index not in waiting_rows]
             # Aggregate groups are alternatives, a cast lands one
-            groups = _element_alternatives(digest.aggregates, effects)
+            groups = runs_landing_together(digest.aggregates, effects,
+                                           late_rows, waiting_rows)
+            if groups is None:
+                groups = _element_alternatives(digest.aggregates, effects)
+            else:
+                together.append(True)
             par_paliers = groups is None and bool(digest.aggregates)
             if groups is None:
                 groups = ([_first_group_that_hurts(digest.aggregates, hits)]
@@ -283,8 +316,12 @@ class Castable(object):
                     out.append(kept)
             return out
 
-        def at_level(rows):
-            return landed(rows[level_index] if level_index < len(rows) else [])
+        def at_level(rows, critical=False):
+            late = getattr(spell, 'delayed', None) or {}
+            if critical and getattr(spell, 'delayed_crit', None) is not None:
+                late = spell.delayed_crit
+            return landed(rows[level_index] if level_index < len(rows) else [],
+                          late)
 
         def waiting_at(rows):
             """The rows the cast leaves for later, with what each waits for."""
@@ -326,11 +363,12 @@ class Castable(object):
         self.push_needs_state = None
         self.strips_pushback_resist = 0
         self.plain_alternatives = at_level(digest.non_crit_dams)
-        self.crit_alternatives = at_level(digest.crit_dams)
+        self.crit_alternatives = at_level(digest.crit_dams, critical=True)
         self.alternatives = (self.crit_alternatives if crit
                              else self.plain_alternatives)
         self.hits = self.alternatives[0] if self.alternatives else []
         self.stacked = bool(digest.aggregates)
+        self.counts_both_runs = bool(together)
         rows = digest.non_crit_dams
         self.scored_group = scored_group_label(
             digest, rows[level_index] if level_index < len(rows) else [],

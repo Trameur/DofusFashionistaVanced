@@ -19877,6 +19877,20 @@ class SpellComboTests(SimpleTestCase):
             'initial_enemy': {'en': 'initial enemy', 'fr': 'ennemi initial',
                               'es': 'enemigo inicial', 'pt': 'inimigo inicial',
                               'de': 'ursprünglichen gegner'},
+            'target_uses_ap_or_mp': {
+                'en': 'when the target uses ap or mp',
+                'fr': "lorsqu'elle utilise des pa ou des pm",
+                'es': 'cuando utiliza pa o pm',
+                'pt': 'quando este utiliza pa ou pm',
+                'de': 'wenn es ap oder bp verwendet'},
+            'enemy_enters_the_bellaura': {
+                'en': 'enter the bellaura', 'fr': 'entrent dans sa bellaura',
+                'es': 'entran dentro de la belaura', 'pt': 'entram na belaura',
+                'de': 'betreten'},
+            'enemy_leaves_the_bellaura': {
+                'en': 'exit the bellaura', 'fr': 'sortent de sa bellaura',
+                'es': 'salen de su belaura', 'pt': 'saem da belaura',
+                'de': 'verlassen'},
         }
         self.assertTrue(module.CONDITIONAL_ROWS)
         declared = {trigger

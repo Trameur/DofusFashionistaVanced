@@ -649,6 +649,8 @@ def _item_effects_note(solutions, game_version):
 def _cast_note(castable, name, later, damage, game_version=None):
     """Why a cast shows zero, or which group it counted, or ''."""
     if int(round(damage)):
+        if getattr(castable, 'counts_both_runs', False):
+            return str(_CAST_NOTES['both runs'])
         group = getattr(castable, 'scored_group', '')
         if group:
             label = _localized_aggregate_label(group, game_version)
@@ -1254,6 +1256,8 @@ _CAST_NOTES = {
     'buff': _lazy('no damage of its own, it raises the casts that follow'),
     'delayed': _lazy('no damage now, its own lands later and is counted apart'),
     'group': _lazy('counted on %(group)s'),
+    'both runs': _lazy("its poison and its steal are both counted, but the "
+                       "steal only lands on a target standing in the Bellaura"),
 }
 
 _CONDITIONAL_LABELS = {
@@ -1293,6 +1297,14 @@ _CONDITIONAL_LABELS = {
     'around_a_wisp':
         _lazy("only when cast on one of the caster's Will-o'-the-Wisps, and "
               "only on the enemies around it"),
+    'target_uses_ap_or_mp':
+        _lazy("only when the target uses AP or MP"),
+    'enemy_enters_the_bellaura':
+        _lazy("only when an enemy enters the Bellaura, once per enemy "
+              "and per turn"),
+    'enemy_leaves_the_bellaura':
+        _lazy("only when an enemy leaves the Bellaura, once per enemy "
+              "and per turn"),
     'flask_destroyed':
         _lazy("only when the flask is destroyed, and only on the enemies "
               "around it"),

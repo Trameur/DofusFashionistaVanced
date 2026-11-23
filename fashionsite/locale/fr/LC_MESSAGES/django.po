@@ -7773,6 +7773,15 @@ msgstr "à la fin du tour de la cible, et seulement sur les ennemis autour d'ell
 msgid "only when the flask is destroyed, and only on the enemies around it"
 msgstr "seulement quand la Fiole est détruite, et seulement sur les ennemis autour d'elle"
 
+msgid "only when the target uses AP or MP"
+msgstr "seulement quand la cible utilise des PA ou des PM"
+
+msgid "only when an enemy enters the Bellaura, once per enemy and per turn"
+msgstr "seulement quand un ennemi entre dans la Bellaura, une fois par ennemi et par tour"
+
+msgid "only when an enemy leaves the Bellaura, once per enemy and per turn"
+msgstr "seulement quand un ennemi sort de la Bellaura, une fois par ennemi et par tour"
+
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "seulement si le sort est lancé sur le lanceur, et seulement sur les ennemis autour du lanceur et de la Lance"
 
@@ -8509,6 +8518,9 @@ msgstr "aucun dégât en propre, il grossit les lancers qui suivent"
 
 msgid "no damage now, its own lands later and is counted apart"
 msgstr "aucun dégât maintenant, le sien tombe plus tard et est compté à part"
+
+msgid "its poison and its steal are both counted, but the steal only lands on a target standing in the Bellaura"
+msgstr "son poison et son vol sont tous deux comptés, mais le vol ne touche qu'une cible située dans la Bellaura"
 
 msgid "What the character has without gear: scrolls and spent points."
 msgstr "Ce que le personnage a sans équipement: ses parchemins et ses points dépensés."
