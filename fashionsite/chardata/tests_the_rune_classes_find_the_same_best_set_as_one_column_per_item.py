@@ -31,11 +31,12 @@ class TheRuneClassesFindTheSameBestSetAsOneColumnPerItemTests(BetaModelTestCase)
 
     def best(self, model_input, per_item):
         model = SmallModel(self.pieces)
-        if per_item:
-            with mock.patch.object(model_module, 'class_key', side_effect=_one_class_per_item):
+        with mock.patch.object(model_module.Model, '_single_slot_type', return_value=False):
+            if per_item:
+                with mock.patch.object(model_module, 'class_key', side_effect=_one_class_per_item):
+                    model.setup(model_input)
+            else:
                 model.setup(model_input)
-        else:
-            model.setup(model_input)
         model.run()
         self.assertEqual('Optimal', model.get_solved_status())
         return pulp.value(model.problem.pulp_lp.objective), len(model.transcendence_classes)

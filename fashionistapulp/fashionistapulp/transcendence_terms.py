@@ -2,6 +2,7 @@
 """What the tip and the solver share about transcendence runes."""
 
 from fractions import Fraction
+from functools import lru_cache
 
 from .dracorunes import (ELEMENT_PAIRS, POWER_LINE, DAMAGE_LINE,
                          RESISTANCE_ELEMENTS)
@@ -44,10 +45,15 @@ def _exact(value):
     return Fraction(str(value))
 
 
+@lru_cache(maxsize=4096, typed=True)
+def _fits(weight, density, line):
+    used = _exact(weight) + max(_exact(line or 0), 0) * _exact(density)
+    return used <= WEIGHT_CAP
+
+
 def rune_fits(rune, line):
     """True when the rune's weight plus the line's weight stays within the cap."""
-    used = _exact(rune['weight']) + max(_exact(line or 0), 0) * _exact(rune['density'])
-    return used <= WEIGHT_CAP
+    return _fits(rune['weight'], rune['density'], line)
 
 
 def runes_by_stat(runes):
@@ -103,8 +109,13 @@ def blocking_kinds(stat_key):
                      if stat_key in stats)
 
 
+@lru_cache(maxsize=4096, typed=True)
+def _product(weight, bonus):
+    return Fraction(str(weight)) * _exact(bonus)
+
+
 def _gain(rune, weights):
-    return Fraction(str(weights[rune['stat_key']])) * _exact(rune['bonus'])
+    return _product(weights[rune['stat_key']], rune['bonus'])
 
 
 def copy_runes(by_stat, lines, upper_stats, capped_stats, pinned, free_weights,

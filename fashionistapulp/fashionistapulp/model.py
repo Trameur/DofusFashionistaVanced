@@ -23,7 +23,8 @@ from copy import deepcopy
 
 from . import dracorune_terms, dracorunes, transcendence
 from .transcendence_terms import (TRANSCENDENCE_VERSIONS, class_key, copy_runes,
-                                  copy_takes_rune, dracorune_kind, hall_rows, runes_by_stat)
+                                  copy_takes_rune, dracorune_kind, hall_rows, rune_fits,
+                                  runes_by_stat)
 from .exo_options import exo_count, forgeable_type
 from .game_versions import get_game_version
 from .item_effects import effect_term, load_effect_table
@@ -1195,7 +1196,7 @@ class Model:
             self._dracorune_constraints.append(DRACORUNE_TOTAL)
 
     def _add_transcendence_terms(self, model_input):
-        """Up to N worn copies take a transcendence rune: per class of copies a column per rune it takes, the Hall rows T1 to T4, the exo rows and the count row."""
+        """Up to N worn copies take a transcendence rune: a column per rune of each one-slot type or class of ring copies, their Hall rows, the exo rows and the count row."""
         count = transcendence_count(model_input.options)
         candidates = getattr(self, 'transcendence_candidates', None)
         by_stat = getattr(self, 'transcendence_runes', None)
@@ -1214,9 +1215,13 @@ class Model:
         draconized = self._dracorune_columns_by_item()
         classes = {}
         kept_runes = {}
+        slots = {}
         for item_id in pool:
             kept = copy_runes(by_stat, candidates[item_id], upper, capped, pinned,
                               free_weights, item_id in draconized, bounded_weights)
+            if kept and self._single_slot_type(item_id):
+                slots.setdefault(self._type_of(item_id), []).append((item_id, kept))
+                continue
             kept_stats = {rune['stat_key'] for rune in kept}
             key = (item_id in draconized, class_key(by_stat, candidates[item_id], kept_stats),
                    tuple(rune['id'] for rune in kept))
@@ -1252,8 +1257,86 @@ class Model:
                     number, worn, class_columns,
                     [entry for item_id in members for entry in draconized.get(item_id, ())])
                 every.extend(class_columns)
+        for offset, type_name in enumerate(sorted(slots)):
+            every.extend(self._add_transcendence_slot(
+                len(classes) + offset, slots[type_name], draconized, rows))
         if every:
             self._add_transcendence_global_rows(every, count, wearable)
+
+    def _type_of(self, item_id):
+        return self.structure.get_type_name_by_id(self.structure.get_item_by_id(item_id).type)
+
+    def _single_slot_type(self, item_id):
+        """True when the item's type has one slot and the item one copy."""
+        worn = self.problem.pulp_vars['x_%s' % str(item_id).replace('-', '_')]
+        return TYPE_NAME_TO_SLOT_NUMBER.get(self._type_of(item_id)) == 1 and worn.upBound == 1
+
+    def _add_transcendence_slot(self, number, entries, draconized, rows):
+        """A column per rune the pieces of a one-slot type keep, a row per rune for the pieces it fits, and T1 to T4 for the one worn piece."""
+        members = [item_id for item_id, _kept in entries]
+        worn = {item_id: self.problem.pulp_vars['x_%s' % str(item_id).replace('-', '_')]
+                for item_id in members}
+        wanted = {}
+        for _item_id, kept in entries:
+            for rune in kept:
+                wanted[rune['id']] = rune
+        class_columns = []
+        by_stat_columns = {}
+        for rune_id in sorted(wanted):
+            rune = wanted[rune_id]
+            stat = self.structure.get_stat_by_key(rune['stat_key'])
+            if stat is None or stat.name not in rows:
+                logger.warning('No stat row for transcendence rune %s', rune['id'])
+                continue
+            name = '%s_%d_%s_%d' % (TRANSCENDENCE_PREFIX, number, rune['stat_key'], rune['rank'])
+            column = pulp.LpVariable(name, 0, 1, pulp.LpInteger)
+            self.problem.pulp_vars[name] = column
+            self._transcendence_variables.append(name)
+            self.transcendence_columns[name] = (number, rune['id'])
+            rows[stat.name].expr.addterm(column, rune['bonus'])
+            self._transcendence_terms.append((rows[stat.name], column))
+            class_columns.append((column, rune))
+            by_stat_columns.setdefault(rune['stat_key'], []).append((column, rune))
+        if not class_columns:
+            return []
+        self.transcendence_classes[number] = list(members)
+        everyone = pulp.lpSum(worn.values())
+        self._add_transcendence_row(
+            pulp.lpSum(column for column, _rune in class_columns) - everyone <= 0,
+            '%s_t1_%d' % (TRANSCENDENCE_PREFIX, number))
+        lines = {item_id: self.transcendence_candidates[item_id] for item_id in members}
+        for stat_key, stat_columns in sorted(by_stat_columns.items()):
+            ordered = sorted(stat_columns, key=lambda pair: -pair[1]['bonus'])
+            fits = {rune['id']: {item_id for item_id in members
+                                 if rune_fits(rune, lines[item_id].get(stat_key))}
+                    for _column, rune in ordered}
+            nested = all(fits[ordered[k][1]['id']] <= fits[ordered[k + 1][1]['id']]
+                         for k in range(len(ordered) - 1))
+            for k, (column, rune) in enumerate(ordered):
+                fitting = fits[rune['id']]
+                if len(fitting) == len(members):
+                    continue
+                heads = [pair[0] for pair in ordered[:k + 1]] if nested else [column]
+                missing = [worn[item_id] for item_id in members if item_id not in fitting]
+                name = '%s_fit_%d_%s_%d' % (TRANSCENDENCE_PREFIX, number, stat_key, rune['rank'])
+                if len(fitting) <= len(missing):
+                    self._add_transcendence_row(
+                        pulp.lpSum(heads) - pulp.lpSum(worn[item_id] for item_id in sorted(fitting)) <= 0,
+                        name)
+                else:
+                    self._add_transcendence_row(pulp.lpSum(heads) + pulp.lpSum(missing) <= 1, name)
+        taken_by_kind = [entry for item_id in members for entry in draconized.get(item_id, ())]
+        for row, blocked, kinds in hall_rows():
+            if blocked is None:
+                continue
+            runes = [column for column, rune in class_columns if rune['stat_key'] in blocked]
+            taken = [column for column, kind in taken_by_kind if kind in kinds]
+            if not runes or not taken:
+                continue
+            self._add_transcendence_row(
+                pulp.lpSum(runes + taken) - everyone <= 0,
+                '%s_%s_%d' % (TRANSCENDENCE_PREFIX, row.lower(), number))
+        return class_columns
 
     def _transcendence_stats(self, context):
         """(U, L) as stat keys: the stats a rune may usefully raise, and those a bigger rune may overshoot."""

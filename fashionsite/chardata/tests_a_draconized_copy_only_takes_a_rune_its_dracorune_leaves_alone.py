@@ -6,6 +6,7 @@ import re
 from unittest import mock
 
 from fashionistapulp import dracorune_terms
+from fashionistapulp.model import Model
 from fashionistapulp.transcendence import load_runes
 from fashionistapulp.transcendence_terms import dracorune_kind
 
@@ -31,7 +32,8 @@ class ADraconizedCopyOnlyTakesARuneItsDracoruneLeavesAloneTests(BetaModelTestCas
 
     def model_of(self, weights, runes, dracorunes):
         pieces = [piece(type_name, {self.source: 50, 'neutres': 10}) for type_name in TYPES]
-        with mock.patch.object(dracorune_terms, 'prune', side_effect=_every_variant):
+        with mock.patch.object(dracorune_terms, 'prune', side_effect=_every_variant), \
+                mock.patch.object(Model, '_single_slot_type', return_value=False):
             model = SmallModel(pieces)
             model.setup(trans_input(weights, runes, dracorunes))
         return model

@@ -17,8 +17,7 @@ class RunesAndExosNeverGiveMoreThanOneApMpOrRangeTests(BetaModelTestCase):
             with self.subTest(key=key):
                 model = self.model()
                 model.setup(exo_input({key: 1000, 'vit': 1}, 2, **{'%s_exo' % key: True}))
-                (column,) = stat_runes(model, key)
-                column.lowBound = 1
+                stat_runes(model, key)[0].lowBound = 1
                 model.problem.pulp_vars['exo_%d' % stat_id(key)].lowBound = 1
                 model.run()
                 self.assertEqual('Infeasible', model.get_solved_status())
