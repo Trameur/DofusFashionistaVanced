@@ -571,6 +571,7 @@ def _guard_facts(plan):
     kind, percent = plan
     return {'kind': kind, 'percent': percent, 'balanced': None, 'kept': None,
             'fallback': False, 'no_reference': False, 'balanced_out_of_time': False,
+            'guarded_out_of_time': False,
             'no_turn': False, 'out_of_time': False, 'other_seconds': 0.0, 'time_limit': None,
             'floors': {}, 'short': []}
 
@@ -625,8 +626,11 @@ def _guarded_solve(char, model_input, plan, solve):
                 logger.warning('the %s safeguard left char %s without a set, solving without it',
                                kind, getattr(char, 'id', '?'))
                 facts['fallback'] = True
+                facts['guarded_out_of_time'] = solved[0] != 'Infeasible'
                 solved = (_priced_solve(char, model_input, timed_solve(model_input, budget_end),
                                         timed_solve, budget_end) if has_time() else None)
+        else:
+            facts['guarded_out_of_time'] = True
         if solved is None:
             facts.update(fallback=True, out_of_time=True)
             solved = balanced

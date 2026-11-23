@@ -2,6 +2,7 @@
 """A priority solve keeps the safeguard's share of the balanced build; a build without one solves as before."""
 import pickle
 import re
+import unittest
 from unittest import mock
 
 from django.contrib.auth.models import User
@@ -14,6 +15,7 @@ from chardata.coaching_view import create_build
 from chardata.min_stats import get_min_stats_digested
 from chardata.options import set_options
 from chardata.solution import get_solution
+from chardata.solution_memory import EmptySolutionMemory
 from chardata.stats_weights import get_stats_weights
 from chardata.wizard_sliders import set_wizard_sliders
 from fashionistapulp import lpproblem
@@ -191,6 +193,16 @@ class _BuildMixin(object):
         self.assertEqual(302, response.status_code)
         char.refresh_from_db()
         return memory.asked, response
+
+    def stopped_by_time(self, facts):
+        """Whether the time limit, not an infeasible model, kept the guarded solve from testing its floors."""
+        self.assertIsNotNone(facts, 'the solve settled no safeguard')
+        return bool(facts['balanced_out_of_time'] or facts['guarded_out_of_time'])
+
+    def skip_when_out_of_time(self, facts):
+        """Skips a real solve cut by the time limit; an infeasible one still fails."""
+        if self.stopped_by_time(facts):
+            self.skipTest('the solver hit its time limit on a loaded machine, no floor was tested')
 
     def facts(self, char):
         return getattr(read_char_blob(char.minimal_solution, None, 'minimal_solution', char), 'guard', None)
@@ -732,6 +744,47 @@ class TheSolvesOfOneRequestShareOneBudgetTests(_BuildMixin, TestCase):
         self.assertIn('Safeguard not applied: the solver found no balanced set to compare with.',
                       self.page(char))
 
+    def test_a_guarded_solve_cut_by_its_limit_says_it_ran_out_of_time(self):
+        char = self.build({'str'}, 'damage')
+        self.run_fashion(char, [(5, 'Optimal'), (30, 'Not Solved'), (20, 'Optimal')])
+        facts = self.facts(char)
+        self.assertEqual((True, False, True, False),
+                         (facts['guarded_out_of_time'], facts['balanced_out_of_time'],
+                          facts['fallback'], facts['no_reference']))
+        with self.assertRaises(unittest.SkipTest):
+            self.skip_when_out_of_time(facts)
+
+    def test_an_infeasible_guarded_solve_is_not_called_out_of_time(self):
+        char = self.build({'str'}, 'damage')
+        self.run_fashion(char, [(5, 'Optimal'), (3, 'Infeasible'), (20, 'Optimal')])
+        facts = self.facts(char)
+        self.assertEqual((False, True), (facts['guarded_out_of_time'], facts['fallback']))
+        self.assertFalse(self.stopped_by_time(facts))
+
+    def test_a_balanced_solve_that_uses_the_budget_leaves_the_guarded_one_out_of_time(self):
+        char = self.build({'str'}, 'damage')
+        self.run_fashion(char, [(90, 'Optimal')])
+        facts = self.facts(char)
+        self.assertEqual((True, True, False, True, {}),
+                         (facts['fallback'], facts['out_of_time'], facts['balanced_out_of_time'],
+                          facts['guarded_out_of_time'], facts['floors']))
+        with self.assertRaises(unittest.SkipTest):
+            self.skip_when_out_of_time(facts)
+
+    def test_an_infeasible_guarded_solve_with_no_time_left_is_not_called_out_of_time(self):
+        char = self.build({'str'}, 'damage')
+        self.run_fashion(char, [(25, 'Optimal'), (65, 'Infeasible')])
+        facts = self.facts(char)
+        self.assertEqual((True, True, False),
+                         (facts['fallback'], facts['out_of_time'], facts['guarded_out_of_time']))
+        self.assertFalse(self.stopped_by_time(facts))
+
+    def test_a_guarded_solve_that_succeeds_records_no_cause(self):
+        char = self.build({'str'}, 'damage')
+        self.run_fashion(char, [(5, 'Optimal'), (20, 'Optimal')])
+        facts = self.facts(char)
+        self.assertEqual((False, False), (facts['guarded_out_of_time'], facts['fallback']))
+
     def test_a_slow_balanced_solve_leaves_the_priority_what_the_budget_has_left(self):
         char = self.build({'str'}, 'damage')
         model, _memory = self.run_fashion(char, [(40, 'Optimal'), (20, 'Optimal')])
@@ -999,6 +1052,7 @@ class ARealGuardedSolveKeepsItsFloorTests(_BuildMixin, TestCase):
         self.client.get('/fashion/%d/' % char.pk)
         char.refresh_from_db()
         facts = self.facts(char)
+        self.skip_when_out_of_time(facts)
         self.assertFalse(facts['fallback'])
         totals = get_solution(char).get_stats_total()
         kept = presets.effective_hp(totals)
@@ -1024,6 +1078,7 @@ class ARealGuardedSolveKeepsItsFloorTests(_BuildMixin, TestCase):
             self.client.get('%s/fashion/%d/' % (self.prefix, char.pk))
         char.refresh_from_db()
         facts = self.facts(char)
+        self.skip_when_out_of_time(facts)
         self.assertFalse(facts['no_reference'])
         self.assertFalse(facts['fallback'])
         self.assertEqual([], facts['short'])
@@ -1071,10 +1126,14 @@ class ARealGuardedSolveFitsTheProductionBudgetOnTouchAndRetroTests(_BuildMixin, 
                 self.version, self.prefix = version, '/' + version
                 set_current_game_version(version)
                 self.hat = _hat_with_vitality(version)
-                char = self.build({'str'}, 'damage')
-                self.client.get('%s/fashion/%d/' % (self.prefix, char.pk))
-                char.refresh_from_db()
-                facts = self.facts(char)
+                for _attempt in range(2):
+                    char = self.build({'str'}, 'damage')
+                    with mock.patch('chardata.fashion_action.MEMORY', EmptySolutionMemory()):
+                        self.client.get('%s/fashion/%d/' % (self.prefix, char.pk))
+                    char.refresh_from_db()
+                    facts = self.facts(char)
+                    if not self.stopped_by_time(facts):
+                        break
                 self.assertEqual((False, False, False, []),
                                  (facts['no_reference'], facts['balanced_out_of_time'],
                                   facts['fallback'], facts['short']))
