@@ -9963,6 +9963,10 @@ msgstr "Uma Dracorruna transfere as características de uma peça para outro ele
 msgid "Locked pieces keep their Dracorune, even above this number."
 msgstr "As peças travadas mantêm a sua Dracorruna, mesmo acima deste número."
 
+#: chardata/templates/chardata/solution_transcendence.html
+msgid "Transcendence rune first, then the Dracorune."
+msgstr "Primeiro a runa de transcendência, depois a Dracorruna."
+
 #: chardata/templates/chardata/solution_dracorune.html
 msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
 msgstr "Forje o exo antes da Dracorruna: ela impede qualquer forjamagia posterior no item."

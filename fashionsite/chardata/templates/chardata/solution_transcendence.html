@@ -1,0 +1,4 @@
+{% load i18n %}{% if item.transcendence_label %}
+        <div class="small-explain" id="transcendence-{{ item.slot }}">{% if item.dracorune_label %}1. {% endif %}{{ item.transcendence_label }}{% if item.transcendence_notice %} {{ item.transcendence_notice }}{% endif %}</div>
+        {% if item.dracorune_label %}<div class="small-explain">{% trans "Transcendence rune first, then the Dracorune." %}</div>{% endif %}
+{% endif %}

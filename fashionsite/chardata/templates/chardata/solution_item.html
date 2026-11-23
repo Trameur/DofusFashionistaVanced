@@ -18,7 +18,7 @@
         </td>
         <td class="solution-item-info">
             {% if item.slot_type and item.id %}<div class="fm-slot-label fm-modern-only">{% trans item.slot_type %}</div>{% endif %}
-            <div class="solution-item-name-div"><span id='item-name-{{item.slot}}'>{{item.localized_name}}</span>{% if item.level %} <span class="solution-item-level">{% trans "Lvl." %} {{item.level}}</span>{% endif %}{% if item.set_tag %}<span class="fm-tag fm-set-tag fm-modern-only" title="{{ item.set_tag.0 }} ({{ item.set_tag.1 }}/{{ item.set_tag.2 }})"><span class="fm-set-tag-name">{{ item.set_tag.0 }}</span> {{ item.set_tag.1 }}/{{ item.set_tag.2 }}</span>{% endif %}{% if item.has_forge %} <span class="solution-item-mark" title="{% trans "Smithmagic: the rolls recorded on this piece differ from its encyclopedia values." %}">{% trans "SM" context "smithmagic mark on an item" %}</span>{% endif %}{% if item.has_exo %} <span class="solution-item-mark" title="{% trans "Exo: this piece carries a line, or an AP, MP or Range point, beyond its encyclopedia values." %}">{% trans "Exo" context "exo mark on an item" %}</span>{% endif %}{% if item.assumed_exo_label %} <span class="solution-item-mark" title="{% blocktrans with stat=item.assumed_exo_label %}Exo to forge: the optimizer counts one {{ stat }} exo on this piece.{% endblocktrans %}">{% blocktrans context "exo to forge on an item" with stat=item.assumed_exo_label %}Exo {{ stat }}{% endblocktrans %}</span>{% endif %}{% if item.dracorune_label %} <span class="solution-item-mark solution-item-dracorune-mark" id="dracorune-mark-{{ item.slot }}" title="{{ item.dracorune_label }}">{% if item.dracorune.name %}{{ item.dracorune.name }}{% else %}{% trans "Dracorune" context "dracorune mark on an item" %}{% endif %}</span>{% endif %}{% if item.acquisition_text %} <span class="solution-item-source">{{ item.acquisition_text }}</span>{% endif %}</div>
+            <div class="solution-item-name-div"><span id='item-name-{{item.slot}}'>{{item.localized_name}}</span>{% if item.level %} <span class="solution-item-level">{% trans "Lvl." %} {{item.level}}</span>{% endif %}{% if item.set_tag %}<span class="fm-tag fm-set-tag fm-modern-only" title="{{ item.set_tag.0 }} ({{ item.set_tag.1 }}/{{ item.set_tag.2 }})"><span class="fm-set-tag-name">{{ item.set_tag.0 }}</span> {{ item.set_tag.1 }}/{{ item.set_tag.2 }}</span>{% endif %}{% if item.has_forge %} <span class="solution-item-mark" title="{% trans "Smithmagic: the rolls recorded on this piece differ from its encyclopedia values." %}">{% trans "SM" context "smithmagic mark on an item" %}</span>{% endif %}{% if item.has_exo %} <span class="solution-item-mark" title="{% trans "Exo: this piece carries a line, or an AP, MP or Range point, beyond its encyclopedia values." %}">{% trans "Exo" context "exo mark on an item" %}</span>{% endif %}{% if item.assumed_exo_label %} <span class="solution-item-mark" title="{% blocktrans with stat=item.assumed_exo_label %}Exo to forge: the optimizer counts one {{ stat }} exo on this piece.{% endblocktrans %}">{% blocktrans context "exo to forge on an item" with stat=item.assumed_exo_label %}Exo {{ stat }}{% endblocktrans %}</span>{% endif %}{% if item.transcendence_label %} <span class="solution-item-mark solution-item-transcendence-mark" id="transcendence-mark-{{ item.slot }}" title="{{ item.transcendence_label }}">{{ item.transcendence_rune_name }}</span>{% endif %}{% if item.dracorune_label %} <span class="solution-item-mark solution-item-dracorune-mark" id="dracorune-mark-{{ item.slot }}" title="{{ item.dracorune_label }}">{% if item.dracorune.name %}{{ item.dracorune.name }}{% else %}{% trans "Dracorune" context "dracorune mark on an item" %}{% endif %}</span>{% endif %}{% if item.acquisition_text %} <span class="solution-item-source">{{ item.acquisition_text }}</span>{% endif %}</div>
             {% if item.link %}
             <div class="solution-item-link-div">
                 <a class="item-external-link" target="_blank" rel="noopener noreferrer" href="{{item.link}}">
@@ -91,6 +91,7 @@
             </span>
         {% endif %}
         </div>
+        {% include 'chardata/solution_transcendence.html' %}
         {% include 'chardata/solution_dracorune.html' %}
         {% if item.condition_lines %}
             <hr class="solution-item-hr" />
@@ -105,7 +106,7 @@
             {% endfor %}
         {% endif %}
         </div>
-        {% if item.id and not disable_solution_item_actions and not item.dracorune_label %}
+        {% if item.id and not disable_solution_item_actions and not item.dracorune_label and not item.transcendence_label %}
         <div style="margin-top:6px;">
             <button type="button" id="stat-override-btn-sol-{{item.slot}}" class="button-generic" style="font-size:0.8em;padding:2px 8px;">{% trans "Customize stats" %}</button>
         </div>

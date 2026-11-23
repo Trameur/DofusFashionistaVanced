@@ -31,7 +31,8 @@ from .spell_text import fold_spell_blocks
 from .structure import get_structure, get_current_game_version
 from .temporix import as_worn, is_on as temporix_is_on
 from .translation import get_supported_language
-from .transcendence_terms import dracorune_kind, rune_allowed_on
+from .transcendence import load_runes as load_transcendence_runes
+from .transcendence_terms import copy_takes_rune, dracorune_kind, rune_allowed_on, rune_fits
 from .violation import Violation
 from fashionistapulp.dofus_constants import (STAT_NAME_TO_KEY,
                                              get_stat_maximum)
@@ -287,10 +288,64 @@ def _dracorune_in_slot(slot, item, wanted, runes):
     return key, runes
 
 
+def _readable_transcendence_runes():
+    """{id: rune} of the current version's transcendence runes, None when its file cannot be read."""
+    version = get_current_game_version()
+    try:
+        return {rune['id']: rune for rune in load_transcendence_runes(version)}
+    except (AttributeError, KeyError, OSError, TypeError, ValueError):
+        logger.exception('The transcendence runes file of %s cannot be read, its transcended pieces show without the rune', version)
+        return None
+
+
+def _transcendence_in_slot(slot, item, wanted, runes, dracorune_key):
+    """The saved rune when the slot still holds its item, the version still has the rune and the slot's Dracorune leaves its stat alone, else None."""
+    if wanted is None:
+        return None
+    try:
+        item_id, rune_id = wanted
+    except (TypeError, ValueError):
+        logger.warning('Unreadable transcendence rune %r in slot %s, shown without it', wanted, slot)
+        return None
+    if item is None or item.id != item_id:
+        logger.warning('Slot %s no longer holds item %s for its transcendence rune %s, shown without it',
+                       slot, item_id, rune_id)
+        return None
+    if not runes:
+        logger.warning('The version has no transcendence runes, slot %s shown without rune %s',
+                       slot, rune_id)
+        return None
+    try:
+        rune = runes.get(rune_id)
+    except TypeError:
+        rune = None
+    if rune is None:
+        logger.warning('The transcendence rune %s of slot %s is no longer in the runes file, shown without it',
+                       rune_id, slot)
+        return None
+    try:
+        blocked = dracorune_key is not None and not rune_allowed_on(dracorune_kind(dracorune_key),
+                                                                    rune['stat_key'])
+    except (AttributeError, KeyError, TypeError, ValueError):
+        logger.warning('Unreadable dracorune %r in slot %s, its transcendence rune %s shown without it',
+                       dracorune_key, slot, rune_id)
+        return None
+    if blocked:
+        logger.warning('The dracorune %s of slot %s now blocks the transcendence rune %s, shown without it',
+                       dracorune_key, slot, rune_id)
+        return None
+    return rune
+
+
 def model_result_from_minimal(minimal, stat_overrides=None, forge_choice=None):
     structure = get_structure()
     saved_runes = getattr(minimal, 'dracorunes', None) or {}
     runes = _readable_runes() if saved_runes else None
+    saved_transcendences = getattr(minimal, 'transcendences', None) or {}
+    if not isinstance(saved_transcendences, dict):
+        saved_transcendences = {}
+    transcendence_runes = (_readable_transcendence_runes()
+                           if saved_transcendences else None)
     if hasattr(minimal, 'stats'):
         result = ModelResult(minimal.input, minimal.stats)
     else:
@@ -303,9 +358,12 @@ def model_result_from_minimal(minimal, stat_overrides=None, forge_choice=None):
         item = (get_item_in_slot(structure, item_id, slot)
                 if item_id is not None else None)
         if item is not None:
+            dracorune = _dracorune_in_slot(slot, item, saved_runes.get(slot), runes)
             result.add_item_at_slot(
-                item, slot, stat_overrides,
-                _dracorune_in_slot(slot, item, saved_runes.get(slot), runes))
+                item, slot, stat_overrides, dracorune,
+                _transcendence_in_slot(slot, item, saved_transcendences.get(slot),
+                                       transcendence_runes,
+                                       dracorune[0] if dracorune else None))
         else:
             if item_id is not None:
                 logger.warning('Missing item in structure for slot=%s item_id=%s', slot, item_id)
@@ -354,11 +412,12 @@ class ModelResult():
                       and item.id in stat_overrides)
         return as_worn(item, get_structure(), options, overridden=overridden)
 
-    def add_item_at_slot(self, item, slot, stat_overrides=None, dracorune=None):
-        """dracorune is (variant key, runes data) for a draconized piece."""
+    def add_item_at_slot(self, item, slot, stat_overrides=None, dracorune=None,
+                         transcendence=None):
+        """dracorune is (variant key, runes data) for a draconized piece, transcendence the rune dict of a transcended one."""
         self._add_result_item_at_slot(
             slot, ModelResultItem(self._worn(item, stat_overrides),
-                                  stat_overrides, dracorune))
+                                  stat_overrides, dracorune, transcendence))
 
     @property
     def dracorunes(self):
@@ -368,6 +427,14 @@ class ModelResult():
                  if result_item.item_added and result_item.dracorune}
         return runes or None
         
+    @property
+    def transcendences(self):
+        """{slot: (item id, rune id)} of the transcended pieces worn, or None."""
+        runes = {result_item.slot: (result_item.id, result_item.transcendence_rune['id'])
+                 for result_item in self.item_list
+                 if result_item.item_added and result_item.transcendence_rune}
+        return runes or None
+
     def _add_result_item_at_slot(self, slot, result_item):
         result_item.set_slot(slot)
         self.open_slots.discard(slot)
@@ -886,8 +953,10 @@ class ModelResultItem():
     forge_explicit = False
     dracorune = None
     undraconized_stats = None
+    transcendence_rune = None
+    untranscended_stats = None
 
-    def __init__(self, item, stat_overrides=None, dracorune=None):
+    def __init__(self, item, stat_overrides=None, dracorune=None, transcendence=None):
         # Legacy pickles can be missing the newer weapon fields.
         self.is_mageable = False
         if item:
@@ -961,6 +1030,8 @@ class ModelResultItem():
                             self.exo_overrides[stat.key] = override_val
                         else:
                             self.stats[stat.key] = override_val
+            if transcendence is not None:
+                self._transcend(transcendence, getattr(item, 'weapon_key', None))
             if dracorune is not None:
                 self._draconize(*dracorune)
 
@@ -1016,6 +1087,31 @@ class ModelResultItem():
             self.slot = None
             self.file = None
             
+    def _transcend(self, rune, weapon_key):
+        """Adds the rune's bonus to its line, or returns False when this worn piece cannot take it."""
+        stat_key = rune['stat_key']
+        if (not copy_takes_rune(self.type, weapon_key, overed=self.holds_an_over(),
+                                exo_carrier=bool(self.exo_overrides))
+                or not rune_fits(rune, self.stats.get(stat_key))):
+            logger.warning('Item %s no longer takes the transcendence rune %s, shown without it',
+                           self.id, rune['id'])
+            return False
+        bonus = rune['bonus']
+        self.untranscended_stats = dict(self.stats)
+        self.stats[stat_key] = self.stats.get(stat_key, 0) + bonus
+        self.base_stats[stat_key] = self.base_stats.get(stat_key, 0) + bonus
+        if stat_key in self.stat_ranges:
+            low, high = self.stat_ranges[stat_key]
+            self.stat_ranges[stat_key] = (low + bonus, high + bonus)
+        self.transcendence_rune = {'id': rune['id'],
+                                   'stat_key': stat_key,
+                                   'bonus': bonus,
+                                   'names': dict(rune.get('names') or {}),
+                                   'notice': dict(rune.get('notice') or {}),
+                                   'beta_only': bool(rune.get('beta_only')),
+                                   'icon_id': rune.get('icon_id')}
+        return True
+
     def _draconize(self, key, runes):
         """Wears the rune's variant key on the lines, or keeps the base item when the lines no longer give it."""
         try:

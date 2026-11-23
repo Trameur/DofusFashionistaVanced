@@ -10102,6 +10102,10 @@ msgstr "Une Dracorune déplace les stats d’une pièce vers un autre élément 
 msgid "Locked pieces keep their Dracorune, even above this number."
 msgstr "Les pièces verrouillées gardent leur Dracorune, même au-delà de ce nombre."
 
+#: chardata/templates/chardata/solution_transcendence.html
+msgid "Transcendence rune first, then the Dracorune."
+msgstr "D’abord la rune de transcendance, puis la Dracorune."
+
 #: chardata/templates/chardata/solution_dracorune.html
 msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
 msgstr "Forge l’exo avant la Dracorune : elle empêche ensuite toute forgemagie sur l’objet."

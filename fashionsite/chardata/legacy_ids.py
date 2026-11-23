@@ -119,6 +119,29 @@ def _reslot_mismatched(structure, par_slot):
     return change
 
 
+def _repair_transcendences(minimal_solution, par_slot, renumbered, corrige):
+    """Gives each saved transcendence rune the new id and the new slot of its item."""
+    saved = getattr(minimal_solution, 'transcendences', None)
+    if not saved or not isinstance(saved, dict):
+        return
+    moved = {}
+    for slot, entry in saved.items():
+        try:
+            item_id, rune_id = entry
+        except (TypeError, ValueError):
+            moved[slot] = entry
+            continue
+        if par_slot.get(slot) != item_id:
+            moved[slot] = entry
+            continue
+        new_id = renumbered.get(slot)
+        target = slot if corrige.get(slot) == new_id else next(
+            (other for other, other_id in sorted(corrige.items(), key=str)
+             if other_id == new_id and other not in saved), slot)
+        moved[target] = (new_id, rune_id)
+    minimal_solution.transcendences = moved
+
+
 def repair_minimal_solution(char, minimal_solution):
     """Repair a stored solution, in memory only."""
     par_slot = getattr(minimal_solution, 'item_per_slot', None)
@@ -133,10 +156,12 @@ def repair_minimal_solution(char, minimal_solution):
     corrige = repaired_slots(structure, game_version, par_slot)
     change = corrige is not None
     corrige = dict(corrige if change else par_slot)
+    renumbered = dict(corrige)
     # Then items still in a slot of another type
     if _reslot_mismatched(structure, corrige):
         change = True
     if not change:
         return False
     minimal_solution.item_per_slot = corrige
+    _repair_transcendences(minimal_solution, par_slot, renumbered, corrige)
     return True

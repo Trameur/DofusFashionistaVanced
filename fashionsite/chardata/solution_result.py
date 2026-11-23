@@ -33,13 +33,14 @@ from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE, STAT_KEY_TO_NAME
 from fashionistapulp.exo_options import EXO_OPTIONS, exo_count, exo_per_item
 from fashionistapulp.fashion_util import normalize_name
+from fashionistapulp.model import transcendence_count
 from fashionistapulp.modelresult import (characteristic_passives,
                                          level_prospecting,
                                          sets_equipped_text,
                                          wisdom_per_ap_mp_dodge_point)
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.spell_tips import spell_tip_for
-from chardata.forgemagie_transcendance import rune_name
+from chardata.forgemagie_transcendance import rune_name, rune_notice
 from chardata.transcendence_advice import best_transcendence
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
@@ -138,10 +139,12 @@ class SolutionResult:
         per_item = exo_per_item(get_current_game_version())
         if per_item:
             r.get_stats_gear()
+        solved_with_runes = transcendence_count(
+            (r.input or {}).get('options') or {}) > 0
         for result_item in all_items:
             evolve_result_item(result_item, r, self.char_class,
                                self.gender, self.char_name)
-            attach_transcendence(result_item, self.weights)
+            attach_transcendence(result_item, self.weights, solved_with_runes)
         attach_acquisition(all_items)
 
         tags = set_tags(r.sets, all_items)
@@ -277,8 +280,14 @@ def stat_sources(model_result):
             continue
         name = (getattr(result_item, 'localized_name', None)
                 or getattr(result_item, 'name', ''))
+        rune = getattr(result_item, 'transcendence_rune', None)
         for stat_key, value in (result_item.stats or {}).items():
-            add(stat_key, name, value, 'item')
+            if rune and stat_key == rune['stat_key']:
+                add(stat_key, name, value - rune['bonus'], 'item')
+                add(stat_key, '%s (%s)' % (rune_name(rune, get_language()), name),
+                    rune['bonus'], 'item')
+            else:
+                add(stat_key, name, value, 'item')
 
     for result_set in getattr(model_result, 'sets', None) or []:
         name = (getattr(result_set, 'localized_name', None)
@@ -418,8 +427,16 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
     result_item.assumed_exo_label = _(STAT_KEY_TO_NAME[assumed_exo]) if assumed_exo else None
 
     result_item.dracorune_label = dracorune_label(result_item)
+    result_item.transcendence_label = transcendence_label(result_item)
+    transcendence = getattr(result_item, 'transcendence_rune', None)
+    result_item.transcendence_rune_name = (
+        rune_name(transcendence, get_language()) if transcendence else None)
+    result_item.transcendence_notice = (
+        rune_notice(transcendence, get_language())
+        if transcendence and transcendence['beta_only'] else None)
     result_item.dracorune_exo_note = bool(
-        result_item.dracorune_label and r is not None and build_uses_an_exo(r))
+        result_item.dracorune_label and not result_item.transcendence_label
+        and r is not None and build_uses_an_exo(r))
 
     result_item.stats_lines = []
     # Absent from solutions pickled before the ranges existed.
@@ -437,6 +454,9 @@ def evolve_result_item(result_item, r=None, char_class=None, gender=None, char_n
                 line.formatting = '#b'
             elif stat_value < base_val:
                 line.formatting = '#o'
+        if (transcendence and stat_key == transcendence['stat_key']
+                and line.formatting == ''):
+            line.formatting = '#b'
         result_item.stats_lines.append(line)
     get_max_caps = getattr(result_item, 'get_max_caps', None)
     for stat_key, stat_name, max_value in (get_max_caps() if get_max_caps else ()):
@@ -597,6 +617,17 @@ def dracorune_label(result_item):
     return dracorune_change_label(rune.get('name'), before, result_item.stats)
 
 
+def transcendence_label(result_item):
+    """The rune's game name and the line it adds, or None on a piece without one."""
+    rune = getattr(result_item, 'transcendence_rune', None)
+    if not rune:
+        return None
+    return _('%(item)s: %(changes)s') % {
+        'item': rune_name(rune, get_language()),
+        'changes': '+%d %s' % (rune['bonus'],
+                               _(get_structure().get_stat_by_key(rune['stat_key']).name))}
+
+
 def dracorune_change_label(rune_name, before, after):
     """The rune's name and the lines it moved from before to after, the lines alone without a name."""
     sources = [key for key, value in before.items() if value and not after.get(key)]
@@ -621,10 +652,11 @@ def build_uses_an_exo(model_result):
 
 
 def _carries_a_recorded_change(result_item):
-    """True when the piece holds an over, an exo, an assumed exo or a Dracorune."""
+    """True when the piece holds an over, an exo, an assumed exo, a Dracorune or a transcendence rune."""
     if (getattr(result_item, 'exo_overrides', None)
             or getattr(result_item, 'assumed_exo', None)
-            or getattr(result_item, 'dracorune', None)):
+            or getattr(result_item, 'dracorune', None)
+            or getattr(result_item, 'transcendence_rune', None)):
         return True
     base_stats = getattr(result_item, 'base_stats', None)
     if base_stats is None:
@@ -638,9 +670,9 @@ def _weapon_key(result_item):
     return getattr(item, 'weapon_key', None)
 
 
-def attach_transcendence(result_item, weights):
+def attach_transcendence(result_item, weights, solved_with_runes=False):
     result_item.transcendence = None
-    if not result_item.item_added or not weights:
+    if not result_item.item_added or not weights or solved_with_runes:
         return
     rune = best_transcendence(get_current_game_version(),
                               getattr(result_item, 'stats', None) or {}, weights,

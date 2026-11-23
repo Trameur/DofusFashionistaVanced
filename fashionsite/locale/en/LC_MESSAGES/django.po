@@ -9003,6 +9003,10 @@ msgstr ""
 msgid "Locked pieces keep their Dracorune, even above this number."
 msgstr ""
 
+#: chardata/templates/chardata/solution_transcendence.html
+msgid "Transcendence rune first, then the Dracorune."
+msgstr ""
+
 #: chardata/templates/chardata/solution_dracorune.html
 msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
 msgstr "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
