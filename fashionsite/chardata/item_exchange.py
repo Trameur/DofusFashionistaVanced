@@ -593,7 +593,7 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
     if weapon_obj.crit_chance_percent:
         crits_total += weapon_obj.crit_chance_percent
 
-    if structure.game_version in ('touch', 'retro', 'dofus2'):
+    if _CRIT_ODDS_RATING_BY_VERSION.get(structure.game_version, False):
         odds = _weapon_crit_odds(structure, weapon_obj, new_stats)
         rating = (rating_non_crit * (1 - odds) + rating_crit * odds
                   if odds else rating_non_crit)
@@ -606,6 +606,8 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
 
 # A weapon that cannot crit is stored with base -1 on Retro, 0 on the other versions
 _NO_BASE_NO_CRIT_VERSIONS = ('touch', 'retro', 'dofus2', 'dofus3', 'beta')
+_CRIT_ODDS_RATING_BY_VERSION = {'dofus3': False, 'beta': False, 'dofus2': True,
+                                'touch': True, 'retro': True}
 
 def _weapon_can_crit(structure, weapon_obj):
     if not weapon_obj.has_crits:

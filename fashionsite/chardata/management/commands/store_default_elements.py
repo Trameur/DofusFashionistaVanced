@@ -48,6 +48,8 @@ KNOWN_BAD_ROWS = {
     'dofus3': {},
     'beta': {},
     'dofus2': {},
+    'touch': {},
+    'retro': {},
 }
 
 REFERENCE = ('Reference set, the same for every element, at each Quick Start level (%(levels)s): '

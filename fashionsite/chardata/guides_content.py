@@ -5748,11 +5748,12 @@ _TROPHY_CONDITION = {
     },
 }
 
-_FRENCH_VERSION_NAME = {'beta': 'Dofus 3 Bêta', 'retro': 'Dofus Rétro'}
+_FRENCH_VERSION_NAME = {'dofus3': None, 'beta': 'Dofus 3 Bêta', 'dofus2': None,
+                        'touch': None, 'retro': 'Dofus Rétro'}
 
 
 def _version_name(game_version, language):
-    if language == 'fr' and game_version in _FRENCH_VERSION_NAME:
+    if language == 'fr' and _FRENCH_VERSION_NAME.get(game_version):
         return _FRENCH_VERSION_NAME[game_version]
     version = get_game_version(game_version)
     return 'Dofus %s' % version.seo_word if version.seo_word else version.label

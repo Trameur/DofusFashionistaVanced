@@ -265,7 +265,8 @@ def _create_reference_web_digest(entry, game_version, char_level=None,
 
 
 # Retro and Touch spell icons are filed under their French names
-SPELL_ICON_LANGUAGE = {'retro': 'fr', 'touch': 'fr'}
+SPELL_ICON_LANGUAGE = {'dofus3': 'en', 'beta': 'en', 'dofus2': 'en',
+                       'retro': 'fr', 'touch': 'fr'}
 
 _shared_icon_names = {}
 

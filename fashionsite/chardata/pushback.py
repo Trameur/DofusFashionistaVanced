@@ -17,7 +17,10 @@
 """Pushback damage per Ankama's 2.17 formula, ([level]/2 + pushback damage + 32) * remaining distance / (4 * 2^intermediate targets), target resistance taken as zero; Retro keeps its random one."""
 
 # Retro (1.29) never received the 2.17 rewrite and still rolls a die for it.
-VERSIONS_WITH_THE_PUBLISHED_FORMULA = ('dofus3', 'beta', 'dofus2', 'touch')
+PUBLISHED_FORMULA_BY_VERSION = {'dofus3': True, 'beta': True, 'dofus2': True, 'touch': True,
+                                'retro': False}
+VERSIONS_WITH_THE_PUBLISHED_FORMULA = tuple(
+    version for version, published in PUBLISHED_FORMULA_BY_VERSION.items() if published)
 
 
 def uses_the_published_formula(game_version):

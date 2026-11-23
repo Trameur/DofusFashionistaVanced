@@ -50,7 +50,10 @@ REFERENCE_SCALE = 53.0
 
 # Dofus 3 art. Beta shares the client, Dofus 2 and Touch keep the same
 # equipment designs and match by name. Retro is 1.29 art and shares nothing.
-VERSIONS_WITH_ART = ('dofus3', 'beta', 'dofus2', 'touch')
+HAS_ART_BY_VERSION = {'dofus3': True, 'beta': True, 'dofus2': True, 'touch': True,
+                      'retro': False}
+VERSIONS_WITH_ART = tuple(version for version, has_art in HAS_ART_BY_VERSION.items()
+                          if has_art)
 
 # The ColorGray slots the art exposes.
 COLOR_SLOTS = 6

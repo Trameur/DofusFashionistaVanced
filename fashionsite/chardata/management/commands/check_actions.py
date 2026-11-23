@@ -27,9 +27,9 @@ from django.test import Client
 from fashionistapulp.dofus_constants import SLOT_NAME_TO_TYPE, slots_for
 from fashionistapulp.modelresult import ModelResultMinimal
 from fashionistapulp.structure import get_structure, set_current_game_version
-from fashionistapulp.game_versions import dofus_versions
+from fashionistapulp.game_versions import reader_dofus_versions
 
-VERSIONS = tuple(dofus_versions())
+VERSIONS = tuple(reader_dofus_versions())
 
 SEARCH_TERMS = ('', 'a', 'e', 'ring', 'Mercenary', 'Gelano', 'x' * 300,
                 "'; DROP TABLE", '%00', 'Rata')

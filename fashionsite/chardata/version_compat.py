@@ -8,6 +8,7 @@ in older versions. Default behavior assumes Dofus 3 (the live current version).
 # Forgelance was introduced in Dofus 3.
 CLASSES_NOT_IN_VERSION = {
     'dofus3': {'Bellaphone'},
+    'beta': set(),
     'dofus2': {'Forgelance', 'Bellaphone'},
     # Retro is Dofus 1.29: only the original 12 classes exist.
     'retro': {'Forgelance', 'Bellaphone', 'Eliotrope', 'Huppermage', 'Ouginak',
@@ -32,7 +33,11 @@ def class_exists_in_version(char_class, game_version):
 
 
 CLASSES_AWAITING_DATA = {
+    'dofus3': set(),
     'beta': set(),
+    'dofus2': set(),
+    'touch': set(),
+    'retro': set(),
 }
 
 

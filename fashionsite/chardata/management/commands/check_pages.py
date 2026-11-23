@@ -23,7 +23,7 @@ import re
 
 from django.core.management.base import BaseCommand, CommandError
 from django.test import Client
-from fashionistapulp.game_versions import dofus_versions
+from fashionistapulp.game_versions import reader_dofus_versions
 
 # What an unmigrated database says, in SQLite and MySQL
 _MISSING_SCHEMA = re.compile(
@@ -40,7 +40,7 @@ LINK_BUDGET = 2000
 _HREF = re.compile(r'href="(/[^"#?]*)"')
 
 # Dofus versions only, Wakfu is not one
-VERSIONS = tuple(dofus_versions())
+VERSIONS = tuple(reader_dofus_versions())
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 
 # Public routes, without their version prefix.

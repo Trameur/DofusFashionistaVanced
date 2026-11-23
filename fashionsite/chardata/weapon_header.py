@@ -9,7 +9,12 @@ field into a percentage and every later version kept that.
 from django.utils.translation import gettext as _
 
 # Retro and Touch heal lines carry no element in the game, so none is printed
-_ELEMENTLESS_HEAL_VERSIONS = {'retro', 'touch'}
+_ELEMENTLESS_HEAL_BY_VERSION = {'dofus3': False, 'beta': False, 'dofus2': False,
+                                'touch': True, 'retro': True}
+_ZERO_CRIT_HIDDEN_BY_VERSION = {'dofus3': True, 'beta': True, 'dofus2': True,
+                                'touch': True, 'retro': False}
+_ELEMENTLESS_HEAL_VERSIONS = {version for version, elementless
+                              in _ELEMENTLESS_HEAL_BY_VERSION.items() if elementless}
 
 
 def format_weapon_header(game_version, weapon_type, ap, crit_chance, crit_bonus):
@@ -25,7 +30,7 @@ def format_weapon_header(game_version, weapon_type, ap, crit_chance, crit_bonus)
 
     has_crit = (crit_chance is not None and crit_bonus is not None
                 and not (retro and (crit_chance <= 0 or weapon_type is None))
-                and not (game_version in ('touch', 'dofus2', 'dofus3', 'beta')
+                and not (_ZERO_CRIT_HIDDEN_BY_VERSION.get(game_version, False)
                          and crit_chance == 0))
     if ap is None:
         segments = []

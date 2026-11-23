@@ -47,6 +47,10 @@ CEILING_MARGIN = 1 + 1e-9
 
 # Retro spells that can only hit a summon, with the words of their description
 ONLY_HITS_A_SUMMON = {
+    'dofus3': {},
+    'beta': {},
+    'dofus2': {},
+    'touch': {},
     'retro': {
         30: 'punir une invocation',        # Osamodas, Fouet
         46: 'aux invocations',             # Enutrof, Desinvocation
@@ -58,6 +62,9 @@ ONLY_HITS_A_SUMMON = {
 PUSH_ENDS_THE_LATE_ROWS = {
     'dofus3': {32448: 'retire les effets du sort'},   # Cra, Tyrannical Arrow
     'beta': {32448: 'retire les effets du sort'},
+    'dofus2': {},
+    'touch': {},
+    'retro': {},
 }
 
 # Starting AP, for builds saved without base stats

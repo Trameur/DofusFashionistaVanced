@@ -19673,8 +19673,8 @@ class NothingWritesOutTheVersionsByHandTests(SimpleTestCase):
 
     def test_the_management_commands_ask_the_registry(self):
         from chardata.management.commands import check_actions, check_pages
-        from fashionistapulp.game_versions import dofus_versions
-        expected = tuple(dofus_versions())
+        from fashionistapulp.game_versions import reader_dofus_versions
+        expected = tuple(reader_dofus_versions())
         for command in (check_actions, check_pages):
             with self.subTest(command=command.__name__):
                 self.assertEqual(expected, command.VERSIONS)

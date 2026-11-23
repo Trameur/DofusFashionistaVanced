@@ -403,7 +403,7 @@ class AnkamasTextStatesEachRuleTests(SimpleTestCase):
         from chardata.spell_combo import PUSH_ENDS_THE_LATE_ROWS
         self.assertEqual({'dofus3': {TYRANNICAL_ARROW}, 'beta': {TYRANNICAL_ARROW}},
                          {version: set(quotes) for version, quotes
-                          in PUSH_ENDS_THE_LATE_ROWS.items()})
+                          in PUSH_ENDS_THE_LATE_ROWS.items() if quotes})
         for version, quotes in PUSH_ENDS_THE_LATE_ROWS.items():
             for spell_id, quote in quotes.items():
                 with self.subTest(version=version, spell=spell_id):

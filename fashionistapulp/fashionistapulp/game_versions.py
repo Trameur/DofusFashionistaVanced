@@ -88,6 +88,8 @@ GAME_VERSIONS = {
 
 DEFAULT_VERSION = 'dofus3'
 
+VERSION_ORDER = ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu')
+
 SWITCHER_FAMILY_ORDER = ('dofus3', 'touch', 'retro', 'dofus2', 'wakfu')
 
 
@@ -102,8 +104,7 @@ def get_game_version(key):
 
 def version_keys(include_experimental=False):
     """Every version, in the order pages list them."""
-    order = ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu')
-    return [key for key in order
+    return [key for key in VERSION_ORDER
             if include_experimental or not GAME_VERSIONS[key].experimental]
 
 

@@ -878,9 +878,13 @@ def _first_items(structure, type_name, level, count=1):
 
 
 #: game: (level, class as sent, characteristics)
+_MAIN_EXAMPLE = (200, 'Iop', {'vitality': 0, 'wisdom': 0, 'strength': 398,
+                              'intelligence': 0, 'chance': 0, 'agility': 0})
 EXAMPLES = {
-    'dofus3': (200, 'Iop', {'vitality': 0, 'wisdom': 0, 'strength': 398,
-                            'intelligence': 0, 'chance': 0, 'agility': 0}),
+    'dofus3': _MAIN_EXAMPLE,
+    'beta': _MAIN_EXAMPLE,
+    'dofus2': _MAIN_EXAMPLE,
+    'touch': _MAIN_EXAMPLE,
     'retro': (100, 9, {'vitality': 0, 'wisdom': 0, 'strength': 0,
                        'intelligence': 0, 'chance': 0, 'agility': 200}),
 }

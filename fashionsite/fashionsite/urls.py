@@ -179,11 +179,11 @@ def _sitemap_encyclopedia_items(base_url, language='en'):
         import sqlite3
         from chardata.official_site import get_item_link
         from fashionistapulp.fashionista_config import get_items_db_path
-        from fashionistapulp.game_versions import dofus_versions
+        from fashionistapulp.game_versions import reader_dofus_versions
         from chardata.version_content import repeats_the_live_version
         seen = set()
         rows = []
-        for game_version in dofus_versions():
+        for game_version in reader_dofus_versions():
             conn = sqlite3.connect(get_items_db_path(game_version))
             try:
                 cursor = conn.cursor()
@@ -260,10 +260,10 @@ def _sitemap_encyclopedia_sets(base_url, language='en'):
     try:
         from chardata import encyclopedia_view
         from chardata.official_site import get_set_link
-        from fashionistapulp.game_versions import dofus_versions
+        from fashionistapulp.game_versions import reader_dofus_versions
         rows = []
         seen = set()
-        for game_version in dofus_versions():
+        for game_version in reader_dofus_versions():
             structure = encyclopedia_view.get_structure(game_version)
             for set_id, item_set in structure.sets_dict.items():
                 if not getattr(item_set, 'items', None):
@@ -306,10 +306,10 @@ def _sitemap_encyclopedia_resources(base_url, language='en'):
         import sqlite3
         from chardata.official_site import get_resource_link
         from fashionistapulp.fashionista_config import get_items_db_path
-        from fashionistapulp.game_versions import dofus_versions
+        from fashionistapulp.game_versions import reader_dofus_versions
         rows = []
         seen = set()
-        for game_version in dofus_versions():
+        for game_version in reader_dofus_versions():
             conn = sqlite3.connect(get_items_db_path(game_version))
             try:
                 cursor = conn.cursor()
@@ -405,10 +405,10 @@ def _sitemap_encyclopedia_monsters(base_url, language='en'):
         from chardata.encyclopedia_view import has_display_name
         from chardata.official_site import get_monster_link
         from fashionistapulp.fashionista_config import get_items_db_path
-        from fashionistapulp.game_versions import dofus_versions
+        from fashionistapulp.game_versions import reader_dofus_versions
         rows = []
         seen = set()
-        for game_version in dofus_versions():
+        for game_version in reader_dofus_versions():
             version_prefix = '' if game_version == 'dofus3' else '/%s' % game_version
             # English only: _sitemap_pages submits the prefixed translated hubs
             list_link = '%s/encyclopedia/monsters/' % version_prefix
@@ -549,13 +549,13 @@ def _sitemap_pages(base_url):
                 'weekly', '0.6'))
 
     # The hubs, once per language
-    from fashionistapulp.game_versions import dofus_versions
+    from fashionistapulp.game_versions import reader_dofus_versions
     hub_paths = HUB_PATHS
     for language in _SITEMAP_LANGUAGES:
         for hub in hub_paths:
             blocks.append(_sitemap_url(
                 '%s/%s%s' % (base_url, language, hub), 'weekly', '0.7'))
-        for version_slug in dofus_versions():
+        for version_slug in reader_dofus_versions():
             if version_slug == 'dofus3':
                 continue
             for hub in hub_paths:
