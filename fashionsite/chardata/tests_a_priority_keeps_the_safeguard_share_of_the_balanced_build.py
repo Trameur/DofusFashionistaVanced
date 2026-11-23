@@ -2,7 +2,6 @@
 """A priority solve keeps the safeguard's share of the balanced build; a build without one solves as before."""
 import pickle
 import re
-import unittest
 from unittest import mock
 
 from django.contrib.auth.models import User
@@ -23,6 +22,7 @@ from fashionistapulp.model import (EFFECTIVE_HP_CONSTRAINT, EFFECTIVE_HP_MINIMUM
                                    ModelInput)
 from fashionistapulp.modelresult import ModelResultMinimal
 from fashionistapulp.structure import get_structure, set_current_game_version
+from chardata.solver_guard import pulp_solver_required
 
 NEW_SENTENCES = (
     'Safeguard not applied: the solver found no balanced set to compare with.',
@@ -68,14 +68,6 @@ FALLBACK = ('Safeguard not applied: the solver found no set keeping %d%% of AP, 
             'without it.')
 BALANCED_OUT_OF_TIME = ('Safeguard not applied: the solver ran out of time on the balanced build '
                         'it compares with, so this set does without it.')
-
-
-def _solver_available():
-    try:
-        import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
 
 
 def _hat_with_vitality(version='dofus3'):
@@ -451,7 +443,6 @@ class TheSafeguardCoversEveryStatThePriorityDoesNotPushTests(_BuildMixin, TestCa
         guarded = presets.guarded_stats(char, dict(balanced, range=-5))
         self.assertNotIn('range', guarded)
         self.assertIn('mp', guarded)
-
 
 
 class TheModelHoldsTheFloorOnlyWhileAskedTests(SimpleTestCase):
@@ -1002,7 +993,7 @@ class AGuardOnRetroKeepsItsTurnStatsTests(_BuildMixin, TestCase):
 
 class ARealGuardedSolveKeepsItsFloorTests(_BuildMixin, TestCase):
 
-    @unittest.skipUnless(_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_the_damage_set_keeps_ninety_percent_of_the_balanced_effective_hp(self):
         char = self.build({'str'}, 'damage')
         self.client.get('/fashion/%d/' % char.pk)
@@ -1038,7 +1029,7 @@ class ARealGuardedSolveKeepsItsFloorTests(_BuildMixin, TestCase):
         self.assertEqual([], facts['short'])
         return get_solution(char).get_stats_total(), facts
 
-    @unittest.skipUnless(_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_at_zero_percent_no_guarded_stat_drops_below_the_balanced_build(self):
         totals, facts = self.solved_with_floors({'str'}, 'damage', guard_pct=0)
         self.assertTrue(facts['floors'])
@@ -1046,7 +1037,7 @@ class ARealGuardedSolveKeepsItsFloorTests(_BuildMixin, TestCase):
             self.assertGreaterEqual(totals[key], floor, key)
         self.assertGreaterEqual(facts['kept'], facts['balanced'] - 0.5)
 
-    @unittest.skipUnless(_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_defense_set_keeps_its_share_of_every_damage_stat(self):
         totals, facts = self.solved_with_floors({'str'}, 'defense')
         self.assertTrue({'str', 'pow', 'ap'} <= set(facts['floors']))
@@ -1057,7 +1048,7 @@ class ARealGuardedSolveKeepsItsFloorTests(_BuildMixin, TestCase):
 class ARealGuardedSolveOnTouchAndRetroKeepsEveryFloorTests(_BuildMixin, TestCase):
     solved_with_floors = ARealGuardedSolveKeepsItsFloorTests.solved_with_floors
 
-    @unittest.skipUnless(_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_at_zero_percent_every_version_finds_a_set_above_every_floor(self):
         for version in ('touch', 'retro'):
             for priority in ('damage', 'defense'):
@@ -1073,7 +1064,7 @@ class ARealGuardedSolveOnTouchAndRetroKeepsEveryFloorTests(_BuildMixin, TestCase
 
 class ARealGuardedSolveFitsTheProductionBudgetOnTouchAndRetroTests(_BuildMixin, TestCase):
 
-    @unittest.skipUnless(_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_melee_damage_priority_keeps_every_floor_within_the_budget(self):
         for version in ('touch', 'retro'):
             with self.subTest(version=version):

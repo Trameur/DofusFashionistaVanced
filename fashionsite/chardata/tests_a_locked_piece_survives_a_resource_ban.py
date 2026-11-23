@@ -1,7 +1,6 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """A piece the build locks is never forbidden by a resource ban, and the solver still wears it."""
 import pickle
-import unittest
 from unittest import mock
 
 from django.contrib.auth.models import User
@@ -15,18 +14,11 @@ from chardata.options import get_options, set_options, set_setup_choices
 from chardata.stats_weights import set_stats_weights
 from fashionistapulp.model import Model
 from fashionistapulp.structure import get_structure, set_current_game_version
+from chardata.solver_guard import pulp_solver_required
 
 GELANO_RESOURCE = '757:resources'
 RETRO_PET_ROWS = (10000065, 10000066)
 WEIGHTS = {'ap': 1000, 'mp': 800, 'vit': 1}
-
-
-def _solver_available():
-    try:
-        import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
 
 
 class _ABuild(TestCase):
@@ -65,7 +57,7 @@ class _ABuild(TestCase):
         return set(model.get_result_minimal().item_per_slot.values())
 
 
-@unittest.skipUnless(_solver_available(), 'no pulp solver available')
+@pulp_solver_required
 class ALockedGelanoSurvivesTheBanOfItsResourceTests(_ABuild):
 
     def setUp(self):
@@ -110,7 +102,7 @@ class ALockedGelanoSurvivesTheBanOfItsResourceTests(_ABuild):
         self.assertTrue({self.exo_gelano.id, self.plain_gelano.id} & self.worn(model_input))
 
 
-@unittest.skipUnless(_solver_available(), 'no pulp solver available')
+@pulp_solver_required
 class ALockedRetroPetSurvivesTheBanOfAnotherRowOfItTests(_ABuild):
     """No Retro pet row has a recipe, so the map is given one that reaches the sibling row."""
 

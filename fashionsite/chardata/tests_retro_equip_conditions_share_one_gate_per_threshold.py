@@ -6,6 +6,7 @@ from django.test import SimpleTestCase
 
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.structure import get_structure, set_current_game_version
+from chardata.solver_guard import pulp_solver_available as _solver_available
 
 OPTIONS = {'ap_exo': False, 'mp_exo': False, 'range_exo': False, 'dofus': True,
            'trophies': True, 'dragoturkey': True, 'seemyool': True, 'rhineetle': True,
@@ -13,14 +14,6 @@ OPTIONS = {'ap_exo': False, 'mp_exo': False, 'range_exo': False, 'dofus': True,
 LEVEL = 200
 HIGHEST_THRESHOLD = 300
 _MODELS = {}
-
-
-def _solver_available():
-    try:
-        import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
 
 
 def _model(version):

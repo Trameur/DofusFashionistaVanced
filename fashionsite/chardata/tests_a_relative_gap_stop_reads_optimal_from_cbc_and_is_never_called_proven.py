@@ -6,6 +6,7 @@ from django.test import SimpleTestCase
 from pulp import LpSolutionOptimal, LpStatusOptimal, value
 
 from fashionistapulp.lpproblem import LpProblem2, read_best_bound
+from chardata.solver_guard import pulp_solver_available as _solver_available
 
 GAP_EXIT_LOG = """ratioGap was changed from 0 to 0.03
 Cbc0010I After 0 nodes, 1 on tree, -753 best solution, best possible -890.87518 (0.03 seconds)
@@ -16,14 +17,6 @@ Result - Optimal solution found (within gap tolerance)
 
 Objective value:                875.00000000
 """
-
-
-def _solver_available():
-    try:
-        import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
 
 
 def knapsack():

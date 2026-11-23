@@ -16,16 +16,13 @@
 
 """Base stats page: cost curve per game version, and the save round trip."""
 
-import unittest
-
 from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
-
-from chardata.tests import _pulp_solver_available
 
 from fashionistapulp.dofus_constants import (DEFAULT_SOFT_CAPS,
                                              scrolls_push_cost_curve,
                                              tier_widths_after_scroll)
+from chardata.solver_guard import pulp_solver_required
 
 
 class ScrollCostCurveTests(TestCase):
@@ -57,7 +54,7 @@ class ScrollCostCurveTests(TestCase):
                 self.assertEqual(resp.status_code, 200)
                 self.assertIn(needle, resp.content.decode('utf-8'))
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_dofus3_distribution_ignores_scrolls_on_the_cost_curve(self):
         # Iop 200 str with the default scrolled 100: the 995 points must fill
         # the 1:1, 2:1 and 3:1 tiers and reach into 4:1.

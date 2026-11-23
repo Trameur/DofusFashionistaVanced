@@ -36,6 +36,7 @@ import tempfile
 import unicodedata
 import urllib.error
 import unittest
+from chardata.solver_guard import pulp_solver_available as _pulp_solver_available, pulp_solver_required
 
 
 def itemscraper_module(name):
@@ -10042,12 +10043,6 @@ class StatsWeightCapTests(TestCase):
         self.assertEqual(pickle.loads(char.stats_weight)['cridam'], MAX_STAT_WEIGHT)
 
 
-def _pulp_solver_available():
-    """True when the CBC binary the site solves with is installed."""
-    from fashionistapulp.lpproblem import SOLVER
-    return SOLVER is not None and SOLVER.available()
-
-
 class TheSolverGuardReadsTheSiteSolverTests(SimpleTestCase):
 
     def test_the_guard_holds_when_the_site_can_solve(self):
@@ -10064,7 +10059,7 @@ class TheSolverGuardReadsTheSiteSolverTests(SimpleTestCase):
 class SolverSmokeTests(TestCase):
     """One real end-to-end solve: weights, model, pulp solver, stored solution."""
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_full_solve_stores_a_solution_with_items(self):
         import pickle as _pickle
         from django.contrib.auth.models import User
@@ -10114,11 +10109,11 @@ class SolverSmokeTests(TestCase):
         equipped = sum(1 for ri in solution.item_list if ri.item_added)
         self.assertGreaterEqual(equipped, 3, version)
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_full_solve_on_beta(self):
         self._solve_version('beta')
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_full_solve_on_dofus2(self):
         self._solve_version('dofus2')
 
@@ -10137,7 +10132,7 @@ class TouchPetSolveTests(TestCase):
         self.assertGreaterEqual(variant.id, self.VARIANT_ID_BASE)
         self.assertEqual(st.get_type_name_by_id(variant.type), 'Pet')
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_touch_strength_solve_equips_a_maxed_pet_variant(self):
         from django.test import RequestFactory
         from django.contrib.auth.models import User
@@ -10588,7 +10583,7 @@ class OneItemCountsOnceTests(TestCase):
         self.assertEqual(
             model.problem.pulp_vars['x_%d' % crocoring.id].upBound, 1)
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_setless_ring_still_fills_both_ring_slots(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
         self.addCleanup(set_current_game_version, 'dofus3')
@@ -10658,7 +10653,7 @@ class OrEquipConditionTests(TestCase):
                         self.assertIn((item.id, number, stat),
                                       model.restrictions.or_condition_contraints)
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_solve_that_breaks_every_branch_drops_the_item(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
         from fashionistapulp.model import Model, ModelInput
@@ -10727,7 +10722,7 @@ class OrEquipConditionTests(TestCase):
                 variables['stat_%d' % structure.get_stat_by_name('AP').id].varValue,
                 variables['stat_%d' % structure.get_stat_by_name('MP').id].varValue)
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_locked_item_keeps_one_of_its_branches_true(self):
         # Baleenaboots: 11 AP or less, or 5 MP or less
         status, ap, mp = self._solve_with_locked_boots({})
@@ -10789,19 +10784,19 @@ class SolvedBuildIsWearableTests(TestCase):
                 if n > self.SLOT_LIMITS.get(slot, 1)}
         self.assertEqual({}, over, '%s: more pieces than slots' % version)
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_low_level_build_is_wearable(self):
         self._check('dofus3', 'Iop', 50, {'str'})
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_an_endgame_build_is_wearable(self):
         self._check('dofus3', 'Cra', 200, {'agi'})
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_retro_build_is_wearable(self):
         self._check('retro', 'Iop', 100, {'str'})
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_fresh_build_never_wears_a_default_forbidden_item(self):
         # The default exclusions hide GM gear and joke pieces.
         from chardata.lock_forbid import (DEFAULT_EXCLUSION_ANKAMA_IDS,
@@ -10888,7 +10883,7 @@ class SolvedBuildIsWearableTests(TestCase):
                                              len(item.or_conditions)))
         return gates, broken
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_the_build_can_put_its_own_gated_gear_on(self):
         # Touch and Retro wear stat-gated pieces, Dofus 3 has the OR conditions
         exercised = 0
@@ -10941,7 +10936,7 @@ class SolvedBuildIsWearableTests(TestCase):
                          '%s gear total is not items plus set bonuses' % version)
         return len(solution.sets)
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_build_gets_the_set_bonus_for_the_pieces_it_wears(self):
         exercised = 0
         for version in ('dofus3', 'retro', 'touch'):
@@ -10993,7 +10988,7 @@ class DistributedPointsAreAffordableTests(TestCase):
         self.assertIsNotNone(solution, version)
         return solution
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_the_character_can_pay_for_the_points_the_solver_spends(self):
         from fashionistapulp.dofus_constants import (BASE_STATS, STAT_KEY_TO_NAME,
                                                      get_soft_caps_for,
@@ -11068,7 +11063,7 @@ class SetMaxCapTests(TestCase):
                          'the locked pieces did not all reach the build')
         return solution
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_the_curse_caps_the_build_it_is_worn_on(self):
         from fashionistapulp.structure import get_structure
         structure = get_structure('dofus3')
@@ -11093,7 +11088,7 @@ class SetMaxCapTests(TestCase):
 class RetroUncappedApSolveTests(TestCase):
     """Retro has no 12/6/6 AP/MP/range cap: the solve must still complete."""
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_retro_solve_completes_with_uncapped_ap(self):
         from django.test import RequestFactory
         from django.contrib.auth.models import User
@@ -12775,7 +12770,7 @@ class OwnedExoCountsOnlyWhenWornTests(TestCase):
 class GelanoExoInventoryTests(TestCase):
     """MP exo "only Gelano" must equip the +1 AP +1 MP Gelano, not the plain one."""
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    @pulp_solver_required
     def test_gelano_exo_keeps_the_mp_gelano_despite_an_owned_mp_roll(self):
         import pickle as _pickle
         from django.test import RequestFactory

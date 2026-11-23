@@ -26,6 +26,7 @@ from chardata.solution import get_solution
 from chardata.version_compat import classes_with_data
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.structure import get_structure, set_current_game_version
+from chardata.solver_guard import pulp_solver_available as _solver_available
 
 DAMAGE_WEIGHTS = ('pow', 'dam', 'earthdam', 'firedam', 'waterdam', 'airdam', 'neutdam')
 OTHER_ELEMENT_STATS = ('int', 'cha', 'agi', 'firedam', 'waterdam', 'airdam')
@@ -33,14 +34,6 @@ OTHER_ELEMENT_STATS = ('int', 'cha', 'agi', 'firedam', 'waterdam', 'airdam')
 
 def _path(version, path):
     return path if version == 'dofus3' else '/%s%s' % (version, path)
-
-
-def _solver_available():
-    try:
-        import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
 
 
 class _DoorMixin(object):

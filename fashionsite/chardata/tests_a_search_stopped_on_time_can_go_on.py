@@ -22,6 +22,7 @@ from fashionistapulp.lpproblem import LpProblem2, read_best_bound
 from fashionistapulp.model import EFFECTIVE_HP_MINIMUM, Model
 from fashionistapulp.modelresult import ModelResultMinimal
 from fashionistapulp.structure import get_structure, set_current_game_version
+from chardata.solver_guard import pulp_solver_available as _solver_available
 
 GAP = 'Nearly optimal set: a better one may exist, at most %s%% better on your criteria.'
 WIDE_GAP = 'A better set may exist, at most %s%% better on your criteria.'
@@ -47,14 +48,6 @@ Objective value:                -550.00000000
 Lower bound:                    -590.913
 Gap:                            0.07
 """
-
-
-def _solver_available():
-    try:
-        import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
 
 
 def _hard_problem():

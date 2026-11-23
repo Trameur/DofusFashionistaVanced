@@ -9,16 +9,13 @@ import shutil
 import sys
 import tempfile
 
-from unittest import skipUnless
-
-import pulp
-
 from django.test import SimpleTestCase, TestCase
 from django.utils import translation
 
 from chardata.encyclopedia_view import _get_set_bonuses
 from chardata.official_site import get_item_link, get_set_link
 from chardata.solution_result import evolve_result_item
+from chardata.solver_guard import pulp_solver_required
 from chardata.tests_a_piece_for_one_sex_or_one_name_is_worn_only_by_that_character import (
     OPTIONS as SOLVE_OPTIONS)
 from fashionistapulp import dracorunes
@@ -163,7 +160,7 @@ class AnItemMaxCapReachesTheSolverTests(SimpleTestCase):
         ap = self.structure.get_stat_by_key('ap').id
         return model.problem.pulp_vars['stat_%d' % ap].varValue
 
-    @skipUnless(pulp.listSolvers(onlyAvailable=True), 'no pulp solver available')
+    @pulp_solver_required
     def test_a_worn_capping_item_holds_the_build_at_its_cap(self):
         finery = self.structure.get_item_by_ankama_id(DRACONIFER_FINERY)
         ap = self.structure.get_stat_by_key('ap').id

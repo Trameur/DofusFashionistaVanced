@@ -17,16 +17,9 @@ from fashionistapulp import lpproblem, model_pool
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.modelresult import model_result_from_minimal
 from fashionistapulp.structure import get_structure, set_current_game_version
+from chardata.solver_guard import pulp_solver_available as _solver_available
 
 ASKED_VITALITY = 99999
-
-
-def _solver_available():
-    try:
-        import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
 
 
 class _Clock(object):

@@ -3,7 +3,6 @@
 import json
 import pickle
 import re
-import unittest
 
 from django.contrib.auth.models import User
 from django.test import RequestFactory, SimpleTestCase, TestCase
@@ -18,6 +17,7 @@ from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.modelresult import model_result_from_minimal
 from fashionistapulp.structure import (GELANO_DEPLOYED_IDS, get_structure,
                                        set_current_game_version)
+from chardata.solver_guard import pulp_solver_required
 
 _WEIGHTS = {'ap': 1000, 'mp': 800, 'vit': 1}
 
@@ -29,14 +29,6 @@ _BASE = {'Vitality': 0, 'Wisdom': 0, 'Strength': 0, 'Intelligence': 0,
 _OPTIONS = {'ap_exo': False, 'range_exo': False, 'dofus': True, 'trophies': True,
             'dragoturkey': True, 'seemyool': True, 'rhineetle': True,
             'prysmaradite': False, 'dofuses': {}, 'dofusnotforchar': set()}
-
-
-def _solver_available():
-    try:
-        import pulp
-        return bool(pulp.listSolvers(onlyAvailable=True))
-    except Exception:
-        return False
 
 
 def _page_object(page, name):
@@ -105,7 +97,7 @@ class _AGelanoBuild(TestCase):
         self.assertEqual(200, response.status_code, response.content)
 
 
-@unittest.skipUnless(_solver_available(), 'no pulp solver available')
+@pulp_solver_required
 class TheCardOfTheExoGelanoTests(_AGelanoBuild):
 
     def test_locking_the_card_keeps_the_ap_and_mp_gelano_on(self):
@@ -137,7 +129,7 @@ class TheCardOfTheExoGelanoTests(_AGelanoBuild):
         self.assertEqual({}, self._worn_gelanos())
 
 
-@unittest.skipUnless(_solver_available(), 'no pulp solver available')
+@pulp_solver_required
 class ABuildSavedWithAGelanoLockedTests(_AGelanoBuild):
 
     def test_the_plain_gelano_locked_under_the_gelano_exo_wears_the_ap_and_mp_gelano(self):
@@ -183,7 +175,7 @@ class TheCardUndoesAnOldGelanoRowTests(_AGelanoBuild):
         self.assertEqual(set(), rows.intersection(get_all_exclusions_ids(self.char)))
 
 
-@unittest.skipUnless(_solver_available(), 'no pulp solver available')
+@pulp_solver_required
 class EveryDofusVersionReadsAGelanoLockTheSameWayTests(SimpleTestCase):
 
     VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
