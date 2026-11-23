@@ -114,6 +114,7 @@
             <button type="button" class="button-thin" id="fm-sim-undo" style="display:none;">{{ t.sim_undo }}</button>
             <button type="button" class="button-thin" id="fm-sim-reset" style="display:none;">{{ t.sim_reset }}</button>
         </div>
+        <p class="small-explain fm-trans-hint" id="fm-trans-hint" style="display:none;"></p>
 
         <div id="fm-sim-panel" style="display:none;">
             <div class="fm-sim-mode" id="fm-sim-mode">
@@ -397,6 +398,8 @@
         var dracoTimer = null;
         var dracoSequence = 0;
         var dracoWanted = (config.preload && config.preload.dracorune) || null;
+        var transWanted = (config.preload && config.preload.transcendence) || null;
+        var transSuggested = null;
 
         var currentItem = null;
         var currentInvId = null;
@@ -645,7 +648,32 @@
             searchResults.style.display = 'none';
         }
 
+        function showTransHint() {
+            var hint = document.getElementById('fm-trans-hint');
+            if (!hint) {
+                return;
+            }
+            hint.style.display = 'none';
+            hint.textContent = '';
+            if (transSuggested === null) {
+                return;
+            }
+            var trans = config.transcendence || {};
+            Object.keys(trans).forEach(function(k) {
+                trans[k].runes.forEach(function(r) {
+                    if (r.id === transSuggested) {
+                        hint.textContent = (config.transSuggested || '') + ': ' + r.name +
+                            ' (+' + r.bonus + ' ' + trans[k].label + ')';
+                        hint.style.display = 'block';
+                    }
+                });
+            });
+        }
+
         function selectItem(item, currentRolls, invId) {
+            transSuggested = transWanted;
+            transWanted = null;
+            showTransHint();
             currentItem = item;
             currentInvId = invId || null;
             hideSearchResults();
@@ -2072,10 +2100,26 @@
                 }
                 opt.appendChild(label);
                 var blocked = session && !session.locked ? transcendenceBlock(r) : null;
+                var suggested = transSuggested !== null && r.id === transSuggested;
+                if (suggested) {
+                    opt.classList.add('fm-trans-suggested');
+                    var mark = document.createElement('small');
+                    mark.className = 'fm-trans-suggest';
+                    mark.textContent = config.transSuggested || '';
+                    label.appendChild(mark);
+                    if (blocked) {
+                        var why = document.createElement('small');
+                        why.className = 'fm-trans-suggest-why';
+                        why.textContent = blocked;
+                        label.appendChild(why);
+                    }
+                }
                 if (session && !session.locked && blocked === null) {
                     opt.onclick = function() { applyTranscendence(r, entry.label); };
                 } else {
-                    opt.style.opacity = '0.5';
+                    if (!suggested || (session && session.locked)) {
+                        opt.style.opacity = '0.5';
+                    }
                     opt.style.cursor = 'default';
                     if (blocked) {
                         opt.title = blocked;
@@ -2206,6 +2250,16 @@
                 });
                 sel.dataset.built = '1';
                 sel.addEventListener('change', renderTranscendenceOptions);
+            }
+            if (transSuggested !== null && sel.dataset.suggested !== String(transSuggested)) {
+                sel.dataset.suggested = String(transSuggested);
+                statKeys.forEach(function(k) {
+                    trans[k].runes.forEach(function(r) {
+                        if (r.id === transSuggested) {
+                            sel.value = k;
+                        }
+                    });
+                });
             }
             sel.disabled = !!session.locked;
             renderTranscendenceOptions();

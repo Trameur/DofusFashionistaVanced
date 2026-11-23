@@ -113,7 +113,7 @@
         {% endif %}
         {% if item.id and item.mageable %}
         <div style="margin-top:6px;">
-            <a class="button-generic" style="font-size:0.8em;padding:2px 8px;" href="{% game_url 'forgemagie' %}?item={{item.id}}{% if item.dracorune %}&amp;dracorune={{ item.dracorune.key|urlencode:'' }}{% endif %}">{% trans "Smithmagic" %}</a>
+            <a class="button-generic" style="font-size:0.8em;padding:2px 8px;" href="{% game_url 'forgemagie' %}?item={{item.id}}{% if item.dracorune %}&amp;dracorune={{ item.dracorune.key|urlencode:'' }}{% endif %}{% if item.transcendence_rune %}&amp;transcendence={{ item.transcendence_rune.id }}{% endif %}">{% trans "Smithmagic" %}</a>
         </div>
         {% endif %}
     </div>

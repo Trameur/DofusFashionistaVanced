@@ -319,6 +319,10 @@
         .fm-trans-opt { display: inline-flex; align-items: center; gap: 6px; margin: 4px 6px 4px 0; padding: 4px 8px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; }
         .fm-trans-opt img { width: 28px; height: 28px; }
         .fm-trans-opt:hover { border-color: #8e24aa; }
+        .fm-trans-opt.fm-trans-suggested { border-color: currentColor; box-shadow: 0 0 0 1px currentColor; }
+        .fm-trans-suggest, .fm-trans-suggest-why { display: block; font-size: 0.85em; }
+        .fm-trans-suggest { font-weight: 600; }
+        .fm-trans-hint { font-weight: 600; margin-top: 8px; }
         .fm-trans-lock { margin-top: 10px; padding: 8px 10px; border-radius: 6px; background: #ede7f6; color: #4a148c; font-weight: 600; }
 
 /* A line the item did not roll: the hunting rune writes one, and it reads in

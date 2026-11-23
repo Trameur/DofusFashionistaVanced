@@ -32,7 +32,8 @@ from chardata.forgemagie_data import (
 from chardata.forgemagie_odds import (get_documented_odds,
                                      get_odds_ladder)
 from chardata.forgemagie_rune_names import rune_display_name
-from chardata.forgemagie_transcendance import get_transcendence_by_stat
+from chardata.forgemagie_transcendance import (get_transcendence_by_stat,
+                                               get_transcendence_runes)
 from chardata.image_store import get_image_url
 from chardata.solution_result import dracorune_change_label
 from chardata.stat_icons import get_stat_icon_path
@@ -1404,9 +1405,12 @@ def forgemagie(request):
             'url': version_reverse(request, 'forgemagie_dracorunes')}
 
     preload = (_inventory_preload(request, structure, language, game_version)
-               or _catalogue_preload(request, structure, language, runes))
+               or _catalogue_preload(request, structure, language, runes,
+                                     game_version))
     if preload is not None:
         js_config['preload'] = preload
+        if 'transcendence' in preload:
+            js_config['transSuggested'] = _('Suggested transcendence rune')
 
     return set_response(
         request,
@@ -1466,7 +1470,7 @@ def _item_payload(structure, item, language, display_name=None):
     }
 
 
-def _catalogue_preload(request, structure, language, runes=None):
+def _catalogue_preload(request, structure, language, runes=None, game_version=None):
     """Workbench preload for /forgemagie/?item=<item id>, no saved rolls."""
     item_id = safe_int(request.GET.get('item'), None)
     if item_id is None:
@@ -1486,6 +1490,10 @@ def _catalogue_preload(request, structure, language, runes=None):
             offered = set()
         if asked in offered:
             preload['dracorune'] = asked
+    suggested = safe_int(request.GET.get('transcendence'), None)
+    if suggested is not None and game_version and suggested in {
+            rune['id'] for rune in get_transcendence_runes(game_version)}:
+        preload['transcendence'] = suggested
     return preload
 
 
