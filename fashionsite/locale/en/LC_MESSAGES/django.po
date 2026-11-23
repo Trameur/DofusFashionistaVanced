@@ -1952,6 +1952,11 @@ msgstr ""
 msgid "Game version"
 msgstr ""
 
+#: chardata/templates/chardata/version-selector.html
+#, python-format
+msgid "%(game)s versions"
+msgstr ""
+
 #: .\chardata\templates\chardata\base.html:273
 msgid "Build navigation"
 msgstr ""

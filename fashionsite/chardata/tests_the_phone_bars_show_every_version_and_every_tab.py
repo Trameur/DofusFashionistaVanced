@@ -21,6 +21,9 @@ class TheVersionSwitchHasItsOwnRowTests(SimpleTestCase):
     def test_the_switch_fills_the_row_without_the_legacy_margin(self):
         self.assertRegex(SMALL, r'\.version-selector\{ flex:1 1 auto; margin:0; \}')
 
+    def test_each_game_grows_with_its_link_so_the_row_stays_full(self):
+        self.assertRegex(SMALL, r'\.version-game\{ flex:1 1 auto; \}')
+
     def test_every_link_keeps_a_tap_height_of_32px(self):
         padding = re.search(r'\.version-link\{[^}]*padding:(\d+)px', SMALL)
         self.assertGreaterEqual(int(padding.group(1)) * 2 + 16, 32)

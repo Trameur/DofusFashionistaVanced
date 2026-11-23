@@ -1,5 +1,9 @@
-{% load version_url %}<div class="version-selector">
-    {% for version_key, version_label in active_game_versions %}
-        <a href="{% version_switch_href version_key %}" data-version="{{ version_key }}" class="version-link {% if current_game_version == version_key %}active{% endif %}">{{ version_label }}</a>
+{% load i18n version_url %}<div class="version-selector">
+    {% for game in version_switch_games %}
+        <span class="version-game" data-family="{{ game.key }}"{% if game.has_menu %} data-menu="{% blocktrans with game=game.label %}{{ game }} versions{% endblocktrans %}"{% endif %}>
+            {% for member in game.members %}
+                <a href="{% version_switch_href member.key %}" data-version="{{ member.key }}" class="version-link{% if member.is_beta %} version-beta{% endif %}{% if current_game_version == member.key %} active{% endif %}">{% if member.is_beta %}<span class="version-game-name">{{ game.label }}&nbsp;</span><span class="version-channel">{{ member.label }}</span>{% else %}{{ member.label }}{% endif %}{% if member.patch %}<span class="version-patch" aria-hidden="true">{{ member.patch }}</span>{% endif %}</a>
+            {% endfor %}
+        </span>
     {% endfor %}
 </div>

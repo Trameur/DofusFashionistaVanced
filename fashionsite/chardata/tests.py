@@ -1851,7 +1851,7 @@ class VersionSwitcherInEveryLanguageTests(TestCase):
 
     # Only /<language>/<version>/<path> resolves, not /<version>/<language>/
     HUBS = ('/', '/encyclopedia/', '/guides/')
-    LANGUAGE_PREFIXES = ('', '/fr', '/es', '/pt')
+    LANGUAGE_PREFIXES = ('', '/fr', '/es', '/pt', '/de')
 
     SWITCHER = '<div class="version-selector">'
 
@@ -1878,6 +1878,12 @@ class VersionSwitcherInEveryLanguageTests(TestCase):
         for href in self._offered_links(page.content.decode('utf-8')):
             self.assertTrue(href.startswith('/es/'),
                             'switching version dropped the language: %s' % href)
+
+    def test_the_switcher_offers_the_main_game_then_its_beta(self):
+        page = self.client.get('/de/encyclopedia/')
+        offered = self._offered_links(page.content.decode('utf-8'))
+        self.assertLess(offered.index('/de/encyclopedia/'), offered.index('/de/beta/encyclopedia/'))
+        self.assertEqual(offered.index('/de/encyclopedia/') + 1, offered.index('/de/beta/encyclopedia/'))
 
     def test_the_current_version_tab_leaves_the_current_version(self):
         page = self.client.get('/es/dofus2/encyclopedia/')

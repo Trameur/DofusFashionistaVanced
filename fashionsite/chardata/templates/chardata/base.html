@@ -470,7 +470,7 @@
             move(q('.login',hc),end);
             move(q('.fm-design-picker',hc),end);
             move(q('.version-selector',hc),vers);
-            var vsel=q('.version-selector',vers);if(vsel){['dofus3','beta','touch','retro','dofus2','wakfu'].forEach(function(k){var a=q('.version-link[data-version="'+k+'"]',vsel);if(a)vsel.appendChild(a);});var fade=function(){var m=vsel.scrollWidth-vsel.clientWidth-1;vsel.classList.toggle('fm-vs-less',vsel.scrollLeft>1);vsel.classList.toggle('fm-vs-more',vsel.scrollLeft<m);};var on=q('.version-link.active',vsel);if(on&&vsel.scrollWidth>vsel.clientWidth){vsel.scrollLeft+=on.getBoundingClientRect().left-vsel.getBoundingClientRect().left-(vsel.clientWidth-on.offsetWidth)/2;}fade();vsel.addEventListener('scroll',fade,{passive:true});window.addEventListener('resize',fade);window.addEventListener('load',fade);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fade);}
+            var vsel=q('.version-selector',vers);if(vsel){var fade=function(){var m=vsel.scrollWidth-vsel.clientWidth-1;vsel.classList.toggle('fm-vs-less',vsel.scrollLeft>1);vsel.classList.toggle('fm-vs-more',vsel.scrollLeft<m);};var on=q('.version-link.active',vsel);if(on&&vsel.scrollWidth>vsel.clientWidth){vsel.scrollLeft+=on.getBoundingClientRect().left-vsel.getBoundingClientRect().left-(vsel.clientWidth-on.offsetWidth)/2;}fade();vsel.addEventListener('scroll',fade,{passive:true});window.addEventListener('resize',fade);window.addEventListener('load',fade);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fade);}
             hc.classList.add('fm-moved');
           }
           var bar=q('.fm-buildbar');

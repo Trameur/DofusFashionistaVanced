@@ -2034,6 +2034,11 @@ msgstr "Ferramentas"
 msgid "Game version"
 msgstr "Versão do jogo"
 
+#: chardata/templates/chardata/version-selector.html
+#, python-format
+msgid "%(game)s versions"
+msgstr "Versões de %(game)s"
+
 #: .\chardata\templates\chardata\base.html:273
 msgid "Build navigation"
 msgstr "Navegação do build"

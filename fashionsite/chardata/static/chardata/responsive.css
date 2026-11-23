@@ -37,7 +37,10 @@
   .space.header-controls .version-selector {
     float: none !important; margin: 0 !important; position: relative; top: auto;
   }
-  .version-link { padding: 7px 12px; font-size: 12px; }
+  .space.header-controls .version-selector { gap: 2px; }
+  .version-link { padding: 7px 11px; font-size: 12px; }
+  html:not(.fm-modern, .fm-enhanced) .version-link { white-space: nowrap; }
+  .version-link.version-beta { font-size: 11px; }
 
   /* ---- Hamburger + collapsible sidebar navigation ---- */
   .mobile-nav-toggle {

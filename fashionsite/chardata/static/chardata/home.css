@@ -167,8 +167,28 @@
     margin-left: 20px;
     margin-top: 5px;
     display: inline-flex;
+    gap: 6px;
+}
+
+.version-game {
+    display: inline-flex;
     border-radius: 5px;
     overflow: hidden;
+}
+
+.version-game-name,
+.version-patch {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.version-link.version-beta {
+    font-size: 10px;
 }
 
 .version-link {

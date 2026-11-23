@@ -93,11 +93,13 @@ html.fm-enhanced .current-theme, html.fm-enhanced .auto-current{
   cursor:pointer; font-size:13px; font-weight:600; transition:background .16s,border-color .16s;
 }
 html.fm-enhanced .current-theme:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
-html.fm-enhanced .version-selector{ border:1px solid var(--fm-border) !important; overflow:hidden; background:var(--fm-surface); padding:0; }
+html.fm-enhanced .version-selector{ border:0 !important; border-radius:0; overflow:visible; background:transparent; padding:0; gap:6px; }
+html.fm-enhanced .version-game{ height:34px; box-sizing:border-box; display:inline-flex; align-items:center; border:1px solid var(--fm-border) !important; border-radius:999px; overflow:hidden; background:var(--fm-surface); }
 html.fm-enhanced .version-link{ padding:0 13px !important; height:32px; display:inline-flex; align-items:center; font-size:12px; font-weight:700; color:var(--fm-muted) !important; background:transparent !important; border:0 !important; text-decoration:none; transition:background .16s,color .16s; }
 html.fm-enhanced .version-link + .version-link{ border-left:1px solid var(--fm-border) !important; }
 html.fm-enhanced .version-link:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; }
 html.fm-enhanced .version-link.active{ background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important; }
+html.fm-enhanced .version-link.version-beta{ font-size:11px; }
 html.fm-enhanced .login{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; padding:0 16px; font-size:13px; }
 html.fm-enhanced .login:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
 html.fm-enhanced .login a{ color:var(--fm-accent-text) !important; font-weight:700; text-decoration:none; }
@@ -594,3 +596,6 @@ html.fm-enhanced .home-title{ font-weight:bold; line-height:1.25; }
 html.fm-enhanced .main-div > .fm-lower > *:not(table){ position:relative; z-index:1; }
 html.fm-enhanced .fm-design-menu{ background:var(--fm-surface); color:var(--fm-text); border:1px solid var(--fm-border); border-radius:var(--fm-radius-sm); box-shadow:var(--fm-shadow); }
 html.fm-enhanced .fm-design-menu button:hover{ background:var(--fm-accent-soft); }
+@media (max-width: 360px){
+  html.fm-enhanced .version-link{ white-space:nowrap; padding:0 10px !important; }
+}

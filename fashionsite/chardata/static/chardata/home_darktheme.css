@@ -159,8 +159,7 @@ h2 {
     color: #aaaaaa;
     border: 1px solid #555555;
 }
-.version-link:first-child { border-right: none; }
-.version-link:last-child  { border-left: none; }
+.version-link + .version-link { border-left: none; }
 .version-link.active {
     background: #555555;
     color: #ffffff;

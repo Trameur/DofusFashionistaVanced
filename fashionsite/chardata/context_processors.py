@@ -5,8 +5,8 @@ import re
 from django.core.cache import cache
 from django.db.models import Sum
 
-from fashionistapulp.game_versions import (GAME_VERSIONS, main_game, prefixed_reader_versions,
-                                           version_keys)
+from fashionistapulp.game_versions import (
+    GAME_VERSIONS, is_beta, main_game, prefixed_reader_versions, switcher_games, version_keys)
 
 logger = logging.getLogger(__name__)
 
@@ -71,6 +71,25 @@ def band_version(gv):
     return gv if gv in BAND_VERSIONS else 'dofus3'
 
 
+def switcher_groups():
+    """The header switcher as groups: one per game, its main version first."""
+    from chardata.data_versions import current_data_version, patch_of
+    groups = []
+    for main, members in switcher_games():
+        groups.append({
+            'key': main,
+            'label': GAME_VERSIONS[main].label,
+            'has_menu': len(members) > 1,
+            'members': [{
+                'key': key,
+                'label': GAME_VERSIONS[key].label,
+                'is_beta': is_beta(key),
+                'patch': patch_of(current_data_version(key)) or '',
+            } for key in members],
+        })
+    return groups
+
+
 def game_version(request):
     # The language prefix comes before the version: /es/beta/, never /beta/es/
     from chardata.url_language import split_language_prefix
@@ -100,6 +119,7 @@ def game_version(request):
         'current_game_version_seo': _GAME_VERSION_SEO_WORDS.get(gv, ''),
         'game_band': band_version(gv),
         'active_game_versions': ACTIVE_GAME_VERSIONS,
+        'version_switch_games': switcher_groups(),
         'version_switch_language_prefix': language_prefix,
         'version_switch_base_path': base_path,
         'version_switch_is_entity': bool(

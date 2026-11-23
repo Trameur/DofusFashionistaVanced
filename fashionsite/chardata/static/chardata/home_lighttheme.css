@@ -156,8 +156,7 @@ h2 {
     color: #3D200D;
     border: 1px solid #3D200D;
 }
-.version-link:first-child { border-right: none; }
-.version-link:last-child  { border-left: none; }
+.version-link + .version-link { border-left: none; }
 .version-link.active {
     background: #3D200D;
     color: #ffffff;
