@@ -10051,6 +10051,22 @@ msgstr "Gesperrte Teile behalten ihre Drachenrune, auch über dieser Anzahl."
 msgid "Transcendence rune first, then the Dracorune."
 msgstr "Zuerst die Transzendenzrune, dann die Drachenrune."
 
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Theoretical build: this set counts %(count)s transcendence rune."
+msgid_plural "Theoretical build: this set counts %(count)s transcendence runes."
+msgstr[0] "Theoretischer Build: Dieses Set rechnet mit %(count)s Transzendenzrune."
+msgstr[1] "Theoretischer Build: Dieses Set rechnet mit %(count)s Transzendenzrunen."
+
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Without these runes, these minimums fail: %(minimums)s"
+msgstr "Ohne diese Runen werden diese Mindestwerte verfehlt: %(minimums)s"
+
+#: chardata/transcendence_result.py
+msgid "Effective HP"
+msgstr "Effektive LP"
+
 #: chardata/templates/chardata/solution_dracorune.html
 msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
 msgstr "Schmiede das Exo vor der Drachenrune: Danach lässt sich auf den Gegenstand keine Schmiedmagie mehr anwenden."

@@ -392,6 +392,9 @@
     {% if acquisition_summary %}
     <div class="solution-acquisition-summary">{% blocktrans with summary=acquisition_summary %}Getting this set: {{ summary }}{% endblocktrans %}</div>
     {% endif %}
+    {% if theoretical_build %}
+    <div class="solution-acquisition-summary" id="theoretical-build">{% blocktrans count count=theoretical_build.count %}Theoretical build: this set counts {{ count }} transcendence rune.{% plural %}Theoretical build: this set counts {{ count }} transcendence runes.{% endblocktrans %}{% if theoretical_build.minimums %} {% blocktrans with minimums=theoretical_build.minimums|join:", " %}Without these runes, these minimums fail: {{ minimums }}{% endblocktrans %}{% endif %}</div>
+    {% endif %}
 
     {% for section in item_sections %}
     {% if forloop.counter == 2 and dofus_row_title %}<div class="fm-sol-row-title fm-modern-only">{{ dofus_row_title }}</div>{% endif %}

@@ -9995,6 +9995,22 @@ msgstr "Las piezas aseguradas conservan su Dracorruna, incluso por encima de est
 msgid "Transcendence rune first, then the Dracorune."
 msgstr "Primero la runa de trascendencia, después la Dracorruna."
 
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Theoretical build: this set counts %(count)s transcendence rune."
+msgid_plural "Theoretical build: this set counts %(count)s transcendence runes."
+msgstr[0] "Build teórico: este set cuenta con %(count)s runa de trascendencia."
+msgstr[1] "Build teórico: este set cuenta con %(count)s runas de trascendencia."
+
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Without these runes, these minimums fail: %(minimums)s"
+msgstr "Sin estas runas, estos mínimos no se cumplen: %(minimums)s"
+
+#: chardata/transcendence_result.py
+msgid "Effective HP"
+msgstr "PdV efectivos"
+
 #: chardata/templates/chardata/solution_dracorune.html
 msgid "Forge the exo before the Dracorune: it prevents any further smithmagic on the item."
 msgstr "Forja el exo antes de la Dracorruna: impide cualquier forjamagia posterior en el objeto."

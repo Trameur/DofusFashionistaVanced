@@ -54,6 +54,7 @@ from chardata.comment_view import get_comments_for_build
 from chardata.data_versions import build_patch_info
 from chardata.model_wrappers import WrappedChar
 from chardata.models import Char, BuildVote, SolutionGeneration
+from chardata.transcendence_result import theoretical_build
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.url_language import SITE_URL
 import chardata.smart_build
@@ -551,6 +552,14 @@ def _get_shared_solution_cache_key(char):
                                                hashlib.sha1(forge).hexdigest()[:12])
 
 
+def _theoretical_build(char, blob, solution, refresh_base_stats=True):
+    """The banner facts of a set that counts transcendence runes, None when it has none or cannot be read."""
+    minimal = read_char_blob(blob, None, 'minimal_solution', char)
+    if minimal is None or not getattr(minimal, 'transcendences', None):
+        return None
+    return theoretical_build(char, minimal, solution, refresh_base_stats)
+
+
 def _get_shared_solution_params(char):
     cache_key = _get_shared_solution_cache_key(char)
     cached_params = cache.get(cache_key)
@@ -568,6 +577,7 @@ def _get_shared_solution_params(char):
                                      gender=char.gender or 0,
                                      char_name=char.char_name or '')
     cached_params = solution_result.get_params()
+    cached_params['theoretical_build'] = _theoretical_build(char, char.minimal_solution, solution)
     cache.set(cache_key, cached_params, SHARED_SOLUTION_CACHE_TIMEOUT)
     return cached_params
 
@@ -754,6 +764,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                          gender=char.gender or 0,
                                          char_name=char.char_name or '')
         solution_params = solution_result.get_params()
+        solution_params['theoretical_build'] = _theoretical_build(
+            char, generation.minimal_solution if generation is not None else char.minimal_solution,
+            solution, refresh_base_stats=snapshot_solution is None)
         solver_constraints = _constraints_reached(char, solution)
         solver_closest = closest_set_facts(
             char, read_char_blob(generation.minimal_solution if generation is not None
