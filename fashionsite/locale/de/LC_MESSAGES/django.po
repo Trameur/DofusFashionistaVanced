@@ -8372,6 +8372,14 @@ msgstr "Deren Schmiedmagie-Feld kann diese nicht tragen, sie bleiben hier:"
 msgid "Their forgemagie field cannot carry these Dracorunes, so they stay here:"
 msgstr "Deren Schmiedmagie-Feld kann diese Drachenrunen nicht tragen, sie bleiben hier:"
 
+#: chardata/templates/chardata/dofusbook_export.html
+msgid "DofusBook has no field for transcendence runes: their lines travel in the global forgemagie."
+msgstr "DofusBook hat kein Feld für Transzendenzrunen: Ihre Zeilen reisen in der globalen Schmiedmagie mit."
+
+#: chardata/templates/chardata/dofusbook_export.html
+msgid "Their forgemagie field cannot carry these transcendence runes, so they stay here:"
+msgstr "Deren Schmiedmagie-Feld kann diese Transzendenzrunen nicht tragen, sie bleiben hier:"
+
 msgid "The build name and the class do not travel: their link format has no room for them."
 msgstr "Der Name des Builds und die Klasse kommen nicht mit: ihr Linkformat hat dafür keinen Platz."
 

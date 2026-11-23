@@ -8427,6 +8427,14 @@ msgstr "Leur champ de forgemagie ne peut pas porter ceux-ci, ils restent ici :"
 msgid "Their forgemagie field cannot carry these Dracorunes, so they stay here:"
 msgstr "Leur champ de forgemagie ne peut pas porter ces Dracorunes, elles restent ici :"
 
+#: chardata/templates/chardata/dofusbook_export.html
+msgid "DofusBook has no field for transcendence runes: their lines travel in the global forgemagie."
+msgstr "DofusBook n’a pas de champ pour les runes de transcendance : leurs lignes partent dans la forgemagie globale."
+
+#: chardata/templates/chardata/dofusbook_export.html
+msgid "Their forgemagie field cannot carry these transcendence runes, so they stay here:"
+msgstr "Leur champ de forgemagie ne peut pas porter ces runes de transcendance, elles restent ici :"
+
 msgid "The build name and the class do not travel: their link format has no room for them."
 msgstr "Le nom du build et la classe ne partent pas : leur format de lien n’a pas de place pour eux."
 

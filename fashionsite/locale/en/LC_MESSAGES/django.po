@@ -7344,6 +7344,14 @@ msgstr ""
 msgid "Their forgemagie field cannot carry these Dracorunes, so they stay here:"
 msgstr ""
 
+#: chardata/templates/chardata/dofusbook_export.html
+msgid "DofusBook has no field for transcendence runes: their lines travel in the global forgemagie."
+msgstr ""
+
+#: chardata/templates/chardata/dofusbook_export.html
+msgid "Their forgemagie field cannot carry these transcendence runes, so they stay here:"
+msgstr ""
+
 msgid "The build name and the class do not travel: their link format has no room for them."
 msgstr ""
 

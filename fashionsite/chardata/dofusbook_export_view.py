@@ -15,6 +15,7 @@ from django.http import Http404
 
 from chardata import build_sites, dofusbook_export, export_count
 from chardata.dofusbook_import import WEAPON_FIELDS, read_weapon_code
+from chardata.forgemagie_transcendance import rune_name
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.solution import get_solution
 from chardata.temporix_mode import solution_uses_temporix
@@ -250,10 +251,44 @@ def _worn_runes(retenus, connus, positions, structure, their_values, overrides):
             nom = _named(item)
             if rune.get('name'):
                 nom = '%s (%s)' % (rune['name'], nom)
-            runes.append((nom, _rune_positions(
+            runes.append((('dracorune', nom), _rune_positions(
                 item, positions, structure, their_values.get(ankama) or {},
                 overrides.get(getattr(item, 'id', None)) or {})))
     return runes
+
+
+def _transcendence_positions(item, positions):
+    """({position in their `fm`: bonus} or None when the stat has no position, exo bit) of a transcended piece's rune."""
+    rune = getattr(item, 'transcendence_rune', None)
+    position = positions.get(rune['stat_key'])
+    if position is None:
+        return None, 0
+    if position in dofusbook_export.EXO_INDEXES:
+        if rune['bonus'] != 1:
+            return None, 0
+        return {}, dofusbook_export.EXO_BIT_BY_INDEX[position]
+    return {position: int(rune['bonus'])}, 0
+
+
+def _worn_transcendences(retenus, connus, positions, pris=0):
+    """([((kind, rune and piece name), {position: bonus} or None)], exo bits) of the transcended pieces that travel, an exo bit already taken keeping its rune home."""
+    runes = []
+    drapeaux = 0
+    for _slot, paires in sorted(retenus.items()):
+        for ankama, item in paires:
+            rune = getattr(item, 'transcendence_rune', None)
+            if ankama not in connus or not rune:
+                continue
+            nom = _named(item)
+            titre = rune_name(rune, get_supported_language())
+            if titre:
+                nom = '%s (%s)' % (titre, nom)
+            deltas, bit = _transcendence_positions(item, positions)
+            if bit & (pris | drapeaux):
+                deltas, bit = None, 0
+            drapeaux |= bit
+            runes.append((('transcendence', nom), deltas))
+    return runes, drapeaux
 
 
 def _carry_runes(runes, totaux, scrolls, level):
@@ -368,9 +403,16 @@ def dofusbook_export_page(request, char_id):
                 totaux[position] = totaux.get(position, 0) + total
     runes = _worn_runes(retenus, connus, dofusbook_export.index_by_stat_key(),
                         structure, leurs_valeurs, overrides)
-    if runes:
-        forge, refusees, runes_restantes = _carry_runes(runes, totaux, scrolls,
-                                                        char.level)
+    if exo_per_item(char.game_version):
+        exos, exos_en_trop = _exos_per_piece(char, solution, pieces_avec_exo)
+    else:
+        exos, exos_en_trop = _exos(char) | exos_des_jets, []
+    transcendences, exos_des_runes = _worn_transcendences(
+        retenus, connus, dofusbook_export.index_by_stat_key(), exos)
+    exos |= exos_des_runes
+    if runes or transcendences:
+        forge, refusees, runes_restantes = _carry_runes(
+            transcendences + runes, totaux, scrolls, char.level)
     else:
         forge, refusees = dofusbook_export.carriable_forge(totaux, scrolls,
                                                            char.level)
@@ -379,10 +421,6 @@ def dofusbook_export_page(request, char_id):
     for position in dofusbook_export.EXO_INDEXES:
         if rayonnant.get(position):
             forge[position] = rayonnant[position]
-    if exo_per_item(char.game_version):
-        exos, exos_en_trop = _exos_per_piece(char, solution, pieces_avec_exo)
-    else:
-        exos, exos_en_trop = _exos(char) | exos_des_jets, []
     charge = dofusbook_export.payload(connus_par_groupe, char.level,
                                       points=points, scrolls=scrolls,
                                       exos=exos, forge=forge)
@@ -393,6 +431,8 @@ def dofusbook_export_page(request, char_id):
         'staying': sorted(restants),
         'partial_scrolls': _partial_scrolls(char, scrolls),
         'forge_travels': bool(forge) or bool(exos),
+        'transcendences_travel': any(nom not in runes_restantes
+                                     for nom, _deltas in transcendences),
         'shiny_travels': bool(rayonnant),
         'weapon_by_hand': _weapon_by_hand(solution, char.game_version),
         'forge_staying': _named_stats(
@@ -403,8 +443,14 @@ def dofusbook_export_page(request, char_id):
             dofusbook_export.vitality_scroll_is_forced(char.level)
             and scrolls.get(0, 0) < dofusbook_export.SCROLL_STEP),
     })
-    if runes_restantes:
-        params['dracorunes_staying'] = sorted(runes_restantes)
+    dracorunes_restantes = [nom for sorte, nom in runes_restantes
+                            if sorte == 'dracorune']
+    transcendences_restantes = [nom for sorte, nom in runes_restantes
+                                if sorte == 'transcendence']
+    if dracorunes_restantes:
+        params['dracorunes_staying'] = sorted(dracorunes_restantes)
+    if transcendences_restantes:
+        params['transcendences_staying'] = sorted(transcendences_restantes)
     response = set_response(request, 'chardata/dofusbook_export.html', params)
     export_count.count(request, export_count.DOFUSBOOK, char.id, char.game_version)
     return response
