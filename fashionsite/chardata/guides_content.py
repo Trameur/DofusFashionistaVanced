@@ -677,7 +677,7 @@ GUIDES = {
 <p>C'est la grande différence avec l'ancien jeu : sur le Dofus moderne, <strong>l'Agilité n'a aucun effet sur les coups critiques</strong>. Ton taux vient uniquement de la base du sort et des +Coups Critiques de ton stuff. Monter l'Agilité pour les critiques est un réflexe Rétro qui ne sert à rien ici.</p>
 
 <h2>Jusqu'où ça monte, et les dommages critiques</h2>
-<p>Il n'y a plus de plafond à 50 %. Depuis la refonte des critiques, la mise à jour 2.29 sur Dofus et la même refonte sur Touch, les deux nombres s'additionnent simplement, et <strong>les 100 % sont atteignables</strong> si la base du sort plus ton stuff t'y emmènent : chaque coup passe en critique. De l'autre côté il y a un plancher, <strong>1 %</strong> : une attaque qui peut critiquer ne descend jamais sous une chance sur cent, peu importe la résistance aux critiques qu'on t'envoie. À part ça, la stat Dommages Critiques (le « +X en cas de critique » sur les items) fait taper tes critiques plus fort mais ne change <em>pas</em> leur fréquence. Chance et dégâts sont deux stats différentes.</p>
+<p>Il n'y a plus de plafond à 50 %. Depuis la refonte des critiques, la mise à jour 2.29 sur Dofus et la même refonte sur Touch, les deux nombres s'additionnent simplement, et <strong>les 100 % sont atteignables</strong> si la base du sort plus ton stuff t'y emmènent : chaque coup passe en critique. De l'autre côté il y a un plancher, <strong>1 %</strong> : une attaque qui peut critiquer ne descend jamais sous une chance sur cent, peu importe la résistance aux critiques qu'on t'envoie. À part ça, la stat Dommages Critiques (le «&nbsp;+X en cas de critique&nbsp;» sur les items) fait taper tes critiques plus fort mais ne change <em>pas</em> leur fréquence. Chance et dégâts sont deux stats différentes.</p>
 
 <h2>Quand build pour les critiques</h2>
 <p>Les critiques valent le coup quand la ligne critique du sort ajoute un vrai bonus et que tu peux monter le taux assez haut pour compter dessus. Un sort qui gagne peu en critique, ou un build coincé à un taux bas, est souvent mieux servi par des dommages fixes ou de la Puissance. Dans la Fashionista, pondère les Coups Critiques quand tes sorts clés le récompensent, et vérifie le sort avant de t'engager.</p>
@@ -1530,7 +1530,7 @@ GUIDES = {
 </ul>
 
 <h2>Pas de magie, et rien d'inventé</h2>
-<p>Aucun modèle de langage ne choisit ton stuff. Tes priorités deviennent des équations et des contraintes, un solveur cherche parmi les objets que tu n'as pas exclus, et chaque nombre qu'il utilise vient des données du jeu. Le Fashionista marche comme ça depuis février 2012, à l'époque où c'était encore un logiciel à installer, soit un bon moment avant que le mot « généré » ne veuille dire ce qu'il veut dire aujourd'hui.</p>
+<p>Aucun modèle de langage ne choisit ton stuff. Tes priorités deviennent des équations et des contraintes, un solveur cherche parmi les objets que tu n'as pas exclus, et chaque nombre qu'il utilise vient des données du jeu. Le Fashionista marche comme ça depuis février 2012, à l'époque où c'était encore un logiciel à installer, soit un bon moment avant que le mot «&nbsp;généré&nbsp;» ne veuille dire ce qu'il veut dire aujourd'hui.</p>
 
 <h2>C'est un problème d'optimisation, pas une liste</h2>
 <p>Quand tu règles tes curseurs, tu donnes en fait un <strong>score</strong> à chaque carac. Il cherche ensuite le set au plus gros score total qui respecte quand même les règles dures du jeu. C'est de la vraie optimisation mathématique, la même famille de maths qui sert à planifier des avions ou à remplir des camions, juste braquée sur ton Iop.</p>
@@ -2893,13 +2893,13 @@ GUIDES = {
                 'lead': "L'optimiseur ne devine pas ce que tu veux : il maximise exactement ce que tu lui dis. La page des poids, c'est là que tu lui dis. Cinq minutes ici valent mieux qu'une heure à changer les items à la main.",
                 'body': '''
 <h2>C'est quoi, un poids</h2>
-<p>Chaque caractéristique reçoit un nombre : combien de points de valeur vaut une unité de cette stat pour toi. Le solveur additionne tout sur chaque set candidat et renvoie le meilleur total. Un poids de 0 veut dire « je m'en fiche complètement » : la stat peut finir n'importe où. Un gros poids, et le solveur sacrifiera le reste pour l'obtenir. Il n'y a pas d'échelle magique ; seuls les rapports entre tes poids comptent.</p>
+<p>Chaque caractéristique reçoit un nombre : combien de points de valeur vaut une unité de cette stat pour toi. Le solveur additionne tout sur chaque set candidat et renvoie le meilleur total. Un poids de 0 veut dire «&nbsp;je m'en fiche complètement&nbsp;» : la stat peut finir n'importe où. Un gros poids, et le solveur sacrifiera le reste pour l'obtenir. Il n'y a pas d'échelle magique ; seuls les rapports entre tes poids comptent.</p>
 
 <h2>Preset d'abord, personnalisation ensuite</h2>
 <p>Les questions de l'assistant (élément, style de jeu, niveau) génèrent un profil de départ raisonnable, et le <a href="/smartbuild/">build intelligent</a> fait pareil depuis une description texte. Pars de là. Puis ouvre la page des poids et ajuste : monte les résistances pour un feeling tanky, monte le critique pour un build crit, mets la prospection à zéro si tu ne farmes jamais. Retoucher un bon preset bat l'écriture de vingt chiffres à partir de rien.</p>
 
 <h2>Les poids sont des souhaits ; les minimums sont des règles</h2>
-<p>Si quelque chose est non négociable (12 PA, 6 PM, un plancher de vitalité), ne gonfle pas son poids : mets un <strong>minimum</strong> à la place. Un minimum est une contrainte dure que le solveur doit satisfaire ; un poids est une préférence qu'il arbitre contre tout le reste. Surponder les PA « par sécurité » est l'erreur classique : le solveur court après des PA que le set a déjà et néglige les stats que tu voulais vraiment.</p>
+<p>Si quelque chose est non négociable (12 PA, 6 PM, un plancher de vitalité), ne gonfle pas son poids : mets un <strong>minimum</strong> à la place. Un minimum est une contrainte dure que le solveur doit satisfaire ; un poids est une préférence qu'il arbitre contre tout le reste. Surponder les PA «&nbsp;par sécurité&nbsp;» est l'erreur classique : le solveur court après des PA que le set a déjà et néglige les stats que tu voulais vraiment.</p>
 
 <h2>Quand le résultat semble bizarre</h2>
 <p>Une solution étrange, c'est presque toujours les poids qui parlent. Trop de vitalité et pas de dégâts ? Ton poids vitalité domine. Un emplacement vide ? Aucun item n'y apporte de valeur positive avec tes poids. Itère : change un chiffre, relance, compare. Le <a href="/choose_compare_sets/">comparateur</a> montre exactement ce que ta retouche t'a acheté.</p>
@@ -3146,7 +3146,7 @@ GUIDES = {
 <p>Le métier derrière une recette ne raconte pas la même histoire partout. Le Dofus moderne a fusionné les anciens métiers de forge, donc une recette d'épée appartient au Forgeron unifié. Dofus Retro (1.29) vit encore avant cette fusion : l'encyclopédie y montre les métiers d'époque comme Forgeur d'Épées ou Forgeur de Marteaux, et les recettes n'y portent pas de niveau requis parce que les données 1.29 n'en définissent pas. Dofus Touch a son propre jeu de métiers, entre les deux. L'outil lit les fichiers de jeu de chaque version : ce que vous voyez correspond à ce que votre version joue vraiment.</p>
 
 <h2>Les ressources aussi se cherchent</h2>
-<p>La recherche de l'encyclopédie ne s'arrête pas aux équipements : tapez un nom de ressource et vous arrivez directement sur sa page, dans n'importe laquelle des cinq langues du site, accents facultatifs. De là, la liste « Sert à fabriquer » répond à la question inverse : ce truc dans ma banque vaut-il la peine d'être gardé ?</p>
+<p>La recherche de l'encyclopédie ne s'arrête pas aux équipements : tapez un nom de ressource et vous arrivez directement sur sa page, dans n'importe laquelle des cinq langues du site, accents facultatifs. De là, la liste «&nbsp;Sert à fabriquer&nbsp;» répond à la question inverse : ce truc dans ma banque vaut-il la peine d'être gardé ?</p>
 
 <h2>Planifier un craft pour un build</h2>
 <p>La boucle pratique : générez votre build, ouvrez les objets choisis par l'optimiseur et regardez leurs recettes. Si une pièce est fabricable, ses ingrédients et leurs sources de drop vous disent si le craft bat l'achat sur votre serveur. Gardez les pages de ressources ouvertes pendant le farm : les taux sont par monstre, vous choisissez la cible qui rapporte vraiment.</p>
@@ -3169,7 +3169,7 @@ GUIDES = {
 <p>El oficio detrás de una receta no cuenta la misma historia en todas partes. El Dofus moderno fusionó los antiguos oficios de forja, así que una receta de espada pertenece al Herrero unificado. Dofus Retro (1.29) vive antes de esa fusión: la enciclopedia muestra los oficios de la época, como Forjador de Espadas, y las recetas no llevan nivel requerido porque los datos de 1.29 no lo definen. Dofus Touch tiene su propio conjunto de oficios, a medio camino. La herramienta lee los archivos de juego de cada versión: lo que ves corresponde a lo que tu versión realmente juega.</p>
 
 <h2>Los recursos también se buscan</h2>
-<p>La búsqueda de la enciclopedia no se queda en el equipamiento: escribe el nombre de un recurso y aterrizas directamente en su página, en cualquiera de los cinco idiomas del sitio, con o sin acentos. Desde ahí, la lista « Sirve para fabricar » responde la pregunta inversa: ¿vale la pena guardar esto que tengo en el banco?</p>
+<p>La búsqueda de la enciclopedia no se queda en el equipamiento: escribe el nombre de un recurso y aterrizas directamente en su página, en cualquiera de los cinco idiomas del sitio, con o sin acentos. Desde ahí, la lista «&nbsp;Sirve para fabricar&nbsp;» responde la pregunta inversa: ¿vale la pena guardar esto que tengo en el banco?</p>
 
 <h2>Planificar una fabricación para un build</h2>
 <p>El bucle práctico: genera tu build, abre los objetos que eligió el optimizador y mira sus recetas. Si una pieza es fabricable, sus ingredientes y sus fuentes de drop te dicen si fabricar gana a comprar en tu servidor. Mantén abiertas las páginas de recursos mientras farmeas: las tasas son por monstruo, así eliges el objetivo que de verdad compensa.</p>
@@ -3192,7 +3192,7 @@ GUIDES = {
 <p>A profissão por trás de uma receita não conta a mesma história em todo lugar. O Dofus moderno fundiu as antigas profissões de forja, então uma receita de espada pertence ao Ferreiro unificado. O Dofus Retro (1.29) ainda vive antes dessa fusão: a enciclopédia mostra as profissões da época, como Forjador de Espadas, e as receitas não trazem nível exigido porque os dados de 1.29 não o definem. O Dofus Touch tem seu próprio conjunto de profissões, no meio do caminho. A ferramenta lê os arquivos de jogo de cada versão: o que você vê corresponde ao que a sua versão realmente joga.</p>
 
 <h2>Recursos também aparecem na busca</h2>
-<p>A busca da enciclopédia não para no equipamento: digite o nome de um recurso e você cai direto na página dele, em qualquer um dos cinco idiomas do site, com ou sem acentos. De lá, a lista « Serve para fabricar » responde a pergunta inversa: vale a pena guardar isso que está no meu banco?</p>
+<p>A busca da enciclopédia não para no equipamento: digite o nome de um recurso e você cai direto na página dele, em qualquer um dos cinco idiomas do site, com ou sem acentos. De lá, a lista «&nbsp;Serve para fabricar&nbsp;» responde a pergunta inversa: vale a pena guardar isso que está no meu banco?</p>
 
 <h2>Planejando uma fabricação para um build</h2>
 <p>O ciclo prático: gere seu build, abra os itens que o otimizador escolheu e veja as receitas. Se uma peça é fabricável, os ingredientes e as fontes de drop dizem se fabricar vence comprar no seu servidor. Deixe as páginas de recursos abertas enquanto farma: as taxas são por monstro, então você escolhe o alvo que realmente compensa.</p>

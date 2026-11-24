@@ -5105,6 +5105,22 @@ class GuidesContentTests(TestCase):
         self.assertIn('margin:0 auto', rule)
         self.assertIn('max-width:var(--fm-measure)', rule)
 
+    def test_no_guide_body_lets_a_guillemet_wrap_away_from_its_word(self):
+        from chardata import guides_content
+
+        def bodies(node):
+            if isinstance(node, dict):
+                for key, value in node.items():
+                    if key == 'body' and isinstance(value, str):
+                        yield value
+                    else:
+                        yield from bodies(value)
+
+        found = list(bodies(guides_content.GUIDES))
+        self.assertTrue(any('«&nbsp;' in body for body in found))
+        for body in found:
+            self.assertNotRegex(body, r'«\s|\s»')
+
     def test_hub_has_valid_itemlist_jsonld(self):
         import json
         from chardata import guides_content
