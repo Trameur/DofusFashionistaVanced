@@ -49,7 +49,7 @@ class EveryBetaBelongsToAMainGame(SimpleTestCase):
                          ['dofus3', 'beta', 'dofus2', 'touch', 'retro'])
         self.assertEqual(version_keys(include_experimental=True),
                          ['dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro',
-                          'wakfu'])
+                          'retrobeta', 'wakfu'])
 
     def test_family_members_list_the_main_first(self):
         self.assertEqual(family_members('beta'), ['dofus3', 'beta'])

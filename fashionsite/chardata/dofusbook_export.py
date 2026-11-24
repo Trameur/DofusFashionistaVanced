@@ -20,7 +20,7 @@ HOSTS = {
     'retro': 'retro.dofusbook.net',
 }
 
-VERSIONS_WITHOUT_A_SITE = ('beta', 'dofus2', 'touchbeta')
+VERSIONS_WITHOUT_A_SITE = ('beta', 'dofus2', 'touchbeta', 'retrobeta')
 
 # Their router only takes fr, es and en
 LANGUAGES = ('fr', 'es', 'en')

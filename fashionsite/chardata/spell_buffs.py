@@ -31,6 +31,9 @@ def get_damage_spells_for_version(game_version):
     if game_version == 'retro':
         from fashionistapulp.dofus_constants_retro_spells import RETRO_DAMAGE_SPELLS
         return RETRO_DAMAGE_SPELLS
+    if game_version == 'retrobeta':
+        from fashionistapulp.dofus_constants_retrobeta_spells import RETRO_DAMAGE_SPELLS
+        return RETRO_DAMAGE_SPELLS
     if game_version == 'touch':
         from fashionistapulp.dofus_constants_touch_spells import TOUCH_DAMAGE_SPELLS
         return TOUCH_DAMAGE_SPELLS
@@ -51,6 +54,15 @@ def touch_spell_module(game_version):
         from fashionistapulp import dofus_constants_touchbeta_spells as module
     else:
         from fashionistapulp import dofus_constants_touch_spells as module
+    return module
+
+
+def retro_spell_module(game_version):
+    """The generated spell module of a Retro key: Retro Beta reads its own."""
+    if game_version == 'retrobeta':
+        from fashionistapulp import dofus_constants_retrobeta_spells as module
+    else:
+        from fashionistapulp import dofus_constants_retro_spells as module
     return module
 
 

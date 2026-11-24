@@ -267,7 +267,7 @@ class TheTablesFollowTheDataUpdateTests(SimpleTestCase):
                                   handle.read(), re.S)
             with self.subTest(pipeline=name):
                 self.assertIsNotNone(found)
-                accepted = '"%s"|key' % version if version == 'touch' else '"%s"' % version
+                accepted = '"%s"|key' % version if version in ('touch', 'retro') else '"%s"' % version
                 self.assertRegex(found.group(1), r'"--game-version",\s*(?:%s)' % accepted)
                 if version == 'retro':
                     self.assertRegex(found.group(1), r'"--lang",\s*args\.lang')

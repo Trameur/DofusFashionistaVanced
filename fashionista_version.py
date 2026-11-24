@@ -7,6 +7,7 @@ FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
 FASHIONISTA_RETRO_VERSION = "1.49.10"
 FASHIONISTA_TOUCH_VERSION = "1.74.13"
 FASHIONISTA_TOUCHBETA_VERSION = "1.75.0"
+FASHIONISTA_RETROBETA_VERSION = "1.50.0"
 
 # (UTC day, patch): Ankama's release day up to 2.68, the day our data went in from 2.69 on; retro and touch by hand
 PATCH_TIMELINE = {
@@ -93,6 +94,9 @@ PATCH_TIMELINE = {
     ],
     'touchbeta': [
         ('2026-11-23', '1.75'),
+    ],
+    'retrobeta': [
+        ('2026-11-24', '1.50'),
     ],
 }
 

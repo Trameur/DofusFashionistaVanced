@@ -15,7 +15,9 @@ _ELEMENTLESS_HEAL_BY_VERSION = {'dofus3': False, 'beta': False, 'dofus2': False,
 _ZERO_CRIT_HIDDEN_BY_VERSION = {'dofus3': True, 'beta': True, 'dofus2': True,
                                 'touch': True, 'retro': False}
 _ELEMENTLESS_HEAL_BY_VERSION['touchbeta'] = _ELEMENTLESS_HEAL_BY_VERSION['touch']
+_ELEMENTLESS_HEAL_BY_VERSION['retrobeta'] = _ELEMENTLESS_HEAL_BY_VERSION['retro']
 _ZERO_CRIT_HIDDEN_BY_VERSION['touchbeta'] = _ZERO_CRIT_HIDDEN_BY_VERSION['touch']
+_ZERO_CRIT_HIDDEN_BY_VERSION['retrobeta'] = _ZERO_CRIT_HIDDEN_BY_VERSION['retro']
 _ELEMENTLESS_HEAL_VERSIONS = {version for version, elementless
                               in _ELEMENTLESS_HEAL_BY_VERSION.items() if elementless}
 

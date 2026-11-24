@@ -22,7 +22,7 @@ from fashionistapulp.dofus_constants import (ATTRIBUTE_TO_ELEMENT, CHARACTER_CLA
                                              STAT_KEY_TO_NAME, STAT_NAME_TO_KEY,
                                              get_soft_caps_for, max_scroll_for_version,
                                              scrolls_push_cost_curve, tier_widths_after_scroll)
-from fashionistapulp.game_versions import dofus_versions
+from fashionistapulp.game_versions import dofus_versions, main_game
 from fashionistapulp.modelresult import ModelResult
 from fashionistapulp.structure import (get_current_game_version, get_structure,
                                        set_current_game_version)
@@ -52,6 +52,7 @@ KNOWN_BAD_ROWS = {
     'retro': {},
 }
 KNOWN_BAD_ROWS['touchbeta'] = KNOWN_BAD_ROWS['touch']
+KNOWN_BAD_ROWS['retrobeta'] = KNOWN_BAD_ROWS['retro']
 
 REFERENCE = ('Reference set, the same for every element, at each Quick Start level (%(levels)s): '
              '%(scrolled)s scrolled to the version maximum, all characteristic points of '
@@ -239,12 +240,14 @@ def table_path(game_version):
 
 
 def stored_table(game_version):
-    """The version's table on disk, empty when it has none."""
-    try:
-        with open(table_path(game_version), encoding='utf-8') as handle:
-            return json.load(handle)
-    except (IOError, OSError, ValueError):
-        return {}
+    """The version's table on disk, else its main game's, empty when neither has one."""
+    for owner in dict.fromkeys((game_version, main_game(game_version))):
+        try:
+            with open(table_path(owner), encoding='utf-8') as handle:
+                return json.load(handle)
+        except (IOError, OSError, ValueError):
+            continue
+    return {}
 
 
 def today_element(char_class, stored=None, level=None):

@@ -141,6 +141,7 @@ VERSION_PRESETS = {
               'box_modes': {'pvp': 'group_pvp', 'duel': 'aggression_1v1'}},
 }
 VERSION_PRESETS['touchbeta'] = VERSION_PRESETS['touch']
+VERSION_PRESETS['retrobeta'] = VERSION_PRESETS['retro']
 
 
 MULE_BOXES = frozenset({'wis', 'pp', 'pods'})

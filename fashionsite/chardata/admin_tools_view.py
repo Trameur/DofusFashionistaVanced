@@ -220,6 +220,7 @@ def _ad_form():
 VERSION_COLOURS = {'dofus3': 'var(--ad-s1)', 'beta': 'var(--ad-s5)', 'dofus2': 'var(--ad-s2)',
                    'touch': 'var(--ad-s3)', 'retro': 'var(--ad-s4)'}
 VERSION_COLOURS['touchbeta'] = VERSION_COLOURS['touch']
+VERSION_COLOURS['retrobeta'] = VERSION_COLOURS['retro']
 
 
 ESTIMATE_COLOUR = 'var(--ad-est)'

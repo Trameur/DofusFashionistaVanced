@@ -22792,7 +22792,7 @@ class RebuildCheckTests(SimpleTestCase):
             with self.subTest(pipeline=name):
                 self.assertIn('check_rebuild.py', source)
                 self.assertTrue('"--only", "%s"' % version in source
-                                or (version == 'touch' and '"--only", key' in source))
+                                or (version in ('touch', 'retro') and '"--only", key' in source))
 
     def test_it_can_look_further_back_than_the_last_commit(self):
         # A committed bad rebuild becomes the reference; HEAD then says nothing

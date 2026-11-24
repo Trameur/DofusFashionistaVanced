@@ -1,5 +1,6 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """In the Atelier design each game with a beta shows one pill and a chevron that opens its versions menu on hover, click, tap and keys; the script reads the games from the markup, so a new beta gets the menu with no script change."""
+import copy
 import re
 from unittest import mock
 
@@ -9,7 +10,7 @@ from django.test import SimpleTestCase
 from chardata.context_processors import switcher_groups
 from chardata.tests_the_atelier_phone_bar_is_one_row_with_a_menu_button import BASE, NAV, block
 from fashionistapulp import game_versions
-from fashionistapulp.game_versions import GameVersion, version_keys
+from fashionistapulp.game_versions import family_members, is_beta, main_of, version_keys
 
 SCRIPT = BASE[BASE.index('var vopen=null'):BASE.index("var bar=q('.fm-buildbar')")]
 TAP = NAV[NAV.rindex('@media (max-width:760px)'):]
@@ -149,35 +150,42 @@ class TheMenuStyleTests(SimpleTestCase):
         self.assertIn('gap:1px', rule(TINY, '  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-vers .version-selector'))
 
 
-class ASecondGameWithABetaGetsTheSameMenuTests(SimpleTestCase):
+class AStagedBetaOnceLiveGetsTheMenuOfItsGameTests(SimpleTestCase):
 
-    def fake_touch_beta(self):
-        touch = game_versions.GAME_VERSIONS['touch']
-        fake = GameVersion('touchbeta', 'Touch Beta', touch.db_file, touch.dump_file, seo_word='Touch Beta',
-                           family='touch', channel='beta')
-        order = list(game_versions.VERSION_ORDER)
-        order.insert(order.index('touch') + 1, 'touchbeta')
-        return (mock.patch.dict(game_versions.GAME_VERSIONS, {'touchbeta': fake}),
-                mock.patch.object(game_versions, 'VERSION_ORDER', tuple(order)))
+    def staged(self):
+        return [key for key in version_keys(include_experimental=True)
+                if is_beta(key) and game_versions.GAME_VERSIONS[key].experimental]
 
-    def render(self):
-        context = {'version_switch_games': switcher_groups(), 'current_game_version': 'touchbeta',
+    def go_live(self, key):
+        live = copy.copy(game_versions.GAME_VERSIONS[key])
+        live.experimental = False
+        return mock.patch.dict(game_versions.GAME_VERSIONS, {key: live})
+
+    def render(self, key):
+        context = {'version_switch_games': switcher_groups(), 'current_game_version': key,
                    'version_switch_base_path': '/', 'version_switch_language_prefix': ''}
         return render_to_string('chardata/version-selector.html', context)
 
-    def test_the_fake_beta_joins_its_game_and_the_group_names_its_menu(self):
-        registry, order = self.fake_touch_beta()
-        with registry, order:
-            html = self.render()
-        touch = re.search(r'<span class="version-game" data-family="touch"([^>]*)>(.*?)</span>\s*<span class="version-game"', html, re.S)
-        self.assertIn('data-menu="Touch versions"', touch.group(1))
-        self.assertEqual(['touch', 'touchbeta'], re.findall(r'data-version="([^"]+)"', touch.group(2)))
-        self.assertIn('version-beta active', touch.group(2))
-        self.assertEqual(2, html.count('data-menu="'))
+    def test_each_staged_beta_joins_its_game_and_the_group_names_its_menu(self):
+        staged = self.staged()
+        self.assertTrue(staged)
+        menus = self.render('dofus3').count('data-menu="')
+        for key in staged:
+            main = main_of(key)
+            with self.subTest(key=key), self.go_live(key):
+                html = self.render(key)
+                members = family_members(key)
+                group = re.search(r'<span class="version-game" data-family="%s"([^>]*)>(.*?)</span>\s*(?:<span class="version-game"|</div>)' % main, html, re.S)
+                self.assertIn('data-menu="%s versions"' % game_versions.GAME_VERSIONS[main].label, group.group(1))
+                self.assertEqual(members, re.findall(r'data-version="([^"]+)"', group.group(2)))
+                self.assertEqual([main, key], members)
+                self.assertIn('version-beta active', group.group(2))
+                self.assertEqual(menus + 1, html.count('data-menu="'))
 
-    def test_the_registry_is_untouched_after_the_fake(self):
-        registry, order = self.fake_touch_beta()
-        with registry, order:
-            pass
-        self.assertNotIn('touchbeta', game_versions.GAME_VERSIONS)
-        self.assertNotIn('touchbeta', version_keys(include_experimental=True))
+    def test_the_registry_is_untouched_after_going_live(self):
+        for key in self.staged():
+            with self.go_live(key):
+                pass
+            with self.subTest(key=key):
+                self.assertTrue(game_versions.GAME_VERSIONS[key].experimental)
+                self.assertNotIn(key, version_keys())

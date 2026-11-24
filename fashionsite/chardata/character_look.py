@@ -53,6 +53,7 @@ REFERENCE_SCALE = 53.0
 HAS_ART_BY_VERSION = {'dofus3': True, 'beta': True, 'dofus2': True, 'touch': True,
                       'retro': False}
 HAS_ART_BY_VERSION['touchbeta'] = HAS_ART_BY_VERSION['touch']
+HAS_ART_BY_VERSION['retrobeta'] = HAS_ART_BY_VERSION['retro']
 VERSIONS_WITH_ART = tuple(version for version, has_art in HAS_ART_BY_VERSION.items()
                           if has_art)
 

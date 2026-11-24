@@ -59,6 +59,7 @@ ONLY_HITS_A_SUMMON = {
     },
 }
 ONLY_HITS_A_SUMMON['touchbeta'] = ONLY_HITS_A_SUMMON['touch']
+ONLY_HITS_A_SUMMON['retrobeta'] = ONLY_HITS_A_SUMMON['retro']
 
 
 def summon_only_spells(game_version):
@@ -75,6 +76,7 @@ PUSH_ENDS_THE_LATE_ROWS = {
     'retro': {},
 }
 PUSH_ENDS_THE_LATE_ROWS['touchbeta'] = PUSH_ENDS_THE_LATE_ROWS['touch']
+PUSH_ENDS_THE_LATE_ROWS['retrobeta'] = PUSH_ENDS_THE_LATE_ROWS['retro']
 
 # Starting AP, for builds saved without base stats
 BASE_AP = 6

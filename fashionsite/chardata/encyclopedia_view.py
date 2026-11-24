@@ -415,6 +415,7 @@ NON_SEARCHABLE_STAT_KEYS = {
 PET_VARIANT_ID_BASE_BY_VERSION = {'dofus3': None, 'beta': None, 'dofus2': None,
                                    'retro': 10_000_000, 'touch': 200_000_000}
 PET_VARIANT_ID_BASE_BY_VERSION['touchbeta'] = PET_VARIANT_ID_BASE_BY_VERSION['touch']
+PET_VARIANT_ID_BASE_BY_VERSION['retrobeta'] = PET_VARIANT_ID_BASE_BY_VERSION['retro']
 PET_VARIANT_ID_BASE = PET_VARIANT_ID_BASE_BY_VERSION['retro']
 
 
@@ -1452,6 +1453,7 @@ def _encyclopedia_missing_response(request, kind, requested_name,
 _INGREDIENT_ICON_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/',
                          'retro': 'retro/', 'dofus2': 'dofus2/'}
 _INGREDIENT_ICON_DIRS['touchbeta'] = _INGREDIENT_ICON_DIRS['touch']
+_INGREDIENT_ICON_DIRS['retrobeta'] = _INGREDIENT_ICON_DIRS['retro']
 _resource_search_index_cache = {}
 
 
@@ -1525,6 +1527,7 @@ def _ingredient_icon_url(game_version, ankama_id):
 _MONSTER_IMAGE_DIRS = {'dofus3': '', 'beta': '', 'dofus2': None, 'touch': 'touch/',
                        'retro': 'retro/'}
 _MONSTER_IMAGE_DIRS['touchbeta'] = _MONSTER_IMAGE_DIRS['touch']
+_MONSTER_IMAGE_DIRS['retrobeta'] = _MONSTER_IMAGE_DIRS['retro']
 _monster_image_ids_cache = {}
 
 

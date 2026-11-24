@@ -889,6 +889,7 @@ EXAMPLES = {
                        'intelligence': 0, 'chance': 0, 'agility': 200}),
 }
 EXAMPLES['touchbeta'] = EXAMPLES['touch']
+EXAMPLES['retrobeta'] = EXAMPLES['retro']
 
 
 def example_payload(game):

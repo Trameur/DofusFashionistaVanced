@@ -41,7 +41,8 @@ class TouchBetaIsAStagedTouchVersionTests(SimpleTestCase):
                 self.assertEqual(getattr(touch, rule), getattr(touchbeta, rule))
 
     def test_it_sits_after_touch_and_reaches_no_reader(self):
-        self.assertEqual(('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro', 'wakfu'), VERSION_ORDER)
+        self.assertEqual(('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro', 'retrobeta', 'wakfu'),
+                         VERSION_ORDER)
         self.assertIn('touchbeta', dofus_versions())
         self.assertNotIn('touchbeta', version_keys())
         self.assertNotIn('touchbeta', reader_dofus_versions())

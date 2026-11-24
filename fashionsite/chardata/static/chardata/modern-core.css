@@ -519,6 +519,7 @@ html.fm-modern.fm-dark .banner[data-band="dofus2"] a{ background-image:url("band
 html.fm-modern.fm-dark .banner[data-band="retro"] a{ background-image:url("bands/band_retro_dark.webp"); }
 html.fm-modern.fm-dark .banner[data-band="touch"] a{ background-image:url("bands/band_touch_dark.webp"); }
 html.fm-modern.fm-dark .banner[data-band="touchbeta"] a{ background-image:url("bands/band_touchbeta_dark.webp"); }
+html.fm-modern.fm-dark .banner[data-band="retrobeta"] a{ background-image:url("bands/band_retrobeta_dark.webp"); }
 html.fm-modern.fm-dark .banner[data-band="wakfu"] a{ background-image:url("bands/band_wakfu_dark.webp"); }
 html.fm-modern.fm-light .banner[data-band="dofus3"] a{ background-image:url("bands/band_dofus3_light.webp"); }
 html.fm-modern.fm-light .banner[data-band="beta"] a{ background-image:url("bands/band_beta_light.webp"); }
@@ -526,6 +527,7 @@ html.fm-modern.fm-light .banner[data-band="dofus2"] a{ background-image:url("ban
 html.fm-modern.fm-light .banner[data-band="retro"] a{ background-image:url("bands/band_retro_light.webp"); }
 html.fm-modern.fm-light .banner[data-band="touch"] a{ background-image:url("bands/band_touch_light.webp"); }
 html.fm-modern.fm-light .banner[data-band="touchbeta"] a{ background-image:url("bands/band_touchbeta_light.webp"); }
+html.fm-modern.fm-light .banner[data-band="retrobeta"] a{ background-image:url("bands/band_retrobeta_light.webp"); }
 html.fm-modern.fm-light .banner[data-band="wakfu"] a{ background-image:url("bands/band_wakfu_light.webp"); }
 @media (max-width:900px){
   html.fm-modern.fm-dark .banner[data-band="dofus3"] a{ background-image:url("bands/band_dofus3_dark_m.webp"); }
@@ -540,6 +542,8 @@ html.fm-modern.fm-light .banner[data-band="wakfu"] a{ background-image:url("band
   html.fm-modern.fm-light .banner[data-band="touch"] a{ background-image:url("bands/band_touch_light_m.webp"); }
   html.fm-modern.fm-dark .banner[data-band="touchbeta"] a{ background-image:url("bands/band_touchbeta_dark_m.webp"); }
   html.fm-modern.fm-light .banner[data-band="touchbeta"] a{ background-image:url("bands/band_touchbeta_light_m.webp"); }
+  html.fm-modern.fm-dark .banner[data-band="retrobeta"] a{ background-image:url("bands/band_retrobeta_dark_m.webp"); }
+  html.fm-modern.fm-light .banner[data-band="retrobeta"] a{ background-image:url("bands/band_retrobeta_light_m.webp"); }
   html.fm-modern.fm-dark .banner[data-band="wakfu"] a{ background-image:url("bands/band_wakfu_dark_m.webp"); }
   html.fm-modern.fm-light .banner[data-band="wakfu"] a{ background-image:url("bands/band_wakfu_light_m.webp"); }
 }

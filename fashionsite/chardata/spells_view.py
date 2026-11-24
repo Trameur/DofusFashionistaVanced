@@ -21,7 +21,8 @@ from chardata.fashion_action import fashion
 from chardata.image_store import get_image_url, list_static_dir
 from chardata.models import Char
 from chardata.solution import get_solution
-from chardata.spell_buffs import get_damage_spells_for_version, touch_spell_module
+from chardata.spell_buffs import (get_damage_spells_for_version, retro_spell_module,
+                                  touch_spell_module)
 from chardata.spell_localization import get_localized_spell_name
 from chardata.spell_modifiers import (base_damage_bonus, bonus_stats,
                                       modified_cast, modified_range,
@@ -269,6 +270,7 @@ def _create_reference_web_digest(entry, game_version, char_level=None,
 SPELL_ICON_LANGUAGE = {'dofus3': 'en', 'beta': 'en', 'dofus2': 'en',
                        'retro': 'fr', 'touch': 'fr'}
 SPELL_ICON_LANGUAGE['touchbeta'] = SPELL_ICON_LANGUAGE['touch']
+SPELL_ICON_LANGUAGE['retrobeta'] = SPELL_ICON_LANGUAGE['retro']
 
 _shared_icon_names = {}
 
@@ -390,8 +392,7 @@ def _localized_spell_name(name, language, game_version, spell_id=None):
     # Retro and Touch name maps are keyed by the French name
     version_names = None
     if main_game(game_version) == 'retro':
-        from fashionistapulp.dofus_constants_retro_spells import RETRO_SPELL_NAMES
-        version_names = RETRO_SPELL_NAMES
+        version_names = retro_spell_module(game_version).RETRO_SPELL_NAMES
     elif main_game(game_version) == 'touch':
         version_names = touch_spell_module(game_version).TOUCH_SPELL_NAMES
     if version_names is not None:
@@ -854,9 +855,7 @@ def _languages_left_english(game_version):
     if main_game(game_version) == 'touch':
         table = touch_spell_module(game_version).TOUCH_SPELL_NAMES
     elif main_game(game_version) == 'retro':
-        from fashionistapulp.dofus_constants_retro_spells import (
-            RETRO_SPELL_NAMES)
-        table = RETRO_SPELL_NAMES
+        table = retro_spell_module(game_version).RETRO_SPELL_NAMES
     else:
         table = None
     laissees = set()

@@ -20,6 +20,7 @@
 PUBLISHED_FORMULA_BY_VERSION = {'dofus3': True, 'beta': True, 'dofus2': True, 'touch': True,
                                 'retro': False}
 PUBLISHED_FORMULA_BY_VERSION['touchbeta'] = PUBLISHED_FORMULA_BY_VERSION['touch']
+PUBLISHED_FORMULA_BY_VERSION['retrobeta'] = PUBLISHED_FORMULA_BY_VERSION['retro']
 VERSIONS_WITH_THE_PUBLISHED_FORMULA = tuple(
     version for version, published in PUBLISHED_FORMULA_BY_VERSION.items() if published)
 

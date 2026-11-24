@@ -84,6 +84,10 @@ GAME_VERSIONS = {
         GameVersion('retro', 'Retro', 'items_retro.db',
                     'item_db_dumped_retro.dump', seo_word='Retro',
                     rings_can_double=False, exo_per_item=True),
+        GameVersion('retrobeta', 'Retro Beta', 'items_retrobeta.db',
+                    'item_db_dumped_retrobeta.dump', seo_word='Retro Beta',
+                    experimental=True, rings_can_double=False,
+                    exo_per_item=True, family='retro', channel='beta'),
         # Nothing may link to Wakfu yet; doubled rings unknown there, so one copy
         GameVersion('wakfu', 'Wakfu', 'items_wakfu.db',
                     'item_db_dumped_wakfu.dump', seo_word='Wakfu',
@@ -94,7 +98,7 @@ GAME_VERSIONS = {
 DEFAULT_VERSION = 'dofus3'
 
 VERSION_ORDER = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro',
-                 'wakfu')
+                 'retrobeta', 'wakfu')
 
 SWITCHER_FAMILY_ORDER = ('dofus3', 'touch', 'retro', 'dofus2', 'wakfu')
 

@@ -18,6 +18,8 @@ CLASSES_NOT_IN_VERSION = {
     # Ouginak and Forgelance never shipped on Touch.
     'touch': {'Forgelance', 'Bellaphone', 'Eliotrope', 'Huppermage', 'Ouginak'},
     'touchbeta': {'Forgelance', 'Eliotrope', 'Huppermage', 'Ouginak'},
+    'retrobeta': {'Forgelance', 'Bellaphone', 'Eliotrope', 'Huppermage', 'Ouginak',
+                  'Masqueraider', 'Foggernaut', 'Rogue'},
 }
 
 
@@ -41,6 +43,7 @@ CLASSES_AWAITING_DATA = {
     'retro': set(),
 }
 CLASSES_AWAITING_DATA['touchbeta'] = CLASSES_AWAITING_DATA['touch']
+CLASSES_AWAITING_DATA['retrobeta'] = CLASSES_AWAITING_DATA['retro']
 
 
 def classes_with_data(classes, game_version):
