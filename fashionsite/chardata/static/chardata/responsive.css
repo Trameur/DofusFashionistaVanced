@@ -98,7 +98,6 @@
   }
   .home-pic-holder, .home-pic { width: 46px !important; height: 46px !important; }
 
-  .featured-builds-grid { grid-template-columns: 1fr !important; }
   .featured-builds-wrap { padding: 0 4px; }
 
   /* ---- Forms & fixed-width boxes: keep everything inside the viewport ---- */

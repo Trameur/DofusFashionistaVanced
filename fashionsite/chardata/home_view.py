@@ -47,7 +47,7 @@ from static_s3.templatetags.static_s3 import static
 
 _ELEMENT_LOOK = {'str': ('earth', 'terre'), 'int': ('fire', 'feu'),
                  'cha': ('water', 'eau'), 'agi': ('air', 'air')}
-FEATURED_BUILDS_COUNT = 6
+FEATURED_BUILDS_COUNT = 12
 FEATURED_BUILDS_CACHE_SECONDS = 30 * 60
 _CLASS_AVATAR_DIRS = {'Bellaphone', 'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof',
                       'Feca', 'Foggernaut', 'Forgelance', 'Huppermage', 'Iop', 'Masqueraider',
@@ -100,7 +100,7 @@ def _still_public(rows):
 
 def _get_featured_builds(request, game_version):
     """Links and the anonymous name are built per request, never cached; a build deleted or unshared since is dropped."""
-    cache_key = 'home_featured_builds:5:%s:%s' % (
+    cache_key = 'home_featured_builds:6:%s:%s' % (
         game_version, patch_of(current_data_version(game_version)))
     cached = cache.get(cache_key)
     if cached is None:

@@ -92,16 +92,18 @@ class TheHomePicksBuildsOfTheCurrentUpdateTests(_Featured, TestCase):
         self._shared('previous', '3.6.11.15', views=50)
         for rank in range(FEATURED_BUILDS_COUNT):
             self._shared('current%d' % rank, '3.7.0.%d' % rank, views=rank + 1)
-        self.assertEqual(['current5', 'current4', 'current3', 'current2',
-                          'current1', 'current0'], self._featured())
+        self.assertEqual(['current%d' % rank for rank in reversed(range(FEATURED_BUILDS_COUNT))],
+                         self._featured())
 
     def test_the_previous_update_completes_the_row(self):
         self._shared('current1', '3.7.0.4', views=1)
         self._shared('current2', '3.7.0.1', views=2)
-        for views in range(10, 15):
+        for views in range(10, 10 + FEATURED_BUILDS_COUNT):
             self._shared('previous%d' % views, '3.6.11.15', views=views)
-        self.assertEqual(['current2', 'current1', 'previous14', 'previous13',
-                          'previous12', 'previous11'], self._featured())
+        top = 9 + FEATURED_BUILDS_COUNT
+        self.assertEqual(['current2', 'current1'] + ['previous%d' % views
+                                                    for views in range(top, top - FEATURED_BUILDS_COUNT + 2, -1)],
+                         self._featured())
 
     def test_an_update_older_than_the_previous_one_is_not_featured(self):
         self._shared('current', '3.7.0.4', views=1)
@@ -221,6 +223,15 @@ class TheHomeSectionReadsPopularTests(_Featured, TestCase):
             cache.clear()
             self.assertEqual('Mise à jour du jeu au dernier changement du build',
                              _badges(self._home('/fr/', 'fr'))[0][1])
+
+    def test_the_page_sends_twelve_cards_and_each_carries_the_update_badge_the_modern_design_styles(self):
+        self.assertEqual(12, FEATURED_BUILDS_COUNT)
+        for rank in range(FEATURED_BUILDS_COUNT + 2):
+            self._shared('current%d' % rank, '3.7.0.%d' % rank, views=rank)
+        with _timeline(UP_TO_THREE_SEVEN):
+            page = self._home()
+        self.assertEqual(FEATURED_BUILDS_COUNT, len(_cards(page)))
+        self.assertEqual([('3.7', TITLE, False)] * FEATURED_BUILDS_COUNT, _badges(page))
 
     def test_the_section_is_hidden_when_nothing_qualifies(self):
         self._shared('unsolved', '', views=50)
