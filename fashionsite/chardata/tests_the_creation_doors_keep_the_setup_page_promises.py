@@ -25,6 +25,7 @@ from chardata.smart_build import get_standard_weights, level_minimums
 from chardata.solution import get_solution
 from chardata.version_compat import classes_with_data
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
+from fashionistapulp.game_versions import reader_dofus_versions
 from fashionistapulp.structure import get_structure, set_current_game_version
 from chardata.solver_guard import pulp_solver_available as _solver_available
 
@@ -168,7 +169,7 @@ class TheFarmStyleWeighsWisdomTests(_DoorMixin, TestCase):
         self.assertEqual(0, self.blob(char, 'stats_weight', {})['wis'])
 
     def test_the_setup_page_weighs_wisdom_next_to_prospecting_or_pods(self):
-        for version in presets.VERSION_PRESETS:
+        for version in [key for key in presets.VERSION_PRESETS if key in reader_dofus_versions()]:
             for boxes, kept in (({'wis', 'pp'}, 'pp'), ({'wis', 'pods'}, 'pod')):
                 with self.subTest(version=version, boxes=sorted(boxes)):
                     char = self.setup_page(version, 'Enutrof', 200, boxes)

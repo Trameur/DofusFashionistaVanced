@@ -22,7 +22,7 @@ def config_of(html):
 class TheSmithmagicToolShowsNoDracoruneWithoutARunesFileTests(TestCase):
 
     def versions(self):
-        found = [version for version in game_versions.dofus_versions() if readable_runes(version) is None]
+        found = [version for version in game_versions.reader_dofus_versions() if readable_runes(version) is None]
         self.assertIn('dofus3', found)
         return found
 

@@ -5750,6 +5750,7 @@ _TROPHY_CONDITION = {
 
 _FRENCH_VERSION_NAME = {'dofus3': None, 'beta': 'Dofus 3 Bêta', 'dofus2': None,
                         'touch': None, 'retro': 'Dofus Rétro'}
+_FRENCH_VERSION_NAME['touchbeta'] = _FRENCH_VERSION_NAME['touch']
 
 
 def _version_name(game_version, language):

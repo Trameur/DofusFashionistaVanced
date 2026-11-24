@@ -52,6 +52,7 @@ REFERENCE_SCALE = 53.0
 # equipment designs and match by name. Retro is 1.29 art and shares nothing.
 HAS_ART_BY_VERSION = {'dofus3': True, 'beta': True, 'dofus2': True, 'touch': True,
                       'retro': False}
+HAS_ART_BY_VERSION['touchbeta'] = HAS_ART_BY_VERSION['touch']
 VERSIONS_WITH_ART = tuple(version for version, has_art in HAS_ART_BY_VERSION.items()
                           if has_art)
 

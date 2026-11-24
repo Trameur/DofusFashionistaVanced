@@ -438,6 +438,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         11745,  # Epee Clipse (GM sword)
     ],
 }
+DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION['touchbeta'] = DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION['touch']
 
 def get_default_exclusions(char):
     s = get_structure()

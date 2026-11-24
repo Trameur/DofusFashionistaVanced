@@ -15,7 +15,7 @@ from chardata.smart_build import get_standard_weights
 from chardata.spell_combo import HpShare, castable_spells
 from chardata.version_compat import classes_with_data, filter_classes_for_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
-from fashionistapulp.game_versions import dofus_versions
+from fashionistapulp.game_versions import dofus_versions, reader_dofus_versions
 from fashionistapulp.structure import set_current_game_version
 
 SINGLE_ELEMENTS = set(presets.ELEMENT_DAMAGE)
@@ -413,7 +413,7 @@ class TheDoorsApplyNoVersionTableTests(TestCase):
                 self.assertGreater(weights.get(generator.HEAL_CHARACTERISTIC, 0), 0)
 
     def test_the_setup_page_adds_no_element_to_the_boxes_ticked(self):
-        for version in dofus_versions():
+        for version in reader_dofus_versions():
             with self.subTest(version=version):
                 set_current_game_version(version)
                 response = self.client.post(_path(version, '/createproject/'), {

@@ -76,6 +76,11 @@ GAME_VERSIONS = {
         GameVersion('touch', 'Touch', 'items_touch.db',
                     'item_db_dumped_touch.dump', seo_word='Touch',
                     temporix=True, extra_slot_types=('Emblem',)),
+        GameVersion('touchbeta', 'Touch Beta', 'items_touchbeta.db',
+                    'item_db_dumped_touchbeta.dump', seo_word='Touch Beta',
+                    experimental=True, temporix=True,
+                    extra_slot_types=('Emblem',), family='touch',
+                    channel='beta'),
         GameVersion('retro', 'Retro', 'items_retro.db',
                     'item_db_dumped_retro.dump', seo_word='Retro',
                     rings_can_double=False, exo_per_item=True),
@@ -88,7 +93,8 @@ GAME_VERSIONS = {
 
 DEFAULT_VERSION = 'dofus3'
 
-VERSION_ORDER = ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu')
+VERSION_ORDER = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro',
+                 'wakfu')
 
 SWITCHER_FAMILY_ORDER = ('dofus3', 'touch', 'retro', 'dofus2', 'wakfu')
 

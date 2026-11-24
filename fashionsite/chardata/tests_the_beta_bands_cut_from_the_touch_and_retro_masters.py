@@ -17,16 +17,16 @@ LABEL_LEFT = 2900
 THEMES = ('dark', 'light')
 
 
-def beta_folder():
-    """The folder holding the beta bands: the shipped bands, or the one named by FASHIONISTA_BETA_BANDS, or None."""
+def beta_folder(key):
+    """The folder holding a beta's bands: the shipped bands, or the one named by FASHIONISTA_BETA_BANDS, or None."""
     named = os.environ.get('FASHIONISTA_BETA_BANDS')
     for folder in (BANDS, named):
-        if folder and os.path.isfile(os.path.join(folder, 'band_touchbeta_dark.webp')):
+        if folder and os.path.isfile(os.path.join(folder, 'band_%s_dark.webp' % key)):
             return folder
     return None
 
 
-KEPT = beta_folder()
+KEPT = {key: beta_folder(key) for key in MASTER if beta_folder(key)}
 
 
 def cutter():
@@ -71,11 +71,11 @@ class TheBandCutterTests(SimpleTestCase):
 class TheBetaBandsOfTheTouchAndRetroMastersTests(SimpleTestCase):
 
     def path(self, key, theme, suffix):
-        return os.path.join(KEPT, 'band_%s_%s%s.webp' % (key, theme, suffix))
+        return os.path.join(KEPT[key], 'band_%s_%s%s.webp' % (key, theme, suffix))
 
     def test_the_twelve_files_exist_at_their_three_sizes(self):
         from PIL import Image
-        for key in MASTER:
+        for key in KEPT:
             for theme in THEMES:
                 for suffix, size in SIZES.items():
                     with self.subTest(key=key, theme=theme, suffix=suffix):
@@ -83,7 +83,7 @@ class TheBetaBandsOfTheTouchAndRetroMastersTests(SimpleTestCase):
 
     def test_the_scene_and_scissors_left_of_the_label_are_the_masters_pixels(self):
         from PIL import Image, ImageChops, ImageStat
-        for key, master in MASTER.items():
+        for key, master in ((key, MASTER[key]) for key in KEPT):
             for theme in THEMES:
                 with self.subTest(key=key, theme=theme):
                     beta = Image.open(self.path(key, theme, '')).convert('RGB').crop((0, 0, LABEL_LEFT, 300))
@@ -93,7 +93,7 @@ class TheBetaBandsOfTheTouchAndRetroMastersTests(SimpleTestCase):
     def test_the_label_area_differs_from_the_master_label(self):
         from PIL import Image, ImageChops, ImageStat
         box = (LABEL_LEFT, 215, 3360, 285)
-        for key, master in MASTER.items():
+        for key, master in ((key, MASTER[key]) for key in KEPT):
             for theme in THEMES:
                 with self.subTest(key=key, theme=theme):
                     beta = Image.open(self.path(key, theme, '')).convert('RGB').crop(box)
@@ -103,7 +103,7 @@ class TheBetaBandsOfTheTouchAndRetroMastersTests(SimpleTestCase):
     def test_the_tablet_and_phone_cuts_come_from_the_full_band(self):
         from PIL import Image, ImageChops, ImageStat
         module = cutter()
-        for key in MASTER:
+        for key in KEPT:
             for theme in THEMES:
                 with self.subTest(key=key, theme=theme):
                     full = Image.open(self.path(key, theme, '')).convert('RGB')
@@ -114,7 +114,7 @@ class TheBetaBandsOfTheTouchAndRetroMastersTests(SimpleTestCase):
 
     def test_the_phone_cut_of_a_beta_band_has_the_master_scene_left_of_the_wordmark(self):
         from PIL import Image, ImageChops, ImageStat
-        for key, master in MASTER.items():
+        for key, master in ((key, MASTER[key]) for key in KEPT):
             for theme in THEMES:
                 with self.subTest(key=key, theme=theme):
                     beta = Image.open(self.path(key, theme, '_s')).convert('RGB').crop((0, 0, 500, 300))

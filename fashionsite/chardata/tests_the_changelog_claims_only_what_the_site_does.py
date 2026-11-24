@@ -192,9 +192,10 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
     def test_the_temporix_box_is_on_touch_builds_and_nowhere_else(self):
         self.assertIn('name="temporix"', self._template('options.html'))
         from fashionistapulp.dofus_constants import get_stat_maximum
-        from fashionistapulp.game_versions import GAME_VERSIONS
-        self.assertEqual({'touch'}, {key for key, version in GAME_VERSIONS.items()
-                                     if version.temporix})
+        from fashionistapulp.game_versions import GAME_VERSIONS, main_game
+        temporix = {key for key, version in GAME_VERSIONS.items() if version.temporix}
+        self.assertIn('touch', temporix)
+        self.assertEqual({'touch'}, {main_game(key) for key in temporix})
         uncapped = get_stat_maximum('touch', temporix=True)
         for stat_name in ('AP', 'MP', 'Range', 'Summon'):
             self.assertNotIn(stat_name, uncapped)

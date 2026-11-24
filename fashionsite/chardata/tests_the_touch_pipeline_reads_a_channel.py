@@ -259,6 +259,14 @@ class TheIconsOfTheEarlyChannelAreOnlyTheOnesThatDifferTests(SimpleTestCase):
             changed = self.resources.icons_that_differ_from_login('early')
         self.assertEqual({2: 'gfx/items/21.png', 3: 'gfx/items/30.png'}, changed)
 
+    def test_a_resource_row_equal_to_login_keeps_the_login_icon(self):
+        login = self._items({1: ('Same Ore', 10), 2: ('Moved Ore', 20)})
+        early = self._items({1: ('Same Ore', 10), 2: ('Moved Ore', 21), 3: ('New Ore', 30)})
+        tables = {'login': login, 'early': early}
+        with mock.patch.object(self.resources, 'touch_items',
+                               side_effect=lambda channel='login': tables[channel]):
+            self.assertEqual({1}, self.resources.rows_same_as_login('early'))
+
     def test_a_monster_image_is_listed_only_when_login_does_not_know_the_monster(self):
         monsters = itemscraper_module('download_monster_images')
         with tempfile.TemporaryDirectory() as root:
@@ -301,6 +309,13 @@ class TheSpellsFollowTheChannelTests(SimpleTestCase):
         login = {'1': {'nameId': 'Same', 'iconId': 10}, '2': {'nameId': 'Moved', 'iconId': 20}}
         self.assertEqual({'Same'}, self.spells.unchanged_spell_names(by_class, now, login))
 
+    def test_a_spell_icon_login_does_not_hold_is_fetched_even_when_the_spell_is_unchanged(self):
+        by_class = {'Iop': [{'id': 1, 'name': 'Held'}, {'id': 2, 'name': 'Missing'}]}
+        same = {'1': {'nameId': 'Held', 'iconId': 10}, '2': {'nameId': 'Missing', 'iconId': 11}}
+        with tempfile.TemporaryDirectory() as folder:
+            open(os.path.join(folder, 'Held.png'), 'wb').close()
+            self.assertEqual({'Held'}, self.spells.unchanged_spell_names(by_class, same, same, folder))
+
 
 class TheLoginPipelineIsUnchangedTests(SimpleTestCase):
 
@@ -339,7 +354,7 @@ class TheLoginPipelineIsUnchangedTests(SimpleTestCase):
 
     def test_early_before_its_registry_key_stops_after_the_transformed_files(self):
         module, commands = self._commands(['--channel', 'early'], {'touch'})
-        self.assertEqual(['data/download', 'data/mounts', 'items/transform'],
+        self.assertEqual(['data/download', 'data/seed-languages', 'data/mounts', 'items/transform'],
                          [label for label, _ in commands])
         flat = [part for _, cmd in commands for part in cmd]
         self.assertNotIn(module.TOUCH_RAW_DIR, flat)
@@ -352,10 +367,40 @@ class TheLoginPipelineIsUnchangedTests(SimpleTestCase):
     def test_early_once_registered_reads_the_channel_only_where_the_step_can(self):
         _, commands = self._commands(['--channel', 'early'], {'touch', 'touchbeta'})
         by_label = dict(commands)
-        self.assertNotIn('items/recipes', by_label)
-        self.assertNotIn('stats/starting', by_label)
-        self.assertNotIn('verify/rebuild', by_label)
-        for label in ('data/download', 'data/mounts', 'items/special-spells', 'monsters/subareas',
+        for label in ('data/download', 'data/mounts', 'items/recipes', 'items/special-spells',
+                      'pets/store-bonuses', 'monsters/grades', 'monsters/subareas',
                       'spells/build', 'item-images', 'resource-icons', 'monster-images'):
             self.assertEqual(['--channel', 'early'], by_label[label][-2:], label)
+        for label in ('stats/starting', 'items/weapon-conversions', 'spells/tooltips',
+                      'spells/modifiers', 'drops/store', 'craftjobs/store', 'item-skins',
+                      'items/corrections', 'spells/reference', 'verify/rebuild'):
+            self.assertIn('touchbeta', by_label[label], label)
+            self.assertNotIn('touch', by_label[label], label)
         self.assertEqual(['load_item_db.py', '--game-version', 'touchbeta'], by_label['items/load-db'][1:])
+
+    def test_early_reads_its_own_drops_and_names_what_it_still_skips(self):
+        module = _load('update_data_touch')
+        commands = []
+        printed = io.StringIO()
+
+        def run_step(label, cmd, cwd=None):
+            commands.append(label)
+            return True, []
+
+        with mock.patch.object(module, 'run_step', run_step), \
+                mock.patch.object(module, 'registered_versions', return_value={'touch', 'touchbeta'}), \
+                mock.patch.object(sys, 'argv', ['update_data_touch.py', '--channel', 'early']), \
+                contextlib.redirect_stdout(printed):
+            module.main()
+        for label in ('drops/transform', 'drops/store', 'monsters/grades', 'monsters/subareas',
+                      'monster-images', 'craftjobs/store', 'items/recipes', 'pets/store-bonuses'):
+            self.assertIn(label, commands)
+        for label in ('pets/scrape-bonuses', 'dynamic-translations'):
+            self.assertNotIn(label, commands)
+            self.assertIn('[%s]' % label + chr(10) + '  skipped: ', printed.getvalue())
+
+    def test_login_still_runs_its_monster_steps(self):
+        _, commands = self._commands([], {'touch', 'touchbeta'})
+        by_label = dict(commands)
+        self.assertEqual(['store_touch_monster_subareas.py', '--download'], by_label['monsters/subareas'][1:])
+        self.assertEqual(['download_monster_images.py', '--game-version', 'touch'], by_label['monster-images'][1:])

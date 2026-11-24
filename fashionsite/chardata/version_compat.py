@@ -17,6 +17,7 @@ CLASSES_NOT_IN_VERSION = {
     # Masqueraider (Zobal) and Foggernaut (Steamer). Eliotrope, Huppermage,
     # Ouginak and Forgelance never shipped on Touch.
     'touch': {'Forgelance', 'Bellaphone', 'Eliotrope', 'Huppermage', 'Ouginak'},
+    'touchbeta': {'Forgelance', 'Eliotrope', 'Huppermage', 'Ouginak'},
 }
 
 
@@ -39,6 +40,7 @@ CLASSES_AWAITING_DATA = {
     'touch': set(),
     'retro': set(),
 }
+CLASSES_AWAITING_DATA['touchbeta'] = CLASSES_AWAITING_DATA['touch']
 
 
 def classes_with_data(classes, game_version):

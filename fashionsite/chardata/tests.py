@@ -19670,8 +19670,10 @@ class NothingWritesOutTheVersionsByHandTests(SimpleTestCase):
 
     def test_the_scrapers_ask_the_registry(self):
         from fashionistapulp.game_versions import dofus_versions
+        from fashionistapulp.game_versions import GAME_VERSIONS, VERSION_ORDER
         expected = tuple(dofus_versions())
-        self.assertEqual(5, len(expected))
+        self.assertEqual(tuple(key for key in VERSION_ORDER
+                               if GAME_VERSIONS[key].dofus), expected)
         self.assertNotIn('wakfu', expected)
         for parts in self.WALKERS:
             with self.subTest(script=parts[-1]):
@@ -19762,14 +19764,15 @@ class GameVersionRegistryTests(SimpleTestCase):
     def test_the_registry_holds_every_version_the_site_serves(self):
         # settings.SITE_VERSIONS still lists them for the footer
         from django.conf import settings
-        from fashionistapulp.game_versions import version_keys
+        from fashionistapulp.game_versions import dofus_versions, version_keys
         self.assertEqual(sorted(settings.SITE_VERSIONS),
-                         sorted(version_keys()))
+                         sorted(set(version_keys()) | set(dofus_versions())))
 
     def test_wakfu_is_declared_and_reaches_no_reader(self):
         # Experimental: declared for the pipeline, hidden from readers
         from fashionistapulp.game_versions import (GAME_VERSIONS,
                                                    dofus_versions,
+                                                   reader_dofus_versions,
                                                    version_keys)
         wakfu = GAME_VERSIONS['wakfu']
         self.assertTrue(wakfu.experimental)
@@ -19780,6 +19783,8 @@ class GameVersionRegistryTests(SimpleTestCase):
         for key in dofus_versions():
             with self.subTest(version=key):
                 self.assertTrue(GAME_VERSIONS[key].dofus)
+        for key in reader_dofus_versions():
+            with self.subTest(version=key):
                 self.assertFalse(GAME_VERSIONS[key].experimental)
 
 
@@ -22752,9 +22757,11 @@ class RebuildCheckTests(SimpleTestCase):
         self.assertEqual(len(moved), 1, 'a moved row id went unnoticed')
 
     def test_it_covers_every_version(self):
+        from fashionistapulp.game_versions import GAME_VERSIONS, VERSION_ORDER
         module = self._module()
         self.assertEqual(sorted(module.VERSIONS),
-                         sorted(('dofus3', 'beta', 'dofus2', 'touch', 'retro')))
+                         sorted(key for key in VERSION_ORDER if GAME_VERSIONS[key].dofus))
+        self.assertTrue({'dofus3', 'beta', 'dofus2', 'touch', 'retro'} <= set(module.VERSIONS))
         for version in module.VERSIONS:
             with self.subTest(version=version):
                 self.assertIn(version, module.COMMITTED)
@@ -22780,7 +22787,8 @@ class RebuildCheckTests(SimpleTestCase):
                 source = handle.read()
             with self.subTest(pipeline=name):
                 self.assertIn('check_rebuild.py', source)
-                self.assertIn('"--only", "%s"' % version, source)
+                self.assertTrue('"--only", "%s"' % version in source
+                                or (version == 'touch' and '"--only", key' in source))
 
     def test_it_can_look_further_back_than_the_last_commit(self):
         # A committed bad rebuild becomes the reference; HEAD then says nothing

@@ -7,11 +7,11 @@ class UpdateGenerationTests(TestCase):
         from chardata.coaching_view import create_build
         from chardata.solution import get_solution
         from chardata.spells_view import _best_combo
-        from fashionistapulp.game_versions import dofus_versions
+        from fashionistapulp.game_versions import reader_dofus_versions
         from fashionistapulp.structure import set_current_game_version
 
         self.addCleanup(set_current_game_version, 'dofus3')
-        for version in dofus_versions():
+        for version in reader_dofus_versions():
             with self.subTest(version=version):
                 set_current_game_version(version)
                 owner = User.objects.create_user('updater-' + version)

@@ -19,6 +19,7 @@
 # Retro (1.29) never received the 2.17 rewrite and still rolls a die for it.
 PUBLISHED_FORMULA_BY_VERSION = {'dofus3': True, 'beta': True, 'dofus2': True, 'touch': True,
                                 'retro': False}
+PUBLISHED_FORMULA_BY_VERSION['touchbeta'] = PUBLISHED_FORMULA_BY_VERSION['touch']
 VERSIONS_WITH_THE_PUBLISHED_FORMULA = tuple(
     version for version, published in PUBLISHED_FORMULA_BY_VERSION.items() if published)
 

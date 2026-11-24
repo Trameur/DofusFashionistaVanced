@@ -92,7 +92,8 @@ def _stage_a_dofus_version():
 class EveryPerVersionTableNamesEveryDofusVersion(SimpleTestCase):
 
     def test_every_table_names_every_dofus_version(self):
-        self.assertEqual(5, len(dofus_versions()))
+        self.assertEqual(sum(1 for version in game_versions.GAME_VERSIONS.values()
+                             if version.dofus), len(dofus_versions()))
         for label, check in _every_check():
             with self.subTest(table=label):
                 self.assertEqual([], check())

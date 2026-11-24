@@ -21,7 +21,7 @@ from chardata.fashion_action import fashion
 from chardata.image_store import get_image_url, list_static_dir
 from chardata.models import Char
 from chardata.solution import get_solution
-from chardata.spell_buffs import get_damage_spells_for_version
+from chardata.spell_buffs import get_damage_spells_for_version, touch_spell_module
 from chardata.spell_localization import get_localized_spell_name
 from chardata.spell_modifiers import (base_damage_bonus, bonus_stats,
                                       modified_cast, modified_range,
@@ -268,6 +268,7 @@ def _create_reference_web_digest(entry, game_version, char_level=None,
 # Retro and Touch spell icons are filed under their French names
 SPELL_ICON_LANGUAGE = {'dofus3': 'en', 'beta': 'en', 'dofus2': 'en',
                        'retro': 'fr', 'touch': 'fr'}
+SPELL_ICON_LANGUAGE['touchbeta'] = SPELL_ICON_LANGUAGE['touch']
 
 _shared_icon_names = {}
 
@@ -392,8 +393,7 @@ def _localized_spell_name(name, language, game_version, spell_id=None):
         from fashionistapulp.dofus_constants_retro_spells import RETRO_SPELL_NAMES
         version_names = RETRO_SPELL_NAMES
     elif main_game(game_version) == 'touch':
-        from fashionistapulp.dofus_constants_touch_spells import TOUCH_SPELL_NAMES
-        version_names = TOUCH_SPELL_NAMES
+        version_names = touch_spell_module(game_version).TOUCH_SPELL_NAMES
     if version_names is not None:
         names = version_names.get(name)
         if not names and spell_id is not None:
@@ -433,6 +433,10 @@ def _spell_image_url(spell_name, game_version):
     elif (game_version in ('beta', 'dofus2')
           and stem in _own_spell_icon_names(game_version)):
         spell_dir = 'chardata/spells/%s/' % game_version
+    elif main_game(game_version) in ('retro', 'touch'):
+        owner = (game_version if stem in _own_spell_icon_names(game_version)
+                 else main_game(game_version))
+        spell_dir = 'chardata/spells/%s/' % owner
     else:
         spell_dir = 'chardata/spells/'
     return static(spell_dir + stem + '.png')
@@ -835,9 +839,7 @@ def _languages_left_english(game_version):
     if game_version in _NAMES_LEFT_ENGLISH:
         return _NAMES_LEFT_ENGLISH[game_version]
     if main_game(game_version) == 'touch':
-        from fashionistapulp.dofus_constants_touch_spells import (
-            TOUCH_SPELL_NAMES)
-        table = TOUCH_SPELL_NAMES
+        table = touch_spell_module(game_version).TOUCH_SPELL_NAMES
     elif main_game(game_version) == 'retro':
         from fashionistapulp.dofus_constants_retro_spells import (
             RETRO_SPELL_NAMES)

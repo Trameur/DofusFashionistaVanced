@@ -205,6 +205,7 @@ _RULESET_BY_VERSION = {
     'touch': 'touch',
     'retro': 'retro',
 }
+_RULESET_BY_VERSION['touchbeta'] = _RULESET_BY_VERSION['touch']
 
 _STATS_BY_RULESET = {
     'modern': _MODERN_STATS,

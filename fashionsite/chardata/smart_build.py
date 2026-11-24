@@ -69,6 +69,7 @@ VERSION_WEIGHT_TUNING = {
         'init_mult': 3,
     },
 }
+VERSION_WEIGHT_TUNING['touchbeta'] = VERSION_WEIGHT_TUNING['touch']
 
 # Hand-set weight literals of _set_weights, which keeps its own operand order;
 # pairs and triples are read by position
@@ -824,6 +825,7 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
         },
     },
 }
+RACE_PROFILE_OVERRIDES_BY_VERSION['touchbeta'] = RACE_PROFILE_OVERRIDES_BY_VERSION['touch']
 
 
 def _class_profile(race):

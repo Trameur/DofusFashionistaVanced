@@ -51,6 +51,7 @@ KNOWN_BAD_ROWS = {
     'touch': {},
     'retro': {},
 }
+KNOWN_BAD_ROWS['touchbeta'] = KNOWN_BAD_ROWS['touch']
 
 REFERENCE = ('Reference set, the same for every element, at each Quick Start level (%(levels)s): '
              '%(scrolled)s scrolled to the version maximum, all characteristic points of '

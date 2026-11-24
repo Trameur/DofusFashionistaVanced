@@ -34,12 +34,24 @@ def get_damage_spells_for_version(game_version):
     if game_version == 'touch':
         from fashionistapulp.dofus_constants_touch_spells import TOUCH_DAMAGE_SPELLS
         return TOUCH_DAMAGE_SPELLS
+    if game_version == 'touchbeta':
+        from fashionistapulp.dofus_constants_touchbeta_spells import TOUCH_DAMAGE_SPELLS
+        return TOUCH_DAMAGE_SPELLS
     if game_version == 'beta':
         from fashionistapulp.dofus_constants_beta import DAMAGE_SPELLS as BETA_DAMAGE_SPELLS
         return BETA_DAMAGE_SPELLS
     if game_version == 'dofus2':
         return _dofus2_damage_spells()
     return DAMAGE_SPELLS
+
+
+def touch_spell_module(game_version):
+    """The generated spell module of a Touch key: Touch Beta reads its own."""
+    if game_version == 'touchbeta':
+        from fashionistapulp import dofus_constants_touchbeta_spells as module
+    else:
+        from fashionistapulp import dofus_constants_touch_spells as module
+    return module
 
 
 _DOFUS2_CACHE = None

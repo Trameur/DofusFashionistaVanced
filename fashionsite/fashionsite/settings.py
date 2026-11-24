@@ -29,7 +29,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from fashionista_version import (FASHIONISTA_VERSION, FASHIONISTA_BETA_VERSION,
                                  FASHIONISTA_DOFUS2_VERSION, FASHIONISTA_RETRO_VERSION,
-                                 FASHIONISTA_TOUCH_VERSION)
+                                 FASHIONISTA_TOUCH_VERSION, FASHIONISTA_TOUCHBETA_VERSION)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Define the paths for Linux and Windows
@@ -411,6 +411,7 @@ SITE_VERSIONS = {
     'dofus2': FASHIONISTA_DOFUS2_VERSION,
     'retro': FASHIONISTA_RETRO_VERSION,
     'touch': FASHIONISTA_TOUCH_VERSION,
+    'touchbeta': FASHIONISTA_TOUCHBETA_VERSION,
 }
 
 EXPERIMENTS = {

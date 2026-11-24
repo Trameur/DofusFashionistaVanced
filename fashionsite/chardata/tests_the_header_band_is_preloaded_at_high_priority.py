@@ -7,6 +7,7 @@ import re
 from django.test import TestCase
 
 from chardata.tests_the_setup_stylesheet_support import STATIC
+from fashionistapulp.game_versions import GAME_VERSIONS
 
 TEMPLATES = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates', 'chardata')
 VERSIONS = (('/', 'dofus3', 'fashionista_banner_fading.webp'), ('/beta/', 'beta', 'fashionista_banner_fading_beta.webp'),
@@ -58,7 +59,7 @@ class TheModernDesignPreloadsTheBandOfItsVersionTests(TestCase):
         block = re.search(r'@media \(max-width:(\d+)px\)\{\n((?:  html\.fm-modern\.fm-\w+ \.banner\[data-band="\w+"\] a\{ background-image:url\("bands/band_\w+_m\.webp"\); \}\n)+)\}', css)
         self.assertIsNotNone(block)
         self.assertEqual('900', block.group(1))
-        self.assertEqual(12, block.group(2).count('_m.webp'))
+        self.assertEqual(2 * len(GAME_VERSIONS), block.group(2).count('_m.webp'))
         self.assertEqual('(max-width:%spx)' % block.group(1), PHONE)
         self.assertIn(MIDDLE, source('base.html'))
         self.assertIn(WIDE, source('base.html'))
@@ -68,7 +69,7 @@ class TheModernDesignPreloadsTheBandOfItsVersionTests(TestCase):
             nav = handle.read()
         small = re.search(r'@media \(max-width:(\d+)px\)\{\n((?:  html\.fm-modern\.fm-\w+ \.banner\[data-band="\w+"\] a\{ background-image:url\("bands/band_\w+_s\.webp"\);[^}]*\}\n)+)\}', nav)
         self.assertIsNotNone(small)
-        self.assertEqual(12, small.group(2).count('_s.webp'))
+        self.assertEqual(2 * len(GAME_VERSIONS), small.group(2).count('_s.webp'))
         self.assertEqual('(max-width:%spx)' % small.group(1), SMALL)
         self.assertIn(SMALL, source('base.html'))
         self.assertEqual(int(small.group(1)) + 1, int(re.search(r'min-width:(\d+)px', MIDDLE).group(1)))

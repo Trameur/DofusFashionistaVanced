@@ -40,7 +40,7 @@ SNAPSHOT_KEY = 'site_history_snapshot_v1'
 PAYLOAD_KEY = 'site_history_payload_v1'
 CACHE_SECONDS = 600
 
-LIVE_VERSIONS = ('dofus2', 'dofus3', 'beta', 'retro', 'touch')
+LIVE_VERSIONS = ('dofus2', 'dofus3', 'beta', 'retro', 'touch', 'touchbeta')
 LIVE_METRICS = (
     ('builds_real', 'builds_robots')
     + tuple('v_' + slug for slug in LIVE_VERSIONS)

@@ -71,6 +71,7 @@ GELANO_IDS = {'Gelano (#1)': 990000001, 'Gelano (#2)': 990000011}
 # Maxed pet variants start at these ids (itemscraper/store_*_pet_bonuses.py)
 PET_VARIANT_ID_BASE = {'dofus3': None, 'beta': None, 'dofus2': None,
                        'retro': 10_000_000, 'touch': 200_000_000}
+PET_VARIANT_ID_BASE['touchbeta'] = PET_VARIANT_ID_BASE['touch']
 
 # Old Gelano ids (max(item id) + 1), still used by saved builds
 GELANO_DEPLOYED_IDS = {
@@ -80,6 +81,7 @@ GELANO_DEPLOYED_IDS = {
     'touch': {200000228: 'Gelano (#1)'},
     'retro': {10000087: 'Gelano (#1)'},
 }
+GELANO_DEPLOYED_IDS['touchbeta'] = GELANO_DEPLOYED_IDS['touch']
 
 
 def _stable(value):

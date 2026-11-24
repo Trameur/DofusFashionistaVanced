@@ -37,7 +37,7 @@ from fashionistapulp.structure import get_current_game_version
 
 from chardata.pushback import pushback_damage
 from chardata.spell_buffs import (_buff_value, _decide_spell_level,
-                                  get_damage_spells_for_version)
+                                  get_damage_spells_for_version, touch_spell_module)
 from chardata.spell_modifiers import (SpellModifier, base_damage_bonus,
                                       bonus_stats, modified_cast, raised_row)
 from chardata.spell_variants import variant_of
@@ -58,6 +58,7 @@ ONLY_HITS_A_SUMMON = {
         198: 'punissant une invocation',   # Sadida, Sacrifice Poupesque
     },
 }
+ONLY_HITS_A_SUMMON['touchbeta'] = ONLY_HITS_A_SUMMON['touch']
 
 
 def summon_only_spells(game_version):
@@ -73,6 +74,7 @@ PUSH_ENDS_THE_LATE_ROWS = {
     'touch': {},
     'retro': {},
 }
+PUSH_ENDS_THE_LATE_ROWS['touchbeta'] = PUSH_ENDS_THE_LATE_ROWS['touch']
 
 # Starting AP, for builds saved without base stats
 BASE_AP = 6
@@ -618,8 +620,7 @@ def damage_taken_for_version(game_version):
     if game_version in _DAMAGE_TAKEN_CACHE:
         return _DAMAGE_TAKEN_CACHE[game_version]
     if main_game(game_version) == 'touch':
-        from fashionistapulp.dofus_constants_touch_spells import \
-            TOUCH_DAMAGE_TAKEN as DAMAGE_TAKEN
+        DAMAGE_TAKEN = touch_spell_module(game_version).TOUCH_DAMAGE_TAKEN
     elif game_version == 'beta':
         from fashionistapulp.dofus_constants_beta import DAMAGE_TAKEN
     elif main_game(game_version) == 'dofus2':
