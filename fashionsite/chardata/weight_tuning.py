@@ -406,8 +406,8 @@ def visible_damage_share(char_class, level, game_version):
     turn cannot cast. A summon that hits has no rows in the data, so the share is unknown.
     """
     from chardata.spell_buffs import get_damage_spells_for_version
-    from chardata.spell_combo import (BOOSTED_COPIES, Castable, _chosen_level, castable_spells, landed_index,
-                                      summon_only_spells)
+    from chardata.spell_combo import (BOOSTED_COPIES, Castable, _chosen_level, cast_cost, castable_spells,
+                                      landed_index, recast_alternatives, summon_only_spells)
     from chardata.spell_reference import get_spell_reference
     entries = (get_spell_reference(game_version) or {}).get(char_class)
     spells = (get_damage_spells_for_version(game_version) or {}).get(char_class) or []
@@ -424,19 +424,29 @@ def visible_damage_share(char_class, level, game_version):
 
         Both read the best alternative, as best_turn does: the rows that wait for the same trigger are one per element
         or per stage, so only the best of them lands. A boosted copy of the cast's own rows waits for its boost alone.
+        A spell whose cost grows with each cast is priced over the casts a turn allows, each at the cost it pays.
         """
         cost = castable.cost or 1
-        totals = [sum(worth(effect) for effect in alternative)
-                  for alternative in castable.plain_alternatives or castable.alternatives or []]
-        pick = landed_index(castable, totals)
-        best = totals[pick] if pick is not None else 0.0
+
+        def landing(alternatives):
+            totals = [sum(worth(effect) for effect in alternative) for alternative in alternatives or []]
+            pick = landed_index(castable, totals)
+            return totals[pick] if pick is not None else 0.0
+
+        best = landing(castable.plain_alternatives or castable.alternatives)
+        landed, paid = best, cost
+        if getattr(castable, 'cost_growth', 0) and castable.limit:
+            for cast in range(1, castable.limit):
+                again = recast_alternatives(castable, cast)
+                landed += landing(again[0]) if again else best
+                paid += cast_cost(castable, cast)
         own = max([worth(effect) for alternative in castable.plain_alternatives or castable.alternatives or []
                    for effect in alternative] or [0.0])
         by_trigger = {}
         for effect, trigger in castable.waiting_plain or []:
             value = max(0.0, worth(effect) - own) if trigger in BOOSTED_COPIES else worth(effect)
             by_trigger[trigger] = max(by_trigger.get(trigger, 0.0), value)
-        return best / cost, sum(by_trigger.values()) / cost
+        return landed / paid, sum(by_trigger.values()) / cost
 
     seen = waiting = 0.0
     evaluated = set()

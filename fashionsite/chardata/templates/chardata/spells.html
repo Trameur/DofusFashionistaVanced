@@ -237,6 +237,8 @@
     {% trans "A fight arms one of the two, so a turn holds one or the other." as msg_variant_rule %}
     var MSG_VARIANT_WITH = '{{ msg_variant_with|escapejs }}';
     var MSG_VARIANT_RULE = '{{ msg_variant_rule|escapejs }}';
+    {% blocktrans with ap="__ap__" step="__step__" asvar msg_ap_growth %}{{ ap }} AP, then +{{ step }} per cast{% endblocktrans %}
+    var MSG_AP_GROWTH = '{{ msg_ap_growth|escapejs }}';
     var spellDigests = {{digests_json | safe}};
     var charStats = {{char_stats_json | safe}};
     // The hit types that move or drain instead of hurting, straight from the
@@ -359,7 +361,9 @@
         var parts = [];
         var ap = rankValue(reference.ap, spell);
         if (ap) {
-            parts.push(ap + ' {% trans "AP" %}');
+            var growth = rankValue(spell.ap_growth, spell);
+            parts.push(growth ? MSG_AP_GROWTH.replace('__ap__', ap).replace('__step__', growth)
+                       : ap + ' {% trans "AP" %}');
         }
         var range = rankValue(reference.range, spell);
         if (range && (range[0] || range[1])) {
