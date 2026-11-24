@@ -9,9 +9,11 @@ from django.contrib.auth.models import User
 from django.test import RequestFactory, SimpleTestCase, TestCase
 
 from chardata.spell_buffs import get_damage_spells_for_version, touch_spell_module
+from chardata.targets import TARGET_VERSIONS
 from chardata.tests_every_per_version_table_names_every_dofus_version import KEYED_TABLES, SPLIT_TABLES
 from chardata.version_compat import CLASSES_NOT_IN_VERSION
 from fashionistapulp import fashionista_config
+from fashionistapulp.combat.rules import record_version
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.game_versions import (GAME_VERSIONS, main_game, prefixed_reader_versions,
                                            reader_dofus_versions, switcher_games, version_keys)
@@ -23,6 +25,7 @@ MAIN = 'touch'
 HERE = os.path.dirname(os.path.abspath(__file__))
 PULP = os.path.dirname(os.path.abspath(fashionista_config.__file__))
 SITEMAP_SECTIONS = ('pages', 'items', 'sets', 'resources', 'monsters')
+SHARED_WITH_THE_MAIN_GAME = ('combat_rules', 'combat_readings')
 
 
 def per_key_tables():
@@ -53,9 +56,18 @@ class TouchBetaCarriesItsOwnDataTests(SimpleTestCase):
         folders = per_key_tables()
         self.assertGreaterEqual(len(folders), 5)
         for folder in folders:
-            with self.subTest(table=os.path.basename(folder)):
+            name = os.path.basename(folder)
+            with self.subTest(table=name):
+                if name in SHARED_WITH_THE_MAIN_GAME:
+                    self.assertFalse(os.path.exists(os.path.join(folder, KEY + '.json')))
+                    continue
                 with open(os.path.join(folder, KEY + '.json'), encoding='utf-8') as handle:
                     self.assertTrue(json.load(handle))
+
+    def test_it_reads_the_combat_record_of_its_main_game_and_takes_no_target(self):
+        self.assertEqual(MAIN, record_version(KEY))
+        self.assertIn(MAIN, TARGET_VERSIONS)
+        self.assertNotIn(KEY, TARGET_VERSIONS)
 
     def test_its_spells_are_its_own_module_and_keep_every_touch_damage_spell(self):
         beta = get_damage_spells_for_version(KEY)
