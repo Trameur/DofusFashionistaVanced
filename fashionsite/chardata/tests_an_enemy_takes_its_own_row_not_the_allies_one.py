@@ -9,6 +9,7 @@ MODERN = ('dofus3', 'beta', 'dofus2')
 SHOT_PELLETS = 14411
 EXTRACTION = 13433
 TOUCH_TRANSFUSION_ARROW = 5813
+HELD_BY_AN_ALLIES_ONLY_MASK = {32446: {0}}
 
 ON_ALLIES = {'en': 'on allies', 'fr': 'sur les alliés', 'es': 'en los aliados',
              'pt': 'nos aliados', 'de': 'bei verbündeten'}
@@ -116,7 +117,9 @@ class TheShippedSpellsCountTheEnemyRowTests(SimpleTestCase):
             held = {spell.spell_id
                     for spells in get_damage_spells_for_version(version).values()
                     for spell in spells
-                    if 'on_ally' in (spell.conditional or {}).values()}
+                    if {row for row, trigger in (spell.conditional or {}).items()
+                        if trigger == 'on_ally'}
+                    - HELD_BY_AN_ALLIES_ONLY_MASK.get(spell.spell_id, set())}
             with self.subTest(version=version):
                 self.assertGreaterEqual(len(held), 2)
             for spell_id in held:

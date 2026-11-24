@@ -506,7 +506,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     shown = 0
     earlier = {}
     for index, (name, damage) in enumerate(order):
-        damage -= (later.get(name, 0) / times_cast[name]) if name in later else 0
+        damage -= _late_share(by_name.get(name), name, later, times_cast)
         running += damage
         # Round the running total once, each cast is the difference
         before = shown
@@ -728,19 +728,26 @@ def _buff_casts(spells, order):
             and not getattr(spell, 'hits', None)}
 
 
+def _late_share(castable, name, later, times_cast):
+    """What one cast leaves for later on the panel: the spell's mean, none for a growing spell the turn scores without its late hit."""
+    if getattr(castable, 'recasts', None):
+        return 0.0
+    return later[name] / times_cast[name] if name in later else 0
+
+
 def _burst_total(stats, spells, order, standing, game_version):
     """Total as the panel shows it: the turn minus what lands later."""
     from chardata.spell_combo import delayed_damage
     later = delayed_damage(stats, spells, order, standing=standing,
                            game_version=game_version)
+    by_name = {spell.name: spell for spell in spells}
     times_cast = {}
     for name, _damage in order:
         times_cast[name] = times_cast.get(name, 0) + 1
     running = 0.0
     shown = 0
     for name, damage in order:
-        if name in later:
-            damage -= later[name] / times_cast[name]
+        damage -= _late_share(by_name.get(name), name, later, times_cast)
         running += damage
         shown = int(round(running))
     return shown

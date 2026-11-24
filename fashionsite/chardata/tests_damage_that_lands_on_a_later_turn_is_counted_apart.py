@@ -2,7 +2,6 @@
 """A damage effect with a delay lands on a later turn: out of the turn's burst, in what lands later."""
 import json
 import os
-from unittest import expectedFailure
 
 from django.test import SimpleTestCase
 from django.utils import translation
@@ -239,7 +238,8 @@ class EachSpellCarriesItsLateRowsTests(SimpleTestCase):
     def test_devouring_arrow_holds_the_rings_on_the_first_enemy(self):
         for version in MODERN:
             with self.subTest(version=version):
-                self.assertEqual({6: 'initial_enemy', 8: 'initial_enemy', 11: 'initial_enemy'},
+                self.assertEqual({0: 'on_ally', 6: 'initial_enemy', 8: 'initial_enemy',
+                                  11: 'initial_enemy'},
                                  _spell(version, DEVOURING_ARROW).conditional)
 
     def test_jormun_holds_the_row_of_the_cast_on_the_caster(self):
@@ -331,8 +331,6 @@ class TheTurnCountsLateDamageApartTests(SimpleTestCase):
                                  sorted(index for index, row in enumerate(cast.effects)
                                         if id(row) in cast.late_by_effect))
 
-    # The turn scores row 0, the steal on allies (mask g), ahead of the enemy's rows 1 and 5
-    @expectedFailure
     def test_devouring_arrow_sends_its_late_hit_to_what_lands_later(self):
         lands_later = {version: self._turn(version, DEVOURING_ARROW, int=800)[2]
                        for version in MODERN}

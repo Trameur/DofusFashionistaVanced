@@ -170,8 +170,9 @@ class OnlyTheseStacksLandWholeTests(SimpleTestCase):
             for spells in get_damage_spells_for_version(version).values():
                 for spell in spells:
                     read += 1
+                    later = set(spell.delayed or {})
                     for label, indices in spell.aggregates or []:
-                        if str(label).startswith('Stack ') and len(indices) > 1:
+                        if str(label).startswith('Stack ') and len(set(indices) - later) > 1:
                             whole.add(spell.spell_id)
             with self.subTest(version=version):
                 self.assertGreater(read, 400)

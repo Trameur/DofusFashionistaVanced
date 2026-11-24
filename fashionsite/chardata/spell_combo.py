@@ -441,10 +441,12 @@ class Castable(object):
             digest, rows[level_index] if level_index < len(rows) else [],
             waiting_rows)
         if getattr(spell, 'stacks_on_recast', False) and digest.aggregates:
-            self.stack_labels = [label for label, _indices in digest.aggregates]
+            ladder = [(label, indices) for label, indices in digest.aggregates
+                      if not set(indices) <= waiting_rows]
+            self.stack_labels = [label for label, _indices in ladder]
             self.recasts = [(at_level(digest.non_crit_dams, group=indices),
                              at_level(digest.crit_dams, critical=True, group=indices))
-                            for _label, indices in digest.aggregates[1:]]
+                            for _label, indices in ladder[1:]]
         casting = spell.casting or {}
         crit_rates = casting.get('crit') or []
         self.crit_rate = (crit_rates[level_index]
@@ -491,6 +493,44 @@ def recast_alternatives(castable, cast):
     if not recasts or not cast:
         return None
     return recasts[min(cast, len(recasts)) - 1]
+
+
+def _late_landed(castable, alternatives, stats, critical, multiplier):
+    """(scored, late) of the alternative a cast lands, the one _damage_of takes."""
+    late = getattr(castable, 'late_by_effect', None) or {}
+    totals = []
+    for alternative in alternatives or []:
+        total = 0.0
+        delayed = 0.0
+        for effect in alternative:
+            value = _row_worth(effect, stats, critical, castable.is_spell, multiplier)
+            total += value
+            if id(effect) in late:
+                delayed += value
+        totals.append((total, delayed))
+    pick = landed_index(castable, [total for total, _late in totals])
+    if pick is None or totals[pick][0] <= 0:
+        return (0.0, 0.0)
+    return totals[pick]
+
+
+def late_taken_back(castable, cast, stats, multiplier, crit=False, game_version=None):
+    """Late damage of the cast before `cast` that a recast of a growing spell removes, else 0."""
+    if (not cast or not getattr(castable, 'recasts', None)
+            or not getattr(castable, 'late_by_effect', None)):
+        return 0.0
+    earlier = recast_alternatives(castable, cast - 1)
+    if earlier is None:
+        earlier = (getattr(castable, 'plain_alternatives', None) or castable.alternatives,
+                   getattr(castable, 'crit_alternatives', None))
+    plain, critical = earlier
+    if crit:
+        return _late_landed(castable, critical if castable.crit else plain,
+                            stats, True, multiplier)[1]
+    odds = crit_chance(getattr(castable, 'crit_rate', 0), stats, game_version)
+    late = _late_landed(castable, plain, stats, False, multiplier)[1]
+    crit_late = _late_landed(castable, critical, stats, True, multiplier)[1] if odds else 0.0
+    return late * (1 - odds) + crit_late * odds if crit_late else late
 
 
 def cast_label(castable, cast):
@@ -991,15 +1031,28 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
 def delayed_damage(stats, spells, order, crit=False, standing=None,
                    game_version=None):
     """{spell name: damage} dealt at the start or end of a turn (poisons)."""
+    out = {}
+    for (name, _damage), gained in zip(order or [], delayed_by_cast(
+            stats, spells, order, crit=crit, standing=standing,
+            game_version=game_version)):
+        if gained:
+            out[name] = out.get(name, 0.0) + gained
+    return out
+
+
+def delayed_by_cast(stats, spells, order, crit=False, standing=None,
+                    game_version=None):
+    """[damage] each cast of the order leaves for later, less what it removes of an earlier cast's."""
     if not order:
-        return {}
+        return []
     by_name = {spell.name: spell for spell in spells}
     standing = standing or {}
 
     # In cast order, with the buffs standing at each cast, like the search
-    out = {}
+    out = []
     seen = {}
     for name, _damage in order:
+        gained = 0.0
         castable = by_name.get(name)
         rows = getattr(castable, 'delayed_crit' if crit else 'delayed_plain',
                        None) or []
@@ -1019,25 +1072,9 @@ def delayed_damage(stats, spells, order, crit=False, standing=None,
                                     - was.get(stat, 0))
             _add_bonus_stats(buffed, castable)
             multiplier = final_multiplier(buffed)
-            late = getattr(castable, 'late_by_effect', None) or {}
 
             def worth(alternatives, critical):
-                """(scored, late) of the alternative _damage_of would take."""
-                totals = []
-                for alternative in alternatives or []:
-                    total = 0.0
-                    delayed = 0.0
-                    for effect in alternative:
-                        value = _row_worth(effect, buffed, critical,
-                                           castable.is_spell, multiplier)
-                        total += value
-                        if id(effect) in late:
-                            delayed += value
-                    totals.append((total, delayed))
-                pick = landed_index(castable, [total for total, _late in totals])
-                if pick is None or totals[pick][0] <= 0:
-                    return (0.0, 0.0)
-                return totals[pick]
+                return _late_landed(castable, alternatives, buffed, critical, multiplier)
 
             alternatives = castable.alternatives
             plain_alternatives = (getattr(castable, 'plain_alternatives', None)
@@ -1056,8 +1093,9 @@ def delayed_damage(stats, spells, order, crit=False, standing=None,
                 critical = (worth(crit_alternatives, True)[1] if odds else 0.0)
                 gained = (plain * (1 - odds) + critical * odds
                           if critical else plain)
-            if gained:
-                out[name] = out.get(name, 0.0) + gained
+            gained -= late_taken_back(castable, seen.get(name, 0), buffed, multiplier,
+                                      crit, game_version)
+        out.append(gained)
         seen[name] = seen.get(name, 0) + 1
     return out
 
@@ -1229,6 +1267,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         multiplier = final_multiplier(buffed)
         every, first = taken_factors(counts, pending)
         late = getattr(spell, 'late_by_effect', None) or {}
+        off_turn = late if getattr(spell, 'recasts', None) else {}
 
         def raised(alternative, critical):
             """(scaled, shares of HP) of the alternative's rows, the hits now under the debuffs."""
@@ -1236,6 +1275,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             fixed = 0.0
             ending_factor = first
             for effect in alternative:
+                if id(effect) in off_turn:
+                    continue
                 share = isinstance(effect, HpShare)
                 if share:
                     value = effect.damage(buffed)
@@ -1260,7 +1301,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                     gains.append(scaled * multiplier + fixed)
                     continue
                 rows = [copy.copy(effect) for effect in alternative
-                        if not isinstance(effect, HpShare)]
+                        if not isinstance(effect, HpShare) and id(effect) not in off_turn]
                 gains.append(_average(calculate_damage(rows, buffed, critical,
                                                        spell.is_spell))
                              * multiplier + _hp_share_damage(alternative, buffed))

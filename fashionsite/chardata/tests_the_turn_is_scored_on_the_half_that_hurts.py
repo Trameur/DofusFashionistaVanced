@@ -24,6 +24,8 @@ _MOTS_DU_JEU = ('soigne les alli', 'ennemis')
 _PANDAWA_THROWS = {'Stretcher', 'Pandilongation', 'Propulsion', 'Brandy',
                    'Waterfall'}
 
+_HELD_BY_AN_ALLIES_ONLY_MASK = {'Devouring Arrow'}
+
 
 def _groupes(sort, rang, crit=False):
     """Lines of each aggregate group, or None when the fallback does not apply."""
@@ -95,7 +97,8 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
                 premier = set(digest.aggregates[0][1])
                 if retenu == premier:
                     continue
-                if not _soigne_entierement(groupes[0]):
+                if not (_soigne_entierement(groupes[0])
+                        or premier <= set(getattr(sort, 'conditional', None) or {})):
                     sautes_pour_autre_chose.append(
                         (version, classe, sort.name, rang))
         self.assertEqual([], sautes_pour_autre_chose)
@@ -116,11 +119,11 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
                 if retenu != set(digest.aggregates[0][1]):
                     bouges.add((version, classe, sort.name))
         self.assertEqual(
-            set(_MOITIE_QUI_FRAPPE) | _PANDAWA_THROWS,
+            set(_MOITIE_QUI_FRAPPE) | _PANDAWA_THROWS | _HELD_BY_AN_ALLIES_ONLY_MASK,
             {nom for _v, _c, nom in bouges},
             'the rule reaches spells it was not measured on: %s' % sorted(bouges))
         self.assertEqual(
-            {'Eniripsa', 'Pandawa'}, {classe for _v, classe, _n in bouges})
+            {'Eniripsa', 'Pandawa', 'Cra'}, {classe for _v, classe, _n in bouges})
         self.assertEqual(
             {'dofus3', 'beta', 'dofus2'}, {v for v, _c, _n in bouges},
             'Touch and Retro carried no case when this was measured')

@@ -19910,6 +19910,8 @@ class SpellComboTests(SimpleTestCase):
                     for trigger in rows.values()}
         self.assertEqual([], sorted(declared - set(words)),
                          'a held-back row names a rule with no words to check')
+        from chardata.tests_an_enemy_takes_its_own_row_not_the_allies_one import (
+            HELD_BY_AN_ALLIES_ONLY_MASK)
         seen = 0
         # dofus2 has its own table
         for version in ('dofus3', 'beta', 'dofus2'):
@@ -19924,6 +19926,8 @@ class SpellComboTests(SimpleTestCase):
                     continue
                 seen += 1
                 for trigger in set(rows.values()):
+                    if trigger == 'on_ally' and spell_id in HELD_BY_AN_ALLIES_ONLY_MASK:
+                        continue
                     for language, word in words[trigger].items():
                         said = (entry['description'].get(language) or '').lower()
                         phrasings = word if isinstance(word, tuple) else (word,)

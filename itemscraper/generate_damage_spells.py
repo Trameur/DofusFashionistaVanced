@@ -284,8 +284,8 @@ _MODERN_CONDITIONAL_ROWS = {
             7: "flask_destroyed"},   # Eniripsa, Alchemical Word
     # Row 1 has the ring zone of the cast on the caster
     23268: {1: "on_the_caster"},   # Forgelance, Jormun
-    # Rows 6, 8, 11 have the ring zone that spares the new target
-    32446: {6: "initial_enemy", 8: "initial_enemy",
+    # Row 0 has the g mask, an ally only; rows 6, 8, 11 the ring zone that spares the new target
+    32446: {0: "on_ally", 6: "initial_enemy", 8: "initial_enemy",
             11: "initial_enemy"},   # Cra, Devouring Arrow
 }
 
@@ -403,6 +403,7 @@ _MODERN_RECAST_STACKS = {
     32435: "les dommages du sort sont augmentés après chaque lancer",
     32436: "les dommages du sort sont augmentés après chaque lancer",
     23263: "les dommages du sort sont augmentés après chaque lancer",
+    32446: "le vol de vie est plus important après chaque lancer sur un même ennemi",
 }
 
 RECAST_STACKS_BY_VERSION = {
@@ -413,10 +414,14 @@ RECAST_STACKS_BY_VERSION = {
 
 RECAST_STACKS = RECAST_STACKS_BY_VERSION["dofus3"]
 
+STATE_GATED_RECASTS = frozenset({32446})
+
 # "x#1% damage sustained" on the fighters the row targets
 DAMAGE_TAKEN_EFFECT_ID = 1163
 # "Removes the effects of the #2 spell", the spell id in value
 REMOVES_SPELL_EFFECTS_EFFECT_ID = 406
+# "#3 state", the state in value
+APPLIES_STATE_EFFECT_ID = 950
 # m_flags bit of a row only the tooltip shows; Dofus 2 has forClientOnly instead
 CLIENT_ONLY_FLAG = 16
 # Direct damage, and damage from an enemy of the bearer
@@ -2578,7 +2583,76 @@ def _pair_buffs_with_their_draw(
             if not (len(indexes) == 1 and indexes[0] in paired)]
 
 
-def _stacks_on_recast(spell: Mapping[str, Any], aggregates, conditional, delayed) -> bool:
+def _recast_ladder(aggregates, conditional) -> List[Tuple[str, List[int]]]:
+    """The groups the casts of a growing spell land in turn; groups of held-back rows stay out."""
+    held = set(conditional or {})
+    return [(label, list(indices)) for label, indices in aggregates or []
+            if not set(indices) <= held]
+
+
+def _removes_its_own_effects(spell: Mapping[str, Any]) -> bool:
+    """Whether every grade's cast removes what the spell's earlier casts left on the enemy."""
+    ankama_id = spell.get("ankama_id")
+    levels = spell.get("levels") or []
+    return bool(levels) and all(
+        any(effect.get("effect_id") == REMOVES_SPELL_EFFECTS_EFFECT_ID
+            and effect.get("value") == ankama_id
+            and _lands_on_cast(effect.get("triggers"))
+            and "A" in str(effect.get("target_mask") or "").split(",")
+            for effect in level.get("effects") or [])
+        for level in levels)
+
+
+def _gate_states(mask) -> Tuple[set, set]:
+    """(states a target mask requires, states it forbids), from its E<id> and e<id> tokens."""
+    tokens = [token.strip() for token in str(mask or "").split(",")]
+    return ({int(token[1:]) for token in tokens if token[:1] == "E" and token[1:].isdigit()},
+            {int(token[1:]) for token in tokens if token[:1] == "e" and token[1:].isdigit()})
+
+
+def _recast_gates_follow_the_casts(spell: Mapping[str, Any], ladder, rows, late) -> bool:
+    """Whether the groups, in order, are gated by the states the cast before leaves on the enemy."""
+    masks = []
+    for _label, indices in ladder:
+        own = [index for index in indices if index not in late]
+        if len(own) != 1 or own[0] >= len(rows):
+            return False
+        masks.append(str(rows[own[0]].get("situation") or "").split("|")[0])
+    gates = [_gate_states(mask) for mask in masks]
+    states = [next(iter(required)) if len(required) == 1 else None
+              for required, _forbidden in gates[1:]]
+    if (gates[0][0] or None in states or len(set(states)) != len(states)
+            or gates[0][1] != set(states) or any(forbidden for _required, forbidden in gates[1:])):
+        return False
+    return all(
+        any(effect.get("effect_id") == APPLIES_STATE_EFFECT_ID
+            and effect.get("value") == state
+            and effect.get("target_mask") == masks[position]
+            for effect in level.get("effects") or [])
+        for position, state in enumerate(states)
+        for level in spell.get("levels") or [])
+
+
+def _label_the_recast_ladder(spell: Mapping[str, Any], aggregates, conditional):
+    """A listed growing spell's unlabelled cast groups named Stack 0, Stack 1, ... in cast order."""
+    if spell.get("ankama_id") not in RECAST_STACKS or not aggregates:
+        return aggregates
+    held = set(conditional or {})
+    if any(label for label, _indices in _recast_ladder(aggregates, conditional)):
+        return aggregates
+    labelled: List[Tuple[str, List[int]]] = []
+    casts = 0
+    for label, indices in aggregates:
+        if set(indices) <= held:
+            labelled.append((label, list(indices)))
+        else:
+            labelled.append(("Stack %d" % casts, list(indices)))
+            casts += 1
+    return labelled
+
+
+def _stacks_on_recast(spell: Mapping[str, Any], aggregates, conditional, delayed,
+                      rows=()) -> bool:
     """Whether each cast of the turn lands the next Stack group, checked on the listed spells."""
     ankama_id = spell.get("ankama_id")
     quote = RECAST_STACKS.get(ankama_id)
@@ -2587,10 +2661,17 @@ def _stacks_on_recast(spell: Mapping[str, Any], aggregates, conditional, delayed
     if quote.lower() not in str(spell.get("description_fr") or "").lower():
         raise SystemExit("spell %s no longer says %r; each of its casts was made to land "
                          "the next Stack group on that sentence" % (ankama_id, quote))
-    labels = [label for label, _indices in aggregates or []]
+    ladder = _recast_ladder(aggregates, conditional)
+    labels = [label for label, _indices in ladder]
+    covered = {index for _label, indices in ladder for index in indices}
+    late = set(delayed or {})
     if (len(labels) < 2 or labels != ["Stack %d" % count for count in range(len(labels))]
-            or any(len(indices) != 1 for _label, indices in aggregates)
-            or conditional or delayed):
+            or any(len(set(indices) - late) != 1 or len(set(indices) & late) > 1
+                   for _label, indices in ladder)
+            or covered & set(conditional or {}) or late - covered
+            or (ankama_id in STATE_GATED_RECASTS
+                and not _recast_gates_follow_the_casts(spell, ladder, rows, late))
+            or (late and not _removes_its_own_effects(spell))):
         raise SystemExit("spell %s: its rows are no longer one Stack group per cast"
                          % ankama_id)
     return True
@@ -3057,6 +3138,7 @@ def convert_spell(
         _unread_trigger(normal_rows, conditional or {}, delayed)
         or _unread_trigger(crit_rows, conditional or {},
                            delayed if delayed_crit is None else delayed_crit))
+    aggregates = _label_the_recast_ladder(spell, aggregates, conditional)
     stacks = stack_limit
     variant_link = spell.get("variant_link")
     is_linked = _convert_variant_link(variant_link)
@@ -3084,7 +3166,8 @@ def convert_spell(
         draw_problem=draw_problem,
         delay_problem=delay_problem,
         trigger_problem=trigger_problem,
-        stacks_on_recast=_stacks_on_recast(spell, aggregates, conditional, delayed),
+        stacks_on_recast=_stacks_on_recast(spell, aggregates, conditional, delayed,
+                                           normal_rows),
     )
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
