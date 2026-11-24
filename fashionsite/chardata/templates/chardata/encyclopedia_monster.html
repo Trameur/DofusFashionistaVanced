@@ -57,6 +57,7 @@
 html.fm-dark .monster-grades th, html.fm-dark .monster-grades td { border-bottom-color: #4a4a4a; }
 .monster-grades td.monster-weak { font-weight: 700; color: #0a7d0a; }
 html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
+.monster-grades td .monster-try-build { white-space: nowrap; }
 .monster-weakest-hint { margin: 6px 0 0; font-size: 0.85em; opacity: 0.75; }
 .monster-spells-list .spell-tip-text + .spell-tip-text { margin-top: 5px; }
 .monster-spells-list .spell-tip-grades { display: block; font-size: 0.9em; opacity: 0.7; }
@@ -119,7 +120,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                         <th>{{ mt.fire_label }}</th>
                         <th>{{ mt.water_label }}</th>
                         <th>{{ mt.air_label }}</th>
-                        <th>{{ mt.neutral_label }}</th>
+                        <th>{{ mt.neutral_label }}</th>{% if my_build_spells_path %}<th>{{ mt.my_build_label }}</th>{% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -137,6 +138,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                         <td{% if 'water' in g.weakest %} class="monster-weak"{% endif %}>{{ g.water }}%</td>
                         <td{% if 'air' in g.weakest %} class="monster-weak"{% endif %}>{{ g.air }}%</td>
                         <td{% if 'neutral' in g.weakest %} class="monster-weak"{% endif %}>{{ g.neutral }}%</td>
+                        {% if my_build_spells_path %}<td><a class="monster-try-build" href="{{ my_build_spells_path }}?target=m{{ monster.id }}.{{ g.grade }}">{{ mt.try_build_label }}</a></td>{% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

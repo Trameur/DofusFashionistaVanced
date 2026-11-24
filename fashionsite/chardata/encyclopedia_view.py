@@ -2919,6 +2919,8 @@ MONSTER_UI = {
         'grade_label': 'Grade',
         'level_label': 'Level',
         'hp_label': 'HP',
+        'try_build_label': 'Try my build against this grade',
+        'my_build_label': 'My build',
         'ap_label': 'AP',
         'mp_label': 'MP',
         'earth_label': 'Earth',
@@ -2975,6 +2977,8 @@ MONSTER_UI = {
         'grade_label': 'Grade',
         'level_label': 'Niveau',
         'hp_label': 'PV',
+        'try_build_label': 'Essayer mon build contre ce grade',
+        'my_build_label': 'Mon build',
         'ap_label': 'PA',
         'mp_label': 'PM',
         'earth_label': 'Terre',
@@ -3031,6 +3035,8 @@ MONSTER_UI = {
         'grade_label': 'Grado',
         'level_label': 'Nivel',
         'hp_label': 'PdV',
+        'try_build_label': 'Probar mi build contra este grado',
+        'my_build_label': 'Mi build',
         'ap_label': 'PA',
         'mp_label': 'PM',
         'earth_label': 'Tierra',
@@ -3087,6 +3093,8 @@ MONSTER_UI = {
         'grade_label': 'Grau',
         'level_label': 'Nível',
         'hp_label': 'PV',
+        'try_build_label': 'Testar minha build contra este grau',
+        'my_build_label': 'Minha build',
         'ap_label': 'PA',
         'mp_label': 'PM',
         'earth_label': 'Terra',
@@ -3143,6 +3151,8 @@ MONSTER_UI = {
         'grade_label': 'Grad',
         'level_label': 'Stufe',
         'hp_label': 'LP',
+        'try_build_label': 'Mein Build gegen diesen Grad testen',
+        'my_build_label': 'Mein Build',
         'ap_label': 'AP',
         'mp_label': 'BP',
         'earth_label': 'Erde',
@@ -3189,6 +3199,18 @@ MONSTER_DROP_FILTERS = ('all', 'resources', 'items', 'both')
 MONSTER_SORTS = ('name', 'level', 'total_drops', 'resource_drops', 'item_drops')
 _monster_index_cache = {}
 _monster_core_cache = {}
+
+
+def _my_newest_build_path(request, game_version):
+    """Spells page of the viewer's most recently modified build of this version, or an empty string."""
+    from chardata.models import Char
+    from chardata.targets import TARGET_VERSIONS
+    user = getattr(request, 'user', None)
+    if game_version not in TARGET_VERSIONS or user is None or not user.is_authenticated:
+        return ''
+    char = (Char.objects.filter(owner=user, game_version=game_version, deleted=False)
+            .order_by('-modified_time', '-pk').first())
+    return version_reverse(request, 'spells', char.pk) if char is not None else ''
 
 
 def _monster_ui_text():
@@ -4213,6 +4235,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             'subareas': subareas,
             'spells': spells,
             'monster_version_links': monster_version_links,
+            'my_build_spells_path': _my_newest_build_path(request, game_version),
         })
 
 
