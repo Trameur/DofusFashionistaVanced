@@ -25,6 +25,7 @@ from fashionistapulp.game_versions import dofus_versions  # noqa: E402
 from store_item_obtainment import (  # noqa: E402
     get_items_db_path, _open_items_db, _save_db_to_dump, _resolve_item_id,
     _table_exists)
+from untranslated_tag import clean_pickled  # noqa: E402
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 
@@ -319,6 +320,7 @@ def store(game_version, tooltips):
             continue
         kept_any = False
         for lang, by_name in by_lang.items():
+            by_name = clean_pickled(by_name)
             # Only spells a line names
             text = '\n'.join(_lines_of(cursor, item_id, lang))
             kept = {name: description for name, description in by_name.items()

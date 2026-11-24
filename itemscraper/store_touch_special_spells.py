@@ -27,6 +27,7 @@ from store_item_obtainment import (  # noqa: E402
     get_items_db_path, _open_items_db, _save_db_to_dump, _resolve_item_id, _table_exists)
 from get_equipments_touch import _top_level_parts  # noqa: E402
 import touch_channels  # noqa: E402
+from untranslated_tag import clean_display_name  # noqa: E402
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 CONFIG_URL = touch_channels.config_url('login')
@@ -101,19 +102,8 @@ def store_spell_rank_conditions(cursor, conditions):
     return stored
 
 
-def main(argv=None):
-    parser = argparse.ArgumentParser(description=__doc__)
-    touch_channels.add_channel_argument(parser)
-    args = parser.parse_args(argv)
-    game_version = touch_channels.game_version(args.channel)
-    raw_dir = touch_channels.raw_dir(args.channel)
-    items = json.loads(open(os.path.join(raw_dir, 'Items_fr.json'), encoding='utf-8').read())
-    data_url = _data_url(args.channel)
-    spells = {lang: _fetch(data_url, 'Spells', lang) for lang in LANGUAGES}
-    effects = {lang: _fetch(data_url, 'Effects', lang) for lang in LANGUAGES}
-    spell_levels = _fetch(data_url, 'SpellLevels', 'fr')
-
-    # item ankama id -> {lang: [formatted lines]}
+def special_spell_lines(items, spells, effects):
+    """{item ankama id: {lang: [lines]}} of the cast-spell and spell-modifier effects."""
     lines_by_item = {}
     for ankama_id, it in items.items():
         if not isinstance(it, dict):
@@ -134,7 +124,23 @@ def main(argv=None):
                 line = template.replace(placeholder, spell)
                 if is_modifier:
                     line = line.replace('#3', str(pe.get('value') or 0))
-                lines_by_item.setdefault(int(ankama_id), {}).setdefault(lang, []).append(line)
+                lines_by_item.setdefault(int(ankama_id), {}).setdefault(lang, []).append(
+                    clean_display_name(line))
+    return lines_by_item
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    touch_channels.add_channel_argument(parser)
+    args = parser.parse_args(argv)
+    game_version = touch_channels.game_version(args.channel)
+    raw_dir = touch_channels.raw_dir(args.channel)
+    items = json.loads(open(os.path.join(raw_dir, 'Items_fr.json'), encoding='utf-8').read())
+    data_url = _data_url(args.channel)
+    spells = {lang: _fetch(data_url, 'Spells', lang) for lang in LANGUAGES}
+    effects = {lang: _fetch(data_url, 'Effects', lang) for lang in LANGUAGES}
+    spell_levels = _fetch(data_url, 'SpellLevels', 'fr')
+    lines_by_item = special_spell_lines(items, spells, effects)
 
     conn = _open_items_db(game_version)
     cursor = conn.cursor()
