@@ -406,7 +406,7 @@ def visible_damage_share(char_class, level, game_version):
     turn cannot cast. A summon that hits has no rows in the data, so the share is unknown.
     """
     from chardata.spell_buffs import get_damage_spells_for_version
-    from chardata.spell_combo import (Castable, _chosen_level, castable_spells, landed_index,
+    from chardata.spell_combo import (BOOSTED_COPIES, Castable, _chosen_level, castable_spells, landed_index,
                                       summon_only_spells)
     from chardata.spell_reference import get_spell_reference
     entries = (get_spell_reference(game_version) or {}).get(char_class)
@@ -423,16 +423,19 @@ def visible_damage_share(char_class, level, game_version):
         """What a cast is worth per AP, as (landing now, waiting).
 
         Both read the best alternative, as best_turn does: the rows that wait for the same trigger are one per element
-        or per stage, so only the best of them lands.
+        or per stage, so only the best of them lands. A boosted copy of the cast's own rows waits for its boost alone.
         """
         cost = castable.cost or 1
         totals = [sum(worth(effect) for effect in alternative)
                   for alternative in castable.plain_alternatives or castable.alternatives or []]
         pick = landed_index(castable, totals)
         best = totals[pick] if pick is not None else 0.0
+        own = max([worth(effect) for alternative in castable.plain_alternatives or castable.alternatives or []
+                   for effect in alternative] or [0.0])
         by_trigger = {}
         for effect, trigger in castable.waiting_plain or []:
-            by_trigger[trigger] = max(by_trigger.get(trigger, 0.0), worth(effect))
+            value = max(0.0, worth(effect) - own) if trigger in BOOSTED_COPIES else worth(effect)
+            by_trigger[trigger] = max(by_trigger.get(trigger, 0.0), value)
         return best / cost, sum(by_trigger.values()) / cost
 
     seen = waiting = 0.0

@@ -6872,6 +6872,24 @@ msgstr "only when an enemy leaves the Bellaura, once per enemy and per turn"
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "only when cast on the caster, and only on the enemies around the caster and the Lance"
 
+msgid "on its cast once 2 earlier casts stack their boost"
+msgstr "on its cast once 2 earlier casts stack their boost"
+
+msgid "on its cast the following turn"
+msgstr "on its cast the following turn"
+
+msgid "on its cast 2 turns later"
+msgstr "on its cast 2 turns later"
+
+msgid "on its cast 3 turns later"
+msgstr "on its cast 3 turns later"
+
+msgid "on its cast 4 turns later"
+msgstr "on its cast 4 turns later"
+
+msgid "only on a target that has Telefrag, then on the spell's next casts for 3 turns"
+msgstr "only on a target that has Telefrag, then on the spell's next casts for 3 turns"
+
 msgid "on its cast 2 turns later, and only if the spell is not cast again on the following turn"
 msgstr "on its cast 2 turns later, and only if the spell is not cast again on the following turn"
 

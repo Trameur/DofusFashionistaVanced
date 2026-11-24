@@ -7642,6 +7642,24 @@ msgstr "apenas quando um inimigo sai da Belaura, uma vez por inimigo e por turno
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "apenas se lançado no lançador, e apenas nos inimigos ao redor do lançador e da Lança"
 
+msgid "on its cast once 2 earlier casts stack their boost"
+msgstr "no seu lançamento quando 2 lançamentos anteriores acumulam seu bônus"
+
+msgid "on its cast the following turn"
+msgstr "no seu lançamento no turno seguinte"
+
+msgid "on its cast 2 turns later"
+msgstr "no seu lançamento 2 turnos depois"
+
+msgid "on its cast 3 turns later"
+msgstr "no seu lançamento 3 turnos depois"
+
+msgid "on its cast 4 turns later"
+msgstr "no seu lançamento 4 turnos depois"
+
+msgid "only on a target that has Telefrag, then on the spell's next casts for 3 turns"
+msgstr "apenas em um alvo que esteja Telefrag, e depois nos lançamentos seguintes do feitiço durante 3 turnos"
+
 msgid "on its cast 2 turns later, and only if the spell is not cast again on the following turn"
 msgstr "no seu lançamento 2 turnos depois, e apenas se o feitiço não for lançado de novo no turno seguinte"
 

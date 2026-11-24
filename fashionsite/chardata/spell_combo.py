@@ -460,6 +460,9 @@ class Castable(object):
         self.cooldown = casting.get('cooldown',
                                     [None] * (level_index + 1))[level_index]
         self.limit = cast_limit(self.per_turn, self.per_target, self.cooldown)
+        growths = casting.get('ap_growth') or []
+        if level_index < len(growths) and growths[level_index]:
+            self.cost_growth = growths[level_index]
         # Filled in by castable_spells from the worn items
         self.modifiers = []
         self.bonus_stats = {}
@@ -541,6 +544,11 @@ def cast_label(castable, cast):
     if labels and getattr(castable, 'recasts', None):
         return labels[min(cast, len(labels) - 1)]
     return getattr(castable, 'scored_group', '')
+
+
+def cast_cost(castable, cast):
+    """AP a cast after `cast` earlier ones of the turn costs."""
+    return castable.cost + getattr(castable, 'cost_growth', 0) * cast
 
 
 def cast_limit(per_turn, per_target, cooldown):
@@ -953,8 +961,13 @@ def _variant_partners(spells, game_version):
     return partners
 
 
-# Must match CAST_TWO_TURNS_LATER in itemscraper/generate_damage_spells.py
-ARMED_BY_ITS_OWN_CAST = frozenset(('cast_two_turns_later',))
+# Must match CAST_TWO_TURNS_LATER and CAST_TURNS_LATER in itemscraper/generate_damage_spells.py
+# and NEXT_TURNS_COPIES in itemscraper/get_spells_touch.py
+ARMED_BY_ITS_OWN_CAST = frozenset(('cast_two_turns_later', 'later_cast_1_turn',
+                                   'later_cast_2_turns', 'later_cast_3_turns',
+                                   'later_cast_4_turns', 'cast_after_two_casts'))
+# Must match ON_A_TELEFRAG_TARGET in itemscraper/generate_damage_spells.py
+BOOSTED_COPIES = ARMED_BY_ITS_OWN_CAST | frozenset(('on_a_telefrag_target',))
 
 
 def conditional_extras(stats, spells, order, crit=False, standing=None,
@@ -1343,10 +1356,12 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
     # Counts past a spell's stack cap and cast limit change nothing: fold them
     caps = tuple(max(spell.stacks or 1, spell.limit or 0, 1,
                      spell.taken.cap() if index in lasting else 0,
-                     len(getattr(spell, 'recasts', None) or ()))
+                     len(getattr(spell, 'recasts', None) or ()),
+                     MAX_CASTS if getattr(spell, 'cost_growth', 0) else 0)
                  for index, spell in enumerate(spells))
     names = tuple(spell.name for spell in spells)
     costs = tuple(spell.cost for spell in spells)
+    growths = tuple(getattr(spell, 'cost_growth', 0) for spell in spells)
     limits = tuple(spell.limit for spell in spells)
     blockers = tuple(partners.get(index, ()) for index in range(len(spells)))
     scoreless = tuple(not spell.alternatives
@@ -1407,6 +1422,9 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 blocked = blockers[index]
                 if blocked and any(counts[other] for other in blocked):
                     continue
+                spent = costs[index] + growths[index] * counts[index]
+                if spent > ap_left:
+                    continue
                 if scoreless[index]:
                     gained = 0.0
                 else:
@@ -1418,7 +1436,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                     after = counts
                 else:
                     after = counts[:index] + (count + 1,) + counts[index + 1:]
-                total, order = search(ap_left - costs[index], after, depth + 1,
+                total, order = search(ap_left - spent, after, depth + 1,
                                       pending_after(index, pending))
                 total += gained
                 if total > outcome[0]:
@@ -1522,6 +1540,9 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             blocked = blockers[index]
             if blocked and any(counts[other] for other in blocked):
                 continue
+            spent = costs[index] + growths[index] * counts[index]
+            if spent > ap_left:
+                continue
             if scoreless[index]:
                 gained = 0.0
             else:
@@ -1534,7 +1555,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                     raise _Unbounded()
                 if index in grown:
                     gained = gain_of(index, counts, pending, signature_of(counts, pending))
-            left = ap_left - costs[index]
+            left = ap_left - spent
             options.append(((gained + ceiling[left]) * CEILING_MARGIN, index, gained, left))
         options.sort(key=itemgetter(0), reverse=True)
         top = 0.0

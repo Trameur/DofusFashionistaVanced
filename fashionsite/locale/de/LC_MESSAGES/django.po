@@ -7726,6 +7726,24 @@ msgstr "nur wenn ein Gegner die Bellaura verlässt, einmal pro Gegner und Runde"
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "nur wenn der Zauber auf den Zaubernden gewirkt wird, und nur bei den Gegnern um den Zaubernden und den Wurfspeer herum"
 
+msgid "on its cast once 2 earlier casts stack their boost"
+msgstr "beim Wirken, sobald sich der Bonus von 2 früheren Einsätzen stapelt"
+
+msgid "on its cast the following turn"
+msgstr "beim Wirken in der nächsten Runde"
+
+msgid "on its cast 2 turns later"
+msgstr "beim Wirken 2 Runden später"
+
+msgid "on its cast 3 turns later"
+msgstr "beim Wirken 3 Runden später"
+
+msgid "on its cast 4 turns later"
+msgstr "beim Wirken 4 Runden später"
+
+msgid "only on a target that has Telefrag, then on the spell's next casts for 3 turns"
+msgstr "nur bei einem Ziel im Zustand Telefrag, danach beim weiteren Wirken des Zaubers für 3 Runden"
+
 msgid "on its cast 2 turns later, and only if the spell is not cast again on the following turn"
 msgstr "beim Wirken 2 Runden später, und nur wenn der Zauber in der nächsten Runde nicht erneut gewirkt wird"
 

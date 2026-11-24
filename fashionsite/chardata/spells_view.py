@@ -461,7 +461,7 @@ def _weapon_castable(solution):
 def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                 pushback=False, note_without_buffs=True):
     """Best cast order for one turn, or None when there is nothing to say."""
-    from chardata.spell_combo import (best_turn, buffs_in_force,
+    from chardata.spell_combo import (best_turn, buffs_in_force, cast_cost,
                                       castable_spells, combat_ap,
                                       conditional_extras, damage_taken_by_cast,
                                       delayed_damage, delayed_moments,
@@ -525,7 +525,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                                              castable.weapon.name))
         casts.append({'name': shown_name,
                       'image_url': image_url,
-                      'ap': castable.cost,
+                      'ap': cast_cost(castable, earlier.get(name, 0)),
                       'damage': shown - before,
                       'running': shown,
                       'note': _cast_note(castable, name, later,
@@ -604,6 +604,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
 
 def _limit_notes(spells, order, times_cast, ap):
     """{cast index: (mark, sentence)} where a spell's limit cut the turn."""
+    from chardata.spell_combo import cast_cost
     par_nom = {}
     for castable in spells:
         nom = (castable.spell.name if getattr(castable, 'is_spell', False)
@@ -622,7 +623,7 @@ def _limit_notes(spells, order, times_cast, ap):
         combien = times_cast.get(nom, 0)
         if not limite or not cout or combien < limite:
             continue
-        if (combien + 1) * cout > ap:
+        if sum(cast_cost(castable, cast) for cast in range(combien + 1)) > ap:
             # Out of AP anyway
             continue
         notes[index] = ('%d/%d' % (combien, limite), str(_LIMIT_NOTE))
@@ -1341,6 +1342,15 @@ _CONDITIONAL_LABELS = {
     'cast_two_turns_later':
         _lazy("on its cast 2 turns later, and only if the spell is not cast "
               "again on the following turn"),
+    'later_cast_1_turn': _lazy("on its cast the following turn"),
+    'later_cast_2_turns': _lazy("on its cast 2 turns later"),
+    'later_cast_3_turns': _lazy("on its cast 3 turns later"),
+    'later_cast_4_turns': _lazy("on its cast 4 turns later"),
+    'cast_after_two_casts':
+        _lazy("on its cast once 2 earlier casts stack their boost"),
+    'on_a_telefrag_target':
+        _lazy("only on a target that has Telefrag, then on the spell's next "
+              "casts for 3 turns"),
     'trap': _lazy("only when an enemy sets off the trap"),
     'bomb': _lazy("only when the bomb explodes"),
     'glyph': _lazy("only when an enemy goes through the glyph"),
