@@ -190,6 +190,7 @@ def inputs_fingerprint(game_version, char_class, level=TOP_LEVEL, gear=None):
             + ([[spell.taken.percent, spell.taken.critical, spell.taken.stacks,
                  spell.taken.ends_on_hit]] if spell.taken is not None else [])
             + ([['recasts', spell.recasts]] if getattr(spell, 'recasts', None) else [])
+            + ([['cost_growth', spell.cost_growth]] if getattr(spell, 'cost_growth', 0) else [])
             for spell in spells]
     reads = []
     for element in ELEMENT_DAMAGE:

@@ -112,9 +112,9 @@ class TheNoteSaysItOnlyWhenThereIsSomethingToSayTests(SimpleTestCase):
 
 
 class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
-    # Touch and Retro groups are all element choices, left unnamed
+    # Touch and Retro groups are element choices, left unnamed, but Touch's one cast ladder
     NAMED_BY_VERSION = {'dofus3': 34, 'beta': 34, 'dofus2': 20,
-                        'touch': 0, 'retro': 0}
+                        'touch': 1, 'retro': 0}
 
     @staticmethod
     def _named():
@@ -140,12 +140,13 @@ class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
                                 dict(per_version))
         self.assertIn('Stack N', shapes, dict(shapes))
 
-    def test_touch_and_retro_have_no_ladder_to_name(self):
-        """Stacks are a modern Dofus mechanic, Touch and Retro have none."""
+    def test_touch_names_only_its_one_cast_ladder_and_retro_none(self):
+        """Touch's one ladder is a spell growing with each cast of the turn; Retro has none."""
         per_version, _shapes = self._named()
         for game_version in ('touch', 'retro'):
             with self.subTest(game_version=game_version):
-                self.assertEqual(0, per_version.get(game_version, 0))
+                self.assertEqual(self.NAMED_BY_VERSION[game_version],
+                                 per_version.get(game_version, 0))
         groups = []
         for game_version in ('touch', 'retro'):
             for char_class in get_damage_spells_for_version(game_version):
@@ -155,8 +156,12 @@ class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
                     if aggregates and len(aggregates) > 1:
                         groups.append((game_version, castable.name,
                                        aggregates[0][0]))
-        self.assertEqual(7, len(groups), groups)
+        self.assertEqual(8, len(groups), groups)
+        ladders = [group for group in groups if group[2] == 'Stack 0']
+        self.assertEqual([('touch', 'Fl\u00e8che Harcelante', 'Stack 0')], ladders)
         for _version, _name, first_label in groups:
+            if first_label == 'Stack 0':
+                continue
             with self.subTest(label=first_label):
                 self.assertIn('element', first_label.lower())
 

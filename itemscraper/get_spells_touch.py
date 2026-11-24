@@ -495,11 +495,203 @@ def emit_aggregates(best_element, elements, spell=None):
             for index in range(len(elements))]
 
 
+# Rows acting on the spell's own later casts: 293 raises its base damage, 2985 its AP cost, by value
+OWN_DAMAGE_BOOST = 293
+OWN_AP_COST_BOOST = 2985
+
+# Spells whose damage grows with each cast of the turn, with the fragment that says so
+DAMAGE_GROWS_EACH_CAST = {
+    12439: 'qui augmentent pour chaque lancer durant le m\u00eame tour',   # Cra, Fleche Harcelante
+}
+
+# Spells whose AP cost grows with each cast of the turn, with the fragment that says so
+AP_COST_GROWS_EACH_CAST = {
+    12439: 'le co\u00fbt en PA du sort augmente \u00e0 chaque lancer',   # Cra, Fleche Harcelante
+}
+
+# Spells whose cast boosts their casts of the next turns through a spell it casts, with the fragment
+BOOSTS_ITS_NEXT_TURNS = {
+    8119: 'augment\u00e9s apr\u00e8s chaque lancer (cumul maximum de 2)',   # Iop, Colere de Iop
+}
+
+# (delay, duration, max stack) of that boost: it waits a turn, lasts 3 and stacks twice
+NEXT_TURNS_BOOST = (1, 3, 2)
+
+# What the copy raised by one, then two, stacked boosts waits for; the site reads these
+NEXT_TURNS_COPIES = ('later_cast_1_turn', 'cast_after_two_casts')
+
+
+def _own_rows(rows, effect_id, spell_id):
+    """Indices of the rows acting on the spell itself, the tooltip's own copies left out."""
+    return [index for index, row in enumerate(rows or [])
+            if row.get('effectId') == effect_id and row.get('diceNum') == spell_id
+            and not row.get('isPreview')]
+
+
+def _for_the_turn(row):
+    """A row the cast puts on its caster until the turn ends."""
+    value = row.get('value')
+    return (row.get('targetMask') == 'C' and row.get('triggers') == 'I' and not row.get('delay')
+            and row.get('duration') == 1 and not row.get('random')
+            and isinstance(value, int) and value > 0)
+
+
+def _recast_this_turn(ranks):
+    return any(rank.get('maxCastPerTurn') != 1 and rank.get('maxCastPerTarget') != 1
+               for rank in ranks)
+
+
+def _step_per_cast(spell, ranks, effect_id, listed, after_the_hit=False):
+    """Each rank's step a cast adds to the spell's next casts of the turn, None for an unlisted spell."""
+    spell_id = spell.get('id')
+    quote = listed.get(spell_id)
+    if quote is None:
+        for rank in ranks:
+            for key in ('effects', 'criticalEffect'):
+                rows = rank.get(key) or []
+                for index in _own_rows(rows, effect_id, spell_id):
+                    if (not rows[index].get('delay') and rows[index].get('duration')
+                            and _recast_this_turn(ranks)):
+                        raise SystemExit(
+                            'touch spell %s: its effect %s rows raise its next casts of the '
+                            'turn and no rule reads them yet' % (spell_id, effect_id))
+        return None
+    if quote.lower() not in _description_of(spell).lower():
+        raise SystemExit('touch spell %s no longer says %r; its casts of the turn were made '
+                         'to grow on that sentence' % (spell_id, quote))
+    steps = []
+    for rank in ranks:
+        values = set()
+        casts = int(rank.get('maxCastPerTurn') or 0)
+        cap = int(rank.get('maxStack') or 0)
+        for key in ('effects', 'criticalEffect'):
+            rows = rank.get(key) or []
+            own = _own_rows(rows, effect_id, spell_id)
+            hits = [index for index, row in enumerate(rows)
+                    if row.get('effectId') in DAMAGE_EFFECTS]
+            if (len(own) != 1 or not _for_the_turn(rows[own[0]]) or casts < 2
+                    or 0 < cap < casts - 1
+                    or (after_the_hit and (not hits or own[0] < max(hits)))):
+                values.add(None)
+            else:
+                values.add(rows[own[0]]['value'])
+        steps.append(values.pop() if len(values) == 1 else None)
+    if not steps or None in steps:
+        raise SystemExit('touch spell %s: its rows no longer raise each of its next casts of '
+                         'the turn by one step' % spell_id)
+    return steps
+
+
+def _raised_ranges(ranges, steps, times):
+    """Each rank's 'min-max' raised by `times` of its step."""
+    out = []
+    for literal, step in zip(ranges, steps):
+        low, high = (int(part) for part in literal.split('-'))
+        out.append('%d-%d' % (low + times * step, high + times * step))
+    return out
+
+
+def _one_plain_row(entry):
+    return (len(entry['elements']) == 1 and not entry['aggregates']
+            and not entry['conditional'] and not entry['delayed']
+            and entry['delayed_crit'] is None
+            and '0-0' not in entry['non_crit_ranges'][0] + entry['crit_ranges'][0])
+
+
+def _turn_ladder(entry, steps, ranks):
+    """The entry with one Stack group per cast of the turn, each raised by one more step."""
+    casts = {int(rank.get('maxCastPerTurn') or 0) for rank in ranks}
+    if not _one_plain_row(entry) or len(casts) != 1:
+        raise SystemExit('touch spell %s: its casts of the turn grow on a hit that is not '
+                         'its one row' % entry['id'])
+    count = casts.pop()
+    return dict(entry,
+                elements=[entry['elements'][0]] * count,
+                non_crit_ranges=[_raised_ranges(entry['non_crit_ranges'][0], steps, stack)
+                                 for stack in range(count)],
+                crit_ranges=[_raised_ranges(entry['crit_ranges'][0], steps, stack)
+                             for stack in range(count)],
+                aggregates=[('Stack %d' % stack, [stack]) for stack in range(count)],
+                stacks_on_recast=True)
+
+
+def _next_turns_boost(spell, ranks, spells, spell_levels):
+    """Each rank's boost a cast leaves on the spell's casts of its next turns, None for an unlisted spell."""
+    spell_id = spell.get('id')
+    quote = BOOSTS_ITS_NEXT_TURNS.get(spell_id)
+    if quote is None:
+        return None
+    if quote.lower() not in _description_of(spell).lower():
+        raise SystemExit('touch spell %s no longer says %r; its casts of the next turns were '
+                         'boosted on that sentence' % (spell_id, quote))
+    boosts = []
+    for rank in ranks:
+        values = set() if rank.get('maxCastPerTurn') == 1 else {None}
+        for key in ('effects', 'criticalEffect'):
+            rows = rank.get(key) or []
+            cast = [row for row in rows if row.get('effectId') in CASTS_A_SPELL]
+            child = ((spells or {}).get(str(cast[0].get('diceNum')))
+                     if len(cast) == 1 and not cast[0].get('delay')
+                     and cast[0].get('triggers') == 'I' else None)
+            level = (child_rank(child, int(cast[0].get('diceSide') or 0), spell_levels)
+                     if child else {})
+            boost = level.get('effects') or []
+            if (_own_rows(rows, OWN_DAMAGE_BOOST, spell_id) or level.get('criticalEffect')
+                    or len(boost) != 1 or boost[0].get('effectId') != OWN_DAMAGE_BOOST
+                    or boost[0].get('diceNum') != spell_id or boost[0].get('isPreview')
+                    or boost[0].get('targetMask') != 'C' or boost[0].get('triggers') != 'I'
+                    or boost[0].get('random') or not isinstance(boost[0].get('value'), int)
+                    or boost[0]['value'] <= 0
+                    or (boost[0].get('delay'), boost[0].get('duration'),
+                        level.get('maxStack')) != NEXT_TURNS_BOOST):
+                values.add(None)
+            else:
+                values.add(boost[0]['value'])
+        boosts.append(values.pop() if len(values) == 1 else None)
+    if not boosts or None in boosts:
+        raise SystemExit('touch spell %s: its rows no longer leave one boost of its casts on '
+                         'its next turns' % spell_id)
+    return boosts
+
+
+def _next_turns_copies(entry, boosts):
+    """The entry with one held copy of its hit per stacked boost, each waiting for its later cast."""
+    if not _one_plain_row(entry):
+        raise SystemExit('touch spell %s: its boosted later casts raise a hit that is not '
+                         'its one row' % entry['id'])
+    elements = list(entry['elements'])
+    non_crit, crit = list(entry['non_crit_ranges']), list(entry['crit_ranges'])
+    conditional = {}
+    for times, trigger in enumerate(NEXT_TURNS_COPIES, 1):
+        elements.append(entry['elements'][0])
+        non_crit.append(_raised_ranges(entry['non_crit_ranges'][0], boosts, times))
+        crit.append(_raised_ranges(entry['crit_ranges'][0], boosts, times))
+        conditional[len(elements) - 1] = trigger
+    return dict(entry, elements=elements, non_crit_ranges=non_crit, crit_ranges=crit,
+                conditional=conditional)
+
+
+def grown_by_its_casts(spell, ranks, entry, spells=None, spell_levels=None):
+    """The entry once the boosts its casts leave on its next casts are read."""
+    damage_steps = _step_per_cast(spell, ranks, OWN_DAMAGE_BOOST, DAMAGE_GROWS_EACH_CAST,
+                                  after_the_hit=True)
+    ap_steps = _step_per_cast(spell, ranks, OWN_AP_COST_BOOST, AP_COST_GROWS_EACH_CAST)
+    boosts = _next_turns_boost(spell, ranks, spells, spell_levels or {})
+    if damage_steps:
+        entry = _turn_ladder(entry, damage_steps, ranks)
+    if ap_steps:
+        entry = dict(entry, casting=dict(entry['casting'] or {}, ap_growth=ap_steps))
+    if boosts:
+        entry = _next_turns_copies(entry, boosts)
+    return entry
+
+
 def decode_spell(spell, spell_levels, spells=None, bombs=None):
     """Touch spell -> damage-spell dict (buff-only spells kept), or None if no row."""
     per_nc, per_cr, levels_req, elements, stacks = [], [], [], [], []
     ally_nc, ally_cr = [], []
     casting_levels = []
+    ranks = []
     best_element = False
     # {(effect id, child id): {rank index: grade}} of the things the spell places
     placements, gated = {}, set()
@@ -509,6 +701,7 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
         lv = spell_levels.get(str(lid))
         if not lv:
             continue
+        ranks.append(lv)
         best_element = best_element or _says_best_element(lv)
         for effect in lv.get('effects') or []:
             child = placed_child(effect, spells, bombs)
@@ -620,7 +813,7 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
                 delayed[index] = block['when']
                 if delayed_crit is not None:
                     delayed_crit[index] = block['when']
-    return {
+    entry = {
         'id': spell['id'],
         'name': spell.get('nameId') or '',
         'levels_req': levels_req,
@@ -638,6 +831,7 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
         'delayed': delayed or None,
         'delayed_crit': delayed_crit,
     }
+    return grown_by_its_casts(spell, ranks, entry, spells, spell_levels)
 
 
 # "x#1% damage sustained" on the fighters the row targets
@@ -885,6 +1079,8 @@ def emit_module(by_class, spell_names, path, taken_by_class=None):
             if s.get('delayed_crit') is not None:
                 tail.append("delayed_crit=%r"
                             % (dict(sorted(s['delayed_crit'].items())),))
+            if s.get('stacks_on_recast'):
+                tail.append("stacks_on_recast=True")
             lines.append("        )%s)," % (", " + ", ".join(tail) if tail else ""))
         lines.append("    ],")
     lines.append("    'default': [],")
