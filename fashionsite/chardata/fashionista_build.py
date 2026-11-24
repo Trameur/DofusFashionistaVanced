@@ -10,6 +10,7 @@ import urllib.parse
 from django.utils import translation
 from django.utils.translation import gettext_lazy
 
+from chardata import readable_versions
 from chardata.build_import import _can_be_worn_twice
 from chardata.dofusbook_import import ImportError_, MAX_POINTS
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES,
@@ -61,7 +62,7 @@ ERRORS = (
     ('not_an_object', gettext_lazy('This build must be a JSON object.')),
     ('wrong_format', gettext_lazy('The format field must say fashionista-build.')),
     ('unsupported_version', gettext_lazy('Only version 1 of the format can be read.')),
-    ('unknown_game', gettext_lazy('The game field must be dofus3, beta, dofus2, touch or retro.')),
+    ('unknown_game', gettext_lazy('The game field must be %(games)s.')),
     ('bad_items', gettext_lazy('The items field must be a list of Ankama ids, or of objects with an id.')),
     ('too_many_items', gettext_lazy('Too many items for one build.')),
     ('bad_stats', gettext_lazy('The stats of an item must be a list of lines, each with a key and a whole number.')),
@@ -117,6 +118,8 @@ class FormatError(ImportError_):
 
 def message(code, details=None):
     text = str(_MESSAGES.get(code, code))
+    if code == 'unknown_game':
+        return text % {'games': readable_versions.join_names(list(version_keys()), conjunction='or')}
     if code in _MESSAGES_WITH_DETAILS and details:
         text = text % details
     return text

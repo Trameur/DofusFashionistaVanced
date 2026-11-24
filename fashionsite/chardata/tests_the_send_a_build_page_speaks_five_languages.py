@@ -8,6 +8,7 @@ import unittest
 
 from django.core.cache import cache
 from django.test import TestCase
+from django.utils import translation
 
 from chardata import fashionista_build
 from chardata.management.commands import check_pages
@@ -109,6 +110,16 @@ class ThePageSpeaksEveryLanguageTests(TestCase):
         for code, _text in fashionista_build.ERRORS + fashionista_build.WARNINGS:
             self.assertContains(page, '<code>%s</code>' % code)
         self.assertContains(page, 'Keiner dieser Gegenstände ist in unserem Katalog für dieses Spiel.')
+
+    def test_the_game_field_error_is_filled_with_the_readable_versions_in_every_language(self):
+        for language in TITLES:
+            with self.subTest(language=language):
+                page = self.client.get('%s%s' % ('' if language == 'en' else '/' + language, PATH)).content.decode('utf-8')
+                self.assertNotIn('%(games)s', page)
+                with translation.override(language):
+                    filled = fashionista_build.message('unknown_game')
+                self.assertIn(html.escape(filled).replace('&#x27;', '&#39;'),
+                              page.replace('&#x27;', '&#39;'))
 
     def test_every_block_that_scrolls_sideways_takes_the_focus_and_is_named(self):
         page = _read(self.client.get('/de%s' % PATH))

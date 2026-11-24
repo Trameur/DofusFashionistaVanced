@@ -67,8 +67,8 @@ class TheCanonicalFollowsWhatThePageSaysTests(SimpleTestCase):
 
     def test_the_lock_and_dodge_and_trophy_pages(self):
         from chardata.guides_content import canonical_versions, guide_canonical_version
-        self.assertEqual(['dofus3', 'beta', 'dofus2', 'touch', 'retro'],
-                         canonical_versions('lock-and-dodge'))
+        from fashionistapulp.game_versions import version_keys
+        self.assertEqual(version_keys(), canonical_versions('lock-and-dodge'))
         self.assertEqual('beta', guide_canonical_version('lock-and-dodge', 'beta'))
         self.assertEqual(['dofus3', 'dofus2', 'touch'],
                          canonical_versions('dofus-and-trophies'))

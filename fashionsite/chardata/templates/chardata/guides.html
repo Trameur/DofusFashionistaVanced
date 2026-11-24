@@ -1,12 +1,13 @@
 {% extends 'chardata/base.html' %}
 {% load i18n %}
+{% load readable_version_tags %}
 {% load ads %}
 {% load static_s3 %}
 {% load version_url %}
 
 {% block title %}{% trans "Dofus build guides & tips" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {# Version prefix like the other page families, so each version gets its own description #}
-{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Plain-language guides to building characters in Dofus: how to make your first set, how the optimizer works, what every stat is worth, and the differences between Dofus 3, Beta, Dofus 2, Retro and Touch." %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% readable_version_names short=True native=True as version_names %}{% blocktrans %}Plain-language guides to building characters in Dofus: how to make your first set, how the optimizer works, what every stat is worth, and the differences between {{ version_names }}.{% endblocktrans %}{% endblock %}
 {# game_url, not url: the list is filtered by game version, so /beta/guides/ is its own page. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 {% block og_url %}<meta property="og:url" content="{{ canonical_url }}">{% endblock %}

@@ -2087,8 +2087,9 @@ msgid "More settings"
 msgstr "Plus de réglages"
 
 #: .\chardata\templates\chardata\home.html:242
-msgid "Free, for Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch. No account needed to try."
-msgstr "Gratuit, pour Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro et Dofus Touch. Pas besoin de compte pour essayer."
+#, python-format
+msgid "Free, for %(version_names)s. No account needed to try."
+msgstr "Gratuit, pour %(version_names)s. Pas besoin de compte pour essayer."
 
 #: .\chardata\templates\chardata\base.html:139
 #: .\chardata\templates\chardata\base.html:181
@@ -3820,13 +3821,9 @@ msgid "Which Dofus version should I choose?"
 msgstr "Quelle version de Dofus choisir ?"
 
 #: .\chardata\templates\chardata\faq.html:31
-msgid ""
-"Pick the one you play from the buttons at the top: Dofus 3, Beta, Dofus 2, "
-"Touch or Retro. Each is a different game with its own items and rules."
-msgstr ""
-"Choisis celle à laquelle tu joues avec les boutons en haut : Dofus 3, Beta, "
-"Dofus 2, Touch ou Retro. Chacune est un jeu différent avec ses propres items "
-"et règles."
+#, python-format
+msgid "Pick the one you play from the buttons at the top: %(version_names)s. Each is a different game with its own items and rules."
+msgstr "Choisis celle à laquelle tu joues avec les boutons en haut : %(version_names)s. Chacune est un jeu différent avec ses propres items et règles."
 
 #: .\chardata\templates\chardata\faq.html:33
 msgid "I am new here. Where do I start?"
@@ -4056,14 +4053,9 @@ msgid "Dofus build guides & tips"
 msgstr "Guides & astuces de build Dofus"
 
 #: .\chardata\templates\chardata\guides.html:7
-msgid ""
-"Plain-language guides to building characters in Dofus: how to make your "
-"first set, how the optimizer works, what every stat is worth, and the "
-"differences between Dofus 3, Beta, Dofus 2, Retro and Touch."
-msgstr ""
-"Des guides clairs pour monter ses persos sur Dofus : faire son premier "
-"stuff, comprendre l'optimiseur, savoir ce que vaut chaque carac, et les "
-"différences entre Dofus 3, Bêta, Dofus 2, Retro et Touch."
+#, python-format
+msgid "Plain-language guides to building characters in Dofus: how to make your first set, how the optimizer works, what every stat is worth, and the differences between %(version_names)s."
+msgstr "Des guides clairs pour monter ses persos sur Dofus : faire son premier stuff, comprendre l'optimiseur, savoir ce que vaut chaque carac, et les différences entre %(version_names)s."
 
 #: .\chardata\templates\chardata\guides.html:34
 msgid ""
@@ -4177,14 +4169,9 @@ msgstr ""
 "Obtiens un stuff optimisé, puis ajuste-le, sauvegarde-le et partage-le."
 
 #: .\chardata\templates\chardata\home.html:166
-msgid ""
-"It covers five versions of the game (Dofus 3, Dofus 3 Beta, Dofus 2, Dofus "
-"Retro and Dofus Touch), each with its own item data, and it's kept up to "
-"date with the latest patch."
-msgstr ""
-"Elle couvre cinq versions du jeu (Dofus 3, Dofus 3 Bêta, Dofus 2, Dofus "
-"Retro et Dofus Touch), chacune avec ses propres données d'items, et elle est "
-"tenue à jour avec le dernier patch."
+#, python-format
+msgid "It covers %(count_word)s versions of the game (%(names)s), each with its own item data, and it's kept up to date with the latest patch."
+msgstr "Elle couvre %(count_word)s versions du jeu (%(names)s), chacune avec ses propres données d'items, et elle est tenue à jour avec le dernier patch."
 
 #: .\chardata\templates\chardata\home.html:167
 msgid "Brand new to it?"
@@ -8816,8 +8803,9 @@ msgid "Tell Dofus Fashionista your class, your level and what you want: damage, 
 msgstr "Donne à Dofus Fashionista ta classe, ton niveau et ce que tu cherches : dégâts, PA et PM, résistances. Un solveur mathématique passe en revue chaque objet autorisé et monte le meilleur stuff qu'il peut trouver, en général en quelques secondes. Le stuff est calculé, pas inventé par une IA."
 
 #: chardata/templates/chardata/home.html
-msgid "Then make it yours: swap items by hand, test your spell damage, compare builds side by side, save your characters and share your builds. Free, for Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch."
-msgstr "Ensuite, personnalise-le : change des objets à la main, teste tes dégâts de sorts, compare des builds côte à côte, sauvegarde tes personnages et partage tes builds. Gratuit, pour Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro et Dofus Touch."
+#, python-format
+msgid "Then make it yours: swap items by hand, test your spell damage, compare builds side by side, save your characters and share your builds. Free, for %(version_names)s."
+msgstr "Ensuite, personnalise-le : change des objets à la main, teste tes dégâts de sorts, compare des builds côte à côte, sauvegarde tes personnages et partage tes builds. Gratuit, pour %(version_names)s."
 
 #: chardata/templates/chardata/home.html
 msgid "Looking for ideas?"
@@ -8905,8 +8893,9 @@ msgid "Only version 1 of the format can be read."
 msgstr "Seule la version 1 du format peut être lue."
 
 #: chardata/fashionista_build.py
-msgid "The game field must be dofus3, beta, dofus2, touch or retro."
-msgstr "Le champ game doit valoir dofus3, beta, dofus2, touch ou retro."
+#, python-format
+msgid "The game field must be %(games)s."
+msgstr "Le champ game doit valoir %(games)s."
 
 #: chardata/fashionista_build.py
 msgid "The items field must be a list of Ankama ids, or of objects with an id."

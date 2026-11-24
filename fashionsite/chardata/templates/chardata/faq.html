@@ -2,6 +2,7 @@
 
 {% load static_s3 %}
 {% load i18n %}
+{% load readable_version_tags %}
 {% load version_url %}
 
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Frequently Asked Questions" %}{% endblock %}
@@ -32,7 +33,7 @@
 {% trans "No. Your set is computed by a mathematical solver, not written by a language model: your priorities become equations and the solver searches every item you have not excluded for the best combination it can find. The code is open source, so you can check for yourself, and the only bot commits in its history are dependency updates. One optional feature does use character recognition: if you import your inventory from a screenshot, a text reader runs in your browser to pick out item names and stats, and you can edit every value before it is used. It never chooses an item." %}</p>
 
     <p class='big-text'><b>{% trans "Which Dofus version should I choose?" %}</b><br>
-{% trans "Pick the one you play from the buttons at the top: Dofus 3, Beta, Dofus 2, Touch or Retro. Each is a different game with its own items and rules." %}</p>
+{% readable_version_names short=True conjunction='or' as version_names %}{% blocktrans %}Pick the one you play from the buttons at the top: {{ version_names }}. Each is a different game with its own items and rules.{% endblocktrans %}</p>
 
     <p class='big-text'><b>{% trans "I am new here. Where do I start?" %}</b><br>
 {% game_url 'quickstart' as qs_url %}{% guide_url 'getting-started' as gs_url %}{% blocktrans %}The <a href="{{ qs_url }}">Quick Start</a> builds a full set from three quick questions. For a step by step walkthrough, read the <a href="{{ gs_url }}">getting started guide</a>.{% endblocktrans %}</p>

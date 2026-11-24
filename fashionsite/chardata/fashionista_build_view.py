@@ -180,7 +180,7 @@ def send_a_build(request):
         'answer_example': json.dumps(answer, indent=2, ensure_ascii=False),
         'import_path': _import_url(page_version),
         'games': list(version_keys()),
-        'errors': [(code, str(text)) for code, text in fashionista_build.ERRORS],
+        'errors': [(code, fashionista_build.message(code)) for code, _text in fashionista_build.ERRORS],
         'warnings': fashionista_build.documented_warnings(),
         'stat_keys': _stat_keys(page_version),
         'classes': _classes(),

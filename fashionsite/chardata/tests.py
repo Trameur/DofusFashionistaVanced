@@ -1401,12 +1401,13 @@ console.log(JSON.stringify({
 
     def test_encyclopedia_set_page_links_to_other_versions(self):
         from chardata.encyclopedia_view import _other_versions_with_set
+        from fashionistapulp.game_versions import prefixed_reader_versions
         # The Gobball Set (id 1) exists in every version
         links = _other_versions_with_set('dofus3', 1, 'en')
         self.assertTrue(links, 'expected cross-version links for a shared set')
         for entry in links:
             self.assertRegex(entry['url'],
-                             r'^/(retro|touch|beta|dofus2)/encyclopedia/set/1-')
+                             r'^/(%s)/encyclopedia/set/1-' % '|'.join(prefixed_reader_versions()))
             self.assertGreater(entry['item_count'], 0)
         resp = self.client.get('/encyclopedia/set/1-gobball-set/',
                                HTTP_ACCEPT_LANGUAGE='en')
@@ -12999,7 +13000,7 @@ class GuideMetaDescriptionLengthTests(SimpleTestCase):
         from chardata import guides_content
         offenders = []
         for slug, variant, language, fields in guides_content.iter_content_blocks():
-            desc = fields.get('desc', '')
+            desc = guides_content._fill_readable_versions(fields.get('desc', ''), language)
             if len(desc) > self.MAX_DESC:
                 offenders.append('%s/%s/%s (%d)' % (slug, variant, language, len(desc)))
         self.assertEqual(
@@ -13133,22 +13134,24 @@ class AnonymousProjectPerVersionTests(TestCase):
         resp = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='en')
         self.assertContains(resp, 'You already have a build on Dofus 3')
         self.assertContains(resp, 'You can still start one on another version')
+        from fashionistapulp.game_versions import prefixed_reader_versions
         # The header selector links every version too
         body = resp.content.decode('utf-8')
         block = body.split('class="free-versions"')[1].split('</span>')[0]
-        for url in ('/retro/setup/', '/touch/setup/', '/beta/setup/',
-                    '/dofus2/setup/'):
+        for url in ['/%s/setup/' % key for key in prefixed_reader_versions()]:
             with self.subTest(url=url):
                 self.assertIn(url, block)
         self.assertNotIn('href="/setup/"', block)
 
     def test_the_free_version_list_shrinks_as_versions_are_taken(self):
         from chardata.create_project_view import _free_versions_for_anon
+        from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
         self._create('', 'anon-dofus3')
         self._create('/retro', 'anon-retro')
         request = self.client.get('/').wsgi_request
         free = [entry['label'] for entry in _free_versions_for_anon(request)]
-        self.assertEqual(free, ['Beta', 'Dofus 2', 'Touch'])
+        self.assertEqual(free, [GAME_VERSIONS[key].label for key in version_keys()
+                                if key not in ('dofus3', 'retro')])
 
     def test_a_signed_in_user_gets_no_free_version_list(self):
         from django.contrib.auth.models import User

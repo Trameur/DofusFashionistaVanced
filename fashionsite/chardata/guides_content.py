@@ -15,8 +15,10 @@ import sqlite3
 import weakref
 from itertools import zip_longest
 
-from fashionistapulp.game_versions import GAME_VERSIONS, get_game_version, main_game, version_keys
+from fashionistapulp.game_versions import (DEFAULT_VERSION, GAME_VERSIONS, get_game_version, main_game,
+                                           main_of, version_keys)
 
+from chardata import readable_versions
 from chardata.guides_slugs import GUIDE_SLUGS
 
 logger = logging.getLogger(__name__)
@@ -1079,7 +1081,7 @@ GUIDES = {
 <p>Set bonuses scale with the number of pieces you wear: two items give a small bonus, and it grows at three, four, five and beyond, usually jumping hard on the last piece or two. The catch is the tradeoff. Every slot you commit to a set is a slot you cannot fill with a better standalone item. A full set can be amazing, or it can force weak pieces just to reach the top bonus. The sweet spot is often a <strong>partial set</strong>: enough pieces for a meaningful bonus, the rest of your slots free for best-in-slot gear.</p>
 
 <h2>Every version has its own sets</h2>
-<p>Sets and their bonuses are not the same across Dofus versions. Dofus 3, the beta, Dofus 2, Touch and Retro each have their own sets, their own piece counts and their own bonus values, because each is effectively its own game. The Fashionista loads the correct set data for the version you picked, so a Retro build is judged on Retro sets, not modern ones.</p>
+<p>Sets and their bonuses are not the same across Dofus versions. [[versions:sets]] each have their own sets, their own piece counts and their own bonus values, because each is effectively its own game. The Fashionista loads the correct set data for the version you picked, so a Retro build is judged on Retro sets, not modern ones.</p>
 
 <h2>A few sets take instead of giving</h2>
 <p>Not every set bonus is a bonus. A handful of them <strong>cap a stat</strong> rather than raise it, and the ceiling drops the more pieces you wear. Cire Momore's Curse is the famous one: two pieces hold you to 4 MP, 4 range and 4 summons, and the full six take that down to <strong>2 MP</strong>, below the 3 you start the game with. In exchange it hands you enormous power, initiative and resistance. That is a deliberate trade, not a bug, and it is why you sometimes meet a heavily geared character crawling across the map. Retro and Touch have no set like it: the capping sets live in Dofus 3, the beta and Dofus 2, and even between those the exact ceilings differ. The optimizer applies the cap, so if you lock those pieces in you will see the reduced MP in your result instead of a number the game would never hand you.</p>
@@ -1102,7 +1104,7 @@ GUIDES = {
 <p>Le bonus de panoplie grandit avec le nombre de pièces portées : deux items donnent un petit bonus, et il monte à trois, quatre, cinq et au-delà, avec souvent un gros saut sur la ou les dernières pièces. Le piège, c'est le compromis. Chaque emplacement que tu réserves à une panoplie est un emplacement que tu ne peux pas remplir avec un meilleur item isolé. Une panoplie complète peut être énorme, ou t'imposer des pièces faibles juste pour atteindre le dernier palier. Le bon équilibre est souvent une <strong>panoplie partielle</strong> : assez de pièces pour un bonus qui compte, le reste de tes emplacements libre pour du meilleur item par slot.</p>
 
 <h2>Chaque version a ses propres panoplies</h2>
-<p>Les panoplies et leurs bonus ne sont pas les mêmes d'une version de Dofus à l'autre. Dofus 3, la bêta, Dofus 2, Touch et Rétro ont chacun leurs panoplies, leurs nombres de pièces et leurs valeurs de bonus, parce que chacun est en pratique son propre jeu. La Fashionista charge les bonnes données de panoplie pour la version que tu as choisie, donc un build Rétro est jugé sur les panoplies Rétro, pas les modernes.</p>
+<p>Les panoplies et leurs bonus ne sont pas les mêmes d'une version de Dofus à l'autre. [[versions:sets]] ont chacun leurs panoplies, leurs nombres de pièces et leurs valeurs de bonus, parce que chacun est en pratique son propre jeu. La Fashionista charge les bonnes données de panoplie pour la version que tu as choisie, donc un build Rétro est jugé sur les panoplies Rétro, pas les modernes.</p>
 
 <h2>Certaines panoplies prennent au lieu de donner</h2>
 <p>Tous les bonus de panoplie n'en sont pas. Quelques-unes <strong>plafonnent</strong> une stat au lieu de l'augmenter, et le plafond baisse à mesure que tu ajoutes des pièces. La Malédiction de Cire Momore est la plus connue : deux pièces te bloquent à 4 PM, 4 de portée et 4 invocations, et les six te font tomber à <strong>2 PM</strong>, sous les 3 avec lesquels tu commences le jeu. En échange, elle donne une puissance, une initiative et des résistances énormes. C'est un choix assumé, pas un bug, et c'est pour ça qu'on croise parfois un personnage très équipé qui rampe sur la map. Retro et Touch n'ont aucune panoplie de ce genre : celles qui plafonnent sont sur Dofus 3, la beta et Dofus 2, et même entre ces trois-là les plafonds exacts diffèrent. L'optimiseur applique la règle, donc si tu verrouilles ces pièces tu verras les PM réduits dans ton résultat plutôt qu'un chiffre que le jeu ne te donnerait jamais.</p>
@@ -1125,7 +1127,7 @@ GUIDES = {
 <p>El bonus de conjunto crece con el número de piezas que llevas: dos objetos dan un bonus pequeño, y sube en tres, cuatro, cinco y más, normalmente con un gran salto en la última pieza o dos. La trampa es el compromiso. Cada espacio que reservas a un conjunto es un espacio que no puedes llenar con un mejor objeto suelto. Un conjunto completo puede ser brutal, o forzarte piezas flojas solo para llegar al último escalón. El punto justo suele ser un <strong>conjunto parcial</strong>: suficientes piezas para un bonus que importe, y el resto de tus espacios libres para lo mejor por casilla.</p>
 
 <h2>Cada versión tiene sus propios conjuntos</h2>
-<p>Los conjuntos y sus bonus no son iguales de una versión de Dofus a otra. Dofus 3, la beta, Dofus 2, Touch y Retro tienen cada uno sus conjuntos, sus números de piezas y sus valores de bonus, porque cada uno es en la práctica su propio juego. La Fashionista carga los datos de conjunto correctos para la versión que elegiste, así que un build Retro se juzga con conjuntos Retro, no modernos.</p>
+<p>Los conjuntos y sus bonus no son iguales de una versión de Dofus a otra. [[versions:sets]] tienen cada uno sus conjuntos, sus números de piezas y sus valores de bonus, porque cada uno es en la práctica su propio juego. La Fashionista carga los datos de conjunto correctos para la versión que elegiste, así que un build Retro se juzga con conjuntos Retro, no modernos.</p>
 
 <h2>Algunos conjuntos quitan en vez de dar</h2>
 <p>No todos los bonus de conjunto son un bonus. Unos cuantos <strong>limitan</strong> una característica en lugar de subirla, y el tope baja cuantas más piezas llevas. La Maldición de Cire Momore es la más conocida: con dos piezas te quedas en 4 PM, 4 de alcance y 4 invocaciones, y con las seis bajas a <strong>2 PM</strong>, por debajo de los 3 con los que empiezas el juego. A cambio te da una potencia, una iniciativa y unas resistencias enormes. Es un intercambio buscado, no un fallo, y por eso a veces te cruzas con un personaje muy equipado arrastrándose por el mapa. Retro y Touch no tienen ningún conjunto así: los que limitan están en Dofus 3, la beta y Dofus 2, y hasta entre esos tres los topes exactos cambian. El optimizador aplica el límite, así que si bloqueas esas piezas verás los PM reducidos en tu resultado y no una cifra que el juego nunca te daría.</p>
@@ -1148,7 +1150,7 @@ GUIDES = {
 <p>O bônus de conjunto cresce com o número de peças que você usa: dois itens dão um bônus pequeno, e ele sobe em três, quatro, cinco e além, geralmente com um grande salto na última peça ou duas. A pegadinha é o compromisso. Cada espaço que você reserva para um conjunto é um espaço que não pode preencher com um item avulso melhor. Um conjunto completo pode ser incrível, ou te forçar peças fracas só para chegar ao último degrau. O ponto ideal costuma ser um <strong>conjunto parcial</strong>: peças suficientes para um bônus que importe, e o resto dos seus espaços livre para o melhor por casa.</p>
 
 <h2>Cada versão tem seus próprios conjuntos</h2>
-<p>Os conjuntos e seus bônus não são iguais de uma versão de Dofus para outra. Dofus 3, o beta, Dofus 2, Touch e Retro têm cada um seus conjuntos, seus números de peças e seus valores de bônus, porque cada um é na prática seu próprio jogo. A Fashionista carrega os dados de conjunto certos para a versão que você escolheu, então um build Retro é avaliado com conjuntos Retro, não modernos.</p>
+<p>Os conjuntos e seus bônus não são iguais de uma versão de Dofus para outra. [[versions:sets]] têm cada um seus conjuntos, seus números de peças e seus valores de bônus, porque cada um é na prática seu próprio jogo. A Fashionista carrega os dados de conjunto certos para a versão que você escolheu, então um build Retro é avaliado com conjuntos Retro, não modernos.</p>
 
 <h2>Alguns conjuntos tiram em vez de dar</h2>
 <p>Nem todo bônus de conjunto é um bônus. Alguns <strong>limitam</strong> um atributo em vez de aumentá-lo, e o teto cai quanto mais peças você usa. A Maldição de Cire Momore é a mais famosa: com duas peças você fica em 4 PM, 4 de alcance e 4 invocações, e com as seis cai para <strong>2 PM</strong>, abaixo dos 3 com que você começa o jogo. Em troca, ela entrega poder, iniciativa e resistências enormes. É uma troca proposital, não um bug, e é por isso que às vezes você encontra um personagem muito equipado se arrastando pelo mapa. Retro e Touch não têm nenhum conjunto assim: os que limitam estão no Dofus 3, no beta e no Dofus 2, e mesmo entre esses três os tetos exatos mudam. O otimizador aplica o limite, então se você travar essas peças vai ver os PM reduzidos no seu resultado, e não um número que o jogo nunca daria.</p>
@@ -1171,7 +1173,7 @@ GUIDES = {
 <p>Der Set-Bonus wächst mit der Zahl der getragenen Teile: zwei Items geben einen kleinen Bonus, und er steigt bei drei, vier, fünf und mehr, oft mit einem großen Sprung beim letzten Teil oder den letzten beiden. Der Haken ist der Kompromiss. Jeder Platz, den du einem Set widmest, ist ein Platz, den du nicht mit einem besseren Einzelitem füllen kannst. Ein volles Set kann grandios sein oder dir schwache Teile aufzwingen, nur um die oberste Stufe zu erreichen. Der Sweet Spot ist oft ein <strong>Teil-Set</strong>: genug Teile für einen spürbaren Bonus, der Rest deiner Plätze frei für das beste Item pro Slot.</p>
 
 <h2>Jede Version hat ihre eigenen Sets</h2>
-<p>Sets und ihre Boni sind nicht über die Dofus-Versionen hinweg gleich. Dofus 3, die Beta, Dofus 2, Touch und Retro haben jeweils eigene Sets, eigene Teilezahlen und eigene Bonuswerte, weil jede praktisch ihr eigenes Spiel ist. Die Fashionista lädt die richtigen Set-Daten für die Version, die du gewählt hast, sodass ein Retro-Build an Retro-Sets gemessen wird, nicht an modernen.</p>
+<p>Sets und ihre Boni sind nicht über die Dofus-Versionen hinweg gleich. [[versions:sets]] haben jeweils eigene Sets, eigene Teilezahlen und eigene Bonuswerte, weil jede praktisch ihr eigenes Spiel ist. Die Fashionista lädt die richtigen Set-Daten für die Version, die du gewählt hast, sodass ein Retro-Build an Retro-Sets gemessen wird, nicht an modernen.</p>
 
 <h2>Manche Sets nehmen, statt zu geben</h2>
 <p>Nicht jeder Set-Bonus ist ein Bonus. Ein paar <strong>deckeln</strong> einen Wert, statt ihn zu erhöhen, und die Grenze sinkt mit jedem weiteren Teil. Der Fluch von Cire Momore ist der bekannteste: mit zwei Teilen bleibst du bei 4 BP, 4 Reichweite und 4 Beschwörungen, mit allen sechs fällst du auf <strong>2 BP</strong>, unter die 3, mit denen du ins Spiel startest. Dafür bekommst du enorme Stärke, Initiative und Widerstände. Das ist ein bewusster Tausch, kein Fehler, und deshalb siehst du manchmal einen top ausgerüsteten Charakter über die Karte kriechen. Retro und Touch haben kein solches Set: die deckelnden Sets stecken in Dofus 3, im Beta und in Dofus 2, und selbst zwischen diesen dreien unterscheiden sich die genauen Grenzen. Der Optimierer hält sich an die Grenze, wenn du diese Teile also festsetzt, siehst du die reduzierten BP in deinem Ergebnis statt einer Zahl, die das Spiel dir nie geben würde.</p>
@@ -1863,9 +1865,9 @@ GUIDES = {
         'published': '2026-06-30',
         'i18n': {
             'en': {
-                'title': "Dofus 3, Beta, Dofus 2, Retro, Touch: which do you play?",
-                'desc': "One thing that sets the Fashionista apart: it covers five flavors of Dofus, not just the live one. Here's what each is, who plays it, and how to switch.",
-                'lead': "One thing that sets the Fashionista apart: it covers five flavors of Dofus, not just the live one. Here's the quick map so you optimize on the right data.",
+                'title': "[[versions:plain]]: which do you play?",
+                'desc': "One thing that sets the Fashionista apart: it covers [[versions:count]] flavors of Dofus, not just the live one. Here's what each is, who plays it, and how to switch.",
+                'lead': "One thing that sets the Fashionista apart: it covers [[versions:count]] flavors of Dofus, not just the live one. Here's the quick map so you optimize on the right data.",
                 'body': '''
 <h2>Why this even matters</h2>
 <p>Item stats, recipes and spells are different across versions. A build that's perfect on the live game can be nonsense on Retro, where half the items don't exist and the rules are old-school. So the first thing to get right is: which version are you actually playing? Pick it when you create a build, or switch any time with the version selector at the top of the page.</p>
@@ -1882,16 +1884,22 @@ GUIDES = {
 <h2>Retro (1.29)</h2>
 <p>Dofus Retro: the old-school 1.29 servers. Way fewer items, no elemental damage runes, simpler everything. The optimizer knows the 1.29 rules, so it won't suggest gear or stats that didn't exist back then.</p>
 
-<h2>Touch</h2>
+[[if-readable:retrobeta]]<h2>Retro Beta</h2>
+<p>The test server of Dofus Retro, where Ankama tries the next Retro update, with its new items and pets, before it reaches the live servers. Same 1.29 rules as Retro and its own dataset, so you can plan a Retro build around what is coming. Same warning as any beta: the data moves around and can change overnight.</p>
+
+[[/if-readable]]<h2>Touch</h2>
 <p>Dofus Touch, the mobile version, which sits on its own balance and item list (some trophies, for instance, cap set bonuses differently). Its own dataset too, so your mobile builds are accurate.</p>
 
-<p><em>On the right version? <a href="/setup/">Create your build</a> and the tool only shows what exists there.</em></p>
+[[if-readable:touchbeta]]<h2>Touch Beta</h2>
+<p>The early test channel of Dofus Touch, where Ankama tries new content before it reaches the stores, such as the Bellaphone class. It has its own dataset, so you can plan a Touch build around what is coming. Same warning as any beta: the data moves around and can change overnight.</p>
+
+[[/if-readable]]<p><em>On the right version? <a href="/setup/">Create your build</a> and the tool only shows what exists there.</em></p>
 ''',
             },
             'fr': {
-                'title': "Dofus 3, Bêta, Dofus 2, Retro, Touch : ta version ?",
-                'desc': "Un truc qui distingue la Fashionista : elle couvre cinq versions de Dofus, pas juste la live. Voilà ce qu'est chacune, qui y joue, et comment switcher.",
-                'lead': "Un truc qui distingue la Fashionista : elle couvre cinq versions de Dofus, pas juste la live. Voilà la carte rapide pour optimiser sur les bonnes données.",
+                'title': "[[versions:plain]] : ta version ?",
+                'desc': "Un truc qui distingue la Fashionista : elle couvre [[versions:count]] versions de Dofus, pas juste la live. Voilà ce qu'est chacune, qui y joue, et comment switcher.",
+                'lead': "Un truc qui distingue la Fashionista : elle couvre [[versions:count]] versions de Dofus, pas juste la live. Voilà la carte rapide pour optimiser sur les bonnes données.",
                 'body': '''
 <h2>Pourquoi ça compte</h2>
 <p>Les stats des items, les recettes et les sorts changent d'une version à l'autre. Un build parfait sur la live peut être n'importe quoi sur Retro, où la moitié des items n'existe pas et où les règles sont à l'ancienne. Donc le premier truc à caler, c'est : tu joues à quelle version, vraiment ? Choisis-la en créant ton build, ou change quand tu veux avec le sélecteur de version en haut de la page.</p>
@@ -1908,16 +1916,22 @@ GUIDES = {
 <h2>Retro (1.29)</h2>
 <p>Dofus Retro : les serveurs 1.29 à l'ancienne. Beaucoup moins d'items, pas de runes de dégâts élémentaires, tout plus simple. L'optimiseur connaît les règles 1.29, donc il ne te proposera pas un stuff ou des stats qui n'existaient pas à l'époque.</p>
 
-<h2>Touch</h2>
+[[if-readable:retrobeta]]<h2>Retro Bêta</h2>
+<p>Le serveur de test de Dofus Retro, là où Ankama essaie la prochaine mise à jour de Retro, avec ses nouveaux items et familiers, avant qu'elle passe en live. Mêmes règles 1.29 que Retro, avec son propre jeu de données, donc tu peux préparer un build Retro autour de ce qui arrive. Même avertissement que pour toute bêta : la donnée bouge et peut changer du jour au lendemain.</p>
+
+[[/if-readable]]<h2>Touch</h2>
 <p>Dofus Touch, la version mobile, avec son propre équilibrage et sa propre liste d'items (certains trophées, par exemple, plafonnent les bonus de panoplie différemment). Son propre jeu de données aussi, pour que tes builds mobile soient justes.</p>
 
-<p><em>Sur la bonne version ? <a href="/setup/">Crée ton build</a> et l'outil n'affiche que ce qui existe là-bas.</em></p>
+[[if-readable:touchbeta]]<h2>Touch Bêta</h2>
+<p>Le canal de test de Dofus Touch, là où Ankama essaie du nouveau contenu avant qu'il arrive sur les stores, comme la classe Bellaphone. Il a son propre jeu de données, donc tu peux préparer un build Touch autour de ce qui arrive. Même avertissement que pour toute bêta : la donnée bouge et peut changer du jour au lendemain.</p>
+
+[[/if-readable]]<p><em>Sur la bonne version ? <a href="/setup/">Crée ton build</a> et l'outil n'affiche que ce qui existe là-bas.</em></p>
 ''',
             },
             'es': {
-                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch: ¿en cuál juegas?',
-                'desc': "Algo que distingue a la Fashionista: cubre cinco versiones de Dofus, no solo la live. Aquí tienes qué es cada una, quién la juega y cómo cambiar.",
-                'lead': "Algo que distingue a la Fashionista: cubre cinco versiones de Dofus, no solo la live. Aquí va el mapa rápido para que optimices con los datos correctos.",
+                'title': '[[versions:plain]]: ¿en cuál juegas?',
+                'desc': "Algo que distingue a la Fashionista: cubre [[versions:count]] versiones de Dofus, no solo la live. Aquí tienes qué es cada una, quién la juega y cómo cambiar.",
+                'lead': "Algo que distingue a la Fashionista: cubre [[versions:count]] versiones de Dofus, no solo la live. Aquí va el mapa rápido para que optimices con los datos correctos.",
                 'body': '''
 <h2>Por qué importa</h2>
 <p>Las estadísticas de los ítems, las recetas y los hechizos cambian entre versiones. Un build perfecto en la live puede ser un disparate en Retro, donde la mitad de los ítems no existe y las reglas son a la antigua. Así que lo primero que hay que acertar es: ¿en qué versión juegas de verdad? Elígela al crear el build, o cámbiala cuando quieras con el selector de versión arriba.</p>
@@ -1934,16 +1948,22 @@ GUIDES = {
 <h2>Retro (1.29)</h2>
 <p>Dofus Retro: los servidores 1.29 de la vieja escuela. Muchos menos ítems, sin runas de daño elemental, todo más simple. El optimizador conoce las reglas de 1.29, así que no te sugerirá equipo ni estadísticas que no existían entonces.</p>
 
-<h2>Touch</h2>
+[[if-readable:retrobeta]]<h2>Retro Beta</h2>
+<p>El servidor de pruebas de Dofus Retro, donde Ankama prueba la próxima actualización de Retro, con sus nuevos ítems y mascotas, antes de que llegue a la live. Las mismas reglas de 1.29 que Retro y su propio conjunto de datos, así que puedes preparar un build de Retro en torno a lo que viene. La misma advertencia que con cualquier beta: los datos cambian y pueden variar de la noche a la mañana.</p>
+
+[[/if-readable]]<h2>Touch</h2>
 <p>Dofus Touch, la versión móvil, con su propio balance y lista de ítems (algunos trofeos, por ejemplo, limitan los bonus de panoplia de otra forma). También con su propio set de datos, para que tus builds de móvil sean exactos.</p>
 
-<p><em>¿En la versión correcta? <a href="/setup/">Crea tu build</a> y la herramienta solo mostrará lo que existe ahí.</em></p>
+[[if-readable:touchbeta]]<h2>Touch Beta</h2>
+<p>El canal de pruebas de Dofus Touch, donde Ankama prueba contenido nuevo antes de que llegue a las tiendas, como la clase Bellaphone. Tiene su propio conjunto de datos, así que puedes preparar un build de Touch en torno a lo que viene. La misma advertencia que con cualquier beta: los datos cambian y pueden variar de la noche a la mañana.</p>
+
+[[/if-readable]]<p><em>¿En la versión correcta? <a href="/setup/">Crea tu build</a> y la herramienta solo mostrará lo que existe ahí.</em></p>
 ''',
             },
             'pt': {
-                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch: em qual você joga?',
-                'desc': "Uma coisa que diferencia a Fashionista: ela cobre cinco versões de Dofus, não só a live. Veja o que é cada uma, quem joga e como trocar.",
-                'lead': "Uma coisa que diferencia a Fashionista: ela cobre cinco versões de Dofus, não só a live. Aqui vai o mapa rápido pra você otimizar com os dados certos.",
+                'title': '[[versions:plain]]: em qual você joga?',
+                'desc': "Uma coisa que diferencia a Fashionista: ela cobre [[versions:count]] versões de Dofus, não só a live. Veja o que é cada uma, quem joga e como trocar.",
+                'lead': "Uma coisa que diferencia a Fashionista: ela cobre [[versions:count]] versões de Dofus, não só a live. Aqui vai o mapa rápido pra você otimizar com os dados certos.",
                 'body': '''
 <h2>Por que isso importa</h2>
 <p>Os atributos dos itens, as receitas e os feitiços mudam de uma versão pra outra. Um build perfeito na live pode ser uma furada no Retro, onde metade dos itens não existe e as regras são old-school. Então a primeira coisa a acertar é: em qual versão você joga de verdade? Escolha ao criar o build, ou troque quando quiser no seletor de versão no topo da página.</p>
@@ -1960,16 +1980,22 @@ GUIDES = {
 <h2>Retro (1.29)</h2>
 <p>Dofus Retro: os servidores 1.29 da velha escola. Muito menos itens, sem runas de dano elemental, tudo mais simples. O otimizador conhece as regras da 1.29, então não vai sugerir equipamento nem atributos que não existiam na época.</p>
 
-<h2>Touch</h2>
+[[if-readable:retrobeta]]<h2>Retro Beta</h2>
+<p>O servidor de testes do Dofus Retro, onde a Ankama experimenta a próxima atualização do Retro, com seus novos itens e mascotes, antes de ir pra live. As mesmas regras da 1.29 que o Retro, com seu próprio conjunto de dados, então você pode planejar um build de Retro em torno do que está chegando. O mesmo aviso de qualquer beta: os dados mudam e podem variar de um dia pro outro.</p>
+
+[[/if-readable]]<h2>Touch</h2>
 <p>Dofus Touch, a versão mobile, com seu próprio balanceamento e lista de itens (alguns troféus, por exemplo, limitam os bônus de conjunto de outro jeito). Também com seu próprio conjunto de dados, pra seus builds de celular saírem certos.</p>
 
-<p><em>Na versão certa? <a href="/setup/">Crie seu build</a> e a ferramenta só mostra o que existe ali.</em></p>
+[[if-readable:touchbeta]]<h2>Touch Beta</h2>
+<p>O canal de testes do Dofus Touch, onde a Ankama experimenta conteúdo novo antes de ele chegar às lojas, como a classe Bellaphone. Tem seu próprio conjunto de dados, então você pode planejar um build de Touch em torno do que está chegando. O mesmo aviso de qualquer beta: os dados mudam e podem variar de um dia pro outro.</p>
+
+[[/if-readable]]<p><em>Na versão certa? <a href="/setup/">Crie seu build</a> e a ferramenta só mostra o que existe ali.</em></p>
 ''',
             },
             'de': {
-                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch: welches spielst du?',
-                'desc': "Eine Sache hebt die Fashionista ab: Sie deckt fünf Dofus-Varianten ab, nicht nur die Live-Version. Was jede ist, wer sie spielt und wie du umschaltest.",
-                'lead': "Eine Sache hebt die Fashionista ab: Sie deckt fünf Spielarten von Dofus ab, nicht nur die Live-Version. Hier ist die schnelle Übersicht, damit du mit den richtigen Daten optimierst.",
+                'title': '[[versions:plain]]: welches spielst du?',
+                'desc': "Eine Sache hebt die Fashionista ab: Sie deckt [[versions:count]] Dofus-Varianten ab, nicht nur die Live-Version. Was jede ist, wer sie spielt und wie du umschaltest.",
+                'lead': "Eine Sache hebt die Fashionista ab: Sie deckt [[versions:count]] Spielarten von Dofus ab, nicht nur die Live-Version. Hier ist die schnelle Übersicht, damit du mit den richtigen Daten optimierst.",
                 'body': '''
 <h2>Warum das überhaupt wichtig ist</h2>
 <p>Item-Werte, Rezepte und Zauber unterscheiden sich zwischen den Versionen. Ein Build, das auf dem Live-Spiel perfekt ist, kann auf Retro Unsinn sein, wo die Hälfte der Items nicht existiert und die Regeln altmodisch sind. Das Erste, was du richtig setzen musst, ist also: Welche Version spielst du eigentlich? Wähl sie beim Anlegen eines Builds, oder wechsle jederzeit mit der Versionsauswahl oben auf der Seite.</p>
@@ -1986,10 +2012,16 @@ GUIDES = {
 <h2>Retro (1.29)</h2>
 <p>Dofus Retro: die altmodischen 1.29-Server. Viel weniger Items, keine Elementarschaden-Runen, alles simpler. Der Optimierer kennt die 1.29-Regeln und schlägt dir daher keine Ausrüstung oder Werte vor, die es damals nicht gab.</p>
 
-<h2>Touch</h2>
+[[if-readable:retrobeta]]<h2>Retro Beta</h2>
+<p>Der Testserver von Dofus Retro, auf dem Ankama das nächste Retro-Update mit seinen neuen Items und Vertrauten ausprobiert, bevor es live geht. Dieselben 1.29-Regeln wie Retro und ein eigener Datensatz, also kannst du ein Retro-Build um das planen, was kommt. Dieselbe Warnung wie bei jeder Beta: Die Daten verschieben sich und können über Nacht wechseln.</p>
+
+[[/if-readable]]<h2>Touch</h2>
 <p>Dofus Touch, die mobile Version, mit eigener Balance und Item-Liste (manche Trophäen deckeln zum Beispiel Set-Boni anders). Ebenfalls mit eigenem Datensatz, damit deine Mobile-Builds stimmen.</p>
 
-<p><em>Auf der richtigen Version? <a href="/setup/">Erstell dein Build</a> und das Tool zeigt nur, was es dort gibt.</em></p>
+[[if-readable:touchbeta]]<h2>Touch Beta</h2>
+<p>Der Testkanal von Dofus Touch, auf dem Ankama neue Inhalte ausprobiert, bevor sie in die Stores kommen, etwa die Klasse Bellaphone. Er hat seinen eigenen Datensatz, also kannst du ein Touch-Build um das planen, was kommt. Dieselbe Warnung wie bei jeder Beta: Die Daten verschieben sich und können über Nacht wechseln.</p>
+
+[[/if-readable]]<p><em>Auf der richtigen Version? <a href="/setup/">Erstell dein Build</a> und das Tool zeigt nur, was es dort gibt.</em></p>
 ''',
             },
         },
@@ -3339,7 +3371,7 @@ GUIDES = {
 <p>Items can rarely be the best in four elements at the same time, so every element you add dilutes the others. Mono-element builds hit harder in their lane; multi-element buys flexibility at a real price and usually needs higher-end gear to work. Pick deliberately, not by accident: the trade-offs are laid out in <a href="/guides/mono-vs-multi-element/">mono versus multi element</a>.</p>
 
 <h2>6. Copying a build from another version</h2>
-<p>Dofus 3, the beta, Dofus 2, Retro and Touch are five different games. An item that is core in one may not exist in another, or exists with different stats, and the rules around scrolls and characteristics differ too. A build guide written for someone else's version is a trap in yours. Optimize in the version you actually play, and if you're unsure what runs where, see <a href="/guides/versions-explained/">versions explained</a>.</p>
+<p>[[versions:prose]] are [[versions:count]] different games. An item that is core in one may not exist in another, or exists with different stats, and the rules around scrolls and characteristics differ too. A build guide written for someone else's version is a trap in yours. Optimize in the version you actually play, and if you're unsure what runs where, see <a href="/guides/versions-explained/">versions explained</a>.</p>
 
 <h2>The setting everyone forgets: your scrolls</h2>
 <p>A new build assumes your characteristics are fully scrolled, 100 in each. If your character isn't, the tool is optimizing a slightly richer character than yours: totals, item conditions you meet and the best way to distribute your points all shift. Open your build's characteristics page and set your real scroll state, it takes ten seconds and every suggestion after that fits your actual character.</p>
@@ -3371,7 +3403,7 @@ GUIDES = {
 <p>Un item est rarement le meilleur dans quatre éléments en même temps : chaque élément que tu ajoutes dilue les autres. Le mono-élément tape plus fort dans son couloir ; le multi achète de la souplesse à un vrai prix et demande en général du matos plus haut de gamme pour fonctionner. Choisis exprès, pas par accident : les compromis sont posés dans <a href="/guides/mono-vs-multi-element/">mono ou multi élément</a>.</p>
 
 <h2>6. Copier un build d'une autre version</h2>
-<p>Dofus 3, la bêta, Dofus 2, Retro et Touch sont cinq jeux différents. Un item central dans l'un peut ne pas exister dans l'autre, ou exister avec d'autres stats, et les règles de parchotage et de caracs changent aussi. Un guide de build écrit pour la version de quelqu'un d'autre est un piège dans la tienne. Optimise dans la version que tu joues vraiment, et si tu ne sais plus qui joue quoi, va voir <a href="/guides/versions-explained/">les versions expliquées</a>.</p>
+<p>[[versions:prose]] sont [[versions:count]] jeux différents. Un item central dans l'un peut ne pas exister dans l'autre, ou exister avec d'autres stats, et les règles de parchotage et de caracs changent aussi. Un guide de build écrit pour la version de quelqu'un d'autre est un piège dans la tienne. Optimise dans la version que tu joues vraiment, et si tu ne sais plus qui joue quoi, va voir <a href="/guides/versions-explained/">les versions expliquées</a>.</p>
 
 <h2>Le réglage que tout le monde oublie : tes parchemins</h2>
 <p>Un nouveau build suppose tes caracs parchotées à fond, 100 partout. Si ton perso ne l'est pas, l'outil optimise un personnage un peu plus riche que le tien : les totaux, les conditions d'items que tu remplis et la meilleure répartition de tes points bougent tous. Ouvre la page caractéristiques de ton build et mets ton vrai parchotage, ça prend dix secondes et toutes les propositions suivantes collent à ton vrai perso.</p>
@@ -3403,7 +3435,7 @@ GUIDES = {
 <p>Un ítem rara vez es el mejor en cuatro elementos al mismo tiempo: cada elemento que añades diluye los demás. El mono elemento pega más fuerte en su carril; el multi compra flexibilidad a un precio real y suele exigir equipo de gama más alta para funcionar. Elige a propósito, no por accidente: los pros y contras están en <a href="/guides/mono-vs-multi-element/">mono contra multi elemento</a>.</p>
 
 <h2>6. Copiar un build de otra versión</h2>
-<p>Dofus 3, la beta, Dofus 2, Retro y Touch son cinco juegos distintos. Un ítem central en uno puede no existir en otro, o existir con otras stats, y las reglas de pergaminos y características también cambian. Una guía de build escrita para la versión de otro es una trampa en la tuya. Optimiza en la versión que juegas de verdad, y si no sabes qué corre dónde, mira <a href="/guides/versions-explained/">las versiones explicadas</a>.</p>
+<p>[[versions:prose]] son [[versions:count]] juegos distintos. Un ítem central en uno puede no existir en otro, o existir con otras stats, y las reglas de pergaminos y características también cambian. Una guía de build escrita para la versión de otro es una trampa en la tuya. Optimiza en la versión que juegas de verdad, y si no sabes qué corre dónde, mira <a href="/guides/versions-explained/">las versiones explicadas</a>.</p>
 
 <h2>El ajuste que todo el mundo olvida: tus pergaminos</h2>
 <p>Un build nuevo asume tus características pergamineadas al máximo, 100 en cada una. Si tu personaje no lo está, la herramienta optimiza un personaje algo más rico que el tuyo: los totales, las condiciones de ítems que cumples y la mejor forma de repartir tus puntos se mueven. Abre la página de características de tu build y pon tu estado real de pergaminos, tarda diez segundos y todas las sugerencias siguientes encajarán con tu personaje real.</p>
@@ -3435,7 +3467,7 @@ GUIDES = {
 <p>Um item raramente é o melhor em quatro elementos ao mesmo tempo: cada elemento que você adiciona dilui os outros. Mono elemento bate mais forte na própria pista; multi compra flexibilidade por um preço real e costuma exigir equipamento de nível mais alto para funcionar. Escolha de propósito, não por acidente: os prós e contras estão em <a href="/guides/mono-vs-multi-element/">mono contra multi elemento</a>.</p>
 
 <h2>6. Copiar um build de outra versão</h2>
-<p>Dofus 3, o beta, Dofus 2, Retro e Touch são cinco jogos diferentes. Um item central em um pode nem existir no outro, ou existir com outras stats, e as regras de pergaminhos e características também mudam. Um guia de build escrito para a versão de outra pessoa é uma armadilha na sua. Otimize na versão que você joga de verdade, e se não souber o que roda onde, veja <a href="/guides/versions-explained/">as versões explicadas</a>.</p>
+<p>[[versions:prose]] são [[versions:count]] jogos diferentes. Um item central em um pode nem existir no outro, ou existir com outras stats, e as regras de pergaminhos e características também mudam. Um guia de build escrito para a versão de outra pessoa é uma armadilha na sua. Otimize na versão que você joga de verdade, e se não souber o que roda onde, veja <a href="/guides/versions-explained/">as versões explicadas</a>.</p>
 
 <h2>O ajuste que todo mundo esquece: seus pergaminhos</h2>
 <p>Um build novo assume suas características totalmente pergaminhadas, 100 em cada. Se o seu personagem não está, a ferramenta otimiza um personagem um pouco mais rico que o seu: os totais, as condições de itens que você cumpre e a melhor distribuição dos seus pontos mudam. Abra a página de características do seu build e coloque seu estado real de pergaminhos, leva dez segundos e todas as sugestões seguintes vão servir no seu personagem de verdade.</p>
@@ -3467,7 +3499,7 @@ GUIDES = {
 <p>Ein Item ist selten in vier Elementen gleichzeitig das beste: Jedes Element, das du dazunimmst, verwässert die anderen. Mono-Element schlägt härter in seiner Spur; Multi kauft Flexibilität zu einem echten Preis und braucht meist höherwertige Ausrüstung, um zu funktionieren. Wähle absichtlich, nicht aus Versehen: Die Abwägungen stehen in <a href="/guides/mono-vs-multi-element/">Mono gegen Multi</a>.</p>
 
 <h2>6. Ein Build aus einer anderen Version kopieren</h2>
-<p>Dofus 3, die Beta, Dofus 2, Retro und Touch sind fünf verschiedene Spiele. Ein Item, das in einer Version zentral ist, existiert in einer anderen vielleicht gar nicht oder mit anderen Werten, und auch die Regeln für Rollen und Charakteristiken unterscheiden sich. Ein Build-Guide für die Version von jemand anderem ist in deiner eine Falle. Optimiere in der Version, die du wirklich spielst, und wenn du nicht weißt, was wo läuft, schau in <a href="/guides/versions-explained/">die Versionen erklärt</a>.</p>
+<p>[[versions:prose]] sind [[versions:count]] verschiedene Spiele. Ein Item, das in einer Version zentral ist, existiert in einer anderen vielleicht gar nicht oder mit anderen Werten, und auch die Regeln für Rollen und Charakteristiken unterscheiden sich. Ein Build-Guide für die Version von jemand anderem ist in deiner eine Falle. Optimiere in der Version, die du wirklich spielst, und wenn du nicht weißt, was wo läuft, schau in <a href="/guides/versions-explained/">die Versionen erklärt</a>.</p>
 
 <h2>Die Einstellung, die alle vergessen: deine Rollen</h2>
 <p>Ein neues Build nimmt an, dass deine Charakteristiken voll gerollt sind, 100 in jeder. Wenn dein Charakter das nicht ist, optimiert das Werkzeug einen etwas reicheren Charakter als deinen: Die Summen, die Item-Bedingungen, die du erfüllst, und die beste Verteilung deiner Punkte verschieben sich alle. Öffne die Charakteristiken-Seite deines Builds und trag deinen echten Rollen-Stand ein, das dauert zehn Sekunden, und jeder Vorschlag danach passt zu deinem echten Charakter.</p>
@@ -3496,7 +3528,7 @@ GUIDES = {
 <p>A new build starts as if your characteristics are scrolled to the maximum. If yours are not, the tool is optimizing a slightly richer character than the one you actually play: your totals, the <a href="/guides/reading-an-item/">item conditions you meet</a>, and the best way to distribute your points all shift. Open your build's characteristics page and set your real scroll level for each stat. It takes ten seconds, and every suggestion after that fits your actual character.</p>
 
 <h2>The version twist: each Dofus version plays by its own rules</h2>
-<p>Scrolling is one of the places the five versions genuinely differ, so a habit from one can quietly mislead you in another.</p>
+<p>Scrolling is one of the places the [[versions:count]] versions genuinely differ, so a habit from one can quietly mislead you in another.</p>
 <ul>
 <li><strong>Modern Dofus (Dofus 3, the beta and Dofus 2) and Dofus Touch:</strong> scrolled points are tracked separately from the points you invest, so your scrolls never make your invested points more expensive. Modern Dofus adopted this in October 2018; Touch uses the same rule.</li>
 <li><strong>Dofus Retro (1.29):</strong> the old rule still applies. Scrolls count as ordinary points on the cost curve, so a character scrolled to 100 in a characteristic already pays the expensive tier for its very first invested point. Scrolling there is a real strategic choice, not a free lunch.</li>
@@ -3522,7 +3554,7 @@ GUIDES = {
 <p>Un nouveau build démarre comme si tes caracs étaient parchotées au maximum. Si ce n'est pas le cas, l'outil optimise un perso un peu plus riche que celui que tu joues vraiment : tes totaux, les <a href="/guides/reading-an-item/">conditions d'items que tu remplis</a> et la meilleure répartition de tes points bougent tous. Ouvre la page caractéristiques de ton build et mets ton vrai niveau de parchotage pour chaque stat. Ça prend dix secondes, et toutes les propositions suivantes collent à ton vrai perso.</p>
 
 <h2>Le piège des versions : chaque Dofus a ses propres règles</h2>
-<p>Le parchotage est un des endroits où les cinq versions diffèrent vraiment, donc une habitude prise sur l'une peut t'induire en erreur sur une autre sans que tu t'en rendes compte.</p>
+<p>Le parchotage est un des endroits où les [[versions:count]] versions diffèrent vraiment, donc une habitude prise sur l'une peut t'induire en erreur sur une autre sans que tu t'en rendes compte.</p>
 <ul>
 <li><strong>Dofus moderne (Dofus 3, la bêta et Dofus 2) et Dofus Touch :</strong> les points de parchotage sont comptés séparément des points que tu investis, donc tes parchemins ne rendent jamais tes points investis plus chers. Le Dofus moderne a adopté cette règle en octobre 2018 ; Touch applique la même.</li>
 <li><strong>Dofus Retro (1.29) :</strong> l'ancienne règle tient toujours. Les parchemins comptent comme des points normaux sur la courbe de coût, donc un perso parchoté à 100 dans une carac paie déjà le palier cher pour son tout premier point investi. Là-bas, parchoter est un vrai choix stratégique, pas un cadeau.</li>
@@ -3548,7 +3580,7 @@ GUIDES = {
 <p>Un build nuevo empieza como si tus características estuvieran pergamineadas al máximo. Si las tuyas no lo están, la herramienta optimiza un personaje algo más rico que el que juegas de verdad: tus totales, las <a href="/guides/reading-an-item/">condiciones de ítems que cumples</a> y la mejor forma de repartir tus puntos se mueven. Abre la página de características de tu build y pon tu nivel real de pergamineo en cada stat. Tarda diez segundos, y todas las sugerencias siguientes encajan con tu personaje real.</p>
 
 <h2>El truco de las versiones: cada Dofus juega con sus propias reglas</h2>
-<p>El pergamineo es uno de los sitios donde las cinco versiones difieren de verdad, así que una costumbre de una puede engañarte en otra sin que te des cuenta.</p>
+<p>El pergamineo es uno de los sitios donde las [[versions:count]] versiones difieren de verdad, así que una costumbre de una puede engañarte en otra sin que te des cuenta.</p>
 <ul>
 <li><strong>Dofus moderno (Dofus 3, la beta y Dofus 2) y Dofus Touch:</strong> los puntos de pergamino se cuentan aparte de los que inviertes, así que tus pergaminos nunca encarecen tus puntos invertidos. El Dofus moderno adoptó esto en octubre de 2018; Touch usa la misma regla.</li>
 <li><strong>Dofus Retro (1.29):</strong> sigue valiendo la regla antigua. Los pergaminos cuentan como puntos normales en la curva de coste, así que un personaje pergamineado a 100 en una característica ya paga el tramo caro en su primerísimo punto invertido. Ahí, pergaminear es una decisión estratégica real, no un regalo.</li>
@@ -3574,7 +3606,7 @@ GUIDES = {
 <p>Um build novo começa como se suas características estivessem pergaminhadas ao máximo. Se as suas não estão, a ferramenta otimiza um personagem um pouco mais rico que o que você joga de fato: seus totais, as <a href="/guides/reading-an-item/">condições de itens que você cumpre</a> e a melhor forma de distribuir seus pontos mudam. Abra a página de características do seu build e coloque seu nível real de pergaminho em cada stat. Leva dez segundos, e todas as sugestões seguintes vão servir no seu personagem real.</p>
 
 <h2>A pegadinha das versões: cada Dofus joga com as próprias regras</h2>
-<p>O pergaminho é um dos pontos em que as cinco versões realmente diferem, então um hábito de uma pode te enganar em outra sem você perceber.</p>
+<p>O pergaminho é um dos pontos em que as [[versions:count]] versões realmente diferem, então um hábito de uma pode te enganar em outra sem você perceber.</p>
 <ul>
 <li><strong>Dofus moderno (Dofus 3, o beta e Dofus 2) e Dofus Touch:</strong> os pontos de pergaminho são contados separadamente dos que você investe, então seus pergaminhos nunca encarecem seus pontos investidos. O Dofus moderno adotou isso em outubro de 2018; o Touch usa a mesma regra.</li>
 <li><strong>Dofus Retro (1.29):</strong> a regra antiga ainda vale. Pergaminhos contam como pontos normais na curva de custo, então um personagem pergaminhado a 100 numa característica já paga a faixa cara no primeiríssimo ponto investido. Ali, pergaminhar é uma decisão estratégica de verdade, não um presente.</li>
@@ -3600,7 +3632,7 @@ GUIDES = {
 <p>Ein neues Build startet, als wären deine Charakteristiken auf das Maximum gerollt. Wenn deine das nicht sind, optimiert das Werkzeug einen etwas reicheren Charakter als den, den du wirklich spielst: deine Summen, die <a href="/guides/reading-an-item/">Item-Bedingungen, die du erfüllst</a>, und die beste Punkteverteilung verschieben sich alle. Öffne die Charakteristiken-Seite deines Builds und trag deinen echten Roll-Stand für jeden Wert ein. Das dauert zehn Sekunden, und jeder Vorschlag danach passt zu deinem echten Charakter.</p>
 
 <h2>Der Versions-Haken: jede Dofus-Version hat eigene Regeln</h2>
-<p>Rollen ist einer der Punkte, an denen sich die fünf Versionen wirklich unterscheiden, also kann dich eine Gewohnheit aus der einen in der anderen leise in die Irre führen.</p>
+<p>Rollen ist einer der Punkte, an denen sich die [[versions:count]] Versionen wirklich unterscheiden, also kann dich eine Gewohnheit aus der einen in der anderen leise in die Irre führen.</p>
 <ul>
 <li><strong>Modernes Dofus (Dofus 3, die Beta und Dofus 2) und Dofus Touch:</strong> gerollte Punkte werden getrennt von deinen investierten Punkten gezählt, also machen deine Rollen deine investierten Punkte nie teurer. Das moderne Dofus übernahm das im Oktober 2018; Touch nutzt dieselbe Regel.</li>
 <li><strong>Dofus Retro (1.29):</strong> die alte Regel gilt weiter. Rollen zählen als normale Punkte auf der Kostenkurve, also zahlt ein auf 100 in einer Charakteristik gerollter Charakter schon für seinen allerersten investierten Punkt die teure Stufe. Dort ist Rollen eine echte strategische Entscheidung, kein Geschenk.</li>
@@ -5723,6 +5755,9 @@ _IF_MONSTERS = re.compile(r'\[\[if-monsters:([a-z-]+)\]\](.*?)\[\[/if-monsters\]
 _MONSTER_CONDITIONS = {'push-weak': 'push_damage_reduction < 0'}
 # The version whose Dofus slot the piece tokens read
 _SLOT_VERSION = '[[slot-version]]'
+_READABLE_VERSIONS = re.compile(r'\[\[versions:(count|plain|prose|sets)\]\]')
+_IF_READABLE = re.compile(r'\[\[if-readable:([a-z0-9]+)\]\](.*?)\[\[/if-readable\]\]', re.S)
+_PROSE_BETA = {'en': 'the beta', 'fr': 'la bêta', 'es': 'la beta', 'pt': 'o beta', 'de': 'die Beta'}
 _AND ={'en': 'and', 'fr': 'et', 'es': 'y', 'pt': 'e', 'de': 'und'}
 
 # Ankama's item line, where it differs from the stat's own name
@@ -5994,10 +6029,31 @@ def _keep_monster_passages(text, game_version):
     return _IF_MONSTERS.sub(keep, text)
 
 
+def _fill_readable_versions(text, language):
+    """The version count and lists the page's tokens ask for, and the passages for versions readers can reach."""
+    lang = _lang(language)
+    reachable = readable_versions.readable_keys()
+    text = _IF_READABLE.sub(lambda match: match.group(2) if match.group(1) in reachable else '', text)
+
+    def resolve(match):
+        kind = match.group(1)
+        if kind == 'count':
+            return readable_versions.count_word(lang)
+        if kind == 'plain':
+            return readable_versions.version_names(lang, short=True, conjunction='', native=True)
+        beta = _PROSE_BETA[lang]
+        labels = {key: beta for key in reachable
+                  if get_game_version(key).channel == 'beta' and main_of(key) == DEFAULT_VERSION}
+        return readable_versions.version_names(lang, short=True, labels=labels, native=True,
+                                               retro=kind == 'sets')
+    return _READABLE_VERSIONS.sub(resolve, text)
+
+
 def _fill_measured_numbers(body, game_version, language='en'):
     """Replace the guide tokens with what the version's data says today."""
     if '[[' not in body:
         return body
+    body = _fill_readable_versions(body, language)
     body = _keep_carried_passages(body, game_version)
     body = _keep_monster_passages(body, game_version)
     if _SLOT_VERSION in body:

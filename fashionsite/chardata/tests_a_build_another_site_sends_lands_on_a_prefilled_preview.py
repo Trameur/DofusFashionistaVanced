@@ -341,8 +341,8 @@ class ABadPayloadGetsATranslatedMessageTests(_SentBuild):
          'Le champ format doit valoir fashionista-build.'),
         ('unsupported_version', 'Only version 1 of the format can be read.',
          'Seule la version 1 du format peut être lue.'),
-        ('unknown_game', 'The game field must be dofus3, beta, dofus2, touch or retro.',
-         'Le champ game doit valoir dofus3, beta, dofus2, touch ou retro.'),
+        ('unknown_game', 'The game field must be %s or %s.' % (', '.join(version_keys()[:-1]), version_keys()[-1]),
+         'Le champ game doit valoir %s ou %s.' % (', '.join(version_keys()[:-1]), version_keys()[-1])),
     )
 
     def _links(self):
