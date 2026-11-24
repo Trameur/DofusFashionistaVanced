@@ -12183,6 +12183,7 @@ class DataPipelineImportsTests(SimpleTestCase):
         done = self._run_as_pipeline([
             'import update_all',
             'from download_retro_langs import lang_root',
+            'update_all.family_of("retrobeta")',
             'from fashionistapulp.fashionistapulp.fashion_util import normalize_name',
         ])
         self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
@@ -21253,6 +21254,7 @@ class GameVersionWatchTests(SimpleTestCase):
         saved = (check.cytrus_cdn.get_version, check.cytrus_cdn.download_manifest,
                  check._json, check.retro_lang_versions, check.retro_asset_entries,
                  check.check_update_lists, check.retro_lang_root,
+                 check.touch_early_assets, check.retro_beta_live,
                  ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS,
                  ours.WATCHED_RETRO_ASSET_DIGEST, ours.WATCHED_RETRO_ASSET_COUNT)
         live = {'dofus3': ours.FASHIONISTA_VERSION,
@@ -21271,6 +21273,10 @@ class GameVersionWatchTests(SimpleTestCase):
                 lambda game, version=None, platform='windows': b'faux')
             check.retro_lang_root = lambda manifest=None: (
                 lang_root_live or ours.WATCHED_RETRO_LANG_ROOT)
+            check.touch_early_assets = lambda: ours.WATCHED_TOUCH_BETA_ASSETS
+            check.retro_beta_live = lambda: (ours.WATCHED_RETROBETA_BUILD,
+                                             ours.WATCHED_RETROBETA_LANG_ROOT,
+                                             dict(ours.WATCHED_RETROBETA_LANG))
             def fake_retro_lang_versions(root=None):
                 if lang_roots is not None:
                     lang_roots.append(root)
@@ -21294,6 +21300,7 @@ class GameVersionWatchTests(SimpleTestCase):
             (check.cytrus_cdn.get_version, check.cytrus_cdn.download_manifest,
              check._json, check.retro_lang_versions, check.retro_asset_entries,
              check.check_update_lists, check.retro_lang_root,
+             check.touch_early_assets, check.retro_beta_live,
              ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS,
              ours.WATCHED_RETRO_ASSET_DIGEST,
              ours.WATCHED_RETRO_ASSET_COUNT) = saved

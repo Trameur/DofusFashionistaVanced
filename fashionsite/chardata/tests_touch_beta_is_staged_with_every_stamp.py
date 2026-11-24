@@ -97,12 +97,6 @@ class TheUpdaterKeepsEveryOldChoiceTests(SimpleTestCase):
         self.assertEqual(['dofus3', 'beta', 'dofus2', 'touch', 'retro'], updater.selection('all', rows))
         self.assertEqual(['dofus3', 'beta', 'dofus2', 'touch', 'retro'], updater.selection('changed', rows))
 
-    def test_the_search_reports_the_staged_beta_without_reading_any_source(self):
-        with mock.patch.object(updater, 'fetch_json', side_effect=AssertionError('no source read')), \
-                mock.patch.object(updater, 'touch_build_version', side_effect=AssertionError('no source read')):
-            with self.assertRaisesRegex(ValueError, '^staged'):
-                updater.probe('touchbeta')
-
     def test_the_staged_beta_does_not_turn_the_list_into_a_failure(self):
         rows = [{'key': 'dofus3', 'current': '3.6.11.15', 'available': '3.6.11.15', 'official': '3.6.11.15',
                  'source': {}, 'changed': False, 'warnings': [], 'error': None},

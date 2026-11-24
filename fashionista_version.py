@@ -121,6 +121,20 @@ PATCH_TIMELINE = {
 WATCHED_RETRO_BUILD = "1.49.10.5760.470-9aa8344"
 WATCHED_TOUCH_ASSETS = "3.3.12_3aBBdvo4IHy0kS1LccWaHBTXI9ekER57"
 
+WATCHED_TOUCH_BETA_ASSETS = "3.4.3_y*4XC6GBya28bbZ4oIufss.ABVR-fEV-"
+# Retro Beta's lang tree is a static-data folder of its own, with the same categories as Retro's.
+WATCHED_RETROBETA_BUILD = "1.50.0.5770.137-36058be"
+WATCHED_RETROBETA_LANG_ROOT = "https://dofusretro.cdn.ankama.com/static-data/638/lang"
+WATCHED_RETROBETA_LANG = {
+    'items': '100434',
+    'itemstats': '100437',
+    'itemsets': '100465',
+    'crafts': '100465',
+    'effects': '100465',
+    'classes': '100463',
+    'spells': '100461',
+}
+
 # Retro item data comes from the lang CDN, not from the client build, and that
 # is now measured twice rather than argued: 1.49.0 and then 1.49.1 both shipped
 # with every lang version below standing still, and a full re-scrape of each

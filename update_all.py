@@ -40,7 +40,10 @@ METADATA = dict(zip(VERSIONS[:5], ('FASHIONISTA_VERSION',
                 touchbeta='FASHIONISTA_TOUCHBETA_VERSION', retrobeta='FASHIONISTA_RETROBETA_VERSION')
 EXPLICIT_ONLY = ('wakfu', 'touchbeta', 'retrobeta')
 STAGED = ('touchbeta', 'retrobeta')
+STAGED_ARGUMENTS = {'touchbeta': ('--channel', 'early'), 'retrobeta': ('--release', 'beta')}
 WATCHED = {'touch': ('WATCHED_TOUCH_ASSETS',),
+           'touchbeta': ('WATCHED_TOUCH_BETA_ASSETS',),
+           'retrobeta': ('WATCHED_RETROBETA_BUILD', 'WATCHED_RETROBETA_LANG_ROOT', 'WATCHED_RETROBETA_LANG'),
            'retro': ('WATCHED_RETRO_BUILD', 'WATCHED_RETRO_LANG_ROOT', 'WATCHED_RETRO_LANG',
                      'WATCHED_RETRO_ASSET_DIGEST', 'WATCHED_RETRO_ASSET_COUNT')}
 APIS = {'dofus3': 'https://api.dofusdu.de/dofus3/v1/',
@@ -149,6 +152,15 @@ def fetch_json(url):
         return json.load(response)
 
 
+def family_of(key):
+    """The game family of a version key: a staged beta follows the registry, any other key is its own."""
+    try:
+        from fashionistapulp.fashionistapulp.game_versions import get_game_version
+    except ImportError:
+        from fashionistapulp.game_versions import get_game_version
+    return get_game_version(key).family if key in STAGED else key
+
+
 def read_metadata():
     tree = ast.parse((ROOT / 'fashionista_version.py').read_text(encoding='utf-8'))
     return {node.targets[0].id: ast.literal_eval(node.value)
@@ -156,16 +168,20 @@ def read_metadata():
             and isinstance(node.targets[0], ast.Name)}
 
 
-def touch_build_version():
-    request = urllib.request.Request(TOUCH_CLIENT, headers={
-        'User-Agent': 'DofusFashionista data updater',
+def touch_build_version(channel=touch_channels.DEFAULT_CHANNEL):
+    early = channel != touch_channels.DEFAULT_CHANNEL
+    client = touch_channels.host(channel) + '/build/script.js' if early else TOUCH_CLIENT
+    request = urllib.request.Request(client, headers={
+        'User-Agent': touch_channels.USER_AGENT if early else 'DofusFashionista data updater',
         'Range': 'bytes=0-65535', 'Cache-Control': 'no-cache',
     })
     with urllib.request.urlopen(request, timeout=30) as response:
         script = response.read(65536).decode('utf-8', errors='replace')
-    builds = set(re.findall(r'\bwindow\.buildVersion\s*=\s*[\'"](\d+\.\d+\.\d+)[\'"]', script))
+    suffix = r'(?:-[\w.]+)?' if early else ''
+    builds = set(re.findall(r'\bwindow\.buildVersion\s*=\s*[\'"](\d+\.\d+\.\d+)' + suffix + r'[\'"]', script))
     if len(builds) != 1:
-        raise ValueError('Touch build missing or ambiguous in the production client: ' + TOUCH_CLIENT)
+        raise ValueError('Touch build missing or ambiguous in the %s client: %s'
+                         % ('early channel' if early else 'production', client))
     return builds.pop()
 
 
@@ -230,6 +246,18 @@ def set_watched_sources(content, row):
     source = row.get('source') or {}
     if row['key'] == 'touch' and source.get('assets'):
         content = replace_constant(content, 'WATCHED_TOUCH_ASSETS', json.dumps(source['assets']))
+    if row['key'] == 'touchbeta' and source.get('assets'):
+        content = replace_constant(content, 'WATCHED_TOUCH_BETA_ASSETS', json.dumps(source['assets']))
+    if row['key'] == 'retrobeta':
+        if source.get('build'):
+            content = replace_constant(content, 'WATCHED_RETROBETA_BUILD', json.dumps(source['build']))
+        if source.get('lang_root'):
+            content = replace_constant(content, 'WATCHED_RETROBETA_LANG_ROOT', json.dumps(source['lang_root']))
+        served = source.get('lang') or {}
+        watched = read_metadata().get('WATCHED_RETROBETA_LANG') or {}
+        if served and all(name in served for name in watched):
+            lines = ["    '%s': '%s'," % (name, served[name]) for name in watched]
+            content = replace_constant(content, 'WATCHED_RETROBETA_LANG', '{\n' + '\n'.join(lines) + '\n}')
     if row['key'] == 'retro':
         if source.get('build'):
             content = replace_constant(content, 'WATCHED_RETRO_BUILD', json.dumps(source['build']))
@@ -320,11 +348,68 @@ def importable_release(version, served, official, current, warnings):
     return served, None
 
 
+def staged_row(version, ours, available, source, current_data, moved, older, live_text):
+    """A staged version's row: moved when its channel differs from what its data was built from, never when older."""
+    row = {'key': version, 'current': ours.get(METADATA[version], '?'), 'available': available,
+           'official': available, 'source': source, 'warnings': [], 'error': None, 'changed': False,
+           'current_data': current_data}
+    if older:
+        row['older'] = True
+        row['warnings'].append('The %s source is %s, older than the last import %s: not imported.'
+                               % (NAMES[version], live_text, current_data))
+    else:
+        row['changed'] = moved or row['current'] != available
+    return row
+
+
+def probe_touchbeta(ours, state):
+    from check_game_versions import stamp_order
+    config = touch_channels.read_config('early')
+    assets = (config.get('assetsUrl') or '').rstrip('/').rsplit('/', 1)[-1]
+    if not assets:
+        raise ValueError('The early channel names no assets bundle.')
+    build = touch_build_version('early')
+    source = {'build': build, 'assets': assets, 'languages': sorted(config.get('serverLanguages') or []),
+              'data_url': config.get('dataUrl')}
+    previous = state.get('touchbeta', {}).get('source')
+    watched = (previous or {}).get('assets', ours['WATCHED_TOUCH_BETA_ASSETS'])
+    older = ((stamp_order(assets), stamp_order(build))
+             < (stamp_order(watched), stamp_order(ours.get('FASHIONISTA_TOUCHBETA_VERSION', ''))))
+    moved = assets != watched or bool(previous and any(
+        previous.get(field) != source[field] for field in ('build', 'languages', 'data_url')))
+    return staged_row('touchbeta', ours, build, source, watched, moved, older, assets)
+
+
+def probe_retrobeta(catalog, ours, state):
+    import cytrus_cdn
+    from download_retro_langs import lang_root
+    from check_game_versions import retro_lang_versions, stamp_order, static_data_id
+    catalog = catalog or fetch_json(CYTRUS)
+    try:
+        build = catalog['games']['retro']['platforms']['windows']['beta']
+    except KeyError:
+        raise ValueError('Cytrus lists no Retro beta release.')
+    manifest = cytrus_cdn.download_manifest('retrobeta', version=build)
+    root = lang_root('retrobeta', manifest=manifest)
+    short = build.split('_')[-1]
+    source = {'build': short, 'lang_root': root, 'lang': retro_lang_versions(root)}
+    previous = state.get('retrobeta', {}).get('source')
+    watched = (previous or {}).get('build', ours['WATCHED_RETROBETA_BUILD'])
+    watched_root = (previous or {}).get('lang_root', ours['WATCHED_RETROBETA_LANG_ROOT'])
+    watched_lang = (previous or {}).get('lang', ours['WATCHED_RETROBETA_LANG'])
+    older = ((stamp_order(short), static_data_id(root))
+             < (stamp_order(watched), static_data_id(watched_root)))
+    return staged_row('retrobeta', ours, retro_game_version(build), source, watched,
+                      short != watched or root != watched_root or source['lang'] != watched_lang, older, short)
+
+
 def probe(version, catalog=None):
     ours = read_metadata()
     state = read_json(REPORTS / 'state.json', {})
-    if version in STAGED:
-        raise ValueError('staged: its data is imported by hand until the version watch reads its channel')
+    if version == 'touchbeta':
+        return probe_touchbeta(ours, state)
+    if version == 'retrobeta':
+        return probe_retrobeta(catalog, ours, state)
     result = {'key': version, 'current': ours.get(METADATA.get(version), '?'),
               'available': None, 'official': None, 'source': {}, 'warnings': [],
               'error': None, 'changed': False}
@@ -432,13 +517,14 @@ def show_versions(rows):
 
 def version_details(row, console=False):
     source = row.get('source', {})
-    if row['key'] == 'touch':
+    family = family_of(row['key'])
+    if family == 'touch':
         lines = ['Game build available: ' + (row['available'] or 'unavailable'),
                  'CDN assets: %s -> %s' % (row.get('current_data', '?'), source.get('assets', '?'))]
         if console:
             lines.append("The installed app's version number is not the game build.")
         return lines
-    if row['key'] == 'retro':
+    if family == 'retro':
         return ['Game version available: ' + (row['available'] or 'unavailable'),
                 'Cytrus technical id: %s -> %s' % (row.get('current_data', '?'), source.get('build', '?'))]
     line = 'Importable data: %s | Ankama client: %s' % (row['available'] or 'unavailable', row['official'] or '?')
@@ -466,6 +552,8 @@ def selection(text, rows):
     for key in keys:
         if by_key[key]['error']:
             raise ValueError('%s: source unavailable, cannot update' % NAMES[key])
+        if by_key[key].get('older'):
+            raise ValueError('%s: the source is older than the last import, not imported' % NAMES[key])
     return [key for key in VERSIONS if key in keys]
 
 
@@ -797,9 +885,9 @@ def worker(job_path):
     job = read_json(job_path)
     key = job['key']
     module = importlib.import_module(PIPELINES[key])
-    if key == 'retro' and (job.get('source') or {}).get('lang_root'):
-        from download_retro_langs import LANG_ROOT_ENV
-        os.environ[LANG_ROOT_ENV] = job['source']['lang_root']
+    if key in ('retro', 'retrobeta') and (job.get('source') or {}).get('lang_root'):
+        from download_retro_langs import lang_root_env
+        os.environ[lang_root_env(key)] = job['source']['lang_root']
     setter = {'dofus3': 'set_version', 'beta': 'set_beta_version', 'dofus2': 'set_dofus2_version'}.get(key)
     if setter:
         setattr(module, setter, lambda version: version)
@@ -842,6 +930,7 @@ def worker(job_path):
     args = [module.__file__]
     if key in APIS:
         args += ['--version', job['available']]
+    args += STAGED_ARGUMENTS.get(key, ())
     if not job['images']:
         args += ['--skip-images']
     sys.argv = args
@@ -1472,7 +1561,7 @@ def version_block(row):
     lines = ['## %s: %s' % (NAMES[row['key']], row.get('status', NOT_STARTED)), '',
              '- Version: %s -> %s, images: %s' % (row.get('current', '?'), row.get('available', '?'),
                                                   'yes' if row.get('images') else 'no')]
-    if row['key'] in ('touch', 'retro'):
+    if family_of(row['key']) in ('touch', 'retro'):
         lines += ['- ' + detail for detail in version_details(row)]
     if row.get('items'):
         lines.append('- Items from: ' + row['items'])

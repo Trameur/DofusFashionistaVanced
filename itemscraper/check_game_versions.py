@@ -46,10 +46,32 @@ def cytrus_version(game_version, raw=None):
     return raw.split('_', 1)[-1] if '_' in raw else raw
 
 
-def retro_lang_root(manifest=None):
-    """The lang root named by the config.xml of the live Retro client."""
+def retro_lang_root(manifest=None, release='retro'):
+    """The lang root named by the config.xml of the live Retro client of a release."""
     from download_retro_langs import lang_root
-    return lang_root(manifest=manifest)
+    if release == 'retro':
+        return lang_root(manifest=manifest)
+    return lang_root(release, manifest=manifest)
+
+
+def stamp_order(text):
+    """The leading dotted number of a stamp such as 3.4.3_hash or 1.50.0.5770.137-36058be, as a tuple."""
+    match = re.match(r'\d+(?:\.\d+)*', text or '')
+    return tuple(int(part) for part in match.group(0).split('.')) if match else ()
+
+
+def static_data_id(root):
+    """The number of the static-data folder a Retro lang root sits in, 0 when it names none."""
+    match = re.search(r'/static-data/(\d+)/', root or '')
+    return int(match.group(1)) if match else 0
+
+
+def retro_beta_live():
+    """(build, lang root, lang versions) of the Retro beta release as cytrus serves it now."""
+    raw = cytrus_cdn.get_version('retrobeta')
+    manifest = cytrus_cdn.download_manifest('retrobeta', version=raw)
+    root = retro_lang_root(manifest, 'retrobeta')
+    return cytrus_version('retrobeta', raw), root, retro_lang_versions(root)
 
 
 def retro_lang_versions(root=None):
@@ -124,6 +146,59 @@ def retro_asset_diff(previous, current):
 def touch_assets():
     url = _json(TOUCH_CONFIG).get('assetsUrl', '')
     return url.rsplit('/', 1)[-1] if url else ''
+
+
+def touch_early_assets():
+    """The assets bundle Touch's early channel serves."""
+    url = touch_channels.read_config('early').get('assetsUrl', '')
+    return url.rstrip('/').rsplit('/', 1)[-1] if url else ''
+
+
+def staged_status(older, same):
+    return 'ok' if same else 'OLDER, not imported' if older else 'MOVED'
+
+
+def check_touch_beta(ours):
+    """Prints the early bundle against the one Touch Beta was built from; returns what moved."""
+    try:
+        live = touch_early_assets()
+        if not live:
+            raise ValueError('the early config names no assets bundle')
+    except Exception as exc:
+        print('%-8s ours %-40s live UNREACHABLE (%s)' % ('touchbeta', ours.WATCHED_TOUCH_BETA_ASSETS, exc))
+        return []
+    watched = ours.WATCHED_TOUCH_BETA_ASSETS
+    status = staged_status(stamp_order(live) < stamp_order(watched), live == watched)
+    print('%-8s ours %-40s live %-40s %s   (public number %s)'
+          % ('touchbeta', watched, live, status, ours.FASHIONISTA_TOUCHBETA_VERSION))
+    if status != 'MOVED':
+        return []
+    print('touchbeta moved: update_all.py --versions touchbeta imports it and sets WATCHED_TOUCH_BETA_ASSETS')
+    return [('touchbeta', live)]
+
+
+def check_retro_beta(ours):
+    """Prints the beta release against the one Retro Beta was built from; returns what moved."""
+    try:
+        build, root, lang = retro_beta_live()
+    except Exception as exc:
+        print('%-8s build %-40s live UNREACHABLE (%s)' % ('retrobeta', ours.WATCHED_RETROBETA_BUILD, exc))
+        return []
+    live_order = (stamp_order(build), static_data_id(root))
+    watched_order = (stamp_order(ours.WATCHED_RETROBETA_BUILD), static_data_id(ours.WATCHED_RETROBETA_LANG_ROOT))
+    status = staged_status(live_order < watched_order,
+                           (build, root, lang) == (ours.WATCHED_RETROBETA_BUILD, ours.WATCHED_RETROBETA_LANG_ROOT,
+                                                   ours.WATCHED_RETROBETA_LANG))
+    print('%-8s build %-40s live %-40s %s   (static-data %s -> %s)'
+          % ('retrobeta', ours.WATCHED_RETROBETA_BUILD, build, status, watched_order[1], live_order[1]))
+    if status != 'MOVED':
+        return []
+    lang_moved = sorted(name for name, version in lang.items() if version != ours.WATCHED_RETROBETA_LANG.get(name))
+    if lang_moved:
+        print('retrobeta lang categories moved: ' + ', '.join(lang_moved))
+    print('retrobeta moved: update_all.py --versions retrobeta imports it and sets WATCHED_RETROBETA_BUILD, '
+          'WATCHED_RETROBETA_LANG_ROOT and WATCHED_RETROBETA_LANG')
+    return [('retrobeta', build)]
 
 
 def patch_key(patch):
@@ -374,6 +449,8 @@ def main(argv=None):
             print('  refresh the Retro images for those families, then run '
                   '--emit-snapshot and paste the two lines it prints')
 
+    moved.extend(check_touch_beta(ours))
+    moved.extend(check_retro_beta(ours))
     moved.extend(check_update_lists())
 
     for name, live in moved:
