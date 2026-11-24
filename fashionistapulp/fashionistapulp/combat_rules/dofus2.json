@@ -1,0 +1,141 @@
+{
+  "version": "dofus2",
+  "revision": 1,
+  "verified_on_tag": "2.73.3.14",
+  "enabled_stages": [
+    "P"
+  ],
+  "order": [
+    "X",
+    "F",
+    "P",
+    "R"
+  ],
+  "rounding": {
+    "X": "floor",
+    "F": "none",
+    "P": "floor",
+    "R": "floor"
+  },
+  "tolerance_per_hit": 1,
+  "percent_at_or_above_100": "zero",
+  "percent_below_0": "amplify",
+  "crit_flat_on_crit_only": true,
+  "pvp_lines": "none",
+  "best_element_considers_target": false,
+  "steal_heal_share": 0.5,
+  "heal_stages": [
+    "roll plus the spell's base modifier",
+    "times (100 + element stat + spell power 98, without Power 25)/100, truncated",
+    "plus heals (49) and the spell's context modifier, no elemental fixed damage",
+    "times the caster's dealt heal multiplier (143)/100, truncated, skipped when the heal comes from damage turned to heal",
+    "capped at the target's missing life"
+  ],
+  "base_erosion_percent": 10,
+  "shield_rules": "1040 = the dice; 1039 = trunc(caster max HP x pct/100); 1020 = round(caster level x pct/100); the shield absorbs after every multiplier (life damage = damage - shield, at least 0) and erosion applies only to the part that passed the shield; stacking and duration are not in the source",
+  "melee_rule": "distance at the hit: melee when the caster is not the target and their cells are adjacent (0 or 1 cell), ranged otherwise; spells and weapons alike; not the spell's range",
+  "monster_keyword_meanings": "unknown",
+  "sources": {
+    "P": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf (sha1 92a0b228bd44bb5616a47601684171af77cffc21, ffdec 26.2.0 export): damageCalculation/damageManagement/DamageReceiver.as receiveDamage l.125-126 multiply(1 - getElementMainResist/100) then minimizeBy(0); fighterManagement/HaxeFighter.as getElementMainResist l.1077-1103 (elemental 33-37 + 101, min(value, 50 for HUMAN, 100 otherwise)). Client damage preview library (Preview.DamagePreview.computePreview, isPreview true); that the server runs the same code is HYP",
+        "date": "2026-11-24"
+      }
+    ],
+    "order": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: X = DamageSender.as getTotalDamage l.22-68, getBoostableDamage l.198-209, getDamageBonus l.229-249, DamageCalculator.as computeEffect l.930-947 (AoE and portal factor); F = DamageReceiver.as receiveDamage l.113-114 (flat 54-58, crit res 87 on crit rows, effect 265 buffs); P = l.125-126; R = DamageReceiver.as applyDamage l.227-228 and applyDealtMultiplier l.237-250 (dealt spell 123 or weapon 122, dealt melee 125 or ranged 120, received spell 141 or weapon 142, received melee 124 or ranged 121, final damage 107, then 1163 buffs). Client preview; server equality HYP",
+        "date": "2026-11-24"
+      }
+    ],
+    "rounding": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: damageCalculation/tools/Interval.as l.6-8 (int min, int max) and multiply l.47-52, so every multiplication truncates toward zero (AS3 int slot); the value is clamped at 0 or above after P (DamageReceiver.as l.126) and before R (l.227), so truncation equals floor there; X can truncate a negative base only with a negative base modifier; F is an integer subtraction (effect 265 amounts are truncated in HaxeFighter.as getDamageReductor l.1198-1221). Client preview; server equality HYP",
+        "date": "2026-11-24"
+      }
+    ],
+    "percent_at_or_above_100": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: HaxeFighter.as getElementMainResist l.1080 and l.1102 (non-players capped at 100); DamageReceiver.as l.125-126 (factor 1 - p/100, then minimizeBy(0)). Client preview",
+        "date": "2026-11-24"
+      }
+    ],
+    "percent_below_0": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: HaxeFighter.as getElementMainResist l.1102 (Math.min with the cap only, no lower bound); DamageReceiver.as l.125. Client preview",
+        "date": "2026-11-24"
+      }
+    ],
+    "crit_flat_on_crit_only": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: DamageReceiver.as getFlatResistance l.277-286 (adds characteristic 87 only when the effect isCritical and is not in the spell's normal effects), subtracted in stage F at receiveDamage l.113. Client preview",
+        "date": "2026-11-24"
+      }
+    ],
+    "pvp_lines": [
+      {
+        "kind": "client_code",
+        "where": "itemscraper/raw/2.73.3.14/effects.json (750 effects): no effect id 250-264 and no effect on characteristics 59-68, so no item, set or spell grants a PvP resistance (slice0/dofus3/scripts/d2pvp.py and d2pvp2.py, re-run 2026-11-24); 2.73.3.14 DofusInvoker.swf damageCalculation/tools/StatIds.as l.114-132 defines 59-68 and no exported damageCalculation or Preview file reads them. The help texts 721001-721006 and 1095355-1095480 remain in 2.73.3.14 en.json as leftovers (HYP)",
+        "date": "2026-11-24"
+      }
+    ],
+    "best_element_considers_target": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: HaxeFighter.as getBestElement l.1355-1371 (caster's highest main stat, ties broken by elemental fixed damage, no target input); DamageSender.as getTotalDamage l.28-31. Client preview",
+        "date": "2026-11-24"
+      }
+    ],
+    "steal_heal_share": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: DamageReceiver.as LIFE_STEAL_MULTIPLICATOR l.18, receiveDamage l.134-140 (share of computeLifeDamage, i.e. after every multiplier and the shield), getLifeStealEffect l.355-371 (multiply(0.5), truncated), executeLifePointsWin l.373-392 (x 143/100, capped at missing life); tools/ActionIdHelper.as isLifeSteal l.251-258. Client preview",
+        "date": "2026-11-24"
+      }
+    ],
+    "heal_stages": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: DamageSender.as getDamageBonus l.243 (Power 25 skipped on heals), flatDamageBonus l.211-222 (heals 49 instead of 16, no elemental fixed damage), DamageReceiver.as executeLifePointsWin l.373-392 (143 multiplier, missing-life cap). Characteristic 105 is defined (StatIds.as l.206) and never read. Client preview",
+        "date": "2026-11-24"
+      }
+    ],
+    "base_erosion_percent": [
+      {
+        "kind": "ankama_text",
+        "where": "itemscraper/raw/2.73.3.14/en.json texts 1096616 and 846692 ('The natural erosion of 10% ... will never exceed 50%') and 873920 ('Natural erosion corresponds to 10% of damage suffered')",
+        "date": "2026-11-24"
+      },
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: DamageReceiver.as getPermanentDamage l.150-160 (floor(life damage x clamp(characteristic 75, 0, 50)/100), capped at HP - 1); the 10 itself comes from the server in characteristic 75",
+        "date": "2026-11-24"
+      }
+    ],
+    "shield_rules": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: DamageSender.as getTotalShield l.70-101; damageManagement/EffectOutput.as computeLifeDamage l.192-205; DamageReceiver.as applyDamage l.229-233; HaxeFighter.as l.975 (erosion on computeLifeDamage). Client preview",
+        "date": "2026-11-24"
+      }
+    ],
+    "melee_rule": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: DamageCalculator.as computeEffect l.656 and handleAffectedTarget l.1096 (caster != target and MapTools.areCellsAdjacent); HaxeFighter.as l.1280-1315 (flag picks 124/125 or 121/120)",
+        "date": "2026-11-24"
+      },
+      {
+        "kind": "ankama_text",
+        "where": "itemscraper/raw/2.73.3.14/en.json texts 846693-846696 and 1095534/1095536 ('at a distance of 0 or 1 cells', '2 or more cells')",
+        "date": "2026-11-24"
+      }
+    ]
+  }
+}

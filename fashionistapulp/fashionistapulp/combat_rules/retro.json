@@ -1,0 +1,38 @@
+{
+  "version": "retro",
+  "revision": 1,
+  "verified_on_tag": "1.49.10",
+  "enabled_stages": [
+    "P"
+  ],
+  "order": "unknown",
+  "rounding": {
+    "P": "unknown"
+  },
+  "tolerance_per_hit": 1,
+  "percent_at_or_above_100": "unknown",
+  "percent_below_0": "unknown",
+  "crit_flat_on_crit_only": "unknown",
+  "pvp_lines": "unknown",
+  "best_element_considers_target": "unknown",
+  "steal_heal_share": "unknown",
+  "heal_stages": "unknown",
+  "base_erosion_percent": "unknown",
+  "shield_rules": "unknown",
+  "melee_rule": "unknown",
+  "monster_keyword_meanings": "unknown",
+  "sources": {
+    "P": [
+      {
+        "kind": "ankama_text",
+        "where": "itemscraper/retro_raw/kb_fr.json (Retro 1.49.10 lang, VERSION 1387), KBA article 33 'Les Résistances': each '<element> en %' resistance 'Permet de réduire en pourcentage, les attaques de type <element>', for neutral, air, eau, terre and feu",
+        "date": "2026-11-24"
+      },
+      {
+        "kind": "ankama_text",
+        "where": "itemscraper/retro_raw/effects_fr.json (VERSION 1397) and effects_en.json (VERSION 1258), Retro 1.49.10 lang: effects 210 to 214 '% de résistance' / '% earth, water, air, fire, neutral resistance', characteristics 33 to 37, apart from the fixed resistances 240 to 244",
+        "date": "2026-11-24"
+      }
+    ]
+  }
+}

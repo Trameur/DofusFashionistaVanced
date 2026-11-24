@@ -1,0 +1,148 @@
+{
+  "version": "touch",
+  "revision": 1,
+  "verified_on_tag": "1.74.14",
+  "enabled_stages": [
+    "P"
+  ],
+  "order": [
+    "X",
+    "F",
+    "P",
+    "R",
+    "Z"
+  ],
+  "rounding": {
+    "X": "floor",
+    "F": "none",
+    "P": "none",
+    "R": "none",
+    "Z": "floor"
+  },
+  "tolerance_per_hit": 1,
+  "percent_at_or_above_100": "zero",
+  "percent_below_0": "amplify",
+  "crit_flat_on_crit_only": true,
+  "pvp_lines": "unknown",
+  "best_element_considers_target": false,
+  "steal_heal_share": "0.5 as an efficiency factor on the attacker side, before flat and percent resistance: heal = (0.5 x raw - flat) x (100 - percent)/100, not half the damage dealt",
+  "heal_stages": [
+    "floor(roll x (100 + stat of the heal's element, Intelligence by default)/100), no Power",
+    "plus heals when the roll is above 0",
+    "times area efficiency",
+    "times the target's MULTIPLY_RECEIVED_HEAL buffs",
+    "truncated",
+    "capped at the target's missing life against its eroded max HP"
+  ],
+  "base_erosion_percent": 10,
+  "shield_rules": "unknown",
+  "melee_rule": "distance at the cast: melee when the Manhattan cell distance caster-target is at most 1, distance multipliers otherwise; spells and weapons alike; the melee or distance factor adds to the spell or weapon and indirect factors in one factor per side",
+  "monster_keyword_meanings": {
+    "neutralResistance": "neutresper",
+    "earthResistance": "earthresper",
+    "fireResistance": "fireresper",
+    "waterResistance": "waterresper",
+    "airResistance": "airresper"
+  },
+  "sources": {
+    "P": [
+      {
+        "kind": "ankama_text",
+        "where": "live dictionary (en sha256 036129e2e7cc75d5, fr 9b3178104ab4cf81, POST dt-proxy-production-login.ankama-games.com/data/dictionary, build 1.74.14) key ui.helpWindow.category2sub15text: 'Fixed resistances are deducted first', 'Resistance percentages are applied last', worked example 200 after fixed with 25% gives 150; players capped at 35%",
+        "date": "2026-11-24"
+      },
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 (window.buildVersion, Last-Modified 2026-11-23 15:27:35 GMT, assets 3.3.12, UI 1.10.10), module 961 _computeDamage l.294 (l = 100 - resist) and l.326 (minus flat, applyMultiplier(l/100), applyMultiplier(E/100), unsignedNumber), l.328 truncate. Client damage preview: it caps players at MAX_RESISTANCE 50 (module 762 l.38) where the game caps at 35, so it is not the server's code; the record notes it and the cap comes from percent_resist_cap",
+        "date": "2026-11-24"
+      }
+    ],
+    "order": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961: X = function d() l.33-37 (floor after stat and Power, fixed damage, area efficiency, ~~, combo, one additive dealt factor) with _computeDamage l.279 and l.290-316; F, P, R = l.326 (flat with crit flat and reduction buffs, then percent, then one additive received factor, then clamp at 0); Z = l.328 truncate. Final-damage buffs (l.230-232) and MULTIPLY_RECEIVED_DAMAGE buffs (l.236-240) come after Z and are buffs, not gear stages. Client preview estimate (see P)",
+        "date": "2026-11-24"
+      },
+      {
+        "kind": "ankama_text",
+        "where": "live dictionary key ui.helpWindow.category2sub15text (build 1.74.14): fixed resistances first, percentages last; fixed damage bonuses at the end of the attacker calculation",
+        "date": "2026-11-24"
+      }
+    ],
+    "rounding": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 function d() l.35 (Math.floor after stat and Power, ~~ after area efficiency, none after combo and the dealt factor), l.326 (no rounding between F, P and R), l.328 (G.truncate(), Q.truncate(): ~~ on a value already clamped at 0, so floor); module 764 truncate l.25-26 (~~). Client preview estimate (see P)",
+        "date": "2026-11-24"
+      }
+    ],
+    "percent_at_or_above_100": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 l.294 and l.326 (factor 100 - resist at or below 0, then unsignedNumber clamps at 0); only monsters and summons can reach it. Client preview estimate",
+        "date": "2026-11-24"
+      }
+    ],
+    "percent_below_0": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 l.294 (100 - resist with no upper bound); itemscraper/touch_raw/Monsters_fr.json grades carry negative <element>Resistance values. Client preview estimate",
+        "date": "2026-11-24"
+      }
+    ],
+    "crit_flat_on_crit_only": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 _computeDamage l.296 (on a critical effect, p += target.criticalDamageReduction, then subtracted with the flat at l.326)",
+        "date": "2026-11-24"
+      },
+      {
+        "kind": "ankama_text",
+        "where": "live dictionary key ui.helpWindow.category2sub15text (build 1.74.14): 'critical resistances that only apply to critical hits'",
+        "date": "2026-11-24"
+      }
+    ],
+    "best_element_considers_target": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 759 getElementEffect l.286-296 (best element from the caster's stats and elemental fixed damage only)",
+        "date": "2026-11-24"
+      }
+    ],
+    "steal_heal_share": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 _computeAllElementaryDamages l.105-107 (extraMultiplier .5), _computeDamage l.295 (feeds efficiencyPercent of d()), l.222 (converted to heal). Client preview estimate",
+        "date": "2026-11-24"
+      }
+    ],
+    "heal_stages": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 _getComputedHealDamages l.112-139 (truncate l.133), _computeTargetBuffs l.166 (MULTIPLY_RECEIVED_HEAL); module 759 l.342-344 and module 761 toData l.35-58 (cap at effectiveMaxLifePoints - lifePoints + damage). Client preview estimate",
+        "date": "2026-11-24"
+      }
+    ],
+    "base_erosion_percent": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 _computeDamage l.327 (J = (10 + target.erosionPercentBonus)/100). No Touch dictionary text states the 10. Client preview estimate",
+        "date": "2026-11-24"
+      }
+    ],
+    "melee_rule": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 _computeDamage l.278-279 (W = getDistance(caster cell, target cell); W <= 1 adds the melee multipliers, else the distance ones); module 485 getDistance (|dx| + |dy|)",
+        "date": "2026-11-24"
+      }
+    ],
+    "monster_keyword_meanings": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 at char offset 2124479 (summon description): grade neutralResistance, earthResistance, fireResistance, waterResistance, airResistance shown under ui.stats.<element>ReductionPercent; itemscraper/touch_raw/Monsters_fr.json (13,922 grades) has no damage, Power or flat resistance key",
+        "date": "2026-11-24"
+      }
+    ]
+  }
+}
