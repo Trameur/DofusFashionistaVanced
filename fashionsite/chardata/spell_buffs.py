@@ -148,6 +148,7 @@ def _buff_value(buff_scaling, stat, stacks, effect_max_dam):
 
 def compute_full_buff_stats(char, game_version):
     """{stat_key: value} deltas if the character's class self-buffs are fully active."""
+    from chardata.spell_combo import drawn_buff_faces
     spells_by_class = get_damage_spells_for_version(game_version)
     spells = spells_by_class.get(char.char_class, []) + spells_by_class.get('default', [])
     buff_spells = [spell for spell in spells if _spell_is_buff(spell)]
@@ -162,7 +163,9 @@ def compute_full_buff_stats(char, game_version):
         digest = spell.get_effects_digest()
         crit_available = len(digest.crit_dams[0]) > 0
         dams = digest.crit_dams if crit_available else digest.non_crit_dams
-        for effect in dams[_decide_spell_level(spell.level_req, char.level)]:
+        rows = dams[_decide_spell_level(spell.level_req, char.level)]
+        faces = drawn_buff_faces(digest.aggregates, rows)
+        for row, effect in enumerate(rows):
             if not effect.element.startswith('buff'):
                 continue
             parts = effect.element.split('_')
@@ -173,6 +176,9 @@ def compute_full_buff_stats(char, game_version):
             if stat in _BUFF_STATS_WITHOUT_ROW:
                 continue
             value = _buff_value(spell.buff_scaling, stat, spell.stacks, effect.max_dam)
+            if faces.get(row, 1) > 1:
+                value = value / faces[row]
+                value = int(value) if value == int(value) else value
             if stat == 'depow':
                 stat, value = 'pow', -value
             if value:

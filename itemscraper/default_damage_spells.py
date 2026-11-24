@@ -74,10 +74,7 @@ class DefaultSpellSpec:
 
 
 DEFAULT_DAMAGE_SPELL_SPECS: Sequence[DefaultSpellSpec] = (
-    # Le client porte bien 24006 et 3506, mais sans la moindre ligne de
-    # degats: leurs valeurs ne peuvent venir que de nous.
-    DefaultSpellSpec("Burnt Pie", prefer_variant=True, ankama_id=24006,
-                     hand_written=True),
+    DefaultSpellSpec("Burnt Pie", prefer_variant=True, ankama_id=24006),
     DefaultSpellSpec("Leek Pie", prefer_variant=True),
     DefaultSpellSpec("Grunob's Lightning Strike"),
     DefaultSpellSpec("Grunob's Lesson"),
@@ -89,6 +86,7 @@ DEFAULT_DAMAGE_SPELL_SPECS: Sequence[DefaultSpellSpec] = (
     DefaultSpellSpec("Darkli Moon Hammer"),
     DefaultSpellSpec("Perfidious Boomerang"),
     DefaultSpellSpec("Diamondine Boomerang"),
+    # In the client, but with no damage line
     DefaultSpellSpec("Weapon Skill", ankama_id=3506, hand_written=True),
     # La fiche de l'objet, lue le 12 septembre 2026 dans notre catalogue, sur
     # Dofus 3 comme sur Dofus 2: <<Declencher les 2 effets dans le tour permet

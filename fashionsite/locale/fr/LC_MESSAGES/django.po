@@ -7562,6 +7562,9 @@ msgstr "CC"
 msgid "Hit in best element"
 msgstr "Coup dans le meilleur élément"
 
+msgid "Hit in worst element"
+msgstr "Coup dans le pire élément"
+
 msgid "Hit in one random element"
 msgstr "Coup dans un élément au hasard"
 

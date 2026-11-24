@@ -77,10 +77,10 @@
   "Huppermage": {
    "20": {"element": "agi", "inputs": "c6218b88e7cc", "turns": {"agi": 199.4, "cha": 192.9, "int": 187.9, "str": 192.5}},
    "50": {"element": "int", "inputs": "b2c151d71daa", "turns": {"agi": 278.0, "cha": 275.0, "int": 278.0, "str": 274.8}},
-   "100": {"element": "int", "inputs": "53e557df8051", "turns": {"agi": 608.8, "cha": 601.7, "int": 608.8, "str": 590.4}},
-   "150": {"element": "cha", "inputs": "989b97115bc6", "turns": {"agi": 1079.0, "cha": 1112.7, "int": 1063.0, "str": 1079.0}},
-   "180": {"element": "cha", "inputs": "395175a45860", "turns": {"agi": 1506.8, "cha": 1531.7, "int": 1495.0, "str": 1436.3}},
-   "200": {"element": "cha", "inputs": "709fba1f73b6", "turns": {"agi": 1985.2, "cha": 2013.3, "int": 1969.8, "str": 1901.9}}
+   "100": {"element": "int", "inputs": "6bd21134ddf8", "turns": {"agi": 608.8, "cha": 601.7, "int": 608.8, "str": 590.4}},
+   "150": {"element": "cha", "inputs": "3f128213961d", "turns": {"agi": 1079.0, "cha": 1112.7, "int": 1063.0, "str": 1079.0}},
+   "180": {"element": "cha", "inputs": "9d31d958f7a7", "turns": {"agi": 1506.8, "cha": 1531.7, "int": 1495.0, "str": 1436.3}},
+   "200": {"element": "cha", "inputs": "af3bc6f541c4", "turns": {"agi": 1985.2, "cha": 2013.3, "int": 1969.8, "str": 1901.9}}
   },
   "Iop": {
    "20": {"element": "str", "inputs": "d95ba2495d14", "turns": {"agi": 150.3, "cha": 170.7, "int": 172.7, "str": 189.4}},

@@ -7451,6 +7451,9 @@ msgstr "GC"
 msgid "Hit in best element"
 msgstr "Golpe en el mejor elemento"
 
+msgid "Hit in worst element"
+msgstr "Golpe en el peor elemento"
+
 msgid "Hit in one random element"
 msgstr "Golpe en un elemento al azar"
 

@@ -517,7 +517,7 @@ DAMAGE_SPELLS = {
              ['6-8', '8-10', '10-12'],
              ['6-8', '8-10', '10-12']],
             [EARTH, FIRE, WATER, AIR],
-        ), is_linked=(1, 'Leek Pie'), spell_id=24006),
+        ), aggregates=[('Hit in worst element', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Leek Pie'), casting={'ap': [2, 2, 2], 'per_turn': [4, 4, 4], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=24006),
         Spell('Leek Pie', [97, 164], Effects(
             [['6-8', '8-10'], ['6-8', '8-10'], ['6-8', '8-10'], ['6-8', '8-10']],
             [['8-10', '10-12'], ['8-10', '10-12'], ['8-10', '10-12'], ['8-10', '10-12']],
@@ -582,13 +582,16 @@ DAMAGE_SPELLS = {
              ['120', '180']],
             [EARTH, FIRE, WATER, AIR, 'buff_str', 'buff_int', 'buff_cha', 'buff_agi'],
             steals=[True, True, True, True, False, False, False, False],
-        ), is_linked=(1, 'Diamondine Boomerang'), casting={'ap': [3, 3], 'cooldown': [4, 4], 'crit': [5, 5]}, spell_id=364),
+        ), aggregates=[('Hit in one random element', [0, 4]),
+ ('', [1, 5]),
+ ('', [2, 6]),
+ ('', [3, 7])], is_linked=(1, 'Diamondine Boomerang'), casting={'ap': [3, 3], 'cooldown': [4, 4], 'crit': [5, 5]}, spell_id=364),
         Spell('Diamondine Boomerang', [100, 200], Effects(
             [['21-23', '26-29'], ['21-23', '26-29'], ['21-23', '26-29'], ['21-23', '26-29']],
             [['25-28', '31-35'], ['25-28', '31-35'], ['25-28', '31-35'], ['25-28', '31-35']],
             [EARTH, FIRE, WATER, AIR],
             steals=[True, True, True, True],
-        ), is_linked=(2, 'Perfidious Boomerang'), casting={'ap': [3, 3], 'cooldown': [4, 4], 'crit': [5, 5]}, spell_id=24007),
+        ), aggregates=[('Hit in one random element', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(2, 'Perfidious Boomerang'), casting={'ap': [3, 3], 'cooldown': [4, 4], 'crit': [5, 5]}, spell_id=24007),
         Spell('Weapon Skill', [1], Effects(
             [['300']],
             [['350']],

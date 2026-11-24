@@ -102,6 +102,7 @@ def _run_that_hurts(runs, effects):
 
 # Must match itemscraper/get_spells_retro.py
 RANDOM_ELEMENT_LABEL = 'Hit in one random element'
+WORST_ELEMENT_LABEL = 'Hit in worst element'
 # Must match DRAWN_LABEL in itemscraper/generate_damage_spells.py
 DRAWN_LABEL = 'Drawn at random'
 
@@ -129,11 +130,15 @@ def element_runs(aggregates, effects):
     seen = set()
     drawn = False
     for label, indices in aggregates:
-        if len(indices) != 1 or indices[0] >= len(effects):
+        hits = [index for index in indices if index < len(effects)
+                and not effects[index].element.startswith('buff')]
+        if len(hits) != 1 or len(hits) + sum(
+                1 for index in indices if index < len(effects)
+                and effects[index].element.startswith('buff')) != len(indices):
             return []
-        element = effects[indices[0]].element
+        element = effects[hits[0]].element
         # A placed thing or a draw starts its own hit; a draw's faces may share an element
-        if (label == DRAWN_LABEL or PLACED_LABEL.match(label or '')
+        if (label in (DRAWN_LABEL, WORST_ELEMENT_LABEL) or PLACED_LABEL.match(label or '')
                 or (drawn and label) or (element in seen and not drawn)):
             if len(run) > 1:
                 runs.append(run)
@@ -146,13 +151,44 @@ def element_runs(aggregates, effects):
     return runs
 
 
+def drawn_buff_faces(aggregates, effects):
+    """{row index: faces} of the buff rows that ride one face of a drawn hit."""
+    shares = {}
+    for run in element_runs(aggregates, effects):
+        if run[0][0] not in (RANDOM_ELEMENT_LABEL, DRAWN_LABEL):
+            continue
+        for _label, indices in run:
+            for index in indices:
+                if effects[index].element.startswith('buff'):
+                    shares[index] = len(run)
+    return shares
+
+
 def _element_alternatives(aggregates, effects):
     """Groups of a best-element spell, or None for a stacking spell."""
-    runs = [[set(indices) for _label, indices in run]
-            for run in element_runs(aggregates, effects)]
+    runs = element_runs(aggregates, effects)
     if not runs:
         return None
-    return _run_that_hurts(runs, effects)
+    chosen = [run for run in runs if run[0][0] != WORST_ELEMENT_LABEL] or runs
+    return _run_that_hurts([[set(indices) for _label, indices in run]
+                            for run in chosen], effects)
+
+
+def worst_element_faces(aggregates, effects):
+    """Faces of the hit that lands in the caster's worst element, or None."""
+    for run in element_runs(aggregates, effects):
+        if run[0][0] == WORST_ELEMENT_LABEL:
+            return [set(indices) for _label, indices in run]
+    return None
+
+
+def landed_index(castable, totals):
+    """Index of the alternative a cast lands: the best one, the least face of a worst-element hit."""
+    width = max(getattr(castable, 'worst_faces', 1) or 1, 1)
+    picks = [min(range(start, min(start + width, len(totals))),
+                 key=lambda index: totals[index])
+             for start in range(0, len(totals), width)]
+    return max(picks, key=lambda index: totals[index]) if picks else None
 
 
 def runs_landing_together(aggregates, effects, late_rows=(), waiting_rows=()):
@@ -249,6 +285,7 @@ class WeaponCastable(object):
 
     is_spell = False
     random_draw = False
+    worst_faces = 1
     at_highest_rank = True
     stacks = 1
     spell_id = None
@@ -284,6 +321,7 @@ class Castable(object):
     is_spell = True
     # DamageTaken the cast puts on the target, filled in by castable_spells
     taken = None
+    worst_faces = 1
 
     def __init__(self, spell, level_index, crit):
         self.spell = spell
@@ -295,10 +333,15 @@ class Castable(object):
         self.effects = rows[level_index] if level_index < len(rows) else []
         self.buffs = [effect for effect in self.effects
                       if effect.element.startswith('buff')]
+        # A drawn face brings its buff with it: the cast lands one of them
+        self.buff_faces = {
+            id(self.effects[index]): faces for index, faces
+            in drawn_buff_faces(digest.aggregates, self.effects).items()}
 
         # Rows waiting on something the cast does not do, like a push (Noa)
         waiting_rows = set(getattr(spell, 'conditional', None) or {})
         together = []
+        widths = []
 
         def landed(effects, late_rows=()):
             """The damage a cast can land, one list per alternative."""
@@ -312,6 +355,11 @@ class Castable(object):
                 groups = _element_alternatives(digest.aggregates, effects)
             else:
                 together.append(True)
+            worst = worst_element_faces(digest.aggregates, effects)
+            if worst and groups is not None:
+                chosen = [set()] if groups == worst else groups
+                groups = [face | other for face in chosen for other in worst]
+                widths.append(len(worst))
             par_paliers = groups is None and bool(digest.aggregates)
             if groups is None:
                 groups = ([_first_group_that_hurts(digest.aggregates, hits)]
@@ -328,7 +376,7 @@ class Castable(object):
                                                    waiting_rows)
                     if dehors:
                         kept = [effects[index] for index in dehors]
-                if kept:
+                if kept or widths:
                     out.append(kept)
             return out
 
@@ -385,6 +433,7 @@ class Castable(object):
         self.hits = self.alternatives[0] if self.alternatives else []
         self.stacked = bool(digest.aggregates)
         self.counts_both_runs = bool(together)
+        self.worst_faces = widths[0] if widths else 1
         rows = digest.non_crit_dams
         self.scored_group = scored_group_label(
             digest, rows[level_index] if level_index < len(rows) else [],
@@ -421,6 +470,10 @@ class Castable(object):
                 stat = 'powweap'
             value = _buff_value(self.spell.buff_scaling, scaled_as, capped,
                                 effect.max_dam)
+            faces = self.buff_faces.get(id(effect), 1)
+            if faces > 1:
+                value = value / faces
+                value = int(value) if value == int(value) else value
             if stat == 'depow':
                 stat, value = 'pow', -value
             if value:
@@ -940,7 +993,7 @@ def delayed_damage(stats, spells, order, crit=False, standing=None,
 
             def worth(alternatives, critical):
                 """(scored, late) of the alternative _damage_of would take."""
-                best = (0.0, 0.0)
+                totals = []
                 for alternative in alternatives or []:
                     total = 0.0
                     delayed = 0.0
@@ -950,9 +1003,11 @@ def delayed_damage(stats, spells, order, crit=False, standing=None,
                         total += value
                         if id(effect) in late:
                             delayed += value
-                    if total > best[0]:
-                        best = (total, delayed)
-                return best
+                    totals.append((total, delayed))
+                pick = landed_index(castable, [total for total, _late in totals])
+                if pick is None or totals[pick][0] <= 0:
+                    return (0.0, 0.0)
+                return totals[pick]
 
             if crit:
                 gained = worth(castable.alternatives, True)[1]
@@ -1177,7 +1232,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 return 0.0
             if getattr(spell, 'random_draw', False):
                 return max(0.0, sum(gains) / len(gains))
-            return max(0.0, max(gains))
+            return max(0.0, gains[landed_index(spell, gains)])
 
         pushed = (push_value(spell, buffed, game_version, caster_level)
                   if pushback else 0.0)

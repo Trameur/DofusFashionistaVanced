@@ -6701,6 +6701,9 @@ msgstr "crit"
 msgid "Hit in best element"
 msgstr "Hit in best element"
 
+msgid "Hit in worst element"
+msgstr "Hit in worst element"
+
 msgid "Hit in one random element"
 msgstr "Hit in one random element"
 

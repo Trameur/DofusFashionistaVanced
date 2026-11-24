@@ -6,7 +6,7 @@ from django.test import SimpleTestCase
 VERSIONS_CONCERNEES = ('dofus3', 'beta', 'dofus2')
 
 #: Shared spells with our own values: the client has their ids, no damage line
-ECRITS_A_LA_MAIN = {'Burnt Pie', 'Weapon Skill'}
+ECRITS_A_LA_MAIN = {'Weapon Skill'}
 
 
 def _sorts_partages(version):

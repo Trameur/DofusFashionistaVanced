@@ -406,7 +406,8 @@ def visible_damage_share(char_class, level, game_version):
     turn cannot cast. A summon that hits has no rows in the data, so the share is unknown.
     """
     from chardata.spell_buffs import get_damage_spells_for_version
-    from chardata.spell_combo import Castable, _chosen_level, castable_spells, summon_only_spells
+    from chardata.spell_combo import (Castable, _chosen_level, castable_spells, landed_index,
+                                      summon_only_spells)
     from chardata.spell_reference import get_spell_reference
     entries = (get_spell_reference(game_version) or {}).get(char_class)
     spells = (get_damage_spells_for_version(game_version) or {}).get(char_class) or []
@@ -425,8 +426,10 @@ def visible_damage_share(char_class, level, game_version):
         or per stage, so only the best of them lands.
         """
         cost = castable.cost or 1
-        best = max([sum(worth(effect) for effect in alternative)
-                    for alternative in castable.plain_alternatives or castable.alternatives or []] or [0.0])
+        totals = [sum(worth(effect) for effect in alternative)
+                  for alternative in castable.plain_alternatives or castable.alternatives or []]
+        pick = landed_index(castable, totals)
+        best = totals[pick] if pick is not None else 0.0
         by_trigger = {}
         for effect, trigger in castable.waiting_plain or []:
             by_trigger[trigger] = max(by_trigger.get(trigger, 0.0), worth(effect))

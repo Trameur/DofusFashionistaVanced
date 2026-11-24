@@ -16233,7 +16233,7 @@ class SpellCastingCostTests(SimpleTestCase):
 
     # The Dofus applies it to the next attack, the player never casts it
     # Hand-written stand-ins, and a spell the item casts on its own
-    WITHOUT_CASTING_DATA = {'Burnt Pie', 'Weapon Skill', 'Ebony Dofus'}
+    WITHOUT_CASTING_DATA = {'Weapon Skill', 'Ebony Dofus'}
 
     def _spells(self, version):
         from chardata.spell_buffs import get_damage_spells_for_version
@@ -18001,8 +18001,8 @@ class ATickedBuffIsAlreadyStandingTests(SimpleTestCase):
             with self.subTest(char_class=char_class):
                 deltas = buffs_in_force(char_class, 200, 'dofus3',
                                         {'Perfidious Boomerang': 'n1'})
-                self.assertEqual({'str': 160, 'int': 160, 'cha': 160,
-                                  'agi': 160}, deltas)
+                self.assertEqual({'str': 40, 'int': 40, 'cha': 40,
+                                  'agi': 40}, deltas)
                 self.assertEqual({'Perfidious Boomerang': 1},
                                  stacks_in_force(char_class, 200, 'dofus3',
                                                  {'Perfidious Boomerang': 'n1'}))

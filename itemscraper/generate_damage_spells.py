@@ -40,6 +40,10 @@ ELEMENT_LITERAL = {
     "AIR": "AIR",
 }
 BEST_ELEMENT_LABEL = "Hit in best element"
+WORST_ELEMENT_LABEL = "Hit in worst element"
+WORST_ELEMENT_DESCRIPTION_TOKENS = ("worst-element", "worst element")
+WORST_ELEMENT_FACES = ("EARTH", "FIRE", "WATER", "AIR")
+RANDOM_ELEMENT_LABEL = "Hit in one random element"
 # One group of the effects with a chance lands per cast; must match spell_combo.DRAWN_LABEL
 DRAWN_LABEL = "Drawn at random"
 # Ebony Dofus poison takes the element of the attack that applies it
@@ -502,17 +506,6 @@ def _format_damage_literal(min_val: int, max_val: int) -> str:
 
 
 LEGACY_DEFAULT_SPELLS: Dict[str, SpellEntry] = {
-    "Burnt Pie": SpellEntry(
-        name="Burnt Pie",
-        level_requirements=[30, 97, 164],
-        non_crit_ranges=[["5-7", "6-8", "8-10"] for _ in range(4)],
-        crit_ranges=[["6-8", "8-10", "10-12"] for _ in range(4)],
-        elements=["EARTH", "FIRE", "WATER", "AIR"],
-        steals=None,
-        is_linked=(1, "Leek Pie"),
-        order=0,
-        ankama_id=0,
-    ),
     "Ebony Dofus": SpellEntry(
         name="Ebony Dofus",
         level_requirements=[180],
@@ -1759,6 +1752,9 @@ def _not_a_self_buff(spell: Mapping[str, Any]) -> bool:
     return True
 
 
+_MISSING = object()
+
+
 def _stat_buff_gates(effect: Mapping[str, Any]) -> Tuple[Tuple[str, str, str], ...]:
     """The caster counter gates an effect's mask puts on it."""
     return tuple(CASTER_COUNTER_BRANCH.findall(str(effect.get("target_mask") or "")))
@@ -1782,7 +1778,10 @@ def _stat_buff_rows_by_gate(spell: Mapping[str, Any], level_count: int
                     "normal": [None] * level_count,
                     "critical": None,
                     "order": effect.get("order") or 0,
+                    "group": _MISSING,
                 })
+                group = effect.get("group") if effect.get("random") else None
+                row["group"] = group if row["group"] in (_MISSING, group) else None
                 if key == "effects":
                     row["normal"][level_idx] = value
                     continue
@@ -1828,6 +1827,7 @@ def _extract_stat_buff_rows(spell: Mapping[str, Any], level_count: int,
                 "normal": filled_normal,
                 "critical": filled_crit,
                 "order": row["order"],
+                "group": None if row["group"] is _MISSING else row["group"],
             }
         )
 
@@ -2464,6 +2464,8 @@ def _drawn_runs(
         if len(drawn) > 1 and any(
                 abs(chances.get(group, 0.0) - 100) <= 1
                 for chances in _draw_odds(spell, False) for group in set(drawn.values())):
+            if len(drawn) == len(rows) and _alike_but_for_the_element(rows, crit_rows):
+                return [list(range(len(rows)))], None
             return None, "one group draws one of its rows"
         return None, None
     if len(drawn) != len(rows):
@@ -2474,6 +2476,8 @@ def _drawn_runs(
         if chances and max(chances.values()) - min(chances.values()) > 0.01:
             return None, "its groups are drawn at unequal odds"
     group_ids = sorted(set(drawn.values()))
+    if len(group_ids) == len(rows) and _alike_but_for_the_element(rows, crit_rows):
+        return [list(range(len(rows)))], None
     runs: Dict[Tuple[Any, ...], Dict[Any, int]] = {}
     for idx, row in enumerate(rows):
         kind = (row.get("element"), bool(row.get("heals")), bool(row.get("steals")),
@@ -2490,19 +2494,73 @@ def _drawn_runs(
     return [[faces[group] for group in group_ids] for faces in ordered], None
 
 
+def _alike_but_for_the_element(
+    rows: Sequence[Mapping[str, Any]],
+    crit_rows: Sequence[Mapping[str, Any]],
+) -> bool:
+    """True when the rows differ by their element only, one row per element."""
+    def shape(row):
+        return (bool(row.get("heals")), bool(row.get("steals")), row.get("situation"),
+                row.get("triggers"), tuple(row.get("ranges") or ()))
+
+    elements = [row.get("element") for row in rows]
+    if len(rows) < 2 or len(set(elements)) != len(elements):
+        return False
+    if crit_rows and (len(crit_rows) != len(rows)
+                      or [row.get("element") for row in crit_rows] != elements
+                      or len({shape(row) for row in crit_rows}) != 1):
+        return False
+    return len({shape(row) for row in rows}) == 1
+
+
 def _build_drawn_aggregates(
     runs: Optional[Sequence[Sequence[int]]],
     base_row_count: int,
     total_row_count: int,
+    elements: Sequence[str] = (),
 ) -> Optional[List[Tuple[str, List[int]]]]:
     if not runs:
         return None
+
+    def head(run):
+        faces = [elements[idx] for idx in run if idx < len(elements)]
+        one_element_each = len(faces) == len(run) > 1 and len(set(faces)) == len(faces)
+        return RANDOM_ELEMENT_LABEL if one_element_each else DRAWN_LABEL
+
     aggregates: List[Tuple[str, List[int]]] = [
-        (DRAWN_LABEL if position == 0 else "", [idx])
+        (head(run) if position == 0 else "", [idx])
         for run in runs for position, idx in enumerate(run)]
     for idx in range(base_row_count, total_row_count):
         aggregates.append(("", [idx]))
     return aggregates
+
+
+def _pair_buffs_with_their_draw(
+    aggregates: Optional[List[Tuple[str, List[int]]]],
+    drawn_runs: Optional[Sequence[Sequence[int]]],
+    drawn: Mapping[int, Any],
+    buff_rows: Sequence[Mapping[str, Any]],
+    base_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """Each buff drawn with a face joins that face, so the cast lands one hit and its own buff."""
+    if not aggregates or not drawn_runs or len(drawn_runs) != 1 or not drawn:
+        return aggregates
+    run = drawn_runs[0]
+    face_of_group = {drawn.get(idx): position for position, idx in enumerate(run)}
+    if len(face_of_group) != len(run):
+        return aggregates
+    joined: Dict[int, List[int]] = {}
+    for offset, row in enumerate(buff_rows):
+        group = row.get("group")
+        if group is not None and group in face_of_group:
+            joined.setdefault(face_of_group[group], []).append(base_row_count + offset)
+    if not joined:
+        return aggregates
+    paired = {idx for indexes in joined.values() for idx in indexes}
+    faces = {run[position]: indexes for position, indexes in joined.items()}
+    return [(label, list(indexes) + faces.get(indexes[0], []))
+            for label, indexes in aggregates
+            if not (len(indexes) == 1 and indexes[0] in paired)]
 
 
 def _build_one_element_aggregates(
@@ -2542,6 +2600,64 @@ def _build_one_element_aggregates(
     for idx in range(len(rows), total_row_count):
         aggregates.append(("", [idx]))
     return aggregates
+
+
+def _worst_element_rows(
+    spell: Mapping[str, Any],
+    critical: bool,
+) -> List[Dict[str, Any]]:
+    """One row per element for the one hit each grade writes in the caster's worst element; [] otherwise."""
+    per_level = []
+    for level in spell.get("levels") or []:
+        hits = []
+        for effect in level.get("critical_effects" if critical else "effects") or []:
+            metadata = effect.get("effect_metadata") or {}
+            text = ((metadata.get("description") or {}).get("en") or "").lower()
+            if (metadata.get("category") == 2
+                    and not ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
+                    and any(word in text for word in WORST_ELEMENT_DESCRIPTION_TOKENS)):
+                hits.append((effect, text))
+        per_level.append(hits)
+    if not any(per_level) or any(len(hits) != 1 for hits in per_level):
+        return []
+    first, text = per_level[0][0]
+
+    def shape(effect):
+        return (effect.get("target_mask") or "", _zone_signature(effect.get("zone")),
+                effect.get("triggers"), effect.get("delay") or 0)
+
+    if (not _ungated(first.get("target_mask"))
+            or any(shape(hits[0][0]) != shape(first) for hits in per_level)):
+        return []
+    row: Dict[str, Any] = {
+        "steals": "steal" in text,
+        "heals": "heal" in text,
+        "ranges": [SpellTransformer._format_range(hits[0][0].get("dice"))
+                   for hits in per_level],
+        "triggers": first.get("triggers"),
+        "situation": "%s|%s" % (first.get("target_mask") or "",
+                                _zone_signature(first.get("zone"))),
+    }
+    if first.get("delay"):
+        row["delay"] = first.get("delay")
+    return [dict(row, element=element, ranges=list(row["ranges"]))
+            for element in WORST_ELEMENT_FACES]
+
+
+def _with_worst_element_faces(
+    aggregates: Optional[List[Tuple[str, List[int]]]],
+    worst_indexes: Sequence[int],
+    total_row_count: int,
+) -> List[Tuple[str, List[int]]]:
+    """The worst-element rows as the faces of one hit, after the groups already built."""
+    worst = set(worst_indexes)
+    kept = [(label, list(indexes)) for label, indexes in (aggregates or [])
+            if not worst & set(indexes)]
+    if not aggregates and total_row_count != len(worst):
+        raise SystemExit("a spell has rows beside its worst-element hit and no group to hold them")
+    faces = [(WORST_ELEMENT_LABEL if position == 0 else "", [idx])
+             for position, idx in enumerate(worst_indexes)]
+    return kept + faces
 
 
 def _listed_waits_drawn(
@@ -2759,6 +2875,14 @@ def convert_spell(
                 stack_limit = max(stack_limit or 0, stack_cap)
         stack_row_block = stack_row_block or len(normal_rows)
 
+    worst_rows = _worst_element_rows(spell, critical=False)
+    worst_crit = _worst_element_rows(spell, critical=True) if worst_rows else []
+    worst_indexes: List[int] = []
+    if worst_rows and len(worst_crit) == len(worst_rows):
+        worst_indexes = list(range(len(normal_rows), len(normal_rows) + len(worst_rows)))
+        normal_rows = list(normal_rows) + worst_rows
+        crit_rows = list(crit_rows) + worst_crit if (crit_rows or worst_crit) else []
+
     best_element_groups = _extract_best_element_groups(normal_rows)
     drawn_runs, draw_problem = _drawn_runs(spell, normal_rows, crit_rows)
     base_row_count = len(normal_rows)
@@ -2818,6 +2942,8 @@ def convert_spell(
     )
     aggregates = best_element_aggregates or stack_aggregates
     aggregates_from_best = aggregates is best_element_aggregates and aggregates is not None
+    if worst_indexes:
+        aggregates = _with_worst_element_faces(aggregates, worst_indexes, len(non_crit))
     if not aggregates and stack_labels and stack_row_block:
         aggregates = _build_stack_row_aggregates(
             stack_row_block, base_row_count, stack_labels,
@@ -2825,7 +2951,12 @@ def convert_spell(
     if aggregates_from_best and aggregates and stack_labels and stack_row_block:
         aggregates = _prefix_stack_labels(aggregates, stack_row_block, stack_labels)
     if not aggregates:
-        aggregates = _build_drawn_aggregates(drawn_runs, len(normal_rows), len(non_crit))
+        aggregates = _build_drawn_aggregates(drawn_runs, len(normal_rows), len(non_crit),
+                                             [row.get("element") for row in normal_rows])
+        if aggregates and buff_rows and drawn_runs:
+            aggregates = _pair_buffs_with_their_draw(
+                aggregates, drawn_runs, _drawn_groups(spell, normal_rows, critical=False) or {},
+                buff_rows, base_row_count)
     if not aggregates:
         aggregates = _build_one_element_aggregates(
             spell, normal_rows, crit_rows, len(non_crit))

@@ -782,6 +782,14 @@ function summarizeCompareHits(spell, hits, isCrit, stats, faces, hpShare) {
         return null;
     }
     var value = Math.max.apply(null, values);
+    var width = (spell.scored && spell.scored.worst) || 1;
+    if (width > 1) {
+        var picks = [];
+        for (var start = 0; start < values.length; start += width) {
+            picks.push(Math.min.apply(null, values.slice(start, start + width)));
+        }
+        value = Math.max.apply(null, picks);
+    }
     if (spell.scored && spell.scored.draw) {
         var sum = 0;
         $.each(values, function(i, face) {

@@ -813,6 +813,8 @@ def _scored_faces_by_rank(spell, digest):
         now = Castable(spell, rank, False)
         later = Castable(later_spell, rank, False) if later_spell else None
         scored['draw'] = now.random_draw
+        if now.worst_faces > 1:
+            scored['worst'] = now.worst_faces
         for key, ranks, now_faces, later_faces in (
                 ('non_crit', digest.non_crit_dams, now.plain_alternatives,
                  later.plain_alternatives if later else []),
@@ -1098,6 +1100,7 @@ def _convert_weapon_damage(base):
     
 
 _BEST_ELEMENT = 'Hit in best element'
+_WORST_ELEMENT = 'Hit in worst element'
 # Retro's Bluff hits in Air or Water at random: one roll, not two hits
 _RANDOM_ELEMENT = 'Hit in one random element'
 # Topkaj draws one of its effect groups: faces of one value each
@@ -1149,6 +1152,8 @@ def _localized_aggregate_label(label, game_version=None):
     """Generator labels are English and built by hand: translate by shape."""
     if label == _BEST_ELEMENT:
         return _('Hit in best element')
+    if label == _WORST_ELEMENT:
+        return _('Hit in worst element')
     if label == _RANDOM_ELEMENT:
         return _('Hit in one random element')
     if label == _DRAWN:
@@ -1334,6 +1339,7 @@ _CONDITIONAL_LABELS = {
 # Labels meaning one row of the group lands; a "Stack N - " prefix may precede
 _ONE_LANDS = {
     _BEST_ELEMENT: 'best',
+    _WORST_ELEMENT: 'worst',
     _RANDOM_ELEMENT: 'one',
     _DRAWN: 'one',
     _ATTACK_ELEMENT: 'one',
@@ -1370,12 +1376,14 @@ def _merge_faces_of_one_hit(aggregates, rows):
         merged_head[head] = (
             next((label for label, _indices in run if label), ''),
             [index for _label, indices in run for index in indices],
-            kind)
+            kind,
+            [list(indices) for _label, indices in run]
+            if any(len(indices) > 1 for _label, indices in run) else None)
     merged, done = [], set()
     for label, indices in aggregates:
         head = head_of.get(tuple(indices))
         if head is None:
-            merged.append((label, list(indices), None))
+            merged.append((label, list(indices), None, None))
             continue
         if head in done:
             continue
@@ -1391,14 +1399,16 @@ def convert_aggregates(aggregates, game_version=None, rows=None):
     if rows:
         merged = _merge_faces_of_one_hit(aggregates, rows)
     else:
-        merged = [(label, list(indices), None) for label, indices in aggregates]
+        merged = [(label, list(indices), None, None) for label, indices in aggregates]
     new_aggr = []
-    for label, indices, kind in merged:
+    for label, indices, kind, faces in merged:
         entry = [_localized_aggregate_label(label, game_version)
                  if isinstance(label, str) and label != '' else label,
                  indices]
         if kind:
             entry.append(kind)
+        if faces:
+            entry.append(faces)
         new_aggr.append(entry)
     if new_aggr == []:
         return None

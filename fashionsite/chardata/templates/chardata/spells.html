@@ -828,6 +828,18 @@
         return groups.concat([['', rows]]);
     }
 
+    function indexOfLandedFace(faces, oneLands) {
+        var best = 0;
+        for (var b = 1; b < faces.length; b++) {
+            var gap = (faces[b].min_dam + faces[b].max_dam)
+                      - (faces[best].min_dam + faces[best].max_dam);
+            if (oneLands === 'worst' ? gap < 0 : gap > 0) {
+                best = b;
+            }
+        }
+        return best;
+    }
+
     function getHits(spell, damage, isCrit, rank) {
         var finalDamage = calculateFinalDamage(spell, damage, isCrit);
         var table = $("<table width='100%'></table>");
@@ -861,16 +873,8 @@
 
                 // The server says when only one row of the group lands: 'best' shows the caster's best element, 'one' keeps the faces joined by "or".
                 var oneLands = aggregates[i][2];
-                if (oneLands === 'best' && damageInstances.length > 1) {
-                    var best = 0;
-                    for (var b = 1; b < damageInstances.length; b++) {
-                        var here = damageInstances[b];
-                        var kept = damageInstances[best];
-                        if (here.min_dam + here.max_dam >
-                            kept.min_dam + kept.max_dam) {
-                            best = b;
-                        }
-                    }
+                if ((oneLands === 'best' || oneLands === 'worst') && damageInstances.length > 1) {
+                    var best = indexOfLandedFace(damageInstances, oneLands);
                     damageInstances = [damageInstances[best]];
                     instanceRows = [instanceRows[best]];
                 }
@@ -903,8 +907,23 @@
                                     whatRowWaitsFor(spell, instanceRows[0],
                                                     isCrit));
                 } else if (oneLands === 'one') {
-                    $.each(damageInstances, function(j, damageHit) {
-                        if (j > 0) {
+                    // A face can carry a buff: its rows are written together, the faces joined by "or".
+                    var faces = [];
+                    $.each(aggregates[i][3] || instanceRows.map(function(row) { return [row]; }),
+                           function(f, face) {
+                        var members = [];
+                        $.each(face, function(m, row) {
+                            var at = instanceRows.indexOf(row);
+                            if (at !== -1) {
+                                members.push(at);
+                            }
+                        });
+                        if (members.length) {
+                            faces.push(members);
+                        }
+                    });
+                    $.each(faces, function(f, members) {
+                        if (f > 0) {
                             var choix = $("<tr></tr>");
                             var choixCell = $("<td align='center'></td>");
                             table.append(choix);
@@ -912,12 +931,15 @@
                             choixCell.append("<span class='aggregate'>"
                                              + "{% trans 'or' %}</span>");
                         }
-                        writeDamageLine(damageHit.element, damageHit.min_dam,
-                                        damageHit.max_dam, damageHit.heals,
-                                        damageHit.steals, table,
-                                        whatRowWaitsFor(spell,
-                                                        instanceRows[j],
-                                                        isCrit));
+                        $.each(members, function(m, j) {
+                            var damageHit = damageInstances[j];
+                            writeDamageLine(damageHit.element, damageHit.min_dam,
+                                            damageHit.max_dam, damageHit.heals,
+                                            damageHit.steals, table,
+                                            whatRowWaitsFor(spell,
+                                                            instanceRows[j],
+                                                            isCrit));
+                        });
                     });
                 } else {
                     var line2 = $("<tr></tr>");
@@ -1392,11 +1414,22 @@
         var buffStacks = parseInt(value.substring(1));
         var dams = (buffCrit ? spell.crit_dams : spell.non_crit_dams);
         buffsForSpell[spell.name] = [];
+        var drawnFaces = {};
+        $.each(spell.aggregates || [], function(a, group) {
+            if (group[2] === 'one' && group[3]) {
+                $.each(group[3], function(f, face) {
+                    $.each(face, function(m, row) {
+                        drawnFaces[row] = group[3].length;
+                    });
+                });
+            }
+        });
         $.each(dams[spellLevel[spell.name]], function(i, effect) {
             effectParts = effect.element.split(/[_]+/);
             if (effectParts[0] == "buff") {
                 var statBuffed = effectParts[1];
-                var valueBuffed = calculateBuffValue(spell, statBuffed, buffStacks, effect);
+                var valueBuffed = calculateBuffValue(spell, statBuffed, buffStacks, effect)
+                                  / (drawnFaces[i] || 1);
                 
                 if (statBuffed == 'depow'){
                     statBuffed = 'pow';
