@@ -1,0 +1,42 @@
+{
+  "version": "dofus3",
+  "revision": 1,
+  "verified_on_tag": "3.7.14.18",
+  "enabled_stages": [
+    "P"
+  ],
+  "order": "unknown",
+  "rounding": {
+    "X": "unknown",
+    "F": "unknown",
+    "P": "unknown"
+  },
+  "tolerance_per_hit": 1,
+  "percent_at_or_above_100": "unknown",
+  "percent_below_0": "unknown",
+  "crit_flat_on_crit_only": "unknown",
+  "pvp_lines": "unknown",
+  "best_element_considers_target": false,
+  "steal_heal_share": "unknown",
+  "heal_stages": "unknown",
+  "base_erosion_percent": "unknown",
+  "shield_rules": "unknown",
+  "melee_rule": "unknown",
+  "monster_keyword_meanings": "unknown",
+  "sources": {
+    "P": [
+      {
+        "kind": "ankama_text",
+        "where": "itemscraper/raw/3.7.14.18/en.json and fr.json, text 1119655",
+        "date": "2026-11-24"
+      }
+    ],
+    "best_element_considers_target": [
+      {
+        "kind": "ankama_text",
+        "where": "itemscraper/raw/3.7.14.18/en.json and fr.json, text 1007297",
+        "date": "2026-11-24"
+      }
+    ]
+  }
+}
