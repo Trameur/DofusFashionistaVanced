@@ -216,6 +216,9 @@ BEST_ELEMENT_IS_THE_WHOLE_HIT = {
     8131: 'dommages en croix dans le meilleur ',         # Iop, Epee Divine
     8133: 'occasionne des dommages dans le meilleur ',   # Iop, Intimidation
     12433: 'occasionne des dommages dans le meilleur ',  # Sacrieur, Projection
+    13569: 'occasionne des dommages dans le meilleur ',  # Bellaphone, Domoko
+    13769: 'occasionne des d\u00e9g\u00e2ts dans le meilleur ',  # Bellaphone, Nogdra
+    13771: 'occasionne des dommages dans le meilleur ',  # Bellaphone, Drosera
 }
 
 # Left out: 6997 (the thrown target deals it), 9685 (kills a summon), 6095 (state)
