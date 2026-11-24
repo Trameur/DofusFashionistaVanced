@@ -1,20 +1,22 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The target line, its picker, its search and the encyclopedia link exist for Dofus 3 and Beta builds only, in every language."""
+"""The target line, its picker, its search and the encyclopedia link exist for the builds of a version with targets only, in every language."""
 import json
 import pickle
 import re
 from pathlib import Path
+from unittest import mock
 
 from django.contrib.auth.models import User
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.utils import translation
 
-from chardata import spells_view
+from chardata import spells_view, targets
 from chardata.models import Char
 from chardata.targets import _monster_index
 from fashionistapulp.modelresult import ModelResultMinimal
 
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
+PAGE_VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 DEFAULT_LINE = 'Target: none (raw damage)'
 TEMPLATE = Path(__file__).parent / 'templates' / 'chardata' / 'spells.html'
 
@@ -52,8 +54,9 @@ class TheTargetLineTests(TestCase):
         self.assertEqual(200, page.status_code)
         return page.content.decode('utf-8')
 
-    def test_dofus3_and_beta_open_on_raw_damage(self):
-        for version in ('dofus3', 'beta'):
+    def test_every_version_with_targets_opens_on_raw_damage(self):
+        self.assertEqual(set(PAGE_VERSIONS), set(targets.TARGET_VERSIONS))
+        for version in PAGE_VERSIONS:
             body = self._page(version)
             with self.subTest(version=version):
                 self.assertIn('id="best-combo"', body)
@@ -65,9 +68,11 @@ class TheTargetLineTests(TestCase):
                 picker = re.search(r'<div[^>]*id="best-combo-picker"[^>]*>', body).group(0)
                 self.assertRegex(picker, r'\bhidden\b')
 
-    def test_the_other_versions_show_no_target_line(self):
+    def test_a_version_without_targets_shows_no_target_line(self):
         for version in ('dofus2', 'touch', 'retro'):
-            body = self._page(version)
+            kept = tuple(key for key in targets.TARGET_VERSIONS if key != version)
+            with mock.patch.object(targets, 'TARGET_VERSIONS', kept):
+                body = self._page(version)
             with self.subTest(version=version):
                 self.assertIn('id="best-combo"', body)
                 self.assertIn('data-target-version=""', body)
@@ -150,7 +155,12 @@ class TheMonsterSearchViewTests(SimpleTestCase):
 
     def test_an_empty_query_or_another_version_finds_nothing(self):
         self.assertEqual([], json.loads(self._get('').content)['monsters'])
-        self.assertEqual([], json.loads(self._get('blop', version='retro').content)['monsters'])
+        for version in ('touchbeta', 'retrobeta'):
+            self.assertEqual([], json.loads(self._get('blop', version=version).content)['monsters'])
+        first = _monster_index('retro')[0][0]
+        self.assertEqual([], json.loads(self._get(str(first[0]), version='retrobeta').content)
+                         ['monsters'])
+        self.assertTrue(json.loads(self._get(str(first[0]), version='retro').content)['monsters'])
 
     def test_a_very_long_query_is_cut_not_refused(self):
         self.assertEqual(200, self._get('a' * 5000).status_code)
@@ -189,6 +199,18 @@ class TheEncyclopediaLinkTests(TestCase):
         links = re.findall(r'class="monster-try-build" href="([^"]+)"', body)
         self.assertEqual(['/spells/%d/?target=m%d.%d' % (newer.pk, monster_id, grade)
                           for grade in grades], links)
+
+    def test_a_touch_retro_or_dofus2_viewer_gets_links_to_a_build_of_that_version(self):
+        owner = User.objects.create_user('enc3', 'enc3@test.local', 'pw-42-solid')
+        self.client.force_login(owner)
+        for version in ('dofus2', 'touch', 'retro'):
+            build = _make_build(owner, version, version)
+            monster_id, grades = self._grades(version)
+            links = re.findall(r'class="monster-try-build" href="([^"]+)"', self._page(version))
+            with self.subTest(version=version):
+                self.assertEqual(['%s/spells/%d/?target=m%d.%d'
+                                  % (_prefix(version), build.pk, monster_id, grade)
+                                  for grade in grades], links)
 
     def test_nothing_is_offered_without_a_build_of_that_version_or_without_a_login(self):
         self.assertNotIn('class="monster-try-build"', self._page('dofus3'))

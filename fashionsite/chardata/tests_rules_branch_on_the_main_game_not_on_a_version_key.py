@@ -46,6 +46,8 @@ ALLOWED = {
         'main game keys, tested through main_game (checked below)',
     ('fashionsite/chardata/translation_util.py', 'VERSION_STAT_NAMES = {'):
         'main game keys, tested through main_game (checked below)',
+    ('fashionsite/chardata/targets.py', "PERCENT_ONLY_GAMES = ('dofus2', 'touch', 'retro')"):
+        'main game keys, tested through main_game (checked below)',
     ('fashionsite/chardata/workshop_sources.py', "NO_LEVEL_VERSIONS = ('retro',)"):
         'main game keys, tested through main_game (checked below)',
     ('fashionsite/chardata/guides_content.py', "'version_groups': {'dofus2': 'dofus2', 'retro': 'retro'},"):
@@ -63,6 +65,7 @@ ALLOWED = {
 
 MAIN_GAME_CONSTANTS = {
     'fashionistapulp/fashionistapulp/model.py': '_GATED_CONDITION_VERSIONS',
+    'fashionsite/chardata/targets.py': 'PERCENT_ONLY_GAMES',
     'fashionsite/chardata/translation_util.py': 'VERSION_STAT_NAMES',
     'fashionsite/chardata/weapon_header.py': '_ELEMENTLESS_HEAL_VERSIONS',
     'fashionsite/chardata/workshop_sources.py': 'NO_LEVEL_VERSIONS',

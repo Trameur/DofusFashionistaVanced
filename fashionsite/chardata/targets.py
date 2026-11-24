@@ -12,9 +12,11 @@ from fashionistapulp.combat.rules import load_rules
 from fashionistapulp.dofus_constants import AIR, EARTH, FIRE, NEUTRAL, WATER
 from fashionistapulp.fashion_util import strip_accents
 from fashionistapulp.fashionista_config import get_items_db_path
+from fashionistapulp.game_versions import main_game
 from fashionistapulp.translation import get_supported_language
 
-TARGET_VERSIONS = ('dofus3', 'beta')
+TARGET_VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
+PERCENT_ONLY_GAMES = ('dofus2', 'touch', 'retro')
 ELEMENTS = (EARTH, FIRE, WATER, AIR, NEUTRAL)
 TOKEN = re.compile(r'^m([1-9][0-9]{0,9})\.([1-9][0-9]{0,2})$')
 
@@ -152,8 +154,11 @@ def monster_target(game_version, monster_id, grade, language=None):
     row, names = found
     percent = tuple(row[column] for column in PERCENT_COLUMNS)
     flat = tuple(row[column] for column in FLAT_COLUMNS)
-    unknown = [column for column in ('level', 'life_points') + PERCENT_COLUMNS
-               + FLAT_COLUMNS + (CRIT_COLUMN, PUSH_COLUMN) if row[column] is None]
+    held = ('level', 'life_points') + PERCENT_COLUMNS
+    # Their game data gives a grade no flat, critical or pushback resistance
+    if main_game(game_version) not in PERCENT_ONLY_GAMES:
+        held += FLAT_COLUMNS + (CRIT_COLUMN, PUSH_COLUMN)
+    unknown = [column for column in held if row[column] is None]
     return Target(version=game_version, kind='monster', ref=('m', monster_id, grade),
                   level=row['level'], hp=row['life_points'], percent=percent,
                   flat=None if all(value is None for value in flat) else flat,

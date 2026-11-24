@@ -1,6 +1,7 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""On a target whose every resistance is p, each value of the turn is its raw value times (100 - p) / 100, a push excepted."""
+"""On a target whose every resistance is p, each value of the turn is its raw value times (100 - p) / 100, a push excepted; a rounding record is read unrounded."""
 import re
+from unittest import mock
 
 from django.core.cache import caches
 from django.test import SimpleTestCase
@@ -10,9 +11,10 @@ from chardata.spell_combo import (best_turn, castable_spells, combat_ap, conditi
                                   get_damage_spells_for_version, late_taken_back)
 from chardata.spells_view import _burst_total, _without_buffs_note
 from chardata.targets import Target
+from fashionistapulp.combat import rules as combat_rules
 from fashionistapulp.structure import get_structure, set_current_game_version
 
-VERSIONS = ('dofus3', 'beta')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 PERCENTS = (50, -100)
 STATS = {'str': 450, 'agi': 480, 'int': 470, 'cha': 460, 'pow': 90, 'dam': 30, 'cridam': 25,
          'ch': 45, 'ap': 11, 'mp': 5, 'hp': 3900, 'heals': 20}
@@ -35,6 +37,18 @@ def _classes(version):
     return sorted(name for name in get_damage_spells_for_version(version) if name != 'default')
 
 
+def _unrounded():
+    """The loaded records with every rounding of a rounding record set to none."""
+    records = {}
+    for version in VERSIONS:
+        rules = combat_rules.load_rules(version)
+        if rules.rounds():
+            record = combat_rules.read_record(combat_rules.record_path(version))
+            record['rounding'] = {stage: 'none' for stage in record['rounding']}
+            records[combat_rules.record_version(version)] = combat_rules.RuleSet(record)
+    return records
+
+
 def _numbers(text):
     return [int(digits) for digits in re.findall(r'\d+', text)]
 
@@ -45,6 +59,9 @@ class AUniformResistanceScalesTheTurnTests(SimpleTestCase):
         caches['best_turn'].clear()
         self.addCleanup(caches['best_turn'].clear)
         self.addCleanup(set_current_game_version, 'dofus3')
+        unrounded = mock.patch.dict(combat_rules._LOADED, _unrounded())
+        unrounded.start()
+        self.addCleanup(unrounded.stop)
 
     def _near(self, expected, found, delta=None):
         self.assertAlmostEqual(expected, found,

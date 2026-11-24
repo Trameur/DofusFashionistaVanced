@@ -1,6 +1,7 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """A monster grade is read from its own version's database, named in the page language, with missing columns read as unknown."""
 import os
+import pathlib
 import shutil
 import sqlite3
 import tempfile
@@ -10,7 +11,8 @@ from django.test import SimpleTestCase
 from django.utils import translation
 
 from chardata import targets
-from chardata.targets import ELEMENTS, monster_target, read_target, search_monsters
+from chardata.targets import (ELEMENTS, TARGET_VERSIONS, monster_target, read_target,
+                              search_monsters)
 from fashionistapulp.fashionista_config import get_items_db_path
 
 FULL = ('level', 'life_points', 'earth_resistance', 'fire_resistance', 'water_resistance',
@@ -154,8 +156,58 @@ class TheGameDatabasesTests(_FreshMemo, SimpleTestCase):
                     self.assertTrue(opened)
                     self.assertEqual({version}, set(opened))
 
+    def test_every_target_version_opens_only_its_own_file(self):
+        files = {version: pathlib.Path(get_items_db_path(version)).resolve()
+                 for version in TARGET_VERSIONS}
+        self.assertEqual(len(TARGET_VERSIONS), len(set(files.values())))
+        first = {version: min(_ids(version)) for version in TARGET_VERSIONS}
+        opened = []
+        real = sqlite3.connect
+
+        def watched(database, *args, **kwargs):
+            opened.append(str(database).split('?')[0])
+            return real(database, *args, **kwargs)
+
+        with mock.patch.object(targets.sqlite3, 'connect', watched):
+            for version in TARGET_VERSIONS:
+                del opened[:]
+                target = monster_target(version, first[version], 1)
+                search_monsters(version, str(first[version]))
+                with self.subTest(version=version):
+                    self.assertTrue(opened)
+                    self.assertEqual({files[version].as_uri()}, set(opened))
+                    if target is not None:
+                        self.assertEqual(version, target.version)
+
+    def test_a_monster_one_version_lacks_reads_not_found_there(self):
+        for version in ('dofus2', 'touch', 'retro'):
+            for other in TARGET_VERSIONS:
+                if other == version:
+                    continue
+                missing = sorted(_ids(version) - _ids(other))
+                if not missing:
+                    continue
+                with self.subTest(version=version, other=other):
+                    self.assertEqual((None, 'monster'), read_target(other, 'm%d.1' % missing[0]))
+                    found, refused = read_target(version, 'm%d.1' % missing[0])
+                    if found is not None:
+                        self.assertEqual(('', version), (refused, found.version))
+
+    def test_the_same_monster_reads_each_versions_own_values(self):
+        shared = sorted(_ids('touch') & _ids('retro') & _ids('dofus2'))
+        differs = False
+        for monster in shared[:40]:
+            seen = {}
+            for version in ('touch', 'retro', 'dofus2'):
+                target = monster_target(version, monster, 1)
+                if target is not None:
+                    seen[version] = (target.level, target.hp,
+                                     tuple(target.percent_of(element) for element in ELEMENTS))
+            differs = differs or len(set(seen.values())) > 1
+        self.assertTrue(differs)
+
     def test_a_version_without_targets_reads_none(self):
-        for version in ('dofus2', 'touch', 'touchbeta', 'retro', 'retrobeta'):
+        for version in ('touchbeta', 'retrobeta', 'wakfu'):
             with self.subTest(version=version):
                 self.assertEqual((None, 'version'), read_target(version, 'm1.1'))
                 self.assertIsNone(monster_target(version, 1, 1))

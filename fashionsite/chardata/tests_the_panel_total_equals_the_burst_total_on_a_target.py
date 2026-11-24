@@ -15,7 +15,7 @@ from fashionistapulp.combat.rules import load_rules
 from fashionistapulp.dofus_constants import calculate_damage
 from fashionistapulp.structure import get_structure, set_current_game_version
 
-VERSIONS = ('dofus3', 'beta')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 STATS = {'str': 450, 'agi': 480, 'int': 470, 'cha': 460, 'pow': 90, 'dam': 30, 'cridam': 25,
          'ch': 45, 'ap': 11, 'hp': 3900}
 PERCENTS = ((-30, 15, 15, 100, 0), (17, 16, 29, 25, 14), (100, 100, 100, 100, 100))

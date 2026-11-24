@@ -11,7 +11,7 @@ from chardata.targets import ELEMENTS, Target
 from fashionistapulp.combat import rules as combat_rules
 from fashionistapulp.structure import get_structure, set_current_game_version
 
-VERSIONS = ('dofus3', 'beta')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
 
 def _stats(version):

@@ -660,13 +660,10 @@ def row_values(rows, stats, critical, is_spell, multiplier, target):
         raw += (damage.min_dam + damage.max_dam) / 2.0
         rolls = (damage.min_dam * multiplier, damage.max_dam * multiplier)
         if every_roll:
-            low, high = sorted((int(row.min_dam), int(row.max_dam)))
-            rolls = []
-            for roll in range(low, high + 1):
-                rolled = copy.copy(row)
-                rolled.min_dam = rolled.max_dam = roll
-                rolls.append(calculate_damage([rolled], stats, critical, is_spell)[0].min_dam
-                             * multiplier)
+            span = abs(int(row.max_dam) - int(row.min_dam))
+            if span:
+                rolls = [(damage.min_dam + (damage.max_dam - damage.min_dam) * step / span)
+                         * multiplier for step in range(span + 1)]
         total += expected_hit(rolls, target.percent_of(damage.element), rules)
     return raw * multiplier, total
 

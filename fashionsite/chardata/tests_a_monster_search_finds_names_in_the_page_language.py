@@ -17,8 +17,12 @@ def _named(version, language):
 class TheMonsterSearchTests(SimpleTestCase):
 
     def test_a_name_is_found_without_its_accents_or_case(self):
-        for version in ('dofus3', 'beta'):
-            for language in ('en', 'fr', 'es', 'pt', 'de'):
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            named = {language for _id, names, _grades in _monster_index(version)[0]
+                     for language in names}
+            self.assertLessEqual({'en', 'fr', 'es', 'pt'}, named)
+            for language in [language for language in ('en', 'fr', 'es', 'pt', 'de')
+                             if language in named]:
                 monster_id, name, grades = _named(version, language)
                 query = strip_accents(name).upper()
                 found = {entry['id']: entry for entry in search_monsters(
@@ -30,7 +34,7 @@ class TheMonsterSearchTests(SimpleTestCase):
                                      [entry['grade'] for entry in found[monster_id]['grades']])
 
     def test_every_listed_grade_reads_back_as_a_target(self):
-        for version in ('dofus3', 'beta'):
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
             for entry in search_monsters(version, 'a', 'en')[:3]:
                 for grade in entry['grades']:
                     target, refused = read_target(version, grade['target'])
@@ -47,4 +51,5 @@ class TheMonsterSearchTests(SimpleTestCase):
 
     def test_an_empty_query_or_another_version_finds_nothing(self):
         self.assertEqual([], search_monsters('dofus3', '   ', 'en'))
-        self.assertEqual([], search_monsters('dofus2', 'a', 'en'))
+        for version in ('touchbeta', 'retrobeta'):
+            self.assertEqual([], search_monsters(version, 'a', 'en'))

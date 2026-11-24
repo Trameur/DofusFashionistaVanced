@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The percent stage per version: 0 changes nothing, 100 or more stops the hit, below 0 raises it, only a player is capped."""
+"""The percent stage per version: 0 changes nothing, 100 or more stops the hit, below 0 raises it, only a player is capped; a rounding record is fed whole rolls."""
 from django.test import SimpleTestCase
 
 from chardata.targets import ELEMENTS, Target
@@ -7,8 +7,12 @@ from fashionistapulp.combat.mitigation import expected_hit, is_immune, mitigated
 from fashionistapulp.combat.rules import load_rules
 from fashionistapulp.dofus_constants import percent_resist_cap
 
-VERSIONS = ('dofus3', 'beta')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 HITS = (1.0, 37.0, 250.5, 1999.0)
+
+
+def _hits(rules):
+    return [hit for hit in HITS if not rules.rounds() or hit == int(hit)]
 
 
 def _target(version, percent, is_player):
@@ -22,7 +26,7 @@ class ThePercentStageTests(SimpleTestCase):
     def test_zero_percent_is_the_identity(self):
         for version in VERSIONS:
             rules = load_rules(version)
-            for hit in HITS:
+            for hit in _hits(rules):
                 with self.subTest(version=version, hit=hit):
                     self.assertEqual(hit, mitigated(hit, 0, rules))
 
@@ -66,8 +70,10 @@ class ThePercentStageTests(SimpleTestCase):
                 with self.subTest(version=version, element=element):
                     self.assertEqual(cap, player.percent_of(element))
                     self.assertEqual(above, monster.percent_of(element))
-                    for hit in HITS:
+                    for hit in _hits(rules):
                         self.assertEqual(mitigated(hit, at_cap.percent_of(element), rules),
                                          mitigated(hit, player.percent_of(element), rules))
-                        self.assertLess(mitigated(hit, monster.percent_of(element), rules),
-                                        mitigated(hit, player.percent_of(element), rules))
+                        below = (self.assertLess if not rules.rounds() or hit == HITS[-1]
+                                 else self.assertLessEqual)
+                        below(mitigated(hit, monster.percent_of(element), rules),
+                              mitigated(hit, player.percent_of(element), rules))

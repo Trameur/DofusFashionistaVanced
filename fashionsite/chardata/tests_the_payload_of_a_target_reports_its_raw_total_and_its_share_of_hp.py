@@ -46,7 +46,7 @@ class ThePayloadOfATargetTests(SimpleTestCase):
                                            note_without_buffs=False)
 
     def test_the_raw_total_is_the_panel_total_without_a_target_and_the_share_reads_the_target_total(self):
-        for version in ('dofus3', 'beta'):
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
             set_current_game_version(version)
             stats = _stats(version)
             ap = combat_ap(stats['ap'], version)

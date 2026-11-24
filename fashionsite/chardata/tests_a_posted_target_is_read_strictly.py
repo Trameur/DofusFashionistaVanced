@@ -50,7 +50,7 @@ class APostedTargetTests(SimpleTestCase):
         self.assertNotIn('target_refused', payload)
 
     def test_a_known_grade_reaches_the_turn(self):
-        for version in ('dofus3', 'beta'):
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
             monster_id, grade, _last = _known(version)
             payload, target = self._post(version, 'm%d.%d' % (monster_id, grade))
             with self.subTest(version=version):
@@ -80,7 +80,7 @@ class APostedTargetTests(SimpleTestCase):
 
     def test_a_version_without_targets_refuses_a_well_formed_one(self):
         monster_id, grade, _last = _known('dofus3')
-        for version in ('dofus2', 'touch', 'touchbeta', 'retro'):
+        for version in ('touchbeta', 'retrobeta', 'wakfu'):
             payload, target = self._post(version, 'm%d.%d' % (monster_id, grade))
             with self.subTest(version=version):
                 self.assertIsNone(target)

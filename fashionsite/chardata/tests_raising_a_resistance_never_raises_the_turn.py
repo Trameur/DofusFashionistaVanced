@@ -6,11 +6,11 @@ from django.core.cache import caches
 from django.test import SimpleTestCase
 
 from chardata.spell_combo import (HpShare, best_turn, castable_spells, final_multiplier,
-                                  row_value)
+                                  get_damage_spells_for_version, row_value)
 from chardata.targets import ELEMENTS, Target
 from fashionistapulp.structure import get_structure, set_current_game_version
 
-VERSIONS = ('dofus3', 'beta')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 BUILDS = (('Cra', {'str': 450, 'agi': 480, 'int': 470, 'cha': 460, 'pow': 90, 'dam': 30,
                    'cridam': 25, 'ch': 45, 'hp': 3900}),
           ('Iop', {'str': 900, 'agi': 120, 'pow': 160, 'dam': 45, 'earthdam': 30,
@@ -98,4 +98,20 @@ class RaisingAResistanceTests(SimpleTestCase):
                         self.assertLessEqual(
                             best_turn(stats, spells, 11, game_version=version,
                                       caster_level=200, target=_target(version, percent))[0],
+                            raw + 1e-9)
+
+    def test_a_target_with_no_resistance_never_beats_the_raw_turn_of_any_class(self):
+        for version in VERSIONS:
+            set_current_game_version(version)
+            for char_class in sorted(name for name in get_damage_spells_for_version(version)
+                                     if name != 'default'):
+                for _label, wanted in BUILDS:
+                    stats = _stats(version, wanted)
+                    spells = castable_spells(char_class, 200, version)
+                    raw = best_turn(stats, spells, 11, game_version=version,
+                                    caster_level=200)[0]
+                    with self.subTest(version=version, char_class=char_class):
+                        self.assertLessEqual(
+                            best_turn(stats, spells, 11, game_version=version, caster_level=200,
+                                      target=_target(version, [0] * len(ELEMENTS)))[0],
                             raw + 1e-9)

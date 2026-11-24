@@ -7,7 +7,7 @@ from django.test import SimpleTestCase
 from fashionistapulp.combat.rules import (APPLIED_STAGES, FIELDS, RecordError, UNKNOWN,
                                           check_record, read_record, record_path)
 
-VERSIONS = ('dofus3', 'beta')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
 
 class TheRecordFormatTests(SimpleTestCase):

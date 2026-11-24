@@ -10,7 +10,7 @@ from chardata.targets import ELEMENTS, Target
 from fashionistapulp.dofus_constants import calculate_damage
 from fashionistapulp.structure import get_structure, set_current_game_version
 
-VERSIONS = ('dofus3', 'beta')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 STATS = {'str': 450, 'agi': 480, 'int': 470, 'cha': 460, 'pow': 90, 'dam': 30, 'cridam': 25,
          'ch': 45, 'hp': 3900}
 

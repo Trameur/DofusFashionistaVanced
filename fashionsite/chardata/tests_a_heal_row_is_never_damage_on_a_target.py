@@ -17,7 +17,7 @@ class AHealOnATargetTests(SimpleTestCase):
 
     def test_a_healing_row_is_worth_nothing_to_a_target_as_to_none(self):
         found = 0
-        for version in ('dofus3', 'beta'):
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
             set_current_game_version(version)
             stats = {stat.key: 0 for stat in get_structure(version).get_stats_list()}
             stats.update({key: value for key, value in STATS.items() if key in stats})

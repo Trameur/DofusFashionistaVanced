@@ -8626,6 +8626,9 @@ msgstr "Fehlt in den Spieldateien für diesen Grad: %(values)s."
 msgid "Summons are not counted: they act on their own turn."
 msgstr "Beschwörungen werden nicht gezählt: Sie handeln in ihrer eigenen Runde."
 
+msgid "On Dofus Retro, a roll is a sum of dice; against the target, every value between its two ends counts as equally likely."
+msgstr "In Dofus Retro ist ein Wurf eine Summe von Würfeln; gegen das Ziel zählt jeder Wert zwischen seinen beiden Grenzen als gleich wahrscheinlich."
+
 msgid "This target could not be read; the turn is shown without one."
 msgstr "Dieses Ziel konnte nicht gelesen werden; die Runde wird ohne Ziel gezeigt."
 

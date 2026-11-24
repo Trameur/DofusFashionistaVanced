@@ -12,7 +12,7 @@ from chardata.spell_combo import (_average, _turn_key, castable_spells, final_mu
 from fashionistapulp.dofus_constants import calculate_damage
 from fashionistapulp.structure import get_structure, set_current_game_version
 
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro', 'retrobeta')
 
 FIELDS = {'ap_available', 'ap_used', 'buff_note', 'can_push', 'casts', 'conditional',
           'crit_failure_note', 'item_effects_note', 'later', 'later_total', 'melee_note',

@@ -7,7 +7,7 @@ from django.test import TestCase
 
 from chardata.models import Char
 from chardata.targets import _monster_index
-from chardata.tests_the_target_picker_belongs_to_dofus3_and_beta import _make_build
+from chardata.tests_the_target_picker_belongs_to_the_versions_with_targets import _make_build
 
 
 class TheMonsterPageLinkOwnerTests(TestCase):

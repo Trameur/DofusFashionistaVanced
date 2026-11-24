@@ -7606,6 +7606,9 @@ msgstr ""
 msgid "Summons are not counted: they act on their own turn."
 msgstr ""
 
+msgid "On Dofus Retro, a roll is a sum of dice; against the target, every value between its two ends counts as equally likely."
+msgstr ""
+
 msgid "This target could not be read; the turn is shown without one."
 msgstr ""
 

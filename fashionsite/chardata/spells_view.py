@@ -644,6 +644,8 @@ def _target_fields(target, total, raw_total):
                if column in _TARGET_FIELD_LABELS]
     if missing:
         not_counted.append(str(_MISSING_NOTE) % {'values': ', '.join(missing)})
+    if main_game(target.version) == 'retro':
+        not_counted.append(str(_RETRO_ROLLS_NOTE))
     not_counted.append(str(_SUMMONS_NOTE))
     tolerance = rules.tolerance_per_hit
     return {
@@ -1383,6 +1385,9 @@ _NOT_COUNTED_NOTE = _lazy('Not counted yet: %(values)s.')
 _MISSING_NOTE = _lazy('Missing from the game files for this grade: %(values)s.')
 
 _SUMMONS_NOTE = _lazy('Summons are not counted: they act on their own turn.')
+
+_RETRO_ROLLS_NOTE = _lazy('On Dofus Retro, a roll is a sum of dice; against the target, '
+                          'every value between its two ends counts as equally likely.')
 
 _TARGET_REFUSED_NOTE = _lazy('This target could not be read; the turn is shown '
                              'without one.')

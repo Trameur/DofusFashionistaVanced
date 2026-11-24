@@ -8542,6 +8542,9 @@ msgstr "Ausente dos arquivos do jogo para este grau: %(values)s."
 msgid "Summons are not counted: they act on their own turn."
 msgstr "As invocações não são contadas: agem no próprio turno."
 
+msgid "On Dofus Retro, a roll is a sum of dice; against the target, every value between its two ends counts as equally likely."
+msgstr "No Dofus Retro, uma rolagem é uma soma de dados; contra o alvo, cada valor entre os dois extremos conta como igualmente provável."
+
 msgid "This target could not be read; the turn is shown without one."
 msgstr "Não foi possível ler este alvo; o turno é mostrado sem ele."
 
