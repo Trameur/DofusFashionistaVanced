@@ -46,9 +46,9 @@
    "20": {"element": "cha", "inputs": "d0e1ebd7f401", "turns": {"agi": 126.4, "cha": 168.0, "int": 126.4, "str": 144.4}},
    "50": {"element": "str", "inputs": "5f15b1a06dba", "turns": {"agi": 207.8, "cha": 228.5, "int": 210.0, "str": 232.4}},
    "100": {"element": "int", "inputs": "fac97f5ffa45", "turns": {"agi": 464.1, "cha": 469.9, "int": 465.1, "str": 434.5}},
-   "150": {"element": "cha", "inputs": "2fbf390a993e", "turns": {"agi": 843.7, "cha": 936.2, "int": 870.4, "str": 857.5}},
-   "180": {"element": "int", "inputs": "e76831248374", "turns": {"agi": 1132.0, "cha": 1226.6, "int": 1202.9, "str": 1215.0}},
-   "200": {"element": "agi", "inputs": "dd98b8bf3c63", "turns": {"agi": 1656.2, "cha": 1654.0, "int": 1617.1, "str": 1649.7}}
+   "150": {"element": "cha", "inputs": "5a4c634ad18e", "turns": {"agi": 843.7, "cha": 936.2, "int": 870.4, "str": 857.5}},
+   "180": {"element": "int", "inputs": "c3a83893d898", "turns": {"agi": 1132.0, "cha": 1226.6, "int": 1202.9, "str": 1215.0}},
+   "200": {"element": "agi", "inputs": "c70bd6502f7a", "turns": {"agi": 1656.2, "cha": 1654.0, "int": 1617.1, "str": 1649.7}}
   },
   "Enutrof": {
    "20": {"element": "str", "inputs": "02aa57068a97", "turns": {"agi": 128.3, "cha": 121.2, "int": 118.1, "str": 172.7}},
@@ -94,9 +94,9 @@
    "20": {"element": "str", "inputs": "d95ba2495d14", "turns": {"agi": 150.3, "cha": 170.7, "int": 172.7, "str": 189.4}},
    "50": {"element": "cha", "inputs": "02c95f3ff6d6", "turns": {"agi": 204.9, "cha": 307.5, "int": 244.3, "str": 259.8}},
    "100": {"element": "str", "inputs": "a729cf4273f2", "turns": {"agi": 511.3, "cha": 567.3, "int": 513.7, "str": 571.6}},
-   "150": {"element": "cha", "inputs": "61b1ed447558", "turns": {"agi": 914.9, "cha": 1354.6, "int": 1003.8, "str": 1095.9}},
-   "180": {"element": "cha", "inputs": "8c5d680d24d1", "turns": {"agi": 1660.3, "cha": 1812.6, "int": 1276.3, "str": 1386.2}},
-   "200": {"element": "cha", "inputs": "e6252f1aed65", "turns": {"agi": 2133.1, "cha": 2362.8, "int": 1688.0, "str": 1984.2}}
+   "150": {"element": "cha", "inputs": "cfb25e4d38ea", "turns": {"agi": 914.9, "cha": 1354.6, "int": 1003.8, "str": 1108.8}},
+   "180": {"element": "cha", "inputs": "792db53c7500", "turns": {"agi": 1660.3, "cha": 1812.6, "int": 1276.3, "str": 1492.7}},
+   "200": {"element": "cha", "inputs": "8c891cf28548", "turns": {"agi": 2133.1, "cha": 2362.8, "int": 1688.0, "str": 2025.1}}
   },
   "Masqueraider": {
    "20": {"element": "agi", "inputs": "37c059908048", "turns": {"agi": 166.0, "cha": 148.7, "int": 140.6, "str": 148.7}},

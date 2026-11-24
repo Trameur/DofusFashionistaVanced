@@ -404,6 +404,7 @@ _MODERN_RECAST_STACKS = {
     32436: "les dommages du sort sont augmentés après chaque lancer",
     23263: "les dommages du sort sont augmentés après chaque lancer",
     32446: "le vol de vie est plus important après chaque lancer sur un même ennemi",
+    13138: "sur le lanceur : augmente les dommages du sort",
 }
 
 RECAST_STACKS_BY_VERSION = {
@@ -415,6 +416,27 @@ RECAST_STACKS_BY_VERSION = {
 RECAST_STACKS = RECAST_STACKS_BY_VERSION["dofus3"]
 
 STATE_GATED_RECASTS = frozenset({32446})
+
+# A recast refreshes their one boost, which never stacks
+ONE_BOOST_RECASTS = frozenset({13138})
+
+_MODERN_BOOSTS_AFTER_A_SKIPPED_TURN = {
+    25882: "dans 2 tours si le sort n'est pas relancé au tour suivant",   # Eniripsa, Secret Word
+}
+
+BOOSTS_AFTER_A_SKIPPED_TURN_BY_VERSION = {
+    "dofus3": _MODERN_BOOSTS_AFTER_A_SKIPPED_TURN,
+    "beta": _MODERN_BOOSTS_AFTER_A_SKIPPED_TURN,
+    "dofus2": {},
+}
+
+BOOSTS_AFTER_A_SKIPPED_TURN = BOOSTS_AFTER_A_SKIPPED_TURN_BY_VERSION["dofus3"]
+
+# What the boosted copy of such a spell's rows waits for
+CAST_TWO_TURNS_LATER = "cast_two_turns_later"
+# Turns the boost of such a spell waits, and the turns it lasts
+BOOST_DELAY = 2
+BOOST_DURATION = 1
 
 # "x#1% damage sustained" on the fighters the row targets
 DAMAGE_TAKEN_EFFECT_ID = 1163
@@ -475,6 +497,7 @@ BASE_CLASSES = [
 CHARACTER_CLASSES = sorted(BASE_CLASSES)
 BESTIAL_PACT_ANKAMA_ID = 31141
 MP_DAMAGE_EFFECT_ID = 293
+HEAL_BOOST_EFFECT_ID = 2935
 MP_DAMAGE_TRIGGER_TOKEN = "MP"
 DEFAULT_MP_DAMAGE_STACK_CAP = 10
 MP_TRIGGER_EFFECT_ID = 1160
@@ -505,6 +528,8 @@ class SpellEntry:
     delay_problem: Optional[str] = None
     # A row waiting on a trigger no token reads; never rendered
     trigger_problem: Optional[str] = None
+    # A boost of its own damage that no row lands as the game does; never rendered
+    boost_problem: Optional[str] = None
     stacks_on_recast: bool = False
 
 
@@ -1051,6 +1076,9 @@ def build_spell_map(class_data: Mapping[str, Any], all_spells: Sequence[Mapping[
         if matched_classes and converted.trigger_problem:
             raise RuntimeError("%s (%s): %s" % (converted.name, converted.ankama_id,
                                                 converted.trigger_problem))
+        if matched_classes and converted.boost_problem:
+            raise SystemExit("%s (%s): %s" % (converted.name, converted.ankama_id,
+                                              converted.boost_problem))
         if matched_classes:
             converted = _first_grade_when_one_level_opens_them(converted)
             for class_name in matched_classes:
@@ -2583,6 +2611,121 @@ def _pair_buffs_with_their_draw(
             if not (len(indexes) == 1 and indexes[0] in paired)]
 
 
+def _own_base_damage_boosts(effects, ankama_id) -> List[Mapping[str, Any]]:
+    return [effect for effect in effects or []
+            if effect.get("effect_id") == MP_DAMAGE_EFFECT_ID
+            and (effect.get("dice") or {}).get("min") == ankama_id]
+
+
+def _boost_after_a_skipped_turn(spell: Mapping[str, Any], damage: Mapping[str, Any],
+                                level_count: int) -> Tuple[Optional[List[int]], Optional[str]]:
+    """(boost per grade of a listed spell's cast two turns later with no recast between, else None; why an unlisted one misreads)."""
+    ankama_id = spell.get("ankama_id")
+    levels = sorted(spell.get("levels") or [],
+                    key=lambda lvl: ((lvl.get("grade") or 0), (lvl.get("level_id") or 0)))
+    stackable = damage.get("stackable_damage") or {}
+    quote = BOOSTS_AFTER_A_SKIPPED_TURN.get(ankama_id)
+    if quote is None:
+        waits = any(effect.get("delay")
+                    for level in levels
+                    for effect in _own_base_damage_boosts(level.get("effects"), ankama_id))
+        if waits and any((cap or 0) > 1 for cap in stackable.get("max_stacks") or []):
+            return None, "its base damage boost waits a turn, it is no stack of each cast"
+        return None, None
+    if quote.lower() not in str(spell.get("description_fr") or "").lower():
+        raise SystemExit("spell %s no longer says %r; its rows were given one boosted copy "
+                         "held for its cast two turns later on that sentence" % (ankama_id, quote))
+    per_grade = []
+    for level in levels:
+        shapes = []
+        for key in ("effects", "critical_effects"):
+            effects = list(level.get(key) or [])
+            boosts = _own_base_damage_boosts(effects, ankama_id)
+            removals = [index for index, effect in enumerate(effects)
+                        if effect.get("effect_id") == REMOVES_SPELL_EFFECTS_EFFECT_ID
+                        and effect.get("value") == ankama_id
+                        and _lands_on_cast(effect.get("triggers"))
+                        and effect.get("target_mask") == "C"
+                        and not effect.get("delay")]
+            hits = [index for index, effect in enumerate(effects)
+                    if (effect.get("effect_metadata") or {}).get("category") == 2]
+            heal_boosts = [effect for effect in effects
+                           if effect.get("effect_id") == HEAL_BOOST_EFFECT_ID
+                           and (effect.get("dice") or {}).get("min") == ankama_id]
+            if (len(boosts) != 1 or len(heal_boosts) != 1
+                    or any(heal_boosts[0].get(key) != boosts[0].get(key)
+                           for key in ("delay", "duration", "target_mask", "value"))
+                    or boosts[0].get("delay") != BOOST_DELAY
+                    or boosts[0].get("duration") != BOOST_DURATION
+                    or boosts[0].get("target_mask") != "C"
+                    or not _lands_on_cast(boosts[0].get("triggers"))
+                    or not isinstance(boosts[0].get("value"), int) or boosts[0]["value"] <= 0
+                    or len(removals) != 1 or not hits or removals[0] < max(hits)):
+                shapes.append(None)
+            else:
+                shapes.append(boosts[0]["value"])
+        if None in shapes or len(set(shapes)) != 1:
+            raise SystemExit("spell %s: its rows no longer boost only its cast two turns "
+                             "later, removed by a recast" % ankama_id)
+        per_grade.append(shapes[0])
+    if (len(per_grade) != level_count
+            or stackable.get("per_stack") not in (None, per_grade)):
+        raise SystemExit("spell %s: its rows no longer boost only its cast two turns "
+                         "later, removed by a recast" % ankama_id)
+    return per_grade, None
+
+
+def _boosted_copy(row: Mapping[str, Any], per_grade: Sequence[int]) -> Dict[str, Any]:
+    """The row as the boosted cast lands it, each grade's range raised by its boost."""
+    raised = dict(row)
+    ranges = []
+    for index, literal in enumerate(row.get("ranges") or []):
+        low, high = _parse_damage_literal(str(literal))
+        ranges.append(_format_damage_literal(low + per_grade[index], high + per_grade[index]))
+    raised["ranges"] = ranges
+    return raised
+
+
+def _one_boost_for_the_next_casts(spell: Mapping[str, Any], damage: MutableMapping[str, Any],
+                                  level_count: int) -> Optional[str]:
+    """A listed spell's one boost of its next casts as a one-stack ladder; why an unlisted one misreads."""
+    ankama_id = spell.get("ankama_id")
+    levels = sorted(spell.get("levels") or [],
+                    key=lambda lvl: ((lvl.get("grade") or 0), (lvl.get("level_id") or 0)))
+    if ankama_id not in ONE_BOOST_RECASTS or ankama_id not in RECAST_STACKS:
+        lasting = any(not effect.get("delay") and effect.get("duration")
+                      and _lands_on_cast(effect.get("triggers"))
+                      for level in levels
+                      for effect in _own_base_damage_boosts(level.get("effects"), ankama_id))
+        recast = any(level.get("max_cast_per_turn") != 1 and level.get("max_cast_per_target") != 1
+                     for level in levels)
+        if lasting and recast and not damage.get("stackable_damage"):
+            return "its next casts take a boost of its damage that no row lands"
+        return None
+    per_stack = []
+    for level in levels:
+        shapes = []
+        for key in ("effects", "critical_effects"):
+            boosts = _own_base_damage_boosts(level.get(key), ankama_id)
+            if (len(boosts) != 1 or boosts[0].get("delay") or not boosts[0].get("duration")
+                    or not _lands_on_cast(boosts[0].get("triggers"))
+                    or boosts[0].get("target_mask") not in ("c", "C")
+                    or not isinstance(boosts[0].get("value"), int) or boosts[0]["value"] <= 0
+                    or level.get("max_stack") != 1):
+                shapes.append(None)
+            else:
+                shapes.append(boosts[0]["value"])
+        if None in shapes or len(set(shapes)) != 1:
+            break
+        per_stack.append(shapes[0])
+    if (len(per_stack) != len(levels) or len(per_stack) != level_count
+            or damage.get("stackable_damage") or len(damage.get("normal") or []) != 1):
+        raise SystemExit("spell %s: its rows no longer leave one boost of its damage for "
+                         "its next casts" % ankama_id)
+    damage["stackable_damage"] = {"per_stack": per_stack, "max_stacks": [1] * level_count}
+    return None
+
+
 def _recast_ladder(aggregates, conditional) -> List[Tuple[str, List[int]]]:
     """The groups the casts of a growing spell land in turn; groups of held-back rows stay out."""
     held = set(conditional or {})
@@ -2965,6 +3108,10 @@ def convert_spell(
     mp_stack_spec = _prepare_mp_stackable_damage(spell, damage, level_count)
     if not damage.get("stackable_damage"):
         _prepare_base_damage_stackable_damage(spell, damage, level_count)
+    boost, boost_problem = _boost_after_a_skipped_turn(spell, damage, level_count)
+    if boost:
+        damage["stackable_damage"] = None
+    boost_problem = _one_boost_for_the_next_casts(spell, damage, level_count) or boost_problem
     stack_limit = _extract_stack_limit(spell)
 
     normal_rows = damage.get("normal") or []
@@ -2988,6 +3135,16 @@ def convert_spell(
             if stack_cap:
                 stack_limit = max(stack_limit or 0, stack_cap)
         stack_row_block = stack_row_block or len(normal_rows)
+
+    boosted: Dict[int, str] = {}
+    if boost:
+        if len(crit_rows) not in (0, len(normal_rows)):
+            raise SystemExit("spell %s: its critical rows no longer match its rows"
+                             % spell.get("ankama_id"))
+        boosted = dict.fromkeys(range(len(normal_rows), 2 * len(normal_rows)),
+                                CAST_TWO_TURNS_LATER)
+        for table in (normal_rows, crit_rows):
+            table.extend([_boosted_copy(row, boost) for row in list(table)])
 
     worst_rows = _worst_element_rows(spell, critical=False)
     worst_crit = _worst_element_rows(spell, critical=True) if worst_rows else []
@@ -3105,6 +3262,9 @@ def convert_spell(
         collapsed = _split_the_one_state_on_its_target(normal_rows, collapsed) or collapsed
     aggregates = _label_counter_groups(
         collapsed, _row_counter_gates(spell, normal_rows, spell_lookup), spell_lookup)
+    if boosted:
+        # A heal and a hit sharing their numbers are still two rows, and so are their boosted copies
+        aggregates = [("", [index]) for index in range(2 * len(boosted))]
     placed_blocks = damage.get("placed") or []
     block_waits: Dict[int, str] = {}
     block_lands: Dict[int, str] = {}
@@ -3118,6 +3278,7 @@ def convert_spell(
         return None
     holds_back = dict(_waiting_rows[1])
     holds_back.update(block_waits)
+    holds_back.update(boosted)
     for idx, trigger in _rows_only_on_allies(normal_rows, crit_rows).items():
         holds_back.setdefault(idx, trigger)
     conditional = _conditional_rows(spell.get("ankama_id") or 0, elements, holds_back)
@@ -3166,6 +3327,7 @@ def convert_spell(
         draw_problem=draw_problem,
         delay_problem=delay_problem,
         trigger_problem=trigger_problem,
+        boost_problem=boost_problem,
         stacks_on_recast=_stacks_on_recast(spell, aggregates, conditional, delayed,
                                            normal_rows),
     )
@@ -3497,7 +3659,7 @@ def _version_named(suffix: str) -> str:
 def main(argv: Optional[Sequence[str]] = None) -> int:
     global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
     global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER, ONE_ELEMENT_FACES, DELAYED_WHEN, DELAYED_ROWS
-    global CLIENT_ONLY_EFFECTS, RAW_ZONES, BOMB_SPELLS, RECAST_STACKS
+    global CLIENT_ONLY_EFFECTS, RAW_ZONES, BOMB_SPELLS, RECAST_STACKS, BOOSTS_AFTER_A_SKIPPED_TURN
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -3513,6 +3675,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     DELAYED_WHEN = DELAYED_WHEN_BY_VERSION[args.game_version]
     DELAYED_ROWS = DELAYED_ROWS_BY_VERSION[args.game_version]
     RECAST_STACKS = RECAST_STACKS_BY_VERSION[args.game_version]
+    BOOSTS_AFTER_A_SKIPPED_TURN = BOOSTS_AFTER_A_SKIPPED_TURN_BY_VERSION[args.game_version]
     dofus2_rows = _dofus2_effect_rows(args.game_version)
     CLIENT_ONLY_EFFECTS = _client_only_effects(dofus2_rows)
     RAW_ZONES = _raw_zones(dofus2_rows)

@@ -7780,6 +7780,9 @@ msgstr "seulement quand un ennemi sort de la Bellaura, une fois par ennemi et pa
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "seulement si le sort est lancé sur le lanceur, et seulement sur les ennemis autour du lanceur et de la Lance"
 
+msgid "on its cast 2 turns later, and only if the spell is not cast again on the following turn"
+msgstr "lors de son lancer 2 tours plus tard, et seulement si le sort n'est pas relancé au tour suivant"
+
 msgid "only on the enemy it hit first, when the spell is then cast on another target"
 msgstr "seulement sur l'ennemi touché en premier, quand le sort est ensuite lancé sur une autre cible"
 

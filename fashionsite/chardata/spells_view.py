@@ -1338,6 +1338,9 @@ _CONDITIONAL_LABELS = {
     'initial_enemy':
         _lazy("only on the enemy it hit first, when the spell is then cast on "
               "another target"),
+    'cast_two_turns_later':
+        _lazy("on its cast 2 turns later, and only if the spell is not cast "
+              "again on the following turn"),
     'trap': _lazy("only when an enemy sets off the trap"),
     'bomb': _lazy("only when the bomb explodes"),
     'glyph': _lazy("only when an enemy goes through the glyph"),

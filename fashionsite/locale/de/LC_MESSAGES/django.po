@@ -7726,6 +7726,9 @@ msgstr "nur wenn ein Gegner die Bellaura verlässt, einmal pro Gegner und Runde"
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "nur wenn der Zauber auf den Zaubernden gewirkt wird, und nur bei den Gegnern um den Zaubernden und den Wurfspeer herum"
 
+msgid "on its cast 2 turns later, and only if the spell is not cast again on the following turn"
+msgstr "beim Wirken 2 Runden später, und nur wenn der Zauber in der nächsten Runde nicht erneut gewirkt wird"
+
 msgid "only on the enemy it hit first, when the spell is then cast on another target"
 msgstr "nur beim zuerst getroffenen Gegner, wenn der Zauber danach auf ein anderes Ziel gewirkt wird"
 

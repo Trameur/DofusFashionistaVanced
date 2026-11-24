@@ -953,9 +953,13 @@ def _variant_partners(spells, game_version):
     return partners
 
 
+# Must match CAST_TWO_TURNS_LATER in itemscraper/generate_damage_spells.py
+ARMED_BY_ITS_OWN_CAST = frozenset(('cast_two_turns_later',))
+
+
 def conditional_extras(stats, spells, order, crit=False, standing=None,
                        game_version=None, caster_level=0, pushback=False):
-    """[(spell name, trigger, damage)] a push could add, outside the total."""
+    """[(spell name, trigger, damage)] a push or a later cast of the spell could add, outside the total."""
     if not order:
         return []
     by_name = {spell.name: spell for spell in spells}
@@ -963,6 +967,9 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
     triggers = set()
     if any(getattr(by_name.get(name), 'pushes', False) for name in cast_names):
         triggers.add('pushback')
+    triggers |= {trigger for name in cast_names
+                 for _effect, trigger in getattr(by_name.get(name), 'waiting_plain', None) or ()
+                 if trigger in ARMED_BY_ITS_OWN_CAST}
     if not triggers:
         return []
 

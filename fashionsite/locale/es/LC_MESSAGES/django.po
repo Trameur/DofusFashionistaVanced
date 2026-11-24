@@ -7672,6 +7672,9 @@ msgstr "solo cuando un enemigo sale de la belaura, una vez por enemigo y turno"
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "solo si se lanza sobre el lanzador, y solo en los enemigos alrededor del lanzador y de la lanza"
 
+msgid "on its cast 2 turns later, and only if the spell is not cast again on the following turn"
+msgstr "en su lanzamiento 2 turnos después, y solo si el hechizo no vuelve a lanzarse en el turno siguiente"
+
 msgid "only on the enemy it hit first, when the spell is then cast on another target"
 msgstr "solo en el enemigo alcanzado primero, cuando el hechizo se lanza después a otro objetivo"
 

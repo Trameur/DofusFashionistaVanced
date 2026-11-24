@@ -6872,6 +6872,9 @@ msgstr "only when an enemy leaves the Bellaura, once per enemy and per turn"
 msgid "only when cast on the caster, and only on the enemies around the caster and the Lance"
 msgstr "only when cast on the caster, and only on the enemies around the caster and the Lance"
 
+msgid "on its cast 2 turns later, and only if the spell is not cast again on the following turn"
+msgstr "on its cast 2 turns later, and only if the spell is not cast again on the following turn"
+
 msgid "only on the enemy it hit first, when the spell is then cast on another target"
 msgstr "only on the enemy it hit first, when the spell is then cast on another target"
 
