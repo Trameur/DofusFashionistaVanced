@@ -399,6 +399,20 @@ ONE_ELEMENT_FACES_BY_VERSION = {
 
 ONE_ELEMENT_FACES = ONE_ELEMENT_FACES_BY_VERSION["dofus3"]
 
+_MODERN_RECAST_STACKS = {
+    32435: "les dommages du sort sont augmentés après chaque lancer",
+    32436: "les dommages du sort sont augmentés après chaque lancer",
+    23263: "les dommages du sort sont augmentés après chaque lancer",
+}
+
+RECAST_STACKS_BY_VERSION = {
+    "dofus3": _MODERN_RECAST_STACKS,
+    "beta": _MODERN_RECAST_STACKS,
+    "dofus2": {},
+}
+
+RECAST_STACKS = RECAST_STACKS_BY_VERSION["dofus3"]
+
 # "x#1% damage sustained" on the fighters the row targets
 DAMAGE_TAKEN_EFFECT_ID = 1163
 # "Removes the effects of the #2 spell", the spell id in value
@@ -486,6 +500,7 @@ class SpellEntry:
     delay_problem: Optional[str] = None
     # A row waiting on a trigger no token reads; never rendered
     trigger_problem: Optional[str] = None
+    stacks_on_recast: bool = False
 
 
 def _parse_damage_literal(literal: str) -> tuple[int, int]:
@@ -2563,6 +2578,24 @@ def _pair_buffs_with_their_draw(
             if not (len(indexes) == 1 and indexes[0] in paired)]
 
 
+def _stacks_on_recast(spell: Mapping[str, Any], aggregates, conditional, delayed) -> bool:
+    """Whether each cast of the turn lands the next Stack group, checked on the listed spells."""
+    ankama_id = spell.get("ankama_id")
+    quote = RECAST_STACKS.get(ankama_id)
+    if quote is None:
+        return False
+    if quote.lower() not in str(spell.get("description_fr") or "").lower():
+        raise SystemExit("spell %s no longer says %r; each of its casts was made to land "
+                         "the next Stack group on that sentence" % (ankama_id, quote))
+    labels = [label for label, _indices in aggregates or []]
+    if (len(labels) < 2 or labels != ["Stack %d" % count for count in range(len(labels))]
+            or any(len(indices) != 1 for _label, indices in aggregates)
+            or conditional or delayed):
+        raise SystemExit("spell %s: its rows are no longer one Stack group per cast"
+                         % ankama_id)
+    return True
+
+
 def _build_one_element_aggregates(
     spell: Mapping[str, Any],
     rows: Sequence[Mapping[str, Any]],
@@ -3051,6 +3084,7 @@ def convert_spell(
         draw_problem=draw_problem,
         delay_problem=delay_problem,
         trigger_problem=trigger_problem,
+        stacks_on_recast=_stacks_on_recast(spell, aggregates, conditional, delayed),
     )
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
@@ -3310,6 +3344,8 @@ def render_spell(entry: SpellEntry) -> List[str]:
         extra_args.append(f"delayed={entry.delayed!r}")
     if entry.delayed_crit is not None:
         extra_args.append(f"delayed_crit={entry.delayed_crit!r}")
+    if entry.stacks_on_recast:
+        extra_args.append("stacks_on_recast=True")
     if extra_args:
         closing += ", " + ", ".join(extra_args)
     closing += ")"
@@ -3378,7 +3414,7 @@ def _version_named(suffix: str) -> str:
 def main(argv: Optional[Sequence[str]] = None) -> int:
     global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
     global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER, ONE_ELEMENT_FACES, DELAYED_WHEN, DELAYED_ROWS
-    global CLIENT_ONLY_EFFECTS, RAW_ZONES, BOMB_SPELLS
+    global CLIENT_ONLY_EFFECTS, RAW_ZONES, BOMB_SPELLS, RECAST_STACKS
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -3393,6 +3429,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ONE_ELEMENT_FACES = ONE_ELEMENT_FACES_BY_VERSION[args.game_version]
     DELAYED_WHEN = DELAYED_WHEN_BY_VERSION[args.game_version]
     DELAYED_ROWS = DELAYED_ROWS_BY_VERSION[args.game_version]
+    RECAST_STACKS = RECAST_STACKS_BY_VERSION[args.game_version]
     dofus2_rows = _dofus2_effect_rows(args.game_version)
     CLIENT_ONLY_EFFECTS = _client_only_effects(dofus2_rows)
     RAW_ZONES = _raw_zones(dofus2_rows)

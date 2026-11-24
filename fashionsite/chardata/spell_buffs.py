@@ -146,6 +146,14 @@ def _buff_value(buff_scaling, stat, stacks, effect_max_dam):
     return base + effective * per_stack
 
 
+def _buff_share(value, faces):
+    """A buff's value on one of the faces of a drawn hit, whole when it divides."""
+    if faces > 1:
+        value = value / faces
+        value = int(value) if value == int(value) else value
+    return value
+
+
 def compute_full_buff_stats(char, game_version):
     """{stat_key: value} deltas if the character's class self-buffs are fully active."""
     from chardata.spell_combo import drawn_buff_faces
@@ -175,10 +183,9 @@ def compute_full_buff_stats(char, game_version):
                 continue
             if stat in _BUFF_STATS_WITHOUT_ROW:
                 continue
-            value = _buff_value(spell.buff_scaling, stat, spell.stacks, effect.max_dam)
-            if faces.get(row, 1) > 1:
-                value = value / faces[row]
-                value = int(value) if value == int(value) else value
+            value = _buff_share(
+                _buff_value(spell.buff_scaling, stat, spell.stacks, effect.max_dam),
+                faces.get(row, 1))
             if stat == 'depow':
                 stat, value = 'pow', -value
             if value:

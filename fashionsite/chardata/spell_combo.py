@@ -36,7 +36,7 @@ from fashionistapulp.game_versions import main_game
 from fashionistapulp.structure import get_current_game_version
 
 from chardata.pushback import pushback_damage
-from chardata.spell_buffs import (_buff_value, _decide_spell_level,
+from chardata.spell_buffs import (_buff_share, _buff_value, _decide_spell_level,
                                   get_damage_spells_for_version, touch_spell_module)
 from chardata.spell_modifiers import (SpellModifier, base_damage_bonus,
                                       bonus_stats, modified_cast, raised_row)
@@ -343,7 +343,7 @@ class Castable(object):
         together = []
         widths = []
 
-        def landed(effects, late_rows=()):
+        def landed(effects, late_rows=(), group=None):
             """The damage a cast can land, one list per alternative."""
             hits = [(index, effect) for index, effect in enumerate(effects)
                     if not effect.element.startswith('buff')
@@ -361,6 +361,8 @@ class Castable(object):
                 groups = [face | other for face in chosen for other in worst]
                 widths.append(len(worst))
             par_paliers = groups is None and bool(digest.aggregates)
+            if groups is None and group is not None:
+                groups = [set(group)]
             if groups is None:
                 groups = ([_first_group_that_hurts(digest.aggregates, hits)]
                           if digest.aggregates else [None])
@@ -380,12 +382,12 @@ class Castable(object):
                     out.append(kept)
             return out
 
-        def at_level(rows, critical=False):
+        def at_level(rows, critical=False, group=None):
             late = getattr(spell, 'delayed', None) or {}
             if critical and getattr(spell, 'delayed_crit', None) is not None:
                 late = spell.delayed_crit
             return landed(rows[level_index] if level_index < len(rows) else [],
-                          late)
+                          late, group)
 
         def waiting_at(rows):
             """The rows the cast leaves for later, with what each waits for."""
@@ -438,6 +440,11 @@ class Castable(object):
         self.scored_group = scored_group_label(
             digest, rows[level_index] if level_index < len(rows) else [],
             waiting_rows)
+        if getattr(spell, 'stacks_on_recast', False) and digest.aggregates:
+            self.stack_labels = [label for label, _indices in digest.aggregates]
+            self.recasts = [(at_level(digest.non_crit_dams, group=indices),
+                             at_level(digest.crit_dams, critical=True, group=indices))
+                            for _label, indices in digest.aggregates[1:]]
         casting = spell.casting or {}
         crit_rates = casting.get('crit') or []
         self.crit_rate = (crit_rates[level_index]
@@ -468,17 +475,30 @@ class Castable(object):
                 if parts[2] != 'weapon' or stat != 'pow':
                     continue
                 stat = 'powweap'
-            value = _buff_value(self.spell.buff_scaling, scaled_as, capped,
-                                effect.max_dam)
-            faces = self.buff_faces.get(id(effect), 1)
-            if faces > 1:
-                value = value / faces
-                value = int(value) if value == int(value) else value
+            value = _buff_share(
+                _buff_value(self.spell.buff_scaling, scaled_as, capped, effect.max_dam),
+                self.buff_faces.get(id(effect), 1))
             if stat == 'depow':
                 stat, value = 'pow', -value
             if value:
                 deltas[stat] = deltas.get(stat, 0) + value
         return deltas
+
+
+def recast_alternatives(castable, cast):
+    """(plain, critical) alternatives of a cast after `cast` earlier ones of the turn, None when it lands like the first."""
+    recasts = getattr(castable, 'recasts', None)
+    if not recasts or not cast:
+        return None
+    return recasts[min(cast, len(recasts)) - 1]
+
+
+def cast_label(castable, cast):
+    """Label of the Stack group a cast after `cast` earlier ones of the turn lands, else the scored group's."""
+    labels = getattr(castable, 'stack_labels', None)
+    if labels and getattr(castable, 'recasts', None):
+        return labels[min(cast, len(labels) - 1)]
+    return getattr(castable, 'scored_group', '')
 
 
 def cast_limit(per_turn, per_target, cooldown):
@@ -521,6 +541,11 @@ def apply_spell_modifiers(castable, modifiers):
     castable.alternatives = (castable.crit_alternatives if castable.crit
                              else castable.plain_alternatives)
     castable.hits = castable.alternatives[0] if castable.alternatives else []
+    if getattr(castable, 'recasts', None):
+        castable.recasts = [tuple([[raised(row) for row in alternative]
+                                   for alternative in alternatives]
+                                  for alternatives in recast)
+                            for recast in castable.recasts]
     for name in ('waiting_plain', 'waiting_crit', 'delayed_plain',
                  'delayed_crit'):
         setattr(castable, name, [(raised(row), when)
@@ -802,6 +827,11 @@ def add_hp_share_hits(castable, entry, level_index):
     castable.alternatives = (castable.crit_alternatives if castable.crit
                              else castable.plain_alternatives)
     castable.hits = castable.alternatives[0] if castable.alternatives else []
+    if getattr(castable, 'recasts', None):
+        castable.recasts = [
+            (_with_rows(plain, _hp_share_rows(entry.get('normal'), level_index)),
+             _with_rows(critical, _hp_share_rows(entry.get('critical'), level_index)))
+            for plain, critical in castable.recasts]
     return castable
 
 
@@ -1009,15 +1039,21 @@ def delayed_damage(stats, spells, order, crit=False, standing=None,
                     return (0.0, 0.0)
                 return totals[pick]
 
+            alternatives = castable.alternatives
+            plain_alternatives = (getattr(castable, 'plain_alternatives', None)
+                                  or castable.alternatives)
+            crit_alternatives = getattr(castable, 'crit_alternatives', None)
+            grown = recast_alternatives(castable, seen.get(name, 0))
+            if grown is not None:
+                plain_alternatives, crit_alternatives = grown
+                alternatives = crit_alternatives if castable.crit else plain_alternatives
             if crit:
-                gained = worth(castable.alternatives, True)[1]
+                gained = worth(alternatives, True)[1]
             else:
                 odds = crit_chance(getattr(castable, 'crit_rate', 0), buffed,
                                    game_version)
-                plain = worth(getattr(castable, 'plain_alternatives', None)
-                              or castable.alternatives, False)[1]
-                critical = (worth(getattr(castable, 'crit_alternatives', None),
-                                  True)[1] if odds else 0.0)
+                plain = worth(plain_alternatives, False)[1]
+                critical = (worth(crit_alternatives, True)[1] if odds else 0.0)
                 gained = (plain * (1 - odds) + critical * odds
                           if critical else plain)
             if gained:
@@ -1173,7 +1209,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             pending = pending[:position] + (stacks,) + pending[position + 1:]
         return pending
 
-    def _damage_of(spell, counts, pending):
+    def _damage_of(spell, counts, pending, cast=0):
         buffed = dict(stats)
         for index, other in enumerate(spells):
             if not counts[index]:
@@ -1236,21 +1272,28 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
 
         pushed = (push_value(spell, buffed, game_version, caster_level)
                   if pushback else 0.0)
+        alternatives = spell.alternatives
+        plain_alternatives = getattr(spell, 'plain_alternatives', spell.alternatives)
+        crit_alternatives = getattr(spell, 'crit_alternatives', None) or []
+        grown = recast_alternatives(spell, cast)
+        if grown is not None:
+            plain_alternatives, crit_alternatives = grown
+            alternatives = crit_alternatives if spell.crit else plain_alternatives
         if crit:
-            return scored(spell.alternatives, True) + pushed
+            return scored(alternatives, True) + pushed
         odds =crit_chance(getattr(spell, 'crit_rate', 0), buffed, game_version)
-        plain = scored(getattr(spell, 'plain_alternatives', spell.alternatives),
-                       False)
+        plain = scored(plain_alternatives, False)
         if not odds:
             return plain + pushed
-        critical = scored(getattr(spell, 'crit_alternatives', None) or [], True)
+        critical = scored(crit_alternatives, True)
         if not critical:
             return plain + pushed
         return plain * (1 - odds) + critical * odds + pushed
 
     # Counts past a spell's stack cap and cast limit change nothing: fold them
     caps = tuple(max(spell.stacks or 1, spell.limit or 0, 1,
-                     spell.taken.cap() if index in lasting else 0)
+                     spell.taken.cap() if index in lasting else 0,
+                     len(getattr(spell, 'recasts', None) or ()))
                  for index, spell in enumerate(spells))
     names = tuple(spell.name for spell in spells)
     costs = tuple(spell.cost for spell in spells)
@@ -1261,6 +1304,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                       for spell in spells)
     stacked = tuple((index, spells[index].stacks) for index in buff_indexes)
     capped = tuple((index, spells[index].taken.cap()) for index in lasting)
+    growing = tuple((index, len(spell.recasts)) for index, spell in enumerate(spells)
+                    if getattr(spell, 'recasts', None))
     affordable = {}
     best = {}
     try:
@@ -1278,16 +1323,23 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 index for index, cost in enumerate(costs) if cost <= ap_left)
         return found
 
-    def signature_of(counts, pending):
+    grown = frozenset(index for index, _cap in growing)
+
+    def row_signature_of(counts, pending):
         return (tuple(min(counts[other], cap) for other, cap in stacked),
                 tuple(min(counts[other], cap) for other, cap in capped),
                 pending)
+
+    def signature_of(counts, pending):
+        return row_signature_of(counts, pending) + (
+            tuple(min(counts[other], cap) for other, cap in growing),)
 
     def gain_of(index, counts, pending, signature):
         key = (names[index], signature)
         gained = scores.get(key)
         if gained is None:
-            gained = scores[key] = _damage_of(spells[index], counts, pending)
+            gained = scores[key] = _damage_of(spells[index], counts, pending,
+                                              counts[index])
         return gained
 
     def search(ap_left, counts, depth, pending):
@@ -1348,6 +1400,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         try:
             tracked_ranges = [range(min(casts_of(index), caps[index]) + 1)
                               for index in tracked]
+            own_ranges = {index: range(min(max(casts_of(index) - 1, 0), cap) + 1)
+                          for index, cap in growing if index not in tracked}
             pending_ranges = [range(min(spells[index].taken.cap(), casts_of(index)) + 1)
                               for index in ending]
         except TypeError:
@@ -1381,9 +1435,13 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         try:
             for counts, pending, fitting in seeds:
                 signature = signature_of(counts, pending)
-                row = rows.setdefault(signature, [None] * len(spells))
+                row = rows.setdefault(row_signature_of(counts, pending), [None] * len(spells))
                 for index in fitting:
-                    gained = row[index] = gain_of(index, counts, pending, signature)
+                    gains = []
+                    for own in own_ranges.get(index, (counts[index],)):
+                        cast = counts[:index] + (own,) + counts[index + 1:]
+                        gains.append(gain_of(index, cast, pending, signature_of(cast, pending)))
+                    gained = row[index] = max(gains)
                     if not 0.0 <= gained < float('inf'):
                         raise ValueError(gained)
                     most[index] = max(most[index], gained)
@@ -1418,12 +1476,14 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 gained = 0.0
             else:
                 if row is None:
-                    row = rows.get(signature_of(counts, pending))
+                    row = rows.get(row_signature_of(counts, pending))
                     if row is None:
                         raise _Unbounded()
                 gained = row[index]
                 if gained is None:
                     raise _Unbounded()
+                if index in grown:
+                    gained = gain_of(index, counts, pending, signature_of(counts, pending))
             left = ap_left - costs[index]
             options.append(((gained + ceiling[left]) * CEILING_MARGIN, index, gained, left))
         options.sort(key=itemgetter(0), reverse=True)

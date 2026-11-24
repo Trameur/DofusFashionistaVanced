@@ -504,6 +504,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     casts = []
     running = 0
     shown = 0
+    earlier = {}
     for index, (name, damage) in enumerate(order):
         damage -= (later.get(name, 0) / times_cast[name]) if name in later else 0
         running += damage
@@ -527,7 +528,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                       'damage': shown - before,
                       'running': shown,
                       'note': _cast_note(castable, name, later,
-                                         shown - before, game_version),
+                                         shown - before, game_version,
+                                         earlier.get(name, 0)),
                       'item_notes': _item_notes(
                           getattr(castable, 'modifiers', None), game_version),
                       'taken_notes': _taken_notes(castable, under_by_cast[index],
@@ -535,6 +537,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                       'hp_notes': _hp_share_lines(castable, language)[0],
                       'limit_mark': limit_notes.get(index, ('', ''))[0],
                       'limit_title': limit_notes.get(index, ('', ''))[1]})
+        earlier[name] = earlier.get(name, 0) + 1
     late = []
     # Same rounding as the casts above
     cumul_differe = 0.0
@@ -657,12 +660,13 @@ def _item_effects_note(solutions, game_version):
     return str(note) % {'items': ', '.join(names)}
 
 
-def _cast_note(castable, name, later, damage, game_version=None):
-    """Why a cast shows zero, or which group it counted, or ''."""
+def _cast_note(castable, name, later, damage, game_version=None, cast=0):
+    """Why a cast shows zero, or which group the cast after `cast` earlier ones counted, or ''."""
+    from chardata.spell_combo import cast_label
     if int(round(damage)):
         if getattr(castable, 'counts_both_runs', False):
             return str(_CAST_NOTES['both runs'])
-        group = getattr(castable, 'scored_group', '')
+        group = cast_label(castable, cast)
         if group:
             label = _localized_aggregate_label(group, game_version)
             if label:

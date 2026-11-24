@@ -315,7 +315,7 @@ class Spell:
     def __init__(self, name, level_req, effects, aggregates=[],
                  is_linked=None, stacks=1, special=None, buff_scaling=None,
                  spell_id=None, casting=None, conditional=None,
-                 delayed=None, delayed_crit=None):
+                 delayed=None, delayed_crit=None, stacks_on_recast=False):
         # Ankama spell id from the 2.73 archive, None for hand-written specs
         self.spell_id = spell_id
         self.name = name
@@ -335,6 +335,7 @@ class Spell:
         self.delayed = delayed or {}
         # Critical hits can have different rows
         self.delayed_crit = delayed_crit if delayed_crit is not None else None
+        self.stacks_on_recast = stacks_on_recast
 
     def ap_cost(self, level_index=-1):
         """AP a cast costs at that spell level, or None if it is not known."""

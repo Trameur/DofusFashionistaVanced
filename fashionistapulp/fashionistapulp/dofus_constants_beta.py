@@ -314,7 +314,7 @@ class Spell:
     def __init__(self, name, level_req, effects, aggregates=[],
                  is_linked=None, stacks=1, special=None, buff_scaling=None,
                  spell_id=None, casting=None, conditional=None,
-                 delayed=None, delayed_crit=None):
+                 delayed=None, delayed_crit=None, stacks_on_recast=False):
         self.name = name
         self.level_req = level_req
         self.effects = effects
@@ -334,6 +334,7 @@ class Spell:
         self.delayed = delayed or {}
         # Critical hits can have different rows
         self.delayed_crit = delayed_crit if delayed_crit is not None else None
+        self.stacks_on_recast = stacks_on_recast
 
     def ap_cost(self, level_index=-1):
         """AP a cast costs at that spell level, or None if it is not known."""
@@ -1085,7 +1086,7 @@ DAMAGE_SPELLS = {
              ['18-20', '24-27', '30-34'],
              ['21-23', '28-31', '35-39']],
             [WATER, WATER, WATER],
-        ), aggregates=[('Stack 0', [0]), ('Stack 1', [1]), ('Stack 2', [2])], is_linked=(1, 'Plaguing Arrow'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=32435),
+        ), aggregates=[('Stack 0', [0]), ('Stack 1', [1]), ('Stack 2', [2])], is_linked=(1, 'Plaguing Arrow'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=32435, stacks_on_recast=True),
         Spell('Immobilising Arrow', [30, 97, 164], Effects(
             [['7-9', '9-11', '11-13'],
              ['9-11', '11-13', '13-15'],
@@ -1102,7 +1103,7 @@ DAMAGE_SPELLS = {
  ('Stack 1', [1]),
  ('Stack 2', [2]),
  ('Stack 3', [3]),
- ('Stack 4', [4])], stacks=4, is_linked=(1, 'Tyrannical Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [4, 4, 4], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=32436),
+ ('Stack 4', [4])], stacks=4, is_linked=(1, 'Tyrannical Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [4, 4, 4], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=32436, stacks_on_recast=True),
         Spell("Bat's Eye", [50, 117, 184], Effects(
             [['12-14', '16-19', '19-22']],
             [['15-18', '19-22', '23-26']],
@@ -3082,7 +3083,7 @@ DAMAGE_SPELLS = {
  ('Stack 1', [1]),
  ('Stack 2', [2]),
  ('Stack 3', [3]),
- ('Stack 4', [4])], stacks=4, is_linked=(1, 'Brass Rain'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=23263),
+ ('Stack 4', [4])], stacks=4, is_linked=(1, 'Brass Rain'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=23263, stacks_on_recast=True),
         Spell('No Myr Javelin', [35, 102, 169], Effects(
             [['16-18', '21-24', '26-30']],
             [['19-21', '25-29', '31-36']],

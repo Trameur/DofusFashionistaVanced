@@ -188,6 +188,7 @@ def inputs_fingerprint(game_version, char_class, level=TOP_LEVEL, gear=None):
              spell.spell.buff_scaling, variant_of(game_version, spell.spell_id)]
             + ([[spell.taken.percent, spell.taken.critical, spell.taken.stacks,
                  spell.taken.ends_on_hit]] if spell.taken is not None else [])
+            + ([['recasts', spell.recasts]] if getattr(spell, 'recasts', None) else [])
             for spell in spells]
     reads = []
     for element in ELEMENT_DAMAGE:
