@@ -6,12 +6,8 @@ from pathlib import Path
 ITEMSCRAPER = Path(__file__).resolve().parent
 ROOT = ITEMSCRAPER.parent
 DATA = ROOT / 'fashionistapulp' / 'fashionistapulp'
-if str(DATA.parent) not in sys.path:
-    sys.path.append(str(DATA.parent))
-try:
-    from fashionistapulp.game_versions import get_game_version
-except ImportError:
-    from fashionistapulp.fashionistapulp.game_versions import get_game_version
+if str(ROOT) not in sys.path:
+    sys.path.append(str(ROOT))
 STATIC = ROOT / 'fashionsite' / 'chardata' / 'static' / 'chardata'
 STATICFILES = ROOT / 'fashionsite' / 'staticfiles' / 'chardata'
 
@@ -20,6 +16,15 @@ BETA = 'beta'
 RELEASES = (MAIN, BETA)
 VERSION_KEYS = {MAIN: 'retro', BETA: 'retrobeta'}
 NOTICE = '[%s]' % VERSION_KEYS[BETA]
+
+
+def get_game_version(key):
+    # Imported on call: the caller's sys.path decides which package the name fashionistapulp binds.
+    try:
+        from fashionistapulp.game_versions import get_game_version as lookup
+    except ImportError:
+        from fashionistapulp.fashionistapulp.game_versions import get_game_version as lookup
+    return lookup(key)
 
 
 def add_release_argument(parser):

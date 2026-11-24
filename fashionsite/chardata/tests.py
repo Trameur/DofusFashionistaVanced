@@ -12179,6 +12179,14 @@ class DataPipelineImportsTests(SimpleTestCase):
             'the item scrapers cannot resolve their paths:' + self.NL
             + done.stdout + done.stderr)
 
+    def test_the_update_launcher_keeps_the_layout_after_reading_the_retro_release(self):
+        done = self._run_as_pipeline([
+            'import update_all',
+            'from download_retro_langs import lang_root',
+            'from fashionistapulp.fashionistapulp.fashion_util import normalize_name',
+        ])
+        self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+
     def test_an_unknown_version_is_refused_rather_than_silently_dofus3(self):
         done = self._run_as_pipeline([
             'from fashionistapulp.fashionistapulp.fashionista_config'
