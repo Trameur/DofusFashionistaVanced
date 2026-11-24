@@ -10,7 +10,7 @@ from django.test import SimpleTestCase
 from chardata.spell_reference import reference_by_spell_id
 from fashionistapulp import temporix
 from fashionistapulp.dofus_constants import SLOTS, slots_for, type_names_for
-from fashionistapulp.game_versions import version_keys
+from fashionistapulp.game_versions import main_of, version_keys
 from fashionistapulp.structure import (get_structure, level_to_wear,
                                        set_current_game_version)
 
@@ -93,11 +93,15 @@ class TheSealSlotsAreTouchOnlyTests(SimpleTestCase):
         set_current_game_version('dofus3')
 
     def test_touch_has_the_sixteen_slots_and_two_seal_slots(self):
-        self.assertEqual(SLOTS + ['emblem1', 'emblem2'], slots_for('touch'))
+        versions = [version for version in version_keys() if main_of(version) == 'touch']
+        self.assertIn('touch', versions)
+        for version in versions:
+            with self.subTest(version=version):
+                self.assertEqual(SLOTS + ['emblem1', 'emblem2'], slots_for(version))
 
     def test_every_other_version_keeps_its_sixteen_slots(self):
         for version in version_keys():
-            if version == 'touch':
+            if main_of(version) == 'touch':
                 continue
             with self.subTest(version=version):
                 self.assertEqual(SLOTS, slots_for(version))
@@ -105,7 +109,7 @@ class TheSealSlotsAreTouchOnlyTests(SimpleTestCase):
 
     def test_no_other_catalogue_has_a_seal_type(self):
         for version in version_keys():
-            if version == 'touch':
+            if main_of(version) == 'touch':
                 continue
             with self.subTest(version=version):
                 set_current_game_version(version)

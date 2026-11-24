@@ -26,7 +26,6 @@ class TouchBetaIsAStagedTouchVersionTests(SimpleTestCase):
         touchbeta = GAME_VERSIONS['touchbeta']
         self.assertEqual('touch', main_of('touchbeta'))
         self.assertTrue(is_beta('touchbeta'))
-        self.assertTrue(touchbeta.experimental)
         self.assertTrue(touchbeta.dofus)
         self.assertEqual(('Touch Beta', 'Dofus Touch Beta'), (touchbeta.label, touchbeta.game_name))
         self.assertEqual(('items_touchbeta.db', 'item_db_dumped_touchbeta.dump'),
@@ -40,14 +39,16 @@ class TouchBetaIsAStagedTouchVersionTests(SimpleTestCase):
             with self.subTest(rule=rule):
                 self.assertEqual(getattr(touch, rule), getattr(touchbeta, rule))
 
-    def test_it_sits_after_touch_and_reaches_no_reader(self):
+    def test_it_sits_after_touch_and_reaches_a_reader_only_once_it_is_not_experimental(self):
+        hidden = GAME_VERSIONS['touchbeta'].experimental
+        members = ['touch'] if hidden else ['touch', 'touchbeta']
         self.assertEqual(('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro', 'retrobeta', 'wakfu'),
                          VERSION_ORDER)
         self.assertIn('touchbeta', dofus_versions())
-        self.assertNotIn('touchbeta', version_keys())
-        self.assertNotIn('touchbeta', reader_dofus_versions())
-        self.assertEqual(['touch'], family_members('touch'))
-        self.assertIn(('touch', ['touch']), switcher_games())
+        self.assertEqual(hidden, 'touchbeta' not in version_keys())
+        self.assertEqual(hidden, 'touchbeta' not in reader_dofus_versions())
+        self.assertEqual(members, family_members('touch'))
+        self.assertIn(('touch', members), switcher_games())
 
 
 class TouchBetaHasItsStampsTests(SimpleTestCase):

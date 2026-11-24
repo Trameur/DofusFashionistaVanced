@@ -9,6 +9,8 @@ from django.conf import settings
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 
+from fashionistapulp.game_versions import GAME_VERSIONS
+
 MOIS = 'September 2026'
 OCTOBRE = 'October 2026'
 NOUVEAU_MOIS = 'November 2026'
@@ -48,13 +50,14 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
     def test_four_entries_of_at_most_four_bullets(self):
         entrees = _entrees()
         self.assertEqual(NOUVEAU_MOIS, entrees[0][0])
-        self.assertEqual(['A new look for the whole site',
+        touch_beta = [] if GAME_VERSIONS['touchbeta'].experimental else ['Dofus Touch Beta is here']
+        self.assertEqual(touch_beta + ['A new look for the whole site',
                           'Transcendence runes in the optimizer',
                           'Dofus 3 Beta 3.8 update',
                           'Dracorunes in the optimizer, and the Bellaphone class',
                           'Stronger builds, and a new way to start them'],
                          [e[1] for e in entrees if e[0] == NOUVEAU_MOIS])
-        self.assertEqual('A new look for the whole site', entrees[0][1])
+        self.assertEqual((touch_beta or ['A new look for the whole site'])[0], entrees[0][1])
         self.assertEqual(['Dofus 3.7 update', 'Weights and minimums on one page'],
                          [e[1] for e in entrees if e[0] == OCTOBRE])
         de_ce_mois = [e for e in entrees if e[0] == MOIS]

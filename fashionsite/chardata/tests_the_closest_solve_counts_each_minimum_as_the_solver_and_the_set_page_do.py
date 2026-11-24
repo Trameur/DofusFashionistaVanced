@@ -3,6 +3,7 @@
 import dataclasses
 import pickle
 import sys
+import unittest
 from unittest import mock
 
 import pulp
@@ -18,7 +19,7 @@ from chardata.solution import get_solution_from_minimal
 from chardata.tests_a_build_with_no_set_is_shown_its_closest_set import _solver_available
 from chardata.translation_util import localized_stat_name
 from fashionistapulp.dofus_constants import percent_resist_cap
-from fashionistapulp.game_versions import version_keys
+from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
 from fashionistapulp.model import Model
 from fashionistapulp.structure import (get_current_game_version, get_structure,
                                        set_current_game_version)
@@ -175,6 +176,11 @@ class TouchCountsEachMinimumTests(_EveryMinimumMixin, TestCase):
     version = 'touch'
 
 
+@unittest.skipIf(GAME_VERSIONS['touchbeta'].experimental, 'Touch Beta is not readable yet')
+class TouchBetaCountsEachMinimumTests(_EveryMinimumMixin, TestCase):
+    version = 'touchbeta'
+
+
 class RetroCountsEachMinimumTests(_EveryMinimumMixin, TestCase):
     version = 'retro'
 
@@ -186,4 +192,5 @@ class EveryVersionIsCountedTests(TestCase):
         covered = {value.version for value in vars(module).values()
                    if isinstance(value, type) and issubclass(value, _EveryMinimumMixin)
                    and value is not _EveryMinimumMixin}
-        self.assertEqual(set(version_keys()), covered)
+        self.assertLessEqual(set(version_keys()), covered)
+        self.assertLessEqual(covered, set(version_keys(include_experimental=True)))

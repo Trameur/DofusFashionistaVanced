@@ -124,29 +124,34 @@ class TouchBetaBuildsATouchSetTests(TestCase):
 
 class TouchBetaIsHiddenFromReadersTests(TestCase):
 
-    def test_no_reader_list_or_switcher_names_it(self):
-        self.assertNotIn(KEY, version_keys())
-        self.assertNotIn(KEY, reader_dofus_versions())
-        self.assertNotIn(KEY, prefixed_reader_versions())
-        for main, members in switcher_games():
-            with self.subTest(game=main):
-                self.assertNotIn(KEY, [main] + list(members))
+    def test_the_reader_lists_and_the_switcher_name_it_only_once_it_is_not_experimental(self):
+        hidden = GAME_VERSIONS[KEY].experimental
+        self.assertEqual(hidden, KEY not in version_keys())
+        self.assertEqual(hidden, KEY not in reader_dofus_versions())
+        self.assertEqual(hidden, KEY not in prefixed_reader_versions())
+        named = {main: KEY in [main] + list(members) for main, members in switcher_games()}
+        self.assertEqual(not hidden, named[MAIN])
+        self.assertFalse(any(found for main, found in named.items() if main != MAIN))
 
-    def test_it_has_no_route(self):
-        for pattern in urls._prefixed_version_routes():
-            with self.subTest(route=str(pattern.pattern)):
-                self.assertNotEqual(GAME_VERSIONS[KEY].prefix + '/', str(pattern.pattern))
+    def test_it_has_a_route_only_once_it_is_not_experimental(self):
+        hidden = GAME_VERSIONS[KEY].experimental
+        routes = [str(pattern.pattern) for pattern in urls._prefixed_version_routes()]
+        self.assertEqual(not hidden, GAME_VERSIONS[KEY].prefix + '/' in routes)
+        if hidden:
+            for pattern in urls._prefixed_version_routes():
                 self.assertNotEqual(KEY, pattern.namespace)
 
-    def test_the_home_page_names_it_in_no_link_or_alternate(self):
+    def test_the_home_page_names_it_in_a_link_or_alternate_only_once_it_is_not_experimental(self):
         response = self.client.get('/')
         self.assertEqual(200, response.status_code)
         page = response.content.decode('utf-8')
         self.assertIn('rel="alternate"', page)
         self.assertIn('/%s/' % MAIN, page)
-        self.assertNotIn(KEY, page)
+        self.assertEqual(not GAME_VERSIONS[KEY].experimental, '/%s/' % KEY in page)
+        if GAME_VERSIONS[KEY].experimental:
+            self.assertNotIn(KEY, page)
 
-    def test_the_sitemap_names_it_nowhere(self):
+    def test_the_sitemap_names_it_only_once_it_is_not_experimental(self):
         saved = dict(urls._SITEMAP_CACHES)
         saved_items = dict(urls._SITEMAP_ITEM_CACHE)
         urls._SITEMAP_CACHES.clear()
@@ -157,4 +162,7 @@ class TouchBetaIsHiddenFromReadersTests(TestCase):
         for name, body in built.items():
             with self.subTest(section=name):
                 self.assertIn('/%s/' % MAIN, body)
-                self.assertNotIn(KEY, body)
+                if GAME_VERSIONS[KEY].experimental:
+                    self.assertNotIn(KEY, body)
+        if not GAME_VERSIONS[KEY].experimental:
+            self.assertIn('/%s/' % KEY, built['pages'])

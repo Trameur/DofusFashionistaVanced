@@ -45,16 +45,16 @@ class EveryBetaBelongsToAMainGame(SimpleTestCase):
                 self.assertEqual(version.prefix, key)
 
     def test_the_version_keys_keep_their_order(self):
+        everything = ['dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro', 'retrobeta', 'wakfu']
+        self.assertEqual(version_keys(include_experimental=True), everything)
         self.assertEqual(version_keys(),
-                         ['dofus3', 'beta', 'dofus2', 'touch', 'retro'])
-        self.assertEqual(version_keys(include_experimental=True),
-                         ['dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro',
-                          'retrobeta', 'wakfu'])
+                         [key for key in everything if not GAME_VERSIONS[key].experimental])
 
     def test_family_members_list_the_main_first(self):
         self.assertEqual(family_members('beta'), ['dofus3', 'beta'])
         self.assertEqual(family_members('dofus3'), ['dofus3', 'beta'])
-        self.assertEqual(family_members('touch'), ['touch'])
+        self.assertEqual(family_members('touch'),
+                         ['touch'] + ([] if GAME_VERSIONS['touchbeta'].experimental else ['touchbeta']))
 
     def test_the_switcher_games_follow_the_family_order_without_experimental(self):
         games = switcher_games()
