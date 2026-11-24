@@ -635,7 +635,7 @@ html.fm-modern .fm-guide-card{
 html.fm-modern .fm-guide-card:hover{ background:var(--fm-accent-soft); border-color:var(--fm-accent-line); }
 html.fm-modern .fm-guide-card-title{ color:var(--fm-head); }
 html.fm-modern .fm-guide-card-desc{ color:var(--fm-muted); opacity:1; }
-html.fm-modern .fm-guide{ max-width:var(--fm-measure); margin:0; padding:var(--fm-space-2) 0 var(--fm-space-5); }
+html.fm-modern .fm-guide{ max-width:var(--fm-measure); margin:0 auto; padding:var(--fm-space-2) 0 var(--fm-space-5); }
 html.fm-modern .fm-guide-lead{ opacity:1; color:var(--fm-muted); }
 html.fm-modern .fm-guide-foot-cta{ justify-content:flex-start; }
 html.fm-modern .fm-guide-btn{ background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)); color:#2a2010 !important; }

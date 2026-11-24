@@ -5093,6 +5093,18 @@ class GuidesContentTests(TestCase):
         self.assertIsNotNone(tag)
         self.assertIn('https://dofusfashionista.gg/guides/getting-started/', tag.group(0))
 
+    def test_every_guide_page_sits_in_the_centered_article_column(self):
+        from chardata import guides_content
+        for slug in guides_content.GUIDES:
+            html = self.client.get('/guides/%s/' % slug).content.decode('utf-8')
+            self.assertIn('<article class="fm-guide">', html, slug)
+        with open(os.path.join(os.path.dirname(__file__), 'static', 'chardata', 'modern.css'),
+                  encoding='utf-8') as handle:
+            modern = re.sub(r'/\*.*?\*/', '', handle.read(), flags=re.S)
+        rule = re.search(r'html\.fm-modern \.fm-guide\{([^}]*)\}', modern).group(1)
+        self.assertIn('margin:0 auto', rule)
+        self.assertIn('max-width:var(--fm-measure)', rule)
+
     def test_hub_has_valid_itemlist_jsonld(self):
         import json
         from chardata import guides_content
