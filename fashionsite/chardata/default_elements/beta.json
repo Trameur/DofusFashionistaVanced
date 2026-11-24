@@ -95,8 +95,8 @@
    "50": {"element": "cha", "inputs": "02c95f3ff6d6", "turns": {"agi": 204.9, "cha": 307.5, "int": 244.3, "str": 259.8}},
    "100": {"element": "str", "inputs": "a729cf4273f2", "turns": {"agi": 511.3, "cha": 567.3, "int": 513.7, "str": 571.6}},
    "150": {"element": "cha", "inputs": "cfb25e4d38ea", "turns": {"agi": 914.9, "cha": 1354.6, "int": 1003.8, "str": 1108.8}},
-   "180": {"element": "cha", "inputs": "792db53c7500", "turns": {"agi": 1660.3, "cha": 1812.6, "int": 1276.3, "str": 1492.7}},
-   "200": {"element": "cha", "inputs": "8c891cf28548", "turns": {"agi": 2133.1, "cha": 2362.8, "int": 1688.0, "str": 2025.1}}
+   "180": {"element": "cha", "inputs": "80eeeb47e60b", "turns": {"agi": 1660.3, "cha": 1812.6, "int": 1276.3, "str": 1492.7}},
+   "200": {"element": "cha", "inputs": "495dcc0be19d", "turns": {"agi": 2133.1, "cha": 2362.8, "int": 1688.0, "str": 2025.1}}
   },
   "Masqueraider": {
    "20": {"element": "agi", "inputs": "37c059908048", "turns": {"agi": 166.0, "cha": 148.7, "int": 140.6, "str": 148.7}},

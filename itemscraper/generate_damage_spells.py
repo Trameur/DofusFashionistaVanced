@@ -405,6 +405,7 @@ _MODERN_RECAST_STACKS = {
     23263: "les dommages du sort sont augmentés après chaque lancer",
     32446: "le vol de vie est plus important après chaque lancer sur un même ennemi",
     13138: "sur le lanceur : augmente les dommages du sort",
+    13146: "les dommages du sort sont augmentés après chaque lancer pour le tour en cours",
 }
 
 RECAST_STACKS_BY_VERSION = {
@@ -419,6 +420,22 @@ STATE_GATED_RECASTS = frozenset({32446})
 
 # A recast refreshes their one boost, which never stacks
 ONE_BOOST_RECASTS = frozenset({13138})
+
+# Each cast boosts their later casts with no stack cap, until their turn end removal
+TURN_LONG_RECASTS = frozenset({13146})
+
+# The card counts the MP used this turn; the tooltip row's trigger is I or an MP one
+_MODERN_MP_STACKS_FROM_THE_CARD = {
+    13358: "les dommages du sort sont augmentés pour chaque PM utilisé pour le tour en cours",   # Enutrof, Peat Bog
+}
+
+MP_STACKS_FROM_THE_CARD_BY_VERSION = {
+    "dofus3": _MODERN_MP_STACKS_FROM_THE_CARD,
+    "beta": _MODERN_MP_STACKS_FROM_THE_CARD,
+    "dofus2": {},
+}
+
+MP_STACKS_FROM_THE_CARD = MP_STACKS_FROM_THE_CARD_BY_VERSION["dofus3"]
 
 _MODERN_BOOSTS_AFTER_A_SKIPPED_TURN = {
     25882: "dans 2 tours si le sort n'est pas relancé au tour suivant",   # Eniripsa, Secret Word
@@ -935,9 +952,14 @@ def _detect_mp_damage_stack_spec(spell: Mapping[str, Any], level_count: int) -> 
     if len(levels) < level_count:
         return None
     owner_id = spell.get("ankama_id")
+    quote = MP_STACKS_FROM_THE_CARD.get(owner_id)
+    if quote is not None and quote.lower() not in str(spell.get("description_fr") or "").lower():
+        raise SystemExit("spell %s no longer says %r; its damage was made to grow with the MP "
+                         "used this turn on that sentence" % (owner_id, quote))
     per_stack: List[int] = []
     for idx in range(level_count):
-        effect = _mp_damage_effect_for_level(levels[idx], owner_id)
+        effect = (_card_mp_damage_effect(levels[idx], owner_id) if quote is not None
+                  else _mp_damage_effect_for_level(levels[idx], owner_id))
         if not effect:
             return None
         try:
@@ -1048,6 +1070,25 @@ def _self_base_damage_effect(level: Mapping[str, Any], owner_id: int) -> Optiona
             continue
         return effect
     return None
+
+
+def _card_mp_damage_effect(level: Mapping[str, Any], owner_id: Any) -> Mapping[str, Any]:
+    """The one tooltip boost per MP used this turn of a listed spell, alike in its critical rows."""
+    shapes = []
+    for key in ("effects", "critical_effects"):
+        boosts = _own_base_damage_boosts(level.get(key), owner_id)
+        triggers = str(boosts[0].get("triggers") or "") if len(boosts) == 1 else ""
+        if (len(boosts) != 1 or not _client_only(boosts[0]) or boosts[0].get("delay")
+                or boosts[0].get("duration") != 1 or boosts[0].get("target_mask") != "C"
+                or not (triggers == "I" or MP_DAMAGE_TRIGGER_TOKEN in triggers.upper())
+                or not isinstance(boosts[0].get("value"), int) or boosts[0]["value"] <= 0):
+            shapes.append(None)
+        else:
+            shapes.append(boosts[0])
+    if None in shapes or shapes[0]["value"] != shapes[1]["value"]:
+        raise SystemExit("spell %s: its rows no longer hold the one tooltip boost its card "
+                         "counts per MP used this turn" % owner_id)
+    return shapes[0]
 
 
 def _mp_damage_effect_for_level(level: Mapping[str, Any], owner_id: Any) -> Optional[Mapping[str, Any]]:
@@ -2766,6 +2807,46 @@ def _one_boost_for_the_next_casts(spell: Mapping[str, Any], damage: MutableMappi
     return None
 
 
+def _boosts_for_the_rest_of_the_turn(spell: Mapping[str, Any], damage: MutableMapping[str, Any],
+                                     level_count: int) -> None:
+    """A listed spell's boost of its later casts this turn as a ladder of one Stack per cast."""
+    ankama_id = spell.get("ankama_id")
+    if ankama_id not in TURN_LONG_RECASTS or ankama_id not in RECAST_STACKS:
+        return
+    levels = sorted(spell.get("levels") or [],
+                    key=lambda lvl: ((lvl.get("grade") or 0), (lvl.get("level_id") or 0)))
+    per_stack: List[int] = []
+    caps: List[int] = []
+    for level in levels:
+        shapes = []
+        for key in ("effects", "critical_effects"):
+            effects = level.get(key) or []
+            boosts = _own_base_damage_boosts(effects, ankama_id)
+            removals = [effect for effect in effects
+                        if effect.get("effect_id") == REMOVES_SPELL_EFFECTS_EFFECT_ID
+                        and effect.get("value") == ankama_id]
+            if (len(boosts) != 1 or boosts[0].get("delay") or boosts[0].get("duration") != 1
+                    or boosts[0].get("triggers") != "I" or boosts[0].get("target_mask") != "C"
+                    or _client_only(boosts[0])
+                    or not isinstance(boosts[0].get("value"), int) or boosts[0]["value"] <= 0
+                    or len(removals) != 1 or removals[0].get("triggers") != "TE"
+                    or removals[0].get("target_mask") != "C" or removals[0].get("delay")):
+                shapes.append(None)
+            else:
+                shapes.append(boosts[0]["value"])
+        casts = level.get("max_cast_per_turn")
+        if (None in shapes or len(set(shapes)) != 1 or level.get("max_stack") != -1
+                or not isinstance(casts, int) or casts < 2):
+            break
+        per_stack.append(shapes[0])
+        caps.append(casts - 1)
+    if (len(per_stack) != len(levels) or len(per_stack) != level_count
+            or damage.get("stackable_damage") or len(damage.get("normal") or []) != 1):
+        raise SystemExit("spell %s: its rows no longer boost each of its later casts until "
+                         "its turn ends" % ankama_id)
+    damage["stackable_damage"] = {"per_stack": per_stack, "max_stacks": caps}
+
+
 def _boosts_on_a_later_cast(spell: Mapping[str, Any], damage: Mapping[str, Any],
                             level_count: int) -> Tuple[List[Tuple[str, List[int]]], Optional[str]]:
     """([(trigger, boost per grade)] one cast of a listed spell leaves on its later casts; why an unlisted one misreads)."""
@@ -3270,6 +3351,7 @@ def convert_spell(
     mp_stack_spec = _prepare_mp_stackable_damage(spell, damage, level_count)
     if not damage.get("stackable_damage"):
         _prepare_base_damage_stackable_damage(spell, damage, level_count)
+    _boosts_for_the_rest_of_the_turn(spell, damage, level_count)
     boost, boost_problem = _boost_after_a_skipped_turn(spell, damage, level_count)
     if boost:
         damage["stackable_damage"] = None
@@ -3835,7 +3917,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS, SUMMON_MASK_LETTERS
     global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER, ONE_ELEMENT_FACES, DELAYED_WHEN, DELAYED_ROWS
     global CLIENT_ONLY_EFFECTS, RAW_ZONES, BOMB_SPELLS, RECAST_STACKS, BOOSTS_AFTER_A_SKIPPED_TURN
-    global BOOSTS_ON_A_LATER_CAST, BOOSTS_FROM_A_TARGET_STATE
+    global BOOSTS_ON_A_LATER_CAST, BOOSTS_FROM_A_TARGET_STATE, MP_STACKS_FROM_THE_CARD
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -3854,6 +3936,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     BOOSTS_AFTER_A_SKIPPED_TURN = BOOSTS_AFTER_A_SKIPPED_TURN_BY_VERSION[args.game_version]
     BOOSTS_ON_A_LATER_CAST = BOOSTS_ON_A_LATER_CAST_BY_VERSION[args.game_version]
     BOOSTS_FROM_A_TARGET_STATE = BOOSTS_FROM_A_TARGET_STATE_BY_VERSION[args.game_version]
+    MP_STACKS_FROM_THE_CARD = MP_STACKS_FROM_THE_CARD_BY_VERSION[args.game_version]
     dofus2_rows = _dofus2_effect_rows(args.game_version)
     CLIENT_ONLY_EFFECTS = _client_only_effects(dofus2_rows)
     RAW_ZONES = _raw_zones(dofus2_rows)

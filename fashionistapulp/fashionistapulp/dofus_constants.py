@@ -3326,10 +3326,10 @@ DAMAGE_SPELLS = {
             [AIR],
         ), is_linked=(2, 'Strengthstorm'), casting={'ap': [3], 'per_turn': [2], 'crit': [10]}, spell_id=13131),
         Spell('Pygmachia', [160], Effects(
-            [['9-11']],
-            [['12-14']],
-            [EARTH],
-        ), is_linked=(2, 'Endurance'), casting={'ap': [2], 'per_turn': [4], 'per_target': [1], 'crit': [5]}, spell_id=13146),
+            [['9-11'], ['27-29'], ['45-47'], ['63-65']],
+            [['12-14'], ['30-32'], ['48-50'], ['66-68']],
+            [EARTH, EARTH, EARTH, EARTH],
+        ), aggregates=[('Stack 0', [0]), ('Stack 1', [1]), ('Stack 2', [2]), ('Stack 3', [3])], is_linked=(2, 'Endurance'), casting={'ap': [2], 'per_turn': [4], 'per_target': [1], 'crit': [5]}, spell_id=13146, stacks_on_recast=True),
         Spell('Cleaver', [170], Effects(
             [['47-53']],
             [['56-64']],
