@@ -5,7 +5,7 @@ FASHIONISTA_VERSION = "3.7.14.18"
 FASHIONISTA_BETA_VERSION = "3.8.2.3"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
 FASHIONISTA_RETRO_VERSION = "1.49.10"
-FASHIONISTA_TOUCH_VERSION = "1.74.13"
+FASHIONISTA_TOUCH_VERSION = "1.74.14"
 FASHIONISTA_TOUCHBETA_VERSION = "1.75.0"
 FASHIONISTA_RETROBETA_VERSION = "1.50.0"
 
@@ -119,7 +119,7 @@ PATCH_TIMELINE = {
 # re-scraped on 2026-09-15 and both databases came out identical, every table
 # compared as a set of rows.
 WATCHED_RETRO_BUILD = "1.49.10.5760.470-9aa8344"
-WATCHED_TOUCH_ASSETS = "3.3.11_1h-,mO*yuB0Adnu4P-_1Fa9c2gqbLXKo"
+WATCHED_TOUCH_ASSETS = "3.3.12_3aBBdvo4IHy0kS1LccWaHBTXI9ekER57"
 
 # Retro item data comes from the lang CDN, not from the client build, and that
 # is now measured twice rather than argued: 1.49.0 and then 1.49.1 both shipped
