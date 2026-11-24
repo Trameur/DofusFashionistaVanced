@@ -40,8 +40,8 @@ class ThePlacedThingsDamageIsReadFromItsOwnRecordTests(SimpleTestCase):
     def test_a_trap_carries_its_explosion_spells_fire_line(self):
         trap = _spell('Sram', SNEAKY_TRAP)
         self.assertEqual('Piège Sournois', trap.name)
-        self.assertEqual([[(15, 17), (16, 18), (17, 19), (18, 20), (20, 22),
-                           (23, 25)]], _rows(trap.effects.non_crit_ranges))
+        self.assertEqual([[(13, 15), (14, 16), (15, 17), (16, 18), (18, 20),
+                           (21, 23)]], _rows(trap.effects.non_crit_ranges))
         self.assertEqual(_rows(trap.effects.non_crit_ranges),
                          _rows(trap.effects.crit_ranges))
         self.assertEqual([FIRE], trap.effects.elements)
@@ -53,8 +53,8 @@ class ThePlacedThingsDamageIsReadFromItsOwnRecordTests(SimpleTestCase):
 
     def test_a_trap_placed_at_a_lower_grade_reads_that_grade(self):
         trap = _spell('Sram', LETHAL_TRAP)
-        self.assertEqual([[(14, 18), (17, 21), (20, 24), (23, 27), (27, 31),
-                           (34, 38)]], _rows(trap.effects.non_crit_ranges))
+        self.assertEqual([[(11, 15), (14, 18), (17, 21), (20, 24), (24, 28),
+                           (31, 35)]], _rows(trap.effects.non_crit_ranges))
         self.assertEqual([EARTH], trap.effects.elements)
         self.assertEqual({0: 'trap'}, trap.conditional)
 
@@ -106,18 +106,20 @@ class ThePlacedThingsDamageIsReadFromItsOwnRecordTests(SimpleTestCase):
         spell = _spell('Cra', BLINDING_ARROW)
         self.assertEqual('Flèche Aveuglante', spell.name)
         self.assertEqual([49, 49, 49, 49, 99, 149], spell.level_req)
-        self.assertEqual([[(16, 18), (17, 19), (18, 20), (20, 22), (22, 24),
-                           (24, 26)]], _rows(spell.effects.non_crit_ranges))
-        self.assertEqual([[(18, 20), (19, 21), (20, 22), (22, 24), (24, 26),
-                           (27, 29)]], _rows(spell.effects.crit_ranges))
-        self.assertEqual([FIRE], spell.effects.elements)
+        self.assertEqual([[(13, 15), (14, 16), (15, 17), (17, 19), (19, 21), (22, 24)],
+                          [(16, 18), (17, 19), (18, 20), (20, 22), (22, 24), (24, 26)]],
+                         _rows(spell.effects.non_crit_ranges))
+        self.assertEqual([[(15, 17), (16, 18), (17, 19), (19, 21), (21, 23), (25, 27)],
+                          [(18, 20), (19, 21), (20, 22), (22, 24), (24, 26), (27, 29)]],
+                         _rows(spell.effects.crit_ranges))
+        self.assertEqual([FIRE, FIRE], spell.effects.elements)
         self.assertEqual([], spell.aggregates)
         self.assertEqual(1, spell.stacks)
         self.assertIsNone(spell.is_linked)
         self.assertEqual({'ap': [3] * 6, 'crit': [20] * 6,
                           'per_target': [1] * 6, 'per_turn': [2] * 6},
                          spell.casting)
-        self.assertEqual({}, spell.conditional)
+        self.assertEqual({1: 'target_in_a_state'}, spell.conditional)
         self.assertEqual({}, spell.delayed)
 
     def test_the_table_grew_by_the_eleven_placing_spells(self):

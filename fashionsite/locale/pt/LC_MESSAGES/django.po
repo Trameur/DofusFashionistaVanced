@@ -6345,6 +6345,11 @@ msgstr "Melhor combo neste turno"
 msgid "damage"
 msgstr "de dano"
 
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(ap)s AP, then +%(step)s per cast"
+msgstr "%(ap)s PA, depois +%(step)s por lançamento"
+
 #: .\chardata\templates\chardata\spells.html:39
 #, python-format
 msgid "%(ap)s AP"
@@ -7645,6 +7650,10 @@ msgstr "apenas se lançado no lançador, e apenas nos inimigos ao redor do lanç
 msgid "on its cast once 2 earlier casts stack their boost"
 msgstr "no seu lançamento quando 2 lançamentos anteriores acumulam seu bônus"
 
+#: chardata/spells_view.py
+msgid "on its casts over the next 3 turns"
+msgstr "nos seus lançamentos dos 3 turnos seguintes"
+
 msgid "on its cast the following turn"
 msgstr "no seu lançamento no turno seguinte"
 
@@ -8769,6 +8778,10 @@ msgstr "apenas se um inimigo atravessar o glifo"
 #: chardata/spells_view.py
 msgid "when the glyph-aura triggers, on a later turn"
 msgstr "quando o glifo-aura é acionado, em um turno posterior"
+
+#: chardata/spells_view.py
+msgid "only on a target in the state the spell names, in place of its plain hit"
+msgstr "apenas em um alvo no estado que o feitiço nomeia, no lugar do seu golpe simples"
 
 #: chardata/spells_view.py
 msgid "only at the state the spell needs"

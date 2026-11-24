@@ -1017,9 +1017,11 @@ def _variant_partners(spells, game_version):
 # and NEXT_TURNS_COPIES in itemscraper/get_spells_touch.py
 ARMED_BY_ITS_OWN_CAST = frozenset(('cast_two_turns_later', 'later_cast_1_turn',
                                    'later_cast_2_turns', 'later_cast_3_turns',
-                                   'later_cast_4_turns', 'cast_after_two_casts'))
+                                   'later_cast_4_turns', 'cast_after_two_casts',
+                                   'later_cast_within_3_turns'))
 # Must match ON_A_TELEFRAG_TARGET in itemscraper/generate_damage_spells.py
-BOOSTED_COPIES = ARMED_BY_ITS_OWN_CAST | frozenset(('on_a_telefrag_target',))
+# and TARGET_STATE_COPY in itemscraper/get_spells_touch.py
+BOOSTED_COPIES = ARMED_BY_ITS_OWN_CAST | frozenset(('on_a_telefrag_target', 'target_in_a_state'))
 
 
 def conditional_extras(stats, spells, order, crit=False, standing=None,

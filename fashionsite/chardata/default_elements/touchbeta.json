@@ -20,11 +20,11 @@
   },
   "Cra": {
    "20": {"element": "str", "inputs": "6e7d6f25f559", "turns": {"agi": 133.3, "cha": 97.0, "int": 135.5, "str": 163.4}},
-   "50": {"element": "str", "inputs": "9f0cba45cd70", "turns": {"agi": 206.8, "cha": 104.5, "int": 264.0, "str": 274.2}},
-   "100": {"element": "str", "inputs": "dff061fa0469", "turns": {"agi": 462.1, "cha": 302.9, "int": 496.1, "str": 586.5}},
-   "150": {"element": "str", "inputs": "ac74773556d7", "turns": {"agi": 757.6, "cha": 465.3, "int": 853.9, "str": 901.2}},
-   "180": {"element": "str", "inputs": "073903076a86", "turns": {"agi": 1050.2, "cha": 644.5, "int": 1123.5, "str": 1182.8}},
-   "200": {"element": "str", "inputs": "b9b372e7c39c", "turns": {"agi": 1412.7, "cha": 754.1, "int": 1486.7, "str": 1614.4}}
+   "50": {"element": "str", "inputs": "9741f034d629", "turns": {"agi": 206.8, "cha": 104.5, "int": 246.5, "str": 274.2}},
+   "100": {"element": "str", "inputs": "4cd52397daf1", "turns": {"agi": 462.1, "cha": 302.9, "int": 484.6, "str": 586.5}},
+   "150": {"element": "str", "inputs": "5645cf772bd6", "turns": {"agi": 757.6, "cha": 465.3, "int": 839.7, "str": 901.2}},
+   "180": {"element": "str", "inputs": "5b59a01288ca", "turns": {"agi": 1050.2, "cha": 644.5, "int": 1120.7, "str": 1182.8}},
+   "200": {"element": "str", "inputs": "8e83cacd1875", "turns": {"agi": 1412.7, "cha": 754.1, "int": 1479.7, "str": 1614.4}}
   },
   "Ecaflip": {
    "20": {"element": "str", "inputs": "8c88b3b5b81a", "turns": {"agi": 201.8, "cha": 146.7, "int": 114.5, "str": 216.3}},
@@ -69,10 +69,10 @@
   "Iop": {
    "20": {"element": "str", "inputs": "216d977beb3f", "turns": {"agi": 200.7, "cha": 144.0, "int": 184.1, "str": 222.4}},
    "50": {"element": "str", "inputs": "178c7c4873d1", "turns": {"agi": 316.7, "cha": 231.9, "int": 292.0, "str": 368.8}},
-   "100": {"element": "str", "inputs": "99d94fd46a97", "turns": {"agi": 595.1, "cha": 441.5, "int": 607.6, "str": 692.1}},
-   "150": {"element": "str", "inputs": "4d78c64322b3", "turns": {"agi": 1006.1, "cha": 751.5, "int": 994.7, "str": 1119.3}},
-   "180": {"element": "str", "inputs": "031b1448e39f", "turns": {"agi": 1281.2, "cha": 993.2, "int": 1248.4, "str": 1458.4}},
-   "200": {"element": "str", "inputs": "447a325510af", "turns": {"agi": 1671.1, "cha": 1236.8, "int": 1676.0, "str": 1861.4}}
+   "100": {"element": "str", "inputs": "c2e7383a5c7e", "turns": {"agi": 595.1, "cha": 441.5, "int": 607.6, "str": 692.1}},
+   "150": {"element": "str", "inputs": "cba8656ff25d", "turns": {"agi": 1007.4, "cha": 751.5, "int": 994.7, "str": 1119.3}},
+   "180": {"element": "str", "inputs": "ad52e2cb2d9b", "turns": {"agi": 1281.2, "cha": 993.2, "int": 1248.4, "str": 1458.4}},
+   "200": {"element": "str", "inputs": "57d9d89c0fb8", "turns": {"agi": 1681.9, "cha": 1236.8, "int": 1676.0, "str": 1861.4}}
   },
   "Masqueraider": {
    "20": {"element": "cha", "inputs": "935c8ab55e16", "turns": {"agi": 152.0, "cha": 175.0, "int": 90.6, "str": 156.0}},
@@ -107,12 +107,12 @@
    "200": {"element": "int", "inputs": "68dac2abebfc", "turns": {"agi": 1294.0, "cha": 1486.7, "int": 1506.0, "str": 423.1}}
   },
   "Sacrier": {
-   "20": {"element": "str", "inputs": "6300a575e7af", "turns": {"agi": 77.9, "cha": 143.7, "int": 77.9, "str": 144.0}},
-   "50": {"element": "str", "inputs": "9c86c50f778b", "turns": {"agi": 218.1, "cha": 242.8, "int": 154.1, "str": 250.8}},
-   "100": {"element": "agi", "inputs": "2cb0d1eb176e", "turns": {"agi": 556.7, "cha": 543.1, "int": 484.0, "str": 525.9}},
-   "150": {"element": "cha", "inputs": "18fa231fdbe6", "turns": {"agi": 838.6, "cha": 877.5, "int": 702.4, "str": 870.7}},
-   "180": {"element": "agi", "inputs": "32fd39ab568c", "turns": {"agi": 1167.1, "cha": 1142.6, "int": 883.6, "str": 1121.9}},
-   "200": {"element": "agi", "inputs": "7312a957f501", "turns": {"agi": 1597.6, "cha": 1532.0, "int": 1164.6, "str": 1515.4}}
+   "20": {"element": "str", "inputs": "eb3a964f7e90", "turns": {"agi": 117.7, "cha": 143.7, "int": 77.9, "str": 144.0}},
+   "50": {"element": "str", "inputs": "c482ef667abf", "turns": {"agi": 235.4, "cha": 242.8, "int": 154.1, "str": 250.8}},
+   "100": {"element": "agi", "inputs": "ce1725ce83b1", "turns": {"agi": 556.7, "cha": 543.1, "int": 484.0, "str": 525.9}},
+   "150": {"element": "agi", "inputs": "2c9f369bb618", "turns": {"agi": 911.3, "cha": 877.5, "int": 702.4, "str": 870.7}},
+   "180": {"element": "agi", "inputs": "7d985a79bf75", "turns": {"agi": 1280.6, "cha": 1142.6, "int": 883.6, "str": 1121.9}},
+   "200": {"element": "agi", "inputs": "d7d49e84ca8d", "turns": {"agi": 1705.8, "cha": 1532.0, "int": 1164.6, "str": 1515.4}}
   },
   "Sadida": {
    "20": {"element": "cha", "inputs": "76d6e9b054fd", "turns": {"agi": 98.4, "cha": 171.1, "int": 138.7, "str": 171.0}},
@@ -123,20 +123,20 @@
    "200": {"element": "str", "inputs": "edf67c36d539", "turns": {"agi": 330.5, "cha": 1411.5, "int": 1435.8, "str": 1539.5}}
   },
   "Sram": {
-   "20": {"element": "str", "inputs": "8fc977c9fc6b", "turns": {"agi": 171.4, "cha": 102.6, "int": 179.0, "str": 198.0}},
-   "50": {"element": "str", "inputs": "f9d826c074c7", "turns": {"agi": 323.0, "cha": 128.4, "int": 308.2, "str": 346.4}},
-   "100": {"element": "str", "inputs": "d0839b8757c9", "turns": {"agi": 571.1, "cha": 216.5, "int": 567.7, "str": 668.4}},
-   "150": {"element": "str", "inputs": "7f973fec4e11", "turns": {"agi": 1005.2, "cha": 335.0, "int": 956.3, "str": 1059.5}},
-   "180": {"element": "str", "inputs": "4322c9ec8f02", "turns": {"agi": 1333.3, "cha": 417.5, "int": 1239.1, "str": 1536.2}},
-   "200": {"element": "str", "inputs": "76a968ebd5df", "turns": {"agi": 1599.2, "cha": 501.8, "int": 1612.1, "str": 2048.8}}
+   "20": {"element": "str", "inputs": "1db2ef3e8beb", "turns": {"agi": 171.4, "cha": 90.6, "int": 163.0, "str": 175.0}},
+   "50": {"element": "str", "inputs": "d75f9f44ab94", "turns": {"agi": 314.1, "cha": 114.6, "int": 280.5, "str": 320.8}},
+   "100": {"element": "str", "inputs": "42bafd61cb13", "turns": {"agi": 545.3, "cha": 205.7, "int": 527.6, "str": 631.6}},
+   "150": {"element": "str", "inputs": "a533a55cd9ae", "turns": {"agi": 949.8, "cha": 330.0, "int": 879.2, "str": 964.7}},
+   "180": {"element": "str", "inputs": "27c2822b9e49", "turns": {"agi": 1258.8, "cha": 417.1, "int": 1132.2, "str": 1391.9}},
+   "200": {"element": "str", "inputs": "fbff3330c73d", "turns": {"agi": 1525.5, "cha": 469.0, "int": 1491.4, "str": 1883.0}}
   },
   "Xelor": {
    "20": {"element": "cha", "inputs": "e7cf2323d0fe", "turns": {"agi": 93.4, "cha": 169.6, "int": 129.0, "str": 93.4}},
-   "50": {"element": "int", "inputs": "207db567627a", "turns": {"agi": 197.7, "cha": 269.8, "int": 332.4, "str": 119.5}},
-   "100": {"element": "int", "inputs": "5dba9eb065ca", "turns": {"agi": 501.8, "cha": 532.5, "int": 604.0, "str": 334.5}},
-   "150": {"element": "int", "inputs": "365f0e40d186", "turns": {"agi": 812.8, "cha": 927.0, "int": 1045.0, "str": 527.8}},
-   "180": {"element": "int", "inputs": "663f50b8779f", "turns": {"agi": 1081.9, "cha": 1158.4, "int": 1230.0, "str": 654.9}},
-   "200": {"element": "cha", "inputs": "f42ce5c3f2bd", "turns": {"agi": 1434.9, "cha": 1568.7, "int": 1589.8, "str": 807.3}}
+   "50": {"element": "int", "inputs": "c86797dacb5e", "turns": {"agi": 194.4, "cha": 269.8, "int": 289.6, "str": 107.7}},
+   "100": {"element": "int", "inputs": "ef5ab496a134", "turns": {"agi": 501.8, "cha": 532.5, "int": 533.7, "str": 334.5}},
+   "150": {"element": "cha", "inputs": "7137079d8000", "turns": {"agi": 812.8, "cha": 927.0, "int": 878.5, "str": 511.4}},
+   "180": {"element": "cha", "inputs": "059c47e25dd8", "turns": {"agi": 1081.9, "cha": 1158.4, "int": 1091.4, "str": 637.0}},
+   "200": {"element": "cha", "inputs": "d9f39f41b657", "turns": {"agi": 1434.9, "cha": 1568.7, "int": 1405.0, "str": 788.1}}
   }
  }
 }

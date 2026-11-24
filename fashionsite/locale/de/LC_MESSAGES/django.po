@@ -6418,6 +6418,11 @@ msgstr "Beste Kombo in dieser Runde"
 msgid "damage"
 msgstr "Schaden"
 
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(ap)s AP, then +%(step)s per cast"
+msgstr "%(ap)s AP, dann +%(step)s pro Einsatz"
+
 #: .\chardata\templates\chardata\spells.html:39
 #, python-format
 msgid "%(ap)s AP"
@@ -7729,6 +7734,10 @@ msgstr "nur wenn der Zauber auf den Zaubernden gewirkt wird, und nur bei den Geg
 msgid "on its cast once 2 earlier casts stack their boost"
 msgstr "beim Wirken, sobald sich der Bonus von 2 früheren Einsätzen stapelt"
 
+#: chardata/spells_view.py
+msgid "on its casts over the next 3 turns"
+msgstr "beim Wirken in den nächsten 3 Runden"
+
 msgid "on its cast the following turn"
 msgstr "beim Wirken in der nächsten Runde"
 
@@ -8853,6 +8862,10 @@ msgstr "nur wenn ein Gegner durch die Glyphe geht"
 #: chardata/spells_view.py
 msgid "when the glyph-aura triggers, on a later turn"
 msgstr "wenn die Glyphenaura auslöst, in einer späteren Runde"
+
+#: chardata/spells_view.py
+msgid "only on a target in the state the spell names, in place of its plain hit"
+msgstr "nur auf einem Ziel in dem Zustand, den der Zauber nennt, anstelle seines einfachen Treffers"
 
 #: chardata/spells_view.py
 msgid "only at the state the spell needs"

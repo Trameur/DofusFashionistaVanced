@@ -20,7 +20,7 @@ LABEL = {'en': 'on its cast once 2 earlier casts stack their boost',
          'es': 'en su lanzamiento una vez que 2 lanzamientos anteriores acumulan su bonificación',
          'pt': 'no seu lançamento quando 2 lançamentos anteriores acumulam seu bônus',
          'de': 'beim Wirken, sobald sich der Bonus von 2 früheren Einsätzen stapelt'}
-FOLLOWING_TURN = {'en': 'on its cast the following turn', 'fr': 'lors de son lancer au tour suivant'}
+WITHIN_3_TURNS = {'en': 'on its casts over the next 3 turns', 'fr': 'lors de ses lancers des 3 tours suivants'}
 
 _STATS = {'str': 200, 'int': 200, 'cha': 200, 'agi': 200, 'pow': 0, 'dam': 0,
           'cridam': 0, 'heals': 0, 'perspedam': 0, 'perweadam': 0,
@@ -155,7 +155,7 @@ class TheTouchReaderGrowsASpellByItsCastsTests(SimpleTestCase):
         entry = _decode(_anger())
         self.assertEqual(entry['non_crit_ranges'], [['14-18'], ['34-38'], ['54-58']])
         self.assertEqual(entry['crit_ranges'], [['19-23'], ['39-43'], ['59-63']])
-        self.assertEqual(entry['conditional'], {1: 'later_cast_1_turn', 2: 'cast_after_two_casts'})
+        self.assertEqual(entry['conditional'], {1: 'later_cast_within_3_turns', 2: 'cast_after_two_casts'})
         self.assertFalse(entry.get('stacks_on_recast'))
 
     def test_a_next_turns_boost_off_its_shape_stops_the_reader(self):
@@ -288,7 +288,7 @@ class IopsAngerHoldsItsStackedBoostsApartTests(SimpleTestCase):
             spell = _spell(version, IOPS_ANGER)
             digest = spell.get_effects_digest()
             with self.subTest(version=version):
-                self.assertEqual(spell.conditional, {1: 'later_cast_1_turn', 2: 'cast_after_two_casts'})
+                self.assertEqual(spell.conditional, {1: 'later_cast_within_3_turns', 2: 'cast_after_two_casts'})
                 self.assertFalse(getattr(spell, 'stacks_on_recast', False))
                 for ranks in (digest.non_crit_dams, digest.crit_dams):
                     for rank in ranks:
@@ -308,7 +308,7 @@ class IopsAngerHoldsItsStackedBoostsApartTests(SimpleTestCase):
                 self.assertEqual([name for name, _damage in order], [cast.name])
                 self.assertLess(total, min(damage for _name, _trigger, damage in extras))
                 self.assertEqual([trigger for _name, trigger, _damage in extras],
-                                 ['later_cast_1_turn', 'cast_after_two_casts'])
+                                 ['later_cast_within_3_turns', 'cast_after_two_casts'])
                 for (_name, _trigger, damage), row in zip(extras, rank[1:]):
                     self.assertAlmostEqual(damage, 3.0 * (row.min_dam + row.max_dam) / 2.0)
 
@@ -338,7 +338,7 @@ class IopsAngerHoldsItsStackedBoostsApartTests(SimpleTestCase):
                     self.assertEqual(combo['total'], int(round(turn)))
                     self.assertEqual(sorted(entry['label'] for entry in combo['conditional']
                                             if entry['damage']),
-                                     sorted([FOLLOWING_TURN[language], LABEL[language]]))
+                                     sorted([WITHIN_3_TURNS[language], LABEL[language]]))
 
 class TheDefaultElementsFingerprintSeesTheCostGrowthTests(SimpleTestCase):
 

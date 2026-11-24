@@ -6472,6 +6472,11 @@ msgstr "Meilleur combo ce tour"
 msgid "damage"
 msgstr "de dégâts"
 
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(ap)s AP, then +%(step)s per cast"
+msgstr "%(ap)s PA, puis +%(step)s par lancer"
+
 #: .\chardata\templates\chardata\spells.html:39
 #, python-format
 msgid "%(ap)s AP"
@@ -7783,6 +7788,10 @@ msgstr "seulement si le sort est lancé sur le lanceur, et seulement sur les enn
 msgid "on its cast once 2 earlier casts stack their boost"
 msgstr "lors de son lancer une fois que 2 lancers précédents cumulent leur bonus"
 
+#: chardata/spells_view.py
+msgid "on its casts over the next 3 turns"
+msgstr "lors de ses lancers des 3 tours suivants"
+
 msgid "on its cast the following turn"
 msgstr "lors de son lancer au tour suivant"
 
@@ -8907,6 +8916,10 @@ msgstr "seulement si un ennemi traverse le glyphe"
 #: chardata/spells_view.py
 msgid "when the glyph-aura triggers, on a later turn"
 msgstr "quand le glyphe-aura se déclenche, à un tour suivant"
+
+#: chardata/spells_view.py
+msgid "only on a target in the state the spell names, in place of its plain hit"
+msgstr "seulement sur une cible dans l'état que le sort nomme, à la place de son coup simple"
 
 #: chardata/spells_view.py
 msgid "only at the state the spell needs"

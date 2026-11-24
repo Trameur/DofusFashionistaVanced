@@ -39,6 +39,9 @@ MODULE_DIR = Path(__file__).resolve().parent.parent / 'fashionistapulp' / 'fashi
 # 96-100 elemental damage, 91-95 elemental steals (same hit, heals the caster).
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
                   91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
+STEAL_EFFECTS = frozenset((91, 92, 93, 94, 95))
+# The token of a steal row that lands beside a damage row of its element
+STEAL_TOKEN = 'steal_%s'
 
 # "#1 a #2 (meilleur element)": one hit in the caster's best element
 BEST_ELEMENT_EFFECT = 1200
@@ -94,6 +97,8 @@ ELEMENT_TOKEN_TO_CONST = {'earth': 'EARTH', 'fire': 'FIRE', 'water': 'WATER',
 # Buff rows are quoted strings, like in the Dofus 2 and 3 tables
 ELEMENT_TOKEN_TO_CONST.update(
     {token: repr(token) for token in CHARACTERISTIC_EFFECTS.values()})
+ELEMENT_TOKEN_TO_CONST.update(
+    {STEAL_TOKEN % token: ELEMENT_TOKEN_TO_CONST[token] for token in set(DAMAGE_EFFECTS.values())})
 
 # Touch breed id -> Fashionista class name; a breed the channel's Breeds table lacks is skipped
 CLASS_ID_TO_NAME = {
@@ -272,34 +277,78 @@ def _spares_summons(effect):
                                             | EVERY_FIGHTER_MASK_LETTERS)
 
 
-def collect_damage(effect_list, best_element_rows=False, on_ally=None):
+# "E580" in a mask: the target is in state 580; "e580": it is not; "*E891": the caster is
+TARGET_STATE_TOKEN = re.compile(r'^E\d+$')
+
+# What the line a target in a state takes, in place of the plain one, waits for; the site reads this
+TARGET_STATE_COPY = 'target_in_a_state'
+
+
+def _target_states(effect):
+    """The states a row needs its target in."""
+    return frozenset(token for token in str(effect.get('targetMask') or '').split(',')
+                     if TARGET_STATE_TOKEN.match(token))
+
+
+def _hit_key(effect):
+    return (DAMAGE_EFFECTS[effect.get('effectId')], effect.get('targetMask'), effect.get('rawZone'),
+            effect.get('triggers'), bool(effect.get('isPreview')))
+
+
+def _steals_beside_their_hit(effect_list):
+    """Ids of the steal rows that land beside a damage row of their element, mask, zone and trigger."""
+    hits = {_hit_key(e) for e in effect_list
+            if e.get('effectId') in DAMAGE_EFFECTS and e.get('effectId') not in STEAL_EFFECTS}
+    return {id(e) for e in effect_list
+            if e.get('effectId') in STEAL_EFFECTS and _hit_key(e) in hits}
+
+
+def collect_damage(effect_list, best_element_rows=False, on_ally=None, on_state=None):
     """One effect list -> {row token: (min, max, when)}, strongest line per token."""
     out = {}
+    effect_list = effect_list or []
     # A hit with its own line on summons keeps the line the other targets take
-    spared = {_same_hit(e) for e in (effect_list or [])
+    spared = {_same_hit(e) for e in effect_list
               if e.get('effectId') in DAMAGE_EFFECTS and _spares_summons(e)}
     # An enemy takes its own line; one that only allies take goes to on_ally
-    on_enemies = {DAMAGE_EFFECTS[e.get('effectId')] for e in (effect_list or [])
+    on_enemies = {DAMAGE_EFFECTS[e.get('effectId')] for e in effect_list
                   if e.get('effectId') in DAMAGE_EFFECTS
                   and _mask_letters(e) == ENEMY_ONLY_MASK}
-    for e in (effect_list or []):
+    paired = _steals_beside_their_hit(effect_list)
+
+    def route(e):
+        """(tokens, True when only allies take it) of a row read, else None."""
         eid = e.get('effectId')
-        target = out
         if eid == BEST_ELEMENT_EFFECT and best_element_rows:
             # One row per element, emit_aggregates groups them as one hit
-            tokens = BEST_ELEMENT_TOKENS
-        elif eid in ROW_EFFECTS:
-            tokens = (ROW_EFFECTS[eid],)
-            if (eid in DAMAGE_EFFECTS and _summons_only(e)
-                    and _same_hit(e) in spared):
-                continue
-            if (eid in DAMAGE_EFFECTS and _mask_letters(e) in ALLY_ONLY_MASKS
-                    and ROW_EFFECTS[eid] in on_enemies):
-                if on_ally is None:
-                    continue
-                target = on_ally
-        else:
+            return BEST_ELEMENT_TOKENS, False
+        if eid not in ROW_EFFECTS:
+            return None
+        # A buff or steal only a target in a state gives is not the caster's on a plain target
+        if eid in CHARACTERISTIC_EFFECTS and _target_states(e):
+            return None
+        token = STEAL_TOKEN % ROW_EFFECTS[eid] if id(e) in paired else ROW_EFFECTS[eid]
+        if eid in DAMAGE_EFFECTS and _summons_only(e) and _same_hit(e) in spared:
+            return None
+        if (eid in DAMAGE_EFFECTS and _mask_letters(e) in ALLY_ONLY_MASKS
+                and ROW_EFFECTS[eid] in on_enemies):
+            return ((token,), True) if on_ally is not None else None
+        return (token,), False
+
+    routes = [(e, route(e)) for e in effect_list]
+    plain = {found[0][0] for e, found in routes
+             if found and not found[1] and e.get('effectId') in DAMAGE_EFFECTS
+             and not _target_states(e)}
+    held = {}
+    for e, found in routes:
+        if found is None:
             continue
+        tokens, allies_only = found
+        target = on_ally if allies_only else out
+        if (not allies_only and e.get('effectId') in DAMAGE_EFFECTS and _target_states(e)
+                and tokens[0] in plain):
+            # The plain line is the hit; the one on a target in a state is held apart
+            target = held
         lo = e.get('diceNum') or 0
         hi = e.get('diceSide') or 0
         if hi < lo:                          # diceSide==0 (or < min) => fixed hit
@@ -308,6 +357,9 @@ def collect_damage(effect_list, best_element_rows=False, on_ally=None):
             prev = target.get(elem)
             if prev is None or lo + hi > prev[0] + prev[1]:
                 target[elem] = (lo, hi, when_it_lands(e.get('triggers')))
+    for token, line in held.items():
+        if on_state is not None and line[0] + line[1] > out[token][0] + out[token][1]:
+            on_state[token] = line
     return out
 
 
@@ -518,7 +570,7 @@ BOOSTS_ITS_NEXT_TURNS = {
 NEXT_TURNS_BOOST = (1, 3, 2)
 
 # What the copy raised by one, then two, stacked boosts waits for; the site reads these
-NEXT_TURNS_COPIES = ('later_cast_1_turn', 'cast_after_two_casts')
+NEXT_TURNS_COPIES = ('later_cast_within_3_turns', 'cast_after_two_casts')
 
 
 def _own_rows(rows, effect_id, spell_id):
@@ -690,6 +742,7 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
     """Touch spell -> damage-spell dict (buff-only spells kept), or None if no row."""
     per_nc, per_cr, levels_req, elements, stacks = [], [], [], [], []
     ally_nc, ally_cr = [], []
+    state_nc, state_cr = [], []
     casting_levels = []
     ranks = []
     best_element = False
@@ -713,9 +766,11 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
                 gated.add(key)
         ally_nc.append({})
         ally_cr.append({})
-        nc = collect_damage(lv.get('effects'), lire_le_meilleur, ally_nc[-1])
+        state_nc.append({})
+        state_cr.append({})
+        nc = collect_damage(lv.get('effects'), lire_le_meilleur, ally_nc[-1], state_nc[-1])
         cr = collect_damage(lv.get('criticalEffect'), lire_le_meilleur,
-                            ally_cr[-1])
+                            ally_cr[-1], state_cr[-1])
         if _check_still_says(spell):
             # The buff goes to someone else, keep only the damage
             nc = {k: v for k, v in nc.items() if not k.startswith('buff_')}
@@ -794,6 +849,28 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
         crit.append(cr_row)
         elements.append(token)
         conditional[len(elements) - 1] = 'on_ally'
+    state_tokens = []
+    for level in state_nc + state_cr:
+        for token in level:
+            if token not in state_tokens:
+                state_tokens.append(token)
+    if state_tokens and (aggregates or blocks or ally_tokens):
+        raise SystemExit(
+            'touch spell %s has a line only a target in a state takes beside a grouped, '
+            'placed or ally-only hit; that shape has no rule yet' % spell.get('id'))
+    for token in state_tokens:
+        if any((token in nc_level) != (token in cr_level)
+               or (nc_level.get(token) or (0, 0, None))[2]
+               or (cr_level.get(token) or (0, 0, None))[2]
+               for nc_level, cr_level in zip(state_nc, state_cr)):
+            raise SystemExit(
+                'touch spell %s: its line on a target in a state is stronger on one kind of hit '
+                'only, or lands later; that shape has no rule yet' % spell.get('id'))
+        nc_row, cr_row = rows_of(state_nc, state_cr, token)
+        non_crit.append(nc_row)
+        crit.append(cr_row)
+        elements.append(token)
+        conditional[len(elements) - 1] = TARGET_STATE_COPY
     if blocks:
         # The placed things' rows after the spell's own, each block a labelled group
         aggregates = _own_groups(aggregates, elements)
@@ -1060,6 +1137,9 @@ def emit_module(by_class, spell_names, path, taken_by_class=None):
             lines.append("            %s," % json.dumps(s['non_crit_ranges']))
             lines.append("            %s," % json.dumps(s['crit_ranges']))
             lines.append("            [%s]," % elems)
+            steals = [str(token).startswith(STEAL_TOKEN % '') for token in s['elements']]
+            if any(steals):
+                lines.append("            steals=%r," % (steals,))
             tail = []
             if s.get('aggregates'):
                 tail.append("aggregates=%r" % (s['aggregates'],))

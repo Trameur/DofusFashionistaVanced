@@ -1065,6 +1065,8 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None,
                               _linked_spell_id(spell, game_version))
     ) if spell.is_linked else None
     web_digest['special'] = spell.special
+    # AP each cast of the turn adds to the next one's cost, per rank
+    web_digest['ap_growth'] = (getattr(spell, 'casting', None) or {}).get('ap_growth')
     web_digest['conditional'] = {
         str(index): str(_CONDITIONAL_LABELS.get(trigger, trigger))
         for index, trigger in (getattr(spell, 'conditional', None) or {}).items()}
@@ -1481,6 +1483,7 @@ _CONDITIONAL_LABELS = {
         _lazy("on its cast 2 turns later, and only if the spell is not cast "
               "again on the following turn"),
     'later_cast_1_turn': _lazy("on its cast the following turn"),
+    'later_cast_within_3_turns': _lazy("on its casts over the next 3 turns"),
     'later_cast_2_turns': _lazy("on its cast 2 turns later"),
     'later_cast_3_turns': _lazy("on its cast 3 turns later"),
     'later_cast_4_turns': _lazy("on its cast 4 turns later"),
@@ -1494,6 +1497,9 @@ _CONDITIONAL_LABELS = {
     'glyph': _lazy("only when an enemy goes through the glyph"),
     'aura': _lazy("when the glyph-aura triggers, on a later turn"),
     'state': _lazy("only at the state the spell needs"),
+    'target_in_a_state':
+        _lazy("only on a target in the state the spell names, in place of its "
+              "plain hit"),
 }
 
 

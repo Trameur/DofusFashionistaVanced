@@ -5860,6 +5860,11 @@ msgstr "Best combo this turn"
 msgid "damage"
 msgstr "damage"
 
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(ap)s AP, then +%(step)s per cast"
+msgstr "%(ap)s AP, then +%(step)s per cast"
+
 #: .\chardata\templates\chardata\spells.html:39
 #, python-format
 msgid "%(ap)s AP"
@@ -6875,6 +6880,10 @@ msgstr "only when cast on the caster, and only on the enemies around the caster 
 msgid "on its cast once 2 earlier casts stack their boost"
 msgstr "on its cast once 2 earlier casts stack their boost"
 
+#: chardata/spells_view.py
+msgid "on its casts over the next 3 turns"
+msgstr "on its casts over the next 3 turns"
+
 msgid "on its cast the following turn"
 msgstr "on its cast the following turn"
 
@@ -7826,6 +7835,10 @@ msgstr "only when an enemy goes through the glyph"
 #: chardata/spells_view.py
 msgid "when the glyph-aura triggers, on a later turn"
 msgstr "when the glyph-aura triggers, on a later turn"
+
+#: chardata/spells_view.py
+msgid "only on a target in the state the spell names, in place of its plain hit"
+msgstr "only on a target in the state the spell names, in place of its plain hit"
 
 #: chardata/spells_view.py
 msgid "only at the state the spell needs"
