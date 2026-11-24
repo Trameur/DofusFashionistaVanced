@@ -34,6 +34,9 @@ from chardata.weapon_forge_text import conversion_lines
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.views.decorators.cache import cache_control
+from django.views.decorators.http import require_GET
+from django.views.decorators.vary import vary_on_headers
 from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy as _lazy
@@ -124,6 +127,7 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                          'crit_is_fraction': main_game(game_version) == 'retro',
                          'char_stats_json': stats_json,
                          'best_combo': _best_combo(char, solution, game_version),
+                         'target_version': target_version(game_version),
                          'canonical_path': (
                              spells_linked_path(char, encoded_char_id)
                              if char.link_shared and encoded_char_id else ''),
@@ -459,8 +463,8 @@ def _weapon_castable(solution):
 
 
 def _best_combo(char, solution, game_version, buff_state=None, levels=None,
-                pushback=False, note_without_buffs=True):
-    """Best cast order for one turn, or None when there is nothing to say."""
+                pushback=False, note_without_buffs=True, target=None):
+    """Best cast order for one turn, on the target when one is given, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force, cast_cost,
                                       castable_spells, combat_ap,
                                       conditional_extras, damage_taken_by_cast,
@@ -488,14 +492,14 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                                buff_state)
     total, order = best_turn(stats, spells, ap, standing=standing,
                              game_version=game_version, pushback=pushback,
-                             caster_level=char.level)
-    if not order:
+                             caster_level=char.level, target=target)
+    if not order and target is None:
         return None
     language = get_supported_language()
     by_name = {spell.name: spell for spell in spells}
     # best_turn counts delayed damage, the panel shows it apart
     later = delayed_damage(stats, spells, order, standing=standing,
-                           game_version=game_version)
+                           game_version=game_version, target=target)
     moments = delayed_moments(spells, order)
     times_cast = {}
     for name, _damage in order:
@@ -560,7 +564,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     for name, trigger, damage in conditional_extras(
             stats, spells, order, standing=standing,
             game_version=game_version, caster_level=char.level,
-            pushback=pushback):
+            pushback=pushback, target=target):
         castable = by_name[name]
         extras.append({
             'name': (_localized_spell_name(name, language, game_version,
@@ -578,10 +582,20 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     au_plus_haut = all(getattr(castable, 'at_highest_rank', True)
                        for castable in spells
                        if getattr(castable, 'is_spell', False))
+    shown_total = casts[-1]['running'] if casts else 0
+    on_target = {}
+    if target is not None:
+        _raw, raw_order = best_turn(stats, spells, ap, standing=standing,
+                                    game_version=game_version, pushback=pushback,
+                                    caster_level=char.level)
+        on_target = _target_fields(
+            target, shown_total,
+            _burst_total(stats, spells, raw_order, standing, game_version)
+            if raw_order else 0)
     return {'casts': casts,
             'without_buffs_note': (_without_buffs_note(
                 stats, spells, order, ap, standing, game_version, pushback,
-                char.level, casts[-1]['running'])
+                char.level, shown_total, target)
                 if note_without_buffs else ''),
             'rank_note': str(_RANK_NOTES['highest' if au_plus_haut
                                          else 'picked']),
@@ -596,10 +610,59 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'pushback': bool(pushback),
             'can_push': any(getattr(spell, 'push_cells', 0)
                             for spell in spells),
-            'total': casts[-1]['running'],
+            'total': shown_total,
             'ap_used': sum(cast['ap'] for cast in casts),
             'ap_available': ap,
-            'conditional': extras}
+            'conditional': extras,
+            **on_target}
+
+
+def _target_fields(target, total, raw_total):
+    """The payload fields a target adds: who it is, the raw total, what is counted and what is not."""
+    from chardata.targets import ELEMENTS
+    from fashionistapulp.combat.rules import load_rules
+    rules = load_rules(target.version)
+    flat = target.flat or (None,) * len(ELEMENTS)
+    resistances = [{'element': element, 'percent': target.percent[index],
+                    'flat': flat[index],
+                    'immune': element in target.immune_elements()}
+                   for index, element in enumerate(ELEMENTS)]
+    uncounted = []
+    if not rules.enabled('F'):
+        uncounted += ['%s %s' % (_TARGET_FIELD_LABELS[column], value)
+                      for column, value in zip(_FLAT_COLUMNS, flat) if value]
+        if target.crit_flat:
+            uncounted.append('%s %s' % (_TARGET_FIELD_LABELS['critical_damage_reduction'],
+                                        target.crit_flat))
+    if target.push_flat:
+        uncounted.append('%s %s' % (_TARGET_FIELD_LABELS['push_damage_reduction'],
+                                    target.push_flat))
+    not_counted = []
+    if uncounted:
+        not_counted.append(str(_NOT_COUNTED_NOTE) % {'values': ', '.join(uncounted)})
+    missing = [str(_TARGET_FIELD_LABELS[column]) for column in target.unknown
+               if column in _TARGET_FIELD_LABELS]
+    if missing:
+        not_counted.append(str(_MISSING_NOTE) % {'values': ', '.join(missing)})
+    not_counted.append(str(_SUMMONS_NOTE))
+    tolerance = rules.tolerance_per_hit
+    return {
+        'target': {'token': target.token(), 'name': target.label,
+                   'monster_id': target.ref[1], 'grade': target.ref[2],
+                   'level': target.level, 'hp': target.hp,
+                   'resistances': resistances, 'weak': target.weakest_elements(),
+                   'critical_resistance': target.crit_flat,
+                   'pushback_resistance': target.push_flat,
+                   'hp_share': (int(round(100.0 * total / target.hp))
+                                if target.hp else None)},
+        'raw_total': raw_total,
+        'stages': {'counted': [{'stage': stage, 'label': str(_TARGET_STAGES[stage])}
+                               for stage in rules.enabled_stages],
+                   'tolerance_per_hit': tolerance,
+                   'note': (str(_TOLERANCE_NOTE) % {'points': tolerance}
+                            if tolerance else '')},
+        'not_counted': not_counted,
+    }
 
 
 def _limit_notes(spells, order, times_cast, ap):
@@ -737,11 +800,11 @@ def _late_share(castable, name, later, times_cast):
     return later[name] / times_cast[name] if name in later else 0
 
 
-def _burst_total(stats, spells, order, standing, game_version):
+def _burst_total(stats, spells, order, standing, game_version, target=None):
     """Total as the panel shows it: the turn minus what lands later."""
     from chardata.spell_combo import delayed_damage
     later = delayed_damage(stats, spells, order, standing=standing,
-                           game_version=game_version)
+                           game_version=game_version, target=target)
     by_name = {spell.name: spell for spell in spells}
     times_cast = {}
     for name, _damage in order:
@@ -756,7 +819,7 @@ def _burst_total(stats, spells, order, standing, game_version):
 
 
 def _without_buffs_note(stats, spells, order, ap, standing, game_version,
-                        pushback, caster_level, shown_total=None):
+                        pushback, caster_level, shown_total=None, target=None):
     """The same turn without the buffs it casts, on the panel's scale."""
     from chardata.spell_combo import best_turn
     buffs = _buff_casts(spells, order)
@@ -767,10 +830,10 @@ def _without_buffs_note(stats, spells, order, ap, standing, game_version,
         return ''
     _total, ordre = best_turn(stats, restants, ap, standing=standing,
                               game_version=game_version, pushback=pushback,
-                              caster_level=caster_level)
+                              caster_level=caster_level, target=target)
     if not ordre:
         return ''
-    montre = _burst_total(stats, restants, ordre, standing, game_version)
+    montre = _burst_total(stats, restants, ordre, standing, game_version, target)
     # The turn is chosen with its late damage; this turn alone may favour no buff
     if shown_total is not None and montre >= shown_total:
         return ''
@@ -1039,6 +1102,34 @@ def best_combo_linked_json(request, encoded_char_id):
     return _best_combo_response(request, char)
 
 
+def target_version(game_version):
+    """The version when a turn can be cast on a monster of it, else an empty string."""
+    from chardata.targets import TARGET_VERSIONS
+    from fashionistapulp.combat.rules import RecordError, load_rules
+    try:
+        if game_version in TARGET_VERSIONS and load_rules(game_version) is not None:
+            return game_version
+    except RecordError:
+        pass
+    return ''
+
+
+@require_GET
+@cache_control(max_age=3600)
+@vary_on_headers('Cookie', 'Accept-Language')
+def monster_targets_json(request):
+    """Monsters of this version whose name holds the query, with their grades, for the target picker."""
+    from django.http import JsonResponse
+    from chardata.targets import search_monsters
+    query = (request.GET.get('q') or '')[:60]
+    game_version = getattr(request, 'game_version', 'dofus3')
+    try:
+        monsters = search_monsters(game_version, query)
+    except Exception:
+        monsters = []
+    return JsonResponse({'monsters': monsters})
+
+
 def _best_combo_response(request, char):
     import json
     from django.http import JsonResponse
@@ -1053,10 +1144,27 @@ def _best_combo_response(request, char):
         return value if isinstance(value, dict) else {}
 
     game_version = getattr(request, 'game_version', 'dofus3')
-    return JsonResponse({'best_combo': _best_combo(
-        char, solution, game_version, posted('buff_state'),
-        posted('spell_levels'),
-        request.POST.get('pushback') == 'true')})
+    target, refused = None, ''
+    if request.POST.get('target'):
+        from chardata.targets import read_target
+        try:
+            target, refused = read_target(game_version, request.POST.get('target'))
+        except Exception:
+            target, refused = None, 'unreadable'
+    arguments = (char, solution, game_version, posted('buff_state'),
+                 posted('spell_levels'), request.POST.get('pushback') == 'true')
+    try:
+        combo = _best_combo(*arguments, target=target)
+    except Exception:
+        if target is None:
+            raise
+        target, refused = None, 'unreadable'
+        combo = _best_combo(*arguments)
+    response = {'best_combo': combo}
+    if refused:
+        response['target_refused'] = refused
+        response['target_refused_note'] = str(_TARGET_REFUSED_NOTE)
+    return JsonResponse(response)
 
 
 def spells(request, char_id=0):
@@ -1262,6 +1370,36 @@ _BUFF_NOTES = {
 
 _WITHOUT_BUFFS_NOTE = _lazy('Without the buffs it casts first, this turn '
                             'would deal %(damage)s.')
+
+_TARGET_STAGES = {'P': _lazy('Resistances in percent')}
+
+_TOLERANCE_NOTE = _lazy('Each hit on the target may be off by %(points)s until '
+                        'in-game readings confirm how the game rounds it.')
+
+_NOT_COUNTED_NOTE = _lazy('Not counted yet: %(values)s.')
+
+_MISSING_NOTE = _lazy('Missing from the game files for this grade: %(values)s.')
+
+_SUMMONS_NOTE = _lazy('Summons are not counted: they act on their own turn.')
+
+_TARGET_REFUSED_NOTE = _lazy('This target could not be read; the turn is shown '
+                             'without one.')
+
+_FLAT_COLUMNS = ('earth_flat_resistance', 'fire_flat_resistance',
+                 'water_flat_resistance', 'air_flat_resistance',
+                 'neutral_flat_resistance')
+
+_TARGET_FIELD_LABELS = {
+    'level': _lazy('Level'), 'life_points': _lazy('HP'),
+    'earth_resistance': _lazy('% Earth Resist'), 'fire_resistance': _lazy('% Fire Resist'),
+    'water_resistance': _lazy('% Water Resist'), 'air_resistance': _lazy('% Air Resist'),
+    'neutral_resistance': _lazy('% Neutral Resist'),
+    'earth_flat_resistance': _lazy('Earth Resist'), 'fire_flat_resistance': _lazy('Fire Resist'),
+    'water_flat_resistance': _lazy('Water Resist'), 'air_flat_resistance': _lazy('Air Resist'),
+    'neutral_flat_resistance': _lazy('Neutral Resist'),
+    'critical_damage_reduction': _lazy('Critical Resist'),
+    'push_damage_reduction': _lazy('Pushback Resist'),
+}
 
 _RANK_NOTES = {
     'highest': _lazy('Spells at the highest level the character reaches.'),

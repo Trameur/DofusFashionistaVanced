@@ -7761,6 +7761,108 @@ msgstr "en un turno posterior"
 msgid "when the double dies at the end of its third turn, on the entities next to it"
 msgstr "al morir el doble al final de su tercer turno, a las entidades en contacto con él"
 
+#: chardata/templates/chardata/spells.html
+msgid "Target: none (raw damage)"
+msgstr "Objetivo: ninguno (daño bruto)"
+
+#: chardata/templates/chardata/spells.html
+msgid "Clear the target and show raw damage"
+msgstr "Quitar el objetivo y mostrar el daño bruto"
+
+#: chardata/templates/chardata/spells.html
+msgid "Choose a target"
+msgstr "Elegir un objetivo"
+
+#: chardata/templates/chardata/spells.html
+msgid "Monster"
+msgstr "Monstruo"
+
+#: chardata/templates/chardata/spells.html
+msgid "Search a monster by name"
+msgstr "Buscar un monstruo por su nombre"
+
+#: chardata/templates/chardata/spells.html
+msgid "Resistances of the target"
+msgstr "Resistencias del objetivo"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Target: %(name)s, grade %(grade)s"
+msgstr "Objetivo: %(name)s, grado %(grade)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(damage)s damage on %(name)s (grade %(grade)s, %(hp)s HP)"
+msgstr "%(damage)s de daño a %(name)s (grado %(grade)s, %(hp)s PdV)"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "raw %(damage)s"
+msgstr "bruto %(damage)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Weak to %(elements)s"
+msgstr "Débil contra %(elements)s"
+
+#: chardata/templates/chardata/spells.html
+msgid "Immune"
+msgstr "Inmune"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "This turn takes %(percent)s%% of its HP"
+msgstr "Este turno le quita el %(percent)s%% de sus PdV"
+
+#: chardata/templates/chardata/spells.html
+msgid "This turn takes more than all of its HP"
+msgstr "Este turno le quita más que todos sus PdV"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Level %(level)s, ID %(id)s"
+msgstr "Nivel %(level)s, ID %(id)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Levels %(low)s to %(high)s, ID %(id)s"
+msgstr "Niveles %(low)s a %(high)s, ID %(id)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Grade %(grade)s, level %(level)s, %(hp)s HP"
+msgstr "Grado %(grade)s, nivel %(level)s, %(hp)s PdV"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Grades of %(name)s"
+msgstr "Grados de %(name)s"
+
+#: chardata/templates/chardata/spells.html
+msgid "No monster found."
+msgstr "No se encontró ningún monstruo."
+
+#: chardata/templates/chardata/spells.html
+msgid "Searching the monsters"
+msgstr "Buscando monstruos"
+
+#: chardata/templates/chardata/spells.html
+msgid "The monsters could not be loaded."
+msgstr "No se pudieron cargar los monstruos."
+
+#: chardata/templates/chardata/spells.html
+msgid "The spell cards below show raw damage, before any resistance."
+msgstr "Las tarjetas de hechizos de abajo muestran el daño bruto, antes de cualquier resistencia."
+
+#: chardata/templates/chardata/spells.html
+msgid "Every element of this grade is immune, so no spell deals damage to it."
+msgstr "Todos los elementos de este grado son inmunes, así que ningún hechizo le hace daño."
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Counted: %(stages)s."
+msgstr "Tenido en cuenta: %(stages)s."
+
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"
 msgstr "Llega más tarde, no en el total de arriba:"
@@ -8442,6 +8544,27 @@ msgstr "Hechizos al nivel más alto que alcanza el personaje."
 #, python-format
 msgid "Without the buffs it casts first, this turn would deal %(damage)s."
 msgstr "Sin los buffs que lanza primero, este turno haría %(damage)s."
+
+msgid "Resistances in percent"
+msgstr "Resistencias en porcentaje"
+
+#, python-format
+msgid "Each hit on the target may be off by %(points)s until in-game readings confirm how the game rounds it."
+msgstr "Cada golpe sobre el objetivo puede desviarse en %(points)s hasta que mediciones en el juego confirmen cómo lo redondea el juego."
+
+#, python-format
+msgid "Not counted yet: %(values)s."
+msgstr "Aún no contado: %(values)s."
+
+#, python-format
+msgid "Missing from the game files for this grade: %(values)s."
+msgstr "Falta en los archivos del juego para este grado: %(values)s."
+
+msgid "Summons are not counted: they act on their own turn."
+msgstr "Las invocaciones no se cuentan: actúan en su propio turno."
+
+msgid "This target could not be read; the turn is shown without one."
+msgstr "No se pudo leer este objetivo; el turno se muestra sin él."
 
 msgid "Spells at the levels picked above."
 msgstr "Hechizos a los niveles elegidos arriba."

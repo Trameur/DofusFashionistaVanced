@@ -40,12 +40,69 @@
          data-ap-label="{% blocktrans with ap="__ap__" %}{{ ap }} AP{% endblocktrans %}"
          data-ap-note="{% blocktrans with used="__used__" available="__available__" %}{{ used }} of {{ available }} AP used.{% endblocktrans %}"
          data-conditional-title="{% trans "Not in the total, it depends on the fight:" %}"
-         data-later-title="{% trans "Lands later, not in the total above:" %}">
+         data-later-title="{% trans "Lands later, not in the total above:" %}"
+         data-target-version="{{ target_version }}"{% if target_version %}
+         data-search-url="{% game_url 'monster_targets' %}"
+         data-icon-earth="{% static 'chardata/Strength.png' %}"
+         data-icon-fire="{% static 'chardata/Intelligence.png' %}"
+         data-icon-water="{% static 'chardata/Chance.png' %}"
+         data-icon-air="{% static 'chardata/Agility.png' %}"
+         data-name-earth="{% trans "Earth" %}"
+         data-name-fire="{% trans "Fire" %}"
+         data-name-water="{% trans "Water" %}"
+         data-name-air="{% trans "Air" %}"
+         data-name-neut="{% trans "Neutral" %}"
+         data-label-none="{% trans "Target: none (raw damage)" %}"
+         data-label-target="{% blocktrans with name="__name__" grade="__grade__" %}Target: {{ name }}, grade {{ grade }}{% endblocktrans %}"
+         data-headline="{% blocktrans with damage="__damage__" name="__name__" grade="__grade__" hp="__hp__" %}{{ damage }} damage on {{ name }} (grade {{ grade }}, {{ hp }} HP){% endblocktrans %}"
+         data-raw="{% blocktrans with damage="__damage__" %}raw {{ damage }}{% endblocktrans %}"
+         data-weak="{% blocktrans with elements="__elements__" %}Weak to {{ elements }}{% endblocktrans %}"
+         data-immune="{% trans "Immune" %}"
+         data-hp-share="{% blocktrans with percent="__percent__" %}This turn takes {{ percent }}% of its HP{% endblocktrans %}"
+         data-hp-share-over="{% trans "This turn takes more than all of its HP" %}"
+         data-monster-level="{% blocktrans with level="__level__" id="__id__" %}Level {{ level }}, ID {{ id }}{% endblocktrans %}"
+         data-monster-levels="{% blocktrans with low="__low__" high="__high__" id="__id__" %}Levels {{ low }} to {{ high }}, ID {{ id }}{% endblocktrans %}"
+         data-grade-option="{% blocktrans with grade="__grade__" level="__level__" hp="__hp__" %}Grade {{ grade }}, level {{ level }}, {{ hp }} HP{% endblocktrans %}"
+         data-grades-title="{% blocktrans with name="__name__" %}Grades of {{ name }}{% endblocktrans %}"
+         data-no-monster="{% trans "No monster found." %}"
+         data-searching="{% trans "Searching the monsters" %}"
+         data-load-error="{% trans "The monsters could not be loaded." %}"
+         data-cards-note="{% trans "The spell cards below show raw damage, before any resistance." %}"
+         data-all-immune="{% trans "Every element of this grade is immune, so no spell deals damage to it." %}"
+         data-counted="{% blocktrans with stages="__stages__" %}Counted: {{ stages }}.{% endblocktrans %}"{% endif %}>
         <span class="best-combo-busy" aria-hidden="true"></span>
         <div class="best-combo-head">
             <span class="best-combo-title">{% trans "Best combo this turn" %}</span>
             <span class="best-combo-total">{{ best_combo.total }} {% trans "damage" %}</span>
+            {% if target_version %}<span class="best-combo-raw" hidden></span>{% endif %}
         </div>
+        {% if target_version %}
+        <div class="best-combo-target">
+            <button type="button" class="best-combo-target-button" aria-expanded="false" aria-controls="best-combo-picker">{% trans "Target: none (raw damage)" %}</button>
+            <button type="button" class="best-combo-target-clear" title="{% trans "Clear the target and show raw damage" %}" hidden>{% trans "Clear" %}</button>
+        </div>
+        <p class="best-combo-target-refused" role="status" hidden></p>
+        <div class="best-combo-picker" id="best-combo-picker" role="group" aria-label="{% trans "Choose a target" %}" hidden>
+            <div class="best-combo-picker-tabs" role="tablist">
+                <button type="button" role="tab" class="best-combo-picker-tab" id="best-combo-tab-monster" aria-selected="true" aria-controls="best-combo-tabpanel-monster">{% trans "Monster" %}</button>
+            </div>
+            <div id="best-combo-tabpanel-monster" role="tabpanel" aria-labelledby="best-combo-tab-monster">
+                <label class="best-combo-picker-label" for="best-combo-monster-search">{% trans "Search a monster by name" %}</label>
+                <input type="search" id="best-combo-monster-search" class="best-combo-picker-search" autocomplete="off" maxlength="60" aria-controls="best-combo-monster-results">
+                <p class="best-combo-picker-status" role="status"></p>
+                <ul class="best-combo-picker-results" id="best-combo-monster-results"></ul>
+                <div class="best-combo-picker-grades" hidden>
+                    <span class="best-combo-picker-grades-title" id="best-combo-grades-title"></span>
+                    <ul class="best-combo-picker-grade-list" aria-labelledby="best-combo-grades-title"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="best-combo-target-summary" hidden>
+            <p class="best-combo-resists" role="group" aria-label="{% trans "Resistances of the target" %}"></p>
+            <p class="best-combo-hp-share"></p>
+            <p class="best-combo-all-immune" hidden></p>
+        </div>
+        {% endif %}
         {% if pieces_above_level %}
         <div class="best-combo-level-warning"
              title="{{ pieces_above_level_text }}">
@@ -108,6 +165,7 @@
             <span class="best-combo-item-effects-note">{{ best_combo.item_effects_note }}</span>
             <span class="best-combo-crit-failure-note">{{ best_combo.crit_failure_note }}</span>
         </p>
+        {% if target_version %}<ul class="best-combo-target-notes" hidden></ul>{% endif %}
     </div>
     {% endif %}
 
@@ -1548,6 +1606,7 @@
     var comboRequest = null;
     var comboPending = null;
     var comboTimer = null;
+    var comboTarget = '';
 
     // The panel is worked out server side, so that the cast order, the AP
     // budget and the per-turn limits stay in one place instead of being
@@ -1590,15 +1649,19 @@
     // travel under the name the data carries, not the translated one the page
     // shows.
     function comboPayload() {
-        return {buff_state: JSON.stringify(byCanonicalName(buffState)),
+        var payload = {buff_state: JSON.stringify(byCanonicalName(buffState)),
                 spell_levels: JSON.stringify(byCanonicalName(spellLevel)),
                 pushback: $("#best-combo-pushback").prop('checked') ? 'true'
                                                                    : 'false'};
+        if (comboTarget) {
+            payload.target = comboTarget;
+        }
+        return payload;
     }
 
     function comboSignature(payload) {
         return payload.buff_state + '|' + payload.spell_levels + '|'
-               + payload.pushback;
+               + payload.pushback + '|' + (payload.target || '');
     }
 
     // The page opens on the state the panel was rendered for, so the first
@@ -1647,6 +1710,9 @@
                 }
                 panel.show();
                 var combo = data.best_combo;
+                if (data.target_refused) {
+                    forgetTarget(data.target_refused_note || '');
+                }
                 panel.find('.best-combo-total')
                      .text(combo.total + ' ' + panel.data('damage-label'));
                 var list = panel.find('.best-combo-casts').empty();
@@ -1736,12 +1802,360 @@
                      .text(combo.item_effects_note || '');
                 panel.find('.best-combo-crit-failure-note')
                      .text(combo.crit_failure_note || '');
+                showTargetMode(combo);
             });
     }
 
     function getCsrfToken() {
         var match = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
         return match ? match[1] : '';
+    }
+
+    var TARGET_TOKEN = /^m[1-9][0-9]{0,9}\.[1-9][0-9]{0,2}$/;
+
+    function fillText(template, values) {
+        var text = String(template || '');
+        $.each(values, function(key, value) {
+            text = text.split('__' + key + '__').join(String(value));
+        });
+        return text;
+    }
+
+    function targetStoreKey() {
+        return 'fm_combo_target_' + $("#best-combo").data('target-version');
+    }
+
+    function storedTarget() {
+        try {
+            var value = window.localStorage.getItem(targetStoreKey()) || '';
+            return TARGET_TOKEN.test(value) ? value : '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    function rememberTarget(token) {
+        try {
+            if (token) {
+                window.localStorage.setItem(targetStoreKey(), token);
+            } else {
+                window.localStorage.removeItem(targetStoreKey());
+            }
+        } catch (e) {}
+    }
+
+    function urlTarget() {
+        try {
+            var value = new URLSearchParams(window.location.search).get('target') || '';
+            return TARGET_TOKEN.test(value) ? value : '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    function showTargetInUrl(token) {
+        try {
+            var url = new URL(window.location.href);
+            if (token) {
+                url.searchParams.set('target', token);
+            } else {
+                url.searchParams.delete('target');
+            }
+            window.history.replaceState(window.history.state, '', url.toString());
+        } catch (e) {}
+    }
+
+    function setTarget(token) {
+        comboTarget = token || '';
+        $("#best-combo .best-combo-target-refused").attr('hidden', 'hidden').text('');
+        rememberTarget(comboTarget);
+        showTargetInUrl(comboTarget);
+        if (!comboTarget) {
+            showTargetMode(null);
+        }
+        refreshBestCombo();
+    }
+
+    function forgetTarget(note) {
+        comboTarget = '';
+        comboPending = null;
+        rememberTarget('');
+        showTargetInUrl('');
+        $("#best-combo .best-combo-target-refused").removeAttr('hidden').text(note);
+    }
+
+    function targetElementName(panel, element) {
+        return panel.data('name-' + element) || element;
+    }
+
+    function showTargetMode(combo) {
+        var panel = $("#best-combo");
+        if (!panel.data('target-version')) {
+            return;
+        }
+        var info = combo && combo.target ? combo.target : null;
+        var summary = panel.find('.best-combo-target-summary');
+        var notes = panel.find('.best-combo-target-notes');
+        var label = panel.find('.best-combo-target-button');
+        panel.find('.best-combo-head').toggleClass('is-on-target', !!info);
+        panel.find('.best-combo-target-clear').attr('hidden', info ? null : 'hidden');
+        if (!info) {
+            label.text(panel.data('label-none'));
+            panel.find('.best-combo-raw').attr('hidden', 'hidden').text('');
+            summary.attr('hidden', 'hidden');
+            notes.attr('hidden', 'hidden').empty();
+            if (combo) {
+                panel.find('.best-combo-total')
+                     .text(combo.total + ' ' + panel.data('damage-label'));
+            }
+            return;
+        }
+        var hp = info.hp === null || info.hp === undefined ? '?' : info.hp;
+        label.text(fillText(panel.data('label-target'),
+                            {name: info.name, grade: info.grade}));
+        panel.find('.best-combo-total').text(fillText(panel.data('headline'), {
+            damage: combo.total, name: info.name, grade: info.grade, hp: hp}));
+        panel.find('.best-combo-raw').removeAttr('hidden')
+             .text(fillText(panel.data('raw'), {damage: combo.raw_total}));
+        var resists = summary.find('.best-combo-resists').empty();
+        $.each(info.resistances || [], function(i, entry) {
+            var chip = $("<span class='best-combo-resist'></span>")
+                .addClass('best-combo-resist-' + entry.element)
+                .toggleClass('is-immune', !!entry.immune)
+                .toggleClass('is-weak', $.inArray(entry.element, info.weak || []) >= 0);
+            var name = targetElementName(panel, entry.element);
+            var icon = panel.data('icon-' + entry.element);
+            if (icon) {
+                $("<img class='best-combo-resist-icon'>").attr('src', icon)
+                    .attr('alt', name).attr('title', name).appendTo(chip);
+            } else {
+                $("<span class='best-combo-resist-name'></span>").text(name).appendTo(chip);
+            }
+            $("<span class='best-combo-resist-value'></span>")
+                .text(entry.percent === null || entry.percent === undefined
+                      ? '?' : entry.percent + '%').appendTo(chip);
+            if (entry.immune) {
+                $("<span class='best-combo-immune'></span>")
+                    .text(panel.data('immune')).appendTo(chip);
+            }
+            resists.append(chip);
+        });
+        if ((info.weak || []).length) {
+            var names = $.map(info.weak, function(element) {
+                return targetElementName(panel, element);
+            });
+            $("<span class='best-combo-weak'></span>")
+                .text(fillText(panel.data('weak'), {elements: names.join(', ')}))
+                .appendTo(resists);
+        }
+        var share = summary.find('.best-combo-hp-share');
+        if (info.hp_share === null || info.hp_share === undefined) {
+            share.attr('hidden', 'hidden').text('');
+        } else {
+            share.removeAttr('hidden')
+                 .text(info.hp_share > 100 ? panel.data('hp-share-over')
+                       : fillText(panel.data('hp-share'), {percent: info.hp_share}));
+        }
+        var empty = summary.find('.best-combo-all-immune');
+        if (combo.casts && combo.casts.length) {
+            empty.attr('hidden', 'hidden').text('');
+        } else {
+            empty.removeAttr('hidden').text(panel.data('all-immune'));
+        }
+        summary.removeAttr('hidden');
+        notes.empty().removeAttr('hidden');
+        var stages = $.map((combo.stages && combo.stages.counted) || [], function(stage) {
+            return stage.label;
+        });
+        if (stages.length) {
+            $("<li></li>").text(fillText(panel.data('counted'),
+                                         {stages: stages.join(', ')})).appendTo(notes);
+        }
+        if (combo.stages && combo.stages.note) {
+            $("<li></li>").text(combo.stages.note).appendTo(notes);
+        }
+        $.each(combo.not_counted || [], function(i, note) {
+            $("<li></li>").text(note).appendTo(notes);
+        });
+        $("<li></li>").text(panel.data('cards-note')).appendTo(notes);
+    }
+
+    function initTargetPicker() {
+        var panel = $("#best-combo");
+        if (!panel.length || !panel.data('target-version')) {
+            return;
+        }
+        var toggle = panel.find('.best-combo-target-button');
+        var picker = panel.find('.best-combo-picker');
+        var search = picker.find('.best-combo-picker-search');
+        var status = picker.find('.best-combo-picker-status');
+        var results = picker.find('.best-combo-picker-results');
+        var gradeBox = picker.find('.best-combo-picker-grades');
+        var gradeList = gradeBox.find('.best-combo-picker-grade-list');
+        var searchTimer = null;
+        var searchRequest = null;
+        var lastQuery = '';
+
+        function openPicker() {
+            picker.removeAttr('hidden');
+            toggle.attr('aria-expanded', 'true');
+            search.trigger('focus');
+        }
+
+        function closePicker(giveFocusBack) {
+            picker.attr('hidden', 'hidden');
+            toggle.attr('aria-expanded', 'false');
+            if (giveFocusBack) {
+                toggle.trigger('focus');
+            }
+        }
+
+        function chooseGrade(token) {
+            closePicker(true);
+            setTarget(token);
+        }
+
+        function showGrades(monster) {
+            gradeList.empty();
+            $("#best-combo-grades-title").text(
+                fillText(panel.data('grades-title'), {name: monster.name}));
+            $.each(monster.grades || [], function(i, entry) {
+                var button = $("<button type='button' class='best-combo-picker-option best-combo-picker-grade'></button>")
+                    .text(fillText(panel.data('grade-option'), {
+                        grade: entry.grade, level: entry.level,
+                        hp: entry.hp === null || entry.hp === undefined ? '?' : entry.hp}))
+                    .on('click', function() {
+                        chooseGrade(entry.target);
+                    });
+                $("<li></li>").append(button).appendTo(gradeList);
+            });
+            gradeBox.removeAttr('hidden');
+            gradeList.find('button').first().trigger('focus');
+        }
+
+        function monsterDetail(monster) {
+            var levels = $.map(monster.grades || [], function(entry) {
+                return entry.level === null || entry.level === undefined ? null : entry.level;
+            });
+            var low = Math.min.apply(null, levels);
+            var high = Math.max.apply(null, levels);
+            if (!levels.length) {
+                return 'ID ' + monster.id;
+            }
+            return low === high
+                ? fillText(panel.data('monster-level'), {level: low, id: monster.id})
+                : fillText(panel.data('monster-levels'),
+                           {low: low, high: high, id: monster.id});
+        }
+
+        function showResults(monsters) {
+            results.empty();
+            gradeBox.attr('hidden', 'hidden');
+            status.text(monsters.length ? '' : panel.data('no-monster'));
+            $.each(monsters, function(i, monster) {
+                var button = $("<button type='button' class='best-combo-picker-option best-combo-picker-monster'></button>")
+                    .text(monster.name)
+                    .attr('aria-pressed', 'false')
+                    .append($("<span class='best-combo-picker-detail'></span>")
+                        .text(monsterDetail(monster)))
+                    .on('click', function() {
+                        results.find('button').attr('aria-pressed', 'false');
+                        $(this).attr('aria-pressed', 'true');
+                        showGrades(monster);
+                    });
+                $("<li></li>").append(button).appendTo(results);
+            });
+        }
+
+        function runSearch() {
+            searchTimer = null;
+            var query = $.trim(search.val());
+            if (query === lastQuery) {
+                return;
+            }
+            lastQuery = query;
+            if (searchRequest) {
+                searchRequest.abort();
+            }
+            if (!query) {
+                results.empty();
+                gradeBox.attr('hidden', 'hidden');
+                status.text('');
+                return;
+            }
+            status.text(panel.data('searching'));
+            var request = $.getJSON(panel.data('search-url'), {q: query});
+            searchRequest = request;
+            request.done(function(data) {
+                if (searchRequest === request) {
+                    showResults((data && data.monsters) || []);
+                }
+            }).fail(function(xhr, reason) {
+                if (reason !== 'abort') {
+                    status.text(panel.data('load-error'));
+                }
+            });
+        }
+
+        toggle.on('click', function() {
+            if (picker.attr('hidden')) {
+                openPicker();
+            } else {
+                closePicker(false);
+            }
+        });
+        panel.find('.best-combo-target-clear').on('click', function() {
+            setTarget('');
+            toggle.trigger('focus');
+        });
+        search.on('input', function() {
+            if (searchTimer) {
+                clearTimeout(searchTimer);
+            }
+            searchTimer = setTimeout(runSearch, 250);
+        });
+        search.on('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (searchTimer) {
+                    clearTimeout(searchTimer);
+                }
+                runSearch();
+            }
+        });
+        picker.on('keydown', function(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                closePicker(true);
+                return;
+            }
+            if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
+                return;
+            }
+            var field = $(event.target);
+            var options = field.is('input')
+                ? results.find('button')
+                : field.closest('ul').find('button');
+            if (!options.length) {
+                return;
+            }
+            event.preventDefault();
+            var at = options.index(field);
+            if (event.key === 'ArrowDown') {
+                options.eq(at < 0 ? 0 : Math.min(at + 1, options.length - 1)).trigger('focus');
+            } else if (at <= 0) {
+                if (field.closest('ul').is(results)) {
+                    search.trigger('focus');
+                }
+            } else {
+                options.eq(at - 1).trigger('focus');
+            }
+        });
+
+        var wanted = urlTarget() || storedTarget();
+        if (wanted) {
+            setTarget(wanted);
+        }
     }
 
     function recalculateDamages() {
@@ -1961,6 +2375,7 @@
         $("#best-combo-pushback").on('change', function() {
             refreshBestCombo();
         });
+        initTargetPicker();
 
         $("#all-buffs-button").on('click', function() {
             fullyBuff();

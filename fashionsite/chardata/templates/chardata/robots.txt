@@ -96,6 +96,8 @@ Disallow: /solution/
 Disallow: /*/solution/
 Disallow: /spells/
 Disallow: /*/spells/
+Disallow: /monster_targets/
+Disallow: /*/monster_targets/
 Disallow: /loadproject/
 Disallow: /*/loadproject/
 Disallow: /saveproject/

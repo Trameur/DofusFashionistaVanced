@@ -28,6 +28,8 @@ from operator import itemgetter
 from django.conf import settings
 from django.core.cache import caches
 
+from fashionistapulp.combat.mitigation import expected_hit, needs_every_roll
+from fashionistapulp.combat.rules import load_rules
 from fashionistapulp.dofus_constants import (AIR, EARTH, FIRE, NEUTRAL,
                                              NON_ELEMENTAL_HIT_TYPES, WATER,
                                              Effects, Spell, calculate_damage,
@@ -500,26 +502,37 @@ def recast_alternatives(castable, cast):
     return recasts[min(cast, len(recasts)) - 1]
 
 
-def _late_landed(castable, alternatives, stats, critical, multiplier):
-    """(scored, late) of the alternative a cast lands, the one _damage_of takes."""
+def _late_landed(castable, alternatives, stats, critical, multiplier, target=None):
+    """(scored, late) of the alternative a cast lands, the one _damage_of takes; on a target, its values there."""
     late = getattr(castable, 'late_by_effect', None) or {}
     totals = []
+    landed = []
     for alternative in alternatives or []:
         total = 0.0
         delayed = 0.0
+        on_total = 0.0
+        on_delayed = 0.0
         for effect in alternative:
             value = _row_worth(effect, stats, critical, castable.is_spell, multiplier)
             total += value
             if id(effect) in late:
                 delayed += value
+            if target is not None:
+                value = _row_worth(effect, stats, critical, castable.is_spell, multiplier,
+                                   target)
+                on_total += value
+                if id(effect) in late:
+                    on_delayed += value
         totals.append((total, delayed))
+        landed.append((on_total, on_delayed))
     pick = landed_index(castable, [total for total, _late in totals])
     if pick is None or totals[pick][0] <= 0:
         return (0.0, 0.0)
-    return totals[pick]
+    return landed[pick] if target is not None else totals[pick]
 
 
-def late_taken_back(castable, cast, stats, multiplier, crit=False, game_version=None):
+def late_taken_back(castable, cast, stats, multiplier, crit=False, game_version=None,
+                    target=None):
     """Late damage of the cast before `cast` that a recast of a growing spell removes, else 0."""
     if (not cast or not getattr(castable, 'recasts', None)
             or not getattr(castable, 'late_by_effect', None)):
@@ -531,10 +544,11 @@ def late_taken_back(castable, cast, stats, multiplier, crit=False, game_version=
     plain, critical = earlier
     if crit:
         return _late_landed(castable, critical if castable.crit else plain,
-                            stats, True, multiplier)[1]
+                            stats, True, multiplier, target)[1]
     odds = crit_chance(getattr(castable, 'crit_rate', 0), stats, game_version)
-    late = _late_landed(castable, plain, stats, False, multiplier)[1]
-    crit_late = _late_landed(castable, critical, stats, True, multiplier)[1] if odds else 0.0
+    late = _late_landed(castable, plain, stats, False, multiplier, target)[1]
+    crit_late = (_late_landed(castable, critical, stats, True, multiplier, target)[1]
+                 if odds else 0.0)
     return late * (1 - odds) + crit_late * odds if crit_late else late
 
 
@@ -620,6 +634,41 @@ def _average(damages):
             continue
         total += (damage.min_dam + damage.max_dam) / 2.0
     return total
+
+
+def row_value(rows, stats, critical, is_spell, multiplier, target=None):
+    """Mean damage of the rows; on a target, each hit through its version's record."""
+    if target is None:
+        return _average(calculate_damage(rows, stats, critical, is_spell)) * multiplier
+    return row_values(rows, stats, critical, is_spell, multiplier, target)[1]
+
+
+def row_values(rows, stats, critical, is_spell, multiplier, target):
+    """(raw, on the target) mean damage of the rows from one pass; a share of HP has no raw part here."""
+    rules = load_rules(target.version)
+    every_roll = needs_every_roll(rules)
+    raw = 0
+    total = 0.0
+    for row in rows:
+        if isinstance(row, HpShare):
+            total += expected_hit((row.damage(stats),), target.percent_of(row.element), rules)
+            continue
+        damages = calculate_damage([row], stats, critical, is_spell)
+        if not damages or damages[0].heals:
+            continue
+        damage = damages[0]
+        raw += (damage.min_dam + damage.max_dam) / 2.0
+        rolls = (damage.min_dam * multiplier, damage.max_dam * multiplier)
+        if every_roll:
+            low, high = sorted((int(row.min_dam), int(row.max_dam)))
+            rolls = []
+            for roll in range(low, high + 1):
+                rolled = copy.copy(row)
+                rolled.min_dam = rolled.max_dam = roll
+                rolls.append(calculate_damage([rolled], stats, critical, is_spell)[0].min_dam
+                             * multiplier)
+        total += expected_hit(rolls, target.percent_of(damage.element), rules)
+    return raw * multiplier, total
 
 
 def crit_chance(base_rate, stats, game_version):
@@ -885,15 +934,18 @@ def add_hp_share_hits(castable, entry, level_index):
     return castable
 
 
-def _hp_share_damage(rows, stats):
+def _hp_share_damage(rows, stats, target=None):
+    if target is not None:
+        return row_value([row for row in rows if isinstance(row, HpShare)], stats, False,
+                         True, 1.0, target)
     return sum(row.damage(stats) for row in rows if isinstance(row, HpShare))
 
 
-def _row_worth(effect, stats, critical, is_spell, multiplier):
+def _row_worth(effect, stats, critical, is_spell, multiplier, target=None):
     if isinstance(effect, HpShare):
-        return effect.damage(stats)
-    return (_average(calculate_damage([copy.copy(effect)], stats, critical, is_spell))
-            * multiplier)
+        return effect.damage(stats) if target is None else _hp_share_damage(
+            [effect], stats, target)
+    return row_value([copy.copy(effect)], stats, critical, is_spell, multiplier, target)
 
 
 def castable_spells(char_class, char_level, game_version, crit=False,
@@ -971,7 +1023,7 @@ BOOSTED_COPIES = ARMED_BY_ITS_OWN_CAST | frozenset(('on_a_telefrag_target',))
 
 
 def conditional_extras(stats, spells, order, crit=False, standing=None,
-                       game_version=None, caster_level=0, pushback=False):
+                       game_version=None, caster_level=0, pushback=False, target=None):
     """[(spell name, trigger, damage)] a push or a later cast of the spell could add, outside the total."""
     if not order:
         return []
@@ -1029,9 +1081,8 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
         own = _add_bonus_stats(dict(buffed), castable)
 
         def worth(effect):
-            return (_average(calculate_damage([copy.copy(effect)], own,
-                                              crit, castable.is_spell))
-                    * multiplier)
+            return row_value([copy.copy(effect)], own, crit, castable.is_spell, multiplier,
+                             target)
 
         ended = 0.0
         if getattr(castable, 'spell_id', None) in PUSH_ENDS_THE_LATE_ROWS.get(
@@ -1051,19 +1102,19 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
 
 
 def delayed_damage(stats, spells, order, crit=False, standing=None,
-                   game_version=None):
+                   game_version=None, target=None):
     """{spell name: damage} dealt at the start or end of a turn (poisons)."""
     out = {}
     for (name, _damage), gained in zip(order or [], delayed_by_cast(
             stats, spells, order, crit=crit, standing=standing,
-            game_version=game_version)):
+            game_version=game_version, target=target)):
         if gained:
             out[name] = out.get(name, 0.0) + gained
     return out
 
 
 def delayed_by_cast(stats, spells, order, crit=False, standing=None,
-                    game_version=None):
+                    game_version=None, target=None):
     """[damage] each cast of the order leaves for later, less what it removes of an earlier cast's."""
     if not order:
         return []
@@ -1096,7 +1147,8 @@ def delayed_by_cast(stats, spells, order, crit=False, standing=None,
             multiplier = final_multiplier(buffed)
 
             def worth(alternatives, critical):
-                return _late_landed(castable, alternatives, buffed, critical, multiplier)
+                return _late_landed(castable, alternatives, buffed, critical, multiplier,
+                                    target)
 
             alternatives = castable.alternatives
             plain_alternatives = (getattr(castable, 'plain_alternatives', None)
@@ -1116,7 +1168,7 @@ def delayed_by_cast(stats, spells, order, crit=False, standing=None,
                 gained = (plain * (1 - odds) + critical * odds
                           if critical else plain)
             gained -= late_taken_back(castable, seen.get(name, 0), buffed, multiplier,
-                                      crit, game_version)
+                                      crit, game_version, target)
         out.append(gained)
         seen[name] = seen.get(name, 0) + 1
     return out
@@ -1223,7 +1275,7 @@ def _most_casts(costs, limits, ap):
 
 
 def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
-                      pushback=False, caster_level=0):
+                      pushback=False, caster_level=0, target=None):
     stats = dict(stats)
     # Ticked buffs are already in stats: a recast adds only the difference
     standing = standing or {}
@@ -1291,7 +1343,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         late = getattr(spell, 'late_by_effect', None) or {}
         off_turn = late if getattr(spell, 'recasts', None) else {}
 
-        def raised(alternative, critical):
+        def raised(alternative, critical, on=None):
             """(scaled, shares of HP) of the alternative's rows, the hits now under the debuffs."""
             total = 0.0
             fixed = 0.0
@@ -1303,35 +1355,51 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 if share:
                     value = effect.damage(buffed)
                 else:
-                    value = _average(calculate_damage([copy.copy(effect)], buffed,
-                                                      critical, spell.is_spell))
+                    value = row_value([copy.copy(effect)], buffed, critical, spell.is_spell, 1.0)
+                scale = 1.0
                 if value > 0 and id(effect) not in late:
-                    value *= every * ending_factor
+                    scale = every * ending_factor
+                    value *= scale
                     ending_factor = 1.0
-                if share:
+                if on is not None:
+                    fixed += _row_worth(effect, buffed, critical, spell.is_spell, multiplier,
+                                        on) * scale
+                elif share:
                     fixed += value
                 else:
                     total += value
             return total, fixed
 
-        def scored(alternatives, critical):
-            # Caster picks the best element; a game draw averages the faces
+        def faces(alternatives, critical, on=None, raw=None):
             gains = []
             for alternative in alternatives:
                 if every != 1.0 or first != 1.0:
-                    scaled, fixed = raised(alternative, critical)
+                    scaled, fixed = raised(alternative, critical, on)
                     gains.append(scaled * multiplier + fixed)
+                    if raw is not None:
+                        scaled, fixed = raised(alternative, critical)
+                        raw.append(scaled * multiplier + fixed)
                     continue
                 rows = [copy.copy(effect) for effect in alternative
                         if not isinstance(effect, HpShare) and id(effect) not in off_turn]
-                gains.append(_average(calculate_damage(rows, buffed, critical,
-                                                       spell.is_spell))
-                             * multiplier + _hp_share_damage(alternative, buffed))
+                if raw is None:
+                    gains.append(row_value(rows, buffed, critical, spell.is_spell, multiplier, on)
+                                 + _hp_share_damage(alternative, buffed, on))
+                    continue
+                plain, landed = row_values(rows, buffed, critical, spell.is_spell, multiplier, on)
+                gains.append(landed + _hp_share_damage(alternative, buffed, on))
+                raw.append(plain + _hp_share_damage(alternative, buffed))
+            return gains
+
+        def scored(alternatives, critical):
+            # Caster picks the best element; a game draw averages the faces
+            picked = [] if target is not None else None
+            gains = faces(alternatives, critical, target, picked)
             if not gains:
                 return 0.0
             if getattr(spell, 'random_draw', False):
                 return max(0.0, sum(gains) / len(gains))
-            return max(0.0, gains[landed_index(spell, gains)])
+            return max(0.0, gains[landed_index(spell, gains if picked is None else picked)])
 
         pushed = (push_value(spell, buffed, game_version, caster_level)
                   if pushback else 0.0)
@@ -1680,7 +1748,8 @@ class _TurnKey(object):
             self.add(when)
 
 
-def _turn_key(stats, spells, ap, crit, standing, game_version, pushback, caster_level):
+def _turn_key(stats, spells, ap, crit, standing, game_version, pushback, caster_level,
+              target=None):
     kept = [spell for spell in spells if spell.cost and spell.cost <= ap]
     key = _TurnKey()
     key.parts.append(('best_turn', 1))
@@ -1695,27 +1764,29 @@ def _turn_key(stats, spells, ap, crit, standing, game_version, pushback, caster_
         key.add_castable(castable)
     for castable in kept:
         key.add_late(castable)
+    if target is not None:
+        key.add(('target', target.key_parts(), load_rules(target.version).key()))
     return 'best_turn:' + hashlib.sha256(repr(key.parts).encode('utf-8')).hexdigest()
 
 
 def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
-              pushback=False, caster_level=0):
-    """(total, [(spell name, damage), ...]) for the best order fitting the AP."""
+              pushback=False, caster_level=0, target=None):
+    """(total, [(spell name, damage), ...]) for the best order fitting the AP, on the target when one is given."""
     key = None
     if type(spells) in (list, tuple) and type(stats) is dict:
         try:
             key = _turn_key(stats, spells, ap, crit, standing, game_version, pushback,
-                            caster_level)
+                            caster_level, target)
         except Exception:
             key = None
     if key is None:
         return _search_best_turn(stats, spells, ap, crit, standing, game_version, pushback,
-                                 caster_level)
+                                 caster_level, target)
     turns = caches['best_turn']
     found = turns.get(key)
     if found is not None:
         return found
     turn = _search_best_turn(stats, spells, ap, crit, standing, game_version, pushback,
-                             caster_level)
+                             caster_level, target)
     turns.set(key, turn, BEST_TURN_CACHE_SECONDS)
     return turn

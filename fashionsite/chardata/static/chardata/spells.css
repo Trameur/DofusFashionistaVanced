@@ -355,6 +355,222 @@
     opacity: .75;
 }
 
+#best-combo [hidden] {
+    display: none !important;
+}
+
+.best-combo-head.is-on-target {
+    flex-wrap: wrap;
+    column-gap: 10px;
+}
+
+.best-combo-head.is-on-target .best-combo-total {
+    order: 2;
+    flex: 1 1 100%;
+    width: auto;
+    opacity: 1;
+}
+
+.best-combo-raw {
+    order: 3;
+    font-size: .85em;
+    opacity: .65;
+}
+
+.best-combo-target {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    margin: 0 0 6px 0;
+    font-size: .9em;
+}
+
+.best-combo-target-button,
+.best-combo-target-clear,
+.best-combo-picker-tab,
+.best-combo-picker-option {
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.best-combo-target-button {
+    border: 0;
+    padding: 2px 0;
+    text-align: left;
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+}
+
+.best-combo-target-clear {
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    padding: 1px 8px;
+    opacity: .8;
+}
+
+.best-combo-target-button:focus-visible,
+.best-combo-target-clear:focus-visible,
+.best-combo-picker-tab:focus-visible,
+.best-combo-picker-option:focus-visible,
+.best-combo-picker-search:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+.best-combo-picker {
+    margin: 0 0 8px 0;
+    padding: 6px 8px 8px 8px;
+    border: 1px solid currentColor;
+    border-radius: 6px;
+    font-size: .9em;
+}
+
+.best-combo-picker-tabs {
+    margin-bottom: 6px;
+}
+
+.best-combo-picker-tab {
+    border: 0;
+    border-bottom: 2px solid currentColor;
+    padding: 2px 6px;
+    font-weight: bold;
+}
+
+.best-combo-picker-label {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.best-combo-picker-search {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 4px 6px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+}
+
+.best-combo-picker-status {
+    margin: 4px 0 0 0;
+    min-height: 1.2em;
+    opacity: .8;
+}
+
+.best-combo-picker-results,
+.best-combo-picker-grade-list {
+    list-style: none;
+    margin: 4px 0 0 0;
+    padding: 0;
+}
+
+.best-combo-picker-results {
+    max-height: 11em;
+    overflow-y: auto;
+}
+
+.best-combo-picker-option {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 4px;
+    padding: 3px 6px;
+    text-align: left;
+}
+
+.best-combo-picker-option:hover,
+.best-combo-picker-option[aria-pressed="true"] {
+    background: rgba(128, 128, 128, .25);
+}
+
+.best-combo-picker-detail {
+    display: block;
+    font-size: .85em;
+    opacity: .7;
+}
+
+.best-combo-picker-grades {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed currentColor;
+}
+
+.best-combo-picker-grades-title {
+    font-weight: bold;
+}
+
+.best-combo-resists {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    margin: 0;
+    font-size: .9em;
+}
+
+.best-combo-resist {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.best-combo-resist-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.best-combo-resist.is-immune .best-combo-resist-value {
+    text-decoration: line-through;
+}
+
+.best-combo-immune,
+.best-combo-weak {
+    border: 1px solid currentColor;
+    border-radius: 10px;
+    padding: 0 7px;
+    font-size: .85em;
+}
+
+.best-combo-resist.is-weak {
+    font-weight: bold;
+}
+
+.best-combo-target-refused {
+    margin: 0 0 6px 0;
+    font-size: .85em;
+    opacity: .8;
+}
+
+.best-combo-hp-share,
+.best-combo-all-immune {
+    margin: 4px 0 6px 0;
+    font-size: .9em;
+}
+
+.best-combo-target-notes {
+    margin: 4px 0 0 0;
+    padding: 0 0 0 1.1em;
+    font-size: .85em;
+    opacity: .75;
+}
+
+@media (max-width: 480px) {
+    .best-combo-target-button,
+    .best-combo-target-clear,
+    .best-combo-picker-option {
+        min-height: 44px;
+    }
+    .best-combo-picker-search {
+        min-height: 44px;
+        font-size: 16px;
+    }
+}
+
 /* The turn search runs on the server and can take a second or two. Without
    this the panel just sits on the old total and reads as broken. A sweeping
    bar rather than dots: the spell cards below already end in three dots, for

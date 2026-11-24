@@ -7869,6 +7869,108 @@ msgstr "lors d'un tour suivant"
 msgid "when the double dies at the end of its third turn, on the entities next to it"
 msgstr "à la mort du double, à la fin de son troisième tour, sur les entités à son contact"
 
+#: chardata/templates/chardata/spells.html
+msgid "Target: none (raw damage)"
+msgstr "Cible : aucune (dégâts bruts)"
+
+#: chardata/templates/chardata/spells.html
+msgid "Clear the target and show raw damage"
+msgstr "Retirer la cible et afficher les dégâts bruts"
+
+#: chardata/templates/chardata/spells.html
+msgid "Choose a target"
+msgstr "Choisir une cible"
+
+#: chardata/templates/chardata/spells.html
+msgid "Monster"
+msgstr "Monstre"
+
+#: chardata/templates/chardata/spells.html
+msgid "Search a monster by name"
+msgstr "Chercher un monstre par son nom"
+
+#: chardata/templates/chardata/spells.html
+msgid "Resistances of the target"
+msgstr "Résistances de la cible"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Target: %(name)s, grade %(grade)s"
+msgstr "Cible : %(name)s, grade %(grade)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(damage)s damage on %(name)s (grade %(grade)s, %(hp)s HP)"
+msgstr "%(damage)s dégâts sur %(name)s (grade %(grade)s, %(hp)s PV)"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "raw %(damage)s"
+msgstr "brut %(damage)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Weak to %(elements)s"
+msgstr "Faible contre %(elements)s"
+
+#: chardata/templates/chardata/spells.html
+msgid "Immune"
+msgstr "Immunisé"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "This turn takes %(percent)s%% of its HP"
+msgstr "Ce tour retire %(percent)s%% de ses PV"
+
+#: chardata/templates/chardata/spells.html
+msgid "This turn takes more than all of its HP"
+msgstr "Ce tour retire plus que la totalité de ses PV"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Level %(level)s, ID %(id)s"
+msgstr "Niveau %(level)s, ID %(id)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Levels %(low)s to %(high)s, ID %(id)s"
+msgstr "Niveaux %(low)s à %(high)s, ID %(id)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Grade %(grade)s, level %(level)s, %(hp)s HP"
+msgstr "Grade %(grade)s, niveau %(level)s, %(hp)s PV"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Grades of %(name)s"
+msgstr "Grades de %(name)s"
+
+#: chardata/templates/chardata/spells.html
+msgid "No monster found."
+msgstr "Aucun monstre trouvé."
+
+#: chardata/templates/chardata/spells.html
+msgid "Searching the monsters"
+msgstr "Recherche des monstres"
+
+#: chardata/templates/chardata/spells.html
+msgid "The monsters could not be loaded."
+msgstr "Les monstres n'ont pas pu être chargés."
+
+#: chardata/templates/chardata/spells.html
+msgid "The spell cards below show raw damage, before any resistance."
+msgstr "Les cartes de sorts ci-dessous montrent les dégâts bruts, avant toute résistance."
+
+#: chardata/templates/chardata/spells.html
+msgid "Every element of this grade is immune, so no spell deals damage to it."
+msgstr "Tous les éléments de ce grade sont immunisés : aucun sort ne lui inflige de dégâts."
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Counted: %(stages)s."
+msgstr "Pris en compte : %(stages)s."
+
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"
 msgstr "Arrive plus tard, pas dans le total ci-dessus :"
@@ -8550,6 +8652,27 @@ msgstr "Sorts au niveau le plus haut que le personnage atteint."
 #, python-format
 msgid "Without the buffs it casts first, this turn would deal %(damage)s."
 msgstr "Sans les buffs qu'il lance d'abord, ce tour ferait %(damage)s."
+
+msgid "Resistances in percent"
+msgstr "Résistances en pourcentage"
+
+#, python-format
+msgid "Each hit on the target may be off by %(points)s until in-game readings confirm how the game rounds it."
+msgstr "Chaque coup sur la cible peut s'écarter de %(points)s tant que des relevés en jeu n'ont pas confirmé comment le jeu l'arrondit."
+
+#, python-format
+msgid "Not counted yet: %(values)s."
+msgstr "Pas encore compté : %(values)s."
+
+#, python-format
+msgid "Missing from the game files for this grade: %(values)s."
+msgstr "Absent des fichiers du jeu pour ce grade : %(values)s."
+
+msgid "Summons are not counted: they act on their own turn."
+msgstr "Les invocations ne sont pas comptées : elles agissent à leur propre tour."
+
+msgid "This target could not be read; the turn is shown without one."
+msgstr "Cette cible n'a pas pu être lue ; le tour est affiché sans elle."
 
 msgid "Spells at the levels picked above."
 msgstr "Sorts aux niveaux choisis ci-dessus."

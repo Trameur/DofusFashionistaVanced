@@ -6957,6 +6957,108 @@ msgstr "on a later turn"
 msgid "when the double dies at the end of its third turn, on the entities next to it"
 msgstr "when the double dies at the end of its third turn, on the entities next to it"
 
+#: chardata/templates/chardata/spells.html
+msgid "Target: none (raw damage)"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "Clear the target and show raw damage"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "Choose a target"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "Monster"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "Search a monster by name"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "Resistances of the target"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Target: %(name)s, grade %(grade)s"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(damage)s damage on %(name)s (grade %(grade)s, %(hp)s HP)"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "raw %(damage)s"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Weak to %(elements)s"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "Immune"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "This turn takes %(percent)s%% of its HP"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "This turn takes more than all of its HP"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Level %(level)s, ID %(id)s"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Levels %(low)s to %(high)s, ID %(id)s"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Grade %(grade)s, level %(level)s, %(hp)s HP"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Grades of %(name)s"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "No monster found."
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "Searching the monsters"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "The monsters could not be loaded."
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "The spell cards below show raw damage, before any resistance."
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "Every element of this grade is immune, so no spell deals damage to it."
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Counted: %(stages)s."
+msgstr ""
+
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"
 msgstr ""
@@ -7475,6 +7577,27 @@ msgstr ""
 
 #, python-format
 msgid "Without the buffs it casts first, this turn would deal %(damage)s."
+msgstr ""
+
+msgid "Resistances in percent"
+msgstr ""
+
+#, python-format
+msgid "Each hit on the target may be off by %(points)s until in-game readings confirm how the game rounds it."
+msgstr ""
+
+#, python-format
+msgid "Not counted yet: %(values)s."
+msgstr ""
+
+#, python-format
+msgid "Missing from the game files for this grade: %(values)s."
+msgstr ""
+
+msgid "Summons are not counted: they act on their own turn."
+msgstr ""
+
+msgid "This target could not be read; the turn is shown without one."
 msgstr ""
 
 msgid "Spells at the levels picked above."

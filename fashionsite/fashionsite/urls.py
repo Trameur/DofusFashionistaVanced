@@ -906,6 +906,8 @@ urlpatterns = [
             name='best_combo'),
     re_path(r'^best_combo_linked/(?P<encoded_char_id>.+)/$',
             spells_view.best_combo_linked_json, name='best_combo_linked'),
+    re_path(r'^monster_targets/$', spells_view.monster_targets_json,
+            name='monster_targets'),
     re_path(r'^spells/(?P<char_id>\d+)/', spells_view.spells, name='spells'),
     re_path(r'^spells_linked/(?P<char_name>.*)/(?P<encoded_char_id>.+)/', spells_view.spells_linked, name='spells_linked'),
 

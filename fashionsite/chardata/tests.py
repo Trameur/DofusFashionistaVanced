@@ -16216,7 +16216,7 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                '%(item)s: %(changes)s', '%(item)s: %(element)s, %(rate)d%%', '%(item)s (%(element)s, %(rate)d%%)'},
         'pt': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote',
                '%(item)s: %(changes)s', '%(item)s: %(element)s, %(rate)d%%', '%(item)s (%(element)s, %(rate)d%%)'},
-        'de': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Name', 'Neutral',
+        'de': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Name', 'Neutral', 'Monster',
                SMITHMAGIC_MARK,
                'Hammer', 'Ring', 'optional', 'E', 'W',
                'April', 'August', 'September', 'November',
