@@ -27,19 +27,19 @@ import release_items  # noqa: E402
 import touch_channels  # noqa: E402
 
 REPORTS = ROOT / '.update-reports'
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu', 'touchbeta')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu', 'touchbeta', 'retrobeta')
 NAMES = dict(zip(VERSIONS, ('Dofus 3', 'Dofus 3 Beta', 'Dofus 2', 'Dofus Touch', 'Dofus Retro', 'Wakfu',
-                            'Dofus Touch Beta')))
+                            'Dofus Touch Beta', 'Dofus Retro Beta')))
 PIPELINES = dict(zip(VERSIONS, ('update_data', 'update_data_beta',
                               'update_data_dofus2', 'update_data_touch',
                               'update_data_retro', 'update_data_wakfu',
-                              'update_data_touch')))
+                              'update_data_touch', 'update_data_retro')))
 METADATA = dict(zip(VERSIONS[:5], ('FASHIONISTA_VERSION',
                     'FASHIONISTA_BETA_VERSION', 'FASHIONISTA_DOFUS2_VERSION',
                     'FASHIONISTA_TOUCH_VERSION', 'FASHIONISTA_RETRO_VERSION')),
-                touchbeta='FASHIONISTA_TOUCHBETA_VERSION')
-EXPLICIT_ONLY = ('wakfu', 'touchbeta')
-STAGED = ('touchbeta',)
+                touchbeta='FASHIONISTA_TOUCHBETA_VERSION', retrobeta='FASHIONISTA_RETROBETA_VERSION')
+EXPLICIT_ONLY = ('wakfu', 'touchbeta', 'retrobeta')
+STAGED = ('touchbeta', 'retrobeta')
 WATCHED = {'touch': ('WATCHED_TOUCH_ASSETS',),
            'retro': ('WATCHED_RETRO_BUILD', 'WATCHED_RETRO_LANG_ROOT', 'WATCHED_RETRO_LANG',
                      'WATCHED_RETRO_ASSET_DIGEST', 'WATCHED_RETRO_ASSET_COUNT')}

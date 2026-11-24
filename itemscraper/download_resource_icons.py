@@ -230,9 +230,9 @@ def sync_icons(ids, urls, targets_root, sources, fetch, force=False, keys=None):
     return counts, record
 
 
-def retro_icon_keys():
+def retro_icon_keys(raw_dir=None):
     """ankama id -> (type, gfx), the client clip address of each icon."""
-    path = os.path.join(CURRENT_DIR, 'retro_raw', 'items_fr.json')
+    path = os.path.join(raw_dir or os.path.join(CURRENT_DIR, 'retro_raw'), 'items_fr.json')
     with open(path, encoding='utf-8') as fh:
         items = json.load(fh)['I']['u']
     return {int(item_id): (str(item['t']), str(item['g']))
@@ -241,12 +241,14 @@ def retro_icon_keys():
             and item.get('g') is not None and item.get('t') is not None}
 
 
-def run_retro(force):
+def run_retro(force, release='main'):
     """Render the retro ingredient icons from the client SWFs; needs java + ffdec."""
     from concurrent.futures import ThreadPoolExecutor
     from download_retro_monster_artworks import (
-        download_manifest, load_fragment, find_tool)
+        download_manifest, load_fragment, find_tool, clip_differs)
     import download_retro_images as retro_items
+    import retro_release
+    beta = retro_release.is_beta(release)
 
     java = find_tool(None, 'JAVA_EXE', ['java'])
     ffdec_jar = os.environ.get('FFDEC_JAR')
@@ -255,11 +257,20 @@ def run_retro(force):
               'render the retro icons; skipping, the committed PNGs stay.')
         return
 
-    ids = ingredient_ids([RETRO_DB_PATH])
-    keys = retro_icon_keys()
-    targets_root = target_dirs('retro')
+    ids = ingredient_ids([str(retro_release.db_path(release)) if beta else RETRO_DB_PATH])
+    keys = retro_icon_keys(str(retro_release.raw_dir(release)) if beta else None)
+    targets_root = target_dirs(retro_release.version_key(release))
     for target in targets_root:
         os.makedirs(target, exist_ok=True)
+
+    manifest = None
+    reused = 0
+    if beta:
+        main_keys = retro_icon_keys()
+        main_root = target_dirs('retro')[0]
+        manifest = download_manifest(release)
+        files, chunk_map = load_fragment(manifest, 'classic')
+        main_files, _main_chunks = load_fragment(download_manifest(), 'classic')
 
     todo = {}
     skipped = no_key = 0
@@ -268,6 +279,13 @@ def run_retro(force):
         if key is None:
             no_key += 1
             continue
+        if beta:
+            path = '%s%s/%s.swf' % (retro_items.ICON_PREFIX, key[0], key[1])
+            if (main_keys.get(ankama_id) == key
+                    and os.path.exists(os.path.join(main_root, '%d-60-60.png' % ankama_id))
+                    and not clip_differs(path, files, main_files)):
+                reused += 1
+                continue
         targets = [os.path.join(t, '%d-60-60.png' % ankama_id)
                    for t in targets_root]
         if not force and all(os.path.exists(t) for t in targets):
@@ -278,13 +296,20 @@ def run_retro(force):
           'present: %d | no type/gfx: %d'
           % (len(ids), len(todo), sum(len(v) for v in todo.values()),
              skipped, no_key))
+    if beta:
+        retro_release.notice(
+            'resource icons: %d ingredients, %d clips to render for %d ids, %d reuse the icon of main, '
+            '%d already rendered for the beta, %d without a clip'
+            % (len(ids), len(todo), sum(len(v) for v in todo.values()), reused, skipped, no_key))
     if not todo:
         print('done: nothing to render')
         return
 
-    manifest = download_manifest()
-    files, chunk_map = load_fragment(manifest, 'classic')
-    retro_items.CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    if manifest is None:
+        manifest = download_manifest()
+        files, chunk_map = load_fragment(manifest, 'classic')
+    cache_dir = (retro_release.raw_dir(release) / 'item_icons') if beta else retro_items.CACHE_DIR
+    cache_dir.mkdir(parents=True, exist_ok=True)
 
     counts = {'ok': 0, 'missing': 0, 'empty': 0, 'error': 0}
     written = 0
@@ -295,7 +320,7 @@ def run_retro(force):
                           % (retro_items.ICON_PREFIX, type_id, gfx))
         if entry is None:
             return key, 'missing', None
-        swf_path = retro_items.CACHE_DIR / ('%s_%s.swf' % (type_id, gfx))
+        swf_path = cache_dir / ('%s_%s.swf' % (type_id, gfx))
         try:
             if not swf_path.exists():
                 retro_items.download_file(entry, chunk_map, str(swf_path))
@@ -305,7 +330,7 @@ def run_retro(force):
             print('  ERROR %s/%s: %s' % (type_id, gfx, exc))
             return key, 'error', None
 
-    with ThreadPoolExecutor(max_workers=6) as pool:
+    with ThreadPoolExecutor(max_workers=1 if beta else 6) as pool:
         for key, status, png in pool.map(process, sorted(todo)):
             counts[status] += 1
             if png:
@@ -320,13 +345,15 @@ def run_retro(force):
             if done % 250 == 0:
                 print('  %d/%d %s' % (done, len(todo), counts))
     print('done: renders=%s ids written=%d' % (counts, written))
+    if beta:
+        retro_release.notice('resource icons rendered for the beta: %s, ids written %d' % (counts, written))
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--game-version', default='dofus3',
-                        choices=['dofus3', 'touch', 'retro', 'dofus2'],
-                        help='dofus3 (default, shared with beta), touch, retro or dofus2')
+                        choices=['dofus3', 'touch', 'retro', 'retrobeta', 'dofus2'],
+                        help='dofus3 (default, shared with beta), touch, retro, retrobeta or dofus2')
     parser.add_argument('--force', action='store_true',
                         help='Fetch every icon again, whatever source it was written from')
     touch_channels.add_channel_argument(parser)
@@ -335,8 +362,9 @@ def main():
     if args.channel != touch_channels.DEFAULT_CHANNEL and args.game_version != 'touch':
         parser.error('--channel early only applies to --game-version touch')
 
-    if args.game_version == 'retro':
-        run_retro(args.force)
+    if args.game_version in ('retro', 'retrobeta'):
+        import retro_release
+        run_retro(args.force, retro_release.release_of(args.game_version))
         return
 
     keys = None

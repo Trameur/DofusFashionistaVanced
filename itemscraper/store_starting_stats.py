@@ -8,6 +8,7 @@ fashionsite/chardata/starting_stats/<version>.json.
     touch                 itemscraper/touch_raw/Documents_fr.json
     touchbeta             itemscraper/touchbeta_raw/Documents_fr.json
     retro                 itemscraper/retro_raw/kb_fr.json
+    retrobeta             itemscraper/retrobeta_raw/kb_fr.json
 
     python itemscraper/store_starting_stats.py --game-version retro
 
@@ -29,13 +30,14 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
         sys.path.append(path)
 
 import fashionista_version  # noqa: E402
+import retro_release  # noqa: E402
 import touch_channels  # noqa: E402
 from store_spell_reference import CLASS_ID_TO_NAME  # noqa: E402
 
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'fashionsite', 'chardata',
                           'starting_stats')
 
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro', 'retrobeta')
 
 DEFAULT_TAG = {
     'dofus3': fashionista_version.FASHIONISTA_VERSION,
@@ -71,6 +73,12 @@ def _load(path):
         return json.load(handle)
 
 
+def _retro_raw(version):
+    """The lang folder of a Retro key, None for a key of another game."""
+    release = retro_release.release_of(version)
+    return str(retro_release.raw_dir(release)) if release else None
+
+
 def _modern_dir(version, tag):
     return os.path.join(CURRENT_DIRECTORY, 'raw', tag or DEFAULT_TAG[version])
 
@@ -79,8 +87,8 @@ def source_path(version, tag=None):
     if touch_channels.channel_of(version):
         return os.path.join(touch_channels.raw_dir(touch_channels.channel_of(version)),
                             'Documents_fr.json')
-    if version == 'retro':
-        return os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'kb_fr.json')
+    if _retro_raw(version):
+        return os.path.join(_retro_raw(version), 'kb_fr.json')
     return os.path.join(_modern_dir(version, tag), 'fr.json')
 
 
@@ -92,7 +100,7 @@ def texts(version, tag=None):
     if touch_channels.channel_of(version):
         return [('%s %s' % (name, key), record.get('contentId'))
                 for key, record in data.items() if isinstance(record, dict)]
-    if version == 'retro':
+    if _retro_raw(version):
         return [('%s KBA %s' % (name, key), record.get('a'))
                 for key, record in (data.get('KBA') or {}).items()]
     stale = STALE_TEXTS.get(version, set())
@@ -103,8 +111,8 @@ def texts(version, tag=None):
 
 def class_names(version, tag=None):
     """{lowercase French class name: site class name}."""
-    if version == 'retro':
-        path = os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'classes_fr.json')
+    if _retro_raw(version):
+        path = os.path.join(_retro_raw(version), 'classes_fr.json')
         named = {int(key): entry.get('sn')
                  for key, entry in _load(path)['G'].items()}
     elif touch_channels.channel_of(version):

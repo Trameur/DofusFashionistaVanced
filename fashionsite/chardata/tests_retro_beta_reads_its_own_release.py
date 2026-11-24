@@ -55,8 +55,10 @@ class TheReleaseNamesItsFoldersTests(TestCase):
     def test_the_beta_writes_under_the_retrobeta_key(self):
         self.assertEqual(ITEMSCRAPER / 'retrobeta_raw', retro_release.raw_dir('beta'))
         self.assertEqual(ITEMSCRAPER / 'retrobeta', retro_release.work_dir('beta'))
-        self.assertEqual(ITEMSCRAPER / 'retrobeta' / 'item_db_dumped_retrobeta.dump',
+        self.assertEqual(ROOT / 'fashionistapulp' / 'fashionistapulp' / 'item_db_dumped_retrobeta.dump',
                          retro_release.dump_path('beta'))
+        self.assertEqual(ROOT / 'fashionistapulp' / 'fashionistapulp' / 'items_retrobeta.db',
+                         retro_release.db_path('beta'))
         self.assertEqual(STATIC / 'monsters' / 'retrobeta', retro_release.static_dir('monsters', 'beta'))
 
     def test_the_cdn_knows_both_retro_releases(self):
@@ -304,15 +306,18 @@ class ThePipelineRunsTheStepsOfItsReleaseTests(TestCase):
                          steps['drops/transform'][1:])
         self.assertEqual(['download_retro_monster_artworks.py'], steps['monsters/artworks'][1:])
         self.assertEqual(['download_retro_spell_images.py'], steps['spell-images'][1:])
+        self.assertEqual(str(pipeline.ROOT / 'fashionistapulp' / 'fashionistapulp' / 'dofus_constants_retro_spells.py'),
+                         steps['spells/decode'][steps['spells/decode'].index('--module-out') + 1])
         self.assertIn('items/load-db', steps)
 
     def test_the_beta_run_writes_only_under_the_retrobeta_folders(self):
         steps = self.steps('--release', 'beta')
         labels = [label for label, _cmd, _cwd in steps]
-        for skipped in ('items/load-db', 'drops/store', 'pets/scrape', 'monsters/grades', 'verify/rebuild',
-                        'items/weapon-conversions', 'spells/reference'):
+        for skipped in ('pets/scrape', 'dynamic-translations'):
             self.assertNotIn(skipped, labels)
-        beta_dirs = (str(retro_release.raw_dir('beta')), str(retro_release.work_dir('beta')))
+        module = str(pipeline.ROOT / 'fashionistapulp' / 'fashionistapulp' / 'dofus_constants_retrobeta_spells.py')
+        beta_dirs = (str(retro_release.raw_dir('beta')), str(retro_release.work_dir('beta')),
+                     str(retro_release.dump_path('beta')), module)
         for label, cmd, _cwd in steps:
             paths = [part for part in cmd[2:] if os.sep in part or '/' in part]
             with self.subTest(step=label):
@@ -325,3 +330,15 @@ class ThePipelineRunsTheStepsOfItsReleaseTests(TestCase):
                 self.assertIn('beta', by_label[label][by_label[label].index('--release') + 1:][:1])
         self.assertEqual(str(retro_release.dump_path('beta')),
                          by_label['items/dump'][by_label['items/dump'].index('--dump-output') + 1])
+        for label in ('recipes/store', 'pets/store', 'monsters/grades', 'monsters/subareas', 'descriptions/store'):
+            with self.subTest(step=label):
+                self.assertEqual(['--release', 'beta'], by_label[label][-2:])
+        for label in ('stats/starting', 'items/weapon-conversions', 'spells/modifiers', 'spells/reference'):
+            with self.subTest(step=label):
+                self.assertEqual('retrobeta', by_label[label][by_label[label].index('--game-version') + 1])
+        self.assertEqual(module, by_label['spells/decode'][by_label['spells/decode'].index('--module-out') + 1])
+        for label in ('items/load-db', 'drops/store', 'craftjobs/store', 'resource-icons', 'spells/tooltips',
+                      'items/corrections', 'verify/rebuild'):
+            with self.subTest(step=label):
+                self.assertIn('retrobeta', by_label[label])
+                self.assertNotIn('retro', by_label[label])

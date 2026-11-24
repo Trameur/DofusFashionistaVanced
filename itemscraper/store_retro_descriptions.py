@@ -26,6 +26,7 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
 from store_item_obtainment import (  # noqa: E402  (sys.path set above)
     get_items_db_path, _ensure_tables, _open_items_db, _save_db_to_dump,
     _resolve_item_ids)
+import retro_release  # noqa: E402
 
 GAME_VERSION = 'retro'
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
@@ -81,10 +82,19 @@ def main():
     conn.commit()
     conn.close()
     _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
-    print('[retro] item_descriptions: %d rows (%s)'
-          % (stored, ', '.join('%s %d' % (l, per_lang[l]) for l in LANGUAGES)))
+    print('[%s] item_descriptions: %d rows (%s)'
+          % (GAME_VERSION, stored, ', '.join('%s %d' % (l, per_lang[l]) for l in LANGUAGES)))
+
+
+def use_release(release):
+    """Read the lang files of a release and write the database of its version."""
+    global GAME_VERSION, RAW_DIR
+    GAME_VERSION = retro_release.version_key(release)
+    RAW_DIR = str(retro_release.raw_dir(release))
 
 
 if __name__ == '__main__':
-    argparse.ArgumentParser(description=__doc__).parse_args()
+    parser = argparse.ArgumentParser(description=__doc__)
+    retro_release.add_release_argument(parser)
+    use_release(parser.parse_args().release)
     main()

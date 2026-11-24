@@ -513,8 +513,10 @@ def build(game_version, tag=None):
             'transformed_spells_beta.json')
     if game_version == 'dofus2':
         return read_dofus2(tag or fashionista_version.FASHIONISTA_DOFUS2_VERSION)
-    if game_version == 'retro':
-        return read_retro(os.path.join(CURRENT_DIRECTORY, 'retro_raw'))
+    import retro_release
+    release = retro_release.release_of(game_version)
+    if release:
+        return read_retro(str(retro_release.raw_dir(release)))
     if game_version in ('touch', 'touchbeta'):
         return read_touch(game_version)
     raise SystemExit('unknown version %s' % game_version)

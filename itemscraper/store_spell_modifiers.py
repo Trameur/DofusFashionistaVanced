@@ -178,9 +178,9 @@ def _touch_rows(game_version='touch'):
     return rows, templates, {}
 
 
-def _retro_rows():
+def _retro_rows(raw=None):
     from get_equipments_retro import _hex
-    raw = os.path.join(CURRENT_DIRECTORY, 'retro_raw')
+    raw = raw or os.path.join(CURRENT_DIRECTORY, 'retro_raw')
     effects = _load(os.path.join(raw, 'effects_fr.json'))['E']
     templates = {}
     for effect_id, record in effects.items():
@@ -210,8 +210,10 @@ def collect(game_version, tag=None):
         return _dofusdude_rows(game_version, archive_tag(game_version, tag))
     if touch_channels.channel_of(game_version):
         return _touch_rows(game_version)
-    if game_version == 'retro':
-        return _retro_rows()
+    import retro_release
+    release = retro_release.release_of(game_version)
+    if release:
+        return _retro_rows(str(retro_release.raw_dir(release)))
     raise SystemExit('unknown game version: %s' % game_version)
 
 

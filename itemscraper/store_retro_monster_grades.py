@@ -41,6 +41,9 @@ import urllib.parse
 import urllib.request
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+if CURRENT_DIR not in sys.path:
+    sys.path.append(CURRENT_DIR)
+import retro_release  # noqa: E402
 ROOT = os.path.dirname(CURRENT_DIR)
 DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
                        'items_retro.db')
@@ -98,21 +101,8 @@ def collect(html, stats):
         stats.setdefault(int(mobid), {})['pct_' + icon] = parse_ranks(blob)
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--delay', type=float, default=0.5)
-    parser.add_argument('--max-pages', type=int, default=200)
-    args = parser.parse_args()
-
-    jar = http.cookiejar.CookieJar()
-    opener = urllib.request.build_opener(
-        urllib.request.HTTPCookieProcessor(jar))
-    opener.addheaders = [('User-Agent', USER_AGENT), ('Accept-Language', 'fr')]
-    with opener.open(SEARCH_PAGE, timeout=60) as resp:
-        resp.read()
-
-    # The raw is not committed: the pipeline's lang/download-fr step fetches it.
-    lang_path = os.path.join(CURRENT_DIR, 'retro_raw', 'monsters_fr.json')
+def read_lang_grades(lang_path):
+    """{monster id: {grade: fields}} of a monsters lang file, empty when the file is missing."""
     lang_grades = {}
     if not os.path.exists(lang_path):
         print('WARNING: %s missing (run download_retro_langs.py with '
@@ -141,6 +131,92 @@ def main():
                         }
                 if grades:
                     lang_grades[int(mid)] = grades
+    return lang_grades
+
+
+def release_grade_rows(main_rows, lang_grades, known_ids):
+    """Main's rows for the monsters a release knows, with the fields its own lang gives put over them."""
+    rows, counts = [], {'reused': 0, 'lang_changed': 0, 'no_main_row': 0}
+    by_monster = {}
+    for row in main_rows:
+        by_monster.setdefault(row[0], []).append(row)
+    for mobid in sorted(known_ids):
+        if mobid not in by_monster:
+            counts['no_main_row'] += 1
+            continue
+        for row in by_monster[mobid]:
+            row = list(row)
+            official = lang_grades.get(mobid, {}).get(row[1])
+            if official is not None:
+                lang_row = list(row)
+                lang_row[2] = official['level']
+                for index, key in ((3, 'lp'), (4, 'ap'), (5, 'mp')):
+                    if official.get(key) is not None:
+                        lang_row[index] = official[key]
+                lang_row[6:13] = [official['ap_dodge'], official['mp_dodge'], official['earth'],
+                                  official['air'], official['fire'], official['water'],
+                                  official['neutral']]
+                for index in (4, 5):
+                    if lang_row[index] is not None and lang_row[index] < 0:
+                        lang_row[index] = None
+                if lang_row != row:
+                    counts['lang_changed'] += 1
+                row = lang_row
+            rows.append(tuple(row))
+            counts['reused'] += 1
+    return rows, counts
+
+
+def store_release_grades(release):
+    """The grades of a release: main's rows, no Solomonk request, the release's lang over them."""
+    key = retro_release.version_key(release)
+    db_path = str(retro_release.db_path(release))
+    lang_grades = read_lang_grades(str(retro_release.raw_dir(release) / 'monsters_fr.json'))
+    main = sqlite3.connect(DB_PATH)
+    columns = [row[1] for row in main.execute('PRAGMA table_info(monster_grades)')]
+    schema = main.execute("SELECT sql FROM sqlite_master WHERE name = 'monster_grades'").fetchone()[0]
+    main_rows = main.execute('SELECT * FROM monster_grades ORDER BY monster_ankama_id, grade').fetchall()
+    main.close()
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    known_ids = {row[0] for row in cursor.execute('SELECT DISTINCT monster_ankama_id FROM monster_names')}
+    rows, counts = release_grade_rows(main_rows, lang_grades, known_ids)
+    cursor.execute('DROP TABLE IF EXISTS monster_grades')
+    cursor.execute(schema)
+    cursor.executemany('INSERT INTO monster_grades VALUES (%s)' % ','.join('?' * len(columns)), rows)
+    conn.commit()
+    conn.close()
+    retro_release.notice(
+        'monster grades: Solomonk is not asked for the %s; %d grade rows of main reused for %d monsters, '
+        '%d rows took a level, dodge or resistance from the %s lang, %d %s monsters have no main row'
+        % (release, counts['reused'], len({row[0] for row in rows}), counts['lang_changed'], release,
+           counts['no_main_row'], key))
+    sys.path.insert(0, CURRENT_DIR)
+    from store_item_obtainment import _save_db_to_dump
+    _save_db_to_dump(db_path, key)
+    print('%s dump refreshed' % key)
+    return 0
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--delay', type=float, default=0.5)
+    parser.add_argument('--max-pages', type=int, default=200)
+    retro_release.add_release_argument(parser)
+    args = parser.parse_args()
+    if retro_release.is_beta(args.release):
+        return store_release_grades(args.release)
+
+    jar = http.cookiejar.CookieJar()
+    opener = urllib.request.build_opener(
+        urllib.request.HTTPCookieProcessor(jar))
+    opener.addheaders = [('User-Agent', USER_AGENT), ('Accept-Language', 'fr')]
+    with opener.open(SEARCH_PAGE, timeout=60) as resp:
+        resp.read()
+
+    # The raw is not committed: the pipeline's lang/download-fr step fetches it.
+    lang_path = os.path.join(CURRENT_DIR, 'retro_raw', 'monsters_fr.json')
+    lang_grades = read_lang_grades(lang_path)
 
     stats = {}
     page = 0

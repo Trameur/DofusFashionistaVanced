@@ -14,6 +14,7 @@ A stat name beginning with "%" is a percentage; an empty list gets no variant.
 Each (pet, stat) becomes a maxed Pet item, "<Pet> (+80 Agility)", localized in
 FR/ES/PT/DE and reusing the pet's ankama id. Run after load_item_db."""
 
+import argparse
 import json
 import os
 import sys
@@ -26,6 +27,7 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
 
 from store_item_obtainment import (  # noqa: E402  (sys.path set above)
     get_items_db_path, _open_items_db, _save_db_to_dump, _table_exists)
+import retro_release  # noqa: E402
 
 GAME_VERSION = 'retro'
 BONUSES_PATH = os.path.join(CURRENT_DIRECTORY, 'retro_pet_bonuses.json')
@@ -63,7 +65,9 @@ def _variant_name(base_name, stat_label, value, is_percent):
     return ('%s (+%d%% %s)' if is_percent else '%s (+%d %s)') % (base_name, value, stat_label)
 
 
-def main():
+def main(release=retro_release.MAIN):
+    global GAME_VERSION
+    GAME_VERSION = retro_release.version_key(release)
     with open(BONUSES_PATH, encoding='utf-8') as in_file:
         bonuses = json.load(in_file)
 
@@ -75,6 +79,13 @@ def main():
 
     pet_type = cursor.execute("SELECT id FROM item_types WHERE name = 'Pet'").fetchone()[0]
     stat_id_by_name = {name: sid for sid, name in cursor.execute("SELECT id, name FROM stats")}
+    if retro_release.is_beta(release):
+        feedable = unnamed_feedable_pets(cursor, pet_type, bonuses)
+        retro_release.notice(
+            'pet bonuses: no source of the %s is read, the %d pets of main %s are reused; '
+            '%d feedable %s pets it does not name get no variant%s'
+            % (release, len(bonuses), os.path.basename(BONUSES_PATH), len(feedable), GAME_VERSION,
+               (': ' + ', '.join(feedable[:20])) if feedable else ''))
 
     cursor.execute("DELETE FROM stats_of_item WHERE item >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM item_names WHERE item >= ?", (VARIANT_ID_BASE,))
@@ -129,10 +140,20 @@ def main():
     conn.close()
     _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
     unmapped = sum(1 for v in bonuses.values() if not v)
-    print('[retro] Created %d maxed-stat variants for %d pets '
+    print('[%s] Created %d maxed-stat variants for %d pets '
           '(%d pets left unmapped in retro_pet_bonuses.json).'
-          % (created, pets_done, unmapped))
+          % (GAME_VERSION, created, pets_done, unmapped))
+
+
+def unnamed_feedable_pets(cursor, pet_type, bonuses):
+    """English names of the pets with no stat of their own that the bonuses file does not name."""
+    rows = cursor.execute(
+        """SELECT name FROM items i WHERE type = ? AND id < ? AND NOT EXISTS
+               (SELECT 1 FROM stats_of_item s WHERE s.item = i.id)""", (pet_type, VARIANT_ID_BASE))
+    return sorted({name for (name,) in rows if name not in bonuses})
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    retro_release.add_release_argument(parser)
+    main(parser.parse_args().release)

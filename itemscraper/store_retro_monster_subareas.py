@@ -28,6 +28,9 @@ ROOT = os.path.dirname(CURRENT_DIR)
 DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
                        'items_retro.db')
 RAW_DIR = os.path.join(CURRENT_DIR, 'retro_raw')
+if CURRENT_DIR not in sys.path:
+    sys.path.append(CURRENT_DIR)
+import retro_release  # noqa: E402
 
 LANGUAGES = ('fr', 'en', 'es', 'pt', 'de')
 MIN_FR_ROWS = 1800
@@ -201,9 +204,16 @@ def broken_names(rows):
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--raw-dir', default=RAW_DIR)
+    parser.add_argument('--raw-dir', default=None,
+                        help='default retro_raw, or retrobeta_raw with --release beta')
     parser.add_argument('--languages', nargs='+', default=list(LANGUAGES))
+    retro_release.add_release_argument(parser)
     args = parser.parse_args(argv)
+    beta = retro_release.is_beta(args.release)
+    if args.raw_dir is None:
+        args.raw_dir = str(retro_release.raw_dir(args.release)) if beta else RAW_DIR
+    key = retro_release.version_key(args.release)
+    db_path = str(retro_release.db_path(args.release)) if beta else DB_PATH
     languages = [language for language in LANGUAGES
                  if language in args.languages]
     if 'fr' not in languages:
@@ -240,7 +250,7 @@ def main(argv=None):
             print('%s: %d rows, %d names in French'
                   % (language, count, in_french[language]))
 
-    conn = sqlite3.connect(DB_PATH, isolation_level=None)
+    conn = sqlite3.connect(db_path, isolation_level=None)
     try:
         cursor = conn.cursor()
         known_ids = {row[0] for row in cursor.execute(
@@ -254,14 +264,14 @@ def main(argv=None):
     finally:
         conn.close()
     placed = {row[0] for row in rows if row[1] == 'fr'}
-    print('stored %d subarea rows for %d retro monsters (%d with an '
-          'encyclopedia page)' % (len(rows), len(placed),
+    print('stored %d subarea rows for %d %s monsters (%d with an '
+          'encyclopedia page)' % (len(rows), len(placed), key,
                                   len(placed & known_ids)))
 
     sys.path.insert(0, CURRENT_DIR)
     from store_item_obtainment import _save_db_to_dump
-    _save_db_to_dump(DB_PATH, 'retro')
-    print('retro dump refreshed')
+    _save_db_to_dump(db_path, key)
+    print('%s dump refreshed' % key)
     return 0
 
 

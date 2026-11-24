@@ -9,6 +9,7 @@ fashionistapulp/fashionistapulp/weapon_conversions/<version>.json.
     touch                 itemscraper/touch_raw/Items_<lang>.json
     touchbeta             itemscraper/touchbeta_raw/Items_<lang>.json
     retro                 itemscraper/retro_raw/items_<lang>.json, skills and effects
+    retrobeta             itemscraper/retrobeta_raw/items_<lang>.json, skills and effects
 
     python itemscraper/store_weapon_conversions.py --game-version dofus3 --tag 3.7.4.4
 """
@@ -28,6 +29,7 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
         sys.path.append(path)
 
 import fashionista_version  # noqa: E402
+import retro_release  # noqa: E402
 import touch_channels  # noqa: E402
 from get_spells import (ELEMENT_ID_TO_TOKEN, _load_datacenter_table,  # noqa: E402
                         _load_json, _load_translations, _unwrap_array, effect_id_of)
@@ -35,7 +37,7 @@ from get_spells import (ELEMENT_ID_TO_TOKEN, _load_datacenter_table,  # noqa: E4
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'fashionistapulp', 'fashionistapulp',
                           'weapon_conversions')
 
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro', 'retrobeta')
 LANGUAGES = ('de', 'en', 'es', 'fr', 'pt')
 
 DEFAULT_TAG = {
@@ -71,6 +73,12 @@ def _touch_raw(version):
     return touch_channels.raw_dir(touch_channels.channel_of(version))
 
 
+def _retro_raw(version):
+    """The lang folder of a Retro key, None for a key of another game."""
+    release = retro_release.release_of(version)
+    return str(retro_release.raw_dir(release)) if release else None
+
+
 def _modern_dir(version, tag=None, raw_dir=None):
     return raw_dir or os.path.join(CURRENT_DIRECTORY, 'raw', tag or DEFAULT_TAG[version])
 
@@ -78,16 +86,16 @@ def _modern_dir(version, tag=None, raw_dir=None):
 def source_path(version, tag=None, language=RETRO_LANGUAGE, raw_dir=None):
     if touch_channels.channel_of(version):
         return os.path.join(_touch_raw(version), 'Items_fr.json')
-    if version == 'retro':
-        return os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'items_%s.json' % language)
+    if _retro_raw(version):
+        return os.path.join(_retro_raw(version), 'items_%s.json' % language)
     return os.path.join(_modern_dir(version, tag, raw_dir), 'items.json')
 
 
 def available_languages(version, tag=None, raw_dir=None):
     if touch_channels.channel_of(version):
         pattern = os.path.join(_touch_raw(version), 'Items_%s.json')
-    elif version == 'retro':
-        pattern = os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'items_%s.json')
+    elif _retro_raw(version):
+        pattern = os.path.join(_retro_raw(version), 'items_%s.json')
     else:
         pattern = os.path.join(_modern_dir(version, tag, raw_dir), '%s.json')
     return [language for language in LANGUAGES
@@ -285,18 +293,18 @@ def _touch(languages, notes, version='touch'):
             'unforgeable': sorted(unforgeable), 'unforgeable_source': 'enhanceable'}
 
 
-def _retro_file(name, language):
-    return Path(CURRENT_DIRECTORY) / 'retro_raw' / ('%s_%s.json' % (name, language))
+def _retro_file(name, language, version='retro'):
+    return Path(_retro_raw(version)) / ('%s_%s.json' % (name, language))
 
 
-def _retro_items(language):
-    return _load_json(_retro_file('items', language))['I']['u']
+def _retro_items(language, version='retro'):
+    return _load_json(_retro_file('items', language, version))['I']['u']
 
 
-def retro_element_words(language=RETRO_LANGUAGE):
+def retro_element_words(language=RETRO_LANGUAGE, version='retro'):
     """{word: element}, as Retro's own damage effects end on it: '(eau)'."""
     from get_equipments_retro import ELEMENT_BY_EFFECT
-    effects = _load_json(_retro_file('effects', language))['E']
+    effects = _load_json(_retro_file('effects', language, version))['E']
     words = {}
     for effect_id in RETRO_DAMAGE_EFFECTS:
         match = re.search(r'\(([^()]+)\)\s*$', effects[str(effect_id)]['d'])
@@ -316,12 +324,12 @@ def _retro_jobs(criteria):
             if (code, operator) == RETRO_JOB_CRITERION and value.isdigit()}
 
 
-def _retro(languages, notes, source_language=RETRO_LANGUAGE):
+def _retro(languages, notes, source_language=RETRO_LANGUAGE, version='retro'):
     from get_equipments_retro import mage_item_types
-    items = _retro_items(source_language)
-    texts = {language: _retro_items(language) for language in languages}
-    skills = _load_json(_retro_file('skills', source_language))['SK']
-    words = retro_element_words(source_language)
+    items = _retro_items(source_language, version)
+    texts = {language: _retro_items(language, version) for language in languages}
+    skills = _load_json(_retro_file('skills', source_language, version))['SK']
+    words = retro_element_words(source_language, version)
     if len(words) != len(RETRO_DAMAGE_EFFECTS):
         notes.append('effects_%s.json names %d elements, not %d'
                      % (source_language, len(words), len(RETRO_DAMAGE_EFFECTS)))
@@ -371,8 +379,8 @@ def extract(version, tag=None, languages=None, source_language=RETRO_LANGUAGE, r
     languages = [language for language in LANGUAGES if language in languages]
     if touch_channels.channel_of(version):
         body = _touch(languages, notes, version)
-    elif version == 'retro':
-        body = _retro(languages, notes, source_language)
+    elif _retro_raw(version):
+        body = _retro(languages, notes, source_language, version)
     else:
         body = _modern(version, tag, languages, notes, raw_dir)
     table = {'game_version': version, 'languages': languages}

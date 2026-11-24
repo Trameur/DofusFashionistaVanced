@@ -1,9 +1,17 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """Which Retro client release a step reads, and the version key that names its folders."""
+import sys
 from pathlib import Path
 
 ITEMSCRAPER = Path(__file__).resolve().parent
 ROOT = ITEMSCRAPER.parent
+DATA = ROOT / 'fashionistapulp' / 'fashionistapulp'
+if str(DATA.parent) not in sys.path:
+    sys.path.append(str(DATA.parent))
+try:
+    from fashionistapulp.game_versions import get_game_version
+except ImportError:
+    from fashionistapulp.fashionistapulp.game_versions import get_game_version
 STATIC = ROOT / 'fashionsite' / 'chardata' / 'static' / 'chardata'
 STATICFILES = ROOT / 'fashionsite' / 'staticfiles' / 'chardata'
 
@@ -25,6 +33,14 @@ def version_key(release=MAIN):
     return VERSION_KEYS[release]
 
 
+def release_of(game_version):
+    """The release whose version key is this one, None for a version that is not Retro."""
+    for release, key in VERSION_KEYS.items():
+        if key == game_version:
+            return release
+    return None
+
+
 def is_beta(release):
     """True for the beta release."""
     return release == BETA
@@ -41,10 +57,13 @@ def work_dir(release=MAIN):
 
 
 def dump_path(release=MAIN):
-    """The SQL dump of a release: main's committed one, the beta's in its work folder."""
-    if is_beta(release):
-        return work_dir(release) / ('item_db_dumped_%s.dump' % version_key(release))
-    return ROOT / 'fashionistapulp' / 'fashionistapulp' / 'item_db_dumped_retro.dump'
+    """The SQL dump the registry names for the version of a release."""
+    return DATA / get_game_version(version_key(release)).dump_file
+
+
+def db_path(release=MAIN):
+    """The items database the registry names for the version of a release."""
+    return DATA / get_game_version(version_key(release)).db_file
 
 
 def static_dir(kind, release=MAIN):

@@ -5,7 +5,7 @@ update_data_retro.py - DofusFashionista data pipeline for Dofus Retro (1.29)
 Usage:
     python update_data_retro.py                    # full update (the lang tree the live client reads)
     python update_data_retro.py --skip-translations  # FR names only (faster)
-    python update_data_retro.py --release beta     # the beta client, into retrobeta_raw and retrobeta
+    python update_data_retro.py --release beta     # the beta client, into retrobeta_raw, retrobeta and items_retrobeta.db
 """
 
 from __future__ import annotations
@@ -129,11 +129,17 @@ def main() -> None:
     parser.add_argument("--skip-images", action="store_true",
                         help="Skip the item/mount icon rendering step")
     parser.add_argument("--lang", default="fr", help="Primary lang for names (default fr)")
+    parser.add_argument("--main-drops", default=None,
+                        help="main's drops index the beta starts from, default itemscraper/transformed_drops_retro.json")
     retro_release.add_release_argument(parser)
     args = parser.parse_args()
     beta = retro_release.is_beta(args.release)
     raw_dir, work_dir, dump = release_dirs(args.release)
     release_args = ["--release", args.release] if beta else []
+    key = retro_release.version_key(args.release)
+    drops_json = str(Path(work_dir) / "transformed_drops_retrobeta.json") if beta else "transformed_drops_retro.json"
+    jobs_json = (str(Path(work_dir) / "transformed_craft_jobs_retrobeta.json") if beta
+                 else "transformed_craft_jobs_retro.json")
 
     t_total = time.time()
     all_notices: list[str] = []
@@ -175,8 +181,8 @@ def main() -> None:
         "--dest", raw_dir,
     ] + release_args, cwd=ITEMSCRAPER)
 
-    main_step("stats/starting", [
-        PY, "itemscraper/store_starting_stats.py", "--game-version", "retro",
+    step("stats/starting", [
+        PY, "itemscraper/store_starting_stats.py", "--game-version", key,
     ])
 
     if not args.skip_translations:
@@ -191,8 +197,8 @@ def main() -> None:
                 "--dest", raw_dir,
             ] + release_args, cwd=ITEMSCRAPER)
 
-    main_step("items/weapon-conversions", [
-        PY, "itemscraper/store_weapon_conversions.py", "--game-version", "retro",
+    step("items/weapon-conversions", [
+        PY, "itemscraper/store_weapon_conversions.py", "--game-version", key,
         "--lang", args.lang,
     ])
 
@@ -223,12 +229,12 @@ def main() -> None:
         "--dump-output", dump,
     ], cwd=ITEMSCRAPER)
 
-    main_step("items/load-db", [PY, "load_item_db.py", "--game-version", "retro"])
+    step("items/load-db", [PY, "load_item_db.py", "--game-version", key])
 
     # Before drops/store: it finds resources through item_recipe_ingredient_names
-    main_step("recipes/store", [
+    step("recipes/store", [
         PY, "store_retro_recipes.py",
-    ], cwd=ITEMSCRAPER)
+    ] + release_args, cwd=ITEMSCRAPER)
 
     # Pet feeding caps are server-side in 1.29: dofux and Solomonk
     main_step("pets/scrape", [
@@ -236,36 +242,36 @@ def main() -> None:
     ], cwd=ITEMSCRAPER)
 
     # Pet variants, before drops/store: it only fills the rows that already exist
-    main_step("pets/store", [
+    step("pets/store", [
         PY, "store_retro_pet_bonuses.py",
-    ], cwd=ITEMSCRAPER)
+    ] + release_args, cwd=ITEMSCRAPER)
 
     if beta:
         step("drops/transform", [
             PY, "get_monsters_retro.py",
             "--release", args.release,
-            "--output", str(Path(work_dir) / "transformed_drops_retrobeta.json"),
-        ], cwd=ITEMSCRAPER)
+            "--output", drops_json,
+        ] + (["--main-drops", args.main_drops] if args.main_drops else []), cwd=ITEMSCRAPER)
     else:
         step("drops/transform", [
             PY, "get_monsters_retro.py",
             "--output", "transformed_drops_retro.json",
         ], cwd=ITEMSCRAPER)
 
-    main_step("drops/store", [
+    step("drops/store", [
         PY, "store_drops.py",
-        "--drops", "transformed_drops_retro.json",
-        "--game-version", "retro",
+        "--drops", drops_json,
+        "--game-version", key,
     ], cwd=ITEMSCRAPER)
 
     # Per-grade monster stats from the Solomonk bestiary
-    main_step("monsters/grades", [
+    step("monsters/grades", [
         PY, "store_retro_monster_grades.py",
-    ], cwd=ITEMSCRAPER)
+    ] + release_args, cwd=ITEMSCRAPER)
 
-    main_step("monsters/subareas", [
+    step("monsters/subareas", [
         PY, "store_retro_monster_subareas.py",
-    ], cwd=ITEMSCRAPER)
+    ] + release_args, cwd=ITEMSCRAPER)
 
     # Monster artworks from the 1.29 client, needs java, ffdec and resvg
     step("monsters/artworks", [
@@ -276,18 +282,17 @@ def main() -> None:
     step("craftjobs/transform", [
         PY, "get_craft_jobs_retro.py",
         "--raw-dir", raw_dir,
-        "--output", (str(Path(work_dir) / "transformed_craft_jobs_retrobeta.json") if beta
-                     else "transformed_craft_jobs_retro.json"),
+        "--output", jobs_json,
     ], cwd=ITEMSCRAPER)
 
-    main_step("craftjobs/store", [
+    step("craftjobs/store", [
         PY, "store_craft_jobs.py",
-        "--jobs", "transformed_craft_jobs_retro.json",
-        "--game-version", "retro",
+        "--jobs", jobs_json,
+        "--game-version", key,
     ], cwd=ITEMSCRAPER)
 
     # Item descriptions for the encyclopedia pages
-    main_step("descriptions/store", [PY, "store_retro_descriptions.py"], cwd=ITEMSCRAPER)
+    step("descriptions/store", [PY, "store_retro_descriptions.py"] + release_args, cwd=ITEMSCRAPER)
 
     # Runtime-translated strings, for makemessages
     main_step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
@@ -298,35 +303,34 @@ def main() -> None:
             "--raw-dir", raw_dir,
             "--lang", args.lang,
         ] + (release_args + ["--workers", "1"] if beta else []), cwd=ITEMSCRAPER)
-        main_step("resource-icons", [
+        step("resource-icons", [
             PY, "download_resource_icons.py",
-            "--game-version", "retro",
+            "--game-version", key,
         ], cwd=ITEMSCRAPER)
 
     # Tooltips for the spells an item names
-    main_step("spells/tooltips", [
-        PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", "retro",
+    step("spells/tooltips", [
+        PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", key,
     ])
-    main_step("spells/modifiers", [
-        PY, "-m", "itemscraper.store_spell_modifiers", "--game-version", "retro",
+    step("spells/modifiers", [
+        PY, "-m", "itemscraper.store_spell_modifiers", "--game-version", key,
     ])
 
     # Manual fixes last, after the stores
-    main_step("items/corrections", [
-        PY, "store_item_corrections.py", "--game-version", "retro",
+    step("items/corrections", [
+        PY, "store_item_corrections.py", "--game-version", key,
     ], cwd=ITEMSCRAPER)
 
-    main_step("spells/reference", [
+    step("spells/reference", [
         PY, "itemscraper/store_spell_reference.py",
-        "--game-version", "retro",
+        "--game-version", key,
     ])
     step("spells/decode", [
         PY, "get_spells_retro.py",
         "--raw-dir", raw_dir,
         "--out", str(Path(work_dir) / "retro_damage_spells.json"),
-        "--module-out", (str(Path(work_dir) / "dofus_constants_retrobeta_spells.py") if beta
-                         else str(ROOT / "fashionistapulp" / "fashionistapulp"
-                                  / "dofus_constants_retro_spells.py")),
+        "--module-out", str(ROOT / "fashionistapulp" / "fashionistapulp"
+                            / f"dofus_constants_{key}_spells.py"),
         "--lang", args.lang,
     ], cwd=ITEMSCRAPER)
 
@@ -337,8 +341,8 @@ def main() -> None:
 
 
     # Tables that lost rows, item ids that moved
-    main_step("verify/rebuild", [PY, "check_rebuild.py", "--only", "retro"],
-              cwd=ITEMSCRAPER)
+    step("verify/rebuild", [PY, "check_rebuild.py", "--only", key],
+         cwd=ITEMSCRAPER)
 
     elapsed = time.time() - t_total
     print(f"\n{'='*60}")
@@ -346,8 +350,8 @@ def main() -> None:
     print(f"{'='*60}")
 
     if skipped_steps:
-        print(f"\nSkipped for the {args.release} release, they write the database or a file of a "
-              f"registered version ({len(skipped_steps)}): {', '.join(skipped_steps)}")
+        print(f"\nSkipped for the {args.release} release, they write a per-version table of main or read "
+              f"a third-party site ({len(skipped_steps)}): {', '.join(skipped_steps)}")
     if release_report:
         print(f"\n{args.release.capitalize()} release report ({len(release_report)}):")
         for line in release_report:

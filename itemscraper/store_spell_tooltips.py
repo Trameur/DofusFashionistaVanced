@@ -136,10 +136,10 @@ def _dofusdude_tooltips(game_version, spells_by_id):
     return tooltips
 
 
-def _retro_tooltips():
+def _retro_tooltips(raw_dir=None):
     from pathlib import Path
     from get_equipments_retro import SPELL_EFFECT_TEMPLATES, _hex
-    raw_dir = Path(CURRENT_DIRECTORY) / 'retro_raw'
+    raw_dir = Path(raw_dir) if raw_dir else Path(CURRENT_DIRECTORY) / 'retro_raw'
     spells = {}
     for lang in LANGUAGES:
         path = raw_dir / ('spells_%s.json' % lang)
@@ -270,8 +270,10 @@ def collect(game_version, tag=None, raw_dir=None):
     if game_version == 'dofus2':
         raw = os.path.join(CURRENT_DIRECTORY, 'raw', tag or _archive_tag(game_version))
         return _dofusdude_tooltips(game_version, _dofus2_spells(raw))
-    if game_version == 'retro':
-        return _retro_tooltips()
+    import retro_release
+    release = retro_release.release_of(game_version)
+    if release:
+        return _retro_tooltips(raw_dir or retro_release.raw_dir(release))
     import touch_channels
     channel = touch_channels.channel_of(game_version)
     if channel:

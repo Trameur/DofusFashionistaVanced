@@ -33,7 +33,8 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
 from store_item_obtainment import (  # noqa: E402  (sys.path set above)
     get_items_db_path, _ensure_tables, _open_items_db, _save_db_to_dump,
     _resolve_item_id, _table_exists)
-from download_retro_langs import fetch_manifest, download_swf  # noqa: E402
+from download_retro_langs import fetch_manifest, download_swf, lang_root  # noqa: E402
+import retro_release  # noqa: E402
 
 GAME_VERSION = 'retro'
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
@@ -50,12 +51,13 @@ def _ensure_raw(category, lang):
     """Return parsed lang globals for (category, lang), downloading if absent."""
     path = _raw_json_path(category, lang)
     if not os.path.exists(path):
-        versions = fetch_manifest(lang)
+        root = lang_root(GAME_VERSION)
+        versions = fetch_manifest(lang, root)
         version = versions.get(category)
         if version is None:
             raise RuntimeError('Retro manifest has no "%s" category for %s' % (category, lang))
         print('  downloading %s_%s_%s.swf ...' % (category, lang, version))
-        download_swf(category, lang, version, __import__('pathlib').Path(RAW_DIR))
+        download_swf(category, lang, version, __import__('pathlib').Path(RAW_DIR), root)
     with open(path, encoding='utf-8') as in_file:
         return json.load(in_file)
 
@@ -152,10 +154,19 @@ def main():
     conn.commit()
     conn.close()
     _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
-    print('[retro] Stored recipes for %d equipment items (%d recipes had no hosted item).'
-          % (stored, missing_item))
+    print('[%s] Stored recipes for %d equipment items (%d recipes had no hosted item).'
+          % (GAME_VERSION, stored, missing_item))
+
+
+def use_release(release):
+    """Read the lang files of a release and write the database of its version."""
+    global GAME_VERSION, RAW_DIR
+    GAME_VERSION = retro_release.version_key(release)
+    RAW_DIR = str(retro_release.raw_dir(release))
 
 
 if __name__ == '__main__':
-    argparse.ArgumentParser(description=__doc__).parse_args()
+    parser = argparse.ArgumentParser(description=__doc__)
+    retro_release.add_release_argument(parser)
+    use_release(parser.parse_args().release)
     main()

@@ -38,12 +38,14 @@ itemscraper/transformed_drops_dofus2.json
 itemscraper/transformed_drops_touch.json
 itemscraper/transformed_drops_touchbeta.json
 itemscraper/transformed_drops_retro.json
+itemscraper/retrobeta/transformed_drops_retrobeta.json
 itemscraper/transformed_craft_jobs.json
 itemscraper/transformed_craft_jobs_beta.json
 itemscraper/transformed_craft_jobs_touch.json
 itemscraper/transformed_craft_jobs_touchbeta.json
 itemscraper/transformed_craft_jobs_dofus2.json
 itemscraper/transformed_craft_jobs_retro.json
+itemscraper/retrobeta/transformed_craft_jobs_retrobeta.json
 /docs
 
 # Local dev / test artifacts (not for the repo)

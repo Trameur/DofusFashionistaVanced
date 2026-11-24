@@ -37,6 +37,7 @@ WORK_DIR = {
     'touch': os.path.join(CURRENT_DIRECTORY, 'touch'),
     'touchbeta': os.path.join(CURRENT_DIRECTORY, 'touchbeta'),
     'retro': os.path.join(CURRENT_DIRECTORY, 'retro'),
+    'retrobeta': os.path.join(CURRENT_DIRECTORY, 'retrobeta'),
 }
 
 
