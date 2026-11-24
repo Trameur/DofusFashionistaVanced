@@ -6,6 +6,7 @@ fashionsite/chardata/starting_stats/<version>.json.
 
     dofus3, beta, dofus2  itemscraper/raw/<build>/fr.json
     touch                 itemscraper/touch_raw/Documents_fr.json
+    touchbeta             itemscraper/touchbeta_raw/Documents_fr.json
     retro                 itemscraper/retro_raw/kb_fr.json
 
     python itemscraper/store_starting_stats.py --game-version retro
@@ -28,12 +29,13 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
         sys.path.append(path)
 
 import fashionista_version  # noqa: E402
+import touch_channels  # noqa: E402
 from store_spell_reference import CLASS_ID_TO_NAME  # noqa: E402
 
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'fashionsite', 'chardata',
                           'starting_stats')
 
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro')
 
 DEFAULT_TAG = {
     'dofus3': fashionista_version.FASHIONISTA_VERSION,
@@ -74,8 +76,9 @@ def _modern_dir(version, tag):
 
 
 def source_path(version, tag=None):
-    if version == 'touch':
-        return os.path.join(CURRENT_DIRECTORY, 'touch_raw', 'Documents_fr.json')
+    if touch_channels.channel_of(version):
+        return os.path.join(touch_channels.raw_dir(touch_channels.channel_of(version)),
+                            'Documents_fr.json')
     if version == 'retro':
         return os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'kb_fr.json')
     return os.path.join(_modern_dir(version, tag), 'fr.json')
@@ -86,7 +89,7 @@ def texts(version, tag=None):
     path = source_path(version, tag)
     data = _load(path)
     name = os.path.basename(path)
-    if version == 'touch':
+    if touch_channels.channel_of(version):
         return [('%s %s' % (name, key), record.get('contentId'))
                 for key, record in data.items() if isinstance(record, dict)]
     if version == 'retro':
@@ -104,8 +107,9 @@ def class_names(version, tag=None):
         path = os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'classes_fr.json')
         named = {int(key): entry.get('sn')
                  for key, entry in _load(path)['G'].items()}
-    elif version == 'touch':
-        path = os.path.join(CURRENT_DIRECTORY, 'touch_raw', 'Breeds_fr.json')
+    elif touch_channels.channel_of(version):
+        path = os.path.join(touch_channels.raw_dir(touch_channels.channel_of(version)),
+                            'Breeds_fr.json')
         named = {int(entry['id']): entry.get('shortNameId')
                  for entry in _load(path).values()}
     else:

@@ -32,8 +32,15 @@ import sys
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
-DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
-                       'items_touch.db')
+sys.path.insert(0, CURRENT_DIR)
+import touch_channels  # noqa: E402
+
+
+def db_path(channel=touch_channels.DEFAULT_CHANNEL):
+    """The channel's item database."""
+    return os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
+                        'items_%s.db' % touch_channels.game_version(channel))
+
 
 GRADE_FIELDS = (
     ('level', 'level'),
@@ -52,10 +59,14 @@ GRADE_FIELDS = (
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--raw-dir', default=os.path.join(CURRENT_DIR, 'touch_raw'))
+    touch_channels.add_channel_argument(parser)
+    parser.add_argument('--raw-dir', default=None)
     args = parser.parse_args()
+    key = touch_channels.game_version(args.channel)
+    raw_dir = args.raw_dir or touch_channels.raw_dir(args.channel)
+    DB_PATH = db_path(args.channel)
 
-    raw_path = os.path.join(args.raw_dir, 'Monsters_fr.json')
+    raw_path = os.path.join(raw_dir, 'Monsters_fr.json')
     with open(raw_path, encoding='utf-8') as fh:
         monsters = json.load(fh)
 
@@ -111,10 +122,9 @@ def main():
     print('stored %d grade rows for %d monsters, %d empty dropped'
           % (stored, count, empty))
     # The pipeline's load-db rebuilds the db from the dump.
-    sys.path.insert(0, CURRENT_DIR)
     from store_item_obtainment import _save_db_to_dump
-    _save_db_to_dump(DB_PATH, 'touch')
-    print('touch dump refreshed')
+    _save_db_to_dump(DB_PATH, key)
+    print('%s dump refreshed' % key)
     return 0
 
 

@@ -24,16 +24,22 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / 'itemscraper'))
 import update_audit as audit  # noqa: E402
 import release_items  # noqa: E402
+import touch_channels  # noqa: E402
 
 REPORTS = ROOT / '.update-reports'
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu')
-NAMES = dict(zip(VERSIONS, ('Dofus 3', 'Dofus 3 Beta', 'Dofus 2', 'Dofus Touch', 'Dofus Retro', 'Wakfu')))
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro', 'wakfu', 'touchbeta')
+NAMES = dict(zip(VERSIONS, ('Dofus 3', 'Dofus 3 Beta', 'Dofus 2', 'Dofus Touch', 'Dofus Retro', 'Wakfu',
+                            'Dofus Touch Beta')))
 PIPELINES = dict(zip(VERSIONS, ('update_data', 'update_data_beta',
                               'update_data_dofus2', 'update_data_touch',
-                              'update_data_retro', 'update_data_wakfu')))
+                              'update_data_retro', 'update_data_wakfu',
+                              'update_data_touch')))
 METADATA = dict(zip(VERSIONS[:5], ('FASHIONISTA_VERSION',
                     'FASHIONISTA_BETA_VERSION', 'FASHIONISTA_DOFUS2_VERSION',
-                    'FASHIONISTA_TOUCH_VERSION', 'FASHIONISTA_RETRO_VERSION')))
+                    'FASHIONISTA_TOUCH_VERSION', 'FASHIONISTA_RETRO_VERSION')),
+                touchbeta='FASHIONISTA_TOUCHBETA_VERSION')
+EXPLICIT_ONLY = ('wakfu', 'touchbeta')
+STAGED = ('touchbeta',)
 WATCHED = {'touch': ('WATCHED_TOUCH_ASSETS',),
            'retro': ('WATCHED_RETRO_BUILD', 'WATCHED_RETRO_LANG_ROOT', 'WATCHED_RETRO_LANG',
                      'WATCHED_RETRO_ASSET_DIGEST', 'WATCHED_RETRO_ASSET_COUNT')}
@@ -47,8 +53,8 @@ RELEASE_ASSETS = frozenset({'spells.json', 'effects.json', 'breeds.json', 'monst
 ITEM_ASSETS = frozenset(release_items.ASSETS)
 GAME_VERSION = r'\d+(?:\.\d+){2,4}'
 CYTRUS = 'https://cytrus.cdn.ankama.com/cytrus.json'
-TOUCH = 'https://dt-proxy-production-login.ankama-games.com/config.json?lang=fr'
-TOUCH_CLIENT = 'https://dt-proxy-production-login.ankama-games.com/build/script.js'
+TOUCH = touch_channels.config_url('login') + '?lang=fr'
+TOUCH_CLIENT = touch_channels.host('login') + '/build/script.js'
 WAKFU = 'https://wakfu.cdn.ankama.com/gamedata/config.json'
 IMAGE_STEPS = {'item-images', 'resource-icons', 'monster-images',
                'monsters/artworks', 'spell-images', 'spell-icons', 'resize'}
@@ -80,6 +86,7 @@ STEP_TITLES = {
     'items/download': 'Downloading items', 'data/download': 'Downloading data',
     'data/mirror': 'Copying the Wakfu data', 'data/sets': 'Set names',
     'data/spells': 'Downloading spells', 'data/mounts': 'Downloading mounts',
+    'data/seed-languages': 'Seeding unserved languages',
     'lang/download': 'Downloading languages',
     'items/transform': 'Transforming items', 'items/dump': 'Creating the SQL dump',
     'items/load-db': 'Loading the database', 'items/build-db': 'Building the database',
@@ -316,6 +323,8 @@ def importable_release(version, served, official, current, warnings):
 def probe(version, catalog=None):
     ours = read_metadata()
     state = read_json(REPORTS / 'state.json', {})
+    if version in STAGED:
+        raise ValueError('staged: its data is imported by hand until the version watch reads its channel')
     result = {'key': version, 'current': ours.get(METADATA.get(version), '?'),
               'available': None, 'official': None, 'source': {}, 'warnings': [],
               'error': None, 'changed': False}
@@ -443,9 +452,10 @@ def selection(text, rows):
     keys = []
     for token in tokens:
         if token in ('all', 'tout'):
-            keys.extend(row['key'] for row in rows if not row['error'] and row['key'] != 'wakfu')
+            keys.extend(row['key'] for row in rows if not row['error'] and row['key'] not in EXPLICIT_ONLY)
         elif token in ('changed', 'nouveau'):
-            keys.extend(row['key'] for row in rows if row['changed'] and not row['error'] and row['key'] != 'wakfu')
+            keys.extend(row['key'] for row in rows
+                        if row['changed'] and not row['error'] and row['key'] not in EXPLICIT_ONLY)
         elif token.isdigit() and 1 <= int(token) <= len(VERSIONS):
             keys.append(VERSIONS[int(token) - 1])
         elif token in VERSIONS:
@@ -1924,7 +1934,7 @@ def main(argv=None):
     if args.list:
         files, size = folder_size(REPORTS) if REPORTS.is_dir() else (0, 0)
         print('\nBackups and logs in %s: %s (%s)' % (REPORTS, size_text(size), files_text(files)))
-        return 1 if any(row['error'] for row in rows) else 0
+        return 1 if any(row['error'] for row in rows if row['key'] not in STAGED) else 0
     while True:
         choice = args.versions if args.versions is not None else input(
             '\nWhich versions? (1,4; all; changed; Enter to quit): ')

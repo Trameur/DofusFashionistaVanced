@@ -213,16 +213,17 @@ def touch_spell_effects(spell, spell_levels, effects, monster_names, text_lang):
     return ', '.join(rendered) or None
 
 
-def _touch_tooltips():
-    import requests
+def _touch_tooltips(channel='login'):
+    import touch_channels
     from download_touch_data import served_languages
     from store_touch_special_spells import (
         CAST_SPELL_EFFECTS, SPELL_MODIFIER_EFFECTS, _data_url, _fetch)
-    items = _load(os.path.join(CURRENT_DIRECTORY, 'touch_raw', 'Items_fr.json'))
-    data_url = _data_url()
+    raw_dir = touch_channels.raw_dir(channel)
+    items = _load(os.path.join(raw_dir, 'Items_fr.json'))
+    data_url = _data_url(channel)
     spells = {lang: _fetch(data_url, 'Spells', lang) for lang in LANGUAGES}
     # Touch answers unserved languages in English: read serverLanguages first
-    served = served_languages()
+    served = served_languages('fr', channel)
     loaded = {}
 
     def effects_of(spell, lang):
@@ -230,8 +231,7 @@ def _touch_tooltips():
         if 'levels' not in loaded:
             loaded['levels'] = _fetch(data_url, 'SpellLevels', 'fr')
         if lang not in loaded:
-            monsters = _load(os.path.join(CURRENT_DIRECTORY, 'touch_raw',
-                                          'Monsters_%s.json' % text_lang))
+            monsters = _load(os.path.join(raw_dir, 'Monsters_%s.json' % text_lang))
             loaded[lang] = (_fetch(data_url, 'Effects', lang), {
                 int(monster_id): monster['nameId']
                 for monster_id, monster in monsters.items()
@@ -272,8 +272,10 @@ def collect(game_version, tag=None, raw_dir=None):
         return _dofusdude_tooltips(game_version, _dofus2_spells(raw))
     if game_version == 'retro':
         return _retro_tooltips()
-    if game_version == 'touch':
-        return _touch_tooltips()
+    import touch_channels
+    channel = touch_channels.channel_of(game_version)
+    if channel:
+        return _touch_tooltips(channel)
     raise SystemExit('unknown game version: %s' % game_version)
 
 

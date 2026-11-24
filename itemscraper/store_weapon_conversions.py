@@ -7,6 +7,7 @@ fashionistapulp/fashionistapulp/weapon_conversions/<version>.json.
 
     dofus3, beta, dofus2  itemscraper/raw/<tag>/items.json, effects.json and <lang>.json
     touch                 itemscraper/touch_raw/Items_<lang>.json
+    touchbeta             itemscraper/touchbeta_raw/Items_<lang>.json
     retro                 itemscraper/retro_raw/items_<lang>.json, skills and effects
 
     python itemscraper/store_weapon_conversions.py --game-version dofus3 --tag 3.7.4.4
@@ -27,13 +28,14 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
         sys.path.append(path)
 
 import fashionista_version  # noqa: E402
+import touch_channels  # noqa: E402
 from get_spells import (ELEMENT_ID_TO_TOKEN, _load_datacenter_table,  # noqa: E402
                         _load_json, _load_translations, _unwrap_array, effect_id_of)
 
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'fashionistapulp', 'fashionistapulp',
                           'weapon_conversions')
 
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
+VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro')
 LANGUAGES = ('de', 'en', 'es', 'fr', 'pt')
 
 DEFAULT_TAG = {
@@ -65,21 +67,25 @@ RATE_NOTE = 'not published by the game'
 UNREPORTED_FIELDS = {'conversions', 'gems', 'unforgeable', 'data_version'}
 
 
+def _touch_raw(version):
+    return touch_channels.raw_dir(touch_channels.channel_of(version))
+
+
 def _modern_dir(version, tag=None, raw_dir=None):
     return raw_dir or os.path.join(CURRENT_DIRECTORY, 'raw', tag or DEFAULT_TAG[version])
 
 
 def source_path(version, tag=None, language=RETRO_LANGUAGE, raw_dir=None):
-    if version == 'touch':
-        return os.path.join(CURRENT_DIRECTORY, 'touch_raw', 'Items_fr.json')
+    if touch_channels.channel_of(version):
+        return os.path.join(_touch_raw(version), 'Items_fr.json')
     if version == 'retro':
         return os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'items_%s.json' % language)
     return os.path.join(_modern_dir(version, tag, raw_dir), 'items.json')
 
 
 def available_languages(version, tag=None, raw_dir=None):
-    if version == 'touch':
-        pattern = os.path.join(CURRENT_DIRECTORY, 'touch_raw', 'Items_%s.json')
+    if touch_channels.channel_of(version):
+        pattern = os.path.join(_touch_raw(version), 'Items_%s.json')
     elif version == 'retro':
         pattern = os.path.join(CURRENT_DIRECTORY, 'retro_raw', 'items_%s.json')
     else:
@@ -88,11 +94,11 @@ def available_languages(version, tag=None, raw_dir=None):
             if os.path.exists(pattern % language)]
 
 
-def touch_languages(previous=None):
+def touch_languages(previous=None, version='touch'):
     """([languages Touch still serves], notes); it answers the others in English."""
     from download_touch_data import served_languages
-    on_disk = available_languages('touch')
-    served = served_languages()
+    on_disk = available_languages(version)
+    served = served_languages(channel=touch_channels.channel_of(version))
     if served:
         return [language for language in on_disk if language in served], []
     kept = (previous or {}).get('languages')
@@ -258,8 +264,8 @@ def _modern(version, tag, languages, notes, raw_dir=None):
             'unforgeable': sorted(unforgeable), 'unforgeable_source': flag}
 
 
-def _touch(languages, notes):
-    folder = Path(CURRENT_DIRECTORY) / 'touch_raw'
+def _touch(languages, notes, version='touch'):
+    folder = Path(_touch_raw(version))
     texts = {language: _load_json(folder / ('Items_%s.json' % language))
              for language in languages}
     items = {}
@@ -363,8 +369,8 @@ def extract(version, tag=None, languages=None, source_language=RETRO_LANGUAGE, r
     if languages is None:
         languages = available_languages(version, tag, raw_dir)
     languages = [language for language in LANGUAGES if language in languages]
-    if version == 'touch':
-        body = _touch(languages, notes)
+    if touch_channels.channel_of(version):
+        body = _touch(languages, notes, version)
     elif version == 'retro':
         body = _retro(languages, notes, source_language)
     else:
@@ -451,10 +457,10 @@ def main(argv=None):
     path = output_path(version)
     previous = _load_json(Path(path)) if os.path.exists(path) else None
     languages = None
-    if version == 'touch':
-        languages, notes = touch_languages(previous)
+    if touch_channels.channel_of(version):
+        languages, notes = touch_languages(previous, version)
         for line in notes:
-            print('warning: touch: %s' % line)
+            print('warning: %s: %s' % (version, line))
     table, notes = extract(version, args.tag, languages, args.lang, args.raw_dir)
     for line in notes:
         print('warning: %s: %s' % (version, line))

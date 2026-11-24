@@ -95,11 +95,11 @@ ELEMENT_TOKEN_TO_CONST = {'earth': 'EARTH', 'fire': 'FIRE', 'water': 'WATER',
 ELEMENT_TOKEN_TO_CONST.update(
     {token: repr(token) for token in CHARACTERISTIC_EFFECTS.values()})
 
-# Touch breed id -> Fashionista class name (the 15 Touch classes).
+# Touch breed id -> Fashionista class name; a breed the channel's Breeds table lacks is skipped
 CLASS_ID_TO_NAME = {
     1: 'Feca', 2: 'Osamodas', 3: 'Enutrof', 4: 'Sram', 5: 'Xelor', 6: 'Ecaflip',
     7: 'Eniripsa', 8: 'Iop', 9: 'Cra', 10: 'Sadida', 11: 'Sacrier', 12: 'Pandawa',
-    13: 'Rogue', 14: 'Masqueraider', 15: 'Foggernaut',
+    13: 'Rogue', 14: 'Masqueraider', 15: 'Foggernaut', 21: 'Bellaphone',
 }
 
 
@@ -118,22 +118,32 @@ def class_spells(breeds, spells):
     """{class: [spell rows]} for the whole book, damage spells or not."""
     out = {}
     for bid, app_name in CLASS_ID_TO_NAME.items():
-        breed = breeds.get(str(bid)) or {}
+        breed = breeds.get(str(bid))
+        if breed is None:
+            continue
         out[app_name] = [spells[str(sid)] for sid in breed.get('breedSpellsId') or []
                          if str(sid) in spells]
     return out
 
 
-def unchanged_spell_names(by_class, spells, reference):
-    """The names of class spells whose (name, iconId) are the same in the reference spell table."""
+def icon_stem(name):
+    """The file name, without its extension, of the icon of a spell of this name."""
+    return safe_asset_stem(re.sub(r'[\\/*?:"<>|]', '', name).strip())
+
+
+def unchanged_spell_names(by_class, spells, reference, icon_folder=None):
+    """The names of class spells whose (name, iconId) are the same in the reference spell table and, given icon_folder, whose icon that folder really holds."""
     same = set()
     for class_spells in by_class.values():
         for s in class_spells:
             now = spells.get(str(s['id'])) or {}
             before = reference.get(str(s['id'])) or {}
             pair = (now.get('nameId'), now.get('iconId'))
-            if now.get('iconId') is not None and pair == (before.get('nameId'), before.get('iconId')):
-                same.add(s.get('name') or s.get('nameId'))
+            if now.get('iconId') is None or pair != (before.get('nameId'), before.get('iconId')):
+                continue
+            name = s.get('name') or s.get('nameId')
+            if icon_folder is None or (Path(icon_folder) / ('%s.png' % icon_stem(name))).is_file():
+                same.add(name)
     return same
 
 
@@ -160,8 +170,7 @@ def download_spell_images(by_class, spells, assets_url, dest_dir=None, skip_name
             icon_id = (spells.get(str(s['id'])) or {}).get('iconId')
             if icon_id is None:
                 continue
-            safe = safe_asset_stem(re.sub(r'[\\/*?:"<>|]', '', name).strip())
-            dest = dest_dir / ('%s.png' % safe)
+            dest = dest_dir / ('%s.png' % icon_stem(name))
             try:
                 r = session.get(SPELL_ICON_URL % (assets_url, icon_id),
                                 headers={'User-Agent': WEB_UA}, timeout=30)
@@ -790,7 +799,9 @@ def build(breeds, spells, spell_levels, bombs=None):
     by_class = {}
     for bid, app_name in CLASS_ID_TO_NAME.items():
         breed = breeds.get(str(bid))
-        spell_ids = (breed or {}).get('breedSpellsId') or []
+        if breed is None:
+            continue
+        spell_ids = breed.get('breedSpellsId') or []
         damage_spells = []
         seen = set()
         for sid in spell_ids:
@@ -926,9 +937,9 @@ def main(argv=None):
         skip, dest_dir = (), SPELLS_STATIC
         if args.channel != touch_channels.DEFAULT_CHANNEL:
             reference = fetch_table(resolve_config()[0], 'Spells')
-            skip = unchanged_spell_names(by_class_spells, spells, reference)
+            skip = unchanged_spell_names(by_class_spells, spells, reference, SPELLS_STATIC)
             dest_dir = SPELLS_ROOT / touch_channels.static_subdir(args.channel)
-            print(f"  {len(skip)} spell icons identical to login, not fetched")
+            print(f"  {len(skip)} spell icons identical to login and on disk there, not fetched")
         download_spell_images(by_class_spells, spells, assets_url, dest_dir, skip)
     return 0
 

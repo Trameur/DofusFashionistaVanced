@@ -140,6 +140,14 @@ def icons_that_differ_from_login(channel):
     return changed
 
 
+def rows_same_as_login(channel):
+    """The ankama ids of a channel's rows whose (name, iconId) are the login ones, which keep the login icon."""
+    login = touch_items(touch_channels.DEFAULT_CHANNEL)
+    return {int(item_id) for item_id, item in touch_items(channel).items()
+            if item.get('iconId') and item_id in login
+            and (item.get('nameId'), item['iconId']) == (login[item_id].get('nameId'), login[item_id].get('iconId'))}
+
+
 def touch_icon_urls(channel=touch_channels.DEFAULT_CHANNEL):
     assets = touch_assets_url(channel)
     return {ankama_id: '%s/%s' % (assets, path) for ankama_id, path in touch_icon_paths(channel).items()}
@@ -339,8 +347,11 @@ def main():
             ids = ingredient_ids([TOUCH_DB_PATH])
             keys = touch_icon_paths()
         else:
-            ids = ingredient_ids([TOUCH_DB_PATH.replace('items_touch.db', 'items_%s.db' % record_key)])
+            ingredients = ingredient_ids([TOUCH_DB_PATH.replace('items_touch.db', 'items_%s.db' % record_key)])
+            reused = ingredients & rows_same_as_login(args.channel)
+            ids = ingredients - reused
             keys = icons_that_differ_from_login(args.channel)
+            print('same name and icon as login, left to the login icon: %d' % len(reused))
         assets = touch_assets_url(args.channel)
         urls = {ankama_id: '%s/%s' % (assets, path) for ankama_id, path in keys.items()}
         targets_root = target_dirs(touch_channels.static_subdir(args.channel))

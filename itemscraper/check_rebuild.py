@@ -55,6 +55,7 @@ COMMITTED = {
     'beta': 'fashionistapulp/fashionistapulp/items_beta.db',
     'dofus2': 'fashionistapulp/fashionistapulp/items_dofus2.db',
     'touch': 'fashionistapulp/fashionistapulp/items_touch.db',
+    'touchbeta': 'fashionistapulp/fashionistapulp/items_touchbeta.db',
     'retro': 'fashionistapulp/fashionistapulp/items_retro.db',
 }
 INSERT = re.compile(r'INSERT INTO "?(\w+)"? VALUES\((\d+)')

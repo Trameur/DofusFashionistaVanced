@@ -23,6 +23,7 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY,
 
 from fashionistapulp.game_versions import dofus_versions  # noqa: E402
 from store_item_obtainment import get_items_db_path  # noqa: E402
+import touch_channels  # noqa: E402
 
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'fashionsite', 'chardata',
                           'spell_modifiers')
@@ -153,8 +154,8 @@ def _dofusdude_rows(game_version, tag):
     return rows, templates, misses
 
 
-def _touch_rows():
-    raw = os.path.join(CURRENT_DIRECTORY, 'touch_raw')
+def _touch_rows(game_version='touch'):
+    raw = touch_channels.raw_dir(touch_channels.channel_of(game_version))
     effects = _load(os.path.join(raw, 'Effects_fr.json'))
     templates = {}
     for effect_id, record in effects.items():
@@ -207,8 +208,8 @@ def _retro_rows():
 def collect(game_version, tag=None):
     if game_version in EQUIPMENT_DIR:
         return _dofusdude_rows(game_version, archive_tag(game_version, tag))
-    if game_version == 'touch':
-        return _touch_rows()
+    if touch_channels.channel_of(game_version):
+        return _touch_rows(game_version)
     if game_version == 'retro':
         return _retro_rows()
     raise SystemExit('unknown game version: %s' % game_version)

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""One maxed Pet item per (pet, stat) of touch_pet_bonuses.json, for Dofus Touch."""
+"""One maxed Pet item per (pet, stat) of touch_pet_bonuses.json, for Dofus Touch; the early channel reuses the login bonuses and variant ids and never writes them."""
 
+import argparse
 import json
 import os
 import sys
@@ -13,10 +14,10 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
     if path not in sys.path:
         sys.path.append(path)
 
-from store_item_obtainment import (  # noqa: E402  (sys.path set above)
+import touch_channels  # noqa: E402  (sys.path set above)
+from store_item_obtainment import (  # noqa: E402
     get_items_db_path, _open_items_db, _save_db_to_dump, _table_exists)
 
-GAME_VERSION = 'touch'
 BONUSES_PATH = os.path.join(CURRENT_DIRECTORY, 'touch_pet_bonuses.json')
 REGISTRY_PATH = os.path.join(CURRENT_DIRECTORY, 'touch_pet_variant_ids.json')
 # Reserved id range for generated variants; real Touch ids stay below ~101M.
@@ -192,16 +193,17 @@ def _drop_own_legacy_rows(cursor, registry):
                        [(old_id,) for old_id in registry])
 
 
-def main():
+def main(channel=touch_channels.DEFAULT_CHANNEL):
+    game_version = touch_channels.game_version(channel)
     with open(BONUSES_PATH, encoding='utf-8') as in_file:
         bonuses = json.load(in_file)
     registry = read_registry()
 
-    conn = _open_items_db(GAME_VERSION)
+    conn = _open_items_db(game_version)
     cursor = conn.cursor()
     for table in ('items', 'stats_of_item', 'item_names', 'stats', 'item_types'):
         if not _table_exists(cursor, table):
-            raise RuntimeError('%s table missing in %s' % (table, get_items_db_path(GAME_VERSION)))
+            raise RuntimeError('%s table missing in %s' % (table, get_items_db_path(game_version)))
 
     pet_type = cursor.execute("SELECT id FROM item_types WHERE name = 'Pet'").fetchone()[0]
     stat_id_by_name = {name: sid for sid, name in cursor.execute("SELECT id, name FROM stats")}
@@ -310,19 +312,22 @@ def main():
 
     conn.commit()
     conn.close()
-    _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
-    write_registry(registry)
+    _save_db_to_dump(get_items_db_path(game_version), game_version)
+    if channel == touch_channels.DEFAULT_CHANNEL:
+        write_registry(registry)
     unmapped = sum(1 for v in bonuses.values() if not v)
-    print('[touch] Created %d maxed-stat variants for %d pets '
+    print('[%s] Created %d maxed-stat variants for %d pets '
           '(%d pets left unmapped in touch_pet_bonuses.json).'
-          % (len(written), pets_done, unmapped))
+          % (game_version, len(written), pets_done, unmapped))
     to_variant = sum(1 for item in targets.values() if item >= VARIANT_ID_BASE)
-    print('[touch] %d retired variant ids resolve: %d to a variant, %d to the '
-          'pet itself.' % (len(targets), to_variant, len(targets) - to_variant))
+    print('[%s] %d retired variant ids resolve: %d to a variant, %d to the '
+          'pet itself.' % (game_version, len(targets), to_variant, len(targets) - to_variant))
     if lost:
         print('  ! %d retired variant id(s) of pets the data no longer has '
               'resolve to nothing: %s' % (len(lost), lost[:10]))
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    touch_channels.add_channel_argument(parser)
+    main(parser.parse_args().channel)

@@ -35,6 +35,7 @@ WORK_DIR = {
     'beta': os.path.join(CURRENT_DIRECTORY, 'beta'),
     'dofus2': os.path.join(CURRENT_DIRECTORY, 'dofus2'),
     'touch': os.path.join(CURRENT_DIRECTORY, 'touch'),
+    'touchbeta': os.path.join(CURRENT_DIRECTORY, 'touchbeta'),
     'retro': os.path.join(CURRENT_DIRECTORY, 'retro'),
 }
 

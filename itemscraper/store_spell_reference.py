@@ -440,16 +440,19 @@ def read_retro(raw_dir):
     return out
 
 
-def read_touch():
-    """Dofus Touch from the production proxy, one pass per language."""
+def read_touch(game_version='touch'):
+    """Dofus Touch from the channel's proxy, one pass per language."""
     import requests
 
     sys.path.insert(0, CURRENT_DIRECTORY)
     import get_spells_touch as touch  # noqa: E402
+    import touch_channels  # noqa: E402
 
-    config = requests.get(touch.CONFIG_URL + '?lang=fr',
+    channel = touch_channels.channel_of(game_version)
+
+    config = requests.get(touch_channels.config_url(channel) + '?lang=fr',
                           headers={'User-Agent': touch.UA}, timeout=30).json()
-    data_url = config.get('dataUrl') or touch.FALLBACK_DATA_URL
+    data_url = config.get('dataUrl') or touch_channels.fallback_data_url(channel)
     breeds = touch.fetch_table(data_url, 'Breeds', 'fr')
     levels = touch.fetch_table(data_url, 'SpellLevels', 'fr')
     spells_by_lang = {lang: touch.fetch_table(data_url, 'Spells', lang)
@@ -512,8 +515,8 @@ def build(game_version, tag=None):
         return read_dofus2(tag or fashionista_version.FASHIONISTA_DOFUS2_VERSION)
     if game_version == 'retro':
         return read_retro(os.path.join(CURRENT_DIRECTORY, 'retro_raw'))
-    if game_version == 'touch':
-        return read_touch()
+    if game_version in ('touch', 'touchbeta'):
+        return read_touch(game_version)
     raise SystemExit('unknown version %s' % game_version)
 
 

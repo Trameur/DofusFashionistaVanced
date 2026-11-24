@@ -11,7 +11,9 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
+import touch_channels
+
+CONFIG_URL = touch_channels.config_url('login')
 FALLBACK_ASSETS_URL = ("https://dofustouch.cdn.ankama.com/assets/"
                        "3.2.11_XmqR,JLRxKAo0jK41tA_EnsXKrTBc47Z")
 USER_AGENT = "Mozilla/5.0 Chrome/120"

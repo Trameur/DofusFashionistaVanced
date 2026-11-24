@@ -50,8 +50,8 @@ def download(channel=touch_channels.DEFAULT_CHANNEL):
     served = served_languages('fr', channel)
     for lang in LANGUAGES:
         if served and lang not in served:
-            print('%s: no longer served by Touch, keeping the file on disk'
-                  % lang)
+            print('%s: not served by the %s channel, keeping the file on disk'
+                  % (lang, channel))
             continue
         response = requests.post(
             '%s/data/map' % data_url,
@@ -68,6 +68,9 @@ def download(channel=touch_channels.DEFAULT_CHANNEL):
         with open(raw_path(lang, channel), 'w', encoding='utf-8') as out:
             json.dump(filtered, out, ensure_ascii=False)
         print('%s: %d subareas saved' % (lang, len(filtered)))
+    if channel != touch_channels.DEFAULT_CHANNEL:
+        import seed_unserved_language
+        seed_unserved_language.seed(channel, ['SubAreas'])
 
 
 def main():

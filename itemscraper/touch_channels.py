@@ -50,6 +50,14 @@ def game_version(channel=DEFAULT_CHANNEL):
     return _GAME_VERSIONS[check(channel)]
 
 
+def channel_of(game_version):
+    """The channel whose data a registry key holds, None for a key of another game."""
+    for channel, key in _GAME_VERSIONS.items():
+        if key == game_version:
+            return channel
+    return None
+
+
 def raw_dir(channel=DEFAULT_CHANNEL):
     """Where the channel's raw tables are saved."""
     return os.path.join(CURRENT_DIR, game_version(channel) + '_raw')

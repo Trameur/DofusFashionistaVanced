@@ -116,8 +116,8 @@ def probe_beta_items():
 
 def probe_touch_config():
     """The Touch login proxy, which points at the build's data map."""
-    payload = _get_json(
-        'https://dt-proxy-production-login.ankama-games.com/config.json?lang=fr')
+    import touch_channels
+    payload = _get_json(touch_channels.config_url('login') + '?lang=fr')
     urls = [value for value in json.dumps(payload).split('"')
             if value.startswith('http')]
     return len(urls), 'urls in the touch config'

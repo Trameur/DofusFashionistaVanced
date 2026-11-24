@@ -27,26 +27,27 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
     if path not in sys.path:
         sys.path.append(path)
 
-from untranslated_tag import clean_description  # noqa: E402  (sys.path set above)
+import touch_channels  # noqa: E402  (sys.path set above)
+from untranslated_tag import clean_description  # noqa: E402
 from store_item_obtainment import (  # noqa: E402  (sys.path set above)
     get_items_db_path, _ensure_tables, _open_items_db, _save_db_to_dump,
     _resolve_item_id, _table_exists)
 
-GAME_VERSION = 'touch'
+GAME_VERSION = touch_channels.game_version(touch_channels.DEFAULT_CHANNEL)
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
-RAW_DIR = os.path.join(CURRENT_DIRECTORY, 'touch_raw')
+RAW_DIR = touch_channels.raw_dir(touch_channels.DEFAULT_CHANNEL)
 
 
-def _load_table(name, lang):
-    path = os.path.join(RAW_DIR, '%s_%s.json' % (name, lang))
+def _load_table(name, lang, raw_dir=None):
+    path = os.path.join(raw_dir or RAW_DIR, '%s_%s.json' % (name, lang))
     with open(path, encoding='utf-8') as in_file:
         return json.load(in_file)
 
 
-def _load_recipes():
+def _load_recipes(raw_dir=None):
     """crafted ankama id -> [(quantity, ingredient ankama id), ...]."""
     recipes = {}
-    for record in _load_table('Recipes', 'fr').values():
+    for record in _load_table('Recipes', 'fr', raw_dir).values():
         if not isinstance(record, dict):
             continue
         result_id = record.get('resultId')
@@ -58,6 +59,15 @@ def _load_recipes():
         if pairs:
             recipes[int(result_id)] = pairs
     return recipes
+
+
+def _in_login_order(recipes, channel):
+    """The recipes of another channel with the ingredient order of login wherever the same ingredients are listed, since the server lists them in no meaningful order."""
+    if channel == touch_channels.DEFAULT_CHANNEL:
+        return recipes
+    login = _load_recipes(touch_channels.raw_dir(touch_channels.DEFAULT_CHANNEL))
+    return {crafted: (login[crafted] if sorted(login.get(crafted) or []) == sorted(pairs) else pairs)
+            for crafted, pairs in recipes.items()}
 
 
 def _load_ingredient_names():
@@ -116,9 +126,12 @@ def _store_descriptions(cursor):
     return stored
 
 
-def main():
-    recipes = _load_recipes()
-    print('Loaded %d touch recipes.' % len(recipes))
+def main(channel=touch_channels.DEFAULT_CHANNEL):
+    global GAME_VERSION, RAW_DIR
+    GAME_VERSION = touch_channels.game_version(channel)
+    RAW_DIR = touch_channels.raw_dir(channel)
+    recipes = _in_login_order(_load_recipes(), channel)
+    print('Loaded %d %s recipes.' % (len(recipes), GAME_VERSION))
     ingredient_names = _load_ingredient_names()
 
     conn = _open_items_db(GAME_VERSION)
@@ -169,10 +182,11 @@ def main():
     conn.commit()
     conn.close()
     _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
-    print('[touch] Stored recipes for %d items (%d recipes had no hosted item); '
-          '%d item descriptions.' % (stored, missing_item, desc_stored))
+    print('[%s] Stored recipes for %d items (%d recipes had no hosted item); '
+          '%d item descriptions.' % (GAME_VERSION, stored, missing_item, desc_stored))
 
 
 if __name__ == '__main__':
-    argparse.ArgumentParser(description=__doc__).parse_args()
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    touch_channels.add_channel_argument(parser)
+    main(parser.parse_args().channel)

@@ -9,6 +9,7 @@ itemscraper/retro_raw/
 /itemscraper/raw_retro
 /itemscraper/retro_raw
 /itemscraper/retrobeta_raw
+/itemscraper/touchbeta_raw
 migrated_data.json
 itemscraper/spell_icons_test
 itemscraper/spell_images
@@ -35,10 +36,12 @@ itemscraper/transformed_drops.json
 itemscraper/transformed_drops_beta.json
 itemscraper/transformed_drops_dofus2.json
 itemscraper/transformed_drops_touch.json
+itemscraper/transformed_drops_touchbeta.json
 itemscraper/transformed_drops_retro.json
 itemscraper/transformed_craft_jobs.json
 itemscraper/transformed_craft_jobs_beta.json
 itemscraper/transformed_craft_jobs_touch.json
+itemscraper/transformed_craft_jobs_touchbeta.json
 itemscraper/transformed_craft_jobs_dofus2.json
 itemscraper/transformed_craft_jobs_retro.json
 /docs

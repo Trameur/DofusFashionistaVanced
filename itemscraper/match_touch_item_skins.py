@@ -42,8 +42,9 @@ sys.path.insert(0, str(HERE))
 
 from match_item_skins import (  # noqa: E402  (sys.path set above)
     ROTATIONS, SILHOUETTE_WEIGHT, features, rank_skins)
+import touch_channels  # noqa: E402
 
-CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
+CONFIG_URL = touch_channels.config_url('login')
 FALLBACK_ASSETS_URL = ("https://dofustouch.cdn.ankama.com/assets/"
                        "3.2.11_XmqR,JLRxKAo0jK41tA_EnsXKrTBc47Z")
 USER_AGENT = "Mozilla/5.0 Chrome/120"
