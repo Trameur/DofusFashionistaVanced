@@ -70,11 +70,8 @@ def pushing_spell_ids(game_version):
     return found
 
 
-# Only dofus3 and the beta are built from the client's own effects. Dofus 2,
-# Retro and Touch come from other readers, so for those three the description
-# is all there is here. It cannot say a distance and it cannot tell a damaging
-# push from a harmless one. Dofus 2 does carry its spell levels now, which is a
-# different question: they state what a cast COSTS, not what a push does.
+# Retro carries no push effect, so the description is all there is. It cannot
+# say a distance and it cannot tell a damaging push from a harmless one.
 _PUSH_WORDS_EN = ('repels', 'pushes back', 'pushes the target back',
                   'pushes targets back')
 _PUSH_WORDS_FR = ('repousse', 'repoussent')

@@ -128,11 +128,20 @@ def _target_pushback_resist_per_rank(levels):
     return out if any(out) else None
 
 
+def _needs_target_state(target_mask):
+    """True when the mask asks the target to be in a state ('E807')."""
+    for token in (target_mask or '').split(','):
+        token = token.strip()
+        if len(token) > 1 and token[0] == 'E' and token[1:].isdigit():
+            return True
+    return False
+
+
 def _push_per_rank(levels):
     """[{'cells': n, 'damaging': bool, 'needs': {...}}] per rank, or None."""
     out = []
     for level in levels:
-        best = None
+        candidates = []
         for effect in level.get('effects') or []:
             damaging = PUSH_EFFECT_IDS.get(effect.get('effect_id'))
             if damaging is None:
@@ -144,6 +153,12 @@ def _push_per_rank(levels):
             needs = _state_requirement(effect.get('target_mask'))
             if needs:
                 candidate['needs'] = needs
+            candidates.append(
+                (_needs_target_state(effect.get('target_mask')), candidate))
+        # A push that needs the target in a state loses to one that does not
+        plain = [item for item in candidates if not item[0]]
+        best = None
+        for _gated, candidate in plain or candidates:
             if best is None:
                 best = candidate
             elif candidate['damaging'] and not best['damaging']:
@@ -166,7 +181,11 @@ def _monsters_by_id(raw_dir):
     if not os.path.exists(path):
         return {}
     with open(path, encoding='utf-8') as handle:
-        data = json.load(handle)
+        return _monsters_in(json.load(handle))
+
+
+def _monsters_in(data):
+    """{monster id: entry} from a monster table of any shape."""
     found = {}
 
     def walk(node):
@@ -187,8 +206,10 @@ def _spell_ids_of(monster):
     array = (monster.get('spells') or {})
     if isinstance(array, str):
         return []
-    return [int(value) for value in (array.get('Array') or [])
-            if isinstance(value, int)]
+    # Dofus 2 and Touch store a plain list
+    if isinstance(array, dict):
+        array = array.get('Array') or []
+    return [int(value) for value in array if isinstance(value, int)]
 
 
 def _summon_push_per_rank(levels, monsters, pushes_by_spell):
@@ -229,6 +250,34 @@ def _pushes_by_spell(spells):
     return out
 
 
+def _push_keys(levels, monsters, pushes_by_spell):
+    """The push, stripped pushback resistance and summon push of a spell's levels."""
+    return {
+        'push': _push_per_rank(levels),
+        'strips_pushback_resist': _target_pushback_resist_per_rank(levels),
+        'summon_push': _summon_push_per_rank(levels, monsters, pushes_by_spell),
+    }
+
+
+def _d2o_levels(ranks):
+    """Dofus 2 and Touch spell levels in the transform's effect shape."""
+    return [{'effects': [{'effect_id': effect.get('effectId'),
+                          'dice': {'min': effect.get('diceNum'),
+                                   'max': effect.get('diceSide')},
+                          'target_mask': effect.get('targetMask')}
+                         for effect in rank.get('effects') or []]}
+            for rank in ranks]
+
+
+def _d2o_pushes_by_spell(spells, levels):
+    """{spell id: (least, most)} cells of damaging push, from d2o spell rows."""
+    return _pushes_by_spell([
+        {'ankama_id': spell.get('id'),
+         'levels': _d2o_levels([levels.get(str(level_id)) or {}
+                                for level_id in spell.get('spellLevels') or []])}
+        for spell in spells])
+
+
 def read_modern(path, tag=None, dump_name='transformed_spells.json'):
     """dofus3 and beta, from the transformed class-spell dump."""
     with open(path, encoding='utf-8') as handle:
@@ -267,10 +316,7 @@ def read_modern(path, tag=None, dump_name='transformed_spells.json'):
                 'cooldown': _rank_values(levels, 'min_cast_interval'),
                 'crit': _rank_values(levels, 'critical_hit_probability'),
                 'stacks': _rank_values(levels, 'max_stack'),
-                'push': _push_per_rank(levels),
-                'strips_pushback_resist': _target_pushback_resist_per_rank(levels),
-                'summon_push': _summon_push_per_rank(levels, monsters,
-                                                     pushes_by_spell),
+                **_push_keys(levels, monsters, pushes_by_spell),
                 'variant': variant,
             }))
         if spells:
@@ -302,6 +348,9 @@ def read_dofus2(tag):
     types = {str(row['id']): row for row in load('spell_types.json')}
     rows = load_optional('spell_levels.json') or []
     levels = {str(row['id']): row for row in rows}
+    monsters = _monsters_by_id(root)
+    pushes_by_spell = (_d2o_pushes_by_spell(spells.values(), levels)
+                       if monsters else {})
 
     # breeds.json lists only the first spell of each variant pair
     partners = {}
@@ -338,6 +387,7 @@ def read_dofus2(tag):
             'cooldown': _rank_values(ranks, 'minCastInterval'),
             'crit': _rank_values(ranks, 'criticalHitProbability'),
             'stacks': _rank_values(ranks, 'maxStack'),
+            **_push_keys(_d2o_levels(ranks), monsters, pushes_by_spell),
         })
 
     out = {}
@@ -460,6 +510,8 @@ def read_touch(game_version='touch'):
     types_by_lang = {lang: touch.fetch_table(data_url, 'SpellTypes', lang)
                      for lang in LANGUAGES}
     french = spells_by_lang['fr']
+    monsters = _monsters_in(touch.fetch_table(data_url, 'Monsters', 'fr'))
+    pushes_by_spell = _d2o_pushes_by_spell(french.values(), levels)
 
     out = {}
     for breed_id, class_name in touch.CLASS_ID_TO_NAME.items():
@@ -495,6 +547,7 @@ def read_touch(game_version='touch'):
                 'cooldown': _rank_values(ranks, 'minCastInterval'),
                 'crit': _rank_values(ranks, 'criticalHitProbability'),
                 'stacks': _rank_values(ranks, 'maxStack'),
+                **_push_keys(_d2o_levels(ranks), monsters, pushes_by_spell),
             }))
         if found:
             out[class_name] = found

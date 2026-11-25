@@ -1381,6 +1381,32 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -2071,6 +2097,32 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -2250,6 +2302,32 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -2512,6 +2590,32 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -3045,6 +3149,56 @@
     "fr": "Flèche de Dispersion",
     "pt": "Flecha Dispersante"
    },
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": false,
+      "state": 579
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": false,
+      "state": 579
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": false,
+      "state": 579
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": false,
+      "state": 579
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": false,
+      "state": 579
+     }
+    },
+    {
+     "cells": 3,
+     "damaging": true,
+     "needs": {
+      "present": false,
+      "state": 579
+     }
+    }
+   ],
    "range": [
     [
      1,
@@ -4430,6 +4584,14 @@
     2,
     2,
     2
+   ],
+   "strips_pushback_resist": [
+    30,
+    30,
+    30,
+    30,
+    30,
+    30
    ]
   },
   {
@@ -4584,6 +4746,56 @@
     0,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    }
    ],
    "range": [
     [
@@ -5363,6 +5575,56 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 5,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 5,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 5,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 5,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 5,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    },
+    {
+     "cells": 5,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1121
+     }
+    }
+   ],
    "range": [
     [
      1,
@@ -5558,6 +5820,56 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1119
+     }
+    },
+    {
+     "cells": 3,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1119
+     }
+    },
+    {
+     "cells": 3,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1119
+     }
+    },
+    {
+     "cells": 3,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1119
+     }
+    },
+    {
+     "cells": 3,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1119
+     }
+    },
+    {
+     "cells": 3,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1119
+     }
+    }
    ],
    "range": [
     [
@@ -5994,6 +6306,32 @@
     3,
     4,
     4
+   ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -6715,6 +7053,32 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      2,
@@ -7148,6 +7512,32 @@
     1,
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -8362,6 +8752,32 @@
     1,
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -11037,6 +11453,32 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -12357,6 +12799,32 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -12472,6 +12940,32 @@
     -1,
     -1,
     -1
+   ],
+   "summon_push": [
+    {
+     "least": 2,
+     "most": 6
+    },
+    {
+     "least": 2,
+     "most": 6
+    },
+    {
+     "least": 2,
+     "most": 6
+    },
+    {
+     "least": 2,
+     "most": 6
+    },
+    {
+     "least": 2,
+     "most": 6
+    },
+    {
+     "least": 2,
+     "most": 6
+    }
    ]
   },
   {
@@ -12815,6 +13309,32 @@
     1,
     1
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -13003,6 +13523,32 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -13036,6 +13582,14 @@
     2,
     2,
     2
+   ],
+   "strips_pushback_resist": [
+    10,
+    15,
+    20,
+    25,
+    30,
+    40
    ]
   },
   {
@@ -13831,6 +14385,32 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -13864,6 +14444,14 @@
     2,
     2,
     2
+   ],
+   "strips_pushback_resist": [
+    5,
+    10,
+    15,
+    20,
+    25,
+    30
    ]
   },
   {
@@ -14453,6 +15041,32 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -14527,6 +15141,32 @@
     "fr": "Souffle",
     "pt": "Sopro"
    },
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      2,
@@ -16069,6 +16709,56 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 1,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 1,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 1,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 2,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 3,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    }
+   ],
    "range": [
     [
      3,
@@ -16781,6 +17471,32 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -17207,6 +17923,56 @@
     "fr": "Carnavalo",
     "pt": "Carnaval"
    },
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
+    }
+   ],
    "range": [
     [
      1,
@@ -18717,6 +19483,56 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1068
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1068
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1068
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1068
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1068
+     }
+    },
+    {
+     "cells": 4,
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 1068
+     }
+    }
+   ],
    "range": [
     [
      1,
@@ -19234,6 +20050,32 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -20855,6 +21697,32 @@
     1,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -21504,6 +22372,32 @@
     1,
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": false
+    },
+    {
+     "cells": 3,
+     "damaging": false
+    },
+    {
+     "cells": 3,
+     "damaging": false
+    },
+    {
+     "cells": 3,
+     "damaging": false
+    },
+    {
+     "cells": 3,
+     "damaging": false
+    },
+    {
+     "cells": 3,
+     "damaging": false
+    }
    ],
    "range": [
     [
@@ -22398,6 +23292,32 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -26926,6 +27846,32 @@
     3,
     3,
     3
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    }
    ],
    "range": [
     [
