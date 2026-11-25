@@ -197,7 +197,7 @@ msgstr "Nom de compte ou mot de passe incorrect."
 
 #: .\chardata\static\chardata\login.js:15
 msgid "Confirm your email to log in."
-msgstr "Confirmez votre email pour vous connecter."
+msgstr "Confirme ton email pour te connecter."
 
 #: .\chardata\static\chardata\login.js:17
 msgid "Error while logging in."
@@ -205,11 +205,11 @@ msgstr "Erreur de connexion."
 
 #: .\chardata\static\chardata\login.js:29
 msgid "Your password has been changed."
-msgstr "Votre mot de passe a été modifié avec succès."
+msgstr "Ton mot de passe a été modifié avec succès."
 
 #: .\chardata\static\chardata\login.js:35
 msgid "Your password did not match our records."
-msgstr "Votre mot de passe est incorrect. Veuillez essayer à nouveau."
+msgstr "Ton mot de passe est incorrect. Essaie à nouveau."
 
 #: .\chardata\static\chardata\login.js:47
 msgid "This username is already in use."
@@ -217,7 +217,7 @@ msgstr "Ce nom de compte est déjà utilisé."
 
 #: .\chardata\static\chardata\login.js:63
 msgid "The passwords don't match. Please try again."
-msgstr "Les mots de passe ne correspondent pas, veuillez recommencer."
+msgstr "Les mots de passe ne correspondent pas, recommence."
 
 #: .\chardata\static\chardata\login.js:81
 msgid "You need to enter a valid username."
@@ -233,7 +233,7 @@ msgstr "Entrer un email valide."
 
 #: .\chardata\static\chardata\options.js:139
 msgid "You need to be a higher level to equip this Dofus"
-msgstr "Vous devez avoir un niveau plus élevé pour équiper ce Dofus"
+msgstr "Tu dois avoir un niveau plus élevé pour équiper ce Dofus"
 
 #: .\chardata\static\chardata\solution_popup.js:50
 msgid "AP"
@@ -344,24 +344,24 @@ msgstr "%(item)s est déjà équipé"
 
 #: .\chardata\static\chardata\solution_popup.js:491
 msgid "You cannot equip this item."
-msgstr "Vous ne pouvez pas équiper cet item."
+msgstr "Tu ne peux pas équiper cet item."
 
 #: .\chardata\static\chardata\solution_popup.js:493
 #, javascript-format
 msgid " To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> and tailor a new set."
-msgstr " Pour trouver un équipement qui l’inclut, verrouillez-le <a href=\"/inclusions/%s/\">ici</a> et créez un nouvel équipement."
+msgstr " Pour trouver un équipement qui l’inclut, verrouille-le <a href=\"/inclusions/%s/\">ici</a> et crée un nouvel équipement."
 
 #: .\chardata\static\chardata\solution_popup.js:501
 msgid ""
 "You can equip this item, but some build minimums will not be respected."
 msgstr ""
-"Vous pouvez équiper cet item, mais certains critères minimaux du build ne "
+"Tu peux équiper cet item, mais certains critères minimaux du build ne "
 "seront pas respectés."
 
 #: .\chardata\static\chardata\solution_popup.js:503
 #, javascript-format
 msgid " To find a set including it that fulfills these conditions, lock it <a href=\"/inclusions/%s/\">here</a> and tailor a new set."
-msgstr " Pour trouver un équipement qui l’inclut et remplit ces conditions, verrouillez-le <a href=\"/inclusions/%s/\">ici</a> et créez un nouvel équipement."
+msgstr " Pour trouver un équipement qui l’inclut et remplit ces conditions, verrouille-le <a href=\"/inclusions/%s/\">ici</a> et crée un nouvel équipement."
 
 #: .\chardata\static\chardata\solution_popup.js:569
 msgid "There are no differences."
@@ -430,7 +430,7 @@ msgstr "Sauvegardé"
 #: .\chardata\static\chardata\stateengine.js:72
 msgid "You have unsaved changes. They will be discarded if you leave."
 msgstr ""
-"Vous avez effectué des changements sur cette page. Si vous quittez la page, "
+"Tu as effectué des changements sur cette page. Si tu quittes la page, "
 "ils ne seront pas sauvegardés."
 
 #: chardata/templates/chardata/exclusions.html
@@ -517,15 +517,15 @@ msgstr "6 p.m."
 #, javascript-format
 msgid "Note: You are %s hour ahead of server time."
 msgid_plural "Note: You are %s hours ahead of server time."
-msgstr[0] "Note: vous avez %s heure d'avance sur l'heure du serveur."
-msgstr[1] "Note: vous avez %s heures d'avance sur l'heure du serveur."
+msgstr[0] "Note: tu as %s heure d'avance sur l'heure du serveur."
+msgstr[1] "Note: tu as %s heures d'avance sur l'heure du serveur."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:86
 #, javascript-format
 msgid "Note: You are %s hour behind server time."
 msgid_plural "Note: You are %s hours behind server time."
-msgstr[0] "Note: vous avez %s heure de retard sur l'heure du serveur."
-msgstr[1] "Note: vous avez %s heures de retard sur l'heure du serveur."
+msgstr[0] "Note: tu as %s heure de retard sur l'heure du serveur."
+msgstr[1] "Note: tu as %s heures de retard sur l'heure du serveur."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:128
 msgid "Choose a Time"

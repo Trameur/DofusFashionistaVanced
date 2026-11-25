@@ -3134,24 +3134,24 @@ GUIDES = {
             'fr': {
                 'title': 'Craft et métiers sur Dofus, version par version',
                 'desc': "D'où vient une recette, quel métier la fabrique et où droppent les ingrédients : comment planifier un craft avec l'encyclopédie, dans chaque version de Dofus.",
-                'lead': "Le craft a l'air simple jusqu'au moment où il manque un ingrédient au pire moment. Voici comment planifier un craft depuis la page de l'objet jusqu'aux monstres que vous allez vraiment chasser.",
+                'lead': "Le craft a l'air simple jusqu'au moment où il manque un ingrédient au pire moment. Voici comment planifier un craft depuis la page de l'objet jusqu'aux monstres que tu vas vraiment chasser.",
                 'body': '''
-<h2>Partez de l'objet, pas de la recette</h2>
-<p>Ouvrez n'importe quel objet fabricable dans l'<a href="/encyclopedia/">encyclopédie</a> : la recette est sur sa page, avec le métier qui la fabrique et, quand le jeu en définit un, le niveau demandé. Les recettes d'établis spéciaux qu'aucun métier de joueur ne peut apprendre n'affichent simplement pas de ligne de métier : c'est la donnée du jeu, pas un oubli.</p>
+<h2>Pars de l'objet, pas de la recette</h2>
+<p>Ouvre n'importe quel objet fabricable dans l'<a href="/encyclopedia/">encyclopédie</a> : la recette est sur sa page, avec le métier qui la fabrique et, quand le jeu en définit un, le niveau demandé. Les recettes d'établis spéciaux qu'aucun métier de joueur ne peut apprendre n'affichent simplement pas de ligne de métier : c'est la donnée du jeu, pas un oubli.</p>
 
 <h2>Chaque ingrédient est à un clic</h2>
-<p>Chaque ingrédient d'une recette mène à sa propre page de ressource : ce qu'il sert à fabriquer d'autre, et quels monstres le droppent avec leurs taux. C'est ce qui transforme une liste de courses en plan de chasse : si la ressource tombe sur un monstre farmable, vous décidez d'acheter ou de chasser avec de vrais chiffres plutôt qu'au doigt mouillé.</p>
+<p>Chaque ingrédient d'une recette mène à sa propre page de ressource : ce qu'il sert à fabriquer d'autre, et quels monstres le droppent avec leurs taux. C'est ce qui transforme une liste de courses en plan de chasse : si la ressource tombe sur un monstre farmable, tu décides d'acheter ou de chasser avec de vrais chiffres plutôt qu'au doigt mouillé.</p>
 
 <h2>Les métiers changent selon la version</h2>
-<p>Le métier derrière une recette ne raconte pas la même histoire partout. Le Dofus moderne a fusionné les anciens métiers de forge, donc une recette d'épée appartient au Forgeron unifié. Dofus Retro (1.29) vit encore avant cette fusion : l'encyclopédie y montre les métiers d'époque comme Forgeur d'Épées ou Forgeur de Marteaux, et les recettes n'y portent pas de niveau requis parce que les données 1.29 n'en définissent pas. Dofus Touch a son propre jeu de métiers, entre les deux. L'outil lit les fichiers de jeu de chaque version : ce que vous voyez correspond à ce que votre version joue vraiment.</p>
+<p>Le métier derrière une recette ne raconte pas la même histoire partout. Le Dofus moderne a fusionné les anciens métiers de forge, donc une recette d'épée appartient au Forgeron unifié. Dofus Retro (1.29) vit encore avant cette fusion : l'encyclopédie y montre les métiers d'époque comme Forgeur d'Épées ou Forgeur de Marteaux, et les recettes n'y portent pas de niveau requis parce que les données 1.29 n'en définissent pas. Dofus Touch a son propre jeu de métiers, entre les deux. L'outil lit les fichiers de jeu de chaque version : ce que tu vois correspond à ce que ta version joue vraiment.</p>
 
 <h2>Les ressources aussi se cherchent</h2>
-<p>La recherche de l'encyclopédie ne s'arrête pas aux équipements : tapez un nom de ressource et vous arrivez directement sur sa page, dans n'importe laquelle des cinq langues du site, accents facultatifs. De là, la liste «&nbsp;Sert à fabriquer&nbsp;» répond à la question inverse : ce truc dans ma banque vaut-il la peine d'être gardé ?</p>
+<p>La recherche de l'encyclopédie ne s'arrête pas aux équipements : tape un nom de ressource et tu arrives directement sur sa page, dans n'importe laquelle des cinq langues du site, accents facultatifs. De là, la liste «&nbsp;Sert à fabriquer&nbsp;» répond à la question inverse : ce truc dans ma banque vaut-il la peine d'être gardé ?</p>
 
 <h2>Planifier un craft pour un build</h2>
-<p>La boucle pratique : générez votre build, ouvrez les objets choisis par l'optimiseur et regardez leurs recettes. Si une pièce est fabricable, ses ingrédients et leurs sources de drop vous disent si le craft bat l'achat sur votre serveur. Gardez les pages de ressources ouvertes pendant le farm : les taux sont par monstre, vous choisissez la cible qui rapporte vraiment.</p>
+<p>La boucle pratique : génère ton build, ouvre les objets choisis par l'optimiseur et regarde leurs recettes. Si une pièce est fabricable, ses ingrédients et leurs sources de drop te disent si le craft bat l'achat sur ton serveur. Garde les pages de ressources ouvertes pendant le farm : les taux sont par monstre, tu choisis la cible qui rapporte vraiment.</p>
 
-<p><em>Il vous manque un ingrédient là, tout de suite ? <a href="/encyclopedia/">Cherchez-le dans l'encyclopédie</a> et voyez qui le droppe.</em></p>
+<p><em>Il te manque un ingrédient là, tout de suite ? <a href="/encyclopedia/">Cherche-le dans l'encyclopédie</a> et vois qui le droppe.</em></p>
 ''',
             },
             'es': {
@@ -3254,25 +3254,25 @@ GUIDES = {
             },
             'fr': {
                 'title': 'Choisir sa classe sur Dofus, version par version',
-                'desc': "Iop ou Crâ, Retro ou Touch : la meilleure classe dépend de la version de Dofus que vous jouez. Comment auditionner une classe avec un build optimisé.",
-                'lead': "La plupart des guides de classes commencent par une tier list. Celui-ci commence par un avertissement : la meilleure classe dépend du Dofus que vous jouez, et le même nom se joue rarement deux fois pareil.",
+                'desc': "Iop ou Crâ, Retro ou Touch : la meilleure classe dépend de la version de Dofus que tu joues. Comment auditionner une classe avec un build optimisé.",
+                'lead': "La plupart des guides de classes commencent par une tier list. Celui-ci commence par un avertissement : la meilleure classe dépend du Dofus que tu joues, et le même nom se joue rarement deux fois pareil.",
                 'body': '''
-<h2>Choisissez un rôle, pas un rang</h2>
-<p>Les tier lists vieillissent mal ; les rôles, non. Décidez ce que vous voulez faire tour après tour : frapper à distance (Crâ), exploser au corps à corps (Iop), soigner et protéger (Eniripsa), verrouiller la carte (Feca), échanger votre vie contre des dégâts (Sacrieur), ou jouer sale avec pièges et invisibilité (Sram). Vous passerez des centaines d'heures dans ce rôle : partez de ce qui vous amuse, puis regardez comment votre version le traite.</p>
+<h2>Choisis un rôle, pas un rang</h2>
+<p>Les tier lists vieillissent mal ; les rôles, non. Décide ce que tu veux faire tour après tour : frapper à distance (Crâ), exploser au corps à corps (Iop), soigner et protéger (Eniripsa), verrouiller la carte (Feca), échanger ta vie contre des dégâts (Sacrieur), ou jouer sale avec pièges et invisibilité (Sram). Tu passeras des centaines d'heures dans ce rôle : pars de ce qui t'amuse, puis regarde comment ta version le traite.</p>
 
 <h2>La même classe n'est pas le même jeu</h2>
-<p>Kits, sorts et équilibrage changent selon les <a href="/guides/versions-explained/">versions de Dofus</a>. Dofus Retro (1.29) est le cas extrême : l'équipement d'époque est rigide, la vitalité et la sagesse pèsent énormément, et le Sacrieur classique s'y joue en éponge de vitalité quasi intuable plutôt qu'en attaquant. Dofus Touch a gelé sa propre branche du jeu et l'équilibre séparément : certaines classes y brillent sur des voies qui n'existent plus ailleurs. Dofus 3 rééquilibre régulièrement, ce qui fait bouger la méta moderne. Si un ami ne jure que par une classe, demandez-lui d'abord sa version avant de le copier.</p>
+<p>Kits, sorts et équilibrage changent selon les <a href="/guides/versions-explained/">versions de Dofus</a>. Dofus Retro (1.29) est le cas extrême : l'équipement d'époque est rigide, la vitalité et la sagesse pèsent énormément, et le Sacrieur classique s'y joue en éponge de vitalité quasi intuable plutôt qu'en attaquant. Dofus Touch a gelé sa propre branche du jeu et l'équilibre séparément : certaines classes y brillent sur des voies qui n'existent plus ailleurs. Dofus 3 rééquilibre régulièrement, ce qui fait bouger la méta moderne. Si un ami ne jure que par une classe, demande-lui d'abord sa version avant de le copier.</p>
 
 <h2>L'élément est la moitié du choix</h2>
-<p>Au sein d'une classe, la vraie bifurcation est la voie élémentaire : un build feu et un build air de la même classe s'équipent tout autrement et se jouent souvent différemment. Rester mono-élément ou se répartir est un sujet à part entière, traité dans <a href="/guides/mono-vs-multi-element/">mono ou multi élément</a>. Dans le doute, prenez la voie que l'équipement de votre version soutient vraiment à votre niveau : c'est presque toujours la contrainte qui tranche.</p>
+<p>Au sein d'une classe, la vraie bifurcation est la voie élémentaire : un build feu et un build air de la même classe s'équipent tout autrement et se jouent souvent différemment. Rester mono-élément ou se répartir est un sujet à part entière, traité dans <a href="/guides/mono-vs-multi-element/">mono ou multi élément</a>. Dans le doute, prends la voie que l'équipement de ta version soutient vraiment à ton niveau : c'est presque toujours la contrainte qui tranche.</p>
 
-<h2>Laissez l'optimiseur absorber la décision</h2>
-<p>C'est là que l'outil fait le gros du travail : quand vous <a href="/setup/">créez un build</a>, le Fashionista pondère les stats pour votre classe, votre élément et votre version exacte du jeu, parce qu'une stat qui gagne des combats dans une version peut être du poids mort dans une autre. Les styles prédéfinis (glass cannon, tanky, équilibré) inclinent ces poids vers votre façon de jouer, et <a href="/guides/tuning-your-weights/">tout se réajuste</a> quand vous connaissez vos priorités.</p>
+<h2>Laisse l'optimiseur absorber la décision</h2>
+<p>C'est là que l'outil fait le gros du travail : quand tu <a href="/setup/">crées un build</a>, le Fashionista pondère les stats pour ta classe, ton élément et ta version exacte du jeu, parce qu'une stat qui gagne des combats dans une version peut être du poids mort dans une autre. Les styles prédéfinis (glass cannon, tanky, équilibré) inclinent ces poids vers ta façon de jouer, et <a href="/guides/tuning-your-weights/">tout se réajuste</a> quand tu connais tes priorités.</p>
 
-<h2>Auditionnez votre short-list</h2>
-<p>Les builds sont gratuits et prennent une minute. Retenez deux ou trois classes, générez un build pour chacune au niveau que vous jouez vraiment, et <a href="/guides/comparing-builds/">comparez les résultats côte à côte</a>. Voir ce que chaque classe porte et atteint réellement à votre niveau répond mieux à la question que n'importe quel classement écrit pour la version de quelqu'un d'autre.</p>
+<h2>Auditionne ta short-list</h2>
+<p>Les builds sont gratuits et prennent une minute. Retiens deux ou trois classes, génère un build pour chacune au niveau que tu joues vraiment, et <a href="/guides/comparing-builds/">compare les résultats côte à côte</a>. Voir ce que chaque classe porte et atteint réellement à ton niveau répond mieux à la question que n'importe quel classement écrit pour la version de quelqu'un d'autre.</p>
 
-<p><em>Indécis ? <a href="/setup/">Créez un build</a> par candidate et laissez les panoplies plaider.</em></p>
+<p><em>Indécis ? <a href="/setup/">Crée un build</a> par candidate et laisse les panoplies plaider.</em></p>
 ''',
             },
             'es': {

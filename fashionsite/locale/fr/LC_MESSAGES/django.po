@@ -1129,7 +1129,7 @@ msgstr "Taille : %"
 
 #: .\chardata\dynamic_translations.py:136
 msgid "Someone's following you!"
-msgstr "Quelqu'un vous suit !"
+msgstr "Quelqu'un te suit !"
 
 #: .\chardata\dynamic_translations.py:137 .\chardata\translation_util.py:116
 msgid "Staff"
@@ -1316,8 +1316,8 @@ msgstr "Bienvenue sur Dofus Fashionista !"
 msgid ""
 "Please click the link below to confirm your email and activate your account."
 msgstr ""
-"Cliquer sur le lien ci-dessous pour confirmer votre email et activer votre "
-"compte."
+"Clique sur le lien ci-dessous pour confirmer ton email et activer ton compte"
+"."
 
 #: .\chardata\login_view.py:243
 msgid "Password change requested for The Dofus Fashionista"
@@ -1335,12 +1335,12 @@ msgid ""
 msgstr ""
 "Un changement de mot de passe a été demandé pour le site Dofus "
 "Fashionista !\n"
-"Votre nom d'utilisateur est : {username}\n"
+"Ton nom d'utilisateur est : {username}\n"
 "Merci de cliquer sur le lien ci-dessous pour en générer un nouveau pour "
-"votre compte.\n"
+"ton compte.\n"
 "{link}\n"
 "\n"
-"Si vous ne voulez pas réinitialiser votre mot de passe, ignorez juste cet "
+"Si tu ne veux pas réinitialiser ton mot de passe, ignore juste cet "
 "email."
 
 #: .\chardata\login_view.py:292
@@ -1785,9 +1785,9 @@ msgid ""
 "this keeps happening, you can contact us <a href=\"%(contact_url)s\">here</"
 "a>."
 msgstr ""
-"Si quelqu'un vous a envoyé ce lien, demandez-lui plutôt de vous envoyer le "
+"Si quelqu'un t'a envoyé ce lien, demande-lui plutôt de t'envoyer le "
 "lien de partage situé en bas de sa page de suggestion d'équipement. Si ce "
-"n'est pas le cas et que cela continue à se produire, vous pouvez nous "
+"n'est pas le cas et que cela continue à se produire, tu peux nous "
 "contacter <a href=\"%(contact_url)s\">ici</a>."
 
 #: .\chardata\templates\chardata\403.html:25
@@ -1796,8 +1796,8 @@ msgid ""
 "Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a "
 "href=\"%(create_project_url)s\">create a build</a> of your own."
 msgstr ""
-"Ou vous pouvez retourner à la <a href=\"%(home_url)s\">page d'accueil</a> ou "
-"<a href=\"%(create_project_url)s\">créer un build</a> de votre choix."
+"Ou tu peux retourner à la <a href=\"%(home_url)s\">page d'accueil</a> ou "
+"<a href=\"%(create_project_url)s\">créer un build</a> de ton choix."
 
 #: .\chardata\templates\chardata\404.html:11
 msgid "404 - Page Not Found"
@@ -1863,9 +1863,9 @@ msgid ""
 "by going back to the wizard and playing with the sliders, or going hardcore "
 "and fiddling directly with the value the attributed to each stat."
 msgstr ""
-"Les équipements proposés ne vont pas forcément vous plaire. Vous pouvez, par "
-"exemple, trouver les points de vie trop bas malgré une bonne agilité. Vous "
-"pouvez affiner le résultat en retournant à l'assistant pour jouer avec les "
+"Les équipements proposés ne vont pas forcément te plaire. Tu peux, par "
+"exemple, trouver les points de vie trop bas malgré une bonne agilité. Tu peux"
+" affiner le résultat en retournant à l'assistant pour jouer avec les "
 "curseurs, ou en réglant directement la valeur attribuée à chaque "
 "caractéristique."
 
@@ -1881,7 +1881,7 @@ msgstr ""
 #: .\chardata\templates\chardata\license.html:21
 msgid "The Dofus Fashionista is open source software. The code can be found in"
 msgstr ""
-"Dofus Fashionista est un logiciel open source. Vous pouvez le trouver dans"
+"Dofus Fashionista est un logiciel open source. Tu peux le trouver dans"
 
 #: .\chardata\templates\chardata\about.html:30
 #, python-format
@@ -1911,7 +1911,7 @@ msgstr ""
 "Le site propose aussi une petite API JSON en lecture seule : sans "
 "authentification, CORS ouvert, réponses en cache pendant 60 secondes. Elle "
 "n'expose que les builds que leurs propriétaires ont partagés publiquement. "
-"Utilisez-la pour des bots Discord, des overlays de stream ou des sites de "
+"Utilise-la pour des bots Discord, des overlays de stream ou des sites de "
 "fans."
 
 #: .\chardata\templates\chardata\about.html:36
@@ -2006,12 +2006,12 @@ msgstr "Publicité"
 #: .\chardata\templates\chardata\base.html:14
 #, python-format
 msgid "Get Dofus %(version)s sets created automatically, based on your specific needs."
-msgstr "Obtenez des panoplies Dofus %(version)s optimisées automatiquement, selon vos besoins précis."
+msgstr "Obtiens des panoplies Dofus %(version)s optimisées automatiquement, selon tes besoins précis."
 
 #: .\chardata\templates\chardata\base.html:14
 #: .\chardata\templates\chardata\solution.html:10
 msgid "Get Dofus sets created automatically, based on your specific needs."
-msgstr "Obtenez des panoplies Dofus optimisées automatiquement, selon vos besoins précis."
+msgstr "Obtiens des panoplies Dofus optimisées automatiquement, selon tes besoins précis."
 
 #: .\chardata\templates\chardata\home.html
 msgid "Set Builder and Optimizer"
@@ -2269,7 +2269,7 @@ msgstr "Changelog"
 #: .\chardata\templates\chardata\contacts.html:37
 #: .\chardata\templates\chardata\contacts.html:41
 msgid "Contact us"
-msgstr "Contactez-nous"
+msgstr "Contacte-nous"
 
 #: .\chardata\templates\chardata\base.html:328
 #: .\chardata\templates\chardata\support.html:6
@@ -2292,8 +2292,8 @@ msgid ""
 "Since you are not logged in, this will replace your current build (if you "
 "have one). Continue?"
 msgstr ""
-"Puisque vous n'êtes pas connecté, ceci va remplacer votre build actuel (si "
-"vous en avez un). Voulez-vous continuer ?"
+"Puisque tu n'es pas connecté, ceci va remplacer ton build actuel (si tu en as un"
+"). Veux-tu continuer ?"
 
 #: .\chardata\templates\chardata\base.html:636
 #: .\chardata\templates\chardata\base.html:649
@@ -2320,11 +2320,11 @@ msgstr "Déjà dans la comparaison"
 
 #: .\chardata\templates\chardata\base.html:662
 msgid "You can compare up to 4 builds"
-msgstr "Vous pouvez comparer jusqu'à 4 builds"
+msgstr "Tu peux comparer jusqu'à 4 builds"
 
 #: .\chardata\templates\chardata\base.html:663
 msgid "Add at least 2 builds to compare"
-msgstr "Ajoutez au moins 2 builds à comparer"
+msgstr "Ajoute au moins 2 builds à comparer"
 
 #: .\chardata\templates\chardata\changelog_content.html:5
 #: .\chardata\templates\chardata\changelog_content.html:17
@@ -2471,7 +2471,7 @@ msgid ""
 "what drops an item, where an ingredient drops, and what each ingredient is "
 "used to craft."
 msgstr ""
-"L'encyclopédie relie maintenant objets, ingrédients et monstres : voyez "
+"L'encyclopédie relie maintenant objets, ingrédients et monstres : vois "
 "quels monstres droppent un objet, où obtenir un ingrédient, et ce que chaque "
 "ingrédient permet de fabriquer."
 
@@ -2584,7 +2584,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:160
 msgid "Describe your build, now in German too"
-msgstr "Décrivez votre build, désormais en allemand aussi"
+msgstr "Décris ton build, désormais en allemand aussi"
 
 #: .\chardata\templates\chardata\changelog_content.html:162
 msgid ""
@@ -2604,8 +2604,8 @@ msgstr ""
 #: .\chardata\templates\chardata\changelog_content.html:164
 msgid "Example prompts and the generated build name now follow your language"
 msgstr ""
-"Les exemples proposés et le nom du build généré suivent désormais votre "
-"langue"
+"Les exemples proposés et le nom du build généré suivent désormais ta langue"
+""
 
 #: .\chardata\templates\chardata\changelog_content.html:170
 #: .\chardata\templates\chardata\changelog_content.html:181
@@ -2635,15 +2635,15 @@ msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:184
 msgid "Compare builds in one click"
-msgstr "Comparez vos builds en un clic"
+msgstr "Compare tes builds en un clic"
 
 #: .\chardata\templates\chardata\changelog_content.html:186
 msgid ""
 "Add any build to the comparison from its page, keep browsing, add more, then "
 "compare them all at once"
 msgstr ""
-"Ajoutez n'importe quel build à la comparaison depuis sa page, continuez à "
-"naviguer, ajoutez-en d'autres, puis comparez-les tous d'un coup"
+"Ajoute n'importe quel build à la comparaison depuis sa page, continue à "
+"naviguer, ajoutes-en d'autres, puis compare-les tous d'un coup"
 
 #: .\chardata\templates\chardata\changelog_content.html:195
 msgid "Set (panoply) pages"
@@ -2662,7 +2662,7 @@ msgid ""
 "Search all sets in the encyclopedia, and open a set from any item or from a "
 "generated build"
 msgstr ""
-"Recherchez toutes les panoplies dans l'encyclopédie, et ouvrez une panoplie "
+"Recherche toutes les panoplies dans l'encyclopédie, et ouvre une panoplie "
 "depuis un objet ou un équipement généré"
 
 #: .\chardata\templates\chardata\changelog_content.html:207
@@ -2700,7 +2700,7 @@ msgstr "Refonte moderne de tout le site, avec thèmes clair et sombre"
 msgid ""
 "The classic look is still available, switch back anytime with the toggle"
 msgstr ""
-"L'ancien look classique reste disponible, rebasculez quand vous voulez avec "
+"L'ancien look classique reste disponible, rebascule quand tu veux avec "
 "le bouton"
 
 #: .\chardata\templates\chardata\changelog_content.html:232
@@ -2726,7 +2726,7 @@ msgid ""
 "Smithmagic Lab: plan and simulate your maging with version-accurate runes, "
 "sink tracking and rune suggestions"
 msgstr ""
-"Atelier de Forgemagie : planifiez et simulez votre forgemagie avec les runes "
+"Atelier de Forgemagie : planifie et simule ta forgemagie avec les runes "
 "exactes de chaque version, le suivi du puits et des suggestions de runes"
 
 #: .\chardata\templates\chardata\changelog_content.html:247
@@ -2734,8 +2734,8 @@ msgid ""
 "My Inventory: save the items you own with their real rolls (screenshot "
 "import included) and let the optimizer build with them"
 msgstr ""
-"Mon Inventaire : enregistrez les objets que vous possédez avec leurs vrais "
-"jets (import par capture d'écran inclus) et laissez l'optimiseur composer "
+"Mon Inventaire : enregistre les objets que tu possèdes avec leurs vrais "
+"jets (import par capture d'écran inclus) et laisse l'optimiseur composer "
 "avec"
 
 #: .\chardata\templates\chardata\changelog_content.html:256
@@ -2803,7 +2803,7 @@ msgid ""
 "Smart Build: describe a build in plain language and get a starting setup "
 "(multilingual)"
 msgstr ""
-"Smart Build : décrivez un build en langage naturel et obtenez une base de "
+"Smart Build : décris un build en langage naturel et obtiens une base de "
 "départ (multilingue)"
 
 #: .\chardata\templates\chardata\changelog_content.html:296
@@ -2821,7 +2821,7 @@ msgid ""
 "Share builds anywhere: copy a build as text for Discord/forums, plus richer "
 "link previews"
 msgstr ""
-"Partagez vos builds partout : copie du build en texte pour Discord/forums, "
+"Partage tes builds partout : copie du build en texte pour Discord/forums, "
 "et aperçus de liens enrichis"
 
 #: .\chardata\templates\chardata\changelog_content.html:299
@@ -2871,8 +2871,8 @@ msgid ""
 "New: Customize Stats. Modify the stats of a specific item for your build "
 "(undercrafted items, familiars below max level)"
 msgstr ""
-"Nouveau : Personnaliser les stats. Modifiez les stats d'un objet pour votre "
-"build (objets sous-craftés, familiers sous le niveau max)"
+"Nouveau : Personnaliser les stats. Modifie les stats d'un objet pour ton build"
+" (objets sous-craftés, familiers sous le niveau max)"
 
 #: .\chardata\templates\chardata\changelog_content.html:315
 msgid "Exo mage stats now handled correctly in the custom stats editor"
@@ -2883,7 +2883,7 @@ msgstr ""
 #: .\chardata\templates\chardata\changelog_content.html:316
 msgid "Lock an empty slot to prevent the optimizer from filling it"
 msgstr ""
-"Verrouillez un emplacement vide pour empêcher l'optimiseur de le remplir"
+"Verrouille un emplacement vide pour empêcher l'optimiseur de le remplir"
 
 #: .\chardata\templates\chardata\changelog_content.html:317
 msgid "Stat filter in the item picker is now visible by default"
@@ -3006,7 +3006,7 @@ msgstr "Mars 2026"
 #: .\chardata\templates\chardata\changelog_content.html:376
 msgid "Encyclopedia launched: browse all items with stats and craft recipes"
 msgstr ""
-"Encyclopédie lancée : parcourez tous les objets avec leurs statistiques et "
+"Encyclopédie lancée : parcours tous les objets avec leurs statistiques et "
 "recettes de craft"
 
 #: .\chardata\templates\chardata\changelog_content.html:377
@@ -3130,7 +3130,7 @@ msgid ""
 "Shared builds: publish your build with a unique link, visible to the "
 "community"
 msgstr ""
-"Builds partagés : publiez votre build avec un lien unique, visible par la "
+"Builds partagés : publie ton build avec un lien unique, visible par la "
 "communauté"
 
 #: .\chardata\templates\chardata\changelog_content.html:445
@@ -3309,11 +3309,11 @@ msgstr "Paliers"
 #: .\chardata\templates\chardata\chardata.html:190
 #, python-format
 msgid "Use %%pointsUsed%% points to increase to %%newTotal%% at %%ratio%%:1"
-msgstr "Utilisez %%pointsUsed%% points pour augmenter à %%newTotal%% à %%ratio%%:1"
+msgstr "Utilise %%pointsUsed%% points pour augmenter à %%newTotal%% à %%ratio%%:1"
 
 #: .\chardata\templates\chardata\chardata.html:187
 msgid "Use %pointsUsed% points to increase to %newTotal% at %ratio%:1"
-msgstr "Utilisez %pointsUsed% points pour augmenter à %newTotal% à %ratio%:1"
+msgstr "Utilise %pointsUsed% points pour augmenter à %newTotal% à %ratio%:1"
 
 #: .\chardata\templates\chardata\chardata.html:312
 #, python-format
@@ -3328,7 +3328,7 @@ msgstr ""
 #: .\chardata\templates\chardata\check_your_email.html:7
 #: .\chardata\templates\chardata\check_your_email.html:14
 msgid "Confirm your email"
-msgstr "Confirmation de votre email"
+msgstr "Confirmation de ton email"
 
 #: .\chardata\templates\chardata\check_your_email.html:20
 #, python-format
@@ -3336,14 +3336,14 @@ msgid ""
 "We have sent you a confirmation email. Please click the link in the email "
 "and then <a href='%(login_link)s'>login</a>."
 msgstr ""
-"Nous vous avons envoyé un email de confirmation. Veuillez cliquer sur le "
-"lien dans l'email et vous <a href='%(login_link)s'>connecter</a> par la "
-"suite."
+"Nous t'avons envoyé un email de confirmation. Clique sur le lien dans l'email et <a href='%(login_link)s'>connecte-toi</a> par la suite"
+""
+"."
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:8
 #: .\chardata\templates\chardata\choose_compare_sets.html:79
 msgid "Choose sets to compare"
-msgstr "Choisissez les équipements à comparer"
+msgstr "Choisis les équipements à comparer"
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:9
 msgid ""
@@ -3377,13 +3377,13 @@ msgid ""
 "To compare builds that you own, type the build name or paste a link to "
 "the solution such as:"
 msgstr ""
-"Pour comparer les builds que vous possédez, tapez le nom du build ou "
-"collez le lien vers la solution comme cela :"
+"Pour comparer les builds que tu possèdes, tape le nom du build ou "
+"colle le lien vers la solution comme cela :"
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:119
 msgid "To compare other people's builds paste the sharing link, for example:"
 msgstr ""
-"Pour comparer les builds d'autres personnes collez le lien de partage, par "
+"Pour comparer les builds d'autres personnes colle le lien de partage, par "
 "exemple :"
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:125
@@ -3410,11 +3410,11 @@ msgid ""
 "your class, level and playstyle."
 msgstr ""
 "Trois questions, un build prêt à jouer. Pas d'assistant, pas de jargon. "
-"Choisissez simplement votre classe, votre niveau et votre style de jeu."
+"Choisis simplement ta classe, ton niveau et ton style de jeu."
 
 #: .\chardata\templates\chardata\coaching.html:60
 msgid "You need to be logged in to save this build to your account."
-msgstr "Vous devez être connecté pour enregistrer ce build sur votre compte."
+msgstr "Tu dois être connecté pour enregistrer ce build sur ton compte."
 
 #: .\chardata\templates\chardata\coaching.html:61
 #: .\chardata\templates\chardata\smart_build.html:54
@@ -3449,11 +3449,11 @@ msgstr "Optimiser mon build"
 
 #: .\chardata\templates\chardata\coaching.html:102
 msgid "Want full control over every stat?"
-msgstr "Vous voulez un contrôle total sur chaque caractéristique ?"
+msgstr "Tu veux un contrôle total sur chaque caractéristique ?"
 
 #: .\chardata\templates\chardata\coaching.html:103
 msgid "Use the full builder instead"
-msgstr "Utilisez plutôt l’éditeur complet"
+msgstr "Utilise plutôt l’éditeur complet"
 
 #: .\chardata\templates\chardata\compare_sets.html:10
 #: .\chardata\templates\chardata\compare_sets.html:21
@@ -3466,7 +3466,7 @@ msgid ""
 "below rather than the one in your browser."
 msgstr ""
 "C'est une comparaison entre plusieurs suggestions d'équipement. Pour la "
-"partager, utilisez le lien ci-dessous plutôt que celui de votre navigateur."
+"partager, utilise le lien ci-dessous plutôt que celui de ton navigateur."
 
 #: .\chardata\templates\chardata\compare_sets.html:44
 #: .\chardata\templates\chardata\solution.html:51
@@ -3561,7 +3561,7 @@ msgid ""
 "<strong>%(commenter_name)s</strong> just commented on your build "
 "<strong>\"%(build_name)s\"</strong>:"
 msgstr ""
-"<strong>%(commenter_name)s</strong> vient de commenter votre build <strong>« "
+"<strong>%(commenter_name)s</strong> vient de commenter ton build <strong>« "
 "%(build_name)s »</strong> :"
 
 #: .\chardata\templates\chardata\emails\new_comment.html:7
@@ -3571,7 +3571,7 @@ msgstr "Voir le commentaire"
 #: .\chardata\templates\chardata\emails\new_comment.html:11
 msgid "You can disable these notifications in your account settings."
 msgstr ""
-"Vous pouvez désactiver ces notifications dans les paramètres de votre compte."
+"Tu peux désactiver ces notifications dans les paramètres de ton compte."
 
 #: .\chardata\templates\chardata\emails\new_comment.txt:1
 #, python-format
@@ -3607,7 +3607,7 @@ msgid ""
 "Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, "
 "effects, equip conditions and recipes for each game version."
 msgstr ""
-"Parcourez l'encyclopédie Dofus complète : objets, panoplies, monstres, "
+"Parcours l'encyclopédie Dofus complète : objets, panoplies, monstres, "
 "drops, stats, effets, conditions d'équipement et recettes pour chaque "
 "version."
 
@@ -3624,8 +3624,8 @@ msgid ""
 "Fashionista."
 msgstr ""
 "%(item_name)s : caractéristiques Dofus, effets, conditions d'équipement et "
-"recette de craft. Découvrez des builds utilisant %(item_name)s et optimisez "
-"votre panoplie avec le Dofus Fashionista."
+"recette de craft. Découvre des builds utilisant %(item_name)s et optimise "
+"ta panoplie avec le Dofus Fashionista."
 
 #: .\chardata\templates\chardata\encyclopedia_item.html:96
 #: .\chardata\templates\chardata\encyclopedia_set.html:118
@@ -3669,7 +3669,7 @@ msgid ""
 "Browse Dofus monsters, their drops and the resources or items they provide "
 "for each game version."
 msgstr ""
-"Parcourez les monstres de Dofus, leurs drops et les ressources ou objets "
+"Parcours les monstres de Dofus, leurs drops et les ressources ou objets "
 "qu'ils fournissent pour chaque version du jeu."
 
 #: .\chardata\templates\chardata\encyclopedia_resource.html:8
@@ -3679,8 +3679,8 @@ msgid ""
 "Which Dofus items are crafted with %(resource_name)s. Find every item that "
 "uses this ingredient and optimize your build with the Dofus Fashionista."
 msgstr ""
-"Quels items Dofus se fabriquent avec %(resource_name)s. Trouvez tous les "
-"items qui utilisent cet ingrédient et optimisez votre build avec le Dofus "
+"Quels items Dofus se fabriquent avec %(resource_name)s. Trouve tous les "
+"items qui utilisent cet ingrédient et optimise ton build avec le Dofus "
 "Fashionista."
 
 #: .\chardata\templates\chardata\encyclopedia_set.html:8
@@ -3691,7 +3691,7 @@ msgid ""
 "number of pieces. Build and optimize this set with the Dofus Fashionista."
 msgstr ""
 "%(set_name)s : tous les objets de cette panoplie Dofus et les bonus de "
-"panoplie selon le nombre de pièces. Composez et optimisez cette panoplie "
+"panoplie selon le nombre de pièces. Compose et optimise cette panoplie "
 "avec le Dofus Fashionista."
 
 #: .\chardata\templates\chardata\encyclopedia_set.html:68
@@ -3713,8 +3713,8 @@ msgid ""
 "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or "
 "one of its items and build it with the Dofus Fashionista."
 msgstr ""
-"Parcourez toutes les panoplies Dofus et leurs bonus. Retrouvez une panoplie "
-"par son nom ou par l'un de ses objets, puis créez-la avec le Dofus "
+"Parcours toutes les panoplies Dofus et leurs bonus. Retrouve une panoplie "
+"par son nom ou par l'un de ses objets, puis crée-la avec le Dofus "
 "Fashionista."
 
 #: .\chardata\templates\chardata\encyclopedia_sets.html:51
@@ -3745,8 +3745,8 @@ msgid ""
 "can avoid items that are expensive, hard to obtain, require a dungeon to be "
 "complete, or are just plain ugly."
 msgstr ""
-"Déclarez les objets que votre personnage ne peut pas utiliser dans son "
-"équipement. Ainsi, vous pouvez éviter les objets chers, difficiles à "
+"Déclare les objets que ton personnage ne peut pas utiliser dans son "
+"équipement. Ainsi, tu peux éviter les objets chers, difficiles à "
 "obtenir, nécessitant d'avoir terminé un donjon, ou simplement moches."
 
 #: .\chardata\templates\chardata\exclusions.html:28
@@ -3855,8 +3855,8 @@ msgid ""
 "points in total. For example, suppose you have the following equipment:"
 msgstr ""
 "Chacun de ces nombres détermine la valeur des caractéristiques par rapport à "
-"votre demande. L’assistant va ensuite choisir la combinaison d’équipements "
-"avec le score total le plus haut. Par exemple, supposons que vous avez ces "
+"ta demande. L’assistant va ensuite choisir la combinaison d’équipements "
+"avec le score total le plus haut. Par exemple, supposons que tu as ces "
 "équipements :"
 
 #: .\chardata\templates\chardata\faq.html:44
@@ -3883,7 +3883,7 @@ msgid ""
 "10 points, equipment A will have a score of 2100 points, while equipment B "
 "will have a score of 1400 points, and the program will choose Item A."
 msgstr ""
-"Si vous choisissez une valeur de 10 par point d’intelligence et 10 par point "
+"Si tu choisis une valeur de 10 par point d’intelligence et 10 par point "
 "d’initiative, l’équipement A aura un score de 2100 points alors que "
 "l’équipement B aura un score de 1400 points et dans ce cas l’assistant "
 "choisira l’équipement A."
@@ -3894,14 +3894,14 @@ msgid ""
 "1 point, equipment A will have a score of 300 points, while equipment B will "
 "have a score of 500 points, and the program will choose Item B."
 msgstr ""
-"Si vous choisissez une valeur de 10 par point d’intelligence et 1 par point "
+"Si tu choisis une valeur de 10 par point d’intelligence et 1 par point "
 "d’initiative, l’équipement A aura un score de 300 points tandis que "
 "l’équipement B aura un score de 500 points et cette fois-ci l’assistant "
 "choisira l’équipement B."
 
 #: .\chardata\templates\chardata\faq.html:68
 msgid "That is our way of telling the program what to optimize. The range of each slider is the one that works best for each attribute, based on our experience. If you wish to use values outside of it, open the Weights and Minimums page from the sidebar and type them in."
-msgstr "C’est ainsi que nous indiquons à notre programme ce qu’il doit optimiser. L’intervalle de chaque curseur est celui que nous avons jugé le plus adapté, de par notre expérience. Si vous souhaitez utiliser des valeurs en dehors de cet intervalle, ouvrez la page « Poids et minimums » depuis le menu latéral et saisissez-les."
+msgstr "C’est ainsi que nous indiquons à notre programme ce qu’il doit optimiser. L’intervalle de chaque curseur est celui que nous avons jugé le plus adapté, de par notre expérience. Si tu souhaites utiliser des valeurs en dehors de cet intervalle, ouvre la page « Poids et minimums » depuis le menu latéral et saisis-les."
 
 #: .\chardata\templates\chardata\faq.html:70
 msgid "I asked for exos but I can’t find them on any item. Where are they?"
@@ -3920,11 +3920,11 @@ msgid ""
 "get an extra AP on your set."
 msgstr ""
 "Nous n’assignons pas d’exos à des équipements en particulier parce que nous "
-"pensons que vous êtes la meilleure personne pour décider où placer votre "
-"exo. Peut-être qu’un équipement particulier serait moins cher à acheter/"
-"forgemager sur votre serveur, ou vous avez déjà un exo sur l’un de vos "
-"équipements et souhaitez l’utiliser. Il est tout de même important de nous "
-"signaler si vous souhaitez ou non avoir des exos, car autrement, nous "
+"pensons que tu es la meilleure personne pour décider où placer ton exo"
+". Peut-être qu’un équipement particulier serait moins cher à acheter/"
+"forgemager sur ton serveur, ou tu as déjà un exo sur l’un de tes "
+"équipements et souhaites l’utiliser. Il est tout de même important de nous "
+"signaler si tu souhaites ou non avoir des exos, car autrement, nous "
 "pourrions utiliser des équipements avec des conditions sur les PA maximums "
 "qui pourraient devenir inutilisables à l’ajout d’un exo PA."
 
@@ -3941,8 +3941,8 @@ msgid ""
 "We assume that, if you don’t check either of the PVP options, the set you "
 "are building is a PVM set."
 msgstr ""
-"Nous partons du principe que, si vous ne cochez aucune des options PvP, la "
-"panoplie que vous construisez est destinée au PvM."
+"Nous partons du principe que, si tu ne coches aucune des options PvP, la "
+"panoplie que tu construis est destinée au PvM."
 
 #: .\chardata\templates\chardata\faq.html:77
 msgid "How does the site choose a weapon?"
@@ -3957,14 +3957,14 @@ msgid ""
 "aren’t really for hitting with. Forbid them and run again to see the next "
 "better option. "
 msgstr ""
-"Si vous ne verrouillez aucune arme, le site va choisir une arme sans prêter "
+"Si tu ne verrouilles aucune arme, le site va choisir une arme sans prêter "
 "attention aux dommages et va la sélectionner comme s’il s’agissait d’un "
-"équipement normal. Vous n’aurez donc pas forcément un item qui correspond à "
-"vos besoins en terme de frappe. Vous aurez en général une arme qui aura de "
-"bonnes caractéristiques pour votre classe, de plus elle aura tendance à "
-"frapper dans l’élément que vous aurez choisi. Il n’est pas rare d’obtenir "
-"une arme à bonus PA qui n'est pas réellement faite pour frapper. Interdisez-"
-"la et relancez l’assistant (une recherche) pour voir la prochaine meilleure "
+"équipement normal. Tu n’auras donc pas forcément un item qui correspond à "
+"tes besoins en terme de frappe. Tu auras en général une arme qui aura de "
+"bonnes caractéristiques pour ta classe, de plus elle aura tendance à "
+"frapper dans l’élément que tu auras choisi. Il n’est pas rare d’obtenir "
+"une arme à bonus PA qui n'est pas réellement faite pour frapper. Interdis-la"
+" et relance l’assistant (une recherche) pour voir la prochaine meilleure "
 "option."
 
 #: .\chardata\templates\chardata\faq.html:82
@@ -3989,8 +3989,8 @@ msgstr ""
 "soucier de leur élément principal. Sinon, les Osamodas peuvent avoir besoin "
 "d’une panoplie avec beaucoup de vitalité / résistance avec un petit peu "
 "d’intelligence ; c’est ainsi qu’ils indiquent que la défense compte "
-"davantage pour eux. Cocher une case de priorité sacrifie des points de votre "
-"élément principal (et d’autres caractéristiques) au profit de la priorité "
+"davantage pour eux. Cocher une case de priorité sacrifie des points de ton élément"
+" principal (et d’autres caractéristiques) au profit de la priorité "
 "choisie."
 
 #: .\chardata\templates\chardata\faq.html:84
@@ -3998,15 +3998,15 @@ msgid ""
 "Not checking any focus boxes is fine and correct for a lot of cases. It will "
 "give you an all-around set."
 msgstr ""
-"Ne sélectionner aucune case fonctionne aussi, cela vous donnera une panoplie "
+"Ne sélectionner aucune case fonctionne aussi, cela te donnera une panoplie "
 "équilibrée basée sur toutes les stats."
 
 #: .\chardata\templates\chardata\feed.html:32
 #, python-format
 msgid "Latest builds from the %(counter)s person you follow."
 msgid_plural "Latest builds from the %(counter)s people you follow."
-msgstr[0] "Derniers builds de %(counter)s personne que vous suivez."
-msgstr[1] "Derniers builds de %(counter)s personnes que vous suivez."
+msgstr[0] "Derniers builds de %(counter)s personne que tu suis."
+msgstr[1] "Derniers builds de %(counter)s personnes que tu suis."
 
 #: .\chardata\templates\chardata\feed.html:48
 #: .\chardata\templates\chardata\home.html:94
@@ -4022,12 +4022,12 @@ msgid ""
 "You aren't following anyone yet. Visit a build's page and click on its "
 "author's name to discover their profile."
 msgstr ""
-"Vous ne suivez encore personne. Visitez la page d'un build et cliquez sur le "
+"Tu ne suis encore personne. Visite la page d'un build et clique sur le "
 "nom de son auteur pour découvrir son profil."
 
 #: .\chardata\templates\chardata\feed.html:58
 msgid "The people you follow haven't shared any builds yet."
-msgstr "Les personnes que vous suivez n'ont pas encore partagé de builds."
+msgstr "Les personnes que tu suis n'ont pas encore partagé de builds."
 
 #: .\chardata\templates\chardata\forgemagie.html:7
 msgid ""
@@ -4106,7 +4106,7 @@ msgstr "Le theorycraft Dofus à la portée de tous"
 
 #: .\chardata\templates\chardata\home.html:45
 msgid "Dofus Fashionista is a free theorycrafting tool. Tell it your class, level and what you want, and it works out the best set it can find, usually in a few seconds. No spreadsheets, no three-hour item hunts. It's beginner-friendly, but also a serious optimizer: fine-tune every stat, compare builds, and min-max across all five versions of the game: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch. Save your characters, share your builds, and become a better theorycrafter, fast."
-msgstr "Dofus Fashionista est un outil de theorycraft gratuit. Indiquez votre classe, votre niveau et ce que vous recherchez, et il détermine le meilleur équipement qu’il puisse trouver, en général en quelques secondes. Sans tableur, sans heures perdues à fouiller les objets. Facile pour débuter, mais aussi un vrai outil d’optimisation : ajustez chaque caractéristique, comparez vos builds et poussez l’opti sur les cinq versions du jeu : Dofus 3, Dofus 3 Bêta, Dofus 2, Dofus Retro et Dofus Touch. Sauvegardez vos personnages, partagez vos builds et devenez vite un crack du theorycraft."
+msgstr "Dofus Fashionista est un outil de theorycraft gratuit. Indique ta classe, ton niveau et ce que tu recherches, et il détermine le meilleur équipement qu’il puisse trouver, en général en quelques secondes. Sans tableur, sans heures perdues à fouiller les objets. Facile pour débuter, mais aussi un vrai outil d’optimisation : ajuste chaque caractéristique, compare tes builds et pousse l’opti sur les cinq versions du jeu : Dofus 3, Dofus 3 Bêta, Dofus 2, Dofus Retro et Dofus Touch. Sauvegarde tes personnages, partage tes builds et deviens vite un crack du theorycraft."
 
 #: .\chardata\templates\chardata\home.html:77
 msgid "New to Dofus Fashionista?"
@@ -4187,7 +4187,7 @@ msgid ""
 "here:"
 msgstr ""
 "Si certains items <b>doivent</b> apparaître dans l'équipement final, "
-"verrouillez-les ici :"
+"verrouille-les ici :"
 
 #: .\chardata\templates\chardata\inclusions.html:21
 msgid ""
@@ -4195,7 +4195,7 @@ msgid ""
 "it to adjust individual stats (e.g. for a partially forged item)."
 msgstr ""
 "Une fois un objet sélectionné, un bouton <b>Personnaliser les "
-"caractéristiques</b> apparaît. Utilisez-le pour ajuster les caractéristiques "
+"caractéristiques</b> apparaît. Utilise-le pour ajuster les caractéristiques "
 "individuelles (par ex. pour un objet partiellement forgé)."
 
 #: .\chardata\templates\chardata\inclusions.html:100
@@ -4222,11 +4222,11 @@ msgstr "Aucune suggestion d'équipement trouvée"
 #: .\chardata\templates\chardata\infeasible.html:22
 msgid "We could not find a set that fits all your needs"
 msgstr ""
-"Nous n'avons pas pu trouver un équipement qui s'adapte à tous vos besoins"
+"Nous n'avons pas pu trouver un équipement qui s'adapte à tous tes besoins"
 
 #: .\chardata\templates\chardata\infeasible.html:23
 msgid "Try one or more of the following tips and try again:"
-msgstr "Suivez un ou plusieurs des conseils suivants et réessayez :"
+msgstr "Suis un ou plusieurs des conseils suivants et réessaie :"
 
 #: .\chardata\templates\chardata\infeasible.html:25
 #, python-format
@@ -4234,8 +4234,8 @@ msgid ""
 "Remove or lower <a href=%(mins_link)s>minimum characteristics</a> and raise "
 "their <a href=%(weights_link)s>weights</a> instead"
 msgstr ""
-"Supprimez ou diminuez les <a href=%(mins_link)s>caractéristiques minimales</"
-"a>  et augmentez leur <a href=%(weights_link)s>poids</a> à la place"
+"Supprime ou diminue les <a href=%(mins_link)s>caractéristiques minimales</"
+"a>  et augmente leur <a href=%(weights_link)s>poids</a> à la place"
 
 #: .\chardata\templates\chardata\infeasible.html:26
 #, python-format
@@ -4243,7 +4243,7 @@ msgid ""
 "Check if you <a href=%(lock_link)s>locked</a> an item with conditions that "
 "can't be met"
 msgstr ""
-"Vérifiez que vous n'avez pas <a href=%(lock_link)s>verrouillé</a> un item "
+"Vérifie que tu n'as pas <a href=%(lock_link)s>verrouillé</a> un item "
 "avec des conditions qui ne peuvent pas être satisfaites"
 
 #: .\chardata\templates\chardata\infeasible.html:27
@@ -4260,7 +4260,7 @@ msgstr "Autoriser <a href=%(exo_link)s>exotisations</a>"
 msgid ""
 "Check if you are asking for &#x00BD; crits on a char whose level is too low"
 msgstr ""
-"Vérifiez que vous ne demandez pas le &#x00BD; cc sur un personnage dont le "
+"Vérifie que tu ne demandes pas le &#x00BD; cc sur un personnage dont le "
 "niveau est trop bas."
 
 #: .\chardata\templates\chardata\inventory_source.html:3
@@ -4358,9 +4358,9 @@ msgid ""
 "Fashionista does store your email address and your Google ID."
 msgstr ""
 "Dofus Fashionista utilise Google OAuth pour authentifier les utilisateurs. "
-"Cela signifie que Dofus Fashionista ne stocke pas votre mot de passe. "
-"Cependant, Dofus Fashionista stocke votre adresse e-mail et votre "
-"identifiant Google."
+"Cela signifie que Dofus Fashionista ne stocke pas ton mot de passe. "
+"Cependant, Dofus Fashionista stocke ton adresse e-mail et ton identifiant"
+" Google."
 
 #: .\chardata\templates\chardata\license.html:62
 msgid ""
@@ -4368,9 +4368,9 @@ msgid ""
 "Fashionista. You can create an account with a username and password. The "
 "Dofus Fashionista stores your password in an encrypted form."
 msgstr ""
-"Si vous préférez ne pas utiliser Google OAuth, vous pouvez toujours utiliser "
-"Dofus Fashionista. Vous pouvez créer un compte avec un nom d'utilisateur et "
-"un mot de passe. Dofus Fashionista stocke votre mot de passe sous une forme "
+"Si tu préfères ne pas utiliser Google OAuth, tu peux toujours utiliser "
+"Dofus Fashionista. Tu peux créer un compte avec un nom d'utilisateur et "
+"un mot de passe. Dofus Fashionista stocke ton mot de passe sous une forme "
 "cryptée."
 
 #: .\chardata\templates\chardata\license.html:63
@@ -4378,7 +4378,7 @@ msgid ""
 "The Dofus Fashionista also stores the characters you create. This "
 "information is used to provide the services of the Dofus Fashionista."
 msgstr ""
-"Dofus Fashionista stocke également les personnages que vous créez. Ces "
+"Dofus Fashionista stocke également les personnages que tu crées. Ces "
 "informations sont utilisées pour fournir les services de Dofus Fashionista."
 
 #: .\chardata\templates\chardata\license.html:64
@@ -4391,7 +4391,7 @@ msgstr ""
 "Dofus Fashionista utilise les services Google (Analytics, AdSense, OAuth) "
 "pour améliorer l'expérience utilisateur, afficher des publicités pertinentes "
 "et fournir l'authentification. Ces services peuvent collecter des données "
-"d'utilisation anonymes. Vous pouvez gérer vos préférences de consentement "
+"d'utilisation anonymes. Tu peux gérer tes préférences de consentement "
 "via la bannière de paramètres de confidentialité."
 
 #: .\chardata\templates\chardata\load_projects.html:16
@@ -4400,8 +4400,8 @@ msgid ""
 "You have reached the maximum number of builds. Please delete some old "
 "builds and try again."
 msgstr ""
-"Vous avez atteint le nombre maximum de builds. Effacez de vieux builds et "
-"réessayez."
+"Tu as atteint le nombre maximum de builds. Efface de vieux builds et "
+"réessaie."
 
 #: .\chardata\templates\chardata\load_projects.html:22
 msgid "All"
@@ -4440,7 +4440,7 @@ msgstr "Ajouter à la comparaison"
 
 #: .\chardata\templates\chardata\load_projects.html:57
 msgid "Tick the sets you want to compare (2 to 4), then click Compare."
-msgstr "Cochez les équipements à comparer (2 à 4), puis cliquez sur Comparer."
+msgstr "Coche les équipements à comparer (2 à 4), puis clique sur Comparer."
 
 #: .\chardata\templates\chardata\load_projects.html:59
 #: .\chardata\templates\chardata\solution_item.html:30
@@ -4459,16 +4459,16 @@ msgid ""
 "You don't have any builds yet. Create one <a "
 "href=\"%(create_project_link)s\">here</a>."
 msgstr ""
-"Vous n'avez aucun build. Cliquez <a href=\"%(create_project_link)s\">ici</"
+"Tu n'as aucun build. Clique <a href=\"%(create_project_link)s\">ici</"
 "a> pour en créer un."
 
 #: .\chardata\templates\chardata\load_projects.html:74
 msgid "You need to login before you can load a build."
-msgstr "Vous devez vous connecter avant de pouvoir ouvrir un build."
+msgstr "Tu dois te connecter avant de pouvoir ouvrir un build."
 
 #: .\chardata\templates\chardata\load_projects.html:97
 msgid "Are you sure you want to delete?"
-msgstr "Êtes-vous sûr de vouloir l'effacer ?"
+msgstr "Es-tu sûr de vouloir l'effacer ?"
 
 #: .\chardata\templates\chardata\load_projects.html:129
 msgid "An error has occurred"
@@ -4486,7 +4486,7 @@ msgstr "Création de l'équipement"
 #: .\chardata\templates\chardata\login.html:25
 #, python-format
 msgid "Welcome, you are logged in as %(user_alias)s!"
-msgstr "Bienvenue, vous êtes connecté en tant que %(user_alias)s !"
+msgstr "Bienvenue, tu es connecté en tant que %(user_alias)s !"
 
 #: .\chardata\templates\chardata\login.html:30
 #, python-format
@@ -4494,7 +4494,7 @@ msgid ""
 "You can change your alias, email and password <a "
 "href='%(manage_account_url)s'>here</a>."
 msgstr ""
-"Vous pouvez changer votre surnom, email et mot de passe <a "
+"Tu peux changer ton surnom, email et mot de passe <a "
 "href='%(manage_account_url)s'>ici</a>."
 
 #: .\chardata\templates\chardata\login.html:37
@@ -4510,12 +4510,12 @@ msgstr ""
 msgid ""
 "Your email had already been confirmed. Please type your password to enter."
 msgstr ""
-"Votre email a déjà été confirmé. Tapez votre mot de passe pour entrer."
+"Ton email a déjà été confirmé. Tape ton mot de passe pour entrer."
 
 #: .\chardata\templates\chardata\login.html:49
 msgid "Thanks for confirming your email. Please type your password to enter."
 msgstr ""
-"Merci d'avoir confirmé votre email. Tapez votre mot de passe pour entrer."
+"Merci d'avoir confirmé ton email. Tape ton mot de passe pour entrer."
 
 #: .\chardata\templates\chardata\login.html:56
 #: .\chardata\templates\chardata\login.html:102
@@ -4565,7 +4565,7 @@ msgid ""
 "Remember to never use your Dofus login and password on any external websites "
 "(which includes this one)"
 msgstr ""
-"Rappelez-vous de ne jamais utiliser votre nom d'utilisateur et votre mot de "
+"Rappelle-toi de ne jamais utiliser ton nom d'utilisateur et ton mot de "
 "passe de Dofus sur des sites Internet externes (celui-ci y compris)"
 
 #: .\chardata\templates\chardata\login.html:113
@@ -4637,7 +4637,7 @@ msgstr "Grand"
 
 #: .\chardata\templates\chardata\manage_account.html:85
 msgid "Change password"
-msgstr "Changer votre mot de passe"
+msgstr "Changer ton mot de passe"
 
 #: .\chardata\templates\chardata\manage_account.html:88
 msgid "Old Password"
@@ -4649,11 +4649,11 @@ msgstr "Nouveau mot de passe"
 
 #: .\chardata\templates\chardata\manage_account.html:104
 msgid "Confirm New Password"
-msgstr "Confirmer votre mot de passe"
+msgstr "Confirmer ton mot de passe"
 
 #: .\chardata\templates\chardata\manage_account.html:117
 msgid "Change Password"
-msgstr "Changer votre mot de passe"
+msgstr "Changer ton mot de passe"
 
 #: .\chardata\templates\chardata\nomessage.html:8
 #: .\chardata\templates\chardata\thankyou.html:8
@@ -4662,7 +4662,7 @@ msgstr "Merci"
 
 #: .\chardata\templates\chardata\nomessage.html:14
 msgid "Your message could not be sent."
-msgstr "Votre message n'a pas pu être envoyé."
+msgstr "Ton message n'a pas pu être envoyé."
 
 #: .\chardata\templates\chardata\nomessage.html:15
 
@@ -4670,13 +4670,13 @@ msgstr "Votre message n'a pas pu être envoyé."
 #: .\chardata\templates\chardata\thankyou.html:17
 #, python-format
 msgid "Click <a href=\"%(home_url)s\">here</a> to go back."
-msgstr "Cliquez <a href=\"%(home_url)s\">ici</a> pour revenir en arrière"
+msgstr "Clique <a href=\"%(home_url)s\">ici</a> pour revenir en arrière"
 
 #: .\chardata\templates\chardata\options.html:18
 msgid ""
 "Choose what expensive or uncommon options can be used in your character's "
 "set."
-msgstr "Choisissez quelles options coûteuses ou peu courantes peuvent être utilisées dans le stuff de votre personnage."
+msgstr "Choisis quelles options coûteuses ou peu courantes peuvent être utilisées dans le stuff de ton personnage."
 
 #: .\chardata\templates\chardata\options.html:29
 #: .\chardata\templates\chardata\wizard_options.html:11
@@ -4767,15 +4767,15 @@ msgstr "Trophées"
 
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "A workshop that knows your stock"
-msgstr "Un atelier qui connaît votre stock"
+msgstr "Un atelier qui connaît ton stock"
 
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Type what you already own: each resource turns green when gathered, orange when partial, and the shopping list keeps only what is still missing."
-msgstr "Indiquez ce que vous possédez déjà : chaque ressource passe au vert une fois réunie, à l’orange si elle est partielle, et la liste de courses ne garde que ce qui manque encore."
+msgstr "Indique ce que tu possèdes déjà : chaque ressource passe au vert une fois réunie, à l’orange si elle est partielle, et la liste de courses ne garde que ce qui manque encore."
 
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Add an item from its page, a whole set from its set page, or search from the workshop itself, then filter the cards, craft one and undo it within seconds."
-msgstr "Ajoutez un objet depuis sa page, une panoplie entière depuis la sienne ou cherchez directement dans l’atelier, puis filtrez les cartes, craftez-en un et annulez en quelques secondes."
+msgstr "Ajoute un objet depuis sa page, une panoplie entière depuis la sienne ou cherche directement dans l’atelier, puis filtre les cartes, craftes-en un et annule en quelques secondes."
 
 #: .\chardata\templates\chardata\options.html
 #: .\chardata\templates\chardata\changelog_content.html
@@ -4848,7 +4848,7 @@ msgstr "Choisir un nouveau mot de passe"
 #: .\chardata\templates\chardata\password_reset_form.html:21
 #, python-format
 msgid "Choose a new password for <b>%(username)s</b>."
-msgstr "Choisissez un nouveau mot de passe pour <b>%(username)s</b>."
+msgstr "Choisis un nouveau mot de passe pour <b>%(username)s</b>."
 
 #: .\chardata\templates\chardata\password_reset_form.html:27
 msgid "New password"
@@ -4881,8 +4881,8 @@ msgid ""
 "How Dofus Fashionista handles your data: accounts, saved builds, cookies, "
 "Google AdSense and Analytics, consent, and your privacy rights."
 msgstr ""
-"Comment le Dofus Fashionista traite vos données : comptes, builds "
-"enregistrés, cookies, Google AdSense et Analytics, consentement et vos "
+"Comment le Dofus Fashionista traite tes données : comptes, builds "
+"enregistrés, cookies, Google AdSense et Analytics, consentement et tes "
 "droits en matière de confidentialité."
 
 #: .\chardata\templates\chardata\privacy.html:21
@@ -4891,7 +4891,7 @@ msgstr "Dernière mise à jour : septembre 2026"
 
 #: .\chardata\templates\chardata\privacy.html:23
 msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
-msgstr "Le Dofus Fashionista (\"nous\", \"le site\") est un fan-site gratuit et open source qui optimise automatiquement des panoplies pour le jeu Dofus. Cette page explique quelles données nous collectons, pourquoi, et les choix dont vous disposez. Nous ne sommes pas affiliés à Ankama Games."
+msgstr "Le Dofus Fashionista (\"nous\", \"le site\") est un fan-site gratuit et open source qui optimise automatiquement des panoplies pour le jeu Dofus. Cette page explique quelles données nous collectons, pourquoi, et les choix dont tu disposes. Nous ne sommes pas affiliés à Ankama Games."
 
 #: .\chardata\templates\chardata\privacy.html:25
 msgid "Information we collect"
@@ -4904,11 +4904,11 @@ msgid ""
 "email address and Google account ID instead of a password: we never see or "
 "store your Google password."
 msgstr ""
-"<b>Informations de compte.</b> Si vous créez un compte, nous stockons votre "
-"adresse e-mail et un mot de passe chiffré. Si vous vous connectez avec "
-"Google, nous stockons votre adresse e-mail et votre identifiant de compte "
+"<b>Informations de compte.</b> Si tu crées un compte, nous stockons ton adresse"
+" e-mail et un mot de passe chiffré. Si tu te connectes avec "
+"Google, nous stockons ton adresse e-mail et ton identifiant de compte "
 "Google au lieu d'un mot de passe : nous ne voyons ni ne stockons jamais "
-"votre mot de passe Google."
+"ton mot de passe Google."
 
 #: .\chardata\templates\chardata\privacy.html:28
 msgid ""
@@ -4916,17 +4916,17 @@ msgid ""
 "shared links you make are stored so the site can provide its features and "
 "so you can return to your work."
 msgstr ""
-"<b>Contenu que vous créez.</b> Les personnages, builds, tags, commentaires "
-"et liens de partage que vous créez sont stockés afin que le site puisse "
-"fournir ses fonctionnalités et que vous puissiez retrouver votre travail."
+"<b>Contenu que tu crées.</b> Les personnages, builds, tags, commentaires "
+"et liens de partage que tu crées sont stockés afin que le site puisse "
+"fournir ses fonctionnalités et que tu puisses retrouver ton travail."
 
 #: .\chardata\templates\chardata\privacy.html:29
 msgid ""
 "<b>Messages.</b> If you contact us, we keep the message and the address you "
 "provide so we can reply."
 msgstr ""
-"<b>Messages.</b> Si vous nous contactez, nous conservons le message et "
-"l'adresse que vous fournissez afin de pouvoir vous répondre."
+"<b>Messages.</b> Si tu nous contactes, nous conservons le message et "
+"l'adresse que tu fournis afin de pouvoir te répondre."
 
 #: .\chardata\templates\chardata\privacy.html:30
 msgid ""
@@ -4940,10 +4940,10 @@ msgstr ""
 "pages visitées, pour la sécurité et le bon fonctionnement du service."
 
 msgid "<b>Import page.</b> When you use the import page, we count, per day and game version, where each import comes from (the website's name for a link, otherwise only whether it was pasted text or a screenshot) and whether it became a build, so we know which sites to support next. We never keep the link, the pasted text or who pasted it."
-msgstr "<b>Page d'import.</b> Quand vous utilisez la page d'import, nous comptons, par jour et par version du jeu, d'où vient chaque import (le nom du site pour un lien, sinon seulement s'il s'agit de texte collé ou d'une capture d'écran) et s'il est devenu un build, pour savoir quels sites prendre en charge ensuite. Nous ne gardons jamais le lien, le texte collé ni qui l'a collé."
+msgstr "<b>Page d'import.</b> Quand tu utilises la page d'import, nous comptons, par jour et par version du jeu, d'où vient chaque import (le nom du site pour un lien, sinon seulement s'il s'agit de texte collé ou d'une capture d'écran) et s'il est devenu un build, pour savoir quels sites prendre en charge ensuite. Nous ne gardons jamais le lien, le texte collé ni qui l'a collé."
 
 msgid "<b>Exports.</b> When you export one of your builds, or another site fetches a shared build through our API, we count, per day and game version, where each export goes (a JSON file, another build site, or the domain name of the site that fetched it), so we know which exports are used. We never keep which build it was or anything that identifies you."
-msgstr "<b>Exports.</b> Quand vous exportez un de vos builds, ou qu'un autre site récupère un build partagé via notre API, nous comptons, par jour et par version du jeu, la destination de chaque export (un fichier JSON, un autre site de builds, ou le nom de domaine du site qui l'a récupéré), pour savoir quels exports sont utilisés. Nous ne gardons jamais le build concerné ni rien qui permette de vous identifier."
+msgstr "<b>Exports.</b> Quand tu exportes un de tes builds, ou qu'un autre site récupère un build partagé via notre API, nous comptons, par jour et par version du jeu, la destination de chaque export (un fichier JSON, un autre site de builds, ou le nom de domaine du site qui l'a récupéré), pour savoir quels exports sont utilisés. Nous ne gardons jamais le build concerné ni rien qui permette de t'identifier."
 
 #: .\chardata\templates\chardata\privacy.html:33
 msgid "Cookies and local storage"
@@ -4957,9 +4957,9 @@ msgid ""
 "below may also set their own cookies."
 msgstr ""
 "Nous utilisons un petit nombre de cookies et le stockage local du navigateur "
-"pour faire fonctionner le site : un cookie de session lorsque vous êtes "
+"pour faire fonctionner le site : un cookie de session lorsque tu es "
 "connecté, et des préférences telles que le thème, la langue et les options "
-"d'interface que vous avez choisis. Les services tiers décrits ci-dessous "
+"d'interface que tu as choisis. Les services tiers décrits ci-dessous "
 "peuvent également déposer leurs propres cookies."
 
 #: .\chardata\templates\chardata\privacy.html:36
@@ -4985,8 +4985,8 @@ msgid ""
 "\" target=\"_blank\" rel=\"noopener noreferrer\">My Ad Center</a>."
 msgstr ""
 "<b>Google AdSense.</b> Google et ses partenaires utilisent des cookies pour "
-"diffuser des publicités basées sur vos visites précédentes sur ce site et "
-"d'autres. Vous pouvez découvrir comment Google utilise les données des sites "
+"diffuser des publicités basées sur tes visites précédentes sur ce site et "
+"d'autres. Tu peux découvrir comment Google utilise les données des sites "
 "qui font appel à ses services sur <a href=\"https://policies.google.com/"
 "technologies/partner-sites\" target=\"_blank\" rel=\"noopener "
 "noreferrer\">policies.google.com/technologies/partner-sites</a>, et gérer la "
@@ -5000,9 +5000,9 @@ msgid ""
 "the use of cookies for personalized advertising before any non-essential "
 "cookies are set."
 msgstr ""
-"<b>Consentement (EEE, Royaume-Uni et Suisse).</b> Si vous nous visitez "
+"<b>Consentement (EEE, Royaume-Uni et Suisse).</b> Si tu nous visites "
 "depuis une région qui l'exige, un message de consentement certifié par "
-"Google vous permet d'accepter ou de refuser l'utilisation de cookies à des "
+"Google te permet d'accepter ou de refuser l'utilisation de cookies à des "
 "fins de publicité personnalisée avant le dépôt de tout cookie non essentiel."
 
 #: .\chardata\templates\chardata\privacy.html:41
@@ -5031,7 +5031,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\privacy.html:46
 msgid "How we use your data"
-msgstr "Comment nous utilisons vos données"
+msgstr "Comment nous utilisons tes données"
 
 #: .\chardata\templates\chardata\privacy.html:47
 msgid ""
@@ -5041,13 +5041,13 @@ msgid ""
 "personal data."
 msgstr ""
 "Nous utilisons les informations ci-dessus uniquement pour exploiter et "
-"améliorer le site, fournir vos builds et votre compte enregistrés, afficher "
-"la publicité qui finance le service, répondre à vos messages et assurer la "
-"sécurité du site. Nous ne vendons pas vos données personnelles."
+"améliorer le site, fournir tes builds et ton compte enregistrés, afficher "
+"la publicité qui finance le service, répondre à tes messages et assurer la "
+"sécurité du site. Nous ne vendons pas tes données personnelles."
 
 #: .\chardata\templates\chardata\privacy.html:49
 msgid "Your rights and choices"
-msgstr "Vos droits et vos choix"
+msgstr "Tes droits et tes choix"
 
 #: .\chardata\templates\chardata\privacy.html:50
 msgid ""
@@ -5058,13 +5058,13 @@ msgid ""
 "advertising cookies through the consent message and through your Google Ad "
 "settings."
 msgstr ""
-"Vous pouvez consulter et modifier vos builds à tout moment lorsque vous "
-"êtes connecté, et vous pouvez demander la suppression de votre compte et des "
-"données associées en nous contactant. Selon votre lieu de résidence, vous "
-"pouvez disposer de droits d'accès, de rectification, de suppression ou "
-"d'opposition au traitement de vos données personnelles. Vous pouvez "
+"Tu peux consulter et modifier tes builds à tout moment lorsque tu es"
+" connecté, et tu peux demander la suppression de ton compte et des "
+"données associées en nous contactant. Selon ton lieu de résidence, tu peux"
+" disposer de droits d'accès, de rectification, de suppression ou "
+"d'opposition au traitement de tes données personnelles. Tu peux "
 "également contrôler les cookies publicitaires via le message de consentement "
-"et via les paramètres de vos annonces Google."
+"et via les paramètres de tes annonces Google."
 
 #: .\chardata\templates\chardata\privacy.html:52
 #: chardata/templates/chardata/privacy.html
@@ -5080,9 +5080,9 @@ msgid ""
 "needed to provide the service. If you delete your account, the associated "
 "data is removed."
 msgstr ""
-"Nous conservons les données de compte et de build tant que votre compte est "
-"actif ou aussi longtemps que nécessaire pour fournir le service. Si vous "
-"supprimez votre compte, les données associées sont supprimées."
+"Nous conservons les données de compte et de build tant que ton compte est "
+"actif ou aussi longtemps que nécessaire pour fournir le service. Si tu supprimes"
+" ton compte, les données associées sont supprimées."
 
 #: .\chardata\templates\chardata\privacy.html:55
 msgid "Children"
@@ -5121,8 +5121,8 @@ msgid ""
 "For any question about this policy or your data, please <a "
 "href=\"%(contact_url)s\">contact us</a>."
 msgstr ""
-"Pour toute question concernant cette politique ou vos données, veuillez <a "
-"href=\"%(contact_url)s\">nous contacter</a>."
+"Pour toute question concernant cette politique ou tes données, <a href=\"%(contact_url)s\">contacte-nous</a>"
+"."
 
 #: .\chardata\templates\chardata\projdetails.html:8
 #: .\chardata\templates\chardata\projdetails.html:21
@@ -5291,7 +5291,7 @@ msgstr ""
 #, python-format
 msgid "Check at most %(limit)d boxes in the focus column."
 msgstr ""
-"Cochez au maximum %(limit)d cases dans la colonne « Se concentrer sur »."
+"Coche au maximum %(limit)d cases dans la colonne « Se concentrer sur »."
 
 #: .\chardata\templates\chardata\projdetails.html:85
 msgid "Create a set by hand"
@@ -5497,7 +5497,7 @@ msgstr "Récupération du mot de passe"
 
 #: .\chardata\templates\chardata\pw_recovery_email.html:21
 msgid "Please enter your registered email"
-msgstr "Veuillez entrer votre email enregistré "
+msgstr "Entre ton email enregistré "
 
 #: .\chardata\templates\chardata\pw_recovery_email.html:25
 msgid "Send Email"
@@ -5519,8 +5519,8 @@ msgid ""
 "not authenticated or unavailable. Please try again later or contact support."
 msgstr ""
 "Nous n'avons pas pu envoyer l'e-mail de récupération pour le moment car le "
-"service d'e-mail n'est pas authentifié ou est indisponible. Veuillez "
-"réessayer plus tard ou contacter le support."
+"service d'e-mail n'est pas authentifié ou est indisponible. "
+"Réessaie plus tard ou contacte le support."
 
 #: .\chardata\templates\chardata\recover_password.html:29
 #, python-format
@@ -5529,23 +5529,23 @@ msgid ""
 "can be used to set a new password."
 msgstr ""
 "Nous avons envoyé un email à %(email)s avec un lien de récupération du mot "
-"de passe. Ce lien vous permet de définir un nouveau mot de passe."
+"de passe. Ce lien te permet de définir un nouveau mot de passe."
 
 #: .\chardata\templates\chardata\shared_builds.html:9
 msgid ""
 "Browse community Dofus builds shared by players: optimized equipment sets by "
 "class and level, with full stats. Find inspiration and build your own."
 msgstr ""
-"Parcourez les builds Dofus partagés par la communauté : panoplies optimisées "
-"par classe et niveau, avec toutes les caractéristiques. Trouvez "
-"l'inspiration et créez le vôtre."
+"Parcours les builds Dofus partagés par la communauté : panoplies optimisées "
+"par classe et niveau, avec toutes les caractéristiques. Trouve "
+"l'inspiration et crée le tien."
 
 #: .\chardata\templates\chardata\shared_builds.html:22
 msgid ""
 "Browse and discover builds shared by the community. Click on any build to "
 "view details."
 msgstr ""
-"Parcourez et découvrez les builds partagés par la communauté. Cliquez sur un "
+"Parcours et découvre les builds partagés par la communauté. Clique sur un "
 "build pour voir les détails."
 
 #: .\chardata\templates\chardata\shared_builds.html:27
@@ -5739,12 +5739,12 @@ msgstr "Dernier"
 msgid ""
 "No shared builds found matching your criteria. Try adjusting your filters."
 msgstr ""
-"Aucun build partagé trouvé correspondant à vos critères. Essayez d'ajuster "
-"vos filtres."
+"Aucun build partagé trouvé correspondant à tes critères. Essaie d'ajuster "
+"tes filtres."
 
 #: .\chardata\templates\chardata\shared_builds.html:412
 msgid "You can select up to 2 focus aspects only."
-msgstr "Vous pouvez sélectionner au maximum 2 aspects prioritaires."
+msgstr "Tu peux sélectionner au maximum 2 aspects prioritaires."
 
 #: .\chardata\templates\chardata\shared_builds.html:445
 #: .\chardata\templates\chardata\solution.html:1622
@@ -5778,13 +5778,13 @@ msgid ""
 "Describe your character in plain words (class, level, element, playstyle), "
 "and we'll build it. Works in English, French, Spanish, Portuguese and German."
 msgstr ""
-"Décrivez votre personnage avec des mots simples (classe, niveau, élément, "
+"Décris ton personnage avec des mots simples (classe, niveau, élément, "
 "style de jeu), et nous le construisons. Fonctionne en anglais, français, "
 "espagnol, portugais et allemand."
 
 #: .\chardata\templates\chardata\smart_build.html:53
 msgid "Log in to save this build to your account."
-msgstr "Connectez-vous pour enregistrer ce build sur votre compte."
+msgstr "Connecte-toi pour enregistrer ce build sur ton compte."
 
 #: .\chardata\templates\chardata\smart_build.html:62
 msgid "e.g. Iop 200 earth PvM"
@@ -5808,11 +5808,11 @@ msgstr "Créer ce build"
 
 #: .\chardata\templates\chardata\smart_build.html:83
 msgid "Not quite? Edit your description above and search again."
-msgstr "Pas tout à fait ? Modifiez votre description ci-dessus et relancez."
+msgstr "Pas tout à fait ? Modifie ta description ci-dessus et relance."
 
 #: .\chardata\templates\chardata\smart_build.html:89
 msgid "Try:"
-msgstr "Essayez :"
+msgstr "Essaie :"
 
 #: .\chardata\templates\chardata\solution.html:10
 msgid "build optimized on Dofus Fashionista"
@@ -5821,7 +5821,7 @@ msgstr "build optimisé sur Dofus Fashionista"
 #: .\chardata\templates\chardata\solution.html:21
 msgid "build optimized on Dofus Fashionista. Like it, comment it, copy it."
 msgstr ""
-"build optimisé sur Dofus Fashionista. Aimez-le, commentez-le, copiez-le."
+"build optimisé sur Dofus Fashionista. Aime-le, commente-le, copie-le."
 
 #: .\chardata\templates\chardata\solution.html:56
 msgid "Male or female"
@@ -5910,11 +5910,11 @@ msgstr "Vérification du build"
 #: .\chardata\templates\chardata\solution.html:131
 msgid "Some items may have stronger options for your build:"
 msgstr ""
-"Certains objets pourraient avoir de meilleures options pour votre build :"
+"Certains objets pourraient avoir de meilleures options pour ton build :"
 
 #: .\chardata\templates\chardata\solution.html:149
 msgid "This is a saved solution. Restore it to edit it, or compare it with your current build."
-msgstr "Ceci est une solution enregistrée. Restaurez-la pour la modifier, ou comparez-la avec votre build actuel."
+msgstr "Ceci est une solution enregistrée. Restaure-la pour la modifier, ou compare-la avec ton build actuel."
 
 #: .\chardata\templates\chardata\solution.html:154
 #, python-format
@@ -5938,21 +5938,21 @@ msgid ""
 "button' style='position: relative; bottom: -5px; left: 0px;' src=%(switch)s "
 "title='Switch'>) button."
 msgstr ""
-"Si vous n'aimez pas un item, cliquez sur le bouton ( <img style='position: "
+"Si tu n'aimes pas un item, clique sur le bouton ( <img style='position: "
 "relative; bottom: -3px; left: -2px;' src=%(delete)s title='Interdire'> ) "
 "interdire en dessous de son nom et <a href=\"%(run_again_link)s\" "
-"class=\"rerun-button\">relancez</a>. Si, au contraire, vous voulez "
-"verrouiller un item pour vos futurs équipements pour ce personnage, cliquez "
+"class=\"rerun-button\">relance</a>. Si, au contraire, tu veux "
+"verrouiller un item pour tes futurs équipements pour ce personnage, clique "
 "sur le bouton (<img style='position: relative; bottom: -1px; left: 0px;' "
-"src=%(lock)s title='Verrouiller'>) verrouillage. Vous pouvez aussi échanger "
-"n'importe quel item pour celui que vous préférez en cliquant sur le bouton "
+"src=%(lock)s title='Verrouiller'>) verrouillage. Tu peux aussi échanger "
+"n'importe quel item pour celui que tu préfères en cliquant sur le bouton "
 "changer (<img class='solution-item-button' style='position: relative; "
 "bottom: -5px; left: 0px;' src=%(switch)s title='Changer'>)."
 
 #: .\chardata\templates\chardata\solution.html:165
 #, python-format
 msgid "\n    This set starts empty. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose the items yourself."
-msgstr "\n    Cet équipement part de zéro. Cliquez sur les boutons d’ajout (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Ajouter'>) pour choisir les objets vous-même."
+msgstr "\n    Cet équipement part de zéro. Clique sur les boutons d’ajout (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Ajouter'>) pour choisir les objets toi-même."
 
 #: .\chardata\templates\chardata\solution.html:183
 msgid "Compare with my other sets"
@@ -6258,7 +6258,7 @@ msgstr "%% Résistance Distance"
 
 #: .\chardata\templates\chardata\solution.html:586
 msgid "Share your thoughts on this build..."
-msgstr "Partagez votre avis sur ce build..."
+msgstr "Partage ton avis sur ce build..."
 
 #: .\chardata\templates\chardata\solution.html:590
 msgid "Post Comment"
@@ -6289,7 +6289,7 @@ msgstr "Signaler ce commentaire"
 #: .\chardata\templates\chardata\solution.html:626
 msgid "Tell us why you are reporting it. An admin will review the report."
 msgstr ""
-"Dites-nous pourquoi vous le signalez. Un administrateur examinera le "
+"Dis-nous pourquoi tu le signales. Un administrateur examinera le "
 "signalement."
 
 #: .\chardata\templates\chardata\solution.html:628
@@ -6449,7 +6449,7 @@ msgstr ""
 msgid ""
 "How much damage your weapon and spells will deal with the suggested set."
 msgstr ""
-"Combien de dommages occasionneront votre arme et vos sorts avec l'équipement "
+"Combien de dommages occasionneront ton arme et tes sorts avec l'équipement "
 "proposé."
 
 #: .\chardata\templates\chardata\spells.html:33
@@ -6457,7 +6457,7 @@ msgid ""
 "This game version no longer provides spell names in your language, so they "
 "are shown in English."
 msgstr ""
-"Cette version du jeu ne fournit plus les noms de sorts dans votre langue, "
+"Cette version du jeu ne fournit plus les noms de sorts dans ta langue, "
 "ils sont donc affichés en anglais."
 
 #: .\chardata\templates\chardata\spells.html:25
@@ -6661,8 +6661,8 @@ msgid ""
 "sacrificed for it. Decreasing the weight of an attribute will cause it to be "
 "sacrificed for others."
 msgstr ""
-"Dofus Fashionista maximise la valeur totale de tous les attributs de votre "
-"personnage. Augmenter le poids d'une caractéristique sacrifiera d'autres "
+"Dofus Fashionista maximise la valeur totale de tous les attributs de ton personnage"
+". Augmenter le poids d'une caractéristique sacrifiera d'autres "
 "caractéristiques à la place. Diminuer le poids d'une caractéristique la "
 "sacrifiera pour d'autres"
 
@@ -6756,7 +6756,7 @@ msgstr "Laisse des commentaires utiles sur les builds partagés."
 
 #: .\chardata\templates\chardata\thankyou.html:14
 msgid "Your message has been sent."
-msgstr "Votre message a été envoyé."
+msgstr "Ton message a été envoyé."
 
 #: .\chardata\templates\chardata\thankyou.html:15
 msgid "Thank you for contacting us."
@@ -6825,24 +6825,24 @@ msgstr ""
 
 #: .\chardata\templates\chardata\wizard_inclusions.html:6
 msgid "Is there a weapon that you want this character to use?"
-msgstr "Y a-t-il une arme que vous voulez utiliser avec ce personnage ?"
+msgstr "Y a-t-il une arme que tu veux utiliser avec ce personnage ?"
 
 #: .\chardata\templates\chardata\wizard_inclusions.html:14
 msgid ""
 "If you don't choose any, a weapon will be chosen only for its stats, no "
 "matter how it hits"
 msgstr ""
-"Si vous n'en choisissez aucune, une arme sera choisie uniquement pour les "
+"Si tu n'en choisis aucune, une arme sera choisie uniquement pour les "
 "stats qu'elle donne, peu importe sa force de frappe."
 
 #: .\chardata\templates\chardata\wizard_min_stats.html:3
 msgid "Choose the minimum stats you need on this character"
 msgstr ""
-"Choisissez les caractéristiques minimales que vous voulez pour ce personnage "
+"Choisis les caractéristiques minimales que tu veux pour ce personnage "
 
 #: .\chardata\templates\chardata\wizard_min_stats.html:19
 msgid "You can leave the fields empty if you don't care about them"
-msgstr "Vous pouvez laisser les champs vides si vous ne vous en souciez pas"
+msgstr "Tu peux laisser les champs vides si tu ne t'en soucies pas"
 
 #: .\chardata\templates\chardata\wizard_options.html:5
 msgid "Exos and mounts"
@@ -6854,7 +6854,7 @@ msgstr "les Dofus, Prysmaradite et Trophées"
 
 #: .\chardata\templates\chardata\wizard_options.html:70
 msgid "Check the dofuses we are allowed to use"
-msgstr "Vérifiez les Dofus que nous sommes autorisés à utiliser"
+msgstr "Vérifie les Dofus que nous sommes autorisés à utiliser"
 
 #: .\chardata\templates\chardata\wizard_scrolling.html:4
 msgid "Scrolling"
@@ -6883,7 +6883,7 @@ msgid ""
 "href=\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> "
 "page, under <i>More</i>"
 msgstr ""
-"Si vous souhaitez fixer vos stats de base, vous pouvez le faire à la page "
+"Si tu souhaites fixer tes stats de base, tu peux le faire à la page "
 "des <i><a href=\"%(base_stats_url)s\" target=\"_blank\">caractéristiques de "
 "base</a></i>, dans l'onglet <i>Plus</i>"
 
@@ -6897,8 +6897,8 @@ msgid ""
 "be used to fine tune a set to suit your particular needs. Increasing one "
 "stat weight means it will go up, but the others will go down."
 msgstr ""
-"Les curseurs ci-dessous sont prédéfinis selon votre classe et votre build. "
-"Ils peuvent être utilisés pour affiner un stuff en fonction de vos besoins "
+"Les curseurs ci-dessous sont prédéfinis selon ta classe et ton build. "
+"Ils peuvent être utilisés pour affiner un stuff en fonction de tes besoins "
 "particuliers. L'augmentation d'une stat signifie que son importance va "
 "augmenter mais celle des autres va baisser."
 
@@ -7241,15 +7241,15 @@ msgstr "Quantité"
 
 #: .\chardata\templates\chardata\workshop.html:58
 msgid "Your workshop is empty."
-msgstr "Votre atelier est vide."
+msgstr "Ton atelier est vide."
 
 #: .\chardata\templates\chardata\workshop.html:59
 msgid ""
 "Open a build and click 'Add to workshop' on items you need to craft or "
 "acquire."
 msgstr ""
-"Ouvrez un build et cliquez sur « Ajouter à l'atelier » pour les objets que "
-"vous devez fabriquer ou obtenir."
+"Ouvre un build et clique sur « Ajouter à l'atelier » pour les objets que "
+"tu dois fabriquer ou obtenir."
 
 #: .\chardata\templates\chardata\workshop.html:65
 msgid "Total ingredients needed"
@@ -7261,7 +7261,7 @@ msgstr "Aucune donnée de recette pour ces objets."
 
 #: .\chardata\templates\chardata\workshop.html:121
 msgid "Clear all items from your workshop?"
-msgstr "Effacer tous les objets de votre atelier ?"
+msgstr "Effacer tous les objets de ton atelier ?"
 
 #: .\chardata\tests.py:200
 msgid "Charged 3 times"
@@ -7486,7 +7486,7 @@ msgstr "Quatre nouveaux guides"
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Transcendence runes, reading the best turn panel, building around the gear you already own, and the six Dofus slots."
-msgstr "Les runes de transcendance, la lecture de l'encadré du meilleur tour, l'équipement construit autour de ce que vous possédez déjà, et les six emplacements de Dofus."
+msgstr "Les runes de transcendance, la lecture de l'encadré du meilleur tour, l'équipement construit autour de ce que tu possèdes déjà, et les six emplacements de Dofus."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Each one is written per version where the rule differs between them."
@@ -7681,11 +7681,11 @@ msgstr "Comparer, puis forgemager"
 
 #: .\chardata\templates\chardata\changelog_content.html:8
 msgid "Hover any number in a comparison to see which pieces make it."
-msgstr "Survolez un chiffre d'une comparaison pour voir quelles pièces le composent."
+msgstr "Survole un chiffre d'une comparaison pour voir quelles pièces le composent."
 
 #: .\chardata\templates\chardata\changelog_content.html:8
 msgid "Dofus Retro and Touch: a comparison can add PvP resistances when your gear carries them."
-msgstr "Dofus Retro et Touch : une comparaison peut ajouter les résistances PvP quand votre équipement en porte."
+msgstr "Dofus Retro et Touch : une comparaison peut ajouter les résistances PvP quand ton équipement en porte."
 
 #: .\chardata\templates\chardata\changelog_content.html:8
 msgid "Every forgeable item in a build opens straight in the smithmagic workbench."
@@ -7711,15 +7711,15 @@ msgstr "Afficher cette pièce sur l'aperçu"
 
 #: .\chardata\templates\chardata\base.html
 msgid "Create optimized Dofus %(version)s equipment sets automatically based on your character's needs."
-msgstr "Créez automatiquement des panoplies Dofus %(version)s optimisées selon les besoins de votre personnage."
+msgstr "Crée automatiquement des panoplies Dofus %(version)s optimisées selon les besoins de ton personnage."
 
 #: .\chardata\templates\chardata\base.html
 msgid "Create optimized Dofus equipment sets automatically based on your character's needs."
-msgstr "Créez automatiquement des panoplies Dofus optimisées selon les besoins de votre personnage."
+msgstr "Crée automatiquement des panoplies Dofus optimisées selon les besoins de ton personnage."
 
 #: .\chardata\templates\chardata\base.html
 msgid "Please configure the <a href=\"%(error_link)s\">%(page)s</a> page before running the application."
-msgstr "Configurez la page <a href=\"%(error_link)s\">%(page)s</a> avant de lancer le calcul."
+msgstr "Configure la page <a href=\"%(error_link)s\">%(page)s</a> avant de lancer le calcul."
 
 
 
@@ -8109,19 +8109,19 @@ msgstr "Le site utilise quelques services tiers :"
 
 #: .\chardata\templates\chardata\privacy.html
 msgid "We use the information above only to operate and improve the site, provide your saved builds and account, respond to your messages, and keep the site secure. We do not sell your personal data."
-msgstr "Nous utilisons les informations ci-dessus uniquement pour exploiter et améliorer le site, fournir vos builds et votre compte enregistrés, répondre à vos messages et assurer la sécurité du site. Nous ne vendons pas vos données personnelles."
+msgstr "Nous utilisons les informations ci-dessus uniquement pour exploiter et améliorer le site, fournir tes builds et ton compte enregistrés, répondre à tes messages et assurer la sécurité du site. Nous ne vendons pas tes données personnelles."
 
 #: .\chardata\templates\chardata\privacy.html
 msgid "You can view and edit your builds at any time while logged in, and you can request deletion of your account and associated data by contacting us. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data."
-msgstr "Vous pouvez consulter et modifier vos builds à tout moment lorsque vous êtes connecté, et vous pouvez demander la suppression de votre compte et des données associées en nous contactant. Selon votre lieu de résidence, vous pouvez disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de vos données personnelles."
+msgstr "Tu peux consulter et modifier tes builds à tout moment lorsque tu es connecté, et tu peux demander la suppression de ton compte et des données associées en nous contactant. Selon ton lieu de résidence, tu peux disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de tes données personnelles."
 
 #: .\chardata\templates\chardata\privacy.html
 msgid "How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google Analytics, and your privacy rights."
-msgstr "Comment le Dofus Fashionista traite vos données : comptes, builds enregistrés, cookies, Google Analytics et vos droits en matière de confidentialité."
+msgstr "Comment le Dofus Fashionista traite tes données : comptes, builds enregistrés, cookies, Google Analytics et tes droits en matière de confidentialité."
 
 #: .\chardata\templates\chardata\encyclopedia_item.html:300
 msgid "Looking for a set built around %(item_name)s?"
-msgstr "Vous cherchez un équipement construit autour de %(item_name)s ?"
+msgstr "Tu cherches un équipement construit autour de %(item_name)s ?"
 
 #: .\chardata\templates\chardata\encyclopedia_item.html
 msgid "Worn in %(n)s build, %(part)s of those that could equip it."
@@ -8149,11 +8149,11 @@ msgstr "Donne à l'optimiseur ta classe, ton niveau et ce que tu attends de ton 
 
 #: .\chardata\templates\chardata\load_projects.html
 msgid "Your Saved Dofus Sets"
-msgstr "Vos stuffs Dofus enregistrés"
+msgstr "Tes stuffs Dofus enregistrés"
 
 #: .\chardata\templates\chardata\load_projects.html
 msgid "Find the Dofus sets you have already built and pick up where you left off."
-msgstr "Retrouvez les stuffs Dofus que vous avez déjà créés et reprenez où vous vous étiez arrêté."
+msgstr "Retrouve les stuffs Dofus que tu as déjà créés et reprends où tu t'étais arrêté."
 
 #: .\chardata\encyclopedia_view.py
 msgid "%(name)s: %(type)s, level %(level)s, %(set)s."
@@ -8237,7 +8237,7 @@ msgstr "Les décomptes d'utilisation n'ont pas encore été calculés."
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 msgid "Build a set of your own"
-msgstr "Créer votre propre stuff"
+msgstr "Créer ton propre stuff"
 
 #: .\chardata\templates\chardata\base.html
 msgid "Skip to content"
@@ -8249,7 +8249,7 @@ msgid ""
 "Lower these <a href=%(mins_link)s>minimums</a>, which ask for more than this "
 "version can reach:"
 msgstr ""
-"Diminuez ces <a href=%(mins_link)s>caractéristiques minimales</a>, qui "
+"Diminue ces <a href=%(mins_link)s>caractéristiques minimales</a>, qui "
 "demandent plus que cette version ne peut atteindre :"
 
 msgid "How this site is made"
@@ -8259,13 +8259,13 @@ msgid "The Dofus Fashionista goes back to February 2012, when Kameghan released 
 msgstr "Le Dofus Fashionista remonte à février 2012, quand Kameghan l'a sorti sous forme de logiciel à installer sur son PC, et c'est un site web depuis 2014. Ce site est le fork qui le maintient en vie, à jour avec le jeu actuel et ses quatre autres versions."
 
 msgid "Your set is not written by an AI. It is computed by a mathematical solver: your class, your level, your minimum stats and your priorities become equations and constraints, and the solver searches every item you have not excluded for the best combination it can find. It computes an answer, it does not generate one, and there is no language model anywhere in that path. The code is open source, so you can check for yourself."
-msgstr "Votre stuff n'est pas écrit par une IA. Il est calculé par un vrai solveur mathématique : votre classe, votre niveau, vos minimums de stats et vos priorités deviennent des équations et des contraintes, et le solveur cherche la meilleure combinaison qu'il puisse trouver parmi tous les objets que vous n'avez pas exclus. Il calcule une réponse, il n'en génère pas, et il n'y a aucun modèle de langage dans toute cette chaîne. Le code est open source, vous pouvez donc vérifier par vous-même."
+msgstr "Ton stuff n'est pas écrit par une IA. Il est calculé par un vrai solveur mathématique : ta classe, ton niveau, tes minimums de stats et tes priorités deviennent des équations et des contraintes, et le solveur cherche la meilleure combinaison qu'il puisse trouver parmi tous les objets que tu n'as pas exclus. Il calcule une réponse, il n'en génère pas, et il n'y a aucun modèle de langage dans toute cette chaîne. Le code est open source, tu peux donc vérifier par toi-même."
 
 msgid "Is this site made with AI?"
 msgstr "Ce site est-il fait avec une IA ?"
 
 msgid "No. Your set is computed by a mathematical solver, not written by a language model: your priorities become equations and the solver searches every item you have not excluded for the best combination it can find. The code is open source, so you can check for yourself, and the only bot commits in its history are dependency updates. One optional feature does use character recognition: if you import your inventory from a screenshot, a text reader runs in your browser to pick out item names and stats, and you can edit every value before it is used. It never chooses an item."
-msgstr "Non. Votre stuff est calculé par un solveur mathématique, il n'est pas écrit par un modèle de langage : vos priorités deviennent des équations et le solveur cherche la meilleure combinaison qu'il puisse trouver parmi tous les objets que vous n'avez pas exclus. Le code est open source, vous pouvez donc vérifier par vous-même, et les seuls commits de bot dans son historique sont des mises à jour de dépendances. Une fonctionnalité optionnelle utilise bien de la reconnaissance de caractères : si vous importez votre inventaire depuis une capture d'écran, un lecteur de texte tourne dans votre navigateur pour en extraire les noms d'objets et les stats, et vous pouvez corriger chaque valeur avant qu'elle ne soit utilisée. Il ne choisit jamais d'objet."
+msgstr "Non. Ton stuff est calculé par un solveur mathématique, il n'est pas écrit par un modèle de langage : tes priorités deviennent des équations et le solveur cherche la meilleure combinaison qu'il puisse trouver parmi tous les objets que tu n'as pas exclus. Le code est open source, tu peux donc vérifier par toi-même, et les seuls commits de bot dans son historique sont des mises à jour de dépendances. Une fonctionnalité optionnelle utilise bien de la reconnaissance de caractères : si tu importes ton inventaire depuis une capture d'écran, un lecteur de texte tourne dans ton navigateur pour en extraire les noms d'objets et les stats, et tu peux corriger chaque valeur avant qu'elle ne soit utilisée. Il ne choisit jamais d'objet."
 
 #: .\chardata\templates\chardata\base.html:398
 msgid "Dofus Fashionista, set optimization since 2012"
@@ -8277,7 +8277,7 @@ msgstr "Plus de dix ans de theorycraft Dofus"
 
 #: .\chardata\templates\chardata\coaching.html:101
 msgid "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria."
-msgstr "Optimisation mathématique, pas un modèle de langage. Le solveur compare les objets réels de Dofus selon vos critères."
+msgstr "Optimisation mathématique, pas un modèle de langage. Le solveur compare les objets réels de Dofus selon tes critères."
 
 #: .\chardata\templates\chardata\coaching.html:107
 msgid "No magic. Just a lot of math."
@@ -8289,7 +8289,7 @@ msgstr "Pourquoi ce résultat ?"
 
 #: .\chardata\templates\chardata\solution.html:358
 msgid "Proven optimum. The solver checked that no other legal combination scores higher on your criteria."
-msgstr "Optimum démontré. Le solveur a vérifié qu’aucune autre combinaison légale ne marque plus selon vos critères."
+msgstr "Optimum démontré. Le solveur a vérifié qu’aucune autre combinaison légale ne marque plus selon tes critères."
 
 #: .\chardata\templates\chardata\solution.html:358
 #, python-format
@@ -8304,12 +8304,12 @@ msgstr "Calculé en %(seconds)s s."
 #: .\chardata\templates\chardata\solution.html:395
 #, python-format
 msgid "Nearly optimal set: a better one may exist, at most %(gap)s%% better on your criteria."
-msgstr "Set presque optimal : il en existe peut-être un meilleur, mais de %(gap)s %% au plus selon vos critères."
+msgstr "Set presque optimal : il en existe peut-être un meilleur, mais de %(gap)s %% au plus selon tes critères."
 
 #: .\chardata\templates\chardata\solution.html:397
 #, python-format
 msgid "A better set may exist, at most %(gap)s%% better on your criteria."
-msgstr "Il existe peut-être un meilleur set, mais de %(gap)s %% au plus selon vos critères."
+msgstr "Il existe peut-être un meilleur set, mais de %(gap)s %% au plus selon tes critères."
 
 #: .\chardata\templates\chardata\solution.html:403
 msgid "Continue the search"
@@ -8318,7 +8318,7 @@ msgstr "Continuer la recherche"
 #: .\chardata\templates\chardata\solution.html:404
 #, python-format
 msgid "The search picks up from this set for up to %(limit)s more seconds and only replaces it with a better one. To keep this set, there is nothing to do."
-msgstr "La recherche repart de ce set pour %(limit)s secondes de plus au maximum et ne le remplace que par un meilleur. Pour garder ce set, vous n’avez rien à faire."
+msgstr "La recherche repart de ce set pour %(limit)s secondes de plus au maximum et ne le remplace que par un meilleur. Pour garder ce set, tu n’as rien à faire."
 
 #: .\chardata\templates\chardata\solution.html:358
 msgid "How the optimizer works"
@@ -8327,7 +8327,7 @@ msgstr "Comment l’optimiseur fonctionne"
 #: .\chardata\templates\chardata\solution.html:366
 #, python-format
 msgid "%(items)s items were on offer after your exclusions."
-msgstr "%(items)s objets étaient disponibles après vos exclusions."
+msgstr "%(items)s objets étaient disponibles après tes exclusions."
 
 #: .\chardata\templates\chardata\solution.html:366
 #, python-format
@@ -8340,7 +8340,7 @@ msgstr "Rapatrier ce build"
 
 #: .\chardata\dofusbook_view.py
 msgid "Your gear comes in exactly as it is. Nothing is re-optimized unless you ask for it afterwards."
-msgstr "Votre stuff arrive exactement tel quel. Rien n’est réoptimisé tant que vous ne le demandez pas ensuite."
+msgstr "Ton stuff arrive exactement tel quel. Rien n’est réoptimisé tant que tu ne le demandes pas ensuite."
 
 #: .\chardata\dofusbook_view.py
 msgid "These items are not in our catalogue and will be left out:"
@@ -8352,7 +8352,7 @@ msgstr "Build importé"
 
 #: .\chardata\dofusbook_view.py
 msgid "Short d-bk.net links do not say which game the build belongs to. Open the link and paste the full address."
-msgstr "Les liens courts d-bk.net ne disent pas à quel jeu le build appartient. Ouvrez le lien et collez l’adresse complète."
+msgstr "Les liens courts d-bk.net ne disent pas à quel jeu le build appartient. Ouvre le lien et colle l’adresse complète."
 
 #: .\chardata\dofusbook_view.py
 msgid "DofusBook refused the request."
@@ -8360,7 +8360,7 @@ msgstr "DofusBook a refusé la requête."
 
 #: .\chardata\dofusbook_view.py
 msgid "DofusBook could not be reached. Try again later."
-msgstr "DofusBook est injoignable. Réessayez plus tard."
+msgstr "DofusBook est injoignable. Réessaie plus tard."
 
 #: .\chardata\dofusbook_view.py
 msgid "DofusBook answered something we could not read."
@@ -8372,15 +8372,15 @@ msgstr "Ce build est revenu sans aucun objet."
 
 #: .\chardata\dofusbook_view.py
 msgid "Those items do not exist in that version of the game. Check the link."
-msgstr "Ces objets n’existent pas dans cette version du jeu. Vérifiez le lien."
+msgstr "Ces objets n’existent pas dans cette version du jeu. Vérifie le lien."
 
 #: .\chardata\templates\chardata\privacy.html:57
 msgid "<b>Google reCAPTCHA.</b> The contact form and the sign-in page use reCAPTCHA to tell people apart from bots. Your browser loads it directly from Google, so Google receives your IP address and information about your browser, and may set its own cookies. We send your answer to Google to check it."
-msgstr "<b>Google reCAPTCHA.</b> Le formulaire de contact et la page de connexion utilisent reCAPTCHA pour distinguer les humains des robots. Votre navigateur le charge directement chez Google, qui reçoit donc votre adresse IP et des informations sur votre navigateur, et peut déposer ses propres cookies. Nous envoyons votre réponse à Google pour la vérifier."
+msgstr "<b>Google reCAPTCHA.</b> Le formulaire de contact et la page de connexion utilisent reCAPTCHA pour distinguer les humains des robots. Ton navigateur le charge directement chez Google, qui reçoit donc ton adresse IP et des informations sur ton navigateur, et peut déposer ses propres cookies. Nous envoyons ta réponse à Google pour la vérifier."
 
 #: .\chardata\templates\chardata\privacy.html:57
 msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the inventory page, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match."
-msgstr "<b>Bibliothèques de code.</b> Une partie du code qui fait fonctionner les pages, comme jQuery sur chaque page et une bibliothèque de lecture de texte sur la page d’inventaire, est chargée depuis Google Hosted Libraries et jsDelivr plutôt que depuis notre serveur, si bien que ces fournisseurs reçoivent votre adresse IP. Chacun de ces fichiers est associé à une empreinte, et votre navigateur refuse d’exécuter une copie qui ne correspond pas."
+msgstr "<b>Bibliothèques de code.</b> Une partie du code qui fait fonctionner les pages, comme jQuery sur chaque page et une bibliothèque de lecture de texte sur la page d’inventaire, est chargée depuis Google Hosted Libraries et jsDelivr plutôt que depuis notre serveur, si bien que ces fournisseurs reçoivent ton adresse IP. Chacun de ces fichiers est associé à une empreinte, et ton navigateur refuse d’exécuter une copie qui ne correspond pas."
 
 #: .\chardata\templates\chardata\text_build.html:6
 msgid "closest match"
@@ -8396,11 +8396,11 @@ msgstr "Seules les %(n)s premières lignes ont été lues."
 
 #: .\chardata\templates\chardata\text_build.html:6
 msgid "No item in that text matched our catalogue for this version. Check the game version at the top, and that the item names are on their own lines."
-msgstr "Aucun objet de ce texte ne correspond à notre catalogue pour cette version. Vérifiez la version du jeu en haut de page, et que les noms d’objets sont chacun sur leur ligne."
+msgstr "Aucun objet de ce texte ne correspond à notre catalogue pour cette version. Vérifie la version du jeu en haut de page, et que les noms d’objets sont chacun sur leur ligne."
 
 #: .\chardata\templates\chardata\solution.html:178
 msgid "\n    This is the gear you brought in, exactly as it was. Nothing here was chosen by the solver. Change any piece yourself with the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons, or run the optimizer when you want a suggestion."
-msgstr "\n    Voici le stuff que vous avez rapatrié, exactement tel qu’il était. Rien ici n’a été choisi par le solveur. Changez chaque pièce vous-même avec les boutons d’ajout (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Ajouter'>), ou lancez l’optimisation quand vous voulez une suggestion."
+msgstr "\n    Voici le stuff que tu as rapatrié, exactement tel qu’il était. Rien ici n’a été choisi par le solveur. Change chaque pièce toi-même avec les boutons d’ajout (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Ajouter'>), ou lance l’optimisation quand tu veux une suggestion."
 
 #: .\chardata\templates\chardata\base.html:275
 msgid "Import a build"
@@ -8424,7 +8424,7 @@ msgstr "%(n)s parchotés"
 
 #: .\chardata\text_build_view.py:100
 msgid "This build comes from %(source)s and you are on %(here)s. The same name can be a different item in each game, so nothing was read."
-msgstr "Ce build vient de %(source)s et vous êtes sur %(here)s. Un même nom peut désigner un objet différent dans chaque jeu, donc rien n’a été lu."
+msgstr "Ce build vient de %(source)s et tu es sur %(here)s. Un même nom peut désigner un objet différent dans chaque jeu, donc rien n’a été lu."
 
 #: .\chardata\text_build_view.py:100
 msgid "Open the %(version)s import"
@@ -8444,7 +8444,7 @@ msgid "Open this build on DofusBook"
 msgstr "Ouvrir ce build sur DofusBook"
 
 msgid "Send your gear to DofusBook with one link, and see beforehand exactly which pieces travel and which ones do not."
-msgstr "Envoyez votre équipement sur DofusBook en un lien, et voyez à l’avance exactement quelles pièces partent et lesquelles restent."
+msgstr "Envoie ton équipement sur DofusBook en un lien, et vois à l’avance exactement quelles pièces partent et lesquelles restent."
 
 msgid "These pieces travel:"
 msgstr "Ces pièces partent :"
@@ -8459,7 +8459,7 @@ msgid "Open on DofusBook"
 msgstr "Ouvrir sur DofusBook"
 
 msgid "Your build stays here, untouched. The link only fills a draft on their site."
-msgstr "Votre build reste ici, intact. Le lien ne fait que remplir un brouillon chez eux."
+msgstr "Ton build reste ici, intact. Le lien ne fait que remplir un brouillon chez eux."
 
 msgid "Back to the build"
 msgstr "Retour au build"
@@ -8471,7 +8471,7 @@ msgid "Read tooltip screenshots"
 msgstr "Lire des captures d’infobulle"
 
 msgid "One screenshot per piece, tooltip visible. They are read inside your browser: no image leaves your machine."
-msgstr "Une capture par pièce, l’infobulle visible. Elles sont lues dans votre navigateur : aucune image ne quitte votre machine."
+msgstr "Une capture par pièce, l’infobulle visible. Elles sont lues dans ton navigateur : aucune image ne quitte ta machine."
 
 msgid "Choose images"
 msgstr "Choisir des images"
@@ -8483,16 +8483,16 @@ msgid "Reading"
 msgstr "Lecture"
 
 msgid "Screenshots read. Check the text below, then read it."
-msgstr "Captures lues. Vérifiez le texte ci-dessous, puis lisez-le."
+msgstr "Captures lues. Vérifie le texte ci-dessous, puis lis-le."
 
 msgid "That image could not be read."
 msgstr "Cette image n’a pas pu être lue."
 
 msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the pages that read a screenshot, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match."
-msgstr "<b>Bibliothèques de code.</b> Une partie du code qui fait fonctionner les pages, comme jQuery sur chaque page et une bibliothèque de lecture de texte sur les pages qui lisent une capture d’écran, est chargée depuis Google Hosted Libraries et jsDelivr plutôt que depuis notre serveur, si bien que ces fournisseurs reçoivent votre adresse IP. Chacun de ces fichiers est associé à une empreinte, et votre navigateur refuse d’exécuter une copie qui ne correspond pas."
+msgstr "<b>Bibliothèques de code.</b> Une partie du code qui fait fonctionner les pages, comme jQuery sur chaque page et une bibliothèque de lecture de texte sur les pages qui lisent une capture d’écran, est chargée depuis Google Hosted Libraries et jsDelivr plutôt que depuis notre serveur, si bien que ces fournisseurs reçoivent ton adresse IP. Chacun de ces fichiers est associé à une empreinte, et ton navigateur refuse d’exécuter une copie qui ne correspond pas."
 
 msgid "<b>DofusBook.</b> When you paste a DofusBook link, our server fetches that build from dofusbook.net; when you open one of your builds on their site, our server first asks them which of its items they know. Both calls leave from our address and not from yours, so on those steps they do not receive your address. The link we then hand you carries the gear, the level and the characteristics of that build, and nothing that names you, and your browser only reaches their site if you click it."
-msgstr "<b>DofusBook.</b> Quand vous collez un lien DofusBook, notre serveur va chercher ce build sur dofusbook.net ; quand vous ouvrez un de vos builds chez eux, notre serveur leur demande d’abord lesquels de ses objets ils connaissent. Les deux appels partent de notre adresse et non de la vôtre, donc à ces étapes ils ne reçoivent pas votre adresse. Le lien qu’on vous rend ensuite porte l’équipement, le niveau et les caractéristiques de ce build, et rien qui vous nomme, et votre navigateur n’atteint leur site que si vous cliquez dessus."
+msgstr "<b>DofusBook.</b> Quand tu colles un lien DofusBook, notre serveur va chercher ce build sur dofusbook.net ; quand tu ouvres un de tes builds chez eux, notre serveur leur demande d’abord lesquels de ses objets ils connaissent. Les deux appels partent de notre adresse et non de la tienne, donc à ces étapes ils ne reçoivent pas ton adresse. Le lien qu’on te rend ensuite porte l’équipement, le niveau et les caractéristiques de ce build, et rien qui te nomme, et ton navigateur n’atteint leur site que si tu cliques dessus."
 
 msgid "Proven optimum"
 msgstr "Optimum démontré"
@@ -8516,16 +8516,16 @@ msgid "That verdict travels with the build: in the copied text, in the public AP
 msgstr "Ce verdict voyage avec le build : dans le texte copié, dans l’API publique et en badge sur chaque carte de la galerie des builds partagés."
 
 msgid "Your build, in and out"
-msgstr "Votre build, dans un sens et dans l’autre"
+msgstr "Ton build, dans un sens et dans l’autre"
 
 msgid "Bring your build in"
-msgstr "Importez votre build"
+msgstr "Importe ton build"
 
 msgid "and %(count)d more"
 msgstr "et encore %(count)d"
 
 msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
-msgstr "La connexion avec Google n’a pas abouti. Vous pouvez réessayer, ou entrer avec votre nom d’utilisateur et votre mot de passe."
+msgstr "La connexion avec Google n’a pas abouti. Tu peux réessayer, ou entrer avec ton nom d’utilisateur et ton mot de passe."
 
 msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
 msgstr "Ce build gardera %(item)s (niveau %(level)s) : le solveur remplit les autres emplacements autour."
@@ -8543,22 +8543,22 @@ msgid "new entries"
 msgstr "nouveautés"
 
 msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece."
-msgstr "Importez un build entier : collez des noms d’objets, un lien vers un build public d’un autre site de builds, ou déposez une capture d’infobulle par pièce."
+msgstr "Importe un build entier : colle des noms d’objets, un lien vers un build public d’un autre site de builds, ou dépose une capture d’infobulle par pièce."
 
 msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
-msgstr "Importez un build entier : collez des noms d’objets ou déposez une capture d’infobulle par pièce. Les jets et les exos suivent."
+msgstr "Importe un build entier : colle des noms d’objets ou dépose une capture d’infobulle par pièce. Les jets et les exos suivent."
 
 msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
-msgstr "Collez des noms d’objets, un lien de build ou des captures d’infobulle et retrouvez le même build ici, pièce par pièce. Rien n’est réoptimisé tant que vous ne le demandez pas."
+msgstr "Colle des noms d’objets, un lien de build ou des captures d’infobulle et retrouve le même build ici, pièce par pièce. Rien n’est réoptimisé tant que tu ne le demandes pas."
 
 msgid "Paste item names or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
-msgstr "Collez des noms d’objets ou des captures d’infobulle et retrouvez le même build ici, pièce par pièce. Rien n’est réoptimisé tant que vous ne le demandez pas."
+msgstr "Colle des noms d’objets ou des captures d’infobulle et retrouve le même build ici, pièce par pièce. Rien n’est réoptimisé tant que tu ne le demandes pas."
 
 msgid "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped."
-msgstr "Collez vos noms d’objets, un lien vers un build public d’un autre site de builds, ou déposez des captures d’infobulle. Tout ce qui n’est pas un objet est ignoré."
+msgstr "Colle tes noms d’objets, un lien vers un build public d’un autre site de builds, ou dépose des captures d’infobulle. Tout ce qui n’est pas un objet est ignoré."
 
 msgid "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped."
-msgstr "Collez vos noms d’objets ou déposez des captures d’infobulle. Tout ce qui n’est pas un objet est ignoré."
+msgstr "Colle tes noms d’objets ou dépose des captures d’infobulle. Tout ce qui n’est pas un objet est ignoré."
 
 msgid "One item name per line, or a build link"
 msgstr "Un nom d’objet par ligne, ou un lien de build"
@@ -8585,7 +8585,7 @@ msgid "Links from sites we cannot read yet, left out:"
 msgstr "Liens de sites que nous ne savons pas encore lire, laissés de côté :"
 
 msgid "We cannot read links from that site yet. Paste the item names instead."
-msgstr "Nous ne savons pas encore lire les liens de ce site. Collez plutôt les noms des objets."
+msgstr "Nous ne savons pas encore lire les liens de ce site. Colle plutôt les noms des objets."
 
 msgid "No public build at that link."
 msgstr "Aucun build public à ce lien."
@@ -8594,14 +8594,14 @@ msgid "That site refused our request."
 msgstr "Ce site a refusé notre demande."
 
 msgid "That site could not be reached. Try again later."
-msgstr "Ce site n’a pas pu être joint. Réessayez plus tard."
+msgstr "Ce site n’a pas pu être joint. Réessaie plus tard."
 
 msgid "That site answered something we could not read."
 msgstr "Ce site a répondu quelque chose que nous n’avons pas pu lire."
 
 #: .\chardata\text_build_view.py
 msgid "That link is incomplete or damaged. Copy the full address again."
-msgstr "Ce lien est incomplet ou abîmé. Copiez de nouveau l’adresse complète."
+msgstr "Ce lien est incomplet ou abîmé. Copie de nouveau l’adresse complète."
 
 msgid "Import it from a link, text or screenshots"
 msgstr "Importe-le depuis un lien, du texte ou des captures d’écran"
@@ -8614,20 +8614,20 @@ msgstr "Sites partenaires"
 
 msgid "Paste a build link from this site, or visit it to build there."
 msgid_plural "Paste a build link from one of these sites, or visit them to build there."
-msgstr[0] "Collez un lien de build issu de ce site, ou visitez-le pour y créer vos builds."
-msgstr[1] "Collez un lien de build issu de l’un de ces sites, ou visitez-les pour y créer vos builds."
+msgstr[0] "Colle un lien de build issu de ce site, ou visite-le pour y créer tes builds."
+msgstr[1] "Colle un lien de build issu de l’un de ces sites, ou visite-les pour y créer tes builds."
 
 msgid "Choose a class"
-msgstr "Choisissez une classe"
+msgstr "Choisis une classe"
 
 msgid "Choose a class before bringing this build in."
-msgstr "Choisissez une classe avant de rapatrier ce build."
+msgstr "Choisis une classe avant de rapatrier ce build."
 
 msgid "The forgemagie on these pieces does not travel yet and is left out:"
 msgstr "La forgemagie de ces pièces ne voyage pas encore et reste de côté :"
 
 msgid "<b>DofusCreator.</b> When you paste a link to a public DofusCreator project, our server fetches that page from dofuscreator.com. The call leaves from our address and not from yours, carries nothing that names you, and only reads."
-msgstr "<b>DofusCreator.</b> Quand vous collez un lien vers un projet public DofusCreator, notre serveur va chercher cette page sur dofuscreator.com. L’appel part de notre adresse et non de la vôtre, ne porte rien qui vous nomme, et ne fait que lire."
+msgstr "<b>DofusCreator.</b> Quand tu colles un lien vers un projet public DofusCreator, notre serveur va chercher cette page sur dofuscreator.com. L’appel part de notre adresse et non de la tienne, ne porte rien qui te nomme, et ne fait que lire."
 
 msgid "Characteristics read:"
 msgstr "Caractéristiques lues :"
@@ -8646,7 +8646,7 @@ msgstr "Ces lignes de forgemagie n’ont pas pu être lues et restent de côté 
 
 #: .\chardata\templates\chardata\dofusbook_export.html
 msgid "DofusBook cannot receive forgemagie or exos piece by piece: its link only takes one total per characteristic, where each AP, MP or Range exo counts as +1. You will find them in its global forgemagie."
-msgstr "DofusBook ne permet pas d'exporter la forgemagie ni les exos pièce par pièce : son lien ne prend qu'un total par caractéristique, où chaque exo PA, PM ou PO compte pour +1. Vous les retrouverez dans sa forgemagie globale."
+msgstr "DofusBook ne permet pas d'exporter la forgemagie ni les exos pièce par pièce : son lien ne prend qu'un total par caractéristique, où chaque exo PA, PM ou PO compte pour +1. Tu les retrouveras dans sa forgemagie globale."
 
 #: .\chardata\templates\chardata\dofusbook_export.html
 msgid "Shiny TemporiX pieces do not exist on DofusBook: what the x1.5 adds to each of them is sent in that global forgemagie."
@@ -8670,7 +8670,7 @@ msgid "The build name and the class do not travel: their link format has no room
 msgstr "Le nom du build et la classe ne partent pas : leur format de lien n’a pas de place pour eux."
 
 msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Retro and Touch)."
-msgstr "Envoyez votre build vers un autre site de builds directement depuis la page de solution, forgemagie comprise (Dofus 3, Retro et Touch)."
+msgstr "Envoie ton build vers un autre site de builds directement depuis la page de solution, forgemagie comprise (Dofus 3, Retro et Touch)."
 
 msgid "Show this build in the gallery once it has gear"
 msgstr "Montrer ce build dans la galerie une fois qu’il a un stuff"
@@ -8682,13 +8682,13 @@ msgid "Visible to everyone: this build is in the gallery and anyone with the lin
 msgstr "Visible par tout le monde : ce build est dans la galerie et n’importe qui avec le lien peut l’ouvrir."
 
 msgid "Private: only you can open this build."
-msgstr "Privé : vous seul pouvez ouvrir ce build."
+msgstr "Privé : toi seul peux ouvrir ce build."
 
 msgid "Builds you publish"
-msgstr "Les builds que vous publiez"
+msgstr "Les builds que tu publies"
 
 msgid "A build you create while logged in is published the first time it has gear: it then appears in the build gallery, on the pages of the items it wears, and under your display name on your profile, and anyone holding its link can open it. You can turn that off for a build at any time from the build page, and you can untick the box on the creation page before you start. Builds made without an account are never published on their own, and builds created before 11 September 2026 keep the visibility they already had."
-msgstr "Un build que vous créez en étant connecté est publié la première fois qu’il porte un stuff : il apparaît alors dans la galerie des builds, sur les pages des objets qu’il porte, et sous votre nom affiché sur votre profil, et toute personne qui a son lien peut l’ouvrir. Vous pouvez le rendre privé à tout moment depuis la page du build, et vous pouvez décocher la case sur la page de création avant de commencer. Les builds faits sans compte ne sont jamais publiés d’eux-mêmes, et les builds créés avant le 11 septembre 2026 gardent la visibilité qu’ils avaient déjà."
+msgstr "Un build que tu crées en étant connecté est publié la première fois qu’il porte un stuff : il apparaît alors dans la galerie des builds, sur les pages des objets qu’il porte, et sous ton nom affiché sur ton profil, et toute personne qui a son lien peut l’ouvrir. Tu peux le rendre privé à tout moment depuis la page du build, et tu peux décocher la case sur la page de création avant de commencer. Les builds faits sans compte ne sont jamais publiés d’eux-mêmes, et les builds créés avant le 11 septembre 2026 gardent la visibilité qu’ils avaient déjà."
 
 msgid "Visibility"
 msgstr "Visibilité"
@@ -8715,19 +8715,19 @@ msgid "A fight arms one of the two, so a turn holds one or the other."
 msgstr "Un combat en équipe un des deux, donc un tour porte l’un ou l’autre."
 
 msgid "Not shown in the gallery: some of its items are no longer in the game. Replace them and it comes back."
-msgstr "Pas montré dans la galerie : certains de ses objets n’existent plus dans le jeu. Remplacez-les et il revient."
+msgstr "Pas montré dans la galerie : certains de ses objets n’existent plus dans le jeu. Remplace-les et il revient."
 
 msgid "Not shown in the gallery: some pieces sit in a slot that no longer takes them. Open the build and place them again."
-msgstr "Pas montré dans la galerie : des pièces occupent un emplacement qui ne les accepte plus. Ouvrez le build et reposez-les."
+msgstr "Pas montré dans la galerie : des pièces occupent un emplacement qui ne les accepte plus. Ouvre le build et repose-les."
 
 msgid "Not shown in the gallery: some pieces cannot be worn as the build stands. Open it to see which ones."
-msgstr "Pas montré dans la galerie : certaines pièces ne peuvent pas être portées dans l’état actuel du build. Ouvrez-le pour voir lesquelles."
+msgstr "Pas montré dans la galerie : certaines pièces ne peuvent pas être portées dans l’état actuel du build. Ouvre-le pour voir lesquelles."
 
 msgid "Not shown in the gallery: this build has no saved gear yet."
 msgstr "Pas montré dans la galerie : ce build n’a pas encore de stuff enregistré."
 
 msgid "Not shown in the gallery: our catalogue no longer has %(pieces)s. Replace what is missing and it comes back."
-msgstr "Pas montré dans la galerie : notre catalogue n’a plus %(pieces)s. Remplacez ce qui manque et il revient."
+msgstr "Pas montré dans la galerie : notre catalogue n’a plus %(pieces)s. Remplace ce qui manque et il revient."
 
 msgid "Poison in the element of the attack"
 msgstr "Poison dans l'élément de l'attaque"
@@ -8933,9 +8933,9 @@ msgid ""
 "Browse %(class_name)s builds shared by Dofus players: optimized equipment "
 "sets by level and build type, with full stats. Find one to start your own."
 msgstr ""
-"Parcourez les builds %(class_name)s partagés par les joueurs de Dofus : "
+"Parcours les builds %(class_name)s partagés par les joueurs de Dofus : "
 "panoplies optimisées par niveau et par type de build, avec toutes les "
-"caractéristiques. Trouvez-en un pour créer le vôtre."
+"caractéristiques. Trouves-en un pour créer le tien."
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "Builds by class"
@@ -9143,7 +9143,7 @@ msgstr "Le site qui a envoyé ce build nous a transmis quelque chose d’illisib
 
 #: chardata/templates/chardata/text_build.html
 msgid "Your site? Send builds to Dofus Fashionista"
-msgstr "Vous avez un site ? Envoyez vos builds sur Dofus Fashionista"
+msgstr "Tu as un site ? Envoie tes builds sur Dofus Fashionista"
 
 #: chardata/templates/chardata/solution.html
 msgid "Export as JSON"
@@ -9595,7 +9595,7 @@ msgstr "Réponds à quelques questions rapides sur ton personnage Dofus (classe,
 
 #: chardata/templates/chardata/coaching.html:55
 msgid "Four questions, one ready-to-play build. No wizard, no jargon. Just pick your class, level, element and playstyle."
-msgstr "Quatre questions, un build prêt à jouer. Pas d'assistant, pas de jargon. Choisissez simplement votre classe, votre niveau, votre élément et votre style de jeu."
+msgstr "Quatre questions, un build prêt à jouer. Pas d'assistant, pas de jargon. Choisis simplement ta classe, ton niveau, ton élément et ton style de jeu."
 
 #: chardata/templates/chardata/coaching.html:99
 #: chardata/templates/chardata/smart_build.html:89
@@ -9618,7 +9618,7 @@ msgstr "Choisis un élément pour ce build."
 
 #: chardata/templates/chardata/infeasible.html
 msgid "The solver proved that no set meets all of your settings at once."
-msgstr "Le solveur a prouvé qu'aucun équipement ne respecte tous vos réglages à la fois."
+msgstr "Le solveur a prouvé qu'aucun équipement ne respecte tous tes réglages à la fois."
 
 #: chardata/templates/chardata/infeasible.html
 #, python-format
@@ -9644,11 +9644,11 @@ msgstr "Équipement le plus proche trouvé"
 
 #: chardata/templates/chardata/infeasible.html
 msgid "This set meets every minimum you asked for."
-msgstr "Cet équipement atteint tous les minimums que vous avez demandés."
+msgstr "Cet équipement atteint tous les minimums que tu as demandés."
 
 #: chardata/templates/chardata/infeasible.html
 msgid "This is the set that comes closest to your minimums, with every locked item, forbidden item and item condition kept."
-msgstr "Voici l'équipement qui s'approche le plus de vos minimums, en respectant tous vos items verrouillés, vos items interdits et les conditions des items."
+msgstr "Voici l'équipement qui s'approche le plus de tes minimums, en respectant tous tes items verrouillés, tes items interdits et les conditions des items."
 
 #: chardata/templates/chardata/infeasible.html
 #, python-format
@@ -9675,19 +9675,19 @@ msgstr "Garder cet équipement"
 
 #: chardata/templates/chardata/infeasible.html
 msgid "It replaces your current set."
-msgstr "Il remplace votre équipement actuel."
+msgstr "Il remplace ton équipement actuel."
 
 #: chardata/templates/chardata/infeasible.html
 msgid "The minimums it misses stay in your settings and show in red on the set page."
-msgstr "Les minimums qu'il n'atteint pas restent dans vos réglages et s'affichent en rouge sur la page de l'équipement."
+msgstr "Les minimums qu'il n'atteint pas restent dans tes réglages et s'affichent en rouge sur la page de l'équipement."
 
 #: chardata/templates/chardata/infeasible.html
 msgid "Your locked items"
-msgstr "Vos items verrouillés"
+msgstr "Tes items verrouillés"
 
 #: chardata/templates/chardata/infeasible.html
 msgid "Even without any minimum, no set can be built around these locked items with your options and forbidden items:"
-msgstr "Même sans aucun minimum, aucun équipement ne peut être construit autour de ces items verrouillés avec vos options et vos items interdits :"
+msgstr "Même sans aucun minimum, aucun équipement ne peut être construit autour de ces items verrouillés avec tes options et tes items interdits :"
 
 #: chardata/templates/chardata/infeasible.html
 #, python-format
@@ -9696,7 +9696,7 @@ msgstr "Conditions : %(conditions)s"
 
 #: chardata/templates/chardata/infeasible.html
 msgid "Even without any minimum, no set can be built with your options and forbidden items."
-msgstr "Même sans aucun minimum, aucun équipement ne peut être construit avec vos options et vos items interdits."
+msgstr "Même sans aucun minimum, aucun équipement ne peut être construit avec tes options et tes items interdits."
 
 #: chardata/templates/chardata/infeasible.html
 msgid "There was no time left to look for the closest set."
@@ -9716,11 +9716,11 @@ msgstr "Chercher l'équipement le plus proche"
 
 #: chardata/templates/chardata/infeasible.html
 msgid "Check that your minimums suit the character's level: a low level character cannot reach the stats of a level 200 set."
-msgstr "Vérifiez que vos minimums sont adaptés au niveau du personnage : un personnage de bas niveau ne peut pas atteindre les caractéristiques d'un équipement de niveau 200."
+msgstr "Vérifie que tes minimums sont adaptés au niveau du personnage : un personnage de bas niveau ne peut pas atteindre les caractéristiques d'un équipement de niveau 200."
 
 #: chardata/templates/chardata/solution.html
 msgid "Closest set to your minimums: it does not meet all of them. The ones it misses are marked below."
-msgstr "Set le plus proche de vos minimums : il ne les atteint pas tous. Ceux qu'il n'atteint pas sont signalés ci-dessous."
+msgstr "Set le plus proche de tes minimums : il ne les atteint pas tous. Ceux qu'il n'atteint pas sont signalés ci-dessous."
 
 #: chardata/templates/chardata/loading.html
 #, python-format
@@ -9734,15 +9734,15 @@ msgstr "Presque terminé"
 #: chardata/templates/chardata/infeasible.html
 #, python-format
 msgid "This is the closest set to your minimums the solver found in %(seconds)s seconds, with every locked item, forbidden item and item condition kept. It ran out of time before it could prove that no set comes closer."
-msgstr "Voici l'équipement le plus proche de vos minimums que le solveur a trouvé en %(seconds)s secondes, en respectant tous vos items verrouillés, vos items interdits et les conditions des items. Il a manqué de temps avant de pouvoir prouver qu'aucun équipement ne s'en approche davantage."
+msgstr "Voici l'équipement le plus proche de tes minimums que le solveur a trouvé en %(seconds)s secondes, en respectant tous tes items verrouillés, tes items interdits et les conditions des items. Il a manqué de temps avant de pouvoir prouver qu'aucun équipement ne s'en approche davantage."
 
 #: chardata/templates/chardata/solution.html
 msgid "This set was kept from the search for the set closest to your minimums, and it meets all of them now. Tailor a new set to weigh it against every other set on your criteria."
-msgstr "Ce set a été gardé lors de la recherche du set le plus proche de vos minimums, et il les atteint désormais tous. Créez un nouvel équipement pour le comparer à tous les autres selon vos critères."
+msgstr "Ce set a été gardé lors de la recherche du set le plus proche de tes minimums, et il les atteint désormais tous. Crée un nouvel équipement pour le comparer à tous les autres selon tes critères."
 
 #: chardata/templates/chardata/solution.html
 msgid "Closest set to your minimums the solver found before it ran out of time: it does not meet all of them, and a closer one may exist. The ones it misses are marked below."
-msgstr "Set le plus proche de vos minimums que le solveur a trouvé avant de manquer de temps : il ne les atteint pas tous, et un set plus proche peut exister. Ceux qu'il n'atteint pas sont signalés ci-dessous."
+msgstr "Set le plus proche de tes minimums que le solveur a trouvé avant de manquer de temps : il ne les atteint pas tous, et un set plus proche peut exister. Ceux qu'il n'atteint pas sont signalés ci-dessous."
 
 #: chardata/templates/chardata/main-header.html
 #: chardata/templates/chardata/load_projects.html
@@ -10397,11 +10397,11 @@ msgstr "Le compte {account} sur Dofus Fashionista et ses builds ont été suppri
 
 #: chardata/templates/chardata/privacy.html
 msgid "You can view and edit your builds at any time while logged in, and you can delete your account and associated data from your account page. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data. You can also control advertising cookies through the consent message and through your Google Ad settings."
-msgstr "Vous pouvez consulter et modifier vos builds à tout moment lorsque vous êtes connecté, et vous pouvez supprimer votre compte et les données associées depuis la page de votre compte. Selon votre lieu de résidence, vous pouvez disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de vos données personnelles. Vous pouvez également contrôler les cookies publicitaires via le message de consentement et via les paramètres de vos annonces Google."
+msgstr "Tu peux consulter et modifier tes builds à tout moment lorsque tu es connecté, et tu peux supprimer ton compte et les données associées depuis la page de ton compte. Selon ton lieu de résidence, tu peux disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de tes données personnelles. Tu peux également contrôler les cookies publicitaires via le message de consentement et via les paramètres de tes annonces Google."
 
 #: chardata/templates/chardata/privacy.html
 msgid "You can view and edit your builds at any time while logged in, and you can delete your account and associated data from your account page. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data."
-msgstr "Vous pouvez consulter et modifier vos builds à tout moment lorsque vous êtes connecté, et vous pouvez supprimer votre compte et les données associées depuis la page de votre compte. Selon votre lieu de résidence, vous pouvez disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de vos données personnelles."
+msgstr "Tu peux consulter et modifier tes builds à tout moment lorsque tu es connecté, et tu peux supprimer ton compte et les données associées depuis la page de ton compte. Selon ton lieu de résidence, tu peux disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de tes données personnelles."
 
 # redesign
 #: chardata/templates/chardata/license.html

@@ -332,7 +332,7 @@ class TranslationRegressionTests(SimpleTestCase):
         'Mathematical optimization, not a language model. The solver '
         'compares real Dofus items against your criteria.': {
             'fr': 'Optimisation mathématique, pas un modèle de langage. Le '
-                  'solveur compare les objets réels de Dofus selon vos '
+                  'solveur compare les objets réels de Dofus selon tes '
                   'critères.',
             'es': 'Optimización matemática, no un modelo de lenguaje. El '
                   'solver compara los objetos reales de Dofus según tus '
@@ -24975,7 +24975,7 @@ class EncyclopediaPagesInviteTheReaderToTheToolTests(TestCase):
         each language has its own translated slug."""
         for chemin, attendu in (
                 ('/encyclopedia/item/equipment/26066-dofus-du-cauchemar/',
-                 'Vous cherchez un'),
+                 'Tu cherches un'),
                 ('/encyclopedia/item/equipment/26066-dofus-des-alptraums/',
                  'Suchst du ein Set')):
             self.assertIn(attendu, self._page(chemin), chemin)
@@ -28984,7 +28984,7 @@ class NoPageOverclaimsWhatTheSolverDoesTests(SimpleTestCase):
         query string. Une promesse de vie privee doit etre exacte ou ne pas
         exister."""
         interdits = ('nothing leaves your browser',
-                     'rien ne sort de votre navigateur',
+                     'rien ne sort de ton navigateur',
                      'nada sale de su navegador',
                      'nada sai do seu navegador',
                      'nichts verl\u00e4sst ihren browser')

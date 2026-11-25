@@ -380,7 +380,7 @@ class TheBuildPageOffersToSearchOnTests(_FlowMixin, TestCase):
         char = self.build()
         self.solve(char, _outcome(self.hat, 1000.0, 1004.0))
         expected = {'fr': ('Set presque optimal : il en existe peut-être un meilleur, mais de '
-                           '0,4 % au plus selon vos critères.', 'Continuer la recherche',
+                           '0,4 % au plus selon tes critères.', 'Continuer la recherche',
                            'La recherche repart de ce set pour 90 secondes de plus au maximum'),
                     'es': ('Conjunto casi óptimo: puede que exista uno mejor, pero como mucho '
                            'un 0,4% mejor según tus criterios.', 'Seguir buscando',
@@ -403,7 +403,7 @@ class TheBuildPageOffersToSearchOnTests(_FlowMixin, TestCase):
     def test_the_wide_gap_speaks_the_page_language(self):
         char = self.build()
         self.solve(char, _outcome(self.hat, 1000.0, 1200.0))
-        expected = {'fr': 'Il existe peut-être un meilleur set, mais de 20 % au plus selon vos '
+        expected = {'fr': 'Il existe peut-être un meilleur set, mais de 20 % au plus selon tes '
                           'critères.',
                     'es': 'Puede que exista un conjunto mejor, pero como mucho un 20% mejor según '
                           'tus criterios.',

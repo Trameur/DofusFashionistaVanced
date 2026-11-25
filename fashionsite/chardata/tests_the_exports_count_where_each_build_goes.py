@@ -513,7 +513,7 @@ class ThePrivacyPageSaysWhatTheExportsCountTests(TestCase):
         'fr': ('/fr/privacy/', (
             'nous comptons, par jour et par version du jeu, la destination de chaque export',
             'Nous ne gardons jamais le build concerné '
-            'ni rien qui permette de vous identifier.')),
+            'ni rien qui permette de t\'identifier.')),
         'es': ('/es/privacy/', (
             'contamos, por día y por versión del juego, adónde va cada exportación',
             'Nunca guardamos qué build era ni nada que te identifique.')),
