@@ -1,9 +1,16 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Bellaphone, the Dofus 3.8 class, is offered on the Beta alone and plays there with its own spells."""
+"""Bellaphone, the Dofus 3.8 class, is offered on the Beta and on each version once its game files carry it, and plays there with its own spells."""
+from unittest import skipIf
+
 from django.test import SimpleTestCase, TestCase
 from django.utils import translation
 
-OTHER_VERSIONS = ('dofus3', 'dofus2', 'touch', 'retro')
+from chardata.spell_reference import get_spell_reference
+
+TOUCH_VERSIONS = ('touch', 'touchbeta')
+LIVE_HAS_IT = 'Bellaphone' in get_spell_reference('dofus3')
+OTHER_VERSIONS = (() if LIVE_HAS_IT else ('dofus3',)) + ('dofus2', 'retro') + tuple(
+    version for version in ('touch',) if 'Bellaphone' not in get_spell_reference(version))
 PYROLYSIS = 33311
 GAME_NAMES = {'fr': 'Bellaphone', 'en': 'Bellaphone', 'es': 'Bel\u00edade',
               'pt': 'Bel\u00e9fone', 'de': 'Bellaphon'}
@@ -25,13 +32,24 @@ class BellaphoneIsListedOnTheBetaAloneTests(SimpleTestCase):
                 self.assertNotIn('Bellaphone', filter_classes_for_version(CHARACTER_CLASSES, version))
                 self.assertFalse(class_exists_in_version('Bellaphone', version))
 
+    def test_touch_lists_it_exactly_when_its_spell_reference_has_it(self):
+        from chardata.version_compat import class_exists_in_version
+        for version in TOUCH_VERSIONS:
+            with self.subTest(version=version):
+                self.assertEqual('Bellaphone' in get_spell_reference(version),
+                                 class_exists_in_version('Bellaphone', version))
+
     def test_the_beta_keeps_every_class_dofus3_has(self):
         from chardata.version_compat import filter_classes_for_version
         from fashionistapulp.dofus_constants import CHARACTER_CLASSES
         live = set(filter_classes_for_version(CHARACTER_CLASSES, 'dofus3'))
         beta = set(filter_classes_for_version(CHARACTER_CLASSES, 'beta'))
-        self.assertEqual({'Bellaphone'}, beta - live)
+        self.assertEqual(set() if LIVE_HAS_IT else {'Bellaphone'}, beta - live)
         self.assertEqual(set(), live - beta)
+
+    def test_dofus3_lists_it_once_its_spell_reference_does(self):
+        from chardata.version_compat import class_exists_in_version
+        self.assertEqual(LIVE_HAS_IT, class_exists_in_version('Bellaphone', 'dofus3'))
 
     def test_the_game_breed_is_21(self):
         from chardata.character_look import CLASS_TO_BREED
@@ -139,6 +157,7 @@ class BellaphonePlaysOnTheBetaTests(TestCase):
         self.assertEqual('Bellaphone', _class_of(21))
         self.assertEqual('Bellaphone', _class_of('bellaphone'))
 
+    @skipIf(LIVE_HAS_IT, 'dofus3 has the class')
     def test_a_dofus3_page_does_not_offer_it_as_the_class_of_a_build(self):
         from chardata.presets import version_class
         self.assertNotEqual('Bellaphone', version_class('Bellaphone', 'dofus3'))
@@ -191,6 +210,7 @@ class TheSetupClassSelectFollowsTheVersionTests(TestCase):
 
 class TheSmartBuildReadsOnlyTheClassesOfItsVersionTests(TestCase):
 
+    @skipIf(LIVE_HAS_IT, 'dofus3 has the class')
     def test_dofus3_does_not_read_it(self):
         from chardata.nl_parser import parse_build_request
         parsed = parse_build_request('bellaphone 200 terre pvm', 'dofus3')
@@ -203,6 +223,7 @@ class TheSmartBuildReadsOnlyTheClassesOfItsVersionTests(TestCase):
         self.assertEqual('Bellaphone', parsed['char_class'])
         self.assertTrue(parsed['matched_class'])
 
+    @skipIf(LIVE_HAS_IT, 'dofus3 has the class')
     def test_a_posted_phrase_on_dofus3_asks_for_the_class(self):
         from chardata.models import Char
         before = Char.objects.count()

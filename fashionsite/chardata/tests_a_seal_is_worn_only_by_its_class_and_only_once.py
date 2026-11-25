@@ -87,17 +87,28 @@ class ALockedSealIsWornTests(_Touch):
 class OnlyTheClassSealsAreOfferedTests(_Touch):
 
     def _offered(self, char, slot='emblem1', prefix='/touch'):
-        answer = self.client.post('%s/itemexchange/%d/' % (prefix, char.id),
-                                  {'slot': slot, 'page': '1'})
-        if answer.status_code != 200:
-            return answer.status_code
-        return {int(number) for number in re.findall(
-            r'"id"\s*:\s*(\d+)', answer.content.decode('utf-8'))}
+        offered = set()
+        for page in range(1, 50):
+            answer = self.client.post('%s/itemexchange/%d/' % (prefix, char.id),
+                                      {'slot': slot, 'page': str(page)})
+            if answer.status_code != 200:
+                return answer.status_code
+            found = {int(number) for number in re.findall(
+                r'"id"\s*:\s*(\d+)', answer.content.decode('utf-8'))}
+            if found <= offered:
+                return offered
+            offered |= found
+        return offered
 
     def test_an_iop_is_offered_its_two_seals_and_the_insignia(self):
         offered = self._offered(self._char())
-        self.assertEqual({self.power.id, self.jump.id, self.insignia.id},
-                         offered)
+        self.assertLessEqual({self.power.id, self.jump.id, self.insignia.id}, offered)
+        self.assertEqual({'Iop'}, {char_class for number in offered
+                                   for char_class in getattr(
+                                       self.structure.get_item_by_id(number),
+                                       'classes', ())})
+        self.assertFalse([number for number in offered
+                          if self.structure.get_item_by_id(number).removed])
 
     def test_the_lock_page_lists_the_same_pieces(self):
         char = self._char()

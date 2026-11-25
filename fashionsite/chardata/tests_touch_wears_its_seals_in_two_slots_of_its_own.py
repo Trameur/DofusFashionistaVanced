@@ -21,7 +21,7 @@ _RAW = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
 _BREEDS = {1: 'Feca', 2: 'Osamodas', 3: 'Enutrof', 4: 'Sram', 5: 'Xelor',
            6: 'Ecaflip', 7: 'Eniripsa', 8: 'Iop', 9: 'Cra', 10: 'Sadida',
            11: 'Sacrier', 12: 'Pandawa', 13: 'Rogue', 14: 'Masqueraider',
-           15: 'Foggernaut'}
+           15: 'Foggernaut', 21: 'Bellaphone'}
 
 
 def _raw(table):
@@ -55,7 +55,7 @@ class TheSealItemsAreTheGamesTests(_Touch):
 
     def test_the_seal_slot_items_are_the_super_type_51_items(self):
         self.assertEqual(set(_raw_super_type_51()),
-                         {item.ankama_id for item in self.seals})
+                         {item.ankama_id for item in self.seals if not item.removed})
 
     def test_each_touch_class_has_the_two_seals_its_pg_condition_names(self):
         wanted = {}
