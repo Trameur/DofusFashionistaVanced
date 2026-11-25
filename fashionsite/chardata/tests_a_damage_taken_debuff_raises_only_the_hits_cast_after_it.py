@@ -88,9 +88,10 @@ def _one_row_hits(spell):
 
 
 def _probes(version, spells, debuff, stats):
-    """The class's plain one-hit spells besides debuff, best alone first."""
+    """The class's plain one-hit spells besides debuff, castable after it, best alone first."""
     found = [spell for spell in spells
              if spell is not debuff and spell.hits and not spell.buffs and spell.taken is None
+             and not spell.forbids_states & debuff.needs_states
              and not spell.late_by_effect and _one_row_hits(spell)
              and (variant_of(version, spell.spell_id) is None
                   or variant_of(version, spell.spell_id) != variant_of(version, debuff.spell_id))]

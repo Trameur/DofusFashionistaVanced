@@ -415,6 +415,8 @@ _MODERN_RECAST_STACKS = {
     32446: "le vol de vie est plus important après chaque lancer sur un même ennemi",
     13138: "sur le lanceur : augmente les dommages du sort",
     13146: "les dommages du sort sont augmentés après chaque lancer pour le tour en cours",
+    13762: "les dommages du sort sont augmentés après chaque lancer si la cible est la proie",
+    13768: "les dommages du sort sont augmentés après chaque lancer si la cible est la proie",
 }
 
 RECAST_STACKS_BY_VERSION = {
@@ -427,6 +429,8 @@ RECAST_STACKS_BY_VERSION = {
 }
 
 RECAST_STACKS = RECAST_STACKS_BY_VERSION["dofus3"]
+
+PREY_ONLY_GROWTH = "si la cible est la proie"
 
 STATE_GATED_RECASTS = frozenset({32446})
 
@@ -630,6 +634,7 @@ class SpellEntry:
     # A boost of its own damage that no row lands as the game does; never rendered
     boost_problem: Optional[str] = None
     stacks_on_recast: bool = False
+    recast_needs_prey: bool = False
 
 
 def _parse_damage_literal(literal: str) -> tuple[int, int]:
@@ -3774,6 +3779,8 @@ def convert_spell(
         stacks_on_recast=_stacks_on_recast(spell, aggregates, conditional, delayed,
                                            normal_rows),
     )
+    entry.recast_needs_prey = (entry.stacks_on_recast
+                               and PREY_ONLY_GROWTH in RECAST_STACKS[ankama_id].lower())
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
     return entry
@@ -3788,6 +3795,8 @@ def _attach_special_buff_scaling(
     scaling = _bestial_pact_scaling(spell)
     if not scaling:
         scaling = _mp_buff_scaling(spell, spell_lookup)
+    if not scaling:
+        scaling = _hit_buff_scaling(spell)
     if not scaling:
         return
     entry.buff_scaling = scaling
@@ -3864,6 +3873,35 @@ def _mp_buff_scaling(
             }
         },
     }
+
+
+def _hit_buff_scaling(spell: Mapping[str, Any]) -> Optional[Dict[str, Any]]:
+    """A caster buff given on cast that grows each time the caster is hit, up to max_stack."""
+    levels = spell.get("levels") or []
+    if len(levels) != 1:
+        return None
+    level = levels[0]
+    cap = level.get("max_stack")
+    if not isinstance(cap, int) or cap <= 0:
+        return None
+    by_trigger: Dict[str, Dict[str, int]] = {"I": {}, "D": {}}
+    for effect in level.get("effects", []):
+        rows = by_trigger.get(str(effect.get("triggers") or "").upper())
+        token = _stat_buff_token(effect)
+        value = (effect.get("dice") or {}).get("min")
+        if rows is None or not token or not _lands_on_the_caster(effect):
+            continue
+        stat = token.split("_")
+        if len(stat) != 2 or not isinstance(value, int) or value <= 0 or stat[1] in rows:
+            return None
+        rows[stat[1]] = value
+    stats = {stat: {"base": base, "per_stack": by_trigger["D"][stat], "max_effective": cap}
+             for stat, base in by_trigger["I"].items() if stat in by_trigger["D"]}
+    if not stats or set(stats) != set(by_trigger["D"]):
+        return None
+    return {"type": "hit_buff", "stack_offset": 1, "selection_count": cap + 1, "stats": stats}
+
+
 def _max_characteristic_value(levels: Sequence[Mapping[str, Any]], characteristic: int) -> Optional[int]:
     values = _collect_characteristic_values(levels, characteristic)
     if not values:
@@ -4034,6 +4072,8 @@ def render_spell(entry: SpellEntry) -> List[str]:
         extra_args.append(f"delayed_crit={entry.delayed_crit!r}")
     if entry.stacks_on_recast:
         extra_args.append("stacks_on_recast=True")
+    if entry.recast_needs_prey:
+        extra_args.append("recast_needs_prey=True")
     if extra_args:
         closing += ", " + ", ".join(extra_args)
     closing += ")"

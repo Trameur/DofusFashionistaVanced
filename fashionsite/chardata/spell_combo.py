@@ -439,6 +439,7 @@ class Castable(object):
         self.hits = self.alternatives[0] if self.alternatives else []
         self.stacked = bool(digest.aggregates)
         self.counts_both_runs = bool(together)
+        self.recast_needs_prey = bool(getattr(spell, 'recast_needs_prey', False))
         self.worst_faces = widths[0] if widths else 1
         rows = digest.non_crit_dams
         self.scored_group = scored_group_label(
@@ -1009,7 +1010,8 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     # A debuff that hits nothing is not in DAMAGE_SPELLS: cast it from its own entry
     spells = list(spells) + [
         Spell(entry['name'], entry['levels'], Effects([], None, []),
-              casting=entry['casting'], spell_id=entry['spell_id'])
+              casting=entry['casting'], spell_id=entry['spell_id'],
+              caster_states=entry.get('caster_states'))
         for entry in taken_by_id.values() if entry['spell_id'] not in known]
     out = []
     for spell in spells:
@@ -1387,7 +1389,6 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         multiplier = final_multiplier(buffed)
         every, first = taken_factors(counts, pending)
         late = getattr(spell, 'late_by_effect', None) or {}
-        off_turn = late if getattr(spell, 'recasts', None) else {}
 
         def raised(alternative, critical, on=None):
             """(scaled, shares of HP) of the alternative's rows, the hits now under the debuffs."""
@@ -1395,8 +1396,6 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             fixed = 0.0
             ending_factor = first
             for effect in alternative:
-                if id(effect) in off_turn:
-                    continue
                 share = isinstance(effect, HpShare)
                 if share:
                     value = effect.damage(buffed)
@@ -1427,7 +1426,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                         raw.append(scaled * multiplier + fixed)
                     continue
                 rows = [copy.copy(effect) for effect in alternative
-                        if not isinstance(effect, HpShare) and id(effect) not in off_turn]
+                        if not isinstance(effect, HpShare)]
                 if raw is None:
                     gains.append(row_value(rows, buffed, critical, spell.is_spell, multiplier, on)
                                  + _hp_share_damage(alternative, buffed, on))
@@ -1456,16 +1455,19 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         if grown is not None:
             plain_alternatives, crit_alternatives = grown
             alternatives = crit_alternatives if spell.crit else plain_alternatives
+        # A recast removes the delayed hit the cast before left
+        added = pushed - late_taken_back(spell, cast, buffed, multiplier, crit, game_version,
+                                         target)
         if crit:
-            return scored(alternatives, True) + pushed
+            return scored(alternatives, True) + added
         odds =crit_chance(getattr(spell, 'crit_rate', 0), buffed, game_version)
         plain = scored(plain_alternatives, False)
         if not odds:
-            return plain + pushed
+            return plain + added
         critical = scored(crit_alternatives, True)
         if not critical:
-            return plain + pushed
-        return plain * (1 - odds) + critical * odds + pushed
+            return plain + added
+        return plain * (1 - odds) + critical * odds + added
 
     # Counts past a spell's stack cap and cast limit change nothing: fold them
     caps = tuple(max(spell.stacks or 1, spell.limit or 0, 1,

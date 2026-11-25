@@ -314,7 +314,8 @@ class Spell:
     def __init__(self, name, level_req, effects, aggregates=[],
                  is_linked=None, stacks=1, special=None, buff_scaling=None,
                  spell_id=None, casting=None, conditional=None,
-                 delayed=None, delayed_crit=None, stacks_on_recast=False):
+                 delayed=None, delayed_crit=None, stacks_on_recast=False,
+                 recast_needs_prey=False):
         self.name = name
         self.level_req = level_req
         self.effects = effects
@@ -335,6 +336,7 @@ class Spell:
         # Critical hits can have different rows
         self.delayed_crit = delayed_crit if delayed_crit is not None else None
         self.stacks_on_recast = stacks_on_recast
+        self.recast_needs_prey = recast_needs_prey
 
     def ap_cost(self, level_index=-1):
         """AP a cast costs at that spell level, or None if it is not known."""
@@ -4060,7 +4062,7 @@ DAMAGE_SPELLS = {
  ('Stack 1', [1]),
  ('Stack 2', [2]),
  ('Stack 3', [3]),
- ('Stack 4', [4])], stacks=4, is_linked=(1, 'Muzzle'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13762),
+ ('Stack 4', [4])], stacks=4, is_linked=(1, 'Muzzle'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13762, stacks_on_recast=True, recast_needs_prey=True),
         Spell('Carrion', [1, 68, 134], Effects(
             [['18-20', '25-27', '29-32']],
             [['22-24', '30-33', '35-38']],
@@ -4109,7 +4111,7 @@ DAMAGE_SPELLS = {
  ('Stack 1', [1]),
  ('Stack 2', [2]),
  ('Stack 3', [3]),
- ('Stack 4', [4])], stacks=4, is_linked=(1, 'Beaten'), casting={'ap': [2, 2, 2], 'per_turn': [4, 4, 4], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=13768),
+ ('Stack 4', [4])], stacks=4, is_linked=(1, 'Beaten'), casting={'ap': [2, 2, 2], 'per_turn': [4, 4, 4], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=13768, stacks_on_recast=True, recast_needs_prey=True),
         Spell('Hunt', [50, 117, 184], Effects(
             [['25-28', '33-37', '39-44']],
             [['30-33', '40-45', '47-53']],

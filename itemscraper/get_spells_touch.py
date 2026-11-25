@@ -54,6 +54,7 @@ BEST_ELEMENT_LABEL = 'Hit in best element'
 # Buffs and steals in points (1033/1078 are %). A steal counts as a self-buff
 CHARACTERISTIC_EFFECTS = {
     138: 'buff_pow',
+    418: 'buff_cridam',
     118: 'buff_str', 119: 'buff_agi', 123: 'buff_cha', 126: 'buff_int',
     124: 'buff_wis', 125: 'buff_vit',
     271: 'buff_str', 268: 'buff_agi', 266: 'buff_cha', 269: 'buff_int',
@@ -1139,17 +1140,27 @@ def _check_cast_states(rank, spell_id, tracked, spells, spell_levels, seen=froze
             _check_cast_states(child_level, spell_id, tracked, spells, spell_levels, seen | {cast})
 
 
-def add_caster_states(entries, raw_spells, spells, spell_levels):
-    """Give each entry, per rank, the caster states it needs, forbids, gives and takes among those its class moves."""
-    ranks_of = [[spell_levels[str(lid)] for lid in raw.get('spellLevels') or []
-                 if spell_levels.get(str(lid))] for raw in raw_spells]
+def _ranks_of(raw_spells, spell_levels):
+    return [[spell_levels[str(lid)] for lid in raw.get('spellLevels') or []
+             if spell_levels.get(str(lid))] for raw in raw_spells]
+
+
+def tracked_caster_states(raw_spells, spell_levels):
+    """The caster states these spells both gate on and move."""
     gated, moved = set(), set()
-    for ranks in ranks_of:
+    for ranks in _ranks_of(raw_spells, spell_levels):
         for rank in ranks:
             gated |= set(rank.get('statesRequired') or []) | set(rank.get('statesForbidden') or [])
             for key in ('effects', 'criticalEffect'):
                 moved |= {state for _id, state, _row in _caster_state_rows(rank.get(key))}
-    tracked = gated & moved
+    return gated & moved
+
+
+def add_caster_states(entries, raw_spells, spells, spell_levels, tracked=None):
+    """Give each entry, per rank, the caster states it needs, forbids, gives and takes among those its class moves."""
+    ranks_of = _ranks_of(raw_spells, spell_levels)
+    if tracked is None:
+        tracked = tracked_caster_states(raw_spells, spell_levels)
     for entry, raw, ranks in zip(entries, raw_spells, ranks_of):
         per = {key: [] for key in CASTER_STATE_KEYS}
         for rank in ranks:
@@ -1310,7 +1321,7 @@ def damage_taken_entry(spell, spell_levels, spells=None, bombs=None, text=None):
     return entry
 
 
-def build_damage_taken(breeds, spells, spell_levels, bombs=None, text=None):
+def build_damage_taken(breeds, spells, spell_levels, bombs=None, text=None, by_class=None):
     """{class: [damage_taken_entry]} over each class's spell book."""
     out = {}
     for bid, app_name in CLASS_ID_TO_NAME.items():
@@ -1323,6 +1334,12 @@ def build_damage_taken(breeds, spells, spell_levels, bombs=None, text=None):
             entry = damage_taken_entry(spell, spell_levels, spells, bombs, text)
             if entry:
                 out.setdefault(app_name, []).append(entry)
+        hitting = [spells[str(s['id'])] for s in (by_class or {}).get(app_name) or []]
+        lone = [entry for entry in out.get(app_name) or []
+                if entry['spell_id'] not in {raw.get('id') for raw in hitting}]
+        if by_class is not None and lone:
+            add_caster_states(lone, [spells[str(entry['spell_id'])] for entry in lone], spells,
+                              spell_levels, tracked_caster_states(hitting, spell_levels))
     return out
 
 
@@ -1459,7 +1476,7 @@ def main(argv=None):
     by_class = build(breeds, spells, spell_levels, bombs)
     taken_by_class = build_damage_taken(
         breeds, spells, spell_levels, bombs,
-        {lang: text for lang, text in taken_text.items() if text})
+        {lang: text for lang, text in taken_text.items() if text}, by_class)
     spell_names = build_spell_names(by_class, spells_by_lang)
     emit_module(by_class, spell_names, module_out, taken_by_class)
 

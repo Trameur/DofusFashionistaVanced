@@ -3524,7 +3524,11 @@ DAMAGE_SPELLS = {
             [['15'], ['10']],
             None,
             ['buff_pow', 'buff_pshdam'],
-        ), stacks=10, casting={'ap': [2], 'cooldown': [3]}, spell_id=13803),
+        ), stacks=11, buff_scaling={'selection_count': 11,
+ 'stack_offset': 1,
+ 'stats': {'pow': {'base': 80, 'max_effective': 10, 'per_stack': 15},
+           'pshdam': {'base': 40, 'max_effective': 10, 'per_stack': 10}},
+ 'type': 'hit_buff'}, casting={'ap': [2], 'cooldown': [3]}, spell_id=13803),
         Spell('Carving Up', [110, 177], Effects(
             [['34-38', '40-45']],
             [['41-46', '48-54']],
