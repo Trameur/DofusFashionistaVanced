@@ -388,6 +388,7 @@
 
 .best-combo-target-button,
 .best-combo-target-clear,
+.best-combo-link-use,
 .best-combo-picker-tab,
 .best-combo-picker-option {
     background: transparent;
@@ -398,21 +399,30 @@
 
 .best-combo-target-button {
     border: 0;
+    min-width: 0;
     padding: 2px 0;
     text-align: left;
     text-decoration: underline dotted;
     text-underline-offset: 3px;
 }
 
-.best-combo-target-clear {
+.best-combo-target-clear,
+.best-combo-link-use {
+    flex: none;
+    align-self: flex-start;
     border: 1px solid currentColor;
     border-radius: 4px;
     padding: 1px 8px;
+    white-space: nowrap;
+}
+
+.best-combo-target-clear {
     opacity: .8;
 }
 
 .best-combo-target-button:focus-visible,
 .best-combo-target-clear:focus-visible,
+.best-combo-link-use:focus-visible,
 .best-combo-picker-tab:focus-visible,
 .best-combo-picker-option:focus-visible,
 .best-combo-picker-search:focus-visible {
@@ -439,9 +449,34 @@
     font-weight: bold;
 }
 
+.best-combo-picker-tab[aria-selected="false"] {
+    border-bottom-color: transparent;
+    opacity: .7;
+}
+
 .best-combo-picker-label {
     display: block;
     margin-bottom: 3px;
+}
+
+.best-combo-link-label {
+    margin-top: 8px;
+}
+
+.best-combo-link-row {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+}
+
+.best-combo-link-row .best-combo-picker-search {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+}
+
+.best-combo-link-row .best-combo-link-use {
+    align-self: stretch;
 }
 
 .best-combo-picker-search {
@@ -552,6 +587,46 @@
     font-size: .9em;
 }
 
+.best-combo-their-turn {
+    margin: 8px 0 0 0;
+    padding: 6px 0 0 0;
+    border-top: 1px solid currentColor;
+    border-image: linear-gradient(to right, currentColor, transparent) 1;
+}
+
+.best-combo-their-turn[hidden] {
+    display: none;
+}
+
+.best-combo-their-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 2px 12px;
+}
+
+.best-combo-their-title,
+.best-combo-their-total {
+    font-weight: bold;
+}
+
+.best-combo-their-casts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.best-combo-their-casts li {
+    padding: 3px 0;
+}
+
+.best-combo-their-note {
+    margin: 4px 0 0 0;
+    font-size: .85em;
+    opacity: .75;
+}
+
 .best-combo-target-notes {
     margin: 4px 0 0 0;
     padding: 0 0 0 1.1em;
@@ -562,6 +637,7 @@
 @media (max-width: 480px) {
     .best-combo-target-button,
     .best-combo-target-clear,
+    .best-combo-link-use,
     .best-combo-picker-option {
         min-height: 44px;
     }

@@ -7887,6 +7887,74 @@ msgid "Clear the target and show raw damage"
 msgstr "Retirer la cible et afficher les dégâts bruts"
 
 #: chardata/templates/chardata/spells.html
+msgid "Character"
+msgstr "Personnage"
+
+#: chardata/templates/chardata/spells.html
+msgid "Your builds"
+msgstr "Tes builds"
+
+#: chardata/templates/chardata/spells.html
+msgid "Paste a build link"
+msgstr "Colle un lien de build"
+
+#: chardata/templates/chardata/spells.html
+msgid "Use this link"
+msgstr "Utiliser ce lien"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(name)s, %(class)s, level %(level)s"
+msgstr "%(name)s, %(class)s, niveau %(level)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "Target: %(name)s"
+msgstr "Cible : %(name)s"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(damage)s damage on %(name)s (level %(level)s, %(hp)s HP)"
+msgstr "%(damage)s dégâts sur %(name)s (niveau %(level)s, %(hp)s PV)"
+
+#: chardata/templates/chardata/spells.html
+msgid "Sign in to list your builds, or paste a build link."
+msgstr "Connecte-toi pour lister tes builds, ou colle un lien de build."
+
+#: chardata/templates/chardata/spells.html
+msgid "No build of yours for this version."
+msgstr "Aucun de tes builds pour cette version."
+
+#: chardata/templates/chardata/spells.html
+msgid "Your builds could not be loaded."
+msgstr "Tes builds n'ont pas pu être chargés."
+
+#: chardata/templates/chardata/spells.html
+msgid "This is not a build link."
+msgstr "Ce n'est pas un lien de build."
+
+#: chardata/templates/chardata/spells.html
+msgid "Percent resistances above the cap count as the cap."
+msgstr "Les résistances en pourcentage au-dessus du plafond comptent comme le plafond."
+
+#: chardata/templates/chardata/spells.html
+msgid "Their best turn on you"
+msgstr "Leur meilleur tour sur toi"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "This turn takes %(percent)s%% of your HP"
+msgstr "Ce tour retire %(percent)s%% de tes PV"
+
+#: chardata/templates/chardata/spells.html
+msgid "This turn takes more than all of your HP"
+msgstr "Ce tour retire plus que la totalité de tes PV"
+
+#: chardata/templates/chardata/spells.html
+msgid "Their turn uses no buffs and the default spell levels."
+msgstr "Leur tour n'utilise aucun buff et les niveaux de sorts par défaut."
+
+#: chardata/templates/chardata/spells.html
 msgid "Choose a target"
 msgstr "Choisir une cible"
 
@@ -7966,6 +8034,15 @@ msgstr "Recherche des monstres"
 #: chardata/templates/chardata/spells.html
 msgid "The monsters could not be loaded."
 msgstr "Les monstres n'ont pas pu être chargés."
+
+#: chardata/compare_sets_view.py
+msgid "The spell rows below show raw damage, before any resistance."
+msgstr "Les lignes de sorts ci-dessous montrent les dégâts bruts, avant toute résistance."
+
+#: chardata/templates/chardata/spells.html
+#, python-format
+msgid "%(name)s: %(total)s damage"
+msgstr "%(name)s : %(total)s de dégâts"
 
 #: chardata/templates/chardata/spells.html
 msgid "The spell cards below show raw damage, before any resistance."
@@ -8661,6 +8738,15 @@ msgstr "Sorts au niveau le plus haut que le personnage atteint."
 #, python-format
 msgid "Without the buffs it casts first, this turn would deal %(damage)s."
 msgstr "Sans les buffs qu'il lance d'abord, ce tour ferait %(damage)s."
+
+msgid "Fixed resistances, critical ones on critical hits"
+msgstr "Résistances fixes, les critiques sur les coups critiques"
+
+msgid "Damage dealt and final damage, after resistances"
+msgstr "Dommages infligés et dommages finaux, après les résistances"
+
+msgid "Rounded down after resistances"
+msgstr "Arrondi à l'inférieur après les résistances"
 
 msgid "Resistances in percent"
 msgstr "Résistances en pourcentage"

@@ -69,6 +69,18 @@
          data-load-error="{% trans "The monsters could not be loaded." %}"
          data-cards-note="{% trans "The spell cards below show raw damage, before any resistance." %}"
          data-all-immune="{% trans "Every element of this grade is immune, so no spell deals damage to it." %}"
+         data-builds-url="{% game_url 'build_targets' %}"
+         data-self-id="{{ char_id }}"
+         data-label-build="{% blocktrans with name="__name__" %}Target: {{ name }}{% endblocktrans %}"
+         data-headline-build="{% blocktrans with damage="__damage__" name="__name__" level="__level__" hp="__hp__" %}{{ damage }} damage on {{ name }} (level {{ level }}, {{ hp }} HP){% endblocktrans %}"
+         data-build-option="{% blocktrans with name="__name__" class="__class__" level="__level__" %}{{ name }}, {{ class }}, level {{ level }}{% endblocktrans %}"
+         data-no-build="{% if user.is_authenticated %}{% trans "No build of yours for this version." %}{% else %}{% trans "Sign in to list your builds, or paste a build link." %}{% endif %}"
+         data-build-error="{% trans "Your builds could not be loaded." %}"
+         data-link-error="{% trans "This is not a build link." %}"
+         data-their-total="{% blocktrans with name="__name__" total="__total__" %}{{ name }}: {{ total }} damage{% endblocktrans %}"
+         data-capped-note="{% trans "Percent resistances above the cap count as the cap." %}"
+         data-their-hp-share="{% blocktrans with percent="__percent__" %}This turn takes {{ percent }}% of your HP{% endblocktrans %}"
+         data-their-hp-share-over="{% trans "This turn takes more than all of your HP" %}"
          data-counted="{% blocktrans with stages="__stages__" %}Counted: {{ stages }}.{% endblocktrans %}"{% endif %}>
         <span class="best-combo-busy" aria-hidden="true"></span>
         <div class="best-combo-head">
@@ -85,6 +97,7 @@
         <div class="best-combo-picker" id="best-combo-picker" role="group" aria-label="{% trans "Choose a target" %}" hidden>
             <div class="best-combo-picker-tabs" role="tablist">
                 <button type="button" role="tab" class="best-combo-picker-tab" id="best-combo-tab-monster" aria-selected="true" aria-controls="best-combo-tabpanel-monster">{% trans "Monster" %}</button>
+                <button type="button" role="tab" class="best-combo-picker-tab" id="best-combo-tab-character" aria-selected="false" aria-controls="best-combo-tabpanel-character" tabindex="-1">{% trans "Character" %}</button>
             </div>
             <div id="best-combo-tabpanel-monster" role="tabpanel" aria-labelledby="best-combo-tab-monster">
                 <label class="best-combo-picker-label" for="best-combo-monster-search">{% trans "Search a monster by name" %}</label>
@@ -95,6 +108,17 @@
                     <span class="best-combo-picker-grades-title" id="best-combo-grades-title"></span>
                     <ul class="best-combo-picker-grade-list" aria-labelledby="best-combo-grades-title"></ul>
                 </div>
+            </div>
+            <div id="best-combo-tabpanel-character" role="tabpanel" aria-labelledby="best-combo-tab-character" hidden>
+                <span class="best-combo-picker-label" id="best-combo-builds-title">{% trans "Your builds" %}</span>
+                <p class="best-combo-picker-status best-combo-builds-status" role="status"></p>
+                <ul class="best-combo-picker-results best-combo-build-list" aria-labelledby="best-combo-builds-title"></ul>
+                <label class="best-combo-picker-label best-combo-link-label" for="best-combo-build-link">{% trans "Paste a build link" %}</label>
+                <div class="best-combo-link-row">
+                    <input type="text" id="best-combo-build-link" class="best-combo-picker-search" autocomplete="off" maxlength="300" inputmode="url" aria-controls="best-combo-link-status">
+                    <button type="button" class="best-combo-link-use">{% trans "Use this link" %}</button>
+                </div>
+                <p class="best-combo-picker-status best-combo-link-status" id="best-combo-link-status" role="status"></p>
             </div>
         </div>
         <div class="best-combo-target-summary" hidden>
@@ -165,7 +189,17 @@
             <span class="best-combo-item-effects-note">{{ best_combo.item_effects_note }}</span>
             <span class="best-combo-crit-failure-note">{{ best_combo.crit_failure_note }}</span>
         </p>
-        {% if target_version %}<ul class="best-combo-target-notes" hidden></ul>{% endif %}
+        {% if target_version %}
+        <div class="best-combo-their-turn" hidden>
+            <div class="best-combo-their-head">
+                <span class="best-combo-their-title">{% trans "Their best turn on you" %}</span>
+                <span class="best-combo-their-total"></span>
+            </div>
+            <p class="best-combo-hp-share best-combo-their-share" hidden></p>
+            <ol class="best-combo-their-casts"></ol>
+            <p class="best-combo-their-note">{% trans "Their turn uses no buffs and the default spell levels." %}</p>
+        </div>
+        <ul class="best-combo-target-notes" hidden></ul>{% endif %}
     </div>
     {% endif %}
 
@@ -1809,6 +1843,7 @@
                 panel.find('.best-combo-crit-failure-note')
                      .text(combo.crit_failure_note || '');
                 showTargetMode(combo);
+                showTheirTurn(data.their_turn);
             });
     }
 
@@ -1817,7 +1852,7 @@
         return match ? match[1] : '';
     }
 
-    var TARGET_TOKEN = /^m[1-9][0-9]{0,9}\.[1-9][0-9]{0,2}$/;
+    var TARGET_TOKEN = /^(m[1-9][0-9]{0,9}\.[1-9][0-9]{0,2}|b([1-9][0-9]{0,9}|s[A-Za-z0-9._-]{1,64}))$/;
 
     function fillText(template, values) {
         var text = String(template || '');
@@ -1910,6 +1945,7 @@
             panel.find('.best-combo-raw').attr('hidden', 'hidden').text('');
             summary.attr('hidden', 'hidden');
             notes.attr('hidden', 'hidden').empty();
+            showTheirTurn(null);
             if (combo) {
                 panel.find('.best-combo-total')
                      .text(combo.total + ' ' + panel.data('damage-label'));
@@ -1917,14 +1953,25 @@
             return;
         }
         var hp = info.hp === null || info.hp === undefined ? '?' : info.hp;
-        label.text(fillText(panel.data('label-target'),
-                            {name: info.name, grade: info.grade}));
-        panel.find('.best-combo-total').text(fillText(panel.data('headline'), {
-            damage: combo.total, name: info.name, grade: info.grade, hp: hp}));
+        var isBuild = info.kind === 'build';
+        label.text(isBuild ? fillText(panel.data('label-build'), {name: info.name})
+                           : fillText(panel.data('label-target'),
+                                      {name: info.name, grade: info.grade}));
+        panel.find('.best-combo-total').text(isBuild
+            ? fillText(panel.data('headline-build'), {
+                damage: combo.total, name: info.name, level: info.level, hp: hp})
+            : fillText(panel.data('headline'), {
+                damage: combo.total, name: info.name, grade: info.grade, hp: hp}));
         panel.find('.best-combo-raw').removeAttr('hidden')
              .text(fillText(panel.data('raw'), {damage: combo.raw_total}));
         var resists = summary.find('.best-combo-resists').empty();
+        var capped = false;
         $.each(info.resistances || [], function(i, entry) {
+            if (isBuild) {
+                capped = capped || (entry.percent !== entry.counted
+                                    && entry.percent !== null && entry.counted !== null);
+                entry = $.extend({}, entry, {percent: entry.counted});
+            }
             var chip = $("<span class='best-combo-resist'></span>")
                 .addClass('best-combo-resist-' + entry.element)
                 .toggleClass('is-immune', !!entry.immune)
@@ -1980,10 +2027,53 @@
         if (combo.stages && combo.stages.note) {
             $("<li></li>").text(combo.stages.note).appendTo(notes);
         }
+        if (capped) {
+            $("<li></li>").text(panel.data('capped-note')).appendTo(notes);
+        }
         $.each(combo.not_counted || [], function(i, note) {
             $("<li></li>").text(note).appendTo(notes);
         });
         $("<li></li>").text(panel.data('cards-note')).appendTo(notes);
+    }
+
+    function showTheirTurn(their) {
+        var panel = $("#best-combo");
+        var block = panel.find('.best-combo-their-turn');
+        var list = block.find('.best-combo-their-casts').empty();
+        if (!their || !their.casts) {
+            block.attr('hidden', 'hidden');
+            return;
+        }
+        block.find('.best-combo-their-total')
+             .text(fillText(panel.data('their-total'), {name: their.name, total: their.total}));
+        var share = block.find('.best-combo-their-share');
+        if (their.hp_share === null || their.hp_share === undefined) {
+            share.attr('hidden', 'hidden').text('');
+        } else {
+            share.removeAttr('hidden')
+                 .text(their.hp_share > 100 ? panel.data('their-hp-share-over')
+                       : fillText(panel.data('their-hp-share'), {percent: their.hp_share}));
+        }
+        $.each(their.casts, function(i, cast) {
+            var line = $("<div class='best-combo-cast-line'></div>");
+            $("<img class='best-combo-icon'>").attr('src', cast.image_url)
+                .attr('alt', cast.name).appendTo(line);
+            $("<span class='best-combo-name'></span>").text(cast.name).appendTo(line);
+            $("<span class='best-combo-ap'></span>")
+                .text(panel.data('ap-label').replace('__ap__', cast.ap)).appendTo(line);
+            $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
+            $("<span class='best-combo-running'></span>").text(cast.running).appendTo(line);
+            $("<li></li>").append(line).appendTo(list);
+        });
+        block.removeAttr('hidden');
+    }
+
+    function buildLinkToken(text) {
+        var path = $.trim(text).split('#')[0].split('?')[0].replace(/^[A-Za-z][A-Za-z0-9+.-]*:\/\/[^\/]*/, '');
+        var parts = $.grep(path.split('/'), function(part) { return part !== ''; });
+        var last = parts.length ? parts[parts.length - 1] : '';
+        var token = /^[1-9][0-9]{0,9}$/.test(last) ? 'b' + last : 'bs' + last;
+        return parts.length >= 2 && TARGET_TOKEN.test(token) ? token : '';
     }
 
     function initTargetPicker() {
@@ -2001,6 +2091,63 @@
         var searchTimer = null;
         var searchRequest = null;
         var lastQuery = '';
+        var tabs = picker.find('.best-combo-picker-tab');
+        var buildStatus = picker.find('.best-combo-builds-status');
+        var buildList = picker.find('.best-combo-build-list');
+        var linkField = picker.find('#best-combo-build-link');
+        var linkStatus = picker.find('.best-combo-link-status');
+        var buildsLoaded = false;
+
+        function showBuilds(builds) {
+            var own = $.grep(builds, function(entry) {
+                return entry.target !== 'b' + panel.data('self-id');
+            });
+            buildList.empty();
+            buildStatus.text(own.length ? '' : panel.data('no-build'));
+            $.each(own, function(i, entry) {
+                var button = $("<button type='button' class='best-combo-picker-option best-combo-picker-build'></button>")
+                    .text(fillText(panel.data('build-option'), {
+                        name: entry.name, 'class': entry['class'], level: entry.level})
+                        + ' #' + String(entry.target).slice(1))
+                    .on('click', function() {
+                        chooseGrade(entry.target);
+                    });
+                $("<li></li>").append(button).appendTo(buildList);
+            });
+        }
+
+        function loadBuilds() {
+            if (buildsLoaded) {
+                return;
+            }
+            buildsLoaded = true;
+            $.getJSON(panel.data('builds-url')).done(function(data) {
+                showBuilds((data && data.builds) || []);
+            }).fail(function() {
+                buildsLoaded = false;
+                buildStatus.text(panel.data('build-error'));
+            });
+        }
+
+        function showTab(name) {
+            tabs.each(function() {
+                var on = this.id === 'best-combo-tab-' + name;
+                $(this).attr('aria-selected', on ? 'true' : 'false')
+                       .attr('tabindex', on ? null : '-1');
+                $('#' + $(this).attr('aria-controls')).attr('hidden', on ? null : 'hidden');
+            });
+            if (name === 'character') {
+                loadBuilds();
+            }
+        }
+
+        function useLink() {
+            var token = buildLinkToken(linkField.val());
+            linkStatus.text(token ? '' : panel.data('link-error'));
+            if (token) {
+                chooseGrade(token);
+            }
+        }
 
         function openPicker() {
             picker.removeAttr('hidden');
@@ -2103,6 +2250,25 @@
             });
         }
 
+        tabs.on('click', function() {
+            showTab(this.id.replace('best-combo-tab-', ''));
+        });
+        tabs.on('keydown', function(event) {
+            if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
+                return;
+            }
+            event.preventDefault();
+            var next = tabs.eq((tabs.index(this) + 1) % tabs.length);
+            showTab(next.attr('id').replace('best-combo-tab-', ''));
+            next.trigger('focus');
+        });
+        picker.find('.best-combo-link-use').on('click', useLink);
+        linkField.on('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                useLink();
+            }
+        });
         toggle.on('click', function() {
             if (picker.attr('hidden')) {
                 openPicker();
@@ -2139,6 +2305,9 @@
                 return;
             }
             var field = $(event.target);
+            if (field.is(linkField)) {
+                return;
+            }
             var options = field.is('input')
                 ? results.find('button')
                 : field.closest('ul').find('button');

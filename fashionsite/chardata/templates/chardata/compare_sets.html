@@ -245,7 +245,7 @@
                     <div style="display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap;">
                         <b>{% trans "Spell damage preview" %}</b>
                         {% if spell_preview_class_options %}
-                        <form method="get" style="margin:0;">
+                        <form method="get" style="margin:0;">{% if best_turn_target %}<input type="hidden" name="target" value="{{ best_turn_target.token }}">{% endif %}
                             <label for="compare_spell_class">{% trans "Spell class" %}</label>
                             <select id="compare_spell_class" name="spell_class" onchange="this.form.submit()">
                                 {% for option in spell_preview_class_options %}
@@ -255,7 +255,7 @@
                         </form>
                         {% endif %}
                         {% if spell_preview_spell_options %}
-                        <form method="get" style="margin:0;">
+                        <form method="get" style="margin:0;">{% if best_turn_target %}<input type="hidden" name="target" value="{{ best_turn_target.token }}">{% endif %}
                             <input type="hidden" name="spell_class" value="{{ spell_preview_selected_class }}">
                             <label for="compare_spell_name">{% trans "Spell" %}</label>
                             <select id="compare_spell_name" name="spell_name" onchange="this.form.submit()">
@@ -284,7 +284,7 @@
             {% if best_turn_by_char %}
             <tr class="solution-stat-summary-line compare-best-turn-row">
                 <td class="solution-stat-summary-icon-cell"></td>
-                <td class="compare-spell-name-cell"><b>{% trans "Best turn" %}</b></td>
+                <td class="compare-spell-name-cell"><b>{% trans "Best turn" %}{% if best_turn_target %} ({{ best_turn_target.name }}){% endif %}</b></td>
                 {% for char_id in char_ids_cols %}
                 <td align="center" class="solution-stat-summary-value-cell">
                     {% if char_id == 'diff' %}
@@ -300,6 +300,59 @@
                     {{ best_turn_note }}
                 </td>
             </tr>
+            {% if target_picker_version %}
+            <tr class="compare-target-row">
+                <td colspan="99" class="compare-target-cell">
+                    <div id="compare-target"
+                         data-search-url="{% game_url 'monster_targets' %}"
+                         data-builds-url="{% game_url 'build_targets' %}"
+                         data-monster-level="{% blocktrans with level="__level__" id="__id__" %}Level {{ level }}, ID {{ id }}{% endblocktrans %}"
+                         data-monster-levels="{% blocktrans with low="__low__" high="__high__" id="__id__" %}Levels {{ low }} to {{ high }}, ID {{ id }}{% endblocktrans %}"
+                         data-grade-option="{% blocktrans with grade="__grade__" level="__level__" hp="__hp__" %}Grade {{ grade }}, level {{ level }}, {{ hp }} HP{% endblocktrans %}"
+                         data-grades-title="{% blocktrans with name="__name__" %}Grades of {{ name }}{% endblocktrans %}"
+                         data-build-option="{% blocktrans with name="__name__" class="__class__" level="__level__" %}{{ name }}, {{ class }}, level {{ level }}{% endblocktrans %}"
+                         data-no-monster="{% trans "No monster found." %}"
+                         data-searching="{% trans "Searching the monsters" %}"
+                         data-load-error="{% trans "The monsters could not be loaded." %}"
+                         data-no-build="{% if user.is_authenticated %}{% trans "No build of yours for this version." %}{% else %}{% trans "Sign in to list your builds, or paste a build link." %}{% endif %}"
+                         data-build-error="{% trans "Your builds could not be loaded." %}"
+                         data-link-error="{% trans "This is not a build link." %}">
+                        <div class="compare-target-line">
+                            <button type="button" class="compare-target-button" aria-expanded="false" aria-controls="compare-target-picker">{% if best_turn_target %}{% blocktrans with name=best_turn_target.name %}Target: {{ name }}{% endblocktrans %}{% else %}{% trans "Target: none (raw damage)" %}{% endif %}</button>
+                            {% if best_turn_target %}<button type="button" class="compare-target-clear" title="{% trans "Clear the target and show raw damage" %}">{% trans "Clear" %}</button>{% endif %}
+                        </div>
+                        <div class="compare-target-picker" id="compare-target-picker" role="group" aria-label="{% trans "Choose a target" %}" hidden>
+                            <div class="compare-target-tabs" role="tablist">
+                                <button type="button" role="tab" class="compare-target-tab" id="compare-target-tab-monster" aria-selected="true" aria-controls="compare-target-panel-monster">{% trans "Monster" %}</button>
+                                <button type="button" role="tab" class="compare-target-tab" id="compare-target-tab-character" aria-selected="false" aria-controls="compare-target-panel-character" tabindex="-1">{% trans "Character" %}</button>
+                            </div>
+                            <div id="compare-target-panel-monster" role="tabpanel" aria-labelledby="compare-target-tab-monster">
+                                <label class="compare-target-label" for="compare-target-search">{% trans "Search a monster by name" %}</label>
+                                <input type="search" id="compare-target-search" class="compare-target-input" autocomplete="off" maxlength="60" aria-controls="compare-target-results">
+                                <p class="compare-target-status compare-target-search-status" role="status"></p>
+                                <ul class="compare-target-list" id="compare-target-results"></ul>
+                                <div class="compare-target-grades" hidden>
+                                    <span class="compare-target-grades-title" id="compare-target-grades-title"></span>
+                                    <ul class="compare-target-list" aria-labelledby="compare-target-grades-title"></ul>
+                                </div>
+                            </div>
+                            <div id="compare-target-panel-character" role="tabpanel" aria-labelledby="compare-target-tab-character" hidden>
+                                <span class="compare-target-label" id="compare-target-builds-title">{% trans "Your builds" %}</span>
+                                <p class="compare-target-status compare-target-builds-status" role="status"></p>
+                                <ul class="compare-target-list compare-target-builds" aria-labelledby="compare-target-builds-title"></ul>
+                                <label class="compare-target-label compare-target-link-label" for="compare-target-link">{% trans "Paste a build link" %}</label>
+                                <div class="compare-target-link-row">
+                                    <input type="text" id="compare-target-link" class="compare-target-input" autocomplete="off" maxlength="300" inputmode="url" aria-controls="compare-target-link-status">
+                                    <button type="button" class="compare-target-use">{% trans "Use this link" %}</button>
+                                </div>
+                                <p class="compare-target-status compare-target-link-status" id="compare-target-link-status" role="status"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <script src="{% static "chardata/compare_target.js" %}" defer></script>
+                </td>
+            </tr>
+            {% endif %}
             {% endif %}
             {% for row in spell_preview_rows %}
             <tr class="solution-stat-summary-line compare-spell-row" data-spell-key="{{ row.key }}">
