@@ -131,6 +131,25 @@ class TheTargetScriptKeepsStorageGuardedTests(SimpleTestCase):
                 self.assertIn('try {', source[function:access.start()])
 
 
+class TheTwoTabsKeepTheirOwnElementsTests(SimpleTestCase):
+
+    def _classes(self, source, start_marker, end_marker):
+        start = source.index(start_marker)
+        block = source[start:source.index(end_marker, start)]
+        return {name for found in re.findall(r'class="([^"]+)"', block) for name in found.split()}
+
+    def test_a_class_both_tabs_carry_is_never_looked_up_across_the_whole_picker(self):
+        source = TEMPLATE.read_text(encoding='utf-8')
+        monster = 'id="best-combo-tabpanel-monster"'
+        character = 'id="best-combo-tabpanel-character"'
+        shared = (self._classes(source, monster, character)
+                  & self._classes(source, character, '<div class="best-combo-target-summary"'))
+        self.assertIn('best-combo-picker-results', shared)
+        for name in sorted(shared):
+            with self.subTest(css_class=name):
+                self.assertNotRegex(source, r"\b(picker|panel)\.find\('\.%s'\)" % re.escape(name))
+
+
 class TheMonsterSearchViewTests(SimpleTestCase):
 
     def _get(self, query, version='dofus3', method='get'):
