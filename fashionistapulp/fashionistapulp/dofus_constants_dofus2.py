@@ -540,9 +540,9 @@ DAMAGE_SPELLS = {
             [WATER],
         ), is_linked=(1, 'Kanniboil'), casting={'ap': [3, 3, 3], 'cooldown': [3, 3, 3], 'crit': [10, 10, 10]}, spell_id=24015),
         Spell('Kanniboil', [107, 174], Effects(
-            [['17-19', '21-24']],
-            [['20-23', '25-29']],
-            [WATER],
+            [['17-19', '21-24'], ['5', '10']],
+            [['20-23', '25-29'], ['5', '10']],
+            [WATER, 'buff_ch'],
         ), is_linked=(2, 'Kannibubble'), casting={'ap': [3, 3], 'cooldown': [3, 3], 'crit': [10, 10]}, spell_id=24016),
         Spell('Mantiscroc', [60, 127, 194], Effects(
             [['14-17', '18-22', '20-24']],
@@ -717,6 +717,11 @@ DAMAGE_SPELLS = {
             [['44-47']],
             [WATER],
         ), is_linked=(2, 'Poisoned Arrow'), casting={'ap': [4], 'per_turn': [1], 'crit': [20]}, spell_id=13071),
+        Spell('Absolute Acuteness', [120, 187], Effects(
+            [['10', '10']],
+            [['12', '12']],
+            ['buff_ch'],
+        ), casting={'ap': [3, 3], 'cooldown': [4, 3], 'crit': [25, 25]}, spell_id=13073),
         Spell('Redemption Arrow', [185], Effects(
             [['23-26'], ['23-26'], ['30-33'], ['30-33'], ['37-40'], ['37-40']],
             [['28-31'], ['28-31'], ['35-38'], ['35-38'], ['42-45'], ['42-45']],
@@ -3011,10 +3016,10 @@ DAMAGE_SPELLS = {
             ['buff_pshdam'],
         ), casting={'ap': [3], 'per_turn': [1]}, spell_id=13137),
         Spell('Accumulation', [105, 172], Effects(
-            [['19-22', '22-26']],
-            [['22-27', '26-31']],
-            [EARTH],
-        ), is_linked=(2, 'Chopper'), casting={'ap': [3, 3], 'per_turn': [3, 3], 'per_target': [2, 2], 'crit': [10, 10]}, spell_id=13138),
+            [['19-22', '22-26'], ['39-42', '46-50']],
+            [['22-27', '26-31'], ['42-47', '50-55']],
+            [EARTH, EARTH],
+        ), aggregates=[('Stack 0', [0]), ('Stack 1', [1])], is_linked=(2, 'Chopper'), casting={'ap': [3, 3], 'per_turn': [3, 3], 'per_target': [2, 2], 'crit': [10, 10]}, spell_id=13138, stacks_on_recast=True),
         Spell('Fracture', [95, 162], Effects(
             [['26-29', '32-36']],
             [['31-35', '38-43']],
@@ -3072,9 +3077,9 @@ DAMAGE_SPELLS = {
             [FIRE],
         ), is_linked=(1, 'Accumulation'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13115),
         Spell('Divine Sword', [1, 69, 136], Effects(
-            [['16-18', '20-23', '26-30']],
-            [['19-21', '24-28', '31-36']],
-            [AIR],
+            [['16-18', '20-23', '26-30'], ['10', '20', '30']],
+            [['19-21', '24-28', '31-36'], ['10', '20', '30']],
+            [AIR, 'buff_dam'],
         ), is_linked=(1, 'Sword of Judgement'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13110),
     ],
     'Masqueraider': [
@@ -3100,9 +3105,9 @@ DAMAGE_SPELLS = {
             [EARTH],
         ), is_linked=(1, 'Retention'), casting={'ap': [4, 4, 4], 'per_target': [2, 2, 2], 'crit': [20, 20, 20]}, spell_id=13393),
         Spell('Furia', [35, 102, 169], Effects(
-            [['21-23', '28-31', '35-39']],
-            [['25-28', '34-38', '42-47']],
-            [EARTH],
+            [['21-23', '28-31', '35-39'], ['20', '30', '40']],
+            [['25-28', '34-38', '42-47'], ['20', '30', '40']],
+            [EARTH, 'buff_dam'],
         ), is_linked=(1, 'Bocciara'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [25, 25, 25]}, spell_id=13394),
         Spell('Capering', [45, 112, 179], Effects(
             [['18-20', '23-26', '28-32']],
@@ -3845,9 +3850,9 @@ DAMAGE_SPELLS = {
             [WATER],
         ), is_linked=(2, 'Hostility'), casting={'ap': [2], 'per_turn': [2], 'per_target': [1], 'crit': [5]}, spell_id=12726),
         Spell('Nervousness', [105, 172], Effects(
-            [['24-26', '28-31']],
-            [['29-32', '34-37']],
-            [WATER],
+            [['24-26', '28-31'], ['5', '7']],
+            [['29-32', '34-37'], ['5', '7']],
+            [WATER, 'buff_ch'],
         ), stacks=2, is_linked=(2, 'Torture'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'crit': [15, 15]}, spell_id=12727),
         Spell('Influx', [145], Effects(
             [['12-15']],

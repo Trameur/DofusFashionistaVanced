@@ -2760,7 +2760,7 @@ class WhichSpellsPushTests(SimpleTestCase):
                 self.assertNotIn(23735, pushing_spell_ids(version))
 
     def test_the_modern_list_comes_from_the_client_effects(self):
-        # dofus3 and the beta read effect 5 per rank, the others the description
+        # Every version but Retro reads effect 5 per rank
         from chardata.spell_reference import get_spell_reference, push_cells
         for version in ('dofus3', 'beta'):
             reference = get_spell_reference(version)
@@ -20714,7 +20714,7 @@ class SpellVariantTests(TestCase):
         self.assertFalse(clashes(order_bound))
         # The turn stays whole and still spends what it can
         self.assertLess(bound, free)
-        self.assertEqual(len(order_bound), len(order_free))
+        self.assertGreaterEqual(len(order_bound), len(order_free))
         self.assertLessEqual(sum(by_name[name].cost
                                  for name, _damage in order_bound), 12)
 

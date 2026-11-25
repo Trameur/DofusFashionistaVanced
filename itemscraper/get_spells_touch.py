@@ -201,13 +201,28 @@ def fetch_table(data_url, cls, lang='fr'):
 # Row triggers: "I" on cast, "TB" at turn begin, "TE" at turn end
 DELAYED_TRIGGERS = {'TB': 'turn_begin', 'TE': 'turn_end'}
 
+# "DP": the target suffers trap damage; what the row waits for, the site reads these
+CONDITIONAL_TRIGGERS = {'DP': 'trap_damage'}
+
 
 def when_it_lands(triggers):
     """The moment a row waits for, or None when it lands with the cast."""
     codes = {code for code in str(triggers or '').split('|') if code}
     if len(codes) != 1:
         return None
-    return DELAYED_TRIGGERS.get(next(iter(codes)))
+    code = next(iter(codes))
+    return DELAYED_TRIGGERS.get(code) or CONDITIONAL_TRIGGERS.get(code)
+
+
+def _check_triggers(spell, rank):
+    """Stop on a damage row of the cast that waits for a trigger no rule reads."""
+    for key in ('effects', 'criticalEffect'):
+        for row in rank.get(key) or []:
+            codes = {code for code in str(row.get('triggers') or '').split('|') if code}
+            if (row.get('effectId') in DAMAGE_EFFECTS and not row.get('isPreview')
+                    and codes and codes != {'I'} and when_it_lands(row.get('triggers')) is None):
+                raise SystemExit('touch spell %s has a damage row on trigger %r, which no rule '
+                                 'reads yet' % (spell.get('id'), row.get('triggers')))
 
 
 # No neutral: it scales on Strength like Earth, so it is never the best
@@ -290,6 +305,21 @@ def _target_states(effect):
                      if TARGET_STATE_TOKEN.match(token))
 
 
+# The second copy of a row, alike in every field but its place, is a hit of its own
+REPEATED_HIT_TOKEN = '%s_hit_%d'
+REPEATED_HIT = re.compile(r'^(.+)_hit_\d+$')
+
+
+def _same_row(effect):
+    return tuple(sorted((key, repr(value)) for key, value in effect.items() if key != 'order'))
+
+
+def element_const(token):
+    """The element constant a row token writes."""
+    repeated = REPEATED_HIT.match(str(token))
+    return ELEMENT_TOKEN_TO_CONST[repeated.group(1) if repeated else token]
+
+
 def _hit_key(effect):
     return (DAMAGE_EFFECTS[effect.get('effectId')], effect.get('targetMask'), effect.get('rawZone'),
             effect.get('triggers'), bool(effect.get('isPreview')))
@@ -340,6 +370,7 @@ def collect_damage(effect_list, best_element_rows=False, on_ally=None, on_state=
              if found and not found[1] and e.get('effectId') in DAMAGE_EFFECTS
              and not _target_states(e)}
     held = {}
+    copies = {}
     for e, found in routes:
         if found is None:
             continue
@@ -353,14 +384,36 @@ def collect_damage(effect_list, best_element_rows=False, on_ally=None, on_state=
         hi = e.get('diceSide') or 0
         if hi < lo:                          # diceSide==0 (or < min) => fixed hit
             hi = lo
+        if e.get('effectId') in DAMAGE_EFFECTS and not e.get('isPreview'):
+            seen = copies.setdefault(_same_row(e), [])
+            seen.append((tokens[0], (lo, hi, when_it_lands(e.get('triggers')))))
+            if len(seen) > 1:
+                if target is not out or e.get('effectId') in STEAL_EFFECTS:
+                    raise SystemExit('a touch damage row comes twice on a steal, an ally-only '
+                                     'or a state line; that shape has no rule yet')
+                out[REPEATED_HIT_TOKEN % (tokens[0], len(seen))] = seen[0][1]
+                continue
+        when = when_it_lands(e.get('triggers'))
         for elem in tokens:
             prev = target.get(elem)
+            if (prev is not None and prev[2] != when
+                    and {prev[2], when} & set(CONDITIONAL_TRIGGERS.values())):
+                raise SystemExit('a touch row waiting for a trigger meets another line of its '
+                                 'element; that shape has no rule yet')
             if prev is None or lo + hi > prev[0] + prev[1]:
-                target[elem] = (lo, hi, when_it_lands(e.get('triggers')))
+                target[elem] = (lo, hi, when)
     for token, line in held.items():
         if on_state is not None and line[0] + line[1] > out[token][0] + out[token][1]:
             on_state[token] = line
+    for seen in copies.values():
+        if len(seen) > 1 and out.get(seen[0][0]) != seen[0][1]:
+            raise SystemExit('a touch damage row comes twice beside another line of its element; '
+                             'that shape has no rule yet')
     return out
+
+
+def _repeated_hits(rows):
+    return {token for token in rows if REPEATED_HIT.match(str(token))}
 
 
 # dice min names the placed spell (a bomb monster for 1008), dice max its grade
@@ -768,9 +821,13 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
         ally_cr.append({})
         state_nc.append({})
         state_cr.append({})
+        _check_triggers(spell, lv)
         nc = collect_damage(lv.get('effects'), lire_le_meilleur, ally_nc[-1], state_nc[-1])
         cr = collect_damage(lv.get('criticalEffect'), lire_le_meilleur,
                             ally_cr[-1], state_cr[-1])
+        if cr and _repeated_hits(nc) != _repeated_hits(cr):
+            raise SystemExit('touch spell %s lands a row twice on one kind of hit only; that '
+                             'shape has no rule yet' % spell.get('id'))
         if _check_still_says(spell):
             # The buff goes to someone else, keep only the damage
             nc = {k: v for k, v in nc.items() if not k.startswith('buff_')}
@@ -827,13 +884,16 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
         nc_row, cr_row = rows_of(per_nc, per_cr, elem)
         non_crit.append(nc_row)
         crit.append(cr_row)
+    if best_element and _repeated_hits(elements):
+        raise SystemExit('touch spell %s lands a row twice beside a best-element hit; that '
+                         'shape has no rule yet' % spell.get('id'))
     # Rows that are alternatives, not a sum. See emit_aggregates.
     aggregates = emit_aggregates(best_element, elements, spell)
     delayed = when_by_row(per_nc)
     delayed_crit = when_by_row(per_cr)
+    conditional = _waits_apart(spell, elements, per_cr, delayed, delayed_crit)
     if delayed_crit == delayed:
         delayed_crit = None
-    conditional = {}
     ally_tokens = []
     for level in ally_nc + ally_cr:
         for token in level:
@@ -909,6 +969,109 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
         'delayed_crit': delayed_crit,
     }
     return grown_by_its_casts(spell, ranks, entry, spells, spell_levels)
+
+
+def _waits_apart(spell, elements, per_cr, delayed, delayed_crit):
+    """{row index: what it waits for} of the rows on a conditional trigger, taken out of both late maps."""
+    waiting = set(CONDITIONAL_TRIGGERS.values())
+    conditional = {index: moment for index, moment in delayed.items() if moment in waiting}
+    critical = {index: moment for index, moment in delayed_crit.items() if moment in waiting}
+    if set(critical) - set(conditional) or any(
+            critical.get(index) != moment for index, moment in conditional.items()
+            if any(elements[index] in level for level in per_cr)):
+        raise SystemExit('touch spell %s waits for a trigger on one kind of hit only; that '
+                         'shape has no rule yet' % spell.get('id'))
+    for index in conditional:
+        delayed.pop(index)
+        delayed_crit.pop(index, None)
+    return conditional
+
+
+# Caster states: 950 puts the state in value on the row's targets, 951 takes it off
+STATE_ON, STATE_OFF = 950, 951
+CASTER_STATE_KEYS = ('needs', 'forbids', 'gives', 'takes')
+# Masks of a state row that lands on the caster: the cast itself, or the ally mask a late rank swaps in
+CASTER_STATE_MASKS = ({'C'}, {'c', 'a'})
+
+
+def _caster_state_rows(rows):
+    """(effect id, state, row) of the rows putting a state on or off the caster."""
+    return [(row.get('effectId'), row.get('value'), row) for row in rows or []
+            if row.get('effectId') in (STATE_ON, STATE_OFF) and _mask_letters(row) & {'C', 'c'}]
+
+
+def _plain_state_row(effect_id, state, row):
+    """True for a row that puts its state on or off the caster on the cast, gated on that state only."""
+    gates = {token for token in str(row.get('targetMask') or '').split(',') if len(token) > 1}
+    allowed = {('e%d' if effect_id == STATE_ON else 'E%d') % state}
+    return (_mask_letters(row) in CASTER_STATE_MASKS and gates <= allowed and row.get('triggers') == 'I'
+            and not row.get('isPreview') and not row.get('delay') and not row.get('random')
+            and (effect_id == STATE_OFF or row.get('duration')))
+
+
+def _moved_states(spell_id, rank, tracked):
+    """(gives, takes) of one rank among the tracked states."""
+    moved = []
+    for key in ('effects', 'criticalEffect'):
+        gives, takes = set(), set()
+        for effect_id, state, row in _caster_state_rows(rank.get(key)):
+            if state not in tracked:
+                continue
+            if not _plain_state_row(effect_id, state, row):
+                raise SystemExit('touch spell %s moves caster state %s through a row no rule '
+                                 'reads yet' % (spell_id, state))
+            (gives if effect_id == STATE_ON else takes).add(state)
+        if key == 'effects' or rank.get(key):
+            moved.append((gives, takes))
+    if len(set((frozenset(g), frozenset(t)) for g, t in moved)) > 1:
+        raise SystemExit('touch spell %s moves a caster state on one kind of hit only' % spell_id)
+    return moved[0]
+
+
+def _check_cast_states(rank, spell_id, tracked, spells, spell_levels, seen=frozenset()):
+    """Stop if a spell the rank casts moves a tracked caster state, which no rule reads."""
+    for key in ('effects', 'criticalEffect'):
+        for effect in rank.get(key) or []:
+            child = (spells or {}).get(str(effect.get('diceNum')))
+            cast = (effect.get('diceNum'), effect.get('diceSide'))
+            if effect.get('effectId') not in CASTS_A_SPELL or child is None or cast in seen:
+                continue
+            child_level = child_rank(child, int(effect.get('diceSide') or 0), spell_levels)
+            for row_key in ('effects', 'criticalEffect'):
+                if any(state in tracked
+                       for _id, state, _row in _caster_state_rows(child_level.get(row_key))):
+                    raise SystemExit('touch spell %s casts %s, which moves a caster state the '
+                                     'class spells need or forbid' % (spell_id, child.get('id')))
+            _check_cast_states(child_level, spell_id, tracked, spells, spell_levels, seen | {cast})
+
+
+def add_caster_states(entries, raw_spells, spells, spell_levels):
+    """Give each entry, per rank, the caster states it needs, forbids, gives and takes among those its class moves."""
+    ranks_of = [[spell_levels[str(lid)] for lid in raw.get('spellLevels') or []
+                 if spell_levels.get(str(lid))] for raw in raw_spells]
+    gated, moved = set(), set()
+    for ranks in ranks_of:
+        for rank in ranks:
+            gated |= set(rank.get('statesRequired') or []) | set(rank.get('statesForbidden') or [])
+            for key in ('effects', 'criticalEffect'):
+                moved |= {state for _id, state, _row in _caster_state_rows(rank.get(key))}
+    tracked = gated & moved
+    for entry, raw, ranks in zip(entries, raw_spells, ranks_of):
+        per = {key: [] for key in CASTER_STATE_KEYS}
+        for rank in ranks:
+            needs = set(rank.get('statesRequired') or [])
+            if needs - tracked:
+                raise SystemExit('touch spell %s needs caster state %s, which no damage spell of '
+                                 'its class puts on' % (raw.get('id'), sorted(needs - tracked)))
+            gives, takes = _moved_states(raw.get('id'), rank, tracked)
+            _check_cast_states(rank, raw.get('id'), tracked, spells, spell_levels)
+            per['needs'].append(sorted(needs))
+            per['forbids'].append(sorted(set(rank.get('statesForbidden') or []) & tracked))
+            per['gives'].append(sorted(gives))
+            per['takes'].append(sorted(takes))
+        states = {key: lists for key, lists in per.items() if any(lists)}
+        if states:
+            entry['caster_states'] = states
 
 
 # "x#1% damage sustained" on the fighters the row targets
@@ -1076,7 +1239,7 @@ def build(breeds, spells, spell_levels, bombs=None):
         if breed is None:
             continue
         spell_ids = breed.get('breedSpellsId') or []
-        damage_spells = []
+        damage_spells, decoded_from = [], []
         seen = set()
         for sid in spell_ids:
             spell = spells.get(str(sid))
@@ -1089,6 +1252,8 @@ def build(breeds, spells, spell_levels, bombs=None):
                 _screen_kept_buff(spell)
             if decoded:
                 damage_spells.append(decoded)
+                decoded_from.append(spell)
+        add_caster_states(damage_spells, decoded_from, spells, spell_levels)
         by_class[app_name] = damage_spells
     return by_class
 
@@ -1131,7 +1296,7 @@ def emit_module(by_class, spell_names, path, taken_by_class=None):
     for cls, spells in sorted(by_class.items()):
         lines.append("    %s: [" % json.dumps(cls))
         for s in sorted(spells, key=lambda sp: (sp['name'], sp['id'])):
-            elems = ", ".join(ELEMENT_TOKEN_TO_CONST[e] for e in s['elements'])
+            elems = ", ".join(element_const(e) for e in s['elements'])
             lines.append("        Spell(%s, %s, Effects(" % (
                 json.dumps(s['name'], ensure_ascii=False), s['levels_req']))
             lines.append("            %s," % json.dumps(s['non_crit_ranges']))
@@ -1161,6 +1326,8 @@ def emit_module(by_class, spell_names, path, taken_by_class=None):
                             % (dict(sorted(s['delayed_crit'].items())),))
             if s.get('stacks_on_recast'):
                 tail.append("stacks_on_recast=True")
+            if s.get('caster_states'):
+                tail.append("caster_states=%s" % json.dumps(s['caster_states'], sort_keys=True))
             lines.append("        )%s)," % (", " + ", ".join(tail) if tail else ""))
         lines.append("    ],")
     lines.append("    'default': [],")

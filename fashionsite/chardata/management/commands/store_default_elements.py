@@ -14,7 +14,7 @@ from chardata.default_elements import DIRECTORY, nearest_level
 from chardata.models import Char
 from chardata.presets import CLASS_DEFAULT_ELEMENT, ELEMENT_DAMAGE, FALLBACK_ELEMENT
 from chardata.smart_build import level_minimums, param_for_build
-from chardata.spell_combo import best_turn, castable_spells, combat_ap
+from chardata.spell_combo import CASTER_STATE_KEYS, best_turn, castable_spells, combat_ap
 from chardata.spell_variants import variant_of
 from chardata.util import character_own_stats
 from chardata.version_compat import classes_with_data
@@ -179,6 +179,10 @@ def element_turns(game_version, char_class, gear, level=TOP_LEVEL, without=()):
     return out
 
 
+def _caster_states(spell):
+    return tuple(getattr(spell, '%s_states' % key, frozenset()) for key in CASTER_STATE_KEYS)
+
+
 def inputs_fingerprint(game_version, char_class, level=TOP_LEVEL, gear=None):
     """Digest of what the class's turns read: spell rows, AP, reference stats and one cast of each spell."""
     gear = gear_line(game_version, level) if gear is None else gear
@@ -191,6 +195,8 @@ def inputs_fingerprint(game_version, char_class, level=TOP_LEVEL, gear=None):
                  spell.taken.ends_on_hit]] if spell.taken is not None else [])
             + ([['recasts', spell.recasts]] if getattr(spell, 'recasts', None) else [])
             + ([['cost_growth', spell.cost_growth]] if getattr(spell, 'cost_growth', 0) else [])
+            + ([['caster_states', [sorted(states) for states in _caster_states(spell)]]]
+               if any(_caster_states(spell)) else [])
             for spell in spells]
     reads = []
     for element in ELEMENT_DAMAGE:

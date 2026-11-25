@@ -7824,6 +7824,10 @@ msgid "Bomb heals"
 msgstr "Bomb heals"
 
 #: chardata/spells_view.py
+msgid "only if the target suffers trap damage"
+msgstr "only if the target suffers trap damage"
+
+#: chardata/spells_view.py
 msgid "only when an enemy sets off the trap"
 msgstr "only when an enemy sets off the trap"
 

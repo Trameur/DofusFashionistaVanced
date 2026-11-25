@@ -68,6 +68,13 @@ STAT_BUFF_CHARACTERISTICS = {
     107: "buff_final",
 }
 
+# Read on a row that lands on the caster (C) only; their a rows go to the targeted ally
+CASTER_BUFF_CHARACTERISTICS = {
+    16: "buff_dam",
+    18: "buff_ch",
+}
+CASTER_BUFF_TOKENS = frozenset(CASTER_BUFF_CHARACTERISTICS.values())
+
 # Client leaves bonus_type at 0 for 107 and 49, the sign is in the label
 ALWAYS_BUFF_TOKENS = {"buff_final", "buff_finalheals"}
 
@@ -411,7 +418,9 @@ _MODERN_RECAST_STACKS = {
 RECAST_STACKS_BY_VERSION = {
     "dofus3": _MODERN_RECAST_STACKS,
     "beta": _MODERN_RECAST_STACKS,
-    "dofus2": {},
+    "dofus2": {
+        13138: "sur le lanceur : augmente les dommages du sort",
+    },
 }
 
 RECAST_STACKS = RECAST_STACKS_BY_VERSION["dofus3"]
@@ -527,6 +536,8 @@ BUFF_SORT_ORDER = {
     "buff_pshdam": 6,
     "buff_final": 7,
     "buff_finalheals": 8,
+    "buff_dam": 9,
+    "buff_ch": 10,
 }
 
 BASE_CLASSES = [
@@ -1893,6 +1904,7 @@ def _stat_buff_rows_by_gate(spell: Mapping[str, Any], level_count: int
                             ) -> Dict[Tuple[str, Tuple[Tuple[str, str, str], ...]], Dict[str, Any]]:
     """{(token, counter gates): row}, one row per stat and gate so a gated effect keeps its own value."""
     rows: Dict[Tuple[str, Tuple[Tuple[str, str, str], ...]], Dict[str, Any]] = {}
+    rolled = set()
     for key in ("effects", "critical_effects"):
         for level_idx, level in enumerate(spell.get("levels") or []):
             for effect in level.get(key, []):
@@ -1902,6 +1914,9 @@ def _stat_buff_rows_by_gate(spell: Mapping[str, Any], level_count: int
                 value = _format_buff_value(effect.get("dice"))
                 if not value:
                     continue
+                # A range is rolled at each cast (Ecaflip)
+                if token in CASTER_BUFF_TOKENS and "-" in value:
+                    rolled.add(token)
                 row = rows.setdefault((token, _stat_buff_gates(effect)), {
                     "token": token,
                     "normal": [None] * level_count,
@@ -1917,7 +1932,7 @@ def _stat_buff_rows_by_gate(spell: Mapping[str, Any], level_count: int
                 if row["critical"] is None:
                     row["critical"] = [None] * level_count
                 row["critical"][level_idx] = value
-    return rows
+    return {gate: row for gate, row in rows.items() if gate[0] not in rolled}
 
 
 def _holds_at_the_start(spell: Mapping[str, Any], gates: Sequence[Tuple[str, str, str]],
@@ -1969,7 +1984,9 @@ def _stat_buff_token(effect: Mapping[str, Any]) -> Optional[str]:
     characteristic = metadata.get("characteristic")
     token = STAT_BUFF_CHARACTERISTICS.get(characteristic)
     if not token:
-        return None
+        token = CASTER_BUFF_CHARACTERISTICS.get(characteristic)
+        if not token or not _lands_on_the_caster(effect):
+            return None
 
     description = (metadata.get("description") or {}).get("en", "").lower()
 
@@ -1991,6 +2008,10 @@ def _stat_buff_token(effect: Mapping[str, Any]) -> Optional[str]:
     if bonus_value and bonus_value > 0:
         return token
     return None
+
+
+def _lands_on_the_caster(effect: Mapping[str, Any]) -> bool:
+    return "C" in str(effect.get("target_mask") or "").split(",") and not _client_only(effect)
 
 
 def _format_buff_value(dice: Optional[Mapping[str, Any]]) -> Optional[str]:
@@ -2692,6 +2713,13 @@ def _pair_buffs_with_their_draw(
             if not (len(indexes) == 1 and indexes[0] in paired)]
 
 
+def _whole_number(value: Any) -> Optional[int]:
+    """An int, or the digit string a Dofus 2 row carries."""
+    if isinstance(value, str) and value.isdigit():
+        return int(value)
+    return value if isinstance(value, int) else None
+
+
 def _own_base_damage_boosts(effects, ankama_id) -> List[Mapping[str, Any]]:
     return [effect for effect in effects or []
             if effect.get("effect_id") == MP_DAMAGE_EFFECT_ID
@@ -2791,16 +2819,20 @@ def _one_boost_for_the_next_casts(spell: Mapping[str, Any], damage: MutableMappi
             if (len(boosts) != 1 or boosts[0].get("delay") or not boosts[0].get("duration")
                     or not _lands_on_cast(boosts[0].get("triggers"))
                     or boosts[0].get("target_mask") not in ("c", "C")
-                    or not isinstance(boosts[0].get("value"), int) or boosts[0]["value"] <= 0
+                    or not (_whole_number(boosts[0].get("value")) or 0) > 0
                     or level.get("max_stack") != 1):
                 shapes.append(None)
             else:
-                shapes.append(boosts[0]["value"])
+                shapes.append(_whole_number(boosts[0]["value"]))
         if None in shapes or len(set(shapes)) != 1:
             break
         per_stack.append(shapes[0])
+    template = damage.get("stackable_damage")
+    # Dofus 2 templates carry the boost with no stack cap
+    uncapped_copy = bool(template) and template.get("per_stack") == per_stack and all(
+        cap is None for cap in template.get("max_stacks") or [])
     if (len(per_stack) != len(levels) or len(per_stack) != level_count
-            or damage.get("stackable_damage") or len(damage.get("normal") or []) != 1):
+            or (template and not uncapped_copy) or len(damage.get("normal") or []) != 1):
         raise SystemExit("spell %s: its rows no longer leave one boost of its damage for "
                          "its next casts" % ankama_id)
     damage["stackable_damage"] = {"per_stack": per_stack, "max_stacks": [1] * level_count}

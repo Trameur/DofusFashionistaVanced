@@ -356,7 +356,7 @@ class Spell:
     def __init__(self, name, level_req, effects, aggregates=[],
                  is_linked=None, stacks=1, special=None, buff_scaling=None,
                  spell_id=None, casting=None, conditional=None,
-                 delayed=None, delayed_crit=None, stacks_on_recast=False):
+                 delayed=None, delayed_crit=None, stacks_on_recast=False, caster_states=None):
         self.name = name
         self.level_req = level_req
         self.effects = effects
@@ -377,6 +377,8 @@ class Spell:
         # Crit rows can differ, so their own map when they do
         self.delayed_crit = delayed_crit if delayed_crit is not None else None
         self.stacks_on_recast = stacks_on_recast
+        # {'needs'/'forbids'/'gives'/'takes': [[state, ...] per spell level]}, the caster's states
+        self.caster_states = caster_states or {}
 
     def ap_cost(self, level_index=-1):
         """AP a cast costs at that spell level, or None if it is not known."""
@@ -581,9 +583,9 @@ DAMAGE_SPELLS = {
             [WATER],
         ), is_linked=(1, 'Kanniboil'), casting={'ap': [3, 3, 3], 'cooldown': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=24015),
         Spell('Kanniboil', [107, 174], Effects(
-            [['18-20', '22-25']],
-            [['21-24', '26-30']],
-            [WATER],
+            [['18-20', '22-25'], ['5', '10']],
+            [['21-24', '26-30'], ['5', '10']],
+            [WATER, 'buff_ch'],
         ), is_linked=(2, 'Kannibubble'), casting={'ap': [3, 3], 'cooldown': [2, 2], 'crit': [10, 10]}, spell_id=24016),
         Spell('Mantiscroc', [60, 127, 194], Effects(
             [['16-18', '20-22', '22-24']],
@@ -905,15 +907,20 @@ DAMAGE_SPELLS = {
             [EARTH, EARTH],
         ), stacks=2, is_linked=(2, 'Punitive Arrow'), casting={'ap': [4], 'per_turn': [2], 'per_target': [1], 'crit': [20]}, spell_id=32460),
         Spell('Powerful Shots', [35, 102, 169], Effects(
-            [['150', '200', '250'], ['50', '100', '150']],
-            [['175', '235', '300'], ['70', '120', '170']],
-            ['buff_pow', 'buff_pshdam'],
+            [['150', '200', '250'], ['50', '100', '150'], ['10', '12', '15']],
+            [['175', '235', '300'], ['70', '120', '170'], ['12', '14', '17']],
+            ['buff_pow', 'buff_pshdam', 'buff_ch'],
         ), is_linked=(1, 'Loving Arrows'), casting={'ap': [1, 1, 1], 'cooldown': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=32466),
         Spell('Tactical Beacon', [115, 182], Effects(
             [['30', '40']],
             None,
             ['buff_pow'],
         ), stacks=5, casting={'ap': [1, 1], 'cooldown': [2, 2]}, spell_id=32467),
+        Spell('Absolute Acuteness', [90, 157], Effects(
+            [['10', '15']],
+            None,
+            ['buff_ch'],
+        ), casting={'ap': [2, 2], 'cooldown': [4, 4]}, spell_id=32469),
         Spell('Reprisal', [170], Effects(
             [],
             None,
@@ -3189,9 +3196,9 @@ DAMAGE_SPELLS = {
             [FIRE],
         ), is_linked=(1, 'Accumulation'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13115),
         Spell('Divine Sword', [1, 69, 136], Effects(
-            [['14-17', '19-22', '24-28']],
-            [['18-21', '23-26', '29-34']],
-            [AIR],
+            [['14-17', '19-22', '24-28'], ['10', '20', '30']],
+            [['18-21', '23-26', '29-34'], ['10', '20', '30']],
+            [AIR, 'buff_dam'],
         ), is_linked=(1, 'Sword of Judgement'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13110),
         Spell('Intimidation', [5, 72, 139], Effects(
             [['4-6', '6-8', '8-10'],
@@ -3391,9 +3398,9 @@ DAMAGE_SPELLS = {
             [WATER],
         ), is_linked=(1, 'Agular'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13422),
         Spell('Furia', [35, 102, 169], Effects(
-            [['21-23', '28-31', '35-39']],
-            [['25-28', '34-38', '42-47']],
-            [EARTH],
+            [['21-23', '28-31', '35-39'], ['20', '30', '40']],
+            [['25-28', '34-38', '42-47'], ['20', '30', '40']],
+            [EARTH, 'buff_dam'],
         ), is_linked=(1, 'Bocciara'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [25, 25, 25]}, spell_id=13394),
         Spell('Capering', [45, 112, 179], Effects(
             [['20-23', '26-29', '31-35']],
@@ -3518,19 +3525,19 @@ DAMAGE_SPELLS = {
             heals=[False, True],
         ), aggregates=[('', [0])], is_linked=(1, 'Fangs of Boowolf'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=31110),
         Spell('Prespic Peaks', [1, 67, 133], Effects(
-            [['8-10', '11-13', '14-17'], ['8-10', '11-13', '14-17']],
-            [['11-13', '14-17', '19-22'], ['11-13', '14-17', '19-22']],
-            [FIRE, FIRE],
-            steals=[True, False],
-            heals=[False, True],
-        ), aggregates=[('', [0])], is_linked=(1, 'Plucking'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=31111),
+            [['8-10', '11-13', '14-17'], ['8-10', '11-13', '14-17'], ['5', '7', '10']],
+            [['11-13', '14-17', '19-22'], ['11-13', '14-17', '19-22'], ['5', '7', '10']],
+            [FIRE, FIRE, 'buff_ch'],
+            steals=[True, False, False],
+            heals=[False, True, False],
+        ), aggregates=[('', [0]), ('', [2])], is_linked=(1, 'Plucking'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=31111),
         Spell('Piranya Teeth', [1, 68, 134], Effects(
-            [['11-13', '15-17', '19-22'], ['11-13', '15-17', '19-22']],
-            [['11-13', '18-21', '24-28'], ['11-13', '18-21', '24-28']],
-            [WATER, WATER],
-            steals=[False, True],
-            heals=[True, False],
-        ), aggregates=[('', [0])], is_linked=(1, 'Wild Heart'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=31135),
+            [['11-13', '15-17', '19-22'], ['11-13', '15-17', '19-22'], ['10', '15', '20']],
+            [['11-13', '18-21', '24-28'], ['11-13', '18-21', '24-28'], ['10', '15', '20']],
+            [WATER, WATER, 'buff_dam'],
+            steals=[False, True, False],
+            heals=[True, False, False],
+        ), aggregates=[('', [0]), ('', [2])], is_linked=(1, 'Wild Heart'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=31135),
         Spell('Bear Cry', [1, 69, 136], Effects(
             [['14-16', '18-20', '23-26'], ['14-16', '18-20', '23-26'], ['30', '75', '150']],
             [['17-19', '21-24', '28-31'], ['17-19', '21-24', '28-31'], ['30', '75', '150']],
@@ -4363,9 +4370,9 @@ DAMAGE_SPELLS = {
             [EARTH],
         ), stacks=2, is_linked=(2, 'Hemorrhage'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'crit': [15, 15]}, spell_id=12731),
         Spell('Nervousness', [105, 172], Effects(
-            [['24-26', '28-31']],
-            [['29-32', '34-37']],
-            [WATER],
+            [['24-26', '28-31'], ['5', '7']],
+            [['29-32', '34-37'], ['5', '7']],
+            [WATER, 'buff_ch'],
         ), stacks=2, is_linked=(2, 'Torture'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'crit': [15, 15]}, spell_id=12727),
         Spell('Excruciating Pain', [110, 177], Effects(
             [['21-24', '27-30'], ['45', '60']],
@@ -4677,7 +4684,7 @@ DAMAGE_SPELLS = {
             None,
             [EARTH, FIRE, WATER, AIR],
             steals=[True, True, True, True],
-        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])], casting={'ap': [3, 3], 'cooldown': [3, 3]}, spell_id=12903),
+        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Plot'), casting={'ap': [3, 3], 'cooldown': [3, 3]}, spell_id=12903),
         Spell('Lethal Trap', [80, 147], Effects(
             [['31-35', '39-43'], ['39-44', '49-54']],
             None,
@@ -4843,6 +4850,11 @@ DAMAGE_SPELLS = {
             None,
             [FIRE, FIRE, FIRE, FIRE],
         ), aggregates=[('Trap damage', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(2, 'Sickrat Trap'), casting={'ap': [4], 'per_turn': [1]}, spell_id=12941, conditional={0: 'trap', 1: 'trap', 2: 'trap', 3: 'trap'}),
+        Spell('Plot', [185], Effects(
+            [['20']],
+            None,
+            ['buff_dam'],
+        ), stacks=2, is_linked=(2, 'Chakra Concentration'), casting={'ap': [2], 'per_turn': [2], 'per_target': [1]}, spell_id=14741),
         Spell('Calamity', [190], Effects(
             [['40-44']],
             None,

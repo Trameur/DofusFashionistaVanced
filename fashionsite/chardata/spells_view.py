@@ -1498,6 +1498,7 @@ _CONDITIONAL_LABELS = {
         _lazy("only on a target that has Telefrag, then on the spell's next "
               "casts for 3 turns"),
     'trap': _lazy("only when an enemy sets off the trap"),
+    'trap_damage': _lazy("only if the target suffers trap damage"),
     'bomb': _lazy("only when the bomb explodes"),
     'glyph': _lazy("only when an enemy goes through the glyph"),
     'aura': _lazy("when the glyph-aura triggers, on a later turn"),

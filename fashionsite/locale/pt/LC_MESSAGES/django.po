@@ -8767,6 +8767,10 @@ msgid "Bomb heals"
 msgstr "Curas da bomba"
 
 #: chardata/spells_view.py
+msgid "only if the target suffers trap damage"
+msgstr "apenas se o alvo sofrer dano de armadilhas"
+
+#: chardata/spells_view.py
 msgid "only when an enemy sets off the trap"
 msgstr "apenas se um inimigo acionar a armadilha"
 

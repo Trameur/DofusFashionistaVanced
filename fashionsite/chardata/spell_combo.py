@@ -471,6 +471,8 @@ class Castable(object):
         self.stacks = spell.stacks or 1
         # Drawn by the game: the turn averages the faces
         self.random_draw = _draw_is_random(digest.aggregates)
+        self.needs_states, self.forbids_states, self.gives_states, self.takes_states = (
+            caster_states_at(spell, level_index))
 
     def buff_deltas(self, count):
         deltas = {}
@@ -492,6 +494,20 @@ class Castable(object):
             if value:
                 deltas[stat] = deltas.get(stat, 0) + value
         return deltas
+
+
+CASTER_STATE_KEYS = ('needs', 'forbids', 'gives', 'takes')
+
+
+def caster_states_at(spell, level_index):
+    """(needs, forbids, gives, takes) caster states of one spell level, as frozensets."""
+    states = getattr(spell, 'caster_states', None) or {}
+    out = []
+    for key in CASTER_STATE_KEYS:
+        levels = states.get(key) or []
+        out.append(frozenset(levels[level_index]) if -len(levels) <= level_index < len(levels)
+                   else frozenset())
+    return tuple(out)
 
 
 def recast_alternatives(castable, cast):
@@ -1438,6 +1454,30 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
     capped = tuple((index, spells[index].taken.cap()) for index in lasting)
     growing = tuple((index, len(spell.recasts)) for index, spell in enumerate(spells)
                     if getattr(spell, 'recasts', None))
+    needs = tuple(getattr(spell, 'needs_states', frozenset()) for spell in spells)
+    forbids = tuple(getattr(spell, 'forbids_states', frozenset()) for spell in spells)
+    moves = tuple((getattr(spell, 'takes_states', frozenset()),
+                   getattr(spell, 'gives_states', frozenset())) for spell in spells)
+    # A turn may begin in any state a cast needs: the turn before left it there
+    wanted = sorted(frozenset().union(*needs))
+    starts = [frozenset(chosen) for size in range(len(wanted) + 1)
+              for chosen in itertools.combinations(wanted, size)]
+
+    def allowed(index, held):
+        return needs[index] <= held and not forbids[index] & held
+
+    def held_after(index, held):
+        takes, gives = moves[index]
+        return (held - takes) | gives if takes or gives else held
+
+    def from_the_best_start(walk, *args):
+        found = None
+        for held in starts:
+            turn = walk(*(args + (held,)))
+            if found is None or turn[0] > found[0]:
+                found = turn
+        return found
+
     affordable = {}
     best = {}
     try:
@@ -1474,8 +1514,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                                               counts[index])
         return gained
 
-    def search(ap_left, counts, depth, pending):
-        key = (ap_left, counts if folding else fold(counts), pending)
+    def search(ap_left, counts, depth, pending, held):
+        key = (ap_left, counts if folding else fold(counts), pending, held)
         found = best.get(key)
         if found is not None:
             return found
@@ -1485,6 +1525,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             for index in candidates_at(ap_left):
                 limit = limits[index]
                 if limit and counts[index] >= limit:
+                    continue
+                if not allowed(index, held):
                     continue
                 blocked = blockers[index]
                 if blocked and any(counts[other] for other in blocked):
@@ -1504,7 +1546,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 else:
                     after = counts[:index] + (count + 1,) + counts[index + 1:]
                 total, order = search(ap_left - spent, after, depth + 1,
-                                      pending_after(index, pending))
+                                      pending_after(index, pending), held_after(index, held))
                 total += gained
                 if total > outcome[0]:
                     outcome = (total, ((index, gained),) + order)
@@ -1593,8 +1635,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
 
     ceilings_and_rows = ceilings()
 
-    def bounded(ap_left, counts, pending):
-        key = (ap_left, counts, pending)
+    def bounded(ap_left, counts, pending, held):
+        key = (ap_left, counts, pending, held)
         found = best.get(key)
         if found is not None:
             return found
@@ -1603,6 +1645,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         for index in candidates_at(ap_left):
             limit = limits[index]
             if limit and counts[index] >= limit:
+                continue
+            if not allowed(index, held):
                 continue
             blocked = blockers[index]
             if blocked and any(counts[other] for other in blocked):
@@ -1633,7 +1677,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             count = counts[index]
             after = (counts[:index] + ((count + 1) if count < caps[index] else count,)
                      + counts[index + 1:])
-            total, order = bounded(left, after, pending_after(index, pending))
+            total, order = bounded(left, after, pending_after(index, pending),
+                                   held_after(index, held))
             total += gained
             if total > top or (total == top and chosen is not None and index < chosen[0]):
                 top = total
@@ -1647,12 +1692,14 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
     if ceilings_and_rows is not None:
         ceiling, rows = ceilings_and_rows
         try:
-            total, order = bounded(ap, (0,) * len(spells), (0,) * len(ending))
+            total, order = from_the_best_start(bounded, ap, (0,) * len(spells),
+                                               (0,) * len(ending))
         except _Unbounded:
             best.clear()
             total = None
     if total is None:
-        total, order = search(ap, (0,) * len(spells), 0, (0,) * len(ending))
+        total, order = from_the_best_start(search, ap, (0,) * len(spells), 0,
+                                           (0,) * len(ending))
     return total, [(spells[index].name, gained) for index, gained in order]
 
 
@@ -1770,7 +1817,7 @@ def _turn_key(stats, spells, ap, crit, standing, game_version, pushback, caster_
 
 def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
               pushback=False, caster_level=0, target=None):
-    """(total, [(spell name, damage), ...]) for the best order fitting the AP, on the target when one is given."""
+    """(total, [(spell name, damage), ...]) for the best single turn fitting the AP, on the target when one is given; a turn may begin in any caster state its casts need."""
     key = None
     if type(spells) in (list, tuple) and type(stats) is dict:
         try:

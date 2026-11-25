@@ -25,14 +25,15 @@ _MOITIE_QUI_FRAPPE = {
 }
 
 # Spells with a buff-only group, spells with several element runs
-_AVEC_GROUPE_DE_BUFF = 14
+_AVEC_GROUPE_DE_BUFF = 18
 _AVEC_PLUSIEURS_SERIES = 37
 
 _ZEROS_RESTANTS = {'dofus3': 52, 'beta': 54, 'dofus2': 26,
-                  'touch': 96, 'retro': 48}
+                  'touch': 108, 'retro': 48}
 _SORT_DES_ZEROS_RESTANTS = 'Ebony Dofus'
 _ATTENTES_DES_CHOSES_POSEES = {'trap', 'bomb', 'glyph', 'aura', 'state',
-                               'flask_destroyed', 'enemy_enters_the_bellaura'}
+                               'flask_destroyed', 'enemy_enters_the_bellaura',
+                               'trap_damage'}
 
 
 def _tous_les_sorts():
