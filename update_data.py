@@ -20,9 +20,11 @@ Pipeline steps:
     spells/download     download_raw_data.py  -> itemscraper/raw/<version>/
     spells/transform    get_spells.py         -> itemscraper/transformed_spells.json
     spells/duplicates   find_duplicated_damage_rows.py -> itemscraper/duplicated_damage_rows.json
+    spells/variants     store_spell_variants.py -> spell_variants.json (dofus3 entry)
     spells/reference    store_spell_reference.py -> spell_reference/dofus3.json
     stats/starting      store_starting_stats.py -> starting_stats/dofus3.json
     items/weapon-conversions store_weapon_conversions.py -> weapon_conversions/dofus3.json
+    items/dracorunes    store_dracorunes.py   -> dracorunes/dofus3.json (only if the dump has runes)
     items/transcendence store_transcendence_runes.py -> transcendence/dofus3.json
     spells/states       store_spell_states.py -> spell_states/dofus3.json
     spells/constants    generate_damage_spells.py -> dofus_constants.py
@@ -30,6 +32,8 @@ Pipeline steps:
     spells/modifiers    store_spell_modifiers.py -> spell_modifiers/dofus3.json
     spell-images        download_spell_images.py  -> static spell icons
     resize              resize_images.py      -> 60x60 thumbnails
+    elements/defaults   store_default_elements -> default_elements/dofus3.json
+    presets/golden      REGENERATE_GOLDEN_PRESETS=1 preset test -> golden_presets/*.json
 """
 
 from __future__ import annotations
@@ -49,6 +53,9 @@ if hasattr(sys.stdout, 'reconfigure'):
 ROOT = Path(__file__).resolve().parent
 ITEMSCRAPER = ROOT / "itemscraper"
 PY = sys.executable
+TEST_SETTINGS = ROOT / "fashionsite" / "fashionsite" / "settings_test.py"
+GOLDEN_FLAG = "REGENERATE_GOLDEN_PRESETS"
+GOLDEN_TESTS = "chardata.tests_every_preset_keeps_its_weights_and_minimums"
 
 NOTICE_KEYWORDS = [
     "attention", "warning", "could not find", "missing",
@@ -284,9 +291,13 @@ def main() -> None:
         ])
         # Diffs against the previous archive under raw/, no-op with only one
         step("spells/duplicates", [PY, "-m", "itemscraper.find_duplicated_damage_rows"])
+        step("spells/variants", [
+            PY, "itemscraper/store_spell_variants.py",
+            "--game-version", "dofus3", "--tag", version,
+        ])
         step("spells/reference", [
             PY, "itemscraper/store_spell_reference.py",
-            "--game-version", "dofus3",
+            "--game-version", "dofus3", "--tag", version,
         ])
         step("stats/starting", [
             PY, "itemscraper/store_starting_stats.py",
@@ -294,6 +305,10 @@ def main() -> None:
         ])
         step("items/weapon-conversions", [
             PY, "itemscraper/store_weapon_conversions.py",
+            "--game-version", "dofus3", "--tag", version,
+        ])
+        step("items/dracorunes", [
+            PY, "itemscraper/store_dracorunes.py",
             "--game-version", "dofus3", "--tag", version,
         ])
         step("items/transcendence", [
@@ -310,6 +325,7 @@ def main() -> None:
             "--class-json", "itemscraper/transformed_class_spells.json",
             "--spells-json", "itemscraper/transformed_spells.json",
             "--constants", "fashionistapulp/fashionistapulp/dofus_constants.py",
+            "--tag", version,
         ])
         # Item spell tooltips, needs the spell archive and the item db
         step("spells/tooltips", [
@@ -375,6 +391,22 @@ def main() -> None:
     if do_images and not args.no_resize:
         step("resize", [PY, "resize_images.py"])
 
+    if do_data:
+        manage = [PY, "manage.py"]
+        manage_settings = (["--settings=fashionsite.settings_test"]
+                           if TEST_SETTINGS.exists() else [])
+        step("elements/defaults", [*manage, "store_default_elements", "--game-version", "dofus3",
+                                   *manage_settings], cwd=ROOT / "fashionsite")
+        if TEST_SETTINGS.exists():
+            os.environ[GOLDEN_FLAG] = "1"
+            try:
+                step("presets/golden", [*manage, "test", GOLDEN_TESTS, *manage_settings,
+                                        "--noinput", "--parallel", "1"], cwd=ROOT / "fashionsite")
+            finally:
+                os.environ.pop(GOLDEN_FLAG, None)
+        else:
+            print(f"\n[presets/golden] not run: no {TEST_SETTINGS.name}; regenerate with "
+                  f"{GOLDEN_FLAG}=1 manage.py test {GOLDEN_TESTS}")
 
     # Flags tables that lost rows and items whose id moved
     step("verify/rebuild", [PY, "check_rebuild.py", "--only", "dofus3"],

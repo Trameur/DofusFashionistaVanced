@@ -294,19 +294,16 @@ _MODERN_CONDITIONAL_ROWS = {
     # Row 0 has the g mask, an ally only; rows 6, 8, 11 the ring zone that spares the new target
     32446: {0: "on_ally", 6: "initial_enemy", 8: "initial_enemy",
             11: "initial_enemy"},   # Cra, Devouring Arrow
-}
-
-_BETA_CONDITIONAL_ROWS = dict(_MODERN_CONDITIONAL_ROWS)
-_BETA_CONDITIONAL_ROWS.update({
+    # Bellaphone, from 3.8
     33220: dict.fromkeys((4, 5, 6, 7), "target_uses_ap_or_mp"),
     33227: dict.fromkeys((4, 5, 6, 7), "enemy_enters_the_bellaura"),
     33233: dict.fromkeys((4, 5, 6, 7), "enemy_leaves_the_bellaura"),
-})
+}
 
 CONDITIONAL_ROWS_BY_VERSION = {
     "dofus3": _MODERN_CONDITIONAL_ROWS,
     # beta: same client, one patch ahead
-    "beta": _BETA_CONDITIONAL_ROWS,
+    "beta": _MODERN_CONDITIONAL_ROWS,
     # 2.73 marks all these rows "I"
     "dofus2": {
         23735: {1: "pushback"},   # Forgelance, Noa
@@ -736,6 +733,11 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         default="dofus3",
         choices=sorted(CONDITIONAL_ROWS_BY_VERSION),
         help="Which client the by-hand conditional rows were read from",
+    )
+    parser.add_argument(
+        "--tag",
+        default=None,
+        help="Raw folder under itemscraper/raw/ to read the bomb table from",
     )
     return parser.parse_args(argv)
 
@@ -1683,15 +1685,15 @@ def _raw_zones(rows: Iterable[Mapping[str, Any]]) -> Dict[Any, str]:
     return {effect.get("effectUid"): effect.get("rawZone") or "" for effect in rows}
 
 
-def _bomb_spells(game_version: str) -> Dict[int, int]:
+def _bomb_spells(game_version: str, raw_tag: Optional[str] = None) -> Dict[int, int]:
     """{bomb monster id: its explosion spell}, the archive table get_spells reads."""
     root = Path(__file__).resolve().parents[1]
     if str(root) not in sys.path:
         sys.path.insert(0, str(root))
     import fashionista_version
-    tag = {"dofus3": fashionista_version.FASHIONISTA_VERSION,
-           "beta": fashionista_version.FASHIONISTA_BETA_VERSION,
-           "dofus2": fashionista_version.FASHIONISTA_DOFUS2_VERSION}.get(game_version)
+    tag = raw_tag or {"dofus3": fashionista_version.FASHIONISTA_VERSION,
+                      "beta": fashionista_version.FASHIONISTA_BETA_VERSION,
+                      "dofus2": fashionista_version.FASHIONISTA_DOFUS2_VERSION}.get(game_version)
     path = root / "itemscraper" / "raw" / str(tag) / "bomb_spells.json"
     if not tag or not path.exists():
         return {}
@@ -4127,7 +4129,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     dofus2_rows = _dofus2_effect_rows(args.game_version)
     CLIENT_ONLY_EFFECTS = _client_only_effects(dofus2_rows)
     RAW_ZONES = _raw_zones(dofus2_rows)
-    BOMB_SPELLS = _bomb_spells(args.game_version)
+    BOMB_SPELLS = _bomb_spells(args.game_version, args.tag)
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)

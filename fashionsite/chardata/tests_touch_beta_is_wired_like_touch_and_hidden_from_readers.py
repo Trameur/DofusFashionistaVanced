@@ -46,11 +46,10 @@ def table(module_name, attribute):
 
 class TouchBetaCarriesItsOwnDataTests(SimpleTestCase):
 
-    def test_its_item_database_has_the_touch_catalogue_and_more(self):
+    def test_its_item_database_has_the_touch_catalogue(self):
         beta = {item.ankama_id for item in get_structure(KEY).get_available_items_list()}
         touch = {item.ankama_id for item in get_structure(MAIN).get_available_items_list()}
         self.assertGreater(len(beta), 0.95 * len(touch))
-        self.assertTrue(beta - touch)
 
     def test_every_per_version_json_table_of_touch_has_a_touch_beta_file(self):
         folders = per_key_tables()
@@ -75,7 +74,8 @@ class TouchBetaCarriesItsOwnDataTests(SimpleTestCase):
         self.assertIs(touch_spell_module(KEY).TOUCH_DAMAGE_SPELLS, beta)
         self.assertIsNot(touch_spell_module(MAIN), touch_spell_module(KEY))
         self.assertEqual(set(), set(touch) - set(beta))
-        self.assertIn('Bellaphone', classes_of(KEY) - classes_of(MAIN))
+        self.assertEqual(set(), classes_of(MAIN) - classes_of(KEY))
+        self.assertIn('Bellaphone', classes_of(KEY))
 
     def test_the_classes_it_lacks_are_the_ones_its_spell_data_lacks(self):
         for version in (MAIN, KEY):

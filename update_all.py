@@ -94,6 +94,7 @@ STEP_TITLES = {
     'items/transform': 'Transforming items', 'items/dump': 'Creating the SQL dump',
     'items/load-db': 'Loading the database', 'items/build-db': 'Building the database',
     'items/keep-save': 'Copying the database', 'items/keep-restore': 'Keeping the tables not rebuilt',
+    'items/keep-retired': 'Keeping the items no longer in the game',
     'items/obtainment': 'Ways to obtain items', 'items/corrections': 'Item corrections',
     'items/recipes': 'Saving recipes', 'items/special-spells': 'Special item spells',
     'items/spells': 'Saving spells', 'item-skins': 'Item appearances',

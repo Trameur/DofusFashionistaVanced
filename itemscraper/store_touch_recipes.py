@@ -164,7 +164,7 @@ def main(channel=touch_channels.DEFAULT_CHANNEL):
             )
             localized = ingredient_names.get(ingredient_ankama_id, {})
             for lang in LANGUAGES:
-                name = localized.get(lang) or localized.get('fr') or localized.get('en')
+                name = localized.get(lang) or localized.get('en') or localized.get('fr')
                 if not name:
                     continue
                 cursor.execute(

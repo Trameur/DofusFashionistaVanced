@@ -22192,6 +22192,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         # Icons are keyed by item name
         import sqlite3
         from chardata.image_store import get_image_url
+        from chardata.lock_forbid import (DEFAULT_EXCLUSION_ANKAMA_IDS,
+                                          DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION)
         from fashionistapulp.fashionista_config import (get_fashionista_path,
                                                         get_items_db_path)
         static = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
@@ -22203,14 +22205,18 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
             connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
             try:
                 rows = connection.execute(
-                    'SELECT t.name, i.name FROM items i'
+                    'SELECT t.name, i.name, i.ankama_id FROM items i'
                     ' JOIN item_types t ON t.id = i.type'
                     ' WHERE COALESCE(i.removed, 0) = 0').fetchall()
             finally:
                 connection.close()
             root = os.path.normpath(static)
+            placeholders = (set(DEFAULT_EXCLUSION_ANKAMA_IDS)
+                            | set(DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION.get(version, [])))
             missing = []
-            for type_name, item_name in rows:
+            for type_name, item_name, ankama_id in rows:
+                if ankama_id in placeholders:
+                    continue
                 full = os.path.normpath(os.path.join(
                     root,
                     get_image_url(type_name, item_name, version).replace('/', os.sep)))

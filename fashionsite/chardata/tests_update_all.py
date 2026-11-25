@@ -532,6 +532,26 @@ class UpdateLauncherTests(TestCase):
                 repos = {command[command.index('--repo') + 1] if '--repo' in command else None
                          for command in downloads}
                 self.assertEqual(1, len(repos))
+                if module is update_data:
+                    for label in ('spells/constants', 'spells/variants', 'spells/reference', 'items/dracorunes'):
+                        self.assertIn('--tag', commands[label], label)
+                else:
+                    self.assertIn('spells/constants', commands)
+
+    def test_the_bomb_table_is_read_from_the_tag_the_pipeline_passes(self):
+        from chardata.tests import itemscraper_module
+        damage = itemscraper_module('generate_damage_spells')
+        self.assertEqual('3.7.4.4', damage.parse_args(['--tag', '3.7.4.4']).tag)
+        self.assertIsNone(damage.parse_args([]).tag)
+        seen = []
+        def load(path):
+            seen.append(Path(path))
+            return {'7': {'explodSpellId': 70}}
+        with mock.patch.object(damage.Path, 'exists', return_value=True), \
+                mock.patch.object(damage, '_load_datacenter_table', side_effect=load):
+            table = damage._bomb_spells('dofus3', '9.9.9.9')
+        self.assertEqual({7: 70}, table)
+        self.assertEqual(['raw', '9.9.9.9', 'bomb_spells.json'], list(seen[0].parts[-3:]))
 
     def mapped_dir(self, *names):
         folder = self.root / 'mapped'

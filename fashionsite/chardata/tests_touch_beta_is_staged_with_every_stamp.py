@@ -55,7 +55,7 @@ class TouchBetaHasItsStampsTests(SimpleTestCase):
 
     def test_the_footer_stamp_is_its_own_build(self):
         self.assertEqual(fashionista_version.FASHIONISTA_TOUCHBETA_VERSION, settings.SITE_VERSIONS['touchbeta'])
-        self.assertNotEqual(settings.SITE_VERSIONS['touch'], settings.SITE_VERSIONS['touchbeta'])
+        self.assertEqual(fashionista_version.FASHIONISTA_TOUCH_VERSION, settings.SITE_VERSIONS['touch'])
 
     def test_its_timeline_ends_on_its_stamp(self):
         patch = '.'.join(fashionista_version.FASHIONISTA_TOUCHBETA_VERSION.split('.')[:2])

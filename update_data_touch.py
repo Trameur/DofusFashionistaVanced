@@ -14,8 +14,10 @@ from __future__ import annotations
 import argparse
 import os
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -172,7 +174,15 @@ def main() -> None:
         "--input-dir", work_dir, "--dump-output", dump,
     ], cwd=ITEMSCRAPER)
 
-    step("items/load-db", [PY, "load_item_db.py", "--game-version", key])
+    snapshot = Path(tempfile.mkdtemp(prefix=f"{key}_items_")) / "items_before.db"
+    try:
+        step("items/keep-save", [PY, "keep_db_tables.py", "--game-version", key,
+                                 "--save", str(snapshot)], cwd=ITEMSCRAPER)
+        step("items/load-db", [PY, "load_item_db.py", "--game-version", key])
+        step("items/keep-retired", [PY, "keep_db_tables.py", "--game-version", key,
+                                    "--retire", str(snapshot)], cwd=ITEMSCRAPER)
+    finally:
+        shutil.rmtree(snapshot.parent, ignore_errors=True)
 
     # The dump has no recipes, added after load-db
     step("items/recipes", with_channel([PY, "store_touch_recipes.py"], channel), cwd=ITEMSCRAPER)

@@ -40,7 +40,8 @@ from fashionistapulp.exo_options import FORGEABLE_TYPES  # noqa: E402
 from get_spells import (  # noqa: E402
     ELEMENT_ID_TO_TOKEN, LANGUAGES, _load_json, _load_translations, _unwrap_array)
 
-DEFAULT_TAG = {'beta': fashionista_version.FASHIONISTA_BETA_VERSION}
+DEFAULT_TAG = {'dofus3': fashionista_version.FASHIONISTA_VERSION,
+               'beta': fashionista_version.FASHIONISTA_BETA_VERSION}
 
 ELEMENT_RUNE = 4081
 RESISTANCE_RUNE = 4082
