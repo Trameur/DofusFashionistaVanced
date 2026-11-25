@@ -116,7 +116,8 @@ class AGradeOfTouchRetroOrDofus2Tests(SimpleTestCase):
                                  [row['flat'] for row in combo['target']['resistances']])
                 self.assertIsNone(combo['target']['critical_resistance'])
                 self.assertIsNone(combo['target']['pushback_resistance'])
-                self.assertEqual(['P'], [stage['stage'] for stage in combo['stages']['counted']])
+                self.assertEqual(list(rules.applied_order()),
+                                 [stage['stage'] for stage in combo['stages']['counted']])
                 self.assertTrue(rules.tolerance_per_hit)
                 self.assertIn(str(rules.tolerance_per_hit), combo['stages']['note'])
                 expected = ([str(_RETRO_ROLLS_NOTE)] if version == 'retro' else []) + [

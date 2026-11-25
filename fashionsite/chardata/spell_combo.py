@@ -659,28 +659,55 @@ def row_value(rows, stats, critical, is_spell, multiplier, target=None):
     return row_values(rows, stats, critical, is_spell, multiplier, target)[1]
 
 
+def _dealt_split(stats, is_spell, multiplier, rules):
+    """(stats the rolls read, % factors of stage R, % factors after the last stage, factor on the rolls) of the caster's dealt multipliers under this record."""
+    dealt = []
+    after = []
+    bare = stats
+    key = 'perspedam' if is_spell else 'perweadam'
+    place = rules.dealt_place('spell_or_weapon')
+    if place != 'X' and stats.get(key):
+        bare = dict(stats)
+        bare[key] = 0
+        (dealt if place == 'R' else after).append(100 + stats[key])
+    place = rules.dealt_place('final_damage')
+    if place == 'X':
+        return bare, tuple(dealt), tuple(after), multiplier
+    if multiplier == final_multiplier(stats):
+        factors = [100 + stats.get('final', 0), 100 - stats.get('negfinal', 0)]
+    else:
+        factors = [round(multiplier * 100, 9)]
+    (dealt if place == 'R' else after).extend(factor for factor in factors if factor != 100)
+    return bare, tuple(dealt), tuple(after), 1.0
+
+
 def row_values(rows, stats, critical, is_spell, multiplier, target):
     """(raw, on the target) mean damage of the rows from one pass; a share of HP has no raw part here."""
     rules = load_rules(target.version)
     every_roll = needs_every_roll(rules)
+    bare, dealt, after, scale = _dealt_split(stats, is_spell, multiplier, rules)
     raw = 0
     total = 0.0
     for row in rows:
         if isinstance(row, HpShare):
-            total += expected_hit((row.damage(stats),), target.percent_of(row.element), rules)
+            total += expected_hit((row.damage(stats),), target.percent_of(row.element), rules,
+                                  target.flat_of(row.element))
             continue
         damages = calculate_damage([row], stats, critical, is_spell)
         if not damages or damages[0].heals:
             continue
         damage = damages[0]
         raw += (damage.min_dam + damage.max_dam) / 2.0
-        rolls = (damage.min_dam * multiplier, damage.max_dam * multiplier)
+        if bare is not stats:
+            damage = calculate_damage([row], bare, critical, is_spell)[0]
+        rolls = (damage.min_dam * scale, damage.max_dam * scale)
         if every_roll:
             span = abs(int(row.max_dam) - int(row.min_dam))
             if span:
                 rolls = [(damage.min_dam + (damage.max_dam - damage.min_dam) * step / span)
-                         * multiplier for step in range(span + 1)]
-        total += expected_hit(rolls, target.percent_of(damage.element), rules)
+                         * scale for step in range(span + 1)]
+        total += expected_hit(rolls, target.percent_of(damage.element), rules,
+                              target.flat_of(damage.element, critical), dealt, after)
     return raw * multiplier, total
 
 

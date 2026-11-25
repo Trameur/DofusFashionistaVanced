@@ -4,8 +4,9 @@ import copy
 
 from django.test import SimpleTestCase
 
-from fashionistapulp.combat.rules import (APPLIED_STAGES, FIELDS, RecordError, UNKNOWN,
-                                          check_record, read_record, record_path)
+from fashionistapulp.combat.rules import (APPLIED_STAGES, FIELDS, OPTIONAL_FIELDS,
+                                          RecordError, UNKNOWN, check_record, read_record,
+                                          record_path)
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
@@ -20,7 +21,8 @@ class TheRecordFormatTests(SimpleTestCase):
             record = self._record(version)
             with self.subTest(version=version):
                 check_record(record)
-                self.assertEqual(list(FIELDS), list(record))
+                self.assertEqual(list(FIELDS),
+                                 [field for field in record if field not in OPTIONAL_FIELDS])
                 self.assertTrue(set(record['enabled_stages']) <= set(APPLIED_STAGES))
 
     def test_an_enabled_stage_without_a_source_is_refused(self):
@@ -31,15 +33,23 @@ class TheRecordFormatTests(SimpleTestCase):
 
     def test_a_stage_with_no_code_is_refused_even_with_a_source(self):
         record = self._record()
-        record['enabled_stages'].append('F')
-        record['sources']['F'] = copy.deepcopy(record['sources']['P'])
-        record['order'] = ['F', 'P']
+        record['enabled_stages'].append('V')
+        record['sources']['V'] = copy.deepcopy(record['sources']['P'])
+        record['order'] = ['P', 'V']
         record['sources']['order'] = copy.deepcopy(record['sources']['P'])
         with self.assertRaises(RecordError) as refused:
             check_record(record)
-        self.assertIn('F', str(refused.exception))
-        record['enabled_stages'].remove('F')
+        self.assertIn('V', str(refused.exception))
+        record['enabled_stages'].remove('V')
         check_record(record)
+
+    def test_the_dealt_stage_needs_its_dealt_multipliers(self):
+        record = self._record('dofus2')
+        self.assertIn('R', record['enabled_stages'])
+        del record['dealt_multipliers']
+        with self.assertRaises(RecordError) as refused:
+            check_record(record)
+        self.assertIn('dealt_multipliers', str(refused.exception))
 
     def test_a_known_field_without_a_source_is_refused_and_unknown_needs_none(self):
         record = self._record()

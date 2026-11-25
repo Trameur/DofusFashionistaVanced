@@ -37,22 +37,32 @@ def percent_stage(value, percent, rules):
     return _rounded(value * (100 - percent) / 100.0, rules.rounding_of('P'))
 
 
-def mitigated(value, percent, rules):
-    """One hit of value on the target, through every enabled stage."""
+def mitigated(value, percent, rules, flat=0, dealt=(), after=()):
+    """One hit of value on the target through the enabled stages in the record's order; dealt and after are percent factors, 100 being neutral."""
     if value <= 0:
         return value
-    for stage in rules.enabled_stages:
-        if stage == 'P':
-            value = percent_stage(value, percent, rules)
+    for stage in rules.applied_order():
+        if stage == 'F':
+            value = _rounded(value - (flat or 0), rules.rounding_of('F'))
+        elif stage == 'P':
+            value = max(percent_stage(value, percent, rules), 0)
+        elif stage == 'R':
+            for factor in dealt:
+                value = max(_rounded(value * factor / 100.0, rules.rounding_of('R')), 0)
+        elif stage == 'Z':
+            value = _rounded(max(value, 0), rules.rounding_of('Z'))
         else:
             raise ValueError('stage %s has no code' % stage)
-    return value
+    for factor in after:
+        value = value * factor / 100.0
+    return max(value, 0)
 
 
-def expected_hit(rolls, percent, rules):
+def expected_hit(rolls, percent, rules, flat=0, dealt=(), after=()):
     """Mean of one hit on the target over its rolls: the two ends unless a stage rounds, then every roll."""
     rolls = list(rolls)
-    return sum(mitigated(value, percent, rules) for value in rolls) / len(rolls)
+    return sum(mitigated(value, percent, rules, flat, dealt, after)
+               for value in rolls) / len(rolls)
 
 
 def needs_every_roll(rules):

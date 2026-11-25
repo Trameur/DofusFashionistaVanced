@@ -1,6 +1,6 @@
 {
   "version": "dofus3",
-  "revision": 1,
+  "revision": 2,
   "verified_on_tag": "3.7.14.18",
   "enabled_stages": [
     "P"
@@ -15,7 +15,7 @@
   "percent_at_or_above_100": "unknown",
   "percent_below_0": "unknown",
   "crit_flat_on_crit_only": "unknown",
-  "pvp_lines": "unknown",
+  "pvp_lines": "none",
   "best_element_considers_target": false,
   "steal_heal_share": "unknown",
   "heal_stages": "unknown",
@@ -28,6 +28,13 @@
       {
         "kind": "ankama_text",
         "where": "itemscraper/raw/3.7.14.18/en.json and fr.json, text 1119655",
+        "date": "2026-11-24"
+      }
+    ],
+    "pvp_lines": [
+      {
+        "kind": "client_code",
+        "where": "itemscraper/raw/3.7.14.18/effects.json: no effect description is a PvP resistance and no effect sets characteristics 59-68; help texts 1095355-1095480 remain in en.json as leftovers (HYP)",
         "date": "2026-11-24"
       }
     ],

@@ -11,7 +11,7 @@ RECORD_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file
                           'combat_rules')
 
 STAGES = ('X', 'F', 'P', 'R', 'V', 'Z')
-APPLIED_STAGES = ('P',)
+APPLIED_STAGES = ('F', 'P', 'R', 'Z')
 ROUNDINGS = ('floor', 'round', 'none', 'unknown')
 SOURCE_KINDS = ('client_code', 'ankama_text', 'readings', 'fan_last_resort')
 UNKNOWN = 'unknown'
@@ -21,8 +21,11 @@ FIELDS = ('version', 'revision', 'verified_on_tag', 'enabled_stages', 'order', '
           'crit_flat_on_crit_only', 'pvp_lines', 'best_element_considers_target',
           'steal_heal_share', 'heal_stages', 'base_erosion_percent', 'shield_rules',
           'melee_rule', 'monster_keyword_meanings', 'sources')
+OPTIONAL_FIELDS = ('dealt_multipliers',)
 UNSOURCED_FIELDS = ('version', 'revision', 'verified_on_tag', 'enabled_stages',
                     'tolerance_per_hit', 'sources')
+DEALT_KINDS = ('spell_or_weapon', 'final_damage')
+DEALT_PLACES = ('X', 'R', 'after', UNKNOWN)
 CHOICES = {
     'percent_at_or_above_100': ('zero', UNKNOWN),
     'percent_below_0': ('amplify', UNKNOWN),
@@ -98,6 +101,22 @@ class RuleSet(object):
         return any(self.rounding_of(stage) in ('floor', 'round')
                    for stage in self._record['enabled_stages'])
 
+    def applied_order(self):
+        """The enabled stages in the record's order."""
+        order = self._record['order']
+        if not isinstance(order, list):
+            return self.enabled_stages
+        return tuple(stage for stage in order if stage in self._record['enabled_stages'])
+
+    def dealt_place(self, kind):
+        """Where the caster's dealt % of this kind multiplies a hit: X (the raw roll), R or after the last stage."""
+        place = (self._record.get('dealt_multipliers') or {}).get(kind, 'X')
+        return 'X' if place == UNKNOWN else place
+
+    def counts_pvp_lines(self):
+        """Whether a player's PvP resistances add to its own before the cap."""
+        return self._record['pvp_lines'] == 'additive_before_cap'
+
 
 def _check_sources(record, field):
     entries = record['sources'].get(field)
@@ -122,7 +141,7 @@ def check_record(record):
     if not isinstance(record, dict):
         raise RecordError('a record is an object')
     missing = [field for field in FIELDS if field not in record]
-    extra = [field for field in record if field not in FIELDS]
+    extra = [field for field in record if field not in FIELDS + OPTIONAL_FIELDS]
     if missing or extra:
         raise RecordError('fields missing %s, unknown %s' % (missing, extra))
     if not isinstance(record['sources'], dict):
@@ -155,11 +174,31 @@ def check_record(record):
     for field, allowed in CHOICES.items():
         if record[field] not in allowed:
             raise RecordError('%s: %r' % (field, record[field]))
-    for field in FIELDS:
-        if field in UNSOURCED_FIELDS or _is_unknown(record[field]):
+    if record['pvp_lines'] == 'own_stage' and 'V' not in stages:
+        raise RecordError('PvP lines of their own stage need stage V')
+    _check_dealt(record, stages)
+    for field in FIELDS + OPTIONAL_FIELDS:
+        if field not in record or field in UNSOURCED_FIELDS or _is_unknown(record[field]):
             continue
         _check_sources(record, field)
     return record
+
+
+def _check_dealt(record, stages):
+    dealt = record.get('dealt_multipliers')
+    if dealt is None:
+        if 'R' in stages:
+            raise RecordError('stage R needs dealt_multipliers')
+        return
+    if not isinstance(dealt, dict) or sorted(dealt) != sorted(DEALT_KINDS):
+        raise RecordError('dealt_multipliers names %s' % (DEALT_KINDS,))
+    for kind, place in dealt.items():
+        if place not in DEALT_PLACES:
+            raise RecordError('dealt_multipliers %s: %r' % (kind, place))
+        if place == 'R' and 'R' not in stages:
+            raise RecordError('dealt_multipliers %s sits in stage R, which is off' % kind)
+        if place == UNKNOWN and 'R' in stages:
+            raise RecordError('stage R needs every dealt multiplier placed')
 
 
 def read_record(path):

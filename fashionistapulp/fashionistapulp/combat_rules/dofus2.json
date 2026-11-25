@@ -1,9 +1,11 @@
 {
   "version": "dofus2",
-  "revision": 1,
+  "revision": 2,
   "verified_on_tag": "2.73.3.14",
   "enabled_stages": [
-    "P"
+    "F",
+    "P",
+    "R"
   ],
   "order": [
     "X",
@@ -16,6 +18,10 @@
     "F": "none",
     "P": "floor",
     "R": "floor"
+  },
+  "dealt_multipliers": {
+    "spell_or_weapon": "R",
+    "final_damage": "R"
   },
   "tolerance_per_hit": 1,
   "percent_at_or_above_100": "zero",
@@ -40,6 +46,20 @@
       {
         "kind": "client_code",
         "where": "2.73.3.14 DofusInvoker.swf (sha1 92a0b228bd44bb5616a47601684171af77cffc21, ffdec 26.2.0 export): damageCalculation/damageManagement/DamageReceiver.as receiveDamage l.125-126 multiply(1 - getElementMainResist/100) then minimizeBy(0); fighterManagement/HaxeFighter.as getElementMainResist l.1077-1103 (elemental 33-37 + 101, min(value, 50 for HUMAN, 100 otherwise)). Client damage preview library (Preview.DamagePreview.computePreview, isPreview true); that the server runs the same code is HYP",
+        "date": "2026-11-24"
+      }
+    ],
+    "F": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: damageCalculation/damageManagement/DamageReceiver.as receiveDamage l.113-114 subtracts the flat resistance (54-58), the critical resistance 87 on critical rows only (getFlatResistance l.277-286) and the effect 265 buffs, an integer subtraction before the percent at l.125-126. Client preview; server equality HYP",
+        "date": "2026-11-24"
+      }
+    ],
+    "R": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: DamageReceiver.as applyDamage l.227-228 and applyDealtMultiplier l.237-250: after the clamp at 0, dealt spell 123 or weapon 122, dealt melee 125 or ranged 120, received spell 141 or weapon 142, received melee 124 or ranged 121, final damage 107, then 1163 buffs, each a multiplication truncated toward zero (tools/Interval.as multiply l.47-52). Client preview; server equality HYP",
         "date": "2026-11-24"
       }
     ],
@@ -134,6 +154,13 @@
       {
         "kind": "ankama_text",
         "where": "itemscraper/raw/2.73.3.14/en.json texts 846693-846696 and 1095534/1095536 ('at a distance of 0 or 1 cells', '2 or more cells')",
+        "date": "2026-11-24"
+      }
+    ],
+    "dealt_multipliers": [
+      {
+        "kind": "client_code",
+        "where": "2.73.3.14 DofusInvoker.swf: DamageReceiver.as applyDealtMultiplier l.237-250 multiplies the caster's dealt spell (123) or weapon (122) % and the final damage (107) after the resistances, not DamageSender.as getTotalDamage l.22-68 on the raw roll. Client preview; server equality HYP",
         "date": "2026-11-24"
       }
     ]

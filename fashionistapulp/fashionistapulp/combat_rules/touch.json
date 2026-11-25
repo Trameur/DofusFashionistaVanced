@@ -1,9 +1,11 @@
 {
   "version": "touch",
-  "revision": 1,
+  "revision": 2,
   "verified_on_tag": "1.74.14",
   "enabled_stages": [
-    "P"
+    "F",
+    "P",
+    "Z"
   ],
   "order": [
     "X",
@@ -18,6 +20,10 @@
     "P": "none",
     "R": "none",
     "Z": "floor"
+  },
+  "dealt_multipliers": {
+    "spell_or_weapon": "X",
+    "final_damage": "after"
   },
   "tolerance_per_hit": 1,
   "percent_at_or_above_100": "zero",
@@ -54,6 +60,20 @@
       {
         "kind": "client_code",
         "where": "build/script.js 1.74.14 (window.buildVersion, Last-Modified 2026-11-23 15:27:35 GMT, assets 3.3.12, UI 1.10.10), module 961 _computeDamage l.294 (l = 100 - resist) and l.326 (minus flat, applyMultiplier(l/100), applyMultiplier(E/100), unsignedNumber), l.328 truncate. Client damage preview: it caps players at MAX_RESISTANCE 50 (module 762 l.38) where the game caps at 35, so it is not the server's code; the record notes it and the cap comes from percent_resist_cap",
+        "date": "2026-11-24"
+      }
+    ],
+    "F": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 _computeDamage l.296 and l.326: the flat resistance, with the critical flat on a critical effect and the reduction buffs, is subtracted before the percent, with no rounding. Client preview estimate (see P)",
+        "date": "2026-11-24"
+      }
+    ],
+    "Z": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 l.326 (unsignedNumber clamps at 0) and l.328 (G.truncate(), Q.truncate(); module 764 truncate l.25-26). Client preview estimate (see P)",
         "date": "2026-11-24"
       }
     ],
@@ -141,6 +161,13 @@
       {
         "kind": "client_code",
         "where": "build/script.js 1.74.14 at char offset 2124479 (summon description): grade neutralResistance, earthResistance, fireResistance, waterResistance, airResistance shown under ui.stats.<element>ReductionPercent; itemscraper/touch_raw/Monsters_fr.json (13,922 grades) has no damage, Power or flat resistance key",
+        "date": "2026-11-24"
+      }
+    ],
+    "dealt_multipliers": [
+      {
+        "kind": "client_code",
+        "where": "build/script.js 1.74.14 module 961 function d() l.33-37 with _computeDamage l.279: one additive dealt factor on the attacker side, before the flat resistance; final-damage buffs (l.230-232) apply after the truncation at l.328. Client preview estimate (see P)",
         "date": "2026-11-24"
       }
     ]
