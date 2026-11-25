@@ -195,6 +195,8 @@ def inputs_fingerprint(game_version, char_class, level=TOP_LEVEL, gear=None):
                  spell.taken.ends_on_hit]] if spell.taken is not None else [])
             + ([['recasts', spell.recasts]] if getattr(spell, 'recasts', None) else [])
             + ([['cost_growth', spell.cost_growth]] if getattr(spell, 'cost_growth', 0) else [])
+            + ([['cost_growth_cap', spell.cost_growth_cap]]
+               if getattr(spell, 'cost_growth_cap', None) else [])
             + ([['caster_states', [sorted(states) for states in _caster_states(spell)]]]
                if any(_caster_states(spell)) else [])
             for spell in spells]

@@ -328,10 +328,15 @@ CONDITIONAL_ROWS_BY_VERSION = {
         13517: {1: "mp_removal"},   # Sadida, Ardent Thistles
         # Row 2 copies what 13089 deals at the target's turn end in a C2,1 ring
         13085: {2: "around_the_target_at_turn_end"},   # Cra, Exploding Arrow
+        # Rows 1, 3 and 5 are each Stack's twin on allies, masked a,f5908,f5907
+        13074: {1: "on_ally", 3: "on_ally", 5: "on_ally"},   # Cra, Redemption Arrow
     },
 }
 
 CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION["dofus3"]
+
+# Devouring Arrow holds its ally row by hand: no enemy row repeats its hit
+ALLY_ROWS_WITHOUT_AN_ENEMY_TWIN = frozenset((32446,))
 
 # (mask token, label when the target meets it, label when not); the lowercase token is the negation
 _MODERN_TARGET_CONDITIONS = (
@@ -420,6 +425,7 @@ RECAST_STACKS_BY_VERSION = {
     "beta": _MODERN_RECAST_STACKS,
     "dofus2": {
         13138: "sur le lanceur : augmente les dommages du sort",
+        13074: "les dommages du sort sont augmentés après chaque lancer",   # Cra, Redemption Arrow
     },
 }
 
@@ -432,6 +438,32 @@ ONE_BOOST_RECASTS = frozenset({13138})
 
 # Each cast boosts their later casts with no stack cap, until their turn end removal
 TURN_LONG_RECASTS = frozenset({13146})
+
+# Each cast raises the AP cost of the later casts this turn, at most max_stack times
+_AP_COST_GROWS = {
+    12781: "le coût en PA du sort est augmenté après le premier lancer",   # Pandawa, Explosive Palm
+}
+
+AP_COST_GROWS_BY_VERSION = {
+    "dofus3": _AP_COST_GROWS,
+    "beta": _AP_COST_GROWS,
+    "dofus2": _AP_COST_GROWS,
+}
+
+AP_COST_GROWS = AP_COST_GROWS_BY_VERSION["dofus3"]
+
+# The boost gives the caster a state its own row forbids, so it lands once
+_MODERN_ONE_STACK_FROM_ITS_OWN_STATE = {
+    12781: "chaque effet est cumulable une fois",   # Pandawa, Explosive Palm
+}
+
+ONE_STACK_FROM_ITS_OWN_STATE_BY_VERSION = {
+    "dofus3": _MODERN_ONE_STACK_FROM_ITS_OWN_STATE,
+    "beta": _MODERN_ONE_STACK_FROM_ITS_OWN_STATE,
+    "dofus2": {},
+}
+
+ONE_STACK_FROM_ITS_OWN_STATE = ONE_STACK_FROM_ITS_OWN_STATE_BY_VERSION["dofus3"]
 
 # The card counts the MP used this turn; the tooltip row's trigger is I or an MP one
 _MODERN_MP_STACKS_FROM_THE_CARD = {
@@ -510,6 +542,8 @@ DAMAGE_TAKEN_EFFECT_ID = 1163
 REMOVES_SPELL_EFFECTS_EFFECT_ID = 406
 # "#3 state", the state in value
 APPLIES_STATE_EFFECT_ID = 950
+# "AP cost of the #1 spell +#3", the spell id in dice min
+RAISES_ITS_AP_COST_EFFECT_ID = 296
 # m_flags bit of a row only the tooltip shows; Dofus 2 has forClientOnly instead
 CLIENT_ONLY_FLAG = 16
 # Direct damage, and damage from an enemy of the bearer
@@ -802,6 +836,7 @@ def _expand_multi_row_stackable_damage(
     per_stack = list(stack_info.get("per_stack") or [])
     if len(per_stack) != level_count:
         return None, 0
+    floor = 0 if stack_info.get("one_stack") else 1
     if stack_cap_override and stack_cap_override > 1:
         stack_cap = stack_cap_override
         effective_caps = [stack_cap] * level_count
@@ -813,10 +848,10 @@ def _expand_multi_row_stackable_damage(
         for cap in caps:
             if cap and cap > stack_cap:
                 stack_cap = cap
-        if stack_cap <= 1:
+        if stack_cap <= floor:
             return None, 0
         effective_caps = [cap or stack_cap for cap in caps[:level_count]]
-    if stack_cap <= 1:
+    if stack_cap <= floor:
         return None, 0
 
     base_rows = list(rows)
@@ -2526,6 +2561,25 @@ def _rows_only_on_allies(
     return held
 
 
+def _check_hand_held_ally_rows(ankama_id, normal_rows, listed):
+    """Stop when a row held by hand as an ally row is not an ally-only row with an enemy twin of the same hit."""
+    if not listed or not normal_rows or ankama_id in ALLY_ROWS_WITHOUT_AN_ENEMY_TWIN:
+        return
+    for idx, trigger in listed.items():
+        if trigger != "on_ally":
+            continue
+        row = normal_rows[idx % len(normal_rows)]
+        letters = _mask_letters_and_hit(row)[0]
+        twin = any(_mask_letters_and_hit(other)[0] == ENEMY_ONLY_MASK
+                   and other.get("element") == row.get("element")
+                   and other.get("ranges") == row.get("ranges")
+                   for other in normal_rows)
+        if "a" not in letters or "A" in letters or not twin:
+            raise RuntimeError(
+                "row %d of spell %s is held as an ally row but no ally-only row twins an enemy "
+                "row of the same hit" % (idx, ankama_id))
+
+
 def _build_thrown_hit_aggregates(
     rows: Sequence[Mapping[str, Any]],
     crit_rows: Sequence[Mapping[str, Any]],
@@ -2836,6 +2890,52 @@ def _one_boost_for_the_next_casts(spell: Mapping[str, Any], damage: MutableMappi
         raise SystemExit("spell %s: its rows no longer leave one boost of its damage for "
                          "its next casts" % ankama_id)
     damage["stackable_damage"] = {"per_stack": per_stack, "max_stacks": [1] * level_count}
+    return None
+
+
+def _caster_lacks(mask) -> set:
+    """States a target mask's *e<id> tokens forbid the caster to hold."""
+    tokens = [token.strip() for token in str(mask or "").split(",")]
+    return {int(token[2:]) for token in tokens if token[:2] == "*e" and token[2:].isdigit()}
+
+
+def _one_stack_from_its_own_state(spell: Mapping[str, Any], damage: MutableMapping[str, Any],
+                                  level_count: int) -> Optional[str]:
+    """A listed spell's damage boost, locked by the caster state it gives, as a one-stack ladder; why an unlisted one misreads."""
+    ankama_id = spell.get("ankama_id")
+    levels = sorted(spell.get("levels") or [],
+                    key=lambda lvl: ((lvl.get("grade") or 0), (lvl.get("level_id") or 0)))
+    template = damage.get("stackable_damage") or {}
+
+    def _locked(level) -> bool:
+        for key in ("effects", "critical_effects"):
+            effects = level.get(key) or []
+            boosts = _own_base_damage_boosts(effects, ankama_id)
+            given = {effect.get("value") for effect in effects
+                     if effect.get("effect_id") == APPLIES_STATE_EFFECT_ID
+                     and _lands_on_cast(effect.get("triggers")) and not effect.get("delay")
+                     and "C" in str(effect.get("target_mask") or "").split(",")}
+            if not boosts or any(not _caster_lacks(boost.get("target_mask")) & given
+                                 for boost in boosts):
+                return False
+        return True
+
+    locked = bool(levels) and all(_locked(level) for level in levels)
+    climbs = any((cap or 0) > 1 for cap in template.get("max_stacks") or [])
+    quote = ONE_STACK_FROM_ITS_OWN_STATE.get(ankama_id)
+    if quote is None:
+        if locked and climbs:
+            return "its damage boost gives the caster a state that forbids it, yet its ladder climbs past one stack"
+        return None
+    if quote.lower() not in str(spell.get("description_fr") or "").lower():
+        raise SystemExit("spell %s no longer says %r; its ladder was cut to one stack on "
+                         "that sentence" % (ankama_id, quote))
+    if (not locked or not climbs or len(levels) != level_count
+            or len(template.get("per_stack") or []) != level_count
+            or any(level.get("max_stack") != 1 for level in levels)):
+        raise SystemExit("spell %s: its rows no longer lock its damage boost with the "
+                         "caster state it gives" % ankama_id)
+    damage["stackable_damage"] = dict(template, max_stacks=[1] * level_count, one_stack=True)
     return None
 
 
@@ -3348,6 +3448,52 @@ def _append_placed_blocks(
     return crit, steals, heals, groups, waits, lands
 
 
+def _own_ap_cost_rows(spell: Mapping[str, Any]) -> List[List[Mapping[str, Any]]]:
+    """Per level, the rows raising the spell's own AP cost."""
+    return [[effect for key in ("effects", "critical_effects") for effect in level.get(key) or []
+             if effect.get("effect_id") == RAISES_ITS_AP_COST_EFFECT_ID
+             and (effect.get("dice") or {}).get("min") == spell.get("ankama_id")]
+            for level in spell.get("levels") or []]
+
+
+def _unlisted_ap_cost_growth(spell: Mapping[str, Any]) -> Optional[str]:
+    """Why an unlisted spell whose casts raise its own AP cost misreads."""
+    if spell.get("ankama_id") in AP_COST_GROWS or not any(_own_ap_cost_rows(spell)):
+        return None
+    return "its casts raise its own AP cost, which no table lists"
+
+
+def _ap_cost_growth(spell: Mapping[str, Any]) -> Optional[Tuple[List[int], List[int]]]:
+    """(AP each cast adds to the later casts of its turn, casts that add it) per level of a listed spell."""
+    ankama_id = spell.get("ankama_id")
+    levels = spell.get("levels") or []
+    rows = _own_ap_cost_rows(spell)
+    quote = AP_COST_GROWS.get(ankama_id)
+    if quote is None:
+        return None
+    if quote.lower() not in str(spell.get("description_fr") or "").lower():
+        raise SystemExit("spell %s no longer says %r; its casts were made to raise its AP "
+                         "cost on that sentence" % (ankama_id, quote))
+    steps: List[int] = []
+    caps: List[int] = []
+    for level, own in zip(levels, rows):
+        values = {row.get("value") for row in own}
+        cap = level.get("max_stack")
+        if (len(own) != 2 or len(values) != 1 or not isinstance(min(values), int)
+                or min(values) <= 0 or not isinstance(cap, int) or cap < 1
+                or level.get("max_cast_per_turn") == 1
+                or any(row.get("duration") != 1 or row.get("delay") or row.get("random")
+                       or row.get("target_mask") != "C" or row.get("triggers") != "I"
+                       or _client_only(row) for row in own)):
+            raise SystemExit("spell %s: its rows no longer raise its AP cost for the rest "
+                             "of its turn" % ankama_id)
+        steps.append(min(values))
+        caps.append(cap)
+    if not steps:
+        raise SystemExit("spell %s: it has no level raising its AP cost" % ankama_id)
+    return steps, caps
+
+
 def _casting(spell: Mapping[str, Any], level_count: int) -> Optional[Dict[str, List[int]]]:
     """Cost and cast limits per level; 0 means no limit."""
     levels = spell.get("levels") or []
@@ -3367,6 +3513,9 @@ def _casting(spell: Mapping[str, Any], level_count: int) -> Optional[Dict[str, L
     crit = [int(level.get("critical_hit_probability") or 0) for level in levels]
     if any(crit):
         casting["crit"] = crit
+    growth = _ap_cost_growth(spell)
+    if growth:
+        casting["ap_growth"], casting["ap_growth_cap"] = growth
     return casting
 
 
@@ -3390,6 +3539,8 @@ def convert_spell(
     boost_problem = _one_boost_for_the_next_casts(spell, damage, level_count) or boost_problem
     later_boosts, later_problem = _boosts_on_a_later_cast(spell, damage, level_count)
     boost_problem = boost_problem or later_problem
+    boost_problem = (_one_stack_from_its_own_state(spell, damage, level_count)
+                     or _unlisted_ap_cost_growth(spell) or boost_problem)
     state_boost = _boost_from_a_target_state(spell, damage, level_count, spell_lookup)
     if state_boost:
         damage["stackable_damage"] = None
@@ -3570,6 +3721,7 @@ def convert_spell(
     holds_back.update(boosted)
     for idx, trigger in _rows_only_on_allies(normal_rows, crit_rows).items():
         holds_back.setdefault(idx, trigger)
+    _check_hand_held_ally_rows(spell.get("ankama_id"), normal_rows, CONDITIONAL_ROWS.get(spell.get("ankama_id")))
     conditional = _conditional_rows(spell.get("ankama_id") or 0, elements, holds_back)
     when = DELAYED_WHEN.get(spell.get("ankama_id"), LATER_TURN)
     listed_late = _delayed_rows(spell.get("ankama_id") or 0, normal_rows, crit_rows)
@@ -3950,6 +4102,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     global ALLY_ONLY_MASKS, CARRIED_MASK_LETTER, ONE_ELEMENT_FACES, DELAYED_WHEN, DELAYED_ROWS
     global CLIENT_ONLY_EFFECTS, RAW_ZONES, BOMB_SPELLS, RECAST_STACKS, BOOSTS_AFTER_A_SKIPPED_TURN
     global BOOSTS_ON_A_LATER_CAST, BOOSTS_FROM_A_TARGET_STATE, MP_STACKS_FROM_THE_CARD
+    global AP_COST_GROWS, ONE_STACK_FROM_ITS_OWN_STATE
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -3969,6 +4122,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     BOOSTS_ON_A_LATER_CAST = BOOSTS_ON_A_LATER_CAST_BY_VERSION[args.game_version]
     BOOSTS_FROM_A_TARGET_STATE = BOOSTS_FROM_A_TARGET_STATE_BY_VERSION[args.game_version]
     MP_STACKS_FROM_THE_CARD = MP_STACKS_FROM_THE_CARD_BY_VERSION[args.game_version]
+    AP_COST_GROWS = AP_COST_GROWS_BY_VERSION[args.game_version]
+    ONE_STACK_FROM_ITS_OWN_STATE = ONE_STACK_FROM_ITS_OWN_STATE_BY_VERSION[args.game_version]
     dofus2_rows = _dofus2_effect_rows(args.game_version)
     CLIENT_ONLY_EFFECTS = _client_only_effects(dofus2_rows)
     RAW_ZONES = _raw_zones(dofus2_rows)

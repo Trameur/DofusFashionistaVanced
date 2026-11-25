@@ -201,8 +201,8 @@ def fetch_table(data_url, cls, lang='fr'):
 # Row triggers: "I" on cast, "TB" at turn begin, "TE" at turn end
 DELAYED_TRIGGERS = {'TB': 'turn_begin', 'TE': 'turn_end'}
 
-# "DP": the target suffers trap damage; what the row waits for, the site reads these
-CONDITIONAL_TRIGGERS = {'DP': 'trap_damage'}
+# "DP": the target suffers trap damage, "Y": a Telefrag is generated; what the row waits for, the site reads these
+CONDITIONAL_TRIGGERS = {'DP': 'trap_damage', 'Y': 'telefrag_generated'}
 
 
 def when_it_lands(triggers):
@@ -215,14 +215,26 @@ def when_it_lands(triggers):
 
 
 def _check_triggers(spell, rank):
-    """Stop on a damage row of the cast that waits for a trigger no rule reads."""
+    """Stop on a damage row of the cast that waits for a trigger or a delay no rule reads."""
     for key in ('effects', 'criticalEffect'):
-        for row in rank.get(key) or []:
+        rows = rank.get(key) or []
+        real = {DAMAGE_EFFECTS[row['effectId']] for row in rows
+                if row.get('effectId') in DAMAGE_EFFECTS and not row.get('isPreview')}
+        for row in rows:
             codes = {code for code in str(row.get('triggers') or '').split('|') if code}
-            if (row.get('effectId') in DAMAGE_EFFECTS and not row.get('isPreview')
+            # A preview row is the line only when no real row of its element is there
+            feeds = not row.get('isPreview') or DAMAGE_EFFECTS.get(row.get('effectId')) not in real
+            if (row.get('effectId') in DAMAGE_EFFECTS and feeds
                     and codes and codes != {'I'} and when_it_lands(row.get('triggers')) is None):
                 raise SystemExit('touch spell %s has a damage row on trigger %r, which no rule '
                                  'reads yet' % (spell.get('id'), row.get('triggers')))
+            if row.get('delay') and (row.get('effectId') in DAMAGE_EFFECTS
+                                     or row.get('effectId') == BEST_ELEMENT_EFFECT
+                                     or (row.get('effectId') in CHARACTERISTIC_EFFECTS
+                                         and codes != {'I'})):
+                raise SystemExit('touch spell %s has a row with a delay of %s on effect %s, '
+                                 'which no rule reads yet'
+                                 % (spell.get('id'), row.get('delay'), row.get('effectId')))
 
 
 # No neutral: it scales on Strength like Earth, so it is never the best
@@ -356,6 +368,9 @@ def collect_damage(effect_list, best_element_rows=False, on_ally=None, on_state=
             return None
         # A buff or steal only a target in a state gives is not the caster's on a plain target
         if eid in CHARACTERISTIC_EFFECTS and _target_states(e):
+            return None
+        # A delay is the number of turns before the buff lands, so the turn of the cast never has it
+        if eid in CHARACTERISTIC_EFFECTS and e.get('delay'):
             return None
         token = STEAL_TOKEN % ROW_EFFECTS[eid] if id(e) in paired else ROW_EFFECTS[eid]
         if eid in DAMAGE_EFFECTS and _summons_only(e) and _same_hit(e) in spared:
@@ -562,6 +577,73 @@ def _says_best_element(level):
             if isinstance(row, dict) and row.get('effectId') == BEST_ELEMENT_EFFECT:
                 return True
     return False
+
+
+# "a,P,F115": the caster's own summons of those monster ids
+OWN_SUMMON_LETTERS = frozenset('aP')
+MONSTER_ID_TOKEN = re.compile(r'^F\d+$')
+
+# What a line dealt through one of the caster's own summons, at the start of the target's turn, waits for; the site reads this
+THROUGH_OWN_SUMMON = 'own_summon_turn_begin'
+
+
+def _on_own_summons(effect):
+    """A cast row aimed only at the caster's own summons its mask names by monster id."""
+    tokens = [token for token in str(effect.get('targetMask') or '').split(',') if token]
+    letters = {token for token in tokens if len(token) == 1}
+    return ('P' in letters and letters <= OWN_SUMMON_LETTERS
+            and any(MONSTER_ID_TOKEN.match(token) for token in tokens))
+
+
+def _late_codes(triggers):
+    return tuple(sorted(code for code in str(triggers or '').split('|') if code and code != 'I'))
+
+
+def _cast_chain_rows(rows, spells, spell_levels, through=False, path=(), seen=frozenset()):
+    """(row, True behind a cast on own summons, trigger codes on the way) of each damage row the casts reach."""
+    out = []
+    for effect in rows or []:
+        child = (spells or {}).get(str(effect.get('diceNum')))
+        cast = (effect.get('diceNum'), effect.get('diceSide'))
+        if effect.get('effectId') not in CASTS_A_SPELL or child is None or cast in seen:
+            continue
+        behind = through or _on_own_summons(effect)
+        way = path + _late_codes(effect.get('triggers'))
+        level = child_rank(child, int(effect.get('diceSide') or 0), spell_levels)
+        for row in level.get('effects') or []:
+            if row.get('effectId') in DAMAGE_EFFECTS and not row.get('isPreview'):
+                out.append((row, behind, way + _late_codes(row.get('triggers'))))
+        out.extend(_cast_chain_rows(level.get('effects'), spells, spell_levels, behind, way,
+                                    seen | {cast}))
+    return out
+
+
+def _paid_through_own_summons(spell, rows, spells, spell_levels):
+    """The tokens of the preview lines whose real rows all lie behind a cast on the caster's own summons."""
+    rows = rows or []
+    previews, real = {}, set()
+    for row in rows:
+        if row.get('effectId') in DAMAGE_EFFECTS:
+            token = DAMAGE_EFFECTS[row['effectId']]
+            if row.get('isPreview'):
+                previews.setdefault(token, []).append(row)
+            else:
+                real.add(token)
+    reached = _cast_chain_rows(rows, spells, spell_levels)
+    tokens = set()
+    for token in set(previews) - real:
+        found = [(row, behind, way) for row, behind, way in reached
+                 if DAMAGE_EFFECTS[row['effectId']] == token]
+        if not found or not all(behind for _row, behind, _way in found):
+            continue
+        shown = [(row.get('diceNum'), row.get('diceSide')) for row in previews[token]]
+        if len(shown) != 1 or any(
+                way != ('TB',) or (row.get('diceNum'), row.get('diceSide')) != shown[0]
+                for row, _behind, way in found):
+            raise SystemExit('touch spell %s deals its %s line through its own summons in a shape '
+                             'no rule reads yet' % (spell.get('id'), token))
+        tokens.add(token)
+    return tokens
 
 
 # Spells whose named rows land beside the best-element hit, not as its faces
@@ -825,6 +907,9 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
         nc = collect_damage(lv.get('effects'), lire_le_meilleur, ally_nc[-1], state_nc[-1])
         cr = collect_damage(lv.get('criticalEffect'), lire_le_meilleur,
                             ally_cr[-1], state_cr[-1])
+        for key, line in (('effects', nc), ('criticalEffect', cr)):
+            for token in _paid_through_own_summons(spell, lv.get(key), spells, spell_levels):
+                line[token] = line[token][:2] + (THROUGH_OWN_SUMMON,)
         if cr and _repeated_hits(nc) != _repeated_hits(cr):
             raise SystemExit('touch spell %s lands a row twice on one kind of hit only; that '
                              'shape has no rule yet' % spell.get('id'))
@@ -889,6 +974,11 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
                          'shape has no rule yet' % spell.get('id'))
     # Rows that are alternatives, not a sum. See emit_aggregates.
     aggregates = emit_aggregates(best_element, elements, spell)
+    for elem in elements:
+        moments = {level[elem][2] for level in per_nc + per_cr if elem in level}
+        if len(moments) > 1 and moments & WAITING_MOMENTS:
+            raise SystemExit('touch spell %s waits for something on some ranks or hits only; '
+                             'that shape has no rule yet' % spell.get('id'))
     delayed = when_by_row(per_nc)
     delayed_crit = when_by_row(per_cr)
     conditional = _waits_apart(spell, elements, per_cr, delayed, delayed_crit)
@@ -971,9 +1061,13 @@ def decode_spell(spell, spell_levels, spells=None, bombs=None):
     return grown_by_its_casts(spell, ranks, entry, spells, spell_levels)
 
 
+# The moments a row waits for instead of landing, on the cast or later
+WAITING_MOMENTS = frozenset(CONDITIONAL_TRIGGERS.values()) | {THROUGH_OWN_SUMMON}
+
+
 def _waits_apart(spell, elements, per_cr, delayed, delayed_crit):
     """{row index: what it waits for} of the rows on a conditional trigger, taken out of both late maps."""
-    waiting = set(CONDITIONAL_TRIGGERS.values())
+    waiting = WAITING_MOMENTS
     conditional = {index: moment for index, moment in delayed.items() if moment in waiting}
     critical = {index: moment for index, moment in delayed_crit.items() if moment in waiting}
     if set(critical) - set(conditional) or any(

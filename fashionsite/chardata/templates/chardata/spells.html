@@ -273,6 +273,8 @@
     var MSG_VARIANT_RULE = '{{ msg_variant_rule|escapejs }}';
     {% blocktrans with ap="__ap__" step="__step__" asvar msg_ap_growth %}{{ ap }} AP, then +{{ step }} per cast{% endblocktrans %}
     var MSG_AP_GROWTH = '{{ msg_ap_growth|escapejs }}';
+    {% blocktrans with ap="__ap__" step="__step__" top="__top__" asvar msg_ap_growth_cap %}{{ ap }} AP, then +{{ step }} per cast up to {{ top }} AP{% endblocktrans %}
+    var MSG_AP_GROWTH_CAP = '{{ msg_ap_growth_cap|escapejs }}';
     var spellDigests = {{digests_json | safe}};
     var charStats = {{char_stats_json | safe}};
     // The hit types that move or drain instead of hurting, straight from the
@@ -396,7 +398,10 @@
         var ap = rankValue(reference.ap, spell);
         if (ap) {
             var growth = rankValue(spell.ap_growth, spell);
-            parts.push(growth ? MSG_AP_GROWTH.replace('__ap__', ap).replace('__step__', growth)
+            var growthCap = growth ? rankValue(spell.ap_growth_cap, spell) : null;
+            parts.push(growthCap ? MSG_AP_GROWTH_CAP.replace('__ap__', ap).replace('__step__', growth)
+                                       .replace('__top__', Number(ap) + growth * growthCap)
+                       : growth ? MSG_AP_GROWTH.replace('__ap__', ap).replace('__step__', growth)
                        : ap + ' {% trans "AP" %}');
         }
         var range = rankValue(reference.range, spell);

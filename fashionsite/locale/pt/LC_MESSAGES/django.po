@@ -6347,6 +6347,11 @@ msgstr "de dano"
 
 #: chardata/templates/chardata/spells.html
 #, python-format
+msgid "%(ap)s AP, then +%(step)s per cast up to %(top)s AP"
+msgstr "%(ap)s PA, depois +%(step)s por lançamento até %(top)s PA"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
 msgid "%(ap)s AP, then +%(step)s per cast"
 msgstr "%(ap)s PA, depois +%(step)s por lançamento"
 
@@ -8851,6 +8856,14 @@ msgstr "Danos da bomba"
 #: chardata/spells_view.py
 msgid "Bomb heals"
 msgstr "Curas da bomba"
+
+#: chardata/spells_view.py
+msgid "only each time a Telefrag is generated while the spell's effect lasts"
+msgstr "apenas sempre que um Telefrag for gerado enquanto durar o efeito do feitiço"
+
+#: chardata/spells_view.py
+msgid "only through one of the caster's own summons the spell names, then at the start of the target's turn"
+msgstr "apenas por meio de uma das invocações do lançador que o feitiço nomeia, e depois no início do turno do alvo"
 
 #: chardata/spells_view.py
 msgid "only if the target suffers trap damage"

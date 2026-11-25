@@ -1092,6 +1092,7 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None,
     web_digest['special'] = spell.special
     # AP each cast of the turn adds to the next one's cost, per rank
     web_digest['ap_growth'] = (getattr(spell, 'casting', None) or {}).get('ap_growth')
+    web_digest['ap_growth_cap'] = (getattr(spell, 'casting', None) or {}).get('ap_growth_cap')
     web_digest['conditional'] = {
         str(index): str(_CONDITIONAL_LABELS.get(trigger, trigger))
         for index, trigger in (getattr(spell, 'conditional', None) or {}).items()}
@@ -1564,6 +1565,11 @@ _CONDITIONAL_LABELS = {
               "casts for 3 turns"),
     'trap': _lazy("only when an enemy sets off the trap"),
     'trap_damage': _lazy("only if the target suffers trap damage"),
+    'telefrag_generated':
+        _lazy("only each time a Telefrag is generated while the spell's effect lasts"),
+    'own_summon_turn_begin':
+        _lazy("only through one of the caster's own summons the spell names, then at the "
+              "start of the target's turn"),
     'bomb': _lazy("only when the bomb explodes"),
     'glyph': _lazy("only when an enemy goes through the glyph"),
     'aura': _lazy("when the glyph-aura triggers, on a later turn"),

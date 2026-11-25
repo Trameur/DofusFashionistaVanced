@@ -44,11 +44,11 @@
   },
   "Enutrof": {
    "20": {"element": "cha", "inputs": "8b3af572b2e0", "turns": {"agi": 81.6, "cha": 157.7, "int": 144.0, "str": 145.4}},
-   "50": {"element": "str", "inputs": "fb537a982162", "turns": {"agi": 135.4, "cha": 251.5, "int": 254.3, "str": 273.6}},
-   "100": {"element": "str", "inputs": "193dcf4ea7a8", "turns": {"agi": 250.5, "cha": 515.9, "int": 500.3, "str": 532.8}},
-   "150": {"element": "str", "inputs": "b2dab8e9f34c", "turns": {"agi": 452.5, "cha": 877.1, "int": 862.1, "str": 906.1}},
-   "180": {"element": "cha", "inputs": "03770c403974", "turns": {"agi": 514.9, "cha": 1185.7, "int": 1113.2, "str": 1147.1}},
-   "200": {"element": "cha", "inputs": "ce9bdde50bab", "turns": {"agi": 589.5, "cha": 1604.5, "int": 1475.6, "str": 1530.3}}
+   "50": {"element": "str", "inputs": "9c57c5ef9189", "turns": {"agi": 96.9, "cha": 251.5, "int": 254.3, "str": 264.8}},
+   "100": {"element": "cha", "inputs": "54ff35c77f0b", "turns": {"agi": 164.6, "cha": 505.5, "int": 487.9, "str": 492.8}},
+   "150": {"element": "str", "inputs": "a376b1ea2e04", "turns": {"agi": 238.7, "cha": 836.8, "int": 792.7, "str": 852.5}},
+   "180": {"element": "cha", "inputs": "9d044ce10699", "turns": {"agi": 268.0, "cha": 1085.0, "int": 1033.6, "str": 1070.6}},
+   "200": {"element": "cha", "inputs": "92d557891d98", "turns": {"agi": 303.3, "cha": 1469.7, "int": 1362.0, "str": 1388.9}}
   },
   "Feca": {
    "20": {"element": "cha", "inputs": "b0f6cc26f147", "turns": {"agi": 97.8, "cha": 176.2, "int": 117.9, "str": 147.8}},
@@ -117,10 +117,10 @@
   "Sadida": {
    "20": {"element": "cha", "inputs": "76d6e9b054fd", "turns": {"agi": 98.4, "cha": 171.1, "int": 138.7, "str": 171.0}},
    "50": {"element": "cha", "inputs": "36fbfed59a81", "turns": {"agi": 107.8, "cha": 278.1, "int": 238.9, "str": 272.7}},
-   "100": {"element": "str", "inputs": "e31241cbe679", "turns": {"agi": 189.0, "cha": 537.2, "int": 497.0, "str": 584.5}},
-   "150": {"element": "str", "inputs": "8e8e1cf42999", "turns": {"agi": 265.7, "cha": 874.9, "int": 815.1, "str": 942.2}},
-   "180": {"element": "str", "inputs": "63b34b2e0af0", "turns": {"agi": 297.3, "cha": 1106.7, "int": 1155.2, "str": 1202.3}},
-   "200": {"element": "str", "inputs": "edf67c36d539", "turns": {"agi": 330.5, "cha": 1411.5, "int": 1435.8, "str": 1539.5}}
+   "100": {"element": "str", "inputs": "2b090655c698", "turns": {"agi": 189.0, "cha": 537.2, "int": 497.0, "str": 584.5}},
+   "150": {"element": "str", "inputs": "1c94100cd90e", "turns": {"agi": 265.7, "cha": 874.9, "int": 815.1, "str": 942.2}},
+   "180": {"element": "str", "inputs": "27a040be94d6", "turns": {"agi": 297.3, "cha": 1106.7, "int": 1155.2, "str": 1190.4}},
+   "200": {"element": "str", "inputs": "8c17aabe4268", "turns": {"agi": 330.5, "cha": 1411.5, "int": 1435.8, "str": 1447.9}}
   },
   "Sram": {
    "20": {"element": "str", "inputs": "04a4af4f7622", "turns": {"agi": 171.4, "cha": 90.6, "int": 163.0, "str": 175.0}},
@@ -132,11 +132,11 @@
   },
   "Xelor": {
    "20": {"element": "cha", "inputs": "e7cf2323d0fe", "turns": {"agi": 93.4, "cha": 169.6, "int": 129.0, "str": 93.4}},
-   "50": {"element": "int", "inputs": "c86797dacb5e", "turns": {"agi": 194.4, "cha": 269.8, "int": 289.6, "str": 107.7}},
-   "100": {"element": "int", "inputs": "1620245592d2", "turns": {"agi": 501.8, "cha": 532.5, "int": 533.7, "str": 334.5}},
-   "150": {"element": "cha", "inputs": "ef2517d8361d", "turns": {"agi": 812.8, "cha": 927.0, "int": 878.5, "str": 511.4}},
-   "180": {"element": "cha", "inputs": "f6c80d0c5ad6", "turns": {"agi": 1081.9, "cha": 1158.4, "int": 1091.4, "str": 637.0}},
-   "200": {"element": "cha", "inputs": "5dc48e0c9de3", "turns": {"agi": 1434.9, "cha": 1568.7, "int": 1405.0, "str": 788.1}}
+   "50": {"element": "int", "inputs": "dd4618c5a46f", "turns": {"agi": 194.4, "cha": 269.8, "int": 289.6, "str": 107.7}},
+   "100": {"element": "int", "inputs": "f13ef75b9945", "turns": {"agi": 501.8, "cha": 531.3, "int": 533.7, "str": 334.5}},
+   "150": {"element": "cha", "inputs": "44a58e9a6efd", "turns": {"agi": 812.8, "cha": 927.0, "int": 878.5, "str": 511.4}},
+   "180": {"element": "cha", "inputs": "a02947e59a4e", "turns": {"agi": 1081.9, "cha": 1133.9, "int": 1091.4, "str": 637.0}},
+   "200": {"element": "cha", "inputs": "f583e172c026", "turns": {"agi": 1434.9, "cha": 1550.1, "int": 1405.0, "str": 788.1}}
   }
  }
 }

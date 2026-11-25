@@ -29,11 +29,12 @@ _AVEC_GROUPE_DE_BUFF = 18
 _AVEC_PLUSIEURS_SERIES = 37
 
 _ZEROS_RESTANTS = {'dofus3': 52, 'beta': 54, 'dofus2': 26,
-                  'touch': 108, 'retro': 48}
+                  'touch': 132, 'retro': 48}
 _SORT_DES_ZEROS_RESTANTS = 'Ebony Dofus'
 _ATTENTES_DES_CHOSES_POSEES = {'trap', 'bomb', 'glyph', 'aura', 'state',
                                'flask_destroyed', 'enemy_enters_the_bellaura',
-                               'trap_damage'}
+                               'trap_damage', 'telefrag_generated',
+                               'own_summon_turn_begin'}
 
 
 def _tous_les_sorts():

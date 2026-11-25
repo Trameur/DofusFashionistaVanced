@@ -9,7 +9,7 @@ MODERN = ('dofus3', 'beta', 'dofus2')
 SHOT_PELLETS = 14411
 EXTRACTION = 13433
 TOUCH_TRANSFUSION_ARROW = 5813
-HELD_BY_AN_ALLIES_ONLY_MASK = {32446: {0}}
+HELD_BY_AN_ALLIES_ONLY_MASK = {32446: {0}, 13074: {1, 3, 5}}
 
 ON_ALLIES = {'en': 'on allies', 'fr': 'sur les alliés', 'es': 'en los aliados',
              'pt': 'nos aliados', 'de': 'bei verbündeten'}

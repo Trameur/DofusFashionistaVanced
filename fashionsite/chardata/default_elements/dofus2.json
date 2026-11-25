@@ -16,7 +16,7 @@
    "100": {"element": "int", "inputs": "6c0c0efb1c12", "turns": {"agi": 463.7, "cha": 504.0, "int": 519.6, "str": 455.2}},
    "150": {"element": "int", "inputs": "e14b56781a0e", "turns": {"agi": 928.9, "cha": 917.7, "int": 912.5, "str": 897.9}},
    "180": {"element": "str", "inputs": "e2d2ae4fc611", "turns": {"agi": 1263.5, "cha": 1191.6, "int": 1306.8, "str": 1506.8}},
-   "200": {"element": "str", "inputs": "61c438b9666b", "turns": {"agi": 1609.5, "cha": 1539.5, "int": 1691.5, "str": 1945.0}}
+   "200": {"element": "str", "inputs": "34ab962ccbeb", "turns": {"agi": 1609.5, "cha": 1569.6, "int": 1691.5, "str": 1945.0}}
   },
   "Ecaflip": {
    "20": {"element": "agi", "inputs": "fdff5e5209fa", "turns": {"agi": 167.7, "cha": 78.4, "int": 128.4, "str": 128.3}},
@@ -107,12 +107,12 @@
    "200": {"element": "agi", "inputs": "2697f1b5fb98", "turns": {"agi": 1858.7, "cha": 1816.3, "int": 1849.6, "str": 1807.7}}
   },
   "Pandawa": {
-   "20": {"element": "int", "inputs": "e08cdd6b1e3c", "turns": {"agi": 129.6, "cha": 154.1, "int": 189.5, "str": 177.0}},
-   "50": {"element": "int", "inputs": "e68b04e7b96f", "turns": {"agi": 263.4, "cha": 245.4, "int": 296.4, "str": 253.4}},
-   "100": {"element": "int", "inputs": "30edb11a9fb0", "turns": {"agi": 552.7, "cha": 560.0, "int": 635.6, "str": 584.2}},
-   "150": {"element": "int", "inputs": "a4eb5408ccb3", "turns": {"agi": 1004.4, "cha": 1011.7, "int": 1092.6, "str": 1015.6}},
-   "180": {"element": "str", "inputs": "ee89a7c23438", "turns": {"agi": 1452.7, "cha": 1316.8, "int": 1461.2, "str": 1452.6}},
-   "200": {"element": "int", "inputs": "ed2ab246421c", "turns": {"agi": 1910.0, "cha": 1916.2, "int": 1982.6, "str": 1937.7}}
+   "20": {"element": "str", "inputs": "22bdbbfb2e70", "turns": {"agi": 129.6, "cha": 154.1, "int": 146.8, "str": 177.0}},
+   "50": {"element": "int", "inputs": "5733e374feea", "turns": {"agi": 263.4, "cha": 245.4, "int": 279.5, "str": 253.4}},
+   "100": {"element": "int", "inputs": "937ead45840e", "turns": {"agi": 552.7, "cha": 560.0, "int": 624.1, "str": 584.2}},
+   "150": {"element": "int", "inputs": "fd47aa8bacfe", "turns": {"agi": 1004.4, "cha": 1011.7, "int": 1009.4, "str": 1015.6}},
+   "180": {"element": "str", "inputs": "ce9e65613d87", "turns": {"agi": 1452.7, "cha": 1316.8, "int": 1401.8, "str": 1452.6}},
+   "200": {"element": "int", "inputs": "7f75c8293767", "turns": {"agi": 1910.0, "cha": 1916.2, "int": 1930.7, "str": 1937.7}}
   },
   "Rogue": {
    "20": {"element": "agi", "inputs": "44d4ba17302f", "turns": {"agi": 0.0, "cha": 0.0, "int": 0.0, "str": 0.0}},

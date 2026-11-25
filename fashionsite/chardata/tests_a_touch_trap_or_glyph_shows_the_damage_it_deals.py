@@ -131,7 +131,7 @@ class ThePlacedThingsDamageIsReadFromItsOwnRecordTests(SimpleTestCase):
                                for label, _indices in spell.aggregates))
         self.assertEqual([65, 73, 80, 2796, 2797, 2808, 4706, 4708, 5537,
                           6141, 6149], placed)
-        self.assertEqual(191, sum(len(spells) for spells in by_class.values()))
+        self.assertEqual(190, sum(len(spells) for spells in by_class.values()))
 
 
 class TheReaderAndTheSiteAgreeOnTheHeadsTests(SimpleTestCase):

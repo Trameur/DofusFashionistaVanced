@@ -6420,6 +6420,11 @@ msgstr "Schaden"
 
 #: chardata/templates/chardata/spells.html
 #, python-format
+msgid "%(ap)s AP, then +%(step)s per cast up to %(top)s AP"
+msgstr "%(ap)s AP, dann +%(step)s pro Einsatz bis %(top)s AP"
+
+#: chardata/templates/chardata/spells.html
+#, python-format
 msgid "%(ap)s AP, then +%(step)s per cast"
 msgstr "%(ap)s AP, dann +%(step)s pro Einsatz"
 
@@ -8935,6 +8940,14 @@ msgstr "Bombenschaden"
 #: chardata/spells_view.py
 msgid "Bomb heals"
 msgstr "Bombenheilung"
+
+#: chardata/spells_view.py
+msgid "only each time a Telefrag is generated while the spell's effect lasts"
+msgstr "nur jedes Mal, wenn ein Telefrag erzeugt wird, solange die Wirkung des Zaubers anhält"
+
+#: chardata/spells_view.py
+msgid "only through one of the caster's own summons the spell names, then at the start of the target's turn"
+msgstr "nur über eine der eigenen Beschwörungen des Zaubernden, die der Zauber nennt, dann zu Beginn des Zuges des Ziels"
 
 #: chardata/spells_view.py
 msgid "only if the target suffers trap damage"

@@ -465,6 +465,9 @@ class Castable(object):
         growths = casting.get('ap_growth') or []
         if level_index < len(growths) and growths[level_index]:
             self.cost_growth = growths[level_index]
+            growth_caps = casting.get('ap_growth_cap') or []
+            if level_index < len(growth_caps) and growth_caps[level_index]:
+                self.cost_growth_cap = growth_caps[level_index]
         # Filled in by castable_spells from the worn items
         self.modifiers = []
         self.bonus_stats = {}
@@ -578,7 +581,8 @@ def cast_label(castable, cast):
 
 def cast_cost(castable, cast):
     """AP a cast after `cast` earlier ones of the turn costs."""
-    return castable.cost + getattr(castable, 'cost_growth', 0) * cast
+    cap = getattr(castable, 'cost_growth_cap', None)
+    return castable.cost + getattr(castable, 'cost_growth', 0) * (cast if cap is None else min(cast, cap))
 
 
 def cast_limit(per_turn, per_target, cooldown):
@@ -1472,6 +1476,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
     names = tuple(spell.name for spell in spells)
     costs = tuple(spell.cost for spell in spells)
     growths = tuple(getattr(spell, 'cost_growth', 0) for spell in spells)
+    growth_caps = tuple(getattr(spell, 'cost_growth_cap', None) or MAX_CASTS for spell in spells)
     limits = tuple(spell.limit for spell in spells)
     blockers = tuple(partners.get(index, ()) for index in range(len(spells)))
     scoreless = tuple(not spell.alternatives
@@ -1558,7 +1563,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 blocked = blockers[index]
                 if blocked and any(counts[other] for other in blocked):
                     continue
-                spent = costs[index] + growths[index] * counts[index]
+                spent = costs[index] + growths[index] * min(counts[index], growth_caps[index])
                 if spent > ap_left:
                     continue
                 if scoreless[index]:
@@ -1678,7 +1683,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             blocked = blockers[index]
             if blocked and any(counts[other] for other in blocked):
                 continue
-            spent = costs[index] + growths[index] * counts[index]
+            spent = costs[index] + growths[index] * min(counts[index], growth_caps[index])
             if spent > ap_left:
                 continue
             if scoreless[index]:

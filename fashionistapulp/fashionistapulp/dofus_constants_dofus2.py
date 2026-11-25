@@ -731,7 +731,7 @@ DAMAGE_SPELLS = {
  ('Stack 1', [2]),
  ('', [3]),
  ('Stack 2', [4]),
- ('', [5])], stacks=2, is_linked=(2, 'Atonement Arrow'), casting={'ap': [3], 'per_turn': [3], 'per_target': [2], 'crit': [10]}, spell_id=13074),
+ ('', [5])], stacks=2, is_linked=(2, 'Atonement Arrow'), casting={'ap': [3], 'per_turn': [3], 'per_target': [2], 'crit': [10]}, spell_id=13074, conditional={1: 'on_ally', 3: 'on_ally', 5: 'on_ally'}, stacks_on_recast=True),
         Spell('Crushing Arrow', [160], Effects(
             [['30-34']],
             [['36-41']],
@@ -3681,7 +3681,7 @@ DAMAGE_SPELLS = {
             [['12-14', '15-17', '20-22'], ['12-14', '15-17', '20-22']],
             [['15-17', '19-21', '24-26'], ['15-17', '19-21', '24-26']],
             [FIRE, FIRE],
-        ), aggregates=[('', [0])], is_linked=(1, 'Distillation'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'crit': [10, 10, 10]}, spell_id=12781),
+        ), aggregates=[('', [0])], is_linked=(1, 'Distillation'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'crit': [10, 10, 10], 'ap_growth': [1, 1, 1], 'ap_growth_cap': [1, 1, 1]}, spell_id=12781),
         Spell('Debauchery', [105, 172], Effects(
             [['17-19', '20-22'], ['17-19', '20-22']],
             [['20-22', '24-26'], ['20-22', '24-26']],
