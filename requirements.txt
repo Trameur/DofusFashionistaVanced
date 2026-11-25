@@ -16,8 +16,8 @@
 
 asgiref==3.13.0
 beautifulsoup4==4.15.0
-boto3==1.44.10
-botocore==1.44.10
+boto3==1.44.11
+botocore==1.44.11
 certifi==2026.11.20
 cffi==2.1.1
 charset-normalizer==3.5.3
