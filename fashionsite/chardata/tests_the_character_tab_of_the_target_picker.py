@@ -216,7 +216,7 @@ class ACharacterTargetPayloadTests(TestCase):
                 self.assertEqual({'name', 'total', 'raw_total', 'later_total', 'hp_share',
                                   'casts', 'not_counted'}, set(their))
                 for cast in their['casts']:
-                    self.assertEqual({'name', 'image_url', 'ap', 'damage', 'running'},
+                    self.assertEqual({'name', 'image_url', 'ap', 'damage', 'late', 'late_title', 'running'},
                                      set(cast))
                 self.assertIn('stages', data['best_combo'])
                 self.assertTrue(data['best_combo']['not_counted'])

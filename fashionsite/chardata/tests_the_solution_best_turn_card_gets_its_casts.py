@@ -41,15 +41,20 @@ class TheBestTurnCardTests(TestCase):
         combo = _best_combo(self.char, get_solution(self.char), 'dofus3', note_without_buffs=False)
         self.assertEqual(combo['total'], context['best_turn'])
         self.assertEqual(casts[-1]['running'], context['best_turn'])
+        self.assertEqual(context['best_turn'], sum(cast['damage'] + cast['late'] for cast in casts))
         self.assertEqual(sum(cast['ap'] for cast in casts), context['best_turn_ap_used'])
         self.assertEqual(combo['ap_available'], context['best_turn_ap_available'])
         self.assertLessEqual(context['best_turn_ap_used'], context['best_turn_ap_available'])
 
     def test_the_card_prints_the_same_total_as_the_header(self):
+        from django.template.defaultfilters import floatformat
+        from django.utils import translation
         response = self._response()
         page = response.content.decode('utf-8')
         self.assertIsNotNone(response.context['best_turn'])
-        self.assertIn('<div class="fm-sol-turn-total fm-num">%s</div>' % response.context['best_turn'], page)
+        with translation.override('en'):
+            shown = floatformat(response.context['best_turn'], '0g')
+        self.assertIn('<div class="fm-sol-turn-total fm-num">%s</div>' % shown, page)
         self.assertEqual(len(response.context['best_turn_casts']), page.count('class="fm-sol-cast"'))
 
     def test_the_resistance_cap_reaches_the_page(self):

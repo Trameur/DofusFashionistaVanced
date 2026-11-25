@@ -5930,6 +5930,10 @@ msgstr ""
 msgid "per summon"
 msgstr ""
 
+#: chardata/templates/chardata/spells.html
+msgid "per hit taken"
+msgstr ""
+
 #: .\chardata\templates\chardata\spells.html:682
 msgid "per MP"
 msgstr ""
@@ -5978,6 +5982,10 @@ msgstr ""
 
 #: .\chardata\templates\chardata\spells.html:753
 msgid "Advances"
+msgstr ""
+
+#: chardata/templates/chardata/spells.html
+msgid "Hits taken"
 msgstr ""
 
 #: .\chardata\templates\chardata\spells.html:846
@@ -6955,6 +6963,16 @@ msgstr ""
 
 #: .\chardata\templates\chardata\spells.html:66
 msgid "Count pushback damage, assuming half of each push is stopped"
+msgstr ""
+
+#: chardata/spells_view.py
+#, python-format
+msgid "counted on %(group)s, if the target is the Prey"
+msgstr ""
+
+#: chardata/spells_view.py
+#, python-format
+msgid "Delayed hit, lands %(when)s: counted in the total."
 msgstr ""
 
 #: .\chardata\spells_view.py:449

@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Devouring Arrow steals more on each cast at one enemy, and a recast replaces the delayed hit."""
+"""Devouring Arrow steals more on each cast at one enemy, a recast replaces the delayed hit, and the turn counts the last one."""
 import copy
 from unittest import mock
 
@@ -14,6 +14,7 @@ DEVOURING_ARROW = 32446
 VERSIONS = ('dofus3', 'beta')
 QUOTE = "le vol de vie est plus important après chaque lancer sur un même ennemi"
 SECOND_CAST_NOTE = {'en': 'counted on Stack 1', 'fr': 'compté sur Cumul 1'}
+COUNTED = {'en': 'counted in the total', 'fr': 'compté dans le total'}
 
 _STATS = {'str': 100, 'int': 800, 'cha': 100, 'agi': 100, 'pow': 0, 'dam': 0,
           'cridam': 0, 'heals': 0, 'perspedam': 0, 'perweadam': 0,
@@ -174,7 +175,8 @@ class EachCastStealsMoreTests(SimpleTestCase):
             spell = _spell(version)
             cast = _cast(spell)
             _total, order = _turn(version, cast, 2)
-            steals = [damage for _name, damage in order]
+            steals = [damage - late for (_name, damage), late in zip(
+                order, delayed_by_cast(dict(_STATS), [cast], order, game_version=version))]
             first = _first_cast_on(spell, 'Stack 0')
             second = _first_cast_on(spell, 'Stack 1')
             with self.subTest(version=version):
@@ -184,7 +186,7 @@ class EachCastStealsMoreTests(SimpleTestCase):
                     _one, solo = _turn(version, _without_late(alone), 1)
                     self.assertAlmostEqual(steal, solo[0][1])
 
-    def test_the_turn_scores_the_steals_alone_and_the_panel_shows_the_delayed_hit_apart(self):
+    def test_the_turn_counts_the_steals_and_the_last_delayed_hit(self):
         for version in VERSIONS:
             _in_version(self, version)
             cast = _cast(_spell(version))
@@ -192,11 +194,11 @@ class EachCastStealsMoreTests(SimpleTestCase):
             for casts in (1, 2):
                 total, order = _turn(version, cast, casts)
                 alone, _order = _turn(version, steals, casts)
+                late = delayed_damage(dict(_STATS), [cast], order, game_version=version)[
+                    cast.name]
                 with self.subTest(version=version, casts=casts):
-                    self.assertAlmostEqual(total, alone)
-                    self.assertGreater(
-                        delayed_damage(dict(_STATS), [cast], order, game_version=version)[
-                            cast.name], 0)
+                    self.assertGreater(late, 0)
+                    self.assertAlmostEqual(total, alone + late)
 
     def test_a_critical_cast_takes_back_the_critical_delayed_hit(self):
         for version in VERSIONS:
@@ -229,7 +231,7 @@ class EachCastStealsMoreTests(SimpleTestCase):
                     delayed_damage(dict(_STATS), [cast], order, game_version=version)[cast.name],
                     delayed_damage(dict(_STATS), [second], solo, game_version=version)[second.name])
 
-    def test_the_panel_shows_each_cast_its_own_steal_and_the_last_delayed_hit(self):
+    def test_the_panel_shows_each_cast_its_steal_and_the_last_delayed_hit_beside_it(self):
         from chardata import spells_view
         _in_version(self, 'dofus3')
         cast = _cast(_spell('dofus3'))
@@ -255,7 +257,28 @@ class EachCastStealsMoreTests(SimpleTestCase):
                                       SECOND_CAST_NOTE[language]])
                     self.assertGreater(combo['casts'][1]['damage'],
                                        combo['casts'][0]['damage'])
-                    self.assertEqual(sum(entry['damage'] for entry in combo['casts']),
-                                     int(round(turn)))
-                    self.assertEqual([entry['damage'] for entry in combo['later']],
-                                     [int(round(last))])
+                    self.assertEqual([entry['late'] for entry in combo['casts']],
+                                     [0, int(round(last))])
+                    self.assertIn(COUNTED[language], combo['casts'][1]['late_title'])
+                    self.assertEqual('', combo['casts'][0]['late_title'])
+                    self.assertEqual(sum(entry['damage'] + entry['late']
+                                         for entry in combo['casts']), int(round(turn)))
+                    self.assertEqual(combo['total'], int(round(turn)))
+                    self.assertEqual(combo['total'], spells_view._burst_total(
+                        dict(_STATS, ap=2 * cast.cost), [cast], _order, {}, 'dofus3'))
+                    self.assertEqual([], combo['later'])
+                    self.assertEqual(0, combo['later_total'])
+
+
+class WhichSpellsCountTheirDelayedHitTests(SimpleTestCase):
+
+    def test_only_devouring_arrow_counts_it_in_every_version(self):
+        from chardata.spells_view import _counts_its_late
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                counted = {spell.spell_id
+                           for spells in get_damage_spells_for_version(version).values()
+                           for spell in spells
+                           if _counts_its_late(Castable(spell, len(spell.level_req) - 1, crit=False))
+                           and spell.delayed}
+                self.assertEqual({DEVOURING_ARROW}, counted)

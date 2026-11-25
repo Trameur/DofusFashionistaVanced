@@ -17,7 +17,7 @@ def combo_with_a_buff(real, last_damage=None):
         if found:
             casts = [dict(found['casts'][0], damage=0, note=BUFF_NOTE)] + found['casts'][1:]
             if last_damage is not None:
-                casts[-1] = dict(casts[-1], damage=last_damage)
+                casts[-1] = dict(casts[-1], damage=last_damage, late=0, late_title='')
             found = dict(found, casts=casts)
         return found
     return combo

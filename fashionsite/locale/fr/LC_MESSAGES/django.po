@@ -6542,6 +6542,10 @@ msgstr "à"
 msgid "per summon"
 msgstr "par invocation"
 
+#: chardata/templates/chardata/spells.html
+msgid "per hit taken"
+msgstr "par coup subi"
+
 #: .\chardata\templates\chardata\spells.html:682
 msgid "per MP"
 msgstr "par PM"
@@ -6591,6 +6595,10 @@ msgstr "Repousse"
 #: .\chardata\templates\chardata\spells.html:753
 msgid "Advances"
 msgstr "Avance"
+
+#: chardata/templates/chardata/spells.html
+msgid "Hits taken"
+msgstr "Coups subis"
 
 #: .\chardata\templates\chardata\spells.html:846
 msgid "MP used"
@@ -7869,6 +7877,11 @@ msgstr "si toute la poussée se termine contre un obstacle, et seulement dans l'
 msgid "Count pushback damage, assuming half of each push is stopped"
 msgstr "Compter les dommages de poussée, en supposant que la moitié de chaque poussée est bloquée"
 
+#: chardata/spells_view.py
+#, python-format
+msgid "Delayed hit, lands %(when)s: counted in the total."
+msgstr "Coup différé, arrive %(when)s : compté dans le total."
+
 #: .\chardata\spells_view.py:449
 msgid "at the start of a turn"
 msgstr "au début d'un tour"
@@ -8899,6 +8912,11 @@ msgid "%(kinds)s ingredient · %(total)s total"
 msgid_plural "%(kinds)s ingredients · %(total)s total"
 msgstr[0] "%(kinds)s ingrédient · %(total)s au total"
 msgstr[1] "%(kinds)s ingrédients · %(total)s au total"
+
+#: chardata/spells_view.py
+#, python-format
+msgid "counted on %(group)s, if the target is the Prey"
+msgstr "compté sur %(group)s, si la cible est la Proie"
 
 #: chardata/spells_view.py
 msgid "counted on %(group)s"

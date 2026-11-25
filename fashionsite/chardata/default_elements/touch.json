@@ -84,11 +84,11 @@
   },
   "Pandawa": {
    "20": {"element": "cha", "inputs": "3d52e8bb159a", "turns": {"agi": 161.8, "cha": 165.7, "int": 85.9, "str": 155.3}},
-   "50": {"element": "cha", "inputs": "998f6fda3941", "turns": {"agi": 258.6, "cha": 264.7, "int": 98.6, "str": 258.7}},
-   "100": {"element": "str", "inputs": "a7c69747c2e0", "turns": {"agi": 582.3, "cha": 625.0, "int": 207.5, "str": 681.4}},
-   "150": {"element": "cha", "inputs": "e8735535acfa", "turns": {"agi": 888.4, "cha": 966.4, "int": 284.1, "str": 945.1}},
-   "180": {"element": "cha", "inputs": "0d96976f1cfc", "turns": {"agi": 1175.2, "cha": 1245.6, "int": 314.9, "str": 1217.1}},
-   "200": {"element": "str", "inputs": "c125385ff80c", "turns": {"agi": 1537.4, "cha": 1618.2, "int": 360.4, "str": 1671.1}}
+   "50": {"element": "cha", "inputs": "4ee976a3111f", "turns": {"agi": 258.6, "cha": 264.7, "int": 98.6, "str": 258.7}},
+   "100": {"element": "str", "inputs": "5e732ce09d4c", "turns": {"agi": 582.3, "cha": 626.9, "int": 209.5, "str": 681.4}},
+   "150": {"element": "cha", "inputs": "8c0a460e824c", "turns": {"agi": 888.4, "cha": 967.6, "int": 284.2, "str": 945.1}},
+   "180": {"element": "cha", "inputs": "4658a3a9a0de", "turns": {"agi": 1175.2, "cha": 1245.6, "int": 314.9, "str": 1217.1}},
+   "200": {"element": "str", "inputs": "ec070edcd414", "turns": {"agi": 1537.4, "cha": 1622.6, "int": 360.4, "str": 1671.1}}
   },
   "Rogue": {
    "20": {"element": "agi", "inputs": "4746ce2367af", "turns": {"agi": 147.4, "cha": 127.7, "int": 130.1, "str": 75.8}},

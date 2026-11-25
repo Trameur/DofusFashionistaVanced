@@ -142,7 +142,7 @@
                     <span class="best-combo-name">{{ cast.name }}</span>
                     {% if cast.limit_mark %}<span class="best-combo-limit-mark" title="{{ cast.limit_title }}">{{ cast.limit_mark }}</span>{% endif %}
                     <span class="best-combo-ap">{% blocktrans with ap=cast.ap %}{{ ap }} AP{% endblocktrans %}</span>
-                    <span class="best-combo-damage">{{ cast.damage }}</span>
+                    <span class="best-combo-damage">{{ cast.damage }}{% if cast.late %} <span class="best-combo-late" title="{{ cast.late_title }}">(+{{ cast.late }})</span>{% endif %}</span>
                     <span class="best-combo-running">{{ cast.running }}</span>
                 </div>
                 {% if cast.note %}<div class="best-combo-cast-note">{{ cast.note }}</div>{% endif %}
@@ -872,7 +872,8 @@
         var mapping = {
             'buff_final': 'final',
             'buff_finalheals': 'finalheals',
-            'buff_pow': 'pow'
+            'buff_pow': 'pow',
+            'buff_pshdam': 'pshdam'
         };
         return mapping[element] || null;
     }
@@ -881,7 +882,8 @@
         var mapping = {
             'final': 'buff_final',
             'finalheals': 'buff_finalheals',
-            'pow': 'buff_pow'
+            'pow': 'buff_pow',
+            'pshdam': 'buff_pshdam'
         };
         return mapping[statKey] || null;
     }
@@ -1221,6 +1223,8 @@
                 var perLabel = "{% trans 'per summon' %}";
                 if (scaling.type == 'mp_buff') {
                     perLabel = "{% trans 'per MP' %}";
+                } else if (scaling.type == 'hit_buff') {
+                    perLabel = "{% trans 'per hit taken' %}";
                 }
                 writeScalingBuffLine(element, spec.per_stack, table, perLabel);
             }
@@ -1287,6 +1291,8 @@
             return ["+", " {% trans 'Damage' %}"];
         } else if (element == "buff_ch") {
             return ["+", "% {% trans 'Critical Hits' %}"];
+        } else if (element == "buff_cridam") {
+            return ["+", " {% trans 'Critical Damage' %}"];
         } else if (element == "buff_str") {
             return ["+", " {% trans 'Strength' %}"];
         } else if (element == "buff_int") {
@@ -1437,6 +1443,9 @@
                 mpCount = stackIndex - mpOffset;
             }
             return "{% trans 'MP used' %}: " + mpCount;
+        }
+        if (scaling && scaling.type == 'hit_buff') {
+            return "{% trans 'Hits taken' %}: " + Math.max(stackIndex - (scaling.stack_offset || 0), 0);
         }
         if (spell.stacks == 1) {
             return isCrit ? "{% trans 'Crit' %}" : "{% trans 'On' %}";
@@ -1779,7 +1788,12 @@
                     $("<span class='best-combo-ap'></span>")
                         .text(panel.data('ap-label').replace('__ap__', cast.ap))
                         .appendTo(line);
-                    $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
+                    var damage = $("<span class='best-combo-damage'></span>").text(cast.damage)
+                        .appendTo(line);
+                    if (cast.late) {
+                        damage.append(' ').append($("<span class='best-combo-late'></span>")
+                            .text('(+' + cast.late + ')').attr('title', cast.late_title || ''));
+                    }
                     $("<span class='best-combo-running'></span>").text(cast.running).appendTo(line);
                     // The note comes translated from the server, like the block labels below.
                     if (cast.note) {
@@ -2066,7 +2080,11 @@
             $("<span class='best-combo-name'></span>").text(cast.name).appendTo(line);
             $("<span class='best-combo-ap'></span>")
                 .text(panel.data('ap-label').replace('__ap__', cast.ap)).appendTo(line);
-            $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
+            var damage = $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
+            if (cast.late) {
+                damage.append(' ').append($("<span class='best-combo-late'></span>")
+                    .text('(+' + cast.late + ')').attr('title', cast.late_title || ''));
+            }
             $("<span class='best-combo-running'></span>").text(cast.running).appendTo(line);
             $("<li></li>").append(line).appendTo(list);
         });

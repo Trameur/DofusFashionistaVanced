@@ -3,7 +3,7 @@
 
 from chardata.targets import build_target
 
-REVERSE_CAST_FIELDS = ('name', 'image_url', 'ap', 'damage', 'running')
+REVERSE_CAST_FIELDS = ('name', 'image_url', 'ap', 'damage', 'late', 'late_title', 'running')
 
 
 def turn_on(attacker, attacker_solution, game_version, buff_state=None, levels=None,

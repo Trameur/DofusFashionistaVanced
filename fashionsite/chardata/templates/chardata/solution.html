@@ -748,7 +748,7 @@
         <p class="fm-sol-turn-sub">{% blocktrans with used=best_turn_ap_used available=best_turn_ap_available %}average damage on one target, {{ used }} AP out of {{ available }}{% endblocktrans %}</p>
         <ol class="fm-sol-casts">
             {% for cast in best_turn_casts %}
-            <li class="fm-sol-cast"><span class="fm-sol-cast-n fm-num">{{ forloop.counter }}</span><img class="fm-sol-cast-img" src="{{ cast.image_url }}" alt="" width="44" height="44" loading="lazy"><span class="fm-sol-cast-name">{{ cast.name }}{% if cast.note %}<span class="fm-sol-cast-note">{{ cast.note }}</span>{% endif %}</span><span class="fm-sol-cast-dmg fm-num">{{ cast.damage|floatformat:"0g" }}</span></li>
+            <li class="fm-sol-cast"><span class="fm-sol-cast-n fm-num">{{ forloop.counter }}</span><img class="fm-sol-cast-img" src="{{ cast.image_url }}" alt="" width="44" height="44" loading="lazy"><span class="fm-sol-cast-name">{{ cast.name }}{% if cast.note %}<span class="fm-sol-cast-note">{{ cast.note }}</span>{% endif %}</span><span class="fm-sol-cast-dmg fm-num">{{ cast.damage|floatformat:"0g" }}{% if cast.late %} <span class="fm-sol-cast-late" title="{{ cast.late_title }}">(+{{ cast.late|floatformat:"0g" }})</span>{% endif %}</span></li>
             {% endfor %}
         </ol>
         {% if best_turn_note %}<p class="fm-sol-note">{{ best_turn_note }}</p>{% endif %}

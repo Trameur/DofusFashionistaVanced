@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The best-turn panel's damage column must sum to the running total and the total."""
+"""The best-turn panel's damage column, with each delayed hit it counts, must sum to the running total and the total."""
 
 import re
 
@@ -75,7 +75,7 @@ class TheColumnsAgreeTests(_AvecUneSolution):
         for char_class, combo in self._panneaux(char):
             with self.subTest(classe=char_class):
                 self.assertEqual(combo['casts'][-1]['running'],
-                                 sum(c['damage'] for c in combo['casts']))
+                                 sum(c['damage'] + c['late'] for c in combo['casts']))
 
     def test_every_running_total_is_the_sum_so_far(self):
         """Every running total must be the sum of the damage shown above it, not just the last line."""
@@ -84,7 +84,7 @@ class TheColumnsAgreeTests(_AvecUneSolution):
             with self.subTest(classe=char_class):
                 cumul = 0
                 for index, cast in enumerate(combo['casts']):
-                    cumul += cast['damage']
+                    cumul += cast['damage'] + cast['late']
                     self.assertEqual(cumul, cast['running'],
                                      'lancer %d' % (index + 1))
 

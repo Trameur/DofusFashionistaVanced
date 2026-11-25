@@ -104,7 +104,7 @@
    "100": {"element": "int", "inputs": "17fd66016e22", "turns": {"agi": 585.5, "cha": 517.2, "int": 613.2, "str": 595.5}},
    "150": {"element": "agi", "inputs": "db48e8863ec3", "turns": {"agi": 1111.5, "cha": 928.0, "int": 1070.3, "str": 1018.0}},
    "180": {"element": "agi", "inputs": "92732b3e2ace", "turns": {"agi": 1455.6, "cha": 1381.0, "int": 1374.7, "str": 1400.2}},
-   "200": {"element": "agi", "inputs": "2697f1b5fb98", "turns": {"agi": 1858.7, "cha": 1816.3, "int": 1849.6, "str": 1807.7}}
+   "200": {"element": "agi", "inputs": "a00cfd97349f", "turns": {"agi": 1858.7, "cha": 1816.3, "int": 1849.6, "str": 1807.7}}
   },
   "Pandawa": {
    "20": {"element": "str", "inputs": "22bdbbfb2e70", "turns": {"agi": 129.6, "cha": 154.1, "int": 146.8, "str": 177.0}},

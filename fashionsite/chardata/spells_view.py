@@ -468,8 +468,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     from chardata.spell_combo import (best_turn, buffs_in_force, cast_cost,
                                       castable_spells, combat_ap,
                                       conditional_extras, damage_taken_by_cast,
-                                      delayed_damage, delayed_moments,
-                                      stacks_in_force)
+                                      delayed_by_cast, delayed_damage,
+                                      delayed_moments, stacks_in_force)
     stats = dict(solution.get_stats_total())
     for stat, delta in buffs_in_force(char.char_class, char.level,
                                       game_version, buff_state,
@@ -501,6 +501,12 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     later = delayed_damage(stats, spells, order, standing=standing,
                            game_version=game_version, target=target)
     moments = delayed_moments(spells, order)
+    counted = {name: later.pop(name) for name in list(later)
+               if _counts_its_late(by_name.get(name))}
+    late_by_cast = (delayed_by_cast(stats, spells, order, standing=standing,
+                                    game_version=game_version, target=target)
+                    if counted else [0.0] * len(order))
+    last_cast = {name: index for index, (name, _damage) in enumerate(order)}
     times_cast = {}
     for name, _damage in order:
         times_cast[name] = times_cast.get(name, 0) + 1
@@ -512,10 +518,14 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     earlier = {}
     for index, (name, damage) in enumerate(order):
         damage -= _late_share(by_name.get(name), name, later, times_cast)
+        held = counted.get(name, 0.0) if last_cast[name] == index else 0.0
+        if name in counted:
+            damage += held - late_by_cast[index]
         running += damage
         # Round the running total once, each cast is the difference
         before = shown
         shown = int(round(running))
+        late_shown = int(round(held))
         castable = by_name[name]
         if castable.is_spell:
             shown_name = _localized_spell_name(name, language, game_version,
@@ -530,7 +540,12 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
         casts.append({'name': shown_name,
                       'image_url': image_url,
                       'ap': cast_cost(castable, earlier.get(name, 0)),
-                      'damage': shown - before,
+                      'damage': shown - before - late_shown,
+                      'late': late_shown,
+                      'late_title': (str(_COUNTED_LATE_NOTE) % {'when': ', '.join(
+                          str(_DELAYED_LABELS.get(when, when))
+                          for when in moments.get(name, []))}
+                          if late_shown else ''),
                       'running': shown,
                       'note': _cast_note(castable, name, later,
                                          shown - before, game_version,
@@ -760,7 +775,8 @@ def _cast_note(castable, name, later, damage, game_version=None, cast=0):
         if group:
             label = _localized_aggregate_label(group, game_version)
             if label:
-                return str(_CAST_NOTES['group']) % {'group': label}
+                note = _CAST_NOTES['prey' if getattr(castable, 'recast_needs_prey', False) else 'group']
+                return str(note) % {'group': label}
         return ''
     if name in later:
         return str(_CAST_NOTES['delayed'])
@@ -818,15 +834,20 @@ def _buff_casts(spells, order):
             and not getattr(spell, 'hits', None)}
 
 
+def _counts_its_late(castable):
+    """Whether the total counts the spell's delayed hit: a growing spell whose recast replaces it."""
+    return bool(getattr(castable, 'recasts', None))
+
+
 def _late_share(castable, name, later, times_cast):
-    """What one cast leaves for later on the panel: the spell's mean, none for a growing spell the turn scores without its late hit."""
-    if getattr(castable, 'recasts', None):
+    """What one cast leaves for later on the panel: the spell's mean, none for a spell whose delayed hit the total counts."""
+    if _counts_its_late(castable):
         return 0.0
     return later[name] / times_cast[name] if name in later else 0
 
 
 def _burst_total(stats, spells, order, standing, game_version, target=None):
-    """Total as the panel shows it: the turn minus what lands later."""
+    """Total as the panel shows it: the turn minus what lands later and is not counted."""
     from chardata.spell_combo import delayed_damage
     later = delayed_damage(stats, spells, order, standing=standing,
                            game_version=game_version, target=target)
@@ -1384,6 +1405,8 @@ def _localized_aggregate_label(label, game_version=None):
 
 
 # Lazy: gettext at import would freeze the first language served
+_COUNTED_LATE_NOTE = _lazy('Delayed hit, lands %(when)s: counted in the total.')
+
 _DELAYED_LABELS = {
     'turn_begin': _lazy('at the start of a turn'),
     'turn_end': _lazy('at the end of a turn'),
@@ -1492,6 +1515,7 @@ _CAST_NOTES = {
     'buff': _lazy('no damage of its own, it raises the casts that follow'),
     'delayed': _lazy('no damage now, its own lands later and is counted apart'),
     'group': _lazy('counted on %(group)s'),
+    'prey': _lazy('counted on %(group)s, if the target is the Prey'),
     'both runs': _lazy("its poison and its steal are both counted, but the "
                        "steal only lands on a target standing in the Bellaura"),
 }
