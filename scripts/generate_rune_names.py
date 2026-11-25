@@ -16,7 +16,9 @@ and so do the names.
 
     dofus3/beta/dofus2  itemscraper[/<version>]/all_resources_<lang>.json
     touch               itemscraper/touch_raw/Items_<lang>.json
+    touchbeta           itemscraper/touchbeta_raw/Items_<lang>.json
     retro               itemscraper/retro_raw/items_<lang>.json
+    retrobeta           itemscraper/retrobeta_raw/items_<lang>.json
 
 Output
 ------
@@ -72,18 +74,21 @@ def _resources(subdir, language):
             and (item.get("type") or {}).get("id") == RESOURCE_RUNE_TYPE}
 
 
-def _touch(language):
-    data = _load(os.path.join(SCRAPER, "touch_raw", "Items_%s.json" % language))
-    if data is None:
+def _touch(language, folder="touch_raw"):
+    """Rune names by id; the rune ids come from the French table, whose rows carry the type."""
+    data = _load(os.path.join(SCRAPER, folder, "Items_%s.json" % language))
+    french = _load(os.path.join(SCRAPER, folder, "Items_fr.json"))
+    if data is None or french is None:
         return None
+    rune_ids = {key for key, entry in french.items()
+                if isinstance(entry, dict) and entry.get("typeId") == ITEM_RUNE_TYPE}
     return {int(key): entry["nameId"] for key, entry in data.items()
-            if isinstance(entry, dict)
-            and entry.get("typeId") == ITEM_RUNE_TYPE
+            if key in rune_ids and isinstance(entry, dict)
             and isinstance(entry.get("nameId"), str)}
 
 
-def _retro(language):
-    data = _load(os.path.join(SCRAPER, "retro_raw", "items_%s.json" % language))
+def _retro(language, folder="retro_raw"):
+    data = _load(os.path.join(SCRAPER, folder, "items_%s.json" % language))
     if data is None:
         return None
     return {int(key): entry["n"] for key, entry in data["I"]["u"].items()
@@ -96,7 +101,9 @@ READERS = (
     ("beta", lambda lang: _resources("beta", lang)),
     ("dofus2", lambda lang: _resources("dofus2", lang)),
     ("touch", _touch),
+    ("touchbeta", lambda lang: _touch(lang, "touchbeta_raw")),
     ("retro", _retro),
+    ("retrobeta", lambda lang: _retro(lang, "retrobeta_raw")),
 )
 
 

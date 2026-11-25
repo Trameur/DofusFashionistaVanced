@@ -12,13 +12,16 @@ LANGUES = ('fr', 'en', 'es', 'pt', 'de')
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
+BETAS = ('touchbeta', 'retrobeta')
+
 PREFIXE = {'dofus3': '', 'beta': 'beta/', 'dofus2': 'dofus2/',
            'touch': 'touch/', 'retro': 'retro/'}
 
 _RUNES_PAR_VERSION = {'dofus3': 105, 'beta': 105, 'dofus2': 98,
-                      'touch': 86, 'retro': 57}
+                      'touch': 86, 'retro': 57,
+                      'touchbeta': 86, 'retrobeta': 57}
 
-_NON_TRADUITE = {('retro', 'pt', 'Rune Vi')}
+_NON_TRADUITE = {('retro', 'pt', 'Rune Vi'), ('retrobeta', 'pt', 'Rune Vi')}
 
 _CONFIG = re.compile(
     r'<script[^>]*\bid="fm-config"[^>]*>(.*?)</script>', re.S)
@@ -49,8 +52,8 @@ class EachVersionIsReadInItsOwnTableTests(SimpleTestCase):
 
     def test_the_catalogue_holds_every_version(self):
         catalogue = _catalogue()
-        self.assertEqual(sorted(VERSIONS), sorted(catalogue))
-        compte = dict((v, len(catalogue[v])) for v in VERSIONS)
+        self.assertEqual(sorted(VERSIONS + BETAS), sorted(catalogue))
+        compte = dict((v, len(catalogue[v])) for v in VERSIONS + BETAS)
         self.assertEqual(_RUNES_PAR_VERSION, compte)
 
     def test_the_versions_do_not_share_one_table(self):
@@ -64,7 +67,7 @@ class EachVersionIsReadInItsOwnTableTests(SimpleTestCase):
         catalogue = _catalogue()
         manquantes = []
         vues = 0
-        for version in VERSIONS:
+        for version in VERSIONS + BETAS:
             connues = catalogue[version]
             for nom in _noms_construits(version):
                 vues += 1
@@ -96,6 +99,24 @@ class EachVersionIsReadInItsOwnTableTests(SimpleTestCase):
             pareils,
             'these keep the French spelling in another language, which is '
             'either a new fact or a hole: %s' % pareils[:6])
+
+
+class ABetaIsReadInItsOwnTableTests(SimpleTestCase):
+
+    def test_a_beta_shows_each_language_and_not_the_french_key(self):
+        from chardata.forgemagie_rune_names import rune_display_name
+        for version in BETAS:
+            for nom, noms in _catalogue()[version].items():
+                for langue in LANGUES:
+                    self.assertEqual(
+                        noms[langue], rune_display_name(version, nom, langue),
+                        (version, nom, langue))
+        self.assertEqual('Str Rune',
+                         rune_display_name('touchbeta', 'Rune Fo', 'en'))
+        self.assertEqual('Kra-Rune',
+                         rune_display_name('touchbeta', 'Rune Fo', 'de'))
+        self.assertEqual('Vi Rune',
+                         rune_display_name('retrobeta', 'Rune Vi', 'en'))
 
 
 class TheWorkshopServesTheReadersLanguageTests(TestCase):

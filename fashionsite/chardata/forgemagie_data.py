@@ -129,6 +129,13 @@ _TOUCH_STATS.update({
     'cridam': _stat(5, 'Do Cri', [('', 1), ('Pa', 3)]),
 })
 
+# Touch Beta: the pushback runes are named Col in its tables, Pou on live Touch
+_TOUCHBETA_STATS = dict(_TOUCH_STATS)
+_TOUCHBETA_STATS.update({
+    'pshres': _stat(2, 'Ré Col', [('', 1), ('Pa', 3)]),
+    'pshdam': _stat(5, 'Do Col', [('', 1), ('Pa', 3)]),
+})
+
 # Dofus 2: modern weights, but no Ra rune on elemental and crit resists, no Pa on reflect
 _DOFUS2_STATS = dict(_MODERN_STATS)
 _DOFUS2_STATS.update({
@@ -225,9 +232,15 @@ def get_one_percent_over_weight(game_version):
     return _ONE_PERCENT_OVER_WEIGHT[get_ruleset(game_version)]
 
 
+_STATS_BY_VERSION = {version: _STATS_BY_RULESET[ruleset]
+                     for version, ruleset in _RULESET_BY_VERSION.items()}
+_STATS_BY_VERSION['touchbeta'] = _TOUCHBETA_STATS
+
+
 def get_fm_stats(game_version):
     """Stat key -> {density, rune, tiers, approx} for this game version."""
-    return _STATS_BY_RULESET[get_ruleset(game_version)]
+    return (_STATS_BY_VERSION.get(game_version)
+            or _STATS_BY_RULESET[get_ruleset(game_version)])
 
 
 def get_fm_stat(game_version, stat_key):
