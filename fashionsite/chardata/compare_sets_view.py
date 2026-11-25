@@ -45,7 +45,8 @@ from chardata.spell_combo import hp_share_hits_for_version
 from chardata.spell_modifiers import worn_spell_modifiers
 from chardata.spells_view import (_best_combo, _create_spell_web_digest,
                                   _create_weapon_web_digest,
-                                  _item_effects_note)
+                                  _item_effects_note, _TARGET_REFUSED_NOTE,
+                                  target_version)
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.url_language import SITE_URL
 from chardata.util import (set_response, get_char_possibly_encoded_or_raise, get_or_none,
@@ -234,11 +235,18 @@ def compare_sets(request, sets_params):
               'hidden_stat_keys': set(VERSION_WEIGHT_TUNING
                                       .get(game_version, {})
                                       .get('zero_stats', ()))}
+    target, target_refused = _compare_target(request, game_version)
     best_turns, best_turn_diff, best_turn_note = _best_turn_rows(chars,
-                                                                 game_version)
+                                                                 game_version, target)
     params['best_turn_by_char'] = best_turns
     params['best_turn_diff'] = best_turn_diff
     params['best_turn_note'] = best_turn_note
+    params['target_picker_version'] = target_version(game_version)
+    if target is not None:
+        params['best_turn_target'] = {'name': target.label, 'token': target.token()}
+    elif target_refused:
+        params['best_turn_note'] = ' '.join(
+            part for part in (str(_TARGET_REFUSED_NOTE), best_turn_note) if part)
     params.update(_build_spell_preview_context(request, chars, model_results))
     
     response = set_response(request, 
@@ -247,15 +255,43 @@ def compare_sets(request, sets_params):
     return response
 
 
-def _best_turn_rows(builds, game_version):
-    """The best-turn row, one value per set, a dash when it cannot be computed."""
+def _compare_target(request, game_version):
+    """(Target or None, refusal) of the ?target= both sets are cast on."""
+    value = (request.GET.get('target') or '').strip()
+    if not value:
+        return None, ''
+    from chardata.targets import read_target
+    try:
+        return read_target(game_version, value, request=request)
+    except Exception:
+        return None, 'unreadable'
+
+
+def _target_notes(combo):
+    """The sentences a target adds to the best-turn note: what is not counted, the cap, and the raw spell rows."""
+    stages = combo.get('stages') or {}
+    resistances = (combo.get('target') or {}).get('resistances') or []
+    capped = any(line.get('counted') is not None and line.get('percent') is not None
+                 and line['percent'] != line['counted'] for line in resistances)
+    return (stages.get('note') or '', ' '.join(combo.get('not_counted') or ()),
+            _('Percent resistances above the cap count as the cap.') if capped else '',
+            _('The spell rows below show raw damage, before any resistance.'))
+
+
+def _best_turn_rows(builds, game_version, target=None):
+    """The best-turn row, one value per set, a dash when it cannot be computed; every set on the same target when one is given."""
     valeurs = {}
     combos = []
     for build in builds:
         try:
             set_current_game_version(game_version)
-            combo = _best_combo(build.char, build.solution, game_version,
-                                note_without_buffs=False)
+            if target is not None and target.kind == 'build':
+                from chardata.duels import turn_on
+                combo = turn_on(build.char, build.solution, game_version,
+                                note_without_buffs=False, target=target)
+            else:
+                combo = _best_combo(build.char, build.solution, game_version,
+                                    note_without_buffs=False, target=target)
         except Exception:
             logger.exception('best turn failed for compared build %s', build.id)
             combo = None
@@ -278,6 +314,8 @@ def _best_turn_rows(builds, game_version):
                                           effects_note,
                                           first_combo.get('crit_failure_note'))
                         if part)
+        if target is not None:
+            note = ' '.join(part for part in (note,) + _target_notes(first_combo) if part)
     # Diff is set 2 minus set 1, like the other tables
     diff = None
     if len(builds) == 2:

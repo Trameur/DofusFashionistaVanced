@@ -34,7 +34,7 @@ from chardata.weapon_forge_text import conversion_lines
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from django.views.decorators.cache import cache_control
+from django.views.decorators.cache import cache_control, never_cache
 from django.views.decorators.http import require_GET
 from django.views.decorators.vary import vary_on_headers
 from static_s3.templatetags.static_s3 import static
@@ -637,6 +637,8 @@ def _target_fields(target, total, raw_total):
     if target.push_flat:
         uncounted.append('%s %s' % (_TARGET_FIELD_LABELS['push_damage_reduction'],
                                     target.push_flat))
+    if target.kind == 'build':
+        uncounted += _build_uncounted(target)
     not_counted = []
     if uncounted:
         not_counted.append(str(_NOT_COUNTED_NOTE) % {'values': ', '.join(uncounted)})
@@ -648,23 +650,44 @@ def _target_fields(target, total, raw_total):
         not_counted.append(str(_RETRO_ROLLS_NOTE))
     not_counted.append(str(_SUMMONS_NOTE))
     tolerance = rules.tolerance_per_hit
+    if target.kind == 'build':
+        from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
+        who = {'token': target.token(), 'name': target.label, 'kind': 'build',
+               'class': str(LOCALIZED_CHARACTER_CLASSES.get(target.char_class,
+                                                            target.char_class or ''))}
+        for line in resistances:
+            line['counted'] = target.percent_of(line['element'])
+    else:
+        who = {'token': target.token(), 'name': target.label,
+               'monster_id': target.ref[1], 'grade': target.ref[2]}
     return {
-        'target': {'token': target.token(), 'name': target.label,
-                   'monster_id': target.ref[1], 'grade': target.ref[2],
+        'target': dict(who, **{
                    'level': target.level, 'hp': target.hp,
                    'resistances': resistances, 'weak': target.weakest_elements(),
                    'critical_resistance': target.crit_flat,
                    'pushback_resistance': target.push_flat,
                    'hp_share': (int(round(100.0 * total / target.hp))
-                                if target.hp else None)},
+                                if target.hp else None)}),
         'raw_total': raw_total,
         'stages': {'counted': [{'stage': stage, 'label': str(_TARGET_STAGES[stage])}
-                               for stage in rules.enabled_stages],
+                               for stage in rules.applied_order()],
                    'tolerance_per_hit': tolerance,
                    'note': (str(_TOLERANCE_NOTE) % {'points': tolerance}
                             if tolerance else '')},
         'not_counted': not_counted,
     }
+
+
+def _build_uncounted(target):
+    """The '<label> <value>' lines of a build target no stage counts: received melee, ranged and weapon %, and PvP lines its version does not add."""
+    lines = ['%s %s' % (_TARGET_FIELD_LABELS[key], value)
+             for key, value in zip(_RECEIVED_KEYS, target.received or ()) if value]
+    if not target.counts_pvp():
+        for keys, values in ((_PVP_PERCENT_KEYS, target.pvp_percent),
+                             (_PVP_FLAT_KEYS, target.pvp_flat)):
+            lines += ['%s %s' % (_TARGET_FIELD_LABELS[key], value)
+                      for key, value in zip(keys, values or ()) if value]
+    return lines
 
 
 def _limit_notes(spells, order, times_cast, ap):
@@ -1119,6 +1142,18 @@ def target_version(game_version):
 
 
 @require_GET
+@never_cache
+def build_targets_json(request):
+    """The viewer's own builds of this version, for the target picker."""
+    from django.http import JsonResponse
+    from chardata.targets import own_build_targets
+    game_version = getattr(request, 'game_version', 'dofus3')
+    if request.user.is_anonymous:
+        return JsonResponse({'builds': []})
+    return JsonResponse({'builds': own_build_targets(request, game_version)})
+
+
+@require_GET
 @cache_control(max_age=3600)
 @vary_on_headers('Cookie', 'Accept-Language')
 def monster_targets_json(request):
@@ -1152,19 +1187,31 @@ def _best_combo_response(request, char):
     if request.POST.get('target'):
         from chardata.targets import read_target
         try:
-            target, refused = read_target(game_version, request.POST.get('target'))
+            target, refused = read_target(game_version, request.POST.get('target'),
+                                          request=request)
         except Exception:
             target, refused = None, 'unreadable'
     arguments = (char, solution, game_version, posted('buff_state'),
                  posted('spell_levels'), request.POST.get('pushback') == 'true')
     try:
-        combo = _best_combo(*arguments, target=target)
+        if target is not None and target.kind == 'build':
+            from chardata.duels import turn_on
+            combo = turn_on(*arguments, target=target)
+        else:
+            combo = _best_combo(*arguments, target=target)
     except Exception:
         if target is None:
             raise
         target, refused = None, 'unreadable'
         combo = _best_combo(*arguments)
     response = {'best_combo': combo}
+    if target is not None and target.kind == 'build':
+        from chardata.duels import their_turn
+        try:
+            response['their_turn'] = their_turn(char, solution, target, game_version,
+                                                arguments[-1])
+        except Exception:
+            response['their_turn'] = None
     if refused:
         response['target_refused'] = refused
         response['target_refused_note'] = str(_TARGET_REFUSED_NOTE)
@@ -1375,7 +1422,10 @@ _BUFF_NOTES = {
 _WITHOUT_BUFFS_NOTE = _lazy('Without the buffs it casts first, this turn '
                             'would deal %(damage)s.')
 
-_TARGET_STAGES = {'P': _lazy('Resistances in percent')}
+_TARGET_STAGES = {'F': _lazy('Fixed resistances, critical ones on critical hits'),
+                  'P': _lazy('Resistances in percent'),
+                  'R': _lazy('Damage dealt and final damage, after resistances'),
+                  'Z': _lazy('Rounded down after resistances')}
 
 _TOLERANCE_NOTE = _lazy('Each hit on the target may be off by %(points)s until '
                         'in-game readings confirm how the game rounds it.')
@@ -1406,7 +1456,22 @@ _TARGET_FIELD_LABELS = {
     'neutral_flat_resistance': _lazy('Neutral Resist'),
     'critical_damage_reduction': _lazy('Critical Resist'),
     'push_damage_reduction': _lazy('Pushback Resist'),
+    'respermee': _lazy('% Melee Resist'), 'resperran': _lazy('% Ranged Resist'),
+    'resperwea': _lazy('% Weapon Resist'),
+    'pvpearthresper': _lazy('% Earth Resist in PVP'),
+    'pvpfireresper': _lazy('% Fire Resist in PVP'),
+    'pvpwaterresper': _lazy('% Water Resist in PVP'),
+    'pvpairresper': _lazy('% Air Resist in PVP'),
+    'pvpneutresper': _lazy('% Neutral Resist in PVP'),
+    'pvpearthres': _lazy('Earth Resist in PVP'), 'pvpfireres': _lazy('Fire Resist in PVP'),
+    'pvpwaterres': _lazy('Water Resist in PVP'), 'pvpairres': _lazy('Air Resist in PVP'),
+    'pvpneutres': _lazy('Neutral Resist in PVP'),
 }
+
+_RECEIVED_KEYS = ('respermee', 'resperran', 'resperwea')
+_PVP_PERCENT_KEYS = ('pvpearthresper', 'pvpfireresper', 'pvpwaterresper', 'pvpairresper',
+                     'pvpneutresper')
+_PVP_FLAT_KEYS = ('pvpearthres', 'pvpfireres', 'pvpwaterres', 'pvpairres', 'pvpneutres')
 
 _RANK_NOTES = {
     'highest': _lazy('Spells at the highest level the character reaches.'),

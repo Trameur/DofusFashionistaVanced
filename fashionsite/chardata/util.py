@@ -234,7 +234,8 @@ def char_belongs_to_user(request, char):
         if owns_anon_char(request, char.pk):
             return True
     if (not request_by_super_user(request) and
-        (char.owner != request.user or char.deleted)):
+        (request.user.is_anonymous or char.owner_id != request.user.pk
+         or char.deleted)):
         return False
     return True
 

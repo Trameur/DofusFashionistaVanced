@@ -1,5 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""What a turn can be cast on: a monster grade read from its own version's database."""
+"""What a turn can be cast on: a monster grade read from its own version's database, or a build the viewer may open."""
 
 import pathlib
 import re
@@ -24,9 +24,11 @@ PERCENT_COLUMNS = ('earth_resistance', 'fire_resistance', 'water_resistance',
                    'air_resistance', 'neutral_resistance')
 FLAT_COLUMNS = ('earth_flat_resistance', 'fire_flat_resistance', 'water_flat_resistance',
                 'air_flat_resistance', 'neutral_flat_resistance')
+BUILD_TOKEN = re.compile(r'^b([1-9][0-9]{0,9}|s[A-Za-z0-9._-]{1,64})$')
 CRIT_COLUMN = 'critical_damage_reduction'
 PUSH_COLUMN = 'push_damage_reduction'
 SEARCH_LIMIT = 20
+BUILD_LIMIT = 100
 
 _GRADES = {}
 _INDEX = {}
@@ -37,7 +39,7 @@ class Target(object):
 
     __slots__ = ('version', 'kind', 'ref', 'level', 'hp', 'percent', 'flat', 'crit_flat',
                  'push_flat', 'received', 'pvp_percent', 'pvp_flat', 'is_player', 'label',
-                 'unknown')
+                 'unknown', 'door', 'char_class', 'source')
 
     def __init__(self, **fields):
         for name in self.__slots__:
@@ -67,14 +69,34 @@ class Target(object):
     def token(self):
         if self.kind == 'monster':
             return 'm%d.%d' % (self.ref[1], self.ref[2])
-        return ''
+        return self.door or ''
 
-    def percent_of(self, element):
+    def counts_pvp(self, attacker_is_player=True):
+        """Whether this target's PvP resistances count: both players, and the record adds them."""
+        return (self.is_player and attacker_is_player
+                and load_rules(self.version).counts_pvp_lines())
+
+    def percent_of(self, element, attacker_is_player=True):
         """The % resistance a hit in this element meets, None when unknown."""
         if element not in ELEMENTS:
             return None
-        return percent_resisted(self.percent[ELEMENTS.index(element)], self.is_player,
-                                self.version)
+        value = self.percent[ELEMENTS.index(element)]
+        if value is not None and self.pvp_percent and self.counts_pvp(attacker_is_player):
+            value += self.pvp_percent[ELEMENTS.index(element)] or 0
+        return percent_resisted(value, self.is_player, self.version)
+
+    def flat_of(self, element, critical=False, attacker_is_player=True):
+        """The flat resistance a hit in this element meets, the critical one on a critical row."""
+        value = 0
+        if element in ELEMENTS:
+            index = ELEMENTS.index(element)
+            value += (self.flat or (0,) * len(ELEMENTS))[index] or 0
+            if self.pvp_flat and self.counts_pvp(attacker_is_player):
+                value += self.pvp_flat[index] or 0
+        if critical and self.crit_flat and load_rules(self.version).field(
+                'crit_flat_on_crit_only') is True:
+            value += self.crit_flat
+        return value
 
     def immune_elements(self):
         return [element for element in ELEMENTS if is_immune(self.percent_of(element))]
@@ -167,12 +189,84 @@ def monster_target(game_version, monster_id, grade, language=None):
                   label=_name_in(names, language or get_supported_language()))
 
 
-def read_target(game_version, value, language=None):
-    """(Target or None, refusal) of a posted 'm<id>.<grade>'; refusal is '' when it reads."""
+def build_target(char, solution, game_version, door=''):
+    """The Target of a build's final characteristics, as its build page shows them."""
+    from chardata.build_name import display_name
+    from chardata.stat_availability import stats_with_no_source
+    stats = solution.get_stats_total()
+    absent = stats_with_no_source(game_version)
+
+    def read(keys):
+        return tuple(stats.get(key) or 0 for key in keys)
+
+    def granted(keys):
+        return None if all(key in absent for key in keys) else read(keys)
+
+    return Target(version=game_version, kind='build', ref=('b', char.pk), level=char.level,
+                  hp=stats.get('hp'), percent=read(['%sresper' % e for e in ELEMENTS]),
+                  flat=read(['%sres' % e for e in ELEMENTS]), crit_flat=stats.get('crires') or 0,
+                  push_flat=stats.get('pshres') or 0,
+                  received=read(('respermee', 'resperran', 'resperwea')),
+                  pvp_percent=granted(['pvp%sresper' % e for e in ELEMENTS]),
+                  pvp_flat=granted(['pvp%sres' % e for e in ELEMENTS]),
+                  is_player=True, label=display_name(char), door=door, char_class=char.char_class,
+                  source=(char, solution))
+
+
+def read_build_target(request, game_version, value):
+    """(Target or None, refusal) of a posted 'b<id>' or 'bs<link>'; every refusal is 'build' and reads the same rows whether the build exists or not."""
+    from django.core.exceptions import PermissionDenied
+    from django.http import Http404
+    from chardata.solution import get_solution
+    from chardata.util import get_char_possibly_encoded_or_raise
+    match = BUILD_TOKEN.fullmatch(value)
+    if match is None or request is None:
+        return None, 'build'
+    if request.user.is_anonymous:
+        from chardata.anon_projects import get_anon_char_ids
+        get_anon_char_ids(request)
+    try:
+        char = get_char_possibly_encoded_or_raise(request, match.group(1))
+    except (Http404, PermissionDenied):
+        return None, 'build'
+    if char.game_version != game_version or char.deleted:
+        return None, 'build'
+    solution = get_solution(char)
+    if solution is None:
+        return None, 'build'
+    return build_target(char, solution, game_version, value), ''
+
+
+def own_build_targets(request, game_version, limit=BUILD_LIMIT):
+    """[{'name', 'class', 'level', 'target'}] of the viewer's own builds of this version, newest first."""
+    from chardata.build_name import display_name
+    from chardata.models import Char
+    from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
+    if game_version not in TARGET_VERSIONS or load_rules(game_version) is None:
+        return []
+    if request.user.is_anonymous:
+        from chardata.anon_projects import get_anon_char_ids
+        chars = Char.objects.filter(pk__in=set(get_anon_char_ids(request).values()))
+    else:
+        chars = Char.objects.filter(owner=request.user)
+    chars = chars.filter(game_version=game_version, deleted=False)
+    chars = chars.exclude(minimal_solution__isnull=True).exclude(minimal_solution=b'')
+    chars = chars.order_by('-pk')[:limit]
+    return [{'name': display_name(char),
+             'class': str(LOCALIZED_CHARACTER_CLASSES.get(char.char_class, char.char_class)),
+             'level': char.level, 'target': 'b%d' % char.pk} for char in chars]
+
+
+def read_target(game_version, value, language=None, request=None):
+    """(Target or None, refusal) of a posted 'm<id>.<grade>', 'b<id>' or 'bs<link>'; refusal is '' when it reads."""
     if not value:
         return None, ''
     if not isinstance(value, str):
         return None, 'malformed'
+    if value.startswith('b'):
+        if game_version not in TARGET_VERSIONS or load_rules(game_version) is None:
+            return None, 'build'
+        return read_build_target(request, game_version, value)
     match = TOKEN.fullmatch(value)
     if match is None:
         return None, 'malformed'

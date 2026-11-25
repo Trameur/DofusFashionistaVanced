@@ -65,7 +65,8 @@ class APostedTargetTests(SimpleTestCase):
             'malformed': ['x', 'm', 'm0.1', 'm%d' % monster_id, 'm%d.0' % monster_id,
                           'm%d.%dx' % (monster_id, grade), ' m%d.%d' % (monster_id, grade),
                           'm-1.1', 'm1.1.1', 'M%d.%d' % (monster_id, grade),
-                          'm%d.%d\n' % (monster_id, grade), 'b12.1'],
+                          'm%d.%d\n' % (monster_id, grade)],
+            'build': ['b12.1'],
             'monster': ['m%d.1' % (biggest + 1)],
             'grade': ['m%d.%d' % (monster_id, last + 1)],
         }

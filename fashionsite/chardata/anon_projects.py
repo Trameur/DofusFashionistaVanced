@@ -33,7 +33,10 @@ def get_anon_char_ids(request):
         ids = {}
     legacy_id = request.session.get(LEGACY_SESSION_KEY)
     if legacy_id is not None:
-        version = _char_version(legacy_id)
+        memo = getattr(request, '_anon_legacy_version', None)
+        if memo is None or memo[0] != legacy_id:
+            memo = request._anon_legacy_version = (legacy_id, _char_version(legacy_id))
+        version = memo[1]
         if version is not None and version not in ids:
             ids[version] = legacy_id
             request.session[SESSION_KEY] = ids

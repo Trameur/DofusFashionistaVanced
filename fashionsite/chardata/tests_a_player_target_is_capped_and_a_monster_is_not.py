@@ -1,5 +1,7 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """The percent stage per version: 0 changes nothing, 100 or more stops the hit, below 0 raises it, only a player is capped; a rounding record is fed whole rolls."""
+import math
+
 from django.test import SimpleTestCase
 
 from chardata.targets import ELEMENTS, Target
@@ -55,7 +57,9 @@ class ThePercentStageTests(SimpleTestCase):
         for version in VERSIONS:
             rules = load_rules(version)
             with self.subTest(version=version):
-                self.assertEqual(HITS[2], mitigated(HITS[2], None, rules))
+                last_floor = rules.enabled('Z') and rules.rounding_of('Z') == 'floor'
+                self.assertEqual(math.floor(HITS[2]) if last_floor else HITS[2],
+                                 mitigated(HITS[2], None, rules))
                 self.assertFalse(is_immune(None))
 
     def test_a_player_above_the_cap_reads_the_cap_and_a_monster_reads_its_own(self):
