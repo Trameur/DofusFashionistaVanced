@@ -157,6 +157,23 @@ class APlainElementalLineCountsOnEveryElementTests(WakfuDatabaseCase):
         self.assertEqual(4 * value, WakfuBuild(self.structure, 245, {'dmg_in_percent': 1})._worth(plain))
 
 
+class AnItemWithTwoMasteryLinesCountsBothTests(WakfuDatabaseCase):
+    def test_both_elemental_mastery_lines_of_one_item_count(self):
+        from fashionistapulp.wakfu_model import WakfuBuild
+        sword = self.item(2869)
+        self.assertEqual([59, 21], sorted((value for _key, value in self.lines(sword, MASTERY)), reverse=True))
+        self.assertEqual(80, WakfuBuild(self.structure, 245, {'dmg_fire_percent': 1})._worth(sword))
+
+    def test_a_plain_line_and_a_one_element_line_of_one_item_both_count(self):
+        from fashionistapulp.wakfu_model import WakfuBuild
+        helmet = self.item(24794)
+        self.assertEqual([('dmg_in_percent', 38, 1)],
+                         [(self.key(stat_id), value, elements) for stat_id, value, elements in helmet.element_spread])
+        self.assertEqual(177 + 38, WakfuBuild(self.structure, 245, {'dmg_fire_percent': 1})._worth(helmet))
+        totals = WakfuBuild(self.structure, 245, {'dmg_fire_percent': 1}).totals({'HEAD': helmet})
+        self.assertEqual((177, 38), (totals['dmg_in_percent'], totals['dmg_fire_percent']))
+
+
 class WakfuTotalsPutSpreadLinesWhereTheyLandTests(WakfuDatabaseCase):
     def sums(self, ids, stat_ids):
         marks = ','.join('?' * len(ids))

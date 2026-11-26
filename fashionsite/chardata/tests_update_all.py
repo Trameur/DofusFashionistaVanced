@@ -2396,6 +2396,53 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         self.assertEqual(expected, audit.empty_snapshot('wakfu')['mirror'])
         self.assertEqual({}, audit.empty_snapshot('dofus3')['mirror'])
 
+    def write_spread_build(self):
+        scraper = self.root / 'itemscraper'
+        (scraper / 'wakfu_raw/1.94.3.64').mkdir(parents=True)
+        (scraper / 'transformed_wakfu.json').write_text('{"version": "1.94.3.64", "equipment": []}', encoding='utf-8')
+
+        def effect(action, params):
+            return {'effect': {'definition': {'actionId': action, 'params': params}}}
+
+        items = [{'definition': {'equipEffects': [effect(1068, [21, 0, 3, 0]), effect(120, [21, 0])]}},
+                 {'definition': {'equipEffects': [effect(1069, [10, 0, 2, 0]), effect(1068, [5, 0]), effect(9999, [1])]}},
+                 {'definition': {}}]
+        actions = [{'definition': {'id': 1068}, 'description': {'en': '[#charac DMG_IN_PERCENT] [#1] Mastery of [#3] random elements'}},
+                   {'definition': {'id': 1069}, 'description': {'en': '[#charac RES_IN_PERCENT] [#1] Resistance to [#3] random elements'}},
+                   {'definition': {'id': 120}, 'description': {'en': '[#charac DMG_IN_PERCENT] [#1] Elemental Mastery'}}]
+        (scraper / 'wakfu_raw/1.94.3.64/items.json').write_text(json.dumps(items), encoding='utf-8')
+        (scraper / 'wakfu_raw/1.94.3.64/actions.json').write_text(json.dumps(actions), encoding='utf-8')
+
+    def test_the_wakfu_snapshot_counts_the_spread_lines_of_items_json(self):
+        self.write_spread_build()
+        self.assertEqual({'build': '1.94.3.64', audit.WAKFU_SPREAD_SOURCE: 3,
+                          audit.WAKFU_SPREAD_STATS: {'spread': ['DMG_IN_PERCENT', 'RES_IN_PERCENT'],
+                                                     'lines': {'DMG_IN_PERCENT': 3, 'RES_IN_PERCENT': 1},
+                                                     'actions': {'DMG_IN_PERCENT': [120, 1068],
+                                                                 'RES_IN_PERCENT': [1069]}}},
+                         audit.wakfu_mirror_counts())
+
+    def test_a_wakfu_spread_census_that_hangs_is_an_error(self):
+        self.write_spread_build()
+        hung = subprocess.TimeoutExpired('python', audit.WAKFU_CENSUS_TIMEOUT)
+        with mock.patch.object(audit.subprocess, 'run', side_effect=hung) as run:
+            with self.assertRaisesRegex(RuntimeError, 'timed out after %d s' % audit.WAKFU_CENSUS_TIMEOUT):
+                audit.wakfu_mirror_counts()
+        self.assertEqual(audit.WAKFU_CENSUS_TIMEOUT, run.call_args.kwargs['timeout'])
+
+    def test_the_launcher_counts_the_spread_lines_and_keeps_its_nested_import_layout(self):
+        self.write_spread_build()
+        repo = Path(audit.__file__).resolve().parent.parent
+        code = '\n'.join(['import sys', 'sys.path.insert(0, %r)' % str(repo), 'from pathlib import Path',
+                          'import update_all', 'update_all.audit.ROOT = Path(%r)' % str(self.root),
+                          'counts = update_all.audit.wakfu_mirror_counts()',
+                          'assert counts[update_all.audit.WAKFU_SPREAD_SOURCE] == 3, counts',
+                          'from fashionistapulp.fashionistapulp.fashion_util import normalize_name'])
+        env = dict(os.environ)
+        env.pop('PYTHONPATH', None)
+        done = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True, cwd=str(repo), env=env)
+        self.assertEqual(0, done.returncode, done.stdout + done.stderr)
+
     def test_the_image_backup_skips_the_collected_static_copy(self):
         kept = self.image('chardata/items/60x60/A-60-60.png')
         collected = self.root / 'fashionsite/staticfiles/chardata/items/60x60/A-60-60.png'
@@ -2857,6 +2904,55 @@ class UpdateInventoryTests(TestCase):
             with self.subTest(recipes=recipes, jobs=jobs):
                 errors = audit.compare(*self.wakfu_pair(recipes, jobs))['errors']
                 self.assertTrue(any(error.startswith('item_craft_jobs: lost more than 3%') for error in errors))
+
+    def spread_pair(self, source_before, source_after, rows_after, mastery_after=5888, mastery_readers=(120, 130, 1068)):
+        def stats(mastery, resistance, readers):
+            return {'spread': ['DMG_IN_PERCENT', 'RES_IN_PERCENT'],
+                    'lines': {'DMG_IN_PERCENT': mastery, 'RES_IN_PERCENT': resistance, 'HP': 7645},
+                    'actions': {'DMG_IN_PERCENT': list(readers), 'RES_IN_PERCENT': [80, 90, 100, 1069], 'HP': [20]}}
+
+        before = self.baseline()
+        before.update(version='wakfu', mirror={'build': '1.93.1.62', audit.WAKFU_SPREAD_SOURCE: source_before,
+                                               audit.WAKFU_SPREAD_STATS: stats(5832, 3097, (120, 130, 1068))})
+        before['tables'] = {'items': 7617, 'stats': 34, 'stats_of_item': 50562, 'sets': 195, 'stat_element_count': 5719}
+        after = copy.deepcopy(before)
+        after['mirror'] = {'build': '1.94.3.64', audit.WAKFU_SPREAD_SOURCE: source_after,
+                           audit.WAKFU_SPREAD_STATS: stats(mastery_after, 3199, mastery_readers)}
+        after['tables']['stat_element_count'] = rows_after
+        return before, after
+
+    def test_wakfu_1_94_turning_three_element_mastery_into_elemental_mastery_is_only_a_warning(self):
+        result = audit.compare(*self.spread_pair(5739, 3445, 3442))
+        self.assertEqual([], result['errors'])
+        self.assertIn('stat_element_count: 5719 -> 3442 rows, the Ankama source %s shrank too (5739 -> 3445)'
+                      % audit.WAKFU_SPREAD_SOURCE, result['warnings'])
+
+    def test_spread_lines_lost_beyond_what_items_json_lost_still_block(self):
+        for source_before, source_after, rows_after in ((5739, 5739, 3442), (5739, 5800, 3442), (5739, 3445, 2000),
+                                                        (5739, None, 3442), (None, 3445, 3442), (5739, 0, 0)):
+            with self.subTest(source_before=source_before, source_after=source_after, rows_after=rows_after):
+                errors = audit.compare(*self.spread_pair(source_before, source_after, rows_after))['errors']
+                self.assertTrue(any(error.startswith('stat_element_count: lost more than 3%') for error in errors))
+
+    def test_spread_lines_turned_into_an_action_we_cannot_read_still_block(self):
+        errors = audit.compare(*self.spread_pair(5739, 3445, 3442, mastery_after=5832 - 2372))['errors']
+        self.assertTrue(any(error.startswith('stat_element_count: lost more than 3%') for error in errors))
+
+    def test_spread_lines_read_through_a_new_action_still_block(self):
+        errors = audit.compare(*self.spread_pair(5739, 3445, 3442, mastery_readers=(120, 130, 1068, 1070)))['errors']
+        self.assertTrue(any(error.startswith('stat_element_count: lost more than 3%') for error in errors))
+
+    def test_a_before_snapshot_without_the_stat_lines_cannot_explain_a_spread_loss(self):
+        before, after = self.spread_pair(5739, 3445, 3442)
+        del before['mirror'][audit.WAKFU_SPREAD_STATS]
+        errors = audit.compare(before, after)['errors']
+        self.assertTrue(any(error.startswith('stat_element_count: lost more than 3%') for error in errors))
+
+    def test_a_before_snapshot_without_the_action_ids_cannot_explain_a_spread_loss(self):
+        before, after = self.spread_pair(5739, 3445, 3442)
+        del before['mirror'][audit.WAKFU_SPREAD_STATS]['actions']
+        errors = audit.compare(before, after)['errors']
+        self.assertTrue(any(error.startswith('stat_element_count: lost more than 3%') for error in errors))
 
     def test_an_item_kept_after_ankama_removed_it_is_counted_as_hidden(self):
         before = self.baseline()

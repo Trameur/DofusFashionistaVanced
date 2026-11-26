@@ -11,6 +11,7 @@ import re
 import shutil
 import sqlite3
 import subprocess
+import sys
 import time
 from data_file_ops import replace_file
 import item_criteria
@@ -22,8 +23,11 @@ IMAGE_DIRECTORIES = ('items', 'pets', 'resources', 'monsters', 'spells')
 RESTORE_WAIT = 60
 SIDECARS = ('-journal', '-wal', '-shm')
 TRACKED_DIRECTORY = 'itemscraper'
+WAKFU_SPREAD_SOURCE = 'items.json (lines spread over elements)'
+WAKFU_SPREAD_STATS = 'items.json (lines per stat)'
+WAKFU_CENSUS_TIMEOUT = 600
 WAKFU_SOURCES = {'item_recipes': 'recipes.json', 'item_recipe_ingredient_names': 'recipes.json',
-                 'item_craft_jobs': 'recipes.json'}
+                 'item_craft_jobs': 'recipes.json', 'stat_element_count': WAKFU_SPREAD_SOURCE}
 LOSS_TOLERANCE = .03
 CRITERIA_TABLES = {'item_criteria': (),
                    'item_class_conditions': (item_criteria.CLASS,),
@@ -645,11 +649,64 @@ def wakfu_mirror_counts():
         return {}
     build = json.loads(dump.read_text(encoding='utf-8')).get('version')
     counts = {'build': build}
-    for name in sorted(set(WAKFU_SOURCES.values())):
-        source = ROOT / 'itemscraper/wakfu_raw' / str(build) / name
+    folder = ROOT / 'itemscraper/wakfu_raw' / str(build)
+    for name in sorted(set(WAKFU_SOURCES.values()) - {WAKFU_SPREAD_SOURCE}):
+        source = folder / name
         if source.is_file():
             counts[name] = len(json.loads(source.read_text(encoding='utf-8')))
+    if (folder / 'items.json').is_file() and (folder / 'actions.json').is_file():
+        counts[WAKFU_SPREAD_SOURCE], counts[WAKFU_SPREAD_STATS] = wakfu_spread_census(folder)
     return counts
+
+
+def wakfu_spread_census(folder):
+    """wakfu_spread_lines of a build folder, in a child process so get_items_wakfu keeps its own import layout."""
+    code = ('import json, sys; sys.path.append(sys.argv[2]); import update_audit; '
+            'print(json.dumps(update_audit.wakfu_spread_lines(*(json.loads(open(sys.argv[1] + "/" + name, '
+            'encoding="utf-8").read()) for name in ("items.json", "actions.json")))))')
+    env = dict(os.environ)
+    env.pop('PYTHONPATH', None)
+    here = Path(__file__).resolve().parent
+    try:
+        done = subprocess.run([sys.executable, '-c', code, str(folder), str(here.parent)], cwd=str(here),
+                              env=env, capture_output=True, text=True, timeout=WAKFU_CENSUS_TIMEOUT)
+    except subprocess.TimeoutExpired:
+        raise RuntimeError('Wakfu spread census timed out after %d s' % WAKFU_CENSUS_TIMEOUT) from None
+    if done.returncode:
+        raise RuntimeError('Wakfu spread census failed: ' + done.stderr.strip()[-500:])
+    spread, stats = json.loads(done.stdout)
+    return spread, stats
+
+
+def wakfu_spread_lines(items, actions):
+    """(element-count effects, {'spread': their stat keys, 'lines' and 'actions': effects and action ids per stat key})."""
+    from get_items_wakfu import ELEMENT_COUNT_ACTIONS, characteristic
+    templates = {row['definition']['id']: (row.get('description') or {}).get('en') for row in actions}
+    spread, carried, lines, readers = 0, set(), {}, {}
+    for item in items:
+        for entry in (item.get('definition') or {}).get('equipEffects') or ():
+            spec = (entry.get('effect') or {}).get('definition') or {}
+            action = spec.get('actionId')
+            key, _value = characteristic(action, templates.get(action), spec.get('params') or [])
+            if action in ELEMENT_COUNT_ACTIONS:
+                spread += 1
+                carried.add(key)
+            if key:
+                lines[key] = lines.get(key, 0) + 1
+                readers.setdefault(key, set()).add(action)
+    return spread, {'spread': sorted(key for key in carried if key), 'lines': lines,
+                    'actions': {key: sorted(ids) for key, ids in readers.items()}}
+
+
+def wakfu_spread_stats_kept(before, after):
+    """True when each stat the old spread lines carried is still read on as many lines, 3% aside, from no new action."""
+    old = before.get('mirror', {}).get(WAKFU_SPREAD_STATS) or {}
+    new = after.get('mirror', {}).get(WAKFU_SPREAD_STATS) or {}
+    keys = old.get('spread') or ()
+    old_actions, new_actions = old.get('actions'), new.get('actions') or {}
+    return bool(keys) and old_actions is not None and all(
+        new.get('lines', {}).get(key, 0) >= old['lines'].get(key, 0) * (1 - LOSS_TOLERANCE)
+        and set(new_actions.get(key, ())) <= set(old_actions.get(key, ())) for key in keys)
 
 
 def archive_tag(version):
@@ -757,6 +814,8 @@ def snapshot(version):
 def source_shrink(before, after, table):
     name = WAKFU_SOURCES.get(table)
     if after.get('version') == 'wakfu' and name:
+        if name == WAKFU_SPREAD_SOURCE and not wakfu_spread_stats_kept(before, after):
+            return None
         old, new = before.get('mirror', {}).get(name), after.get('mirror', {}).get(name)
     elif table in CRITERIA_TABLES:
         kinds = CRITERIA_TABLES[table]
@@ -786,7 +845,7 @@ def compare(before, after):
         if new != old:
             result['changes'].append('%s: %d -> %d rows (%+d)' % (table, old, new, new - old))
         shrink = source_shrink(before, after, table) if table in after['tables'] else None
-        explained = bool(shrink) and old > 0 and (old - new) / old <= (shrink[1] - shrink[2]) / shrink[1] + LOSS_TOLERANCE
+        explained = bool(shrink) and old > 0 and new > 0 and (old - new) / old <= (shrink[1] - shrink[2]) / shrink[1] + LOSS_TOLERANCE
         if explained and table in CRITERIA_TABLES:
             explained = old - new <= shrink[1] - shrink[2] + old * LOSS_TOLERANCE
         if table in before['tables'] and (table not in after['tables'] or (old and new < old * (1 - LOSS_TOLERANCE))):
