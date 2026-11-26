@@ -19,6 +19,7 @@
 from datetime import datetime, time, timezone
 
 from chardata.util import set_response, version_reverse
+from chardata.build_name import fallback_name, is_placeholder
 from chardata.data_versions import (build_patch_info, current_data_version, patch_key,
                                     patch_of, patch_started, previous_patch_window)
 from chardata.character_look import CLASS_TO_BREED
@@ -32,11 +33,13 @@ from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES, LOCALIZED_ELE
 from chardata.version_compat import filter_classes_for_version
 from chardata.views import user_has_projects
 
+from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Case, Count, F, IntegerField, Q, Value, When
 from django.db.models.functions import Least
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils import translation
 from django.utils.translation import gettext as _
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 from fashionistapulp.structure import get_structure
@@ -100,13 +103,16 @@ def _still_public(rows):
 
 def _get_featured_builds(request, game_version):
     """Links and the anonymous name are built per request, never cached; a build deleted or unshared since is dropped."""
-    cache_key = 'home_featured_builds:6:%s:%s' % (
+    cache_key = 'home_featured_builds:7:%s:%s' % (
         game_version, patch_of(current_data_version(game_version)))
     cached = cache.get(cache_key)
     if cached is None:
         cached = _score_featured_builds(game_version)
         cache.set(cache_key, cached, FEATURED_BUILDS_CACHE_SECONDS)
     return [dict(build,
+                 name=build['name'] or fallback_name(build['char_class'], build['level']),
+                 named=bool(build['name']),
+                 owner=build['creator'],
                  creator=build['creator'] or _('Anonymous'),
                  link=version_reverse(request, 'solution_linked',
                                       build['char_name'],
@@ -137,6 +143,18 @@ def _featured_versions(shared, game_version):
             below.append((key, patch))
     previous = max(below)[1] if below else None
     return by_patch.get(current, []), by_patch.get(previous, [])
+
+
+def _typed_name(char):
+    """The name the player typed, None when made up or only the class and level in some language."""
+    stand_ins = set()
+    for language, unused in settings.LANGUAGES:
+        with translation.override(language):
+            stand_ins.add(fallback_name(char.char_class, char.level).casefold())
+    for name in (char.char_name, char.name):
+        if not is_placeholder(name) and name.strip().casefold() not in stand_ins:
+            return name
+    return None
 
 
 def _score_featured_builds(game_version):
@@ -185,7 +203,7 @@ def _score_featured_builds(game_version):
         # for an owner-less build is their language's word, not the cache's.
         creator = aliases.get(b.owner_id) or (b.owner.username if b.owner else None)
         featured.append({
-            'name': b.char_name or b.name,
+            'name': _typed_name(b),
             'char_class': b.char_class,
             'level': b.level,
             'creator': creator,

@@ -152,7 +152,7 @@
             <a class="featured-build-card" href="{{ fb.link }}">
                 <img src="{{ fb.avatar }}" alt="{{ fb.char_class|localized_class }}" class="featured-build-avatar" width="52" height="52" loading="lazy" decoding="async">
                 <div class="featured-build-info">
-                    <div class="featured-build-name">{{ fb.name }}</div>
+                    <div class="featured-build-name{% if not fb.named %} fm-unnamed{% endif %}">{{ fb.name }}</div>
                     <div class="featured-build-meta">
                         {{ fb.char_class|localized_class }} · {% trans "lvl" %} {{ fb.level }}
                     </div>
@@ -162,7 +162,7 @@
                         <span class="fm-st fm-st-like" aria-hidden="true"></span> {{ fb.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true"></span> {{ fb.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true"></span> {{ fb.view_count }}
                     </div>
                     <div class="fm-x fm-fb-counts"><span><b class="fm-num">{{ fb.like_count }}</b> <i>{% blocktrans count n=fb.like_count context "counter" %}Like{% plural %}Likes{% endblocktrans %}</i></span><span><b class="fm-num">{{ fb.favorite_count }}</b> <i>{% blocktrans count n=fb.favorite_count context "counter" %}Favorite{% plural %}Favorites{% endblocktrans %}</i></span><span><b class="fm-num">{{ fb.view_count }}</b> <i>{% blocktrans count n=fb.view_count %}view{% plural %}views{% endblocktrans %}</i></span></div>
-                    <div class="featured-build-author">{% trans "by" %} {{ fb.creator }}</div>
+                    <div class="featured-build-author{% if not fb.owner %} fm-anon{% endif %}">{% trans "by" %} {{ fb.creator }}</div>
                 </div>
             </a>
             {% endfor %}

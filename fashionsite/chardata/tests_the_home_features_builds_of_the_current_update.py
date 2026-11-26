@@ -257,6 +257,38 @@ class TheHomeSectionReadsPopularTests(_Featured, TestCase):
                           ('3.7', OLDER_TITLE % '3.8', True)], _badges(page))
 
 
+@override_settings(SITE_VERSIONS=VERSIONS)
+class EachCardNamesTheBuildAndItsAuthorTests(_Featured, TestCase):
+
+    def _card(self, **fields):
+        self._shared(fields.pop('name'), '3.7.0.4', **fields)
+        with _timeline(UP_TO_THREE_SEVEN):
+            page = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+        return _CARD.findall(page)[0]
+
+    def test_a_typed_name_and_the_owner_are_shown_in_every_design(self):
+        card = self._card(name='Glass cannon', char_name='Xelorine')
+        self.assertIn('<div class="featured-build-name">Xelorine</div>', card)
+        self.assertIn('<div class="featured-build-author">by featuredowner</div>', card)
+
+    def test_the_build_name_stands_in_for_an_empty_character_name(self):
+        card = self._card(name='Glass cannon', char_name='')
+        self.assertIn('<div class="featured-build-name">Glass cannon</div>', card)
+
+    def test_a_made_up_name_falls_back_to_the_class_and_level_and_is_marked(self):
+        card = self._card(name=' 200 copy', char_name='')
+        self.assertIn('<div class="featured-build-name fm-unnamed">Iop 200</div>', card)
+        self.assertNotIn('copy', card)
+
+    def test_a_name_that_is_only_the_class_and_level_in_another_language_is_marked(self):
+        card = self._card(name='Roublard 200', char_name='Roublard 200', char_class='Rogue')
+        self.assertIn('fm-unnamed', card)
+
+    def test_a_build_without_an_owner_reads_anonymous_and_is_marked(self):
+        card = self._card(name='Glass cannon', owner=None)
+        self.assertIn('<div class="featured-build-author fm-anon">by Anonymous</div>', card)
+
+
 @override_settings(SITE_VERSIONS=dict(settings.SITE_VERSIONS, dofus3='3.6.11.15'))
 class ABuildWhoseSetChangedDuringTheCurrentUpdateCountsTests(_Featured, TestCase):
 

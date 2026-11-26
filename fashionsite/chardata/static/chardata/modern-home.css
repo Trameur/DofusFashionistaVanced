@@ -164,11 +164,14 @@ html.fm-modern .fm-lower .featured-build-card:hover{ transform:none; box-shadow:
 html.fm-modern .fm-lower .featured-build-card:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
 html.fm-modern .fm-lower .featured-build-avatar{ width:72px; height:72px; object-fit:contain; }
 html.fm-modern .fm-lower .featured-build-info{ display:flex; flex-direction:column; min-width:0; }
-html.fm-modern .fm-lower .featured-build-name,
+html.fm-modern .fm-lower .featured-build-name.fm-unnamed,
 html.fm-modern .fm-lower .featured-build-stats,
-html.fm-modern .fm-lower .featured-build-author,
+html.fm-modern .fm-lower .featured-build-author.fm-anon,
 html.fm-modern .fm-lower .featured-build-meta{ display:none; }
+html.fm-modern .fm-lower .featured-build-name{ order:0; font-size:16px; line-height:1.25; }
 html.fm-modern .fm-lower .fm-fb-meta{ order:1; font-size:16px; font-weight:700; color:var(--fm-head); }
+html.fm-modern .fm-lower .featured-build-name:not(.fm-unnamed) ~ .fm-fb-meta{ font-size:14px; font-weight:600; color:var(--fm-text); }
+html.fm-modern .fm-lower .featured-build-author{ order:1; font-size:13px; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 html.fm-modern .fm-lower .fm-fb-counts{
   order:2; display:flex; flex-wrap:wrap; gap:0 10px; margin-top:4px; color:var(--fm-muted); font-size:13px; font-weight:600; line-height:1.35;
   font-variant-numeric:tabular-nums;
