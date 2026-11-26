@@ -412,6 +412,7 @@ html:not(.fm-modern, .fm-enhanced) .solution-item-section-column .solution-item-
     grid-template-columns: minmax(120px, 160px) 1fr auto;
     gap: 10px;
     align-items: center;
+    min-width: 0;
     padding: 4px 8px;
     border: 1px solid rgba(61, 32, 13, 0.16);
     border-radius: 6px;
