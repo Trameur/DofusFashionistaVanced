@@ -1,5 +1,6 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """A build target enters the turn cache key by the values the damage reads: editing the build changes the key, editing it back restores it."""
+import inspect
 from unittest import mock
 
 from django.core.cache import caches
@@ -74,7 +75,7 @@ class ABuildTargetCacheKeyTests(SimpleTestCase):
         real = spell_combo._search_best_turn
 
         def counted(*args, **kwargs):
-            searches.append(args[-1].key_parts())
+            searches.append(inspect.signature(real).bind(*args, **kwargs).arguments['target'].key_parts())
             return real(*args, **kwargs)
 
         with mock.patch.object(spell_combo, '_search_best_turn', counted):

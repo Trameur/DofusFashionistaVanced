@@ -6967,6 +6967,11 @@ msgstr ""
 
 #: chardata/spells_view.py
 #, python-format
+msgid "Target starts the turn in the %(state)s state"
+msgstr ""
+
+#: chardata/spells_view.py
+#, python-format
 msgid "counted on %(group)s, if the target is the Prey"
 msgstr ""
 

@@ -27,8 +27,9 @@ from chardata.spell_localization import get_localized_spell_name
 from chardata.spell_modifiers import (base_damage_bonus, bonus_stats,
                                       modified_cast, modified_range,
                                       raised_row, worn_spell_modifiers)
-from chardata.spell_reference import (get_spell_reference, localized,
-                                      reference_by_spell_id, state_name)
+from chardata.spell_reference import (get_spell_reference, lasting_target_states,
+                                      localized, reference_by_spell_id, state_name,
+                                      target_state_name)
 from chardata.util import set_response, get_char_or_raise
 from chardata.weapon_forge_text import conversion_lines
 from django.core.exceptions import PermissionDenied
@@ -463,7 +464,7 @@ def _weapon_castable(solution):
 
 
 def _best_combo(char, solution, game_version, buff_state=None, levels=None,
-                pushback=False, note_without_buffs=True, target=None):
+                pushback=False, note_without_buffs=True, target=None, target_states=None):
     """Best cast order for one turn, on the target when one is given, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force, cast_cost,
                                       castable_spells, combat_ap,
@@ -490,9 +491,14 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
         return None
     standing = stacks_in_force(char.char_class, char.level, game_version,
                                buff_state)
+    offered = sorted({spell.push_target_state for spell in spells
+                      if getattr(spell, 'push_target_state', None) is not None})
+    lasting = lasting_target_states(game_version, char.char_class)
+    chosen = target_states or {}
+    marked = frozenset(state for state in offered if chosen.get(state, state in lasting))
     total, order = best_turn(stats, spells, ap, standing=standing,
                              game_version=game_version, pushback=pushback,
-                             caster_level=char.level, target=target)
+                             caster_level=char.level, target=target, target_states=marked)
     if not order and target is None:
         return None
     language = get_supported_language()
@@ -579,7 +585,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     for name, trigger, damage in conditional_extras(
             stats, spells, order, standing=standing,
             game_version=game_version, caster_level=char.level,
-            pushback=pushback, target=target):
+            pushback=pushback, target=target, target_states=marked):
         castable = by_name[name]
         extras.append({
             'name': (_localized_spell_name(name, language, game_version,
@@ -602,7 +608,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     if target is not None:
         _raw, raw_order = best_turn(stats, spells, ap, standing=standing,
                                     game_version=game_version, pushback=pushback,
-                                    caster_level=char.level)
+                                    caster_level=char.level, target_states=marked)
         on_target = _target_fields(
             target, shown_total,
             _burst_total(stats, spells, raw_order, standing, game_version)
@@ -610,7 +616,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     return {'casts': casts,
             'without_buffs_note': (_without_buffs_note(
                 stats, spells, order, ap, standing, game_version, pushback,
-                char.level, shown_total, target)
+                char.level, shown_total, target, marked)
                 if note_without_buffs else ''),
             'rank_note': str(_RANK_NOTES['highest' if au_plus_haut
                                          else 'picked']),
@@ -623,6 +629,11 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'later': late,
             'later_total': montre_differe,
             'pushback': bool(pushback),
+            'target_states': [
+                {'id': state, 'checked': state in marked,
+                 'label': _('Target starts the turn in the %(state)s state')
+                 % {'state': target_state_name(game_version, state, language)}}
+                for state in offered],
             'can_push': any(getattr(spell, 'push_cells', 0)
                             for spell in spells),
             'total': shown_total,
@@ -865,7 +876,8 @@ def _burst_total(stats, spells, order, standing, game_version, target=None):
 
 
 def _without_buffs_note(stats, spells, order, ap, standing, game_version,
-                        pushback, caster_level, shown_total=None, target=None):
+                        pushback, caster_level, shown_total=None, target=None,
+                        target_states=None):
     """The same turn without the buffs it casts, on the panel's scale."""
     from chardata.spell_combo import best_turn
     buffs = _buff_casts(spells, order)
@@ -876,7 +888,8 @@ def _without_buffs_note(stats, spells, order, ap, standing, game_version,
         return ''
     _total, ordre = best_turn(stats, restants, ap, standing=standing,
                               game_version=game_version, pushback=pushback,
-                              caster_level=caster_level, target=target)
+                              caster_level=caster_level, target=target,
+                              target_states=target_states)
     if not ordre:
         return ''
     montre = _burst_total(stats, restants, ordre, standing, game_version, target)
@@ -1215,17 +1228,21 @@ def _best_combo_response(request, char):
             target, refused = None, 'unreadable'
     arguments = (char, solution, game_version, posted('buff_state'),
                  posted('spell_levels'), request.POST.get('pushback') == 'true')
+    choices = None
+    if 'target_states' in request.POST:
+        choices = {int(key): value for key, value in posted('target_states').items()
+                   if str(key).isdecimal() and isinstance(value, bool)}
     try:
         if target is not None and target.kind == 'build':
             from chardata.duels import turn_on
-            combo = turn_on(*arguments, target=target)
+            combo = turn_on(*arguments, target=target, target_states=choices)
         else:
-            combo = _best_combo(*arguments, target=target)
+            combo = _best_combo(*arguments, target=target, target_states=choices)
     except Exception:
         if target is None:
             raise
         target, refused = None, 'unreadable'
-        combo = _best_combo(*arguments)
+        combo = _best_combo(*arguments, target_states=choices)
     response = {'best_combo': combo}
     if target is not None and target.kind == 'build':
         from chardata.duels import their_turn

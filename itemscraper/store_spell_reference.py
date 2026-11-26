@@ -170,6 +170,115 @@ def _push_per_rank(levels):
     return out if any(out) else None
 
 
+ADD_STATE, REMOVE_STATE = 950, 951
+# Effects 1160 and 2960 cast a spell: dice min is its id, dice max its grade
+CASTS_A_SPELL = (1160, 2960)
+CHILD_SPELL_DEPTH = 3
+# A state applied for -1 turns stays for the fight
+FOR_THE_FIGHT = -1
+
+
+def _mask_tokens(target_mask):
+    return [token.strip() for token in (target_mask or '').split(',') if token.strip()]
+
+
+def _target_states_in(target_mask, flag):
+    """States the mask wants the target in ('E') or out of ('e')."""
+    return frozenset(int(token[1:]) for token in _mask_tokens(target_mask)
+                     if len(token) > 1 and token[0] == flag and token[1:].isdigit())
+
+
+def _on_cast_at_an_enemy(effect):
+    return ('A' in _mask_tokens(effect.get('target_mask'))
+            and (effect.get('triggers') or 'I') == 'I' and not effect.get('delay'))
+
+
+def _push_by_target_state_per_rank(levels):
+    """[{'state': id, 'with': cells, 'without': cells}] per rank, or None."""
+    out = []
+    for level in levels:
+        found = []
+        for effect in level.get('effects') or []:
+            mask = effect.get('target_mask')
+            if (not PUSH_EFFECT_IDS.get(effect.get('effect_id'))
+                    or not _on_cast_at_an_enemy(effect) or _state_requirement(mask)):
+                continue
+            cells = (effect.get('dice') or {}).get('min') or 0
+            if cells:
+                found.append((_target_states_in(mask, 'E'), _target_states_in(mask, 'e'), cells))
+        states = frozenset().union(*[needs for needs, _lacks, _cells in found])
+        if len(states) > 1:
+            raise ValueError('a push needs two target states: %s' % sorted(states))
+        if not states:
+            out.append(None)
+            continue
+        state = next(iter(states))
+        held = max([cells for needs, lacks, cells in found
+                    if needs == states or (not needs and state not in lacks)] or [0])
+        bare = max([cells for needs, _lacks, cells in found if not needs] or [0])
+        if held < bare:
+            raise ValueError('a push moves less on state %s than without it' % state)
+        out.append({'state': state, 'with': held, 'without': bare})
+    return out if any(out) else None
+
+
+def _target_state_moves(effects, gates, levels_of, needed=frozenset(), depth=0):
+    """(given, taken, lasting) gate states of these effects and of the spells they cast."""
+    given, taken, lasting = set(), set(), set()
+    for effect in effects:
+        if not _on_cast_at_an_enemy(effect):
+            continue
+        needs = needed | _target_states_in(effect.get('target_mask'), 'E')
+        effect_id, value = effect.get('effect_id'), effect.get('value')
+        if effect_id in (ADD_STATE, REMOVE_STATE) and value in gates:
+            # Rows that need another target state are skipped
+            if needs <= {value}:
+                (given if effect_id == ADD_STATE else taken).add(value)
+                if effect_id == ADD_STATE and effect.get('duration') == FOR_THE_FIGHT:
+                    lasting.add(value)
+        elif effect_id in CASTS_A_SPELL and depth < CHILD_SPELL_DEPTH:
+            dice = effect.get('dice') or {}
+            child = levels_of(dice.get('min')) or []
+            graded = [level for level in child if level.get('grade') == dice.get('max')]
+            level = graded[0] if graded else (child[0] if child else {})
+            more = _target_state_moves(level.get('effects') or [], gates, levels_of,
+                                       needs, depth + 1)
+            given |= more[0]
+            taken |= more[1]
+            lasting |= more[2]
+    return given, taken, lasting
+
+
+def _add_target_states(out, levels_of, state_names=None):
+    """Target-state pushes, and the casts that move those states, on every class entry."""
+    entries = [entry for class_name, block in out.items() if class_name != 'default'
+               for entry in block]
+    gates = set()
+    for entry in entries:
+        ranks = _push_by_target_state_per_rank(levels_of(entry['id']) or [])
+        if ranks:
+            entry['push_by_target_state'] = ranks
+            gates |= {rank['state'] for rank in ranks if rank}
+    if not gates:
+        return
+    for entry in entries:
+        moved = []
+        gated = entry.get('push_by_target_state') or []
+        for index, level in enumerate(levels_of(entry['id']) or []):
+            given, taken, lasting = _target_state_moves(level.get('effects') or [], gates, levels_of)
+            gate = gated[index] if index < len(gated) else None
+            if gate and gate['state'] in given:
+                raise ValueError('%s pushes on a state its own cast gives' % entry['id'])
+            moved.append({'gives': sorted(given), 'lasting': sorted(lasting),
+                          'takes': sorted(taken)} if given or taken else None)
+        if any(moved):
+            entry['target_states'] = moved
+        if state_names and gated:
+            entry['target_state_names'] = {
+                str(state): state_names(state)
+                for state in sorted({rank['state'] for rank in gated if rank})}
+
+
 from version_tags import latest_tag  # noqa: E402
 
 SUMMON_EFFECT_ID = 181
@@ -261,10 +370,15 @@ def _push_keys(levels, monsters, pushes_by_spell):
 
 def _d2o_levels(ranks):
     """Dofus 2 and Touch spell levels in the transform's effect shape."""
-    return [{'effects': [{'effect_id': effect.get('effectId'),
+    return [{'grade': rank.get('grade'),
+             'effects': [{'effect_id': effect.get('effectId'),
                           'dice': {'min': effect.get('diceNum'),
                                    'max': effect.get('diceSide')},
-                          'target_mask': effect.get('targetMask')}
+                          'target_mask': effect.get('targetMask'),
+                          'value': effect.get('value'),
+                          'duration': effect.get('duration'),
+                          'triggers': effect.get('triggers'),
+                          'delay': effect.get('delay')}
                          for effect in rank.get('effects') or []]}
             for rank in ranks]
 
@@ -288,10 +402,15 @@ def read_modern(path, tag=None, dump_name='transformed_spells.json'):
     monsters = _monsters_by_id(raw_dir)
     every_spell = []
     dump = os.path.join(CURRENT_DIRECTORY, dump_name)
-    if monsters and os.path.exists(dump):
+    if os.path.exists(dump):
         with open(dump, encoding='utf-8') as handle:
             every_spell = json.load(handle)
-    pushes_by_spell = _pushes_by_spell(every_spell)
+    pushes_by_spell = _pushes_by_spell(every_spell if monsters else [])
+    levels_by_id = {spell.get('ankama_id'): spell.get('levels') or [] for spell in every_spell}
+    del every_spell
+    for block in classes.values():
+        for spell in block.get('spells') or []:
+            levels_by_id[spell.get('ankama_id')] = spell.get('levels') or []
     out = {}
     for class_name, block in classes.items():
         spells = []
@@ -322,6 +441,7 @@ def read_modern(path, tag=None, dump_name='transformed_spells.json'):
         if spells:
             out[class_name] = (_shared_block(spells) if class_name == 'default'
                                else spells)
+    _add_target_states(out, levels_by_id.get)
     return out
 
 
@@ -410,6 +530,12 @@ def read_dofus2(tag):
         if entry]
     if defaults:
         out['default'] = _shared_block(defaults)
+
+    def levels_of(spell_id):
+        return _d2o_levels([levels.get(str(level_id)) or {}
+                            for level_id in (spells.get(str(spell_id)) or {}).get('spellLevels') or []])
+
+    _add_target_states(out, levels_of)
     return out
 
 
@@ -512,6 +638,8 @@ def read_touch(game_version='touch'):
     french = spells_by_lang['fr']
     monsters = _monsters_in(touch.fetch_table(data_url, 'Monsters', 'fr'))
     pushes_by_spell = _d2o_pushes_by_spell(french.values(), levels)
+    states_by_lang = {lang: touch.fetch_table(data_url, 'SpellStates', lang)
+                      for lang in LANGUAGES}
 
     out = {}
     for breed_id, class_name in touch.CLASS_ID_TO_NAME.items():
@@ -551,6 +679,17 @@ def read_touch(game_version='touch'):
             }))
         if found:
             out[class_name] = found
+
+    def levels_of(spell_id):
+        return _d2o_levels([levels.get(str(level_id)) or {}
+                            for level_id in (french.get(str(spell_id)) or {}).get('spellLevels') or []])
+
+    def state_names(state):
+        return {lang: clean_text(((states_by_lang.get(lang) or {}).get(str(state)) or {})
+                                 .get('nameId') or '')
+                for lang in LANGUAGES}
+
+    _add_target_states(out, levels_of, state_names)
     return out
 
 

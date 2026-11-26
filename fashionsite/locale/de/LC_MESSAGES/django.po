@@ -7825,6 +7825,11 @@ msgstr "Schubsschaden mitzählen, wobei die Hälfte jedes Schubs gestoppt wird"
 
 #: chardata/spells_view.py
 #, python-format
+msgid "Target starts the turn in the %(state)s state"
+msgstr "Das Ziel beginnt die Runde im Zustand „%(state)s“"
+
+#: chardata/spells_view.py
+#, python-format
 msgid "Delayed hit, lands %(when)s: counted in the total."
 msgstr "Verzögerter Treffer, trifft %(when)s ein: im Gesamtwert gezählt."
 

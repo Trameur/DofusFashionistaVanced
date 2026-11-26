@@ -7879,6 +7879,11 @@ msgstr "Compter les dommages de poussée, en supposant que la moitié de chaque 
 
 #: chardata/spells_view.py
 #, python-format
+msgid "Target starts the turn in the %(state)s state"
+msgstr "La cible commence le tour dans l'état %(state)s"
+
+#: chardata/spells_view.py
+#, python-format
 msgid "Delayed hit, lands %(when)s: counted in the total."
 msgstr "Coup différé, arrive %(when)s : compté dans le total."
 

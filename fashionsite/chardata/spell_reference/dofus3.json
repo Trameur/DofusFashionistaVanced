@@ -20084,6 +20084,35 @@
     1,
     1
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
+   ],
    "variant": 138
   },
   {
@@ -20281,6 +20310,35 @@
     6,
     6
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
+   ],
    "variant": 140
   },
   {
@@ -20428,6 +20486,35 @@
     -1,
     -1
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
+   ],
    "variant": 156
   },
   {
@@ -20555,6 +20642,41 @@
     -1,
     -1,
     -1
+   ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": [
+      292
+     ]
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": [
+      292
+     ]
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": [
+      292
+     ]
+    }
    ],
    "variant": 157
   },
@@ -21091,6 +21213,35 @@
     -1,
     -1
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
+   ],
    "variant": 144
   },
   {
@@ -21142,6 +21293,26 @@
     5,
     5
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
+   ],
    "variant": 150
   },
   {
@@ -21189,6 +21360,18 @@
      "damaging": true
     }
    ],
+   "push_by_target_state": [
+    {
+     "state": 292,
+     "with": 2,
+     "without": 0
+    },
+    {
+     "state": 292,
+     "with": 3,
+     "without": 0
+    }
+   ],
    "range": [
     [
      1,
@@ -21202,6 +21385,22 @@
    "stacks": [
     -1,
     -1
+   ],
+   "target_states": [
+    {
+     "gives": [],
+     "lasting": [],
+     "takes": [
+      292
+     ]
+    },
+    {
+     "gives": [],
+     "lasting": [],
+     "takes": [
+      292
+     ]
+    }
    ],
    "variant": 146
   },
@@ -21313,6 +21512,26 @@
     30,
     40
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
+   ],
    "variant": 149
   },
   {
@@ -21371,6 +21590,26 @@
    "stacks": [
     -1,
     -1
+   ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
    ],
    "variant": 424
   },
@@ -21549,6 +21788,26 @@
     -1,
     -1
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
+   ],
    "variant": 141
   },
   {
@@ -21668,6 +21927,26 @@
    "stacks": [
     6,
     6
+   ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    },
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
    ],
    "variant": 140
   },
@@ -21884,6 +22163,19 @@
    "stacks": [
     -1
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": [
+      292
+     ]
+    }
+   ],
    "variant": 157
   },
   {
@@ -21975,6 +22267,17 @@
    ],
    "stacks": [
     -1
+   ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
    ],
    "variant": 153
   },
@@ -22070,6 +22373,15 @@
    ],
    "stacks": [
     -1
+   ],
+   "target_states": [
+    {
+     "gives": [],
+     "lasting": [],
+     "takes": [
+      292
+     ]
+    }
    ],
    "variant": 152
   },
@@ -22218,6 +22530,17 @@
    "stacks": [
     1
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
+   ],
    "variant": 155
   },
   {
@@ -22353,6 +22676,15 @@
    "stacks": [
     -1
    ],
+   "target_states": [
+    {
+     "gives": [],
+     "lasting": [],
+     "takes": [
+      292
+     ]
+    }
+   ],
    "variant": 146
   },
   {
@@ -22396,6 +22728,17 @@
    "stacks": [
     1
    ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
+   ],
    "variant": 154
   },
   {
@@ -22438,6 +22781,17 @@
    ],
    "stacks": [
     1
+   ],
+   "target_states": [
+    {
+     "gives": [
+      292
+     ],
+     "lasting": [
+      292
+     ],
+     "takes": []
+    }
    ],
    "variant": 149
   },

@@ -16,7 +16,7 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'touchbeta', 'retro', 'retrobet
 
 FIELDS = {'ap_available', 'ap_used', 'buff_note', 'can_push', 'casts', 'conditional',
           'crit_failure_note', 'item_effects_note', 'later', 'later_total', 'melee_note',
-          'pushback', 'rank_note', 'total', 'without_buffs_note'}
+          'pushback', 'rank_note', 'target_states', 'total', 'without_buffs_note'}
 
 
 def _stats(version):

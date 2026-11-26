@@ -431,6 +431,9 @@ class Castable(object):
         self.pushes = False
         self.push_cells = 0
         self.push_needs_state = None
+        self.push_target_state = None
+        self.push_cells_with = self.push_cells_without = 0
+        self.gives_target_states = self.takes_target_states = frozenset()
         self.strips_pushback_resist = 0
         self.plain_alternatives = at_level(digest.non_crit_dams)
         self.crit_alternatives = at_level(digest.crit_dams, critical=True)
@@ -998,7 +1001,8 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     """Class spells only; `levels` is {spell name: rank index}, `modifiers`
     {spell id: [SpellModifier]} from the worn items."""
     from chardata.spell_reference import (push_info, pushing_spell_ids,
-                                          strips_pushback_resist)
+                                          strips_pushback_resist, target_state_moves,
+                                          target_state_push)
     by_class = get_damage_spells_for_version(game_version)
     pushing = pushing_spell_ids(game_version)
     spells = by_class.get(char_class, [])
@@ -1034,6 +1038,13 @@ def castable_spells(char_class, char_level, game_version, crit=False,
         info = push_info(game_version, spell.spell_id, level_index) or {}
         castable.push_cells = info.get('cells') or 0 if info.get('damaging') else 0
         castable.push_needs_state = (info.get('needs') or {}).get('state')
+        gate = target_state_push(game_version, spell.spell_id, level_index)
+        if gate:
+            castable.push_target_state = gate['state']
+            castable.push_cells_with = gate['with']
+            castable.push_cells_without = gate['without']
+        castable.gives_target_states, castable.takes_target_states = target_state_moves(
+            game_version, spell.spell_id, level_index)
         castable.strips_pushback_resist = strips_pushback_resist(
             game_version, spell.spell_id, level_index)
         out.append(castable)
@@ -1070,8 +1081,28 @@ ARMED_BY_ITS_OWN_CAST = frozenset(('cast_two_turns_later', 'later_cast_1_turn',
 BOOSTED_COPIES = ARMED_BY_ITS_OWN_CAST | frozenset(('on_a_telefrag_target', 'target_in_a_state'))
 
 
+def push_cells_by_cast(spells, order, target_states=None):
+    """Cells each cast of the order pushes, with the target states standing before it."""
+    by_name = {spell.name: spell for spell in spells}
+    watched = frozenset(getattr(spell, 'push_target_state', None) for spell in spells) - {None}
+    marked = frozenset(target_states or ()) & watched
+    out = []
+    for name, _damage in order:
+        spell = by_name.get(name)
+        state = getattr(spell, 'push_target_state', None)
+        if state is None:
+            out.append(getattr(spell, 'push_cells', 0))
+        else:
+            out.append(spell.push_cells_with if state in marked else spell.push_cells_without)
+        takes = getattr(spell, 'takes_target_states', frozenset()) & watched
+        gives = getattr(spell, 'gives_target_states', frozenset()) & watched
+        marked = (marked - takes) | gives
+    return out
+
+
 def conditional_extras(stats, spells, order, crit=False, standing=None,
-                       game_version=None, caster_level=0, pushback=False, target=None):
+                       game_version=None, caster_level=0, pushback=False, target=None,
+                       target_states=None):
     """[(spell name, trigger, damage)] a push or a later cast of the spell could add, outside the total."""
     if not order:
         return []
@@ -1108,22 +1139,29 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
     stripped = max([getattr(by_name.get(name), 'strips_pushback_resist', 0) or 0
                     for name in cast_names] or [0])
 
+    cells_by_cast = push_cells_by_cast(spells, order, target_states)
     out = []
     for name in sorted(set(cast_names)):
         castable = by_name.get(name)
-        cells = getattr(castable, 'push_cells', 0)
+        cells = (getattr(castable, 'push_cells', 0)
+                 or getattr(castable, 'push_cells_with', 0))
         gated = getattr(castable, 'push_needs_state', None)
         # Skip pushes the turn counted; a state-gated push is never counted
         if cells and caster_level and (not pushback or gated):
-            dealt = pushback_damage(caster_level,
-                                    buffed.get('pshdam', 0) or 0,
-                                    cells, target_resistance=-stripped,
-                                    game_version=game_version)
+            times_at = {}
+            for cast_name, cast_cells in zip(cast_names, cells_by_cast):
+                if cast_name == name and cast_cells:
+                    times_at[cast_cells] = times_at.get(cast_cells, 0) + 1
+            dealt = sum(pushback_damage(caster_level,
+                                        buffed.get('pshdam', 0) or 0,
+                                        cast_cells, target_resistance=-stripped,
+                                        game_version=game_version) * times
+                        for cast_cells, times in sorted(times_at.items()))
             if dealt:
                 trigger = ('pushback into an obstacle at a state'
                            if getattr(castable, 'push_needs_state', None)
                            else 'pushback into an obstacle')
-                out.append((name, trigger, dealt * counts[name]))
+                out.append((name, trigger, dealt))
         rows = getattr(castable, 'waiting_crit' if crit else 'waiting_plain',
                        None) or []
         own = _add_bonus_stats(dict(buffed), castable)
@@ -1243,9 +1281,11 @@ def delayed_moments(spells, order, crit=False):
 PUSH_STOPPED_ON_AVERAGE = 0.5
 
 
-def push_value(castable, stats, game_version, caster_level):
-    """What one cast's push is worth on average, 0 when it cannot be told."""
+def push_value(castable, stats, game_version, caster_level, on_target_state=False):
+    """What one cast's push is worth on average, 0 when it cannot be told; a push gated on a target state reads its cells with or without it."""
     cells = getattr(castable, 'push_cells', 0)
+    if getattr(castable, 'push_target_state', None) is not None:
+        cells = castable.push_cells_with if on_target_state else castable.push_cells_without
     if not cells or not caster_level:
         return 0.0
     # State-gated push (Torrent pushes at High Tide, pulls at Low Tide)
@@ -1323,7 +1363,7 @@ def _most_casts(costs, limits, ap):
 
 
 def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
-                      pushback=False, caster_level=0, target=None):
+                      pushback=False, caster_level=0, target=None, target_states=None):
     stats = dict(stats)
     # Ticked buffs are already in stats: a recast adds only the difference
     standing = standing or {}
@@ -1369,7 +1409,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             pending = pending[:position] + (stacks,) + pending[position + 1:]
         return pending
 
-    def _damage_of(spell, counts, pending, cast=0):
+    def _damage_of(spell, counts, pending, cast=0, on=None):
         buffed = dict(stats)
         for index, other in enumerate(spells):
             if not counts[index]:
@@ -1446,7 +1486,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 return max(0.0, sum(gains) / len(gains))
             return max(0.0, gains[landed_index(spell, gains if picked is None else picked)])
 
-        pushed = (push_value(spell, buffed, game_version, caster_level)
+        pushed = (push_value(spell, buffed, game_version, caster_level, bool(on))
                   if pushback else 0.0)
         alternatives = spell.alternatives
         plain_alternatives = getattr(spell, 'plain_alternatives', spell.alternatives)
@@ -1482,7 +1522,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
     limits = tuple(spell.limit for spell in spells)
     blockers = tuple(partners.get(index, ()) for index in range(len(spells)))
     scoreless = tuple(not spell.alternatives
-                      and not (pushback and getattr(spell, 'push_cells', 0))
+                      and not (pushback and (getattr(spell, 'push_cells', 0)
+                                             or getattr(spell, 'push_cells_with', 0)))
                       for spell in spells)
     stacked = tuple((index, spells[index].stacks) for index in buff_indexes)
     capped = tuple((index, spells[index].taken.cap()) for index in lasting)
@@ -1499,6 +1540,21 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
 
     def allowed(index, held):
         return needs[index] <= held and not forbids[index] & held
+
+    gates = tuple(getattr(spell, 'push_target_state', None) for spell in spells)
+    watched = frozenset(state for state in gates if state is not None)
+    marks = tuple((getattr(spell, 'takes_target_states', frozenset()) & watched,
+                   getattr(spell, 'gives_target_states', frozenset()) & watched)
+                  for spell in spells)
+    marked_at_start = frozenset(target_states or ()) & watched
+
+    def marked_after(index, marked):
+        takes, gives = marks[index]
+        return (marked - takes) | gives if takes or gives else marked
+
+    def on_of(index, marked):
+        state = gates[index]
+        return None if state is None else state in marked
 
     def held_after(index, held):
         takes, gives = moves[index]
@@ -1540,16 +1596,16 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         return row_signature_of(counts, pending) + (
             tuple(min(counts[other], cap) for other, cap in growing),)
 
-    def gain_of(index, counts, pending, signature):
-        key = (names[index], signature)
+    def gain_of(index, counts, pending, signature, on=None):
+        key = (names[index], signature, on)
         gained = scores.get(key)
         if gained is None:
             gained = scores[key] = _damage_of(spells[index], counts, pending,
-                                              counts[index])
+                                              counts[index], on)
         return gained
 
-    def search(ap_left, counts, depth, pending, held):
-        key = (ap_left, counts if folding else fold(counts), pending, held)
+    def search(ap_left, counts, depth, pending, marked, held):
+        key = (ap_left, counts if folding else fold(counts), pending, marked, held)
         found = best.get(key)
         if found is not None:
             return found
@@ -1573,14 +1629,15 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 else:
                     if signature is None:
                         signature = signature_of(counts, pending)
-                    gained = gain_of(index, counts, pending, signature)
+                    gained = gain_of(index, counts, pending, signature, on_of(index, marked))
                 count = counts[index]
                 if folding and count >= caps[index]:
                     after = counts
                 else:
                     after = counts[:index] + (count + 1,) + counts[index + 1:]
                 total, order = search(ap_left - spent, after, depth + 1,
-                                      pending_after(index, pending), held_after(index, held))
+                                      pending_after(index, pending), marked_after(index, marked),
+                                      held_after(index, held))
                 total += gained
                 if total > outcome[0]:
                     outcome = (total, ((index, gained),) + order)
@@ -1651,7 +1708,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                     gains = []
                     for own in own_ranges.get(index, (counts[index],)):
                         cast = counts[:index] + (own,) + counts[index + 1:]
-                        gains.append(gain_of(index, cast, pending, signature_of(cast, pending)))
+                        gains.append(gain_of(index, cast, pending, signature_of(cast, pending),
+                                             True if gates[index] is not None else None))
                     gained = row[index] = max(gains)
                     if not 0.0 <= gained < float('inf'):
                         raise ValueError(gained)
@@ -1669,8 +1727,8 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
 
     ceilings_and_rows = ceilings()
 
-    def bounded(ap_left, counts, pending, held):
-        key = (ap_left, counts, pending, held)
+    def bounded(ap_left, counts, pending, marked, held):
+        key = (ap_left, counts, pending, marked, held)
         found = best.get(key)
         if found is not None:
             return found
@@ -1698,8 +1756,9 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
                 gained = row[index]
                 if gained is None:
                     raise _Unbounded()
-                if index in grown:
-                    gained = gain_of(index, counts, pending, signature_of(counts, pending))
+                if index in grown or gates[index] is not None:
+                    gained = gain_of(index, counts, pending, signature_of(counts, pending),
+                                     on_of(index, marked))
             left = ap_left - spent
             options.append(((gained + ceiling[left]) * CEILING_MARGIN, index, gained, left))
         options.sort(key=itemgetter(0), reverse=True)
@@ -1712,7 +1771,7 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
             after = (counts[:index] + ((count + 1) if count < caps[index] else count,)
                      + counts[index + 1:])
             total, order = bounded(left, after, pending_after(index, pending),
-                                   held_after(index, held))
+                                   marked_after(index, marked), held_after(index, held))
             total += gained
             if total > top or (total == top and chosen is not None and index < chosen[0]):
                 top = total
@@ -1727,13 +1786,13 @@ def _search_best_turn(stats, spells, ap, crit=False, standing=None, game_version
         ceiling, rows = ceilings_and_rows
         try:
             total, order = from_the_best_start(bounded, ap, (0,) * len(spells),
-                                               (0,) * len(ending))
+                                               (0,) * len(ending), marked_at_start)
         except _Unbounded:
             best.clear()
             total = None
     if total is None:
         total, order = from_the_best_start(search, ap, (0,) * len(spells), 0,
-                                           (0,) * len(ending))
+                                           (0,) * len(ending), marked_at_start)
     return total, [(spells[index].name, gained) for index, gained in order]
 
 
@@ -1829,7 +1888,7 @@ class _TurnKey(object):
 
 
 def _turn_key(stats, spells, ap, crit, standing, game_version, pushback, caster_level,
-              target=None):
+              target=None, target_states=None):
     kept = [spell for spell in spells if spell.cost and spell.cost <= ap]
     key = _TurnKey()
     key.parts.append(('best_turn', 1))
@@ -1846,27 +1905,29 @@ def _turn_key(stats, spells, ap, crit, standing, game_version, pushback, caster_
         key.add_late(castable)
     if target is not None:
         key.add(('target', target.key_parts(), load_rules(target.version).key()))
+    if target_states:
+        key.add(('target_states', sorted(target_states)))
     return 'best_turn:' + hashlib.sha256(repr(key.parts).encode('utf-8')).hexdigest()
 
 
 def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
-              pushback=False, caster_level=0, target=None):
+              pushback=False, caster_level=0, target=None, target_states=None):
     """(total, [(spell name, damage), ...]) for the best single turn fitting the AP, on the target when one is given; a turn may begin in any caster state its casts need."""
     key = None
     if type(spells) in (list, tuple) and type(stats) is dict:
         try:
             key = _turn_key(stats, spells, ap, crit, standing, game_version, pushback,
-                            caster_level, target)
+                            caster_level, target, target_states)
         except Exception:
             key = None
     if key is None:
         return _search_best_turn(stats, spells, ap, crit, standing, game_version, pushback,
-                                 caster_level, target)
+                                 caster_level, target, target_states)
     turns = caches['best_turn']
     found = turns.get(key)
     if found is not None:
         return found
     turn = _search_best_turn(stats, spells, ap, crit, standing, game_version, pushback,
-                             caster_level, target)
+                             caster_level, target, target_states)
     turns.set(key, turn, BEST_TURN_CACHE_SECONDS)
     return turn

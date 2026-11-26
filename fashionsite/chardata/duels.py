@@ -7,11 +7,11 @@ REVERSE_CAST_FIELDS = ('name', 'image_url', 'ap', 'damage', 'late', 'late_title'
 
 
 def turn_on(attacker, attacker_solution, game_version, buff_state=None, levels=None,
-            pushback=False, note_without_buffs=True, target=None):
+            pushback=False, note_without_buffs=True, target=None, target_states=None):
     """The attacker's best turn on a build target, the same payload as the spells page."""
     from chardata.spells_view import _best_combo
     return _best_combo(attacker, attacker_solution, game_version, buff_state, levels, pushback,
-                       note_without_buffs, target=target)
+                       note_without_buffs, target=target, target_states=target_states)
 
 
 def their_turn(char, solution, target, game_version, pushback=False):

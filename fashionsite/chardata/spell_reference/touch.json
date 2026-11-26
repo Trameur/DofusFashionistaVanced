@@ -12459,6 +12459,38 @@
      "damaging": true
     }
    ],
+   "push_by_target_state": [
+    {
+     "state": 807,
+     "with": 3,
+     "without": 2
+    },
+    {
+     "state": 807,
+     "with": 3,
+     "without": 2
+    },
+    {
+     "state": 807,
+     "with": 3,
+     "without": 2
+    },
+    {
+     "state": 807,
+     "with": 3,
+     "without": 2
+    },
+    {
+     "state": 807,
+     "with": 3,
+     "without": 2
+    },
+    {
+     "state": 807,
+     "with": 3,
+     "without": 2
+    }
+   ],
    "range": [
     [
      1,
@@ -12500,7 +12532,16 @@
     20,
     25,
     30
-   ]
+   ],
+   "target_state_names": {
+    "807": {
+     "de": "Blown",
+     "en": "Blown",
+     "es": "Inflado",
+     "fr": "Soufflé",
+     "pt": "Inflado"
+    }
+   }
   },
   {
    "ap": [
@@ -13248,6 +13289,50 @@
     1,
     1,
     1
+   ],
+   "target_states": [
+    {
+     "gives": [
+      807
+     ],
+     "lasting": [],
+     "takes": []
+    },
+    {
+     "gives": [
+      807
+     ],
+     "lasting": [],
+     "takes": []
+    },
+    {
+     "gives": [
+      807
+     ],
+     "lasting": [],
+     "takes": []
+    },
+    {
+     "gives": [
+      807
+     ],
+     "lasting": [],
+     "takes": []
+    },
+    {
+     "gives": [
+      807
+     ],
+     "lasting": [],
+     "takes": []
+    },
+    {
+     "gives": [
+      807
+     ],
+     "lasting": [],
+     "takes": []
+    }
    ]
   },
   {

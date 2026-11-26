@@ -7771,6 +7771,11 @@ msgstr "Contar los daños de empuje, suponiendo que la mitad de cada empuje qued
 
 #: chardata/spells_view.py
 #, python-format
+msgid "Target starts the turn in the %(state)s state"
+msgstr "El objetivo empieza el turno en el estado %(state)s"
+
+#: chardata/spells_view.py
+#, python-format
 msgid "Delayed hit, lands %(when)s: counted in the total."
 msgstr "Golpe diferido, llega %(when)s: contado en el total."
 

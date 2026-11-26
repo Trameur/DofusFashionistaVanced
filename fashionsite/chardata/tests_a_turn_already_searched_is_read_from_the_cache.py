@@ -99,6 +99,7 @@ class TheTurnCacheTests(SimpleTestCase):
             'the AP': dict(ap=10),
             'critical hits': dict(crit=True),
             'pushback': dict(pushback=True),
+            'the target states': dict(target_states=frozenset({4244})),
             'the caster level': dict(caster_level=199),
             'a standing stack': dict(standing={spell.name: 1}),
             'the game version': dict(game_version='beta'),

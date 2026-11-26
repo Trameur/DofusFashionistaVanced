@@ -339,7 +339,7 @@
 .best-combo-pushback input {
     margin: 0;
     flex: 0 0 auto;
-    /* The only checkbox on the page, and nothing here sets a colour scheme:
+    /* Nothing here sets a colour scheme:
        left alone it renders in the browser's light styling on the dark
        theme. */
     accent-color: currentColor;

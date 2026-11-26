@@ -169,6 +169,55 @@ def push_cells(game_version, spell_id, rank_index=-1):
     return 0
 
 
+def _rank_of(entry, key, rank_index):
+    ranks = entry.get(key) or []
+    if not ranks:
+        return None
+    index = rank_index if -len(ranks) <= rank_index < len(ranks) else -1
+    return ranks[index]
+
+
+def _entry_of(game_version, spell_id):
+    for entries in (get_spell_reference(game_version) or {}).values():
+        for entry in entries or []:
+            if entry.get('id') == spell_id:
+                return entry
+    return None
+
+
+def target_state_push(game_version, spell_id, rank_index=-1):
+    """{'state': id, 'with': cells, 'without': cells} when the push hangs on a target state, else None."""
+    return _rank_of(_entry_of(game_version, spell_id) or {}, 'push_by_target_state', rank_index)
+
+
+def target_state_moves(game_version, spell_id, rank_index=-1):
+    """(states given, states taken) on the target at that rank, two frozensets."""
+    moved = _rank_of(_entry_of(game_version, spell_id) or {}, 'target_states', rank_index) or {}
+    return frozenset(moved.get('gives') or ()), frozenset(moved.get('takes') or ())
+
+
+def lasting_target_states(game_version, char_class):
+    """States a spell of the class leaves on its target for the rest of the fight."""
+    found = set()
+    for entry in reference_by_spell_id(game_version, char_class).values():
+        for moved in entry.get('target_states') or []:
+            found.update((moved or {}).get('lasting') or ())
+    return found
+
+
+def target_state_name(game_version, state_id, language):
+    """The game's name of a target state, from the state table or the gated spell's entry."""
+    name = state_name(game_version, state_id, language)
+    if name:
+        return name
+    for entries in (get_spell_reference(game_version) or {}).values():
+        for entry in entries or []:
+            names = (entry.get('target_state_names') or {}).get(str(state_id))
+            if names:
+                return localized({'name': names}, 'name', language)
+    return ''
+
+
 def get_spell_states(game_version):
     """{state id: {lang: name}} for one version, empty when the source has none.
 

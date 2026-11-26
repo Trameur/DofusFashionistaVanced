@@ -180,6 +180,16 @@
             <input type="checkbox" id="best-combo-pushback"{% if best_combo.pushback %} checked{% endif %}>
             <span>{% trans "Count pushback damage, assuming half of each push is stopped" %}</span>
         </label>
+        {% if best_combo.target_states %}
+        <div class="best-combo-states" data-version="{{ request.game_version }}">
+            {% for state in best_combo.target_states %}
+            <label class="best-combo-pushback best-combo-state">
+                <input type="checkbox" class="best-combo-state-box" value="{{ state.id }}"{% if state.checked %} checked{% endif %}>
+                <span>{{ state.label }}</span>
+            </label>
+            {% endfor %}
+        </div>
+        {% endif %}
         <p class="best-combo-note">
             <span class="best-combo-ap-note">{% blocktrans with used=best_combo.ap_used available=best_combo.ap_available %}{{ used }} of {{ available }} AP used.{% endblocktrans %}</span>
             <span class="best-combo-buff-note">{{ best_combo.buff_note }}</span>
@@ -1710,12 +1720,16 @@
         if (comboTarget) {
             payload.target = comboTarget;
         }
+        if (targetStateBoxes().length) {
+            payload.target_states = JSON.stringify(targetStateChoices());
+        }
         return payload;
     }
 
     function comboSignature(payload) {
         return payload.buff_state + '|' + payload.spell_levels + '|'
-               + payload.pushback + '|' + (payload.target || '');
+               + payload.pushback + '|' + (payload.target || '') + '|'
+               + (payload.target_states || '');
     }
 
     // The page opens on the state the panel was rendered for, so the first
@@ -1883,6 +1897,50 @@
 
     function targetStoreKey() {
         return 'fm_combo_target_' + $("#best-combo").data('target-version');
+    }
+
+    function targetStateBoxes() {
+        return $("#best-combo .best-combo-state-box");
+    }
+
+    function targetStateStoreKey() {
+        return 'fm_combo_states_' + $("#best-combo .best-combo-states").data('version');
+    }
+
+    function targetStateChoices() {
+        var choices = {};
+        targetStateBoxes().each(function() {
+            choices[this.value] = this.checked;
+        });
+        return choices;
+    }
+
+    function storedTargetStates() {
+        try {
+            var stored = JSON.parse(window.localStorage.getItem(targetStateStoreKey()) || '{}');
+            return stored && typeof stored === 'object' ? stored : {};
+        } catch (e) {
+            return {};
+        }
+    }
+
+    function rememberTargetStates() {
+        try {
+            window.localStorage.setItem(targetStateStoreKey(),
+                JSON.stringify($.extend(storedTargetStates(), targetStateChoices())));
+        } catch (e) {}
+    }
+
+    function restoreTargetStates() {
+        var stored = storedTargetStates();
+        var changed = false;
+        targetStateBoxes().each(function() {
+            if (typeof stored[this.value] === 'boolean' && stored[this.value] !== this.checked) {
+                this.checked = stored[this.value];
+                changed = true;
+            }
+        });
+        return changed;
     }
 
     function storedTarget() {
@@ -2570,6 +2628,13 @@
         });
         recalculateDamages();
         markComboRendered();
+        if (restoreTargetStates()) {
+            refreshBestCombo();
+        }
+        $("#best-combo").on('change', '.best-combo-state-box', function() {
+            rememberTargetStates();
+            refreshBestCombo();
+        });
 
         $("#best-combo-pushback").on('change', function() {
             refreshBestCombo();
