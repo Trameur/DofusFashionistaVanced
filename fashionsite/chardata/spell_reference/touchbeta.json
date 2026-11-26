@@ -2,29 +2,29 @@
  "Bellaphone": [
   {
    "ap": [
-    3,
-    3,
-    3,
-    3,
-    3,
-    3
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
    ],
-   "crit": [
-    15,
-    15,
-    15,
-    15,
-    15,
-    15
+   "cooldown": [
+    5,
+    4,
+    4,
+    3,
+    3,
+    2
    ],
    "description": {
-    "de": "Inflicts Earth damage (allies and enemies).",
-    "en": "Inflicts Earth damage (allies and enemies).",
-    "es": "Ocasiona daños de tierra (aliados y enemigos).",
-    "fr": "Occasionne des dommages Terre (alliés et ennemis).",
-    "pt": "Inflige danos de terra (aliados e inimigos)."
+    "de": "Increases the Aura's size.\n\nIncreases MP for allies in the Aura.",
+    "en": "Increases the Aura's size.\n\nIncreases MP for allies in the Aura.",
+    "es": "Aumenta el tamaño del aura.\n\nAumenta los PM de los aliados en el aura.",
+    "fr": "Augmente la taille de l'Aura.\n\nAugmente les PM des alliés dans l'Aura.",
+    "pt": "Aumenta o tamanho da aura.\n\nAumenta os PM dos aliados na aura."
    },
-   "id": 13873,
+   "id": 13877,
    "kind": {
     "de": "Bellaphone",
     "en": "Bellaphone",
@@ -41,61 +41,45 @@
     101
    ],
    "name": {
-    "de": "Xylem",
-    "en": "Xylem",
-    "es": "Xilema",
-    "fr": "Xylème",
-    "pt": "Xilema"
+    "de": "Aura Expansion",
+    "en": "Aura Expansion",
+    "es": "Expansión de Aura",
+    "fr": "Expansion d'Aura",
+    "pt": "Expansão de Aura"
    },
-   "per_target": [
-    0,
-    0,
-    0,
-    0,
-    0,
-    2
-   ],
-   "per_turn": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    3
-   ],
    "range": [
     [
-     1,
-     4
+     0,
+     0
     ],
     [
-     1,
-     4
+     0,
+     0
     ],
     [
-     1,
-     5
+     0,
+     0
     ],
     [
-     1,
-     6
+     0,
+     0
     ],
     [
-     1,
-     7
+     0,
+     0
     ],
     [
-     1,
-     8
+     0,
+     0
     ]
    ],
    "stacks": [
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
    ]
   },
   {
@@ -186,88 +170,6 @@
     -1,
     -1,
     -1
-   ]
-  },
-  {
-   "ap": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
-   ],
-   "cooldown": [
-    5,
-    4,
-    4,
-    3,
-    3,
-    2
-   ],
-   "description": {
-    "de": "Increases the Aura's size.\n\nIncreases MP for allies in the Aura.",
-    "en": "Increases the Aura's size.\n\nIncreases MP for allies in the Aura.",
-    "es": "Aumenta el tamaño del aura.\n\nAumenta los PM de los aliados en el aura.",
-    "fr": "Augmente la taille de l'Aura.\n\nAugmente les PM des alliés dans l'Aura.",
-    "pt": "Aumenta o tamanho da aura.\n\nAumenta os PM dos aliados na aura."
-   },
-   "id": 13877,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    1,
-    1,
-    1,
-    1,
-    51,
-    101
-   ],
-   "name": {
-    "de": "Aura Expansion",
-    "en": "Aura Expansion",
-    "es": "Expansión de Aura",
-    "fr": "Expansion d'Aura",
-    "pt": "Expansão de Aura"
-   },
-   "range": [
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ]
-   ],
-   "stacks": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
    ]
   },
   {
@@ -370,111 +272,29 @@
   },
   {
    "ap": [
-    4,
-    4,
-    4,
-    4,
-    4,
-    4
-   ],
-   "cooldown": [
-    5,
-    5,
-    4,
-    4,
+    3,
+    3,
+    3,
+    3,
     3,
     3
    ],
-   "description": {
-    "de": "Inflicts damage in the best element.\n\nAdditional effect based on the caster's lineage:\n\n- Emerald: grants shield points to allies in the Aura on the caster's next turn.\n\n- Crimson: removes MP from enemies in the Aura.\n\n- Turquoise: heals allies that are in the Aura on the caster's next turn.\n\n- Ebony: reduces effect duration for enemies inside the Aura by 1 turn.\n\n- Ochre: reduces movement effects suffered by allies inside the Aura by 1.\n\n- Ivory: makes enemies inside the Aura unhealable for 1 turn.",
-    "en": "Inflicts damage in the best element.\n\nAdditional effect based on the caster's lineage:\n\n- Emerald: grants shield points to allies in the Aura on the caster's next turn.\n\n- Crimson: removes MP from enemies in the Aura.\n\n- Turquoise: heals allies that are in the Aura on the caster's next turn.\n\n- Ebony: reduces effect duration for enemies inside the Aura by 1 turn.\n\n- Ochre: reduces movement effects suffered by allies inside the Aura by 1.\n\n- Ivory: makes enemies inside the Aura unhealable for 1 turn.",
-    "es": "Ocasiona daños en el mejor elemento.\n\nEfecto adicional según el linaje del lanzador:\n\n- Esmeralda: otorga escudo a los aliados en el aura durante el próximo turno de juego del lanzador.\n\n- Púrpura: retira PM a los enemigos dentro del aura.\n\n- Turquesa: cura los puntos de vida de los aliados que se encuentren dentro del aura en el próximo turno de juego del lanzador.\n\n- Ébano: reduce la duración de los efectos de los enemigos dentro del aura en 1 turno.\n\n- Ocre: reduce en 1 los efectos de desplazamiento que sufran los aliados dentro del aura.\n\n- Marfil: vuelve incurables a los enemigos en el interior del aura durante 1 turno.",
-    "fr": "Occasionne des dégâts dans le meilleur élément (alliés et ennemis).\n\nEffet supplémentaire selon la lignée du lanceur :\n\n- Émeraude : Octroie du bouclier aux alliés dans l'Aura au prochain tour de jeu du lanceur.\n\n- Pourpre : Retire des PM aux ennemis dans l'Aura.\n\n- Turquoise : Soigne les points de vie des alliés qui se trouvent dans l'Aura au prochain tour de jeu du lanceur.\n\n- Ébène : Réduit la durée des effets des ennemis à l'intérieur de l'Aura de 1 tour.\n\n- Ocre : Réduit de 1 les effets de déplacement subis à l'intérieur de l'Aura pour les alliés.\n\n- Ivoire : Rend les ennemis à l'intérieur de l'Aura insoignables pour 1 tour.",
-    "pt": "Inflige danos no melhor elemento.\n\nEfeito adicional de acordo com a linhagem do lançador:\n\n- Esmeralda: concede escudo aos aliados na aura no próximo turno do lançador.\n\n- Púrpura: retira PM dos inimigos na aura.\n\n- Turquesa: cura os pontos de vida dos aliados que estiverem na aura no próximo turno do lançador.\n\n- Ébano: reduz a duração dos efeitos dos inimigos no interior da aura em 1 turno.\n\n- Ocre: reduz em 1 os efeitos de deslocamento sofridos no interior da aura para os aliados.\n\n- Marfim: deixa os inimigos no interior da aura incuráveis por 1 turno."
-   },
-   "id": 13769,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    7,
-    7,
-    7,
-    7,
-    57,
-    107
-   ],
-   "name": {
-    "de": "Nogdra",
-    "en": "Nogdra",
-    "es": "Nogdra",
-    "fr": "Nogdra",
-    "pt": "Gãodra"
-   },
-   "range": [
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     6
-    ],
-    [
-     1,
-     6
-    ],
-    [
-     1,
-     7
-    ],
-    [
-     1,
-     8
-    ]
-   ],
-   "stacks": [
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1
-   ]
-  },
-  {
-   "ap": [
-    4,
-    4,
-    4,
-    4,
-    4,
-    4
-   ],
    "crit": [
-    20,
-    20,
-    20,
-    20,
-    20,
-    20
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
    ],
    "description": {
-    "de": "Inflicts Water damage in an area of effect and grants the caster shield points based on damage inflicted.\n\nReduces the Aura's size by 1.",
-    "en": "Inflicts Water damage in an area of effect and grants the caster shield points based on damage inflicted.\n\nReduces the Aura's size by 1.",
-    "es": "Ocasiona daños de agua en zona y otorga un escudo al lanzador en función de los daños ocasionados.\n\nReduce el tamaño del aura en 1.",
-    "fr": "Occasionne des dommages Eau en zone et octroie du bouclier au lanceur en fonction des dommages occasionnés.\n\nRéduit la taille de l'Aura de 1.",
-    "pt": "Inflige danos de água em zona e concede escudo ao lançador de acordo com os danos infligidos.\n\nReduz em 1 o tamanho da aura."
+    "de": "Inflicts Earth damage (allies and enemies).",
+    "en": "Inflicts Earth damage (allies and enemies).",
+    "es": "Ocasiona daños de tierra (aliados y enemigos).",
+    "fr": "Occasionne des dommages Terre (alliés et ennemis).",
+    "pt": "Inflige danos de terra (aliados e inimigos)."
    },
-   "id": 13551,
+   "id": 13873,
    "kind": {
     "de": "Bellaphone",
     "en": "Bellaphone",
@@ -483,207 +303,27 @@
     "pt": "Beléfone"
    },
    "levels": [
-    13,
-    13,
-    13,
-    13,
-    63,
-    113
+    1,
+    1,
+    1,
+    1,
+    51,
+    101
    ],
    "name": {
-    "de": "Lagoon",
-    "en": "Lagoon",
-    "es": "Laguna",
-    "fr": "Lagune",
-    "pt": "Laguna"
-   },
-   "per_turn": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-   ],
-   "range": [
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     5
-    ]
-   ],
-   "stacks": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "ap": [
-    4,
-    4,
-    4,
-    4,
-    4,
-    4
-   ],
-   "crit": [
-    20,
-    20,
-    20,
-    20,
-    20,
-    20
-   ],
-   "description": {
-    "de": "Inflicts Earth damage in an area of effect and heals allies.\n\nReduces the Aura's size by 1.",
-    "en": "Inflicts Earth damage in an area of effect and heals allies.\n\nReduces the Aura's size by 1.",
-    "es": "Ocasiona daños de tierra en zona y cura a los aliados.\n\nReduce el tamaño del aura en 1.",
-    "fr": "Occasionne des dommages Terre en zone et soigne les alliés.\n\nRéduit la taille de l'Aura de 1.",
-    "pt": "Inflige danos de terra em zona e cura os aliados.\n\nReduz em 1 o tamanho da aura."
-   },
-   "id": 13559,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    19,
-    19,
-    19,
-    19,
-    69,
-    119
-   ],
-   "name": {
-    "de": "Arkose",
-    "en": "Arkose",
-    "es": "Arkosis",
-    "fr": "Arkose",
-    "pt": "Arkose"
-   },
-   "per_turn": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-   ],
-   "range": [
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     5
-    ]
-   ],
-   "stacks": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
-   ]
-  },
-  {
-   "ap": [
-    4,
-    4,
-    4,
-    4,
-    4,
-    4
-   ],
-   "crit": [
-    20,
-    20,
-    20,
-    20,
-    20,
-    20
-   ],
-   "description": {
-    "de": "Inflicts Air damage in an area of effect and attracts targets.\n\nReduces the Aura's size by 1.",
-    "en": "Inflicts Air damage in an area of effect and attracts targets.\n\nReduces the Aura's size by 1.",
-    "es": "Ocasiona daños de aire en zona y atrae a los objetivos.\n\nReduce el tamaño del aura en 1.",
-    "fr": "Occasionne des dommages Air en zone et attire les cibles.\n\nRéduit la taille de l'Aura de 1.",
-    "pt": "Inflige danos de ar em zona e atrai os alvos.\n\nReduz em 1 o tamanho da aura."
-   },
-   "id": 13371,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    25,
-    25,
-    25,
-    25,
-    75,
-    125
-   ],
-   "name": {
-    "de": "Murmur",
-    "en": "Murmur",
-    "es": "Murmullo",
-    "fr": "Murmure",
-    "pt": "Murmúrio"
+    "de": "Xylem",
+    "en": "Xylem",
+    "es": "Xilema",
+    "fr": "Xylème",
+    "pt": "Xilema"
    },
    "per_target": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
+    0,
+    0,
+    0,
+    0,
+    0,
+    2
    ],
    "per_turn": [
     2,
@@ -691,17 +331,9 @@
     2,
     2,
     2,
-    2
+    3
    ],
    "range": [
-    [
-     1,
-     3
-    ],
-    [
-     1,
-     3
-    ],
     [
      1,
      4
@@ -717,505 +349,13 @@
     [
      1,
      6
-    ]
-   ],
-   "stacks": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
-   ]
-  },
-  {
-   "ap": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
-   ],
-   "cooldown": [
-    5,
-    4,
-    4,
-    3,
-    2,
-    2
-   ],
-   "description": {
-    "de": "Reduces the Aura's size.\n\nIncreases Dodge for allies in the Aura. On the following turn, increases AP for allies in the Aura.",
-    "en": "Reduces the Aura's size.\n\nIncreases Dodge for allies in the Aura. On the following turn, increases AP for allies in the Aura.",
-    "es": "Reduce el tamaño del aura.\n\nAumenta la huida de los aliados en el aura. En el siguiente turno, aumenta los PA de los aliados que se encuentren en el aura.",
-    "fr": "Réduit la taille de l'Aura.\n\nAugmente la Fuite et les PA des alliés dans l'Aura. Le lanceur du sort est affecté par le gain de PA au tour suivant.",
-    "pt": "Reduz o tamanho da aura.\n\nAumenta a fuga dos aliados na aura. No turno seguinte, aumenta os PA dos aliados que estão na aura."
-   },
-   "id": 13575,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    31,
-    31,
-    31,
-    31,
-    81,
-    131
-   ],
-   "name": {
-    "de": "Aura Concentration",
-    "en": "Aura Concentration",
-    "es": "Concentración de Aura",
-    "fr": "Concentration d'Aura",
-    "pt": "Concentração de Aura"
-   },
-   "range": [
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     0,
-     0
-    ]
-   ],
-   "stacks": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "ap": [
-    4,
-    4,
-    4,
-    4,
-    4,
-    4
-   ],
-   "cooldown": [
-    5,
-    4,
-    4,
-    3,
-    3,
-    3
-   ],
-   "crit": [
-    20,
-    20,
-    20,
-    20,
-    20,
-    20
-   ],
-   "description": {
-    "de": "Inflicts damage in the best element (allies and enemies).\n\nTriggers the Aura and restores it to its starting size and element. Does not reset the maximum number of times triggered per turn for the Aura.",
-    "en": "Inflicts damage in the best element (allies and enemies).\n\nTriggers the Aura and restores it to its starting size and element. Does not reset the maximum number of times triggered per turn for the Aura.",
-    "es": "Ocasiona daños con el mejor elemento (aliados y enemigos).\n\nActiva el aura y le devuelve su tamaño y su elemento inicial. No reinicia el número máximo de activaciones por turno del aura.",
-    "fr": "Occasionne des dommages dans le meilleur élément (alliés et ennemis).\n\nDéclenche l'Aura et lui redonne sa taille et son élément initial. Ne réinitialise pas le nombre de déclenchements maximum par tour de l'Aura.",
-    "pt": "Inflige danos no melhor elemento (aliados e inimigos).\n\nAciona a aura e devolve-lhe seu tamanho e seu elemento inicial. Não reinicia o número máximo de ativações por turno da aura."
-   },
-   "id": 13569,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    37,
-    37,
-    37,
-    37,
-    87,
-    137
-   ],
-   "name": {
-    "de": "Domoko",
-    "en": "Domoko",
-    "es": "Domoko",
-    "fr": "Domoko",
-    "pt": "Domoko"
-   },
-   "range": [
-    [
-     0,
-     4
-    ],
-    [
-     0,
-     4
-    ],
-    [
-     0,
-     5
-    ],
-    [
-     0,
-     5
-    ],
-    [
-     0,
-     6
-    ],
-    [
-     0,
-     7
-    ]
-   ],
-   "stacks": [
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1
-   ]
-  },
-  {
-   "ap": [
-    3,
-    3,
-    3,
-    3,
-    3,
-    3
-   ],
-   "cooldown": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
-   ],
-   "crit": [
-    15,
-    15,
-    15,
-    15,
-    15,
-    15
-   ],
-   "description": {
-    "de": "Steals HP in the Water element.\n\nChanges the Aura's element to Water.",
-    "en": "Steals HP in the Water element.\n\nChanges the Aura's element to Water.",
-    "es": "Roba vida con el elemento agua.\n\nCambia el elemento del aura a agua.",
-    "fr": "Vole de la vie dans l'élément Eau (alliés et ennemis).\n\nChange l'élément de l'Aura à Eau.\n\nChanger l'élément de l'Aura réinitialise son nombre de déclenchements par tour par cible.",
-    "pt": "Rouba vida no elemento água.\n\nMuda o elemento da aura para água."
-   },
-   "id": 13555,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    43,
-    43,
-    43,
-    43,
-    93,
-    143
-   ],
-   "name": {
-    "de": "Thalassotherapy",
-    "en": "Thalassotherapy",
-    "es": "Talaso",
-    "fr": "Thalasso",
-    "pt": "Talasso"
-   },
-   "range": [
-    [
-     1,
-     4
     ],
     [
      1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     6
-    ]
-   ]
-  },
-  {
-   "ap": [
-    3,
-    3,
-    3,
-    3,
-    3,
-    3
-   ],
-   "cooldown": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
-   ],
-   "crit": [
-    15,
-    15,
-    15,
-    15,
-    15,
-    15
-   ],
-   "description": {
-    "de": "Steals HP in the Earth element.\n\nChanges the Aura's element to Earth.",
-    "en": "Steals HP in the Earth element.\n\nChanges the Aura's element to Earth.",
-    "es": "Roba vida con el elemento tierra.\n\nCambia el elemento del aura a tierra.",
-    "fr": "Vole de la vie dans l'élément Terre (alliés et ennemis).\n\nChange l'élément de l'Aura à Terre.\n\nChanger l'élément de l'Aura réinitialise son nombre de déclenchements par tour par cible.",
-    "pt": "Rouba vida no elemento terra.\n\nMuda o elemento da aura para terra."
-   },
-   "id": 13563,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    49,
-    49,
-    49,
-    49,
-    99,
-    149
-   ],
-   "name": {
-    "de": "Ironstone",
-    "en": "Ironstone",
-    "es": "Alios",
-    "fr": "Alios",
-    "pt": "Canga"
-   },
-   "range": [
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
-     6
-    ]
-   ]
-  },
-  {
-   "ap": [
-    3,
-    3,
-    3,
-    3,
-    3,
-    3
-   ],
-   "cooldown": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
-   ],
-   "crit": [
-    15,
-    15,
-    15,
-    15,
-    15,
-    15
-   ],
-   "description": {
-    "de": "Steals HP in the Air element.\n\nChanges the Aura's element to Air.",
-    "en": "Steals HP in the Air element.\n\nChanges the Aura's element to Air.",
-    "es": "Roba vida con el elemento aire.\n\nCambia el elemento del aura a aire.",
-    "fr": "Vole de la vie dans l'élément Air (alliés et ennemis).\n\nChange l'élément de l'Aura à Air.\n\nChanger l'élément de l'Aura réinitialise son nombre de déclenchements par tour par cible.",
-    "pt": "Rouba vida no elemento ar.\n\nMuda o elemento da aura para ar."
-   },
-   "id": 13547,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    55,
-    55,
-    55,
-    55,
-    105,
-    155
-   ],
-   "name": {
-    "de": "Anima",
-    "en": "Anima",
-    "es": "Ánima",
-    "fr": "Anima",
-    "pt": "Anima"
-   },
-   "range": [
-    [
-     1,
-     3
-    ],
-    [
-     1,
-     3
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ],
-    [
-     1,
-     4
-    ]
-   ]
-  },
-  {
-   "ap": [
-    3,
-    3,
-    3,
-    3,
-    3,
-    3
-   ],
-   "cooldown": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-   ],
-   "description": {
-    "de": "Places the caster's Aura on another entity (ally or enemy) for 2 turns.\nCasting the spell on oneself makes the Aura return to the caster.\n\nTriggers the Aura when placed.",
-    "en": "Places the caster's Aura on another entity (ally or enemy) for 2 turns.\nCasting the spell on oneself makes the Aura return to the caster.\n\nTriggers the Aura when placed.",
-    "es": "Coloca el aura del lanzador en otra entidad (aliado o enemigo) por 2 turnos.\nSi lanzas el hechizo sobre ti mismo, el aura vuelve al lanzador.\n\nActiva el aura una vez puesta.",
-    "fr": "Pose l'Aura du lanceur sur une autre entité (alliée ou ennemie) pour 2 tours.\nLancer le sort sur soi-même fait revenir l'Aura sur le lanceur.\n\nDéclenche l'Aura une fois posée.",
-    "pt": "Coloca a aura do lançador em outra entidade (aliada ou inimiga) por 2 turnos.\nLançar o feitiço em si mesmo faz com que a aura volte ao lançador.\n\nAciona a aura quando é colocada."
-   },
-   "id": 13573,
-   "kind": {
-    "de": "Bellaphone",
-    "en": "Bellaphone",
-    "es": "Belíade",
-    "fr": "Bellaphone",
-    "pt": "Beléfone"
-   },
-   "levels": [
-    61,
-    61,
-    61,
-    61,
-    111,
-    161
-   ],
-   "name": {
-    "de": "Aura Donation",
-    "en": "Aura Donation",
-    "es": "Don de Aura",
-    "fr": "Don d'Aura",
-    "pt": "Doação de Aura"
-   },
-   "range": [
-    [
-     0,
-     3
-    ],
-    [
-     0,
-     4
-    ],
-    [
-     0,
-     5
-    ],
-    [
-     0,
-     6
-    ],
-    [
-     0,
      7
     ],
     [
-     0,
+     1,
      8
     ]
    ],
@@ -1261,12 +401,12 @@
     "pt": "Beléfone"
    },
    "levels": [
-    67,
-    67,
-    67,
-    67,
-    117,
-    167
+    7,
+    7,
+    7,
+    7,
+    57,
+    107
    ],
    "name": {
     "de": "Drizzle",
@@ -1351,12 +491,12 @@
     "pt": "Beléfone"
    },
    "levels": [
-    73,
-    73,
-    73,
-    73,
-    123,
-    173
+    13,
+    13,
+    13,
+    13,
+    63,
+    113
    ],
    "name": {
     "de": "Isthmus",
@@ -1426,11 +566,11 @@
     ],
     [
      1,
-     4
+     5
     ],
     [
      1,
-     4
+     5
     ]
    ],
    "stacks": [
@@ -1475,12 +615,12 @@
     "pt": "Beléfone"
    },
    "levels": [
-    79,
-    79,
-    79,
-    79,
-    129,
-    179
+    19,
+    19,
+    19,
+    19,
+    69,
+    119
    ],
    "name": {
     "de": "Chillgust",
@@ -1532,12 +672,12 @@
     ]
    ],
    "stacks": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
    ]
   },
   {
@@ -1550,18 +690,732 @@
     2
    ],
    "cooldown": [
-    8,
+    5,
+    4,
+    4,
+    3,
+    2,
+    2
+   ],
+   "description": {
+    "de": "Reduces the Aura's size.\n\nIncreases Dodge and AP for allies in the Aura. The spell caster is affected by the AP gain the following turn.",
+    "en": "Reduces the Aura's size.\n\nIncreases Dodge and AP for allies in the Aura. The spell caster is affected by the AP gain the following turn.",
+    "es": "Reduce el tamaño del aura.\n\nAumenta la huida y los PA de los aliados en el aura. El lanzador del hechizo se verá afectado por la ganancia de PA en su siguiente turno.",
+    "fr": "Réduit la taille de l'Aura.\n\nAugmente la Fuite et les PA des alliés dans l'Aura. Le lanceur du sort est affecté par le gain de PA au tour suivant.",
+    "pt": "Reduz o tamanho da aura.\n\nAumenta a fuga e os PA dos aliados na aura. O lançador do feitiço é afetado pelo ganho de PA no turno seguinte."
+   },
+   "id": 13575,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    25,
+    25,
+    25,
+    25,
+    75,
+    125
+   ],
+   "name": {
+    "de": "Aura Concentration",
+    "en": "Aura Concentration",
+    "es": "Concentración de Aura",
+    "fr": "Concentration d'Aura",
+    "pt": "Concentração de Aura"
+   },
+   "range": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ]
+   ],
+   "stacks": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "cooldown": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "crit": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+   ],
+   "description": {
+    "de": "Steals HP in the Water element (allies and enemies).\n\nChanges the Aura's element to Water.\n\nChanging the Aura's element resets its number of triggers per target per turn.",
+    "en": "Steals HP in the Water element (allies and enemies).\n\nChanges the Aura's element to Water.\n\nChanging the Aura's element resets its number of triggers per target per turn.",
+    "es": "Roba vida con el elemento agua (aliados y enemigos).\n\nCambia el elemento del aura a agua.\n\nCambia el elemento del aura y reinicia su número de activaciones por objetivo y turno.",
+    "fr": "Vole de la vie dans l'élément Eau (alliés et ennemis).\n\nChange l'élément de l'Aura à Eau.\n\nChanger l'élément de l'Aura réinitialise son nombre de déclenchements par tour par cible.",
+    "pt": "Rouba vida no elemento água (aliados e inimigos).\n\nMuda o elemento da aura para água.\n\nMudar o elemento da aura reinicia sua quantidade de acionamentos por turno e por alvo."
+   },
+   "id": 13555,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    31,
+    31,
+    31,
+    31,
+    81,
+    131
+   ],
+   "name": {
+    "de": "Thalassotherapy",
+    "en": "Thalassotherapy",
+    "es": "Talaso",
+    "fr": "Thalasso",
+    "pt": "Talasso"
+   },
+   "range": [
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ]
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "cooldown": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "crit": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+   ],
+   "description": {
+    "de": "Steals HP in the Earth element (allies and enemies).\n\nChanges the Aura's element to Earth.\n\nChanging the Aura's element resets its number of triggers per target per turn.",
+    "en": "Steals HP in the Earth element (allies and enemies).\n\nChanges the Aura's element to Earth.\n\nChanging the Aura's element resets its number of triggers per target per turn.",
+    "es": "Roba vida con el elemento tierra (aliados y enemigos).\n\nCambia el elemento del aura a tierra.\n\nCambia el elemento del aura y reinicia su número de activaciones por objetivo y turno.",
+    "fr": "Occasionne des dommages dans l'élément Terre (alliés et ennemis) en zone.\n\nChange l'élément de l'Aura à Terre.\n\nChanger l'élément de l'Aura réinitialise son nombre de déclenchements par tour par cible.",
+    "pt": "Rouba vida no elemento terra (aliados e inimigos).\n\nMuda o elemento da aura para terra.\n\nMudar o elemento da aura reinicia sua quantidade de acionamentos por turno e por alvo."
+   },
+   "id": 13563,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    37,
+    37,
+    37,
+    37,
+    87,
+    137
+   ],
+   "name": {
+    "de": "Ironstone",
+    "en": "Ironstone",
+    "es": "Alios",
+    "fr": "Alios",
+    "pt": "Canga"
+   },
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
+   "range": [
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ]
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "cooldown": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "crit": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+   ],
+   "description": {
+    "de": "Steals HP in the Air element (allies and enemies).\n\nChanges the Aura's element to Air.\n\nChanging the Aura's element resets its number of triggers per target per turn.",
+    "en": "Steals HP in the Air element (allies and enemies).\n\nChanges the Aura's element to Air.\n\nChanging the Aura's element resets its number of triggers per target per turn.",
+    "es": "Roba vida con el elemento aire (aliados y enemigos).\n\nCambia el elemento del aura a aire.\n\nCambia el elemento del aura y reinicia su número de activaciones por objetivo y turno.",
+    "fr": "Occasionne des dommages dans l'élément Air (alliés et ennemis) et transpose le lanceur avec la cible.\n\nChange l'élément de l'Aura à Air.\n\nChanger l'élément de l'Aura réinitialise son nombre de déclenchements par tour par cible.",
+    "pt": "Rouba vida no elemento ar (aliados e inimigos).\n\nMuda o elemento da aura para ar.\n\nMudar o elemento da aura reinicia sua quantidade de acionamentos por turno e por alvo."
+   },
+   "id": 13547,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    43,
+    43,
+    43,
+    43,
+    93,
+    143
+   ],
+   "name": {
+    "de": "Anima",
+    "en": "Anima",
+    "es": "Ánima",
+    "fr": "Anima",
+    "pt": "Anima"
+   },
+   "range": [
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ]
+   ]
+  },
+  {
+   "ap": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "crit": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "description": {
+    "de": "Inflicts Water damage in an area of effect and grants the caster shield points based on damage inflicted.\n\nReduces the Aura's size by 1.",
+    "en": "Inflicts Water damage in an area of effect and grants the caster shield points based on damage inflicted.\n\nReduces the Aura's size by 1.",
+    "es": "Ocasiona daños de agua en zona y otorga un escudo al lanzador en función de los daños ocasionados.\n\nReduce el tamaño del aura en 1.",
+    "fr": "Occasionne des dommages Eau en zone et octroie du bouclier au lanceur en fonction des dommages occasionnés.\n\nRéduit la taille de l'Aura de 1.",
+    "pt": "Inflige danos de água em zona e concede escudo ao lançador de acordo com os danos infligidos.\n\nReduz em 1 o tamanho da aura."
+   },
+   "id": 13551,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    49,
+    49,
+    49,
+    49,
+    99,
+    149
+   ],
+   "name": {
+    "de": "Lagoon",
+    "en": "Lagoon",
+    "es": "Laguna",
+    "fr": "Lagune",
+    "pt": "Laguna"
+   },
+   "per_turn": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "range": [
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ]
+   ],
+   "stacks": [
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+   ]
+  },
+  {
+   "ap": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "crit": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "description": {
+    "de": "Inflicts Earth damage in an area of effect and heals allies.\n\nReduces the Aura's size by 1.",
+    "en": "Inflicts Earth damage in an area of effect and heals allies.\n\nReduces the Aura's size by 1.",
+    "es": "Ocasiona daños de tierra en zona y cura a los aliados.\n\nReduce el tamaño del aura en 1.",
+    "fr": "Occasionne des dommages Terre en zone et soigne les alliés.\n\nRéduit la taille de l'Aura de 1.",
+    "pt": "Inflige danos de terra em zona e cura os aliados.\n\nReduz em 1 o tamanho da aura."
+   },
+   "id": 13559,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    55,
+    55,
+    55,
+    55,
+    105,
+    155
+   ],
+   "name": {
+    "de": "Arkose",
+    "en": "Arkose",
+    "es": "Arkosis",
+    "fr": "Arkose",
+    "pt": "Arkose"
+   },
+   "per_turn": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "range": [
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     5
+    ]
+   ],
+   "stacks": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "ap": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "crit": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "description": {
+    "de": "Inflicts Air damage in an area of effect and attracts targets.\n\nReduces the Aura's size by 1.",
+    "en": "Inflicts Air damage in an area of effect and attracts targets.\n\nReduces the Aura's size by 1.",
+    "es": "Ocasiona daños de aire en zona y atrae a los objetivos.\n\nReduce el tamaño del aura en 1.",
+    "fr": "Occasionne des dommages Air en zone et attire les cibles.\n\nRéduit la taille de l'Aura de 1.",
+    "pt": "Inflige danos de ar em zona e atrai os alvos.\n\nReduz em 1 o tamanho da aura."
+   },
+   "id": 13371,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    61,
+    61,
+    61,
+    61,
+    111,
+    161
+   ],
+   "name": {
+    "de": "Murmur",
+    "en": "Murmur",
+    "es": "Murmullo",
+    "fr": "Murmure",
+    "pt": "Murmúrio"
+   },
+   "per_target": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "per_turn": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "range": [
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "stacks": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "cooldown": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "description": {
+    "de": "Places the caster's Aura on another entity (ally or enemy) for 2 turns.\nCasting the spell on oneself makes the Aura return to the caster.\n\nTriggers the Aura when placed.",
+    "en": "Places the caster's Aura on another entity (ally or enemy) for 2 turns.\nCasting the spell on oneself makes the Aura return to the caster.\n\nTriggers the Aura when placed.",
+    "es": "Coloca el aura del lanzador en otra entidad (aliado o enemigo) por 2 turnos.\nSi lanzas el hechizo sobre ti mismo, el aura vuelve al lanzador.\n\nActiva el aura una vez puesta.",
+    "fr": "Pose l'Aura du lanceur sur une autre entité (alliée ou ennemie) pour 2 tours.\nLancer le sort sur soi-même fait revenir l'Aura sur le lanceur.\n\nDéclenche l'Aura une fois posée.\n\nSi le sort est lancé sur un Bellœuf, rend 2 PA.",
+    "pt": "Coloca a aura do lançador em outra entidade (aliada ou inimiga) por 2 turnos.\nLançar o feitiço em si mesmo faz com que a aura volte ao lançador.\n\nAciona a aura quando é colocada."
+   },
+   "id": 13573,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    67,
+    67,
+    67,
+    67,
+    117,
+    167
+   ],
+   "name": {
+    "de": "Aura Donation",
+    "en": "Aura Donation",
+    "es": "Don de Aura",
+    "fr": "Don d'Aura",
+    "pt": "Doação de Aura"
+   },
+   "range": [
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     4
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     0,
+     6
+    ],
+    [
+     0,
+     7
+    ],
+    [
+     0,
+     8
+    ]
+   ],
+   "stacks": [
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+   ]
+  },
+  {
+   "ap": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "cooldown": [
     7,
     6,
     5,
     4,
-    3
+    3,
+    2
    ],
    "description": {
     "de": "Increases the Aura's size to its maximum for 1 turn. The next turn, reduces the Aura's size to its minimum.\n\nPrevents the Aura Expansion and Aura Concentration spells from being used for 2 turns.",
     "en": "Increases the Aura's size to its maximum for 1 turn. The next turn, reduces the Aura's size to its minimum.\n\nPrevents the Aura Expansion and Aura Concentration spells from being used for 2 turns.",
     "es": "Aumenta el tamaño del aura hasta su máximo durante un turno. En el siguiente turno, reduce el tamaño del aura a su mínimo.\n\nImpide el uso de los hechizos Expansión de Aura y Concentración de Aura durante 2 turnos.",
-    "fr": "Augmente la taille de l'Aura à son maximum pour un tour. Au tour suivant, réduit la taille de l'Aura à son minimum.\n\nEmpêche l'utilisation des sorts Expansion d'Aura et Concentration d'Aura pour 2 tours.",
+    "fr": "Redonne à l'Aura sa taille et son élément initial. Ne réinitialise pas le nombre de déclenchements maximum par tour de l'Aura, sauf si l'élément de l'Aura est changé.",
     "pt": "Aumenta o tamanho da aura até o máximo dela por um turno. No turno seguinte, reduz o tamanho da aura até o mínimo dela.\n\nImpede o uso dos feitiços Expansão de Aura e Concentração de Aura por 2 turnos."
    },
    "id": 13841,
@@ -1573,12 +1427,12 @@
     "pt": "Beléfone"
    },
    "levels": [
-    85,
-    85,
-    85,
-    85,
-    135,
-    185
+    73,
+    73,
+    73,
+    73,
+    123,
+    173
    ],
    "name": {
     "de": "Vocal Exercises",
@@ -1624,12 +1478,94 @@
   },
   {
    "ap": [
-    3,
-    3,
-    3,
-    3,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "cooldown": [
+    5,
+    5,
+    4,
+    4,
     3,
     3
+   ],
+   "description": {
+    "de": "Inflicts damage in the best element (allies and enemies).\n\nAdditional effect based on the caster's lineage:\n\n- Emerald: grants shield points to allies in the Aura on the caster's next turn.\n\n- Crimson: removes MP from enemies in the Aura.\n\n- Turquoise: heals allies that are in the Aura on the caster's next turn.\n\n- Ebony: reduces effect duration for enemies inside the Aura by 1 turn.\n\n- Ochre: reduces movement effects suffered by allies inside the Aura by 1.\n\n- Ivory: makes enemies inside the Aura unhealable for 1 turn.",
+    "en": "Inflicts damage in the best element (allies and enemies).\n\nAdditional effect based on the caster's lineage:\n\n- Emerald: grants shield points to allies in the Aura on the caster's next turn.\n\n- Crimson: removes MP from enemies in the Aura.\n\n- Turquoise: heals allies that are in the Aura on the caster's next turn.\n\n- Ebony: reduces effect duration for enemies inside the Aura by 1 turn.\n\n- Ochre: reduces movement effects suffered by allies inside the Aura by 1.\n\n- Ivory: makes enemies inside the Aura unhealable for 1 turn.",
+    "es": "Ocasiona daños con el mejor elemento (aliados y enemigos).\n\nEfecto adicional según el linaje del lanzador:\n\n- Esmeralda: otorga escudo a los aliados en el aura durante el próximo turno de juego del lanzador.\n\n- Púrpura: retira PM a los enemigos dentro del aura.\n\n- Turquesa: cura los puntos de vida de los aliados que se encuentren dentro del aura en el próximo turno de juego del lanzador.\n\n- Ébano: reduce la duración de los efectos de los enemigos dentro del aura en 1 turno.\n\n- Ocre: reduce en 1 los efectos de desplazamiento que sufran los aliados dentro del aura.\n\n- Marfil: vuelve incurables a los enemigos en el interior del aura durante 1 turno.",
+    "fr": "Occasionne des dégâts dans le meilleur élément (alliés et ennemis).\n\nEffet supplémentaire selon la lignée du lanceur :\n\n- Émeraude : Octroie du bouclier aux alliés dans l'Aura au prochain tour de jeu du lanceur.\n\n- Pourpre : Retire des PM aux ennemis dans l'Aura.\n\n- Turquoise : Soigne les points de vie des alliés qui se trouvent dans l'Aura au prochain tour de jeu du lanceur.\n\n- Ébène : Réduit la durée des effets des ennemis à l'intérieur de l'Aura de 1 tour.\n\n- Ocre : Réduit de 1 les effets de déplacement subis à l'intérieur de l'Aura pour les alliés.\n\n- Ivoire : Rend les ennemis à l'intérieur de l'Aura insoignables pour 1 tour.",
+    "pt": "Inflige danos no melhor elemento (aliados e inimigos).\n\nEfeito adicional de acordo com a linhagem do lançador:\n\n- Esmeralda: concede escudo aos aliados na aura no próximo turno do lançador.\n\n- Púrpura: retira PM dos inimigos na aura.\n\n- Turquesa: cura os pontos de vida dos aliados que estiverem na aura no próximo turno do lançador.\n\n- Ébano: reduz a duração dos efeitos dos inimigos no interior da aura em 1 turno.\n\n- Ocre: reduz em 1 os efeitos de deslocamento sofridos no interior da aura para os aliados.\n\n- Marfim: deixa os inimigos no interior da aura incuráveis por 1 turno."
+   },
+   "id": 13769,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    79,
+    79,
+    79,
+    79,
+    129,
+    179
+   ],
+   "name": {
+    "de": "Nogdra",
+    "en": "Nogdra",
+    "es": "Nogdra",
+    "fr": "Nogdra",
+    "pt": "Gãodra"
+   },
+   "range": [
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     1,
+     8
+    ]
+   ],
+   "stacks": [
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+   ]
+  },
+  {
+   "ap": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
    ],
    "cooldown": [
     7,
@@ -1640,11 +1576,11 @@
     4
    ],
    "description": {
-    "de": "Summons a static Bellovum. Secures the caster's Aura.",
-    "en": "Summons a static Bellovum. Secures the caster's Aura.",
-    "es": "Invoca un belíovo estático. Permite anclar el aura del lanzador.",
-    "fr": "Invoque un Bellœuf statique. Le lanceur peut se servir du Bellœuf pour y attacher son Aura grâce au sort Don d'Aura.",
-    "pt": "Invoca um Belovo estático. Permite atacar a aura do lançador."
+    "de": "Summons a static Bellovum. The caster can use the Bellovum to attach their Aura to it using the Aura Donation spell.",
+    "en": "Summons a static Bellovum. The caster can use the Bellovum to attach their Aura to it using the Aura Donation spell.",
+    "es": "Invoca un belíovo estático. El lanzador puede utilizar el belíovo para vincularle su aura mediante el hechizo Don de Aura.",
+    "fr": "Invoque un Bellœuf statique. Le lanceur peut se servir du Bellœuf pour y attacher son Aura grâce au sort Don d'Aura.\n\nLes points de vie du Bellœuf augmentent en fonction de la Vitalité du lanceur.",
+    "pt": "Invoca um Belovo estático. O lançador pode usar o Belovo para prender sua aura nele graças ao feitiço Doação de Aura."
    },
    "id": 13571,
    "kind": {
@@ -1655,12 +1591,12 @@
     "pt": "Beléfone"
    },
    "levels": [
-    90,
-    90,
-    90,
-    90,
-    140,
-    190
+    85,
+    85,
+    85,
+    85,
+    135,
+    185
    ],
    "name": {
     "de": "Summoning of Bellovum",
@@ -1729,12 +1665,12 @@
     "pt": "Beléfone"
    },
    "levels": [
-    95,
-    95,
-    95,
-    95,
-    145,
-    195
+    90,
+    90,
+    90,
+    90,
+    140,
+    190
    ],
    "name": {
     "de": "Drosera",
@@ -1788,12 +1724,12 @@
   },
   {
    "ap": [
-    4,
-    4,
-    4,
-    4,
-    4,
-    4
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
    ],
    "cooldown": [
     8,
@@ -1819,12 +1755,12 @@
     "pt": "Beléfone"
    },
    "levels": [
-    100,
-    100,
-    100,
-    100,
-    150,
-    200
+    95,
+    95,
+    95,
+    95,
+    145,
+    195
    ],
    "name": {
     "de": "Wrath",
@@ -1857,6 +1793,96 @@
     [
      0,
      0
+    ]
+   ],
+   "stacks": [
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+   ]
+  },
+  {
+   "ap": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "cooldown": [
+    5,
+    4,
+    4,
+    3,
+    3,
+    3
+   ],
+   "crit": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "description": {
+    "de": "Inflicts damage in the best element (allies and enemies).\n\nTriggers the Aura and restores it to its starting size and element. Does not reset the maximum number of times triggered per turn for the Aura.",
+    "en": "Inflicts damage in the best element (allies and enemies).\n\nTriggers the Aura and restores it to its starting size and element. Does not reset the maximum number of times triggered per turn for the Aura.",
+    "es": "Ocasiona daños con el mejor elemento (aliados y enemigos).\n\nActiva el aura y le devuelve su tamaño y su elemento inicial. No reinicia el número máximo de activaciones por turno del aura.",
+    "fr": "Occasionne des dommages dans le meilleur élément (alliés et ennemis).\n\nDéclenche l'Aura.",
+    "pt": "Inflige danos no melhor elemento (aliados e inimigos).\n\nAciona a aura e devolve-lhe seu tamanho e seu elemento inicial. Não reinicia o número máximo de ativações por turno da aura."
+   },
+   "id": 13569,
+   "kind": {
+    "de": "Bellaphone",
+    "en": "Bellaphone",
+    "es": "Belíade",
+    "fr": "Bellaphone",
+    "pt": "Beléfone"
+   },
+   "levels": [
+    100,
+    100,
+    100,
+    100,
+    150,
+    200
+   ],
+   "name": {
+    "de": "Domoko",
+    "en": "Domoko",
+    "es": "Domoko",
+    "fr": "Domoko",
+    "pt": "Domoko"
+   },
+   "range": [
+    [
+     0,
+     4
+    ],
+    [
+     0,
+     4
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     0,
+     6
+    ],
+    [
+     0,
+     7
     ]
    ],
    "stacks": [
@@ -11928,19 +11954,11 @@
  "Foggernaut": [
   {
    "ap": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
-   ],
-   "cooldown": [
-    8,
-    7,
-    6,
-    5,
-    4,
+    3,
+    3,
+    3,
+    3,
+    3,
     3
    ],
    "crit": [
@@ -11952,13 +11970,13 @@
     15
    ],
    "description": {
-    "de": "Any AP removed will increase MP.\nIncreases the caster's and targeted allies' Damage and Collision Damage.",
-    "en": "Any AP removed will increase MP.\nIncreases the caster's and targeted allies' Damage and Collision Damage.",
-    "es": "Las retiradas de PA recibidas aumentan los PM.\nAumenta los daños y los daños de colisión del lanzador y de los aliados objetivo.",
-    "fr": "Les retraits de PA reçus augmentent les PM.\nAugmente les Dommages et les Dommages de Collision du lanceur et des alliés ciblés.",
-    "pt": "As retiradas de PA recebidas aumentam os PM.\nAumenta os danos e os danos de colisão do lançador e dos aliados visados."
+    "de": "On an enemy: inflicts Water damage.\nOn an ally: increases the targeted ally's range.\nOn the caster's Harpooner: activates or deactivates the Water state.\n\nActivates the Tacturret's special spell, which makes the target and the Tacturret switch places.\nThe Tacturret must be in the Evolution III state to use its special spell.",
+    "en": "On an enemy: inflicts Water damage.\nOn an ally: increases the targeted ally's range.\nOn the caster's Harpooner: activates or deactivates the Water state.\n\nActivates the Tacturret's special spell, which makes the target and the Tacturret switch places.\nThe Tacturret must be in the Evolution III state to use its special spell.",
+    "es": "En un enemigo: ocasiona daños de agua.\nEn un aliado: aumenta el alcance del aliado objetivo.\nEn la arponera del lanzador: activa o desactiva el estado Agua.\n\nActiva el hechizo especial de la tactiquilla, que intercambia la posición del objetivo con la suya.\nLa tactiquilla debe estar bajo el estado Evolución III para utilizar su hechizo especial.",
+    "fr": "Sur un ennemi : occasionne des dommages Eau.\nSur un allié : augmente la portée de l'allié ciblé.\nSur la Harponneuse du lanceur : active ou désactive l'état Eau.\n\nActive le sort spécial de la Tactirelle qui échange la position de la cible avec cette dernière.\nLa Tactirelle doit être en état Évolution III pour utiliser son sort spécial.",
+    "pt": "Em um inimigo: inflige danos de água.\nEm um aliado: aumenta o alcance do aliado visado.\nNa Arpoadora do lançador: ativa ou desativa o estado Água.\n\nAtiva o feitiço especial da Estratorre, que a troca de lugar com o alvo.\nA Estratorre deve estar em estado Evolução III para utilizar seu feitiço especial."
    },
-   "id": 3202,
+   "id": 3220,
    "kind": {
     "de": "Foggernaut",
     "en": "Foggernaut",
@@ -11975,45 +11993,61 @@
     101
    ],
    "name": {
-    "de": "Scaphander",
-    "en": "Scaphander",
-    "es": "Escafandra",
-    "fr": "Scaphandre",
-    "pt": "Escafandro"
+    "de": "Periscope",
+    "en": "Periscope",
+    "es": "Avistamiento",
+    "fr": "Longue Vue",
+    "pt": "Luneta"
    },
+   "per_target": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "per_turn": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
    "range": [
     [
      0,
-     0
+     5
     ],
     [
      0,
-     0
+     5
     ],
     [
      0,
-     0
+     5
     ],
     [
      0,
-     0
+     5
     ],
     [
      0,
-     0
+     5
     ],
     [
      0,
-     0
+     6
     ]
    ],
    "stacks": [
-    4,
-    4,
-    4,
-    4,
-    4,
-    4
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
    ]
   },
   {
@@ -12214,11 +12248,19 @@
   },
   {
    "ap": [
-    3,
-    3,
-    3,
-    3,
-    3,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "cooldown": [
+    8,
+    7,
+    6,
+    5,
+    4,
     3
    ],
    "crit": [
@@ -12230,13 +12272,13 @@
     15
    ],
    "description": {
-    "de": "On an enemy: inflicts Water damage.\nOn an ally: increases the targeted ally's range.\nOn the caster's Harpooner: activates or deactivates the Water state.\n\nActivates the Tacturret's special spell, which makes the target and the Tacturret switch places.\nThe Tacturret must be in the Evolution III state to use its special spell.",
-    "en": "On an enemy: inflicts Water damage.\nOn an ally: increases the targeted ally's range.\nOn the caster's Harpooner: activates or deactivates the Water state.\n\nActivates the Tacturret's special spell, which makes the target and the Tacturret switch places.\nThe Tacturret must be in the Evolution III state to use its special spell.",
-    "es": "En un enemigo: ocasiona daños de agua.\nEn un aliado: aumenta el alcance del aliado objetivo.\nEn la arponera del lanzador: activa o desactiva el estado Agua.\n\nActiva el hechizo especial de la tactiquilla, que intercambia la posición del objetivo con la suya.\nLa tactiquilla debe estar bajo el estado Evolución III para utilizar su hechizo especial.",
-    "fr": "Sur un ennemi : occasionne des dommages Eau.\nSur un allié : augmente la portée de l'allié ciblé.\nSur la Harponneuse du lanceur : active ou désactive l'état Eau.\n\nActive le sort spécial de la Tactirelle qui échange la position de la cible avec cette dernière.\nLa Tactirelle doit être en état Évolution III pour utiliser son sort spécial.",
-    "pt": "Em um inimigo: inflige danos de água.\nEm um aliado: aumenta o alcance do aliado visado.\nNa Arpoadora do lançador: ativa ou desativa o estado Água.\n\nAtiva o feitiço especial da Estratorre, que a troca de lugar com o alvo.\nA Estratorre deve estar em estado Evolução III para utilizar seu feitiço especial."
+    "de": "Any AP removed will increase MP.\nIncreases the caster's and targeted allies' Damage and Collision Damage.",
+    "en": "Any AP removed will increase MP.\nIncreases the caster's and targeted allies' Damage and Collision Damage.",
+    "es": "Las retiradas de PA recibidas aumentan los PM.\nAumenta los daños y los daños de colisión del lanzador y de los aliados objetivo.",
+    "fr": "Les retraits de PA reçus augmentent les PM.\nAugmente les Dommages et les Dommages de Collision du lanceur et des alliés ciblés.",
+    "pt": "As retiradas de PA recebidas aumentam os PM.\nAumenta os danos e os danos de colisão do lançador e dos aliados visados."
    },
-   "id": 3220,
+   "id": 3202,
    "kind": {
     "de": "Foggernaut",
     "en": "Foggernaut",
@@ -12253,61 +12295,45 @@
     101
    ],
    "name": {
-    "de": "Periscope",
-    "en": "Periscope",
-    "es": "Avistamiento",
-    "fr": "Longue Vue",
-    "pt": "Luneta"
+    "de": "Scaphander",
+    "en": "Scaphander",
+    "es": "Escafandra",
+    "fr": "Scaphandre",
+    "pt": "Escafandro"
    },
-   "per_target": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-   ],
-   "per_turn": [
-    2,
-    2,
-    2,
-    2,
-    2,
-    2
-   ],
    "range": [
     [
      0,
-     5
+     0
     ],
     [
      0,
-     5
+     0
     ],
     [
      0,
-     5
+     0
     ],
     [
      0,
-     5
+     0
     ],
     [
      0,
-     5
+     0
     ],
     [
      0,
-     6
+     0
     ]
    ],
    "stacks": [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
    ]
   },
   {

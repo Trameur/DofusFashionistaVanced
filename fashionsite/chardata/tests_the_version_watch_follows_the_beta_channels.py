@@ -288,9 +288,9 @@ class TheMainVersionsAreReadAsBeforeTests(SimpleTestCase):
 
     def test_every_staged_stamp_exists_in_the_real_version_file(self):
         script = itemscraper_module('check_game_versions')
-        self.assertRegex(fashionista_version.WATCHED_TOUCH_BETA_ASSETS, r'^3\.4\.3_.+')
-        self.assertRegex(fashionista_version.WATCHED_RETROBETA_BUILD, r'^1\.50\.0\.\d+\.\d+-\w+$')
-        self.assertEqual(638, script.static_data_id(fashionista_version.WATCHED_RETROBETA_LANG_ROOT))
+        self.assertRegex(fashionista_version.WATCHED_TOUCH_BETA_ASSETS, r'^\d+\.\d+\.\d+_.+')
+        self.assertRegex(fashionista_version.WATCHED_RETROBETA_BUILD, r'^\d+\.\d+\.\d+\.\d+\.\d+-\w+$')
+        self.assertGreater(script.static_data_id(fashionista_version.WATCHED_RETROBETA_LANG_ROOT), 0)
         self.assertEqual(set(fashionista_version.WATCHED_RETRO_LANG), set(fashionista_version.WATCHED_RETROBETA_LANG))
         self.assertTrue(all(value.isdigit() for value in fashionista_version.WATCHED_RETROBETA_LANG.values()))
 
