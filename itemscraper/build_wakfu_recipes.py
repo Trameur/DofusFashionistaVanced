@@ -60,6 +60,11 @@ def every_name(raw_dir):
             said = titles(row.get('title'))
             if said:
                 names.setdefault(ident, {}).update(said)
+    for said in names.values():
+        if not said.get('en'):
+            said['en'] = next(said[language] for language in LANGUAGES if said.get(language))
+        for missing, instead in FALLBACK.items():
+            said.setdefault(missing, said[instead])
     return names
 
 
