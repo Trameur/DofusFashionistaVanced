@@ -69,10 +69,10 @@ def without_transcendences():
 
 
 def page_bytes(client, char):
-    """The export page with its per-request CSRF token taken out."""
+    """The export page with its per-request CSRF token and its timestamped seen token taken out."""
     page = export_page(client, char).content
     token = re.search(rb"csrfmiddlewaretoken\" type=\"hidden\" value=\"([^\"]*)", page).group(1)
-    return page.replace(token, b'')
+    return re.sub(rb'data-seen="[^"]*"', b'data-seen=""', page.replace(token, b''))
 
 
 def staying_note(page):
