@@ -19,7 +19,7 @@ from fashionistapulp.dofus_constants import (CHARACTER_CLASSES,
                                              max_scroll_for_version, slots_for)
 from fashionistapulp.exo_options import (exo_count, exo_per_item,
                                          forgeable_slot_count)
-from fashionistapulp.game_versions import get_game_version, version_keys
+from fashionistapulp.game_versions import get_game_version, switcher_order, version_keys
 from fashionistapulp.structure import (PET_VARIANT_ID_BASE, fits_the_class,
                                        get_structure, level_to_wear)
 
@@ -119,7 +119,7 @@ class FormatError(ImportError_):
 def message(code, details=None):
     text = str(_MESSAGES.get(code, code))
     if code == 'unknown_game':
-        return text % {'games': readable_versions.join_names(list(version_keys()), conjunction='or')}
+        return text % {'games': readable_versions.join_names(switcher_order(), conjunction='or')}
     if code in _MESSAGES_WITH_DETAILS and details:
         text = text % details
     return text
@@ -470,7 +470,7 @@ def _last_per_key(reading, lines, path):
 
 def _other_games(game, ankama, kind):
     found = []
-    for other in version_keys():
+    for other in switcher_order():
         if other == game:
             continue
         structure = get_structure(other)

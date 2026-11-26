@@ -6,7 +6,7 @@ from django.core.cache import cache
 from django.db.models import Sum
 
 from fashionistapulp.game_versions import (
-    GAME_VERSIONS, is_beta, main_game, prefixed_reader_versions, switcher_games, version_keys)
+    GAME_VERSIONS, is_beta, main_game, prefixed_reader_versions, switcher_games, switcher_order, version_keys)
 
 logger = logging.getLogger(__name__)
 
@@ -44,9 +44,8 @@ def site_stats(request):
     return stats
 
 
-# version_keys() already drops the experimental versions
 ACTIVE_GAME_VERSIONS = [(key, GAME_VERSIONS[key].label)
-                        for key in version_keys()]
+                        for key in switcher_order()]
 
 _GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
 
@@ -73,21 +72,31 @@ def band_version(gv):
 
 def switcher_groups():
     """The header switcher as groups: one per game, its main version first."""
-    from chardata.data_versions import current_data_version, patch_of
     groups = []
     for main, members in switcher_games():
         groups.append({
             'key': main,
             'label': GAME_VERSIONS[main].label,
             'has_menu': len(members) > 1,
-            'members': [{
-                'key': key,
-                'label': GAME_VERSIONS[key].label,
-                'is_beta': is_beta(key),
-                'patch': patch_of(current_data_version(key)) or '',
-            } for key in members],
+            'members': [switcher_member(key) for key in members],
         })
     return groups
+
+
+def switcher_member(key):
+    """One version of the switcher: its pill label, its full name and its complete data stamp."""
+    from chardata.data_versions import current_data_version
+    from chardata.readable_versions import native_name
+    name = native_name(key)
+    stamp = current_data_version(key)
+    return {
+        'key': key,
+        'label': GAME_VERSIONS[key].label,
+        'is_beta': is_beta(key),
+        'name': name,
+        'stamp': stamp,
+        'title': '%s · %s' % (name, stamp) if stamp else name,
+    }
 
 
 def game_version(request):

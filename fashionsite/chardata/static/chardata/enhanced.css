@@ -100,6 +100,36 @@ html.fm-enhanced .version-link + .version-link{ border-left:1px solid var(--fm-b
 html.fm-enhanced .version-link:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; }
 html.fm-enhanced .version-link.active{ background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important; }
 html.fm-enhanced .version-link.version-beta{ font-size:11px; }
+html.fm-enhanced .version-selector{ position:relative; }
+html.fm-enhanced .version-link[hidden]{ display:none !important; }
+html.fm-enhanced .version-link.fm-vs-pill{ border-left:0 !important; }
+html.fm-enhanced .version-link.fm-vs-pill .version-game-name{ position:static; width:auto; height:auto; overflow:visible; clip:auto; clip-path:none; }
+html.fm-enhanced .version-link.version-beta.fm-vs-pill{ font-size:12px; }
+html.fm-enhanced button.fm-vs-more{
+  display:inline-flex; align-items:center; justify-content:center; width:28px; height:32px; margin:0; padding:0; box-sizing:border-box;
+  border:0; border-left:1px solid var(--fm-border); background:transparent; color:var(--fm-muted); font:inherit; line-height:1; cursor:pointer;
+  transition:background .16s,color .16s;
+}
+html.fm-enhanced button.fm-vs-more:hover, html.fm-enhanced button.fm-vs-more[aria-expanded="true"]{ background:var(--fm-accent-soft); color:var(--fm-text); }
+html.fm-enhanced .version-link.active + button.fm-vs-more{ background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)); color:#2a2010; border-left-color:rgba(42,32,16,.25); }
+html.fm-enhanced button.fm-vs-more .fm-topnav-chev{ display:block; width:6px; height:6px; border:solid currentColor; border-width:0 1.6px 1.6px 0; transform:translateY(-2px) rotate(45deg); }
+html.fm-enhanced button.fm-vs-more[aria-expanded="true"] .fm-topnav-chev{ transform:translateY(1px) rotate(-135deg); }
+html.fm-enhanced .fm-vs-menu{
+  position:absolute; top:calc(100% + 6px); left:0; z-index:9000; display:flex; flex-direction:column; gap:2px;
+  width:max-content; max-width:calc(100vw - 32px); padding:6px; box-sizing:border-box; text-align:left;
+  background:var(--fm-surface); border:1px solid var(--fm-border); border-radius:14px; box-shadow:var(--fm-shadow);
+}
+html.fm-enhanced .fm-vs-menu[hidden]{ display:none; }
+html.fm-enhanced .fm-vs-menu::before{ content:""; position:absolute; left:0; right:0; bottom:100%; height:8px; }
+html.fm-enhanced .fm-vs-menu a.fm-vs-choice{
+  display:flex; align-items:center; padding:8px 12px; border-radius:8px; box-sizing:border-box;
+  color:var(--fm-text) !important; font-size:13px; font-weight:700; line-height:1.2; text-decoration:none; white-space:nowrap;
+}
+html.fm-enhanced .fm-vs-menu a.fm-vs-choice:hover{ background:var(--fm-accent-soft); }
+html.fm-enhanced .fm-vs-menu a.fm-vs-choice[aria-current="page"]{ color:var(--fm-accent-text) !important; box-shadow:inset 3px 0 0 var(--fm-accent); }
+html.fm-enhanced .fm-vs-menu .version-short{ display:none; }
+html.fm-enhanced .fm-vs-menu .version-full{ position:static; display:flex; align-items:center; flex:1 1 auto; width:auto; height:auto; overflow:visible; clip:auto; clip-path:none; }
+html.fm-enhanced .fm-vs-menu .version-patch{ margin-left:auto; padding-left:20px; color:var(--fm-muted); font-weight:600; font-variant-numeric:tabular-nums; }
 html.fm-enhanced .login{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; padding:0 16px; font-size:13px; }
 html.fm-enhanced .login:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
 html.fm-enhanced .login a{ color:var(--fm-accent-text) !important; font-weight:700; text-decoration:none; }
@@ -596,4 +626,14 @@ html.fm-enhanced .fm-design-menu{ background:var(--fm-surface); color:var(--fm-t
 html.fm-enhanced .fm-design-menu button:hover{ background:var(--fm-accent-soft); }
 @media (max-width: 360px){
   html.fm-enhanced .version-link{ white-space:nowrap; padding:0 10px !important; }
+}
+@media (max-width: 389px){
+  html.fm-enhanced .version-selector{ gap:4px; }
+  html.fm-enhanced .version-link{ white-space:nowrap; padding:0 6px !important; font-size:12px; }
+  html.fm-enhanced button.fm-vs-more{ width:20px; }
+}
+@media (max-width: 600px){
+  html.fm-enhanced .space.header-controls{ position:relative; }
+  html.fm-enhanced .compare-cart{ position:static; }
+  html.fm-enhanced .compare-cart-panel{ left:50%; right:auto; transform:translateX(-50%); top:auto; margin-top:8px; max-width:calc(100vw - 12px); box-sizing:border-box; }
 }

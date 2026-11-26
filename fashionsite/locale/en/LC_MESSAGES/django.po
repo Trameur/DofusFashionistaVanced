@@ -6613,8 +6613,8 @@ msgid "It follows the buffs you tick and the rank you pick."
 msgstr "It follows the buffs you tick and the rank you pick."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Retro and Touch spells now carry their AP cost and casting limits."
-msgstr "Retro and Touch spells now carry their AP cost and casting limits."
+msgid "Touch and Retro spells now carry their AP cost and casting limits."
+msgstr "Touch and Retro spells now carry their AP cost and casting limits."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Spells explained where they are named"
@@ -7600,7 +7600,7 @@ msgstr ""
 msgid "The build name and the class do not travel: their link format has no room for them."
 msgstr ""
 
-msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Retro and Touch)."
+msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Touch and Retro)."
 msgstr ""
 
 msgid "Show this build in the gallery once it has gear"
@@ -8309,8 +8309,8 @@ msgid "Add <code>\"type\": \"mount\"</code> when the id is a mount: Dofus Touch 
 msgstr "Add <code>\"type\": \"mount\"</code> when the id is a mount: Dofus Touch numbers its mounts apart from its items."
 
 #: chardata/templates/chardata/send_a_build.html
-msgid "A Dofus Retro or Dofus Touch pet sent with its stat lines comes in as the variant that carries exactly those stats."
-msgstr "A Dofus Retro or Dofus Touch pet sent with its stat lines comes in as the variant that carries exactly those stats."
+msgid "A Dofus Touch or Dofus Retro pet sent with its stat lines comes in as the variant that carries exactly those stats."
+msgstr "A Dofus Touch or Dofus Retro pet sent with its stat lines comes in as the variant that carries exactly those stats."
 
 #: chardata/templates/chardata/send_a_build.html
 msgid "Stat keys"

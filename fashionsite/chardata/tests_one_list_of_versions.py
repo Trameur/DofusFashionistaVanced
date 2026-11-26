@@ -6,7 +6,7 @@ from django.urls import get_resolver, reverse
 from fashionistapulp.game_versions import (DEFAULT_VERSION, GAME_VERSIONS,
                                            prefixed_reader_versions,
                                            reader_dofus_versions,
-                                           switcher_games,
+                                           switcher_games, switcher_order,
                                            version_keys)
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS, game_version
@@ -16,9 +16,9 @@ from chardata.middleware import GameVersionMiddleware
 
 class OneListOfVersions(SimpleTestCase):
 
-    def test_the_reader_list_is_the_registry_without_the_experimental_ones(self):
-        self.assertEqual([key for key, _label in ACTIVE_GAME_VERSIONS],
-                         version_keys())
+    def test_the_reader_list_follows_the_switcher_order(self):
+        self.assertEqual([key for key, _label in ACTIVE_GAME_VERSIONS], switcher_order())
+        self.assertEqual(sorted(switcher_order()), sorted(version_keys()))
 
     def test_the_reader_list_carries_the_registry_labels(self):
         self.assertEqual(dict(ACTIVE_GAME_VERSIONS),

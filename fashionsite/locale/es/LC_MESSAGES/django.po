@@ -7357,8 +7357,8 @@ msgid "It follows the buffs you tick and the rank you pick."
 msgstr "Sigue los buffs que marcas y el rango que eliges."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Retro and Touch spells now carry their AP cost and casting limits."
-msgstr "Los hechizos de Retro y Touch ya llevan su coste en PA y sus límites de lanzamiento."
+msgid "Touch and Retro spells now carry their AP cost and casting limits."
+msgstr "Los hechizos de Touch y Retro ya llevan su coste en PA y sus límites de lanzamiento."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Spells explained where they are named"
@@ -7576,8 +7576,8 @@ msgid "Hover any number in a comparison to see which pieces make it."
 msgstr "Pasa el ratón por un número de una comparación para ver qué piezas lo forman."
 
 #: .\chardata\templates\chardata\changelog_content.html:8
-msgid "Dofus Retro and Touch: a comparison can add PvP resistances when your gear carries them."
-msgstr "Dofus Retro y Touch: una comparación puede sumar las resistencias PvP cuando tu equipo las lleva."
+msgid "Dofus Touch and Retro: a comparison can add PvP resistances when your gear carries them."
+msgstr "Dofus Touch y Retro: una comparación puede sumar las resistencias PvP cuando tu equipo las lleva."
 
 #: .\chardata\templates\chardata\changelog_content.html:8
 msgid "Every forgeable item in a build opens straight in the smithmagic workbench."
@@ -8561,8 +8561,8 @@ msgstr "Su campo de forjamagia no puede llevar estas runas de trascendencia, as�
 msgid "The build name and the class do not travel: their link format has no room for them."
 msgstr "El nombre del build y la clase no viajan: su formato de enlace no tiene sitio para ellos."
 
-msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Retro and Touch)."
-msgstr "Envía tu build a otro sitio de builds directamente desde la página de solución, forjamagia incluida (Dofus 3, Retro y Touch)."
+msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Touch and Retro)."
+msgstr "Envía tu build a otro sitio de builds directamente desde la página de solución, forjamagia incluida (Dofus 3, Touch y Retro)."
 
 msgid "Show this build in the gallery once it has gear"
 msgstr "Mostrar este build en la galería cuando tenga equipo"
@@ -9282,8 +9282,8 @@ msgid "Add <code>\"type\": \"mount\"</code> when the id is a mount: Dofus Touch 
 msgstr "Añade <code>\"type\": \"mount\"</code> cuando el id es una montura: Dofus Touch numera sus monturas aparte de sus objetos."
 
 #: chardata/templates/chardata/send_a_build.html
-msgid "A Dofus Retro or Dofus Touch pet sent with its stat lines comes in as the variant that carries exactly those stats."
-msgstr "Una mascota de Dofus Retro o Dofus Touch enviada con sus líneas de stats llega como la variante que lleva exactamente esas stats."
+msgid "A Dofus Touch or Dofus Retro pet sent with its stat lines comes in as the variant that carries exactly those stats."
+msgstr "Una mascota de Dofus Touch o Dofus Retro enviada con sus líneas de stats llega como la variante que lleva exactamente esas stats."
 
 #: chardata/templates/chardata/send_a_build.html
 msgid "Stat keys"

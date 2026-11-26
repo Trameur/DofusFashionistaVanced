@@ -113,7 +113,7 @@ def get_game_version(key):
 
 
 def version_keys(include_experimental=False):
-    """Every version, in the order pages list them."""
+    """Every version, in registry order."""
     return [key for key in VERSION_ORDER
             if include_experimental or not GAME_VERSIONS[key].experimental]
 
@@ -172,6 +172,11 @@ def switcher_games():
     return games
 
 
+def switcher_order():
+    """The reader-facing versions in the order pages list them: the switcher's games, each main version first."""
+    return [key for _main, members in switcher_games() for key in members]
+
+
 def reader_dofus_versions():
-    """The Dofus versions readers can reach, without the experimental ones."""
-    return [key for key in dofus_versions() if not GAME_VERSIONS[key].experimental]
+    """The Dofus versions readers can reach, in switcher order."""
+    return [key for key in switcher_order() if GAME_VERSIONS[key].dofus]

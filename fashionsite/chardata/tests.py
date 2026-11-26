@@ -13182,12 +13182,12 @@ class AnonymousProjectPerVersionTests(TestCase):
 
     def test_the_free_version_list_shrinks_as_versions_are_taken(self):
         from chardata.create_project_view import _free_versions_for_anon
-        from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
+        from fashionistapulp.game_versions import GAME_VERSIONS, switcher_order
         self._create('', 'anon-dofus3')
         self._create('/retro', 'anon-retro')
         request = self.client.get('/').wsgi_request
         free = [entry['label'] for entry in _free_versions_for_anon(request)]
-        self.assertEqual(free, [GAME_VERSIONS[key].label for key in version_keys()
+        self.assertEqual(free, [GAME_VERSIONS[key].label for key in switcher_order()
                                 if key not in ('dofus3', 'retro')])
 
     def test_a_signed_in_user_gets_no_free_version_list(self):

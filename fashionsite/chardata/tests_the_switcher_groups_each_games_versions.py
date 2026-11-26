@@ -3,7 +3,7 @@
 import os
 import re
 
-from django.test import SimpleTestCase, TestCase, override_settings
+from django.test import SimpleTestCase, TestCase
 from django.utils import translation
 
 from chardata.context_processors import switcher_groups
@@ -55,7 +55,7 @@ class TheServerMarkupGroupsEachGameTests(TestCase):
         links = re.findall(r'<a [^>]*>', self.block())
         self.assertTrue(links)
         for tag in links:
-            self.assertRegex(tag, r'^<a class="version-link[^"]*"(?: data-version="[^"]*")? href="[^"]+">$')
+            self.assertRegex(tag, r'^<a class="version-link[^"]*"(?: data-version="[^"]*")? href="[^"]+" title="[^"]+">$')
 
     def test_the_beta_link_names_its_game_and_wears_the_channel_chip(self):
         beta = re.search(r'<a [^>]*data-version="beta"[^>]*>(.*?)</a>', self.block(), re.S)
@@ -66,16 +66,8 @@ class TheServerMarkupGroupsEachGameTests(TestCase):
     def test_a_main_link_has_no_game_name_span(self):
         main = re.search(r'<a [^>]*data-version="dofus3"[^>]*>(.*?)</a>', self.block(), re.S).group(1)
         self.assertNotIn('version-game-name', main)
-        self.assertTrue(main.startswith('Dofus 3'))
-
-    @override_settings(SITE_VERSIONS={'dofus3': '3.7.14.18', 'beta': '3.8.2.3', 'touch': '1.74'})
-    def test_the_patch_number_is_bare_and_hidden_from_readers(self):
-        patches = re.findall(r'<span ([^>]*)>([^<]*)</span>', self.block())
-        patches = [(attributes, number) for attributes, number in patches if 'version-patch' in attributes]
-        self.assertEqual(3, len(patches))
-        for attributes, number in patches:
-            self.assertIn('aria-hidden="true"', attributes)
-            self.assertRegex(number, r'^\d+\.\d+$')
+        short = re.search(r'<span [^>]*class="version-short"[^>]*>([^<]*)</span>', main)
+        self.assertEqual(GAME_VERSIONS['dofus3'].label, short.group(1))
 
     def test_only_a_game_with_a_beta_carries_the_menu_name(self):
         block = self.block()
@@ -107,12 +99,10 @@ class TheGroupsComeFromTheRegistryTests(SimpleTestCase):
             for member in group['members']:
                 self.assertEqual(is_beta(member['key']), member['is_beta'])
 
-    @override_settings(SITE_VERSIONS={'dofus3': '3.7.14.18', 'beta': '3.8.2.3'})
-    def test_the_patch_is_major_dot_minor_of_the_site_version(self):
-        patches = {member['key']: member['patch'] for group in switcher_groups() for member in group['members']}
-        self.assertEqual('3.7', patches['dofus3'])
-        self.assertEqual('3.8', patches['beta'])
-        self.assertEqual('', patches['touch'])
+    def test_each_member_carries_the_full_name_of_its_version(self):
+        for group in switcher_groups():
+            for member in group['members']:
+                self.assertEqual(GAME_VERSIONS[member['key']].game_name, member['name'])
 
     def test_the_game_label_is_not_translated(self):
         with translation.override('fr'):
@@ -121,8 +111,8 @@ class TheGroupsComeFromTheRegistryTests(SimpleTestCase):
 
 class EveryDesignStylesTheGroupTests(SimpleTestCase):
 
-    def test_the_name_and_the_patch_are_hidden_for_the_eye_only(self):
-        rule = re.search(r'\.version-game-name,\s*\.version-patch\s*\{([^}]*)\}', sheet('home.css')).group(1)
+    def test_the_full_label_is_hidden_for_the_eye_only(self):
+        rule = re.search(r'\.version-game-name,\s*\.version-full,\s*\.version-sep\s*\{([^}]*)\}', sheet('home.css')).group(1)
         self.assertIn('position: absolute', rule)
         self.assertIn('clip', rule)
         self.assertNotIn('display: none', rule)

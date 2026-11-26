@@ -2,7 +2,7 @@
     {% for game in version_switch_games %}
         <span class="version-game" data-family="{{ game.key }}"{% if game.has_menu %} data-menu="{% blocktrans with game=game.label %}{{ game }} versions{% endblocktrans %}"{% endif %}>
             {% for member in game.members %}
-                <a href="{% version_switch_href member.key %}" data-version="{{ member.key }}" class="version-link{% if member.is_beta %} version-beta{% endif %}{% if current_game_version == member.key %} active{% endif %}">{% if member.is_beta %}{% if game.label not in member.label %}<span class="version-game-name">{{ game.label }}&nbsp;</span>{% endif %}<span class="version-channel">{{ member.label }}</span>{% else %}{{ member.label }}{% endif %}{% if member.patch %}<span class="version-patch" aria-hidden="true">{{ member.patch }}</span>{% endif %}</a>
+                <a href="{% version_switch_href member.key %}" data-version="{{ member.key }}" class="version-link{% if member.is_beta %} version-beta{% endif %}{% if current_game_version == member.key %} active{% endif %}" title="{{ member.title }}"><span class="version-short" aria-hidden="true">{% if member.is_beta %}{% if game.label not in member.label %}<span class="version-game-name">{{ game.label }}&nbsp;</span>{% endif %}<span class="version-channel">{{ member.label }}</span>{% else %}{{ member.label }}{% endif %}</span><span class="version-full"><span class="version-name">{{ member.name }}</span>{% if member.stamp %}<span class="version-sep">, </span><span class="version-patch">{{ member.stamp }}</span>{% endif %}</span></a>
             {% endfor %}
         </span>
     {% endfor %}

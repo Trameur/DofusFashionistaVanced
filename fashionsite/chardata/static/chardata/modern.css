@@ -1013,7 +1013,7 @@ html.fm-dark:not(.fm-modern, .fm-enhanced) .compare-cart-toggle{ color:#f1f1f4; 
 .compare-cart-panel .cc-go{ flex:1; margin:0; white-space:nowrap; }
 .compare-cart-panel .cc-go[disabled]{ opacity:.5; cursor:not-allowed; }
 .compare-cart-panel .cc-clear{
-  border:0; background:transparent; color:#c9c9d1; cursor:pointer; padding:0;
+  flex:0 0 auto; border:0; background:transparent; color:#c9c9d1; cursor:pointer; padding:0;
   font-size:.85em; text-decoration:underline; white-space:nowrap;
 }
 .compare-cart-panel .cc-clear:hover{ color:#fff; }

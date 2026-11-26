@@ -31,6 +31,11 @@ def readable_keys():
     return reader_dofus_versions()
 
 
+def native_name(key, language=None):
+    """The game name of a version key in the reader's language."""
+    return _accented(GAME_VERSIONS[key].game_name, _language(language), _ACCENTED)
+
+
 def count_word(language=None):
     """How many versions readers can reach, as a word: 'five', 'cinq', 'fünf'."""
     count = len(readable_keys())

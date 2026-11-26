@@ -5,7 +5,7 @@ from django.test import SimpleTestCase
 from fashionistapulp.game_versions import (DEFAULT_VERSION, GAME_VERSIONS,
                                            SWITCHER_FAMILY_ORDER, family_members, is_beta, main_of,
                                            reader_dofus_versions,
-                                           switcher_games, version_keys)
+                                           switcher_games, switcher_order, version_keys)
 
 
 class EveryBetaBelongsToAMainGame(SimpleTestCase):
@@ -69,6 +69,6 @@ class EveryBetaBelongsToAMainGame(SimpleTestCase):
         self.assertEqual(mains, set(SWITCHER_FAMILY_ORDER))
 
     def test_the_reader_dofus_versions_drop_the_experimental_ones(self):
-        self.assertEqual(reader_dofus_versions(),
-                         [key for key in version_keys()
-                          if GAME_VERSIONS[key].dofus])
+        self.assertEqual(sorted(reader_dofus_versions()),
+                         sorted(key for key in version_keys()
+                                if GAME_VERSIONS[key].dofus))

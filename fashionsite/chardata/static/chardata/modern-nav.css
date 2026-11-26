@@ -118,8 +118,8 @@ html.fm-modern .fm-vs-menu a.fm-vs-choice{
 html.fm-modern .fm-vs-menu a.fm-vs-choice:hover{ background:var(--fm-navfill); color:#fff !important; }
 html.fm-modern .fm-vs-menu a.fm-vs-choice[aria-current="page"]{ color:var(--fm-navgold) !important; box-shadow:inset 3px 0 0 var(--fm-navgold); }
 html.fm-modern .fm-vs-menu a.fm-vs-choice:focus-visible{ outline-offset:-2px; }
-html.fm-modern .fm-vs-menu .version-game-name,
-html.fm-modern .fm-vs-menu .version-patch{ position:static; width:auto; height:auto; overflow:visible; clip:auto; clip-path:none; }
+html.fm-modern .fm-vs-menu .version-short{ display:none; }
+html.fm-modern .fm-vs-menu .version-full{ position:static; display:flex; align-items:center; flex:1 1 auto; width:auto; height:auto; overflow:visible; clip:auto; clip-path:none; }
 html.fm-modern .fm-vs-menu .version-patch{ margin-left:auto; padding-left:20px; color:var(--fm-navmuted); font-size:12.5px; font-variant-numeric:tabular-nums; }
 html.fm-modern .fm-vs-menu a.fm-vs-choice:hover .version-patch{ color:var(--fm-navink); }
 
@@ -385,8 +385,10 @@ html.fm-modern .fm-topnav .login #logged_user_alias{ display:inline-block; max-w
 }
 @media (max-width:389px){
   html.fm-modern{ --fm-band-h:calc(100vw * 84 / 390); }
-  html.fm-modern .fm-topnav.fm-nav-js .version-link{ padding:8px 6px !important; font-size:12px; }
+  html.fm-modern .fm-topnav.fm-nav-js .version-link{ padding:8px 4px !important; font-size:12px; }
   html.fm-modern .fm-topnav.fm-nav-js .version-link.fm-vs-pill{ padding-right:3px !important; }
+  html.fm-modern .fm-topnav.fm-nav-js .version-link.fm-vs-pill .version-channel{ padding:2px 4px; }
+  html.fm-modern .fm-topnav.fm-nav-js button.fm-vs-more{ flex:0 0 24px; width:24px; }
   html.fm-modern .fm-topnav.fm-nav-js .version-link.version-beta.fm-vs-pill{ font-size:12px; }
   html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-vers .version-selector{ gap:1px; }
 }

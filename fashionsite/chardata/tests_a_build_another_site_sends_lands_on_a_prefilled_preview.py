@@ -14,7 +14,7 @@ from chardata import fashionista_build
 from chardata.char_blobs import read_char_blob
 from chardata.management.commands import check_actions
 from chardata.models import Char, CharBaseStats, ImportSourceHit
-from fashionistapulp.game_versions import version_keys
+from fashionistapulp.game_versions import switcher_order, version_keys
 from fashionistapulp.structure import get_structure
 
 BROWSER = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
@@ -341,8 +341,8 @@ class ABadPayloadGetsATranslatedMessageTests(_SentBuild):
          'Le champ format doit valoir fashionista-build.'),
         ('unsupported_version', 'Only version 1 of the format can be read.',
          'Seule la version 1 du format peut être lue.'),
-        ('unknown_game', 'The game field must be %s or %s.' % (', '.join(version_keys()[:-1]), version_keys()[-1]),
-         'Le champ game doit valoir %s ou %s.' % (', '.join(version_keys()[:-1]), version_keys()[-1])),
+        ('unknown_game', 'The game field must be %s or %s.' % (', '.join(switcher_order()[:-1]), switcher_order()[-1]),
+         'Le champ game doit valoir %s ou %s.' % (', '.join(switcher_order()[:-1]), switcher_order()[-1])),
     )
 
     def _links(self):

@@ -167,3 +167,33 @@ h2 {
     background: #866d4b;
     color: #ffffff;
 }
+html:not(.fm-modern, .fm-enhanced) button.fm-vs-more {
+    background: #c4a882;
+    color: #3D200D;
+    border: 1px solid #3D200D;
+    border-left: none;
+}
+html:not(.fm-modern, .fm-enhanced) button.fm-vs-more:hover,
+html:not(.fm-modern, .fm-enhanced) button.fm-vs-more[aria-expanded="true"] {
+    background: #866d4b;
+    color: #ffffff;
+}
+html:not(.fm-modern, .fm-enhanced) .version-link.fm-vs-pill { border-left: 1px solid #3D200D; }
+html:not(.fm-modern, .fm-enhanced) .version-link.active + button.fm-vs-more {
+    background: #3D200D;
+    color: #ffffff;
+}
+html:not(.fm-modern, .fm-enhanced) .fm-vs-menu {
+    background: #c4a882;
+    border: 1px solid #3D200D;
+    box-shadow: 0 6px 16px rgba(61, 32, 13, 0.35);
+}
+html:not(.fm-modern, .fm-enhanced) .fm-vs-menu a.fm-vs-choice { color: #3D200D; }
+html:not(.fm-modern, .fm-enhanced) .fm-vs-menu a.fm-vs-choice:hover {
+    background: #866d4b;
+    color: #ffffff;
+}
+html:not(.fm-modern, .fm-enhanced) .fm-vs-menu a.fm-vs-choice[aria-current="page"] {
+    background: #3D200D;
+    color: #ffffff;
+}

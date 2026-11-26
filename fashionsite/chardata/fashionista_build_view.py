@@ -21,7 +21,7 @@ from chardata import export_count, fashionista_build, text_build_view
 from chardata.api_view import _api_endpoint, _absent, _json
 from chardata.fashionista_build import FormatError
 from chardata.util import get_char_or_raise, set_response, version_free_canonical
-from fashionistapulp.game_versions import get_game_version, version_keys
+from fashionistapulp.game_versions import get_game_version, switcher_order, version_keys
 
 VALIDATE_WINDOW = 600
 VALIDATE_PER_ADDRESS = 120
@@ -179,7 +179,7 @@ def send_a_build(request):
                                             checker_language),
         'answer_example': json.dumps(answer, indent=2, ensure_ascii=False),
         'import_path': _import_url(page_version),
-        'games': list(version_keys()),
+        'games': switcher_order(),
         'errors': [(code, fashionista_build.message(code)) for code, _text in fashionista_build.ERRORS],
         'warnings': fashionista_build.documented_warnings(),
         'stat_keys': _stat_keys(page_version),

@@ -39,6 +39,9 @@ class TheScriptReadsTheGamesFromTheMarkupTests(SimpleTestCase):
         self.assertIn("pill=q('.version-link.active',g)||ls[0]", SCRIPT)
         self.assertIn('if(ls[i]!==pill)ls[i].hidden=true', SCRIPT)
 
+    def test_a_pill_with_a_menu_loses_its_title_so_the_menu_names_the_versions(self):
+        self.assertIn("pill.classList.add('fm-vs-pill');pill.removeAttribute('title');", SCRIPT)
+
     def test_the_chevron_is_a_disclosure_button_named_by_the_group(self):
         self.assertIn("btn.type='button'", SCRIPT)
         self.assertIn("btn.className='fm-vs-more'", SCRIPT)
@@ -146,7 +149,7 @@ class TheMenuStyleTests(SimpleTestCase):
         self.assertIn('color:var(--fm-navgold)', chip)
 
     def test_on_the_smallest_phones_four_games_and_three_chevrons_share_the_row(self):
-        self.assertIn('padding:8px 6px !important; font-size:12px;', rule(TINY, '  html.fm-modern .fm-topnav.fm-nav-js .version-link'))
+        self.assertIn('padding:8px 4px !important; font-size:12px;', rule(TINY, '  html.fm-modern .fm-topnav.fm-nav-js .version-link'))
         self.assertIn('gap:1px', rule(TINY, '  html.fm-modern .fm-topnav.fm-nav-js .fm-topnav-vers .version-selector'))
 
 

@@ -23,7 +23,7 @@ from chardata.util import shared_build_path
 from fashionistapulp.dofus_constants import STAT_ORDER, type_names_for
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import is_same_item_name, strip_accents
-from fashionistapulp.game_versions import get_game_version
+from fashionistapulp.game_versions import get_game_version, version_keys
 from fashionistapulp.item_flags import flag_lines
 from fashionistapulp.modelresult import sets_equipped_text, wisdom_per_ap_mp_dodge_point
 from fashionistapulp.spell_text import fold_spell_blocks
@@ -1240,7 +1240,7 @@ def _humanize_missing_slug(slug, fallback):
 def _resolve_missing_item_name(ankama_type, ankama_id, slug, language, current_game_version):
     fallback = _humanize_missing_slug(slug, '#%s' % ankama_id)
     target_types = _get_ankama_type_aliases(ankama_type)
-    for game_version, _label in ACTIVE_GAME_VERSIONS:
+    for game_version in version_keys():
         if game_version == current_game_version:
             continue
         try:
@@ -1262,7 +1262,7 @@ def _resolve_missing_monster_name(monster_id, slug, language, current_game_versi
     fallback = _humanize_missing_slug(slug, '#%s' % monster_id)
     if not has_display_name({language: fallback}):
         fallback = '#%s' % monster_id
-    for game_version, _label in ACTIVE_GAME_VERSIONS:
+    for game_version in version_keys():
         if game_version == current_game_version:
             continue
         conn = None
@@ -1288,7 +1288,7 @@ def _resolve_missing_resource_name(subtype, ankama_id, slug, language,
     if current_name:
         return current_name
     fallback = _humanize_missing_slug(slug, '#%s' % ankama_id)
-    for game_version, _label in ACTIVE_GAME_VERSIONS:
+    for game_version in version_keys():
         if game_version == current_game_version:
             continue
         conn = None

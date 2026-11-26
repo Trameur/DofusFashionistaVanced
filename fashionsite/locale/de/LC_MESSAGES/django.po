@@ -7411,8 +7411,8 @@ msgid "It follows the buffs you tick and the rank you pick."
 msgstr "Sie folgt den Buffs, die du ankreuzt, und dem gewählten Rang."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Retro and Touch spells now carry their AP cost and casting limits."
-msgstr "Retro- und Touch-Zauber tragen jetzt ihre AP-Kosten und Zauberbegrenzungen."
+msgid "Touch and Retro spells now carry their AP cost and casting limits."
+msgstr "Touch- und Retro-Zauber tragen jetzt ihre AP-Kosten und Zauberbegrenzungen."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Spells explained where they are named"
@@ -7630,8 +7630,8 @@ msgid "Hover any number in a comparison to see which pieces make it."
 msgstr "Fahre in einem Vergleich über eine Zahl, um zu sehen, welche Teile sie ergeben."
 
 #: .\chardata\templates\chardata\changelog_content.html:8
-msgid "Dofus Retro and Touch: a comparison can add PvP resistances when your gear carries them."
-msgstr "Dofus Retro und Touch: Ein Vergleich kann PvP-Resistenzen einrechnen, wenn deine Ausrüstung welche hat."
+msgid "Dofus Touch and Retro: a comparison can add PvP resistances when your gear carries them."
+msgstr "Dofus Touch und Retro: Ein Vergleich kann PvP-Resistenzen einrechnen, wenn deine Ausrüstung welche hat."
 
 #: .\chardata\templates\chardata\changelog_content.html:8
 msgid "Every forgeable item in a build opens straight in the smithmagic workbench."
@@ -8615,8 +8615,8 @@ msgstr "Deren Schmiedmagie-Feld kann diese Transzendenzrunen nicht tragen, sie b
 msgid "The build name and the class do not travel: their link format has no room for them."
 msgstr "Der Name des Builds und die Klasse kommen nicht mit: ihr Linkformat hat dafür keinen Platz."
 
-msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Retro and Touch)."
-msgstr "Schicke deinen Build direkt von der Lösungsseite an eine andere Build-Seite, Schmiedmagie inklusive (Dofus 3, Retro und Touch)."
+msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Touch and Retro)."
+msgstr "Schicke deinen Build direkt von der Lösungsseite an eine andere Build-Seite, Schmiedmagie inklusive (Dofus 3, Touch und Retro)."
 
 msgid "Show this build in the gallery once it has gear"
 msgstr "Diesen Build in der Galerie zeigen, sobald er Ausrüstung hat"
@@ -9336,8 +9336,8 @@ msgid "Add <code>\"type\": \"mount\"</code> when the id is a mount: Dofus Touch 
 msgstr "Füg <code>\"type\": \"mount\"</code> hinzu, wenn die ID ein Reittier ist: Dofus Touch nummeriert seine Reittiere getrennt von den Gegenständen."
 
 #: chardata/templates/chardata/send_a_build.html
-msgid "A Dofus Retro or Dofus Touch pet sent with its stat lines comes in as the variant that carries exactly those stats."
-msgstr "Ein Vertrauter aus Dofus Retro oder Dofus Touch, mit seinen Wertezeilen geschickt, kommt als die Variante an, die genau diese Werte trägt."
+msgid "A Dofus Touch or Dofus Retro pet sent with its stat lines comes in as the variant that carries exactly those stats."
+msgstr "Ein Vertrauter aus Dofus Touch oder Dofus Retro, mit seinen Wertezeilen geschickt, kommt als die Variante an, die genau diese Werte trägt."
 
 #: chardata/templates/chardata/send_a_build.html
 msgid "Stat keys"
