@@ -339,9 +339,13 @@ class TheCommandSolvesOnTheClassTurnTests(SimpleTestCase):
                                             'on the class turn; 1 rounds') for line in lines),
                         out.getvalue())
         self.assertTrue(any(line.startswith('  best turn of class 19: ') for line in lines))
-        header = lines.index('  weights of the kept round, percent of value per point, each '
-                             'AP total priced by the class turn')
-        self.assertFalse(any(part.startswith('AP ') for part in lines[header + 1].split('  ')))
+        if any(line.startswith('  generic set *') for line in lines):
+            lines.index('  weights of the kept round, percent of value per point, from the '
+                        'generic solve, whose set the class turn values higher')
+        else:
+            header = lines.index('  weights of the kept round, percent of value per point, each '
+                                 'AP total priced by the class turn')
+            self.assertFalse(any(part.startswith('AP ') for part in lines[header + 1].split('  ')))
 
     def test_the_class_turn_option_needs_a_class(self):
         with self.assertRaisesMessage(CommandError, '--class-turn needs --class-id'):
