@@ -72,6 +72,14 @@ def stat_name(key):
     return key.replace('_PERCENT', '').replace('_', ' ').title()
 
 
+def canonical_name(names):
+    """(language, name): English first, else the first language that names it."""
+    for language in LANGUAGES:
+        if names.get(language):
+            return language, names[language]
+    return None, None
+
+
 def read_sets(out_dir, version):
     """{set id: {language: name}} from get_sets_wakfu.py, or nothing yet."""
     path = Path(out_dir) / version / 'sets.json'
@@ -245,6 +253,12 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
         # away in item_type_position, so nothing about the slot is copied onto
         # the item and the two can never disagree.
         item_id = item['id']
+        named_in, name = canonical_name(item['name'])
+        if not name:
+            counts['title not found in any language, not shown'] += 1
+            continue
+        if named_in != 'en':
+            counts['missing translation, named in %s' % named_in] += 1
         # A set the encyclopedia no longer has a page for keeps its items
         # and simply goes unnamed, rather than the items losing their set.
         set_id = item.get('set_id')
@@ -255,7 +269,7 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
             'INSERT INTO items (id, name, level, type, item_set, ankama_id,'
             ' ankama_type, removed, dofustouch, skin)'
             ' VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, NULL)',
-            (item_id, item['name'].get('en'), item['level'],
+            (item_id, name, item['level'],
              item['type_id'], set_id, item_id, 'equipment'))
         written.add(item_id)
         counts['items'] += 1
