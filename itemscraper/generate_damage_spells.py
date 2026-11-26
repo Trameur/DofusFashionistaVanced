@@ -774,6 +774,7 @@ def _apply_stackable_damage(
     steals: Optional[List[bool]],
     heals: Optional[List[bool]],
     counts_its_own_target: bool = False,
+    declared_cap: Optional[int] = None,
 ) -> Optional[List[Tuple[str, List[int]]]]:
     if not damage_template:
         return None
@@ -790,6 +791,8 @@ def _apply_stackable_damage(
     for cap in caps:
         if cap and cap > stack_cap:
             stack_cap = cap
+    if declared_cap and 1 < declared_cap < stack_cap:
+        stack_cap = declared_cap
     if stack_cap <= 0 and not counts_its_own_target:
         return None
     base_non_crit = non_crit[0]
@@ -2102,11 +2105,10 @@ def _stack_limit_from_description(spell: Mapping[str, Any]) -> Optional[int]:
     return cap if cap > 1 else None
 
 
-def _extract_stack_limit(spell: Mapping[str, Any]) -> Optional[int]:
-    levels = spell.get("levels") or []
+def _declared_stack_limit(spell: Mapping[str, Any]) -> Tuple[Optional[int], bool]:
     stack_values: List[int] = []
     declared = False
-    for level in levels:
+    for level in spell.get("levels") or []:
         try:
             stack = int(level.get("max_stack"))
         except (TypeError, ValueError):
@@ -2116,8 +2118,13 @@ def _extract_stack_limit(spell: Mapping[str, Any]) -> Optional[int]:
         declared = True
         if stack > 1:
             stack_values.append(stack)
-    if stack_values:
-        return max(stack_values)
+    return (max(stack_values) if stack_values else None), declared
+
+
+def _extract_stack_limit(spell: Mapping[str, Any]) -> Optional[int]:
+    limit, declared = _declared_stack_limit(spell)
+    if limit:
+        return limit
     # Description only when no rank declares max_stack
     if declared:
         return None
@@ -3650,6 +3657,7 @@ def convert_spell(
         steals,
         heals,
         _counts_its_own_target(spell, spell_lookup),
+        _declared_stack_limit(spell)[0],
     )
     if stack_aggregates and mp_stack_spec and mp_stack_spec.get("labels"):
         stack_aggregates = _apply_custom_stack_labels(stack_aggregates, mp_stack_spec["labels"])

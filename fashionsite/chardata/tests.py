@@ -20384,7 +20384,7 @@ class SpellComboTests(SimpleTestCase):
         rage = spells['Fit of Rage']
         self.assertTrue(rage.stacked)
         self.assertEqual(len(rage.hits), 1)
-        self.assertEqual(len(rage.spell.get_effects_digest().non_crit_dams[-1]), 5)
+        self.assertEqual(len(rage.spell.get_effects_digest().non_crit_dams[-1]), 3)
 
     def test_several_hits_in_one_cast_are_added_up(self):
         # No aggregates: the rows are real hits landing together
