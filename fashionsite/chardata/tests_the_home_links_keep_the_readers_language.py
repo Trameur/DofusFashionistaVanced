@@ -274,7 +274,7 @@ class TheFeaturedBuildsAreBuiltForTheReaderTests(TestCase):
 
         def authors(path):
             html = self.client.get(path).content.decode('utf-8', 'replace')
-            return re.findall(r'featured-build-author"[^>]*>([^<]*)<', html)
+            return re.findall(r'featured-build-author[^"]*"[^>]*>([^<]*)<', html)
 
         english = authors('/')
         french = authors('/fr/')
