@@ -5,3 +5,8 @@
 .compare-item-stats {
     background-color: #CACCA7;
 }
+html:not(.fm-modern, .fm-enhanced) .compare-best-turn-note,
+html:not(.fm-modern, .fm-enhanced) .compare-spell-preview-title,
+html:not(.fm-modern, .fm-enhanced) .compare-target-cell {
+    color: #FFFFFF;
+}

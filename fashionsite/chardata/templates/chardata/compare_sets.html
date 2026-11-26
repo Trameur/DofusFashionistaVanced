@@ -242,7 +242,7 @@
         <table class="solution-stat-table compare-spell-preview-table">
             <tr>
                 <td colspan="99" class="compare-spell-preview-title">
-                    <div style="display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap;">
+                    <div class="compare-pinned" style="display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap;">
                         <b>{% trans "Spell damage preview" %}</b>
                         {% if spell_preview_class_options %}
                         <form method="get" style="margin:0;">{% if best_turn_target %}<input type="hidden" name="target" value="{{ best_turn_target.token }}">{% endif %}
@@ -297,13 +297,13 @@
             </tr>
             <tr class="compare-best-turn-note-row">
                 <td colspan="99" class="compare-best-turn-note">
-                    {{ best_turn_note }}
+                    <div class="compare-pinned">{{ best_turn_note }}</div>
                 </td>
             </tr>
             {% if target_picker_version %}
             <tr class="compare-target-row">
                 <td colspan="99" class="compare-target-cell">
-                    <div id="compare-target"
+                    <div id="compare-target" class="compare-pinned"
                          data-search-url="{% game_url 'monster_targets' %}"
                          data-builds-url="{% game_url 'build_targets' %}"
                          data-monster-level="{% blocktrans with level="__level__" id="__id__" %}Level {{ level }}, ID {{ id }}{% endblocktrans %}"

@@ -817,6 +817,47 @@ html.fm-modern .compare-page .solution-stat-summary-value-cell > .spell-tip:focu
 @media (max-width:480px){
   html.fm-modern .compare-page .solution-stat-table .compare-spell-name-cell{ min-width:110px; }
 }
+html.fm-modern .compare-page .solution-stat-table .solution-stat-summary-value-cell div.small-text{ overflow-wrap:anywhere; }
+html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > td,
+html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > th{ width:auto; min-width:0; }
+html.fm-modern .compare-page .solution-stat-table > tbody > tr > td[align="center"] > b,
+html.fm-modern .compare-page .solution-stat-table > tbody > tr > th[align="center"] > b{ font-size:12px; line-height:1.2; -webkit-hyphens:auto; hyphens:auto; }
+html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > .compare-spell-name-cell,
+html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > td:nth-child(2),
+html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > th[scope="row"]{ overflow-wrap:anywhere; }
+@media (min-width:501px){
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group){ grid-template-columns:20px minmax(0,1fr); grid-auto-flow:column; grid-auto-columns:76px; }
+}
+@media (max-width:500px){
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group){ --n:3; grid-template-columns:20px repeat(var(--n),minmax(0,1fr)); grid-auto-flow:row; column-gap:4px; row-gap:2px; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)){ --n:4; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > :nth-child(2){ grid-column:2 / -1; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > :nth-child(3){ grid-column:2; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> th[scope="col"]) > :nth-child(-n+2),
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> td[align="center"]:not(.solution-stat-summary-value-cell)) > :nth-child(-n+2){ display:none; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > td[align="center"],
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > th[align="center"]{ padding:3px 1px !important; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > td[align="center"] > b,
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group) > th[align="center"] > b{ display:block; white-space:normal; overflow-wrap:break-word; }
+}
+@media (max-width:400px){
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)){ grid-template-columns:repeat(4,minmax(0,1fr)); }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) > :nth-child(1){ grid-column:1; grid-row:1; justify-self:start; width:20px; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) > :nth-child(2){ grid-column:1 / -1; grid-row:1; margin-left:24px; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) > :nth-child(3){ grid-column:1; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) span.small-text{ font-size:clamp(10px,calc((100vw - 86px)*.05),1em); }
+}
+@media (min-width:501px) and (max-width:560px){
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)){ --n:4; grid-template-columns:20px repeat(var(--n),minmax(0,1fr)); grid-auto-flow:row; column-gap:4px; row-gap:2px; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) > :nth-child(2){ grid-column:2 / -1; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) > :nth-child(3){ grid-column:2; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)):has(> th[scope="col"]) > :nth-child(-n+2),
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)):has(> td[align="center"]:not(.solution-stat-summary-value-cell)) > :nth-child(-n+2){ display:none; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) > td[align="center"],
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) > th[align="center"]{ padding:3px 1px !important; }
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) > td[align="center"] > b,
+  html.fm-modern .compare-page .solution-stat-table > tbody > tr.solution-stat-summary-line:not(.fm-stat-group):has(> :nth-child(6)) > th[align="center"] > b{ display:block; white-space:normal; overflow-wrap:break-word; }
+}
 @media (max-width:900px){
   html.fm-modern .compare-share-part{ display:block !important; margin:6px 0; }
   html.fm-modern .compare-share #link_sharing_url_text{ width:100% !important; max-width:100%; box-sizing:border-box; }

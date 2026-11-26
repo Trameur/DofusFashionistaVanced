@@ -251,3 +251,42 @@ html.fm-dark .compare-spell-best {
         font-size: 16px;
     }
 }
+
+@media (max-width:760px) {
+    html:not(.fm-modern, .fm-enhanced) .compare-page,
+    html:not(.fm-modern, .fm-enhanced) .compare-page > tbody,
+    html:not(.fm-modern, .fm-enhanced) .compare-page > tbody > tr,
+    html:not(.fm-modern, .fm-enhanced) .compare-page > tbody > tr > td {
+        display: block;
+        width: 100% !important;
+        box-sizing: border-box;
+        padding: 6px 0 !important;
+    }
+
+    html:not(.fm-modern, .fm-enhanced) .compare-page .solution-stat-table,
+    html.fm-enhanced .compare-page .solution-stat-table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    html:not(.fm-modern, .fm-enhanced) .compare-page .solution-stat-table > tbody,
+    html.fm-enhanced .compare-page .solution-stat-table > tbody {
+        display: table;
+        width: 100%;
+    }
+
+    html:not(.fm-modern, .fm-enhanced) .compare-page .compare-pinned {
+        position: sticky;
+        left: 10px;
+        box-sizing: border-box;
+        max-width: calc(100vw - 48px);
+    }
+
+    html.fm-enhanced .compare-page .compare-pinned {
+        position: sticky;
+        left: 10px;
+        box-sizing: border-box;
+        max-width: calc(100vw - 66px);
+    }
+}
