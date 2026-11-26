@@ -19076,8 +19076,7 @@ class WakfuGearReachesFarPastAnyCapTests(SimpleTestCase):
 
 def _installed_wakfu_build():
     """The Wakfu build the site holds, the version its dump carries."""
-    from itemscraper.wakfu_mirror import current_build
-    return current_build()
+    return itemscraper_module('wakfu_mirror').current_build()
 
 
 def _installed_wakfu_harvest():
