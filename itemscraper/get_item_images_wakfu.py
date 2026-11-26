@@ -32,13 +32,20 @@ fetched twice, so the second run costs almost nothing.
 from __future__ import annotations
 
 import argparse
+import http.client
 import io
 import json
+import socket
 import sys
 import time
 import urllib.error
 import urllib.request
 from pathlib import Path
+
+try:
+    from itemscraper import wakfu_http
+except ImportError:
+    import wakfu_http
 
 HERE = Path(__file__).resolve().parent.parent
 STATIC = HERE / 'fashionsite' / 'chardata' / 'static' / 'chardata' / 'items'
@@ -50,6 +57,7 @@ SIZES = (115, 64, 21)
 BROWSER = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
            ' (KHTML, like Gecko) Chrome/120 Safari/537.36')
 PACE = 0.12
+PICTURE_RETRY_CODES = wakfu_http.RETRY_CODES - {403}
 
 
 def wanted(dump_path):
@@ -62,9 +70,22 @@ def wanted(dump_path):
 
 
 def fetch(gfx_id, size):
+    """The picture bytes, transient failures retried; a 403 or 404 is raised at once."""
     request = urllib.request.Request(URL % (size, gfx_id),
                                      headers={'User-Agent': BROWSER})
-    return urllib.request.urlopen(request, timeout=40).read()
+    used = {}
+    while True:
+        try:
+            return urllib.request.urlopen(request, timeout=40).read()
+        except (urllib.error.URLError, socket.timeout, ConnectionError,
+                http.client.HTTPException) as error:
+            wait = wakfu_http.retry_wait(error, used, codes=PICTURE_RETRY_CODES)
+            if wait is None:
+                raise
+            problem = ('HTTP %d' % error.code if isinstance(error, urllib.error.HTTPError)
+                       else str(error) or error.__class__.__name__)
+            print('  %s: %s, retry in %d s' % (request.full_url, problem, wait), flush=True)
+            time.sleep(wait)
 
 
 def store(body, path):
