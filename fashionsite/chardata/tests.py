@@ -19074,21 +19074,89 @@ class WakfuGearReachesFarPastAnyCapTests(SimpleTestCase):
                         'rule could have been about one piece')
 
 
-def _newest_wakfu_harvest():
-    """spells_fr.json of the newest mirrored Wakfu build that holds one."""
+def _installed_wakfu_build():
+    """The Wakfu build the site holds, the version its dump carries."""
+    from itemscraper.wakfu_mirror import current_build
+    return current_build()
+
+
+def _installed_wakfu_harvest():
+    """spells_fr.json of the installed Wakfu build, whether or not it exists."""
     mirror = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
         os.path.abspath(__file__)))), 'itemscraper', 'wakfu_raw')
-    builds = [build for build in (os.listdir(mirror) if os.path.isdir(mirror) else [])
-              if os.path.exists(os.path.join(mirror, build, 'spells_fr.json'))]
-    newest = max(builds or ['none'], key=lambda build: [
-        int(part) if part.isdigit() else -1 for part in build.split('.')])
-    return os.path.join(mirror, newest, 'spells_fr.json')
+    return os.path.join(mirror, str(_installed_wakfu_build()), 'spells_fr.json')
+
+
+# Ankama's pages disagree on these spells. The descriptions say what the
+# notes give; en, es and pt follow them where French lags, fr, es and pt
+# where English lags.
+WAKFU_PAGE_DISAGREEMENTS = {
+    '1.93': {
+        'stale_in_french': {
+            4702: 'heals allies; on an Imbibe target -100 elemental resistance',
+            4708: 'steals 100 % of the damage on an Imbibe target',
+            4712: 'carrying the barrel: 1 AP less, +4 max range',
+            4716: 'range 1 - 4',
+        },
+        'stale_in_english': {
+            5029: 'cast on an enemy: damage, -3 MP, -15 % damage dealt',
+            5032: 'Flame Return 30 % of max HP, then damage',
+            5037: 'one damage row, in a square area',
+            5041: 'one Motion Sickness damage row, then the Berserk damage',
+        },
+        # en, es and pt show Bain de sang there, and the French figures are older
+        'no_page_follows_the_notes': {
+            5047: '20 % of max HP as Armor, range 0 - 1',
+        },
+        'numbers_differ': frozenset((4708, 4712, 4716, 5032, 5037, 5041, 5047)),
+        'rows_differ': frozenset((4702, 4708, 5029, 5032, 5037, 5041)),
+    },
+    '1.94': {
+        'stale_in_french': {},
+        'stale_in_english': {
+            5029: 'cast on an enemy: damage, -3 MP, -15 % damage dealt',
+            5041: 'one Motion Sickness damage row, then the Berserk damage',
+        },
+        'no_page_follows_the_notes': {},
+        'numbers_differ': frozenset((5041,)),
+        'rows_differ': frozenset((5029, 5041)),
+    },
+}
+
+
+def _wakfu_build_order(build):
+    return [int(part) if part.isdigit() else -1 for part in str(build).split('.')]
+
+
+def reviewed_wakfu_page_disagreements(build):
+    """(version, entry, exact): the entry reviewed for this build, else the newest below it."""
+    for version, entry in WAKFU_PAGE_DISAGREEMENTS.items():
+        if build == version or str(build).startswith(version + '.'):
+            return version, entry, True
+    below = [version for version in WAKFU_PAGE_DISAGREEMENTS
+             if _wakfu_build_order(version) < _wakfu_build_order(build)]
+    if below:
+        newest = max(below, key=_wakfu_build_order)
+        return newest, WAKFU_PAGE_DISAGREEMENTS[newest], False
+    return None, {'stale_in_french': {}, 'stale_in_english': {},
+                  'no_page_follows_the_notes': {}, 'numbers_differ': frozenset(),
+                  'rows_differ': frozenset()}, False
+
+
+def wakfu_page_disagreement_problems(recorded, found, exact):
+    """Spell ids found outside the record; on a reviewed build, recorded ids no longer found too."""
+    problems = sorted(set(found) - set(recorded))
+    if exact:
+        problems += sorted(set(recorded) - set(found))
+    return problems
 
 
 class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
     """Wakfu spells come from the encyclopedia: spells.json answers 403."""
 
-    HARVEST = _newest_wakfu_harvest()
+    BUILD = _installed_wakfu_build()
+    HARVEST = _installed_wakfu_harvest()
+    REVIEWED_FOR, REVIEWED, EXACT = reviewed_wakfu_page_disagreements(BUILD)
     _cache = {}
 
     def _spells(self):
@@ -19178,34 +19246,16 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                           'against %s; re-run both before comparing them'
                           % (languages[0], languages[1], here, there))
 
-    # Ankama's pages disagree on these spells. The value says what the 1.93
-    # notes give; en, es and pt follow them where French lags, fr, es and pt
-    # where English lags.
-    STALE_IN_FRENCH = {
-        4702: 'heals allies; on an Imbibe target -100 elemental resistance',
-        4708: 'steals 100 % of the damage on an Imbibe target',
-        4712: 'carrying the barrel: 1 AP less, +4 max range',
-        4716: 'range 1 - 4',
-    }
-    STALE_IN_ENGLISH = {
-        5029: 'cast on an enemy: damage, -3 MP, -15 % damage dealt',
-        5032: 'Flame Return 30 % of max HP, then damage',
-        5037: 'one damage row, in a square area',
-        5041: 'one Motion Sickness damage row, then the Berserk damage',
-    }
-    # en, es and pt show Bain de sang there, and the French figures are older
-    NO_PAGE_FOLLOWS_THE_NOTES = {
-        5047: '20 % of max HP as Armor, range 0 - 1',
-    }
-    NUMBERS_DIFFER = frozenset((4708, 4712, 4716, 5032, 5037, 5041, 5047))
-    ROWS_DIFFER = frozenset((4702, 4708, 5029, 5032, 5037, 5041))
-
     def test_each_disagreement_says_which_page_follows_the_notes(self):
-        recorded = [set(self.STALE_IN_FRENCH), set(self.STALE_IN_ENGLISH),
-                    set(self.NO_PAGE_FOLLOWS_THE_NOTES)]
-        self.assertEqual(self.NUMBERS_DIFFER | self.ROWS_DIFFER,
-                         set().union(*recorded))
-        self.assertEqual(sum(map(len, recorded)), len(set().union(*recorded)))
+        for version, entry in WAKFU_PAGE_DISAGREEMENTS.items():
+            with self.subTest(build=version):
+                recorded = [set(entry['stale_in_french']),
+                            set(entry['stale_in_english']),
+                            set(entry['no_page_follows_the_notes'])]
+                self.assertEqual(entry['numbers_differ'] | entry['rows_differ'],
+                                 set().union(*recorded))
+                self.assertEqual(sum(map(len, recorded)),
+                                 len(set().union(*recorded)))
 
     def test_the_numbers_are_the_same_in_both_languages(self):
         # Figures do not translate: both languages must give the same numbers
@@ -19227,12 +19277,13 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                                      level, left['ap'], right['ap']))
                     break
         unexpected = [row for row in disagree
-                      if row[0] not in self.NUMBERS_DIFFER]
+                      if row[0] not in self.REVIEWED['numbers_differ']]
         self.assertEqual([], unexpected[:5],
                          '%d spells read differently in the two languages'
                          % len(unexpected))
-        self.assertEqual(sorted(self.NUMBERS_DIFFER),
-                         sorted(row[0] for row in disagree))
+        self.assertEqual([], wakfu_page_disagreement_problems(
+            self.REVIEWED['numbers_differ'], [row[0] for row in disagree],
+            self.EXACT))
 
     def test_the_four_languages_agree_on_which_rows_are_conditional(self):
         """Every language marks the same rows conditional."""
@@ -19267,12 +19318,14 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
         self.assertGreater(marked, 20,
                            'nothing was marked conditional, so nothing was '
                            'tested')
-        unexpected = [row for row in disagree if row[0] not in self.ROWS_DIFFER]
+        unexpected = [row for row in disagree
+                      if row[0] not in self.REVIEWED['rows_differ']]
         self.assertEqual([], unexpected[:5],
                          '%d spells read differently in two languages'
                          % len(unexpected))
-        self.assertEqual(sorted(self.ROWS_DIFFER),
-                         sorted(row[0] for row in disagree))
+        self.assertEqual([], wakfu_page_disagreement_problems(
+            self.REVIEWED['rows_differ'], [row[0] for row in disagree],
+            self.EXACT))
 
     def test_only_the_sram_has_a_different_book_per_language(self):
         # Ankama's French and English Sram books differ, no other class does
@@ -19655,21 +19708,24 @@ class TheWakfuSolverObeysTheGameTests(SimpleTestCase):
         self.assertGreater(landing['dmg_fire_percent'], 0)
 
     def test_wanting_one_element_beats_wanting_three(self):
-        # A three-element line feeds three: wanting one element gets more of it
+        """Mastery counts each element's own lines, Elemental Mastery and the spread lines."""
+        from fashionistapulp.wakfu_value import ELEMENTAL_MASTERY, MASTERY_OF
         one, worn_one = self._build(self.BINDS, {'dmg_fire_percent': 1})
         three, worn_three = self._build(
             self.BINDS, {'dmg_fire_percent': 1, 'dmg_water_percent': 1,
                          'dmg_earth_percent': 1})
         self.assertIsNotNone(worn_one)
         self.assertIsNotNone(worn_three)
-        fire_alone = one.where_the_spread_lands(worn_one)['dmg_fire_percent']
-        fire_shared = three.where_the_spread_lands(worn_three)['dmg_fire_percent']
-        self.assertGreater(fire_alone, 0)
-        self.assertGreaterEqual(fire_alone, fire_shared)
-        # Spreading buys the other elements
-        self.assertGreater(
-            three.where_the_spread_lands(worn_three)['dmg_earth_percent'],
-            one.where_the_spread_lands(worn_one)['dmg_earth_percent'])
+        totals_one, totals_three = one.totals(worn_one), three.totals(worn_three)
+
+        def mastery(totals, element):
+            return totals[MASTERY_OF[element]] + totals[ELEMENTAL_MASTERY]
+
+        self.assertGreater(mastery(totals_one, 'fire'), 0)
+        self.assertGreaterEqual(mastery(totals_one, 'fire'),
+                                mastery(totals_three, 'fire'))
+        self.assertGreater(mastery(totals_three, 'earth'),
+                           mastery(totals_one, 'earth'))
 
     def test_at_most_one_relic_and_one_epic(self):
         build, worn = self._build(self.BINDS, {'hp': 1, 'ap': 200, 'mp': 150})
