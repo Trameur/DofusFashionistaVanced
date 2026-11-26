@@ -505,7 +505,7 @@ html.fm-enhanced p.text img[src*="add-icon"]{ content:url("data:image/svg+xml,%3
 @media (max-width: 900px){
   html.fm-enhanced .solution-item-expand-header{ position:relative; }
   html.fm-enhanced .solution-item-link-div{ position:absolute !important; top:6px; right:8px; margin:0 !important; width:auto !important; z-index:2; }
-  html.fm-enhanced .solution-item-name-div{ padding-right:26px; }
+  html.fm-enhanced .solution-item-name-div{ padding-right:26px; box-sizing:border-box; }
 }
 html.fm-enhanced .button-generic, html.fm-enhanced .button-generic-foreground, html.fm-enhanced .submit-button,
 html.fm-enhanced .rerun-button, html.fm-enhanced input[type="submit"], html.fm-enhanced button.button-generic,
