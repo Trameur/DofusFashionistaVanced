@@ -54,7 +54,7 @@
             "name": "Croissant de Lune",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -1513,7 +1513,7 @@
             "name": "Bottes du Champion",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -1642,7 +1642,7 @@
             "name": "Ceinture du Champion",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -2013,7 +2013,7 @@
                     "int_value": 800000,
                     "element": {
                         "name": "Kamas",
-                        "id": -1
+                        "id": 237
                     }
                 },
                 "is_operand": true
@@ -4229,17 +4229,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16231-128.png"
             },
             "description": "Ballotins, Ballotines, vous qui cherchez l'âme sœur, ce couvre-chef élégant et sobre sera votre signe de reconnaissance. En effet, ce chapeau magique ne peut être porté que par les aventuriers et les aventurières qui ne sont pas encore mariés. Vous pourrez ainsi facilement distinguer plus facilement celles et ceux dont le cœur n'est pas encore pris.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 0,
-                    "element": {
-                        "name": "Married",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8068,7 +8057,7 @@
             "name": "Grozillamu",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -8188,17 +8177,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8255,17 +8233,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8322,17 +8289,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8389,17 +8345,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8456,17 +8401,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8523,17 +8457,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8590,17 +8513,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8657,17 +8569,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8724,17 +8625,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8791,17 +8681,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8858,17 +8737,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8925,17 +8793,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8992,17 +8849,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9059,17 +8905,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9126,17 +8961,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9193,17 +9017,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9260,17 +9073,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9327,17 +9129,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9394,17 +9185,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9461,17 +9241,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9528,17 +9297,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9595,17 +9353,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9662,17 +9409,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9729,17 +9465,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9796,17 +9521,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9863,17 +9577,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9930,17 +9633,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9997,17 +9689,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10064,17 +9745,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10131,17 +9801,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10198,17 +9857,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10265,17 +9913,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10332,17 +9969,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10520,7 +10146,7 @@
             "name": "Amulette du YeCh'Ti",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -11264,7 +10890,7 @@
             "name": "Bottes du Nettoyeur de donjon",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12008,7 +11634,7 @@
             "name": "Collier de perles des îles",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12163,7 +11789,7 @@
             "name": "Elianneau",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12591,7 +12217,7 @@
             "name": "Ceinture de Glourdorak",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13266,7 +12892,7 @@
             "name": "Amulette de Mister Amakna",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13322,7 +12948,7 @@
             "name": "Amulette de Miss Amakna",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13378,7 +13004,7 @@
             "name": "Amulette de Mister Monde des Douze",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13434,7 +13060,7 @@
             "name": "Amulette de Miss Monde des Douze",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -14092,7 +13718,7 @@
             "name": "Amulette du Bibliothécaire",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15098,17 +14724,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82072-128.png"
             },
             "description": "Ce bouclier magique reflète l'âme de votre guilde.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -15131,7 +14746,7 @@
             "name": "Anneau Dyssée",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15187,7 +14802,7 @@
             "name": "Amulette de Mini-Miss Amakna",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15243,7 +14858,7 @@
             "name": "Amulette de Mini-Mister Amakna",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -16456,7 +16071,7 @@
             "name": "Gouglamu",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -16821,17 +16436,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82080-128.png"
             },
             "description": "Ce bouclier enchanté évoque l'essence même de votre alliance.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20027,17 +19631,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/6727-128.png"
             },
             "description": "Tuez avec vos griffes ou caressez avec vos coussinets.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 29,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20081,17 +19674,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17309-128.png"
             },
             "description": "Des poils, des poils, des poils. Encore des poils.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 89,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20135,17 +19717,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82113-128.png"
             },
             "description": "Ce bouclier vous permettra de ruiner les murs dont la peinture est encore fraîche. Faîtes-vous plaisir.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 179,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20189,17 +19760,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16437-128.png"
             },
             "description": "Les puces sont offertes.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 269,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20243,17 +19803,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18103-128.png"
             },
             "description": "Bzzzzzz. Bzzzzzzz. Bzz Bzz. Bzzz ? Bzzz !",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 359,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20297,17 +19846,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19074-128.png"
             },
             "description": "Si votre prochain coup d'épée ne tue pas votre adversaire, il pourra peut-être l'électroculbuter.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 389,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20351,17 +19889,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17307-128.png"
             },
             "description": "Cette cape attire les éclairs sur vous, mais n'espérez pas avoir des éclairs de génie pour autant.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 449,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20405,17 +19932,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82095-128.png"
             },
             "description": "Ce bouclier peut vous protéger des éclairs au chocolat.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 539,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20459,17 +19975,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16419-128.png"
             },
             "description": "Les oreilles de cette coiffe agissent comme deux paratonnerres. Vous doublez ainsi vos chances d'être foudroyé.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 629,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20513,17 +20018,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121011-128.png"
             },
             "description": "Moins salissant que le rouge, ce montilier s'accordera parfaitement à vos idées noires.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 719,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20606,17 +20100,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/7734-128.png"
             },
             "description": "Idéal pour casser ce que vos collègues ont construit la veille.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 749,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20660,17 +20143,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17310-128.png"
             },
             "description": "Avec cette cape sur les épaules, vous pouvez désormais retirer légalement les pavés d'Astrub et chercher la plage.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 809,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20714,17 +20186,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82098-128.png"
             },
             "description": "Ce bouclier vous permettra de dévier les itinéraires des Dragodindes ou de créer volontairement des embouteillages. Ne boudez pas votre plaisir.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 899,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20768,17 +20229,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16422-128.png"
             },
             "description": "Avec ce casque sur la tête, personne ne vous écrasera, mais tout le monde vous évitera, même les habitants de la forêt de Büleck.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 989,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20822,17 +20272,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17334-128.png"
             },
             "description": "Cette cape prend les couleurs de son propriétaire, sauf lorsqu'il devient vert de jalousie.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1079,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20876,17 +20315,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/5092-128.png"
             },
             "description": "\"Saluez vos invités de face, poignardez-les ensuite dans le dos.\" Telle était la philosophie du célèbre laquais Karisseur.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1109,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20930,17 +20358,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17311-128.png"
             },
             "description": "Cette cape a été allongée et agrémentée à son extrémité d'un ramasse-poussière. Vous pouvez ainsi continuer d'ouvrir les portes et de porter les bagages de vos maîtres sans devoir interrompre vos séances de ménage.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1169,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20984,17 +20401,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82099-128.png"
             },
             "description": "Ce bouclier vous protégera efficacement des châtiments corporels infligés par certains maîtres. Ensuite, il pourra rapidement se transformer en plateau pour mieux les servir.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1259,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21038,17 +20444,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16423-128.png"
             },
             "description": "Avec ce chapeau sur la tête, vos maîtres ne vous perdront jamais de vue et pourront faire appel à vos services continuellement.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1349,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21092,17 +20487,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4122-128.png"
             },
             "description": "Vous pouvez lancer ce bâton, courir pour aller le chercher et recommencer jusqu'à ce que vous soyez définitivement perdu.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1469,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21146,17 +20530,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17314-128.png"
             },
             "description": "Jadis, vous n'aviez que la peau sur les os. Désormais vous avez les os sur la peau.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1529,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21200,17 +20573,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82102-128.png"
             },
             "description": "Ce bouclier vous sauvera la vie si vous affrontez des adversaires carnivores : lancez-le et fuyez en courant.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1619,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21254,17 +20616,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16426-128.png"
             },
             "description": "Avec cette coiffe sur la tête, le Meulou vous trouvera \"à croquer\".",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1709,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21308,17 +20659,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18102-128.png"
             },
             "description": "Sa petite tête de tétard vous rappelle quelqu'un. Mais qui ?",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1799,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21362,17 +20702,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/6729-128.png"
             },
             "description": "Elle n'est pas très coupante. Mais qu'importe, elle n'est pas censée servir, vous êtes l'Empereur.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1829,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21416,17 +20745,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17318-128.png"
             },
             "description": "Ses petites épaulettes permettent aux manants de comprendre qu'il faut vous appeler \"Chef\".",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1889,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21470,17 +20788,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82106-128.png"
             },
             "description": "Si vous étiez assez puissant, ce bouclier pourrait faire office de Shuriken.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1979,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21524,17 +20831,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16430-128.png"
             },
             "description": "Porter ce chapeau vous octroie le droit de diriger vos camarades lors des batailles de boules de neige.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2069,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21578,17 +20874,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121013-128.png"
             },
             "description": "Dans les descentes de plus de 45%, il est conseillé de vous arimer solidement à ses cornes.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2159,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21671,17 +20956,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/2081-128.png"
             },
             "description": "Ce n'est pas l'arc que vous recherchiez.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2189,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21725,17 +20999,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17320-128.png"
             },
             "description": "C'est la cape préférée des aventuriers bornés et effrontés mais que tout le monde adore.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2249,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21779,17 +21042,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82108-128.png"
             },
             "description": "Arborer ce bouclier est considéré comme un signe ostentatoire de rébellion.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2339,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21833,17 +21085,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16432-128.png"
             },
             "description": "Si vous frottez correctement cette coiffe, elle pourra déclencher l'affichage d'un petit hologramme.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2429,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21887,17 +21128,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82116-128.png"
             },
             "description": "Ce bouclier prend les couleurs de son propriétaire, sauf lorsqu'il devient vert de rage.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2519,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21941,17 +21171,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/3085-128.png"
             },
             "description": "Cette baguette permet d'accueillir vos invités et de leur indiquer la porte de sortie si leurs blagues sont plus amusantes que les vôtres.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2549,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21995,17 +21214,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17321-128.png"
             },
             "description": "Cette cape est doublée d'une mousse confortable pour amortir les fessées.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2609,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22049,17 +21257,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82109-128.png"
             },
             "description": "Ce bouclier ressemble à une cible afin d'inciter les archers à le viser. Offrez-le à vos pires amis.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2699,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22103,17 +21300,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16433-128.png"
             },
             "description": "Cette coiffe cache facilement les problèmes de grosse tête.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2789,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22157,17 +21343,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16452-128.png"
             },
             "description": "Ce chapeau prend les couleurs de son propriétaire, sauf lorsqu'il entre dans une colère noire.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3959,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22211,17 +21386,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8075-128.png"
             },
             "description": "Cette pelle fera le bonheur des fossoyeurs, des jardiniers et des fossoyeurs de jardiniers.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2909,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22265,17 +21429,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17312-128.png"
             },
             "description": "Les os croisés signifient que cette cape appartenait à un pirate ou à un Chafer spécialiste des bras de fer.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2969,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22491,17 +21644,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82100-128.png"
             },
             "description": "Ce bouclier est censé vous protéger des fractures, mais il ne servira à rien contre les factures.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3059,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22545,17 +21687,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16424-128.png"
             },
             "description": "Si cette coiffe ne contenait pas un distributeur intégré de gomina, elle pourrait servir de bouclier.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3149,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22599,17 +21730,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18101-128.png"
             },
             "description": "Ce familier se déplace latéralement pour vous tourner le dos en permanence. Il vous fait confiance ou vous déteste.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3239,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22653,17 +21773,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19073-128.png"
             },
             "description": "Les deux plumes accrochées à cette hache lui permettent de voler plus loin lorsque vous la lancez sur un adversaire.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3269,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22707,17 +21816,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17319-128.png"
             },
             "description": "Les plumes de cette cape ralentiront votre chute lorsque vous tomberez du lit.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3329,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22761,17 +21859,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82107-128.png"
             },
             "description": "Les trois plumes de ce bouclier permettent de l'utiliser comme un boomerang qui ne revient jamais.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3419,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22815,17 +21902,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16431-128.png"
             },
             "description": "Avec toutes ces plumes sur la tête, seuls les Pious vous prendront pour leur chef.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3509,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22869,17 +21945,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121012-128.png"
             },
             "description": "Il est souvent de très mauvaise humeur, mais vous aussi.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3599,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22962,17 +22027,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19072-128.png"
             },
             "description": "L'engrenage ne sert à rien, mais il est impressionnant. Cette hache vous fait penser à quelqu'un.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3629,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23016,17 +22070,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17317-128.png"
             },
             "description": "Cette cape contient assez d'engrenages pour faire tourner une usine à gaz.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3689,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23070,17 +22113,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82105-128.png"
             },
             "description": "Avec ce bouclier entre les mains, vous êtes enfin équipé pour faire machine arrière.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3779,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23124,17 +22156,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16429-128.png"
             },
             "description": "Ce chapeau vous donnera une tête d'engrenage, mais vous avez connu bien pire pendant votre adolescence.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3869,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23178,17 +22199,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4121-128.png"
             },
             "description": "Ce bâton vous donne tous les droits, vous pourrez enfin sortir de table avant la fin du repas.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3989,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23232,17 +22242,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17315-128.png"
             },
             "description": "Cette cape cache habilement votre absence de charisme, mais elle n'est pas assez longue pour cacher votre postérieur rebondi.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4049,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23286,17 +22285,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82103-128.png"
             },
             "description": "Ce bouclier de cire vous permettra de créer facilement des moules des visages de vos adversaires.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4139,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23340,17 +22328,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16427-128.png"
             },
             "description": "C'est le palace des poux, des puces et des tiques. Peut-être parce qu'elle est très confortable et qu'elle sent l'homme viril.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4229,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23386,7 +22363,7 @@
             "name": "Corset Décodé",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -25261,7 +24238,7 @@
             "name": "Geta Zardeuses",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -25403,7 +24380,7 @@
             "name": "Dragodinde Brâkmarienne",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -25416,40 +24393,23 @@
                 "relation": "and",
                 "children": [
                     {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 1,
-                                    "element": {
-                                        "name": "Subscription active",
-                                        "id": 252
-                                    }
-                                },
-                                "is_operand": true
-                            },
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 2,
-                                    "element": {
-                                        "name": "Character alignment",
-                                        "id": -1
-                                    }
-                                },
-                                "is_operand": true
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 1,
+                            "element": {
+                                "name": "Être abonné",
+                                "id": 252
                             }
-                        ]
+                        },
+                        "is_operand": true
                     },
                     {
                         "condition": {
                             "operator": ">",
                             "int_value": 19,
                             "element": {
-                                "name": "Alignment level",
-                                "id": -1
+                                "name": "Niveau d'alignement",
+                                "id": 55
                             }
                         },
                         "is_operand": true
@@ -25530,7 +24490,7 @@
             "name": "Dragodinde Bontarienne",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -25543,40 +24503,23 @@
                 "relation": "and",
                 "children": [
                     {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 1,
-                                    "element": {
-                                        "name": "Subscription active",
-                                        "id": 252
-                                    }
-                                },
-                                "is_operand": true
-                            },
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 1,
-                                    "element": {
-                                        "name": "Character alignment",
-                                        "id": -1
-                                    }
-                                },
-                                "is_operand": true
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 1,
+                            "element": {
+                                "name": "Être abonné",
+                                "id": 252
                             }
-                        ]
+                        },
+                        "is_operand": true
                     },
                     {
                         "condition": {
                             "operator": ">",
                             "int_value": 19,
                             "element": {
-                                "name": "Alignment level",
-                                "id": -1
+                                "name": "Niveau d'alignement",
+                                "id": 55
                             }
                         },
                         "is_operand": true
@@ -26573,7 +25516,7 @@
             "name": "Dragodinde Pilote",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -26655,7 +25598,7 @@
             "name": "Dragodinde Abraknyde",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -26737,7 +25680,7 @@
             "name": "Dragodinde Royale",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27176,7 +26119,7 @@
             "name": "Muldo Brâkmarien",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27185,32 +26128,15 @@
             },
             "description": "Si « vilenie » est votre deuxième prénom, n'hésitez plus ; équipez votre Muldo de ce harnachement et montrez votre dévouement à la cause néfaste de Brâkmar.",
             "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "condition": {
-                            "operator": "=",
-                            "int_value": 2,
-                            "element": {
-                                "name": "Character alignment",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 19,
-                            "element": {
-                                "name": "Alignment level",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Niveau d'alignement",
+                        "id": 55
                     }
-                ]
+                },
+                "is_operand": true
             },
             "effects": [
                 {
@@ -27286,7 +26212,7 @@
             "name": "Muldo Bontarien",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27295,32 +26221,15 @@
             },
             "description": "Revendiquez votre allégeance à Bonta en équipant ce harnachement sur votre Muldo.",
             "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "condition": {
-                            "operator": "=",
-                            "int_value": 1,
-                            "element": {
-                                "name": "Character alignment",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 19,
-                            "element": {
-                                "name": "Alignment level",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Niveau d'alignement",
+                        "id": 55
                     }
-                ]
+                },
+                "is_operand": true
             },
             "effects": [
                 {
@@ -27396,7 +26305,7 @@
             "name": "Muldo Mekantik",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 180,
             "image_urls": {
@@ -27507,7 +26416,7 @@
             "name": "Muldo Sufokien",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27589,7 +26498,7 @@
             "name": "Muldo coquillage",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27731,7 +26640,7 @@
             "name": "Dragodinde Barbare",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27813,7 +26722,7 @@
             "name": "Dragodinde Likrone",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -28136,7 +27045,7 @@
             "name": "Dragodinde Mekantik",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -28804,7 +27713,7 @@
             "name": "Dragodinde des Glaces",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -28921,17 +27830,6 @@
                     "quantity": 6
                 }
             ],
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "pods": 1
         },
         {
@@ -29055,7 +27953,7 @@
             "name": "Dragodinde Squelette",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -29147,17 +28045,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17380-128.png"
             },
             "description": "Portez fièrement cette cape pour montrer à tous à quel point vous vous investissez pour votre guilde.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -29201,17 +28088,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16512-128.png"
             },
             "description": "Avec cette coiffe, adoptez le style de votre guilde et dites non à l'anticonformisme.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -29247,7 +28123,7 @@
             "name": "Dragodinde Désertique",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -29673,7 +28549,7 @@
             "name": "Muldo Likrone",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -29884,7 +28760,7 @@
             "name": "Dragodinde Magmatique",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -31201,7 +30077,7 @@
             "name": "Muldo Zombique",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -31678,17 +30554,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/7741-128.png"
             },
             "description": "Quand vous êtes entré en possession de ces nunchakus, vous vous êtes tout de suite imaginé faire des moulinets et diverses figures du plus bel effet pour impressionner vos ennemis. C'est seulement après des mois d'entrainement et de multiples blessures au visage et à l'entrejambe que vous avez compris la difficulté de manier cette arme. On ne s'improvise pas ninja si facilement.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4349,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31732,17 +30597,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17397-128.png"
             },
             "description": "Cette carapace permet au Ninja Vert de ranger ses armes et de protéger ses arrières. Dans votre cas, vous allez pouvoir dissimuler la malformation de votre colonne vertébrale ou ce fessier qui vous complexe tant.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4409,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31786,17 +30640,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82186-128.png"
             },
             "description": "Ce bouclier, fait à partir d'une pizza Margorito encore chaude, ne vous protégera certainement pas des coups, mais vous pourrez toujours le jeter aux pieds de vos ennemis pour détourner leur attention et en profiter pour fuir lâchement.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4499,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31840,17 +30683,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16535-128.png"
             },
             "description": "Ce bandeau orange est, certes, un peu démodé, mais fait toujours son effet : vous voilà devenu un vengeur mystérieux, un défenseur des opprimés. Il va falloir vous montrer à la hauteur.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4589,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31894,17 +30726,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18140-128.png"
             },
             "description": "Derrière son apparence adorable, le Racoune est un animal cruel et très méticuleux. Il vous fait un peu peur et vous impressionne en même temps : il ira toujours laver vos ennemis, les maquiller et bien les habiller avant de les achever avec sang-froid. C'est une habitude étrange, mais qui a le mérite de leur offrir une mort digne. Vous pouvez avoir la conscience tranquille.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4679,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31948,17 +30769,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121020-128.png"
             },
             "description": "Contrairement aux Maho Firefoux, le Fouxar ne va pas se transformer en Yokai Fouxar s'il est en situation de combat. Au contraire, il aura plutôt tendance à se rouler en boule et à se cacher jusqu'à la fin des affrontements en vous laissant faire tout le travail. Vous pensiez avoir réussi à dompter un dangereux prédateur, mais vous avez finalement gagné un animal de compagnie adorable.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5039,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32041,17 +30851,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8880-128.png"
             },
             "description": "Avec cette pelle multifonctions, le Chevalier Aérien peut combattre ses ennemis et rempoter des citrouilles dans son petit potager. Il faut l'avouer, elle est plutôt pratique.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4709,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32095,17 +30894,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17398-128.png"
             },
             "description": "Morgan Forr, surnommé le Chevalier Aérien, est un vieil homme (encore très en forme pour son âge), qui défend la veuve et l'orphelin, accompagné de son fidèle destrier volant, Pier. Il se revendique « justicier indépendant », et raconte avoir été le dieu d'une île céleste autrefois. Peut-être que la solitude lui fait un peu perdre la boule, mais il n'en reste pas moins un héros aux yeux des petites gens.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4769,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32136,17 +30924,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82187-128.png"
             },
             "description": "Le Chevalier Aérien aide les plus faibles en se battant pour eux lorsqu'ils ont des ennuis. Pour cela, il leur confie un sifflet qui leur permettra d'appeler à l'aide en cas de difficulté. Mais visiblement tout le monde n'a pas la même notion de « situation de difficulté », aussi le Chevalier a un emploi du temps très chargé qui alterne entre combats épiques et tâches ménagères ingrates.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4859,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32190,17 +30967,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16536-128.png"
             },
             "description": "D'après le Chevalier Aérien, ce casque est le plus aérodynamique jamais fabriqué. Les experts s'accordent pour dire que c'est la Kwakoiffe de Vent qui détient ce titre, mais tiennent à souligner que celui du Chevalier a quand même \"vraiment la classe\".",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4949,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32236,7 +31002,7 @@
             "name": "Muldo Squelette",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -32971,17 +31737,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33038,17 +31793,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33105,17 +31849,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33172,17 +31905,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33239,17 +31961,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33306,17 +32017,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Ce bouclier permet de montrer à tous les aventuriers que vous êtes un précurseur dans l'exercice de votre métier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33494,7 +32194,7 @@
             "name": "Muldo Scarab",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34092,7 +32792,7 @@
             "name": "Muldo Cryptique",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34174,7 +32874,7 @@
             "name": "Volkorne Dragosaure",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34514,7 +33214,7 @@
             "name": "Dragodinde Scintillante",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34596,7 +33296,7 @@
             "name": "Muldo Scintillant",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34966,7 +33666,7 @@
             "name": "Muldo Forban",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -35048,7 +33748,7 @@
             "name": "Volkorne Glacé",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -35888,17 +34588,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82213-128.png"
             },
             "description": "Ceci n'est pas un bouclier. Il s'agit en réalité d'un genre de planeur déguisé en bouclier, que les Az'Hassin tiennent au-dessus d'eux avant de sauter depuis un point en hauteur pour s'introduire ou s'évader d'un endroit par la voie des airs. La toile étant très fragile, la simple rencontre avec un petit oiseau en plein vol pourrait la percer et vous faire chuter. Aussi, même les Az'Hassin expérimentés ne s'en servent quasiment pas, peu enclins à finir leur vie d'une manière si peu glorieuse.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5219,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -35942,17 +34631,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82214-128.png"
             },
             "description": "On peut s'étonner de la présence d'un bouclier dans l'attirail d'un Az'Hassin, mais il y a en fait une explication très simple. En effet, les apprentis ratent parfois leur coup lors de leurs premières tentatives de meurtre, aussi ils se voient confier un bouclier pour tenter de survivre après avoir lamentablement échoué à tuer une personne sans défense et par surprise.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5399,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -35996,17 +34674,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17419-128.png"
             },
             "description": "Depuis que vous avez acquis cette cape, il vous prend régulièrement l'envie de sauter de hauteurs absurdes juste pour le plaisir. À condition qu'il y ait une charrette remplie de paille placée en contrebas, vous pourrez survivre à la chute. Cela peut paraître étrange, mais vous serez surpris par le nombre de charrettes remplies de paille placées en contrebas d'à peu près tous les points en hauteur d'où vous pourriez vouloir sauter. À croire qu'elles ont été placées là exprès...",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5129,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -36050,17 +34717,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16557-128.png"
             },
             "description": "Finies les entrées en scène ratées à cause d'un coup de vent qui fait s'envoler votre capuche trop tôt, et votre crédibilité avec. L'armature située à l'intérieur permet un maintien de capuche parfait, digne des plus grands Az'Hassin. Par contre, vous ne pourrez plus tourner ou relever la tête, ce qui risque d'être embêtant lorsqu'il vous faudra regarder à droite, puis à gauche, puis encore à droite avant de traverser la rue.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5309,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -36104,17 +34760,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/5099-128.png"
             },
             "description": "Ces dagues ont été conçues pour suriner sournoisement ses adversaires, mais on s'est rendu compte à l'utilisation qu'elles possédaient également une autre capacité très particulière. En effet, si on vous attaque frontalement et que vous parvenez à parer ladite attaque avec ces dagues, votre corps va se mouvoir de lui-même pour contre-attaquer et tuer votre adversaire à coup sûr. Si vos ennemis avaient l'intelligence de tous vous attaquer en même temps, vous n'auriez aucune chance, mais puisqu'ils s'entêtent à se mettre en file indienne et attaquer chacun leur tour, vous allez faire un massacre.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5069,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -37286,7 +35931,7 @@
             "name": "Volkorne Dragombre",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -37368,7 +36013,7 @@
             "name": "Volkorne Espécuaire",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38043,7 +36688,7 @@
             "name": "Dragodinde Mordante",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38112,7 +36757,7 @@
             "name": "Muldo Mordant",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38181,7 +36826,7 @@
             "name": "Volkorne Mordant",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38637,7 +37282,7 @@
             "name": "Dragokronique",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38839,7 +37484,7 @@
             "name": "Dragodinde Noxine",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38908,7 +37553,7 @@
             "name": "Muldo Noxine",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38977,7 +37622,7 @@
             "name": "Volkorne Noxine",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39575,7 +38220,7 @@
             "name": "Lagon-dinde",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39644,7 +38289,7 @@
             "name": "Muldo d'eau",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39713,7 +38358,7 @@
             "name": "Corbadinde",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39795,7 +38440,7 @@
             "name": "Anneau musical",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -40096,7 +38741,7 @@
             "name": "Volkorne Squelette",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40363,7 +39008,7 @@
             "name": "Dragodinde Iop",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40445,7 +39090,7 @@
             "name": "Dragodinde Espécuaire",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40828,7 +39473,7 @@
             "name": "Volkorne Iop",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40910,7 +39555,7 @@
             "name": "Muldo Iop",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41082,7 +39727,7 @@
             "name": "Dragodinde d'Azur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41090,17 +39735,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/182051-128.png"
             },
             "description": "Idéal pour parader, ce harnachement protègera votre monture des cris et des pétales de fleur.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Subscription active",
-                        "id": 252
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -41261,7 +39895,7 @@
             "name": "Muldo d'Azur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41330,7 +39964,7 @@
             "name": "Volkorne d'Azur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41549,7 +40183,7 @@
             "name": "Dragodinde d'Os",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41557,17 +40191,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/182046-128.png"
             },
             "description": "Avec ce harnachement fixé sur votre monture, vous avez trouvé la solution presque idéale pour repousser les avances des autres dragodindes.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Subscription active",
-                        "id": 252
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -41728,7 +40351,7 @@
             "name": "Muldo d'Os",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41797,7 +40420,7 @@
             "name": "Volkorne d'Os",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42339,7 +40962,7 @@
             "name": "Dragodinde Sram",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42421,7 +41044,7 @@
             "name": "Muldo Sram",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42503,7 +41126,7 @@
             "name": "Volkorne Sram",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42667,7 +41290,7 @@
             "name": "Volkorne Roublard",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42749,7 +41372,7 @@
             "name": "Muldo Roublard",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42831,7 +41454,7 @@
             "name": "Dragodinde Roublarde",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43171,7 +41794,7 @@
             "name": "Volkorne Osamodas",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43253,7 +41876,7 @@
             "name": "Muldo Osamodas",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43335,7 +41958,7 @@
             "name": "Dragodinde Osamodas",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43929,7 +42552,7 @@
             "name": "Dragodinde Steamer",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44011,7 +42634,7 @@
             "name": "Volkorne Steamer",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44093,7 +42716,7 @@
             "name": "Muldo Steamer",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44334,7 +42957,7 @@
             "name": "Dragodinde Crâ",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44416,7 +43039,7 @@
             "name": "Muldo Crâ",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44498,7 +43121,7 @@
             "name": "Volkorne Crâ",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44834,7 +43457,7 @@
             "name": "Épaulières de Vanelle Sings",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -44864,7 +43487,7 @@
             "name": "Muldo Glacé",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -45849,7 +44472,7 @@
             "name": "Épaulières du Dernier Espoir",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -46486,7 +45109,7 @@
             "name": "Dragodinde Féca",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46568,7 +45191,7 @@
             "name": "Muldo Féca",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46650,7 +45273,7 @@
             "name": "Volkorne Féca",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46861,7 +45484,7 @@
             "name": "Dragodinde Zobal",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46943,7 +45566,7 @@
             "name": "Muldo Zobal",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -47025,7 +45648,7 @@
             "name": "Volkorne Zobal",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -48770,7 +47393,7 @@
             "name": "Dragodinde Sadida",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -48852,7 +47475,7 @@
             "name": "Muldo Sadida",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -48934,7 +47557,7 @@
             "name": "Volkorne Sadida",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50097,7 +48720,7 @@
             "name": "Dragodinde Sacrieur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50179,7 +48802,7 @@
             "name": "Muldo Sacrieur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50261,7 +48884,7 @@
             "name": "Volkorne Sacrieur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50343,7 +48966,7 @@
             "name": "Plaques d'épaule cendrées",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50373,7 +48996,7 @@
             "name": "Spallières Écarlates",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50403,7 +49026,7 @@
             "name": "Épaugriffes",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50433,7 +49056,7 @@
             "name": "Égide Osseuse",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50463,7 +49086,7 @@
             "name": "Épwowlières",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50493,7 +49116,7 @@
             "name": "Fardeau du Guerroyeur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50652,7 +49275,7 @@
             "name": "Dragodinde Xélor",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50734,7 +49357,7 @@
             "name": "Muldo Xélor",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50816,7 +49439,7 @@
             "name": "Volkorne Xélor",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51113,7 +49736,7 @@
             "name": "Gladius Moldus",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51453,7 +50076,7 @@
             "name": "Dragodinde Pandawa",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51535,7 +50158,7 @@
             "name": "Muldo Pandawa",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51617,7 +50240,7 @@
             "name": "Volkorne Pandawa",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -52000,7 +50623,7 @@
             "name": "Épaulières d'Elely",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -52176,7 +50799,7 @@
             "name": "Épaulières de Flopin",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53118,7 +51741,7 @@
             "name": "Dragodinde Ecaflip",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -53200,7 +51823,7 @@
             "name": "Muldo Ecaflip",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -53282,7 +51905,7 @@
             "name": "Volkorne Ecaflip",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -53364,7 +51987,7 @@
             "name": "Épaulières du Roas'inge",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53394,7 +52017,7 @@
             "name": "Épaulières Vixie",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53424,7 +52047,7 @@
             "name": "Épaus Lierre",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53454,7 +52077,7 @@
             "name": "Épines du Cauchemar",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53484,7 +52107,7 @@
             "name": "Épaulières de la petite Shuri",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53514,7 +52137,7 @@
             "name": "Épaulières du Forban",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -54039,7 +52662,7 @@
             "name": "Épaulières Hirsutes",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -54353,7 +52976,7 @@
             "name": "Dragodinde Ouginak",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -54435,7 +53058,7 @@
             "name": "Muldo Ouginak",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -54517,7 +53140,7 @@
             "name": "Volkorne Ouginak",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -54857,7 +53480,7 @@
             "name": "Spalla Carnavalo",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -55132,7 +53755,7 @@
             "name": "Dragodinde Eniripsa",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -55214,7 +53837,7 @@
             "name": "Muldo Eniripsa",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -55296,7 +53919,7 @@
             "name": "Volkorne Eniripsa",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -55610,7 +54233,7 @@
             "name": "Maoufiamulette",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55666,7 +54289,7 @@
             "name": "Waoufiamulette",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55722,7 +54345,7 @@
             "name": "Pwâkano en Chocolat",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55778,7 +54401,7 @@
             "name": "Wapano en Chocolat",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55834,7 +54457,7 @@
             "name": "Annœuf en Chocolat",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55890,7 +54513,7 @@
             "name": "Dofano en Chocolat",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -57328,7 +55951,7 @@
             "name": "Épaulières du Bluffeur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -57827,7 +56450,7 @@
             "name": "Dragodinde Huppermage",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -57909,7 +56532,7 @@
             "name": "Muldo Huppermage",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -57991,7 +56614,7 @@
             "name": "Volkorne Huppermage",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -58202,7 +56825,7 @@
             "name": "Anneau Sacaram",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -58258,7 +56881,7 @@
             "name": "Anneau Totune",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -58701,7 +57324,7 @@
             "name": "Volkorne Enutrof",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -58783,7 +57406,7 @@
             "name": "Muldo Enutrof",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -58865,7 +57488,7 @@
             "name": "Dragodinde Enutrof",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -59979,7 +58602,7 @@
             "name": "Epaulières de Parchomancie",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -61641,7 +60264,7 @@
             "name": "Anneau R'mal",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -61817,7 +60440,7 @@
             "name": "Épolières kompactes",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -62219,7 +60842,7 @@
             "name": "Dragodinde Eliotrope",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -62301,7 +60924,7 @@
             "name": "Muldo Eliotrope",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -62383,7 +61006,7 @@
             "name": "Volkorne Eliotrope",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -63609,7 +62232,7 @@
             "name": "Bague Hivernale",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -64215,7 +62838,7 @@
             "name": "Épaulières du messager",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64245,7 +62868,7 @@
             "name": "Épaulières dociles",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64275,7 +62898,7 @@
             "name": "Épaulières virevoltantes",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64305,7 +62928,7 @@
             "name": "Épaulières du justicier",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64335,7 +62958,7 @@
             "name": "Épaulières malicieuses",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64365,7 +62988,7 @@
             "name": "Épaulières de l'assassin",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64395,7 +63018,7 @@
             "name": "Épaulières parfumées",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64425,7 +63048,7 @@
             "name": "Épaulières impériales",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64455,7 +63078,7 @@
             "name": "Épaulières du guerrier tribal",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64485,7 +63108,7 @@
             "name": "Épaulières de pourfendeur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64644,7 +63267,7 @@
             "name": "Les Krèvekœurs",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64975,7 +63598,7 @@
             "name": "Brassards du Chtigre",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -69265,7 +67888,7 @@
             "name": "Anneau de Manchic",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -69321,7 +67944,7 @@
             "name": "Anneau de Bastortue",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -69377,7 +68000,7 @@
             "name": "Anneau de Balafrousse",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -69433,7 +68056,7 @@
             "name": "Anneau de Vautouragan",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -70719,7 +69342,7 @@
             "name": "Dragodinde Neutro",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -70973,7 +69596,7 @@
             "name": "Épaulières ravaliennes",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -71958,7 +70581,7 @@
             "name": "Anneau de Tokageko",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -72173,7 +70796,7 @@
             "name": "Dragodinde du Trappeur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -72255,7 +70878,7 @@
             "name": "Muldo du Trappeur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -72337,7 +70960,7 @@
             "name": "Volkorne du Trappeur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -72419,7 +71042,7 @@
             "name": "Anneau du Trappeur",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -73650,7 +72273,7 @@
             "name": "Muldo Neutro",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -74007,7 +72630,7 @@
             "name": "Épaulières de chevalier bourru",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74037,7 +72660,7 @@
             "name": "Épaulières de chevalier implacable",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74067,7 +72690,7 @@
             "name": "Épaulières de chevalier bienfaiteur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74097,7 +72720,7 @@
             "name": "Épaulières de chevalier protecteur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74127,7 +72750,7 @@
             "name": "Épaulières de chevalier agile",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -77102,17 +75725,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17555-128.png"
             },
             "description": "Portez fièrement cette cape pour montrer à tous à quel point vous vous investissez pour votre alliance.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 2,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -77156,17 +75768,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82420-128.png"
             },
             "description": "Ce bouclier magique reflète l'âme de votre alliance.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 2,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -77210,17 +75811,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16742-128.png"
             },
             "description": "Avec cette coiffe, adoptez le style de votre alliance et dites non à l'anticonformisme.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 2,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -77674,7 +76264,7 @@
             "name": "Dragodinde du Percepteur",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -77756,7 +76346,7 @@
             "name": "Dragodinde Lagomorphe",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -77967,7 +76557,7 @@
             "name": "Ambition de Sohrond",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -78040,7 +76630,7 @@
             "name": "Dragodinde Forgelance",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -78122,7 +76712,7 @@
             "name": "Volkorne Forgelance",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -78204,7 +76794,7 @@
             "name": "Muldo Forgelance",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -79043,7 +77633,7 @@
             "name": "Épaulières du Shushu Sombre",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -79323,7 +77913,7 @@
             "name": "Épaulières du plagiste",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -81080,7 +79670,7 @@
             "name": "Anneau d'Amphibulle",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -81136,7 +79726,7 @@
             "name": "Anneau de Flambourou",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -81192,7 +79782,7 @@
             "name": "Anneau de Mimistrale",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -81248,7 +79838,7 @@
             "name": "Anneau de Tapipou",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -82022,7 +80612,7 @@
             "name": "Épaulières de Flambourou",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -83591,7 +82181,7 @@
             "name": "Épaulières Sylvestres",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -85440,7 +84030,7 @@
             "name": "Épaulières du Dragon",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -85638,7 +84228,7 @@
             "name": "Épaulières de la Fin Patraque",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86068,7 +84658,7 @@
             "name": "Épaulières du Guerrier Wikkan",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86227,7 +84817,7 @@
             "name": "Épaulières du Chef de Guerre Wikkan",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86468,7 +85058,7 @@
             "name": "Épaulières du Trankilou Argenté",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86498,7 +85088,7 @@
             "name": "Dragodinde de l'Ombre Maudite",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -86752,7 +85342,7 @@
             "name": "Épaulières d'Exécuteur Miséreux",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86833,17 +85423,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17624-128.png"
             },
             "description": "Être un héros, c'est aussi porter le poids du monde sur ses épaules, tout comme celui de ses erreurs. Au point où vous en êtes, y ajouter une cape ne devrait pas changer grand-chose, mais elle vous apportera du réconfort sur ce chemin semé d'embûches.",
-            "conditions": {
-                "condition": {
-                    "operator": "!",
-                    "int_value": 30,
-                    "element": {
-                        "name": "Equipment slot",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -86879,7 +85458,7 @@
             "name": "Épaulières de l'Ombre Maudite",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -87107,7 +85686,7 @@
             "name": "Épaulières de Chevalier Noir",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -87877,7 +86456,7 @@
             "name": "Épaulières de Guyomu Oniwa",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -88320,7 +86899,7 @@
             "name": "Épaulières du Sage Wikkan",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -88350,7 +86929,7 @@
             "name": "Épaulières du Grand Sage Wikkan",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89180,7 +87759,7 @@
             "name": "Dragodinde Festif",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -89503,7 +88082,7 @@
             "name": "Épaulières du Corbeau Noir",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89533,7 +88112,7 @@
             "name": "Épaulières de Guilde",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 100,
             "image_urls": {
@@ -89568,17 +88147,6 @@
                     "quantity": 3
                 }
             ],
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "pods": 1
         },
         {
@@ -89676,7 +88244,7 @@
             "name": "Épaulières Aiguisées",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89706,7 +88274,7 @@
             "name": "Épaulières d'Arjan",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89736,7 +88304,7 @@
             "name": "Épaulières d'Aur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89796,7 +88364,7 @@
             "name": "Épaulières d'Azur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89811,7 +88379,7 @@
             "name": "Épaulières du Samouraï",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89841,7 +88409,7 @@
             "name": "Épaulières du Trappeur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89901,7 +88469,7 @@
             "name": "Épaulières Iop",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89991,7 +88559,7 @@
             "name": "Épaulière du Sorcier Wikkan",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90021,7 +88589,7 @@
             "name": "Épaulière du Maitre Sorcier Wikkan",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90051,7 +88619,7 @@
             "name": "Épaulières de Belladone",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90141,7 +88709,7 @@
             "name": "Épaulières du Roi grimaçant",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90171,7 +88739,7 @@
             "name": "Épaulières apaisantes de Rosal",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90201,7 +88769,7 @@
             "name": "Sadisme de la Cité Sombre",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90231,7 +88799,7 @@
             "name": "Épaulières de Yugo l'Eliatrope",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90239,17 +88807,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164920-128.png"
             },
             "description": "Les accessoires indispensables si vous souhaitez affronter avec classe les épreuves que le destin vous réserve ! Ceci dit, si vous avez un pot de confiture difficile à ouvrir, ces épaulières ne vous seront d'aucune utilité.",
-            "conditions": {
-                "condition": {
-                    "operator": "!",
-                    "int_value": 30,
-                    "element": {
-                        "name": "Equipment slot",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -90272,7 +88829,7 @@
             "name": "Épaulières de Truche",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91132,7 +89689,7 @@
             "name": "Kornupaulières",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91162,7 +89719,7 @@
             "name": "Épaulettes de l'aigle céleste",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91222,7 +89779,7 @@
             "name": "Épaulières du Chevalier du Ciel",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91252,7 +89809,7 @@
             "name": "Épaulières Griffonées",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91282,7 +89839,7 @@
             "name": "Épaulettes de Siks Won Naïne",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91845,7 +90402,7 @@
             "name": "Épaulettes du Grand Spectacle",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -92649,7 +91206,7 @@
             "name": "Discipline de la Cité Blanche",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93685,7 +92242,7 @@
             "name": "Épaulières Solary",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93715,7 +92272,7 @@
             "name": "Épaulières Aegis",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93745,7 +92302,7 @@
             "name": "Épaulières Karmine Corp",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93775,7 +92332,7 @@
             "name": "Épaulières Gentle Mates",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94054,7 +92611,7 @@
             "name": "Spalières des Lary",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94213,7 +92770,7 @@
             "name": "Spalières des Maîtres Lary",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94402,7 +92959,7 @@
             "name": "Épaulières de la Femme Merveilleuse",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94591,7 +93148,7 @@
             "name": "Épaulières Ophidiennes",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94733,7 +93290,7 @@
             "name": "Épaulières Ostéomanciennes",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94763,7 +93320,7 @@
             "name": "Épaulières de Prestance Aqueuse",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94793,7 +93350,7 @@
             "name": "Épaulières de Prestance Végétale",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94823,7 +93380,7 @@
             "name": "Épaulières de Prestance Volatile",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94853,7 +93410,7 @@
             "name": "Épaulières de Prestance Ignée",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -95326,7 +93883,7 @@
             "name": "Épaulières de résident du givre",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -95640,7 +94197,7 @@
             "name": "Cornes du Dragon Noir",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -95954,7 +94511,7 @@
             "name": "Épaulières de l'Eliacube",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -96268,7 +94825,7 @@
             "name": "Épaulières de Prestance",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -96780,7 +95337,7 @@
             "name": "Épaulières du Champion",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -97446,7 +96003,7 @@
             "name": "Épaulières de Savara",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -97880,7 +96437,7 @@
             "name": "Épaulières du culte bestial",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -98129,7 +96686,7 @@
             "name": "Épaulières du Corbacille",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -98761,7 +97318,7 @@
             "name": "Épaulières de la Démone II",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -98920,7 +97477,7 @@
             "name": "Épaulières diaprées de la Démone II",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -99333,7 +97890,7 @@
             "name": "Épaulières de l'Agent de Voyage",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -101671,7 +100228,7 @@
             "name": "Épaulières Adacetra",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102000,7 +100557,7 @@
             "name": "Amulette du YeCh'Ti",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102176,7 +100733,7 @@
             "name": "Ceinture de Glourdorak",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102219,7 +100776,7 @@
             "name": "Geta Zardeuses",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102416,17 +100973,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-128.png"
             },
             "description": "Avec ce montilier, portez fièrement votre bannière de guilde lors de tous vos déplacements.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -102905,7 +101451,7 @@
             "name": "Épaulière Corpo",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102935,7 +101481,7 @@
             "name": "Anneau en laine",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102991,7 +101537,7 @@
             "name": "Anneau en plumes",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -103047,7 +101593,7 @@
             "name": "Anneau en épines",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -103103,7 +101649,7 @@
             "name": "Anneau en soie",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -103159,7 +101705,7 @@
             "name": "Anneau en roc",
             "type": {
                 "name": "Objet divers d'apparat",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -104010,17 +102556,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82575-128.png"
             },
             "description": "Les membres de la guilde des adorateurs d'Onis ne craignent pas les coups, surtout lorsqu'ils portent ce bouclier.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104064,17 +102599,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164296-128.png"
             },
             "description": "Quand elle s'est rendue sur l'île de Pandala pour remplir une mission de régulation de sa population, une aventurière est tombée en adoration complète des Yokaïs, et tout particulièrement des Onis. Elle a donc décidé de former sa propre guilde et d'imposer un uniforme officiel à tous ses membres. Se faire passer pour un Oni lui tenait tellement à cœur qu'on ignore aujourd'hui quel était le nom de cette aventurière.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104097,7 +102621,7 @@
             "name": "Épaulières des adorateurs d'Onis",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -104686,7 +103210,7 @@
             "name": "Épaulières du Champion des dragons",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -105314,7 +103838,7 @@
             "name": "Dragodinde Championne des dragons",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -105396,7 +103920,7 @@
             "name": "Muldo Champion des dragons",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -105478,7 +104002,7 @@
             "name": "Volkorne Champion des dragons",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -106084,7 +104608,7 @@
             "name": "Épaulières Cavalières",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -106411,7 +104935,7 @@
             "name": "Épaulières du Démon V",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -106570,7 +105094,7 @@
             "name": "Épaulières diaprées du Démon V",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -107073,7 +105597,7 @@
             "name": "Dragodinde Corpo",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -107155,7 +105679,7 @@
             "name": "Muldo Corpo",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -107237,7 +105761,7 @@
             "name": "Volkorne Corpo",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -107947,7 +106471,7 @@
             "name": "Spalières du survolté",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -108653,7 +107177,7 @@
             "name": "Épaulières Peps",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -108743,7 +107267,7 @@
             "name": "Épaulières Joblife",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109061,7 +107585,7 @@
             "name": "Épaulières du Démon VI",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109091,7 +107615,7 @@
             "name": "Épaulières diaprée du Démon VI",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109211,7 +107735,7 @@
             "name": "Épaulières Roublardes",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109357,7 +107881,7 @@
             "name": "Épaulières de l'exterminateur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109946,7 +108470,7 @@
             "name": "Nageoires du Gouffre",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -110600,7 +109124,7 @@
             "name": "Ailerons de Skale",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -110630,7 +109154,7 @@
             "name": "Carapaces de Scoreur",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -110849,7 +109373,7 @@
             "name": "Épaulières des 25 ans du Krosmoz",
             "type": {
                 "name": "Épaulière",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -112883,7 +111407,7 @@
             "name": "Dragodinde Kraméléhone",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -112952,7 +111476,7 @@
             "name": "Muldo Kraméléhon",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -113021,7 +111545,7 @@
             "name": "Volkorne Kraméléhon",
             "type": {
                 "name": "Monture d'apparat",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {

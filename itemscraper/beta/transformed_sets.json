@@ -62188,11 +62188,11 @@
     },
     {
         "ankama_id": 1107,
-        "name_en": "Salamuncher Set",
+        "name_en": "Charcosaur Set",
         "name_fr": "Panoplie des Charbosaures",
-        "name_es": "Set salamandro",
-        "name_pt": "Conjunto dos Salamangues",
-        "name_de": "Ausrüstungsset der Salamanger",
+        "name_es": "Set de los carbosaurios",
+        "name_pt": "Conjunto dos Carvossauros",
+        "name_de": "Kohlensaurier-Set",
         "items": 3,
         "stats_list": [
             {
@@ -62332,11 +62332,11 @@
     },
     {
         "ankama_id": 1114,
-        "name_en": "Wyngvern Set",
+        "name_en": "Zephyvern Set",
         "name_fr": "Panoplie des Zéphyvernes",
-        "name_es": "Set galiverno",
-        "name_pt": "Conjunto dos Vouiverns",
-        "name_de": "Ausrüstungsset der Wyvern",
+        "name_es": "Set de los cefivernos",
+        "name_pt": "Conjunto dos Zefiverns",
+        "name_de": "Tatzephyrwurm-Set",
         "items": 3,
         "stats_list": [
             {
@@ -62387,7 +62387,7 @@
         "name_fr": "Panoplie Mandragon",
         "name_es": "Set dracornoque",
         "name_pt": "Conjunto Drakasca",
-        "name_de": "Drachenborken-Ausrüstungsset",
+        "name_de": "Drachaunen-Set",
         "items": 3,
         "stats_list": [
             {
@@ -62438,7 +62438,7 @@
         "name_fr": "Panoplie Thalassydre",
         "name_es": "Set dragocampo",
         "name_pt": "Conjunto Dragão-Marinho",
-        "name_de": "Seedrachen-Ausrüstungsset",
+        "name_de": "Wasserhydra-Set",
         "items": 3,
         "stats_list": [
             {
@@ -62700,7 +62700,7 @@
                     ]
                 ],
                 "special_spell_en": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons.",
-                "special_spell_fr": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact. Les effets sont réduits de moitié si l'ennemi est une invocation.",
+                "special_spell_fr": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact (cumulable 4 fois). Les effets sont réduits de moitié si l'ennemi est une invocation.",
                 "special_spell_es": "{{spell,8393,1::Verde Esmeralda}}:\n• Cuando el portador termina su turno, gana un 100% de su nivel en escudo durante 1 turno por cada enemigo en contacto con él. Los efectos se reducen a la mitad si el enemigo es una invocación.",
                 "special_spell_pt": "{{spell,8393,1::Verde-Esmeralda}}:\n• Quando o portador termina seu turno, ele ganha 100% de seu nível em escudo durante 1 turno por inimigo em contato com ele. Os efeitos são reduzidos pela metade se o inimigo for uma invocação.",
                 "special_spell_de": "{{spell,8393,1::Smaragdgrün}}:\n• Am Rundenende erhält der Träger 1 Runde lang für jeden Gegner in Reichweite 100 % seiner Stufe als Schild. Handelt es sich beim Gegner um eine Beschwörung, werden die Wirkungen um die Hälfte verringert."
@@ -62725,7 +62725,7 @@
                     ]
                 ],
                 "special_spell_en": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons.",
-                "special_spell_fr": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact. Les effets sont réduits de moitié si l'ennemi est une invocation.",
+                "special_spell_fr": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact (cumulable 4 fois). Les effets sont réduits de moitié si l'ennemi est une invocation.",
                 "special_spell_es": "{{spell,8393,1::Verde Esmeralda}}:\n• Cuando el portador termina su turno, gana un 100% de su nivel en escudo durante 1 turno por cada enemigo en contacto con él. Los efectos se reducen a la mitad si el enemigo es una invocación.",
                 "special_spell_pt": "{{spell,8393,1::Verde-Esmeralda}}:\n• Quando o portador termina seu turno, ele ganha 100% de seu nível em escudo durante 1 turno por inimigo em contato com ele. Os efeitos são reduzidos pela metade se o inimigo for uma invocação.",
                 "special_spell_de": "{{spell,8393,1::Smaragdgrün}}:\n• Am Rundenende erhält der Träger 1 Runde lang für jeden Gegner in Reichweite 100 % seiner Stufe als Schild. Handelt es sich beim Gegner um eine Beschwörung, werden die Wirkungen um die Hälfte verringert."
@@ -63084,7 +63084,7 @@
         "name_fr": "Panoplie d'apparat de la Démone VIII",
         "name_es": "Panoplie d'apparat de la Démone VIII",
         "name_pt": "Panoplie d'apparat de la Démone VIII",
-        "name_de": "Panoplie d'apparat de la Démone VIII",
+        "name_de": "Prunkset von Dämonin VIII",
         "items": 4,
         "equipment_ids": [
             34949,
@@ -63099,7 +63099,7 @@
         "name_fr": "Panoplie d'apparat diaprée de la Démone VIII",
         "name_es": "Panoplie d'apparat diaprée de la Démone VIII",
         "name_pt": "Panoplie d'apparat diaprée de la Démone VIII",
-        "name_de": "Panoplie d'apparat diaprée de la Démone VIII",
+        "name_de": "Schillerndes Prunkset von Dämonin VIII",
         "items": 4,
         "equipment_ids": [
             34951,
@@ -63114,7 +63114,7 @@
         "name_fr": "Panoplie d'apparat de la source",
         "name_es": "Panoplie d'apparat de la source",
         "name_pt": "Panoplie d'apparat de la source",
-        "name_de": "Panoplie d'apparat de la source",
+        "name_de": "Quellen-Prunkset",
         "items": 5,
         "equipment_ids": [
             34991,
@@ -63130,7 +63130,7 @@
         "name_fr": "Panoplie d'apparat Glucolique",
         "name_es": "Panoplie d'apparat Glucolique",
         "name_pt": "Panoplie d'apparat Glucolique",
-        "name_de": "Panoplie d'apparat Glucolique",
+        "name_de": "Glukolisches Prunkset",
         "items": 4,
         "equipment_ids": [
             34998,
@@ -63145,15 +63145,30 @@
         "name_fr": "Panoplie d'apparat Bellaphone",
         "name_es": "Panoplie d'apparat Bellaphone",
         "name_pt": "Panoplie d'apparat Bellaphone",
-        "name_de": "Panoplie d'apparat Bellaphone",
+        "name_de": "Bellaphon-Prunkset",
         "items": 6,
         "equipment_ids": [
-            27939,
             35006,
+            35007,
             35008,
             35009,
             35010,
             35011
+        ]
+    },
+    {
+        "ankama_id": 1134,
+        "name_en": "Panoplie d'apparat de la loterie Turquoise",
+        "name_fr": "Panoplie d'apparat de la loterie Turquoise",
+        "name_es": "Panoplie d'apparat de la loterie Turquoise",
+        "name_pt": "Panoplie d'apparat de la loterie Turquoise",
+        "name_de": "Panoplie d'apparat de la loterie Turquoise",
+        "items": 4,
+        "equipment_ids": [
+            34128,
+            34129,
+            34130,
+            34131
         ]
     }
 ]

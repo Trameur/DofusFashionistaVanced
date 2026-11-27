@@ -9671,7 +9671,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "reflected damage",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -9699,7 +9699,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "reflected damage",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -9753,7 +9753,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "reflected damage",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -9807,7 +9807,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "reflected damage",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -37954,7 +37954,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "reflected damage",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -37995,7 +37995,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "reflected damage",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -105022,7 +105022,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "reflected damage",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -122842,7 +122842,7 @@
         },
         {
             "ankama_id": 1107,
-            "name": "Salamuncher Set",
+            "name": "Charcosaur Set",
             "items": 3,
             "level": 15,
             "contains_cosmetics": false,
@@ -123014,7 +123014,7 @@
         },
         {
             "ankama_id": 1114,
-            "name": "Wyngvern Set",
+            "name": "Zephyvern Set",
             "items": 3,
             "level": 20,
             "contains_cosmetics": false,
@@ -124239,12 +124239,26 @@
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
-                27939,
                 35006,
+                35007,
                 35008,
                 35009,
                 35010,
                 35011
+            ]
+        },
+        {
+            "ankama_id": 1134,
+            "name": "[!] Panoplie d'apparat de la loterie Turquoise",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34128,
+                34129,
+                34130,
+                34131
             ]
         }
     ]

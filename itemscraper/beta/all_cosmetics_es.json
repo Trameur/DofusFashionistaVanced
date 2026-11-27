@@ -54,7 +54,7 @@
             "name": "Media Luna",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -1513,7 +1513,7 @@
             "name": "Botas del campeón",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -1642,7 +1642,7 @@
             "name": "Cinturón del campeón",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -2013,7 +2013,7 @@
                     "int_value": 800000,
                     "element": {
                         "name": "Kamas",
-                        "id": -1
+                        "id": 237
                     }
                 },
                 "is_operand": true
@@ -4229,17 +4229,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16231-128.png"
             },
             "description": "Valentines, Valentinas, este sombrero está especialmente diseñado para vosotros que buscáis vuestro medio pomelo. Efectivamente, ningún aventurero casado podrá ponerse nunca este gorro en la cabeza. Así podréis reconocer de un vistazo a los aventureros o aventureras cuyo corazón aún no haya sido conquistado.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 0,
-                    "element": {
-                        "name": "Married",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8068,7 +8057,7 @@
             "name": "Grozillamu",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -8188,17 +8177,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8255,17 +8233,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8322,17 +8289,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8389,17 +8345,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8456,17 +8401,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8523,17 +8457,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8590,17 +8513,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8657,17 +8569,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8724,17 +8625,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8791,17 +8681,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8858,17 +8737,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8925,17 +8793,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8992,17 +8849,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9059,17 +8905,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9126,17 +8961,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9193,17 +9017,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9260,17 +9073,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9327,17 +9129,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9394,17 +9185,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9461,17 +9241,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9528,17 +9297,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9595,17 +9353,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9662,17 +9409,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9729,17 +9465,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9796,17 +9521,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9863,17 +9577,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9930,17 +9633,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9997,17 +9689,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10064,17 +9745,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10131,17 +9801,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10198,17 +9857,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10265,17 +9913,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10332,17 +9969,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10520,7 +10146,7 @@
             "name": "Amuleto de YeCh'Ti",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -11264,7 +10890,7 @@
             "name": "Botas del mazmorreitor",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12008,7 +11634,7 @@
             "name": "Collar de perlas de las islas",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12163,7 +11789,7 @@
             "name": "Selanillo",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12591,7 +12217,7 @@
             "name": "Cinturón de Golosorak",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13266,7 +12892,7 @@
             "name": "Amuleto de Míster Amakna",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13322,7 +12948,7 @@
             "name": "Amuleto de Miss Amakna",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13378,7 +13004,7 @@
             "name": "Amuleto de Míster Mundo de los Doce",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13434,7 +13060,7 @@
             "name": "Amuleto de Miss Mundo de los Doce",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -14092,7 +13718,7 @@
             "name": "Amuleto de bibliotecario",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15098,17 +14724,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82072-128.png"
             },
             "description": "Este escudo mágico es el reflejo del alma de tu gremio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -15131,7 +14746,7 @@
             "name": "Anillo 2d10",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15187,7 +14802,7 @@
             "name": "Amuleto de Minimiss Amakna",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15243,7 +14858,7 @@
             "name": "Amuleto de Minimíster Amakna",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -16456,7 +16071,7 @@
             "name": "Gugris guelgrís",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -16821,17 +16436,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82080-128.png"
             },
             "description": "Este escudo encantado evoca la mismísima esencia de tu alianza.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20027,17 +19631,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/6727-128.png"
             },
             "description": "Mata con tus garras o acaricia con tus almohadillas.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 29,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20081,17 +19674,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17309-128.png"
             },
             "description": "Pelos, pelos, pelos y... ¡más pelos! Ahora sí que podrás peludear.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 89,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20135,17 +19717,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82113-128.png"
             },
             "description": "Con este escudo acabarás con todas las esquinas de las paredes. ¡Qué gustirrinín!",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 179,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20189,17 +19760,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16437-128.png"
             },
             "description": "Las pulgas vienen de regalo.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 269,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20243,17 +19803,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18103-128.png"
             },
             "description": "Bzzzzzz. Bzzzzzzz. Bzz, bzz. ¿Bzzz? ¡Bzzz!",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 359,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20297,17 +19846,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19074-128.png"
             },
             "description": "Si no matas a tu adversario con esta espada, por lo menos saldrá echando chispas.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 389,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20351,17 +19889,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17307-128.png"
             },
             "description": "Con esta capa atraerás los relámpagos, pero no por eso tendrás las ideas más claras.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 449,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20405,17 +19932,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82095-128.png"
             },
             "description": "Este escudo puede protegerte de los relámpagos de chocolate.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 539,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20459,17 +19975,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16419-128.png"
             },
             "description": "Las orejas de este sombrero actúan de pararrayos. De este modo, duplicas las posibilidades de ser fulminado.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 629,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20513,17 +20018,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121011-128.png"
             },
             "description": "Menos sucio que el rojo, esta mascotura armoniza perfectamente con tus ideas negras.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 719,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20606,17 +20100,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/7734-128.png"
             },
             "description": "Ideal para romper lo que tus compañeros construyeron ayer.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 749,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20660,17 +20143,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17310-128.png"
             },
             "description": "Con esta capa sobre los hombros, puedes levantar los adoquines de Astrub en busca de restos arqueológicos.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 809,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20714,17 +20186,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82098-128.png"
             },
             "description": "Con este escudo podrás desviar los itinerarios de los dragopavos o crear atajos a tu antojo.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 899,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20768,17 +20229,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16422-128.png"
             },
             "description": "Al ponerte este casco en la cabeza, nadie te aplastará. Sin embargo, todo el mundo te evitará, hasta los habitantes del bosque de Büleck.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 989,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20822,17 +20272,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17334-128.png"
             },
             "description": "Esta capa adopta los colores de su propietario, salvo cuando se pone verde de envidia.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1079,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20876,17 +20315,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/5092-128.png"
             },
             "description": "«Saluda a tus vecinos de frente, apuñálalos a continuación por la espalda». Esa era la filosofía del famoso lacayo Micida.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1109,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20930,17 +20358,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17311-128.png"
             },
             "description": "Esta capa se ha alargado y se le ha añadido un recogepolvo a su extremo. De este modo, podrás seguir abriendo puertas y llevándole las maletas a tus amos sin tener que dejar la limpieza de lado.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1169,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20984,17 +20401,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82099-128.png"
             },
             "description": "Este escudo te protegerá eficazmente contra los castigos corporales infligidos por tus amos. Además, se transforma rápidamente en bandeja para servirles mejor.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1259,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21038,17 +20444,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16423-128.png"
             },
             "description": "Al ponerte este sombrero, tus amos no te perderán nunca de vista y podrán requerir tus servicios continuamente.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1349,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21092,17 +20487,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4122-128.png"
             },
             "description": "Puedes lanzar este bastón, correr para ir a buscarlo y volver a empezar hasta que estés completamente perdido.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1469,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21146,17 +20530,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17314-128.png"
             },
             "description": "Antiguamente, solo tenías piel sobre los huesos. Ahora, llevas el hueso sobre la piel.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1529,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21200,17 +20573,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82102-128.png"
             },
             "description": "Este escudo te salvará la vida si te enfrentas a adversarios carnívoros: lánzalo y sal corriendo.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1619,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21254,17 +20616,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16426-128.png"
             },
             "description": "Con este sombrero en la cabeza, el Maxilubo pensará que estás para comerte.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1709,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21308,17 +20659,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18102-128.png"
             },
             "description": "Su cabecita de renacuajo te recuerda a alguien, ¿pero a quién?",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1799,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21362,17 +20702,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/6729-128.png"
             },
             "description": "Esta espada no corta mucho, pero qué más da, no tienes por qué usarla, eres el emperador.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1829,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21416,17 +20745,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17318-128.png"
             },
             "description": "Gracias a sus pequeñas hombreras, los patanes comprenderán que hay que llamarte «jefe».",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1889,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21470,17 +20788,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82106-128.png"
             },
             "description": "Si fueras lo bastante fuerte, este escudo podría servirte de shuriken.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1979,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21524,17 +20831,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16430-128.png"
             },
             "description": "Ponerte este sombrero te da derecho a dirigir a tus camaradas en las batallas de bolas de nieve.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2069,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21578,17 +20874,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121013-128.png"
             },
             "description": "En las bajadas de más del 45%, se aconseja que te agarres con fuerza a sus cuernos.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2159,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21671,17 +20956,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/2081-128.png"
             },
             "description": "Este no es el arco que andabas buscando.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2189,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21725,17 +20999,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17320-128.png"
             },
             "description": "Esta es la capa preferida por los aventureros más cortos y descarados, pero a los que todo el mundo adora.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2249,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21779,17 +21042,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82108-128.png"
             },
             "description": "Hacer gala de este escudo se considera un signo ostentoso de rebelión.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2339,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21833,17 +21085,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16432-128.png"
             },
             "description": "Si frotas correctamente esta gorra, se activará un pequeño holograma.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2429,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21887,17 +21128,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82116-128.png"
             },
             "description": "Este escudo adopta los colores de su propietario, salvo cuando se pone rojo de furia.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2519,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21941,17 +21171,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/3085-128.png"
             },
             "description": "Con esta varita podrás acoger a tus invitados e indicarles la salida si sus bromas son más divertidas que las tuyas.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2549,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21995,17 +21214,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17321-128.png"
             },
             "description": "Esta capa está forrada de una espuma muy cómoda que amortigua el trasero.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2609,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22049,17 +21257,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82109-128.png"
             },
             "description": "Este escudo se parece a una diana para atraer a los arqueros hacia él. Regálaselo a tus peores enemigos.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2699,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22103,17 +21300,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16433-128.png"
             },
             "description": "Este turbante es muy adecuado para los cabezones, lo esconde todo.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2789,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22157,17 +21343,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16452-128.png"
             },
             "description": "Este sombrero adopta los colores de su propietario, salvo cuando se pone negro de rabia.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3959,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22211,17 +21386,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8075-128.png"
             },
             "description": "Esta pala será la alegría de los sepultureros, de los jardineros y de los sepultureros de jardineros.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2909,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22265,17 +21429,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17312-128.png"
             },
             "description": "Los huesos cruzados solo pueden significar que esta capa pertenecía a un pirata, o a un chafer especialista de los pulsos.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2969,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22491,17 +21644,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82100-128.png"
             },
             "description": "Aunque este escudo esté pensado para protegerte de las fracturas, no hará nada para librarte de las facturas.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3059,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22545,17 +21687,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16424-128.png"
             },
             "description": "Si este sombrero no contuviera un distribuidor integrado de gomina, podría servir de escudo.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3149,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22599,17 +21730,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18101-128.png"
             },
             "description": "Esta mascota se desplaza lateralmente para darte la espalda constantemente. Confía en ti o te odia.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3239,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22653,17 +21773,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19073-128.png"
             },
             "description": "Las dos plumas enganchadas a esta hacha le permiten volar más lejos cuando la lanzas a un adversario.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3269,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22707,17 +21816,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17319-128.png"
             },
             "description": "Las plumas de esta capa ralentizarán tu caída cuando te caigas de la cama.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3329,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22761,17 +21859,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82107-128.png"
             },
             "description": "Las tres plumas de este escudo permiten utilizarlo como búmeran que no vuelve.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3419,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22815,17 +21902,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16431-128.png"
             },
             "description": "Con tantas plumas en la cabeza, solo los píos te tomarán por su jefe.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3509,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22869,17 +21945,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121012-128.png"
             },
             "description": "Suele estar de mal humor, pero tú también.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3599,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22962,17 +22027,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19072-128.png"
             },
             "description": "El engranaje no sirve para nada, pero es impresionante. Esta hacha te hace pensar en alguien.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3629,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23016,17 +22070,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17317-128.png"
             },
             "description": "Esta capa contiene suficientes engranajes para hacer funcionar una fábrica entera.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3689,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23070,17 +22113,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82105-128.png"
             },
             "description": "Con este escudo en tu haber, por fin estás equipado para dar marcha atrás.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3779,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23124,17 +22156,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16429-128.png"
             },
             "description": "Este sombrero te dará un aspecto de engranaje, pero hiciste cosas peores en tu adolescencia.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3869,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23178,17 +22199,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4121-128.png"
             },
             "description": "Este bastón te da derecho a todo, por fin podrás salir de la mesa antes de que todos acaben de comer.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3989,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23232,17 +22242,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17315-128.png"
             },
             "description": "Esta capa esconde hábilmente tu ausencia de carisma, pero no es lo suficientemente larga para esconder también tu trasero gordote.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4049,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23286,17 +22285,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82103-128.png"
             },
             "description": "Este escudo de cera te permitirá crear fácilmente moldes de las caras de tus adversarios.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4139,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23340,17 +22328,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16427-128.png"
             },
             "description": "Es el palacio de piojos, pulgas y garrapatas. Quizás porque es muy cómodo y huele a hombre viril.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4229,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23386,7 +22363,7 @@
             "name": "Corsé descodificado",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -25261,7 +24238,7 @@
             "name": "Chancleta leatoria",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -25403,7 +24380,7 @@
             "name": "Dragopavo brakmariano",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -25416,40 +24393,23 @@
                 "relation": "and",
                 "children": [
                     {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 1,
-                                    "element": {
-                                        "name": "Subscription active",
-                                        "id": 252
-                                    }
-                                },
-                                "is_operand": true
-                            },
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 2,
-                                    "element": {
-                                        "name": "Character alignment",
-                                        "id": -1
-                                    }
-                                },
-                                "is_operand": true
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 1,
+                            "element": {
+                                "name": "Estar abonado",
+                                "id": 252
                             }
-                        ]
+                        },
+                        "is_operand": true
                     },
                     {
                         "condition": {
                             "operator": ">",
                             "int_value": 19,
                             "element": {
-                                "name": "Alignment level",
-                                "id": -1
+                                "name": "Nivel de alineamiento",
+                                "id": 55
                             }
                         },
                         "is_operand": true
@@ -25530,7 +24490,7 @@
             "name": "Dragopavo bontariano",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -25543,40 +24503,23 @@
                 "relation": "and",
                 "children": [
                     {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 1,
-                                    "element": {
-                                        "name": "Subscription active",
-                                        "id": 252
-                                    }
-                                },
-                                "is_operand": true
-                            },
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 1,
-                                    "element": {
-                                        "name": "Character alignment",
-                                        "id": -1
-                                    }
-                                },
-                                "is_operand": true
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 1,
+                            "element": {
+                                "name": "Estar abonado",
+                                "id": 252
                             }
-                        ]
+                        },
+                        "is_operand": true
                     },
                     {
                         "condition": {
                             "operator": ">",
                             "int_value": 19,
                             "element": {
-                                "name": "Alignment level",
-                                "id": -1
+                                "name": "Nivel de alineamiento",
+                                "id": 55
                             }
                         },
                         "is_operand": true
@@ -26573,7 +25516,7 @@
             "name": "Dragopavo de carreras",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -26655,7 +25598,7 @@
             "name": "Dragopavo abráknido",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -26737,7 +25680,7 @@
             "name": "Dragopavo real",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27176,7 +26119,7 @@
             "name": "Mulagua brakmariana",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27185,32 +26128,15 @@
             },
             "description": "Si «maldad» es tu segundo nombre, no lo dudes más; equipa a tu mulagua con estos arreos y muestra tu devoción por la nefasta causa de Brakmar.",
             "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "condition": {
-                            "operator": "=",
-                            "int_value": 2,
-                            "element": {
-                                "name": "Character alignment",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 19,
-                            "element": {
-                                "name": "Alignment level",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Nivel de alineamiento",
+                        "id": 55
                     }
-                ]
+                },
+                "is_operand": true
             },
             "effects": [
                 {
@@ -27286,7 +26212,7 @@
             "name": "Mulagua bontariana",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27295,32 +26221,15 @@
             },
             "description": "Reivindica tu lealtad a Bonta equipando a tu mulagua con estos arreos.",
             "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "condition": {
-                            "operator": "=",
-                            "int_value": 1,
-                            "element": {
-                                "name": "Character alignment",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 19,
-                            "element": {
-                                "name": "Alignment level",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Nivel de alineamiento",
+                        "id": 55
                     }
-                ]
+                },
+                "is_operand": true
             },
             "effects": [
                 {
@@ -27396,7 +26305,7 @@
             "name": "Mulagua mecantigua",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 180,
             "image_urls": {
@@ -27507,7 +26416,7 @@
             "name": "Mulagua sufokeña",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27589,7 +26498,7 @@
             "name": "Mulagua bivalva",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27731,7 +26640,7 @@
             "name": "Dragopavo bárbaro",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27813,7 +26722,7 @@
             "name": "Dragopavo urikornio",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -28136,7 +27045,7 @@
             "name": "Dragopavo mecantiguo",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -28804,7 +27713,7 @@
             "name": "Dragopavo de los hielos",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -28921,17 +27830,6 @@
                     "quantity": 6
                 }
             ],
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "pods": 1
         },
         {
@@ -29055,7 +27953,7 @@
             "name": "Dragopavo esqueleto",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -29147,17 +28045,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17380-128.png"
             },
             "description": "Lleva con orgullo esta capa para mostrarles a todos lo dedicado que estás a tu gremio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -29201,17 +28088,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16512-128.png"
             },
             "description": "Con este sombrero, adopta el estilo de tu gremio y di no al anticonformismo.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -29247,7 +28123,7 @@
             "name": "Dragopavo desértico",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -29673,7 +28549,7 @@
             "name": "Mulagua urikornio",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -29884,7 +28760,7 @@
             "name": "Dragopavo magmático",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -31201,7 +30077,7 @@
             "name": "Mulagua zómbica",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -31678,17 +30554,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/7741-128.png"
             },
             "description": "Cuando te hiciste con estos nunchakus, te imaginaste al momento haciendo movimientos y figuras de lo más efectivos para impresionar a tus enemigos. Pero después de meses de entrenamiento y de múltiples heridas en la cara y en la entrepierna es cuando uno se da cuenta de lo difícil que es manejar esta arma. Uno no se convierte en ninja tan fácilmente.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4349,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31732,17 +30597,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17397-128.png"
             },
             "description": "Este caparazón le permite al ninja verde guardar sus armas y proteger su trasero. En tu caso, podrás esconder la malformación de tu columna vertebral o esas nalgas que tanto te acomplejan.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4409,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31786,17 +30640,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82186-128.png"
             },
             "description": "Este escudo, hecho a partir de una pizza Margorito aún caliente, no te protegerá en absoluto de los golpes, pero siempre podrás tirárselo a los pies a tus enemigos para distraer su atención y aprovechar para huir cobardemente.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4499,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31840,17 +30683,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16535-128.png"
             },
             "description": "Es cierto que esta bandana naranja está un poco pasada de moda, pero sigue surtiendo su efecto: te has convertido en un vengador misterioso, un defensor de los oprimidos. Tendrás que demostrar estar a la altura.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4589,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31894,17 +30726,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18140-128.png"
             },
             "description": "Detrás de su apariencia adorable, el mapacho es un animal cruel y muy meticuloso. Da un poco de miedo e impresiona a la vez: siempre se llevará al agua a sus enemigos, los maquillará y los vestirá bien para acabar con ellos a sangre fría. Es una costumbre extraña, pero tiene el mérito de darles una muerte digna. Puedes tener la conciencia tranquila.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4679,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31948,17 +30769,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121020-128.png"
             },
             "description": "A diferencia de los mahos firefux, el fuxar no se transformará en yokai fuxar si está en situación de combate. Al contrario, tenderá más a hacerse una bola y a esconderse hasta que acaben los enfrentamientos dejándote hacer todo el trabajo. Creías haber conseguido domar a un peligroso depredador, pero, al final , has ganado una mascota adorable.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5039,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32041,17 +30851,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8880-128.png"
             },
             "description": "Con esta pala multifuncional, el Caballero Aéreo puede combatir a sus enemigos y trasplantar calabazas en su huertecillo. Es bastante práctica, las cosas como son.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4709,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32095,17 +30894,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17398-128.png"
             },
             "description": "Morgan Forr, apodado el Caballero Aéreo, es un señor mayor (aunque muy en forma para su edad) que defiende a los más vulnerables, en compañía de su fiel corcel volador, Pier. Se reivindica «justiciero independiente» y cuenta que una vez fue dios de una isla celestial. Puede que la soledad haya hecho que se le vaya un poco la olla, pero no por ello deja de ser un héroe para los más humildes.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4769,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32136,17 +30924,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82187-128.png"
             },
             "description": "El Caballero Aéreo ayuda a los más débiles combatiendo a su favor cuando tienen problemas. Para hacerlo, les da un silbato que les permite llamarlo para que acuda en caso de dificultad. Pero está visto que no todo el mundo tiene la misma noción de «situación difícil», por lo que el Caballero tiene una agenda muy cargada que alterna entre combates épicos y tareas domésticas ingratas.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4859,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32190,17 +30967,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16536-128.png"
             },
             "description": "Según el Caballero Aéreo, este casco es el más aerodinámico que jamás se haya fabricado. Los expertos concuerdan en que este título lo ostenta el kwakosombrero de viento, pero también reconocen que el casco del Caballero tiene «mucho estilo».",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4949,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32236,7 +31002,7 @@
             "name": "Mulagua esqueleto",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -32971,17 +31737,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33038,17 +31793,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33105,17 +31849,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33172,17 +31905,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33239,17 +31961,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33306,17 +32017,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "Con este escudo podrás demostrar a todos los aventureros que eres un pionero en el ejercicio de tu oficio.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33494,7 +32194,7 @@
             "name": "Mulagua escarab",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34092,7 +32792,7 @@
             "name": "Mulagua críptica",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34174,7 +32874,7 @@
             "name": "Vueloceronte dragosaurio",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34514,7 +33214,7 @@
             "name": "Dragopavo centelleante",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34596,7 +33296,7 @@
             "name": "Mulagua centelleante",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34966,7 +33666,7 @@
             "name": "Mulagua de bucanero",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -35048,7 +33748,7 @@
             "name": "Vueloceronte helado",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -35888,17 +34588,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82213-128.png"
             },
             "description": "Esto no es un escudo. En realidad, se trata de un tipo de planeador con aspecto de escudo que los as'hesinos mantienen en alto antes de saltar desde un punto elevado, para introducirse o escapar por aire de algún lugar. La tela es muy delicada, así que el simple encontronazo con un pajarito en pleno vuelo podría rasgarla, y tú acabarías cayendo. De este modo, incluso los as'hesinos más experimentados apenas lo usan, dado lo poco propensos que son a terminar su vida de una forma tan poco gloriosa.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5219,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -35942,17 +34631,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82214-128.png"
             },
             "description": "Que un escudo forme parte de los objetos de un as'hesino podría ser sorprendente, pero hay una explicación muy sencilla. Lo que pasa es que los aprendices a veces fracasan en sus primeros intentos de asesinato, así que se les entrega un escudo para que intenten sobrevivir después de haber desperdiciado tan lamentablemente la oportunidad de matar a alguien desprevenido e indefenso.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5399,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -35996,17 +34674,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17419-128.png"
             },
             "description": "Desde que te has hecho con esta capa, sueles tener ganas de saltar desde alturas absurdas solo por diversión. Siempre que abajo haya un carro lleno de paja colocado en el lugar exacto, podrás sobrevivir a la caída. Puede parecer extraño, pero te sorprendería la cantidad de carros llenos de paja colocados en los lugares exactos que hay al pie de casi todos los puntos elevados desde los que podrías saltar. Es como si los hubieran puesto ahí a propósito...",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5129,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -36050,17 +34717,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16557-128.png"
             },
             "description": "Di adiós a las entradas en escena desastrosas por culpa de un golpe de viento que se lleva volando tu capucha antes de tiempo, y tu credibilidad con ella. El armazón situado en su interior asegura una fijación perfecta de la capucha, digna de los mayores as'hesinos. No obstante, ya no podrás girar ni levantar la cabeza, lo que podría ser molesto cuando tengas que mirar a derecha e izquierda y a izquierda y derecha antes de cruzar la calle.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5309,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -36104,17 +34760,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/5099-128.png"
             },
             "description": "Estas dagas se han diseñado para acabar con los adversarios de forma hábil y astuta, pero, al usarlas, nos dimos cuenta de que también tenían otra habilidad muy especial. Si te atacan de frente y consigues bloquear el ataque con ellas, tu cuerpo se moverá por sí solo para contratacar y, con toda seguridad, matar a tu adversario. Si tus enemigos fueran lo bastante inteligentes para atacarte todos a la vez, no tendrías ninguna oportunidad; pero, como insisten en ponerse en fila india y atacar por turnos, provocarás una masacre.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5069,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -37286,7 +35931,7 @@
             "name": "Vueloceronte dragosombra",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -37368,7 +36013,7 @@
             "name": "Vueloceronte esepecuerre",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38043,7 +36688,7 @@
             "name": "Dragopavo mordiente",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38112,7 +36757,7 @@
             "name": "Mulagua mordiente",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38181,7 +36826,7 @@
             "name": "Vueloceronte mordiente",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38637,7 +37282,7 @@
             "name": "Draganakrónico",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38839,7 +37484,7 @@
             "name": "Dragopavo de noxina",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38908,7 +37553,7 @@
             "name": "Mulagua de noxina",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38977,7 +37622,7 @@
             "name": "Vueloceronte de noxina",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39575,7 +38220,7 @@
             "name": "Dragolago",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39644,7 +38289,7 @@
             "name": "Mulagua acuosa",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39713,7 +38358,7 @@
             "name": "Corvopavo",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39795,7 +38440,7 @@
             "name": "Anillo musical",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -40096,7 +38741,7 @@
             "name": "Vueloceronte esquelético",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40363,7 +39008,7 @@
             "name": "Dragopavo yopuka",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40445,7 +39090,7 @@
             "name": "Dragopavo esepecuerre",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40828,7 +39473,7 @@
             "name": "Vueloceronte yopuka",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40910,7 +39555,7 @@
             "name": "Mulagua yopuka",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41082,7 +39727,7 @@
             "name": "Dragopavo azur",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41090,17 +39735,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/182051-128.png"
             },
             "description": "Ideal para desfilar, estos arreos protegerán a tu montura de los gritos y los pétalos de flores.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Subscription active",
-                        "id": 252
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -41261,7 +39895,7 @@
             "name": "Mulagua azur",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41330,7 +39964,7 @@
             "name": "Vueloceronte azur",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41549,7 +40183,7 @@
             "name": "Dragopavo de hueso",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41557,17 +40191,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/182046-128.png"
             },
             "description": "Con estos arreos en tu montura, habrás encontrado al solución casi perfecta para rechazar las insinuaciones de otros dragopavos.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Subscription active",
-                        "id": 252
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -41728,7 +40351,7 @@
             "name": "Mulagua de hueso",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41797,7 +40420,7 @@
             "name": "Vueloceronte de hueso",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42339,7 +40962,7 @@
             "name": "Dragopavo sram",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42421,7 +41044,7 @@
             "name": "Mulagua sram",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42503,7 +41126,7 @@
             "name": "Vueloceronte sram",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42667,7 +41290,7 @@
             "name": "Vueloceronte tymador",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42749,7 +41372,7 @@
             "name": "Mulagua tymador",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42831,7 +41454,7 @@
             "name": "Dragopavo tymador",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43171,7 +41794,7 @@
             "name": "Vueloceronte osamodas",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43253,7 +41876,7 @@
             "name": "Mulagua osamodas",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43335,7 +41958,7 @@
             "name": "Dragopavo osamodas",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43929,7 +42552,7 @@
             "name": "Dragopavo steamer",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44011,7 +42634,7 @@
             "name": "Vueloceronte steamer",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44093,7 +42716,7 @@
             "name": "Mulagua steamer",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44334,7 +42957,7 @@
             "name": "Dragopavo ocra",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44416,7 +43039,7 @@
             "name": "Mulagua ocra",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44498,7 +43121,7 @@
             "name": "Vueloceronte ocra",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44834,7 +43457,7 @@
             "name": "Hombreras de Vanjel Sings",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -44864,7 +43487,7 @@
             "name": "Mulagua helada",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -45849,7 +44472,7 @@
             "name": "Hombreras de última esperanza",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -46486,7 +45109,7 @@
             "name": "Dragopavo feca",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46568,7 +45191,7 @@
             "name": "Mulagua feca",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46650,7 +45273,7 @@
             "name": "Vueloceronte feca",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46861,7 +45484,7 @@
             "name": "Dragopavo zobal",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46943,7 +45566,7 @@
             "name": "Mulagua zobal",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -47025,7 +45648,7 @@
             "name": "Vueloceronte zobal",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -48770,7 +47393,7 @@
             "name": "Dragopavo sadida",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -48852,7 +47475,7 @@
             "name": "Mulagua sadida",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -48934,7 +47557,7 @@
             "name": "Vueloceronte sadida",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50097,7 +48720,7 @@
             "name": "Dragopavo sacrógrito",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50179,7 +48802,7 @@
             "name": "Mulagua sacrógrito",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50261,7 +48884,7 @@
             "name": "Vueloceronte sacrógrito",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50343,7 +48966,7 @@
             "name": "Placas de hombro cenicientas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50373,7 +48996,7 @@
             "name": "Hombreras escarlatas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50403,7 +49026,7 @@
             "name": "Garrombreras",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50433,7 +49056,7 @@
             "name": "Égida huesuda",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50463,7 +49086,7 @@
             "name": "Wowmbreras",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50493,7 +49116,7 @@
             "name": "Carga del guerrero",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50652,7 +49275,7 @@
             "name": "Dragopavo xelor",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50734,7 +49357,7 @@
             "name": "Mulagua xelor",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50816,7 +49439,7 @@
             "name": "Vueloceronte xelor",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51113,7 +49736,7 @@
             "name": "Gladius mulaqus",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51453,7 +50076,7 @@
             "name": "Dragopavo pandawa",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51535,7 +50158,7 @@
             "name": "Mulagua pandawa",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51617,7 +50240,7 @@
             "name": "Vueloceronte pandawa",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -52000,7 +50623,7 @@
             "name": "Hombreras de Elely",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -52176,7 +50799,7 @@
             "name": "Hombreras de Flopin",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53118,7 +51741,7 @@
             "name": "Dragopavo zurcarák",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -53200,7 +51823,7 @@
             "name": "Mulagua zurcarák",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -53282,7 +51905,7 @@
             "name": "Vueloceronte zurcarák",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -53364,7 +51987,7 @@
             "name": "Hombreras de reim'ono",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53394,7 +52017,7 @@
             "name": "Hombreras Vixi",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53424,7 +52047,7 @@
             "name": "Hombredaderas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53454,7 +52077,7 @@
             "name": "Espinas de pesadilla",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53484,7 +52107,7 @@
             "name": "Hombreras de la ratona Péraz",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53514,7 +52137,7 @@
             "name": "Hombreras de bucanero",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -54039,7 +52662,7 @@
             "name": "Hombreras hirsutas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -54353,7 +52976,7 @@
             "name": "Dragopavo uginak",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -54435,7 +53058,7 @@
             "name": "Mulagua uginak",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -54517,7 +53140,7 @@
             "name": "Vueloceronte uginak",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -54857,7 +53480,7 @@
             "name": "Spalla Carnavalo",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -55132,7 +53755,7 @@
             "name": "Dragopavo aniripsa",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -55214,7 +53837,7 @@
             "name": "Mulagua aniripsa",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -55296,7 +53919,7 @@
             "name": "Vueloceronte aniripsa",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -55610,7 +54233,7 @@
             "name": "Miaufiamuleto",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55666,7 +54289,7 @@
             "name": "Guaufiamuleto",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55722,7 +54345,7 @@
             "name": "Pazcuanillo de chocolate",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55778,7 +54401,7 @@
             "name": "Wonejanillo de chocolate",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55834,7 +54457,7 @@
             "name": "Huevanillo de chocolate",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55890,7 +54513,7 @@
             "name": "Dofanillo de chocolate",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -57328,7 +55951,7 @@
             "name": "Hombreras de farolero",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -57827,7 +56450,7 @@
             "name": "Dragopavo hipermago",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -57909,7 +56532,7 @@
             "name": "Mulagua hipermago",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -57991,7 +56614,7 @@
             "name": "Vueloceronte hipermago",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -58202,7 +56825,7 @@
             "name": "Anillo sacaram",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -58258,7 +56881,7 @@
             "name": "Sortija utotune",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -58701,7 +57324,7 @@
             "name": "Vueloceronte anutrof",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -58783,7 +57406,7 @@
             "name": "Mulagua anutrof",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -58865,7 +57488,7 @@
             "name": "Dragopavo anutrof",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -59979,7 +58602,7 @@
             "name": "Hombreras de pergamigromancia",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -61641,7 +60264,7 @@
             "name": "Anomanillo",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -61817,7 +60440,7 @@
             "name": "Humbreras kompaktas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -62219,7 +60842,7 @@
             "name": "Dragopavo selotrop",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -62301,7 +60924,7 @@
             "name": "Mulagua selotrop",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -62383,7 +61006,7 @@
             "name": "Vueloceronte selotrop",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -63609,7 +62232,7 @@
             "name": "Anillo invernal",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -64215,7 +62838,7 @@
             "name": "Hombreras del mensajero",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64245,7 +62868,7 @@
             "name": "Hombreras dóciles",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64275,7 +62898,7 @@
             "name": "Hombreras volteadoras",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64305,7 +62928,7 @@
             "name": "Hombreras de justiciero",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64335,7 +62958,7 @@
             "name": "Hombreras maliciosas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64365,7 +62988,7 @@
             "name": "Hombreras del asesino",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64395,7 +63018,7 @@
             "name": "Hombreras perfumadas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64425,7 +63048,7 @@
             "name": "Hombreras imperiales",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64455,7 +63078,7 @@
             "name": "Hombreras del guerrero tribal",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64485,7 +63108,7 @@
             "name": "Hombreras de perdonavidas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64644,7 +63267,7 @@
             "name": "Deskorazonadoras",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64975,7 +63598,7 @@
             "name": "Brazaletes de chtigre",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -69265,7 +67888,7 @@
             "name": "Anillo de pinglamur",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -69321,7 +67944,7 @@
             "name": "Anillo de batortuga",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -69377,7 +68000,7 @@
             "name": "Anillo de cicalofrío",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -69433,7 +68056,7 @@
             "name": "Anillo de buitreracán",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -70719,7 +69342,7 @@
             "name": "Dragopavo neutro",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -70973,7 +69596,7 @@
             "name": "Hombreras ravalianas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -71958,7 +70581,7 @@
             "name": "Anillo de tokageko",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -72173,7 +70796,7 @@
             "name": "Dragopavo peletero",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -72255,7 +70878,7 @@
             "name": "Mulagua peletera",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -72337,7 +70960,7 @@
             "name": "Vueloceronte peletero",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -72419,7 +71042,7 @@
             "name": "Anillo de peletero",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -73650,7 +72273,7 @@
             "name": "Mulagua neutra",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -74007,7 +72630,7 @@
             "name": "Hombreras de caballero huraño",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74037,7 +72660,7 @@
             "name": "Hombreras de caballero implacable",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74067,7 +72690,7 @@
             "name": "Hombreras de caballero benefactor",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74097,7 +72720,7 @@
             "name": "Hombreras de caballero protector",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74127,7 +72750,7 @@
             "name": "Hombreras de caballero ágil",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -77102,17 +75725,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17555-128.png"
             },
             "description": "Viste esta capa con orgullo, para mostrarles a todos cuánto te implicas en tu alianza.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 2,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -77156,17 +75768,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82420-128.png"
             },
             "description": "Este escudo mágico es el reflejo del alma de tu alianza.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 2,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -77210,17 +75811,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16742-128.png"
             },
             "description": "Con este tocado, adopta el estilo de tu alianza y di no al anticonformismo.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 2,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -77674,7 +76264,7 @@
             "name": "Dragopavo del recaudador",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -77756,7 +76346,7 @@
             "name": "Dragopavo lagomorfo",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -77967,7 +76557,7 @@
             "name": "Ambición de Sahurond",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -78040,7 +76630,7 @@
             "name": "Dragopavo forjalanza",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -78122,7 +76712,7 @@
             "name": "Vueloceronte forjalanza",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -78204,7 +76794,7 @@
             "name": "Mulagua forjalanza",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -79043,7 +77633,7 @@
             "name": "Hombreras de Fab'huritu Oscuro",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -79323,7 +77913,7 @@
             "name": "Hombreras de playero",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -81080,7 +79670,7 @@
             "name": "Anillo de anfiburbuja",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -81136,7 +79726,7 @@
             "name": "Anillo de cangruido",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -81192,7 +79782,7 @@
             "name": "Anillo de mimistral",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -81248,7 +79838,7 @@
             "name": "Anillo de tapricioso",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -82022,7 +80612,7 @@
             "name": "Hombreras de cangruido",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -83591,7 +82181,7 @@
             "name": "Hombreras silvestres",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -85440,7 +84030,7 @@
             "name": "Hombreras de dragón",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -85638,7 +84228,7 @@
             "name": "Hombreras de San Patírico",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86068,7 +84658,7 @@
             "name": "Hombreras de guerrero Wikkan",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86227,7 +84817,7 @@
             "name": "Hombreras de jefe de guerra Wikkan",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86468,7 +85058,7 @@
             "name": "Hombreras del Trankilobo Plateado",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86498,7 +85088,7 @@
             "name": "Dragopavo de la Sombra Maldita",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -86752,7 +85342,7 @@
             "name": "Hombreras de ejecutor mísero",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86833,17 +85423,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17624-128.png"
             },
             "description": "Ser un héroe es también llevar el peso del mundo, y el de tus errores, sobre los hombros. Llegados a este punto, añadirles una capa no debería de cambiar mucho las cosas, pero te dará algo de consuelo en este camino plagado de obstáculos.",
-            "conditions": {
-                "condition": {
-                    "operator": "!",
-                    "int_value": 30,
-                    "element": {
-                        "name": "Equipment slot",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -86879,7 +85458,7 @@
             "name": "Hombreras de la Sombra Maldita",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -87107,7 +85686,7 @@
             "name": "Hombreras de caballero negro",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -87877,7 +86456,7 @@
             "name": "Hombreras de Guyomu Oniwa",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -88320,7 +86899,7 @@
             "name": "Hombreras de sabio Wikkan",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -88350,7 +86929,7 @@
             "name": "Hombreras de gran sabio Wikkan",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89180,7 +87759,7 @@
             "name": "Dragopavo festivo",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -89503,7 +88082,7 @@
             "name": "Hombreras del Cuervo Negro",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89533,7 +88112,7 @@
             "name": "Hombreras de gremio",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 100,
             "image_urls": {
@@ -89568,17 +88147,6 @@
                     "quantity": 3
                 }
             ],
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "pods": 1
         },
         {
@@ -89676,7 +88244,7 @@
             "name": "Hombreras afiladas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89706,7 +88274,7 @@
             "name": "Hombreras de Platta",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89736,7 +88304,7 @@
             "name": "Hombreras de Horo",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89796,7 +88364,7 @@
             "name": "Hombreras azuladas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89811,7 +88379,7 @@
             "name": "Hombreras de samurái",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89841,7 +88409,7 @@
             "name": "Hombreras de peletero",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89901,7 +88469,7 @@
             "name": "Hombreras yopukas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89991,7 +88559,7 @@
             "name": "Hombrera de brujo Wikkan",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90021,7 +88589,7 @@
             "name": "Hombrera de maestro brujo Wikkan",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90051,7 +88619,7 @@
             "name": "Hombreras de Belladona",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90141,7 +88709,7 @@
             "name": "Hombreras del Rey Mohíno",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90171,7 +88739,7 @@
             "name": "Hombreras tranquilizantes de Rosal",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90201,7 +88769,7 @@
             "name": "Sadismo de la Ciudad Oscura",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90231,7 +88799,7 @@
             "name": "Hombreras de Yugo el Selatrop",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90239,17 +88807,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164920-128.png"
             },
             "description": "¡Los accesorios indispensables si quieres afrontar con estilo las pruebas que te depara el destino! Dicho eso, si te cuesta abrir un bote de mermelada, estas hombreras no te servirán de nada.",
-            "conditions": {
-                "condition": {
-                    "operator": "!",
-                    "int_value": 30,
-                    "element": {
-                        "name": "Equipment slot",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -90272,7 +88829,7 @@
             "name": "Hombreras de pestruz",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91132,7 +89689,7 @@
             "name": "Kornudombreras",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91162,7 +89719,7 @@
             "name": "Hombreras de águila celestial",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91222,7 +89779,7 @@
             "name": "Hombreras del Caballero Celestial",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91252,7 +89809,7 @@
             "name": "Hombreras estibias",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91282,7 +89839,7 @@
             "name": "Hombreras de Tor Nyquete",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91845,7 +90402,7 @@
             "name": "Hombreras de gran espectáculo",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -92649,7 +91206,7 @@
             "name": "Disciplina de la ciudad blanca",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93685,7 +92242,7 @@
             "name": "Hombreras de Solary",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93715,7 +92272,7 @@
             "name": "Hombreras de Aegis",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93745,7 +92302,7 @@
             "name": "Hombreras de Karmine Corp",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93775,7 +92332,7 @@
             "name": "Hombreras de Gentle Mates",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94054,7 +92611,7 @@
             "name": "Hombreras de los Lary",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94213,7 +92770,7 @@
             "name": "Hombreras de los maestros Lary",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94402,7 +92959,7 @@
             "name": "Hombreras de la Mujer Maravillosa",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94591,7 +93148,7 @@
             "name": "Hombreras ofidianas",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94733,7 +93290,7 @@
             "name": "Hombreras osteomantes",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94763,7 +93320,7 @@
             "name": "Hombreras Prestancia Acuosa",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94793,7 +93350,7 @@
             "name": "Hombreras Prestancia Vegetal",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94823,7 +93380,7 @@
             "name": "Hombreras Prestancia Volátil",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94853,7 +93410,7 @@
             "name": "Hombreras Prestancia Ígnea",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -95326,7 +93883,7 @@
             "name": "Hombreras de residente de la escarcha",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -95640,7 +94197,7 @@
             "name": "Cuernos de dragón negro",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -95954,7 +94511,7 @@
             "name": "Hombreras de selacubo",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -96268,7 +94825,7 @@
             "name": "Hombreras Prestancia",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -96780,7 +95337,7 @@
             "name": "Hombreras de campeón",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -97446,7 +96003,7 @@
             "name": "Hombreras de Savara",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -97880,7 +96437,7 @@
             "name": "Hombreras del culto bestial",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -98129,7 +96686,7 @@
             "name": "Hombreras de cuerbacilo",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -98761,7 +97318,7 @@
             "name": "Hombreras de la Demonio II",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -98920,7 +97477,7 @@
             "name": "Hombreras matizadas de la Demonio II",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -99333,7 +97890,7 @@
             "name": "Hombreras de agente de viajes",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -101671,7 +100228,7 @@
             "name": "Hombreras Adastra",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102000,7 +100557,7 @@
             "name": "Amuleto de YeCh'Ti",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102176,7 +100733,7 @@
             "name": "Cinturón de Golosorak",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102219,7 +100776,7 @@
             "name": "Chancleta leatoria",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102416,17 +100973,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-128.png"
             },
             "description": "Con esta mascotura, luce con orgullo el estandarte de tu gremio vayas donde vayas.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -102905,7 +101451,7 @@
             "name": "Hombrera de Corpo",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102935,7 +101481,7 @@
             "name": "Anillo de lana",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102991,7 +101537,7 @@
             "name": "Anillo de plumas",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -103047,7 +101593,7 @@
             "name": "Anillo de espinas",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -103103,7 +101649,7 @@
             "name": "Anillo de seda",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -103159,7 +101705,7 @@
             "name": "Anillo de roca",
             "type": {
                 "name": "Objeto diverso de apariencia",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -104010,17 +102556,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82575-128.png"
             },
             "description": "Los miembros del gremio de los adoradores de onis no temen los golpes, sobre todo si llevan este escudo.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104064,17 +102599,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164296-128.png"
             },
             "description": "Cuando viajó a la isla de Pandala para cumplir una misión de control de su población, una aventurera sintió una total admiración por los yokais, y muy especialmente por los onis. Decidió entonces formar su propio gremio e imponer un uniforme oficial a todos sus miembros. Hacerse pasar por un oni le importaba tanto que, a día de hoy, se desconoce cuál era el nombre de aquella aventurera.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104097,7 +102621,7 @@
             "name": "Hombreras de los adoradores de onis",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -104686,7 +103210,7 @@
             "name": "Hombreras de campeón de los dragones",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -105314,7 +103838,7 @@
             "name": "Dragopavo campeón de los dragones",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -105396,7 +103920,7 @@
             "name": "Mulagua campeona de los dragones",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -105478,7 +104002,7 @@
             "name": "Vueloceronte campeón de los dragones",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -106084,7 +104608,7 @@
             "name": "Hombreras caballeras",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -106411,7 +104935,7 @@
             "name": "Hombreras del Demonio V",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -106570,7 +105094,7 @@
             "name": "Hombreras matizadas del Demonio V",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -107073,7 +105597,7 @@
             "name": "Dragopavo Corpo",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -107155,7 +105679,7 @@
             "name": "Mulagua Corpo",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -107237,7 +105761,7 @@
             "name": "Vueloceronte Corpo",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -107947,7 +106471,7 @@
             "name": "Hombreras de electrizado",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -108653,7 +107177,7 @@
             "name": "Hombreras de Peps",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -108743,7 +107267,7 @@
             "name": "Hombreras de Joblife",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109061,7 +107585,7 @@
             "name": "Hombreras del Demonio VI",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109091,7 +107615,7 @@
             "name": "Hombreras matizadas del Demonio VI",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109211,7 +107735,7 @@
             "name": "Hombreras tymadoras",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109357,7 +107881,7 @@
             "name": "Hombreras del exterminador",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109946,7 +108470,7 @@
             "name": "Aletas de la sima",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -110600,7 +109124,7 @@
             "name": "Aletas de Skalo",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -110630,7 +109154,7 @@
             "name": "Caparazones de Escario",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -110849,7 +109373,7 @@
             "name": "Hombreras de los 25 años del Krosmoz",
             "type": {
                 "name": "Hombrera",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -112883,7 +111407,7 @@
             "name": "Dragopavo krameleón",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -112952,7 +111476,7 @@
             "name": "Mulagua krameleona",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -113021,7 +111545,7 @@
             "name": "Vueloceronte krameleón",
             "type": {
                 "name": "Montura de apariencia",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {

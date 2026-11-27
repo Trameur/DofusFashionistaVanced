@@ -57,7 +57,7 @@
     "de": "Teleportiert den Zaubernden auf das anvisierte Feld, schützt den Zaubernden und seine Verbündeten mit einem Schild und fügt Gegnern im Wirkungsbereich Luftschaden zu.\n\nVergrößert die Bellaura für die Dauer der aktuellen Runde.",
     "en": "Teleports the caster to the targeted cell, applies a shield on the caster and their allies, and inflicts Air damage on enemies in an area of effect.\n\nIncreases the Bellaura's size for the current turn.",
     "es": "Teletransporta al lanzador a la casilla objetivo, aplica un escudo al lanzador y a sus aliados, y ocasiona daños de aire a los enemigos en zona.\n\nAumenta el tamaño de la belaura durante el turno en curso.",
-    "fr": "Téléporte le lanceur sur la case ciblée, applique un bouclier sur le lanceur et ses alliés et occasionne des dommages Air aux ennemis en zone.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
+    "fr": "Téléporte le lanceur sur la case ciblée, occasionne des dommages Air aux ennemis et attire les cibles jusqu'au centre en zone.\n\nL'attirance n'affecte pas le lanceur.",
     "pt": "Teletransporta o lançador para a célula visada, aplica um escudo no lançador e seus aliados e inflige danos de ar aos inimigos em zona.\n\nAumenta o tamanho da Belaura no turno em andamento."
    },
    "id": 33201,
@@ -118,7 +118,7 @@
     "de": "Schützt alle Verbündeten mit einem Schild, versetzt sie in den Zustand „Gipfel der Stürme“ und fügt allen Gegnern in der Bellaura Schaden im besten Element des Zaubernden zu:\n• Wirft einen Teil des vom Ziel erlittenen Schadens auf den Angreifer zurück.",
     "en": "Applies a shield and the Storm Peak state on all allies and inflicts damage in the caster's best element on all enemies in the Bellaura:\n• Reflects part of the damage suffered by the target onto their attacker.",
     "es": "Aplica un escudo y el estado Pico Tormentoso a todos los aliados y ocasiona daños con el mejor elemento del lanzador a todos los enemigos dentro de la belaura:\n• Reenvía una parte de los daños que sufre el objetivo a su atacante.",
-    "fr": "Applique un bouclier et l'état Pic des Tempêtes sur tous les alliés et occasionne des dommages dans le meilleur élément du lanceur à tous les ennemis dans la Bellaura :\n• Renvoie une partie des dommages subis par la cible à son attaquant.",
+    "fr": "Applique un bouclier et l'état Pic des Tempêtes sur tous les alliés et occasionne des dommages dans le meilleur élément du lanceur à tous les ennemis dans la Bellaura :\n• Renvoie une partie des dommages subis par la cible à son attaquant.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.",
     "pt": "Aplica um escudo e o estado Pico das Tempestades em todos os aliados e inflige danos no melhor elemento do lançador a todos os inimigos na Belaura:\n• Reenvia uma parte dos danos sofridos pelo alvo ao atacante."
    },
    "id": 33202,
@@ -233,7 +233,7 @@
     "de": "Fügt allen Gegnern in der Bellaura Erdschaden zu und stößt die Ziele an den Innenrand zurück.\nDie AP-Kosten hängen von der Größe der Bellaura ab.\n\nVergrößert die Bellaura für die Dauer der aktuellen Runde.",
     "en": "Inflicts Earth damage on all enemies in the Bellaura and repels targets on the inner edge.\nThe AP cost depends on the Bellaura's size.\n\nIncreases the Bellaura's size for the current turn.",
     "es": "Ocasiona daños de tierra a todos los enemigos dentro de la belaura y repele a los objetivos hacia el borde interior.\nEl coste en PA depende del tamaño de la belaura.\n\nAumenta el tamaño de la belaura durante el turno en curso.",
-    "fr": "Occasionne des dommages Terre à tous les ennemis dans la Bellaura et repousse les cibles sur la bordure intérieure.\nLe coût en PA dépend de la taille de la Bellaura.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
+    "fr": "Occasionne des dommages Terre à tous les ennemis dans la Bellaura et repousse les cibles sur la bordure intérieure.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.\nLe coût en PA dépend de la taille de la Bellaura : 2 / 3 / 4 PA.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
     "pt": "Inflige danos de terra a todos os inimigos na Belaura e empurra os alvos na borda interior.\nO custo em PA depende do tamanho da Belaura.\n\nAumenta o tamanho da Belaura no turno em andamento."
    },
    "id": 33207,
@@ -311,7 +311,7 @@
     "de": "Fügt allen Gegnern in der Bellaura Schaden im besten Element des Zaubernden zu.\n\nBeschwört in Nahkampfentfernung jeder Einheit in der Bellaura außerdem statische Säulen herbei.\n\nDie Säulen fügen Gegnern im Wirkungsbereich Erdschaden zu, der von den verbleibenden LP der Säulen abhängt, und werden in der nächsten Runde zerstört.",
     "en": "Inflicts damage in the caster's best element on all enemies in the Bellaura.\n\nAlso summons static Pillars adjacent to each entity in the Bellaura.\n\nThe pillars inflict Earth damage based on their remaining HP on enemies in an area of effect and are destroyed on the following turn.",
     "es": "Ocasiona daños con el mejor elemento del lanzador a todos los enemigos dentro de la belaura.\n\nTambién invoca pilares estáticos en contacto con cada entidad dentro de la belaura.\n\nLos pilares ocasionan daños de tierra según su vida restante a los enemigos en zona y se destruyen en el siguiente turno.",
-    "fr": "Occasionne des dommages dans le meilleur élément du lanceur à tous les ennemis dans la Bellaura.\n\nInvoque également des Piliers statiques au contact de chaque entité dans la Bellaura.\n\nLes piliers occasionnent des dommages Terre selon leur vie restante aux ennemis en zone et sont détruits au tour suivant.",
+    "fr": "Occasionne des dommages dans le meilleur élément du lanceur à tous les ennemis dans la Bellaura.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.\n\nInvoque également des Piliers statiques au contact de chaque entité dans la Bellaura.\n\nLes piliers occasionnent des dommages Terre selon leur vie restante aux ennemis en zone et sont détruits au tour suivant.",
     "pt": "Inflige danos no melhor elemento do lançador a todos os inimigos na Belaura.\n\nTambém invoca Pilares estáticos para o corpo a corpo de cada entidade na Belaura.\n\nOs pilares infligem danos de terra de acordo com sua vida restante aos inimigos em zona e são destruídos no turno seguinte."
    },
    "id": 33208,
@@ -378,7 +378,7 @@
     "de": "Teleportiert alle Ziele symmetrisch zur Mitte und fügt allen Gegnern in der Bellaura Wasserschaden zu.",
     "en": "Teleports all targets symmetrically in relation to the centre and inflicts Water damage on all enemies in the Bellaura.",
     "es": "Teletransporta a todos los objetivos simétricamente con respecto al centro y ocasiona daños de agua a todos los enemigos dentro de la belaura.",
-    "fr": "Téléporte toutes les cibles symétriquement par rapport au centre et occasionne des dommages Eau à tous les ennemis dans la Bellaura.",
+    "fr": "Téléporte toutes les cibles symétriquement par rapport au centre et occasionne des dommages Eau à tous les ennemis dans la Bellaura.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.",
     "pt": "Teletransporta todos os alvos simetricamente em relação ao centro e inflige danos de água a todos os inimigos na Belaura."
    },
    "id": 33212,
@@ -426,7 +426,7 @@
     "de": "Fügt allen Gegnern Wasserschaden zu und stößt alle Ziele aus der Mitte der Bellaura weg.\n\nVergrößert die Bellaura für die Dauer der aktuellen Runde.",
     "en": "Inflicts Water damage on all enemies and repels all targets from the centre in the Bellaura.\n\nIncreases the Bellaura's size for the current turn.",
     "es": "Ocasiona daños de agua a todos los enemigos y repele a todos los objetivos desde el centro dentro de la belaura.\n\nAumenta el tamaño de la belaura durante el turno en curso.",
-    "fr": "Occasionne des dommages Eau à tous les ennemis et repousse toutes les cibles depuis le centre dans la Bellaura.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
+    "fr": "Occasionne des dommages Eau à tous les ennemis et repousse toutes les cibles depuis le centre dans la Bellaura.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
     "pt": "Inflige danos de água a todos os inimigos e empurra todos os alvos a partir do centro na Belaura.\n\nAumenta o tamanho da Belaura no turno em andamento."
    },
    "id": 33213,
@@ -504,7 +504,7 @@
     "de": "Versetzt das Ziel in den Zustand „Versunkene Stadt“, verursacht Schaden im besten Element des Zaubernden und minimiert die zufälligen Wirkungen aller Gegner in der Bellaura:\n• Heilt alle Verbündeten des Zaubernden in der Bellaura, wenn das Ziel angegriffen wird.",
     "en": "Applies the Submerged City state, inflicts damage in the caster's best element and minimises the random effects of all enemies in the Bellaura:\n• Heals all the caster's allies in the Bellaura when the target is attacked.",
     "es": "Aplica el estado Ciudad Engullida, ocasiona daños con el mejor elemento del lanzador y minimiza los efectos aleatorios de todos los enemigos dentro de la belaura:\n• Cura a todos los aliados del lanzador dentro de la belaura cuando el objetivo es atacado.",
-    "fr": "Applique l'état Cité Engloutie, occasionne des dommages dans le meilleur élément du lanceur et minimise les effets aléatoires de tous les ennemis dans la Bellaura :\n• Soigne tous les alliés du lanceur dans la Bellaura lorsque la cible est attaquée.",
+    "fr": "Applique l'état Cité Engloutie, occasionne des dommages dans le meilleur élément du lanceur et minimise les effets aléatoires de tous les ennemis dans la Bellaura :\n• Soigne tous les alliés du lanceur dans la Bellaura lorsque la cible est attaquée.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.",
     "pt": "Aplica o estado Cidade Submersa, inflige danos no melhor elemento do lançador e minimiza os efeitos aleatórios de todos os inimigos na Belaura:\n• Cura todos os aliados do lançador na Belaura quando o alvo é atacado."
    },
    "id": 33214,
@@ -571,7 +571,7 @@
     "de": "Erhöht die Schlagkraft des Zaubernden für jeden Gegner in der Bellaura und verursacht Feuerschaden.\n\nVerkleinert die Bellaura für die Dauer der aktuellen Runde.",
     "en": "Increases the caster's Power for each enemy in the Bellaura and inflicts Fire damage.\n\nReduces the Bellaura's size for the current turn.",
     "es": "Aumenta la potencia del lanzador por cada enemigo que haya dentro de la belaura y ocasiona daños de fuego.\n\nReduce el tamaño de la belaura durante el turno en curso.",
-    "fr": "Augmente la Puissance du lanceur pour chaque ennemi dans la Bellaura et occasionne des dommages Feu.\n\nRéduit la taille de la Bellaura pour le tour en cours.",
+    "fr": "Augmente la Puissance du lanceur pour chaque entité dans la Bellaura et occasionne des dommages Feu aux ennemis en zone.\n\nRéduit la taille de la Bellaura pour le tour en cours.",
     "pt": "Aumenta a potência do lançador a cada inimigo na Belaura e inflige danos de fogo.\n\nReduz o tamanho da Belaura no turno em andamento."
    },
    "id": 33218,
@@ -592,9 +592,6 @@
     "fr": "Brasier",
     "pt": "Braseiro"
    },
-   "per_target": [
-    1
-   ],
    "per_turn": [
     2
    ],
@@ -681,7 +678,7 @@
     "de": "Fügt allen Gegnern in der Bellaura Schaden im besten Element des Zaubernden zu, verringert die Heilung, die sie erhalten, und versetzt sie in den Zustand „Scharlachroter Schmelztiegel“:\n• Fügt dem Ziel Schaden im besten Element des Zaubernden zu, wenn es AP oder BP verwendet.",
     "en": "Inflicts damage in the caster's best element on all enemies in the Bellaura, reduces the healing they receive and applies the Scarlet Crucible state on them:\n• Inflicts damage on the target in the caster's best element when the target uses AP or MP.",
     "es": "Ocasiona daños con el mejor elemento del lanzador a todos los enemigos dentro de la belaura, reduce las curas que reciben y les aplica el estado Crisol Escarlata:\n• Ocasiona daños con el mejor elemento del lanzador al objetivo cuando utiliza PA o PM.",
-    "fr": "Occasionne des dommages dans le meilleur élément du lanceur à tous les ennemis dans la Bellaura, réduit les soins qu'ils reçoivent et leur applique l'état Creuset Écarlate :\n• Occasionne des dommages dans le meilleur élément du lanceur à la cible lorsqu'elle utilise des PA ou des PM.",
+    "fr": "Occasionne des dommages dans le meilleur élément du lanceur à tous les ennemis dans la Bellaura, réduit les soins qu'ils reçoivent et leur applique l'état Creuset Écarlate :\n• Occasionne des dommages dans le meilleur élément du lanceur à la cible lorsqu'elle utilise des PA ou des PM.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.",
     "pt": "Inflige danos no melhor elemento do lançador a todos os inimigos na Belaura, reduz as curas que eles recebem e aplica neles o estado Crisol Escarlate:\n• Inflige danos no melhor elemento do lançador ao alvo quando este utiliza PA ou PM."
    },
    "id": 33220,
@@ -748,7 +745,7 @@
     "de": "Stößt Gegner im Wirkungsbereich zurück.",
     "en": "Repels enemies in an area of effect.",
     "es": "Empuja a los enemigos en zona.",
-    "fr": "Repousse les ennemis en zone.",
+    "fr": "Réduit la durée des effets sur les alliés et augmente leurs résistances en zone.",
     "pt": "Empurra os inimigos em zona."
    },
    "id": 33223,
@@ -769,12 +766,6 @@
     "fr": "Chant Majestueux",
     "pt": "Canto Majestoso"
    },
-   "push": [
-    {
-     "cells": 2,
-     "damaging": true
-    }
-   ],
    "range": [
     [
      0,
@@ -796,11 +787,11 @@
     3
    ],
    "description": {
-    "de": "Teleportiert alle Verbündeten in den anvisierten Bereich der Bellaura.\nDie Verbündeten werden so teleportiert, dass sie gleich weit von der Mitte der Bellaura entfernt sind.\n\nDie Größe des Bereichs hängt von der Größe der Bellaura ab.",
-    "en": "Teleports all allies in the Bellaura to the targeted area.\nAllies are teleported to positions the same distance from the centre of the Bellaura.\n\nThe size of the area of effect depends on the Bellaura's size.",
-    "es": "Teletransporta a todos los aliados dentro de la belaura a la zona objetivo.\nLos aliados se teletransportan al estar a la misma distancia del centro de la belaura.\n\nEl tamaño de la zona depende del tamaño de la belaura.",
-    "fr": "Téléporte tous les alliés dans la Bellaura vers la zone ciblée.\nLa téléportation conserve la distance avec le centre de la Bellaura et s'effectue sur les premières cases disponibles dans le sens horaire.\n\nLa taille de la zone dépend de celle de la Bellaura.",
-    "pt": "Teletransporta todos os aliados na Belaura para a zona visada.\nOs aliados são teletransportados estando na mesma distância do centro da Belaura.\n\nO tamanho da zona depende do da Belaura."
+    "de": "Teleportiert alle Verbündeten in der Bellaura in den anvisierten Bereich.\nAuch bei Teleportation bleibt die Entfernung zum Zentrum der Bellaura erhalten. Sie erfolgt auf den ersten verfügbaren Felder im Uhrzeigersinn.\n\nDie Größe des Bereichs hängt von der Größe der Bellaura ab.",
+    "en": "Teleports all allies in the Bellaura to the targeted area.\nThe teleportation maintains the distance from the centre of the Bellaura and occurs on the first cells available in a clockwise direction.\n\nThe size of the area of effect depends on the Bellaura's size.",
+    "es": "Teletransporta a los aliados que estén en la belaura a la zona objetivo.\nLa teletransportación conserva la distancia con el centro de la belaura y se efectúa a las primeras casillas disponibles en el sentido de las agujas del reloj.\n\nEl tamaño de la zona depende del tamaño de la belaura.",
+    "fr": "Téléporte tous les alliés dans la Bellaura vers la zone ciblée.\nLa téléportation s'effectue sur les premières cases disponibles dans le sens horaire en conservant la distance avec le centre de la Bellaura.\n\nLa taille de la zone dépend de celle de la Bellaura.",
+    "pt": "Teletransporta todos os aliados na Belaura para a zona visada.\nO teletransporte mantém a distância para o centro da Belaura e é realizado nas primeiras células disponíveis em sentido horário.\n\nO tamanho da zona depende do da Belaura."
    },
    "id": 33226,
    "kind": {
@@ -863,7 +854,7 @@
     "de": "Heilt alle Verbündeten in der Bellaura im besten Element des Zaubernden und erhöht ihre Fernkampfresistenz.\n\nVersetzt den Zaubernden außerdem in den Zustand „Elfenbeinturm“:\n• Fügt den Gegnern des Zaubernden, die seine Bellaura betreten, Schaden in seinem besten Element zu.\n• Der Schaden kann nur einmal pro Gegner und pro Runde ausgelöst werden.",
     "en": "Heals all allies in the Bellaura in the caster's best element and increases their ranged resistance.\n\nAlso applies the Ivory Tower state on the caster:\n• Inflicts damage in the caster's best element on any of the caster's enemies that enter the Bellaura.\n• The damage can only be triggered once per enemy per turn.",
     "es": "Cura a todos los aliados dentro de la belaura con el mejor elemento del lanzador y aumenta su resistencia a distancia.\n\nAplica también el estado Torre de Marfil al lanzador:\n• Ocasiona daños a los enemigos del lanzador que entran dentro de la belaura con su mejor elemento.\n• Los daños solo pueden activarse una vez por enemigo y turno.",
-    "fr": "Soigne tous les alliés dans la Bellaura dans le meilleur élément du lanceur et augmente leur résistance à distance.\n\nApplique également l'état Tour d'Ivoire sur le lanceur :\n• Occasionne des dommages aux ennemis du lanceur qui entrent dans sa Bellaura dans son meilleur élément.\n• Les dommages ne peuvent être déclenchés qu'une seule fois par ennemi par tour.",
+    "fr": "Soigne tous les alliés dans la Bellaura dans le meilleur élément du lanceur et augmente leur résistance à distance.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.\n\nApplique également l'état Tour d'Ivoire sur le lanceur :\n• Occasionne des dommages aux ennemis du lanceur qui entrent dans sa Bellaura dans son meilleur élément.\n• Les dommages ne peuvent être déclenchés qu'une seule fois par ennemi par tour.",
     "pt": "Cura todos os aliados na Belaura no melhor elemento do lançador e aumenta a resistência a distância deles.\n\nTambém aplica o estado Torre de Marfim no lançador:\n• Inflige danos aos inimigos do lançador que entram na Belaura no melhor elemento dele.\n• Os danos só podem ser acionados uma vez por inimigo a cada turno."
    },
    "id": 33227,
@@ -1042,7 +1033,7 @@
     "de": "Fügt allen Gegnern in der Bellaura Schaden im besten Element des Zaubernden zu und macht alle Verbündeten unsichtbar.\n\nVersetzt den Zaubernden außerdem in den Zustand „Königreich der Schatten“:\n• Fügt den Gegnern des Zaubernden, die seine Bellaura verlassen, Schaden in seinem besten Element zu.\n• Der Schaden kann nur einmal pro Gegner und pro Runde ausgelöst werden.",
     "en": "Inflicts damage on all enemies in the caster's best element and makes all allies Invisible in the Bellaura.\n\nAlso applies the Shadow Realm state on the caster:\n• Inflicts damage in the caster's best element on any of the caster's enemies that exit the Bellaura.\n• The damage can only be triggered once per enemy per turn.",
     "es": "Ocasiona daños con el mejor elemento del lanzador a todos los enemigos y vuelve invisibles a todos los aliados dentro de la belaura.\n\nTambién aplica el estado Reino de las Sombras al lanzador:\n• Ocasiona daños a los enemigos del lanzador que salen de su belaura con su mejor elemento.\n• Los daños solo pueden activarse una vez por enemigo y turno.",
-    "fr": "Occasionne des dommages dans le meilleur élément du lanceur à tous les ennemis et rend tous les alliés invisibles dans la Bellaura.\n\nApplique également l'état Royaume des Ombres sur le lanceur :\n• Occasionne des dommages aux ennemis du lanceur qui sortent de sa Bellaura dans son meilleur élément.\n• Les dommages ne peuvent être déclenchés qu'une seule fois par ennemi par tour.",
+    "fr": "Occasionne des dommages dans le meilleur élément du lanceur à tous les ennemis et rend tous les alliés invisibles dans la Bellaura.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.\n\nApplique également l'état Royaume des Ombres sur le lanceur :\n• Occasionne des dommages aux ennemis du lanceur qui sortent de sa Bellaura dans son meilleur élément.\n• Les dommages ne peuvent être déclenchés qu'une seule fois par ennemi par tour.",
     "pt": "Inflige danos no melhor elemento do lançador a todos os inimigos e deixa todos os aliados invisíveis na Belaura.\n\nTambém aplica o estado Reino das Sombras no lançador:\n• Inflige danos aos inimigos do lançador que saem da Belaura no melhor elemento dele.\n• Os danos só podem ser acionados uma vez por inimigo a cada turno."
    },
    "id": 33233,
@@ -1111,7 +1102,7 @@
     "de": "Wendet die Wirkungen der Bellaura für jeden Verbündeten in ihrem Innern auf ihren Träger an.",
     "en": "Applies the Bellaura's effects on its bearer for each ally in the Bellaura.",
     "es": "Aplica los efectos de la belaura a su portador por cada aliado en su interior.",
-    "fr": "Applique les effets de la Bellaura sur son porteur pour chaque allié à l'intérieur.",
+    "fr": "Applique les effets de la Bellaura sur son porteur pour chaque entité à l'intérieur.",
     "pt": "Aplica os efeitos da Belaura ao portador para cada aliado no interior."
    },
    "id": 33238,
@@ -1157,7 +1148,7 @@
     "de": "Heilt den Zaubernden und verkleinert seine Bellaura.\nDie Höhe der Heilung hängt von der ursprüngliche Größe der Bellaura ab.\n\nDie Bellaura nimmt in der nächsten Runde wieder ihre ursprüngliche Größe an.",
     "en": "Heals the caster and reduces their Bellaura's size.\nThe healing is greater based on the Bellaura's original size.\n\nThe Bellaura returns to its original size on the following turn.",
     "es": "Cura al lanzador y reduce el tamaño de su belaura.\nLas curas son mayores según el tamaño inicial de la belaura.\n\nLa belaura vuelve a su tamaño inicial en el siguiente turno.",
-    "fr": "Soigne le lanceur et réduit la taille de sa Bellaura.\nLes soins sont plus importants selon la taille initiale de la Bellaura.\n\nLa Bellaura reprend sa taille initiale au tour suivant.",
+    "fr": "Soigne le lanceur et réduit la taille de sa Bellaura.\n\nPlus la taille initiale de la Bellaura est grande, plus les soins sont importants.\n\nLa Bellaura reprend sa taille initiale au tour suivant.",
     "pt": "Cura o lançador e reduz o tamanho de sua Belaura.\nAs curas aumentam de acordo com o tamanho inicial da Belaura.\n\nA Belaura recupera o tamanho inicial no turno seguinte."
    },
    "id": 33239,
@@ -1203,7 +1194,7 @@
     "de": "Bringt den Zaubernden näher an den anvisierten Verbündeten heran und überträgt die Bellaura auf Letzteren.\n\nDie Bellaura kehrt in der nächsten Runde oder wenn das Ziel ausgeschaltet wird zum Zaubernden zurück.",
     "en": "Moves the caster closer to the targeted ally and transfers the Bellaura to the target.\n\nThe Bellaura returns to the caster on the following turn or if the target dies.",
     "es": "Acerca al lanzador al aliado objetivo y le transfiere la belaura.\n\nLa belaura vuelve al lanzador en el siguiente turno o si el objetivo muere.",
-    "fr": "Rapproche le lanceur vers l'allié ciblé et lui transfère la Bellaura.\n\nLa Bellaura retourne vers le lanceur au tour suivant ou si la cible meurt.",
+    "fr": "Rapproche le lanceur vers la cible et lui transfère la Bellaura.\n\nLa Bellaura retourne vers le lanceur au tour suivant ou si la cible meurt.",
     "pt": "Aproxima o lançador do aliado visado e transfere a Belaura para ele.\n\nA Belaura volta para o lançador no turno seguinte ou se o alvo morrer."
    },
    "id": 33240,
@@ -1246,7 +1237,7 @@
     "de": "Deaktiviert die Bellaura, um dem Zaubernden eine Lebens-Untergrenze zu verleihen, die verhindert, dass er besiegt wird.\nIn der nächsten Runde wird die Bellaura reaktiviert und der Zaubernde geheilt.",
     "en": "Deactivates the Bellaura to apply an HP threshold on the caster, which prevents them from dying.\nReactivates the Bellaura and heals the caster on the following turn.",
     "es": "Desactiva la belaura y aplica un umbral de vida al lanzador para impedir que muera.\nReactiva la belaura y cura al lanzador en el siguiente turno.",
-    "fr": "Désactive la Bellaura pour appliquer un seuil de vie sur le lanceur, l'empêchant de mourir.\nRéactive la Bellaura et soigne le lanceur au tour suivant.",
+    "fr": "Désactive la Bellaura pour appliquer un seuil de vie sur le lanceur.\nLorsque ce seuil est activé, il se retire pour soigner le lanceur et réactiver sa Bellaura.",
     "pt": "Desativa a Belaura para aplicar um limite de vida ao lançador, impedindo-o de morrer.\nReativa a Belaura e cura o lançador no turno seguinte."
    },
    "id": 33241,
@@ -1338,7 +1329,7 @@
     "de": "Macht das Ziel blockunfähig und zwingt es, dem Zaubernden sofort und wenn er seine BP verwendet zu folgen.\n\nDie Wirkungen werden aufgehoben, sobald der Zaubernde oder das Ziel bewegt wurde.",
     "en": "Makes the target Unable to Lock and forces it to follow the caster immediately and when the caster uses their MP.\n\nThe effects are removed if the caster or the target is moved.",
     "es": "Vuelve al objetivo Imbloqueante y lo fuerza a seguir al lanzador inmediatamente y cuando utiliza sus PM.\n\nLos efectos se retiran si el lanzador o el objetivo son desplazados.",
-    "fr": "Rend la cible Intacleur et la force à suivre le lanceur immédiatement et lorsqu'il utilise ses PM.\n\nLes effets sont retirés si le lanceur ou la cible sont déplacés.",
+    "fr": "Force la cible à suivre le lanceur immédiatement et lorsqu'il utilise ses PM.\n\nLes effets sont retirés si le lanceur ou la cible sont déplacés.",
     "pt": "Deixa o alvo Incapaz de Bloquear e o força a seguir o lançador imediatamente e quando ele utiliza seus PM.\n\nOs efeitos são retirados se o lançador ou o alvo for deslocado."
    },
    "id": 33310,
@@ -1383,7 +1374,7 @@
     "de": "Verursacht Feuerschaden und verringert bei allen Gegnern in der Bellaura die erhaltene Heilung.\n\nJe kleiner die Bellaura ist, umso größer ist der Schaden.",
     "en": "Inflicts Fire damage and reduces healing received by all enemies in the Bellaura.\n\nThe smaller the Bellaura's size, the greater the damage.",
     "es": "Ocasiona daños de fuego y reduce las curas recibidas por todos los enemigos dentro de la belaura.\n\nCuanto más pequeño sea el tamaño de la belaura, mayores serán los daños.",
-    "fr": "Occasionne des dommages Feu et réduit les soins reçus par tous les ennemis dans la Bellaura.\n\nPlus la taille de la Bellaura est petite, plus les dommages sont importants.",
+    "fr": "Vole de la vie dans l'élément Feu à tous les ennemis dans la Bellaura.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.\n\nPlus la taille de la Bellaura est petite, plus les dommages sont importants.",
     "pt": "Inflige danos de fogo e reduz as curas recebidas por todos os inimigos na Belaura.\n\nQuanto menor é o tamanho da Belaura, maiores são os danos."
    },
    "id": 33311,
@@ -1420,8 +1411,8 @@
     ]
    ],
    "stacks": [
-    2,
-    2
+    -1,
+    -1
    ],
    "variant": 716
   },
@@ -1484,7 +1475,7 @@
     "de": "Stiehlt allen Gegnern in der Bellaura LP im Element Erde und zieht die Ziele an den Innenrand heran.\nDie AP-Kosten hängen von der Größe der Bellaura ab.\n\nVerkleinert die Bellaura für die Dauer der aktuellen Runde.",
     "en": "Steals HP in the Earth element from all enemies in the Bellaura and attracts targets on the inner edge.\nThe AP cost depends on the Bellaura's size.\n\nReduces the Bellaura's size for the current turn.",
     "es": "Roba vida con el elemento tierra a todos los enemigos dentro de la belaura y atrae a los objetivos hacia el borde interior.\nEl coste en PA depende del tamaño de la belaura.\n\nReduce el tamaño de la belaura durante el turno en curso.",
-    "fr": "Vole de la vie dans l'élément Terre à tous les ennemis dans la Bellaura et attire les cibles sur la bordure intérieure.\nLe coût en PA dépend de la taille de la Bellaura.\n\nRéduit la taille de la Bellaura pour le tour en cours.",
+    "fr": "Vole de la vie dans l'élément Terre à tous les ennemis dans la Bellaura et attire les cibles sur la bordure intérieure.\n\nLes dommages de zone ne sont pas dégressifs et affectent également les entités portées.\nLe coût en PA dépend de la taille de la Bellaura : 2 / 3 / 4 PA.\n\nRéduit la taille de la Bellaura pour le tour en cours.",
     "pt": "Rouba vida no elemento terra de todos os inimigos na Belaura e atrai os alvos na borda interior.\nO custo em PA depende do tamanho da Belaura.\n\nReduz o tamanho da Belaura no turno em andamento."
    },
    "id": 33313,
@@ -1539,7 +1530,7 @@
     "de": "Fügt den Gegnern Luftschaden zu und stößt die Ziele im Wirkungsbereich zurück.\n\nDie Größe des Bereichs hängt von der Größe der Bellaura ab.",
     "en": "Inflicts Air damage on enemies and repels targets in an area of effect.\n\nThe size of the area of effect depends on the Bellaura's size.",
     "es": "Ocasiona daños de aire a los enemigos y repele a los objetivos en zona.\n\nEl tamaño de la zona depende del tamaño de la belaura.",
-    "fr": "Occasionne des dommages Air aux ennemis et repousse les cibles en zone.\n\nLa taille de la zone dépend de celle de la Bellaura.",
+    "fr": "Applique un bouclier sur les alliés, occasionne des dommages Air aux ennemis et repousse les cibles en zone.\n\nLa taille de la zone dépend de celle de la Bellaura.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
     "pt": "Inflige danos de ar aos inimigos e afasta os alvos em zona.\n\nO tamanho da zona depende do da Belaura."
    },
    "id": 33314,
@@ -1562,16 +1553,16 @@
     "pt": "Barkhane"
    },
    "per_turn": [
-    1,
-    1
+    2,
+    2
    ],
    "push": [
     {
-     "cells": 2,
+     "cells": 1,
      "damaging": true
     },
     {
-     "cells": 2,
+     "cells": 1,
      "damaging": true
     }
    ],
@@ -1586,8 +1577,8 @@
     ]
    ],
    "stacks": [
-    -1,
-    -1
+    1,
+    1
    ],
    "variant": 715
   },
@@ -1654,9 +1645,9 @@
     ]
    ],
    "stacks": [
-    -1,
-    -1,
-    -1
+    2,
+    2,
+    2
    ],
    "variant": 718
   },
@@ -1822,7 +1813,7 @@
     "de": "Teleportiert das Ziel auf seine vorherige Position und fügt den Gegnern Erdschaden zu.\n\nEntzieht den Gegnern außerdem AP oder erhöht diejenigen des anvisierten Verbündeten, wenn er sich in der Bellaura befindet.",
     "en": "Teleports the target to its previous position and inflicts Earth damage on enemies.\n\nAlso removes AP from enemies or increases the targeted ally's AP if they are in the Bellaura.",
     "es": "Teletransporta al objetivo a su posición anterior y ocasiona daños de tierra a los enemigos.\n\nTambién retira PA a los enemigos o aumenta los del aliado objetivo si se encuentra dentro de la belaura.",
-    "fr": "Téléporte la cible à sa position précédente et occasionne des dommages Terre aux ennemis.\n\nRetire également des PA aux ennemis ou augmente ceux de l'allié ciblé s'ils sont dans la Bellaura.",
+    "fr": "Téléporte la cible à sa position précédente, occasionne des dommages Terre aux ennemis ou augmente les PA de l'allié ciblé.\n\nAugmente également les PA du lanceur si la cible est dans la Bellaura.",
     "pt": "Teletransporta o alvo de volta para a posição anterior e inflige danos de terra aos inimigos.\n\nTambém retira PA dos inimigos ou aumenta os do aliado visado se eles estiverem na Belaura."
    },
    "id": 33203,
@@ -2016,9 +2007,9 @@
   },
   {
    "ap": [
-    2,
-    2,
-    2
+    1,
+    1,
+    1
    ],
    "cooldown": [
     2,
@@ -2029,7 +2020,7 @@
     "de": "Vergrößert die Entfernung zwischen Zauberndem und anvisiertem Gegner und überträgt die Bellaura auf Letzteren.\n\nDie Bellaura kehrt in der nächsten Runde oder wenn das Ziel besiegt wird zum Zaubernden zurück.",
     "en": "Moves the caster away from the targeted enemy and transfers the Bellaura to the target.\n\nThe Bellaura returns to the caster on the following turn or if the target dies.",
     "es": "Aleja al lanzador del enemigo objetivo y le transfiere la belaura.\n\nLa belaura vuelve al lanzador en el siguiente turno o si el objetivo muere.",
-    "fr": "Éloigne le lanceur de l'ennemi ciblé et lui transfère la Bellaura.\n\nLa Bellaura retourne vers le lanceur au tour suivant ou si la cible meurt.",
+    "fr": "Éloigne le lanceur de la cible et lui transfère la Bellaura.\n\nLa Bellaura retourne vers le lanceur au tour suivant ou si la cible meurt.",
     "pt": "Afasta o lançador do inimigo visado e transfere a Belaura para ele.\n\nA Belaura volta para o lançador no turno seguinte ou se o alvo morrer."
    },
    "id": 33236,
@@ -2290,7 +2281,7 @@
     "de": "Verursacht Erdschaden und entzieht AP.\nEinem Ziel in der Bellaura werden zusätzliche AP entzogen.",
     "en": "Inflicts Earth damage and removes AP.\nThe removal is greater on a target in the Bellaura.",
     "es": "Ocasiona daños de tierra y retira PA.\nLa retirada es mayor en un objetivo dentro de la belaura.",
-    "fr": "Occasionne des dommages Terre et retire des PA.\nLe retrait est plus important sur une cible dans la Bellaura.",
+    "fr": "Occasionne des dommages Terre et retire des PA.\nLe retrait devient non esquivable si la cible est dans la Bellaura.",
     "pt": "Inflige danos de terra e retira PA.\nA retirada é maior em um alvo na Belaura."
    },
    "id": 33204,
@@ -2338,9 +2329,9 @@
     ]
    ],
    "stacks": [
-    1,
-    1,
-    1
+    2,
+    2,
+    2
    ],
    "variant": 726
   },
@@ -2352,14 +2343,14 @@
    ],
    "cooldown": [
     2,
-    2,
-    2
+    0,
+    0
    ],
    "description": {
     "de": "Erodiert die Gegner und zieht die Ziele im Wirkungsbereich heran.",
     "en": "Erodes enemies and attracts targets in an area of effect.",
     "es": "Erosiona a los enemigos y atrae a los objetivos en zona.",
-    "fr": "Érode les ennemis et attire les cibles en zone.",
+    "fr": "Érode les ennemis et attire les cibles vers la case ciblée en zone.",
     "pt": "Erode os inimigos e atrai os alvos em zona."
    },
    "id": 33229,
@@ -2382,6 +2373,11 @@
     "fr": "Chant Funèbre",
     "pt": "Canto Fúnebre"
    },
+   "per_turn": [
+    0,
+    1,
+    1
+   ],
    "range": [
     [
      1,
@@ -2397,9 +2393,9 @@
     ]
    ],
    "stacks": [
-    -1,
-    -1,
-    -1
+    2,
+    2,
+    2
    ],
    "variant": 727
   },
@@ -2479,7 +2475,7 @@
     10
    ],
    "description": {
-    "de": "Fügt Gegnern im Wirkungsbereich Wasserschaden zu.\nFügt Gegnern im Wirkungsbereich und in der Bellaura zusätzlichen Wasserschaden zu.",
+    "de": "Fügt Gegnern im Wirkungsbereich Wasserschaden zu.\nFügt Gegnern, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden, zusätzlichen Wasserschaden zu.",
     "en": "Inflicts Water damage on enemies in an area of effect.\nInflicts additional Water damage on enemies in the area of effect and in the Bellaura.",
     "es": "Ocasiona daños de agua a los enemigos en zona.\nOcasiona daños de agua adicionales a los enemigos en la zona de efecto y dentro de la belaura.",
     "fr": "Occasionne des dommages Eau aux ennemis en zone.\nOccasionne des dommages Eau supplémentaires aux ennemis à la fois dans la zone d'effet et dans la Bellaura.",
@@ -2543,7 +2539,7 @@
     10
    ],
    "description": {
-    "de": "Fügt Gegnern im Wirkungsbereich Luftschaden zu.\nTeleportiert außerdem die Ziele im Wirkungsbereich und in der Bellaura symmetrisch zur Mitte.\n\nHat keine direkte Wirkung auf den Zaubernden.",
+    "de": "Fügt Gegnern im Wirkungsbereich Luftschaden zu.\nAußerdem werden die Ziele, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden, symmetrisch zur Mitte teleportiert.\n\nHat keine direkte Wirkung auf den Zaubernden.",
     "en": "Inflicts Air damage on enemies in an area of effect.\nAlso teleports the targets in the area of effect and in the Bellaura symmetrically in relation to the centre.\n\nDoes not directly affect the caster.",
     "es": "Ocasiona daños de aire a los enemigos en zona.\nTambién teletransporta a los objetivos en la zona de efecto y dentro de la belaura simétricamente con respecto al centro.\n\nNo afecta directamente al lanzador.",
     "fr": "Occasionne des dommages Air aux ennemis en zone.\nTéléporte également les cibles à la fois dans la zone d'effet et dans la Bellaura symétriquement par rapport au centre.\n\nN'affecte pas directement le lanceur.",
@@ -2607,10 +2603,10 @@
     20
    ],
    "description": {
-    "de": "Fügt Gegnern im Wirkungsbereich Erdschaden zu.\nEntzieht Gegnern im Wirkungsbereich und in der Bellaura außerdem Schlagkraft.",
+    "de": "Fügt Gegnern im Wirkungsbereich Erdschaden zu.\nEntzieht Gegnern, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden, außerdem Schlagkraft.",
     "en": "Inflicts Earth damage on enemies in an area of effect.\nAlso reduces enemies' Power in the area of effect and in the Bellaura.",
     "es": "Ocasiona daños de tierra a los enemigos en zona.\nTambién retira potencia a los enemigos en la zona de efecto y dentro de la belaura.",
-    "fr": "Occasionne des dommages Terre aux ennemis en zone.\nRetire également de la Puissance aux ennemis à la fois dans la zone d'effet et dans la Bellaura.",
+    "fr": "Occasionne des dommages Terre aux ennemis en zone.\nRetire également des PA aux ennemis à la fois dans la zone d'effet et dans la Bellaura.",
     "pt": "Inflige danos de terra aos inimigos em zona.\nTambém retira potência dos inimigos na zona de efeito e na Belaura."
    },
    "id": 33205,
@@ -2674,7 +2670,7 @@
     "de": "Fügt Gegnern im Wirkungsbereich Feuerschaden zu.\n\nVergrößert die Bellaura für die Dauer der aktuellen Runde.",
     "en": "Inflicts Fire damage on enemies in an area of effect.\n\nIncreases the Bellaura's size for the current turn.",
     "es": "Ocasiona daños de fuego a los enemigos en zona.\n\nAumenta el tamaño de la belaura durante el turno en curso.",
-    "fr": "Occasionne des dommages Feu aux ennemis en zone.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
+    "fr": "Occasionne des dommages Feu aux ennemis en zone.\nRéduit également les soins reçus par les ennemis à la fois dans la zone d'effet et dans la Bellaura.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
     "pt": "Inflige danos de fogo aos inimigos em zona.\n\nAumenta o tamanho da Belaura no turno em andamento."
    },
    "id": 33217,
@@ -2740,7 +2736,7 @@
     "de": "Fügt den Gegnern Schaden zu oder heilt die Verbündeten im besten Element des Zaubernden.\n\nDer Schaden wird für jeden Verbündeten in der Bellaura erhöht, bevor er angewendet wird.\nDie Heilung wird für jeden Gegner in der Bellaura erhöht, bevor sie angewendet wird.",
     "en": "Inflicts damage on enemies or heals allies in the caster's best element.\n\nDamage is increased for each ally in the Bellaura before being applied.\nHealing is increased for each enemy in the Bellaura before being applied.",
     "es": "Ocasiona daños a los enemigos o cura a los aliados con el mejor elemento del lanzador.\n\nLos daños aumentan por cada aliado dentro de la belaura antes de aplicarse.\nLas curas aumentan por cada enemigo dentro de la belaura antes de aplicarse.",
-    "fr": "Occasionne des dommages aux ennemis ou soigne les alliés dans le meilleur élément du lanceur.\n\nLes dommages sont augmentés pour chaque allié dans la Bellaura avant d'être appliqués.\nLes soins sont augmentés pour chaque ennemi dans la Bellaura avant d'être appliqués.",
+    "fr": "Soigne les alliés et occasionne des dommages aux ennemis dans le meilleur élément du lanceur en zone.\n\nLes soins sont augmentés pour chaque ennemi dans la Bellaura, et les dommages pour chaque allié, avant d'être appliqués.",
     "pt": "Inflige danos aos inimigos ou cura os aliados no melhor elemento do lançador.\n\nOs danos aumentam para cada aliado na Belaura antes de serem aplicados.\nAs curas aumentam para cada inimigo na Belaura antes de serem aplicadas."
    },
    "id": 33225,
@@ -2773,8 +2769,8 @@
     ]
    ],
    "stacks": [
-    -1,
-    -1
+    10,
+    10
    ],
    "variant": 729
   },
@@ -2787,7 +2783,7 @@
     "de": "Erhöht die Schlagkraft des Zaubernden und verkleinert seine Bellaura.\nDie Höhe des Bonus hängt von der ursprüngliche Größe der Bellaura ab.\n\nDie Bellaura nimmt in der nächsten Runde wieder ihre ursprüngliche Größe an.",
     "en": "Increases the caster's Power and reduces their Bellaura's size.\nThe bonus is greater based on the Bellaura's original size.\n\nThe Bellaura returns to its original size on the following turn.",
     "es": "Aumenta la potencia del lanzador y reduce el tamaño de su belaura.\nEl bonus es mayor según el tamaño inicial de la belaura.\n\nLa belaura vuelve a su tamaño inicial en el siguiente turno.",
-    "fr": "Augmente la Puissance du lanceur et réduit la taille de sa Bellaura.\nLe bonus est plus important selon la taille initiale de la Bellaura.\n\nLa Bellaura reprend sa taille initiale au tour suivant.",
+    "fr": "Augmente la Puissance du lanceur et réduit la taille de sa Bellaura.\n\nPlus la taille initiale de la Bellaura est grande, plus le bonus est important.\n\nLa Bellaura reprend sa taille initiale au tour suivant.",
     "pt": "Aumenta a potência do lançador e reduz o tamanho de sua Belaura.\nO bônus aumenta de acordo com o tamanho inicial da Belaura.\n\nA Belaura recupera o tamanho inicial no turno seguinte."
    },
    "id": 33235,
@@ -2843,10 +2839,10 @@
     20
    ],
    "description": {
-    "de": "Fügt Gegnern im Wirkungsbereich entsprechend den verbleibenden LP des Zaubernden Neutralschaden zu.\nVerringert außerdem die Wirkungsdauer bei Verbündeten im Wirkungsbereich und in der Bellaura.",
+    "de": "Fügt Gegnern im Wirkungsbereich entsprechend den verbleibenden LP des Zaubernden Neutralschaden zu.\nVerringert außerdem die Wirkungsdauer bei Verbündeten, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden.",
     "en": "Inflicts Neutral damage on enemies based on the caster's remaining HP in an area of effect.\nAlso reduces the duration of effects on allies in the area of effect and in the Bellaura.",
     "es": "Ocasiona daños neutrales a los enemigos según la vida restante del lanzador en zona.\nTambién reduce la duración de los efectos en los aliados en la zona de efecto y dentro de la belaura.",
-    "fr": "Occasionne des dommages Neutre aux ennemis selon la vie restante du lanceur en zone.\nRéduit également la durée des effets sur les alliés à la fois dans la zone d'effet et dans la Bellaura.",
+    "fr": "Occasionne des dommages Neutre aux ennemis selon la vie restante du lanceur en zone.\nRepousse également les cibles à la fois dans la zone d'effet et dans la Bellaura.",
     "pt": "Inflige danos neutros em zona aos inimigos de acordo com a vida restante do lançador.\nTambém reduz a duração dos efeitos nos aliados na zona de efeito e na Belaura."
    },
    "id": 33224,
@@ -2868,6 +2864,16 @@
     "fr": "Épée Opaline",
     "pt": "Espada Opalina"
    },
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -2898,7 +2904,7 @@
     20
    ],
    "description": {
-    "de": "Fügt Gegnern im Wirkungsbereich entsprechend ihren erodierten LP Neutralschaden zu.\nVerringert außerdem die Wirkungsdauer bei Gegnern im Wirkungsbereich und in der Bellaura.",
+    "de": "Fügt Gegnern im Wirkungsbereich entsprechend ihren erodierten LP Neutralschaden zu.\nVerringert außerdem die Wirkungsdauer bei Gegnern, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden.",
     "en": "Inflicts Neutral damage on enemies based on their eroded health in an area of effect.\nAlso reduces the duration of effects on enemies in the area of effect and in the Bellaura.",
     "es": "Ocasiona daños neutrales a los enemigos según la vida erosionada de estos en zona.\nTambién reduce la duración de los efectos en los enemigos en la zona de efecto y dentro de la belaura.",
     "fr": "Occasionne des dommages Neutre aux ennemis selon leur vie érodée en zone.\nRéduit également la durée des effets sur les ennemis à la fois dans la zone d'effet et dans la Bellaura.",
@@ -2941,8 +2947,8 @@
   },
   {
    "ap": [
-    4,
-    4
+    3,
+    3
    ],
    "cooldown": [
     7,
@@ -17095,7 +17101,7 @@
     25
    ],
    "description": {
-    "de": "Fügt Gegnern Luftschaden zu und tauscht die Position mit dem Ziel.",
+    "de": "Tauscht die Position mit dem Ziel und fügt Gegnern Luftschaden zu.",
     "en": "Inflicts Air damage on enemies and switches places with the target.",
     "es": "Ocasiona daños de tipo aire a los enemigos y cambia de posición con el objetivo.",
     "fr": "Échange de position avec la cible et occasionne des dommages Air aux ennemis.",

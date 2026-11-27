@@ -54,7 +54,7 @@
             "name": "Crescent Moon",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -1513,7 +1513,7 @@
             "name": "Champion Boots",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -1642,7 +1642,7 @@
             "name": "Champion Belt",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -2013,7 +2013,7 @@
                     "int_value": 800000,
                     "element": {
                         "name": "Kamas",
-                        "id": -1
+                        "id": 237
                     }
                 },
                 "is_operand": true
@@ -4229,17 +4229,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16231-128.png"
             },
             "description": "This magic hat can only be worn by adventurers who are not yet married, and so wearing it advertises your all-consuming desire to find a soulmate to all the other tragic loners in Amakna, who will flock around you at the nearest Zaap, clucking and squawking like broody hens. Inevitably, someone will let off a few Fairyworks in a vain attempt to win your affection, but you'll end up with a splitting headache, be unable to speak, and have the feeling that you're walking through treacle.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 0,
-                    "element": {
-                        "name": "Married",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8068,7 +8057,7 @@
             "name": "Grozillamulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -8188,17 +8177,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8255,17 +8233,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8322,17 +8289,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8389,17 +8345,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8456,17 +8401,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8523,17 +8457,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8590,17 +8513,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8657,17 +8569,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8724,17 +8625,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8791,17 +8681,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8858,17 +8737,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8925,17 +8793,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -8992,17 +8849,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9059,17 +8905,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9126,17 +8961,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9193,17 +9017,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9260,17 +9073,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9327,17 +9129,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9394,17 +9185,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9461,17 +9241,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9528,17 +9297,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9595,17 +9353,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9662,17 +9409,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9729,17 +9465,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9796,17 +9521,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9863,17 +9577,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9930,17 +9633,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -9997,17 +9689,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10064,17 +9745,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10131,17 +9801,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10198,17 +9857,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10265,17 +9913,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10332,17 +9969,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -10520,7 +10146,7 @@
             "name": "YeCh'Ti Amulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -11264,7 +10890,7 @@
             "name": "Legend of the Dungeons Boots",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12008,7 +11634,7 @@
             "name": "Island Pearl Necklace",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12163,7 +11789,7 @@
             "name": "Elia Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12591,7 +12217,7 @@
             "name": "Bearendizer's Belt",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13266,7 +12892,7 @@
             "name": "Mr. Amakna Amulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13322,7 +12948,7 @@
             "name": "Miss Amakna Amulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13378,7 +13004,7 @@
             "name": "Mr. World of Twelve Amulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13434,7 +13060,7 @@
             "name": "Miss World of Twelve Amulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -14092,7 +13718,7 @@
             "name": "Librarian Amulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15098,17 +14724,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82072-128.png"
             },
             "description": "This magical shield reflects the soul of your guild.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -15131,7 +14746,7 @@
             "name": "Ringomontade",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15187,7 +14802,7 @@
             "name": "Mini-Miss Amakna Amulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15243,7 +14858,7 @@
             "name": "Mini-Mr. Amakna Amulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -16456,7 +16071,7 @@
             "name": "Chromulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -16821,17 +16436,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82080-128.png"
             },
             "description": "This enchanted shield is imbued with the inimitable essence of your alliance.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20027,17 +19631,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/6727-128.png"
             },
             "description": "Kill with your claws... or stroke with your footpads.\n(Change the appearance of the daggers you are carrying by dragging and dropping this item onto them.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 29,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20081,17 +19674,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17309-128.png"
             },
             "description": "Fur, fur, fur and more fur. Fur everywhere!\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 89,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20135,17 +19717,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82113-128.png"
             },
             "description": "With this shield, you can run riot on walls that have just been painted. Knock yourself out!\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 179,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20189,17 +19760,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16437-128.png"
             },
             "description": "Now with free fleas.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 269,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20243,17 +19803,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18103-128.png"
             },
             "description": "Bzzzzzz. Bzzzzzzz. Bzz Bzz. Bzzz? Bzzz!",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 359,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20297,17 +19846,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19074-128.png"
             },
             "description": "Even if your next sword flail totally misses your enemy, at least you'll look electro-cute. Teehee!\n(Change the appearance of the sword you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 389,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20351,17 +19889,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17307-128.png"
             },
             "description": "Not only do you always feel under the weather when wearing this cloak, it doesn't even give you the flashes of inspiration you were hoping for.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 449,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20405,17 +19932,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82095-128.png"
             },
             "description": "Lightning usually only strikes once, but it's strangely attracted to this shield.\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 539,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20459,17 +19975,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16419-128.png"
             },
             "description": "The ears on this headgear act like two lightning rods. Finally, you've fulfilled your dream and become a conductor!",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 629,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20513,17 +20018,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121011-128.png"
             },
             "description": "You saw a red Madreggon, and you had it painted black. Black as night! Black as coal!\n(Change the appearance of the petsmount you have equipped by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 719,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20606,17 +20100,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/7734-128.png"
             },
             "description": "Just right for smashing up all the hard work your co-workers did yesterday.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 749,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20660,17 +20143,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17310-128.png"
             },
             "description": "With this cloak on your back, the militia will finally stop hounding you for stealing bits and pieces of Astrub for your private fortress.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 809,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20714,17 +20186,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82098-128.png"
             },
             "description": "With this shield, you can create traffic jams and send all the Dragoturkeys in the land on lengthy detours. Go on, you know you want to!\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 899,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20768,17 +20229,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16422-128.png"
             },
             "description": "With this cone on your head, people will do all they can not to bump into you, turning early to give you a wide berth. Just like they do already, actually.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 989,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20822,17 +20272,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17334-128.png"
             },
             "description": "This cloak will adopt its wearer's colours, except when its wearer goes green with envy.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1079,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20876,17 +20315,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/5092-128.png"
             },
             "description": "\"Greet your guests courteously, then stab them in the back when they turn away.\" That's your philosophy. Un-lackey for some!\n(Change the appearance of the daggers you are carrying by dragging and dropping this item onto them.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1109,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20930,17 +20358,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17311-128.png"
             },
             "description": "This cloak has been enhanced by the addition of a dustpan and brush extension. Now you can keep on opening doors and carrying your masters' bags without needing to interrupt those all-important cleaning sessions.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1169,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -20984,17 +20401,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82099-128.png"
             },
             "description": "This shield will provide effective protection from swipes and blows from certain masters. It can also be flipped and used as a platter to serve them.\n(Change the appearance of the shield your are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1259,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21038,17 +20444,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16423-128.png"
             },
             "description": "Now that you have this hat, your masters will be able to keep you in their sights at all times and constantly call upon your services.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1349,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21092,17 +20487,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4122-128.png"
             },
             "description": "You can throw this staff, fetch it and run around with it in your mouth until you're utterly lost.\n(Change the appearance of the staff you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1469,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21146,17 +20530,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17314-128.png"
             },
             "description": "Here today, gone to marrow!\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1529,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21200,17 +20573,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82102-128.png"
             },
             "description": "This shield might save your life if you ever find yourself up against carnivorous enemies. Chuck it into the fray and run for your life!\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1619,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21254,17 +20616,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16426-128.png"
             },
             "description": "With this headgear gracing your lovely crown, the Moowolf will think you look good enough to eat.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1709,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21308,17 +20659,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18102-128.png"
             },
             "description": "Its little tadpole face reminds you of someone... But who?",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1799,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21362,17 +20702,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/6729-128.png"
             },
             "description": "Granted, it's not very sharp, but you're the Emperor, your footmen will do the cutting for you!\n(Change the appearance of the sword you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1829,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21416,17 +20745,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17318-128.png"
             },
             "description": "This cape's little epaulettes will remind all the snotty toerags to call you \"Boss\".\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1889,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21470,17 +20788,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82106-128.png"
             },
             "description": "If only you were a little stronger and cooler, you could have used this shield as a shuriken.\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 1979,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21524,17 +20831,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16430-128.png"
             },
             "description": "Wearing this hat grants you the right to give the orders when you and your teammates are having fights... Snowball fights, that is!",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2069,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21578,17 +20874,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121013-128.png"
             },
             "description": "On steep slopes, you'll want to hold on tight to its horns so you don't fall off.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2159,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21671,17 +20956,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/2081-128.png"
             },
             "description": "This is not the bow you're looking for.\n(Change the appearance of the bow you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2189,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21725,17 +20999,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17320-128.png"
             },
             "description": "The cloak of choice for all those adventurers who are stubborn, cheeky, and effortlessly adorable.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2249,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21779,17 +21042,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82108-128.png"
             },
             "description": "Careful! Flaunting this shield is considered an open act of rebellion.\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2339,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21833,17 +21085,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16432-128.png"
             },
             "description": "If you rub this helmet up the right way, it might just show you the hologram it's storing.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2429,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21887,17 +21128,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82116-128.png"
             },
             "description": "This shield will adopt its wearer's colours, except when its wearer goes green at the gills.\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2519,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21941,17 +21171,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/3085-128.png"
             },
             "description": "With this wand, you can show your guests the door when they prove themselves to be wittier than you at your dinner parties.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2549,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -21995,17 +21214,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17321-128.png"
             },
             "description": "This cloak is lined with a layer of polystyrene composite, to protect your botty from smacks.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2609,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22049,17 +21257,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82109-128.png"
             },
             "description": "This shield looks like a target and will attract arrows from archers high and low. Give it to your worst enemy as a present.\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2699,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22103,17 +21300,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16433-128.png"
             },
             "description": "This headgear is just what you needed to hide your big head.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2789,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22157,17 +21343,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16452-128.png"
             },
             "description": "This hat will adopt its wearer's colours, except when its wearer is beaten black and blue.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3959,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22211,17 +21386,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8075-128.png"
             },
             "description": "This shovel is the ideal Kwismas present for gravediggers, gardeners, and diggers of gardeners' graves.\n(Change the appearance of the shovel you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2909,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22265,17 +21429,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17312-128.png"
             },
             "description": "The crossbones signify that this cloak once belonged to a pirate or a Chafer who was an excellent arm wrestler.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 2969,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22491,17 +21644,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82100-128.png"
             },
             "description": "This shield is supposed to protect your bones from bad cracks, but it's not much good against crones with bad backs.\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3059,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22545,17 +21687,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16424-128.png"
             },
             "description": "You could use this thing as a shield, if only it wasn't fitted with hair gel dispensers all over.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3149,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22599,17 +21730,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18101-128.png"
             },
             "description": "This pet walks sideways so as to always have its back to you. Either it hates you, or it trusts you implicitly.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3239,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22653,17 +21773,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19073-128.png"
             },
             "description": "The two feathers attached to this axe help it fly further when you throw it at an adversary.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3269,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22707,17 +21816,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17319-128.png"
             },
             "description": "The feathers on this cloak will slow down your fall when you slip out of bed in the night.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3329,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22761,17 +21859,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82107-128.png"
             },
             "description": "The three feathers on this shield let you use it as a boomerang that never comes back.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3419,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22815,17 +21902,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16431-128.png"
             },
             "description": "With all these feathers on your head, only piwis will look up to you.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3509,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22869,17 +21945,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121012-128.png"
             },
             "description": "It's almost always in a bad mood, but then again, so are you.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3599,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -22962,17 +22027,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19072-128.png"
             },
             "description": "The gear doesn't do anything, but it looks awesome. This axe really makes you think of someone for some reason.\n(Change the appearance of the axe you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3629,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23016,17 +22070,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17317-128.png"
             },
             "description": "This cloak contains enough cogs and gears to run an entire old-school merry-go-round.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3689,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23070,17 +22113,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82105-128.png"
             },
             "description": "With this shield in your grubby hands, you can finally go backwards as well as forwards.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3779,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23124,17 +22156,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16429-128.png"
             },
             "description": "This hat makes you think of the time when celebrity tailor Kog Wan tried, in vain, to make you look good naked.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3869,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23178,17 +22199,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4121-128.png"
             },
             "description": "This staff makes you feel positively regal. Maybe you'll start wearing a huge, extravagant wig and paint large suns on all the buildings in town. Heck, you can even leave the table whenever you want now!\n(Change the appearance of the staff you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 3989,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23232,17 +22242,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17315-128.png"
             },
             "description": "This cloak is excellent at hiding your lack of charisma, but it isn't quite long enough to hide your enormous posterior.\n(Change the appearance of the cloak you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4049,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23286,17 +22285,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82103-128.png"
             },
             "description": "This wax shield is just what you've always wanted for making moulds of your enemies' faces.\n(Change the appearance of the shield you are carrying by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4139,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23340,17 +22328,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16427-128.png"
             },
             "description": "This is the undisputed palace of lice, fleas and ticks. Probably because it's so comfortable and smells like testosterone.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4229,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -23386,7 +22363,7 @@
             "name": "Decoded Corset",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -25261,7 +24238,7 @@
             "name": "Rando Geta",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -25403,7 +24380,7 @@
             "name": "Brakmarian Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -25416,32 +24393,15 @@
                 "relation": "and",
                 "children": [
                     {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 1,
-                                    "element": {
-                                        "name": "Subscription active",
-                                        "id": 252
-                                    }
-                                },
-                                "is_operand": true
-                            },
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 2,
-                                    "element": {
-                                        "name": "Character alignment",
-                                        "id": -1
-                                    }
-                                },
-                                "is_operand": true
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 1,
+                            "element": {
+                                "name": "Be subscribed",
+                                "id": 252
                             }
-                        ]
+                        },
+                        "is_operand": true
                     },
                     {
                         "condition": {
@@ -25449,7 +24409,7 @@
                             "int_value": 19,
                             "element": {
                                 "name": "Alignment level",
-                                "id": -1
+                                "id": 55
                             }
                         },
                         "is_operand": true
@@ -25530,7 +24490,7 @@
             "name": "Bontarian Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -25543,32 +24503,15 @@
                 "relation": "and",
                 "children": [
                     {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 1,
-                                    "element": {
-                                        "name": "Subscription active",
-                                        "id": 252
-                                    }
-                                },
-                                "is_operand": true
-                            },
-                            {
-                                "condition": {
-                                    "operator": "=",
-                                    "int_value": 1,
-                                    "element": {
-                                        "name": "Character alignment",
-                                        "id": -1
-                                    }
-                                },
-                                "is_operand": true
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 1,
+                            "element": {
+                                "name": "Be subscribed",
+                                "id": 252
                             }
-                        ]
+                        },
+                        "is_operand": true
                     },
                     {
                         "condition": {
@@ -25576,7 +24519,7 @@
                             "int_value": 19,
                             "element": {
                                 "name": "Alignment level",
-                                "id": -1
+                                "id": 55
                             }
                         },
                         "is_operand": true
@@ -26573,7 +25516,7 @@
             "name": "Pilot Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -26655,7 +25598,7 @@
             "name": "Treechnid Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -26737,7 +25680,7 @@
             "name": "Royal Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27176,7 +26119,7 @@
             "name": "Brakmarian Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27185,32 +26128,15 @@
             },
             "description": "If \"vileness\" is your middle name, stop hesitating! Get this harness on your Seemyool and show your devotion to the ill cause of Brakmar.",
             "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "condition": {
-                            "operator": "=",
-                            "int_value": 2,
-                            "element": {
-                                "name": "Character alignment",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 19,
-                            "element": {
-                                "name": "Alignment level",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Alignment level",
+                        "id": 55
                     }
-                ]
+                },
+                "is_operand": true
             },
             "effects": [
                 {
@@ -27286,7 +26212,7 @@
             "name": "Bontarian Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27295,32 +26221,15 @@
             },
             "description": "Pledge your allegiance to Bonta by putting this harness on your Seemyool.",
             "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "condition": {
-                            "operator": "=",
-                            "int_value": 1,
-                            "element": {
-                                "name": "Character alignment",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 19,
-                            "element": {
-                                "name": "Alignment level",
-                                "id": -1
-                            }
-                        },
-                        "is_operand": true
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Alignment level",
+                        "id": 55
                     }
-                ]
+                },
+                "is_operand": true
             },
             "effects": [
                 {
@@ -27396,7 +26305,7 @@
             "name": "Mechancient Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 180,
             "image_urls": {
@@ -27507,7 +26416,7 @@
             "name": "Sufokian Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27589,7 +26498,7 @@
             "name": "Shell Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27731,7 +26640,7 @@
             "name": "Barbaric Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -27813,7 +26722,7 @@
             "name": "Unikron Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -28136,7 +27045,7 @@
             "name": "Mechancient Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -28804,7 +27713,7 @@
             "name": "Ice Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -28921,17 +27830,6 @@
                     "quantity": 6
                 }
             ],
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "pods": 1
         },
         {
@@ -29055,7 +27953,7 @@
             "name": "Skeleton Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -29147,17 +28045,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17380-128.png"
             },
             "description": "Proudly wear this cape to show everyone how committed you are to your Guild.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -29201,17 +28088,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16512-128.png"
             },
             "description": "With this headgear, adopt your Guild's style and say no to nonconformity.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -29247,7 +28123,7 @@
             "name": "Desert Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -29673,7 +28549,7 @@
             "name": "Unikron Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -29884,7 +28760,7 @@
             "name": "Magmatic Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -31201,7 +30077,7 @@
             "name": "Zombite Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -31678,17 +30554,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/7741-128.png"
             },
             "description": "The first thing you did when you got your hands on these nunchakus was to imagine yourself doing all sorts of windmills and figures-of-eight to impress your enemies. It's only after months of training and multiple facial and groin injuries that you realised that there's more to the mastery of this weapon than meets the eye (and groin). Becoming a ninja isn't all that easy.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4349,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31732,17 +30597,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17397-128.png"
             },
             "description": "The Green Ninja's shell is useful for both holding its weapons and protecting its rear. In your case, it's also handy for hiding your spinal malformation and your huge bum.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4409,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31786,17 +30640,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82186-128.png"
             },
             "description": "This shield, made from a hot Margorito pizza, won't protect you from blows, but you can still throw it at your enemy's feet to distract them while you run away like the little coward you are.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4499,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31840,17 +30683,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16535-128.png"
             },
             "description": "This orange headband may well be little out of fashion, but it's still effective: now you're a mysterious righter of wrongs, a defender of the oppressed! You'll have to rise to the occasion. \n(Change the appearance of the headgear you are wearing by dragging and dropping this item onto it.)",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4589,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31894,17 +30726,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18140-128.png"
             },
             "description": "Behind its adorable appearance, the Raccoon is a cruel and highly meticulous animal. It both scares you and impresses you at the same time: it'll always clean your enemies, do their makeup and dress them up properly, before finishing them off in cold blood. It's a weird habit, but one that has the merit of giving them a dignified death. You can have a clear conscience.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4679,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -31948,17 +30769,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121020-128.png"
             },
             "description": "Unlike the Maho Firefoux, the Fouxar won't transform into a Yokai Fouxar when in combat. But it does like to roll up into a ball and hide until the fighting is over, letting you do all the work. You thought you'd managed to tame a vicious predator, but you ended up with an adorable pet instead.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5039,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32041,17 +30851,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8880-128.png"
             },
             "description": "With this multi-functional shovel, the Air Knight can fight off his enemies and repot pumpkins in his vegetable patch. Rather practical, don't you think?",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4709,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32095,17 +30894,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17398-128.png"
             },
             "description": "Morgan Forr, nicknamed the Air Knight, is an old man (in excellent shape for his age), who defends widows and orphans, along with his loyal flying destrier, Pier. He claims to be an \"independent righter of wrongs\" and says he used to be the god of a celestial island, back in the day. Perhaps he's lost his marbles after all those years of solitude, but he's still a hero in the eyes of the little people.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4769,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32136,17 +30924,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82187-128.png"
             },
             "description": "The Air Knight helps the most vulnerable by fighting for them when they get into trouble. He's given them a whistle so they can easily call him in case of difficulty. But clearly not everyone has the same understanding of the word \"difficulty\", so the knight has a very busy schedule that alternates between epic fights and thankless chores.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4859,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32190,17 +30967,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16536-128.png"
             },
             "description": "According to the Air Knight, this helmet is the most aerodynamic helmet ever made. Experts all agree that this title actually belongs to the Wind Kwak Headdress, but they're also keen to point out that the knight's helmet is also \"really cool\".",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 4949,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -32236,7 +31002,7 @@
             "name": "Skeleton Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -32971,17 +31737,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33038,17 +31793,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33105,17 +31849,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33172,17 +31905,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33239,17 +31961,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33306,17 +32017,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82057-128.png"
             },
             "description": "This shield shows all other adventurers that you were a pioneer in establishing your profession.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 200,
-                    "element": {
-                        "name": "Profession level",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -33494,7 +32194,7 @@
             "name": "Scarab Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34092,7 +32792,7 @@
             "name": "Cryptic Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34174,7 +32874,7 @@
             "name": "Rhineetle Draeggosaure",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34514,7 +33214,7 @@
             "name": "Shiny Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34596,7 +33296,7 @@
             "name": "Shiny Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -34966,7 +33666,7 @@
             "name": "Corsair Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -35048,7 +33748,7 @@
             "name": "Ice Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -35888,17 +34588,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82213-128.png"
             },
             "description": "This is not a shield. It is actually a kind of glider disguised as a shield, which the Az'Hassins raise above themselves before jumping from a high spot to enter or escape somewhere by air. Since its canvas is very fragile, a mere encounter with a small bird in flight could pierce it and make you fall. Also, even experienced Az'Hassins hardly use it, reluctant to end their lives in such an inglorious way.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5219,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -35942,17 +34631,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82214-128.png"
             },
             "description": "You might be surprised at there being a shield in an Az'Hassin's paraphernalia, but there is actually a very simple explanation. In fact, apprentices sometimes mess up their first attempts at murder, so they are given a shield to try and survive after having failed miserably to kill a defenceless person by surprise.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5399,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -35996,17 +34674,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17419-128.png"
             },
             "description": "Ever since you acquired this cloak, it has regularly made you want to jump from absurd heights just for fun. Provided there is a cart full of straw below, you can survive the fall. This may sound strange, but you will be surprised at the number of straw-filled carts below just about every high spot from where you might want to jump. You'd almost think they were put there deliberately...",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5129,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -36050,17 +34717,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16557-128.png"
             },
             "description": "No more failed entrances due to gusts of wind making your hood fly off too soon – and your credibility with it. The inside frame allows the hood to stay perfectly in place, worthy of the greatest Az'Hassins. On the other hand, you won't be able to turn or raise your head, which could be a problem when you have to look right, then left, then right before crossing the street.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5309,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -36104,17 +34760,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/5099-128.png"
             },
             "description": "These daggers were made for sneaking up on opponents, but it became apparent that they also had another very special ability. Indeed, if you are attacked head-on and you manage to counter the attack with these daggers, your body will – on its own – move to counterattack and kill your opponent for sure. If your enemies had the intelligence to attack all of you at the same time, you wouldn't have a chance, but since they stubbornly line up and attack one at a time, you'll massacre them.",
-            "conditions": {
-                "condition": {
-                    "operator": ">",
-                    "int_value": 5069,
-                    "element": {
-                        "name": "Accumulated subscription duration",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -37286,7 +35931,7 @@
             "name": "Shadragon Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -37368,7 +36013,7 @@
             "name": "Esspeakewlair Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38043,7 +36688,7 @@
             "name": "Biting Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38112,7 +36757,7 @@
             "name": "Biting Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38181,7 +36826,7 @@
             "name": "Biting Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38637,7 +37282,7 @@
             "name": "Dragokronik",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38839,7 +37484,7 @@
             "name": "Noxine Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38908,7 +37553,7 @@
             "name": "Noxine Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -38977,7 +37622,7 @@
             "name": "Noxine Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39575,7 +38220,7 @@
             "name": "Lagoonurkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39644,7 +38289,7 @@
             "name": "Water Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39713,7 +38358,7 @@
             "name": "Crowturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -39795,7 +38440,7 @@
             "name": "Musical Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -40096,7 +38741,7 @@
             "name": "Skeleton Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40363,7 +39008,7 @@
             "name": "Iop Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40445,7 +39090,7 @@
             "name": "Esspeakewlair Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40828,7 +39473,7 @@
             "name": "Iop Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -40910,7 +39555,7 @@
             "name": "Iop Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41082,7 +39727,7 @@
             "name": "Azure Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41090,17 +39735,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/182051-128.png"
             },
             "description": "This harness is ideal for parading around and will protect your mount from yelling and flower petals.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Subscription active",
-                        "id": 252
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -41261,7 +39895,7 @@
             "name": "Azure Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41330,7 +39964,7 @@
             "name": "Azure Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41549,7 +40183,7 @@
             "name": "Bone Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41557,17 +40191,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/182046-128.png"
             },
             "description": "With this harness on your mount, you've found the almost-perfect solution to rebuff the advances of other Dragoturkeys.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Subscription active",
-                        "id": 252
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -41728,7 +40351,7 @@
             "name": "Bone Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -41797,7 +40420,7 @@
             "name": "Bone Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42339,7 +40962,7 @@
             "name": "Sram Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42421,7 +41044,7 @@
             "name": "Sram Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42503,7 +41126,7 @@
             "name": "Sram Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42667,7 +41290,7 @@
             "name": "Rogue Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42749,7 +41372,7 @@
             "name": "Rogue Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -42831,7 +41454,7 @@
             "name": "Rogue Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43171,7 +41794,7 @@
             "name": "Osamodas Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43253,7 +41876,7 @@
             "name": "Osamodas Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43335,7 +41958,7 @@
             "name": "Osamodas Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -43929,7 +42552,7 @@
             "name": "Foggernaut Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44011,7 +42634,7 @@
             "name": "Foggernaut Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44093,7 +42716,7 @@
             "name": "Foggernaut Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44334,7 +42957,7 @@
             "name": "Cra Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44416,7 +43039,7 @@
             "name": "Cra Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44498,7 +43121,7 @@
             "name": "Cra Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -44834,7 +43457,7 @@
             "name": "Vanelle Sings Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -44864,7 +43487,7 @@
             "name": "Icy Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -45849,7 +44472,7 @@
             "name": "Last Hope Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -46486,7 +45109,7 @@
             "name": "Feca Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46568,7 +45191,7 @@
             "name": "Feca Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46650,7 +45273,7 @@
             "name": "Feca Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46861,7 +45484,7 @@
             "name": "Masqueraider Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -46943,7 +45566,7 @@
             "name": "Masqueraider Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -47025,7 +45648,7 @@
             "name": "Masqueraider Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -48770,7 +47393,7 @@
             "name": "Sadida Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -48852,7 +47475,7 @@
             "name": "Sadida Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -48934,7 +47557,7 @@
             "name": "Sadida Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50097,7 +48720,7 @@
             "name": "Sacrier Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50179,7 +48802,7 @@
             "name": "Sacrier Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50261,7 +48884,7 @@
             "name": "Sacrier Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50343,7 +48966,7 @@
             "name": "Ashy Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50373,7 +48996,7 @@
             "name": "Scarlet Spaulders",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50403,7 +49026,7 @@
             "name": "Shoulder Claws",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50433,7 +49056,7 @@
             "name": "Bony Aegis",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50463,7 +49086,7 @@
             "name": "Epwowlettes",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50493,7 +49116,7 @@
             "name": "Warrior's Burden",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -50652,7 +49275,7 @@
             "name": "Xelor Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50734,7 +49357,7 @@
             "name": "Xelor Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -50816,7 +49439,7 @@
             "name": "Xelor Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51113,7 +49736,7 @@
             "name": "Gladius Seemulus",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51453,7 +50076,7 @@
             "name": "Pandawa Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51535,7 +50158,7 @@
             "name": "Pandawa Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -51617,7 +50240,7 @@
             "name": "Pandawa Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -52000,7 +50623,7 @@
             "name": "Elely Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -52176,7 +50799,7 @@
             "name": "Flopin Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53118,7 +51741,7 @@
             "name": "Ecaflip Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -53200,7 +51823,7 @@
             "name": "Ecaflip Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -53282,7 +51905,7 @@
             "name": "Ecaflip Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -53364,7 +51987,7 @@
             "name": "Monkiki'ng Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53394,7 +52017,7 @@
             "name": "Vixie Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53424,7 +52047,7 @@
             "name": "Shoulder Ivy",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53454,7 +52077,7 @@
             "name": "Nightmare Spikes",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53484,7 +52107,7 @@
             "name": "Little Moushu Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -53514,7 +52137,7 @@
             "name": "Corsair Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -54039,7 +52662,7 @@
             "name": "Hairy Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -54353,7 +52976,7 @@
             "name": "Ouginak Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -54435,7 +53058,7 @@
             "name": "Ouginak Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -54517,7 +53140,7 @@
             "name": "Ouginak Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -54857,7 +53480,7 @@
             "name": "Carnavalo Spalla",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -55132,7 +53755,7 @@
             "name": "Eniripsa Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -55214,7 +53837,7 @@
             "name": "Eniripsa Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -55296,7 +53919,7 @@
             "name": "Eniripsa Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -55610,7 +54233,7 @@
             "name": "Meowfiamulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55666,7 +54289,7 @@
             "name": "Woofiamulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55722,7 +54345,7 @@
             "name": "Chocolate Pwakring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55778,7 +54401,7 @@
             "name": "Chocolate Wabbiring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55834,7 +54457,7 @@
             "name": "Chocolegg Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55890,7 +54513,7 @@
             "name": "Dofolat Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -57328,7 +55951,7 @@
             "name": "Bluffer Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -57827,7 +56450,7 @@
             "name": "Huppermage Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -57909,7 +56532,7 @@
             "name": "Huppermage Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -57991,7 +56614,7 @@
             "name": "Huppermage Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -58202,7 +56825,7 @@
             "name": "Sacaram Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -58258,7 +56881,7 @@
             "name": "Swing Band",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -58701,7 +57324,7 @@
             "name": "Enutrof Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -58783,7 +57406,7 @@
             "name": "Enutrof Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -58865,7 +57488,7 @@
             "name": "Enutrof Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -59979,7 +58602,7 @@
             "name": "Scrollsayer Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -61641,7 +60264,7 @@
             "name": "B'Wilda Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -61817,7 +60440,7 @@
             "name": "Kompakt Showldor Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -62219,7 +60842,7 @@
             "name": "Eliotrope Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -62301,7 +60924,7 @@
             "name": "Eliotrope Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -62383,7 +61006,7 @@
             "name": "Eliotrope Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -63609,7 +62232,7 @@
             "name": "Wintering",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -64215,7 +62838,7 @@
             "name": "Messenger Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64245,7 +62868,7 @@
             "name": "Docile Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64275,7 +62898,7 @@
             "name": "Flitter-Flutter Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64305,7 +62928,7 @@
             "name": "Vigilante Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64335,7 +62958,7 @@
             "name": "Malicious Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64365,7 +62988,7 @@
             "name": "Assassin Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64395,7 +63018,7 @@
             "name": "Flavoured Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64425,7 +63048,7 @@
             "name": "Imperial Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64455,7 +63078,7 @@
             "name": "Tribal Warrior Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64485,7 +63108,7 @@
             "name": "Slayer Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64644,7 +63267,7 @@
             "name": "Love's Woes Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -64975,7 +63598,7 @@
             "name": "Chtiger Armbands",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -69265,7 +67888,7 @@
             "name": "Penglamour Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -69321,7 +67944,7 @@
             "name": "Slamshell Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -69377,7 +68000,7 @@
             "name": "Jitterscar Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -69433,7 +68056,7 @@
             "name": "Vulturricane Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -70719,7 +69342,7 @@
             "name": "Neutro Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -70973,7 +69596,7 @@
             "name": "Ravalesque Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -71958,7 +70581,7 @@
             "name": "Tokagecko Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -72173,7 +70796,7 @@
             "name": "Trapper Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -72255,7 +70878,7 @@
             "name": "Trapper Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -72337,7 +70960,7 @@
             "name": "Trapper Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -72419,7 +71042,7 @@
             "name": "Trapper Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -73650,7 +72273,7 @@
             "name": "Neutro Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -74007,7 +72630,7 @@
             "name": "Surly Knight Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74037,7 +72660,7 @@
             "name": "Implacable Knight Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74067,7 +72690,7 @@
             "name": "Do-Gooder Knight Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74097,7 +72720,7 @@
             "name": "Protective Knight Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -74127,7 +72750,7 @@
             "name": "Agile Knight Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -77102,17 +75725,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17555-128.png"
             },
             "description": "Proudly wear this cape to show everyone how committed you are to your alliance.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 2,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -77156,17 +75768,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82420-128.png"
             },
             "description": "This magical shield reflects the soul of your alliance.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 2,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -77210,17 +75811,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16742-128.png"
             },
             "description": "With this headgear, adopt your alliance's style and say no to nonconformity.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 2,
-                    "element": {
-                        "name": "Member of an alliance",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -77674,7 +76264,7 @@
             "name": "Perceptor Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -77756,7 +76346,7 @@
             "name": "Lagomorph Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -77967,7 +76557,7 @@
             "name": "Sorond's Ambition",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -78040,7 +76630,7 @@
             "name": "Forgelance Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -78122,7 +76712,7 @@
             "name": "Forgelance Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -78204,7 +76794,7 @@
             "name": "Forgelance Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -79043,7 +77633,7 @@
             "name": "Dark Shushu Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -79323,7 +77913,7 @@
             "name": "Beachgoer Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -81080,7 +79670,7 @@
             "name": "Amphibubble Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -81136,7 +79726,7 @@
             "name": "Scorcheroo Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -81192,7 +79782,7 @@
             "name": "Gustiful Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -81248,7 +79838,7 @@
             "name": "Sweetapir Ring",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -82022,7 +80612,7 @@
             "name": "Scorcheroo Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -83591,7 +82181,7 @@
             "name": "Sylvan Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -85440,7 +84030,7 @@
             "name": "Dragon Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -85638,7 +84228,7 @@
             "name": "Oirish Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86068,7 +84658,7 @@
             "name": "Wikkan Warrior's Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86227,7 +84817,7 @@
             "name": "Wikkan War Chief's Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86468,7 +85058,7 @@
             "name": "Silver Coolwolf Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86498,7 +85088,7 @@
             "name": "Cursed Shadow Dragoturkeyes",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -86752,7 +85342,7 @@
             "name": "Miserite Executor Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -86833,17 +85423,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17624-128.png"
             },
             "description": "Being a hero also means carrying the weight of the world – and of your mistakes – on your shoulders. In your case, there's really not much point in adding a cape, but at least it should bring you some comfort on this difficult path of yours.",
-            "conditions": {
-                "condition": {
-                    "operator": "!",
-                    "int_value": 30,
-                    "element": {
-                        "name": "Equipment slot",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -86879,7 +85458,7 @@
             "name": "Cursed Shadow Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -87107,7 +85686,7 @@
             "name": "Black Knight Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -87877,7 +86456,7 @@
             "name": "Guyomu Oniwa Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -88320,7 +86899,7 @@
             "name": "Wikkan Sage Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -88350,7 +86929,7 @@
             "name": "Great Wikkan Sage Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89180,7 +87759,7 @@
             "name": "Festive Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -89503,7 +88082,7 @@
             "name": "Black Crow Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89533,7 +88112,7 @@
             "name": "Guild Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 100,
             "image_urls": {
@@ -89568,17 +88147,6 @@
                     "quantity": 3
                 }
             ],
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "pods": 1
         },
         {
@@ -89676,7 +88244,7 @@
             "name": "Sharp Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89706,7 +88274,7 @@
             "name": "Arjan's Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89736,7 +88304,7 @@
             "name": "Aurum's Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89796,7 +88364,7 @@
             "name": "Azure Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89811,7 +88379,7 @@
             "name": "Samurai Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89841,7 +88409,7 @@
             "name": "Trapper Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89901,7 +88469,7 @@
             "name": "Iop Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -89991,7 +88559,7 @@
             "name": "Wikkan Sorcerer Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90021,7 +88589,7 @@
             "name": "Master Wikkan Sorcerer Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90051,7 +88619,7 @@
             "name": "Belladonna Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90141,7 +88709,7 @@
             "name": "Grimacing King's Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90171,7 +88739,7 @@
             "name": "Rosal's Soothing Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90201,7 +88769,7 @@
             "name": "Sadism of the Dark City",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90231,7 +88799,7 @@
             "name": "Yugo the Eliatrope Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -90239,17 +88807,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164920-128.png"
             },
             "description": "Essential accessories for anyone looking for a touch of class as they take on the challenges that fate has in store for them! That being said, these shoulder pads won't be of much use if you're having trouble opening a fresh jar of jam.",
-            "conditions": {
-                "condition": {
-                    "operator": "!",
-                    "int_value": 30,
-                    "element": {
-                        "name": "Equipment slot",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -90272,7 +88829,7 @@
             "name": "Strich Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91132,7 +89689,7 @@
             "name": "Hornbearer Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91162,7 +89719,7 @@
             "name": "Celestial Eagle Epaulettes",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91222,7 +89779,7 @@
             "name": "Sky Knight Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91252,7 +89809,7 @@
             "name": "Griffined Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91282,7 +89839,7 @@
             "name": "Siks Wonn Ein Epaulettes",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -91845,7 +90402,7 @@
             "name": "Big Show Epaulettes",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -92649,7 +91206,7 @@
             "name": "Discipline of the White City",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93685,7 +92242,7 @@
             "name": "Solary Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93715,7 +92272,7 @@
             "name": "Aegis Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93745,7 +92302,7 @@
             "name": "Karmine Corp Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -93775,7 +92332,7 @@
             "name": "Gentle Mates Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94054,7 +92611,7 @@
             "name": "Lary Spaulders",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94213,7 +92770,7 @@
             "name": "Lary Masters Spaulders",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94402,7 +92959,7 @@
             "name": "Marvellous Woman Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94591,7 +93148,7 @@
             "name": "Ophidian Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94733,7 +93290,7 @@
             "name": "Osteomancer Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94763,7 +93320,7 @@
             "name": "Aqueous Panache Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94793,7 +93350,7 @@
             "name": "Botanic Panache Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94823,7 +93380,7 @@
             "name": "Volatile Panache Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -94853,7 +93410,7 @@
             "name": "Fiery Panache Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -95326,7 +93883,7 @@
             "name": "Permafrost Resident Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -95640,7 +94197,7 @@
             "name": "Black Dragon Horns",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -95954,7 +94511,7 @@
             "name": "Eliacube Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -96268,7 +94825,7 @@
             "name": "Panache Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -96780,7 +95337,7 @@
             "name": "Champion Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -97446,7 +96003,7 @@
             "name": "Savara Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -97880,7 +96437,7 @@
             "name": "Bestial Cult Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -98129,7 +96686,7 @@
             "name": "Crobacillus Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -98761,7 +97318,7 @@
             "name": "Demon II Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -98920,7 +97477,7 @@
             "name": "Many-Hued Demon II Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -99333,7 +97890,7 @@
             "name": "Travel Agent Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -101671,7 +100228,7 @@
             "name": "Adestra Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102000,7 +100557,7 @@
             "name": "YeCh'Ti Amulet",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102176,7 +100733,7 @@
             "name": "Bearendizer's Belt",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102219,7 +100776,7 @@
             "name": "Rando Geta",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102416,17 +100973,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-128.png"
             },
             "description": "With this petsmount, you can proudly display your guild banner wherever you go.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -102905,7 +101451,7 @@
             "name": "Incorporated Shoulder Pad",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102935,7 +101481,7 @@
             "name": "Woolly Band",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -102991,7 +101537,7 @@
             "name": "Feathery Band",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -103047,7 +101593,7 @@
             "name": "Spiny Band",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -103103,7 +101649,7 @@
             "name": "Silky Band",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -103159,7 +101705,7 @@
             "name": "Rocky Band",
             "type": {
                 "name": "Miscellaneous Ceremonial Item",
-                "id": 261
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -104010,17 +102556,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82575-128.png"
             },
             "description": "Members of the guild of Oni devotees aren't afraid of getting hit, especially when they're carrying this shield.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104064,17 +102599,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164296-128.png"
             },
             "description": "When a young adventurer went to Pandala Island to complete a population regulation mission, she found the Yokai absolutely adorable, especially the Oni. She therefore decided to start her own guild and force all its members to wear an official uniform. Passing herself off as an Oni was so important to her that history has now forgotten this adventurer's name.",
-            "conditions": {
-                "condition": {
-                    "operator": "=",
-                    "int_value": 1,
-                    "element": {
-                        "name": "Member of a guild",
-                        "id": -1
-                    }
-                },
-                "is_operand": true
-            },
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104097,7 +102621,7 @@
             "name": "Oni Devotee Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -104686,7 +103210,7 @@
             "name": "Champion of the Dragons Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -105314,7 +103838,7 @@
             "name": "Champion of the Dragons Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -105396,7 +103920,7 @@
             "name": "Champion of the Dragons Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -105478,7 +104002,7 @@
             "name": "Champion of the Dragons Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -106084,7 +104608,7 @@
             "name": "Horseman Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -106411,7 +104935,7 @@
             "name": "Demon V Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -106570,7 +105094,7 @@
             "name": "Many-Hued Demon V Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -107073,7 +105597,7 @@
             "name": "Incorporated Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -107155,7 +105679,7 @@
             "name": "Incorporated Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -107237,7 +105761,7 @@
             "name": "Incorporated Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -107947,7 +106471,7 @@
             "name": "Supercharged Spaulders",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -108653,7 +107177,7 @@
             "name": "Peps Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -108743,7 +107267,7 @@
             "name": "Joblife Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109061,7 +107585,7 @@
             "name": "Demon VI Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109091,7 +107615,7 @@
             "name": "Many-Hued Demon VI Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109211,7 +107735,7 @@
             "name": "Rogue Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109357,7 +107881,7 @@
             "name": "Exterminator Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -109946,7 +108470,7 @@
             "name": "Chasm Fins",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -110600,7 +109124,7 @@
             "name": "Skale Fins",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -110630,7 +109154,7 @@
             "name": "Beelzebug Carapaces",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -110849,7 +109373,7 @@
             "name": "Krosmoz 25th Anniversary Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
-                "id": 259
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -112883,7 +111407,7 @@
             "name": "Khamelerost Dragoturkey",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -112952,7 +111476,7 @@
             "name": "Khamelerost Seemyool",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -113021,7 +111545,7 @@
             "name": "Khamelerost Rhineetle",
             "type": {
                 "name": "Ceremonial Mount",
-                "id": 245
+                "id": 241
             },
             "level": 60,
             "image_urls": {

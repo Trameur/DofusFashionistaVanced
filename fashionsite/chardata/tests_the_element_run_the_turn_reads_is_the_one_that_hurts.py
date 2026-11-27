@@ -154,7 +154,8 @@ class TheTwoRulesStayNarrowTests(SimpleTestCase):
                     soigne_dabord.add((version, classe, sort.name))
         self.assertEqual(_AVEC_PLUSIEURS_SERIES, len(plusieurs))
         self.assertEqual(
-            {'All or Nothing', 'Ivory Tower', 'White Fire'}, {nom for _v, _c, nom in soigne_dabord},
+            {'All or Nothing', 'Crystalline Chorus', 'Ivory Tower', 'White Fire'},
+            {nom for _v, _c, nom in soigne_dabord},
             'another spell now starts with a healing run, and it has not been '
             'read against its card: %s' % sorted(soigne_dabord))
 

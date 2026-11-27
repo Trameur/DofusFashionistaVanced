@@ -2639,7 +2639,7 @@
   "pt": "Fugitivo"
  },
  "7181": {
-  "de": "Lumière Prismatique (aura)",
+  "de": "Prismatisches Licht (Aura)",
   "en": "Lumière Prismatique (aura)",
   "es": "Lumière Prismatique (aura)",
   "fr": "Lumière Prismatique (aura)",
@@ -2665,6 +2665,13 @@
   "es": "Khamsin (ciblé)",
   "fr": "Khamsin (ciblé)",
   "pt": "Khamsin (ciblé)"
+ },
+ "7265": {
+  "de": "Königreich der Schatten",
+  "en": "Shadow Realm",
+  "es": "Reino de las Sombras",
+  "fr": "Royaume des Ombres",
+  "pt": "Reino das Sombras"
  },
  "7267": {
   "de": "queueIvoire NORD-OUEST",

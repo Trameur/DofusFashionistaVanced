@@ -9671,7 +9671,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "zurückgeworfener Schaden",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -9699,7 +9699,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "zurückgeworfener Schaden",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -9753,7 +9753,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "zurückgeworfener Schaden",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -9807,7 +9807,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "zurückgeworfener Schaden",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -37954,7 +37954,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "zurückgeworfener Schaden",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -37995,7 +37995,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "zurückgeworfener Schaden",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -105022,7 +105022,7 @@
                         "int_maximum": 0,
                         "type": {
                             "name": "zurückgeworfener Schaden",
-                            "id": 248,
+                            "id": 249,
                             "is_meta": false,
                             "is_active": false
                         },
@@ -122842,7 +122842,7 @@
         },
         {
             "ankama_id": 1107,
-            "name": "Ausrüstungsset der Salamanger",
+            "name": "Kohlensaurier-Set",
             "items": 3,
             "level": 15,
             "contains_cosmetics": false,
@@ -123014,7 +123014,7 @@
         },
         {
             "ankama_id": 1114,
-            "name": "Ausrüstungsset der Wyvern",
+            "name": "Tatzephyrwurm-Set",
             "items": 3,
             "level": 20,
             "contains_cosmetics": false,
@@ -123099,7 +123099,7 @@
         },
         {
             "ankama_id": 1115,
-            "name": "Drachenborken-Ausrüstungsset",
+            "name": "Drachaunen-Set",
             "items": 3,
             "level": 25,
             "contains_cosmetics": false,
@@ -123184,7 +123184,7 @@
         },
         {
             "ankama_id": 1116,
-            "name": "Seedrachen-Ausrüstungsset",
+            "name": "Wasserhydra-Set",
             "items": 3,
             "level": 40,
             "contains_cosmetics": false,
@@ -124176,7 +124176,7 @@
         },
         {
             "ankama_id": 1129,
-            "name": "[!] Panoplie d'apparat de la Démone VIII",
+            "name": "Prunkset von Dämonin VIII",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -124190,7 +124190,7 @@
         },
         {
             "ankama_id": 1130,
-            "name": "[!] Panoplie d'apparat diaprée de la Démone VIII",
+            "name": "Schillerndes Prunkset von Dämonin VIII",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -124204,7 +124204,7 @@
         },
         {
             "ankama_id": 1131,
-            "name": "[!] Panoplie d'apparat de la source",
+            "name": "Quellen-Prunkset",
             "items": 5,
             "level": 60,
             "contains_cosmetics": true,
@@ -124219,7 +124219,7 @@
         },
         {
             "ankama_id": 1132,
-            "name": "[!] Panoplie d'apparat Glucolique",
+            "name": "Glukolisches Prunkset",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -124233,18 +124233,32 @@
         },
         {
             "ankama_id": 1133,
-            "name": "[!] Panoplie d'apparat Bellaphone",
+            "name": "Bellaphon-Prunkset",
             "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
-                27939,
                 35006,
+                35007,
                 35008,
                 35009,
                 35010,
                 35011
+            ]
+        },
+        {
+            "ankama_id": 1134,
+            "name": "[!] Panoplie d'apparat de la loterie Turquoise",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34128,
+                34129,
+                34130,
+                34131
             ]
         }
     ]

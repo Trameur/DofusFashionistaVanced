@@ -6019,7 +6019,7 @@
             ]
         ],
         "special_spell_en": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons.",
-        "special_spell_fr": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact. Les effets sont réduits de moitié si l'ennemi est une invocation.",
+        "special_spell_fr": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact (cumulable 4 fois). Les effets sont réduits de moitié si l'ennemi est une invocation.",
         "special_spell_es": "{{spell,8393,1::Verde Esmeralda}}:\n• Cuando el portador termina su turno, gana un 100% de su nivel en escudo durante 1 turno por cada enemigo en contacto con él. Los efectos se reducen a la mitad si el enemigo es una invocación.",
         "special_spell_pt": "{{spell,8393,1::Verde-Esmeralda}}:\n• Quando o portador termina seu turno, ele ganha 100% de seu nível em escudo durante 1 turno por inimigo em contato com ele. Os efeitos são reduzidos pela metade se o inimigo for uma invocação.",
         "special_spell_de": "{{spell,8393,1::Smaragdgrün}}:\n• Am Rundenende erhält der Träger 1 Runde lang für jeden Gegner in Reichweite 100 % seiner Stufe als Schild. Handelt es sich beim Gegner um eine Beschwörung, werden die Wirkungen um die Hälfte verringert.",
@@ -16301,7 +16301,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/81026-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/81026-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "or_branch_count": 6,
         "criteria": "PJ>2,40|PJ>24,40|PJ>36,40|PJ>28,40|PJ>26,40|PJ>41,40"
@@ -16412,7 +16411,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/81028-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/81028-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "or_branch_count": 6,
         "criteria": "PJ>2,80|PJ>24,80|PJ>36,80|PJ>28,80|PJ>26,80|PJ>41,80"
@@ -16437,7 +16435,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/81029-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/81029-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "or_branch_count": 6,
         "criteria": "PJ>2,120|PJ>24,120|PJ>36,120|PJ>28,120|PJ>26,120|PJ>41,120"
@@ -16462,7 +16459,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/81030-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/81030-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "or_branch_count": 6,
         "criteria": "PJ>2,180|PJ>24,180|PJ>36,180|PJ>28,180|PJ>26,180|PJ>41,180"
@@ -17484,7 +17480,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17020-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17020-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Ps=2"
     },
@@ -17502,7 +17497,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17034-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17034-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Ps=1"
     },
@@ -17546,7 +17540,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9007-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9007-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~Silaisie&BI=1",
         "unusable": true,
@@ -17579,7 +17572,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1019-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1019-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~Silaisie&BI=1",
         "unusable": true,
@@ -17615,7 +17607,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6016-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6016-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~Silaisie&BI=1",
         "unusable": true,
@@ -17718,7 +17709,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/2008-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/2008-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Ps=1"
     },
@@ -29393,7 +29383,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5034-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/5034-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~Lordsoth",
         "names": [
@@ -32577,7 +32566,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6018-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6018-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PG=6&PS=0",
         "classes": [
@@ -32620,7 +32608,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6018-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6018-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PG=6&PS=1",
         "classes": [
@@ -32763,6 +32750,7 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/18001-64.png",
         "dofustouch": false,
         "conditions": [],
+        "or_branch_count": 2,
         "criteria": "PX=3|PX=5"
     },
     {
@@ -32831,6 +32819,7 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/18001-64.png",
         "dofustouch": false,
         "conditions": [],
+        "or_branch_count": 2,
         "criteria": "PX=3|PX=5"
     },
     {
@@ -56072,7 +56061,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5060-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/5060-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=166"
     },
@@ -56516,7 +56504,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PN~xxramboplxx&BI=1",
         "unusable": true,
@@ -67682,6 +67669,7 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9001-64.png",
         "dofustouch": false,
         "conditions": [],
+        "or_branch_count": 2,
         "criteria": "PX=3|PX=5"
     },
     {
@@ -71503,6 +71491,7 @@
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9007-64.png",
         "dofustouch": false,
         "conditions": [],
+        "or_branch_count": 3,
         "criteria": "PX=3|PX=5|PX=2"
     },
     {
@@ -73401,7 +73390,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9171-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9171-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73445,7 +73433,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1146-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1146-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73489,7 +73476,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10156-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10156-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73528,7 +73514,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17168-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17168-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73572,7 +73557,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11139-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11139-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -73611,7 +73595,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16244-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16244-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PO!10119"
     },
@@ -81516,7 +81499,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16276-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16276-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [
             "Chance = 0"
         ],
@@ -82048,7 +82030,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10179-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10179-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [
             "Chance = 0"
         ],
@@ -86448,7 +86429,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10198-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10198-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=0",
         "unusable": true
@@ -87716,7 +87696,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4101-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/4101-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -95123,7 +95102,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1196-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1196-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PS=0&Qf=714",
         "sexes": [
@@ -95144,7 +95122,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1196-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1196-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PS=1&Qf=714",
         "sexes": [
@@ -97249,7 +97226,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/121000-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/121000-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PE=51"
     },
@@ -101494,7 +101470,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4111-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/4111-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=0",
         "unusable": true
@@ -103750,7 +103725,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/18088-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/18088-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "PE=65"
     },
@@ -104964,8 +104938,8 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16005-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16005-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 2,
         "criteria": "(Sc=968&SG=08&Sd>18&Sd<27)|PX=A"
     },
     {
@@ -123344,8 +123318,8 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16410-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16410-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
+        "or_branch_count": 2,
         "criteria": "(Sc=994&SG=03&Sd<9)|PX=A"
     },
     {
@@ -128991,7 +128965,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5028-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/5028-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -136497,7 +136470,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1008-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1008-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=0",
         "unusable": true
@@ -136522,7 +136494,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1024-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1024-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=0",
         "unusable": true
@@ -145878,7 +145849,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16463-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16463-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -145897,7 +145867,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17341-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17341-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -152679,7 +152648,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6061-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6061-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Pm=181404680&Qa=1865&Qo>12441&Qo<12443"
     },
@@ -154060,7 +154028,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6061-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6061-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Pm=181404680&Qa=1865&Qo>12441&Qo<12443"
     },
@@ -156711,7 +156678,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/20005-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/20005-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=1942&Qo>13493&Qo<13498"
     },
@@ -156748,7 +156714,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6098-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6098-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "or_branch_count": 2,
         "criteria": "Qa=1936|Qf=1936"
@@ -158702,7 +158667,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/7748-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/7748-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -158727,7 +158691,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82001-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82001-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -158752,7 +158715,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17356-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17356-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "BI=1",
         "unusable": true
@@ -164144,7 +164106,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/7001-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/7001-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2113&Qo=15771"
     },
@@ -167956,7 +167917,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/164730-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/164730-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Qf=2183"
     },
@@ -168038,7 +167998,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4108-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/4108-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Qf=2181"
     },
@@ -171405,7 +171364,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6749-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6749-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2415"
     },
@@ -173850,7 +173808,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/172000-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/172000-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "SC=5&ST=7"
     },
@@ -173874,7 +173831,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/15750-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/15750-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "SC=5&ST=7"
     },
@@ -173898,7 +173854,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/15751-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/15751-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "SC=5&ST=7"
     },
@@ -173927,7 +173882,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1322-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/1322-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -173956,7 +173910,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10352-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10352-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -173985,7 +173938,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17553-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/17553-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -174042,7 +173994,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6754-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/6754-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -174071,7 +174022,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11375-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/11375-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -174100,7 +174050,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82418-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82418-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -174129,7 +174078,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16739-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/16739-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -174158,7 +174106,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9371-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9371-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "OS=505"
     },
@@ -177130,7 +177077,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/165052-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/165052-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Pm=225972993&Qa=2463"
     },
@@ -177221,7 +177167,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82476-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82476-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2488&Qo>18967"
     },
@@ -177270,7 +177215,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82477-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/82477-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2488&Qo>18968"
     },
@@ -177294,7 +177238,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/23036-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/23036-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "or_branch_count": 2,
         "criteria": "Qa=2488|Qa=2489"
@@ -177334,7 +177277,6 @@
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/23037-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/23037-64.png",
         "dofustouch": false,
-        "has_conditions": true,
         "conditions": [],
         "criteria": "Qa=2488&Qo>18971"
     },
@@ -203174,7 +203116,7 @@
         "special_spell_fr": "{{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
         "special_spell_es": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
         "special_spell_pt": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
-        "special_spell_de": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
+        "special_spell_de": "{{spell,31720,1::Dofus der Quelle}}:\n• Wenn die Lebenspunkte des Trägers auf unter 50 % fallen, erhöhen sich seine Resistenzen um 30 % (2 Runden lang, 1 Mal pro Kampf).",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/23040-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/23040-64.png",
         "dofustouch": false,
@@ -203572,7 +203514,7 @@
         "name_fr": "Sari des Charbosaures",
         "name_es": "Sari de los salamandros",
         "name_pt": "Sári dos Salamangues",
-        "name_de": "Sari der Salamanger",
+        "name_de": "Sari der Kohlensaurier",
         "w_type": "Belt",
         "level": 11,
         "stats": [
@@ -203609,7 +203551,7 @@
         "name_fr": "Sceau des Charbosaures",
         "name_es": "Sello de los salamandros",
         "name_pt": "Selo dos Salamangues",
-        "name_de": "Siegel der Salamanger",
+        "name_de": "Siegel der Kohlensaurier",
         "w_type": "Ring",
         "level": 13,
         "stats": [
@@ -203646,7 +203588,7 @@
         "name_fr": "Marteau Charbosaure",
         "name_es": "Martillo salamandro",
         "name_pt": "Martelo Salamangue",
-        "name_de": "Salamanger-Hammer",
+        "name_de": "Kohlensaurier-Hammer",
         "w_type": "Hammer",
         "level": 15,
         "ap": 5,
@@ -203702,11 +203644,11 @@
     {
         "ankama_id": 34722,
         "ankama_type": "equipment",
-        "name_en": "Wyngvern Wings",
+        "name_en": "Zephyvern Wings",
         "name_fr": "Ailes de Zéphyvernes",
-        "name_es": "Alas galivernas",
-        "name_pt": "Asas Vouiverns",
-        "name_de": "Wyvernflügel",
+        "name_es": "Alas de cefiverno",
+        "name_pt": "Asas Zefiverns",
+        "name_de": "Tatzephyrwurm-Flügel",
         "w_type": "Cloak",
         "level": 16,
         "stats": [
@@ -203744,11 +203686,11 @@
     {
         "ankama_id": 34723,
         "ankama_type": "equipment",
-        "name_en": "Wyngvern Escutcheon",
+        "name_en": "Zephyvern Escutcheon",
         "name_fr": "Pelta des Zéphyvernes",
-        "name_es": "Pelta galiverna",
-        "name_pt": "Pelta dos Vouiverns",
-        "name_de": "Wyvern-Pelta",
+        "name_es": "Pelta de cefiverno",
+        "name_pt": "Pelta dos Zefiverns",
+        "name_de": "Tatzephyrwurm-Pelta",
         "w_type": "Shield",
         "level": 18,
         "stats": [
@@ -203781,11 +203723,11 @@
     {
         "ankama_id": 34724,
         "ankama_type": "equipment",
-        "name_en": "Wyngvern Chakrams",
+        "name_en": "Zephyvern Chakrams",
         "name_fr": "Chakrams Zéphyvernes",
-        "name_es": "Chakrams galivernos",
-        "name_pt": "Chakrams Vouiverns",
-        "name_de": "Wyvern-Chakrams",
+        "name_es": "Chakrams de cefiverno",
+        "name_pt": "Chakrams Zefiverns",
+        "name_de": "Tatzephyrwurm-Chakrams",
         "w_type": "Dagger",
         "level": 20,
         "ap": 3,
@@ -203840,7 +203782,7 @@
         "name_fr": "Parure de Mandragon",
         "name_es": "Adorno de dracornoque",
         "name_pt": "Adereço de Drakasca",
-        "name_de": "Drachenborken-Schmuck",
+        "name_de": "Drachaunen-Ziergewand",
         "w_type": "Amulet",
         "level": 21,
         "stats": [
@@ -203887,7 +203829,7 @@
         "name_fr": "Alliance Mandragon",
         "name_es": "Alianza de dracornoque",
         "name_pt": "Aliança Drakasca",
-        "name_de": "Drachenborken-Trauring",
+        "name_de": "Drachaunen-Trauring",
         "w_type": "Ring",
         "level": 23,
         "stats": [
@@ -203924,7 +203866,7 @@
         "name_fr": "Hache Mandragon",
         "name_es": "Hacha de dracornoque",
         "name_pt": "Machado Drakasca",
-        "name_de": "Drachenborken-Axt",
+        "name_de": "Drachaunen-Axt",
         "w_type": "Axe",
         "level": 25,
         "ap": 5,
@@ -204317,7 +204259,7 @@
         "name_fr": "Sandales Thalassydres",
         "name_es": "Sandales Thalassydres",
         "name_pt": "Sandales Thalassydres",
-        "name_de": "Sandales Thalassydres",
+        "name_de": "Wasserhydra-Sandalen",
         "w_type": "Boots",
         "level": 36,
         "stats": [
@@ -204364,7 +204306,7 @@
         "name_fr": "Sari Thalassydre",
         "name_es": "Sari de dragocampo",
         "name_pt": "Sári Dragão-Marinho",
-        "name_de": "Seedrachen-Sari",
+        "name_de": "Wasserhydra-Sari",
         "w_type": "Belt",
         "level": 38,
         "stats": [
@@ -204401,7 +204343,7 @@
         "name_fr": "Lance Thalassydre",
         "name_es": "Lanza de dragocampo",
         "name_pt": "Lança Dragão-Marinho",
-        "name_de": "Seedrachen-Lanze",
+        "name_de": "Wasserhydra-Wurfspeer",
         "w_type": "Lance",
         "level": 40,
         "ap": 4,
@@ -205418,6 +205360,11 @@
                 11,
                 15,
                 "Air Damage"
+            ],
+            [
+                11,
+                15,
+                "Prospecting"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6767-128.png",
