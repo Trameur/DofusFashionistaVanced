@@ -126,13 +126,13 @@ WATCHED_TOUCH_BETA_ASSETS = "3.4.4_C_DCP0c*cAXPq_jZFzATAQJ_wgR9YNRn"
 WATCHED_RETROBETA_BUILD = "1.50.0.5770.137-36058be"
 WATCHED_RETROBETA_LANG_ROOT = "https://dofusretro.cdn.ankama.com/static-data/638/lang"
 WATCHED_RETROBETA_LANG = {
-    'items': '100434',
-    'itemstats': '100437',
-    'itemsets': '100465',
-    'crafts': '100465',
-    'effects': '100465',
-    'classes': '100463',
-    'spells': '100461',
+    'items': '100435',
+    'itemstats': '100438',
+    'itemsets': '100466',
+    'crafts': '100466',
+    'effects': '100466',
+    'classes': '100464',
+    'spells': '100462',
 }
 
 # Retro item data comes from the lang CDN, not from the client build, and that
